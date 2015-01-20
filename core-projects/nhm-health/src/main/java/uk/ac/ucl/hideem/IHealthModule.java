@@ -1,3 +1,5 @@
+package uk.ac.ucl.hideem;
+
 public interface IHealthModule {
     // dwtypenx
     public enum BuiltForm {
