@@ -24,9 +24,9 @@ public class HealthModule implements IHealthModule {
         boolean hasTrickleVents,         // this is cooked up elsewhere
         int numberOfFansAndPassiveVents, // per SAP
         // who
-        List<IPerson> people,
+        List<Person> people,
         int horizon) {
         // do health calculation here
-        return null;
+        return new HealthOutcome(horizon);
     }
 }
