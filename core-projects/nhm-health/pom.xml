@@ -31,5 +31,12 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+
+    <!-- google guava is very useful -->
+    <dependency>
+	  <groupId>com.google.guava</groupId>
+	  <artifactId>guava</artifactId>
+	  <version>18.0</version>
+    </dependency>
   </dependencies>
 </project>

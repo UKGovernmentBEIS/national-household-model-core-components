@@ -1,25 +1,9 @@
 package uk.ac.ucl.hideem;
 
-public interface IHealthModule {
-    // dwtypenx
-    public enum BuiltForm {
-        EndTerrace,
-        MidTerrace,
-        SemiDetached,
-        Detached,
-        Bungalow,
-        ConvertedFlat,
-        PurposeBuiltLowRiseFlat,
-        PurposeBuiltHighRiseFlat;
-    }
+import java.util.List;
 
-    public interface IPerson {
-        public int age();
-        public boolean female();
-        public boolean smokes(); // cignow
-    }
-    
-    public IHealthOutcomes effectOf(
+public interface IHealthModule {
+    public HealthOutcome effectOf(
         // e-values & perm.s
         double e1,
         double e2,
@@ -36,41 +20,6 @@ public interface IHealthModule {
         boolean hasTrickleVents,         // this is cooked up elsewhere
         int numberOfFansAndPassiveVents, // per SAP
         // who
-        List<IPerson> people,
+        List<Person> people,
         int horizon);
-
-    public enum Exposure {
-        Radon,
-        ETS,
-        INPM2_5,
-        OUTPM2_5,
-        VPX,
-        SIT,
-        Mould
-    }
-
-    public enum Disease {
-        Cardiovascular,
-        Cardiopulmonary,
-        HeartAttack,
-        Stroke,
-        LungCancer,
-        CommonMentalDisorder,
-        Athsma,
-        ChronicObstructivePulmonaryDisorder,
-        OverheatingDeath
-    }
-
-    public enum HealthCost {
-        GeneralPractitioner,
-        Hospital,
-        SocialCare
-    }
-    
-    public interface IHealthOutcomes {
-        public Map<Exposure, Double> intialExposures();
-        public Map<Exposure, Double> finalExposures();
-        public Map<Disease, double[]> qalys(); // by disease, then by year from now
-        public Table<Disease, HealthCost, double[]> costs();
-    }
 }
