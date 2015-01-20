@@ -1,0 +1,3 @@
+code, age, sex, smokes
+H1, 10, MALE, true
+H1, 40, FEMALE, false
