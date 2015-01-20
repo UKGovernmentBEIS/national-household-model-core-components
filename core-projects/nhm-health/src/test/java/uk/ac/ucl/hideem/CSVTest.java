@@ -1,4 +1,4 @@
-package uk.org.cse.nhm.stockimport.simple;
+package uk.ac.ucl.hideem;
 
 import org.junit.Assert;
 import org.junit.Test;
