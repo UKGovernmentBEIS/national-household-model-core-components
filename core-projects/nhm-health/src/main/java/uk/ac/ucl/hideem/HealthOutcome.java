@@ -74,25 +74,28 @@ public class HealthOutcome {
         final StringBuffer sb = new StringBuffer();
 
         sb.append("Health Outcome for " + years + " years:\n");
-        sb.append("Exposures:\n");
+        sb.append("\tExposures:\n");
         for (final Exposure e : Exposure.values()) {
-            sb.append(String.format("%s: %g -> %g\n", e,
+            sb.append(String.format("\t\t%s: %g -> %g\n", e,
                                     exposures[e.ordinal()][0],
                                     exposures[e.ordinal()][1]));
         }
-        sb.append("Qalys:\n");
-        sb.append("Year");
+        sb.append("\tQalys:\n");
+        sb.append("\t\tYear");
         for (final Disease d : Disease.values()) {
             sb.append("\t"+ d);
         }
         sb.append("\n");
         for (int i = 0; i<years; i++) {
-            sb.append(String.format("%d", i));
+            sb.append(String.format("\t\t%d", i));
             for (final Disease d : Disease.values()) {
                 sb.append(String.format("\t%g", qalys[d.ordinal()][i]));
             }
             sb.append("\n");
         }
+
+        //TODO print costs.
+        
         return sb.toString();
     }
 }
