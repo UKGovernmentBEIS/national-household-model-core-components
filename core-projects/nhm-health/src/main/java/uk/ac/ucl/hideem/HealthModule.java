@@ -94,11 +94,56 @@ public class HealthModule implements IHealthModule {
         Exposure.Vtype v_match = null;
         //Will have to put lots of if statements in here somewhere...
         //Get the dwelling type in exposures
-        if(form==BuiltForm.Detached){
+        //mainFloorLevel==1 is <=ground floor 
+        //mainFloorLevel==2 is 1st floor
+        //mainFloorLevel==3 is >1st floor
+        if((form==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltLowRiseFlat) && floorArea>50 && mainFloorLevel==1) { 
+        	e_match = Exposure.ExposureBuild.Flat1a;
+        }
+        else if((form==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltLowRiseFlat) && floorArea>50 && mainFloorLevel==2) {
+        	e_match = Exposure.ExposureBuild.Flat1b;
+        }
+        else if((form==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltLowRiseFlat) && floorArea>50 && mainFloorLevel==3) {
+        	e_match = Exposure.ExposureBuild.Flat1c;
+        }
+        else if((form==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltLowRiseFlat) && floorArea<=50 && mainFloorLevel==1) { 
+        	e_match = Exposure.ExposureBuild.Flat2a;
+        }
+        else if((form==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltLowRiseFlat) && floorArea<=50 && mainFloorLevel==2) {
+        	e_match = Exposure.ExposureBuild.Flat2b;
+        }
+        else if((form==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltLowRiseFlat) && floorArea<=50 && mainFloorLevel==3) {
+        	e_match = Exposure.ExposureBuild.Flat2c;
+        }
+        else if(form==BuiltForm.PurposeBuiltHighRiseFlat && mainFloorLevel==1) { //
+        	e_match = Exposure.ExposureBuild.Flat3a;
+        }
+        else if(form==BuiltForm.PurposeBuiltHighRiseFlat && mainFloorLevel==2) {
+        	e_match = Exposure.ExposureBuild.Flat3b;
+        }
+        else if(form==BuiltForm.PurposeBuiltHighRiseFlat && mainFloorLevel==3) {
+        	e_match = Exposure.ExposureBuild.Flat3c;
+        }
+        else if(form==BuiltForm.EndTerrace) {
+        	e_match = Exposure.ExposureBuild.House1;
+        }
+        else if(form==BuiltForm.MidTerrace && floorArea<=131) {
+        	e_match = Exposure.ExposureBuild.House2; // mid-terrace small
+        }
+        else if(form==BuiltForm.MidTerrace && floorArea>131) {
+        	e_match = Exposure.ExposureBuild.House4; // mid-terrace big
+        }
+        else if(form==BuiltForm.SemiDetached) {
+        	e_match = Exposure.ExposureBuild.House3;
+        }
+        else if(form==BuiltForm.Bungalow) {
+        	e_match = Exposure.ExposureBuild.House5;
+        }  //House 6 not used
+        else {  //(form==BuiltForm.Detached)
         	e_match = Exposure.ExposureBuild.House7;
         }
         
-        //Get the ventillation
+        //Get the ventilation
         if(!hasWorkingExtractorFans && !hasTrickleVents){
         	v_match = Exposure.Vtype.NOTE;
         }
@@ -116,6 +161,7 @@ public class HealthModule implements IHealthModule {
         for(Map.Entry<String, Exposure> e: exposures.entries()) {
         	if(v_match==e.getValue().vtype && e_match==e.getValue().built) {
         		double radon_base=(e.getValue().b0 + (e.getValue().b1*Math.pow(p1, 1)) + (e.getValue().b2*Math.pow(p1,2)) + (e.getValue().b3*Math.pow(p1, 3)) + (e.getValue().b4*Math.pow(p1, 4))); 
+        		System.out.println("b0: "+e.getValue().b0); 
         		System.out.println("Result = "+radon_base); 
         	}
         		
