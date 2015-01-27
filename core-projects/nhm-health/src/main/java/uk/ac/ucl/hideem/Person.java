@@ -1,5 +1,7 @@
 package uk.ac.ucl.hideem;
 
+import java.util.Map;
+
 /**
  * Everything HIDEEM needs to know about a person.
  */
@@ -17,4 +19,12 @@ public class Person {
         this.sex = sex;
         this.smokes = smokes;
     }
+    
+    public static Person readPerson(final Map<String, String> stuff) {
+        return new Person(
+            Integer.parseInt(stuff.get("age")),
+            Person.Sex.valueOf(stuff.get("sex")),
+            Boolean.valueOf(stuff.get("smokes")));
+    }
+    
 }

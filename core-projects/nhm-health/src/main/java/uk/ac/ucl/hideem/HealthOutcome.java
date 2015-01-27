@@ -16,19 +16,19 @@ public class HealthOutcome {
     public HealthOutcome(final int years) {
         Preconditions.checkArgument(years > 0, "A health outcome must be defined over a positive number of years (%s)", years);
         this.years = years;
-        this.exposures = new double[Exposure.values().length][2];
+        this.exposures = new double[Exposure.Type.values().length][2];
         this.qalys = new double[Disease.values().length][years];
         this.costs = new double[Disease.values().length]
             [HealthCost.values().length]
             [years];
     }
     
-    public double initialExposure(final Exposure e) {
+    public double initialExposure(final Exposure.Type e) {
         Preconditions.checkNotNull(e);
         return exposures[e.ordinal()][0];
     }
     
-    public double finalExposure(final Exposure e) {
+    public double finalExposure(final Exposure.Type e) {
         Preconditions.checkNotNull(e);
         return exposures[e.ordinal()][1];
     }
@@ -46,12 +46,12 @@ public class HealthOutcome {
         return costs[disease.ordinal()][cost.ordinal()][year];
     }
 
-    public void setInitialExposure(final Exposure e, final double d) {
+    public void setInitialExposure(final Exposure.Type e, final double d) {
         Preconditions.checkNotNull(e);
         this.exposures[e.ordinal()][0] = d;
     }
 
-    public void setFinalExposure(final Exposure e, final double d) {
+    public void setFinalExposure(final Exposure.Type e, final double d) {
         Preconditions.checkNotNull(e);
         this.exposures[e.ordinal()][1] = d;
     }
@@ -75,7 +75,7 @@ public class HealthOutcome {
 
         sb.append("Health Outcome for " + years + " years:\n");
         sb.append("\tExposures:\n");
-        for (final Exposure e : Exposure.values()) {
+        for (final Exposure.Type e : Exposure.Type.values()) {
             sb.append(String.format("\t\t%s: %g -> %g\n", e,
                                     exposures[e.ordinal()][0],
                                     exposures[e.ordinal()][1]));

@@ -1,13 +1,17 @@
 package uk.ac.ucl.hideem;
 
 import java.util.List;
+import java.util.Map;
 import java.io.IOException;
 import java.util.Arrays;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
+import java.nio.file.Paths;
+import com.google.common.collect.*;
 
 public class HealthModule implements IHealthModule {
-    private final double[][] healthCoefficients;
+	private final ListMultimap<String, Exposure> exposures;
+    //private final double[][] healthCoefficients;
     
     public HealthModule() {
         // read a csv table from the classpath.
@@ -23,7 +27,30 @@ public class HealthModule implements IHealthModule {
         // numbers. One way of doing this is to use an array indexed
         // on built form ordinals and then on the other column. A more
         // complex thing would require some better structure.
-        healthCoefficients = new double[BuiltForm.values().length][2];
+
+        exposures = ArrayListMultimap.create();
+
+        System.out.println("Reading exposures from: src/main/resources/uk/ac/ucl/hideem/NHM_input_radon_141106.csv");
+
+        try (final CSV.Reader reader = CSV.trimmedReader(
+                new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("NHM_input_radon_141106.csv"))))) {
+           String[] row = reader.read(); // throw away header line, because we know what it is
+           
+           while ((row = reader.read()) != null) {
+        	   final Exposure e = Exposure.readExposure(row);
+        	   exposures.put(row[0], e);
+           }
+        } catch (final IOException ex) {
+                    // problem?
+        }   
+        
+/*        for (final Map<String, String> row : CSV.mapReader(Paths.get("src/main/resources/uk/ac/ucl/hideem/NHM_input_radon_141106.csv"))) {
+            final Exposure e = Exposure.readExposure(row);
+            exposures.put(row.get("Exposure"), e);
+        }   */ 	
+    	
+        
+    	/*healthCoefficients = new double[BuiltForm.values().length][2];
         
         try (final CSV.Reader reader = CSV.trimmedReader(
                  new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("data.csv"))))) {
@@ -37,7 +64,7 @@ public class HealthModule implements IHealthModule {
             }
         } catch (final IOException ex) {
             // problem?
-        }
+        }*/
     }
 
     public HealthOutcome effectOf(
@@ -61,10 +88,18 @@ public class HealthModule implements IHealthModule {
         int horizon) {
         
         final HealthOutcome result = new HealthOutcome(horizon);
-
+        
+        //Get the exposure
+        for(Map.Entry<String, Exposure> e: exposures.entries()) {
+        	System.out.println(e.getValue().b0);
+        }
+        
+        
+        //result.setInitialExposure(Radon, 22);
+        
         // health calculation goes here. Probably be good to sanity check the inputs.
-        result.setQalys(Disease.Cardiovascular, 0, this.healthCoefficients[form.ordinal()][0] * floorArea);
-        result.setQalys(Disease.Cardiopulmonary, 0, this.healthCoefficients[form.ordinal()][1] * Math.pow(floorArea, 2));
+        //result.setQalys(Disease.Cardiovascular, 0, this.healthCoefficients[form.ordinal()][0] * floorArea);
+        //result.setQalys(Disease.Cardiopulmonary, 0, this.healthCoefficients[form.ordinal()][1] * Math.pow(floorArea, 2));
         
         return result;
     }

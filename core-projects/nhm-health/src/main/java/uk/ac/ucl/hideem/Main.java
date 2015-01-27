@@ -12,15 +12,6 @@ import java.util.Map;
  */
 public class Main
 {
-    /**
-     * This is in no way best practice. Error checking etc etc.
-     */
-    static Person readPerson(final Map<String, String> stuff) {
-        return new Person(
-            Integer.parseInt(stuff.get("age")),
-            Person.Sex.valueOf(stuff.get("sex")),
-            Boolean.valueOf(stuff.get("smokes")));
-    }
     
     public static void main( String[] args ) throws IOException
     {
@@ -34,7 +25,7 @@ public class Main
         System.out.println("Reading people from " + args[0]);
 
         for (final Map<String, String> row : CSV.mapReader(Paths.get(args[0]))) {
-            final Person p = readPerson(row);
+            final Person p = Person.readPerson(row);
             people.put(row.get("code"), p);
         }
 
