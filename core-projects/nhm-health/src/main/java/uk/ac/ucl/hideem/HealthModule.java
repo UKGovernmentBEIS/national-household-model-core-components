@@ -89,9 +89,37 @@ public class HealthModule implements IHealthModule {
         
         final HealthOutcome result = new HealthOutcome(horizon);
         
+        //initialisation
+        Exposure.ExposureBuild e_match = null;
+        Exposure.Vtype v_match = null;
+        //Will have to put lots of if statements in here somewhere...
+        //Get the dwelling type in exposures
+        if(form==BuiltForm.Detached){
+        	e_match = Exposure.ExposureBuild.House7;
+        }
+        
+        //Get the ventillation
+        if(!hasWorkingExtractorFans && !hasTrickleVents){
+        	v_match = Exposure.Vtype.NOTE;
+        }
+        else if(hasWorkingExtractorFans && !hasTrickleVents){
+        	v_match = Exposure.Vtype.T;
+        }
+        else if(!hasWorkingExtractorFans && hasTrickleVents){
+        	v_match = Exposure.Vtype.E;
+        }
+        else{
+        	v_match = Exposure.Vtype.TE;
+        }
+              
         //Get the exposure
         for(Map.Entry<String, Exposure> e: exposures.entries()) {
-        	System.out.println(e.getValue().b0);
+        	if(v_match==e.getValue().vtype && e_match==e.getValue().built) {
+        		double radon_base=(e.getValue().b0 + (e.getValue().b1*Math.pow(p1, 1)) + (e.getValue().b2*Math.pow(p1,2)) + (e.getValue().b3*Math.pow(p1, 3)) + (e.getValue().b4*Math.pow(p1, 4))); 
+        		System.out.println("Result = "+radon_base); 
+        	}
+        		
+        	
         }
         
         
