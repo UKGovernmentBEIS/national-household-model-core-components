@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 import com.google.common.collect.*;
 
 public class HealthModule implements IHealthModule {
-	private final ListMultimap<String, Exposure> exposures;
+	private final ListMultimap<Exposure.Type, Exposure> exposures;
     //private final double[][] healthCoefficients;
     
     public HealthModule() {
@@ -38,33 +38,12 @@ public class HealthModule implements IHealthModule {
            
            while ((row = reader.read()) != null) {
         	   final Exposure e = Exposure.readExposure(row);
-        	   exposures.put(row[0], e);
+        	   exposures.put(Enum.valueOf(Exposure.Type.class, row[0]), e);
            }
         } catch (final IOException ex) {
                     // problem?
         }   
-        
-/*        for (final Map<String, String> row : CSV.mapReader(Paths.get("src/main/resources/uk/ac/ucl/hideem/NHM_input_radon_141106.csv"))) {
-            final Exposure e = Exposure.readExposure(row);
-            exposures.put(row.get("Exposure"), e);
-        }   */ 	
-    	
-        
-    	/*healthCoefficients = new double[BuiltForm.values().length][2];
-        
-        try (final CSV.Reader reader = CSV.trimmedReader(
-                 new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("data.csv"))))) {
-            String[] row = reader.read(); // throw away header line, because we know what it is
-            
-            while ((row = reader.read()) != null) {
-                // this is just indicative; it is not good.
-                final BuiltForm b = Enum.valueOf(BuiltForm.class, row[0]);
-                healthCoefficients[b.ordinal()][0] = Double.parseDouble(row[1]);
-                healthCoefficients[b.ordinal()][1] = Double.parseDouble(row[2]);
-            }
-        } catch (final IOException ex) {
-            // problem?
-        }*/
+
     }
 
     public HealthOutcome effectOf(
@@ -158,14 +137,15 @@ public class HealthModule implements IHealthModule {
         }
               
         //Get the exposure
-        for(Map.Entry<String, Exposure> e: exposures.entries()) {
+        for(Map.Entry<Exposure.Type, Exposure> e: exposures.entries()) {
         	if(v_match==e.getValue().vtype && e_match==e.getValue().built) {
         		double radon_base=(e.getValue().b0 + (e.getValue().b1*Math.pow(p1, 1)) + (e.getValue().b2*Math.pow(p1,2)) + (e.getValue().b3*Math.pow(p1, 3)) + (e.getValue().b4*Math.pow(p1, 4))); 
-        		System.out.println("b0: "+e.getValue().b0); 
-        		System.out.println("Result = "+radon_base); 
-        	}
+        		double radon_mod =(e.getValue().b0 + (e.getValue().b1*Math.pow(p2, 1)) + (e.getValue().b2*Math.pow(p2,2)) + (e.getValue().b3*Math.pow(p2, 3)) + (e.getValue().b4*Math.pow(p2, 4))); 
         		
-        	
+        		result.setInitialExposure(e.getKey(), radon_base);
+        		result.setFinalExposure(e.getKey(), radon_mod);
+        		
+        	}        		
         }
         
         

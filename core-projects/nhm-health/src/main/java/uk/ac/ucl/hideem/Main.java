@@ -39,7 +39,7 @@ public class Main
                 Double.parseDouble(row.get("e1")),
                 Double.parseDouble(row.get("e2")),
                 Double.parseDouble(row.get("p1")),
-                Double.parseDouble(row.get("p1")),
+                Double.parseDouble(row.get("p2")),
                 BuiltForm.valueOf(row.get("form")),
                 Double.parseDouble(row.get("area")),
                 Integer.parseInt(row.get("level")),
