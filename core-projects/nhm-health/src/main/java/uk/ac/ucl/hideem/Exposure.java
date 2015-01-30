@@ -1,7 +1,5 @@
 package uk.ac.ucl.hideem;
 
-import java.util.Map;
-
 /**
  * Everything HIDEEM needs to know about exposures.
  */
@@ -17,7 +15,7 @@ public class Exposure {
 		Mould;
 	}
 	
-	public enum ExposureBuild {
+	public enum ExposureBuiltForm {
 		Flat1a,
 	    Flat1b,
 	    Flat1c,
@@ -36,24 +34,24 @@ public class Exposure {
 	    House7;
 	}
 	
-	public enum Vtype {
+	public enum VentilationType {
 		NOTE,
 		T,
 		E,
 		TE;
 	}
 	
-	public final ExposureBuild built;
-	public final Vtype vtype;
+	public final ExposureBuiltForm builtForm;
+	public final VentilationType ventType;
 	public final double b0;
 	public final double b1;
 	public final double b2;
 	public final double b3;
 	public final double b4;
 	
-	public Exposure(final ExposureBuild built, final Vtype vtype, final double b0, final double b1, final double b2, final double b3, final double b4) {
-		this.built = built;
-		this.vtype = vtype;
+	public Exposure(final ExposureBuiltForm builtForm, final VentilationType ventType, final double b0, final double b1, final double b2, final double b3, final double b4) {
+		this.builtForm = builtForm;
+		this.ventType = ventType;
 		this.b0 = b0;
 		this.b1 = b1;
 		this.b2 = b2;
@@ -63,8 +61,8 @@ public class Exposure {
 	
 	public static Exposure readExposure(String[] row) {
 		return new Exposure(
-				Enum.valueOf(Exposure.ExposureBuild.class, row[1]),
-				Enum.valueOf(Exposure.Vtype.class, row[2]),
+				Enum.valueOf(Exposure.ExposureBuiltForm.class, row[1]),
+				Enum.valueOf(Exposure.VentilationType.class, row[2]),
 				Double.parseDouble(row[5]),
 				Double.parseDouble(row[6]),
 				Double.parseDouble(row[7]),

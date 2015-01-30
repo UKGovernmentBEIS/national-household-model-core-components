@@ -1,6 +1,5 @@
 package uk.ac.ucl.hideem;
 
-import java.util.Collections;
 import com.google.common.collect.*;
 import java.nio.file.Paths;
 import java.io.IOException;
