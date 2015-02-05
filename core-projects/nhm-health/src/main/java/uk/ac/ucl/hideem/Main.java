@@ -5,10 +5,6 @@ import java.nio.file.Paths;
 import java.io.IOException;
 import java.util.Map;
 
-/**
- * Hello world!
- *
- */
 public class Main
 {
     
@@ -50,6 +46,7 @@ public class Main
                 Integer.parseInt(row.get("horizon")));
             System.out.println(row.get("code"));
             System.out.println(outcome);
+
         }
     }
 }

@@ -8,8 +8,8 @@ import java.io.BufferedReader;
 import com.google.common.collect.*;
 
 public class HealthModule implements IHealthModule {
-	private final ListMultimap<Exposure.Type, Exposure> exposures;
-    //private final double[][] healthCoefficients;
+	private final ListMultimap<Exposure.Type, Exposure> exposureCoefficients;
+	private final ListMultimap<Disease.Type, Disease> healthCoefficients;
     
     public HealthModule() {
         // read a csv table from the classpath.
@@ -26,9 +26,10 @@ public class HealthModule implements IHealthModule {
         // on built form ordinals and then on the other column. A more
         // complex thing would require some better structure.
 
-        exposures = ArrayListMultimap.create();
+    	//Read the exposure coefficients from the csv file
+        exposureCoefficients = ArrayListMultimap.create();
 
-        System.out.println("Reading exposures from: src/main/resources/uk/ac/ucl/hideem/NHM_exposure_coefficients_141106.csv");
+        System.out.println("Reading exposure coefficients from: src/main/resources/uk/ac/ucl/hideem/NHM_exposure_coefficients_141106.csv");
 
         try (final CSV.Reader reader = CSV.trimmedReader(
                 new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("NHM_exposure_coefficients_141106.csv"))))) {
@@ -36,11 +37,28 @@ public class HealthModule implements IHealthModule {
            
            while ((row = reader.read()) != null) {
         	   final Exposure e = Exposure.readExposure(row);
-        	   exposures.put(Enum.valueOf(Exposure.Type.class, row[0]), e);
+        	   exposureCoefficients.put(Enum.valueOf(Exposure.Type.class, row[0]), e);
            }
         } catch (final IOException ex) {
                     // problem?
-        }   
+        }
+        
+        //Read the health coefficients from the csv file
+        healthCoefficients = ArrayListMultimap.create();
+
+        System.out.println("Reading health coefficients from: src/main/resources/uk/ac/ucl/hideem/NHM_input_healthcalc_141106.csv");
+
+        try (final CSV.Reader reader = CSV.trimmedReader(
+                new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("NHM_input_healthcalc_141106.csv"))))) {
+           String[] row = reader.read(); // throw away header line, because we know what it is
+           
+           while ((row = reader.read()) != null) {
+        	   final Disease e = Disease.readDisease(row);
+        	   healthCoefficients.put(Enum.valueOf(Disease.Type.class, row[0]), e);
+           }
+        } catch (final IOException ex) {
+                    // problem?
+        } 
 
     }
 
@@ -67,8 +85,8 @@ public class HealthModule implements IHealthModule {
         final HealthOutcome result = new HealthOutcome(horizon);
         
         //perform the matching beetween NHM built form and ventilation and Hideem
-        final Exposure.ExposureBuiltForm matchedBuiltForm = MapBuiltForm(form, floorArea, mainFloorLevel);
-        final Exposure.VentilationType matchedVentilation = MapVentilation(hasWorkingExtractorFans, hasTrickleVents);
+        final Exposure.ExposureBuiltForm matchedBuiltForm = mapBuiltForm(form, floorArea, mainFloorLevel);
+        final Exposure.VentilationType matchedVentilation = mapVentilation(hasWorkingExtractorFans, hasTrickleVents);
               
         //Get the correct exposures coefficients and calculate base and modified exposures
         //First loop over the exposure types
@@ -76,17 +94,17 @@ public class HealthModule implements IHealthModule {
         for(final Exposure.Type matchedExposure : Exposure.Type.values()) {
 
         	//Then need to loop over the exposures file to get the right values	
-	        for(Map.Entry<Exposure.Type, Exposure> e: exposures.entries()) {
+	        for(Map.Entry<Exposure.Type, Exposure> e: exposureCoefficients.entries()) {
 	        	if(e.getKey()== matchedExposure && matchedVentilation==e.getValue().ventType && matchedBuiltForm==e.getValue().builtForm) {
 	        		//different calculation is used for mould and temperature and vpx is needed so do all together
 	        		if(matchedExposure == Exposure.Type.VPX){
 	        			//Calc VPX same as others
-	        			double baseVPX     =(e.getValue().b0 + (e.getValue().b1*Math.pow(p1, 1)) + (e.getValue().b2*Math.pow(p1,2)) + (e.getValue().b3*Math.pow(p1, 3)) + (e.getValue().b4*Math.pow(p1, 4))); 
-		        		double modifiedVPX =(e.getValue().b0 + (e.getValue().b1*Math.pow(p2, 1)) + (e.getValue().b2*Math.pow(p2,2)) + (e.getValue().b3*Math.pow(p2, 3)) + (e.getValue().b4*Math.pow(p2, 4))); 
+	        			double baseVPX     =calcExposure(p1, e.getValue().b0, e.getValue().b1, e.getValue().b2, e.getValue().b3, e.getValue().b4); 
+		        		double modifiedVPX =calcExposure(p2, e.getValue().b0, e.getValue().b1, e.getValue().b2, e.getValue().b3, e.getValue().b4); 
 		        		
 		        		//set VPX
-		        		result.setInitialExposure(e.getKey(), baseVPX);
-		        		result.setFinalExposure(e.getKey(), modifiedVPX);
+		        		result.setInitialExposure(Exposure.Type.VPX, baseVPX);
+		        		result.setFinalExposure(Exposure.Type.VPX, modifiedVPX);
 	            		
 		        		//calc base temp
 		        		double baseAverageSIT=calcSIT(e1);
@@ -110,24 +128,98 @@ public class HealthModule implements IHealthModule {
 	        			//Already calculated these when doing VPX so can break out of loop
 	        			break;
 	        		}
-	        		else{ //rest of the exposures all the same		        		
-		        		double baseExposure=(e.getValue().b0 + (e.getValue().b1*Math.pow(p1, 1)) + (e.getValue().b2*Math.pow(p1,2)) + (e.getValue().b3*Math.pow(p1, 3)) + (e.getValue().b4*Math.pow(p1, 4))); 
-		        		double modifiedExposure =(e.getValue().b0 + (e.getValue().b1*Math.pow(p2, 1)) + (e.getValue().b2*Math.pow(p2,2)) + (e.getValue().b3*Math.pow(p2, 3)) + (e.getValue().b4*Math.pow(p2, 4))); 
+	        		else if (matchedExposure == e.getKey()) { //rest of the exposures all the same		        		
+		        		double baseExposure=calcExposure(p1, e.getValue().b0, e.getValue().b1, e.getValue().b2, e.getValue().b3, e.getValue().b4); 
+		        		double modifiedExposure =calcExposure(p2, e.getValue().b0, e.getValue().b1, e.getValue().b2, e.getValue().b3, e.getValue().b4); 
 		        		
 		        		result.setInitialExposure(e.getKey(), baseExposure);
 		        		result.setFinalExposure(e.getKey(), modifiedExposure);
 	        		}
+	        		else {
+	        	        System.out.println("Can't find the exposure coefficient for " + matchedExposure);
+	        		}
 	        	}        		
 	        }
     	}
-        	
         
         // health calculation goes here. Probably be good to sanity check the inputs.
-        //result.setQalys(Disease.Cardiovascular, 0, this.healthCoefficients[form.ordinal()][0] * floorArea);
-        //result.setQalys(Disease.Cardiopulmonary, 0, this.healthCoefficients[form.ordinal()][1] * Math.pow(floorArea, 2));
-        
+        //Loop over disease coeficients
+        for(Map.Entry<Disease.Type, Disease> d: healthCoefficients.entries()) {
+        	
+        	//initialise to 0 for each zero so that can be incremented for people
+        	double tempMortQalys = 0;
+        	double tempMorbQalys = 0;
+        	
+        	//loop over people in house to match them to coefficients
+        	for(Person p: people){
+        		if (p.age == d.getValue().age && p.sex == d.getValue().sex){
+	        		if (d.getKey() == Disease.Type.CardiovascularCold) {
+	           			double personMortQalys = calcMortQalys(result.deltaExposure(Exposure.Type.SIT), d.getValue().nA, d.getValue().nB, d.getValue().nC, d.getValue().pA, d.getValue().pB, d.getValue().pC);
+	           			tempMortQalys += personMortQalys;
+	           			tempMorbQalys += personMortQalys*d.getValue().morbitity;
+	           			result.setMortalityQalys(Disease.Type.CardiovascularCold, tempMortQalys);
+	           			result.setMorbidityQalys(Disease.Type.CardiovascularCold, tempMorbQalys);
+	        		}
+	        		else if (d.getKey() == Disease.Type.Stroke) {
+	           			double personMortQalys = calcMortQalys(result.deltaExposure(Exposure.Type.OUTPM2_5), d.getValue().nA, d.getValue().nB, d.getValue().nC, d.getValue().pA, d.getValue().pB, d.getValue().pC);
+	           			tempMortQalys += personMortQalys;
+	           			tempMorbQalys += personMortQalys*d.getValue().morbitity;
+	           			result.setMortalityQalys(Disease.Type.Stroke, tempMortQalys);
+	           			result.setMorbidityQalys(Disease.Type.Stroke, tempMorbQalys);
+	        		}
+	        		else if (d.getKey() == Disease.Type.HeartAttack) {
+	        			double personMortQalys = calcMortQalys(result.deltaExposure(Exposure.Type.OUTPM2_5), d.getValue().nA, d.getValue().nB, d.getValue().nC, d.getValue().pA, d.getValue().pB, d.getValue().pC);
+	        			tempMortQalys += personMortQalys;
+	           			tempMorbQalys += personMortQalys*d.getValue().morbitity;
+	           			result.setMortalityQalys(Disease.Type.HeartAttack, tempMortQalys);
+	           			result.setMorbidityQalys(Disease.Type.HeartAttack, tempMorbQalys);
+	        		}
+	        		else if (d.getKey() == Disease.Type.Cardiopulmonary) {
+	        			//Due to internal PM2.5
+	        			double personMortQalysInPM25 = calcMortQalys(result.deltaExposure(Exposure.Type.INPM2_5), d.getValue().nA, d.getValue().nB, d.getValue().nC, d.getValue().pA, d.getValue().pB, d.getValue().pC);         			
+	        			tempMortQalys += personMortQalysInPM25;     			
+	        			tempMorbQalys += personMortQalysInPM25*d.getValue().morbitity; 
+	        			//Due to external PM2.5
+	        			
+	        			double personMortQalysOutPM25 = calcMortQalys(result.deltaExposure(Exposure.Type.OUTPM2_5), d.getValue().nA, d.getValue().nB, d.getValue().nC, d.getValue().pA, d.getValue().pB, d.getValue().pC);          			
+	        			tempMortQalys += personMortQalysOutPM25;
+	        			tempMorbQalys += personMortQalysOutPM25*d.getValue().morbitity;
+	        			result.setMortalityQalys(Disease.Type.Cardiopulmonary, tempMortQalys);
+	        			result.setMorbidityQalys(Disease.Type.Cardiopulmonary, tempMorbQalys);
+	        		}
+	        		else if (d.getKey() == Disease.Type.LungCancer) {
+	        			//Due to internal PM2.5
+	        			double personMortQalysInPM25 = calcMortQalys(result.deltaExposure(Exposure.Type.INPM2_5), d.getValue().nA, d.getValue().nB, d.getValue().nC, d.getValue().pA, d.getValue().pB, d.getValue().pC);         			
+	        			tempMortQalys += personMortQalysInPM25;     			
+	        			tempMorbQalys += personMortQalysInPM25*d.getValue().morbitity; 
+	        			//Due to external PM2.5
+	        			
+	        			double personMortQalysOutPM25 = calcMortQalys(result.deltaExposure(Exposure.Type.OUTPM2_5), d.getValue().nA, d.getValue().nB, d.getValue().nC, d.getValue().pA, d.getValue().pB, d.getValue().pC);          			
+	        			tempMortQalys += personMortQalysOutPM25;
+	        			tempMorbQalys += personMortQalysOutPM25*d.getValue().morbitity;
+	        			
+	        			result.setMortalityQalys(Disease.Type.LungCancer, tempMortQalys);
+	        			result.setMorbidityQalys(Disease.Type.LungCancer, tempMorbQalys);
+	        		}
+	        		else {
+	        			System.out.println("Can't find the health coefficient for " + d.getKey());
+	        		}
+        		}
+        	}
+           	
+        }
+        	
         return result;
     }
+    
+    private double calcExposure(double permeability, double b0, double b1, double b2, double b3, double b4){
+    	double exposure = 0;
+    	exposure = b0 + (b1*Math.pow(permeability, 1)) + (b2*Math.pow(permeability,2)) + (b3*Math.pow(permeability, 3)) + (b4*Math.pow(permeability, 4)); 
+    	
+    	return exposure;
+    }
+
+    
     
     //Temperature Calculations as needed quite a lot
     private double calcSIT(double eValue){
@@ -175,7 +267,7 @@ public class HealthModule implements IHealthModule {
     
     //Methods to map the input built form and ventilation of NHM to that in Hideem. 
     //Not sure if this should be here or elsewhere but works for now
-    private Exposure.ExposureBuiltForm MapBuiltForm(BuiltForm form, double floorArea, int mainFloorLevel) {
+    private Exposure.ExposureBuiltForm mapBuiltForm(BuiltForm form, double floorArea, int mainFloorLevel) {
 	    //initialisation
 	    Exposure.ExposureBuiltForm matchedBuiltForm = null;
 	    //Will have to put lots of if statements in here somewhere...
@@ -231,8 +323,8 @@ public class HealthModule implements IHealthModule {
 	    
 	    return matchedBuiltForm;
     }
-    
-    private Exposure.VentilationType MapVentilation(boolean hasWorkingExtractorFans, boolean hasTrickleVents) {
+    //Match ventilation
+    private Exposure.VentilationType mapVentilation(boolean hasWorkingExtractorFans, boolean hasTrickleVents) {
     	//initialisation
 	    Exposure.VentilationType matchedVentilation = null;
     	//Get the ventilation
@@ -251,5 +343,20 @@ public class HealthModule implements IHealthModule {
     
     	return matchedVentilation;
     }
+    
+    //Health calculation: Basic quadratic
+    private double calcMortQalys(double deltaExposure, double negA, double negB, double negC, double posA, double posB, double posC) {
+    	
+    	double mortQALY = 0; 
+    	if(deltaExposure < 0) {
+    		mortQALY = negA + negB*deltaExposure + negB*Math.pow(deltaExposure, 2);
+    	}
+    	else{
+    		mortQALY = posA + posB*deltaExposure + posB*Math.pow(deltaExposure, 2);
+    	}
+    	
+    	return mortQALY;  
+    }
+    
 }    
 
