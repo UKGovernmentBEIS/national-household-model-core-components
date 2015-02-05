@@ -28,10 +28,10 @@ public class Disease {
 	public final double pA;
 	public final double pB;
 	public final double pC;
-	public final double morbitity;
+	public final double morbidity;
 	
 	
-	public Disease(final int age, final Sex sex, final double nA, final double nB, final double nC, final double pA, final double pB, final double pC, final double morbitity) {
+	public Disease(final int age, final Sex sex, final double nA, final double nB, final double nC, final double pA, final double pB, final double pC, final double morbidity) {
 		this.age = age;
 		this.sex = sex;
 		this.nA = nA;
@@ -40,7 +40,7 @@ public class Disease {
 		this.pA = pA;
 		this.pB = pB;
 		this.pC = pC;
-		this.morbitity = morbitity;
+		this.morbidity = morbidity;
 	}
 	
 	public static Disease readDisease(String[] row) {

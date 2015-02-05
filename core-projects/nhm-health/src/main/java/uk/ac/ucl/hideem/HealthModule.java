@@ -156,21 +156,21 @@ public class HealthModule implements IHealthModule {
 	        		if (d.getKey() == Disease.Type.CardiovascularCold) {
 	           			double personMortQalys = calcMortQalys(result.deltaExposure(Exposure.Type.SIT), d.getValue().nA, d.getValue().nB, d.getValue().nC, d.getValue().pA, d.getValue().pB, d.getValue().pC);
 	           			tempMortQalys += personMortQalys;
-	           			tempMorbQalys += personMortQalys*d.getValue().morbitity;
+	           			tempMorbQalys += personMortQalys*d.getValue().morbidity;
 	           			result.setMortalityQalys(Disease.Type.CardiovascularCold, tempMortQalys);
 	           			result.setMorbidityQalys(Disease.Type.CardiovascularCold, tempMorbQalys);
 	        		}
 	        		else if (d.getKey() == Disease.Type.Stroke) {
 	           			double personMortQalys = calcMortQalys(result.deltaExposure(Exposure.Type.OUTPM2_5), d.getValue().nA, d.getValue().nB, d.getValue().nC, d.getValue().pA, d.getValue().pB, d.getValue().pC);
 	           			tempMortQalys += personMortQalys;
-	           			tempMorbQalys += personMortQalys*d.getValue().morbitity;
+	           			tempMorbQalys += personMortQalys*d.getValue().morbidity;
 	           			result.setMortalityQalys(Disease.Type.Stroke, tempMortQalys);
 	           			result.setMorbidityQalys(Disease.Type.Stroke, tempMorbQalys);
 	        		}
 	        		else if (d.getKey() == Disease.Type.HeartAttack) {
 	        			double personMortQalys = calcMortQalys(result.deltaExposure(Exposure.Type.OUTPM2_5), d.getValue().nA, d.getValue().nB, d.getValue().nC, d.getValue().pA, d.getValue().pB, d.getValue().pC);
 	        			tempMortQalys += personMortQalys;
-	           			tempMorbQalys += personMortQalys*d.getValue().morbitity;
+	           			tempMorbQalys += personMortQalys*d.getValue().morbidity;
 	           			result.setMortalityQalys(Disease.Type.HeartAttack, tempMortQalys);
 	           			result.setMorbidityQalys(Disease.Type.HeartAttack, tempMorbQalys);
 	        		}
@@ -178,12 +178,12 @@ public class HealthModule implements IHealthModule {
 	        			//Due to internal PM2.5
 	        			double personMortQalysInPM25 = calcMortQalys(result.deltaExposure(Exposure.Type.INPM2_5), d.getValue().nA, d.getValue().nB, d.getValue().nC, d.getValue().pA, d.getValue().pB, d.getValue().pC);         			
 	        			tempMortQalys += personMortQalysInPM25;     			
-	        			tempMorbQalys += personMortQalysInPM25*d.getValue().morbitity; 
+	        			tempMorbQalys += personMortQalysInPM25*d.getValue().morbidity; 
 	        			//Due to external PM2.5
 	        			
 	        			double personMortQalysOutPM25 = calcMortQalys(result.deltaExposure(Exposure.Type.OUTPM2_5), d.getValue().nA, d.getValue().nB, d.getValue().nC, d.getValue().pA, d.getValue().pB, d.getValue().pC);          			
 	        			tempMortQalys += personMortQalysOutPM25;
-	        			tempMorbQalys += personMortQalysOutPM25*d.getValue().morbitity;
+	        			tempMorbQalys += personMortQalysOutPM25*d.getValue().morbidity;
 	        			result.setMortalityQalys(Disease.Type.Cardiopulmonary, tempMortQalys);
 	        			result.setMorbidityQalys(Disease.Type.Cardiopulmonary, tempMorbQalys);
 	        		}
@@ -191,12 +191,12 @@ public class HealthModule implements IHealthModule {
 	        			//Due to internal PM2.5
 	        			double personMortQalysInPM25 = calcMortQalys(result.deltaExposure(Exposure.Type.INPM2_5), d.getValue().nA, d.getValue().nB, d.getValue().nC, d.getValue().pA, d.getValue().pB, d.getValue().pC);         			
 	        			tempMortQalys += personMortQalysInPM25;     			
-	        			tempMorbQalys += personMortQalysInPM25*d.getValue().morbitity; 
+	        			tempMorbQalys += personMortQalysInPM25*d.getValue().morbidity; 
 	        			//Due to external PM2.5
 	        			
 	        			double personMortQalysOutPM25 = calcMortQalys(result.deltaExposure(Exposure.Type.OUTPM2_5), d.getValue().nA, d.getValue().nB, d.getValue().nC, d.getValue().pA, d.getValue().pB, d.getValue().pC);          			
 	        			tempMortQalys += personMortQalysOutPM25;
-	        			tempMorbQalys += personMortQalysOutPM25*d.getValue().morbitity;
+	        			tempMorbQalys += personMortQalysOutPM25*d.getValue().morbidity;
 	        			
 	        			result.setMortalityQalys(Disease.Type.LungCancer, tempMortQalys);
 	        			result.setMorbidityQalys(Disease.Type.LungCancer, tempMorbQalys);
