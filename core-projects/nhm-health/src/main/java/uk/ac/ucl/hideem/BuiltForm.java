@@ -10,3 +10,4 @@ public enum BuiltForm {
     PurposeBuiltLowRiseFlat,
     PurposeBuiltHighRiseFlat;
 }
+

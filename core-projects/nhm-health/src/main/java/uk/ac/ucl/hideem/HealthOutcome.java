@@ -9,60 +9,75 @@ import com.google.common.base.Preconditions;
  */
 public class HealthOutcome {
     private double[][] exposures;
-    private double[][] qalys;
+    private double[] mortalityQalys;
+    private double[] morbidityQalys;
     private double[][][] costs;
     final int years;
 
     public HealthOutcome(final int years) {
         Preconditions.checkArgument(years > 0, "A health outcome must be defined over a positive number of years (%s)", years);
         this.years = years;
-        this.exposures = new double[Exposure.values().length][2];
-        this.qalys = new double[Disease.values().length][years];
-        this.costs = new double[Disease.values().length]
+        this.exposures = new double[Exposure.Type.values().length][2];
+        this.mortalityQalys = new double[Disease.Type.values().length];
+        this.morbidityQalys = new double[Disease.Type.values().length];
+        this.costs = new double[Disease.Type.values().length]
             [HealthCost.values().length]
             [years];
     }
     
-    public double initialExposure(final Exposure e) {
+    public double initialExposure(final Exposure.Type e) {
         Preconditions.checkNotNull(e);
         return exposures[e.ordinal()][0];
     }
     
-    public double finalExposure(final Exposure e) {
+    public double finalExposure(final Exposure.Type e) {
         Preconditions.checkNotNull(e);
         return exposures[e.ordinal()][1];
     }
-
-    public double qalys(final Disease disease, final int year) {
-        Preconditions.checkNotNull(disease);
-        Preconditions.checkElementIndex(year, years);
-        return qalys[disease.ordinal()][year];
+    
+    public double deltaExposure(final Exposure.Type e) {
+        Preconditions.checkNotNull(e);
+        return exposures[e.ordinal()][1]-exposures[e.ordinal()][0];
     }
     
-    public double cost(final Disease disease, final HealthCost cost, final int year) {
+    public double mortalityQalys(final Disease.Type disease) {
+        Preconditions.checkNotNull(disease);
+        return mortalityQalys[disease.ordinal()];
+    }
+    
+    public double morbidityQalys(final Disease.Type disease) {
+        Preconditions.checkNotNull(disease);
+        return morbidityQalys[disease.ordinal()];
+    }
+    
+    public double cost(final Disease.Type disease, final HealthCost cost, final int year) {
         Preconditions.checkNotNull(disease);
         Preconditions.checkNotNull(cost);
         Preconditions.checkElementIndex(year, years);
         return costs[disease.ordinal()][cost.ordinal()][year];
     }
 
-    public void setInitialExposure(final Exposure e, final double d) {
+    public void setInitialExposure(final Exposure.Type e, final double d) {
         Preconditions.checkNotNull(e);
         this.exposures[e.ordinal()][0] = d;
     }
 
-    public void setFinalExposure(final Exposure e, final double d) {
+    public void setFinalExposure(final Exposure.Type e, final double d) {
         Preconditions.checkNotNull(e);
         this.exposures[e.ordinal()][1] = d;
     }
 
-    public void setQalys(final Disease disease, final int year, final double q) {
+    public void setMortalityQalys(final Disease.Type disease, final double q) {
         Preconditions.checkNotNull(disease);
-        Preconditions.checkElementIndex(year, years);
-        this.qalys[disease.ordinal()][year] = q;
+        this.mortalityQalys[disease.ordinal()] += q;
     }
-
-    public void setCost(final Disease disease, final HealthCost cost, final int year, final double c) {
+    
+    public void setMorbidityQalys(final Disease.Type disease, final double q) {
+        Preconditions.checkNotNull(disease);
+        this.morbidityQalys[disease.ordinal()] += q;
+    }
+    
+    public void setCost(final Disease.Type disease, final HealthCost cost, final int year, final double c) {
         Preconditions.checkNotNull(disease);
         Preconditions.checkNotNull(cost);
         Preconditions.checkElementIndex(year, years);
@@ -75,24 +90,30 @@ public class HealthOutcome {
 
         sb.append("Health Outcome for " + years + " years:\n");
         sb.append("\tExposures:\n");
-        for (final Exposure e : Exposure.values()) {
+        for (final Exposure.Type e : Exposure.Type.values()) {
             sb.append(String.format("\t\t%s: %g -> %g\n", e,
                                     exposures[e.ordinal()][0],
                                     exposures[e.ordinal()][1]));
         }
-        sb.append("\tQalys:\n");
+        sb.append("\t Mortality Qalys:\n");
         sb.append("\t\tYear");
-        for (final Disease d : Disease.values()) {
+        for (final Disease.Type d : Disease.Type.values()) {
             sb.append("\t"+ d);
         }
         sb.append("\n");
-        for (int i = 0; i<years; i++) {
-            sb.append(String.format("\t\t%d", i));
-            for (final Disease d : Disease.values()) {
-                sb.append(String.format("\t%g", qalys[d.ordinal()][i]));
-            }
-            sb.append("\n");
+
+        sb.append(String.format("\t\t%d", years));
+        for (final Disease.Type d : Disease.Type.values()) {
+            sb.append(String.format("\t%g", mortalityQalys[d.ordinal()]));
         }
+        sb.append("\n");
+        sb.append("\t Morbidity Qalys:\n");
+
+        sb.append(String.format("\t\t%d", years));
+        for (final Disease.Type d : Disease.Type.values()) {
+            sb.append(String.format("\t%g", morbidityQalys[d.ordinal()]));
+        }
+        sb.append("\n");
 
         //TODO print costs.
         

@@ -1,3 +1,8 @@
 code, age, sex, smokes
-H1, 10, MALE, true
-H1, 40, FEMALE, false
+H1,10, MALE, true
+H1,40, FEMALE, false
+H0011103,70, MALE, true
+H0011104,22, FEMALE, false
+H0011110,43, MALE, true
+H0011201,55, FEMALE, false
+H0011202,12, MALE, true
