@@ -10,7 +10,7 @@ public class Person {
         MALE, FEMALE
     }
 
-    public final int age;
+    public int age;
     public final Sex sex;
     public final boolean smokes;
 

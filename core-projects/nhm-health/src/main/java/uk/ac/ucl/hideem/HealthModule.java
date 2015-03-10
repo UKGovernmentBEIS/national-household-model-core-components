@@ -1,11 +1,16 @@
 package uk.ac.ucl.hideem;
 
 import java.util.List;
+import java.lang.Math;
 import java.util.Map;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
+import java.nio.file.Paths;
 import com.google.common.collect.*;
+import java.util.Map;
+import org.apache.commons.math3.distribution.NormalDistribution;
+import uk.ac.ucl.hideem.Constants;
 
 public class HealthModule implements IHealthModule {
 	private final ListMultimap<Exposure.Type, Exposure> exposureCoefficients;
@@ -46,20 +51,17 @@ public class HealthModule implements IHealthModule {
         //Read the health coefficients from the csv file
         healthCoefficients = ArrayListMultimap.create();
 
-        System.out.println("Reading health coefficients from: src/main/resources/uk/ac/ucl/hideem/NHM_input_healthcalc_141106.csv");
-
-        try (final CSV.Reader reader = CSV.trimmedReader(
-                new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("NHM_input_healthcalc_141106.csv"))))) {
-           String[] row = reader.read(); // throw away header line, because we know what it is
-           
-           while ((row = reader.read()) != null) {
-        	   final Disease e = Disease.readDisease(row);
-        	   healthCoefficients.put(Enum.valueOf(Disease.Type.class, row[0]), e);
-           }
-        } catch (final IOException ex) {
-                    // problem?
-        } 
-
+        System.out.println("Reading health coefficients from: src/main/resources/uk/ac/ucl/hideem/NHM_mortality_data.csv");
+        
+        //Not yet sure how to get as a resource?
+		for (final Map<String, String> row : CSV.mapReader(Paths.get("src/main/resources/uk/ac/ucl/hideem/NHM_mortality_data.csv"))) {         
+			   
+			for (final Disease.Type type : Disease.Type.values()){
+				
+				final Disease d = Disease.readDisease(row.get("age"), row.get("sex"), row.get(type.name()), row.get("population"));
+				healthCoefficients.put(Enum.valueOf(Disease.Type.class, type.name()), d);
+			}
+		}
     }
 
     public HealthOutcome effectOf(
@@ -141,72 +143,102 @@ public class HealthModule implements IHealthModule {
 	        	}        		
 	        }
     	}
+                               
+        //Calculate the relative risks (independent of person)
+        result.setRelativeRisk(Disease.Type.cardiopulmonary, 
+        		(Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
+        		* (Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.INPM2_5))));
+        result.setRelativeRisk(Disease.Type.cerebrovascular, 
+        		(Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
+        		* (Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.INPM2_5))) 
+        		* (Math.exp((Math.log(Constants.REL_RISK_ETS_CA) / Constants.INC_ETS_CA) * result.deltaExposure(Exposure.Type.ETS))));
+        result.setRelativeRisk(Disease.Type.myocardialinfarction, 
+        		(Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
+        		* (Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.INPM2_5))) 
+        		* (Math.exp((Math.log(Constants.REL_RISK_ETS_MI) / Constants.INC_ETS_MI) * result.deltaExposure(Exposure.Type.ETS))));
+        result.setRelativeRisk(Disease.Type.wincerebrovascular, 
+        		(Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
+        		* (Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.INPM2_5)))
+        		* (Math.exp((Math.log(Constants.REL_RISK_SIT_CV) / Constants.INC_WINCV) * result.deltaExposure(Exposure.Type.SIT)))
+        		* (Math.exp((Math.log(Constants.REL_RISK_ETS_CA) / Constants.INC_ETS_CA) * result.deltaExposure(Exposure.Type.ETS))));                
+        result.setRelativeRisk(Disease.Type.winmyocardialinfarction, 
+        		(Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
+        		* (Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.INPM2_5)))
+        		* (Math.exp((Math.log(Constants.REL_RISK_SIT_CV) / Constants.INC_WINCV) * result.deltaExposure(Exposure.Type.SIT)))
+        		* (Math.exp((Math.log(Constants.REL_RISK_ETS_MI) / Constants.INC_ETS_MI) * result.deltaExposure(Exposure.Type.ETS))));  
+        result.setRelativeRisk(Disease.Type.wincardiovascular, 
+        		(Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
+        		* (Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.INPM2_5)))
+        		* (Math.exp((Math.log(Constants.REL_RISK_SIT_CV) / Constants.INC_WINCV) * result.deltaExposure(Exposure.Type.SIT))));
+        result.setRelativeRisk(Disease.Type.lungcancer, 
+        		(Math.exp((Math.log(Constants.REL_RISK_PM_LC) / Constants.INC_PM_LC) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
+        		* (Math.exp((Math.log(Constants.REL_RISK_PM_LC) / Constants.INC_PM_LC) * result.deltaExposure(Exposure.Type.INPM2_5)))
+        		* (Math.exp((Math.log(Constants.REL_RISK_RADON_LC) / Constants.INC_RADON_LC) * result.deltaExposure(Exposure.Type.Radon))));  
         
         // health calculation goes here. Probably be good to sanity check the inputs.
+       
+       	//Survival array here so that qaly calc is done cumulatively (need one for each person)
+    	double[][] impactSurvival = new double[people.size()][Disease.Type.values().length];
+    	double[][] baseSurvival = new double[people.size()][Disease.Type.values().length];
+    	for(Person p: people){ //initialize to 1
+    		for (final Disease.Type d : Disease.Type.values()) {
+    			impactSurvival[people.indexOf(p)][d.ordinal()] = 1;
+    			baseSurvival[people.indexOf(p)][d.ordinal()] = 1;
+    		}    
+    	}
+    	
         //Loop over disease coeficients
         for(Map.Entry<Disease.Type, Disease> d: healthCoefficients.entries()) {
-        	
-        	//initialise to 0 for each zero so that can be incremented for people
-        	double tempMortQalys = 0;
-        	double tempMorbQalys = 0;
-        	
+        	        	
         	//loop over people in house to match them to coefficients
         	for(Person p: people){
-        		if (p.age == d.getValue().age && p.sex == d.getValue().sex){
-	        		if (d.getKey() == Disease.Type.CardiovascularCold) {
-	           			double personMortQalys = calcMortQalys(result.deltaExposure(Exposure.Type.SIT), d.getValue().nA, d.getValue().nB, d.getValue().nC, d.getValue().pA, d.getValue().pB, d.getValue().pC);
-	           			tempMortQalys += personMortQalys;
-	           			tempMorbQalys += personMortQalys*d.getValue().morbidity;
-	           			result.setMortalityQalys(Disease.Type.CardiovascularCold, tempMortQalys);
-	           			result.setMorbidityQalys(Disease.Type.CardiovascularCold, tempMorbQalys);
+        	
+        		//loop over time frame
+        		for (int year = 0; year < horizon; year=year+1) {
+	        		if (p.age+year == d.getValue().age && p.sex == d.getValue().sex){
+		        		if (d.getKey() == Disease.Type.wincardiovascular || d.getKey() == Disease.Type.wincerebrovascular || d.getKey() == Disease.Type.winmyocardialinfarction) {
+		           			//Flat disease impact
+		        			double impact = d.getValue().hazard * result.relativeRisk(d.getKey());
+		        			double base = d.getValue().hazard;
+		        			
+		        			impactSurvival[people.indexOf(p)][d.getKey().ordinal()] = impactSurvival[people.indexOf(p)][d.getKey().ordinal()]*((2-impact)/(2+impact));
+		        			baseSurvival[people.indexOf(p)][d.getKey().ordinal()] = baseSurvival[people.indexOf(p)][d.getKey().ordinal()]*((2-base)/(2+base));
+		        			
+		        			double qaly = calculateQaly(impactSurvival[people.indexOf(p)][d.getKey().ordinal()], baseSurvival[people.indexOf(p)][d.getKey().ordinal()]);		        			
+		        			result.setMortalityQalys(d.getKey(), year, qaly);	
+		        		}
+		        		else  {
+		           			//Disease impact depends on increased or decreased risk
+		        			double riskChangeTime = result.relativeRisk(d.getKey());
+		        			if (result.relativeRisk(d.getKey()) >= 1.) {
+		        				final NormalDistribution normDist;
+		        				normDist = new NormalDistribution(Constants.TIME_FUNCTION(d.getKey())[0], Constants.TIME_FUNCTION(d.getKey())[1]);
+								double impact = d.getValue().hazard * (1 + (riskChangeTime - 1) * normDist.cumulativeProbability(year+1));						
+								double base = d.getValue().hazard;
+								
+								impactSurvival[people.indexOf(p)][d.getKey().ordinal()] = impactSurvival[people.indexOf(p)][d.getKey().ordinal()]*((2-impact)/(2+impact));
+			        			baseSurvival[people.indexOf(p)][d.getKey().ordinal()] = baseSurvival[people.indexOf(p)][d.getKey().ordinal()]*((2-base)/(2+base));
+			        			
+			        			double qaly = calculateQaly(impactSurvival[people.indexOf(p)][d.getKey().ordinal()], baseSurvival[people.indexOf(p)][d.getKey().ordinal()]);		        			
+			        			result.setMortalityQalys(d.getKey(), year, baseSurvival[people.indexOf(p)][d.getKey().ordinal()]);
+			        			
+		        			} else {
+		        				double impact = d.getValue().hazard * (1 - (riskChangeTime - 1) * (1 - Math.exp(-(year+1) * Constants.TIME_FUNCTION(d.getKey())[2])));	        				
+		        				double base = d.getValue().hazard;
+								
+			        			impactSurvival[people.indexOf(p)][d.getKey().ordinal()] = impactSurvival[people.indexOf(p)][d.getKey().ordinal()]*((2-impact)/(2+impact));
+			        			baseSurvival[people.indexOf(p)][d.getKey().ordinal()] = baseSurvival[people.indexOf(p)][d.getKey().ordinal()]*((2-base)/(2+base));
+			        			
+			        			double qaly = calculateQaly(impactSurvival[people.indexOf(p)][d.getKey().ordinal()], baseSurvival[people.indexOf(p)][d.getKey().ordinal()]);		        			
+			        			result.setMortalityQalys(d.getKey(), year, qaly);
+		        			}
+		        			
+		        		}
+		        		
 	        		}
-	        		else if (d.getKey() == Disease.Type.Stroke) {
-	           			double personMortQalys = calcMortQalys(result.deltaExposure(Exposure.Type.OUTPM2_5), d.getValue().nA, d.getValue().nB, d.getValue().nC, d.getValue().pA, d.getValue().pB, d.getValue().pC);
-	           			tempMortQalys += personMortQalys;
-	           			tempMorbQalys += personMortQalys*d.getValue().morbidity;
-	           			result.setMortalityQalys(Disease.Type.Stroke, tempMortQalys);
-	           			result.setMorbidityQalys(Disease.Type.Stroke, tempMorbQalys);
-	        		}
-	        		else if (d.getKey() == Disease.Type.HeartAttack) {
-	        			double personMortQalys = calcMortQalys(result.deltaExposure(Exposure.Type.OUTPM2_5), d.getValue().nA, d.getValue().nB, d.getValue().nC, d.getValue().pA, d.getValue().pB, d.getValue().pC);
-	        			tempMortQalys += personMortQalys;
-	           			tempMorbQalys += personMortQalys*d.getValue().morbidity;
-	           			result.setMortalityQalys(Disease.Type.HeartAttack, tempMortQalys);
-	           			result.setMorbidityQalys(Disease.Type.HeartAttack, tempMorbQalys);
-	        		}
-	        		else if (d.getKey() == Disease.Type.Cardiopulmonary) {
-	        			//Due to internal PM2.5
-	        			double personMortQalysInPM25 = calcMortQalys(result.deltaExposure(Exposure.Type.INPM2_5), d.getValue().nA, d.getValue().nB, d.getValue().nC, d.getValue().pA, d.getValue().pB, d.getValue().pC);         			
-	        			tempMortQalys += personMortQalysInPM25;     			
-	        			tempMorbQalys += personMortQalysInPM25*d.getValue().morbidity; 
-	        			//Due to external PM2.5
-	        			
-	        			double personMortQalysOutPM25 = calcMortQalys(result.deltaExposure(Exposure.Type.OUTPM2_5), d.getValue().nA, d.getValue().nB, d.getValue().nC, d.getValue().pA, d.getValue().pB, d.getValue().pC);          			
-	        			tempMortQalys += personMortQalysOutPM25;
-	        			tempMorbQalys += personMortQalysOutPM25*d.getValue().morbidity;
-	        			result.setMortalityQalys(Disease.Type.Cardiopulmonary, tempMortQalys);
-	        			result.setMorbidityQalys(Disease.Type.Cardiopulmonary, tempMorbQalys);
-	        		}
-	        		else if (d.getKey() == Disease.Type.LungCancer) {
-	        			//Due to internal PM2.5
-	        			double personMortQalysInPM25 = calcMortQalys(result.deltaExposure(Exposure.Type.INPM2_5), d.getValue().nA, d.getValue().nB, d.getValue().nC, d.getValue().pA, d.getValue().pB, d.getValue().pC);         			
-	        			tempMortQalys += personMortQalysInPM25;     			
-	        			tempMorbQalys += personMortQalysInPM25*d.getValue().morbidity; 
-	        			//Due to external PM2.5
-	        			
-	        			double personMortQalysOutPM25 = calcMortQalys(result.deltaExposure(Exposure.Type.OUTPM2_5), d.getValue().nA, d.getValue().nB, d.getValue().nC, d.getValue().pA, d.getValue().pB, d.getValue().pC);          			
-	        			tempMortQalys += personMortQalysOutPM25;
-	        			tempMorbQalys += personMortQalysOutPM25*d.getValue().morbidity;
-	        			
-	        			result.setMortalityQalys(Disease.Type.LungCancer, tempMortQalys);
-	        			result.setMorbidityQalys(Disease.Type.LungCancer, tempMorbQalys);
-	        		}
-	        		else {
-	        			System.out.println("Can't find the health coefficient for " + d.getKey());
-	        		}
-        		}
+
+	        	}
         	}
-           	
         }
         	
         return result;
@@ -343,20 +375,16 @@ public class HealthModule implements IHealthModule {
     
     	return matchedVentilation;
     }
-    
-    //Health calculation: Basic quadratic
-    private double calcMortQalys(double deltaExposure, double negA, double negB, double negC, double posA, double posB, double posC) {
+
+    private double calculateQaly(double impactSurvival, double baseSurvival) {
+
+		double deaths = 1 - impactSurvival;
+		double lifeYears = 1 - 0.5*deaths;
+		
+		double baseDeaths = 1 - baseSurvival;
+		double baselifeYears = 1 - 0.5*baseDeaths;
     	
-    	double mortQALY = 0; 
-    	if(deltaExposure < 0) {
-    		mortQALY = negA + negB*deltaExposure + negB*Math.pow(deltaExposure, 2);
-    	}
-    	else{
-    		mortQALY = posA + posB*deltaExposure + posB*Math.pow(deltaExposure, 2);
-    	}
-    	
-    	return mortQALY;  
+    	return lifeYears-baselifeYears;
     }
-    
 }    
 
