@@ -26,24 +26,27 @@ public class Disease {
     public final Sex sex;
 	public final double mortality;
 	public final double hazard;
+	public final double allHazard;
 	//public final double morbidity;
 	
 	
-	public Disease(final int age, final Sex sex, final double mortality, final double hazard) {
+	public Disease(final int age, final Sex sex, final double mortality, final double hazard, final double otherHazard) {
 		this.age = age;
 		this.sex = sex;
 		this.mortality = mortality;
 		this.hazard = hazard;
+		this.allHazard = otherHazard;
 		//this.morbidity = morbidity;
 	}
 	
-	public static Disease readDisease(String age, String sex, String mortality, String pop) {
+	public static Disease readDisease(String age, String sex, String mortality, double allMortality, String pop) {
 
 	     return new Disease(
 					Integer.parseInt(age),
 					Person.Sex.valueOf(sex),			
 					Double.parseDouble(mortality),
-					Double.parseDouble(mortality)/Double.parseDouble(pop));
+					Double.parseDouble(mortality)/Double.parseDouble(pop),
+					allMortality/Double.parseDouble(pop));
 
 	}
 }

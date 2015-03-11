@@ -58,7 +58,16 @@ public class HealthModule implements IHealthModule {
 			   
 			for (final Disease.Type type : Disease.Type.values()){
 				
-				final Disease d = Disease.readDisease(row.get("age"), row.get("sex"), row.get(type.name()), row.get("population"));
+//				double otherDeaths = 0;
+//				//need another loop to do totals
+//				for (final Disease.Type others : Disease.Type.values()){
+//					if(others.name() != type.name()){
+//						otherDeaths += Double.parseDouble(row.get(others.name()));
+//					}	
+//				}
+//				otherDeaths += Double.parseDouble(row.get("all"));
+				
+				final Disease d = Disease.readDisease(row.get("age"), row.get("sex"), row.get(type.name()), Double.parseDouble(row.get("all")), row.get("population"));
 				healthCoefficients.put(Enum.valueOf(Disease.Type.class, type.name()), d);
 			}
 		}
@@ -177,17 +186,17 @@ public class HealthModule implements IHealthModule {
         
         // health calculation goes here. Probably be good to sanity check the inputs.
        
-       	//Survival array here so that qaly calc is done cumulatively (need one for each person)
-    	double[][] impactSurvival = new double[people.size()][Disease.Type.values().length];
-    	double[][] baseSurvival = new double[people.size()][Disease.Type.values().length];
+       	//Survival array here so that qaly calc is done cumulatively (need one for each person per disease)
+    	double[][][] impactSurvival = new double[people.size()][Disease.Type.values().length][horizon+1];
+    	double[][][] baseSurvival = new double[people.size()][Disease.Type.values().length][horizon+1];
     	for(Person p: people){ //initialize to 1
     		for (final Disease.Type d : Disease.Type.values()) {
-    			impactSurvival[people.indexOf(p)][d.ordinal()] = 1;
-    			baseSurvival[people.indexOf(p)][d.ordinal()] = 1;
+    			impactSurvival[people.indexOf(p)][d.ordinal()][0] = 1;
+    			baseSurvival[people.indexOf(p)][d.ordinal()][0] = 1;
     		}    
     	}
     	
-        //Loop over disease coeficients
+        //Loop over disease coefficients
         for(Map.Entry<Disease.Type, Disease> d: healthCoefficients.entries()) {
         	        	
         	//loop over people in house to match them to coefficients
@@ -198,13 +207,16 @@ public class HealthModule implements IHealthModule {
 	        		if (p.age+year == d.getValue().age && p.sex == d.getValue().sex){
 		        		if (d.getKey() == Disease.Type.wincardiovascular || d.getKey() == Disease.Type.wincerebrovascular || d.getKey() == Disease.Type.winmyocardialinfarction) {
 		           			//Flat disease impact
-		        			double impact = d.getValue().hazard * result.relativeRisk(d.getKey());
-		        			double base = d.getValue().hazard;
+		        			double base = d.getValue().allHazard;
+							double impact = base - d.getValue().hazard;
+							
+							impact += d.getValue().hazard * result.relativeRisk(d.getKey());
+							
+		        			impactSurvival[people.indexOf(p)][d.getKey().ordinal()][year+1] = impactSurvival[people.indexOf(p)][d.getKey().ordinal()][year]*((2-impact)/(2+impact));
+		        			baseSurvival[people.indexOf(p)][d.getKey().ordinal()][year+1] = baseSurvival[people.indexOf(p)][d.getKey().ordinal()][year]*((2-base)/(2+base));
 		        			
-		        			impactSurvival[people.indexOf(p)][d.getKey().ordinal()] = impactSurvival[people.indexOf(p)][d.getKey().ordinal()]*((2-impact)/(2+impact));
-		        			baseSurvival[people.indexOf(p)][d.getKey().ordinal()] = baseSurvival[people.indexOf(p)][d.getKey().ordinal()]*((2-base)/(2+base));
-		        			
-		        			double qaly = calculateQaly(impactSurvival[people.indexOf(p)][d.getKey().ordinal()], baseSurvival[people.indexOf(p)][d.getKey().ordinal()]);		        			
+		        			double qaly = calculateQaly(impactSurvival[people.indexOf(p)][d.getKey().ordinal()][year], baseSurvival[people.indexOf(p)][d.getKey().ordinal()][year], 
+		        					impactSurvival[people.indexOf(p)][d.getKey().ordinal()][year+1], baseSurvival[people.indexOf(p)][d.getKey().ordinal()][year+1]);		        			
 		        			result.setMortalityQalys(d.getKey(), year, qaly);	
 		        		}
 		        		else  {
@@ -213,23 +225,35 @@ public class HealthModule implements IHealthModule {
 		        			if (result.relativeRisk(d.getKey()) >= 1.) {
 		        				final NormalDistribution normDist;
 		        				normDist = new NormalDistribution(Constants.TIME_FUNCTION(d.getKey())[0], Constants.TIME_FUNCTION(d.getKey())[1]);
-								double impact = d.getValue().hazard * (1 + (riskChangeTime - 1) * normDist.cumulativeProbability(year+1));						
-								double base = d.getValue().hazard;
 								
-								impactSurvival[people.indexOf(p)][d.getKey().ordinal()] = impactSurvival[people.indexOf(p)][d.getKey().ordinal()]*((2-impact)/(2+impact));
-			        			baseSurvival[people.indexOf(p)][d.getKey().ordinal()] = baseSurvival[people.indexOf(p)][d.getKey().ordinal()]*((2-base)/(2+base));
-			        			
-			        			double qaly = calculateQaly(impactSurvival[people.indexOf(p)][d.getKey().ordinal()], baseSurvival[people.indexOf(p)][d.getKey().ordinal()]);		        			
-			        			result.setMortalityQalys(d.getKey(), year, baseSurvival[people.indexOf(p)][d.getKey().ordinal()]);
-			        			
-		        			} else {
-		        				double impact = d.getValue().hazard * (1 - (riskChangeTime - 1) * (1 - Math.exp(-(year+1) * Constants.TIME_FUNCTION(d.getKey())[2])));	        				
-		        				double base = d.getValue().hazard;
+								double base = d.getValue().allHazard;
+								double impact = base - d.getValue().hazard;
 								
-			        			impactSurvival[people.indexOf(p)][d.getKey().ordinal()] = impactSurvival[people.indexOf(p)][d.getKey().ordinal()]*((2-impact)/(2+impact));
-			        			baseSurvival[people.indexOf(p)][d.getKey().ordinal()] = baseSurvival[people.indexOf(p)][d.getKey().ordinal()]*((2-base)/(2+base));
+								impact += d.getValue().hazard * (1 + (riskChangeTime - 1) * normDist.cumulativeProbability(year+1));						
+								
+								impactSurvival[people.indexOf(p)][d.getKey().ordinal()][year+1] = impactSurvival[people.indexOf(p)][d.getKey().ordinal()][year]*((2-impact)/(2+impact));
+			        			baseSurvival[people.indexOf(p)][d.getKey().ordinal()][year+1] = baseSurvival[people.indexOf(p)][d.getKey().ordinal()][year]*((2-base)/(2+base));
 			        			
-			        			double qaly = calculateQaly(impactSurvival[people.indexOf(p)][d.getKey().ordinal()], baseSurvival[people.indexOf(p)][d.getKey().ordinal()]);		        			
+			        			double qaly = calculateQaly(impactSurvival[people.indexOf(p)][d.getKey().ordinal()][year], baseSurvival[people.indexOf(p)][d.getKey().ordinal()][year], 
+			        					impactSurvival[people.indexOf(p)][d.getKey().ordinal()][year+1], baseSurvival[people.indexOf(p)][d.getKey().ordinal()][year+1]);
+			        			result.setMortalityQalys(d.getKey(), year, qaly);
+			        			
+		        			} else {			
+		        				
+		        				double base = d.getValue().allHazard;
+								double impact = base - d.getValue().hazard;
+								
+								impact += d.getValue().hazard * (1 - (1 - riskChangeTime) * (1 - Math.exp(-(year+1) * Constants.TIME_FUNCTION(d.getKey())[2])));
+								
+								if(d.getKey() == Disease.Type.cardiopulmonary){
+							        System.out.println("base: " + base + " , impact: " + impact);
+								}
+								
+		        				impactSurvival[people.indexOf(p)][d.getKey().ordinal()][year+1] = impactSurvival[people.indexOf(p)][d.getKey().ordinal()][year]*((2-impact)/(2+impact));
+			        			baseSurvival[people.indexOf(p)][d.getKey().ordinal()][year+1] = baseSurvival[people.indexOf(p)][d.getKey().ordinal()][year]*((2-base)/(2+base));
+			        			
+			        			double qaly = calculateQaly(impactSurvival[people.indexOf(p)][d.getKey().ordinal()][year], baseSurvival[people.indexOf(p)][d.getKey().ordinal()][year], 
+			        					impactSurvival[people.indexOf(p)][d.getKey().ordinal()][year+1], baseSurvival[people.indexOf(p)][d.getKey().ordinal()][year+1]);		        			
 			        			result.setMortalityQalys(d.getKey(), year, qaly);
 		        			}
 		        			
@@ -376,13 +400,13 @@ public class HealthModule implements IHealthModule {
     	return matchedVentilation;
     }
 
-    private double calculateQaly(double impactSurvival, double baseSurvival) {
+    private double calculateQaly(double impactStartPop, double baseStartPop, double impactSurvival, double baseSurvival) {
 
-		double deaths = 1 - impactSurvival;
-		double lifeYears = 1 - 0.5*deaths;
+		double deaths = impactStartPop - impactSurvival;
+		double lifeYears = impactStartPop - 0.5*deaths;
 		
-		double baseDeaths = 1 - baseSurvival;
-		double baselifeYears = 1 - 0.5*baseDeaths;
+		double baseDeaths = baseStartPop - baseSurvival;
+		double baselifeYears = baseStartPop - 0.5*baseDeaths;
     	
     	return lifeYears-baselifeYears;
     }
