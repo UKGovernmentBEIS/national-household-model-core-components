@@ -14,9 +14,9 @@ public class Disease {
 	    lungcancer,			//LC
 	    myocardialinfarction,	//MI (Heart Attack)
 	    wincerebrovascular,	//WinCA
-	    //wincopd,			//WinCOPD
 	    wincardiovascular,	//WinCV
 	    winmyocardialinfarction	//WinMI
+	    //wincopd,			//WinCOPD
 	    //CommonMentalDisorder,  //Morbidity only
 	    //Athsma,				//Morbidity only
 	    //OverheatingDeath

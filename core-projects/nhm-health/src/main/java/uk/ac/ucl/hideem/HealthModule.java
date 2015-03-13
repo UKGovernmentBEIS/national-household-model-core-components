@@ -196,57 +196,14 @@ public class HealthModule implements IHealthModule {
         		//loop over time frame
         		for (int year = 0; year < horizon; year=year+1) {
 	        		if (p.age+year == d.getValue().age && p.sex == d.getValue().sex){
-		        		if (d.getKey() == Disease.Type.wincardiovascular || d.getKey() == Disease.Type.wincerebrovascular || d.getKey() == Disease.Type.winmyocardialinfarction) {
-		           			//Flat disease impact
-		        			double base = d.getValue().allHazard;
-							double impact = base - d.getValue().hazard;
-							
-							impact += d.getValue().hazard * result.relativeRisk(d.getKey());
-							
-		        			impactSurvival[people.indexOf(p)][d.getKey().ordinal()][year+1] = impactSurvival[people.indexOf(p)][d.getKey().ordinal()][year]*((2-impact)/(2+impact));
-		        			baseSurvival[people.indexOf(p)][d.getKey().ordinal()][year+1] = baseSurvival[people.indexOf(p)][d.getKey().ordinal()][year]*((2-base)/(2+base));
-		        			
-		        			double qaly = calculateQaly(impactSurvival[people.indexOf(p)][d.getKey().ordinal()][year], baseSurvival[people.indexOf(p)][d.getKey().ordinal()][year], 
-		        					impactSurvival[people.indexOf(p)][d.getKey().ordinal()][year+1], baseSurvival[people.indexOf(p)][d.getKey().ordinal()][year+1]);		        			
-		        			result.setMortalityQalys(d.getKey(), year, p.samplesize*qaly);	
-		        		}
-		        		else  {
-		           			//Disease impact depends on increased or decreased risk
-		        			double riskChangeTime = result.relativeRisk(d.getKey());
-		        			if (result.relativeRisk(d.getKey()) >= 1.) {
-		        				final NormalDistribution normDist;
-		        				normDist = new NormalDistribution(Constants.TIME_FUNCTION(d.getKey())[0], Constants.TIME_FUNCTION(d.getKey())[1]);
-								
-								double base = d.getValue().allHazard;
-								double impact = base - d.getValue().hazard;
-								
-								impact += d.getValue().hazard * (1 + (riskChangeTime - 1) * normDist.cumulativeProbability(year+1));						
-								
-								impactSurvival[people.indexOf(p)][d.getKey().ordinal()][year+1] = impactSurvival[people.indexOf(p)][d.getKey().ordinal()][year]*((2-impact)/(2+impact));
-			        			baseSurvival[people.indexOf(p)][d.getKey().ordinal()][year+1] = baseSurvival[people.indexOf(p)][d.getKey().ordinal()][year]*((2-base)/(2+base));
-			        			
-			        			double qaly = calculateQaly(impactSurvival[people.indexOf(p)][d.getKey().ordinal()][year], baseSurvival[people.indexOf(p)][d.getKey().ordinal()][year], 
-			        					impactSurvival[people.indexOf(p)][d.getKey().ordinal()][year+1], baseSurvival[people.indexOf(p)][d.getKey().ordinal()][year+1]);
-			        			result.setMortalityQalys(d.getKey(), year, p.samplesize*qaly);
-			        			
-		        			} else {			
-		        				
-		        				double base = d.getValue().allHazard;
-								double impact = base - d.getValue().hazard;
-								
-								impact += d.getValue().hazard * (1 - (1 - riskChangeTime) * (1 - Math.exp(-(year+1) * Constants.TIME_FUNCTION(d.getKey())[2])));
-								
-		        				impactSurvival[people.indexOf(p)][d.getKey().ordinal()][year+1] = impactSurvival[people.indexOf(p)][d.getKey().ordinal()][year]*((2-impact)/(2+impact));
-			        			baseSurvival[people.indexOf(p)][d.getKey().ordinal()][year+1] = baseSurvival[people.indexOf(p)][d.getKey().ordinal()][year]*((2-base)/(2+base));
-			        			
-			        			double qaly = calculateQaly(impactSurvival[people.indexOf(p)][d.getKey().ordinal()][year], baseSurvival[people.indexOf(p)][d.getKey().ordinal()][year], 
-			        					impactSurvival[people.indexOf(p)][d.getKey().ordinal()][year+1], baseSurvival[people.indexOf(p)][d.getKey().ordinal()][year+1]);		        			
-			        			
-			        			result.setMortalityQalys(d.getKey(), year, p.samplesize*qaly);
-		        			}
-		        			
-		        		}
 		        		
+	        			double riskChangeTime = result.relativeRisk(d.getKey());
+	        			
+	        			double qaly = calculateQaly(d, riskChangeTime, impactSurvival, baseSurvival, people.indexOf(p), year);
+	        			result.setMortalityQalys(d.getKey(), year, p.samplesize*qaly);
+	        			
+	        			double cost = p.samplesize*qaly*Constants.COST(d.getKey());
+	        			result.setCost(d.getKey(), year, cost);		        		
 	        		}
 
 	        	}
@@ -388,12 +345,38 @@ public class HealthModule implements IHealthModule {
     	return matchedVentilation;
     }
 
-    private double calculateQaly(double impactStartPop, double baseStartPop, double impactSurvival, double baseSurvival) {
+    private double calculateQaly(Map.Entry<Disease.Type, Disease> d, double riskChangeTime, double[][][] impactSurvival, double[][][] baseSurvival, int personIndex, int year) {
+    	
+    	double base = d.getValue().allHazard;
+		double impact = base - d.getValue().hazard;
+    	
+    	if (d.getKey() == Disease.Type.wincardiovascular || d.getKey() == Disease.Type.wincerebrovascular || d.getKey() == Disease.Type.winmyocardialinfarction) {
+			impact += d.getValue().hazard * riskChangeTime;
+		}
+		else  {
+   			//Disease impact depends on increased or decreased risk
+			if (riskChangeTime >= 1.) {
+				final NormalDistribution normDist;
+				normDist = new NormalDistribution(Constants.TIME_FUNCTION(d.getKey())[0], Constants.TIME_FUNCTION(d.getKey())[1]);
+				impact += d.getValue().hazard * (1 + (riskChangeTime - 1) * normDist.cumulativeProbability(year+1));						
+				    			
+			} else {			
+				
+				impact += d.getValue().hazard * (1 - (1 - riskChangeTime) * (1 - Math.exp(-(year+1) * Constants.TIME_FUNCTION(d.getKey())[2])));
 
-		double deaths = impactStartPop - impactSurvival;
+			}
+		}
+    	
+		impactSurvival[personIndex][d.getKey().ordinal()][year+1] = impactSurvival[personIndex][d.getKey().ordinal()][year]*((2-impact)/(2+impact));
+		baseSurvival[personIndex][d.getKey().ordinal()][year+1] = baseSurvival[personIndex][d.getKey().ordinal()][year]*((2-base)/(2+base));
+		
+		double impactStartPop = impactSurvival[personIndex][d.getKey().ordinal()][year];
+		double baseStartPop = baseSurvival[personIndex][d.getKey().ordinal()][year];
+				
+		double deaths = impactStartPop - impactSurvival[personIndex][d.getKey().ordinal()][year+1];
 		double lifeYears = impactStartPop - 0.5*deaths;
 		
-		double baseDeaths = baseStartPop - baseSurvival;
+		double baseDeaths = baseStartPop - baseSurvival[personIndex][d.getKey().ordinal()][year+1];
 		double baselifeYears = baseStartPop - 0.5*baseDeaths;
     	
     	return lifeYears-baselifeYears;

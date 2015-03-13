@@ -12,7 +12,7 @@ public class HealthOutcome {
     private double[] relativeRisk;
     private double[][] mortalityQalys;
     private double[] morbidityQalys;
-    private double[][][] costs;
+    private double[][] costs;
     final int years;
 
     public HealthOutcome(final int years) {
@@ -23,10 +23,10 @@ public class HealthOutcome {
         this.mortalityQalys = new double[Disease.Type.values().length][years];
         this.morbidityQalys = new double[Disease.Type.values().length];
         this.costs = new double[Disease.Type.values().length]
-            [HealthCost.values().length]
             [years];
     }
     
+    //For the totals
     public HealthOutcome add(HealthOutcome outcome, final int years) {
     	Preconditions.checkArgument(years > 0, "A health outcome must be defined over a positive number of years (%s)", years);
     	
@@ -42,6 +42,12 @@ public class HealthOutcome {
         	}
         }
 
+        for (int i = 0; i < Disease.Type.values().length; ++i) {
+        	for (int j = 0; j < years; ++j) {
+        		this.costs[i][j] += outcome.costs[i][j];
+        	}
+        }
+        
         return this;
     }
     
@@ -75,11 +81,10 @@ public class HealthOutcome {
         return morbidityQalys[disease.ordinal()];
     }
     
-    public double cost(final Disease.Type disease, final HealthCost cost, final int year) {
+    public double cost(final Disease.Type disease, final int year) {
         Preconditions.checkNotNull(disease);
-        Preconditions.checkNotNull(cost);
         Preconditions.checkElementIndex(year, years);
-        return costs[disease.ordinal()][cost.ordinal()][year];
+        return costs[disease.ordinal()][year];
     }
 
     public void setInitialExposure(final Exposure.Type e, final double d) {
@@ -108,11 +113,17 @@ public class HealthOutcome {
         this.morbidityQalys[disease.ordinal()] += q;
     }
     
-    public void setCost(final Disease.Type disease, final HealthCost cost, final int year, final double c) {
+//    public void setCost(final Disease.Type disease, final HealthCost cost, final int year, final double c) {
+//        Preconditions.checkNotNull(disease);
+//        Preconditions.checkNotNull(cost);
+//        Preconditions.checkElementIndex(year, years);
+//        this.costs[disease.ordinal()][cost.ordinal()][year] = c;
+//    }
+
+    public void setCost(final Disease.Type disease, final int year, final double c) {
         Preconditions.checkNotNull(disease);
-        Preconditions.checkNotNull(cost);
         Preconditions.checkElementIndex(year, years);
-        this.costs[disease.ordinal()][cost.ordinal()][year] = c;
+        this.costs[disease.ordinal()][year] += c;
     }
 
     @Override
@@ -173,7 +184,32 @@ public class HealthOutcome {
 //        }
 //        sb.append("\n");
 
-        //TODO print costs.
+        //print costs.
+	    sb.append("\t Cost:\n");
+        for (int i = 0; i < years; i++) {
+        	sb.append(String.format("\t\t%d", i+1));
+	        for (final Disease.Type d : Disease.Type.values()) {
+	            sb.append(String.format("\t%g", costs[d.ordinal()][i]));
+	        }
+	        sb.append("\n");
+        }
+
+        //Cumulative effect
+        sb.append("\t Cumulative Cost:\n");
+        sb.append(String.format("\t\ttot"));
+        double[] cumulativeCost = new double[Disease.Type.values().length];
+        for (int i = 0; i < years; i++) {
+        	
+	        for (final Disease.Type d : Disease.Type.values()) {
+	        	cumulativeCost[d.ordinal()] = cumulativeCost[d.ordinal()]+costs[d.ordinal()][i];    
+	        }
+        }
+        
+	    for (final Disease.Type d : Disease.Type.values()) {
+		   sb.append(String.format("\t%g", cumulativeCost[d.ordinal()]));
+	    }
+	    
+	    sb.append("\n");
         
         return sb.toString();
     }

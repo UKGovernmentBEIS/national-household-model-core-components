@@ -31,10 +31,20 @@ public class Constants {
     public static final double INC_MOULD_ASTHMA2 	=   100;
     public static final double INC_MOULD_ASTHMA3 	= 	100;
     
+    //Costs
+    public static final double COST (final Disease.Type disease) {
+    	double[] cost = new double[]{1.26, 861};
+    	
+    	if (disease == Disease.Type.lungcancer) {
+        	cost = new double[]{1.46,861};
+        }
+    	return cost[0]*cost[1];
+    }
+    
     //Time functions
     //public final double[][] timeFunction;// = new double[4][3];
     public static final double[] TIME_FUNCTION (final Disease.Type disease) {
-        double[] tFunc = new double[]{1, 1, 1};;
+        double[] tFunc = new double[]{1, 1, 1};
     	
     	if (disease == Disease.Type.cerebrovascular || disease == Disease.Type.myocardialinfarction) {
     		tFunc = new double[]{5, 2, 0.4};

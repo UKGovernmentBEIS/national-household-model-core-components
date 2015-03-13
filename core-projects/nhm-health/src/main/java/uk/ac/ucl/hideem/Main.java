@@ -53,6 +53,7 @@ public class Main
             
             total.add(outcome, 42);
         }
+        System.out.println("Totals:");
         System.out.println(total);
     }
 }
