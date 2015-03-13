@@ -27,6 +27,24 @@ public class HealthOutcome {
             [years];
     }
     
+    public HealthOutcome add(HealthOutcome outcome, final int years) {
+    	Preconditions.checkArgument(years > 0, "A health outcome must be defined over a positive number of years (%s)", years);
+    	
+    	for (int i = 0; i < Exposure.Type.values().length; ++i) {
+        	for (int j = 0; j < 2; ++j) {
+        		this.exposures[i][j] += outcome.exposures[i][j];
+        	}
+        }
+    	
+        for (int i = 0; i < Disease.Type.values().length; ++i) {
+        	for (int j = 0; j < years; ++j) {
+        		this.mortalityQalys[i][j] += outcome.mortalityQalys[i][j];
+        	}
+        }
+
+        return this;
+    }
+    
     public double initialExposure(final Exposure.Type e) {
         Preconditions.checkNotNull(e);
         return exposures[e.ordinal()][0];

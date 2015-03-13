@@ -58,15 +58,6 @@ public class HealthModule implements IHealthModule {
 			   
 			for (final Disease.Type type : Disease.Type.values()){
 				
-//				double otherDeaths = 0;
-//				//need another loop to do totals
-//				for (final Disease.Type others : Disease.Type.values()){
-//					if(others.name() != type.name()){
-//						otherDeaths += Double.parseDouble(row.get(others.name()));
-//					}	
-//				}
-//				otherDeaths += Double.parseDouble(row.get("all"));
-				
 				final Disease d = Disease.readDisease(row.get("age"), row.get("sex"), row.get(type.name()), Double.parseDouble(row.get("all")), row.get("population"));
 				healthCoefficients.put(Enum.valueOf(Disease.Type.class, type.name()), d);
 			}
@@ -217,7 +208,7 @@ public class HealthModule implements IHealthModule {
 		        			
 		        			double qaly = calculateQaly(impactSurvival[people.indexOf(p)][d.getKey().ordinal()][year], baseSurvival[people.indexOf(p)][d.getKey().ordinal()][year], 
 		        					impactSurvival[people.indexOf(p)][d.getKey().ordinal()][year+1], baseSurvival[people.indexOf(p)][d.getKey().ordinal()][year+1]);		        			
-		        			result.setMortalityQalys(d.getKey(), year, qaly);	
+		        			result.setMortalityQalys(d.getKey(), year, p.samplesize*qaly);	
 		        		}
 		        		else  {
 		           			//Disease impact depends on increased or decreased risk
@@ -236,7 +227,7 @@ public class HealthModule implements IHealthModule {
 			        			
 			        			double qaly = calculateQaly(impactSurvival[people.indexOf(p)][d.getKey().ordinal()][year], baseSurvival[people.indexOf(p)][d.getKey().ordinal()][year], 
 			        					impactSurvival[people.indexOf(p)][d.getKey().ordinal()][year+1], baseSurvival[people.indexOf(p)][d.getKey().ordinal()][year+1]);
-			        			result.setMortalityQalys(d.getKey(), year, qaly);
+			        			result.setMortalityQalys(d.getKey(), year, p.samplesize*qaly);
 			        			
 		        			} else {			
 		        				
@@ -245,16 +236,13 @@ public class HealthModule implements IHealthModule {
 								
 								impact += d.getValue().hazard * (1 - (1 - riskChangeTime) * (1 - Math.exp(-(year+1) * Constants.TIME_FUNCTION(d.getKey())[2])));
 								
-								if(d.getKey() == Disease.Type.cardiopulmonary){
-							        System.out.println("base: " + base + " , impact: " + impact);
-								}
-								
 		        				impactSurvival[people.indexOf(p)][d.getKey().ordinal()][year+1] = impactSurvival[people.indexOf(p)][d.getKey().ordinal()][year]*((2-impact)/(2+impact));
 			        			baseSurvival[people.indexOf(p)][d.getKey().ordinal()][year+1] = baseSurvival[people.indexOf(p)][d.getKey().ordinal()][year]*((2-base)/(2+base));
 			        			
 			        			double qaly = calculateQaly(impactSurvival[people.indexOf(p)][d.getKey().ordinal()][year], baseSurvival[people.indexOf(p)][d.getKey().ordinal()][year], 
 			        					impactSurvival[people.indexOf(p)][d.getKey().ordinal()][year+1], baseSurvival[people.indexOf(p)][d.getKey().ordinal()][year+1]);		        			
-			        			result.setMortalityQalys(d.getKey(), year, qaly);
+			        			
+			        			result.setMortalityQalys(d.getKey(), year, p.samplesize*qaly);
 		        			}
 		        			
 		        		}
@@ -331,31 +319,31 @@ public class HealthModule implements IHealthModule {
 	    //mainFloorLevel==1 is <=ground floor 
 	    //mainFloorLevel==2 is 1st floor
 	    //mainFloorLevel==3 is >1st floor
-	    if((form==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltLowRiseFlat) && floorArea>50 && mainFloorLevel==1) { 
+	    if((form==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlat) && floorArea>50 && mainFloorLevel==1) { 
 	    	matchedBuiltForm = Exposure.ExposureBuiltForm.Flat1a;
 	    }
-	    else if((form==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltLowRiseFlat) && floorArea>50 && mainFloorLevel==2) {
+	    else if((form==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlat) && floorArea>50 && mainFloorLevel==2) {
 	    	matchedBuiltForm = Exposure.ExposureBuiltForm.Flat1b;
 	    }
-	    else if((form==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltLowRiseFlat) && floorArea>50 && mainFloorLevel==3) {
+	    else if((form==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlat) && floorArea>50 && mainFloorLevel==3) {
 	    	matchedBuiltForm = Exposure.ExposureBuiltForm.Flat1c;
 	    }
-	    else if((form==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltLowRiseFlat) && floorArea<=50 && mainFloorLevel==1) { 
+	    else if((form==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlat) && floorArea<=50 && mainFloorLevel==1) { 
 	    	matchedBuiltForm = Exposure.ExposureBuiltForm.Flat2a;
 	    }
-	    else if((form==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltLowRiseFlat) && floorArea<=50 && mainFloorLevel==2) {
+	    else if((form==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlat) && floorArea<=50 && mainFloorLevel==2) {
 	    	matchedBuiltForm = Exposure.ExposureBuiltForm.Flat2b;
 	    }
-	    else if((form==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltLowRiseFlat) && floorArea<=50 && mainFloorLevel==3) {
+	    else if((form==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlat) && floorArea<=50 && mainFloorLevel==3) {
 	    	matchedBuiltForm = Exposure.ExposureBuiltForm.Flat2c;
 	    }
-	    else if(form==BuiltForm.PurposeBuiltHighRiseFlat && mainFloorLevel==1) {
+	    else if(form==BuiltForm.PurposeBuiltFlat && mainFloorLevel==1) {
 	    	matchedBuiltForm = Exposure.ExposureBuiltForm.Flat3a;
 	    }
-	    else if(form==BuiltForm.PurposeBuiltHighRiseFlat && mainFloorLevel==2) {
+	    else if(form==BuiltForm.PurposeBuiltFlat && mainFloorLevel==2) {
 	    	matchedBuiltForm = Exposure.ExposureBuiltForm.Flat3b;
 	    }
-	    else if(form==BuiltForm.PurposeBuiltHighRiseFlat && mainFloorLevel==3) {
+	    else if(form==BuiltForm.PurposeBuiltFlat && mainFloorLevel==3) {
 	    	matchedBuiltForm = Exposure.ExposureBuiltForm.Flat3c;
 	    }
 	    else if(form==BuiltForm.EndTerrace) {
