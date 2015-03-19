@@ -34,10 +34,10 @@ public class HealthModule implements IHealthModule {
     	//Read the exposure coefficients from the csv file
         exposureCoefficients = ArrayListMultimap.create();
 
-        System.out.println("Reading exposure coefficients from: src/main/resources/uk/ac/ucl/hideem/NHM_exposure_coefficients_141106.csv");
+        System.out.println("Reading exposure coefficients from: src/main/resources/uk/ac/ucl/hideem/NHM_exposure_coefs_45_45_10");
 
         try (final CSV.Reader reader = CSV.trimmedReader(
-                new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("NHM_exposure_coefficients_141106.csv"))))) {
+                new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("NHM_exposure_coefs_29_33_0.csv"))))) {
            String[] row = reader.read(); // throw away header line, because we know what it is
            
            while ((row = reader.read()) != null) {
@@ -130,6 +130,21 @@ public class HealthModule implements IHealthModule {
 	        			//Already calculated these when doing VPX so can break out of loop
 	        			break;
 	        		}
+	        		else if (matchedExposure == Exposure.Type.Radon) { //rest of the exposures all the same		        		
+		        		double baseExposure=calcExposure(p1, e.getValue().b0, e.getValue().b1, e.getValue().b2, e.getValue().b3, e.getValue().b4); 
+		        		double modifiedExposure =calcExposure(p2, e.getValue().b0, e.getValue().b1, e.getValue().b2, e.getValue().b3, e.getValue().b4); 
+		        		//factors here!
+		        		double floorFactor = 1;
+		        		if((form ==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlat) && mainFloorLevel==2){
+		        			floorFactor = 0.5;
+		        		}
+		        		else if((form ==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlat) && mainFloorLevel==3){
+		        			floorFactor = 0.;
+		        		}
+		        		
+		        		result.setInitialExposure(e.getKey(), floorFactor*baseExposure);
+		        		result.setFinalExposure(e.getKey(), floorFactor*modifiedExposure);
+	        		}
 	        		else if (matchedExposure == e.getKey()) { //rest of the exposures all the same		        		
 		        		double baseExposure=calcExposure(p1, e.getValue().b0, e.getValue().b1, e.getValue().b2, e.getValue().b3, e.getValue().b4); 
 		        		double modifiedExposure =calcExposure(p2, e.getValue().b0, e.getValue().b1, e.getValue().b2, e.getValue().b3, e.getValue().b4); 
@@ -213,6 +228,7 @@ public class HealthModule implements IHealthModule {
         return result;
     }
     
+    //Use fitted values using python polyfit to CONTAM simulated data
     private double calcExposure(double permeability, double b0, double b1, double b2, double b3, double b4){
     	double exposure = 0;
     	exposure = b0 + (b1*Math.pow(permeability, 1)) + (b2*Math.pow(permeability,2)) + (b3*Math.pow(permeability, 3)) + (b4*Math.pow(permeability, 4)); 
@@ -222,7 +238,7 @@ public class HealthModule implements IHealthModule {
 
     
     
-    //Temperature Calculations as needed quite a lot
+    //Temperature Calculations using Hamilton relation
     private double calcSIT(double eValue){
     	//Put these into private functions so that less mess
 		double livingRoomSIT=(19.97883737 + (-0.003177483*Math.pow(eValue,1)) + (3.95406E-07*Math.pow(eValue,2)) + (-3.10552E-11*Math.pow(eValue,3)));
@@ -232,6 +248,7 @@ public class HealthModule implements IHealthModule {
 		return averageSIT;
     }
     
+    //Info on Mould calcs can be found in: http://www.iso.org/iso/catalogue_detail.htm?csnumber=51615
     private double calcMould(double averageSIT, double vpx) {
     	//initialisation
     	double mould = 0, srh=0, svp=0;
@@ -276,32 +293,15 @@ public class HealthModule implements IHealthModule {
 	    //mainFloorLevel==1 is <=ground floor 
 	    //mainFloorLevel==2 is 1st floor
 	    //mainFloorLevel==3 is >1st floor
-	    if((form==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlat) && floorArea>50 && mainFloorLevel==1) { 
-	    	matchedBuiltForm = Exposure.ExposureBuiltForm.Flat1a;
+	    if((form==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlat) && floorArea>50) { 
+	    	matchedBuiltForm = Exposure.ExposureBuiltForm.Flat1;
 	    }
-	    else if((form==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlat) && floorArea>50 && mainFloorLevel==2) {
-	    	matchedBuiltForm = Exposure.ExposureBuiltForm.Flat1b;
+	    else if((form==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlat) && floorArea<=50) { 
+	    	matchedBuiltForm = Exposure.ExposureBuiltForm.Flat2;
 	    }
-	    else if((form==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlat) && floorArea>50 && mainFloorLevel==3) {
-	    	matchedBuiltForm = Exposure.ExposureBuiltForm.Flat1c;
-	    }
-	    else if((form==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlat) && floorArea<=50 && mainFloorLevel==1) { 
-	    	matchedBuiltForm = Exposure.ExposureBuiltForm.Flat2a;
-	    }
-	    else if((form==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlat) && floorArea<=50 && mainFloorLevel==2) {
-	    	matchedBuiltForm = Exposure.ExposureBuiltForm.Flat2b;
-	    }
-	    else if((form==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlat) && floorArea<=50 && mainFloorLevel==3) {
-	    	matchedBuiltForm = Exposure.ExposureBuiltForm.Flat2c;
-	    }
-	    else if(form==BuiltForm.PurposeBuiltFlat && mainFloorLevel==1) {
-	    	matchedBuiltForm = Exposure.ExposureBuiltForm.Flat3a;
-	    }
-	    else if(form==BuiltForm.PurposeBuiltFlat && mainFloorLevel==2) {
-	    	matchedBuiltForm = Exposure.ExposureBuiltForm.Flat3b;
-	    }
-	    else if(form==BuiltForm.PurposeBuiltFlat && mainFloorLevel==3) {
-	    	matchedBuiltForm = Exposure.ExposureBuiltForm.Flat3c;
+	    else if(form==BuiltForm.PurposeBuiltFlat) {
+	    	//There are no flat3s at the moment
+	    	matchedBuiltForm = Exposure.ExposureBuiltForm.Flat3;
 	    }
 	    else if(form==BuiltForm.EndTerrace) {
 	    	matchedBuiltForm = Exposure.ExposureBuiltForm.House1;

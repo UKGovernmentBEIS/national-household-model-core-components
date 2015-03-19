@@ -25,7 +25,7 @@ public class HealthOutcome {
         this.costs = new double[Disease.Type.values().length]
             [years];
     }
-    
+       
     //For the totals
     public HealthOutcome add(HealthOutcome outcome, final int years) {
     	Preconditions.checkArgument(years > 0, "A health outcome must be defined over a positive number of years (%s)", years);

@@ -16,15 +16,9 @@ public class Exposure {
 	}
 	
 	public enum ExposureBuiltForm {
-		Flat1a,
-	    Flat1b,
-	    Flat1c,
-	    Flat2a,
-	    Flat2b,
-	    Flat2c,
-	    Flat3a,
-	    Flat3b,
-	    Flat3c,
+		Flat1,
+	    Flat2,
+	    Flat3,
 	    House1,
 	    House2,
 	    House3,
@@ -49,7 +43,7 @@ public class Exposure {
 	public final double b3;
 	public final double b4;
 	
-	public Exposure(final ExposureBuiltForm builtForm, final VentilationType ventType, final double b0, final double b1, final double b2, final double b3, final double b4) {
+	public Exposure(final ExposureBuiltForm builtForm, final VentilationType ventType, final double b4, final double b3, final double b2, final double b1, final double b0) {
 		this.builtForm = builtForm;
 		this.ventType = ventType;
 		this.b0 = b0;
@@ -63,11 +57,11 @@ public class Exposure {
 		return new Exposure(
 				Enum.valueOf(Exposure.ExposureBuiltForm.class, row[1]),
 				Enum.valueOf(Exposure.VentilationType.class, row[2]),
+				Double.parseDouble(row[3]),
+				Double.parseDouble(row[4]),
 				Double.parseDouble(row[5]),
 				Double.parseDouble(row[6]),
-				Double.parseDouble(row[7]),
-				Double.parseDouble(row[8]),
-				Double.parseDouble(row[9]));
+				Double.parseDouble(row[7]));
 	}
 
 }
