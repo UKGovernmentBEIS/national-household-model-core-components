@@ -37,20 +37,22 @@ public class Exposure {
 	
 	public final ExposureBuiltForm builtForm;
 	public final VentilationType ventType;
-	public final double b0;
-	public final double b1;
-	public final double b2;
-	public final double b3;
-	public final double b4;
+	//array of values for different exposure occupancies
+	public double[] coefs45_45_10 = new double[]{1, 1, 1, 1, 1};
+	public double[] coefs55_45_0 = new double[]{1, 1, 1, 1, 1};
+	public double[] coefs21_33_8 = new double[]{1, 1, 1, 1, 1};
+	public double[] coefs29_33_0 = new double[]{1, 1, 1, 1, 1};
 	
-	public Exposure(final ExposureBuiltForm builtForm, final VentilationType ventType, final double b4, final double b3, final double b2, final double b1, final double b0) {
+	public Exposure(final ExposureBuiltForm builtForm, final VentilationType ventType, final double b4, final double b3, final double b2, 
+			final double b1, final double b0, final double c4, final double c3, final double c2, final double c1, final double c0, final double d4, 
+			final double d3, final double d2, final double d1, final double d0, final double e4, final double e3, final double e2, final double e1, 
+			final double e0) {
 		this.builtForm = builtForm;
 		this.ventType = ventType;
-		this.b0 = b0;
-		this.b1 = b1;
-		this.b2 = b2;
-		this.b3 = b3;
-		this.b4 = b4;
+		this.coefs45_45_10 = new double[]{b0, b1, b2, b3, b4};
+		this.coefs55_45_0 = new double[]{c0, c1, c2, c3, c4};
+		this.coefs21_33_8 = new double[]{d0, d1, d2, d3, d4};
+		this.coefs29_33_0 = new double[]{e0, e1, e2, e3, e4};
 	}
 	
 	public static Exposure readExposure(String[] row) {
@@ -61,7 +63,23 @@ public class Exposure {
 				Double.parseDouble(row[4]),
 				Double.parseDouble(row[5]),
 				Double.parseDouble(row[6]),
-				Double.parseDouble(row[7]));
+				Double.parseDouble(row[7]),
+				Double.parseDouble(row[8]),
+				Double.parseDouble(row[9]),
+				Double.parseDouble(row[10]),
+				Double.parseDouble(row[11]),
+				Double.parseDouble(row[12]),
+				Double.parseDouble(row[13]),
+				Double.parseDouble(row[14]),
+				Double.parseDouble(row[15]),
+				Double.parseDouble(row[16]),
+				Double.parseDouble(row[17]),
+				Double.parseDouble(row[18]),
+				Double.parseDouble(row[19]),
+				Double.parseDouble(row[20]),
+				Double.parseDouble(row[21]),
+				Double.parseDouble(row[22])
+				);
 	}
 
 }

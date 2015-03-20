@@ -37,7 +37,7 @@ public class HealthModule implements IHealthModule {
         System.out.println("Reading exposure coefficients from: src/main/resources/uk/ac/ucl/hideem/NHM_exposure_coefs_45_45_10");
 
         try (final CSV.Reader reader = CSV.trimmedReader(
-                new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("NHM_exposure_coefs_29_33_0.csv"))))) {
+                new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("NHM_exposure_coefs_45_45_10.csv"))))) {
            String[] row = reader.read(); // throw away header line, because we know what it is
            
            while ((row = reader.read()) != null) {
@@ -84,112 +84,148 @@ public class HealthModule implements IHealthModule {
         List<Person> people,
         int horizon) {
         
-        final HealthOutcome result = new HealthOutcome(horizon);
+        final HealthOutcome result = new HealthOutcome(horizon, people.size());
         
-        //perform the matching beetween NHM built form and ventilation and Hideem
+        //perform the matching between NHM built form and ventilation and Hideem
         final Exposure.ExposureBuiltForm matchedBuiltForm = mapBuiltForm(form, floorArea, mainFloorLevel);
         final Exposure.VentilationType matchedVentilation = mapVentilation(hasWorkingExtractorFans, hasTrickleVents);
               
-        //Get the correct exposures coefficients and calculate base and modified exposures
-        //First loop over the exposure types
-    	//There is probably a quicker/better way of doing this but this will do for now 
-        for(final Exposure.Type matchedExposure : Exposure.Type.values()) {
-
-        	//Then need to loop over the exposures file to get the right values	
-	        for(Map.Entry<Exposure.Type, Exposure> e: exposureCoefficients.entries()) {
-	        	if(e.getKey()== matchedExposure && matchedVentilation==e.getValue().ventType && matchedBuiltForm==e.getValue().builtForm) {
-	        		//different calculation is used for mould and temperature and vpx is needed so do all together
-	        		if(matchedExposure == Exposure.Type.VPX){
-	        			//Calc VPX same as others
-	        			double baseVPX     =calcExposure(p1, e.getValue().b0, e.getValue().b1, e.getValue().b2, e.getValue().b3, e.getValue().b4); 
-		        		double modifiedVPX =calcExposure(p2, e.getValue().b0, e.getValue().b1, e.getValue().b2, e.getValue().b3, e.getValue().b4); 
-		        		
-		        		//set VPX
-		        		result.setInitialExposure(Exposure.Type.VPX, baseVPX);
-		        		result.setFinalExposure(Exposure.Type.VPX, modifiedVPX);
-	            		
-		        		//calc base temp
-		        		double baseAverageSIT=calcSIT(e1);
-		         		//same for modified case
-		        		double modifiedAverageSIT=calcSIT(e2);
-		        		
-		        		//set SIT
-		        		result.setInitialExposure(Exposure.Type.SIT, baseAverageSIT);
-		        		result.setFinalExposure(Exposure.Type.SIT, modifiedAverageSIT);
-	            		
-	            		//Now do the mould calc
-		           		double baseMould	= calcMould(baseAverageSIT, baseVPX);
-		           		double modifiedMould	= calcMould(modifiedAverageSIT, modifiedVPX);		           		
-		           		
-		           		//set Mould	
-		        		result.setInitialExposure(Exposure.Type.Mould, baseMould);
-		        		result.setFinalExposure(Exposure.Type.Mould, modifiedMould);
-		           		
-	        		}
-	        		else if(matchedExposure == Exposure.Type.SIT || matchedExposure == Exposure.Type.Mould){
-	        			//Already calculated these when doing VPX so can break out of loop
-	        			break;
-	        		}
-	        		else if (matchedExposure == Exposure.Type.Radon) { //rest of the exposures all the same		        		
-		        		double baseExposure=calcExposure(p1, e.getValue().b0, e.getValue().b1, e.getValue().b2, e.getValue().b3, e.getValue().b4); 
-		        		double modifiedExposure =calcExposure(p2, e.getValue().b0, e.getValue().b1, e.getValue().b2, e.getValue().b3, e.getValue().b4); 
-		        		//factors here!
-		        		double floorFactor = 1;
-		        		if((form ==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlat) && mainFloorLevel==2){
-		        			floorFactor = 0.5;
-		        		}
-		        		else if((form ==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlat) && mainFloorLevel==3){
-		        			floorFactor = 0.;
-		        		}
-		        		
-		        		result.setInitialExposure(e.getKey(), floorFactor*baseExposure);
-		        		result.setFinalExposure(e.getKey(), floorFactor*modifiedExposure);
-	        		}
-	        		else if (matchedExposure == e.getKey()) { //rest of the exposures all the same		        		
-		        		double baseExposure=calcExposure(p1, e.getValue().b0, e.getValue().b1, e.getValue().b2, e.getValue().b3, e.getValue().b4); 
-		        		double modifiedExposure =calcExposure(p2, e.getValue().b0, e.getValue().b1, e.getValue().b2, e.getValue().b3, e.getValue().b4); 
-		        		
-		        		result.setInitialExposure(e.getKey(), baseExposure);
-		        		result.setFinalExposure(e.getKey(), modifiedExposure);
-	        		}
-	        		else {
-	        	        System.out.println("Can't find the exposure coefficient for " + matchedExposure);
-	        		}
-	        	}        		
-	        }
-    	}
-                               
-        //Calculate the relative risks (independent of person)
-        result.setRelativeRisk(Disease.Type.cardiopulmonary, 
-        		(Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
-        		* (Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.INPM2_5))));
-        result.setRelativeRisk(Disease.Type.cerebrovascular, 
-        		(Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
-        		* (Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.INPM2_5))) 
-        		* (Math.exp((Math.log(Constants.REL_RISK_ETS_CA) / Constants.INC_ETS_CA) * result.deltaExposure(Exposure.Type.ETS))));
-        result.setRelativeRisk(Disease.Type.myocardialinfarction, 
-        		(Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
-        		* (Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.INPM2_5))) 
-        		* (Math.exp((Math.log(Constants.REL_RISK_ETS_MI) / Constants.INC_ETS_MI) * result.deltaExposure(Exposure.Type.ETS))));
-        result.setRelativeRisk(Disease.Type.wincerebrovascular, 
-        		(Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
-        		* (Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.INPM2_5)))
-        		* (Math.exp((Math.log(Constants.REL_RISK_SIT_CV) / Constants.INC_WINCV) * result.deltaExposure(Exposure.Type.SIT)))
-        		* (Math.exp((Math.log(Constants.REL_RISK_ETS_CA) / Constants.INC_ETS_CA) * result.deltaExposure(Exposure.Type.ETS))));                
-        result.setRelativeRisk(Disease.Type.winmyocardialinfarction, 
-        		(Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
-        		* (Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.INPM2_5)))
-        		* (Math.exp((Math.log(Constants.REL_RISK_SIT_CV) / Constants.INC_WINCV) * result.deltaExposure(Exposure.Type.SIT)))
-        		* (Math.exp((Math.log(Constants.REL_RISK_ETS_MI) / Constants.INC_ETS_MI) * result.deltaExposure(Exposure.Type.ETS))));  
-        result.setRelativeRisk(Disease.Type.wincardiovascular, 
-        		(Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
-        		* (Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.INPM2_5)))
-        		* (Math.exp((Math.log(Constants.REL_RISK_SIT_CV) / Constants.INC_WINCV) * result.deltaExposure(Exposure.Type.SIT))));
-        result.setRelativeRisk(Disease.Type.lungcancer, 
-        		(Math.exp((Math.log(Constants.REL_RISK_PM_LC) / Constants.INC_PM_LC) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
-        		* (Math.exp((Math.log(Constants.REL_RISK_PM_LC) / Constants.INC_PM_LC) * result.deltaExposure(Exposure.Type.INPM2_5)))
-        		* (Math.exp((Math.log(Constants.REL_RISK_RADON_LC) / Constants.INC_RADON_LC) * result.deltaExposure(Exposure.Type.Radon))));  
+        //Get the correct exposures coefficients and calculate base and modified exposures for each individual
         
+        //loop over people in house to match them to coefficients
+    	for(Person p: people){
+        
+	        //First loop over the exposure types
+	    	//There is probably a quicker/better way of doing this but this will do for now 
+	        for(final Exposure.Type matchedExposure : Exposure.Type.values()) {
+	
+	        	//Then need to loop over the exposures file to get the right values	
+		        for(Map.Entry<Exposure.Type, Exposure> e: exposureCoefficients.entries()) {
+		        	if(e.getKey()== matchedExposure && matchedVentilation==e.getValue().ventType && matchedBuiltForm==e.getValue().builtForm) {
+		        		//different calculation is used for mould and temperature and vpx is needed so do all together
+		        		if(matchedExposure == Exposure.Type.VPX){
+		        			//Calc VPX same as others
+		        			
+		        			double baseVPX     =calcExposure(p1, e.getValue().coefs21_33_8[0], e.getValue().coefs21_33_8[1], 
+		        					e.getValue().coefs21_33_8[2], e.getValue().coefs21_33_8[3], e.getValue().coefs21_33_8[4]); 
+			        		double modifiedVPX =calcExposure(p2, e.getValue().coefs21_33_8[0], e.getValue().coefs21_33_8[1], 
+		        					e.getValue().coefs21_33_8[2], e.getValue().coefs21_33_8[3], e.getValue().coefs21_33_8[4]); 
+		        			if (p.age <= 5){
+		        				baseVPX     =calcExposure(p1, e.getValue().coefs29_33_0[0], e.getValue().coefs29_33_0[1], 
+			        					e.getValue().coefs29_33_0[2], e.getValue().coefs29_33_0[3], e.getValue().coefs29_33_0[4]);
+		        				modifiedVPX =calcExposure(p2, e.getValue().coefs29_33_0[0], e.getValue().coefs29_33_0[1], 
+			        					e.getValue().coefs29_33_0[2], e.getValue().coefs29_33_0[3], e.getValue().coefs29_33_0[4]);
+		        			}
+		        			
+			        		//set VPX
+			        		result.setInitialExposure(Exposure.Type.VPX, baseVPX);
+			        		result.setFinalExposure(Exposure.Type.VPX, modifiedVPX);
+		            		
+			        		//calc base temp
+			        		double baseAverageSIT=calcSIT(e1);
+			         		//same for modified case
+			        		double modifiedAverageSIT=calcSIT(e2);
+			        		
+			        		//set SIT
+			        		result.setInitialExposure(Exposure.Type.SIT, baseAverageSIT);
+			        		result.setFinalExposure(Exposure.Type.SIT, modifiedAverageSIT);
+		            		
+		            		//Now do the mould calc
+			           		double baseMould	= calcMould(baseAverageSIT, baseVPX);
+			           		double modifiedMould	= calcMould(modifiedAverageSIT, modifiedVPX);		           		
+			           		
+			           		//set Mould	
+			        		result.setInitialExposure(Exposure.Type.Mould, baseMould);
+			        		result.setFinalExposure(Exposure.Type.Mould, modifiedMould);
+			           		
+		        		}
+		        		else if(matchedExposure == Exposure.Type.SIT || matchedExposure == Exposure.Type.Mould){
+		        			//Already calculated these when doing VPX so can break out of loop
+		        			break;
+		        		}
+		        		else if (matchedExposure == Exposure.Type.Radon) { //rest of the exposures all the same		        		
+			        		double baseExposure=calcExposure(p1, e.getValue().coefs21_33_8[0], e.getValue().coefs21_33_8[1], 
+		        					e.getValue().coefs21_33_8[2], e.getValue().coefs21_33_8[3], e.getValue().coefs21_33_8[4]);
+			        		double modifiedExposure =calcExposure(p2, e.getValue().coefs21_33_8[0], e.getValue().coefs21_33_8[1], 
+		        					e.getValue().coefs21_33_8[2], e.getValue().coefs21_33_8[3], e.getValue().coefs21_33_8[4]);
+			        		if (p.age <= 5){
+		        				baseExposure     =calcExposure(p1, e.getValue().coefs29_33_0[0], e.getValue().coefs29_33_0[1], 
+			        					e.getValue().coefs29_33_0[2], e.getValue().coefs29_33_0[3], e.getValue().coefs29_33_0[4]);
+		        				modifiedExposure =calcExposure(p2, e.getValue().coefs29_33_0[0], e.getValue().coefs29_33_0[1], 
+			        					e.getValue().coefs29_33_0[2], e.getValue().coefs29_33_0[3], e.getValue().coefs29_33_0[4]);
+		        			}
+			        		
+			        		
+			        		
+			        		//factors here!
+			        		double floorFactor = 1;
+			        		if((form ==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlat) && mainFloorLevel==2){
+			        			floorFactor = 0.5;
+			        		}
+			        		else if((form ==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlat) && mainFloorLevel==3){
+			        			floorFactor = 0.;
+			        		}
+			        		
+			        		result.setInitialExposure(e.getKey(), floorFactor*baseExposure);
+			        		result.setFinalExposure(e.getKey(), floorFactor*modifiedExposure);
+		        		}
+		        		else if (matchedExposure == e.getKey()) { //rest of the exposures all the same		        		
+			        		
+		        			double baseExposure=calcExposure(p1, e.getValue().coefs21_33_8[0], e.getValue().coefs21_33_8[1], 
+		        					e.getValue().coefs21_33_8[2], e.getValue().coefs21_33_8[3], e.getValue().coefs21_33_8[4]);
+			        		double modifiedExposure =calcExposure(p2, e.getValue().coefs21_33_8[0], e.getValue().coefs21_33_8[1], 
+		        					e.getValue().coefs21_33_8[2], e.getValue().coefs21_33_8[3], e.getValue().coefs21_33_8[4]);
+			        		if (p.age <= 5){
+		        				baseExposure     =calcExposure(p1, e.getValue().coefs29_33_0[0], e.getValue().coefs29_33_0[1], 
+			        					e.getValue().coefs29_33_0[2], e.getValue().coefs29_33_0[3], e.getValue().coefs29_33_0[4]);
+		        				modifiedExposure =calcExposure(p2, e.getValue().coefs29_33_0[0], e.getValue().coefs29_33_0[1], 
+			        					e.getValue().coefs29_33_0[2], e.getValue().coefs29_33_0[3], e.getValue().coefs29_33_0[4]);
+		        			}
+			        		
+			        		result.setInitialExposure(e.getKey(), baseExposure);
+			        		result.setFinalExposure(e.getKey(), modifiedExposure);
+		        		}
+		        		else {
+		        	        System.out.println("Can't find the exposure coefficient for " + matchedExposure);
+		        		}
+		        	}        		
+		        }
+	    	}
+	                               
+	        //Calculate the relative risks (independent of person) -> won't be any more due to diff occupancies
+	        result.setRelativeRisk(Disease.Type.cardiopulmonary, people.indexOf(p),
+	        		(Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
+	        		* (Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.INPM2_5))));
+	        result.setRelativeRisk(Disease.Type.cerebrovascular, people.indexOf(p),
+	        		(Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
+	        		* (Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.INPM2_5))) 
+	        		* (Math.exp((Math.log(Constants.REL_RISK_ETS_CA) / Constants.INC_ETS_CA) * result.deltaExposure(Exposure.Type.ETS))));
+	        result.setRelativeRisk(Disease.Type.myocardialinfarction, people.indexOf(p),
+	        		(Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
+	        		* (Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.INPM2_5))) 
+	        		* (Math.exp((Math.log(Constants.REL_RISK_ETS_MI) / Constants.INC_ETS_MI) * result.deltaExposure(Exposure.Type.ETS))));
+	        result.setRelativeRisk(Disease.Type.wincerebrovascular, people.indexOf(p),
+	        		(Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
+	        		* (Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.INPM2_5)))
+	        		* (Math.exp((Math.log(Constants.REL_RISK_SIT_CV) / Constants.INC_WINCV) * result.deltaExposure(Exposure.Type.SIT)))
+	        		* (Math.exp((Math.log(Constants.REL_RISK_ETS_CA) / Constants.INC_ETS_CA) * result.deltaExposure(Exposure.Type.ETS))));                
+	        result.setRelativeRisk(Disease.Type.winmyocardialinfarction, people.indexOf(p),
+	        		(Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
+	        		* (Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.INPM2_5)))
+	        		* (Math.exp((Math.log(Constants.REL_RISK_SIT_CV) / Constants.INC_WINCV) * result.deltaExposure(Exposure.Type.SIT)))
+	        		* (Math.exp((Math.log(Constants.REL_RISK_ETS_MI) / Constants.INC_ETS_MI) * result.deltaExposure(Exposure.Type.ETS))));  
+	        result.setRelativeRisk(Disease.Type.wincardiovascular, people.indexOf(p),
+	        		(Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
+	        		* (Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.INPM2_5)))
+	        		* (Math.exp((Math.log(Constants.REL_RISK_SIT_CV) / Constants.INC_WINCV) * result.deltaExposure(Exposure.Type.SIT))));
+	        result.setRelativeRisk(Disease.Type.lungcancer, people.indexOf(p),
+	        		(Math.exp((Math.log(Constants.REL_RISK_PM_LC) / Constants.INC_PM_LC) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
+	        		* (Math.exp((Math.log(Constants.REL_RISK_PM_LC) / Constants.INC_PM_LC) * result.deltaExposure(Exposure.Type.INPM2_5)))
+	        		* (Math.exp((Math.log(Constants.REL_RISK_RADON_LC) / Constants.INC_RADON_LC) * result.deltaExposure(Exposure.Type.Radon))));  
+	    
+    	}//end of person loop
+	        
+	    
         // health calculation goes here. Probably be good to sanity check the inputs.
        
        	//Survival array here so that qaly calc is done cumulatively (need one for each person per disease)
@@ -212,7 +248,7 @@ public class HealthModule implements IHealthModule {
         		for (int year = 0; year < horizon; year=year+1) {
 	        		if (p.age+year == d.getValue().age && p.sex == d.getValue().sex){
 		        		
-	        			double riskChangeTime = result.relativeRisk(d.getKey());
+	        			double riskChangeTime = result.relativeRisk(d.getKey(),people.indexOf(p));
 	        			
 	        			double qaly = calculateQaly(d, riskChangeTime, impactSurvival, baseSurvival, people.indexOf(p), year);
 	        			result.setMortalityQalys(d.getKey(), year, p.samplesize*qaly);

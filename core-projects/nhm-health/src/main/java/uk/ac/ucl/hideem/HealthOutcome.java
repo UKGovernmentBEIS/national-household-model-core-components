@@ -9,17 +9,19 @@ import com.google.common.base.Preconditions;
  */
 public class HealthOutcome {
     private double[][] exposures;
-    private double[] relativeRisk;
+    private double[][] relativeRisk;
     private double[][] mortalityQalys;
     private double[] morbidityQalys;
     private double[][] costs;
     final int years;
+    final int people;
 
-    public HealthOutcome(final int years) {
+    public HealthOutcome(final int years, final int people) {
         Preconditions.checkArgument(years > 0, "A health outcome must be defined over a positive number of years (%s)", years);
         this.years = years;
+        this.people = people;
         this.exposures = new double[Exposure.Type.values().length][2];
-        this.relativeRisk = new double[Disease.Type.values().length];
+        this.relativeRisk = new double[Disease.Type.values().length][people];
         this.mortalityQalys = new double[Disease.Type.values().length][years];
         this.morbidityQalys = new double[Disease.Type.values().length];
         this.costs = new double[Disease.Type.values().length]
@@ -66,9 +68,9 @@ public class HealthOutcome {
         return exposures[e.ordinal()][1]-exposures[e.ordinal()][0];
     }
     
-    public double relativeRisk(final Disease.Type disease) {
+    public double relativeRisk(final Disease.Type disease, final int person) {
         Preconditions.checkNotNull(disease);
-        return relativeRisk[disease.ordinal()];
+        return relativeRisk[disease.ordinal()][person];
     }
     
     public double mortalityQalys(final Disease.Type disease, final int year) {
@@ -97,9 +99,9 @@ public class HealthOutcome {
         this.exposures[e.ordinal()][1] = d;
     }
     
-    public void setRelativeRisk(final Disease.Type disease, final double r) {
+    public void setRelativeRisk(final Disease.Type disease, final int person, final double r) {
         Preconditions.checkNotNull(disease);
-        this.relativeRisk[disease.ordinal()] = r;
+        this.relativeRisk[disease.ordinal()][person] = r;
     }
     
     public void setMortalityQalys(final Disease.Type disease, final int year, final double q) {
@@ -145,7 +147,8 @@ public class HealthOutcome {
         sb.append("\n");
         sb.append("\t Relative Risks:\n\t\t");
         for (final Disease.Type d : Disease.Type.values()) {
-            sb.append(String.format("\t%g", relativeRisk[d.ordinal()]));
+        	//just print RR for first person in house
+            sb.append(String.format("\t%g", relativeRisk[d.ordinal()][0]));
         }
         sb.append("\n");
         sb.append("\t Mortality Qalys:\n");
