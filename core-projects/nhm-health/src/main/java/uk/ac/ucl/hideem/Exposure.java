@@ -35,13 +35,17 @@ public class Exposure {
 		TE;
 	}
 	
+	public enum OccupancyType{
+		H45_45_10,
+		H55_45_0,
+		W21_33_8,
+		W29_33_0;		
+	}
+	
 	public final ExposureBuiltForm builtForm;
 	public final VentilationType ventType;
 	//array of values for different exposure occupancies
-	public double[] coefs45_45_10 = new double[]{1, 1, 1, 1, 1};
-	public double[] coefs55_45_0 = new double[]{1, 1, 1, 1, 1};
-	public double[] coefs21_33_8 = new double[]{1, 1, 1, 1, 1};
-	public double[] coefs29_33_0 = new double[]{1, 1, 1, 1, 1};
+	public double[][] coefs = new double[4][5];
 	
 	public Exposure(final ExposureBuiltForm builtForm, final VentilationType ventType, final double b4, final double b3, final double b2, 
 			final double b1, final double b0, final double c4, final double c3, final double c2, final double c1, final double c0, final double d4, 
@@ -49,10 +53,10 @@ public class Exposure {
 			final double e0) {
 		this.builtForm = builtForm;
 		this.ventType = ventType;
-		this.coefs45_45_10 = new double[]{b0, b1, b2, b3, b4};
-		this.coefs55_45_0 = new double[]{c0, c1, c2, c3, c4};
-		this.coefs21_33_8 = new double[]{d0, d1, d2, d3, d4};
-		this.coefs29_33_0 = new double[]{e0, e1, e2, e3, e4};
+		this.coefs[OccupancyType.H45_45_10.ordinal()] = new double[]{b0, b1, b2, b3, b4};
+		this.coefs[OccupancyType.H55_45_0.ordinal()] = new double[]{c0, c1, c2, c3, c4};
+		this.coefs[OccupancyType.W21_33_8.ordinal()] = new double[]{d0, d1, d2, d3, d4};
+		this.coefs[OccupancyType.W29_33_0.ordinal()] = new double[]{e0, e1, e2, e3, e4};
 	}
 	
 	public static Exposure readExposure(String[] row) {

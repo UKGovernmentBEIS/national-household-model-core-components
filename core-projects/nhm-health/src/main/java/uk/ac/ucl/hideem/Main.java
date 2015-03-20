@@ -28,7 +28,7 @@ public class Main
         System.out.println("Reading house data from " + args[1]);
         
         //need to set to 42 years for now
-        //HealthOutcome total = new HealthOutcome(42);
+        HealthOutcome total = new HealthOutcome(42);
         
         for (final Map<String, String> row : CSV.mapReader(Paths.get(args[1]))) {
             // blah blah
@@ -52,9 +52,9 @@ public class Main
             System.out.println(row.get("code"));
             System.out.println(outcome);
             
-            //total.add(outcome, 42);
+            total.add(outcome, 42);
         }
-        //System.out.println("Totals:");
-        //System.out.println(total);
+        System.out.println("Totals:");
+        System.out.println(total);
     }
 }

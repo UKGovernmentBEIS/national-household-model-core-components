@@ -34,10 +34,10 @@ public class HealthModule implements IHealthModule {
     	//Read the exposure coefficients from the csv file
         exposureCoefficients = ArrayListMultimap.create();
 
-        System.out.println("Reading exposure coefficients from: src/main/resources/uk/ac/ucl/hideem/NHM_exposure_coefs_45_45_10");
+        System.out.println("Reading exposure coefficients from: src/main/resources/uk/ac/ucl/hideem/NHM_exposure_coefs");
 
         try (final CSV.Reader reader = CSV.trimmedReader(
-                new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("NHM_exposure_coefs_45_45_10.csv"))))) {
+                new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("NHM_exposure_coefs.csv"))))) {
            String[] row = reader.read(); // throw away header line, because we know what it is
            
            while ((row = reader.read()) != null) {
@@ -84,7 +84,7 @@ public class HealthModule implements IHealthModule {
         List<Person> people,
         int horizon) {
         
-        final HealthOutcome result = new HealthOutcome(horizon, people.size());
+        final HealthOutcome result = new HealthOutcome(horizon);
         
         //perform the matching between NHM built form and ventilation and Hideem
         final Exposure.ExposureBuiltForm matchedBuiltForm = mapBuiltForm(form, floorArea, mainFloorLevel);
@@ -93,7 +93,7 @@ public class HealthModule implements IHealthModule {
         //Get the correct exposures coefficients and calculate base and modified exposures for each individual
         
         //loop over people in house to match them to coefficients
-    	for(Person p: people){
+    	for(final Exposure.OccupancyType occupancy : Exposure.OccupancyType.values()){
         
 	        //First loop over the exposure types
 	    	//There is probably a quicker/better way of doing this but this will do for now 
@@ -106,16 +106,10 @@ public class HealthModule implements IHealthModule {
 		        		if(matchedExposure == Exposure.Type.VPX){
 		        			//Calc VPX same as others
 		        			
-		        			double baseVPX     =calcExposure(p1, e.getValue().coefs21_33_8[0], e.getValue().coefs21_33_8[1], 
-		        					e.getValue().coefs21_33_8[2], e.getValue().coefs21_33_8[3], e.getValue().coefs21_33_8[4]); 
-			        		double modifiedVPX =calcExposure(p2, e.getValue().coefs21_33_8[0], e.getValue().coefs21_33_8[1], 
-		        					e.getValue().coefs21_33_8[2], e.getValue().coefs21_33_8[3], e.getValue().coefs21_33_8[4]); 
-		        			if (p.age <= 5){
-		        				baseVPX     =calcExposure(p1, e.getValue().coefs29_33_0[0], e.getValue().coefs29_33_0[1], 
-			        					e.getValue().coefs29_33_0[2], e.getValue().coefs29_33_0[3], e.getValue().coefs29_33_0[4]);
-		        				modifiedVPX =calcExposure(p2, e.getValue().coefs29_33_0[0], e.getValue().coefs29_33_0[1], 
-			        					e.getValue().coefs29_33_0[2], e.getValue().coefs29_33_0[3], e.getValue().coefs29_33_0[4]);
-		        			}
+		        			double baseVPX     =calcExposure(p1, e.getValue().coefs[occupancy.ordinal()][0], e.getValue().coefs[occupancy.ordinal()][1], 
+		        					e.getValue().coefs[occupancy.ordinal()][2], e.getValue().coefs[occupancy.ordinal()][3], e.getValue().coefs[occupancy.ordinal()][4]); 
+			        		double modifiedVPX =calcExposure(p2, e.getValue().coefs[occupancy.ordinal()][0], e.getValue().coefs[occupancy.ordinal()][1], 
+		        					e.getValue().coefs[occupancy.ordinal()][2], e.getValue().coefs[occupancy.ordinal()][3], e.getValue().coefs[occupancy.ordinal()][4]); 
 		        			
 			        		//set VPX
 			        		result.setInitialExposure(Exposure.Type.VPX, baseVPX);
@@ -144,18 +138,11 @@ public class HealthModule implements IHealthModule {
 		        			break;
 		        		}
 		        		else if (matchedExposure == Exposure.Type.Radon) { //rest of the exposures all the same		        		
-			        		double baseExposure=calcExposure(p1, e.getValue().coefs21_33_8[0], e.getValue().coefs21_33_8[1], 
-		        					e.getValue().coefs21_33_8[2], e.getValue().coefs21_33_8[3], e.getValue().coefs21_33_8[4]);
-			        		double modifiedExposure =calcExposure(p2, e.getValue().coefs21_33_8[0], e.getValue().coefs21_33_8[1], 
-		        					e.getValue().coefs21_33_8[2], e.getValue().coefs21_33_8[3], e.getValue().coefs21_33_8[4]);
-			        		if (p.age <= 5){
-		        				baseExposure     =calcExposure(p1, e.getValue().coefs29_33_0[0], e.getValue().coefs29_33_0[1], 
-			        					e.getValue().coefs29_33_0[2], e.getValue().coefs29_33_0[3], e.getValue().coefs29_33_0[4]);
-		        				modifiedExposure =calcExposure(p2, e.getValue().coefs29_33_0[0], e.getValue().coefs29_33_0[1], 
-			        					e.getValue().coefs29_33_0[2], e.getValue().coefs29_33_0[3], e.getValue().coefs29_33_0[4]);
-		        			}
-			        		
-			        		
+			        		double baseExposure=calcExposure(p1, e.getValue().coefs[occupancy.ordinal()][0], e.getValue().coefs[occupancy.ordinal()][1], 
+		        					e.getValue().coefs[occupancy.ordinal()][2], e.getValue().coefs[occupancy.ordinal()][3], e.getValue().coefs[occupancy.ordinal()][4]);
+			        		double modifiedExposure =calcExposure(p2, e.getValue().coefs[occupancy.ordinal()][0], e.getValue().coefs[occupancy.ordinal()][1], 
+		        					e.getValue().coefs[occupancy.ordinal()][2], e.getValue().coefs[occupancy.ordinal()][3], e.getValue().coefs[occupancy.ordinal()][4]);
+	        					        		
 			        		
 			        		//factors here!
 			        		double floorFactor = 1;
@@ -171,16 +158,10 @@ public class HealthModule implements IHealthModule {
 		        		}
 		        		else if (matchedExposure == e.getKey()) { //rest of the exposures all the same		        		
 			        		
-		        			double baseExposure=calcExposure(p1, e.getValue().coefs21_33_8[0], e.getValue().coefs21_33_8[1], 
-		        					e.getValue().coefs21_33_8[2], e.getValue().coefs21_33_8[3], e.getValue().coefs21_33_8[4]);
-			        		double modifiedExposure =calcExposure(p2, e.getValue().coefs21_33_8[0], e.getValue().coefs21_33_8[1], 
-		        					e.getValue().coefs21_33_8[2], e.getValue().coefs21_33_8[3], e.getValue().coefs21_33_8[4]);
-			        		if (p.age <= 5){
-		        				baseExposure     =calcExposure(p1, e.getValue().coefs29_33_0[0], e.getValue().coefs29_33_0[1], 
-			        					e.getValue().coefs29_33_0[2], e.getValue().coefs29_33_0[3], e.getValue().coefs29_33_0[4]);
-		        				modifiedExposure =calcExposure(p2, e.getValue().coefs29_33_0[0], e.getValue().coefs29_33_0[1], 
-			        					e.getValue().coefs29_33_0[2], e.getValue().coefs29_33_0[3], e.getValue().coefs29_33_0[4]);
-		        			}
+		        			double baseExposure=calcExposure(p1, e.getValue().coefs[occupancy.ordinal()][0], e.getValue().coefs[occupancy.ordinal()][1], 
+		        					e.getValue().coefs[occupancy.ordinal()][2], e.getValue().coefs[occupancy.ordinal()][3], e.getValue().coefs[occupancy.ordinal()][4]);
+			        		double modifiedExposure =calcExposure(p2, e.getValue().coefs[occupancy.ordinal()][0], e.getValue().coefs[occupancy.ordinal()][1], 
+		        					e.getValue().coefs[occupancy.ordinal()][2], e.getValue().coefs[occupancy.ordinal()][3], e.getValue().coefs[occupancy.ordinal()][4]);
 			        		
 			        		result.setInitialExposure(e.getKey(), baseExposure);
 			        		result.setFinalExposure(e.getKey(), modifiedExposure);
@@ -193,32 +174,32 @@ public class HealthModule implements IHealthModule {
 	    	}
 	                               
 	        //Calculate the relative risks (independent of person) -> won't be any more due to diff occupancies
-	        result.setRelativeRisk(Disease.Type.cardiopulmonary, people.indexOf(p),
+	        result.setRelativeRisk(Disease.Type.cardiopulmonary, occupancy.ordinal(),
 	        		(Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
 	        		* (Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.INPM2_5))));
-	        result.setRelativeRisk(Disease.Type.cerebrovascular, people.indexOf(p),
+	        result.setRelativeRisk(Disease.Type.cerebrovascular, occupancy.ordinal(),
 	        		(Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
 	        		* (Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.INPM2_5))) 
 	        		* (Math.exp((Math.log(Constants.REL_RISK_ETS_CA) / Constants.INC_ETS_CA) * result.deltaExposure(Exposure.Type.ETS))));
-	        result.setRelativeRisk(Disease.Type.myocardialinfarction, people.indexOf(p),
+	        result.setRelativeRisk(Disease.Type.myocardialinfarction, occupancy.ordinal(),
 	        		(Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
 	        		* (Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.INPM2_5))) 
 	        		* (Math.exp((Math.log(Constants.REL_RISK_ETS_MI) / Constants.INC_ETS_MI) * result.deltaExposure(Exposure.Type.ETS))));
-	        result.setRelativeRisk(Disease.Type.wincerebrovascular, people.indexOf(p),
+	        result.setRelativeRisk(Disease.Type.wincerebrovascular, occupancy.ordinal(),
 	        		(Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
 	        		* (Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.INPM2_5)))
 	        		* (Math.exp((Math.log(Constants.REL_RISK_SIT_CV) / Constants.INC_WINCV) * result.deltaExposure(Exposure.Type.SIT)))
 	        		* (Math.exp((Math.log(Constants.REL_RISK_ETS_CA) / Constants.INC_ETS_CA) * result.deltaExposure(Exposure.Type.ETS))));                
-	        result.setRelativeRisk(Disease.Type.winmyocardialinfarction, people.indexOf(p),
+	        result.setRelativeRisk(Disease.Type.winmyocardialinfarction, occupancy.ordinal(),
 	        		(Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
 	        		* (Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.INPM2_5)))
 	        		* (Math.exp((Math.log(Constants.REL_RISK_SIT_CV) / Constants.INC_WINCV) * result.deltaExposure(Exposure.Type.SIT)))
 	        		* (Math.exp((Math.log(Constants.REL_RISK_ETS_MI) / Constants.INC_ETS_MI) * result.deltaExposure(Exposure.Type.ETS))));  
-	        result.setRelativeRisk(Disease.Type.wincardiovascular, people.indexOf(p),
+	        result.setRelativeRisk(Disease.Type.wincardiovascular, occupancy.ordinal(),
 	        		(Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
 	        		* (Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.INPM2_5)))
 	        		* (Math.exp((Math.log(Constants.REL_RISK_SIT_CV) / Constants.INC_WINCV) * result.deltaExposure(Exposure.Type.SIT))));
-	        result.setRelativeRisk(Disease.Type.lungcancer, people.indexOf(p),
+	        result.setRelativeRisk(Disease.Type.lungcancer, occupancy.ordinal(),
 	        		(Math.exp((Math.log(Constants.REL_RISK_PM_LC) / Constants.INC_PM_LC) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
 	        		* (Math.exp((Math.log(Constants.REL_RISK_PM_LC) / Constants.INC_PM_LC) * result.deltaExposure(Exposure.Type.INPM2_5)))
 	        		* (Math.exp((Math.log(Constants.REL_RISK_RADON_LC) / Constants.INC_RADON_LC) * result.deltaExposure(Exposure.Type.Radon))));  
@@ -248,7 +229,19 @@ public class HealthModule implements IHealthModule {
         		for (int year = 0; year < horizon; year=year+1) {
 	        		if (p.age+year == d.getValue().age && p.sex == d.getValue().sex){
 		        		
-	        			double riskChangeTime = result.relativeRisk(d.getKey(),people.indexOf(p));
+	        			int occupancy = 0;
+	        			
+	        			if(p.age+year <= 5){
+	        				occupancy = 1;
+	        			}
+	        			else if(p.age+year > 5 && p.age+year < 18){
+	        				occupancy = 3;
+	        			}
+	        			else{
+	        				occupancy = 2;
+	        			}
+	        			
+	        			double riskChangeTime = result.relativeRisk(d.getKey(),occupancy);
 	        			
 	        			double qaly = calculateQaly(d, riskChangeTime, impactSurvival, baseSurvival, people.indexOf(p), year);
 	        			result.setMortalityQalys(d.getKey(), year, p.samplesize*qaly);
