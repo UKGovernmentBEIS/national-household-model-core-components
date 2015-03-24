@@ -3,14 +3,15 @@ package uk.ac.ucl.hideem;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Iterator;
+import java.util.Map;
+
+import org.apache.commons.io.input.BOMInputStream;
 
 import com.google.common.collect.ImmutableList;
-import org.apache.commons.io.input.BOMInputStream;
-import java.io.InputStreamReader;
-import java.nio.file.Path;
-import java.nio.file.Files;
-import java.util.Map;
-import java.util.Iterator;
 import com.google.common.collect.ImmutableMap;
 
 /**
@@ -127,7 +128,7 @@ public class CSV {
 		}
 	}
 
-    public static Reader reader(final Path path, boolean trim) throws IOException {
+    public static Reader reader(final Path path, final boolean trim) throws IOException {
         final BOMInputStream stream = new BOMInputStream(Files.newInputStream(path));
         final String charsetName = stream.getBOMCharsetName();
         final BufferedReader r = new BufferedReader(new InputStreamReader(stream,
@@ -136,12 +137,12 @@ public class CSV {
         return trim ? trimmedReader(r) : reader(r);
     }
 
-    public static Iterable<Map<String, String>> mapReader(final Path path) {
+    public static Iterable<Map<String, String>> mapReader(final BufferedReader br) {
         return new Iterable<Map<String, String>>() {
             @Override
             public Iterator<Map<String, String>> iterator() {
                 try {
-                    final Reader reader = reader(path, true);
+                    final Reader reader = trimmedReader(br);
 
                     final String[] header = reader.read();
                     
@@ -149,10 +150,12 @@ public class CSV {
                         String[] row = reader.read();
                         @Override
                         public void remove() {}
-                        public boolean hasNext() {
+                        @Override
+						public boolean hasNext() {
                             return header != null && row != null;
                         }
-                        public Map<String, String> next() {
+                        @Override
+						public Map<String, String> next() {
                             final ImmutableMap.Builder<String, String> b = ImmutableMap.builder();
 
                             for (int i = 0; i<header.length && i<row.length; i++) {
@@ -161,7 +164,7 @@ public class CSV {
 
                             try {
                                 row = reader.read();
-                            } catch (IOException e) {
+                            } catch (final IOException e) {
                                 throw new RuntimeException(e.getMessage(), e);
                             }
 

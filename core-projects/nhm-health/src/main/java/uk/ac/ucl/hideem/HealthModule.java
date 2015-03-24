@@ -3,7 +3,6 @@ package uk.ac.ucl.hideem;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
@@ -39,8 +38,7 @@ public class HealthModule implements IHealthModule {
 
         log.debug("Reading exposure coefficients from: src/main/resources/uk/ac/ucl/hideem/NHM_exposure_coefs");
 
-        try (final CSV.Reader reader = CSV.trimmedReader(
-                new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("NHM_exposure_coefs.csv"))))) {
+        try (final CSV.Reader reader = CSV.trimmedReader(bufferedReaderForResource("NHM_exposure_coefs.csv"))) {
            String[] row = reader.read(); // throw away header line, because we know what it is
            
            while ((row = reader.read()) != null) {
@@ -57,7 +55,7 @@ public class HealthModule implements IHealthModule {
         log.debug("Reading health coefficients from: src/main/resources/uk/ac/ucl/hideem/NHM_mortality_data.csv");
         
         //Not yet sure how to get as a resource?
-		for (final Map<String, String> row : CSV.mapReader(Paths.get("src/main/resources/uk/ac/ucl/hideem/NHM_mortality_data.csv"))) {         
+		for (final Map<String, String> row : CSV.mapReader(bufferedReaderForResource("NHM_mortality_data.csv"))) {         
 			   
 			for (final Disease.Type type : Disease.Type.values()){
 				
@@ -66,6 +64,10 @@ public class HealthModule implements IHealthModule {
 			}
 		}
     }
+
+	private BufferedReader bufferedReaderForResource(final String resource) {
+		return new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(resource)));
+	}
 
     @Override
 	public HealthOutcome effectOf(

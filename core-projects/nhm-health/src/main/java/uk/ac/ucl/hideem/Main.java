@@ -1,14 +1,18 @@
 package uk.ac.ucl.hideem;
 
-import com.google.common.collect.*;
-import java.nio.file.Paths;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Map;
+
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
 
 public class Main
 {
     
-    public static void main( String[] args ) throws IOException
+    public static void main( final String[] args ) throws IOException
     {
         final HealthModule module = new HealthModule();
 
@@ -19,7 +23,7 @@ public class Main
 
         System.out.println("Reading people from " + args[0]);
 
-        for (final Map<String, String> row : CSV.mapReader(Paths.get(args[0]))) {
+        for (final Map<String, String> row : CSV.mapReader(Files.newBufferedReader(Paths.get(args[0]), StandardCharsets.UTF_8))) {
             final Person p = Person.readPerson(row);
             people.put(row.get("code"), p);
         }
@@ -28,9 +32,9 @@ public class Main
         System.out.println("Reading house data from " + args[1]);
         
         //need to set to 42 years for now
-        HealthOutcome total = new HealthOutcome(42);
+        final HealthOutcome total = new HealthOutcome(42);
         
-        for (final Map<String, String> row : CSV.mapReader(Paths.get(args[1]))) {
+        for (final Map<String, String> row : CSV.mapReader(Files.newBufferedReader(Paths.get(args[1]), StandardCharsets.UTF_8))) {
             // blah blah
         	// Should get the totals here
         	
