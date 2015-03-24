@@ -9,51 +9,45 @@ import uk.ac.ucl.hideem.Person.Sex;
 
 public class Disease {
 	public enum Type {
-	    CardiovascularCold,
-	    Cardiopulmonary,
-	    HeartAttack,
-	    Stroke,
-	    LungCancer,
-	    //CommonMentalDisorder,
-	    //Athsma,
-	    //ChronicObstructivePulmonaryDisorder,
+		cerebrovascular,    //CA
+	    cardiopulmonary,	//CP
+	    lungcancer,			//LC
+	    myocardialinfarction,	//MI (Heart Attack)
+	    wincerebrovascular,	//WinCA
+	    wincardiovascular,	//WinCV
+	    winmyocardialinfarction	//WinMI
+	    //wincopd,			//WinCOPD
+	    //CommonMentalDisorder,  //Morbidity only
+	    //Athsma,				//Morbidity only
 	    //OverheatingDeath
 	}
 	
 	public final int age;
     public final Sex sex;
-	public final double nA;
-	public final double nB;
-	public final double nC;
-	public final double pA;
-	public final double pB;
-	public final double pC;
-	public final double morbidity;
+	public final double mortality;
+	public final double hazard;
+	public final double allHazard;
+	//public final double morbidity;
 	
 	
-	public Disease(final int age, final Sex sex, final double nA, final double nB, final double nC, final double pA, final double pB, final double pC, final double morbidity) {
+	public Disease(final int age, final Sex sex, final double mortality, final double hazard, final double otherHazard) {
 		this.age = age;
 		this.sex = sex;
-		this.nA = nA;
-		this.nB = nB;
-		this.nC = nC;
-		this.pA = pA;
-		this.pB = pB;
-		this.pC = pC;
-		this.morbidity = morbidity;
+		this.mortality = mortality;
+		this.hazard = hazard;
+		this.allHazard = otherHazard;
+		//this.morbidity = morbidity;
 	}
 	
-	public static Disease readDisease(String[] row) {
-		return new Disease(
-				Integer.parseInt(row[1]),
-				Enum.valueOf(Person.Sex.class, row[2]),
-				Double.parseDouble(row[4]),
-				Double.parseDouble(row[5]),
-				Double.parseDouble(row[6]),
-				Double.parseDouble(row[7]),
-				Double.parseDouble(row[8]),
-				Double.parseDouble(row[9]),
-				Double.parseDouble(row[10]));
+	public static Disease readDisease(String age, String sex, String mortality, double allMortality, String pop) {
+
+	     return new Disease(
+					Integer.parseInt(age),
+					Person.Sex.valueOf(sex),			
+					Double.parseDouble(mortality),
+					Double.parseDouble(mortality)/Double.parseDouble(pop),
+					allMortality/Double.parseDouble(pop));
+
 	}
 }
 

@@ -10,21 +10,24 @@ public class Person {
         MALE, FEMALE
     }
 
-    public final int age;
+    public int age;
     public final Sex sex;
     public final boolean smokes;
+    public int samplesize;
 
-    public Person(final int age, final Sex sex, final boolean smokes) {
+    public Person(final int age, final Sex sex, final boolean smokes, final int samplesize) {
         this.age = age;
         this.sex = sex;
         this.smokes = smokes;
+        this.samplesize = samplesize;
     }
     
     public static Person readPerson(final Map<String, String> stuff) {
         return new Person(
             Integer.parseInt(stuff.get("age")),
             Person.Sex.valueOf(stuff.get("sex")),
-            Boolean.valueOf(stuff.get("smokes")));
+            Boolean.valueOf(stuff.get("smokes")),
+            Integer.parseInt(stuff.get("samplesize")));
     }
     
 }

@@ -26,9 +26,14 @@ public class Main
 
         // now process the houses
         System.out.println("Reading house data from " + args[1]);
-
+        
+        //need to set to 42 years for now
+        HealthOutcome total = new HealthOutcome(42);
+        
         for (final Map<String, String> row : CSV.mapReader(Paths.get(args[1]))) {
             // blah blah
+        	// Should get the totals here
+        	
             final HealthOutcome outcome = module.effectOf(
                 // get fields from row here
                 Double.parseDouble(row.get("e1")),
@@ -46,7 +51,10 @@ public class Main
                 Integer.parseInt(row.get("horizon")));
             System.out.println(row.get("code"));
             System.out.println(outcome);
-
+            
+            total.add(outcome, 42);
         }
+        System.out.println("Totals:");
+        System.out.println(total);
     }
 }
