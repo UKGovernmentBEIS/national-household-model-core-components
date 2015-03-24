@@ -59,7 +59,16 @@ public class Exposure {
 		this.coefs[OccupancyType.W29_33_0.ordinal()] = new double[]{e0, e1, e2, e3, e4};
 	}
 	
-	public static Exposure readExposure(String[] row) {
+	public double dueToPermeability(final OccupancyType occupancy, final double p) {
+		final double[] coefs = this.coefs[occupancy.ordinal()];
+		double acc = 0;
+		for (int i = 0; i<coefs.length; i++) {
+			acc += coefs[i] * Math.pow(p, i);
+		}
+		return acc;
+	}
+	
+	public static Exposure readExposure(final String[] row) {
 		return new Exposure(
 				Enum.valueOf(Exposure.ExposureBuiltForm.class, row[1]),
 				Enum.valueOf(Exposure.VentilationType.class, row[2]),

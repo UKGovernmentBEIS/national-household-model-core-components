@@ -1,5 +1,7 @@
 package uk.ac.ucl.hideem;
 
+import uk.ac.ucl.hideem.Exposure.OccupancyType;
+
 import com.google.common.base.Preconditions;
 
 /**
@@ -8,11 +10,11 @@ import com.google.common.base.Preconditions;
  * ordinals for those categories.
  */
 public class HealthOutcome {
-    private double[][] exposures;
-    private double[][] relativeRisk;
-    private double[][] mortalityQalys;
-    private double[] morbidityQalys;
-    private double[][] costs;
+    private final double[][] exposures;
+    private final double[][] relativeRisk;
+    private final double[][] mortalityQalys;
+    private final double[] morbidityQalys;
+    private final double[][] costs;
     final int years;
 
     public HealthOutcome(final int years) {
@@ -27,7 +29,7 @@ public class HealthOutcome {
     }
        
     //For the totals
-    public HealthOutcome add(HealthOutcome outcome, final int years) {
+    public HealthOutcome add(final HealthOutcome outcome, final int years) {
     	Preconditions.checkArgument(years > 0, "A health outcome must be defined over a positive number of years (%s)", years);
     	
     	for (int i = 0; i < Exposure.Type.values().length; ++i) {
@@ -66,9 +68,9 @@ public class HealthOutcome {
         return exposures[e.ordinal()][1]-exposures[e.ordinal()][0];
     }
     
-    public double relativeRisk(final Disease.Type disease, final int occupancy) {
+    public double relativeRisk(final Disease.Type disease, final OccupancyType occupancy) {
         Preconditions.checkNotNull(disease);
-        return relativeRisk[disease.ordinal()][occupancy];
+        return relativeRisk[disease.ordinal()][occupancy.ordinal()];
     }
     
     public double mortalityQalys(final Disease.Type disease, final int year) {
@@ -97,9 +99,9 @@ public class HealthOutcome {
         this.exposures[e.ordinal()][1] = d;
     }
     
-    public void setRelativeRisk(final Disease.Type disease, final int occupancy, final double r) {
+    public void setRelativeRisk(final Disease.Type disease, final OccupancyType occupancy, final double r) {
         Preconditions.checkNotNull(disease);
-        this.relativeRisk[disease.ordinal()][occupancy] = r;
+        this.relativeRisk[disease.ordinal()][occupancy.ordinal()] = r;
     }
     
     public void setMortalityQalys(final Disease.Type disease, final int year, final double q) {
@@ -162,7 +164,7 @@ public class HealthOutcome {
         //Cumulative effect
         sb.append("\t Cumulative Mortality Qalys:\n");
         sb.append(String.format("\t\ttot"));
-        double[] cumulativeMortality = new double[Disease.Type.values().length];
+        final double[] cumulativeMortality = new double[Disease.Type.values().length];
         for (int i = 0; i < years; i++) {
         	
 	        for (final Disease.Type d : Disease.Type.values()) {
@@ -198,7 +200,7 @@ public class HealthOutcome {
         //Cumulative effect
         sb.append("\t Cumulative Cost:\n");
         sb.append(String.format("\t\ttot"));
-        double[] cumulativeCost = new double[Disease.Type.values().length];
+        final double[] cumulativeCost = new double[Disease.Type.values().length];
         for (int i = 0; i < years; i++) {
         	
 	        for (final Disease.Type d : Disease.Type.values()) {

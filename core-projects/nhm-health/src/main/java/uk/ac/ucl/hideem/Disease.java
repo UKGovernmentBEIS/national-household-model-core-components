@@ -1,5 +1,6 @@
 package uk.ac.ucl.hideem;
 
+import uk.ac.ucl.hideem.Constants.RiskConstant;
 import uk.ac.ucl.hideem.Person.Sex;
 
 /**
@@ -9,17 +10,55 @@ import uk.ac.ucl.hideem.Person.Sex;
 
 public class Disease {
 	public enum Type {
-		cerebrovascular,    //CA
-	    cardiopulmonary,	//CP
-	    lungcancer,			//LC
-	    myocardialinfarction,	//MI (Heart Attack)
-	    wincerebrovascular,	//WinCA
-	    wincardiovascular,	//WinCV
-	    winmyocardialinfarction	//WinMI
+		cerebrovascular(
+				RiskConstant.OUTPM_CP, 
+				RiskConstant.INPM_CP, 
+				RiskConstant.ETS_CA),   //CA
+	    cardiopulmonary(
+	    		RiskConstant.OUTPM_CP, 
+	    		RiskConstant.INPM_CP),	//CP
+	    lungcancer(
+	    		RiskConstant.OUTPM_LC, 
+	    		RiskConstant.INPM_LC, 
+	    		RiskConstant.RADON_LC),			//LC
+	    myocardialinfarction(
+	    		RiskConstant.OUTPM_CP, 
+	    		RiskConstant.INPM_CP, 
+	    		RiskConstant.ETS_MI),	//MI (Heart Attack)
+	    wincerebrovascular(
+	    		RiskConstant.OUTPM_CP, 
+	    		RiskConstant.INPM_CP, 
+	    		RiskConstant.SIT_CV, 
+	    		RiskConstant.ETS_CA),	//WinCA
+	    wincardiovascular(
+	    		RiskConstant.OUTPM_CP,
+	    		RiskConstant.INPM_CP, 
+	    		RiskConstant.SIT_CV),	//WinCV
+	    winmyocardialinfarction(
+	    		RiskConstant.OUTPM_CP, 
+	    		RiskConstant.INPM_CP, 
+	    		RiskConstant.SIT_CV, 
+	    		RiskConstant.ETS_MI)
 	    //wincopd,			//WinCOPD
 	    //CommonMentalDisorder,  //Morbidity only
 	    //Athsma,				//Morbidity only
 	    //OverheatingDeath
+	    
+	    ;
+		
+		private final RiskConstant[] risks;
+		
+		private Type(final RiskConstant... risks) {
+			this.risks = risks;
+		}
+		
+		public double relativeRisk(final HealthOutcome result) {
+			double acc = 1;
+			for (final RiskConstant c : risks) {
+				acc *= c.riskDueTo(result);
+			}
+			return acc;
+		}
 	}
 	
 	public final int age;
@@ -39,7 +78,7 @@ public class Disease {
 		//this.morbidity = morbidity;
 	}
 	
-	public static Disease readDisease(String age, String sex, String mortality, double allMortality, String pop) {
+	public static Disease readDisease(final String age, final String sex, final String mortality, final double allMortality, final String pop) {
 
 	     return new Disease(
 					Integer.parseInt(age),

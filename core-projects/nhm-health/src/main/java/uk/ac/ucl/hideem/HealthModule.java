@@ -10,6 +10,10 @@ import org.apache.commons.math3.distribution.NormalDistribution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.ucl.hideem.Exposure.ExposureBuiltForm;
+import uk.ac.ucl.hideem.Exposure.OccupancyType;
+import uk.ac.ucl.hideem.Exposure.Type;
+
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 
@@ -104,112 +108,36 @@ public class HealthModule implements IHealthModule {
 	        //First loop over the exposure types
 	    	//There is probably a quicker/better way of doing this but this will do for now 
 	        for(final Exposure.Type matchedExposure : Exposure.Type.values()) {
-	
-	        	//Then need to loop over the exposures file to get the right values	
-		        for(final Map.Entry<Exposure.Type, Exposure> e: exposureCoefficients.entries()) {
-		        	if(e.getKey()== matchedExposure && matchedVentilation==e.getValue().ventType && matchedBuiltForm==e.getValue().builtForm) {
+	        	// for each exposure in the exposure coefficients file which is under matchedExposure
+	        	for (final Exposure exposure : exposureCoefficients.get(matchedExposure)) {
+	        		if (matchedVentilation==exposure.ventType && matchedBuiltForm==exposure.builtForm) {
 		        		//different calculation is used for mould and temperature and vpx is needed so do all together
-		        		if(matchedExposure == Exposure.Type.VPX){
-		        			//Calc VPX same as others
-		        			
-		        			final double baseVPX     =calcExposure(p1, e.getValue().coefs[occupancy.ordinal()][0], e.getValue().coefs[occupancy.ordinal()][1], 
-		        					e.getValue().coefs[occupancy.ordinal()][2], e.getValue().coefs[occupancy.ordinal()][3], e.getValue().coefs[occupancy.ordinal()][4]); 
-			        		final double modifiedVPX =calcExposure(p2, e.getValue().coefs[occupancy.ordinal()][0], e.getValue().coefs[occupancy.ordinal()][1], 
-		        					e.getValue().coefs[occupancy.ordinal()][2], e.getValue().coefs[occupancy.ordinal()][3], e.getValue().coefs[occupancy.ordinal()][4]); 
-		        			
-			        		//set VPX
-			        		result.setInitialExposure(Exposure.Type.VPX, baseVPX);
-			        		result.setFinalExposure(Exposure.Type.VPX, modifiedVPX);
-		            		
-			        		//calc base temp
-			        		final double baseAverageSIT=calcSIT(e1);
-			         		//same for modified case
-			        		final double modifiedAverageSIT=calcSIT(e2);
-			        		
-			        		//set SIT
-			        		result.setInitialExposure(Exposure.Type.SIT, baseAverageSIT);
-			        		result.setFinalExposure(Exposure.Type.SIT, modifiedAverageSIT);
-		            		
-		            		//Now do the mould calc
-			           		final double baseMould	= calcMould(baseAverageSIT, baseVPX);
-			           		final double modifiedMould	= calcMould(modifiedAverageSIT, modifiedVPX);		           		
-			           		
-			           		//set Mould	
-			        		result.setInitialExposure(Exposure.Type.Mould, baseMould);
-			        		result.setFinalExposure(Exposure.Type.Mould, modifiedMould);
-			           		
-		        		}
-		        		else if(matchedExposure == Exposure.Type.SIT || matchedExposure == Exposure.Type.Mould){
-		        			//Already calculated these when doing VPX so can break out of loop
-		        			break;
-		        		}
-		        		else if (matchedExposure == Exposure.Type.Radon) { //rest of the exposures all the same		        		
-			        		final double baseExposure=calcExposure(p1, e.getValue().coefs[occupancy.ordinal()][0], e.getValue().coefs[occupancy.ordinal()][1], 
-		        					e.getValue().coefs[occupancy.ordinal()][2], e.getValue().coefs[occupancy.ordinal()][3], e.getValue().coefs[occupancy.ordinal()][4]);
-			        		final double modifiedExposure =calcExposure(p2, e.getValue().coefs[occupancy.ordinal()][0], e.getValue().coefs[occupancy.ordinal()][1], 
-		        					e.getValue().coefs[occupancy.ordinal()][2], e.getValue().coefs[occupancy.ordinal()][3], e.getValue().coefs[occupancy.ordinal()][4]);
-	        					        		
-			        		
-			        		//factors here!
-			        		double floorFactor = 1;
-			        		if((form ==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlat) && mainFloorLevel==2){
-			        			floorFactor = 0.5;
-			        		}
-			        		else if((form ==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlat) && mainFloorLevel==3){
-			        			floorFactor = 0.;
-			        		}
-			        		
-			        		result.setInitialExposure(e.getKey(), floorFactor*baseExposure);
-			        		result.setFinalExposure(e.getKey(), floorFactor*modifiedExposure);
-		        		}
-		        		else if (matchedExposure == e.getKey()) { //rest of the exposures all the same		        		
-			        		
-		        			final double baseExposure=calcExposure(p1, e.getValue().coefs[occupancy.ordinal()][0], e.getValue().coefs[occupancy.ordinal()][1], 
-		        					e.getValue().coefs[occupancy.ordinal()][2], e.getValue().coefs[occupancy.ordinal()][3], e.getValue().coefs[occupancy.ordinal()][4]);
-			        		final double modifiedExposure =calcExposure(p2, e.getValue().coefs[occupancy.ordinal()][0], e.getValue().coefs[occupancy.ordinal()][1], 
-		        					e.getValue().coefs[occupancy.ordinal()][2], e.getValue().coefs[occupancy.ordinal()][3], e.getValue().coefs[occupancy.ordinal()][4]);
-			        		
-			        		result.setInitialExposure(e.getKey(), baseExposure);
-			        		result.setFinalExposure(e.getKey(), modifiedExposure);
-		        		}
-		        		else {
-		        	        System.out.println("Can't find the exposure coefficient for " + matchedExposure);
-		        		}
+	        			
+	        			switch (matchedExposure) {
+	        			case VPX:
+	        				setVPXSitAndMould(exposure, e1, e2, p1, p2, occupancy, result);
+	        				break;
+	        			case SIT:
+	        			case Mould:
+	        				// SIT and Mould are both handled by VPX above
+	        				break;
+	        			case Radon:
+	        				setRadonExposure(exposure, p1, p2, form, mainFloorLevel, occupancy, result);
+	        				break;
+	        			default:
+			        		result.setInitialExposure(matchedExposure, exposure.dueToPermeability(occupancy, p1));
+			        		result.setFinalExposure(matchedExposure, exposure.dueToPermeability(occupancy, p2));
+	        				break;
+	        			}
 		        	}        		
 		        }
 	    	}
 	                               
 	        //Calculate the relative risks (independent of person) -> won't be any more due to diff occupancies
-	        result.setRelativeRisk(Disease.Type.cardiopulmonary, occupancy.ordinal(),
-	        		(Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
-	        		* (Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.INPM2_5))));
-	        result.setRelativeRisk(Disease.Type.cerebrovascular, occupancy.ordinal(),
-	        		(Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
-	        		* (Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.INPM2_5))) 
-	        		* (Math.exp((Math.log(Constants.REL_RISK_ETS_CA) / Constants.INC_ETS_CA) * result.deltaExposure(Exposure.Type.ETS))));
-	        result.setRelativeRisk(Disease.Type.myocardialinfarction, occupancy.ordinal(),
-	        		(Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
-	        		* (Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.INPM2_5))) 
-	        		* (Math.exp((Math.log(Constants.REL_RISK_ETS_MI) / Constants.INC_ETS_MI) * result.deltaExposure(Exposure.Type.ETS))));
-	        result.setRelativeRisk(Disease.Type.wincerebrovascular, occupancy.ordinal(),
-	        		(Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
-	        		* (Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.INPM2_5)))
-	        		* (Math.exp((Math.log(Constants.REL_RISK_SIT_CV) / Constants.INC_WINCV) * result.deltaExposure(Exposure.Type.SIT)))
-	        		* (Math.exp((Math.log(Constants.REL_RISK_ETS_CA) / Constants.INC_ETS_CA) * result.deltaExposure(Exposure.Type.ETS))));                
-	        result.setRelativeRisk(Disease.Type.winmyocardialinfarction, occupancy.ordinal(),
-	        		(Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
-	        		* (Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.INPM2_5)))
-	        		* (Math.exp((Math.log(Constants.REL_RISK_SIT_CV) / Constants.INC_WINCV) * result.deltaExposure(Exposure.Type.SIT)))
-	        		* (Math.exp((Math.log(Constants.REL_RISK_ETS_MI) / Constants.INC_ETS_MI) * result.deltaExposure(Exposure.Type.ETS))));  
-	        result.setRelativeRisk(Disease.Type.wincardiovascular, occupancy.ordinal(),
-	        		(Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
-	        		* (Math.exp((Math.log(Constants.REL_RISK_PM_CP) / Constants.INC_PM_CP) * result.deltaExposure(Exposure.Type.INPM2_5)))
-	        		* (Math.exp((Math.log(Constants.REL_RISK_SIT_CV) / Constants.INC_WINCV) * result.deltaExposure(Exposure.Type.SIT))));
-	        result.setRelativeRisk(Disease.Type.lungcancer, occupancy.ordinal(),
-	        		(Math.exp((Math.log(Constants.REL_RISK_PM_LC) / Constants.INC_PM_LC) * result.deltaExposure(Exposure.Type.OUTPM2_5))) 
-	        		* (Math.exp((Math.log(Constants.REL_RISK_PM_LC) / Constants.INC_PM_LC) * result.deltaExposure(Exposure.Type.INPM2_5)))
-	        		* (Math.exp((Math.log(Constants.REL_RISK_RADON_LC) / Constants.INC_RADON_LC) * result.deltaExposure(Exposure.Type.Radon))));  
-	    
+	        
+	        for (final Disease.Type disease : Disease.Type.values()) {
+	        	result.setRelativeRisk(disease, occupancy, disease.relativeRisk(result));
+	        }	    
     	}//end of person loop
 	        
 	    
@@ -234,17 +162,16 @@ public class HealthModule implements IHealthModule {
         		//loop over time frame
         		for (int year = 0; year < horizon; year=year+1) {
 	        		if (p.age+year == d.getValue().age && p.sex == d.getValue().sex){
-		        		
-	        			int occupancy = 0;
+		        		final OccupancyType occupancy;
 	        			
+		        		// TODO this seems erroneous; occupancy type zero (H45_45_10) never occurs
+		        		
 	        			if(p.age+year <= 5){
-	        				occupancy = 1;
-	        			}
-	        			else if(p.age+year > 5 && p.age+year < 18){
-	        				occupancy = 3;
-	        			}
-	        			else{
-	        				occupancy = 2;
+	        				occupancy = OccupancyType.H55_45_0;
+	        			} else if(p.age+year > 5 && p.age+year < 18){
+	        				occupancy = OccupancyType.W29_33_0;
+	        			} else{
+	        				occupancy = OccupancyType.W21_33_8;
 	        			}
 	        			
 	        			final double riskChangeTime = result.relativeRisk(d.getKey(),occupancy);
@@ -262,17 +189,55 @@ public class HealthModule implements IHealthModule {
         	
         return result;
     }
-    
-    //Use fitted values using python polyfit to CONTAM simulated data
-    private double calcExposure(final double permeability, final double b0, final double b1, final double b2, final double b3, final double b4){
-    	double exposure = 0;
-    	exposure = b0 + (b1*Math.pow(permeability, 1)) + (b2*Math.pow(permeability,2)) + (b3*Math.pow(permeability, 3)) + (b4*Math.pow(permeability, 4)); 
-    	
-    	return exposure;
-    }
 
-    
-    
+	private void setRadonExposure(final Exposure exposure, final double p1,
+			final double p2, final BuiltForm form,
+			final int mainFloorLevel, final Exposure.OccupancyType occupancy,
+			final HealthOutcome result) {
+		final double baseExposure = exposure.dueToPermeability(occupancy, p1);
+		final double modifiedExposure = exposure.dueToPermeability(occupancy, p2);			        		
+		
+		//factors here!
+		double floorFactor = 1;
+		if((form ==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlat) && mainFloorLevel==2){
+			floorFactor = 0.5;
+		}
+		else if((form ==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlat) && mainFloorLevel==3){
+			floorFactor = 0.;
+		}
+		
+		result.setInitialExposure(Type.Radon, floorFactor*baseExposure);
+		result.setFinalExposure(Type.Radon, floorFactor*modifiedExposure);
+	}
+
+	private void setVPXSitAndMould(final Exposure exposure, final double e1, final double e2,
+			final double p1, final double p2,
+			final Exposure.OccupancyType occupancy, final HealthOutcome result) {
+		final double baseVPX = exposure.dueToPermeability(occupancy, p1);
+		final double modifiedVPX = exposure.dueToPermeability(occupancy, p2);
+		
+		//set VPX
+		result.setInitialExposure(Exposure.Type.VPX, baseVPX);
+		result.setFinalExposure(Exposure.Type.VPX, modifiedVPX);
+		
+		//calc base temp
+		final double baseAverageSIT=calcSIT(e1);
+		//same for modified case
+		final double modifiedAverageSIT=calcSIT(e2);
+		
+		//set SIT
+		result.setInitialExposure(Exposure.Type.SIT, baseAverageSIT);
+		result.setFinalExposure(Exposure.Type.SIT, modifiedAverageSIT);
+		
+		//Now do the mould calc
+		final double baseMould	= calcMould(baseAverageSIT, baseVPX);
+		final double modifiedMould	= calcMould(modifiedAverageSIT, modifiedVPX);		           		
+		
+		//set Mould	
+		result.setInitialExposure(Exposure.Type.Mould, baseMould);
+		result.setFinalExposure(Exposure.Type.Mould, modifiedMould);
+	}
+        
     //Temperature Calculations using Hamilton relation
     private double calcSIT(final double eValue){
     	//Put these into private functions so that less mess
@@ -328,33 +293,38 @@ public class HealthModule implements IHealthModule {
 	    //mainFloorLevel==1 is <=ground floor 
 	    //mainFloorLevel==2 is 1st floor
 	    //mainFloorLevel==3 is >1st floor
-	    if((form==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlat) && floorArea>50) { 
-	    	matchedBuiltForm = Exposure.ExposureBuiltForm.Flat1;
-	    }
-	    else if((form==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlat) && floorArea<=50) { 
-	    	matchedBuiltForm = Exposure.ExposureBuiltForm.Flat2;
-	    }
-	    else if(form==BuiltForm.PurposeBuiltFlat) {
-	    	//There are no flat3s at the moment
-	    	matchedBuiltForm = Exposure.ExposureBuiltForm.Flat3;
-	    }
-	    else if(form==BuiltForm.EndTerrace) {
-	    	matchedBuiltForm = Exposure.ExposureBuiltForm.House1;
-	    }
-	    else if(form==BuiltForm.MidTerrace && floorArea<=131) {
-	    	matchedBuiltForm = Exposure.ExposureBuiltForm.House2; // mid-terrace small
-	    }
-	    else if(form==BuiltForm.MidTerrace && floorArea>131) {
-	    	matchedBuiltForm = Exposure.ExposureBuiltForm.House4; // mid-terrace big
-	    }
-	    else if(form==BuiltForm.SemiDetached) {
-	    	matchedBuiltForm = Exposure.ExposureBuiltForm.House3;
-	    }
-	    else if(form==BuiltForm.Bungalow) {
-	    	matchedBuiltForm = Exposure.ExposureBuiltForm.House5;
-	    }  //House 6 not used
-	    else {  //(form==BuiltForm.Detached)
-	    	matchedBuiltForm = Exposure.ExposureBuiltForm.House7;
+	    
+	    switch (form) {
+	    case ConvertedFlat:
+	    case PurposeBuiltFlat:
+	    	if (floorArea > 50) {
+	    		matchedBuiltForm = ExposureBuiltForm.Flat1;
+	    	} else {
+	    		matchedBuiltForm = ExposureBuiltForm.Flat2;
+	    	}
+	    	// there is no flat3 at the moment
+	    	break;
+		case Bungalow:
+			matchedBuiltForm = ExposureBuiltForm.House5;
+			break;
+		case EndTerrace:			
+			matchedBuiltForm = ExposureBuiltForm.House1;
+			break;
+		case MidTerrace:
+			if (floorArea > 131) {
+				matchedBuiltForm = ExposureBuiltForm.House4;
+			} else {
+				matchedBuiltForm = ExposureBuiltForm.House2;
+			}
+			// house 6 is not used either.
+			break;
+		case SemiDetached:
+			matchedBuiltForm = ExposureBuiltForm.House3;
+			break;
+		default:
+			matchedBuiltForm = ExposureBuiltForm.House7;
+			break;
+	    
 	    }
 	    
 	    return matchedBuiltForm;
@@ -396,9 +366,7 @@ public class HealthModule implements IHealthModule {
 				impact += d.getValue().hazard * (1 + (riskChangeTime - 1) * normDist.cumulativeProbability(year+1));						
 				    			
 			} else {			
-				
 				impact += d.getValue().hazard * (1 - (1 - riskChangeTime) * (1 - Math.exp(-(year+1) * Constants.TIME_FUNCTION(d.getKey())[2])));
-
 			}
 		}
     	
