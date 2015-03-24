@@ -1,16 +1,16 @@
 package uk.ac.ucl.hideem;
 
-import java.util.List;
-import java.lang.Math;
-import java.util.Map;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.BufferedReader;
 import java.nio.file.Paths;
-import com.google.common.collect.*;
+import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.math3.distribution.NormalDistribution;
-import uk.ac.ucl.hideem.Constants;
+
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
 
 public class HealthModule implements IHealthModule {
 	private final ListMultimap<Exposure.Type, Exposure> exposureCoefficients;
@@ -64,25 +64,26 @@ public class HealthModule implements IHealthModule {
 		}
     }
 
-    public HealthOutcome effectOf(
+    @Override
+	public HealthOutcome effectOf(
         // e-values & perm.s
-        double e1,
-        double e2,
-        double p1,
-        double p2,
+        final double e1,
+        final double e2,
+        final double p1,
+        final double p2,
         // case number constituents
-        BuiltForm form,
-        double floorArea,
-        int mainFloorLevel, // fdfmainn (for flats)
+        final BuiltForm form,
+        final double floorArea,
+        final int mainFloorLevel, // fdfmainn (for flats)
         // for vtype:
-        int buildYear,
+        final int buildYear,
         // finkxtwk and finbxtwk
-        boolean hasWorkingExtractorFans, // per finwhatever
-        boolean hasTrickleVents,         // this is cooked up elsewhere
-        int numberOfFansAndPassiveVents, // per SAP
+        final boolean hasWorkingExtractorFans, // per finwhatever
+        final boolean hasTrickleVents,         // this is cooked up elsewhere
+        final int numberOfFansAndPassiveVents, // per SAP
         // who
-        List<Person> people,
-        int horizon) {
+        final List<Person> people,
+        final int horizon) {
         
         final HealthOutcome result = new HealthOutcome(horizon);
         
@@ -100,15 +101,15 @@ public class HealthModule implements IHealthModule {
 	        for(final Exposure.Type matchedExposure : Exposure.Type.values()) {
 	
 	        	//Then need to loop over the exposures file to get the right values	
-		        for(Map.Entry<Exposure.Type, Exposure> e: exposureCoefficients.entries()) {
+		        for(final Map.Entry<Exposure.Type, Exposure> e: exposureCoefficients.entries()) {
 		        	if(e.getKey()== matchedExposure && matchedVentilation==e.getValue().ventType && matchedBuiltForm==e.getValue().builtForm) {
 		        		//different calculation is used for mould and temperature and vpx is needed so do all together
 		        		if(matchedExposure == Exposure.Type.VPX){
 		        			//Calc VPX same as others
 		        			
-		        			double baseVPX     =calcExposure(p1, e.getValue().coefs[occupancy.ordinal()][0], e.getValue().coefs[occupancy.ordinal()][1], 
+		        			final double baseVPX     =calcExposure(p1, e.getValue().coefs[occupancy.ordinal()][0], e.getValue().coefs[occupancy.ordinal()][1], 
 		        					e.getValue().coefs[occupancy.ordinal()][2], e.getValue().coefs[occupancy.ordinal()][3], e.getValue().coefs[occupancy.ordinal()][4]); 
-			        		double modifiedVPX =calcExposure(p2, e.getValue().coefs[occupancy.ordinal()][0], e.getValue().coefs[occupancy.ordinal()][1], 
+			        		final double modifiedVPX =calcExposure(p2, e.getValue().coefs[occupancy.ordinal()][0], e.getValue().coefs[occupancy.ordinal()][1], 
 		        					e.getValue().coefs[occupancy.ordinal()][2], e.getValue().coefs[occupancy.ordinal()][3], e.getValue().coefs[occupancy.ordinal()][4]); 
 		        			
 			        		//set VPX
@@ -116,17 +117,17 @@ public class HealthModule implements IHealthModule {
 			        		result.setFinalExposure(Exposure.Type.VPX, modifiedVPX);
 		            		
 			        		//calc base temp
-			        		double baseAverageSIT=calcSIT(e1);
+			        		final double baseAverageSIT=calcSIT(e1);
 			         		//same for modified case
-			        		double modifiedAverageSIT=calcSIT(e2);
+			        		final double modifiedAverageSIT=calcSIT(e2);
 			        		
 			        		//set SIT
 			        		result.setInitialExposure(Exposure.Type.SIT, baseAverageSIT);
 			        		result.setFinalExposure(Exposure.Type.SIT, modifiedAverageSIT);
 		            		
 		            		//Now do the mould calc
-			           		double baseMould	= calcMould(baseAverageSIT, baseVPX);
-			           		double modifiedMould	= calcMould(modifiedAverageSIT, modifiedVPX);		           		
+			           		final double baseMould	= calcMould(baseAverageSIT, baseVPX);
+			           		final double modifiedMould	= calcMould(modifiedAverageSIT, modifiedVPX);		           		
 			           		
 			           		//set Mould	
 			        		result.setInitialExposure(Exposure.Type.Mould, baseMould);
@@ -138,9 +139,9 @@ public class HealthModule implements IHealthModule {
 		        			break;
 		        		}
 		        		else if (matchedExposure == Exposure.Type.Radon) { //rest of the exposures all the same		        		
-			        		double baseExposure=calcExposure(p1, e.getValue().coefs[occupancy.ordinal()][0], e.getValue().coefs[occupancy.ordinal()][1], 
+			        		final double baseExposure=calcExposure(p1, e.getValue().coefs[occupancy.ordinal()][0], e.getValue().coefs[occupancy.ordinal()][1], 
 		        					e.getValue().coefs[occupancy.ordinal()][2], e.getValue().coefs[occupancy.ordinal()][3], e.getValue().coefs[occupancy.ordinal()][4]);
-			        		double modifiedExposure =calcExposure(p2, e.getValue().coefs[occupancy.ordinal()][0], e.getValue().coefs[occupancy.ordinal()][1], 
+			        		final double modifiedExposure =calcExposure(p2, e.getValue().coefs[occupancy.ordinal()][0], e.getValue().coefs[occupancy.ordinal()][1], 
 		        					e.getValue().coefs[occupancy.ordinal()][2], e.getValue().coefs[occupancy.ordinal()][3], e.getValue().coefs[occupancy.ordinal()][4]);
 	        					        		
 			        		
@@ -158,9 +159,9 @@ public class HealthModule implements IHealthModule {
 		        		}
 		        		else if (matchedExposure == e.getKey()) { //rest of the exposures all the same		        		
 			        		
-		        			double baseExposure=calcExposure(p1, e.getValue().coefs[occupancy.ordinal()][0], e.getValue().coefs[occupancy.ordinal()][1], 
+		        			final double baseExposure=calcExposure(p1, e.getValue().coefs[occupancy.ordinal()][0], e.getValue().coefs[occupancy.ordinal()][1], 
 		        					e.getValue().coefs[occupancy.ordinal()][2], e.getValue().coefs[occupancy.ordinal()][3], e.getValue().coefs[occupancy.ordinal()][4]);
-			        		double modifiedExposure =calcExposure(p2, e.getValue().coefs[occupancy.ordinal()][0], e.getValue().coefs[occupancy.ordinal()][1], 
+			        		final double modifiedExposure =calcExposure(p2, e.getValue().coefs[occupancy.ordinal()][0], e.getValue().coefs[occupancy.ordinal()][1], 
 		        					e.getValue().coefs[occupancy.ordinal()][2], e.getValue().coefs[occupancy.ordinal()][3], e.getValue().coefs[occupancy.ordinal()][4]);
 			        		
 			        		result.setInitialExposure(e.getKey(), baseExposure);
@@ -210,9 +211,9 @@ public class HealthModule implements IHealthModule {
         // health calculation goes here. Probably be good to sanity check the inputs.
        
        	//Survival array here so that qaly calc is done cumulatively (need one for each person per disease)
-    	double[][][] impactSurvival = new double[people.size()][Disease.Type.values().length][horizon+1];
-    	double[][][] baseSurvival = new double[people.size()][Disease.Type.values().length][horizon+1];
-    	for(Person p: people){ //initialize to 1
+    	final double[][][] impactSurvival = new double[people.size()][Disease.Type.values().length][horizon+1];
+    	final double[][][] baseSurvival = new double[people.size()][Disease.Type.values().length][horizon+1];
+    	for(final Person p: people){ //initialize to 1
     		for (final Disease.Type d : Disease.Type.values()) {
     			impactSurvival[people.indexOf(p)][d.ordinal()][0] = 1;
     			baseSurvival[people.indexOf(p)][d.ordinal()][0] = 1;
@@ -220,10 +221,10 @@ public class HealthModule implements IHealthModule {
     	}
     	
         //Loop over disease coefficients
-        for(Map.Entry<Disease.Type, Disease> d: healthCoefficients.entries()) {
+        for(final Map.Entry<Disease.Type, Disease> d: healthCoefficients.entries()) {
         	        	
         	//loop over people in house to match them to coefficients
-        	for(Person p: people){
+        	for(final Person p: people){
         	
         		//loop over time frame
         		for (int year = 0; year < horizon; year=year+1) {
@@ -241,12 +242,12 @@ public class HealthModule implements IHealthModule {
 	        				occupancy = 2;
 	        			}
 	        			
-	        			double riskChangeTime = result.relativeRisk(d.getKey(),occupancy);
+	        			final double riskChangeTime = result.relativeRisk(d.getKey(),occupancy);
 	        			
-	        			double qaly = calculateQaly(d, riskChangeTime, impactSurvival, baseSurvival, people.indexOf(p), year);
+	        			final double qaly = calculateQaly(d, riskChangeTime, impactSurvival, baseSurvival, people.indexOf(p), year);
 	        			result.setMortalityQalys(d.getKey(), year, p.samplesize*qaly);
 	        			
-	        			double cost = p.samplesize*qaly*Constants.COST(d.getKey());
+	        			final double cost = p.samplesize*qaly*Constants.COST(d.getKey());
 	        			result.setCost(d.getKey(), year, cost);		        		
 	        		}
 
@@ -258,7 +259,7 @@ public class HealthModule implements IHealthModule {
     }
     
     //Use fitted values using python polyfit to CONTAM simulated data
-    private double calcExposure(double permeability, double b0, double b1, double b2, double b3, double b4){
+    private double calcExposure(final double permeability, final double b0, final double b1, final double b2, final double b3, final double b4){
     	double exposure = 0;
     	exposure = b0 + (b1*Math.pow(permeability, 1)) + (b2*Math.pow(permeability,2)) + (b3*Math.pow(permeability, 3)) + (b4*Math.pow(permeability, 4)); 
     	
@@ -268,17 +269,17 @@ public class HealthModule implements IHealthModule {
     
     
     //Temperature Calculations using Hamilton relation
-    private double calcSIT(double eValue){
+    private double calcSIT(final double eValue){
     	//Put these into private functions so that less mess
-		double livingRoomSIT=(19.97883737 + (-0.003177483*Math.pow(eValue,1)) + (3.95406E-07*Math.pow(eValue,2)) + (-3.10552E-11*Math.pow(eValue,3)));
-		double bedRoomSIT=(18.60539276 + (-0.003972248*Math.pow(eValue,1)) + (6.50441E-07*Math.pow(eValue,2)) + (-3.63348E-11*Math.pow(eValue,3)));
-		double averageSIT=((livingRoomSIT+bedRoomSIT)/2);
+		final double livingRoomSIT=(19.97883737 + (-0.003177483*Math.pow(eValue,1)) + (3.95406E-07*Math.pow(eValue,2)) + (-3.10552E-11*Math.pow(eValue,3)));
+		final double bedRoomSIT=(18.60539276 + (-0.003972248*Math.pow(eValue,1)) + (6.50441E-07*Math.pow(eValue,2)) + (-3.63348E-11*Math.pow(eValue,3)));
+		final double averageSIT=((livingRoomSIT+bedRoomSIT)/2);
 		
 		return averageSIT;
     }
     
     //Info on Mould calcs can be found in: http://www.iso.org/iso/catalogue_detail.htm?csnumber=51615
-    private double calcMould(double averageSIT, double vpx) {
+    private double calcMould(final double averageSIT, final double vpx) {
     	//initialisation
     	double mould = 0, srh=0, svp=0;
 
@@ -314,7 +315,7 @@ public class HealthModule implements IHealthModule {
     
     //Methods to map the input built form and ventilation of NHM to that in Hideem. 
     //Not sure if this should be here or elsewhere but works for now
-    private Exposure.ExposureBuiltForm mapBuiltForm(BuiltForm form, double floorArea, int mainFloorLevel) {
+    private Exposure.ExposureBuiltForm mapBuiltForm(final BuiltForm form, final double floorArea, final int mainFloorLevel) {
 	    //initialisation
 	    Exposure.ExposureBuiltForm matchedBuiltForm = null;
 	    //Will have to put lots of if statements in here somewhere...
@@ -354,7 +355,7 @@ public class HealthModule implements IHealthModule {
 	    return matchedBuiltForm;
     }
     //Match ventilation
-    private Exposure.VentilationType mapVentilation(boolean hasWorkingExtractorFans, boolean hasTrickleVents) {
+    private Exposure.VentilationType mapVentilation(final boolean hasWorkingExtractorFans, final boolean hasTrickleVents) {
     	//initialisation
 	    Exposure.VentilationType matchedVentilation = null;
     	//Get the ventilation
@@ -374,9 +375,9 @@ public class HealthModule implements IHealthModule {
     	return matchedVentilation;
     }
 
-    private double calculateQaly(Map.Entry<Disease.Type, Disease> d, double riskChangeTime, double[][][] impactSurvival, double[][][] baseSurvival, int personIndex, int year) {
+    private double calculateQaly(final Map.Entry<Disease.Type, Disease> d, final double riskChangeTime, final double[][][] impactSurvival, final double[][][] baseSurvival, final int personIndex, final int year) {
     	
-    	double base = d.getValue().allHazard;
+    	final double base = d.getValue().allHazard;
 		double impact = base - d.getValue().hazard;
     	
     	if (d.getKey() == Disease.Type.wincardiovascular || d.getKey() == Disease.Type.wincerebrovascular || d.getKey() == Disease.Type.winmyocardialinfarction) {
@@ -399,14 +400,14 @@ public class HealthModule implements IHealthModule {
 		impactSurvival[personIndex][d.getKey().ordinal()][year+1] = impactSurvival[personIndex][d.getKey().ordinal()][year]*((2-impact)/(2+impact));
 		baseSurvival[personIndex][d.getKey().ordinal()][year+1] = baseSurvival[personIndex][d.getKey().ordinal()][year]*((2-base)/(2+base));
 		
-		double impactStartPop = impactSurvival[personIndex][d.getKey().ordinal()][year];
-		double baseStartPop = baseSurvival[personIndex][d.getKey().ordinal()][year];
+		final double impactStartPop = impactSurvival[personIndex][d.getKey().ordinal()][year];
+		final double baseStartPop = baseSurvival[personIndex][d.getKey().ordinal()][year];
 				
-		double deaths = impactStartPop - impactSurvival[personIndex][d.getKey().ordinal()][year+1];
-		double lifeYears = impactStartPop - 0.5*deaths;
+		final double deaths = impactStartPop - impactSurvival[personIndex][d.getKey().ordinal()][year+1];
+		final double lifeYears = impactStartPop - 0.5*deaths;
 		
-		double baseDeaths = baseStartPop - baseSurvival[personIndex][d.getKey().ordinal()][year+1];
-		double baselifeYears = baseStartPop - 0.5*baseDeaths;
+		final double baseDeaths = baseStartPop - baseSurvival[personIndex][d.getKey().ordinal()][year+1];
+		final double baselifeYears = baseStartPop - 0.5*baseDeaths;
     	
     	return lifeYears-baselifeYears;
     }
