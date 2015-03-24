@@ -8,11 +8,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.math3.distribution.NormalDistribution;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 
 public class HealthModule implements IHealthModule {
+	private static final Logger log = LoggerFactory.getLogger(HealthModule.class);
 	private final ListMultimap<Exposure.Type, Exposure> exposureCoefficients;
 	private final ListMultimap<Disease.Type, Disease> healthCoefficients;
     
@@ -34,7 +37,7 @@ public class HealthModule implements IHealthModule {
     	//Read the exposure coefficients from the csv file
         exposureCoefficients = ArrayListMultimap.create();
 
-        System.out.println("Reading exposure coefficients from: src/main/resources/uk/ac/ucl/hideem/NHM_exposure_coefs");
+        log.debug("Reading exposure coefficients from: src/main/resources/uk/ac/ucl/hideem/NHM_exposure_coefs");
 
         try (final CSV.Reader reader = CSV.trimmedReader(
                 new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("NHM_exposure_coefs.csv"))))) {
@@ -51,7 +54,7 @@ public class HealthModule implements IHealthModule {
         //Read the health coefficients from the csv file
         healthCoefficients = ArrayListMultimap.create();
 
-        System.out.println("Reading health coefficients from: src/main/resources/uk/ac/ucl/hideem/NHM_mortality_data.csv");
+        log.debug("Reading health coefficients from: src/main/resources/uk/ac/ucl/hideem/NHM_mortality_data.csv");
         
         //Not yet sure how to get as a resource?
 		for (final Map<String, String> row : CSV.mapReader(Paths.get("src/main/resources/uk/ac/ucl/hideem/NHM_mortality_data.csv"))) {         
