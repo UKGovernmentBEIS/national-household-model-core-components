@@ -102,7 +102,7 @@ public class HealthModule implements IHealthModule {
               
         //Get the correct exposures coefficients and calculate base and modified exposures for each individual
         
-        //loop over people in house to match them to coefficients
+        //loop over occupancy types
     	for(final Exposure.OccupancyType occupancy : Exposure.OccupancyType.values()){
         
 	        //First loop over the exposure types
@@ -138,7 +138,7 @@ public class HealthModule implements IHealthModule {
 	        for (final Disease.Type disease : Disease.Type.values()) {
 	        	result.setRelativeRisk(disease, occupancy, disease.relativeRisk(result));
 	        }	    
-    	}//end of person loop
+    	}//end of occupancy loop
 	        
 	    
         // health calculation goes here. Probably be good to sanity check the inputs.
@@ -163,13 +163,13 @@ public class HealthModule implements IHealthModule {
         		for (int year = 0; year < horizon; year=year+1) {
 	        		if (p.age+year == d.getValue().age && p.sex == d.getValue().sex){
 		        		final OccupancyType occupancy;
-	        			
-		        		// TODO this seems erroneous; occupancy type zero (H45_45_10) never occurs
 		        		
 	        			if(p.age+year <= 5){
-	        				occupancy = OccupancyType.H55_45_0;
+	        				occupancy = OccupancyType.H55_45_0; 
 	        			} else if(p.age+year > 5 && p.age+year < 18){
 	        				occupancy = OccupancyType.W29_33_0;
+	        			} else if(p.age+year > 65){
+	        				occupancy = OccupancyType.H45_45_10;
 	        			} else{
 	        				occupancy = OccupancyType.W21_33_8;
 	        			}
@@ -179,8 +179,10 @@ public class HealthModule implements IHealthModule {
 	        			final double qaly = calculateQaly(d, riskChangeTime, impactSurvival, baseSurvival, people.indexOf(p), year);
 	        			result.setMortalityQalys(d.getKey(), year, p.samplesize*qaly);
 	        			
-	        			final double cost = p.samplesize*qaly*Constants.COST(d.getKey());
-	        			result.setCost(d.getKey(), year, cost);		        		
+	        			//For now just look at cases
+	        			final double cases = p.samplesize*Constants.INCIDENCE(d.getKey(), p.age, p.sex)*(qaly/2)*Constants.COST_PER_CASE;
+	        			//final double cost = p.samplesize*qaly*Constants.COST(d.getKey());
+	        			result.setCost(d.getKey(), year, cases);		        		
 	        		}
 
 	        	}
@@ -381,7 +383,7 @@ public class HealthModule implements IHealthModule {
 		
 		final double baseDeaths = baseStartPop - baseSurvival[personIndex][d.getKey().ordinal()][year+1];
 		final double baselifeYears = baseStartPop - 0.5*baseDeaths;
-    	
+
     	return lifeYears-baselifeYears;
     }
 }    

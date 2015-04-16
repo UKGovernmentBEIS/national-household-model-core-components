@@ -1,6 +1,7 @@
 package uk.ac.ucl.hideem;
 
 import uk.ac.ucl.hideem.Exposure.Type;
+import uk.ac.ucl.hideem.Person.Sex;
 
 public class Constants {
 	/**
@@ -62,13 +63,36 @@ public class Constants {
     public static final double INC_MOULD_ASTHMA3 	= 	100;
     
     //Costs
-    public static final double COST (final Disease.Type disease) {
-    	double[] cost = new double[]{1.26, 861};
+    public static final double COST_PER_CASE 	= 	861;
+    
+    //Incidence factor to get cases is incidence/deaths from Global Heath Statistics book
+    //Global burden of disease and injury page 655 (1990s data) 
+    public static final double INCIDENCE (final Disease.Type disease, final int age, final Sex sex) {
     	
-    	if (disease == Disease.Type.lungcancer) {
-        	cost = new double[]{1.46,861};
-        }
-    	return cost[0]*cost[1];
+    	int a,s = 0;
+    	
+    	//male					   //female
+    	double[][] incidence = new double[][]{{0, 0, 4.625, 3.292, 1.609},{0, 0, 5.8, 4.6, 1.352}};  //Cerebovascular
+    	
+    	if (age < 5) {
+    		a = 0;
+    	} else if (age >= 5 && age < 15){
+    		a = 1;
+    	} else if (age >= 15 && age < 45){
+    		a = 2;
+    	} else if (age >= 45 && age < 60){
+    		a = 3;
+    	} else {
+    		a = 4;
+    	}
+    	
+    	if (sex == Sex.MALE){
+    		s = 0;
+    	} else{
+    		s = 1;
+    	}
+    	
+    	return incidence[s][a];
     }
     
     //Time functions
