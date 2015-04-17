@@ -161,14 +161,15 @@ public class HealthModule implements IHealthModule {
         	
         		//loop over time frame
         		for (int year = 0; year < horizon; year=year+1) {
-	        		if (p.age+year == d.getValue().age && p.sex == d.getValue().sex){
+        			int age = p.age+year;
+	        		if (age == d.getValue().age && p.sex == d.getValue().sex){
 		        		final OccupancyType occupancy;
 		        		
-	        			if(p.age+year <= 5){
+	        			if(age <= 5){
 	        				occupancy = OccupancyType.H55_45_0; 
-	        			} else if(p.age+year > 5 && p.age+year < 18){
+	        			} else if(age > 5 && age < 18){
 	        				occupancy = OccupancyType.W29_33_0;
-	        			} else if(p.age+year > 65){
+	        			} else if(age > 65){
 	        				occupancy = OccupancyType.H45_45_10;
 	        			} else{
 	        				occupancy = OccupancyType.W21_33_8;
@@ -176,12 +177,12 @@ public class HealthModule implements IHealthModule {
 	        			
 	        			final double riskChangeTime = result.relativeRisk(d.getKey(),occupancy);
 	        			
-	        			final double qaly = calculateQaly(d, riskChangeTime, impactSurvival, baseSurvival, people.indexOf(p), year);
-	        			result.setMortalityQalys(d.getKey(), year, p.samplesize*qaly);
+	        			final double qaly[] = calculateQaly(d, riskChangeTime, impactSurvival, baseSurvival, people.indexOf(p), year);
+	        			result.setMortalityQalys(d.getKey(), year, p.samplesize*qaly[1]);
+	        			//result.setMortalityQalys(d.getKey(), year, qaly);
 	        			
 	        			//For now just look at cases
-	        			final double cases = p.samplesize*Constants.INCIDENCE(d.getKey(), p.age, p.sex)*(qaly/2)*Constants.COST_PER_CASE;
-	        			//final double cost = p.samplesize*qaly*Constants.COST(d.getKey());
+	        			final double cases = p.samplesize*Constants.INCIDENCE(d.getKey(), p.age, p.sex)*(-qaly[0]*Constants.COST_PER_CASE); 
 	        			result.setCost(d.getKey(), year, cases);		        		
 	        		}
 
@@ -352,8 +353,8 @@ public class HealthModule implements IHealthModule {
     	return matchedVentilation;
     }
 
-    private double calculateQaly(final Map.Entry<Disease.Type, Disease> d, final double riskChangeTime, final double[][][] impactSurvival, final double[][][] baseSurvival, final int personIndex, final int year) {
-    	
+    private double[] calculateQaly(final Map.Entry<Disease.Type, Disease> d, final double riskChangeTime, final double[][][] impactSurvival, final double[][][] baseSurvival, final int personIndex, final int year) {
+    	//Calculations based on Miller, Life table for quantitative impact assessment, 2003
     	final double base = d.getValue().allHazard;
 		double impact = base - d.getValue().hazard;
     	
@@ -372,7 +373,7 @@ public class HealthModule implements IHealthModule {
 			}
 		}
     	
-		impactSurvival[personIndex][d.getKey().ordinal()][year+1] = impactSurvival[personIndex][d.getKey().ordinal()][year]*((2-impact)/(2+impact));
+    	impactSurvival[personIndex][d.getKey().ordinal()][year+1] = impactSurvival[personIndex][d.getKey().ordinal()][year]*((2-impact)/(2+impact));
 		baseSurvival[personIndex][d.getKey().ordinal()][year+1] = baseSurvival[personIndex][d.getKey().ordinal()][year]*((2-base)/(2+base));
 		
 		final double impactStartPop = impactSurvival[personIndex][d.getKey().ordinal()][year];
@@ -383,8 +384,13 @@ public class HealthModule implements IHealthModule {
 		
 		final double baseDeaths = baseStartPop - baseSurvival[personIndex][d.getKey().ordinal()][year+1];
 		final double baselifeYears = baseStartPop - 0.5*baseDeaths;
-
-    	return lifeYears-baselifeYears;
+		
+		//doing change in the number of deaths instead
+		final double deltaDeaths = deaths-baseDeaths;
+		final double deltaQalys = lifeYears-baselifeYears;
+		final double vals[] = {deltaDeaths, deltaQalys};
+		return vals;
+    	//return lifeYears-baselifeYears;
     }
 }    
 
