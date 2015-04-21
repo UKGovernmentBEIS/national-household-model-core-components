@@ -37,12 +37,15 @@ public class Disease {
 	    		RiskConstant.OUTPM_CP, 
 	    		RiskConstant.INPM_CP, 
 	    		RiskConstant.SIT_CV, 
-	    		RiskConstant.ETS_MI)
+	    		RiskConstant.ETS_MI),
 	    //wincopd,			//WinCOPD
-	    //CommonMentalDisorder,  //Morbidity only
-	    //Athsma,				//Morbidity only
+	    commonmentaldisorder(
+	    		RiskConstant.SIT_CMD),  //Morbidity only
+	    asthma(
+	    		RiskConstant.MOULD_ASTHMA1)//,
+	    		//RiskConstant.MOULD_ASTHMA2,
+	    		//RiskConstant.MOULD_ASTHMA3)				//Morbidity only
 	    //OverheatingDeath
-	    
 	    ;
 		
 		private final RiskConstant[] risks;
@@ -54,7 +57,23 @@ public class Disease {
 		public double relativeRisk(final HealthOutcome result) {
 			double acc = 1;
 			for (final RiskConstant c : risks) {
-				acc *= c.riskDueTo(result);
+				switch(c) {
+				case SIT_CMD:
+					acc *= c.riskDueToCMD(result);
+					break;
+//				case MOULD_ASTHMA1:
+//					acc = ((1 - Constants.WEIGHT_ASTHMA1) * Constants.PREV_ASTHMA1)*(1 - c.riskDueTo(result));
+//					break;
+//				case MOULD_ASTHMA2:
+//					acc += ((1 - Constants.WEIGHT_ASTHMA2) * Constants.PREV_ASTHMA2)*(1 - c.riskDueTo(result));
+//					break;
+//				case MOULD_ASTHMA3:
+//					acc += ((1 - Constants.WEIGHT_ASTHMA3) * Constants.PREV_ASTHMA3)*(1 - c.riskDueTo(result));
+//					break;
+				default:
+					acc *= c.riskDueTo(result);
+					break;
+				}	
 			}
 			return acc;
 		}

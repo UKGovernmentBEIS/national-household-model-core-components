@@ -17,12 +17,18 @@ public class Constants {
 		OUTPM_LC(Constants.REL_RISK_PM_LC, Constants.INC_PM_LC, Exposure.Type.OUTPM2_5),
 		RADON_LC(Constants.REL_RISK_RADON_LC, Constants.INC_RADON_LC, Exposure.Type.Radon),
 		ETS_MI(Constants.REL_RISK_ETS_MI, Constants.INC_ETS_MI, Exposure.Type.ETS),
-		SIT_CV(Constants.REL_RISK_SIT_CV, Constants.INC_WINCV, Exposure.Type.SIT);
-		
+		SIT_CV(Constants.REL_RISK_SIT_CV, Constants.INC_WINCV, Exposure.Type.SIT),
+		SIT_CMD(Constants.REL_RISK_SIT_CMD, Constants.INC_WINCMD, Exposure.Type.SIT),
+		MOULD_ASTHMA1(Constants.REL_RISK_MOULD_ASTHMA1, Constants.INC_MOULD_ASTHMA1, Exposure.Type.Mould),
+		MOULD_ASTHMA2(Constants.REL_RISK_MOULD_ASTHMA2, Constants.INC_MOULD_ASTHMA2, Exposure.Type.Mould),
+		MOULD_ASTHMA3(Constants.REL_RISK_MOULD_ASTHMA3, Constants.INC_MOULD_ASTHMA3, Exposure.Type.Mould);
+
 		private final double logRatio;
+		private final double ratio;
 		private final Type exposureType;
 		
 		private RiskConstant(final double rel, final double inc, final Exposure.Type exposureType) {
+			this.ratio = rel / inc;
 			this.logRatio = Math.log(rel) / inc;
 			this.exposureType = exposureType;
 		}
@@ -30,6 +36,11 @@ public class Constants {
 		public double riskDueTo(final HealthOutcome result) {
 			return Math.exp(logRatio * result.deltaExposure(exposureType));
 		}
+		
+		public double riskDueToCMD(final HealthOutcome result) {
+			return Math.pow(ratio, result.deltaExposure(exposureType));
+		}
+		
 	}
 	
     //Health coefficients

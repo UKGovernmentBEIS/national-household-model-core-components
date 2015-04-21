@@ -62,11 +62,27 @@ public class HealthModule implements IHealthModule {
 		for (final Map<String, String> row : CSV.mapReader(bufferedReaderForResource("NHM_mortality_data.csv"))) {         
 			   
 			for (final Disease.Type type : Disease.Type.values()){
+				switch(type){
+				case commonmentaldisorder:
+					break;
+				case asthma:
+					break;
+				default:
+					if(type != Disease.Type.commonmentaldisorder || type != Disease.Type.asthma){
+						final Disease d = Disease.readDisease(row.get("age"), row.get("sex"), row.get(type.name()), Double.parseDouble(row.get("all")), row.get("population"),row.get(type.name()+"_ratio"));
+						healthCoefficients.put(Enum.valueOf(Disease.Type.class, type.name()), d);
+					}
+				}
 				
-				final Disease d = Disease.readDisease(row.get("age"), row.get("sex"), row.get(type.name()), Double.parseDouble(row.get("all")), row.get("population"),row.get(type.name()+"_ratio"));
-				healthCoefficients.put(Enum.valueOf(Disease.Type.class, type.name()), d);
 			}
 		}
+		
+		//Need to add a coef for CMD and Asthma so the diseases can be calculated later. The values aren't important (not gender/age specific) 
+		final Disease cmd = Disease.readDisease("-1", "FEMALE", "0", 0, "0","0");
+		healthCoefficients.put(Enum.valueOf(Disease.Type.class, Disease.Type.commonmentaldisorder.name()), cmd);
+		final Disease asthma = Disease.readDisease("-1", "FEMALE", "0", 0, "0","0");
+		healthCoefficients.put(Enum.valueOf(Disease.Type.class, Disease.Type.asthma.name()), asthma);
+		
     }
 
 	private BufferedReader bufferedReaderForResource(final String resource) {
@@ -162,7 +178,8 @@ public class HealthModule implements IHealthModule {
         		//loop over time frame
         		for (int year = 0; year < horizon; year=year+1) {
         			int age = p.age+year;
-	        		if (age == d.getValue().age && p.sex == d.getValue().sex){
+        			//Need age ==-1 as ages not stored for CMD and Asthma 
+	        		if ((age == d.getValue().age && p.sex == d.getValue().sex) || d.getValue().age==-1){
 		        		final OccupancyType occupancy;
 		        		
 	        			if(age <= 5){
@@ -179,8 +196,22 @@ public class HealthModule implements IHealthModule {
 	        			
 	        			final double qaly[] = calculateQaly(d, riskChangeTime, impactSurvival, baseSurvival, people.indexOf(p), year);
 	        			result.setMortalityQalys(d.getKey(), year, p.samplesize*qaly[1]);
-	        			result.setMorbidityQalys(d.getKey(), year, p.samplesize*qaly[1]*d.getValue().morbidity);
 	        			
+	        			//Different cases for CMD and Asthma for morbidity qalys
+	        			switch(d.getKey()){
+	        			case commonmentaldisorder:
+	        				final double cmdQALY = calculateCMDQaly(riskChangeTime, age, year);
+	        				result.setMorbidityQalys(d.getKey(), year, p.samplesize*cmdQALY);
+	        				break;
+	        			case asthma:
+	        				final double asthmaQALY = calculateAsthmaQaly(riskChangeTime, age, year);
+	        				result.setMorbidityQalys(d.getKey(), year, p.samplesize*asthmaQALY);
+	        				break;
+	        			default:
+	        				result.setMorbidityQalys(d.getKey(), year, p.samplesize*qaly[1]*d.getValue().morbidity);
+	        				break;
+	        			}
+
 	        			//For now just look at cases
 	        			final double cases = p.samplesize*Constants.INCIDENCE(d.getKey(), p.age, p.sex)*(-qaly[0]*Constants.COST_PER_CASE); 
 	        			result.setCost(d.getKey(), year, cases);		        		
@@ -392,5 +423,30 @@ public class HealthModule implements IHealthModule {
 		return vals;
     	//return lifeYears-baselifeYears;
     }
+    
+    private double calculateCMDQaly(final double riskChangeTime, final int age, final int year) {
+    	double impact = 0;
+    	
+    	if (age >= 16) {
+    		impact = (1 - riskChangeTime)*(1-Constants.WEIGHT_CMD)*0.25*Constants.PREV_CMD;
+    	} 
+    	
+    	final double timeFunct = 1/Math.pow(2.5,year);
+    	
+    	return impact*timeFunct;
+    }
+    
+    private double calculateAsthmaQaly(final double riskChangeTime, final int age, final int year) {
+    	double impact = 0;
+    	
+    	if (age <= 15) {
+    		impact = ((1 - Constants.WEIGHT_ASTHMA1) * Constants.PREV_ASTHMA1)*(1 - riskChangeTime);
+    	} 
+    	
+    	final double timeFunct = 1/Math.pow(1.3,year);
+    	
+    	return impact*timeFunct;
+    }
+    
 }    
 
