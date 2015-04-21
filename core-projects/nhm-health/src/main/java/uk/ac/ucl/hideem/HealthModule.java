@@ -63,7 +63,7 @@ public class HealthModule implements IHealthModule {
 			   
 			for (final Disease.Type type : Disease.Type.values()){
 				
-				final Disease d = Disease.readDisease(row.get("age"), row.get("sex"), row.get(type.name()), Double.parseDouble(row.get("all")), row.get("population"));
+				final Disease d = Disease.readDisease(row.get("age"), row.get("sex"), row.get(type.name()), Double.parseDouble(row.get("all")), row.get("population"),row.get(type.name()+"_ratio"));
 				healthCoefficients.put(Enum.valueOf(Disease.Type.class, type.name()), d);
 			}
 		}
@@ -179,7 +179,7 @@ public class HealthModule implements IHealthModule {
 	        			
 	        			final double qaly[] = calculateQaly(d, riskChangeTime, impactSurvival, baseSurvival, people.indexOf(p), year);
 	        			result.setMortalityQalys(d.getKey(), year, p.samplesize*qaly[1]);
-	        			//result.setMortalityQalys(d.getKey(), year, qaly);
+	        			result.setMorbidityQalys(d.getKey(), year, p.samplesize*qaly[1]*d.getValue().morbidity);
 	        			
 	        			//For now just look at cases
 	        			final double cases = p.samplesize*Constants.INCIDENCE(d.getKey(), p.age, p.sex)*(-qaly[0]*Constants.COST_PER_CASE); 
