@@ -42,9 +42,7 @@ public class Disease {
 	    commonmentaldisorder(
 	    		RiskConstant.SIT_CMD),  //Morbidity only
 	    asthma(
-	    		RiskConstant.MOULD_ASTHMA1)//,
-	    		//RiskConstant.MOULD_ASTHMA2,
-	    		//RiskConstant.MOULD_ASTHMA3)				//Morbidity only
+	    		RiskConstant.MOULD_ASTHMA1)			//Morbidity only
 	    //OverheatingDeath
 	    ;
 		
@@ -61,15 +59,6 @@ public class Disease {
 				case SIT_CMD:
 					acc *= c.riskDueToCMD(result);
 					break;
-//				case MOULD_ASTHMA1:
-//					acc = ((1 - Constants.WEIGHT_ASTHMA1) * Constants.PREV_ASTHMA1)*(1 - c.riskDueTo(result));
-//					break;
-//				case MOULD_ASTHMA2:
-//					acc += ((1 - Constants.WEIGHT_ASTHMA2) * Constants.PREV_ASTHMA2)*(1 - c.riskDueTo(result));
-//					break;
-//				case MOULD_ASTHMA3:
-//					acc += ((1 - Constants.WEIGHT_ASTHMA3) * Constants.PREV_ASTHMA3)*(1 - c.riskDueTo(result));
-//					break;
 				default:
 					acc *= c.riskDueTo(result);
 					break;

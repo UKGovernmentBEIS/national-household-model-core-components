@@ -195,6 +195,7 @@ public class HealthModule implements IHealthModule {
 	        			final double riskChangeTime = result.relativeRisk(d.getKey(),occupancy);
 	        			
 	        			final double qaly[] = calculateQaly(d, riskChangeTime, impactSurvival, baseSurvival, people.indexOf(p), year);
+	        			// calculateQaly returns array: [0] deaths [1] qaly changes
 	        			result.setMortalityQalys(d.getKey(), year, p.samplesize*qaly[1]);
 	        			
 	        			//Different cases for CMD and Asthma for morbidity qalys
@@ -233,10 +234,10 @@ public class HealthModule implements IHealthModule {
 		
 		//factors here!
 		double floorFactor = 1;
-		if((form ==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlat) && mainFloorLevel==2){
+		if((form ==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlatLowRise || form==BuiltForm.PurposeBuiltFlatHighRise) && mainFloorLevel==2){
 			floorFactor = 0.5;
 		}
-		else if((form ==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlat) && mainFloorLevel==3){
+		else if((form ==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlatLowRise || form==BuiltForm.PurposeBuiltFlatHighRise) && mainFloorLevel==3){
 			floorFactor = 0.;
 		}
 		
@@ -330,13 +331,16 @@ public class HealthModule implements IHealthModule {
 	    
 	    switch (form) {
 	    case ConvertedFlat:
-	    case PurposeBuiltFlat:
+	    case PurposeBuiltFlatLowRise:
 	    	if (floorArea > 50) {
 	    		matchedBuiltForm = ExposureBuiltForm.Flat1;
 	    	} else {
 	    		matchedBuiltForm = ExposureBuiltForm.Flat2;
 	    	}
 	    	// there is no flat3 at the moment
+	    	break;
+	    case PurposeBuiltFlatHighRise:
+	    	matchedBuiltForm = ExposureBuiltForm.Flat3;
 	    	break;
 		case Bungalow:
 			matchedBuiltForm = ExposureBuiltForm.House5;
@@ -421,7 +425,6 @@ public class HealthModule implements IHealthModule {
 		final double deltaQalys = lifeYears-baselifeYears;
 		final double vals[] = {deltaDeaths, deltaQalys};
 		return vals;
-    	//return lifeYears-baselifeYears;
     }
     
     private double calculateCMDQaly(final double riskChangeTime, final int age, final int year) {
@@ -438,9 +441,12 @@ public class HealthModule implements IHealthModule {
     
     private double calculateAsthmaQaly(final double riskChangeTime, final int age, final int year) {
     	double impact = 0;
-    	
+    	//A bit of a work around for Asthma since relative risks are done in a slightly different way
     	if (age <= 15) {
-    		impact = ((1 - Constants.WEIGHT_ASTHMA1) * Constants.PREV_ASTHMA1)*(1 - riskChangeTime);
+    		impact = ((1 - Constants.WEIGHT_ASTHMA1) * Constants.PREV_ASTHMA1)*(1 - riskChangeTime) + 
+    				((1 - Constants.WEIGHT_ASTHMA2) * Constants.PREV_ASTHMA2)*(1 - riskChangeTime*Math.exp(Math.log(Constants.REL_RISK_MOULD_ASTHMA2/Constants.REL_RISK_MOULD_ASTHMA1)/100))+
+    				((1 - Constants.WEIGHT_ASTHMA3) * Constants.PREV_ASTHMA3)*(1 - riskChangeTime*Math.exp(Math.log(Constants.REL_RISK_MOULD_ASTHMA3/Constants.REL_RISK_MOULD_ASTHMA1)/100));
+    		
     	} 
     	
     	final double timeFunct = 1/Math.pow(1.3,year);

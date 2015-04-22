@@ -7,6 +7,7 @@ public enum BuiltForm {
     Detached,
     Bungalow,
     ConvertedFlat,
-    PurposeBuiltFlat;
+    PurposeBuiltFlatLowRise,
+    PurposeBuiltFlatHighRise;
 }
 
