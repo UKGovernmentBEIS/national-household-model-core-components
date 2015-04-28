@@ -150,7 +150,6 @@ public class HealthModule implements IHealthModule {
 	    	}
 	                               
 	        //Calculate the relative risks (independent of person) -> won't be any more due to diff occupancies
-	        
 	        for (final Disease.Type disease : Disease.Type.values()) {
 	        	result.setRelativeRisk(disease, occupancy, disease.relativeRisk(result));
 	        }	    
@@ -194,6 +193,9 @@ public class HealthModule implements IHealthModule {
 	        			
 	        			final double riskChangeTime = result.relativeRisk(d.getKey(),occupancy);
 	        			
+	        			//scale to pop size in uk: 58 mill
+	        			p.samplesize = 17039;
+	        			
 	        			final double qaly[] = calculateQaly(d, riskChangeTime, impactSurvival, baseSurvival, people.indexOf(p), year);
 	        			// calculateQaly returns array: [0] deaths [1] qaly changes
 	        			result.setMortalityQalys(d.getKey(), year, p.samplesize*qaly[1]);
@@ -201,21 +203,24 @@ public class HealthModule implements IHealthModule {
 	        			//Different cases for CMD and Asthma for morbidity qalys
 	        			switch(d.getKey()){
 	        			case commonmentaldisorder:
-	        				final double cmdQALY = calculateCMDQaly(riskChangeTime, age, year);
-	        				result.setMorbidityQalys(d.getKey(), year, p.samplesize*cmdQALY);
+	        				final double[] cmdImp = calculateCMDQaly(riskChangeTime, age, year);
+	        				result.setMorbidityQalys(d.getKey(), year, p.samplesize*cmdImp[1]);
+	        				result.setCost(d.getKey(), year, p.samplesize*cmdImp[0]*Constants.COST_PER_CASE(d.getKey()));
 	        				break;
 	        			case asthma:
-	        				final double asthmaQALY = calculateAsthmaQaly(riskChangeTime, age, year);
-	        				result.setMorbidityQalys(d.getKey(), year, p.samplesize*asthmaQALY);
+	        				final double[] asthmaImp = calculateAsthmaQaly(riskChangeTime, age, year);
+	        				result.setMorbidityQalys(d.getKey(), year, p.samplesize*asthmaImp[1]);
+	        				result.setCost(d.getKey(), year, p.samplesize*asthmaImp[0]*Constants.COST_PER_CASE(d.getKey()));
 	        				break;
 	        			default:
 	        				result.setMorbidityQalys(d.getKey(), year, p.samplesize*qaly[1]*d.getValue().morbidity);
+	        				//For now just look at cases
+		        			final double cases = p.samplesize*Constants.INCIDENCE(d.getKey(), p.age, p.sex)*(qaly[0])*Constants.COST_PER_CASE(d.getKey()); 
+		        			result.setCost(d.getKey(), year, cases);
 	        				break;
 	        			}
 
-	        			//For now just look at cases
-	        			final double cases = p.samplesize*Constants.INCIDENCE(d.getKey(), p.age, p.sex)*(-qaly[0]*Constants.COST_PER_CASE); 
-	        			result.setCost(d.getKey(), year, cases);		        		
+	        					        		
 	        		}
 
 	        	}
@@ -337,7 +342,6 @@ public class HealthModule implements IHealthModule {
 	    	} else {
 	    		matchedBuiltForm = ExposureBuiltForm.Flat2;
 	    	}
-	    	// there is no flat3 at the moment
 	    	break;
 	    case PurposeBuiltFlatHighRise:
 	    	matchedBuiltForm = ExposureBuiltForm.Flat3;
@@ -427,31 +431,47 @@ public class HealthModule implements IHealthModule {
 		return vals;
     }
     
-    private double calculateCMDQaly(final double riskChangeTime, final int age, final int year) {
+    private double[] calculateCMDQaly(final double riskChangeTime, final int age, final int year) {
     	double impact = 0;
     	
     	if (age >= 16) {
     		impact = (1 - riskChangeTime)*(1-Constants.WEIGHT_CMD)*0.25*Constants.PREV_CMD;
     	} 
-    	
+
     	final double timeFunct = 1/Math.pow(2.5,year);
     	
-    	return impact*timeFunct;
+    	final double qalys = impact*timeFunct;
+    	final double cases = Constants.PREV_CMD*(riskChangeTime-1)*timeFunct*0.25;
+    	
+    	final double vals[] = {cases, qalys};
+    	
+    	return vals;
     }
     
-    private double calculateAsthmaQaly(final double riskChangeTime, final int age, final int year) {
+    private double[] calculateAsthmaQaly(final double riskChangeTime, final int age, final int year) {
     	double impact = 0;
     	//A bit of a work around for Asthma since relative risks are done in a slightly different way
+    	final double riskChangeTime2 = riskChangeTime*Math.exp(Math.log(Constants.REL_RISK_MOULD_ASTHMA2/Constants.REL_RISK_MOULD_ASTHMA1)/Constants.INC_MOULD_ASTHMA1);
+    	final double riskChangeTime3 = riskChangeTime*Math.exp(Math.log(Constants.REL_RISK_MOULD_ASTHMA3/Constants.REL_RISK_MOULD_ASTHMA1)/Constants.INC_MOULD_ASTHMA1);
+    	
     	if (age <= 15) {
     		impact = ((1 - Constants.WEIGHT_ASTHMA1) * Constants.PREV_ASTHMA1)*(1 - riskChangeTime) + 
-    				((1 - Constants.WEIGHT_ASTHMA2) * Constants.PREV_ASTHMA2)*(1 - riskChangeTime*Math.exp(Math.log(Constants.REL_RISK_MOULD_ASTHMA2/Constants.REL_RISK_MOULD_ASTHMA1)/100))+
-    				((1 - Constants.WEIGHT_ASTHMA3) * Constants.PREV_ASTHMA3)*(1 - riskChangeTime*Math.exp(Math.log(Constants.REL_RISK_MOULD_ASTHMA3/Constants.REL_RISK_MOULD_ASTHMA1)/100));
+    				((1 - Constants.WEIGHT_ASTHMA2) * Constants.PREV_ASTHMA2)*(1 - riskChangeTime2)+
+    				((1 - Constants.WEIGHT_ASTHMA3) * Constants.PREV_ASTHMA3)*(1 - riskChangeTime3);
     		
     	} 
     	
     	final double timeFunct = 1/Math.pow(1.3,year);
     	
-    	return impact*timeFunct;
+    	final double qalys = impact*timeFunct;
+    	final double cases = (Constants.PREV_ASTHMA1*(riskChangeTime-1)+
+    			Constants.PREV_ASTHMA2*(riskChangeTime2-1)+
+    			Constants.PREV_ASTHMA3*(riskChangeTime3-1))*timeFunct;
+    	
+    	final double vals[] = {cases, qalys};
+    	
+    	return vals;
+    			
     }
     
 }    

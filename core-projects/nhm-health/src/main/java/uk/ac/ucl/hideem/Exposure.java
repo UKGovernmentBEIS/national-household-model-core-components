@@ -39,8 +39,8 @@ public class Exposure {
 		//time living room, bedroom, kitchen
 		H45_45_10,   //pensioner
 		H55_45_0,    //small child
-		W21_33_8,    //worker
-		W29_33_0;	 //school child	
+		W29_33_0,	 //school child
+		W21_33_8;    //worker
 	}
 	
 	public final ExposureBuiltForm builtForm;
