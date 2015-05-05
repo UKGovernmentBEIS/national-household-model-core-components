@@ -77,12 +77,12 @@ public class Constants {
     public static final double COST_PER_CASE(final Disease.Type disease) {
     	double[] cost = new double[Disease.Type.values().length];
     	cost[Disease.Type.cerebrovascular.ordinal()] = 860.83;
-    	cost[Disease.Type.cardiopulmonary.ordinal()] = cost[Disease.Type.cerebrovascular.ordinal()];
-    	cost[Disease.Type.myocardialinfarction.ordinal()] = 860.83;
+    	cost[Disease.Type.cardiopulmonary.ordinal()] = 1194.10;
+    	cost[Disease.Type.myocardialinfarction.ordinal()] = 413.65; //CHD
     	cost[Disease.Type.lungcancer.ordinal()] = 4951.47;
     	cost[Disease.Type.wincerebrovascular.ordinal()] = cost[Disease.Type.cerebrovascular.ordinal()];
     	cost[Disease.Type.wincardiovascular.ordinal()] = 1047.09;
-    	cost[Disease.Type.winmyocardialinfarction.ordinal()] = cost[Disease.Type.cerebrovascular.ordinal()];
+    	cost[Disease.Type.winmyocardialinfarction.ordinal()] = cost[Disease.Type.myocardialinfarction.ordinal()];
     	cost[Disease.Type.commonmentaldisorder.ordinal()] = 2248.77;
     	cost[Disease.Type.asthma.ordinal()] = 312.08;
     	
@@ -90,20 +90,20 @@ public class Constants {
     }
     
     //Incidence factor to get cases is incidence/deaths from Global Heath Statistics book
-    //Global burden of disease and injury page 655 (1990s data) 
+    //Global burden of disease and injury (1990s data) 
     public static final double INCIDENCE (final Disease.Type disease, final int age, final Sex sex) {
     	
     	int a,s = 0;
     	
     	double[][][] incidence = new double[Disease.Type.values().length][2][5];
     	//male					   //female
-    	incidence[Disease.Type.cerebrovascular.ordinal()] = new double[][]{{0, 0, 37/8, 79/24, 465/289},{0, 0, 29/5, 69/15, 603/467}};  
-    	incidence[Disease.Type.cardiopulmonary.ordinal()] = new double[][]{{0, 0, 60/18, 282/98, 857/713},{0, 0, 17/5, 78/29, 921/805}}; 
-    	incidence[Disease.Type.myocardialinfarction.ordinal()] = incidence[Disease.Type.cardiopulmonary.ordinal()];
-    	incidence[Disease.Type.lungcancer.ordinal()] = new double[][]{{0, 0, 8/6, 57/50, 241/223},{0, 0, 4/3, 24/17, 97/81}};
-    	incidence[Disease.Type.wincerebrovascular.ordinal()] = incidence[Disease.Type.cerebrovascular.ordinal()];
-    	incidence[Disease.Type.wincardiovascular.ordinal()] = incidence[Disease.Type.cardiopulmonary.ordinal()];
-    	incidence[Disease.Type.winmyocardialinfarction.ordinal()] = incidence[Disease.Type.cardiopulmonary.ordinal()];
+    	incidence[Disease.Type.cerebrovascular.ordinal()] = new double[][]{{0, 0, 37/8, 79/24, 465/289},{0, 0, 29/5, 69/15, 603/467}};  //page 655
+    	incidence[Disease.Type.cardiopulmonary.ordinal()] = new double[][]{{0, 0, 60/18, 282/98, 857/713},{0, 0, 17/5, 78/29, 921/805}}; //Ischemic heart disease p646
+    	incidence[Disease.Type.myocardialinfarction.ordinal()] = incidence[Disease.Type.cardiopulmonary.ordinal()]; //p646
+    	incidence[Disease.Type.lungcancer.ordinal()] = new double[][]{{0, 0, 8/6, 57/50, 241/223},{0, 0, 4/3, 24/17, 97/81}}; //p556
+    	incidence[Disease.Type.wincerebrovascular.ordinal()] = incidence[Disease.Type.cerebrovascular.ordinal()];	//p646
+    	incidence[Disease.Type.wincardiovascular.ordinal()] = incidence[Disease.Type.cardiopulmonary.ordinal()];	//p646
+    	incidence[Disease.Type.winmyocardialinfarction.ordinal()] = incidence[Disease.Type.cardiopulmonary.ordinal()];	//p646
     	
     	if (age < 5) {
     		a = 0;

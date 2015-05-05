@@ -193,9 +193,6 @@ public class HealthModule implements IHealthModule {
 	        			
 	        			final double riskChangeTime = result.relativeRisk(d.getKey(),occupancy);
 	        			
-	        			//scale to pop size in uk: 58 mill
-	        			p.samplesize = 17039;
-	        			
 	        			final double qaly[] = calculateQaly(d, riskChangeTime, impactSurvival, baseSurvival, people.indexOf(p), year);
 	        			// calculateQaly returns array: [0] deaths [1] qaly changes
 	        			result.setMortalityQalys(d.getKey(), year, p.samplesize*qaly[1]);
