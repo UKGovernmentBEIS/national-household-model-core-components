@@ -13,7 +13,7 @@ public class HealthOutcome {
     private final double[][] exposures;
     private final double[][] relativeRisk;
     private final double[][] mortalityQalys;
-    private final double[] morbidityQalys;
+    private final double[][] morbidityQalys;
     private final double[][] costs;
     final int years;
 
@@ -23,7 +23,7 @@ public class HealthOutcome {
         this.exposures = new double[Exposure.Type.values().length][2];
         this.relativeRisk = new double[Disease.Type.values().length][4]; //for the 4 types of occupancy
         this.mortalityQalys = new double[Disease.Type.values().length][years];
-        this.morbidityQalys = new double[Disease.Type.values().length];
+        this.morbidityQalys = new double[Disease.Type.values().length][years];
         this.costs = new double[Disease.Type.values().length]
             [years];
     }
@@ -35,6 +35,12 @@ public class HealthOutcome {
     	for (int i = 0; i < Exposure.Type.values().length; ++i) {
         	for (int j = 0; j < 2; ++j) {
         		this.exposures[i][j] += outcome.exposures[i][j];
+        	}
+        }
+    	
+    	for (int i = 0; i < Disease.Type.values().length; ++i) {
+        	for (int j = 0; j < years; ++j) {
+        		this.morbidityQalys[i][j] += outcome.morbidityQalys[i][j];
         	}
         }
     	
@@ -78,9 +84,9 @@ public class HealthOutcome {
         return mortalityQalys[disease.ordinal()][year];
     }
     
-    public double morbidityQalys(final Disease.Type disease) {
+    public double morbidityQalys(final Disease.Type disease, final int year) {
         Preconditions.checkNotNull(disease);
-        return morbidityQalys[disease.ordinal()];
+        return morbidityQalys[disease.ordinal()][year];
     }
     
     public double cost(final Disease.Type disease, final int year) {
@@ -110,9 +116,9 @@ public class HealthOutcome {
         this.mortalityQalys[disease.ordinal()][year] += q;
     }
     
-    public void setMorbidityQalys(final Disease.Type disease, final double q) {
+    public void setMorbidityQalys(final Disease.Type disease, final int year, final double q) {
         Preconditions.checkNotNull(disease);
-        this.morbidityQalys[disease.ordinal()] += q;
+        this.morbidityQalys[disease.ordinal()][year] += q;
     }
     
 //    public void setCost(final Disease.Type disease, final HealthCost cost, final int year, final double c) {
@@ -135,29 +141,29 @@ public class HealthOutcome {
         sb.append("Health Outcome for " + years + " years:\n");
         sb.append("\tExposures:\n");
         for (final Exposure.Type e : Exposure.Type.values()) {
-            sb.append(String.format("\t\t%s: %g -> %g\n", e,
-                                    exposures[e.ordinal()][0],
-                                    exposures[e.ordinal()][1]));
+            sb.append(String.format("\t\t%s & %g & %g & %g \\\\ \n", e,
+                                    exposures[e.ordinal()][0]/1391,
+                                    exposures[e.ordinal()][1]/1391, exposures[e.ordinal()][1]/1391-exposures[e.ordinal()][0]/1391));
         }
         
         sb.append("\t\tYear");
         for (final Disease.Type d : Disease.Type.values()) {
-            sb.append("\t"+ d);
+            sb.append(" & \t"+ d);
         }
         sb.append("\n");
         sb.append("\t Relative Risks:\n\t\t");
         for (final Disease.Type d : Disease.Type.values()) {
         	//just print RR for one type of occupancy
-            sb.append(String.format("\t%g", relativeRisk[d.ordinal()][0]));
+            sb.append(String.format("\t%g", relativeRisk[d.ordinal()][1]));
         }
         sb.append("\n");
         sb.append("\t Mortality Qalys:\n");
         for (int i = 0; i < years; i++) {
         	sb.append(String.format("\t\t%d", i+1));
 	        for (final Disease.Type d : Disease.Type.values()) {
-	            sb.append(String.format("\t%g", mortalityQalys[d.ordinal()][i]));
+	            sb.append(String.format(" & \t%g", mortalityQalys[d.ordinal()][i]));
 	        }
-	        sb.append("\n");
+	        sb.append("\\\\ \n");
         }
         //sb.append("\n");
         
@@ -173,28 +179,46 @@ public class HealthOutcome {
         }
         
 	    for (final Disease.Type d : Disease.Type.values()) {
-		   sb.append(String.format("\t%g", cumulativeMortality[d.ordinal()]));
+		   sb.append(String.format(" & \t%g", cumulativeMortality[d.ordinal()]));
 	    }
 	    
-	    sb.append("\n");
+	    sb.append("\\\\ \n");
         
 	    //Morbidity QALYS
-//        sb.append("\t Morbidity Qalys:\n");
-//
-//        sb.append(String.format("\t\t%d", years));
-//        for (final Disease.Type d : Disease.Type.values()) {
-//            sb.append(String.format("\t%g", morbidityQalys[d.ordinal()]));
-//        }
-//        sb.append("\n");
-
+	    sb.append("\t Morbidity Qalys:\n");
+        for (int i = 0; i < years; i++) {
+        	sb.append(String.format("\t\t%d", i+1));
+	        for (final Disease.Type d : Disease.Type.values()) {
+	            sb.append(String.format(" & \t%g", morbidityQalys[d.ordinal()][i]));
+	        }
+	        sb.append("\\\\ \n");
+        }
+        
+        
+        //Cumulative effect
+        sb.append("\t Cumulative Morbidity Qalys:\n");
+        sb.append(String.format("\t\ttot"));
+        final double[] cumulativeMorbidity = new double[Disease.Type.values().length];
+        for (int i = 0; i < years; i++) {
+        	
+	        for (final Disease.Type d : Disease.Type.values()) {
+	        	cumulativeMorbidity[d.ordinal()] = cumulativeMorbidity[d.ordinal()]+morbidityQalys[d.ordinal()][i];    
+	        }
+        }
+        
+	    for (final Disease.Type d : Disease.Type.values()) {
+		   sb.append(String.format(" & \t%g", cumulativeMorbidity[d.ordinal()]));
+	    }
+	    
+	    sb.append("\\\\ \n");
         //print costs.
 	    sb.append("\t Cost:\n");
         for (int i = 0; i < years; i++) {
         	sb.append(String.format("\t\t%d", i+1));
 	        for (final Disease.Type d : Disease.Type.values()) {
-	            sb.append(String.format("\t%g", costs[d.ordinal()][i]));
+	            sb.append(String.format(" & \t%g", costs[d.ordinal()][i]));
 	        }
-	        sb.append("\n");
+	        sb.append("\\\\ \n");
         }
 
         //Cumulative effect
@@ -209,10 +233,10 @@ public class HealthOutcome {
         }
         
 	    for (final Disease.Type d : Disease.Type.values()) {
-		   sb.append(String.format("\t%g", cumulativeCost[d.ordinal()]));
+		   sb.append(String.format(" & \t%g", cumulativeCost[d.ordinal()]));
 	    }
 	    
-	    sb.append("\n");
+	    sb.append("\\\\ \n");
         
         return sb.toString();
     }

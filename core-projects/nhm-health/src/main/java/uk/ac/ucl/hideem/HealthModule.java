@@ -62,11 +62,27 @@ public class HealthModule implements IHealthModule {
 		for (final Map<String, String> row : CSV.mapReader(bufferedReaderForResource("NHM_mortality_data.csv"))) {         
 			   
 			for (final Disease.Type type : Disease.Type.values()){
+				switch(type){
+				case commonmentaldisorder:
+					break;
+				case asthma:
+					break;
+				default:
+					if(type != Disease.Type.commonmentaldisorder || type != Disease.Type.asthma){
+						final Disease d = Disease.readDisease(row.get("age"), row.get("sex"), row.get(type.name()), Double.parseDouble(row.get("all")), row.get("population"),row.get(type.name()+"_ratio"));
+						healthCoefficients.put(Enum.valueOf(Disease.Type.class, type.name()), d);
+					}
+				}
 				
-				final Disease d = Disease.readDisease(row.get("age"), row.get("sex"), row.get(type.name()), Double.parseDouble(row.get("all")), row.get("population"));
-				healthCoefficients.put(Enum.valueOf(Disease.Type.class, type.name()), d);
 			}
 		}
+		
+		//Need to add a coef for CMD and Asthma so the diseases can be calculated later. The values aren't important (not gender/age specific) 
+		final Disease cmd = Disease.readDisease("-1", "FEMALE", "0", 0, "0","0");
+		healthCoefficients.put(Enum.valueOf(Disease.Type.class, Disease.Type.commonmentaldisorder.name()), cmd);
+		final Disease asthma = Disease.readDisease("-1", "FEMALE", "0", 0, "0","0");
+		healthCoefficients.put(Enum.valueOf(Disease.Type.class, Disease.Type.asthma.name()), asthma);
+		
     }
 
 	private BufferedReader bufferedReaderForResource(final String resource) {
@@ -102,7 +118,7 @@ public class HealthModule implements IHealthModule {
               
         //Get the correct exposures coefficients and calculate base and modified exposures for each individual
         
-        //loop over people in house to match them to coefficients
+        //loop over occupancy types
     	for(final Exposure.OccupancyType occupancy : Exposure.OccupancyType.values()){
         
 	        //First loop over the exposure types
@@ -134,11 +150,10 @@ public class HealthModule implements IHealthModule {
 	    	}
 	                               
 	        //Calculate the relative risks (independent of person) -> won't be any more due to diff occupancies
-	        
 	        for (final Disease.Type disease : Disease.Type.values()) {
 	        	result.setRelativeRisk(disease, occupancy, disease.relativeRisk(result));
 	        }	    
-    	}//end of person loop
+    	}//end of occupancy loop
 	        
 	    
         // health calculation goes here. Probably be good to sanity check the inputs.
@@ -161,26 +176,48 @@ public class HealthModule implements IHealthModule {
         	
         		//loop over time frame
         		for (int year = 0; year < horizon; year=year+1) {
-	        		if (p.age+year == d.getValue().age && p.sex == d.getValue().sex){
+        			int age = p.age+year;
+        			//Need age ==-1 as ages not stored for CMD and Asthma 
+	        		if ((age == d.getValue().age && p.sex == d.getValue().sex) || d.getValue().age==-1){
 		        		final OccupancyType occupancy;
-	        			
-		        		// TODO this seems erroneous; occupancy type zero (H45_45_10) never occurs
 		        		
-	        			if(p.age+year <= 5){
-	        				occupancy = OccupancyType.H55_45_0;
-	        			} else if(p.age+year > 5 && p.age+year < 18){
+	        			if(age <= 5){
+	        				occupancy = OccupancyType.H55_45_0; 
+	        			} else if(age > 5 && age < 18){
 	        				occupancy = OccupancyType.W29_33_0;
+	        			} else if(age > 65){
+	        				occupancy = OccupancyType.H45_45_10;
 	        			} else{
 	        				occupancy = OccupancyType.W21_33_8;
 	        			}
 	        			
 	        			final double riskChangeTime = result.relativeRisk(d.getKey(),occupancy);
 	        			
-	        			final double qaly = calculateQaly(d, riskChangeTime, impactSurvival, baseSurvival, people.indexOf(p), year);
-	        			result.setMortalityQalys(d.getKey(), year, p.samplesize*qaly);
+	        			final double qaly[] = calculateQaly(d, riskChangeTime, impactSurvival, baseSurvival, people.indexOf(p), year);
+	        			// calculateQaly returns array: [0] deaths [1] qaly changes
+	        			result.setMortalityQalys(d.getKey(), year, p.samplesize*qaly[1]);
 	        			
-	        			final double cost = p.samplesize*qaly*Constants.COST(d.getKey());
-	        			result.setCost(d.getKey(), year, cost);		        		
+	        			//Different cases for CMD and Asthma for morbidity qalys
+	        			switch(d.getKey()){
+	        			case commonmentaldisorder:
+	        				final double[] cmdImp = calculateCMDQaly(riskChangeTime, age, year);
+	        				result.setMorbidityQalys(d.getKey(), year, p.samplesize*cmdImp[1]);
+	        				result.setCost(d.getKey(), year, p.samplesize*cmdImp[0]*Constants.COST_PER_CASE(d.getKey()));
+	        				break;
+	        			case asthma:
+	        				final double[] asthmaImp = calculateAsthmaQaly(riskChangeTime, age, year);
+	        				result.setMorbidityQalys(d.getKey(), year, p.samplesize*asthmaImp[1]);
+	        				result.setCost(d.getKey(), year, p.samplesize*asthmaImp[0]*Constants.COST_PER_CASE(d.getKey()));
+	        				break;
+	        			default:
+	        				result.setMorbidityQalys(d.getKey(), year, p.samplesize*qaly[1]*d.getValue().morbidity);
+	        				//For now just look at cases
+		        			final double cases = p.samplesize*Constants.INCIDENCE(d.getKey(), p.age, p.sex)*(qaly[0])*Constants.COST_PER_CASE(d.getKey()); 
+		        			result.setCost(d.getKey(), year, cases);
+	        				break;
+	        			}
+
+	        					        		
 	        		}
 
 	        	}
@@ -199,10 +236,10 @@ public class HealthModule implements IHealthModule {
 		
 		//factors here!
 		double floorFactor = 1;
-		if((form ==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlat) && mainFloorLevel==2){
+		if((form ==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlatLowRise || form==BuiltForm.PurposeBuiltFlatHighRise) && mainFloorLevel==2){
 			floorFactor = 0.5;
 		}
-		else if((form ==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlat) && mainFloorLevel==3){
+		else if((form ==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlatLowRise || form==BuiltForm.PurposeBuiltFlatHighRise) && mainFloorLevel==3){
 			floorFactor = 0.;
 		}
 		
@@ -296,13 +333,15 @@ public class HealthModule implements IHealthModule {
 	    
 	    switch (form) {
 	    case ConvertedFlat:
-	    case PurposeBuiltFlat:
+	    case PurposeBuiltFlatLowRise:
 	    	if (floorArea > 50) {
 	    		matchedBuiltForm = ExposureBuiltForm.Flat1;
 	    	} else {
 	    		matchedBuiltForm = ExposureBuiltForm.Flat2;
 	    	}
-	    	// there is no flat3 at the moment
+	    	break;
+	    case PurposeBuiltFlatHighRise:
+	    	matchedBuiltForm = ExposureBuiltForm.Flat3;
 	    	break;
 		case Bungalow:
 			matchedBuiltForm = ExposureBuiltForm.House5;
@@ -350,8 +389,8 @@ public class HealthModule implements IHealthModule {
     	return matchedVentilation;
     }
 
-    private double calculateQaly(final Map.Entry<Disease.Type, Disease> d, final double riskChangeTime, final double[][][] impactSurvival, final double[][][] baseSurvival, final int personIndex, final int year) {
-    	
+    private double[] calculateQaly(final Map.Entry<Disease.Type, Disease> d, final double riskChangeTime, final double[][][] impactSurvival, final double[][][] baseSurvival, final int personIndex, final int year) {
+    	//Calculations based on Miller, Life table for quantitative impact assessment, 2003
     	final double base = d.getValue().allHazard;
 		double impact = base - d.getValue().hazard;
     	
@@ -370,7 +409,7 @@ public class HealthModule implements IHealthModule {
 			}
 		}
     	
-		impactSurvival[personIndex][d.getKey().ordinal()][year+1] = impactSurvival[personIndex][d.getKey().ordinal()][year]*((2-impact)/(2+impact));
+    	impactSurvival[personIndex][d.getKey().ordinal()][year+1] = impactSurvival[personIndex][d.getKey().ordinal()][year]*((2-impact)/(2+impact));
 		baseSurvival[personIndex][d.getKey().ordinal()][year+1] = baseSurvival[personIndex][d.getKey().ordinal()][year]*((2-base)/(2+base));
 		
 		final double impactStartPop = impactSurvival[personIndex][d.getKey().ordinal()][year];
@@ -381,8 +420,56 @@ public class HealthModule implements IHealthModule {
 		
 		final double baseDeaths = baseStartPop - baseSurvival[personIndex][d.getKey().ordinal()][year+1];
 		final double baselifeYears = baseStartPop - 0.5*baseDeaths;
-    	
-    	return lifeYears-baselifeYears;
+		
+		//doing change in the number of deaths instead
+		final double deltaDeaths = deaths-baseDeaths;
+		final double deltaQalys = lifeYears-baselifeYears;
+		final double vals[] = {deltaDeaths, deltaQalys};
+		return vals;
     }
+    
+    private double[] calculateCMDQaly(final double riskChangeTime, final int age, final int year) {
+    	double impact = 0;
+    	
+    	if (age >= 16) {
+    		impact = (1 - riskChangeTime)*(1-Constants.WEIGHT_CMD)*0.25*Constants.PREV_CMD;
+    	} 
+
+    	final double timeFunct = 1/Math.pow(2.5,year);
+    	
+    	final double qalys = impact*timeFunct;
+    	final double cases = Constants.PREV_CMD*(riskChangeTime-1)*timeFunct*0.25;
+    	
+    	final double vals[] = {cases, qalys};
+    	
+    	return vals;
+    }
+    
+    private double[] calculateAsthmaQaly(final double riskChangeTime, final int age, final int year) {
+    	double impact = 0;
+    	//A bit of a work around for Asthma since relative risks are done in a slightly different way
+    	final double riskChangeTime2 = riskChangeTime*Math.exp(Math.log(Constants.REL_RISK_MOULD_ASTHMA2/Constants.REL_RISK_MOULD_ASTHMA1)/Constants.INC_MOULD_ASTHMA1);
+    	final double riskChangeTime3 = riskChangeTime*Math.exp(Math.log(Constants.REL_RISK_MOULD_ASTHMA3/Constants.REL_RISK_MOULD_ASTHMA1)/Constants.INC_MOULD_ASTHMA1);
+    	
+    	if (age <= 15) {
+    		impact = ((1 - Constants.WEIGHT_ASTHMA1) * Constants.PREV_ASTHMA1)*(1 - riskChangeTime) + 
+    				((1 - Constants.WEIGHT_ASTHMA2) * Constants.PREV_ASTHMA2)*(1 - riskChangeTime2)+
+    				((1 - Constants.WEIGHT_ASTHMA3) * Constants.PREV_ASTHMA3)*(1 - riskChangeTime3);
+    		
+    	} 
+    	
+    	final double timeFunct = 1/Math.pow(1.3,year);
+    	
+    	final double qalys = impact*timeFunct;
+    	final double cases = (Constants.PREV_ASTHMA1*(riskChangeTime-1)+
+    			Constants.PREV_ASTHMA2*(riskChangeTime2-1)+
+    			Constants.PREV_ASTHMA3*(riskChangeTime3-1))*timeFunct;
+    	
+    	final double vals[] = {cases, qalys};
+    	
+    	return vals;
+    			
+    }
+    
 }    
 

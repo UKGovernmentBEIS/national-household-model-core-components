@@ -36,10 +36,11 @@ public class Exposure {
 	}
 	
 	public enum OccupancyType{
-		H45_45_10,
-		H55_45_0,
-		W21_33_8,
-		W29_33_0;		
+		//time living room, bedroom, kitchen
+		H45_45_10,   //pensioner
+		H55_45_0,    //small child
+		W29_33_0,	 //school child
+		W21_33_8;    //worker
 	}
 	
 	public final ExposureBuiltForm builtForm;
