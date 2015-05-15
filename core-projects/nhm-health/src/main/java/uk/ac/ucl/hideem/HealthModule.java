@@ -64,25 +64,24 @@ public class HealthModule implements IHealthModule {
 			for (final Disease.Type type : Disease.Type.values()){
 				switch(type){
 				case commonmentaldisorder:
-					break;
-				case asthma:
+				case asthma1:
+				case asthma2:
+				case asthma3:
 					break;
 				default:
-					if(type != Disease.Type.commonmentaldisorder || type != Disease.Type.asthma){
-						final Disease d = Disease.readDisease(row.get("age"), row.get("sex"), row.get(type.name()), Double.parseDouble(row.get("all")), row.get("population"),row.get(type.name()+"_ratio"));
-						healthCoefficients.put(Enum.valueOf(Disease.Type.class, type.name()), d);
-					}
+					final Disease d = Disease.readDisease(row.get("age"), row.get("sex"), row.get(type.name()), Double.parseDouble(row.get("all")), row.get("population"),row.get(type.name()+"_ratio"));
+					healthCoefficients.put(Enum.valueOf(Disease.Type.class, type.name()), d);
 				}
-				
 			}
 		}
 		
 		//Need to add a coef for CMD and Asthma so the diseases can be calculated later. The values aren't important (not gender/age specific) 
 		final Disease cmd = Disease.readDisease("-1", "FEMALE", "0", 0, "0","0");
-		healthCoefficients.put(Enum.valueOf(Disease.Type.class, Disease.Type.commonmentaldisorder.name()), cmd);
+		healthCoefficients.put(Disease.Type.commonmentaldisorder, cmd);
 		final Disease asthma = Disease.readDisease("-1", "FEMALE", "0", 0, "0","0");
-		healthCoefficients.put(Enum.valueOf(Disease.Type.class, Disease.Type.asthma.name()), asthma);
-		
+		healthCoefficients.put(Disease.Type.asthma1, asthma);
+		healthCoefficients.put(Disease.Type.asthma2, asthma);
+		healthCoefficients.put(Disease.Type.asthma3, asthma);
     }
 
 	private BufferedReader bufferedReaderForResource(final String resource) {
@@ -116,6 +115,7 @@ public class HealthModule implements IHealthModule {
         //Get the correct exposures coefficients and calculate base and modified exposures for each individual
         
         //loop over occupancy types
+                
     	for(final Exposure.OccupancyType occupancy : Exposure.OccupancyType.values()){
         
 	        //First loop over the exposure types
@@ -201,8 +201,10 @@ public class HealthModule implements IHealthModule {
 	        				result.setMorbidityQalys(d.getKey(), year, cmdImp[1]);
 	        				result.setCost(d.getKey(), year, cmdImp[0]*Constants.COST_PER_CASE(d.getKey()));
 	        				break;
-	        			case asthma:
-	        				final double[] asthmaImp = calculateAsthmaQaly(riskChangeTime, age, year);
+	        			case asthma1:
+	        			case asthma2:
+	        			case asthma3:
+	        				final double[] asthmaImp = calculateAsthmaQaly(d.getKey(), riskChangeTime, age, year);
 	        				result.setMorbidityQalys(d.getKey(), year, asthmaImp[1]);
 	        				result.setCost(d.getKey(), year, asthmaImp[0]*Constants.COST_PER_CASE(d.getKey()));
 	        				break;
@@ -282,6 +284,7 @@ public class HealthModule implements IHealthModule {
     
     @Override
     public double getInternalTemperature(double specificHeat, double efficiency) {
+    	if (efficiency <= 0) efficiency = 1;
     	final double eValue = specificHeat / efficiency;
     	return calcSIT(eValue);
     }
@@ -446,27 +449,35 @@ public class HealthModule implements IHealthModule {
     	return vals;
     }
     
-    private double[] calculateAsthmaQaly(final double riskChangeTime, final int age, final int year) {
+    /**
+     * @param riskChangeTime
+     * @param age
+     * @param year
+     * @return an array containing [cases affected, qalys]
+     */
+    @SuppressWarnings("incomplete-switch")
+	private double[] calculateAsthmaQaly(final Disease.Type athsmaType, final double riskChangeTime, final int age, final int year) {
     	double impact = 0;
-    	//A bit of a work around for Asthma since relative risks are done in a slightly different way
-    	final double riskChangeTime2 = riskChangeTime*Math.exp(Math.log(Constants.REL_RISK_MOULD_ASTHMA2/Constants.REL_RISK_MOULD_ASTHMA1)/Constants.INC_MOULD_ASTHMA1);
-    	final double riskChangeTime3 = riskChangeTime*Math.exp(Math.log(Constants.REL_RISK_MOULD_ASTHMA3/Constants.REL_RISK_MOULD_ASTHMA1)/Constants.INC_MOULD_ASTHMA1);
+    	double cases = 0;
     	
-    	if (age <= 15) {
-    		impact = ((1 - Constants.WEIGHT_ASTHMA1) * Constants.PREV_ASTHMA1)*(1 - riskChangeTime) + 
-    				((1 - Constants.WEIGHT_ASTHMA2) * Constants.PREV_ASTHMA2)*(1 - riskChangeTime2)+
-    				((1 - Constants.WEIGHT_ASTHMA3) * Constants.PREV_ASTHMA3)*(1 - riskChangeTime3);
-    		
-    	} 
+		switch (athsmaType) {
+		case asthma1:
+			impact = (age <= 15) ? ((1 - Constants.WEIGHT_ASTHMA1) * Constants.PREV_ASTHMA1)*(1 - riskChangeTime) : 0;
+			cases = Constants.PREV_ASTHMA1*(riskChangeTime-1);
+			break;
+		case asthma2:
+			impact = (age <= 15) ? ((1 - Constants.WEIGHT_ASTHMA2) * Constants.PREV_ASTHMA2)*(1 - riskChangeTime) : 0;
+			cases = Constants.PREV_ASTHMA2*(riskChangeTime-1);
+			break;
+		case asthma3:
+			impact = (age <= 15) ? ((1 - Constants.WEIGHT_ASTHMA3) * Constants.PREV_ASTHMA3)*(1 - riskChangeTime) : 0;
+			cases = Constants.PREV_ASTHMA3*(riskChangeTime-1);
+			break;
+		}
     	
     	final double timeFunct = 1/Math.pow(1.3,year);
-    	
-    	final double qalys = impact*timeFunct;
-    	final double cases = (Constants.PREV_ASTHMA1*(riskChangeTime-1)+
-    			Constants.PREV_ASTHMA2*(riskChangeTime2-1)+
-    			Constants.PREV_ASTHMA3*(riskChangeTime3-1))*timeFunct;
-    	
-    	final double vals[] = {cases, qalys};
+    	    	
+    	final double vals[] = {cases * timeFunct, impact * timeFunct};
     	
     	return vals;
     			

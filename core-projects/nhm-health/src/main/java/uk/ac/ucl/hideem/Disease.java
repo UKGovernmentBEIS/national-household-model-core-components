@@ -41,8 +41,9 @@ public class Disease {
 	    //wincopd,			//WinCOPD
 	    commonmentaldisorder(
 	    		RiskConstant.SIT_CMD),  //Morbidity only
-	    asthma(
-	    		RiskConstant.MOULD_ASTHMA1)			//Morbidity only
+	    asthma1(RiskConstant.MOULD_ASTHMA1),			//Morbidity only
+	    asthma2(RiskConstant.MOULD_ASTHMA2),
+	    asthma3(RiskConstant.MOULD_ASTHMA3)
 	    //OverheatingDeath
 	    ;
 		

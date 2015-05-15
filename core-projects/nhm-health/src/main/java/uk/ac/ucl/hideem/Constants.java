@@ -84,7 +84,9 @@ public class Constants {
     	cost[Disease.Type.wincardiovascular.ordinal()] = 1047.09;
     	cost[Disease.Type.winmyocardialinfarction.ordinal()] = cost[Disease.Type.myocardialinfarction.ordinal()];
     	cost[Disease.Type.commonmentaldisorder.ordinal()] = 2248.77;
-    	cost[Disease.Type.asthma.ordinal()] = 312.08;
+    	cost[Disease.Type.asthma1.ordinal()]= 
+    		cost[Disease.Type.asthma2.ordinal()]= 
+    		cost[Disease.Type.asthma3.ordinal()] = 312.08;
     	
     	return cost[disease.ordinal()];
     }
