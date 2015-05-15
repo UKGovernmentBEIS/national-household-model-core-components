@@ -281,8 +281,8 @@ public class HealthModule implements IHealthModule {
     }
     
     @Override
-    public double getInternalTemperature(double specificHeat, double envelope) {
-    	final double eValue = specificHeat / envelope;
+    public double getInternalTemperature(double specificHeat, double efficiency) {
+    	final double eValue = specificHeat / efficiency;
     	return calcSIT(eValue);
     }
     

@@ -20,5 +20,5 @@ public interface IHealthModule {
         List<Person> people,
         int horizon);
     
-    public double getInternalTemperature(double specificHeat, double envelope);
+    public double getInternalTemperature(double specificHeat, double efficiency);
 }
