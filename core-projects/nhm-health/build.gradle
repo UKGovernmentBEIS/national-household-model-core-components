@@ -1,0 +1,36 @@
+apply plugin:'java'
+apply plugin: 'maven-publish'
+
+version = '1.0.3'
+group = 'uk.ac.ucl.iede'
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+publishing {
+  repositories {
+    maven {
+      url "http://repo.research.cse.org.uk/artifactory/libs-${project.version.endsWith('-SNAPSHOT') ? 'snapshot' : 'release'}-local"
+    }
+  }
+  publications {
+    mavenJava(MavenPublication) {
+      from components.java
+    }
+  }
+}
+
+dependencies {
+  compile 'commons-io:commons-io:2.4'
+  compile 'org.apache.commons:commons-math3:3.4'
+  compile "org.slf4j:slf4j-api:1.7.5"
+  compile 'com.google.guava:guava:18.0'
+  testCompile "junit:junit:4.11"
+}
+
+repositories {
+  mavenCentral()
+}
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '2.3'
+}

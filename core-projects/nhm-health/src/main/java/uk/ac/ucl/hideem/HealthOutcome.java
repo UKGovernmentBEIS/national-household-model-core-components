@@ -24,8 +24,7 @@ public class HealthOutcome {
         this.relativeRisk = new double[Disease.Type.values().length][4]; //for the 4 types of occupancy
         this.mortalityQalys = new double[Disease.Type.values().length][years];
         this.morbidityQalys = new double[Disease.Type.values().length][years];
-        this.costs = new double[Disease.Type.values().length]
-            [years];
+        this.costs = new double[Disease.Type.values().length][years];
     }
        
     //For the totals

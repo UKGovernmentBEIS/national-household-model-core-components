@@ -92,20 +92,17 @@ public class HealthModule implements IHealthModule {
     @Override
 	public HealthOutcome effectOf(
         // e-values & perm.s
-        final double e1,
-        final double e2,
+        final double t1,
+        final double t2,
         final double p1,
         final double p2,
         // case number constituents
         final BuiltForm form,
         final double floorArea,
         final int mainFloorLevel, // fdfmainn (for flats)
-        // for vtype:
-        final int buildYear,
         // finkxtwk and finbxtwk
         final boolean hasWorkingExtractorFans, // per finwhatever
         final boolean hasTrickleVents,         // this is cooked up elsewhere
-        final int numberOfFansAndPassiveVents, // per SAP
         // who
         final List<Person> people,
         final int horizon) {
@@ -131,7 +128,7 @@ public class HealthModule implements IHealthModule {
 	        			
 	        			switch (matchedExposure) {
 	        			case VPX:
-	        				setVPXSitAndMould(exposure, e1, e2, p1, p2, occupancy, result);
+	        				setVPXSitAndMould(exposure, t1, t2, p1, p2, occupancy, result);
 	        				break;
 	        			case SIT:
 	        			case Mould:
@@ -195,24 +192,24 @@ public class HealthModule implements IHealthModule {
 	        			
 	        			final double qaly[] = calculateQaly(d, riskChangeTime, impactSurvival, baseSurvival, people.indexOf(p), year);
 	        			// calculateQaly returns array: [0] deaths [1] qaly changes
-	        			result.setMortalityQalys(d.getKey(), year, p.samplesize*qaly[1]);
+	        			result.setMortalityQalys(d.getKey(), year, qaly[1]);
 	        			
 	        			//Different cases for CMD and Asthma for morbidity qalys
 	        			switch(d.getKey()){
 	        			case commonmentaldisorder:
 	        				final double[] cmdImp = calculateCMDQaly(riskChangeTime, age, year);
-	        				result.setMorbidityQalys(d.getKey(), year, p.samplesize*cmdImp[1]);
-	        				result.setCost(d.getKey(), year, p.samplesize*cmdImp[0]*Constants.COST_PER_CASE(d.getKey()));
+	        				result.setMorbidityQalys(d.getKey(), year, cmdImp[1]);
+	        				result.setCost(d.getKey(), year, cmdImp[0]*Constants.COST_PER_CASE(d.getKey()));
 	        				break;
 	        			case asthma:
 	        				final double[] asthmaImp = calculateAsthmaQaly(riskChangeTime, age, year);
-	        				result.setMorbidityQalys(d.getKey(), year, p.samplesize*asthmaImp[1]);
-	        				result.setCost(d.getKey(), year, p.samplesize*asthmaImp[0]*Constants.COST_PER_CASE(d.getKey()));
+	        				result.setMorbidityQalys(d.getKey(), year, asthmaImp[1]);
+	        				result.setCost(d.getKey(), year, asthmaImp[0]*Constants.COST_PER_CASE(d.getKey()));
 	        				break;
 	        			default:
-	        				result.setMorbidityQalys(d.getKey(), year, p.samplesize*qaly[1]*d.getValue().morbidity);
+	        				result.setMorbidityQalys(d.getKey(), year, qaly[1]*d.getValue().morbidity);
 	        				//For now just look at cases
-		        			final double cases = p.samplesize*Constants.INCIDENCE(d.getKey(), p.age, p.sex)*(qaly[0])*Constants.COST_PER_CASE(d.getKey()); 
+		        			final double cases = Constants.INCIDENCE(d.getKey(), p.age, p.sex)*(qaly[0])*Constants.COST_PER_CASE(d.getKey()); 
 		        			result.setCost(d.getKey(), year, cases);
 	        				break;
 	        			}
@@ -247,7 +244,10 @@ public class HealthModule implements IHealthModule {
 		result.setFinalExposure(Type.Radon, floorFactor*modifiedExposure);
 	}
 
-	private void setVPXSitAndMould(final Exposure exposure, final double e1, final double e2,
+	private void setVPXSitAndMould(
+			final Exposure exposure, 
+			final double baseAverageSIT, 
+			final double modifiedAverageSIT,
 			final double p1, final double p2,
 			final Exposure.OccupancyType occupancy, final HealthOutcome result) {
 		final double baseVPX = exposure.dueToPermeability(occupancy, p1);
@@ -256,12 +256,7 @@ public class HealthModule implements IHealthModule {
 		//set VPX
 		result.setInitialExposure(Exposure.Type.VPX, baseVPX);
 		result.setFinalExposure(Exposure.Type.VPX, modifiedVPX);
-		
-		//calc base temp
-		final double baseAverageSIT=calcSIT(e1);
-		//same for modified case
-		final double modifiedAverageSIT=calcSIT(e2);
-		
+
 		//set SIT
 		result.setInitialExposure(Exposure.Type.SIT, baseAverageSIT);
 		result.setFinalExposure(Exposure.Type.SIT, modifiedAverageSIT);
@@ -283,6 +278,12 @@ public class HealthModule implements IHealthModule {
 		final double averageSIT=((livingRoomSIT+bedRoomSIT)/2);
 		
 		return averageSIT;
+    }
+    
+    @Override
+    public double getInternalTemperature(double specificHeat, double envelope) {
+    	final double eValue = specificHeat / envelope;
+    	return calcSIT(eValue);
     }
     
     //Info on Mould calcs can be found in: http://www.iso.org/iso/catalogue_detail.htm?csnumber=51615

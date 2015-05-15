@@ -38,19 +38,20 @@ public class Main
             // blah blah
         	// Should get the totals here
         	
+        	final double e1 = Double.parseDouble(row.get("e1"));
+            final double e2 = Double.parseDouble(row.get("e2"));
+        	
             final HealthOutcome outcome = module.effectOf(
                 // get fields from row here
-                Double.parseDouble(row.get("e1")),
-                Double.parseDouble(row.get("e2")),
+                module.getInternalTemperature(e1, 1),
+                module.getInternalTemperature(e2, 1),
                 Double.parseDouble(row.get("p1")),
                 Double.parseDouble(row.get("p2")),
                 BuiltForm.valueOf(row.get("form")),
                 Double.parseDouble(row.get("area")),
                 Integer.parseInt(row.get("level")),
-                Integer.parseInt(row.get("buildyear")),
                 Boolean.valueOf(row.get("extract")),
                 Boolean.valueOf(row.get("trickle")),
-                Integer.parseInt(row.get("fans")),
                 people.get(row.get("code")),
                 Integer.parseInt(row.get("horizon")));
             System.out.println(row.get("code"));
