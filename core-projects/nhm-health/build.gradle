@@ -35,7 +35,11 @@ task execute(type:JavaExec) {
      main = 'uk.ac.ucl.hideem.Main'
      classpath = sourceSets.main.runtimeClasspath
      args = ['people.csv', 'houses.csv']
-     standardOutput = new File(project.buildDir, 'output.tex').newOutputStream()
+
+}
+
+execute.doFirst {
+  execute.standardOutput(new File(project.buildDir, 'output.tex').newOutputStream())
 }
 
 task wrapper(type: Wrapper) {
