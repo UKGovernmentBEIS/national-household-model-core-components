@@ -31,6 +31,17 @@ repositories {
   mavenCentral()
 }
 
+task execute(type:JavaExec) {
+     main = 'uk.ac.ucl.hideem.Main'
+     classpath = sourceSets.main.runtimeClasspath
+     args = ['people.csv', 'houses.csv']
+
+}
+
+execute.doFirst {
+  execute.standardOutput(new File(project.buildDir, 'output.tex').newOutputStream())
+}
+
 task wrapper(type: Wrapper) {
   gradleVersion = '2.3'
 }
