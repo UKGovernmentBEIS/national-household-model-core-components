@@ -33,6 +33,8 @@ public class Main
         
         //need to set to 42 years for now
         final HealthOutcome total = new HealthOutcome(42);
+        //SIT method regression (default is old version)
+        final boolean regressionSIT = false;
         
         for (final Map<String, String> row : CSV.mapReader(Files.newBufferedReader(Paths.get(args[1]), StandardCharsets.UTF_8))) {
             // blah blah
@@ -40,14 +42,19 @@ public class Main
         	
         	final double e1 = Double.parseDouble(row.get("e1"));
             final double e2 = Double.parseDouble(row.get("e2"));
+            final BuiltForm.DwellingAge dwellingAge = BuiltForm.DwellingAge.valueOf(row.get("buildyear"));
+            final BuiltForm.Tenure tenure = BuiltForm.Tenure.valueOf(row.get("tenure"));
+            final BuiltForm.OwnerAge ownerAge = BuiltForm.OwnerAge.valueOf(row.get("agehr"));
+            final boolean children = Boolean.valueOf(row.get("children"));
+            final boolean feulPoverty = Boolean.valueOf(row.get("feulpov"));
         	
             final HealthOutcome outcome = module.effectOf(
                 // get fields from row here
-                module.getInternalTemperature(e1, 1),
-                module.getInternalTemperature(e2, 1),
+                module.getInternalTemperature(regressionSIT, e1, 1, dwellingAge, tenure, ownerAge, children, feulPoverty),
+                module.getInternalTemperature(regressionSIT, e2, 1, dwellingAge, tenure, ownerAge, children, feulPoverty),
                 Double.parseDouble(row.get("p1")),
                 Double.parseDouble(row.get("p2")),
-                BuiltForm.valueOf(row.get("form")),
+                BuiltForm.Type.valueOf(row.get("form")),
                 Double.parseDouble(row.get("area")),
                 Integer.parseInt(row.get("level")),
                 Boolean.valueOf(row.get("extract")),

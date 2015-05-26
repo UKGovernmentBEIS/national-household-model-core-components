@@ -10,7 +10,7 @@ public interface IHealthModule {
         double p1,
         double p2,
         // case number constituents
-        BuiltForm form,
+        BuiltForm.Type form,
         double floorArea,
         int mainFloorLevel, // fdfmainn (for flats)
         // finkxtwk and finbxtwk
@@ -20,5 +20,6 @@ public interface IHealthModule {
         List<Person> people,
         int horizon);
     
-    public double getInternalTemperature(double specificHeat, double efficiency);
+    public double getInternalTemperature(boolean regressionSIT, double specificHeat, double efficiency, BuiltForm.DwellingAge dwellingAge, 
+    		BuiltForm.Tenure tenure, BuiltForm.OwnerAge ownerAge, boolean children, boolean feulPoverty);
 }

@@ -96,7 +96,7 @@ public class HealthModule implements IHealthModule {
         final double p1,
         final double p2,
         // case number constituents
-        final BuiltForm form,
+        final BuiltForm.Type form,
         final double floorArea,
         final int mainFloorLevel, // fdfmainn (for flats)
         // finkxtwk and finbxtwk
@@ -227,7 +227,7 @@ public class HealthModule implements IHealthModule {
     }
 
 	private void setRadonExposure(final Exposure exposure, final double p1,
-			final double p2, final BuiltForm form,
+			final double p2, final BuiltForm.Type form,
 			final int mainFloorLevel, final Exposure.OccupancyType occupancy,
 			final HealthOutcome result) {
 		final double baseExposure = exposure.dueToPermeability(occupancy, p1);
@@ -235,10 +235,10 @@ public class HealthModule implements IHealthModule {
 		
 		//factors here!
 		double floorFactor = 1;
-		if((form ==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlatLowRise || form==BuiltForm.PurposeBuiltFlatHighRise) && mainFloorLevel==2){
+		if((form ==BuiltForm.Type.ConvertedFlat || form==BuiltForm.Type.PurposeBuiltFlatLowRise || form==BuiltForm.Type.PurposeBuiltFlatHighRise) && mainFloorLevel==2){
 			floorFactor = 0.5;
 		}
-		else if((form ==BuiltForm.ConvertedFlat || form==BuiltForm.PurposeBuiltFlatLowRise || form==BuiltForm.PurposeBuiltFlatHighRise) && mainFloorLevel==3){
+		else if((form ==BuiltForm.Type.ConvertedFlat || form==BuiltForm.Type.PurposeBuiltFlatLowRise || form==BuiltForm.Type.PurposeBuiltFlatHighRise) && mainFloorLevel==3){
 			floorFactor = 0.;
 		}
 		
@@ -274,7 +274,6 @@ public class HealthModule implements IHealthModule {
         
     //Temperature Calculations using Hamilton relation
     private double calcSIT(final double eValue){
-    	//Put these into private functions so that less mess
 		final double livingRoomSIT=(19.97883737 + (-0.003177483*Math.pow(eValue,1)) + (3.95406E-07*Math.pow(eValue,2)) + (-3.10552E-11*Math.pow(eValue,3)));
 		final double bedRoomSIT=(18.60539276 + (-0.003972248*Math.pow(eValue,1)) + (6.50441E-07*Math.pow(eValue,2)) + (-3.63348E-11*Math.pow(eValue,3)));
 		final double averageSIT=((livingRoomSIT+bedRoomSIT)/2);
@@ -282,11 +281,31 @@ public class HealthModule implements IHealthModule {
 		return averageSIT;
     }
     
+    private double calcSITRegression(final double eValue, final BuiltForm.DwellingAge age, final BuiltForm.Tenure t, final BuiltForm.OwnerAge a, final boolean c, final boolean p) {
+    	
+    	int children = (c) ? 1 : 0;
+    	int feulPoverty = (p) ? 1 : 0;
+    	
+    	final double livingRoomSIT=(Constants.INTERCEPT_LR + eValue*Constants.E_COEF_LR + Constants.DW_AGE_LR[age.ordinal()]) + Constants.TENURE_LR[t.ordinal()] 
+    			+ Constants.OC_AGE_LR[age.ordinal()] + Constants.CH_LR[children] + Constants.FP_LR[feulPoverty];
+    	final double bedRoomSIT=(Constants.INTERCEPT_BR + eValue*Constants.E_COEF_BR + Constants.DW_AGE_BR[age.ordinal()]) 
+    			+ Constants.OC_AGE_BR[age.ordinal()] + Constants.CH_BR[children] + Constants.FP_BR[feulPoverty];;
+    	final double averageSIT = ((livingRoomSIT+bedRoomSIT)/2);    	
+    	
+    	return averageSIT;
+    }
+    
+    
     @Override
-    public double getInternalTemperature(double specificHeat, double efficiency) {
+    public double getInternalTemperature(boolean regressionSIT, double specificHeat, double efficiency, BuiltForm.DwellingAge dwellingAge, 
+    		BuiltForm.Tenure tenure, BuiltForm.OwnerAge ownerAge, boolean children, boolean feulPoverty) {
     	if (efficiency <= 0) efficiency = 1;
     	final double eValue = specificHeat / efficiency;
-    	return calcSIT(eValue);
+    	
+    	if (regressionSIT)
+    		return calcSITRegression(eValue, dwellingAge, tenure, ownerAge, children, feulPoverty);
+    	else
+    		return calcSIT(eValue);
     }
     
     //Info on Mould calcs can be found in: http://www.iso.org/iso/catalogue_detail.htm?csnumber=51615
@@ -326,7 +345,7 @@ public class HealthModule implements IHealthModule {
     
     //Methods to map the input built form and ventilation of NHM to that in Hideem. 
     //Not sure if this should be here or elsewhere but works for now
-    private Exposure.ExposureBuiltForm mapBuiltForm(final BuiltForm form, final double floorArea, final int mainFloorLevel) {
+    private Exposure.ExposureBuiltForm mapBuiltForm(final BuiltForm.Type form, final double floorArea, final int mainFloorLevel) {
 	    //initialisation
 	    Exposure.ExposureBuiltForm matchedBuiltForm = null;
 	    //Will have to put lots of if statements in here somewhere...

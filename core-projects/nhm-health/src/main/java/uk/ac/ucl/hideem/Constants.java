@@ -143,4 +143,33 @@ public class Constants {
     	
         return tFunc;
     }
+    
+    //SIT constants from Ian's regression analysis
+    //BEDROOM
+    public static final double INTERCEPT_BR 	= 	19.20722323;
+    public static final double E_COEF_BR 	= 	-0.00048454;
+    //								dwage6x   pre 1919, 1919-44,1945-64,1965-80,1981-90,post 1990
+    public static final double[] DW_AGE_BR = new double[]{0, 0.62893546, 0.98263756, 0.98077427, 0.87405793, 0.71870003};
+    //								agehrp6x  16 - 24,  25 - 34, 35 - 44,  45 - 54,  55 - 64, 65 or over
+    public static final double[] OC_AGE_BR = new double[]{0.23854955, -0.26124335, -0.77245027, -0.83600921, -0.71920557, 0};
+    // children     (0, 1) where 1 is >=1 child
+    public static final double[] CH_BR = new double[]{-0.65692081, 0};
+    // fpflgf     Not in FP - full income definition, In FP - full income definition
+    public static final double[] FP_BR = new double[]{0, -0.89033484};
+    
+    //LIVING ROOM
+    public static final double INTERCEPT_LR 	= 	20.91762877;
+    public static final double E_COEF_LR 	= 	-0.00137557;
+    //								dwage6x   pre 1919, 1919-44,1945-64,1965-80,1981-90,post 1990
+    public static final double[] DW_AGE_LR = new double[]{0, 0.47378301, 0.818369, 0.57985708, 0.64579968, 0.26898741};
+    // 									tenure4x  RSL,  local authority, owner occupied, private rented
+    public static final double[] TENURE_LR = new double[]{0.0692168, 0.9329455, -0.11287118, 0};
+    //								agehrp6x  16 - 24,  25 - 34, 35 - 44,  45 - 54,  55 - 64, 65 or over
+    public static final double[] OC_AGE_LR = new double[]{-1.29218261, -1.89237734, -1.56224335, -1.52381985, -1.05854816, 0};
+    // children     (0, 1) where 1 is >=1 child
+    public static final double[] CH_LR = new double[]{-0.94049087, 0};
+    // fpflgf     Not in FP - full income definition, In FP - full income definition
+    public static final double[] FP_LR = new double[]{0, -0.69756518};
+    
+    
 }

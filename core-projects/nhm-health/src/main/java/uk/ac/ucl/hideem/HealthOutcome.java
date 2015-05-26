@@ -141,8 +141,8 @@ public class HealthOutcome {
         sb.append("\tExposures:\n");
         for (final Exposure.Type e : Exposure.Type.values()) {
             sb.append(String.format("\t\t%s & %g & %g & %g \\\\ \n", e,
-                                    exposures[e.ordinal()][0]/1391,
-                                    exposures[e.ordinal()][1]/1391, exposures[e.ordinal()][1]/1391-exposures[e.ordinal()][0]/1391));
+                                    exposures[e.ordinal()][0],
+                                    exposures[e.ordinal()][1], exposures[e.ordinal()][1]-exposures[e.ordinal()][0]));
         }
         
         sb.append("\t\tYear");
