@@ -2,7 +2,7 @@ package uk.ac.ucl.hideem;
 
 import uk.ac.ucl.hideem.Constants.RiskConstant;
 import uk.ac.ucl.hideem.Person.Sex;
-
+import uk.ac.ucl.hideem.Exposure.OccupancyType;
 /**
  * Everything HIDEEM needs to know about diseases.
  */
@@ -53,15 +53,15 @@ public class Disease {
 			this.risks = risks;
 		}
 		
-		public double relativeRisk(final HealthOutcome result) {
+		public double relativeRisk(final HealthOutcome result, final OccupancyType occupancy) {
 			double acc = 1;
 			for (final RiskConstant c : risks) {
 				switch(c) {
 				case SIT_CMD:
-					acc *= c.riskDueToCMD(result);
+					acc *= c.riskDueToCMD(result, occupancy);
 					break;
 				default:
-					acc *= c.riskDueTo(result);
+					acc *= c.riskDueTo(result, occupancy);
 					break;
 				}	
 			}

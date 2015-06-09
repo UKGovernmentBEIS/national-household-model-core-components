@@ -2,6 +2,7 @@ package uk.ac.ucl.hideem;
 
 import uk.ac.ucl.hideem.Exposure.Type;
 import uk.ac.ucl.hideem.Person.Sex;
+import uk.ac.ucl.hideem.Exposure.OccupancyType;
 
 public class Constants {
 	/**
@@ -33,12 +34,12 @@ public class Constants {
 			this.exposureType = exposureType;
 		}
 		
-		public double riskDueTo(final HealthOutcome result) {
-			return Math.exp(logRatio * result.deltaExposure(exposureType));
+		public double riskDueTo(final HealthOutcome result, final OccupancyType occupancy) {
+			return Math.exp(logRatio * result.deltaExposure(exposureType, occupancy));
 		}
 		
-		public double riskDueToCMD(final HealthOutcome result) {
-			return Math.pow(ratio, result.deltaExposure(exposureType));
+		public double riskDueToCMD(final HealthOutcome result, final OccupancyType occupancy) {
+			return Math.pow(ratio, result.deltaExposure(exposureType, occupancy));
 		}
 		
 	}

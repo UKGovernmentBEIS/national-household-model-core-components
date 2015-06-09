@@ -106,7 +106,7 @@ public class HealthModule implements IHealthModule {
         final List<Person> people,
         final int horizon) {
         
-        final HealthOutcome result = new HealthOutcome(horizon);
+        final HealthOutcome result = new HealthOutcome(horizon, people.size());
         
         //perform the matching between NHM built form and ventilation and Hideem
         final Exposure.ExposureBuiltForm matchedBuiltForm = mapBuiltForm(form, floorArea, mainFloorLevel);
@@ -138,8 +138,8 @@ public class HealthModule implements IHealthModule {
 	        				setRadonExposure(exposure, p1, p2, form, mainFloorLevel, occupancy, result);
 	        				break;
 	        			default:
-			        		result.setInitialExposure(matchedExposure, exposure.dueToPermeability(occupancy, p1));
-			        		result.setFinalExposure(matchedExposure, exposure.dueToPermeability(occupancy, p2));
+			        		result.setInitialExposure(matchedExposure, occupancy, exposure.dueToPermeability(occupancy, p1));
+			        		result.setFinalExposure(matchedExposure, occupancy, exposure.dueToPermeability(occupancy, p2));
 	        				break;
 	        			}
 		        	}        		
@@ -148,7 +148,7 @@ public class HealthModule implements IHealthModule {
 	                               
 	        //Calculate the relative risks (independent of person) -> won't be any more due to diff occupancies
 	        for (final Disease.Type disease : Disease.Type.values()) {
-	        	result.setRelativeRisk(disease, occupancy, disease.relativeRisk(result));
+	        	result.setRelativeRisk(disease, occupancy, disease.relativeRisk(result, occupancy));
 	        }	    
     	}//end of occupancy loop
 	        
@@ -192,27 +192,32 @@ public class HealthModule implements IHealthModule {
 	        			
 	        			final double qaly[] = calculateQaly(d, riskChangeTime, impactSurvival, baseSurvival, people.indexOf(p), year);
 	        			// calculateQaly returns array: [0] deaths [1] qaly changes
-	        			result.setMortalityQalys(d.getKey(), year, qaly[1]);
+	        			result.setMortalityQalys(d.getKey(), year, qaly[1], people.indexOf(p));
+	        			
+	        			//Set the occupant exposures so can print it out
+	        			for(final Exposure.Type e : Exposure.Type.values()) {
+	        				result.setInitialOccExposure(e, year, people.indexOf(p), occupancy);
+	        				result.setFinalOccExposure(e, year, people.indexOf(p), occupancy);
+	        			}
 	        			
 	        			//Different cases for CMD and Asthma for morbidity qalys
 	        			switch(d.getKey()){
 	        			case commonmentaldisorder:
 	        				final double[] cmdImp = calculateCMDQaly(riskChangeTime, age, year);
-	        				result.setMorbidityQalys(d.getKey(), year, cmdImp[1]);
-	        				result.setCost(d.getKey(), year, cmdImp[0]*Constants.COST_PER_CASE(d.getKey()));
+	        				result.setMorbidityQalys(d.getKey(), year, cmdImp[1], people.indexOf(p));
+	        				result.setCost(d.getKey(), year, cmdImp[0]*Constants.COST_PER_CASE(d.getKey()), people.indexOf(p));
 	        				break;
 	        			case asthma1:
 	        			case asthma2:
 	        			case asthma3:
 	        				final double[] asthmaImp = calculateAsthmaQaly(d.getKey(), riskChangeTime, age, year);
-	        				result.setMorbidityQalys(d.getKey(), year, asthmaImp[1]);
-	        				result.setCost(d.getKey(), year, asthmaImp[0]*Constants.COST_PER_CASE(d.getKey()));
+	        				result.setMorbidityQalys(d.getKey(), year, asthmaImp[1], people.indexOf(p));
+	        				result.setCost(d.getKey(), year, asthmaImp[0]*Constants.COST_PER_CASE(d.getKey()), people.indexOf(p));
 	        				break;
 	        			default:
-	        				result.setMorbidityQalys(d.getKey(), year, qaly[1]*d.getValue().morbidity);
-	        				//For now just look at cases
+	        				result.setMorbidityQalys(d.getKey(), year, qaly[1]*d.getValue().morbidity, people.indexOf(p));
 		        			final double cases = Constants.INCIDENCE(d.getKey(), p.age, p.sex)*(qaly[0])*Constants.COST_PER_CASE(d.getKey()); 
-		        			result.setCost(d.getKey(), year, cases);
+		        			result.setCost(d.getKey(), year, cases, people.indexOf(p));
 	        				break;
 	        			}
 
@@ -242,8 +247,8 @@ public class HealthModule implements IHealthModule {
 			floorFactor = 0.;
 		}
 		
-		result.setInitialExposure(Type.Radon, floorFactor*baseExposure);
-		result.setFinalExposure(Type.Radon, floorFactor*modifiedExposure);
+		result.setInitialExposure(Type.Radon, occupancy, floorFactor*baseExposure);
+		result.setFinalExposure(Type.Radon, occupancy, floorFactor*modifiedExposure);
 	}
 
 	private void setVPXSitAndMould(
@@ -256,20 +261,20 @@ public class HealthModule implements IHealthModule {
 		final double modifiedVPX = exposure.dueToPermeability(occupancy, p2);
 		
 		//set VPX
-		result.setInitialExposure(Exposure.Type.VPX, baseVPX);
-		result.setFinalExposure(Exposure.Type.VPX, modifiedVPX);
+		result.setInitialExposure(Exposure.Type.VPX, occupancy,baseVPX);
+		result.setFinalExposure(Exposure.Type.VPX, occupancy, modifiedVPX);
 
 		//set SIT
-		result.setInitialExposure(Exposure.Type.SIT, baseAverageSIT);
-		result.setFinalExposure(Exposure.Type.SIT, modifiedAverageSIT);
+		result.setInitialExposure(Exposure.Type.SIT, occupancy, baseAverageSIT);
+		result.setFinalExposure(Exposure.Type.SIT, occupancy, modifiedAverageSIT);
 		
 		//Now do the mould calc
 		final double baseMould	= calcMould(baseAverageSIT, baseVPX);
 		final double modifiedMould	= calcMould(modifiedAverageSIT, modifiedVPX);		           		
 		
 		//set Mould	
-		result.setInitialExposure(Exposure.Type.Mould, baseMould);
-		result.setFinalExposure(Exposure.Type.Mould, modifiedMould);
+		result.setInitialExposure(Exposure.Type.Mould, occupancy, baseMould);
+		result.setFinalExposure(Exposure.Type.Mould, occupancy, modifiedMould);
 	}
         
     //Temperature Calculations using Hamilton relation
@@ -378,7 +383,7 @@ public class HealthModule implements IHealthModule {
 			} else {
 				matchedBuiltForm = ExposureBuiltForm.House2;
 			}
-			// house 6 is not used either.
+			// house 6 is not used
 			break;
 		case SemiDetached:
 			matchedBuiltForm = ExposureBuiltForm.House3;

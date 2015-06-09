@@ -14,12 +14,12 @@ public class BuiltForm {
 	}
 
 	public enum DwellingAge { //dwage6x
-		Pre_1919,
-		In_1919_44,
-		In_1945_64,
-		In_1965_80,
-		In_1981_90,
-		Post_1990;
+		CatA,//pre 1919
+		CatB,//1919-44
+		CatC,//1945-64
+		CatD,//1965-80
+		CatE,//1981-90
+		CatF;//post 1990
 	}
 	
 	public enum Tenure { //tenure4x 
@@ -30,12 +30,12 @@ public class BuiltForm {
 	}
 	
 	public enum OwnerAge{ //agehrp6x
-		In_16_24,
-		In_25_34,
-		In_35_44,
-		In_45_54,
-		In_55_64,
-		Over_64;
+		CatA,//16 - 24
+		CatB,//25 - 34
+		CatC,//35 - 44
+		CatD,//45 - 54
+		CatE,//55 - 64
+		CatF;//65 or over
 	}
 
 }
