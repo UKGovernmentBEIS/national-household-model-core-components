@@ -38,7 +38,8 @@ public class Disease {
 	    		RiskConstant.INPM_CP, 
 	    		RiskConstant.SIT_CV, 
 	    		RiskConstant.ETS_MI),
-	    //wincopd,			//WinCOPD
+	    copd(
+	    		RiskConstant.SIT_COPD),			//WinCOPD
 	    commonmentaldisorder(
 	    		RiskConstant.SIT_CMD),  //Morbidity only
 	    asthma1(RiskConstant.MOULD_ASTHMA1),			//Morbidity only
@@ -58,6 +59,7 @@ public class Disease {
 			for (final RiskConstant c : risks) {
 				switch(c) {
 				case SIT_CMD:
+				case SIT_COPD:
 					acc *= c.riskDueToCMD(result, occupancy);
 					break;
 				default:

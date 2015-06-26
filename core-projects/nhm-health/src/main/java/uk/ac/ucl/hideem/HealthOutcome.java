@@ -124,7 +124,7 @@ public class HealthOutcome {
     }
 
     //print out exposure stuff
-    public String printExposures() {
+    public String printExposures(final String aacode) {
         final StringBuffer sb = new StringBuffer();
         
 //        for (final OccupancyType o :  OccupancyType.values()){
@@ -143,7 +143,7 @@ public class HealthOutcome {
 //	    	sb.append(String.format("\n"));
 //	    }
         
-        sb.append(",Year");
+        sb.append("AACode,Occupant,Year");
         for (final Exposure.Type e : Exposure.Type.values()) {
         	sb.append(String.format(",Before_%s,After_%s", e,e));
         }
@@ -151,9 +151,9 @@ public class HealthOutcome {
         sb.append(String.format("\n"));
         for (int occ = 0; occ < numberOfOccupants; occ++) {
             for (int i = 0; i < years; i++) {
-            	sb.append(String.format("%d,%d", occ+1, i+1));
+            	sb.append(String.format("%s,%d,%d",aacode, occ+1, i+1));
     	        for (final Exposure.Type e : Exposure.Type.values()) {
-    	            sb.append(String.format(",%g,%g", occExposures[e.ordinal()][0][i][occ], occExposures[e.ordinal()][0][i][occ]));
+    	            sb.append(String.format(",%g,%g", occExposures[e.ordinal()][0][i][occ], occExposures[e.ordinal()][1][i][occ]));
     	        }      
     	    	sb.append(String.format("\n"));
     	    }
@@ -163,10 +163,10 @@ public class HealthOutcome {
     }
         
     //print out qalys
-    public String printQalys() {
+    public String printQalys(final String aacode) {
         final StringBuffer sb = new StringBuffer();
         
-        sb.append(",Year");
+        sb.append("AACode,Occupant,Year");
         for (final Disease.Type d : Disease.Type.values()) {
         	sb.append(String.format(",%s", d));
         }
@@ -174,7 +174,7 @@ public class HealthOutcome {
         sb.append(String.format("\n"));
         for (int occ = 0; occ < numberOfOccupants; occ++) {
             for (int i = 0; i < years; i++) {
-            	sb.append(String.format("%d,%d", occ+1, i+1));
+            	sb.append(String.format("%s,%d,%d",aacode, occ+1, i+1));
     	        for (final Disease.Type d : Disease.Type.values()) {
     	            sb.append(String.format(",%g", mortalityQalys[d.ordinal()][i][occ]));
     	        }      
@@ -186,10 +186,10 @@ public class HealthOutcome {
     }
     
     //print out qalys
-    public String printMorbidityQalys() {
+    public String printMorbidityQalys(final String aacode) {
         final StringBuffer sb = new StringBuffer();
         
-        sb.append(",Year");
+        sb.append("AACode,Occupant,Year");
         for (final Disease.Type d : Disease.Type.values()) {
         	sb.append(String.format(",%s", d));
         }
@@ -197,7 +197,7 @@ public class HealthOutcome {
         sb.append(String.format("\n"));
         for (int occ = 0; occ < numberOfOccupants; occ++) {
             for (int i = 0; i < years; i++) {
-            	sb.append(String.format("%d,%d", occ+1, i+1));
+            	sb.append(String.format("%s,%d,%d",aacode, occ+1, i+1));
     	        for (final Disease.Type d : Disease.Type.values()) {
     	            sb.append(String.format(",%g", morbidityQalys[d.ordinal()][i][occ]));
     	        }      
@@ -209,10 +209,10 @@ public class HealthOutcome {
     }
     
     //print out costs
-    public String printCosts() {
+    public String printCosts(final String aacode) {
         final StringBuffer sb = new StringBuffer();
         
-        sb.append(",Year");
+        sb.append("AACode,Occupant,Year");
         for (final Disease.Type d : Disease.Type.values()) {
         	sb.append(String.format(",%s", d));
         }
@@ -220,7 +220,7 @@ public class HealthOutcome {
         sb.append(String.format("\n"));
         for (int occ = 0; occ < numberOfOccupants; occ++) {
             for (int i = 0; i < years; i++) {
-            	sb.append(String.format("%d,%d", occ+1, i+1));
+            	sb.append(String.format("%s,%d,%d",aacode, occ+1, i+1));
     	        for (final Disease.Type d : Disease.Type.values()) {
     	            sb.append(String.format(",%g", costs[d.ordinal()][i][occ]));
     	        }      

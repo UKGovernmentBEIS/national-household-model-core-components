@@ -19,6 +19,7 @@ public class Constants {
 		RADON_LC(Constants.REL_RISK_RADON_LC, Constants.INC_RADON_LC, Exposure.Type.Radon),
 		ETS_MI(Constants.REL_RISK_ETS_MI, Constants.INC_ETS_MI, Exposure.Type.ETS),
 		SIT_CV(Constants.REL_RISK_SIT_CV, Constants.INC_WINCV, Exposure.Type.SIT),
+		SIT_COPD(Constants.REL_RISK_SIT_COPD, Constants.INC_WINCOPD, Exposure.Type.SIT),
 		SIT_CMD(Constants.REL_RISK_SIT_CMD, Constants.INC_WINCMD, Exposure.Type.SIT),
 		MOULD_ASTHMA1(Constants.REL_RISK_MOULD_ASTHMA1, Constants.INC_MOULD_ASTHMA1, Exposure.Type.Mould),
 		MOULD_ASTHMA2(Constants.REL_RISK_MOULD_ASTHMA2, Constants.INC_MOULD_ASTHMA2, Exposure.Type.Mould),
@@ -51,17 +52,20 @@ public class Constants {
     public static final double REL_RISK_PM_CP 		= 	1.082;
     public static final double REL_RISK_PM_LC		= 	1.059;
     public static final double REL_RISK_RADON_LC 	= 	1.16;
+    public static final double REL_RISK_SIT_COPD 	= 	0.9;    //Done
     public static final double REL_RISK_SIT_CMD 	= 	0.902952;
     public static final double REL_RISK_MOULD_ASTHMA1 	= 	1.83;
     public static final double REL_RISK_MOULD_ASTHMA2 	= 	1.53;
     public static final double REL_RISK_MOULD_ASTHMA3 	= 	1.53;
-    public static final double WEIGHT_CMD 			= 	0.88;
+    public static final double WEIGHT_COPD 			= 	0.88;//Done
+    public static final double WEIGHT_CMD 			= 	0.751;
     public static final double WEIGHT_ASTHMA1 		= 	0.97;
     public static final double WEIGHT_ASTHMA2 		= 	0.85;
     public static final double WEIGHT_ASTHMA3 		= 	0.669;
     public static final double PREV_ASTHMA1  		= 	0.093;
     public static final double PREV_ASTHMA2	 		=	0.016;
     public static final double PREV_ASTHMA3	 		= 	0.001;
+    public static final double PREV_COPD	 		= 	0.059;
     public static final double PREV_CMD	 			= 	0.15;
     public static final double INC_WINCV			= 	1;
     public static final double INC_PM_CP			= 	10;
@@ -70,6 +74,7 @@ public class Constants {
     public static final double INC_ETS_MI 			= 	1;
     public static final double INC_RADON_LC	 		= 	100;
     public static final double INC_WINCMD	 		= 	1;
+    public static final double INC_WINCOPD	 		= 	1;
     public static final double INC_MOULD_ASTHMA1 	= 	100;
     public static final double INC_MOULD_ASTHMA2 	=   100;
     public static final double INC_MOULD_ASTHMA3 	= 	100;
@@ -85,6 +90,7 @@ public class Constants {
     	cost[Disease.Type.wincardiovascular.ordinal()] = 1047.09;
     	cost[Disease.Type.winmyocardialinfarction.ordinal()] = cost[Disease.Type.myocardialinfarction.ordinal()];
     	cost[Disease.Type.commonmentaldisorder.ordinal()] = 2248.77;
+    	cost[Disease.Type.copd.ordinal()] = 820.39;
     	cost[Disease.Type.asthma1.ordinal()]= 
     		cost[Disease.Type.asthma2.ordinal()]= 
     		cost[Disease.Type.asthma3.ordinal()] = 312.08;

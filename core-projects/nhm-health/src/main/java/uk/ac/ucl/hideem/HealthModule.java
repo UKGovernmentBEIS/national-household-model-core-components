@@ -63,6 +63,7 @@ public class HealthModule implements IHealthModule {
 			   
 			for (final Disease.Type type : Disease.Type.values()){
 				switch(type){
+				case copd:
 				case commonmentaldisorder:
 				case asthma1:
 				case asthma2:
@@ -75,9 +76,11 @@ public class HealthModule implements IHealthModule {
 			}
 		}
 		
-		//Need to add a coef for CMD and Asthma so the diseases can be calculated later. The values aren't important (not gender/age specific) 
+		//Need to have coefs for CMD and Asthma so the diseases can be calculated later. The values aren't important (not gender/age specific) 
 		final Disease cmd = Disease.readDisease("-1", "FEMALE", "0", 0, "0","0");
 		healthCoefficients.put(Disease.Type.commonmentaldisorder, cmd);
+		final Disease copd = Disease.readDisease("-1", "FEMALE", "0", 0, "0","0");
+		healthCoefficients.put(Disease.Type.copd, copd);
 		final Disease asthma = Disease.readDisease("-1", "FEMALE", "0", 0, "0","0");
 		healthCoefficients.put(Disease.Type.asthma1, asthma);
 		healthCoefficients.put(Disease.Type.asthma2, asthma);
@@ -202,6 +205,12 @@ public class HealthModule implements IHealthModule {
 	        			
 	        			//Different cases for CMD and Asthma for morbidity qalys
 	        			switch(d.getKey()){
+	        			
+	        			case copd:
+	        				final double[] copdImp = calculateCOPDQaly(riskChangeTime, age, year);
+	        				result.setMorbidityQalys(d.getKey(), year, copdImp[1], people.indexOf(p));
+	        				result.setCost(d.getKey(), year, copdImp[0]*Constants.COST_PER_CASE(d.getKey()), people.indexOf(p));
+	        				break;	        			
 	        			case commonmentaldisorder:
 	        				final double[] cmdImp = calculateCMDQaly(riskChangeTime, age, year);
 	        				result.setMorbidityQalys(d.getKey(), year, cmdImp[1], people.indexOf(p));
@@ -467,6 +476,23 @@ public class HealthModule implements IHealthModule {
     	
     	final double qalys = impact*timeFunct;
     	final double cases = Constants.PREV_CMD*(riskChangeTime-1)*timeFunct*0.25;
+    	
+    	final double vals[] = {cases, qalys};
+    	
+    	return vals;
+    }
+
+    private double[] calculateCOPDQaly(final double riskChangeTime, final int age, final int year) {
+    	double impact = 0;
+    	
+    	if (age >= 45) {
+    		impact = (1 - riskChangeTime)*(1-Constants.WEIGHT_COPD)*0.25*Constants.PREV_COPD;
+    	} 
+
+    	final double timeFunct = 1/Math.pow(2.5,year);
+    	
+    	final double qalys = impact*timeFunct;
+    	final double cases = Constants.PREV_COPD*(riskChangeTime-1)*timeFunct*0.25;
     	
     	final double vals[] = {cases, qalys};
     	
