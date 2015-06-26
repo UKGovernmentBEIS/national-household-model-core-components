@@ -12,6 +12,7 @@ public interface IHealthModule {
         // case number constituents
         BuiltForm.Type form,
         double floorArea,
+        int region,
         int mainFloorLevel, // fdfmainn (for flats)
         // finkxtwk and finbxtwk
         boolean hasWorkingExtractorFans, // per finwhatever

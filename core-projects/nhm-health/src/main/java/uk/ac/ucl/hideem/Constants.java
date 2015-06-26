@@ -178,5 +178,7 @@ public class Constants {
     // fpflgf     Not in FP - full income definition, In FP - full income definition
     public static final double[] FP_LR = new double[]{0, -0.69756518};
     
+    //Radon regional factors
+    public static final double[] RADON_FACTS = new double[]{0.77, 0.91, 1, 0.92, 1.47, 1.08, 0.62,	0.43, 1.72,	1.11};
     
 }

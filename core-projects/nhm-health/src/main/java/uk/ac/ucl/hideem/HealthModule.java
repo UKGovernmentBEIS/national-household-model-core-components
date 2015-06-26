@@ -101,6 +101,7 @@ public class HealthModule implements IHealthModule {
         // case number constituents
         final BuiltForm.Type form,
         final double floorArea,
+        final int region,
         final int mainFloorLevel, // fdfmainn (for flats)
         // finkxtwk and finbxtwk
         final boolean hasWorkingExtractorFans, // per finwhatever
@@ -138,7 +139,7 @@ public class HealthModule implements IHealthModule {
 	        				// SIT and Mould are both handled by VPX above
 	        				break;
 	        			case Radon:
-	        				setRadonExposure(exposure, p1, p2, form, mainFloorLevel, occupancy, result);
+	        				setRadonExposure(exposure, p1, p2, form, region, mainFloorLevel, occupancy, result);
 	        				break;
 	        			default:
 			        		result.setInitialExposure(matchedExposure, occupancy, exposure.dueToPermeability(occupancy, p1));
@@ -241,7 +242,7 @@ public class HealthModule implements IHealthModule {
     }
 
 	private void setRadonExposure(final Exposure exposure, final double p1,
-			final double p2, final BuiltForm.Type form,
+			final double p2, final BuiltForm.Type form, final int region,
 			final int mainFloorLevel, final Exposure.OccupancyType occupancy,
 			final HealthOutcome result) {
 		final double baseExposure = exposure.dueToPermeability(occupancy, p1);
@@ -256,8 +257,8 @@ public class HealthModule implements IHealthModule {
 			floorFactor = 0.;
 		}
 		
-		result.setInitialExposure(Type.Radon, occupancy, floorFactor*baseExposure);
-		result.setFinalExposure(Type.Radon, occupancy, floorFactor*modifiedExposure);
+		result.setInitialExposure(Type.Radon, occupancy, floorFactor*baseExposure*Constants.RADON_FACTS[region-1]);
+		result.setFinalExposure(Type.Radon, occupancy, floorFactor*modifiedExposure*Constants.RADON_FACTS[region-1]);
 	}
 
 	private void setVPXSitAndMould(
@@ -469,6 +470,7 @@ public class HealthModule implements IHealthModule {
     	double impact = 0;
     	
     	if (age >= 16) {
+    		//0.25 factor for winter months only
     		impact = (1 - riskChangeTime)*(1-Constants.WEIGHT_CMD)*0.25*Constants.PREV_CMD;
     	} 
 
@@ -488,8 +490,13 @@ public class HealthModule implements IHealthModule {
     	if (age >= 45) {
     		impact = (1 - riskChangeTime)*(1-Constants.WEIGHT_COPD)*0.25*Constants.PREV_COPD;
     	} 
-
-    	final double timeFunct = 1/Math.pow(2.5,year);
+    	
+    	//reduces to 50% then 25%
+    	double timeFunct = 1/Math.pow(2,year);
+    	//Constant 25% there after    	
+    	if (year >= 3) {
+    		timeFunct = 1/Math.pow(2,2);
+    	}
     	
     	final double qalys = impact*timeFunct;
     	final double cases = Constants.PREV_COPD*(riskChangeTime-1)*timeFunct*0.25;
