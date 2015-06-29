@@ -12,16 +12,19 @@ public class Person {
 
     public int age;
     public final Sex sex;
+    public boolean smokes;
 
-    public Person(final int age, final Sex sex) {
+    public Person(final int age, final Sex sex, final boolean smokes) {
         this.age = age;
         this.sex = sex;
+        this.smokes = smokes;
     }
     
     public static Person readPerson(final Map<String, String> stuff) {
         return new Person(
             Integer.parseInt(stuff.get("age")),
-            Person.Sex.valueOf(stuff.get("sex")));
+            Person.Sex.valueOf(stuff.get("sex")),
+            Boolean.valueOf(stuff.get("smokes")));
     }
     
 }

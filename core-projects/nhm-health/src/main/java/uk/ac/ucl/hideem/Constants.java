@@ -84,7 +84,7 @@ public class Constants {
     	double[] cost = new double[Disease.Type.values().length];
     	cost[Disease.Type.cerebrovascular.ordinal()] = 860.83;
     	cost[Disease.Type.cardiopulmonary.ordinal()] = 1194.10;
-    	cost[Disease.Type.myocardialinfarction.ordinal()] = 413.65; //CHD
+    	cost[Disease.Type.myocardialinfarction.ordinal()] = 765.55; //CHD
     	cost[Disease.Type.lungcancer.ordinal()] = 4951.47;
     	cost[Disease.Type.wincerebrovascular.ordinal()] = cost[Disease.Type.cerebrovascular.ordinal()];
     	cost[Disease.Type.wincardiovascular.ordinal()] = 1047.09;

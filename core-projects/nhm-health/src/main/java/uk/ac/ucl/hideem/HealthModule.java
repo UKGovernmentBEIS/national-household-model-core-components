@@ -141,6 +141,22 @@ public class HealthModule implements IHealthModule {
 	        			case Radon:
 	        				setRadonExposure(exposure, p1, p2, form, region, mainFloorLevel, occupancy, result);
 	        				break;
+	        			case ETS:
+	        				//Find out if there is a smoker in the house
+	        				boolean smoker = false;
+	        				for(final Person p: people){
+	        					if(p.smokes == true){
+	        						smoker =  true;
+	        					}
+	        				}
+	        				if(smoker == true){
+	        					result.setInitialExposure(matchedExposure, occupancy, exposure.dueToPermeability(occupancy, p1));
+	        					result.setFinalExposure(matchedExposure, occupancy, exposure.dueToPermeability(occupancy, p2));
+	        				}else{
+	        					result.setInitialExposure(matchedExposure, occupancy, 0);
+	        					result.setFinalExposure(matchedExposure, occupancy, 0);
+	        				}
+	        					
 	        			default:
 			        		result.setInitialExposure(matchedExposure, occupancy, exposure.dueToPermeability(occupancy, p1));
 			        		result.setFinalExposure(matchedExposure, occupancy, exposure.dueToPermeability(occupancy, p2));
