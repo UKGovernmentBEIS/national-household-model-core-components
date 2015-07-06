@@ -149,6 +149,7 @@ public class HealthModule implements IHealthModule {
 	        						smoker =  true;
 	        					}
 	        				}
+
 	        				if(smoker == true){
 	        					result.setInitialExposure(matchedExposure, occupancy, exposure.dueToPermeability(occupancy, p1));
 	        					result.setFinalExposure(matchedExposure, occupancy, exposure.dueToPermeability(occupancy, p2));
@@ -156,7 +157,7 @@ public class HealthModule implements IHealthModule {
 	        					result.setInitialExposure(matchedExposure, occupancy, 0);
 	        					result.setFinalExposure(matchedExposure, occupancy, 0);
 	        				}
-	        					
+	        				break;	
 	        			default:
 			        		result.setInitialExposure(matchedExposure, occupancy, exposure.dueToPermeability(occupancy, p1));
 			        		result.setFinalExposure(matchedExposure, occupancy, exposure.dueToPermeability(occupancy, p2));
