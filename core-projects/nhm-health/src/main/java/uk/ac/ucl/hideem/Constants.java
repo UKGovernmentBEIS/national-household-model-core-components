@@ -181,4 +181,14 @@ public class Constants {
     //Radon regional factors
     public static final double[] RADON_FACTS = new double[]{0.77, 0.91, 1, 0.92, 1.47, 1.08, 0.62,	0.43, 1.72,	1.11};
     
+    //SIT E-value coefficients
+    public static final double[] LR_SIT_CONSTS = new double[]{0,-3.10552E-11, 3.95406E-07, -0.003177483,19.97883737};
+    public static final double[] BR_SIT_CONSTS = new double[]{0,-3.63348E-11, 6.50441E-07, -0.003972248,18.60539276};
+    
+    //Fuel rebate info
+    public static final double REBATE_AMMOUNT 	= 	200;  //£
+    public static final double REBATE_PRICE 	=  	0.031;  //£/kWh
+    
+    
+    
 }

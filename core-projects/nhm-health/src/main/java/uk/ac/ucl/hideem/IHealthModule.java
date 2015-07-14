@@ -17,6 +17,7 @@ public interface IHealthModule {
         // finkxtwk and finbxtwk
         boolean hasWorkingExtractorFans, // per finwhatever
         boolean hasTrickleVents,         // this is cooked up elsewhere
+        boolean rebate,     //house has fuel rebate
         // who
         List<Person> people,
         int horizon);

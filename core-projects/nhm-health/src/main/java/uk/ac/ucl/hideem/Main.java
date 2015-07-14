@@ -66,6 +66,7 @@ public class Main
 			                Integer.parseInt(row.get("level")),
 			                Boolean.valueOf(row.get("extract")),
 			                Boolean.valueOf(row.get("trickle")),
+			                Boolean.valueOf(row.get("rebate")),
 			                people.get(row.get("code")),
 			                Integer.parseInt(row.get("horizon")));
 			            

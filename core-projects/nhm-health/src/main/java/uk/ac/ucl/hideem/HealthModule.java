@@ -106,6 +106,7 @@ public class HealthModule implements IHealthModule {
         // finkxtwk and finbxtwk
         final boolean hasWorkingExtractorFans, // per finwhatever
         final boolean hasTrickleVents,         // this is cooked up elsewhere
+        final boolean rebate,
         // who
         final List<Person> people,
         final int horizon) {
@@ -132,7 +133,7 @@ public class HealthModule implements IHealthModule {
 	        			
 	        			switch (matchedExposure) {
 	        			case VPX:
-	        				setVPXSitAndMould(exposure, t1, t2, p1, p2, occupancy, result);
+	        				setVPXSitAndMould(exposure, t1, t2, p1, p2, occupancy,rebate, result);
 	        				break;
 	        			case SIT:
 	        			case Mould:
@@ -157,7 +158,7 @@ public class HealthModule implements IHealthModule {
 	        					result.setInitialExposure(matchedExposure, occupancy, 0);
 	        					result.setFinalExposure(matchedExposure, occupancy, 0);
 	        				}
-	        				break;	
+	        				//break;	
 	        			default:
 			        		result.setInitialExposure(matchedExposure, occupancy, exposure.dueToPermeability(occupancy, p1));
 			        		result.setFinalExposure(matchedExposure, occupancy, exposure.dueToPermeability(occupancy, p2));
@@ -211,40 +212,44 @@ public class HealthModule implements IHealthModule {
 	        			
 	        			final double riskChangeTime = result.relativeRisk(d.getKey(),occupancy);
 	        			
-	        			final double qaly[] = calculateQaly(d, riskChangeTime, impactSurvival, baseSurvival, people.indexOf(p), year);
-	        			// calculateQaly returns array: [0] deaths [1] qaly changes
-	        			result.setMortalityQalys(d.getKey(), year, qaly[1], people.indexOf(p));
-	        			
+	        			       			
 	        			//Set the occupant exposures so can print it out
 	        			for(final Exposure.Type e : Exposure.Type.values()) {
 	        				result.setInitialOccExposure(e, year, people.indexOf(p), occupancy);
 	        				result.setFinalOccExposure(e, year, people.indexOf(p), occupancy);
 	        			}
 	        			
+	        			//samplesize
+	        			final int samplesize = 1;//p.samplesize;
+	        			
+	        			final double qaly[] = calculateQaly(d, riskChangeTime, impactSurvival, baseSurvival, people.indexOf(p), year);
+	        			// calculateQaly returns array: [0] deaths [1] qaly changes
+	        			result.setMortalityQalys(d.getKey(), year, qaly[1]*samplesize, people.indexOf(p));
+	        			
 	        			//Different cases for CMD and Asthma for morbidity qalys
 	        			switch(d.getKey()){
 	        			
 	        			case copd:
 	        				final double[] copdImp = calculateCOPDQaly(riskChangeTime, age, year);
-	        				result.setMorbidityQalys(d.getKey(), year, copdImp[1], people.indexOf(p));
-	        				result.setCost(d.getKey(), year, copdImp[0]*Constants.COST_PER_CASE(d.getKey()), people.indexOf(p));
+	        				result.setMorbidityQalys(d.getKey(), year, copdImp[1]*samplesize, people.indexOf(p));
+	        				result.setCost(d.getKey(), year, copdImp[0]*Constants.COST_PER_CASE(d.getKey())*samplesize, people.indexOf(p));
 	        				break;	        			
 	        			case commonmentaldisorder:
 	        				final double[] cmdImp = calculateCMDQaly(riskChangeTime, age, year);
-	        				result.setMorbidityQalys(d.getKey(), year, cmdImp[1], people.indexOf(p));
-	        				result.setCost(d.getKey(), year, cmdImp[0]*Constants.COST_PER_CASE(d.getKey()), people.indexOf(p));
+	        				result.setMorbidityQalys(d.getKey(), year, cmdImp[1]*samplesize, people.indexOf(p));
+	        				result.setCost(d.getKey(), year, cmdImp[0]*Constants.COST_PER_CASE(d.getKey())*samplesize, people.indexOf(p));
 	        				break;
 	        			case asthma1:
 	        			case asthma2:
 	        			case asthma3:
 	        				final double[] asthmaImp = calculateAsthmaQaly(d.getKey(), riskChangeTime, age, year);
-	        				result.setMorbidityQalys(d.getKey(), year, asthmaImp[1], people.indexOf(p));
-	        				result.setCost(d.getKey(), year, asthmaImp[0]*Constants.COST_PER_CASE(d.getKey()), people.indexOf(p));
+	        				result.setMorbidityQalys(d.getKey(), year, asthmaImp[1]*samplesize, people.indexOf(p));
+	        				result.setCost(d.getKey(), year, asthmaImp[0]*Constants.COST_PER_CASE(d.getKey())*samplesize, people.indexOf(p));
 	        				break;
 	        			default:
-	        				result.setMorbidityQalys(d.getKey(), year, qaly[1]*d.getValue().morbidity, people.indexOf(p));
+	        				result.setMorbidityQalys(d.getKey(), year, qaly[1]*d.getValue().morbidity*samplesize, people.indexOf(p));
 		        			final double cases = Constants.INCIDENCE(d.getKey(), p.age, p.sex)*(qaly[0])*Constants.COST_PER_CASE(d.getKey()); 
-		        			result.setCost(d.getKey(), year, cases, people.indexOf(p));
+		        			result.setCost(d.getKey(), year, cases*samplesize, people.indexOf(p));
 	        				break;
 	        			}
 
@@ -283,18 +288,28 @@ public class HealthModule implements IHealthModule {
 			final double baseAverageSIT, 
 			final double modifiedAverageSIT,
 			final double p1, final double p2,
-			final Exposure.OccupancyType occupancy, final HealthOutcome result) {
+			final Exposure.OccupancyType occupancy, final boolean rebate, final HealthOutcome result) {
 		final double baseVPX = exposure.dueToPermeability(occupancy, p1);
 		final double modifiedVPX = exposure.dueToPermeability(occupancy, p2);
 		
 		//set VPX
 		result.setInitialExposure(Exposure.Type.VPX, occupancy,baseVPX);
 		result.setFinalExposure(Exposure.Type.VPX, occupancy, modifiedVPX);
-
+		
 		//set SIT
 		result.setInitialExposure(Exposure.Type.SIT, occupancy, baseAverageSIT);
 		result.setFinalExposure(Exposure.Type.SIT, occupancy, modifiedAverageSIT);
 		
+		//If rebate there will be an effect on the modified SIT
+		//1st get heating design day		
+		final double hddSIT = 890.97 + (-203.97*modifiedAverageSIT-2.1)+Math.pow((21.86*modifiedAverageSIT-2.1),2) + Math.pow((-0.27*modifiedAverageSIT-2.1),3);
+		final double evalueRebate = ((Constants.REBATE_AMMOUNT/Constants.REBATE_PRICE)/hddSIT)/(0.0024);
+		
+		if(rebate == true) {
+			final double modifiedRebateAverageSIT = calcSIT(evalueRebate);
+			result.setFinalExposure(Exposure.Type.SIT, occupancy, modifiedRebateAverageSIT);
+		}
+
 		//Now do the mould calc
 		final double baseMould	= calcMould(baseAverageSIT, baseVPX);
 		final double modifiedMould	= calcMould(modifiedAverageSIT, modifiedVPX);		           		
@@ -306,8 +321,10 @@ public class HealthModule implements IHealthModule {
         
     //Temperature Calculations using Hamilton relation
     private double calcSIT(final double eValue){
-		final double livingRoomSIT=(19.97883737 + (-0.003177483*Math.pow(eValue,1)) + (3.95406E-07*Math.pow(eValue,2)) + (-3.10552E-11*Math.pow(eValue,3)));
-		final double bedRoomSIT=(18.60539276 + (-0.003972248*Math.pow(eValue,1)) + (6.50441E-07*Math.pow(eValue,2)) + (-3.63348E-11*Math.pow(eValue,3)));
+		final double livingRoomSIT=(Constants.LR_SIT_CONSTS[4] + (Constants.LR_SIT_CONSTS[3]*Math.pow(eValue,1)) + (Constants.LR_SIT_CONSTS[2]*Math.pow(eValue,2)) 
+				+ (Constants.LR_SIT_CONSTS[1]*Math.pow(eValue,3)) + (Constants.LR_SIT_CONSTS[0]*Math.pow(eValue,4)));
+		final double bedRoomSIT=(Constants.BR_SIT_CONSTS[4] + (Constants.BR_SIT_CONSTS[3]*Math.pow(eValue,1)) + (Constants.BR_SIT_CONSTS[2]*Math.pow(eValue,2))
+				+ (Constants.BR_SIT_CONSTS[1]*Math.pow(eValue,3))  + (Constants.BR_SIT_CONSTS[0]*Math.pow(eValue,4)));
 		final double averageSIT=((livingRoomSIT+bedRoomSIT)/2);
 		
 		return averageSIT;
@@ -345,6 +362,7 @@ public class HealthModule implements IHealthModule {
     	//initialisation
     	double mould = 0, srh=0, svp=0;
 
+    	
     	//Calculate SVP
     	if(averageSIT >0) {
 			svp = 610.78*Math.exp((17.269*averageSIT)/(237.3+averageSIT));
@@ -352,6 +370,7 @@ public class HealthModule implements IHealthModule {
 		else {
 			svp = 610.5*Math.exp((21.875*averageSIT)/(265.5+averageSIT));
 		}
+
     	
     	//Calculate SRH
     	if(100*(vpx+(0.8*872.26))/svp >100){
@@ -359,7 +378,8 @@ public class HealthModule implements IHealthModule {
     	}
     	else{
     		srh=100*(vpx+(0.8*872.26))/svp;
-    	}
+    	}  	
+
     	
     	//Calculate Mould
     	if(srh<=45){
@@ -368,9 +388,10 @@ public class HealthModule implements IHealthModule {
     	else if(srh>45 && srh <200){
     		mould = 4.687377282 +(-1.161195895*Math.pow(srh,1))+(0.037245523*Math.pow(srh,2)) +(-0.000223222*Math.pow(srh,3));
     	}
-    	else{
+    	else{  //Maybe Ian made a mistake here?
     		mould = 23.42903107 +(-1.46645682*Math.pow(srh,1))+(0.027203495*Math.pow(srh,2))+(-7.89893e-05*Math.pow(srh,3));
     	}
+
     	
     	return mould;
     }
