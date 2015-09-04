@@ -98,6 +98,7 @@ public class HealthModule implements IHealthModule {
         final double t2,
         final double p1,
         final double p2,
+        final double e2,
         // case number constituents
         final BuiltForm.Type form,
         final double floorArea,
@@ -133,7 +134,7 @@ public class HealthModule implements IHealthModule {
 	        			
 	        			switch (matchedExposure) {
 	        			case VPX:
-	        				setVPXSitAndMould(exposure, t1, t2, p1, p2, occupancy,rebate, result);
+	        				setVPXSitAndMould(exposure, t1, t2, p1, p2, e2, occupancy,rebate, result);
 	        				break;
 	        			case SIT:
 	        			case Mould:
@@ -288,6 +289,7 @@ public class HealthModule implements IHealthModule {
 			final double baseAverageSIT, 
 			final double modifiedAverageSIT,
 			final double p1, final double p2,
+			final double e2,
 			final Exposure.OccupancyType occupancy, final boolean rebate, final HealthOutcome result) {
 		final double baseVPX = exposure.dueToPermeability(occupancy, p1);
 		final double modifiedVPX = exposure.dueToPermeability(occupancy, p2);
@@ -300,16 +302,17 @@ public class HealthModule implements IHealthModule {
 		result.setInitialExposure(Exposure.Type.SIT, occupancy, baseAverageSIT);
 		result.setFinalExposure(Exposure.Type.SIT, occupancy, modifiedAverageSIT);
 		
-		//If rebate there will be an effect on the modified SIT
-		//1st get heating design day		
-		final double hddSIT = 890.97 + (-203.97*modifiedAverageSIT-2.1)+Math.pow((21.86*modifiedAverageSIT-2.1),2) + Math.pow((-0.27*modifiedAverageSIT-2.1),3);
-		final double evalueRebate = ((Constants.REBATE_AMMOUNT/Constants.REBATE_PRICE)/hddSIT)/(0.0024);
-		
 		if(rebate == true) {
+			//If rebate there will be an effect on the modified SIT
+			//1st get heating design day		
+			final double hddSIT = 890.97 + (-203.97*(modifiedAverageSIT-2.1))+Math.pow((21.86*(modifiedAverageSIT-2.1)),2) + Math.pow((-0.27*(modifiedAverageSIT-2.1)),3);
+			final double evalueRebate = e2-((Constants.REBATE_AMMOUNT/Constants.REBATE_PRICE)/hddSIT)/(0.0024);
+			
 			final double modifiedRebateAverageSIT = calcSIT(evalueRebate);
 			result.setFinalExposure(Exposure.Type.SIT, occupancy, modifiedRebateAverageSIT);
+			//System.out.println("E-val rebate " + hddSIT+ " , " + evalueRebate+ " , " + modifiedAverageSIT+ " , " + modifiedRebateAverageSIT);
 		}
-
+		
 		//Now do the mould calc
 		final double baseMould	= calcMould(baseAverageSIT, baseVPX);
 		final double modifiedMould	= calcMould(modifiedAverageSIT, modifiedVPX);		           		

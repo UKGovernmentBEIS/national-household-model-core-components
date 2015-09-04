@@ -9,6 +9,7 @@ public interface IHealthModule {
         double t2,
         double p1,
         double p2,
+        double e2,
         // case number constituents
         BuiltForm.Type form,
         double floorArea,

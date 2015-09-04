@@ -60,6 +60,7 @@ public class Main
 			                //Double.parseDouble(row.get("e2")),
 			                Double.parseDouble(row.get("p1")),
 			                Double.parseDouble(row.get("p2")),
+			                Double.parseDouble(row.get("e2")),
 			                BuiltForm.Type.valueOf(row.get("form")),
 			                Double.parseDouble(row.get("floor_area")),
 			                Integer.parseInt(row.get("gor_ehs")),
