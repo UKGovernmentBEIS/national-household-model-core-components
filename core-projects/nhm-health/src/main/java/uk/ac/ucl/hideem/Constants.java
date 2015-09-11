@@ -2,6 +2,7 @@ package uk.ac.ucl.hideem;
 
 import uk.ac.ucl.hideem.Exposure.Type;
 import uk.ac.ucl.hideem.Person.Sex;
+import uk.ac.ucl.hideem.Exposure.OccupancyType;
 
 public class Constants {
 	/**
@@ -18,6 +19,7 @@ public class Constants {
 		RADON_LC(Constants.REL_RISK_RADON_LC, Constants.INC_RADON_LC, Exposure.Type.Radon),
 		ETS_MI(Constants.REL_RISK_ETS_MI, Constants.INC_ETS_MI, Exposure.Type.ETS),
 		SIT_CV(Constants.REL_RISK_SIT_CV, Constants.INC_WINCV, Exposure.Type.SIT),
+		SIT_COPD(Constants.REL_RISK_SIT_COPD, Constants.INC_WINCOPD, Exposure.Type.SIT),
 		SIT_CMD(Constants.REL_RISK_SIT_CMD, Constants.INC_WINCMD, Exposure.Type.SIT),
 		MOULD_ASTHMA1(Constants.REL_RISK_MOULD_ASTHMA1, Constants.INC_MOULD_ASTHMA1, Exposure.Type.Mould),
 		MOULD_ASTHMA2(Constants.REL_RISK_MOULD_ASTHMA2, Constants.INC_MOULD_ASTHMA2, Exposure.Type.Mould),
@@ -33,12 +35,12 @@ public class Constants {
 			this.exposureType = exposureType;
 		}
 		
-		public double riskDueTo(final HealthOutcome result) {
-			return Math.exp(logRatio * result.deltaExposure(exposureType));
+		public double riskDueTo(final HealthOutcome result, final OccupancyType occupancy) {
+			return Math.exp(logRatio * result.deltaExposure(exposureType, occupancy));
 		}
 		
-		public double riskDueToCMD(final HealthOutcome result) {
-			return Math.pow(ratio, result.deltaExposure(exposureType));
+		public double riskDueToCMD(final HealthOutcome result, final OccupancyType occupancy) {
+			return Math.pow(ratio, result.deltaExposure(exposureType, occupancy));
 		}
 		
 	}
@@ -50,17 +52,20 @@ public class Constants {
     public static final double REL_RISK_PM_CP 		= 	1.082;
     public static final double REL_RISK_PM_LC		= 	1.059;
     public static final double REL_RISK_RADON_LC 	= 	1.16;
+    public static final double REL_RISK_SIT_COPD 	= 	0.9;    //Done
     public static final double REL_RISK_SIT_CMD 	= 	0.902952;
     public static final double REL_RISK_MOULD_ASTHMA1 	= 	1.83;
     public static final double REL_RISK_MOULD_ASTHMA2 	= 	1.53;
     public static final double REL_RISK_MOULD_ASTHMA3 	= 	1.53;
-    public static final double WEIGHT_CMD 			= 	0.88;
+    public static final double WEIGHT_COPD 			= 	0.88;//Done
+    public static final double WEIGHT_CMD 			= 	0.751;
     public static final double WEIGHT_ASTHMA1 		= 	0.97;
     public static final double WEIGHT_ASTHMA2 		= 	0.85;
     public static final double WEIGHT_ASTHMA3 		= 	0.669;
     public static final double PREV_ASTHMA1  		= 	0.093;
     public static final double PREV_ASTHMA2	 		=	0.016;
     public static final double PREV_ASTHMA3	 		= 	0.001;
+    public static final double PREV_COPD	 		= 	0.059;
     public static final double PREV_CMD	 			= 	0.15;
     public static final double INC_WINCV			= 	1;
     public static final double INC_PM_CP			= 	10;
@@ -69,6 +74,7 @@ public class Constants {
     public static final double INC_ETS_MI 			= 	1;
     public static final double INC_RADON_LC	 		= 	100;
     public static final double INC_WINCMD	 		= 	1;
+    public static final double INC_WINCOPD	 		= 	1;
     public static final double INC_MOULD_ASTHMA1 	= 	100;
     public static final double INC_MOULD_ASTHMA2 	=   100;
     public static final double INC_MOULD_ASTHMA3 	= 	100;
@@ -78,12 +84,13 @@ public class Constants {
     	double[] cost = new double[Disease.Type.values().length];
     	cost[Disease.Type.cerebrovascular.ordinal()] = 860.83;
     	cost[Disease.Type.cardiopulmonary.ordinal()] = 1194.10;
-    	cost[Disease.Type.myocardialinfarction.ordinal()] = 413.65; //CHD
+    	cost[Disease.Type.myocardialinfarction.ordinal()] = 765.55; //CHD
     	cost[Disease.Type.lungcancer.ordinal()] = 4951.47;
     	cost[Disease.Type.wincerebrovascular.ordinal()] = cost[Disease.Type.cerebrovascular.ordinal()];
     	cost[Disease.Type.wincardiovascular.ordinal()] = 1047.09;
     	cost[Disease.Type.winmyocardialinfarction.ordinal()] = cost[Disease.Type.myocardialinfarction.ordinal()];
     	cost[Disease.Type.commonmentaldisorder.ordinal()] = 2248.77;
+    	cost[Disease.Type.copd.ordinal()] = 820.39;
     	cost[Disease.Type.asthma1.ordinal()]= 
     		cost[Disease.Type.asthma2.ordinal()]= 
     		cost[Disease.Type.asthma3.ordinal()] = 312.08;
@@ -143,4 +150,45 @@ public class Constants {
     	
         return tFunc;
     }
+    
+    //SIT constants from Ian's regression analysis
+    //BEDROOM
+    public static final double INTERCEPT_BR 	= 	19.20722323;
+    public static final double E_COEF_BR 	= 	-0.00048454;
+    //								dwage6x   pre 1919, 1919-44,1945-64,1965-80,1981-90,post 1990
+    public static final double[] DW_AGE_BR = new double[]{0, 0.62893546, 0.98263756, 0.98077427, 0.87405793, 0.71870003};
+    //								agehrp6x  16 - 24,  25 - 34, 35 - 44,  45 - 54,  55 - 64, 65 or over
+    public static final double[] OC_AGE_BR = new double[]{0.23854955, -0.26124335, -0.77245027, -0.83600921, -0.71920557, 0};
+    // children     (0, 1) where 1 is >=1 child
+    public static final double[] CH_BR = new double[]{-0.65692081, 0};
+    // fpflgf     Not in FP - full income definition, In FP - full income definition
+    public static final double[] FP_BR = new double[]{0, -0.89033484};
+    
+    //LIVING ROOM
+    public static final double INTERCEPT_LR 	= 	20.91762877;
+    public static final double E_COEF_LR 	= 	-0.00137557;
+    //								dwage6x   pre 1919, 1919-44,1945-64,1965-80,1981-90,post 1990
+    public static final double[] DW_AGE_LR = new double[]{0, 0.47378301, 0.818369, 0.57985708, 0.64579968, 0.26898741};
+    // 									tenure4x  RSL,  local authority, owner occupied, private rented
+    public static final double[] TENURE_LR = new double[]{0.0692168, 0.9329455, -0.11287118, 0};
+    //								agehrp6x  16 - 24,  25 - 34, 35 - 44,  45 - 54,  55 - 64, 65 or over
+    public static final double[] OC_AGE_LR = new double[]{-1.29218261, -1.89237734, -1.56224335, -1.52381985, -1.05854816, 0};
+    // children     (0, 1) where 1 is >=1 child
+    public static final double[] CH_LR = new double[]{-0.94049087, 0};
+    // fpflgf     Not in FP - full income definition, In FP - full income definition
+    public static final double[] FP_LR = new double[]{0, -0.69756518};
+    
+    //Radon regional factors
+    public static final double[] RADON_FACTS = new double[]{0.77, 0.91, 1, 0.92, 1.47, 1.08, 0.62,	0.43, 1.72,	1.11};
+    
+    //SIT E-value coefficients
+    public static final double[] LR_SIT_CONSTS = new double[]{0,-3.10552E-11, 3.95406E-07, -0.003177483,19.97883737};
+    public static final double[] BR_SIT_CONSTS = new double[]{0,-3.63348E-11, 6.50441E-07, -0.003972248,18.60539276};
+    
+    //Fuel rebate info
+    public static final double REBATE_AMMOUNT 	= 	200;  //£
+    public static final double REBATE_PRICE 	=  	0.031;  //£/kWh
+    
+    
+    
 }

@@ -14,7 +14,7 @@ public class HealthModuleTest {
 		
 		final HealthOutcome effect = hm.effectOf(
 				18, 18, 10, 10,
-				BuiltForm.Bungalow, 100, 1, true, true, 
+				BuiltForm.Type.Bungalow, 100, 1, true, true, 
 				ImmutableList.of(new Person(40, Sex.MALE))
 				, 10);
 		

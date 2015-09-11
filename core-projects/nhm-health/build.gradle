@@ -34,12 +34,13 @@ repositories {
 task execute(type:JavaExec) {
      main = 'uk.ac.ucl.hideem.Main'
      classpath = sourceSets.main.runtimeClasspath
-     args = ['people.csv', 'houses.csv']
-
-}
-
-execute.doFirst {
-  execute.standardOutput(new File(project.buildDir, 'output.tex').newOutputStream())
+     args = ['people.csv', 'houses.csv',
+      	     // output files
+             new File(project.buildDir, 'rebate_exposures.csv'),
+	     new File(project.buildDir, 'rebate_qalys.csv'),
+	     new File(project.buildDir, 'rebate_morbqalys.csv'),
+	     new File(project.buildDir, 'rebate_costs.csv')
+	     ]
 }
 
 task wrapper(type: Wrapper) {
