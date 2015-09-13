@@ -9,6 +9,7 @@ public interface IHealthModule {
         double t2,
         double p1,
         double p2,
+        double e1,
         double e2,
         // case number constituents
         BuiltForm.Type form,
@@ -19,6 +20,7 @@ public interface IHealthModule {
         boolean hasWorkingExtractorFans, // per finwhatever
         boolean hasTrickleVents,         // this is cooked up elsewhere
         boolean rebate,     //house has fuel rebate
+        final boolean  doubleGlaz,      //dblglazing80pctplus
         // who
         List<Person> people,
         int horizon);

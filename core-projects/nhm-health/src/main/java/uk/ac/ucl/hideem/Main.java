@@ -60,6 +60,7 @@ public class Main
 			                //Double.parseDouble(row.get("e2")),
 			                Double.parseDouble(row.get("p1")),
 			                Double.parseDouble(row.get("p2")),
+			                Double.parseDouble(row.get("e1")),
 			                Double.parseDouble(row.get("e2")),
 			                BuiltForm.Type.valueOf(row.get("form")),
 			                Double.parseDouble(row.get("floor_area")),
@@ -68,6 +69,7 @@ public class Main
 			                Boolean.valueOf(row.get("extract")),
 			                Boolean.valueOf(row.get("trickle")),
 			                Boolean.valueOf(row.get("rebate")),
+			                Boolean.valueOf(row.get("dblglazing80pctplus")),
 			                people.get(row.get("code")),
 			                Integer.parseInt(row.get("horizon")));
 			            

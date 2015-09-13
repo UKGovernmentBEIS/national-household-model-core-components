@@ -3,6 +3,7 @@ package uk.ac.ucl.hideem;
 import uk.ac.ucl.hideem.Exposure.Type;
 import uk.ac.ucl.hideem.Person.Sex;
 import uk.ac.ucl.hideem.Exposure.OccupancyType;
+import uk.ac.ucl.hideem.Exposure.OverheatingAgeBands;
 
 public class Constants {
 	/**
@@ -23,7 +24,8 @@ public class Constants {
 		SIT_CMD(Constants.REL_RISK_SIT_CMD, Constants.INC_WINCMD, Exposure.Type.SIT),
 		MOULD_ASTHMA1(Constants.REL_RISK_MOULD_ASTHMA1, Constants.INC_MOULD_ASTHMA1, Exposure.Type.Mould),
 		MOULD_ASTHMA2(Constants.REL_RISK_MOULD_ASTHMA2, Constants.INC_MOULD_ASTHMA2, Exposure.Type.Mould),
-		MOULD_ASTHMA3(Constants.REL_RISK_MOULD_ASTHMA3, Constants.INC_MOULD_ASTHMA3, Exposure.Type.Mould);
+		MOULD_ASTHMA3(Constants.REL_RISK_MOULD_ASTHMA3, Constants.INC_MOULD_ASTHMA3, Exposure.Type.Mould),
+		SIT2DayMax_OVERHEAT(Constants.REL_RISK_OVERHEAT, Constants.INC_OVERHEAT, Exposure.Type.SIT2DayMax);
 
 		private final double logRatio;
 		private final double ratio;
@@ -43,10 +45,24 @@ public class Constants {
 			return Math.pow(ratio, result.deltaExposure(exposureType, occupancy));
 		}
 		
+		public double riskDueToOverheating(final HealthOutcome result, final OccupancyType occupancy, final int region, final OverheatingAgeBands ageBand){
+			double risk = ratio;
+			if (result.initialExposure(exposureType, occupancy)  > Constants.OVERHEAT_THRESH[region-1] && 
+					result.finalExposure(exposureType, occupancy)  > Constants.OVERHEAT_THRESH[region-1]){
+				risk += RR_PER_DEGREE_OVERHEAT (region, ageBand) * result.deltaExposure(exposureType, occupancy);
+			}else if (result.initialExposure(exposureType, occupancy)  > Constants.OVERHEAT_THRESH[region-1] ) {
+				risk += RR_PER_DEGREE_OVERHEAT (region, ageBand) * (Constants.OVERHEAT_THRESH[region-1] - result.initialExposure(exposureType, occupancy));
+			}else if (result.finalExposure(exposureType, occupancy)  > Constants.OVERHEAT_THRESH[region-1] ) {
+				risk += RR_PER_DEGREE_OVERHEAT (region, ageBand) * (result.finalExposure(exposureType, occupancy) - Constants.OVERHEAT_THRESH[region-1]);
+			}
+			
+			return risk;
+		}
+		
 	}
 	
     //Health coefficients
-	public static final double REL_RISK_SIT_CV 	= 	0.913043;
+	public static final double REL_RISK_SIT_CV 		= 	0.913043;
 	public static final double REL_RISK_ETS_CA 		= 	1.25;
     public static final double REL_RISK_ETS_MI 		= 	1.3;
     public static final double REL_RISK_PM_CP 		= 	1.082;
@@ -57,6 +73,7 @@ public class Constants {
     public static final double REL_RISK_MOULD_ASTHMA1 	= 	1.83;
     public static final double REL_RISK_MOULD_ASTHMA2 	= 	1.53;
     public static final double REL_RISK_MOULD_ASTHMA3 	= 	1.53;
+    public static final double REL_RISK_OVERHEAT 	= 	1.;//intialize
     public static final double WEIGHT_COPD 			= 	0.88;//Done
     public static final double WEIGHT_CMD 			= 	0.751;
     public static final double WEIGHT_ASTHMA1 		= 	0.97;
@@ -78,6 +95,10 @@ public class Constants {
     public static final double INC_MOULD_ASTHMA1 	= 	100;
     public static final double INC_MOULD_ASTHMA2 	=   100;
     public static final double INC_MOULD_ASTHMA3 	= 	100;
+    public static final double INC_OVERHEAT = 1; //intialize
+    //Overheating
+    public static final double TOT_BASE 	= 9E-3; // tot death/pop = 491119/54808600; 
+    public static final double OVERHEAT_HAZARD = 3.65E-5; //2000/54808600
     
     //Costs
     public static final double COST_PER_CASE(final Disease.Type disease) {
@@ -178,8 +199,7 @@ public class Constants {
     // fpflgf     Not in FP - full income definition, In FP - full income definition
     public static final double[] FP_LR = new double[]{0, -0.69756518};
     
-    //Radon regional factors
-    public static final double[] RADON_FACTS = new double[]{0.77, 0.91, 1, 0.92, 1.47, 1.08, 0.62,	0.43, 1.72,	1.11};
+
     
     //SIT E-value coefficients
     public static final double[] LR_SIT_CONSTS = new double[]{0,-3.10552E-11, 3.95406E-07, -0.003177483,19.97883737};
@@ -189,6 +209,29 @@ public class Constants {
     public static final double REBATE_AMMOUNT 	= 	200;  //£
     public static final double REBATE_PRICE 	=  	0.031;  //£/kWh
     
+    //Radon regional factors								//NE, NW, XXX, York, EastMid, WestMid, East, Lon, SW, SE
+    public static final double[] RADON_FACTS = new double[]{0.77, 0.91, 1, 0.92, 1.47, 1.08, 0.62,	0.43, 1.72,	1.11};
+    //Regional overheating info
+    public static final double[] OVERHEAT_THRESH = new double[]{23.28746, 23.67835, 1, 24.53434, 24.39385, 24.10412, 24.87814, 25.26228, 24.57729, 23.55555};
+    public static final double[] OVERHEAT_COEFS = new double[]{-0.67870354, -0.44334691, 1, 0, -0.21311184, -0.38224314, 0.05518115, 0.19038004, -0.59019838, -0.04675629};
     
+    //Over heating RRs per degree C    
+    public static final double RR_PER_DEGREE_OVERHEAT (final int region, final OverheatingAgeBands ageBand) {
+   	
+    	double[][] risk = new double[10][OverheatingAgeBands.values().length];
+
+    	risk[0] = new double[]{0.5,0.60000002,0.80000001,1.1};  //NE
+    	risk[1] = new double[]{0.80000001,0.89999998,1.3,1.9};  //NW
+    	risk[2] = new double[]{1.2,1.4,2,2.9000001}; 			//Wales
+    	risk[3] = new double[]{1.1,1.2,1.7,2.4000001};			//York
+    	risk[4] = new double[]{1.4,1.6,2.3,3.3}; 				//EastMid
+    	risk[5] = new double[]{1.4,1.6,2.2,3.0999999};			// WestMid
+    	risk[6] = new double[]{1.5,1.7,2.4000001,3.4000001};	//East
+    	risk[7] = new double[]{2.4000001,2.7,3.8,5.4000001};	//Lon
+    	risk[8] = new double[]{1.6,1.9,2.5999999,3.7};			//SW
+    	risk[9] = new double[]{1.3,1.5,2.0999999,3};			//SE
+    	
+    	return risk[region-1][ageBand.ordinal()];
+    }  
     
 }
