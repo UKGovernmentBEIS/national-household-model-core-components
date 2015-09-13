@@ -2,7 +2,7 @@ package uk.ac.ucl.hideem;
 
 import uk.ac.ucl.hideem.Constants.RiskConstant;
 import uk.ac.ucl.hideem.Person.Sex;
-
+import uk.ac.ucl.hideem.Exposure.OccupancyType;
 /**
  * Everything HIDEEM needs to know about diseases.
  */
@@ -38,7 +38,8 @@ public class Disease {
 	    		RiskConstant.INPM_CP, 
 	    		RiskConstant.SIT_CV, 
 	    		RiskConstant.ETS_MI),
-	    //wincopd,			//WinCOPD
+	    copd(
+	    		RiskConstant.SIT_COPD),			//WinCOPD
 	    commonmentaldisorder(
 	    		RiskConstant.SIT_CMD),  //Morbidity only
 	    asthma1(RiskConstant.MOULD_ASTHMA1),			//Morbidity only
@@ -53,15 +54,16 @@ public class Disease {
 			this.risks = risks;
 		}
 		
-		public double relativeRisk(final HealthOutcome result) {
+		public double relativeRisk(final HealthOutcome result, final OccupancyType occupancy) {
 			double acc = 1;
 			for (final RiskConstant c : risks) {
 				switch(c) {
 				case SIT_CMD:
-					acc *= c.riskDueToCMD(result);
+				case SIT_COPD:
+					acc *= c.riskDueToCMD(result, occupancy);
 					break;
 				default:
-					acc *= c.riskDueTo(result);
+					acc *= c.riskDueTo(result, occupancy);
 					break;
 				}	
 			}

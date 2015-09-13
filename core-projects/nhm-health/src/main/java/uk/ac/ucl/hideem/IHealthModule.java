@@ -9,16 +9,20 @@ public interface IHealthModule {
         double t2,
         double p1,
         double p2,
+        double e2,
         // case number constituents
-        BuiltForm form,
+        BuiltForm.Type form,
         double floorArea,
+        int region,
         int mainFloorLevel, // fdfmainn (for flats)
         // finkxtwk and finbxtwk
         boolean hasWorkingExtractorFans, // per finwhatever
         boolean hasTrickleVents,         // this is cooked up elsewhere
+        boolean rebate,     //house has fuel rebate
         // who
         List<Person> people,
         int horizon);
     
-    public double getInternalTemperature(double specificHeat, double efficiency);
+    public double getInternalTemperature(boolean regressionSIT, double specificHeat, double efficiency, BuiltForm.DwellingAge dwellingAge, 
+    		BuiltForm.Tenure tenure, BuiltForm.OwnerAge ownerAge, boolean children, boolean feulPoverty);
 }
