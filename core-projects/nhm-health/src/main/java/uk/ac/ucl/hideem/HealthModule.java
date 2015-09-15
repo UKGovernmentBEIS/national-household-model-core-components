@@ -336,20 +336,23 @@ public class HealthModule implements IHealthModule {
 		result.setFinalExposure(Exposure.Type.SIT, occupancy, modifiedAverageSIT);
 		
 		if(rebate == true) {
-			//If rebate there will be an effect on the modified SIT
-						
-			//1st get heating design day		
+/*			//If rebate there will be an effect on the modified SIT
+			//Ian's e-value points method
 			final double hddSIT = 890.97 + -203.97*(modifiedAverageSIT-2.1)+21.86*Math.pow(modifiedAverageSIT-2.1,2) + -0.27*Math.pow(modifiedAverageSIT-2.1,3);
+			final double evaluePoints = ((Constants.REBATE_AMMOUNT/Constants.REBATE_PRICE)/hddSIT)/0.0024;
+			final double evalueRebate = e2-((Constants.REBATE_AMMOUNT/Constants.REBATE_PRICE)/hddSIT)/0.0024;
+			final double modifiedRebateAverageSIT = calcSIT(evalueRebate);
+			
+			//Phil's Physics method
 			final double heatingHours = 24*hddSIT/(modifiedAverageSIT-5.0);
 			final double deltaT = Constants.REBATE_AMMOUNT/(1E-3*Constants.REBATE_PRICE*heatingHours*e2);	
+			final double modifiedRebateAverageSITPhil = modifiedAverageSIT+deltaT;*/
 			
-			//final double evalueRebate = e2-((Constants.REBATE_AMMOUNT/Constants.REBATE_PRICE)/hddSIT)/0.0024;
+			//Tom's cost-temp relationship method. Use this for now. Until better data is available. gradiant of cost-temp relationship is 0.0008315
+			final double modifiedRebateAverageSIT = modifiedAverageSIT+ Constants.REBATE_AMMOUNT*0.0008315;
 			
-			final double modifiedRebateAverageSITPhil = modifiedAverageSIT+deltaT;
-			//final double modifiedRebateAverageSIT = calcSIT(evalueRebate);
-			result.setFinalExposure(Exposure.Type.SIT, occupancy, modifiedRebateAverageSITPhil);
-			//System.out.println("E-val rebate ian " + hddSIT+ " , " + evalueRebate+ " , " + modifiedAverageSIT + " , " + modifiedRebateAverageSIT );
-			//System.out.println("E-val rebate phil " + hddSIT+ " , " + e2 + " , " + modifiedAverageSIT+ " , " +  modifiedRebateAverageSITPhil);
+			result.setFinalExposure(Exposure.Type.SIT, occupancy, modifiedRebateAverageSIT);
+
 		}
 		
 		//Now do the mould calc
@@ -515,7 +518,7 @@ public class HealthModule implements IHealthModule {
 		if (d.getKey() == Disease.Type.overheating) {
 			//For overheating age dependence is in the RR and there are no mortality stats so we just use total pop (deaths/pop)
 			base = Constants.TOT_BASE;
-			impact = base + Constants.OVERHEAT_HAZARD* (riskChangeTime -1); //roughly 2000 overheating excess deaths (Indpendent newspaper)
+			impact = base + Constants.OVERHEAT_HAZARD* (riskChangeTime -1); //roughly 2000 overheating excess deaths (Heatwave plan for England 2015 (NHS))
 		}else if (d.getKey() == Disease.Type.wincardiovascular || d.getKey() == Disease.Type.wincerebrovascular || d.getKey() == Disease.Type.winmyocardialinfarction) {
 			impact += d.getValue().hazard * riskChangeTime;
 		}
