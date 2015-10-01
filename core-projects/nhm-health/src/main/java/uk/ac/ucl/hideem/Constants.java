@@ -1,8 +1,17 @@
 package uk.ac.ucl.hideem;
 
+import java.util.EnumSet;
+import java.util.Set;
+
 import uk.ac.ucl.hideem.Exposure.Type;
 import uk.ac.ucl.hideem.Person.Sex;
 import uk.ac.ucl.hideem.Exposure.OccupancyType;
+
+import uk.ac.ucl.hideem.BuiltForm.*;
+import static uk.ac.ucl.hideem.BuiltForm.Type.*;
+import static uk.ac.ucl.hideem.BuiltForm.DwellingAge.*;
+import static uk.ac.ucl.hideem.BuiltForm.Tenure.*;
+import static uk.ac.ucl.hideem.BuiltForm.Region.*;
 
 public class Constants {
 	/**
@@ -150,15 +159,47 @@ public class Constants {
     	
         return tFunc;
     }
+
+    public static <T extends Enum<T>> double[] forEnum(final Class<T> type,
+                                                       final T[] keys,
+                                                       final double[] values) {
+        final Set<T> keysUsed = EnumSet.allOf(type);
+        final double[] result = new double[type.getEnumConstants().length];
+        for (int i = 0 ;i<keys.length; i++) {
+            if (!keysUsed.contains(keys[i])) {
+                throw new IllegalArgumentException("Key used twice: " + keys[i]);
+            } else {
+                keysUsed.remove(keys[i]);
+            }
+
+            result[keys[i].ordinal()] = values[i];
+        }
+
+        if (!keysUsed.isEmpty()) {
+            throw new IllegalArgumentException("Some keys not supplied for " + type + ": " + keysUsed);
+        }
+
+        return result;
+    }
     
     //SIT constants from Ian's regression analysis
     //BEDROOM
     public static final double INTERCEPT_BR 	= 	19.20722323;
     public static final double E_COEF_BR 	= 	-0.00048454;
     //								dwage6x   pre 1919, 1919-44,1945-64,1965-80,1981-90,post 1990
-    public static final double[] DW_AGE_BR = new double[]{0, 0.62893546, 0.98263756, 0.98077427, 0.87405793, 0.71870003};
+    public static final double[] DW_AGE_BR =
+        forEnum(DwellingAge.class,
+                new  DwellingAge[]  {CatA,  CatB,        CatC,        CatD,        CatE,        CatF},
+                new  double[]       {0,     0.62893546,  0.98263756,  0.98077427,  0.87405793,  0.71870003}
+            );
+
     //								agehrp6x  16 - 24,  25 - 34, 35 - 44,  45 - 54,  55 - 64, 65 or over
-    public static final double[] OC_AGE_BR = new double[]{0.23854955, -0.26124335, -0.77245027, -0.83600921, -0.71920557, 0};
+    public static final double[] OC_AGE_BR =
+        forEnum(OwnerAge.class,
+                new OwnerAge[] {OwnerAge.CatA, OwnerAge.CatB, OwnerAge.CatC, OwnerAge.CatD, OwnerAge.CatE, OwnerAge.CatF},
+                new double[]   {0.23854955,    -0.26124335,   -0.77245027,   -0.83600921,   -0.71920557,   0}
+            );
+
     // children     (0, 1) where 1 is >=1 child
     public static final double[] CH_BR = new double[]{-0.65692081, 0};
     // fpflgf     Not in FP - full income definition, In FP - full income definition
@@ -168,18 +209,38 @@ public class Constants {
     public static final double INTERCEPT_LR 	= 	20.91762877;
     public static final double E_COEF_LR 	= 	-0.00137557;
     //								dwage6x   pre 1919, 1919-44,1945-64,1965-80,1981-90,post 1990
-    public static final double[] DW_AGE_LR = new double[]{0, 0.47378301, 0.818369, 0.57985708, 0.64579968, 0.26898741};
+    public static final double[] DW_AGE_LR =
+        forEnum(DwellingAge.class,
+                new DwellingAge[] {CatA, CatB,       CatC,     CatD,       CatE,       CatF},
+                new double[]      {0,    0.47378301, 0.818369, 0.57985708, 0.64579968, 0.26898741}
+            );
+
     // 									tenure4x  RSL,  local authority, owner occupied, private rented
-    public static final double[] TENURE_LR = new double[]{0.0692168, 0.9329455, -0.11287118, 0};
+    public static final double[] TENURE_LR =
+        forEnum(Tenure.class,
+                new Tenure[] {RSL,       LocalAuthority, OwnerOccupied, PrivateRented},
+                new double[] {0.0692168, 0.9329455,      -0.11287118,   0}
+            );
+
     //								agehrp6x  16 - 24,  25 - 34, 35 - 44,  45 - 54,  55 - 64, 65 or over
-    public static final double[] OC_AGE_LR = new double[]{-1.29218261, -1.89237734, -1.56224335, -1.52381985, -1.05854816, 0};
+    public static final double[] OC_AGE_LR =
+        forEnum(OwnerAge.class,
+                new OwnerAge[] {OwnerAge.CatA, OwnerAge.CatB, OwnerAge.CatC, OwnerAge.CatD, OwnerAge.CatE, OwnerAge.CatF},
+                new double[]   {-1.29218261,   -1.89237734,   -1.56224335,   -1.52381985,   -1.05854816,   0}
+            );
+
     // children     (0, 1) where 1 is >=1 child
     public static final double[] CH_LR = new double[]{-0.94049087, 0};
     // fpflgf     Not in FP - full income definition, In FP - full income definition
     public static final double[] FP_LR = new double[]{0, -0.69756518};
     
     //Radon regional factors
-    public static final double[] RADON_FACTS = new double[]{0.77, 0.91, 1, 0.92, 1.47, 1.08, 0.62,	0.43, 1.72,	1.11};
+    public static final double[] RADON_FACTS =
+        forEnum(Region.class,
+                new Region[] {NorthEast, NorthWest, Wales, YorkshireAndHumber, EastMidlands, WestMidlands, EastOfEngland, London, SouthWest, SouthEast},
+                new double[] {0.77,      0.91,      1,     0.92,               1.47,         1.08,         0.62,	      0.43,   1.72,	     1.11}
+            );
+
     
     //SIT E-value coefficients
     public static final double[] LR_SIT_CONSTS = new double[]{0,-3.10552E-11, 3.95406E-07, -0.003177483,19.97883737};
@@ -188,7 +249,4 @@ public class Constants {
     //Fuel rebate info
     public static final double REBATE_AMMOUNT 	= 	200;  //£
     public static final double REBATE_PRICE 	=  	0.031;  //£/kWh
-    
-    
-    
 }

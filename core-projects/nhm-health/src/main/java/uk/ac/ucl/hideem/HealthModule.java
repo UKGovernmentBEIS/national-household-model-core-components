@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.apache.commons.math3.distribution.NormalDistribution;
@@ -16,10 +17,13 @@ import uk.ac.ucl.hideem.Exposure.Type;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Table;
+import com.google.common.collect.HashBasedTable;
 
 public class HealthModule implements IHealthModule {
 	private static final Logger log = LoggerFactory.getLogger(HealthModule.class);
-	private final ListMultimap<Exposure.Type, Exposure> exposureCoefficients;
+    private final Table<Exposure.ExposureBuiltForm, Exposure.VentilationType, List<Exposure>> exposures =
+        HashBasedTable.create();
 	private final ListMultimap<Disease.Type, Disease> healthCoefficients;
     
     public HealthModule() {
@@ -37,8 +41,7 @@ public class HealthModule implements IHealthModule {
         // on built form ordinals and then on the other column. A more
         // complex thing would require some better structure.
 
-    	//Read the exposure coefficients from the csv file
-        exposureCoefficients = ArrayListMultimap.create();
+        //Read the exposure coefficients from the csv file
 
         log.debug("Reading exposure coefficients from: src/main/resources/uk/ac/ucl/hideem/NHM_exposure_coefs");
 
@@ -46,8 +49,13 @@ public class HealthModule implements IHealthModule {
            String[] row = reader.read(); // throw away header line, because we know what it is
            
            while ((row = reader.read()) != null) {
-        	   final Exposure e = Exposure.readExposure(row);
-        	   exposureCoefficients.put(Enum.valueOf(Exposure.Type.class, row[0]), e);
+               final Exposure e = Exposure.readExposure(row);
+
+               if (!exposures.contains(e.builtForm, e.ventType)) {
+                   exposures.put(e.builtForm, e.ventType, new ArrayList<Exposure>());
+               }
+
+               exposures.get(e.builtForm, e.ventType).add(e);
            }
         } catch (final IOException ex) {
                     // problem?
@@ -98,11 +106,11 @@ public class HealthModule implements IHealthModule {
         final double t2,
         final double p1,
         final double p2,
-        final double e2,
+
         // case number constituents
         final BuiltForm.Type form,
         final double floorArea,
-        final int region,
+        final BuiltForm.Region region,
         final int mainFloorLevel, // fdfmainn (for flats)
         // finkxtwk and finbxtwk
         final boolean hasWorkingExtractorFans, // per finwhatever
@@ -119,65 +127,34 @@ public class HealthModule implements IHealthModule {
         final Exposure.VentilationType matchedVentilation = mapVentilation(hasWorkingExtractorFans, hasTrickleVents);
               
         //Get the correct exposures coefficients and calculate base and modified exposures for each individual
-        
-        //loop over occupancy types
-                
-    	for(final Exposure.OccupancyType occupancy : Exposure.OccupancyType.values()){
-        
-	        //First loop over the exposure types
-	    	//There is probably a quicker/better way of doing this but this will do for now 
-	        for(final Exposure.Type matchedExposure : Exposure.Type.values()) {
-	        	// for each exposure in the exposure coefficients file which is under matchedExposure
-	        	for (final Exposure exposure : exposureCoefficients.get(matchedExposure)) {
-	        		if (matchedVentilation==exposure.ventType && matchedBuiltForm==exposure.builtForm) {
-		        		//different calculation is used for mould and temperature and vpx is needed so do all together
-	        			
-	        			switch (matchedExposure) {
-	        			case VPX:
-	        				setVPXSitAndMould(exposure, t1, t2, p1, p2, e2, occupancy,rebate, result);
-	        				break;
-	        			case SIT:
-	        			case Mould:
-	        				// SIT and Mould are both handled by VPX above
-	        				break;
-	        			case Radon:
-	        				setRadonExposure(exposure, p1, p2, form, region, mainFloorLevel, occupancy, result);
-	        				break;
-	        			case ETS:
-	        				//Find out if there is a smoker in the house
-	        				boolean smoker = false;
-	        				for(final Person p: people){
-	        					if(p.smokes == true){
-	        						smoker =  true;
-	        					}
-	        				}
 
-	        				if(smoker == true){
-	        					result.setInitialExposure(matchedExposure, occupancy, exposure.dueToPermeability(occupancy, p1));
-	        					result.setFinalExposure(matchedExposure, occupancy, exposure.dueToPermeability(occupancy, p2));
-	        				}else{
-	        					result.setInitialExposure(matchedExposure, occupancy, 0);
-	        					result.setFinalExposure(matchedExposure, occupancy, 0);
-	        				}
-	        				//break;	
-	        			default:
-			        		result.setInitialExposure(matchedExposure, occupancy, exposure.dueToPermeability(occupancy, p1));
-			        		result.setFinalExposure(matchedExposure, occupancy, exposure.dueToPermeability(occupancy, p2));
-	        				break;
-	        			}
-		        	}        		
-		        }
-	    	}
+        boolean smoker = false;
+        for(final Person p: people){
+            if(p.smokes == true){
+                smoker =  true;
+            }
+        }
+
+    	for(final Exposure.OccupancyType occupancy : Exposure.OccupancyType.values()){
+            for (final Exposure exposure : exposures.get(matchedBuiltForm, matchedVentilation)) {
+                exposure.modify(t1, t2,
+                                p1, p2,
+
+                                smoker,
+                                mainFloorLevel,
+                                form,
+                                region,
+
+                                occupancy,
+                                result);
+            }
 	                               
 	        //Calculate the relative risks (independent of person) -> won't be any more due to diff occupancies
 	        for (final Disease.Type disease : Disease.Type.values()) {
-	        	result.setRelativeRisk(disease, occupancy, disease.relativeRisk(result, occupancy));
-	        }	    
-    	}//end of occupancy loop
-	        
-	    
-        // health calculation goes here. Probably be good to sanity check the inputs.
-       
+                result.setRelativeRisk(disease, occupancy, disease.relativeRisk(result, occupancy));
+            }
+        } //end of occupancy loop
+
        	//Survival array here so that qaly calc is done cumulatively (need one for each person per disease)
     	final double[][][] impactSurvival = new double[people.size()][Disease.Type.values().length][horizon+1];
     	final double[][][] baseSurvival = new double[people.size()][Disease.Type.values().length][horizon+1];
@@ -187,13 +164,12 @@ public class HealthModule implements IHealthModule {
     			baseSurvival[people.indexOf(p)][d.ordinal()][0] = 1;
     		}    
     	}
-    	
-        //Loop over disease coefficients
-        for(final Map.Entry<Disease.Type, Disease> d: healthCoefficients.entries()) {
-        	        	
-        	//loop over people in house to match them to coefficients
-        	for(final Person p: people){
-        	
+
+        //loop over people in house to match them to coefficients
+        for(final Person p: people){
+            //Loop over disease coefficients
+            for(final Map.Entry<Disease.Type, Disease> d: healthCoefficients.entries()) {
+
         		//loop over time frame
         		for (int year = 0; year < horizon; year=year+1) {
         			int age = p.age+year;
@@ -213,7 +189,7 @@ public class HealthModule implements IHealthModule {
 	        			
 	        			final double riskChangeTime = result.relativeRisk(d.getKey(),occupancy);
 	        			
-	        			       			
+
 	        			//Set the occupant exposures so can print it out
 	        			for(final Exposure.Type e : Exposure.Type.values()) {
 	        				result.setInitialOccExposure(e, year, people.indexOf(p), occupancy);
@@ -264,64 +240,6 @@ public class HealthModule implements IHealthModule {
         return result;
     }
 
-	private void setRadonExposure(final Exposure exposure, final double p1,
-			final double p2, final BuiltForm.Type form, final int region,
-			final int mainFloorLevel, final Exposure.OccupancyType occupancy,
-			final HealthOutcome result) {
-		final double baseExposure = exposure.dueToPermeability(occupancy, p1);
-		final double modifiedExposure = exposure.dueToPermeability(occupancy, p2);			        		
-		
-		//factors here!
-		double floorFactor = 1;
-		if((form ==BuiltForm.Type.ConvertedFlat || form==BuiltForm.Type.PurposeBuiltFlatLowRise || form==BuiltForm.Type.PurposeBuiltFlatHighRise) && mainFloorLevel==2){
-			floorFactor = 0.5;
-		}
-		else if((form ==BuiltForm.Type.ConvertedFlat || form==BuiltForm.Type.PurposeBuiltFlatLowRise || form==BuiltForm.Type.PurposeBuiltFlatHighRise) && mainFloorLevel==3){
-			floorFactor = 0.;
-		}
-		
-		result.setInitialExposure(Type.Radon, occupancy, floorFactor*baseExposure*Constants.RADON_FACTS[region-1]);
-		result.setFinalExposure(Type.Radon, occupancy, floorFactor*modifiedExposure*Constants.RADON_FACTS[region-1]);
-	}
-
-	private void setVPXSitAndMould(
-			final Exposure exposure, 
-			final double baseAverageSIT, 
-			final double modifiedAverageSIT,
-			final double p1, final double p2,
-			final double e2,
-			final Exposure.OccupancyType occupancy, final boolean rebate, final HealthOutcome result) {
-		final double baseVPX = exposure.dueToPermeability(occupancy, p1);
-		final double modifiedVPX = exposure.dueToPermeability(occupancy, p2);
-		
-		//set VPX
-		result.setInitialExposure(Exposure.Type.VPX, occupancy,baseVPX);
-		result.setFinalExposure(Exposure.Type.VPX, occupancy, modifiedVPX);
-		
-		//set SIT
-		result.setInitialExposure(Exposure.Type.SIT, occupancy, baseAverageSIT);
-		result.setFinalExposure(Exposure.Type.SIT, occupancy, modifiedAverageSIT);
-		
-		if(rebate == true) {
-			//If rebate there will be an effect on the modified SIT
-			//1st get heating design day		
-			final double hddSIT = 890.97 + (-203.97*(modifiedAverageSIT-2.1))+Math.pow((21.86*(modifiedAverageSIT-2.1)),2) + Math.pow((-0.27*(modifiedAverageSIT-2.1)),3);
-			final double evalueRebate = e2-((Constants.REBATE_AMMOUNT/Constants.REBATE_PRICE)/hddSIT)/(0.0024);
-			
-			final double modifiedRebateAverageSIT = calcSIT(evalueRebate);
-			result.setFinalExposure(Exposure.Type.SIT, occupancy, modifiedRebateAverageSIT);
-			//System.out.println("E-val rebate " + hddSIT+ " , " + evalueRebate+ " , " + modifiedAverageSIT+ " , " + modifiedRebateAverageSIT);
-		}
-		
-		//Now do the mould calc
-		final double baseMould	= calcMould(baseAverageSIT, baseVPX);
-		final double modifiedMould	= calcMould(modifiedAverageSIT, modifiedVPX);		           		
-		
-		//set Mould	
-		result.setInitialExposure(Exposure.Type.Mould, occupancy, baseMould);
-		result.setFinalExposure(Exposure.Type.Mould, occupancy, modifiedMould);
-	}
-        
     //Temperature Calculations using Hamilton relation
     private double calcSIT(final double eValue){
 		final double livingRoomSIT=(Constants.LR_SIT_CONSTS[4] + (Constants.LR_SIT_CONSTS[3]*Math.pow(eValue,1)) + (Constants.LR_SIT_CONSTS[2]*Math.pow(eValue,2)) 
@@ -336,12 +254,12 @@ public class HealthModule implements IHealthModule {
     private double calcSITRegression(final double eValue, final BuiltForm.DwellingAge age, final BuiltForm.Tenure t, final BuiltForm.OwnerAge a, final boolean c, final boolean p) {
     	
     	int children = (c) ? 1 : 0;
-    	int feulPoverty = (p) ? 1 : 0;
+        int fuelPoverty = (p) ? 1 : 0;
     	
     	final double livingRoomSIT=(Constants.INTERCEPT_LR + eValue*Constants.E_COEF_LR + Constants.DW_AGE_LR[age.ordinal()]) + Constants.TENURE_LR[t.ordinal()] 
-    			+ Constants.OC_AGE_LR[age.ordinal()] + Constants.CH_LR[children] + Constants.FP_LR[feulPoverty];
+                + Constants.OC_AGE_LR[age.ordinal()] + Constants.CH_LR[children] + Constants.FP_LR[fuelPoverty];
     	final double bedRoomSIT=(Constants.INTERCEPT_BR + eValue*Constants.E_COEF_BR + Constants.DW_AGE_BR[age.ordinal()]) 
-    			+ Constants.OC_AGE_BR[age.ordinal()] + Constants.CH_BR[children] + Constants.FP_BR[feulPoverty];;
+                + Constants.OC_AGE_BR[age.ordinal()] + Constants.CH_BR[children] + Constants.FP_BR[fuelPoverty];;
     	final double averageSIT = ((livingRoomSIT+bedRoomSIT)/2);    	
     	
     	return averageSIT;
@@ -350,56 +268,17 @@ public class HealthModule implements IHealthModule {
     
     @Override
     public double getInternalTemperature(boolean regressionSIT, double specificHeat, double efficiency, BuiltForm.DwellingAge dwellingAge, 
-    		BuiltForm.Tenure tenure, BuiltForm.OwnerAge ownerAge, boolean children, boolean feulPoverty) {
+            BuiltForm.Tenure tenure, BuiltForm.OwnerAge ownerAge, boolean children, boolean fulePoverty) {
     	if (efficiency <= 0) efficiency = 1;
     	final double eValue = specificHeat / efficiency;
     	
     	if (regressionSIT)
-    		return calcSITRegression(eValue, dwellingAge, tenure, ownerAge, children, feulPoverty);
+            return calcSITRegression(eValue, dwellingAge, tenure, ownerAge, children, fulePoverty);
     	else
     		return calcSIT(eValue);
     }
     
-    //Info on Mould calcs can be found in: http://www.iso.org/iso/catalogue_detail.htm?csnumber=51615
-    private double calcMould(final double averageSIT, final double vpx) {
-    	//initialisation
-    	double mould = 0, srh=0, svp=0;
-
-    	
-    	//Calculate SVP
-    	if(averageSIT >0) {
-			svp = 610.78*Math.exp((17.269*averageSIT)/(237.3+averageSIT));
-		}
-		else {
-			svp = 610.5*Math.exp((21.875*averageSIT)/(265.5+averageSIT));
-		}
-
-    	
-    	//Calculate SRH
-    	if(100*(vpx+(0.8*872.26))/svp >100){
-    		srh=100;
-    	}
-    	else{
-    		srh=100*(vpx+(0.8*872.26))/svp;
-    	}  	
-
-    	
-    	//Calculate Mould
-    	if(srh<=45){
-    		mould = -1.741582244 +(0.697690596*Math.pow(srh,1))+(-0.023600847*Math.pow(srh,2))+(0.000278933*Math.pow(srh,3));
-    	}
-    	else if(srh>45 && srh <200){
-    		mould = 4.687377282 +(-1.161195895*Math.pow(srh,1))+(0.037245523*Math.pow(srh,2)) +(-0.000223222*Math.pow(srh,3));
-    	}
-    	else{  //Maybe Ian made a mistake here?
-    		mould = 23.42903107 +(-1.46645682*Math.pow(srh,1))+(0.027203495*Math.pow(srh,2))+(-7.89893e-05*Math.pow(srh,3));
-    	}
-
-    	
-    	return mould;
-    }
-    
-    //Methods to map the input built form and ventilation of NHM to that in Hideem. 
+    //Methods to map the input built form and ventilation of NHM to that in Hideem.
     //Not sure if this should be here or elsewhere but works for now
     private Exposure.ExposureBuiltForm mapBuiltForm(final BuiltForm.Type form, final double floorArea, final int mainFloorLevel) {
 	    //initialisation
