@@ -9,11 +9,11 @@ public interface IHealthModule {
         double t2,
         double p1,
         double p2,
-
+        double e2,
         // case number constituents
         BuiltForm.Type form,
         double floorArea,
-        BuiltForm.Region region,
+        int region,
         int mainFloorLevel, // fdfmainn (for flats)
         // finkxtwk and finbxtwk
         boolean hasWorkingExtractorFans, // per finwhatever
