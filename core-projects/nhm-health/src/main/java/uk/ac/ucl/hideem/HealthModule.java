@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.ucl.hideem.Exposure.ExposureBuiltForm;
 import uk.ac.ucl.hideem.Exposure.OccupancyType;
+import uk.ac.ucl.hideem.Exposure.OverheatingAgeBands;
 import uk.ac.ucl.hideem.Exposure.Type;
 
 import com.google.common.collect.ArrayListMultimap;
@@ -68,6 +69,7 @@ public class HealthModule implements IHealthModule {
 				case asthma1:
 				case asthma2:
 				case asthma3:
+				case overheating:
 					break;
 				default:
 					final Disease d = Disease.readDisease(row.get("age"), row.get("sex"), row.get(type.name()), Double.parseDouble(row.get("all")), row.get("population"),row.get(type.name()+"_ratio"));
@@ -85,6 +87,8 @@ public class HealthModule implements IHealthModule {
 		healthCoefficients.put(Disease.Type.asthma1, asthma);
 		healthCoefficients.put(Disease.Type.asthma2, asthma);
 		healthCoefficients.put(Disease.Type.asthma3, asthma);
+		final Disease overheating = Disease.readDisease("-1", "FEMALE", "0", 0, "0","0");
+		healthCoefficients.put(Disease.Type.overheating, overheating);
     }
 
 	private BufferedReader bufferedReaderForResource(final String resource) {
@@ -98,6 +102,7 @@ public class HealthModule implements IHealthModule {
         final double t2,
         final double p1,
         final double p2,
+        final double e1,
         final double e2,
         // case number constituents
         final BuiltForm.Type form,
@@ -108,6 +113,7 @@ public class HealthModule implements IHealthModule {
         final boolean hasWorkingExtractorFans, // per finwhatever
         final boolean hasTrickleVents,         // this is cooked up elsewhere
         final boolean rebate,
+        final boolean  doubleGlaz,      //dblglazing80pctplus
         // who
         final List<Person> people,
         final int horizon) {
@@ -119,20 +125,20 @@ public class HealthModule implements IHealthModule {
         final Exposure.VentilationType matchedVentilation = mapVentilation(hasWorkingExtractorFans, hasTrickleVents);
               
         //Get the correct exposures coefficients and calculate base and modified exposures for each individual
-        
-        //loop over occupancy types
-                
-    	for(final Exposure.OccupancyType occupancy : Exposure.OccupancyType.values()){
-        
-	        //First loop over the exposure types
-	    	//There is probably a quicker/better way of doing this but this will do for now 
-	        for(final Exposure.Type matchedExposure : Exposure.Type.values()) {
+
+        //First loop over the exposure types
+    	//There is probably a quicker/better way of doing this but this will do for now 
+        for(final Exposure.Type matchedExposure : Exposure.Type.values()) {
+        	
+            //loop over occupancy types                
+        	for(final Exposure.OccupancyType occupancy : Exposure.OccupancyType.values()){
+        	
 	        	// for each exposure in the exposure coefficients file which is under matchedExposure
 	        	for (final Exposure exposure : exposureCoefficients.get(matchedExposure)) {
 	        		if (matchedVentilation==exposure.ventType && matchedBuiltForm==exposure.builtForm) {
 		        		//different calculation is used for mould and temperature and vpx is needed so do all together
 	        			
-	        			switch (matchedExposure) {
+	        			switch (matchedExposure) {	        				
 	        			case VPX:
 	        				setVPXSitAndMould(exposure, t1, t2, p1, p2, e2, occupancy,rebate, result);
 	        				break;
@@ -158,8 +164,7 @@ public class HealthModule implements IHealthModule {
 	        				}else{
 	        					result.setInitialExposure(matchedExposure, occupancy, 0);
 	        					result.setFinalExposure(matchedExposure, occupancy, 0);
-	        				}
-	        				//break;	
+	        				}	
 	        			default:
 			        		result.setInitialExposure(matchedExposure, occupancy, exposure.dueToPermeability(occupancy, p1));
 			        		result.setFinalExposure(matchedExposure, occupancy, exposure.dueToPermeability(occupancy, p2));
@@ -167,15 +172,28 @@ public class HealthModule implements IHealthModule {
 	        			}
 		        	}        		
 		        }
-	    	}
-	                               
-	        //Calculate the relative risks (independent of person) -> won't be any more due to diff occupancies
-	        for (final Disease.Type disease : Disease.Type.values()) {
-	        	result.setRelativeRisk(disease, occupancy, disease.relativeRisk(result, occupancy));
-	        }	    
-    	}//end of occupancy loop
-	        
-	    
+	                     	
+	        	//Calculate the relative risks
+		        for (final Disease.Type disease : Disease.Type.values()) {
+		        	result.setRelativeRisk(disease, occupancy, disease.relativeRisk(result, occupancy));
+		        }	
+	        	
+		      //Overheating Temp isn't dependent exposure coefs so out of loop
+	        	if (matchedExposure == Exposure.Type.SIT2DayMax){
+	        		final double initialSITMax = getSIT2DayMax(e1, doubleGlaz, region);
+					final double finalSITMax   = getSIT2DayMax(e2, doubleGlaz, region);
+					result.setInitialExposure(matchedExposure, occupancy, initialSITMax);
+	        		result.setFinalExposure(matchedExposure, occupancy, finalSITMax);
+					//RR for overheating is age dependent
+					for (final Exposure.OverheatingAgeBands ageBand : OverheatingAgeBands.values()) {
+						result.setRelativeRisk(Disease.Type.overheating, ageBand, 
+								Disease.Type.overheating.relativeRisk(result, occupancy, region, ageBand));
+					}	
+	        	}
+		        
+	    	}//end of occupancy loop	
+    	}//end of exposure loop
+
         // health calculation goes here. Probably be good to sanity check the inputs.
        
        	//Survival array here so that qaly calc is done cumulatively (need one for each person per disease)
@@ -199,21 +217,20 @@ public class HealthModule implements IHealthModule {
         			int age = p.age+year;
         			//Need age ==-1 as ages not stored for CMD and Asthma 
 	        		if ((age == d.getValue().age && p.sex == d.getValue().sex) || d.getValue().age==-1){
-		        		final OccupancyType occupancy;
 		        		
-	        			if(age <= 5){
-	        				occupancy = OccupancyType.H55_45_0; 
-	        			} else if(age > 5 && age < 18){
-	        				occupancy = OccupancyType.W29_33_0;
-	        			} else if(age > 65){
-	        				occupancy = OccupancyType.H45_45_10;
-	        			} else{
-	        				occupancy = OccupancyType.W21_33_8;
+	        			final OccupancyType occupancy = Exposure.getOccupancyType(age);   		
+	        			final OverheatingAgeBands ageBand = Exposure.getOverheatingAgeBand(age);	        			
+
+	        			double riskChangeTime = 1;
+	        			switch(d.getKey()){
+	        			case overheating:
+	        				riskChangeTime = result.relativeRisk(d.getKey(), ageBand);
+	        				break;
+	        			default:	
+	        				riskChangeTime = result.relativeRisk(d.getKey(),occupancy);
+	        				break;
 	        			}
-	        			
-	        			final double riskChangeTime = result.relativeRisk(d.getKey(),occupancy);
-	        			
-	        			       			
+	        				
 	        			//Set the occupant exposures so can print it out
 	        			for(final Exposure.Type e : Exposure.Type.values()) {
 	        				result.setInitialOccExposure(e, year, people.indexOf(p), occupancy);
@@ -229,7 +246,8 @@ public class HealthModule implements IHealthModule {
 	        			
 	        			//Different cases for CMD and Asthma for morbidity qalys
 	        			switch(d.getKey()){
-	        			
+	        			case overheating:
+	        				break;	//put here
 	        			case copd:
 	        				final double[] copdImp = calculateCOPDQaly(riskChangeTime, age, year);
 	        				result.setMorbidityQalys(d.getKey(), year, copdImp[1]*samplesize, people.indexOf(p));
@@ -252,9 +270,7 @@ public class HealthModule implements IHealthModule {
 		        			final double cases = Constants.INCIDENCE(d.getKey(), p.age, p.sex)*(qaly[0])*Constants.COST_PER_CASE(d.getKey()); 
 		        			result.setCost(d.getKey(), year, cases*samplesize, people.indexOf(p));
 	        				break;
-	        			}
-
-	        					        		
+	        			}		        		
 	        		}
 
 	        	}
@@ -263,7 +279,7 @@ public class HealthModule implements IHealthModule {
         	
         return result;
     }
-
+    
 	private void setRadonExposure(final Exposure exposure, final double p1,
 			final double p2, final BuiltForm.Type form, final int region,
 			final int mainFloorLevel, final Exposure.OccupancyType occupancy,
@@ -283,7 +299,24 @@ public class HealthModule implements IHealthModule {
 		result.setInitialExposure(Type.Radon, occupancy, floorFactor*baseExposure*Constants.RADON_FACTS[region-1]);
 		result.setFinalExposure(Type.Radon, occupancy, floorFactor*modifiedExposure*Constants.RADON_FACTS[region-1]);
 	}
-
+	
+	private double getSIT2DayMax(
+			final double eval,
+			final boolean doubleGlaz,
+			final int region) {
+		
+		double glz = 0;
+		if (doubleGlaz == true) {
+			glz = 0.37225874;
+		}
+		
+		//Calculate using Ian's regression method
+		final double SITMax = 17.45785434 + Constants.OVERHEAT_THRESH[region-1]*0.2945458 + -0.00158636*eval + Constants.OVERHEAT_COEFS[region-1] +glz;
+		
+		return SITMax;
+	}
+	
+	
 	private void setVPXSitAndMould(
 			final Exposure exposure, 
 			final double baseAverageSIT, 
@@ -303,14 +336,23 @@ public class HealthModule implements IHealthModule {
 		result.setFinalExposure(Exposure.Type.SIT, occupancy, modifiedAverageSIT);
 		
 		if(rebate == true) {
-			//If rebate there will be an effect on the modified SIT
-			//1st get heating design day		
-			final double hddSIT = 890.97 + (-203.97*(modifiedAverageSIT-2.1))+Math.pow((21.86*(modifiedAverageSIT-2.1)),2) + Math.pow((-0.27*(modifiedAverageSIT-2.1)),3);
-			final double evalueRebate = e2-((Constants.REBATE_AMMOUNT/Constants.REBATE_PRICE)/hddSIT)/(0.0024);
-			
+/*			//If rebate there will be an effect on the modified SIT
+			//Ian's e-value points method
+			final double hddSIT = 890.97 + -203.97*(modifiedAverageSIT-2.1)+21.86*Math.pow(modifiedAverageSIT-2.1,2) + -0.27*Math.pow(modifiedAverageSIT-2.1,3);
+			final double evaluePoints = ((Constants.REBATE_AMMOUNT/Constants.REBATE_PRICE)/hddSIT)/0.0024;
+			final double evalueRebate = e2-((Constants.REBATE_AMMOUNT/Constants.REBATE_PRICE)/hddSIT)/0.0024;
 			final double modifiedRebateAverageSIT = calcSIT(evalueRebate);
+			
+			//Phil's Physics method
+			final double heatingHours = 24*hddSIT/(modifiedAverageSIT-5.0);
+			final double deltaT = Constants.REBATE_AMMOUNT/(1E-3*Constants.REBATE_PRICE*heatingHours*e2);	
+			final double modifiedRebateAverageSITPhil = modifiedAverageSIT+deltaT;*/
+			
+			//Tom's cost-temp relationship method. Use this for now. Until better data is available. gradiant of cost-temp relationship is 0.0008315
+			final double modifiedRebateAverageSIT = modifiedAverageSIT+ Constants.REBATE_AMMOUNT*0.0008315;
+			
 			result.setFinalExposure(Exposure.Type.SIT, occupancy, modifiedRebateAverageSIT);
-			//System.out.println("E-val rebate " + hddSIT+ " , " + evalueRebate+ " , " + modifiedAverageSIT+ " , " + modifiedRebateAverageSIT);
+
 		}
 		
 		//Now do the mould calc
@@ -470,10 +512,14 @@ public class HealthModule implements IHealthModule {
 
     private double[] calculateQaly(final Map.Entry<Disease.Type, Disease> d, final double riskChangeTime, final double[][][] impactSurvival, final double[][][] baseSurvival, final int personIndex, final int year) {
     	//Calculations based on Miller, Life table for quantitative impact assessment, 2003
-    	final double base = d.getValue().allHazard;
+    	double base = d.getValue().allHazard;
 		double impact = base - d.getValue().hazard;
     	
-    	if (d.getKey() == Disease.Type.wincardiovascular || d.getKey() == Disease.Type.wincerebrovascular || d.getKey() == Disease.Type.winmyocardialinfarction) {
+		if (d.getKey() == Disease.Type.overheating) {
+			//For overheating age dependence is in the RR and there are no mortality stats so we just use total pop (deaths/pop)
+			base = Constants.TOT_BASE;
+			impact = base + Constants.OVERHEAT_HAZARD* (riskChangeTime -1); //roughly 2000 overheating excess deaths (Heatwave plan for England 2015 (NHS))
+		}else if (d.getKey() == Disease.Type.wincardiovascular || d.getKey() == Disease.Type.wincerebrovascular || d.getKey() == Disease.Type.winmyocardialinfarction) {
 			impact += d.getValue().hazard * riskChangeTime;
 		}
 		else  {

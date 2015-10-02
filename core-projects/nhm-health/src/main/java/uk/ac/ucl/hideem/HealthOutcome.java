@@ -1,7 +1,7 @@
 package uk.ac.ucl.hideem;
 
 import uk.ac.ucl.hideem.Exposure.OccupancyType;
-
+import uk.ac.ucl.hideem.Exposure.OverheatingAgeBands;
 import com.google.common.base.Preconditions;
 
 /**
@@ -61,6 +61,12 @@ public class HealthOutcome {
         Preconditions.checkNotNull(disease);
         return relativeRisk[disease.ordinal()][occupancy.ordinal()];
     }
+       
+    //Also have an over heating RR dep on age band
+    public double relativeRisk(final Disease.Type disease, final Exposure.OverheatingAgeBands ageBand) {
+        Preconditions.checkNotNull(disease);
+        return relativeRisk[disease.ordinal()][ageBand.ordinal()];
+    }
     
     public double mortalityQalys(final Disease.Type disease, final int year, final int occ) {
         Preconditions.checkNotNull(disease);
@@ -101,6 +107,11 @@ public class HealthOutcome {
     public void setRelativeRisk(final Disease.Type disease, final OccupancyType occupancy, final double r) {
         Preconditions.checkNotNull(disease);
         this.relativeRisk[disease.ordinal()][occupancy.ordinal()] = r;
+    }
+    
+    public void setRelativeRisk(final Disease.Type disease, final OverheatingAgeBands ageBand, final double r) {
+        Preconditions.checkNotNull(disease);
+        this.relativeRisk[disease.ordinal()][ageBand.ordinal()] = r;
     }
     
     public void setMortalityQalys(final Disease.Type disease, final int year, final double q, final int occ) {
