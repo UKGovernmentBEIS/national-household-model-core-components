@@ -20,16 +20,14 @@ public class OverheatingExposure implements IExposure {
         final HealthOutcome result) {
         // The data does not contain any rows for this type of exposure, we just add it as a constant for all built forms and so on.
         // Overheating Temp isn't dependent exposure coefs so out of loop
-        if (matchedExposure == Exposure.Type.SIT2DayMax){
-            final double initialSITMax = getSIT2DayMax(e1, doubleGlaz, region);
-            final double finalSITMax   = getSIT2DayMax(e2, doubleGlaz, region);
-            result.setInitialExposure(matchedExposure, occupancy, initialSITMax);
-            result.setFinalExposure(matchedExposure, occupancy, finalSITMax);
-            //RR for overheating is age dependent
-            for (final Exposure.OverheatingAgeBands ageBand : OverheatingAgeBands.values()) {
-                result.setRelativeRisk(Disease.Type.overheating, ageBand,
-                                       Disease.Type.overheating.relativeRisk(result, occupancy, region, ageBand));
-            }
+        final double initialSITMax = getSIT2DayMax(e1, doubleGlaz, region);
+        final double finalSITMax   = getSIT2DayMax(e2, doubleGlaz, region);
+        result.setInitialExposure(matchedExposure, occupancy, initialSITMax);
+        result.setFinalExposure(matchedExposure, occupancy, finalSITMax);
+        //RR for overheating is age dependent
+        for (final Exposure.OverheatingAgeBands ageBand : OverheatingAgeBands.values()) {
+            result.setRelativeRisk(Disease.Type.overheating, ageBand,
+                                   Disease.Type.overheating.relativeRisk(result, occupancy, region, ageBand));
         }
     }
 }

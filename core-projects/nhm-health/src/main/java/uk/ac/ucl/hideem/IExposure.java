@@ -42,6 +42,22 @@ public interface IExposure {
         H55_45_0,    //small child
         W29_33_0,	 //school child
         W21_33_8;    //worker
+
+        public static OccupancyType forAge(final int age) {
+            final OccupancyType occupancy;
+            //move elsewhere
+            if(age <= 5){
+                occupancy = OccupancyType.H55_45_0;
+            } else if(age > 5 && age < 18){
+                occupancy = OccupancyType.W29_33_0;
+            } else if(age > 65){
+                occupancy = OccupancyType.H45_45_10;
+            } else{
+                occupancy = OccupancyType.W21_33_8;
+            }
+
+            return occupancy;
+        }
     }
 
     public enum OverheatingAgeBands{
@@ -49,6 +65,24 @@ public interface IExposure {
         Age65_74,
         Age75_85,
         Age85;
+
+
+        public static OverheatingAgeBands forAge(final int age) {
+            final OverheatingAgeBands ageBand;
+            //move elsewhere
+            if(age <= 65){
+                ageBand = OverheatingAgeBands.Age0_64;
+            } else if(age >= 65 && age < 75){
+                ageBand = OverheatingAgeBands.Age65_74;
+            } else if(age >= 75 && age < 85){
+                ageBand = OverheatingAgeBands.Age75_85;
+            } else{
+                ageBand = OverheatingAgeBands.Age85;
+            }
+
+            return ageBand;
+        }
+
     }
 
     public void modify(

@@ -3,10 +3,10 @@ package uk.ac.ucl.hideem;
 import java.util.EnumSet;
 import java.util.Set;
 
-import uk.ac.ucl.hideem.Exposure.Type;
+import uk.ac.ucl.hideem.IExposure.Type;
 import uk.ac.ucl.hideem.Person.Sex;
-import uk.ac.ucl.hideem.Exposure.OccupancyType;
-import uk.ac.ucl.hideem.Exposure.OverheatingAgeBands;
+import uk.ac.ucl.hideem.IExposure.OccupancyType;
+import uk.ac.ucl.hideem.IExposure.OverheatingAgeBands;
 
 import uk.ac.ucl.hideem.BuiltForm.*;
 import static uk.ac.ucl.hideem.BuiltForm.Type.*;
@@ -21,26 +21,26 @@ public class Constants {
 	 * The useful part is {@link #riskDueTo(HealthOutcome)}, which computes the risk resulting from a change in exposure in the given health outcome.
 	 */
 	public enum RiskConstant {
-		INPM_CP(Constants.REL_RISK_PM_CP, Constants.INC_PM_CP, Exposure.Type.INPM2_5),
-		OUTPM_CP(Constants.REL_RISK_PM_CP, Constants.INC_PM_CP, Exposure.Type.OUTPM2_5),
-		ETS_CA(Constants.REL_RISK_ETS_CA, Constants.INC_ETS_CA, Exposure.Type.ETS),
-		INPM_LC(Constants.REL_RISK_PM_LC, Constants.INC_PM_LC, Exposure.Type.INPM2_5),
-		OUTPM_LC(Constants.REL_RISK_PM_LC, Constants.INC_PM_LC, Exposure.Type.OUTPM2_5),
-		RADON_LC(Constants.REL_RISK_RADON_LC, Constants.INC_RADON_LC, Exposure.Type.Radon),
-		ETS_MI(Constants.REL_RISK_ETS_MI, Constants.INC_ETS_MI, Exposure.Type.ETS),
-		SIT_CV(Constants.REL_RISK_SIT_CV, Constants.INC_WINCV, Exposure.Type.SIT),
-		SIT_COPD(Constants.REL_RISK_SIT_COPD, Constants.INC_WINCOPD, Exposure.Type.SIT),
-		SIT_CMD(Constants.REL_RISK_SIT_CMD, Constants.INC_WINCMD, Exposure.Type.SIT),
-		MOULD_ASTHMA1(Constants.REL_RISK_MOULD_ASTHMA1, Constants.INC_MOULD_ASTHMA1, Exposure.Type.Mould),
-		MOULD_ASTHMA2(Constants.REL_RISK_MOULD_ASTHMA2, Constants.INC_MOULD_ASTHMA2, Exposure.Type.Mould),
-		MOULD_ASTHMA3(Constants.REL_RISK_MOULD_ASTHMA3, Constants.INC_MOULD_ASTHMA3, Exposure.Type.Mould),
-		SIT2DayMax_OVERHEAT(Constants.REL_RISK_OVERHEAT, Constants.INC_OVERHEAT, Exposure.Type.SIT2DayMax);
+        INPM_CP(Constants.REL_RISK_PM_CP,                Constants.INC_PM_CP,         IExposure.Type.INPM2_5),
+        OUTPM_CP(Constants.REL_RISK_PM_CP,               Constants.INC_PM_CP,         IExposure.Type.OUTPM2_5),
+        ETS_CA(Constants.REL_RISK_ETS_CA,                Constants.INC_ETS_CA,        IExposure.Type.ETS),
+        INPM_LC(Constants.REL_RISK_PM_LC,                Constants.INC_PM_LC,         IExposure.Type.INPM2_5),
+        OUTPM_LC(Constants.REL_RISK_PM_LC,               Constants.INC_PM_LC,         IExposure.Type.OUTPM2_5),
+        RADON_LC(Constants.REL_RISK_RADON_LC,            Constants.INC_RADON_LC,      IExposure.Type.Radon),
+        ETS_MI(Constants.REL_RISK_ETS_MI,                Constants.INC_ETS_MI,        IExposure.Type.ETS),
+        SIT_CV(Constants.REL_RISK_SIT_CV,                Constants.INC_WINCV,         IExposure.Type.SIT),
+        SIT_COPD(Constants.REL_RISK_SIT_COPD,            Constants.INC_WINCOPD,       IExposure.Type.SIT),
+        SIT_CMD(Constants.REL_RISK_SIT_CMD,              Constants.INC_WINCMD,        IExposure.Type.SIT),
+        MOULD_ASTHMA1(Constants.REL_RISK_MOULD_ASTHMA1,  Constants.INC_MOULD_ASTHMA1, IExposure.Type.Mould),
+        MOULD_ASTHMA2(Constants.REL_RISK_MOULD_ASTHMA2,  Constants.INC_MOULD_ASTHMA2, IExposure.Type.Mould),
+        MOULD_ASTHMA3(Constants.REL_RISK_MOULD_ASTHMA3,  Constants.INC_MOULD_ASTHMA3, IExposure.Type.Mould),
+        SIT2DayMax_OVERHEAT(Constants.REL_RISK_OVERHEAT, Constants.INC_OVERHEAT,      IExposure.Type.SIT2DayMax);
 
 		private final double logRatio;
 		private final double ratio;
 		private final Type exposureType;
 		
-		private RiskConstant(final double rel, final double inc, final Exposure.Type exposureType) {
+        private RiskConstant(final double rel, final double inc, final IExposure.Type exposureType) {
 			this.ratio = rel / inc;
 			this.logRatio = Math.log(rel) / inc;
 			this.exposureType = exposureType;
@@ -54,15 +54,15 @@ public class Constants {
 			return Math.pow(ratio, result.deltaExposure(exposureType, occupancy));
 		}
 		
-		public double riskDueToOverheating(final HealthOutcome result, final OccupancyType occupancy, final int region, final OverheatingAgeBands ageBand){
+        public double riskDueToOverheating(final HealthOutcome result, final OccupancyType occupancy, final Region region, final OverheatingAgeBands ageBand){
 			double risk = ratio;
-			if (result.initialExposure(exposureType, occupancy)  > Constants.OVERHEAT_THRESH[region-1] && 
-					result.finalExposure(exposureType, occupancy)  > Constants.OVERHEAT_THRESH[region-1]){
-				risk += RR_PER_DEGREE_OVERHEAT (region, ageBand) * result.deltaExposure(exposureType, occupancy);
-			}else if (result.initialExposure(exposureType, occupancy)  > Constants.OVERHEAT_THRESH[region-1] ) {
-				risk += RR_PER_DEGREE_OVERHEAT (region, ageBand) * (Constants.OVERHEAT_THRESH[region-1] - result.initialExposure(exposureType, occupancy));
-			}else if (result.finalExposure(exposureType, occupancy)  > Constants.OVERHEAT_THRESH[region-1] ) {
-				risk += RR_PER_DEGREE_OVERHEAT (region, ageBand) * (result.finalExposure(exposureType, occupancy) - Constants.OVERHEAT_THRESH[region-1]);
+            if (result.initialExposure(exposureType, occupancy)  > Constants.OVERHEAT_THRESH[region.ordinal()] &&
+                result.finalExposure(exposureType, occupancy)  > Constants.OVERHEAT_THRESH[region.ordinal()]){
+                risk += RR_PER_DEGREE_OVERHEAT[region.ordinal()][ageBand.ordinal()] * result.deltaExposure(exposureType, occupancy);
+            }else if (result.initialExposure(exposureType, occupancy)  > Constants.OVERHEAT_THRESH[region.ordinal()] ) {
+                risk += RR_PER_DEGREE_OVERHEAT[region.ordinal()][ageBand.ordinal()] * (Constants.OVERHEAT_THRESH[region.ordinal()] - result.initialExposure(exposureType, occupancy));
+            }else if (result.finalExposure(exposureType, occupancy)  > Constants.OVERHEAT_THRESH[region.ordinal()] ) {
+                risk += RR_PER_DEGREE_OVERHEAT [region.ordinal()][ageBand.ordinal()] * (result.finalExposure(exposureType, occupancy) - Constants.OVERHEAT_THRESH[region.ordinal()]);
 			}
 			
 			return risk;
@@ -181,25 +181,25 @@ public class Constants {
         return tFunc;
     }
 
-    public static <T extens Enum<T>, U extends Enum<U>> double[][] forEnums(final Class<T> row,
+    public static <T extends Enum<T>, U extends Enum<U>> double[][] forEnums(final Class<T> row,
                                                                             final Class<U> col,
                                                                             final T[] rowkeys,
-                                                                            final T[] columkeys,
+                                                                            final U[] columnkeys,
                                                                             final double[][] values) {
-        final double[][] result = new double[row.getEnumConstants().length];
+        final double[][] result = new double[row.getEnumConstants().length][];
 
         final Set<T> keysUsed = EnumSet.allOf(row);
         for (int i = 0; i<rowkeys.length; i++) {
-            if (!keysUsed.contains(keys[i])) {
-                throw new IllegalArgumentException("Key used twice: " + keys[i]);
+            if (!keysUsed.contains(rowkeys[i])) {
+                throw new IllegalArgumentException("Key used twice: " + rowkeys[i]);
             } else {
-                keysUsed.remove(keys[i]);
+                keysUsed.remove(rowkeys[i]);
             }
             result[rowkeys[i].ordinal()] = forEnum(col, columnkeys, values[i]);
         }
 
         if (!keysUsed.isEmpty()) {
-            throw new IllegalArgumentException("Some keys not supplied for " + type + ": " + keysUsed);
+            throw new IllegalArgumentException("Some keys not supplied for " + row + ": " + keysUsed);
         }
 
         return result;
@@ -291,10 +291,10 @@ public class Constants {
     public static final double[] OVERHEAT_THRESH =
         forEnum(Region.class,
                 new Region[] {NorthEast, NorthWest, Wales, YorkshireAndHumber, EastMidlands, WestMidlands, EastOfEngland, London,   SouthWest, SouthEast},
-                new double[] {23.28746,  23.67835,  1,     24.53434,           24.39385,     24.10412,     24.87814,      25.26228, 24.57729,  23.55555};
+                new double[] {23.28746,  23.67835,  1,     24.53434,           24.39385,     24.10412,     24.87814,      25.26228, 24.57729,  23.55555}
             );
 
-    public static final double[] OVERHEAT_THRESH =
+    public static final double[] OVERHEAT_COEFS =
         forEnum(Region.class,
                 new Region[] {NorthEast,   NorthWest,   Wales, YorkshireAndHumber, EastMidlands, WestMidlands, EastOfEngland, London,     SouthWest,   SouthEast},
                 new double[] {-0.67870354, -0.44334691, 1,     0,                  -0.21311184,  -0.38224314,  0.05518115,    0.19038004, -0.59019838, -0.04675629}
@@ -311,14 +311,14 @@ public class Constants {
     public static final double[][] RR_PER_DEGREE_OVERHEAT =
         forEnums(
             Region.class,
-            OverHeatingAgeBands.class,
+            IExposure.OverheatingAgeBands.class,
             // row indices
             new Region[] {NorthEast, NorthWest, Wales, YorkshireAndHumber, EastMidlands, WestMidlands, EastOfEngland, London, SouthWest, SouthEast},
             // column indices
-            new OverheatingAgeBands[] {Age0_64, Age65_74, Age75_85, Age85},
+            new OverheatingAgeBands[] {OverheatingAgeBands.Age0_64, OverheatingAgeBands.Age65_74, OverheatingAgeBands.Age75_85, OverheatingAgeBands.Age85},
             new double[][]
             {
-                {0.5        ,0.60000002 ,0.80000001 ,1.1}
+                {0.5        ,0.60000002 ,0.80000001 ,1.1},
                 {0.80000001 ,0.89999998 ,1.3        ,1.9}       ,
                 {1.2        ,1.4        ,2          ,2.9000001} ,
                 {1.1        ,1.2        ,1.7        ,2.4000001} ,

@@ -2,8 +2,11 @@ package uk.ac.ucl.hideem;
 
 import uk.ac.ucl.hideem.Constants.RiskConstant;
 import uk.ac.ucl.hideem.Person.Sex;
-import uk.ac.ucl.hideem.Exposure.OccupancyType;
-import uk.ac.ucl.hideem.Exposure.OverheatingAgeBands;
+import uk.ac.ucl.hideem.IExposure.OccupancyType;
+import uk.ac.ucl.hideem.IExposure.OverheatingAgeBands;
+
+import uk.ac.ucl.hideem.BuiltForm.Region;
+
 /**
  * Everything HIDEEM needs to know about diseases.
  */
@@ -74,7 +77,7 @@ public class Disease {
 			return acc;
 		}
 		
-		public double relativeRisk(final HealthOutcome result, final OccupancyType occupancy, final int region, final OverheatingAgeBands ageBand) {
+        public double relativeRisk(final HealthOutcome result, final OccupancyType occupancy, final Region region, final OverheatingAgeBands ageBand) {
 			//Only for overheating risk
 			final double risk = RiskConstant.SIT2DayMax_OVERHEAT.riskDueToOverheating(result, occupancy, region, ageBand);
 			

@@ -11,10 +11,11 @@ import org.apache.commons.math3.distribution.NormalDistribution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.ucl.hideem.Exposure.ExposureBuiltForm;
-import uk.ac.ucl.hideem.Exposure.OccupancyType;
-import uk.ac.ucl.hideem.Exposure.OverheatingAgeBands;
-import uk.ac.ucl.hideem.Exposure.Type;
+import uk.ac.ucl.hideem.IExposure.ExposureBuiltForm;
+import uk.ac.ucl.hideem.IExposure.OccupancyType;
+import uk.ac.ucl.hideem.IExposure.OverheatingAgeBands;
+import uk.ac.ucl.hideem.IExposure.Type;
+import uk.ac.ucl.hideem.BuiltForm.Region;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -53,7 +54,7 @@ public class HealthModule implements IHealthModule {
                final CoefficientsExposure e = CoefficientsExposure.readExposure(row);
 
                if (!exposures.contains(e.builtForm, e.ventType)) {
-                   exposures.put(e.builtForm, e.ventType, new ArrayList<Exposure>());
+                   exposures.put(e.builtForm, e.ventType, new ArrayList<IExposure>());
                }
 
                exposures.get(e.builtForm, e.ventType).add(e);
@@ -130,8 +131,8 @@ public class HealthModule implements IHealthModule {
         final HealthOutcome result = new HealthOutcome(horizon, people.size());
         
         //perform the matching between NHM built form and ventilation and Hideem
-        final Exposure.ExposureBuiltForm matchedBuiltForm = mapBuiltForm(form, floorArea, mainFloorLevel);
-        final Exposure.VentilationType matchedVentilation = mapVentilation(hasWorkingExtractorFans, hasTrickleVents);
+        final IExposure.ExposureBuiltForm matchedBuiltForm = mapBuiltForm(form, floorArea, mainFloorLevel);
+        final IExposure.VentilationType matchedVentilation = mapVentilation(hasWorkingExtractorFans, hasTrickleVents);
               
         //Get the correct exposures coefficients and calculate base and modified exposures for each individual
 
@@ -142,8 +143,8 @@ public class HealthModule implements IHealthModule {
             }
         }
 
-    	for(final Exposure.OccupancyType occupancy : Exposure.OccupancyType.values()){
-            for (final Exposure exposure : exposures.get(matchedBuiltForm, matchedVentilation)) {
+        for (final IExposure exposure : exposures.get(matchedBuiltForm, matchedVentilation)) {
+            for(final IExposure.OccupancyType occupancy : IExposure.OccupancyType.values()){
                 exposure.modify(t1, t2,
                                 p1, p2,
 
@@ -155,7 +156,9 @@ public class HealthModule implements IHealthModule {
                                 occupancy,
                                 result);
             }
+        }
 
+        for (final IExposure.OccupancyType occupancy : IExposure.OccupancyType.values()){
             // apply the overheating exposure. It applies for all ventilations and built forms
             // so we just need to bash it out here.
             overheating.modify(t1, t2,
@@ -169,11 +172,11 @@ public class HealthModule implements IHealthModule {
                                occupancy,
                                result);
 
-	        //Calculate the relative risks (independent of person) -> won't be any more due to diff occupancies
+            //Calculate the relative risks (independent of person) -> won't be any more due to diff occupancies
 	        for (final Disease.Type disease : Disease.Type.values()) {
                 result.setRelativeRisk(disease, occupancy, disease.relativeRisk(result, occupancy));
             }
-        } //end of occupancy loop
+        }
 
         //Survival array here so that qaly calc is done cumulatively (need one for each person per disease)
     	final double[][][] impactSurvival = new double[people.size()][Disease.Type.values().length][horizon+1];
@@ -196,23 +199,17 @@ public class HealthModule implements IHealthModule {
         			//Need age ==-1 as ages not stored for CMD and Asthma 
 	        		if ((age == d.getValue().age && p.sex == d.getValue().sex) || d.getValue().age==-1){
 		        		
-	        			final OccupancyType occupancy = Exposure.getOccupancyType(age);   		
-	        			final OverheatingAgeBands ageBand = Exposure.getOverheatingAgeBand(age);	        			
+                        final OccupancyType occupancy = OccupancyType.forAge(age);
+                        final OverheatingAgeBands ageBand = OverheatingAgeBands.forAge(age);
 
-	        			double riskChangeTime = 1;
-	        			switch(d.getKey()){
-	        			case overheating:
-	        				riskChangeTime = result.relativeRisk(d.getKey(), ageBand);
-	        				break;
-	        			default:	
-	        				riskChangeTime = result.relativeRisk(d.getKey(),occupancy);
-	        				break;
-                        }
-	        			
-	        			final double riskChangeTime = result.relativeRisk(d.getKey(),occupancy);
+
+                        final double riskChangeTime =
+                            d.getKey() == Disease.Type.overheating ?
+                            result.relativeRisk(d.getKey(), ageBand) :
+                            result.relativeRisk(d.getKey(),occupancy);
 
                         //Set the occupant exposures so can print it out
-	        			for(final Exposure.Type e : Exposure.Type.values()) {
+                        for(final IExposure.Type e : IExposure.Type.values()) {
 	        				result.setInitialOccExposure(e, year, people.indexOf(p), occupancy);
 	        				result.setFinalOccExposure(e, year, people.indexOf(p), occupancy);
 	        			}
@@ -263,7 +260,7 @@ public class HealthModule implements IHealthModule {
 	private double getSIT2DayMax(
 			final double eval,
 			final boolean doubleGlaz,
-			final int region) {
+            final Region region) {
 		
 		double glz = 0;
 		if (doubleGlaz == true) {
@@ -273,7 +270,7 @@ public class HealthModule implements IHealthModule {
         //Calculate using Ian's regression method
         // TODO fix this to work with a temperature value?
         // unfortunately I don't understand how this should work
-		final double SITMax = 17.45785434 + Constants.OVERHEAT_THRESH[region-1]*0.2945458 + -0.00158636*eval + Constants.OVERHEAT_COEFS[region-1] +glz;
+        final double SITMax = 17.45785434 + Constants.OVERHEAT_THRESH[region.ordinal()]*0.2945458 + -0.00158636*eval + Constants.OVERHEAT_COEFS[region.ordinal()] +glz;
 		
 		return SITMax;
     }
@@ -318,9 +315,9 @@ public class HealthModule implements IHealthModule {
     
     //Methods to map the input built form and ventilation of NHM to that in Hideem.
     //Not sure if this should be here or elsewhere but works for now
-    private Exposure.ExposureBuiltForm mapBuiltForm(final BuiltForm.Type form, final double floorArea, final int mainFloorLevel) {
+    private IExposure.ExposureBuiltForm mapBuiltForm(final BuiltForm.Type form, final double floorArea, final int mainFloorLevel) {
 	    //initialisation
-	    Exposure.ExposureBuiltForm matchedBuiltForm = null;
+        IExposure.ExposureBuiltForm matchedBuiltForm = null;
 	    //Will have to put lots of if statements in here somewhere...
 	    //Get the dwelling type in exposures
 	    //mainFloorLevel==1 is <=ground floor 
@@ -365,21 +362,21 @@ public class HealthModule implements IHealthModule {
 	    return matchedBuiltForm;
     }
     //Match ventilation
-    private Exposure.VentilationType mapVentilation(final boolean hasWorkingExtractorFans, final boolean hasTrickleVents) {
+    private IExposure.VentilationType mapVentilation(final boolean hasWorkingExtractorFans, final boolean hasTrickleVents) {
     	//initialisation
-	    Exposure.VentilationType matchedVentilation = null;
+        IExposure.VentilationType matchedVentilation = null;
     	//Get the ventilation
 	    if(!hasWorkingExtractorFans && !hasTrickleVents){
-	    	matchedVentilation = Exposure.VentilationType.NOTE;
+            matchedVentilation = IExposure.VentilationType.NOTE;
 	    }
 	    else if(hasWorkingExtractorFans && !hasTrickleVents){
-	    	matchedVentilation = Exposure.VentilationType.T;
+            matchedVentilation = IExposure.VentilationType.T;
 	    }
 	    else if(!hasWorkingExtractorFans && hasTrickleVents){
-	    	matchedVentilation = Exposure.VentilationType.E;
+            matchedVentilation = IExposure.VentilationType.E;
 	    }
 	    else{
-	    	matchedVentilation = Exposure.VentilationType.TE;
+            matchedVentilation = IExposure.VentilationType.TE;
 	    }
     
     	return matchedVentilation;
