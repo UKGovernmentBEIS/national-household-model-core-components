@@ -23,7 +23,7 @@ import com.google.common.collect.Table;
 import com.google.common.collect.HashBasedTable;
 
 public class HealthModule implements IHealthModule {
-	private static final Logger log = LoggerFactory.getLogger(HealthModule.class);
+    private static final Logger log = LoggerFactory.getLogger(HealthModule.class);
     private final Table<IExposure.ExposureBuiltForm, IExposure.VentilationType, List<IExposure>> exposures = HashBasedTable.create();
     private final IExposure overheating = new OverheatingExposure();
 	private final ListMultimap<Disease.Type, Disease> healthCoefficients;
@@ -112,6 +112,9 @@ public class HealthModule implements IHealthModule {
         final double p1,
         final double p2,
 
+        final double e1,
+        final double e2,
+
         // case number constituents
         final BuiltForm.Type form,
         final double floorArea,
@@ -123,7 +126,7 @@ public class HealthModule implements IHealthModule {
         // needs removing
         final boolean rebate,
         // another new thing:
-        final boolean doubleGlaz,      //dblglazing80pctplus
+        final boolean isDoubleGlazed,      //dblglazing80pctplus
         // who
         final List<Person> people,
         final int horizon) {
@@ -148,10 +151,13 @@ public class HealthModule implements IHealthModule {
                 exposure.modify(t1, t2,
                                 p1, p2,
 
+                                e1, e2,
+
                                 smoker,
                                 mainFloorLevel,
                                 form,
                                 region,
+                                isDoubleGlazed,
 
                                 occupancy,
                                 result);
@@ -164,10 +170,13 @@ public class HealthModule implements IHealthModule {
             overheating.modify(t1, t2,
                                p1, p2,
 
+                               e1, e2,
+
                                smoker,
                                mainFloorLevel,
                                form,
                                region,
+                               isDoubleGlazed,
 
                                occupancy,
                                result);
@@ -201,8 +210,6 @@ public class HealthModule implements IHealthModule {
 		        		
                         final OccupancyType occupancy = OccupancyType.forAge(age);
                         final OverheatingAgeBands ageBand = OverheatingAgeBands.forAge(age);
-
-
                         final double riskChangeTime =
                             d.getKey() == Disease.Type.overheating ?
                             result.relativeRisk(d.getKey(), ageBand) :
@@ -255,24 +262,6 @@ public class HealthModule implements IHealthModule {
         }
         	
         return result;
-    }
-
-	private double getSIT2DayMax(
-			final double eval,
-			final boolean doubleGlaz,
-            final Region region) {
-		
-		double glz = 0;
-		if (doubleGlaz == true) {
-			glz = 0.37225874;
-		}
-		
-        //Calculate using Ian's regression method
-        // TODO fix this to work with a temperature value?
-        // unfortunately I don't understand how this should work
-        final double SITMax = 17.45785434 + Constants.OVERHEAT_THRESH[region.ordinal()]*0.2945458 + -0.00158636*eval + Constants.OVERHEAT_COEFS[region.ordinal()] +glz;
-		
-		return SITMax;
     }
 
     //Temperature Calculations using Hamilton relation

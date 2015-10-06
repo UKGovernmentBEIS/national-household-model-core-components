@@ -92,11 +92,15 @@ public interface IExposure {
         final double p1,
         final double p2,
 
+        final double e1,
+        final double e2,
+
         // details
         final boolean smoker,
         final int mainFloorLevel,
         final BuiltForm.Type builtFormType,
         final BuiltForm.Region region,
+        final boolean isDoubleGlazed,
 
         // occupancy, outcome to modify
         final OccupancyType occupancy,

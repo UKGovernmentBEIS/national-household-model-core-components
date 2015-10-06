@@ -56,8 +56,8 @@ public class Main
 			                // get fields from row here
 			                module.getInternalTemperature(regressionSIT, e1, 1, dwellingAge, tenure, ownerAge, children, fuelPoverty),
 			                module.getInternalTemperature(regressionSIT, e2, 1, dwellingAge, tenure, ownerAge, children, fuelPoverty),
-			                //Double.parseDouble(row.get("e1")),
-			                //Double.parseDouble(row.get("e2")),
+                            Double.parseDouble(row.get("e1")),
+                            Double.parseDouble(row.get("e2")),
 			                Double.parseDouble(row.get("p1")),
                             Double.parseDouble(row.get("p2")),
                             BuiltForm.Type.valueOf(row.get("form")),

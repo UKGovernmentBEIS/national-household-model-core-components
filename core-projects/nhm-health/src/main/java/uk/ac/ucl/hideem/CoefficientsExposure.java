@@ -32,9 +32,9 @@ public class CoefficientsExposure implements IExposure {
 	
     public static CoefficientsExposure readExposure(final String[] row) {
         return new CoefficientsExposure(
-            Enum.valueOf(Exposure.Type.class, row[0]),
-            Enum.valueOf(Exposure.ExposureBuiltForm.class, row[1]),
-            Enum.valueOf(Exposure.VentilationType.class, row[2]),
+            Enum.valueOf(Type.class, row[0]),
+            Enum.valueOf(ExposureBuiltForm.class, row[1]),
+            Enum.valueOf(VentilationType.class, row[2]),
             Double.parseDouble(row[3]),
             Double.parseDouble(row[4]),
             Double.parseDouble(row[5]),
@@ -67,11 +67,15 @@ public class CoefficientsExposure implements IExposure {
         final double p1,
         final double p2,
 
+        final double e1,
+        final double e2,
+
         // details
         final boolean smoker,
         final int mainFloorLevel,
         final BuiltForm.Type builtFormType,
         final BuiltForm.Region region,
+        final boolean isDoubleGlazed,
 
         // occupancy, outcome to modify
         final OccupancyType occupancy,
@@ -93,11 +97,10 @@ public class CoefficientsExposure implements IExposure {
             if (smoker == true){
                 result.setInitialExposure(type, occupancy, dueToPermeability(occupancy, p1));
                 result.setFinalExposure(type, occupancy, dueToPermeability(occupancy, p2));
-            }else{
+            } else {
                 result.setInitialExposure(type, occupancy, 0);
                 result.setFinalExposure(type, occupancy, 0);
             }
-            break;
             break;
 
         case SIT2DayMax:
@@ -124,20 +127,20 @@ public class CoefficientsExposure implements IExposure {
         final double modifiedVPX = dueToPermeability(occupancy, p2);
 
         //set VPX
-        result.setInitialExposure(Exposure.Type.VPX, occupancy,baseVPX);
-        result.setFinalExposure(Exposure.Type.VPX, occupancy, modifiedVPX);
+        result.setInitialExposure(Type.VPX, occupancy,baseVPX);
+        result.setFinalExposure(Type.VPX, occupancy, modifiedVPX);
 
         //set SIT
-        result.setInitialExposure(Exposure.Type.SIT, occupancy, baseAverageSIT);
-        result.setFinalExposure(Exposure.Type.SIT, occupancy, modifiedAverageSIT);
+        result.setInitialExposure(Type.SIT, occupancy, baseAverageSIT);
+        result.setFinalExposure(Type.SIT, occupancy, modifiedAverageSIT);
 
         //Now do the mould calc
         final double baseMould	= calcMould(baseAverageSIT, baseVPX);
         final double modifiedMould	= calcMould(modifiedAverageSIT, modifiedVPX);
 
         //set Mould
-        result.setInitialExposure(Exposure.Type.Mould, occupancy, baseMould);
-        result.setFinalExposure(Exposure.Type.Mould, occupancy, modifiedMould);
+        result.setInitialExposure(Type.Mould, occupancy, baseMould);
+        result.setFinalExposure(Type.Mould, occupancy, modifiedMould);
     }
 
     private void setRadonExposure(
@@ -149,30 +152,19 @@ public class CoefficientsExposure implements IExposure {
         final double baseExposure = dueToPermeability(occupancy, p1);
         final double modifiedExposure = dueToPermeability(occupancy, p2);
 
-        //factors here!
         final double floorFactor;
-        switch (form) {
-        case BuiltForm.Type.ConvertedFlat:
-        case BuiltForm.Type.PurposeBuiltFlatLowRise:
-        case BuiltForm.Type.PurposeBuiltFlatHighRise:
+        if ((form == BuiltForm.Type.ConvertedFlat) ||
+            (form == BuiltForm.Type.PurposeBuiltFlatLowRise) ||
+            (form == BuiltForm.Type.PurposeBuiltFlatHighRise)) {
             if (mainFloorLevel == 2) {
                 floorFactor = 0.5;
-            } else {
-                floorFactor = 1;
-            }
-            break;
-        case BuiltForm.Type.ConvertedFlat:
-        case BuiltForm.Type.PurposeBuiltFlatHighRise:
-        case BuiltForm.Type.PurposeBuiltFlatLowRise:
-            if (mainFloorLevel == 3) {
+            } else if (mainFloorLevel == 3) {
                 floorFactor = 0;
             } else {
                 floorFactor = 1;
             }
-            break;
-        default:
+        } else {
             floorFactor = 1;
-            break;
         }
 
         result.setInitialExposure(Type.Radon, occupancy, floorFactor*baseExposure*Constants.RADON_FACTS[region.ordinal()]);
