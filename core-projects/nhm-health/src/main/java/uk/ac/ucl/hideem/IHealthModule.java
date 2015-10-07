@@ -26,6 +26,12 @@ public interface IHealthModule {
         List<Person> people,
         int horizon);
     
-    public double getInternalTemperature(boolean regressionSIT, double specificHeat, double efficiency, BuiltForm.DwellingAge dwellingAge, 
-    		BuiltForm.Tenure tenure, BuiltForm.OwnerAge ownerAge, boolean children, boolean feulPoverty);
+    public double getInternalTemperature(boolean regressionSIT,
+                                         double specificHeat,
+                                         double efficiency,
+                                         BuiltForm.DwellingAge dwellingAge,
+                                         BuiltForm.Tenure tenure,
+                                         BuiltForm.OwnerAge ownerAge,
+                                         boolean children,
+                                         boolean fuelPoverty);
 }

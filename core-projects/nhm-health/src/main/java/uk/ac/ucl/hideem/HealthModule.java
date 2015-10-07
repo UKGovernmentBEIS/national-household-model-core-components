@@ -143,6 +143,7 @@ public class HealthModule implements IHealthModule {
         for(final Person p: people){
             if(p.smokes == true){
                 smoker =  true;
+                break;
             }
         }
 
@@ -275,7 +276,12 @@ public class HealthModule implements IHealthModule {
 		return averageSIT;
     }
     
-    private double calcSITRegression(final double eValue, final BuiltForm.DwellingAge age, final BuiltForm.Tenure t, final BuiltForm.OwnerAge a, final boolean c, final boolean p) {
+    private double calcSITRegression(final double eValue,
+                                     final BuiltForm.DwellingAge age,
+                                     final BuiltForm.Tenure t,
+                                     final BuiltForm.OwnerAge a,
+                                     final boolean c,
+                                     final boolean p) {
     	
     	int children = (c) ? 1 : 0;
         int fuelPoverty = (p) ? 1 : 0;
@@ -291,13 +297,19 @@ public class HealthModule implements IHealthModule {
     
     
     @Override
-    public double getInternalTemperature(boolean regressionSIT, double specificHeat, double efficiency, BuiltForm.DwellingAge dwellingAge, 
-            BuiltForm.Tenure tenure, BuiltForm.OwnerAge ownerAge, boolean children, boolean fulePoverty) {
+    public double getInternalTemperature(final boolean regressionSIT,
+                                         final double specificHeat,
+                                         double efficiency,
+                                         final BuiltForm.DwellingAge dwellingAge,
+                                         final BuiltForm.Tenure tenure,
+                                         final BuiltForm.OwnerAge ownerAge,
+                                         final boolean children,
+                                         final boolean fuelPoverty) {
     	if (efficiency <= 0) efficiency = 1;
     	final double eValue = specificHeat / efficiency;
     	
     	if (regressionSIT)
-            return calcSITRegression(eValue, dwellingAge, tenure, ownerAge, children, fulePoverty);
+            return calcSITRegression(eValue, dwellingAge, tenure, ownerAge, children, fuelPoverty);
     	else
     		return calcSIT(eValue);
     }
