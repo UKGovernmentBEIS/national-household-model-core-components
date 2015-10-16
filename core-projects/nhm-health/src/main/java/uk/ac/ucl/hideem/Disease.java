@@ -2,7 +2,11 @@ package uk.ac.ucl.hideem;
 
 import uk.ac.ucl.hideem.Constants.RiskConstant;
 import uk.ac.ucl.hideem.Person.Sex;
-import uk.ac.ucl.hideem.Exposure.OccupancyType;
+import uk.ac.ucl.hideem.IExposure.OccupancyType;
+import uk.ac.ucl.hideem.IExposure.OverheatingAgeBands;
+
+import uk.ac.ucl.hideem.BuiltForm.Region;
+
 /**
  * Everything HIDEEM needs to know about diseases.
  */
@@ -44,8 +48,9 @@ public class Disease {
 	    		RiskConstant.SIT_CMD),  //Morbidity only
 	    asthma1(RiskConstant.MOULD_ASTHMA1),			//Morbidity only
 	    asthma2(RiskConstant.MOULD_ASTHMA2),
-	    asthma3(RiskConstant.MOULD_ASTHMA3)
-	    //OverheatingDeath
+	    asthma3(RiskConstant.MOULD_ASTHMA3),
+	    overheating(
+	    		RiskConstant.SIT2DayMax_OVERHEAT)
 	    ;
 		
 		private final RiskConstant[] risks;
@@ -58,6 +63,8 @@ public class Disease {
 			double acc = 1;
 			for (final RiskConstant c : risks) {
 				switch(c) {
+				case SIT2DayMax_OVERHEAT:
+					break;
 				case SIT_CMD:
 				case SIT_COPD:
 					acc *= c.riskDueToCMD(result, occupancy);
@@ -69,6 +76,15 @@ public class Disease {
 			}
 			return acc;
 		}
+		
+        public double relativeRisk(final HealthOutcome result, final OccupancyType occupancy, final Region region, final OverheatingAgeBands ageBand) {
+			//Only for overheating risk
+			final double risk = RiskConstant.SIT2DayMax_OVERHEAT.riskDueToOverheating(result, occupancy, region, ageBand);
+			
+			return risk;
+		}
+		
+		
 	}
 	
 	public final int age;

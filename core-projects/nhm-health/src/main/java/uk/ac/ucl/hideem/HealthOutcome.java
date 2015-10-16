@@ -1,7 +1,7 @@
 package uk.ac.ucl.hideem;
 
-import uk.ac.ucl.hideem.Exposure.OccupancyType;
-
+import uk.ac.ucl.hideem.IExposure.OccupancyType;
+import uk.ac.ucl.hideem.IExposure.OverheatingAgeBands;
 import com.google.common.base.Preconditions;
 
 /**
@@ -24,35 +24,35 @@ public class HealthOutcome {
         Preconditions.checkArgument(numberOfOccupants > 0, "A health outcome must be defined for at least one occupant (%s)", numberOfOccupants);
         this.years = years;
         this.numberOfOccupants = numberOfOccupants;
-        this.exposures = new double[Exposure.Type.values().length][2][4]; //2 is before/after for 4 occupancies
-        this.occExposures = new double[Exposure.Type.values().length][2][years][numberOfOccupants]; //2 is before/after for 4 occupancies
+        this.exposures = new double[IExposure.Type.values().length][2][4]; //2 is before/after for 4 occupancies
+        this.occExposures = new double[IExposure.Type.values().length][2][years][numberOfOccupants]; //2 is before/after for 4 occupancies
         this.relativeRisk = new double[Disease.Type.values().length][4]; //for the 4 types of occupancy
         this.mortalityQalys = new double[Disease.Type.values().length][years][numberOfOccupants];
         this.morbidityQalys = new double[Disease.Type.values().length][years][numberOfOccupants];
         this.costs = new double[Disease.Type.values().length][years][numberOfOccupants];
     }
           
-    public double initialExposure(final Exposure.Type e, final OccupancyType occupancy) {
+    public double initialExposure(final IExposure.Type e, final OccupancyType occupancy) {
         Preconditions.checkNotNull(e);
         return exposures[e.ordinal()][0][occupancy.ordinal()];
     }
     
-    public double finalExposure(final Exposure.Type e, final OccupancyType occupancy) {
+    public double finalExposure(final IExposure.Type e, final OccupancyType occupancy) {
         Preconditions.checkNotNull(e);
         return exposures[e.ordinal()][1][occupancy.ordinal()];
     }
 
-    public double initialOccExposure(final Exposure.Type e, final int year, final int occ) {
+    public double initialOccExposure(final IExposure.Type e, final int year, final int occ) {
         Preconditions.checkNotNull(e);
         return occExposures[e.ordinal()][0][year][occ];
     }
     
-    public double finalOccExposure(final Exposure.Type e, final int year, final int occ) {
+    public double finalOccExposure(final IExposure.Type e, final int year, final int occ) {
         Preconditions.checkNotNull(e);
         return occExposures[e.ordinal()][1][year][occ];
     }
     
-    public double deltaExposure(final Exposure.Type e, final OccupancyType occupancy) {
+    public double deltaExposure(final IExposure.Type e, final OccupancyType occupancy) {
         Preconditions.checkNotNull(e);
         return exposures[e.ordinal()][1][occupancy.ordinal()]-exposures[e.ordinal()][0][occupancy.ordinal()];
     }
@@ -60,6 +60,12 @@ public class HealthOutcome {
     public double relativeRisk(final Disease.Type disease, final OccupancyType occupancy) {
         Preconditions.checkNotNull(disease);
         return relativeRisk[disease.ordinal()][occupancy.ordinal()];
+    }
+       
+    //Also have an over heating RR dep on age band
+    public double relativeRisk(final Disease.Type disease, final IExposure.OverheatingAgeBands ageBand) {
+        Preconditions.checkNotNull(disease);
+        return relativeRisk[disease.ordinal()][ageBand.ordinal()];
     }
     
     public double mortalityQalys(final Disease.Type disease, final int year, final int occ) {
@@ -78,22 +84,22 @@ public class HealthOutcome {
         return costs[disease.ordinal()][year][occ];
     }
 
-    public void setInitialExposure(final Exposure.Type e, final OccupancyType occupancy, final double d) {
+    public void setInitialExposure(final IExposure.Type e, final OccupancyType occupancy, final double d) {
         Preconditions.checkNotNull(e);
         this.exposures[e.ordinal()][0][occupancy.ordinal()] = d;
     }
 
-    public void setFinalExposure(final Exposure.Type e, final OccupancyType occupancy, final double d) {
+    public void setFinalExposure(final IExposure.Type e, final OccupancyType occupancy, final double d) {
         Preconditions.checkNotNull(e);
         this.exposures[e.ordinal()][1][occupancy.ordinal()] = d;
     }
     
-    public void setInitialOccExposure(final Exposure.Type e, final int year, final int occ, final OccupancyType occupancy) {
+    public void setInitialOccExposure(final IExposure.Type e, final int year, final int occ, final OccupancyType occupancy) {
         Preconditions.checkNotNull(e);
         this.occExposures[e.ordinal()][0][year][occ] = exposures[e.ordinal()][0][occupancy.ordinal()];
     }
 
-    public void setFinalOccExposure(final Exposure.Type e, final int year, final int occ, final OccupancyType occupancy) {
+    public void setFinalOccExposure(final IExposure.Type e, final int year, final int occ, final OccupancyType occupancy) {
         Preconditions.checkNotNull(e);
         this.occExposures[e.ordinal()][1][year][occ] = exposures[e.ordinal()][1][occupancy.ordinal()];
     }
@@ -101,6 +107,11 @@ public class HealthOutcome {
     public void setRelativeRisk(final Disease.Type disease, final OccupancyType occupancy, final double r) {
         Preconditions.checkNotNull(disease);
         this.relativeRisk[disease.ordinal()][occupancy.ordinal()] = r;
+    }
+    
+    public void setRelativeRisk(final Disease.Type disease, final OverheatingAgeBands ageBand, final double r) {
+        Preconditions.checkNotNull(disease);
+        this.relativeRisk[disease.ordinal()][ageBand.ordinal()] = r;
     }
     
     public void setMortalityQalys(final Disease.Type disease, final int year, final double q, final int occ) {
@@ -133,7 +144,7 @@ public class HealthOutcome {
 //        
 //        sb.append(String.format("\n"));
 //
-//	    for (final Exposure.Type e : Exposure.Type.values()) {
+//	    for (final IExposure.Type e : IExposure.Type.values()) {
 //	    	sb.append(String.format("%s", e));
 //	    	for (final OccupancyType o :  OccupancyType.values()){
 //	        sb.append(String.format(",%g,%g", 
@@ -144,7 +155,7 @@ public class HealthOutcome {
 //	    }
         
         sb.append("AACode,Occupant,Year");
-        for (final Exposure.Type e : Exposure.Type.values()) {
+        for (final IExposure.Type e : IExposure.Type.values()) {
         	sb.append(String.format(",Before_%s,After_%s", e,e));
         }
         
@@ -152,7 +163,7 @@ public class HealthOutcome {
         for (int occ = 0; occ < numberOfOccupants; occ++) {
             for (int i = 0; i < years; i++) {
             	sb.append(String.format("%s,%d,%d",aacode, occ+1, i+1));
-    	        for (final Exposure.Type e : Exposure.Type.values()) {
+                for (final IExposure.Type e : IExposure.Type.values()) {
     	            sb.append(String.format(",%g,%g", occExposures[e.ordinal()][0][i][occ], occExposures[e.ordinal()][1][i][occ]));
     	        }      
     	    	sb.append(String.format("\n"));
