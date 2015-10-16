@@ -21,7 +21,11 @@ public class Person {
         this.smokes = smokes;
         this.samplesize = samplesize;
     }
-    
+
+    public Person(final int age, final Sex sex, final boolean smokes) {
+        this(age, sex, smokes, 1);
+    }
+
     public static Person readPerson(final Map<String, String> stuff) {
         return new Person(
             Integer.parseInt(stuff.get("age")),
