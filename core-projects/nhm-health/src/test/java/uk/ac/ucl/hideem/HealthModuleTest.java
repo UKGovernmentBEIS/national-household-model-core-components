@@ -16,7 +16,6 @@ public class HealthModuleTest {
                 18d, 18d, 10d, 10d,
                 10d, 20d,
                 BuiltForm.Type.Bungalow, 100d, BuiltForm.Region.London, 1, true, true, true,
-                true,
                 ImmutableList.of(new Person(40, Sex.MALE, true, 2))
 				, 10);
 		

@@ -5,12 +5,11 @@ import java.util.List;
 public interface IHealthModule {
     public HealthOutcome effectOf(
         // e-values & perm.s
-        double t1,
-        double t2,
-        double p1,
-        double p2,
+        double t1, double t2,
 
-        double e1, double e2,
+        double p1, double p2,
+
+        double h1, double h2,
 
         // case number constituents
         BuiltForm.Type form,
@@ -20,7 +19,6 @@ public interface IHealthModule {
         // finkxtwk and finbxtwk
         boolean hasWorkingExtractorFans, // per finwhatever
         boolean hasTrickleVents,         // this is cooked up elsewhere
-        boolean rebate,     //house has fuel rebate
         final boolean  doubleGlaz,      //dblglazing80pctplus
         // who
         List<Person> people,

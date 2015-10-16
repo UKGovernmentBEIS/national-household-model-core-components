@@ -112,8 +112,8 @@ public class HealthModule implements IHealthModule {
         final double p1,
         final double p2,
 
-        final double e1,
-        final double e2,
+        final double h1,
+        final double h2,
 
         // case number constituents
         final BuiltForm.Type form,
@@ -123,8 +123,6 @@ public class HealthModule implements IHealthModule {
         // finkxtwk and finbxtwk
         final boolean hasWorkingExtractorFans, // per finwhatever
         final boolean hasTrickleVents,         // this is cooked up elsewhere
-        // needs removing
-        final boolean rebate,
         // another new thing:
         final boolean isDoubleGlazed,      //dblglazing80pctplus
         // who
@@ -152,7 +150,7 @@ public class HealthModule implements IHealthModule {
                 exposure.modify(t1, t2,
                                 p1, p2,
 
-                                e1, e2,
+                                h1, h2,
 
                                 smoker,
                                 mainFloorLevel,
@@ -171,7 +169,7 @@ public class HealthModule implements IHealthModule {
             overheating.modify(t1, t2,
                                p1, p2,
 
-                               e1, e2,
+                               h1, h2,
 
                                smoker,
                                mainFloorLevel,
