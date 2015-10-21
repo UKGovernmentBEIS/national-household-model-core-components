@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Iterator;
 
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.slf4j.Logger;
@@ -26,8 +27,9 @@ public class HealthModule implements IHealthModule {
     private static final Logger log = LoggerFactory.getLogger(HealthModule.class);
     private final Table<IExposure.ExposureBuiltForm, IExposure.VentilationType, List<IExposure>> exposures = HashBasedTable.create();
     private final IExposure overheating = new OverheatingExposure();
-	private final ListMultimap<Disease.Type, Disease> healthCoefficients;
-    
+    private final Table<Disease.Type, Person.Sex, List<Disease>> healthCoefficients =
+        HashBasedTable.create();
+
     public HealthModule() {
         // read a csv table from the classpath.
 
@@ -64,14 +66,12 @@ public class HealthModule implements IHealthModule {
         }
         
         //Read the health coefficients from the csv file
-        healthCoefficients = ArrayListMultimap.create();
-
         log.debug("Reading health coefficients from: src/main/resources/uk/ac/ucl/hideem/NHM_mortality_data.csv");
         
         //Not yet sure how to get as a resource?
-		for (final Map<String, String> row : CSV.mapReader(bufferedReaderForResource("NHM_mortality_data.csv"))) {         
-			   
-			for (final Disease.Type type : Disease.Type.values()){
+        for (final Map<String, String> row : CSV.mapReader(bufferedReaderForResource("NHM_mortality_data.csv"))) {
+            // each row maps to several diseases, so we must break them out
+            for (final Disease.Type type : Disease.Type.values()) {
 				switch(type){
 				case copd:
 				case commonmentaldisorder:
@@ -80,24 +80,34 @@ public class HealthModule implements IHealthModule {
 				case asthma3:
 				case overheating:
 					break;
-				default:
-					final Disease d = Disease.readDisease(row.get("age"), row.get("sex"), row.get(type.name()), Double.parseDouble(row.get("all")), row.get("population"),row.get(type.name()+"_ratio"));
-					healthCoefficients.put(Enum.valueOf(Disease.Type.class, type.name()), d);
+                default:
+                    final Disease d = Disease.readDisease(row.get("age"), row.get("sex"), row.get(type.name()), Double.parseDouble(row.get("all")), row.get("population"),row.get(type.name()+"_ratio"));
+
+                    if (!healthCoefficients.contains(type, d.sex)) {
+                        healthCoefficients.put(type, d.sex, new ArrayList<Disease>());
+                    }
+
+                    healthCoefficients.get(type, d.sex).add(d);
 				}
 			}
 		}
 		
-		//Need to have coefs for CMD and Asthma so the diseases can be calculated later. The values aren't important (not gender/age specific) 
-		final Disease cmd = Disease.readDisease("-1", "FEMALE", "0", 0, "0","0");
-		healthCoefficients.put(Disease.Type.commonmentaldisorder, cmd);
-		final Disease copd = Disease.readDisease("-1", "FEMALE", "0", 0, "0","0");
-		healthCoefficients.put(Disease.Type.copd, copd);
-		final Disease asthma = Disease.readDisease("-1", "FEMALE", "0", 0, "0","0");
-		healthCoefficients.put(Disease.Type.asthma1, asthma);
-		healthCoefficients.put(Disease.Type.asthma2, asthma);
-		healthCoefficients.put(Disease.Type.asthma3, asthma);
-		final Disease overheating = Disease.readDisease("-1", "FEMALE", "0", 0, "0","0");
-		healthCoefficients.put(Disease.Type.overheating, overheating);
+        //Need to have coefs for CMD and Asthma so the diseases can be calculated later. The values aren't important (not gender/age specific)
+        putDummyDisease(Disease.Type.commonmentaldisorder, healthCoefficients);
+        putDummyDisease(Disease.Type.copd,                 healthCoefficients);
+        putDummyDisease(Disease.Type.asthma1,              healthCoefficients);
+        putDummyDisease(Disease.Type.asthma2,              healthCoefficients);
+        putDummyDisease(Disease.Type.asthma3,              healthCoefficients);
+        putDummyDisease(Disease.Type.overheating,          healthCoefficients);
+    }
+
+    private static void putDummyDisease(final Disease.Type type,
+                                        final Table<Disease.Type, Person.Sex, List<Disease>> out) {
+        final List<Disease> theDisease = new ArrayList<>();
+        theDisease.add(Disease.readDisease("-1", "FEMALE", "0", 0, "0","0"));
+        // we need to put it in under both male and female.
+        out.put(type, Person.Sex.FEMALE, theDisease);
+        out.put(type, Person.Sex.MALE, theDisease);
     }
 
 	private BufferedReader bufferedReaderForResource(final String resource) {
@@ -179,87 +189,107 @@ public class HealthModule implements IHealthModule {
 
                                occupancy,
                                result);
+        }
 
-            //Calculate the relative risks (independent of person) -> won't be any more due to diff occupancies
-	        for (final Disease.Type disease : Disease.Type.values()) {
-                result.setRelativeRisk(disease, occupancy, disease.relativeRisk(result, occupancy));
+        // We need to loop through the people, and determine the
+        // health impacts of the different types of disease that have
+        // just been computed. The impact for a given person depends
+        // on their related occupancy type.
+
+        for (final Person person : people) {
+            // we want to compute the survival impact for this person of each type of disease
+        diseases:
+            for (final Disease.Type disease : Disease.Type.values()) {
+                // now we want the coefficients associated with this person's sex
+                // and we want them in age order.
+
+                double diseaseImpactSurvival = 1;
+                double diseaseBaseSurvival   = 1;
+
+                final Iterator<Disease> coefficients = healthCoefficients.get(disease, person.sex).iterator();
+                if (!coefficients.hasNext()) continue diseases;
+
+                Disease currentCoefficients = coefficients.next();
+                // now we run over the years that we are considering.
+                // most of the coefficient sets apply to a given age
+                // however, some of them are the same for all ages,
+                // and have an age field of '-1' to signify that.
+
+            years:
+                for (int year = 0; year < horizon; year++) {
+                    // this is the age they will be N from the horizon
+                    final int personAgeInYear = person.age + year;
+                    // now we want to know what the disease coefficients say for this age and exposure
+
+                    final double riskChangeTime =
+                        (disease == Disease.Type.overheating) ?
+                        result.overheatingRisk(OverheatingAgeBands.forAge(personAgeInYear)) :
+                        result.relativeRisk(disease, OccupancyType.forAge(personAgeInYear));
+
+                    if (currentCoefficients.age == -1 || currentCoefficients.age == personAgeInYear) {
+                        // it is a special disease, which doesn't change over time, or this is the right year.
+
+                        // Compute the different kinds of QALYs in year. The methods are different per disease.
+                        // I guess in a future pass of tidying up this should be done in the disease definitions.
+
+                        final double deaths;
+                        final double mortalityChange;
+
+                        {
+                            final double qaly[] = calculateQaly(disease, currentCoefficients, riskChangeTime,
+                                                                diseaseImpactSurvival, diseaseBaseSurvival, year);
+                            deaths = qaly[0];
+                            mortalityChange = qaly[1];
+                            diseaseImpactSurvival = qaly[2];
+                            diseaseBaseSurvival = qaly[3];
+                        }
+
+
+                        double morbidityQalys = 0;
+                        double cost = 0;
+
+                        switch (disease) {
+                        case overheating:
+                            break;
+                        case copd:
+                            final double[] copdImp = calculateCOPDQaly(riskChangeTime, personAgeInYear, year);
+                            cost = copdImp[0] * Constants.COST_PER_CASE(disease);
+                            morbidityQalys = copdImp[1];
+                            break;
+                        case commonmentaldisorder:
+                            final double[] cmdImp = calculateCMDQaly(riskChangeTime, personAgeInYear, year);
+                            cost = cmdImp[0] * Constants.COST_PER_CASE(disease);
+                            morbidityQalys = cmdImp[1];
+                            break;
+                        case asthma1:
+                        case asthma2:
+                        case asthma3:
+                            final double[] asthmaImp = calculateAsthmaQaly(disease, riskChangeTime, personAgeInYear, year);
+                            cost = asthmaImp[0] * Constants.COST_PER_CASE(disease);
+                            morbidityQalys = asthmaImp[1];
+                            break;
+                        default:
+                            morbidityQalys = mortalityChange * currentCoefficients.morbidity;
+                            cost = Constants.INCIDENCE(disease, personAgeInYear, person.sex) * (deaths) * Constants.COST_PER_CASE(disease); // TODO is this correct?
+                            break;
+                        }
+
+                        // TODO what API here? do we want person specific info?
+
+                        result.addEffects(disease, year, person, mortalityChange, morbidityQalys, cost);
+
+                        // move to next defined year of coefficients:
+                        if (coefficients.hasNext()) {
+                            if (currentCoefficients.age != -1) currentCoefficients = coefficients.next();
+                        } else {
+                            // there are no coefficients defined any more for this disease, so we can stop looping.
+                            break years;
+                        }
+                    }
+                }
             }
         }
 
-        //Survival array here so that qaly calc is done cumulatively (need one for each person per disease)
-    	final double[][][] impactSurvival = new double[people.size()][Disease.Type.values().length][horizon+1];
-    	final double[][][] baseSurvival = new double[people.size()][Disease.Type.values().length][horizon+1];
-    	for(final Person p: people){ //initialize to 1
-    		for (final Disease.Type d : Disease.Type.values()) {
-    			impactSurvival[people.indexOf(p)][d.ordinal()][0] = 1;
-    			baseSurvival[people.indexOf(p)][d.ordinal()][0] = 1;
-    		}    
-    	}
-
-        //loop over people in house to match them to coefficients
-        for(final Person p: people){
-            //Loop over disease coefficients
-            for(final Map.Entry<Disease.Type, Disease> d: healthCoefficients.entries()) {
-
-        		//loop over time frame
-        		for (int year = 0; year < horizon; year=year+1) {
-        			int age = p.age+year;
-        			//Need age ==-1 as ages not stored for CMD and Asthma 
-	        		if ((age == d.getValue().age && p.sex == d.getValue().sex) || d.getValue().age==-1){
-		        		
-                        final OccupancyType occupancy = OccupancyType.forAge(age);
-                        final OverheatingAgeBands ageBand = OverheatingAgeBands.forAge(age);
-                        final double riskChangeTime =
-                            d.getKey() == Disease.Type.overheating ?
-                            result.relativeRisk(d.getKey(), ageBand) :
-                            result.relativeRisk(d.getKey(),occupancy);
-
-                        //Set the occupant exposures so can print it out
-                        for(final IExposure.Type e : IExposure.Type.values()) {
-	        				result.setInitialOccExposure(e, year, people.indexOf(p), occupancy);
-	        				result.setFinalOccExposure(e, year, people.indexOf(p), occupancy);
-	        			}
-	        			
-	        			//samplesize
-	        			final int samplesize = 1;//p.samplesize;
-	        			
-	        			final double qaly[] = calculateQaly(d, riskChangeTime, impactSurvival, baseSurvival, people.indexOf(p), year);
-	        			// calculateQaly returns array: [0] deaths [1] qaly changes
-	        			result.setMortalityQalys(d.getKey(), year, qaly[1]*samplesize, people.indexOf(p));
-	        			
-	        			//Different cases for CMD and Asthma for morbidity qalys
-	        			switch(d.getKey()){
-	        			case overheating:
-	        				break;	//put here
-	        			case copd:
-	        				final double[] copdImp = calculateCOPDQaly(riskChangeTime, age, year);
-	        				result.setMorbidityQalys(d.getKey(), year, copdImp[1]*samplesize, people.indexOf(p));
-	        				result.setCost(d.getKey(), year, copdImp[0]*Constants.COST_PER_CASE(d.getKey())*samplesize, people.indexOf(p));
-	        				break;	        			
-	        			case commonmentaldisorder:
-	        				final double[] cmdImp = calculateCMDQaly(riskChangeTime, age, year);
-	        				result.setMorbidityQalys(d.getKey(), year, cmdImp[1]*samplesize, people.indexOf(p));
-	        				result.setCost(d.getKey(), year, cmdImp[0]*Constants.COST_PER_CASE(d.getKey())*samplesize, people.indexOf(p));
-	        				break;
-	        			case asthma1:
-	        			case asthma2:
-	        			case asthma3:
-	        				final double[] asthmaImp = calculateAsthmaQaly(d.getKey(), riskChangeTime, age, year);
-	        				result.setMorbidityQalys(d.getKey(), year, asthmaImp[1]*samplesize, people.indexOf(p));
-	        				result.setCost(d.getKey(), year, asthmaImp[0]*Constants.COST_PER_CASE(d.getKey())*samplesize, people.indexOf(p));
-	        				break;
-	        			default:
-	        				result.setMorbidityQalys(d.getKey(), year, qaly[1]*d.getValue().morbidity*samplesize, people.indexOf(p));
-		        			final double cases = Constants.INCIDENCE(d.getKey(), p.age, p.sex)*(qaly[0])*Constants.COST_PER_CASE(d.getKey()); 
-		        			result.setCost(d.getKey(), year, cases*samplesize, people.indexOf(p));
-	        				break;
-	        			}		        		
-	        		}
-
-	        	}
-        	}
-        }
-        	
         return result;
     }
 
@@ -381,47 +411,42 @@ public class HealthModule implements IHealthModule {
     	return matchedVentilation;
     }
 
-    private double[] calculateQaly(final Map.Entry<Disease.Type, Disease> d, final double riskChangeTime, final double[][][] impactSurvival, final double[][][] baseSurvival, final int personIndex, final int year) {
+    private double[] calculateQaly(final Disease.Type disease, final Disease coefficients, final double riskChangeTime,
+                                   final double impactStartPop, final double baseStartPop, final int year) {
     	//Calculations based on Miller, Life table for quantitative impact assessment, 2003
-    	double base = d.getValue().allHazard;
-		double impact = base - d.getValue().hazard;
+    	double base = coefficients.allHazard;
+		double impact = base - coefficients.hazard;
     	
-		if (d.getKey() == Disease.Type.overheating) {
+        if (disease == Disease.Type.overheating) {
 			//For overheating age dependence is in the RR and there are no mortality stats so we just use total pop (deaths/pop)
 			base = Constants.TOT_BASE;
-			impact = base + Constants.OVERHEAT_HAZARD* (riskChangeTime -1); //roughly 2000 overheating excess deaths (Heatwave plan for England 2015 (NHS))
-		}else if (d.getKey() == Disease.Type.wincardiovascular || d.getKey() == Disease.Type.wincerebrovascular || d.getKey() == Disease.Type.winmyocardialinfarction) {
-			impact += d.getValue().hazard * riskChangeTime;
-		}
-		else  {
+            impact = base + Constants.OVERHEAT_HAZARD * (riskChangeTime - 1); //roughly 2000 overheating excess deaths (Heatwave plan for England 2015 (NHS))
+        } else if (disease == Disease.Type.wincardiovascular || disease == Disease.Type.wincerebrovascular || disease == Disease.Type.winmyocardialinfarction) {
+            impact += coefficients.hazard * riskChangeTime;
+        } else {
    			//Disease impact depends on increased or decreased risk
-			if (riskChangeTime >= 1.) {
-				final NormalDistribution normDist;
-				normDist = new NormalDistribution(Constants.TIME_FUNCTION(d.getKey())[0], Constants.TIME_FUNCTION(d.getKey())[1]);
-				impact += d.getValue().hazard * (1 + (riskChangeTime - 1) * normDist.cumulativeProbability(year+1));						
-				    			
-			} else {			
-				impact += d.getValue().hazard * (1 - (1 - riskChangeTime) * (1 - Math.exp(-(year+1) * Constants.TIME_FUNCTION(d.getKey())[2])));
+            if (riskChangeTime >= 1d) {
+                final NormalDistribution normDist = new NormalDistribution(Constants.TIME_FUNCTION(disease)[0], Constants.TIME_FUNCTION(disease)[1]);
+                impact += coefficients.hazard * (1 + (riskChangeTime - 1) * normDist.cumulativeProbability(year + 1));
+            } else {
+                impact += coefficients.hazard * (1 - (1 - riskChangeTime) * (1 - Math.exp(-(year+1) * Constants.TIME_FUNCTION(disease)[2])));
 			}
 		}
-    	
-    	impactSurvival[personIndex][d.getKey().ordinal()][year+1] = impactSurvival[personIndex][d.getKey().ordinal()][year]*((2-impact)/(2+impact));
-		baseSurvival[personIndex][d.getKey().ordinal()][year+1] = baseSurvival[personIndex][d.getKey().ordinal()][year]*((2-base)/(2+base));
-		
-		final double impactStartPop = impactSurvival[personIndex][d.getKey().ordinal()][year];
-		final double baseStartPop = baseSurvival[personIndex][d.getKey().ordinal()][year];
-				
-		final double deaths = impactStartPop - impactSurvival[personIndex][d.getKey().ordinal()][year+1];
+
+        final double impactEndPop   = impactStartPop * ( (2-impact) / (2+impact) );
+        final double baseEndPop     = baseStartPop   * ( (2-base)   / (2+base)   );
+
+        final double deaths = impactStartPop - impactEndPop;
 		final double lifeYears = impactStartPop - 0.5*deaths;
 		
-		final double baseDeaths = baseStartPop - baseSurvival[personIndex][d.getKey().ordinal()][year+1];
+        final double baseDeaths = baseStartPop - baseEndPop;
 		final double baselifeYears = baseStartPop - 0.5*baseDeaths;
 		
 		//doing change in the number of deaths instead
 		final double deltaDeaths = deaths-baseDeaths;
 		final double deltaQalys = lifeYears-baselifeYears;
-		final double vals[] = {deltaDeaths, deltaQalys};
-		return vals;
+
+        return new double[] {deltaDeaths, deltaQalys, impactEndPop, baseEndPop};
     }
     
     private double[] calculateCMDQaly(final double riskChangeTime, final int age, final int year) {

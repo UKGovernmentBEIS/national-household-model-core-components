@@ -28,12 +28,12 @@ public class OverheatingExposure implements IExposure {
         final double initialSITMax = getSIT2DayMax(e1, isDoubleGlazed, region);
         final double finalSITMax   = getSIT2DayMax(e2, isDoubleGlazed, region);
 
-        result.setInitialExposure(Type.SIT2DayMax, occupancy, initialSITMax);
-        result.setFinalExposure(Type.SIT2DayMax, occupancy, finalSITMax);
-        //RR for overheating is age dependent
+        result.setExposures(Type.SIT2DayMax, occupancy, initialSITMax, finalSITMax);
+
+        // RR for overheating is age dependent
         for (final OverheatingAgeBands ageBand : OverheatingAgeBands.values()) {
-            result.setRelativeRisk(Disease.Type.overheating, ageBand,
-                                   Disease.Type.overheating.relativeRisk(result, occupancy, region, ageBand));
+            result.setOverheatingRisk(ageBand,
+                                      Disease.Type.overheating.relativeRisk(result, occupancy, region, ageBand));
         }
     }
 

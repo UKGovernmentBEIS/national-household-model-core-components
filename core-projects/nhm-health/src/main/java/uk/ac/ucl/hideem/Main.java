@@ -72,13 +72,9 @@ public class Main
 			                Integer.parseInt(row.get("horizon")));
 			            
 			            //put outputs into files
-			            //exposuresOut.println(row.get("code"));
-			            exposuresOut.print(outcome.printExposures(row.get("code")));
-			            qalysOut.print(outcome.printQalys(row.get("code")));
-			            morbQalysOut.print(outcome.printMorbidityQalys(row.get("code")));
-			            costsOut.print(outcome.printCosts(row.get("code")));			            
-			            
-			        }
+                        //exposuresOut.println(row.get("code"));
+                        // this doesn't work any more because I broke it.
+                    }
         		};
     }
 }
