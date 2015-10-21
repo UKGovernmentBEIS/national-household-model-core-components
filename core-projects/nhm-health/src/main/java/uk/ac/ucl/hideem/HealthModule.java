@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Iterator;
+import java.util.Collections;
+import java.util.Comparator;
 
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.slf4j.Logger;
@@ -99,6 +101,17 @@ public class HealthModule implements IHealthModule {
         putDummyDisease(Disease.Type.asthma2,              healthCoefficients);
         putDummyDisease(Disease.Type.asthma3,              healthCoefficients);
         putDummyDisease(Disease.Type.overheating,          healthCoefficients);
+
+        // make sure that the coefficients are all in age order.
+        for (final List<Disease> coefficientList : healthCoefficients.values()) {
+            Collections.sort(coefficientList,
+                             new Comparator<Disease>() {
+                                 @Override
+                                 public int compare(final Disease a, final Disease b) {
+                                     return Integer.compare(a.age, b.age);
+                                 }
+                             });
+        }
     }
 
     private static void putDummyDisease(final Disease.Type type,
@@ -133,13 +146,13 @@ public class HealthModule implements IHealthModule {
         // finkxtwk and finbxtwk
         final boolean hasWorkingExtractorFans, // per finwhatever
         final boolean hasTrickleVents,         // this is cooked up elsewhere
-        // another new thing:
-        final boolean isDoubleGlazed,      //dblglazing80pctplus
-        // who
+
+        final boolean isDoubleGlazed,
+
         final List<Person> people,
         final int horizon) {
         
-        final HealthOutcome result = new HealthOutcome(horizon, people.size());
+        final HealthOutcome result = new CumulativeHealthOutcome(horizon);
         
         //perform the matching between NHM built form and ventilation and Hideem
         final IExposure.ExposureBuiltForm matchedBuiltForm = mapBuiltForm(form, floorArea, mainFloorLevel);
