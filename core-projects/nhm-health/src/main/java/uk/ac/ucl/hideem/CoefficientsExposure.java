@@ -95,11 +95,9 @@ public class CoefficientsExposure implements IExposure {
             //Find out if there is a smoker in the house
 
             if (smoker == true){
-                result.setInitialExposure(type, occupancy, dueToPermeability(occupancy, p1));
-                result.setFinalExposure(type, occupancy, dueToPermeability(occupancy, p2));
+                result.setExposures(type, occupancy, dueToPermeability(occupancy, p1), dueToPermeability(occupancy, p2));
             } else {
-                result.setInitialExposure(type, occupancy, 0);
-                result.setFinalExposure(type, occupancy, 0);
+                result.setExposures(type, occupancy, 0, 0);
             }
             break;
 
@@ -107,9 +105,13 @@ public class CoefficientsExposure implements IExposure {
             throw new UnsupportedOperationException("SIT 2 Day Max Exposure is supposed to be computed by OverheatingExposure class.");
 
         default:
-            result.setInitialExposure(type, occupancy, dueToPermeability(occupancy, p1));
-            result.setFinalExposure(type, occupancy, dueToPermeability(occupancy, p2));
+            result.setExposures(type, occupancy, dueToPermeability(occupancy, p1), dueToPermeability(occupancy, p2));
             break;
+        }
+
+        // now calculate the relative risk for all diseases as a result of this change.
+        for (final Disease.Type disease : Disease.Type.values()) {
+            result.setRelativeRisk(disease, occupancy, disease.relativeRisk(result, occupancy));
         }
     }
 
@@ -127,20 +129,18 @@ public class CoefficientsExposure implements IExposure {
         final double modifiedVPX = dueToPermeability(occupancy, p2);
 
         //set VPX
-        result.setInitialExposure(Type.VPX, occupancy,baseVPX);
-        result.setFinalExposure(Type.VPX, occupancy, modifiedVPX);
+        result.setExposures(Type.VPX, occupancy,baseVPX, modifiedVPX);
 
         //set SIT
-        result.setInitialExposure(Type.SIT, occupancy, baseAverageSIT);
-        result.setFinalExposure(Type.SIT, occupancy, modifiedAverageSIT);
+        result.setExposures(Type.SIT, occupancy, baseAverageSIT, modifiedAverageSIT);
 
         //Now do the mould calc
         final double baseMould	= calcMould(baseAverageSIT, baseVPX);
         final double modifiedMould	= calcMould(modifiedAverageSIT, modifiedVPX);
 
         //set Mould
-        result.setInitialExposure(Type.Mould, occupancy, baseMould);
-        result.setFinalExposure(Type.Mould, occupancy, modifiedMould);
+        result.setExposures(Type.Mould, occupancy,
+                            baseMould, modifiedMould);
     }
 
     private void setRadonExposure(
@@ -167,8 +167,11 @@ public class CoefficientsExposure implements IExposure {
             floorFactor = 1;
         }
 
-        result.setInitialExposure(Type.Radon, occupancy, floorFactor*baseExposure*Constants.RADON_FACTS[region.ordinal()]);
-        result.setFinalExposure(Type.Radon, occupancy, floorFactor*modifiedExposure*Constants.RADON_FACTS[region.ordinal()]);
+        final double exposureFactor = floorFactor * Constants.RADON_FACTS[region.ordinal()];
+
+        result.setExposures(Type.Radon, occupancy,
+                            baseExposure * exposureFactor,
+                            modifiedExposure * exposureFactor);
     }
 
     //Info on Mou ld calcs can be found in: http://www.iso.org/iso/catalogue_detail.htm?csnumber=51615
