@@ -9,9 +9,6 @@ import uk.ac.ucl.hideem.IExposure.OccupancyType;
 import uk.ac.ucl.hideem.IExposure.OverheatingAgeBands;
 
 import uk.ac.ucl.hideem.BuiltForm.*;
-import static uk.ac.ucl.hideem.BuiltForm.Type.*;
-import static uk.ac.ucl.hideem.BuiltForm.DwellingAge.*;
-import static uk.ac.ucl.hideem.BuiltForm.Tenure.*;
 import static uk.ac.ucl.hideem.BuiltForm.Region.*;
 
 public class Constants {
@@ -227,77 +224,31 @@ public class Constants {
         return result;
     }
     
-    //SIT constants from Ian's regression analysis
-    //BEDROOM
-    public static final double INTERCEPT_BR 	= 	19.20722323;
-    public static final double E_COEF_BR 	= 	-0.00048454;
-    //								dwage6x   pre 1919, 1919-44,1945-64,1965-80,1981-90,post 1990
-    public static final double[] DW_AGE_BR =
-        forEnum(DwellingAge.class,
-                new  DwellingAge[]  {CatA,  CatB,        CatC,        CatD,        CatE,        CatF},
-                new  double[]       {0,     0.62893546,  0.98263756,  0.98077427,  0.87405793,  0.71870003}
-            );
-
-    //								agehrp6x  16 - 24,  25 - 34, 35 - 44,  45 - 54,  55 - 64, 65 or over
-    public static final double[] OC_AGE_BR =
-        forEnum(OwnerAge.class,
-                new OwnerAge[] {OwnerAge.CatA, OwnerAge.CatB, OwnerAge.CatC, OwnerAge.CatD, OwnerAge.CatE, OwnerAge.CatF},
-                new double[]   {0.23854955,    -0.26124335,   -0.77245027,   -0.83600921,   -0.71920557,   0}
-            );
-
-    // children     (0, 1) where 1 is >=1 child
-    public static final double[] CH_BR = new double[]{-0.65692081, 0};
-    // fpflgf     Not in FP - full income definition, In FP - full income definition
-    public static final double[] FP_BR = new double[]{0, -0.89033484};
     
-    //LIVING ROOM
-    public static final double INTERCEPT_LR 	= 	20.91762877;
-    public static final double E_COEF_LR 	= 	-0.00137557;
-    //								dwage6x   pre 1919, 1919-44,1945-64,1965-80,1981-90,post 1990
-    public static final double[] DW_AGE_LR =
-        forEnum(DwellingAge.class,
-                new DwellingAge[] {CatA, CatB,       CatC,     CatD,       CatE,       CatF},
-                new double[]      {0,    0.47378301, 0.818369, 0.57985708, 0.64579968, 0.26898741}
-            );
-
-    // 									tenure4x  RSL,  local authority, owner occupied, private rented
-    public static final double[] TENURE_LR =
-        forEnum(Tenure.class,
-                new Tenure[] {RSL,       LocalAuthority, OwnerOccupied, PrivateRented},
-                new double[] {0.0692168, 0.9329455,      -0.11287118,   0}
-            );
-
-    //								agehrp6x  16 - 24,  25 - 34, 35 - 44,  45 - 54,  55 - 64, 65 or over
-    public static final double[] OC_AGE_LR =
-        forEnum(OwnerAge.class,
-                new OwnerAge[] {OwnerAge.CatA, OwnerAge.CatB, OwnerAge.CatC, OwnerAge.CatD, OwnerAge.CatE, OwnerAge.CatF},
-                new double[]   {-1.29218261,   -1.89237734,   -1.56224335,   -1.52381985,   -1.05854816,   0}
-            );
-
-    // children     (0, 1) where 1 is >=1 child
-    public static final double[] CH_LR = new double[]{-0.94049087, 0};
-    // fpflgf     Not in FP - full income definition, In FP - full income definition
-    public static final double[] FP_LR = new double[]{0, -0.69756518};
-
-    //Radon regional factors
+  //Radon regional factors
     public static final double[] RADON_FACTS =
         forEnum(Region.class,
-                new Region[] {NorthEast, NorthWest, Wales, YorkshireAndHumber, EastMidlands, WestMidlands, EastOfEngland, London, SouthWest, SouthEast},
-                new double[] {0.77,      0.91,      1,     0.92,               1.47,         1.08,         0.62,	      0.43,   1.72,	     1.11}
+                new Region[] {NorthEast, NorthWest, YorkshireAndHumber, EastMidlands, WestMidlands, EastOfEngland, London, SouthWest, SouthEast,
+        		Wales, WesternScotland, EasternScotland, NorthernScotland, NorthernIreland}, //Estimates for now (TO BE UPDATED)
+                new double[] {0.77, 0.91, 0.92, 1.47, 1.08, 0.62, 0.43, 1.72, 1.11, 
+        		1.72,1.08,1.11,1.47,1.47}//Estimates for now (TO BE UPDATED)
             );
 
-    //Regional overheating info
-
+  //Regional overheating info
     public static final double[] OVERHEAT_THRESH =
         forEnum(Region.class,
-                new Region[] {NorthEast, NorthWest, Wales, YorkshireAndHumber, EastMidlands, WestMidlands, EastOfEngland, London,   SouthWest, SouthEast},
-                new double[] {23.28746,  23.67835,  1,     24.53434,           24.39385,     24.10412,     24.87814,      25.26228, 24.57729,  23.55555}
+                new Region[] {NorthEast, NorthWest, YorkshireAndHumber, EastMidlands, WestMidlands, EastOfEngland, London,   SouthWest, SouthEast,
+        		Wales, WesternScotland, EasternScotland, NorthernScotland, NorthernIreland}, //Estimates for now (TO BE UPDATED)
+                new double[] {23.28746,  23.67835,   24.53434,           24.39385,     24.10412,     24.87814,      25.26228, 24.57729,  23.55555,
+        		24.1, 23.67835, 23.28746, 23.28746, 23.28746}//estimates for now (TO BE UPDATED)
             );
 
     public static final double[] OVERHEAT_COEFS =
         forEnum(Region.class,
-                new Region[] {NorthEast,   NorthWest,   Wales, YorkshireAndHumber, EastMidlands, WestMidlands, EastOfEngland, London,     SouthWest,   SouthEast},
-                new double[] {-0.67870354, -0.44334691, 1,     0,                  -0.21311184,  -0.38224314,  0.05518115,    0.19038004, -0.59019838, -0.04675629}
+                new Region[] {NorthEast,   NorthWest, YorkshireAndHumber, EastMidlands, WestMidlands, EastOfEngland, London, SouthEast, SouthWest,   
+        		Wales, WesternScotland, EasternScotland, NorthernScotland, NorthernIreland}, //Estimates for now (TO BE UPDATED)
+                new double[] {-0.1085839,  0.13299919, 0.57157228, 0.36532503, 0.19491544, 0.64106725, 0.76364547, 0.53149218, 0,
+        		0.065, -0.1085839, -0.1085839, -0.1085839, -0.1085839}//estimates for now (TO BE UPDATED)
             );
 
     //SIT E-value coefficients
@@ -307,27 +258,41 @@ public class Constants {
     //Fuel rebate info
     public static final double REBATE_AMMOUNT 	= 	200;  //£
     public static final double REBATE_PRICE 	=  	0.031;  //£/kWh
+    
+    
+  //Overheating constants
+    public static final double SIT_MAX_INTERCEPT = 	17.28343088; 
+    public static final double AVG_2DAY_P95 = 	0.29417342;
+    public static final double HEAT_LOSS = -0.00235936;
+    
+    public static final double DBL_GLAZ = -0.36023931;
 
+        
     public static final double[][] RR_PER_DEGREE_OVERHEAT =
-        forEnums(
-            Region.class,
-            IExposure.OverheatingAgeBands.class,
-            // row indices
-            new Region[] {NorthEast, NorthWest, Wales, YorkshireAndHumber, EastMidlands, WestMidlands, EastOfEngland, London, SouthWest, SouthEast},
-            // column indices
-            new OverheatingAgeBands[] {OverheatingAgeBands.Age0_64, OverheatingAgeBands.Age65_74, OverheatingAgeBands.Age75_85, OverheatingAgeBands.Age85},
-            new double[][]
-            {
-                {0.5        ,0.60000002 ,0.80000001 ,1.1},
-                {0.80000001 ,0.89999998 ,1.3        ,1.9}       ,
-                {1.2        ,1.4        ,2          ,2.9000001} ,
-                {1.1        ,1.2        ,1.7        ,2.4000001} ,
-                {1.4        ,1.6        ,2.3        ,3.3}       ,
-                {1.4        ,1.6        ,2.2        ,3.0999999} ,
-                {1.5        ,1.7        ,2.4000001  ,3.4000001} ,
-                {2.4000001  ,2.7        ,3.8        ,5.4000001} ,
-                {1.6        ,1.9        ,2.5999999  ,3.7}       ,
-                {1.3        ,1.5        ,2.0999999  ,3}
-            }
-            );
+            forEnums(
+                Region.class,
+                IExposure.OverheatingAgeBands.class,
+                // row indices
+                new Region[] {NorthEast, NorthWest, Wales, YorkshireAndHumber, EastMidlands, WestMidlands, EastOfEngland, London, SouthWest, SouthEast,
+                	WesternScotland, EasternScotland, NorthernScotland, NorthernIreland}, //Estimates for now (TO BE UPDATED)
+                // column indices
+                new OverheatingAgeBands[] {OverheatingAgeBands.Age0_64, OverheatingAgeBands.Age65_74, OverheatingAgeBands.Age75_85, OverheatingAgeBands.Age85},
+                new double[][]
+                {
+                    {0.5        ,0.60000002 ,0.80000001 ,1.1},
+                    {0.80000001 ,0.89999998 ,1.3        ,1.9}       ,
+                    {1.2        ,1.4        ,2          ,2.9000001} ,
+                    {1.1        ,1.2        ,1.7        ,2.4000001} ,
+                    {1.4        ,1.6        ,2.3        ,3.3}       ,
+                    {1.4        ,1.6        ,2.2        ,3.0999999} ,
+                    {1.5        ,1.7        ,2.4000001  ,3.4000001} ,
+                    {2.4000001  ,2.7        ,3.8        ,5.4000001} ,
+                    {1.6        ,1.9        ,2.5999999  ,3.7}       ,
+                    {1.3        ,1.5        ,2.0999999  ,3}			,
+                    {0.80000001 ,0.89999998 ,1.3        ,1.9}       ,//Estimates
+                    {0.5        ,0.60000002 ,0.80000001 ,1.1}		,//Estimates
+                    {0.5        ,0.60000002 ,0.80000001 ,1.1}		,//Estimates
+                    {0.5        ,0.60000002 ,0.80000001 ,1.1}		 //Estimates
+                }
+                );
 }

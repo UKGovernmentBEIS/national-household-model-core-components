@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 
+
 public class Main
 {
     
@@ -38,32 +39,24 @@ public class Main
         		final PrintWriter costsOut = new PrintWriter(args[5]);)
         		{
 			        
-			        //SIT method regression (default is old version)
-			        final boolean regressionSIT = false;
-			        
 			        for (final Map<String, String> row : CSV.mapReader(Files.newBufferedReader(Paths.get(args[1]), StandardCharsets.UTF_8))) {
 			        	// Should get the totals here
 			        	
 			        	final double e1 = Double.parseDouble(row.get("e1"));
 			            final double e2 = Double.parseDouble(row.get("e2"));
-			            final BuiltForm.DwellingAge dwellingAge = BuiltForm.DwellingAge.valueOf(row.get("buildyear"));
-			            final BuiltForm.Tenure tenure = BuiltForm.Tenure.valueOf(row.get("tenure"));
-			            final BuiltForm.OwnerAge ownerAge = BuiltForm.OwnerAge.valueOf(row.get("agehr"));
-			            final boolean children = Boolean.valueOf(row.get("children"));
-			            final boolean fuelPoverty = Boolean.valueOf(row.get("fuelpov"));
-			        	
+			            
                         final HealthOutcome outcome = module.effectOf(
                             CumulativeHealthOutcome.factory(Integer.parseInt(row.get("horizon"))),
 			                // get fields from row here
-			                module.getInternalTemperature(regressionSIT, e1, 1, dwellingAge, tenure, ownerAge, children, fuelPoverty),
-			                module.getInternalTemperature(regressionSIT, e2, 1, dwellingAge, tenure, ownerAge, children, fuelPoverty),
+			                module.getInternalTemperature(e1, 1),
+			                module.getInternalTemperature(e2, 1),
                             Double.parseDouble(row.get("e1")),
                             Double.parseDouble(row.get("e2")),
 			                Double.parseDouble(row.get("p1")),
                             Double.parseDouble(row.get("p2")),
                             BuiltForm.Type.valueOf(row.get("form")),
 			                Double.parseDouble(row.get("floor_area")),
-                            BuiltForm.Region.valueOf(row.get("gor_ehs")),
+                            BuiltForm.Region.Wales,
 			                Integer.parseInt(row.get("level")),
 			                Boolean.valueOf(row.get("extract")),
 			                Boolean.valueOf(row.get("trickle")),
