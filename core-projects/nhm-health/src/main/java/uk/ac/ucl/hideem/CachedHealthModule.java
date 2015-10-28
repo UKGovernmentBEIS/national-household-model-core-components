@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.ExecutionException;
 
+import com.google.common.base.Supplier;
+
 import com.google.common.cache.LoadingCache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -14,6 +16,7 @@ import com.google.common.cache.CacheLoader;
  */
 public class CachedHealthModule implements IHealthModule {
     private static class K {
+        public final Supplier<? extends HealthOutcome> supplier;
         public final double t1;
         public final double t2;
         public final double p1;
@@ -26,11 +29,12 @@ public class CachedHealthModule implements IHealthModule {
         public final int mainFloorLevel;
         public final boolean hasWorkingExtractorFans;
         public final boolean hasTrickleVents;
-        public final boolean doubleGlazing;
+        public final boolean hasDoubleGlazing;
+        public final boolean hadDoubleGlazing;
         public final List<Person> people;
-        public final int horizon;
 
-        public K(final double t1,
+        public K(final Supplier<? extends HealthOutcome> supplier,
+                 final double t1,
                  final double t2,
                  final double p1,
                  final double p2,
@@ -42,12 +46,13 @@ public class CachedHealthModule implements IHealthModule {
                  final int mainFloorLevel,
                  final boolean hasWorkingExtractorFans,
                  final boolean hasTrickleVents,
-                 final boolean doubleGlazing,
-                 final List<Person> people,
-                 final int horizon) {
-            this.horizon = horizon;
+                 final boolean hadDoubleGlazing,
+                 final boolean hasDoubleGlazing,
+                 final List<Person> people) {
+            this.supplier = supplier;
             this.people = people;
-            this.doubleGlazing = doubleGlazing;
+            this.hadDoubleGlazing = hadDoubleGlazing;
+            this.hasDoubleGlazing = hasDoubleGlazing;
             this.hasTrickleVents = hasTrickleVents;
             this.hasWorkingExtractorFans = hasWorkingExtractorFans;
             this.mainFloorLevel = mainFloorLevel;
@@ -70,7 +75,8 @@ public class CachedHealthModule implements IHealthModule {
         .expireAfterAccess(10, TimeUnit.MINUTES)
         .build(new CacheLoader<K, HealthOutcome>() {
                 public HealthOutcome load(final K key) {
-                    return delegate.effectOf(key.t1, key.t2,
+                    return delegate.effectOf(key.supplier,
+                                             key.t1, key.t2,
                                              key.p1, key.p2,
                                              key.h1, key.h2,
 
@@ -80,9 +86,9 @@ public class CachedHealthModule implements IHealthModule {
                                              key.mainFloorLevel,
                                              key.hasWorkingExtractorFans,
                                              key.hasTrickleVents,
-                                             key.doubleGlazing,
-                                             key.people,
-                                             key.horizon);
+                                             key.hadDoubleGlazing,
+                                             key.hasDoubleGlazing,
+                                             key.people);
                 }
             })
         ;
@@ -96,24 +102,27 @@ public class CachedHealthModule implements IHealthModule {
     }
 
     @Override
-    public HealthOutcome effectOf(double t1, double t2,
-                                  double p1, double p2,
-                                  double h1, double h2,
+    public <T extends HealthOutcome> T effectOf(Supplier<T> supplier,
+                                                double t1, double t2,
+                                                double p1, double p2,
+                                                double h1, double h2,
 
-                                  BuiltForm.Type form,
-                                  double floorArea,
-                                  BuiltForm.Region region,
-                                  int mainFloorLevel,
-                                  boolean hasWorkingExtractorFans,
-                                  boolean hasTrickleVents,
-                                  boolean doubleGlaz,
-                                  List<Person> people,
-                                  int horizon) {
+                                                BuiltForm.Type form,
+                                                double floorArea,
+                                                BuiltForm.Region region,
+                                                int mainFloorLevel,
+                                                boolean hasWorkingExtractorFans,
+                                                boolean hasTrickleVents,
+                                                boolean hasDoubleGlazing,
+                                                boolean hadDoubleGlazing,
+                                                List<Person> people) {
         try {
-            return outcome.get(new K(t1, t2, p1, p2, h1, h2,
-                                     form, floorArea, region,
-                                     mainFloorLevel, hasWorkingExtractorFans,
-                                     hasTrickleVents, doubleGlaz, people, horizon));
+            return (T) outcome.get(new K(supplier,
+                                         t1, t2, p1, p2, h1, h2,
+                                         form, floorArea, region,
+                                         mainFloorLevel, hasWorkingExtractorFans,
+                                         hasTrickleVents, hasDoubleGlazing, hadDoubleGlazing,
+                                         people));
         } catch (final ExecutionException ex) {
             throw new RuntimeException("Error in health calculation: " + ex.getMessage(), ex);
         }

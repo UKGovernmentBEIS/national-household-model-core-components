@@ -52,7 +52,8 @@ public class Main
 			            final boolean children = Boolean.valueOf(row.get("children"));
 			            final boolean fuelPoverty = Boolean.valueOf(row.get("fuelpov"));
 			        	
-			            final HealthOutcome outcome = module.effectOf(
+                        final HealthOutcome outcome = module.effectOf(
+                            CumulativeHealthOutcome.factory(Integer.parseInt(row.get("horizon"))),
 			                // get fields from row here
 			                module.getInternalTemperature(regressionSIT, e1, 1, dwellingAge, tenure, ownerAge, children, fuelPoverty),
 			                module.getInternalTemperature(regressionSIT, e2, 1, dwellingAge, tenure, ownerAge, children, fuelPoverty),
@@ -67,9 +68,11 @@ public class Main
 			                Boolean.valueOf(row.get("extract")),
 			                Boolean.valueOf(row.get("trickle")),
 
-			                Boolean.valueOf(row.get("dblglazing80pctplus")),
-			                people.get(row.get("code")),
-			                Integer.parseInt(row.get("horizon")));
+                            Boolean.valueOf(row.get("dblglazing80pctplus")),
+                            // todo:
+                            Boolean.valueOf(row.get("dblglazing80pctplus")),
+
+                            people.get(row.get("code")));
 			            
 			            //put outputs into files
                         //exposuresOut.println(row.get("code"));

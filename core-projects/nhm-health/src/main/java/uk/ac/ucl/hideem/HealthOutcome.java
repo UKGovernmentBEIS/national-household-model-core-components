@@ -3,6 +3,8 @@ package uk.ac.ucl.hideem;
 import uk.ac.ucl.hideem.IExposure.*;
 
 public abstract class HealthOutcome {
+    protected final int horizon;
+
     private final int EXPOSURE_TYPES = IExposure.Type.values().length;
     private final int DISEASE_TYPES = Disease.Type.values().length;
     private final int OCCUPANCY_TYPES = IExposure.OccupancyType.values().length;
@@ -13,6 +15,12 @@ public abstract class HealthOutcome {
 
     private final double relativeRisk[][] = new double[DISEASE_TYPES][OCCUPANCY_TYPES];
     private final double overheatingRisk[] = new double[OH_AGEBANDS];
+
+    public int horizon() { return horizon; }
+
+    HealthOutcome(final int horizon) {
+        this.horizon = horizon;
+    }
 
     public final double initialExposure(final IExposure.Type eType, final OccupancyType oType) {
         return initialExposureByOccupancyType[eType.ordinal()][oType.ordinal()];

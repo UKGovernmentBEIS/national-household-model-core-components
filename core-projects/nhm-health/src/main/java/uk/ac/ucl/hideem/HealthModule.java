@@ -20,6 +20,8 @@ import uk.ac.ucl.hideem.IExposure.OverheatingAgeBands;
 import uk.ac.ucl.hideem.IExposure.Type;
 import uk.ac.ucl.hideem.BuiltForm.Region;
 
+import com.google.common.base.Supplier;
+
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Table;
@@ -128,31 +130,32 @@ public class HealthModule implements IHealthModule {
 	}
 
     @Override
-	public HealthOutcome effectOf(
-        // e-values & perm.s
+    public <T extends HealthOutcome> T effectOf(
+        final Supplier<T> factory,
+
         final double t1,
         final double t2,
+
         final double p1,
         final double p2,
 
         final double h1,
         final double h2,
 
-        // case number constituents
         final BuiltForm.Type form,
         final double floorArea,
         final BuiltForm.Region region,
-        final int mainFloorLevel, // fdfmainn (for flats)
-        // finkxtwk and finbxtwk
+        final int mainFloorLevel,
+
         final boolean hasWorkingExtractorFans, // per finwhatever
         final boolean hasTrickleVents,         // this is cooked up elsewhere
 
+        final boolean wasDoubleGlazed,
         final boolean isDoubleGlazed,
 
-        final List<Person> people,
-        final int horizon) {
-        
-        final HealthOutcome result = new CumulativeHealthOutcome(horizon);
+        final List<Person> people) {
+        final T result = factory.get();
+        final int horizon = result.horizon();
         
         //perform the matching between NHM built form and ventilation and Hideem
         final IExposure.ExposureBuiltForm matchedBuiltForm = mapBuiltForm(form, floorArea, mainFloorLevel);
