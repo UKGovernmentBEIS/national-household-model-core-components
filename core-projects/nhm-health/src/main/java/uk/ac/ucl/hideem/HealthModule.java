@@ -17,13 +17,9 @@ import org.slf4j.LoggerFactory;
 import uk.ac.ucl.hideem.IExposure.ExposureBuiltForm;
 import uk.ac.ucl.hideem.IExposure.OccupancyType;
 import uk.ac.ucl.hideem.IExposure.OverheatingAgeBands;
-import uk.ac.ucl.hideem.IExposure.Type;
-import uk.ac.ucl.hideem.BuiltForm.Region;
 
 import com.google.common.base.Supplier;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Table;
 import com.google.common.collect.HashBasedTable;
 
