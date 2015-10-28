@@ -52,7 +52,8 @@ public class Main
 			            final boolean children = Boolean.valueOf(row.get("children"));
 			            final boolean fuelPoverty = Boolean.valueOf(row.get("fuelpov"));
 			        	
-			            final HealthOutcome outcome = module.effectOf(
+                        final HealthOutcome outcome = module.effectOf(
+                            CumulativeHealthOutcome.factory(Integer.parseInt(row.get("horizon"))),
 			                // get fields from row here
 			                module.getInternalTemperature(regressionSIT, e1, 1, dwellingAge, tenure, ownerAge, children, fuelPoverty),
 			                module.getInternalTemperature(regressionSIT, e2, 1, dwellingAge, tenure, ownerAge, children, fuelPoverty),
@@ -66,19 +67,17 @@ public class Main
 			                Integer.parseInt(row.get("level")),
 			                Boolean.valueOf(row.get("extract")),
 			                Boolean.valueOf(row.get("trickle")),
-			                Boolean.valueOf(row.get("rebate")),
-			                Boolean.valueOf(row.get("dblglazing80pctplus")),
-			                people.get(row.get("code")),
-			                Integer.parseInt(row.get("horizon")));
+
+                            Boolean.valueOf(row.get("dblglazing80pctplus")),
+                            // todo:
+                            Boolean.valueOf(row.get("dblglazing80pctplus")),
+
+                            people.get(row.get("code")));
 			            
 			            //put outputs into files
-			            //exposuresOut.println(row.get("code"));
-			            exposuresOut.print(outcome.printExposures(row.get("code")));
-			            qalysOut.print(outcome.printQalys(row.get("code")));
-			            morbQalysOut.print(outcome.printMorbidityQalys(row.get("code")));
-			            costsOut.print(outcome.printCosts(row.get("code")));			            
-			            
-			        }
+                        //exposuresOut.println(row.get("code"));
+                        // this doesn't work any more because I broke it.
+                    }
         		};
     }
 }
