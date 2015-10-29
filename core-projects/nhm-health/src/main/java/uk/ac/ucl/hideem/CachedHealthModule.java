@@ -129,15 +129,8 @@ public class CachedHealthModule implements IHealthModule {
     }
 
     @Override
-    public double getInternalTemperature(boolean regressionSIT,
-                                         double specificHeat,
-                                         double efficiency,
-                                         BuiltForm.DwellingAge dwellingAge,
-                                         BuiltForm.Tenure tenure,
-                                         BuiltForm.OwnerAge ownerAge,
-                                         boolean children,
-                                         boolean fuelPoverty) {
-        return delegate.getInternalTemperature(regressionSIT, specificHeat, efficiency,
-                                               dwellingAge, tenure, ownerAge, children, fuelPoverty);
+    public double getInternalTemperature(double specificHeat,
+                                         double efficiency) {
+        return delegate.getInternalTemperature(specificHeat, efficiency);
     }
 }

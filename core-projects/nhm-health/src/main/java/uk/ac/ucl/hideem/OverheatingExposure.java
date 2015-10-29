@@ -38,16 +38,15 @@ public class OverheatingExposure implements IExposure {
     }
 
     private double getSIT2DayMax(
-        final double eValue,
-        final boolean isDoubleGlazed,
-        final BuiltForm.Region region) {
+            final double heatLoss,
+            final boolean isDoubleGlazed,
+            final BuiltForm.Region region) {
 
-        final double SITMax =
-            17.45785434 +
-            -0.00158636 * eValue +
-            (isDoubleGlazed ? 0.37225874 : 0) +
-
-            Constants.OVERHEAT_THRESH[region.ordinal()] * 0.2945458 +
+    final double SITMax =
+            Constants.SIT_MAX_INTERCEPT +
+            heatLoss* Constants.HEAT_LOSS +
+            (isDoubleGlazed ? Constants.DBL_GLAZ : 0) +
+            Constants.OVERHEAT_THRESH[region.ordinal()] * Constants.AVG_2DAY_P95 +
             Constants.OVERHEAT_COEFS[region.ordinal()];
 
         return SITMax;

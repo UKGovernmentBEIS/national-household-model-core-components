@@ -17,13 +17,9 @@ import org.slf4j.LoggerFactory;
 import uk.ac.ucl.hideem.IExposure.ExposureBuiltForm;
 import uk.ac.ucl.hideem.IExposure.OccupancyType;
 import uk.ac.ucl.hideem.IExposure.OverheatingAgeBands;
-import uk.ac.ucl.hideem.IExposure.Type;
-import uk.ac.ucl.hideem.BuiltForm.Region;
 
 import com.google.common.base.Supplier;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Table;
 import com.google.common.collect.HashBasedTable;
 
@@ -318,44 +314,15 @@ public class HealthModule implements IHealthModule {
 		final double averageSIT=((livingRoomSIT+bedRoomSIT)/2);
 		
 		return averageSIT;
-    }
-    
-    private double calcSITRegression(final double eValue,
-                                     final BuiltForm.DwellingAge age,
-                                     final BuiltForm.Tenure t,
-                                     final BuiltForm.OwnerAge a,
-                                     final boolean c,
-                                     final boolean p) {
-    	
-    	int children = (c) ? 1 : 0;
-        int fuelPoverty = (p) ? 1 : 0;
-    	
-    	final double livingRoomSIT=(Constants.INTERCEPT_LR + eValue*Constants.E_COEF_LR + Constants.DW_AGE_LR[age.ordinal()]) + Constants.TENURE_LR[t.ordinal()] 
-                + Constants.OC_AGE_LR[age.ordinal()] + Constants.CH_LR[children] + Constants.FP_LR[fuelPoverty];
-    	final double bedRoomSIT=(Constants.INTERCEPT_BR + eValue*Constants.E_COEF_BR + Constants.DW_AGE_BR[age.ordinal()]) 
-                + Constants.OC_AGE_BR[age.ordinal()] + Constants.CH_BR[children] + Constants.FP_BR[fuelPoverty];;
-    	final double averageSIT = ((livingRoomSIT+bedRoomSIT)/2);    	
-    	
-    	return averageSIT;
-    }
-    
+    }  
     
     @Override
-    public double getInternalTemperature(final boolean regressionSIT,
-                                         final double specificHeat,
-                                         double efficiency,
-                                         final BuiltForm.DwellingAge dwellingAge,
-                                         final BuiltForm.Tenure tenure,
-                                         final BuiltForm.OwnerAge ownerAge,
-                                         final boolean children,
-                                         final boolean fuelPoverty) {
+    public double getInternalTemperature(final double specificHeat,
+                                         double efficiency) {
     	if (efficiency <= 0) efficiency = 1;
     	final double eValue = specificHeat / efficiency;
     	
-    	if (regressionSIT)
-            return calcSITRegression(eValue, dwellingAge, tenure, ownerAge, children, fuelPoverty);
-    	else
-    		return calcSIT(eValue);
+    	return calcSIT(eValue);
     }
     
     //Methods to map the input built form and ventilation of NHM to that in Hideem.
