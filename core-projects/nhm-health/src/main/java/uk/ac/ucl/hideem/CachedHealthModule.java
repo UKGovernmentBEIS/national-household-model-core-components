@@ -133,4 +133,9 @@ public class CachedHealthModule implements IHealthModule {
                                          double efficiency) {
         return delegate.getInternalTemperature(specificHeat, efficiency);
     }
+
+    @Override
+    public double getRebateDeltaTemperature(double baseTemperature, double rebate) {
+        return delegate.getRebateDeltaTemperature(baseTemperature, rebate);
+    }
 }

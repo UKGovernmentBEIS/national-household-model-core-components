@@ -8,6 +8,52 @@ import uk.ac.ucl.hideem.Person.Sex;
 import com.google.common.collect.ImmutableList;
 
 public class HealthModuleTest {
+    @Test
+    public void deltaTemperatureIsSane() {
+        final IHealthModule hm = new HealthModule();
+
+        final double tmin = 14;
+        final double tmax = 21;
+
+        System.out.println("Rebate function:");
+        System.out.println("base\t+100\t+500\t+1000");
+        for (int i = 0; i<20; i++) {
+            double ti = tmin + i * (tmax-tmin) / 20;
+            System.out.println(String.format("%f\t%f\t%f\t%f",
+                                             ti,
+                                             hm.getRebateDeltaTemperature(ti, 100),
+                                             hm.getRebateDeltaTemperature(ti, 500),
+                                             hm.getRebateDeltaTemperature(ti, 1000)));
+        }
+
+        final double deltaTemperature = hm.getRebateDeltaTemperature(18, 1000);
+
+        System.out.println("Deduced temperature/cost function:");
+        for (int i = 0; i<HealthModule.CTC_COST.length; i++) {
+            System.out.println(String.format("%f\t%f", HealthModule.CTC_TEMPERATURE[i], HealthModule.CTC_COST[HealthModule.CTC_COST.length - (i + 1)]));
+        }
+
+    }
+
+    @Test
+    public void testInterpolator() {
+        double x = HealthModule.interpolate(0.5, 2, new double[]{0, 1}, new double[]{1, 0});
+        Assert.assertEquals(x, 0.5, 0);
+        x = HealthModule.interpolate(0.1, 2, new double[]{0, 1}, new double[]{1, 0});
+        Assert.assertEquals(x, 0.1, 0);
+        x = HealthModule.interpolate(0.9, 2, new double[]{0, 1}, new double[]{1, 0});
+        Assert.assertEquals(x, 0.9, 0);
+
+        x = HealthModule.interpolate(0, 2, new double[]{0, 1}, new double[]{1, 0});
+        Assert.assertEquals(x, 0, 0);
+
+        x = HealthModule.interpolate(1, 2, new double[]{0, 1}, new double[]{1, 0});
+        Assert.assertEquals(x, 1, 0);
+
+        x = HealthModule.interpolate(2, 2, new double[]{0, 1}, new double[]{1, 0});
+        Assert.assertEquals(x, 1, 0);
+    }
+
 	@Test
 	public void healthImpactOfDoingNothingIsZero() {
 		final IHealthModule hm = new HealthModule();

@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Iterator;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Arrays;
 
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.slf4j.Logger;
@@ -306,7 +307,7 @@ public class HealthModule implements IHealthModule {
     }
 
     //Temperature Calculations using Hamilton relation
-    private double calcSIT(final double eValue){
+    private static double calcSIT(final double eValue){
 		final double livingRoomSIT=(Constants.LR_SIT_CONSTS[4] + (Constants.LR_SIT_CONSTS[3]*Math.pow(eValue,1)) + (Constants.LR_SIT_CONSTS[2]*Math.pow(eValue,2)) 
 				+ (Constants.LR_SIT_CONSTS[1]*Math.pow(eValue,3)) + (Constants.LR_SIT_CONSTS[0]*Math.pow(eValue,4)));
 		final double bedRoomSIT=(Constants.BR_SIT_CONSTS[4] + (Constants.BR_SIT_CONSTS[3]*Math.pow(eValue,1)) + (Constants.BR_SIT_CONSTS[2]*Math.pow(eValue,2))
@@ -505,6 +506,93 @@ public class HealthModule implements IHealthModule {
     	return vals;
     			
     }
-    
-}    
 
+    private static final int CTC_COUNT = 500;
+    static final double[] CTC_COST        = new double[CTC_COUNT];
+    static final double[] CTC_TEMPERATURE = new double[CTC_COUNT];
+
+    static {
+        final double baseExternalTemperature = 5;
+        final double basePrice = 0.1;
+        final double baseEValue = 100;
+        final double heatingSeason = (270 * 24) / 1000;
+
+        final double minimumPrice = 0d;
+        final double maximumPrice = 2d;
+
+        for (int i = 0; i<CTC_COUNT; i++) {
+            final double price = minimumPrice + i * (maximumPrice - minimumPrice) / (double) CTC_COUNT;
+
+            // this is the strong assumption: e-value is really a proxy for cost, so if we double the cost
+            // it would be the same as doubling the e-value
+            final double temperature = calcSIT(baseEValue * price / basePrice);
+
+            // now we have a temperature at the given price, we can cook up a 'cost' using the simple model
+            // for cost below
+            final double costAtTemp = Math.max(0,
+                                               (temperature - baseExternalTemperature) * // delta T
+                                               price *  // cost per kwh
+                                               baseEValue * // watts per delta T
+                                               heatingSeason); // heating hours per year
+            // now we have a temperature and a related cost!
+            CTC_TEMPERATURE[CTC_COUNT - (i + 1)] = temperature;
+            CTC_COST[i] = costAtTemp;
+        }
+    }
+
+    /*
+     * Determine the impact on the SIT of a certain rebate. This requires the conversion of the
+     * SIT computation into a cost / temperature curve using particular assumptions.
+     *
+     * This is done on startup in the static block above; the rebate calculation then
+     * interpolates the base temperature into the cost/temperature function to produce a base cost,
+     * modifies the cost with the rebate, and then reads back off to get a revised temperature.
+     *
+     * This does not reflect the temperature -> cost function; we really want to solve the
+     * pair of functions temperature -> cost (supply) and cost -> temperature (demand) for
+     * an equilibrium, but that is too hard to do today.
+     */
+    @Override
+    public double getRebateDeltaTemperature(double baseTemperature, double rebate) {
+        // the curve is descending (cost goes up, temperature goes down)
+        // however, to make this bit faster, I have stored temperature in reverse order.
+        // this means both arrays are amenable to the fast binary search
+
+        final double baseCost = interpolate(baseTemperature, CTC_COUNT, CTC_TEMPERATURE, CTC_COST);
+        final double rebatedCost = baseCost - rebate;
+        // so we have a new cost - now we need to turn that into a temperature
+        final double rebatedTemperature = interpolate(rebatedCost, CTC_COUNT, CTC_COST, CTC_TEMPERATURE);
+        return rebatedTemperature - baseTemperature;
+    }
+
+    protected static double interpolate(final double x, final int count, final double[] forwards, final double[] backwards) {
+        final int baseIndex = Arrays.binarySearch(forwards, x);
+        final double baseValue;
+        if (baseIndex < 0) {
+            final int upper = -(baseIndex + 1);
+            if (upper == 0) {
+                // this means that we are below the minimum temperature
+                // so we ought to be at the maximum cost
+                baseValue = backwards[count - 1];
+            } else if (upper == count) {
+                // the converse of the above
+                baseValue = backwards[0];
+            } else {
+                // so we are between two temperatures
+                final double upperX = forwards[upper];
+                final double lowerX = forwards[upper-1];
+                // note that the upper cost will be less than the lower cost
+                // this is because the curve points downward.
+                final double upperY = backwards[count - (upper + 1)];
+                final double lowerY = backwards[count - (upper)];
+
+                // a linear interpolation
+                baseValue = (lowerY + (upperY - lowerY) *
+                            (x - lowerX) / (upperX - lowerX));
+            }
+        } else {
+            baseValue = backwards[count - (baseIndex + 1)]; // count and temp are in reverse order.
+        }
+        return baseValue;
+    }
+}

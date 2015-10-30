@@ -54,4 +54,6 @@ public interface IHealthModule {
     
     public double getInternalTemperature(double specificHeat,
                                          double efficiency);
+
+    public double getRebateDeltaTemperature(double baseTemperature, double rebate);
 }
