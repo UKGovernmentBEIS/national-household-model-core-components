@@ -228,6 +228,15 @@ public class HealthModule implements IHealthModule {
                 // however, some of them are the same for all ages,
                 // and have an age field of '-1' to signify that.
 
+                // first we must advance to the first row of
+                // coefficients which works for this person.
+                while ((currentCoefficients.age != -1) &&
+                       (currentCoefficients.age > person.age) &&
+                       (coefficients.hasNext())) {
+                    currentCoefficients = coefficients.next();
+                }
+
+                if (currentCoefficients.age > person.age) continue diseases;
             years:
                 for (int year = 0; year < horizon; year++) {
                     // this is the age they will be N from the horizon
@@ -292,11 +301,12 @@ public class HealthModule implements IHealthModule {
                         result.addEffects(disease, year, person, mortalityChange, morbidityQalys, cost);
 
                         // move to next defined year of coefficients:
-                        if (coefficients.hasNext()) {
-                            if (currentCoefficients.age != -1) currentCoefficients = coefficients.next();
-                        } else {
-                            // there are no coefficients defined any more for this disease, so we can stop looping.
-                            break years;
+                        if (currentCoefficients.age != -1) {
+                            if (coefficients.hasNext()) {
+                                currentCoefficients = coefficients.next();
+                            } else {
+                                break years;
+                            }
                         }
                     }
                 }
