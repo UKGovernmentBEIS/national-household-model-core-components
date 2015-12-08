@@ -231,7 +231,7 @@ public class HealthModule implements IHealthModule {
                 // first we must advance to the first row of
                 // coefficients which works for this person.
                 while ((currentCoefficients.age != -1) &&
-                       (currentCoefficients.age > person.age) &&
+                       (currentCoefficients.age < person.age) &&
                        (coefficients.hasNext())) {
                     currentCoefficients = coefficients.next();
                 }
@@ -248,7 +248,8 @@ public class HealthModule implements IHealthModule {
                         result.overheatingRisk(OverheatingAgeBands.forAge(personAgeInYear)) :
                         result.relativeRisk(disease, OccupancyType.forAge(personAgeInYear));
 
-                    if (currentCoefficients.age == -1 || currentCoefficients.age == personAgeInYear) {
+                    if (currentCoefficients.age == -1 ||
+                        currentCoefficients.age >= personAgeInYear) {
                         // it is a special disease, which doesn't change over time, or this is the right year.
 
                         // Compute the different kinds of QALYs in year. The methods are different per disease.
@@ -301,12 +302,8 @@ public class HealthModule implements IHealthModule {
                         result.addEffects(disease, year, person, mortalityChange, morbidityQalys, cost);
 
                         // move to next defined year of coefficients:
-                        if (currentCoefficients.age != -1) {
-                            if (coefficients.hasNext()) {
-                                currentCoefficients = coefficients.next();
-                            } else {
-                                break years;
-                            }
+                        if (currentCoefficients.age != -1 && coefficients.hasNext()) {
+                            currentCoefficients = coefficients.next();
                         }
                     }
                 }
