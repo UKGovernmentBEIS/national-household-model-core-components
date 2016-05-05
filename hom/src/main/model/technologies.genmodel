@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/hom/src/main/java/" modelPluginID="hom" modelName="Technologies"
+    modelPluginClass="" updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl"
+    testsDirectory="/hom/src/test/java/" booleanFlagsField="flags" importerID="org.eclipse.emf.importer.ecore"
+    bundleManifest="false" complianceLevel="6.0" copyrightFields="false" language=""
+    packedEnums="true" interfaceNamePattern="I{0}" classNamePattern="" importOrganizing="true">
+  <foreignModel>technologies.ecore</foreignModel>
+  <genPackages prefix="Technologies" basePackage="uk.org.cse.nhm.hom.emf" disposableProviderFactory="true"
+      adapterFactory="false" contentTypeIdentifier="" ecorePackage="technologies.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="technologies.ecore#//FuelType">
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//FuelType/MainsGas"/>
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//FuelType/BulkLPG"/>
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//FuelType/BottledLPG"/>
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//FuelType/Electricity"/>
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//FuelType/Oil"/>
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//FuelType/BiomassPellets"/>
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//FuelType/BiomassWoodchip"/>
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//FuelType/BiomassWood"/>
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//FuelType/Photons"/>
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//FuelType/HouseCoal"/>
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//FuelType/CommunityHeat"/>
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//FuelType/PeakElectricity"/>
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//FuelType/OffPeakElectricity"/>
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//FuelType/ExportedElectricity"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="technologies.ecore#//HeatingSystemControlType">
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//HeatingSystemControlType/Programmer"/>
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//HeatingSystemControlType/RoomThermostat"/>
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//HeatingSystemControlType/ThermostaticRadiatorValve"/>
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//HeatingSystemControlType/TimeTemperatureZoneControl"/>
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//HeatingSystemControlType/ApplianceThermostat"/>
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//HeatingSystemControlType/Bypass"/>
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//HeatingSystemControlType/FlowSwitch"/>
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//HeatingSystemControlType/BoilerEnergyManager"/>
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//HeatingSystemControlType/BoilerInterlock"/>
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//HeatingSystemControlType/DelayedStartThermostat"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="technologies.ecore#//EmitterType">
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//EmitterType/Radiators"/>
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//EmitterType/UnderfloorTimber"/>
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//EmitterType/UnderfloorScreed"/>
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//EmitterType/UnderfloorConcrete"/>
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//EmitterType/WarmAirFanCoil"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="technologies.ecore#//StorageHeaterControlType">
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//StorageHeaterControlType/ManualChargeControl"/>
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//StorageHeaterControlType/AutomaticChargeControl"/>
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//StorageHeaterControlType/CelectChargeControl"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="technologies.ecore#//StorageHeaterType">
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//StorageHeaterType/OldLargeVolume"/>
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//StorageHeaterType/Slimline"/>
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//StorageHeaterType/Convector"/>
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//StorageHeaterType/Fan"/>
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//StorageHeaterType/IntegratedDirectActing"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="technologies.ecore#//HeatPumpSourceType">
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//HeatPumpSourceType/Ground"/>
+      <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//HeatPumpSourceType/Air"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="technologies.ecore#//IEnergyCalculatorVisitor"/>
+    <genDataTypes ecoreDataType="technologies.ecore#//IInternalParameters"/>
+    <genDataTypes ecoreDataType="technologies.ecore#//IEnergyState"/>
+    <genDataTypes ecoreDataType="technologies.ecore#//EnergyType"/>
+    <genDataTypes ecoreDataType="technologies.ecore#//AtomicInteger"/>
+    <genDataTypes ecoreDataType="technologies.ecore#//IConstants"/>
+    <genDataTypes ecoreDataType="technologies.ecore#//IEnergyCalculatorParameters"/>
+    <genClasses ecoreClass="technologies.ecore#//TechnologyModel">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference technologies.ecore#//TechnologyModel/appliances"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference technologies.ecore#//TechnologyModel/lights"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference technologies.ecore#//TechnologyModel/individualHeatSource"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference technologies.ecore#//TechnologyModel/cookers"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference technologies.ecore#//TechnologyModel/primarySpaceHeater"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference technologies.ecore#//TechnologyModel/secondarySpaceHeater"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference technologies.ecore#//TechnologyModel/centralWaterSystem"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference technologies.ecore#//TechnologyModel/secondaryWaterHeater"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference technologies.ecore#//TechnologyModel/communityHeatSource"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference technologies.ecore#//TechnologyModel/solarPhotovoltaic"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference technologies.ecore#//TechnologyModel/adjusters"/>
+      <genOperations ecoreOperation="technologies.ecore#//TechnologyModel/getTotalOperationalCost"/>
+    </genClasses>
+    <genClasses ecoreClass="technologies.ecore#//Appliance">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//Appliance/efficiency"/>
+    </genClasses>
+    <genClasses ecoreClass="technologies.ecore#//Light">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//Light/efficiency"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//Light/proportion"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="technologies.ecore#//SpaceHeater">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//SpaceHeater/proportion"/>
+      <genOperations ecoreOperation="technologies.ecore#//SpaceHeater/isBroken"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="technologies.ecore#//WaterHeater">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//WaterHeater/proportion"/>
+      <genOperations ecoreOperation="technologies.ecore#//WaterHeater/isBroken"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="technologies.ecore#//HeatSource">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference technologies.ecore#//HeatSource/waterHeater"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference technologies.ecore#//HeatSource/spaceHeater"/>
+      <genOperations ecoreOperation="technologies.ecore#//HeatSource/acceptFromHeating">
+        <genParameters ecoreParameter="technologies.ecore#//HeatSource/acceptFromHeating/constants"/>
+        <genParameters ecoreParameter="technologies.ecore#//HeatSource/acceptFromHeating/parameters"/>
+        <genParameters ecoreParameter="technologies.ecore#//HeatSource/acceptFromHeating/visitor"/>
+        <genParameters ecoreParameter="technologies.ecore#//HeatSource/acceptFromHeating/proportion"/>
+        <genParameters ecoreParameter="technologies.ecore#//HeatSource/acceptFromHeating/priority"/>
+      </genOperations>
+      <genOperations ecoreOperation="technologies.ecore#//HeatSource/getResponsiveness">
+        <genParameters ecoreParameter="technologies.ecore#//HeatSource/getResponsiveness/parameters"/>
+        <genParameters ecoreParameter="technologies.ecore#//HeatSource/getResponsiveness/controls"/>
+        <genParameters ecoreParameter="technologies.ecore#//HeatSource/getResponsiveness/emitterType"/>
+      </genOperations>
+      <genOperations ecoreOperation="technologies.ecore#//HeatSource/getDemandTemperatureAdjustment">
+        <genParameters ecoreParameter="technologies.ecore#//HeatSource/getDemandTemperatureAdjustment/parameters"/>
+        <genParameters ecoreParameter="technologies.ecore#//HeatSource/getDemandTemperatureAdjustment/controlTypes"/>
+      </genOperations>
+      <genOperations ecoreOperation="technologies.ecore#//HeatSource/generateHotWaterAndPrimaryGains">
+        <genParameters ecoreParameter="technologies.ecore#//HeatSource/generateHotWaterAndPrimaryGains/parameters"/>
+        <genParameters ecoreParameter="technologies.ecore#//HeatSource/generateHotWaterAndPrimaryGains/state"/>
+        <genParameters ecoreParameter="technologies.ecore#//HeatSource/generateHotWaterAndPrimaryGains/store"/>
+        <genParameters ecoreParameter="technologies.ecore#//HeatSource/generateHotWaterAndPrimaryGains/storeIsPrimary"/>
+        <genParameters ecoreParameter="technologies.ecore#//HeatSource/generateHotWaterAndPrimaryGains/primaryCorrectionFactor"/>
+        <genParameters ecoreParameter="technologies.ecore#//HeatSource/generateHotWaterAndPrimaryGains/distributionLossFactor"/>
+        <genParameters ecoreParameter="technologies.ecore#//HeatSource/generateHotWaterAndPrimaryGains/proportion"/>
+      </genOperations>
+      <genOperations ecoreOperation="technologies.ecore#//HeatSource/generateHotWaterSystemGains">
+        <genParameters ecoreParameter="technologies.ecore#//HeatSource/generateHotWaterSystemGains/parameters"/>
+        <genParameters ecoreParameter="technologies.ecore#//HeatSource/generateHotWaterSystemGains/state"/>
+        <genParameters ecoreParameter="technologies.ecore#//HeatSource/generateHotWaterSystemGains/store"/>
+        <genParameters ecoreParameter="technologies.ecore#//HeatSource/generateHotWaterSystemGains/storeIsPrimary"/>
+        <genParameters ecoreParameter="technologies.ecore#//HeatSource/generateHotWaterSystemGains/systemLosses"/>
+      </genOperations>
+      <genOperations ecoreOperation="technologies.ecore#//HeatSource/getStorageTemperatureFactor">
+        <genParameters ecoreParameter="technologies.ecore#//HeatSource/getStorageTemperatureFactor/parameters"/>
+        <genParameters ecoreParameter="technologies.ecore#//HeatSource/getStorageTemperatureFactor/store"/>
+        <genParameters ecoreParameter="technologies.ecore#//HeatSource/getStorageTemperatureFactor/storeInPrimaryCircuit"/>
+      </genOperations>
+      <genOperations ecoreOperation="technologies.ecore#//HeatSource/getContainedTankLosses">
+        <genParameters ecoreParameter="technologies.ecore#//HeatSource/getContainedTankLosses/parameters"/>
+      </genOperations>
+      <genOperations ecoreOperation="technologies.ecore#//HeatSource/getZoneTwoControlParameter">
+        <genParameters ecoreParameter="technologies.ecore#//HeatSource/getZoneTwoControlParameter/parameters"/>
+        <genParameters ecoreParameter="technologies.ecore#//HeatSource/getZoneTwoControlParameter/controls"/>
+        <genParameters ecoreParameter="technologies.ecore#//HeatSource/getZoneTwoControlParameter/emitterType"/>
+      </genOperations>
+    </genClasses>
+    <genClasses image="false" ecoreClass="technologies.ecore#//Named">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//Named/name"/>
+    </genClasses>
+    <genClasses ecoreClass="technologies.ecore#//CentralWaterSystem">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//CentralWaterSystem/storeInPrimaryCircuit"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//CentralWaterSystem/primaryPipeworkInsulated"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//CentralWaterSystem/separatelyTimeControlled"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference technologies.ecore#//CentralWaterSystem/solarWaterHeater"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference technologies.ecore#//CentralWaterSystem/primaryWaterHeater"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference technologies.ecore#//CentralWaterSystem/secondaryWaterHeater"/>
+      <genOperations ecoreOperation="technologies.ecore#//CentralWaterSystem/isBroken"/>
+    </genClasses>
+    <genClasses ecoreClass="technologies.ecore#//CentralHeatingSystem">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference technologies.ecore#//CentralHeatingSystem/heatSource"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//CentralHeatingSystem/controls"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//CentralHeatingSystem/emitterType"/>
+      <genOperations ecoreOperation="technologies.ecore#//CentralHeatingSystem/isThermostaticallyControlled"/>
+      <genOperations ecoreOperation="technologies.ecore#//CentralHeatingSystem/isBroken"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="technologies.ecore#//CentralWaterHeater">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//CentralWaterHeater/proportion"/>
+      <genOperations ecoreOperation="technologies.ecore#//CentralWaterHeater/isSolar"/>
+      <genOperations ecoreOperation="technologies.ecore#//CentralWaterHeater/generateHotWaterAndPrimaryGains">
+        <genParameters ecoreParameter="technologies.ecore#//CentralWaterHeater/generateHotWaterAndPrimaryGains/parameters"/>
+        <genParameters ecoreParameter="technologies.ecore#//CentralWaterHeater/generateHotWaterAndPrimaryGains/state"/>
+        <genParameters ecoreParameter="technologies.ecore#//CentralWaterHeater/generateHotWaterAndPrimaryGains/store"/>
+        <genParameters ecoreParameter="technologies.ecore#//CentralWaterHeater/generateHotWaterAndPrimaryGains/storeIsPrimary"/>
+        <genParameters ecoreParameter="technologies.ecore#//CentralWaterHeater/generateHotWaterAndPrimaryGains/primaryCorrectionFactor"/>
+        <genParameters ecoreParameter="technologies.ecore#//CentralWaterHeater/generateHotWaterAndPrimaryGains/distributionLossFactor"/>
+        <genParameters ecoreParameter="technologies.ecore#//CentralWaterHeater/generateHotWaterAndPrimaryGains/systemProportion"/>
+      </genOperations>
+      <genOperations ecoreOperation="technologies.ecore#//CentralWaterHeater/generateSystemGains">
+        <genParameters ecoreParameter="technologies.ecore#//CentralWaterHeater/generateSystemGains/parameters"/>
+        <genParameters ecoreParameter="technologies.ecore#//CentralWaterHeater/generateSystemGains/state"/>
+        <genParameters ecoreParameter="technologies.ecore#//CentralWaterHeater/generateSystemGains/store"/>
+        <genParameters ecoreParameter="technologies.ecore#//CentralWaterHeater/generateSystemGains/storeIsPrimary"/>
+        <genParameters ecoreParameter="technologies.ecore#//CentralWaterHeater/generateSystemGains/systemLosses"/>
+      </genOperations>
+      <genOperations ecoreOperation="technologies.ecore#//CentralWaterHeater/getSystem"/>
+    </genClasses>
+    <genClasses ecoreClass="technologies.ecore#//MainWaterHeater">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference technologies.ecore#//MainWaterHeater/heatSource"/>
+    </genClasses>
+    <genClasses ecoreClass="technologies.ecore#//WaterTank">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//WaterTank/insulation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//WaterTank/factoryInsulation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//WaterTank/volume"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//WaterTank/thermostatFitted"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//WaterTank/solarStorageVolume"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference technologies.ecore#//WaterTank/immersionHeater"/>
+      <genOperations ecoreOperation="technologies.ecore#//WaterTank/getStandingLosses">
+        <genParameters ecoreParameter="technologies.ecore#//WaterTank/getStandingLosses/parameters"/>
+      </genOperations>
+    </genClasses>
+    <genClasses image="false" ecoreClass="technologies.ecore#//VisitorAccepter">
+      <genOperations ecoreOperation="technologies.ecore#//VisitorAccepter/accept">
+        <genParameters ecoreParameter="technologies.ecore#//VisitorAccepter/accept/constants"/>
+        <genParameters ecoreParameter="technologies.ecore#//VisitorAccepter/accept/parameters"/>
+        <genParameters ecoreParameter="technologies.ecore#//VisitorAccepter/accept/visitor"/>
+        <genParameters ecoreParameter="technologies.ecore#//VisitorAccepter/accept/heatingSystemCounter"/>
+        <genParameters ecoreParameter="technologies.ecore#//VisitorAccepter/accept/totalHeatingProportion"/>
+        <genParameters ecoreParameter="technologies.ecore#//VisitorAccepter/accept/totalHotWaterProportion"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="technologies.ecore#//SolarWaterHeater">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//SolarWaterHeater/pitch"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//SolarWaterHeater/orientation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//SolarWaterHeater/area"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//SolarWaterHeater/usefulAreaRatio"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//SolarWaterHeater/zeroLossEfficiency"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//SolarWaterHeater/linearHeatLossCoefficient"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//SolarWaterHeater/preHeatTankVolume"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//SolarWaterHeater/pumpPhotovolatic"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="technologies.ecore#//StoreContainer">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference technologies.ecore#//StoreContainer/store"/>
+    </genClasses>
+    <genClasses ecoreClass="technologies.ecore#//ImmersionHeater">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//ImmersionHeater/dualCoil"/>
+    </genClasses>
+    <genClasses ecoreClass="technologies.ecore#//Cooker">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//Cooker/hob"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//Cooker/oven"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//Cooker/fuelType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//Cooker/baseLoad"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//Cooker/occupancyFactor"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//Cooker/gainsFactor"/>
+    </genClasses>
+    <genClasses ecoreClass="technologies.ecore#//ElectricShower"/>
+    <genClasses ecoreClass="technologies.ecore#//StorageHeater">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//StorageHeater/responsiveness"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//StorageHeater/controlType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//StorageHeater/type"/>
+    </genClasses>
+    <genClasses ecoreClass="technologies.ecore#//CommunityHeatSource">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//CommunityHeatSource/chargingUsageBased"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//CommunityHeatSource/heatEfficiency"/>
+    </genClasses>
+    <genClasses ecoreClass="technologies.ecore#//CommunityCHP">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//CommunityCHP/electricalEfficiency"/>
+    </genClasses>
+    <genClasses ecoreClass="technologies.ecore#//RoomHeater">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//RoomHeater/responsiveness"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//RoomHeater/efficiency"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//RoomHeater/thermostatFitted"/>
+    </genClasses>
+    <genClasses ecoreClass="technologies.ecore#//HeatPump">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//HeatPump/sourceType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//HeatPump/coefficientOfPerformance"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//HeatPump/weatherCompensated"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//HeatPump/auxiliaryPresent"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference technologies.ecore#//HeatPump/hybrid"/>
+    </genClasses>
+    <genClasses ecoreClass="technologies.ecore#//WarmAirSystem">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//WarmAirSystem/fuelType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//WarmAirSystem/efficiency"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference technologies.ecore#//WarmAirSystem/circulator"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//WarmAirSystem/controls"/>
+    </genClasses>
+    <genClasses ecoreClass="technologies.ecore#//PointOfUseWaterHeater">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//PointOfUseWaterHeater/fuelType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//PointOfUseWaterHeater/multipoint"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//PointOfUseWaterHeater/efficiency"/>
+    </genClasses>
+    <genClasses ecoreClass="technologies.ecore#//HeatPumpWarmAirSystem">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//HeatPumpWarmAirSystem/sourceType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//HeatPumpWarmAirSystem/auxiliaryPresent"/>
+    </genClasses>
+    <genClasses ecoreClass="technologies.ecore#//WarmAirCirculator">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference technologies.ecore#//WarmAirCirculator/warmAirSystem"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="technologies.ecore#//PrimarySpaceHeater">
+      <genOperations ecoreOperation="technologies.ecore#//PrimarySpaceHeater/getDerivedResponsiveness">
+        <genParameters ecoreParameter="technologies.ecore#//PrimarySpaceHeater/getDerivedResponsiveness/constants"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="technologies.ecore#//BackBoiler"/>
+    <genClasses image="false" ecoreClass="technologies.ecore#//FuelAndFlue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//FuelAndFlue/fuel"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//FuelAndFlue/flueType"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="technologies.ecore#//IndividualHeatSource"/>
+    <genClasses ecoreClass="technologies.ecore#//OperationalCost">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//OperationalCost/annualOperationalCost"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="technologies.ecore#//HasOverrideResponsiveness">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//HasOverrideResponsiveness/overrideResponsiveness"/>
+    </genClasses>
+    <genClasses ecoreClass="technologies.ecore#//SolarPhotovoltaic">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//SolarPhotovoltaic/area"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//SolarPhotovoltaic/efficiency"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//SolarPhotovoltaic/ownUseProportion"/>
+    </genClasses>
+    <genClasses ecoreClass="technologies.ecore#//Adjuster">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//Adjuster/fuelTypes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//Adjuster/deltas"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//Adjuster/gains"/>
+    </genClasses>
+    <genClasses ecoreClass="technologies.ecore#//HybridHeater">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//HybridHeater/fuel"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//HybridHeater/efficiency"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//HybridHeater/fraction"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="technologies.ecore#//HasInstallationYear">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//HasInstallationYear/installationYear"/>
+    </genClasses>
+    <nestedGenPackages prefix="Boilers" basePackage="uk.org.cse.nhm.hom.emf.technologies"
+        disposableProviderFactory="true" ecorePackage="technologies.ecore#//boilers">
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="technologies.ecore#//boilers/FlueType">
+        <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//boilers/FlueType/Chimney"/>
+        <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//boilers/FlueType/OpenFlue"/>
+        <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//boilers/FlueType/BalancedFlue"/>
+        <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//boilers/FlueType/FanAssistedBalancedFlue"/>
+        <genEnumLiterals ecoreEnumLiteral="technologies.ecore#//boilers/FlueType/NotApplicable"/>
+      </genEnums>
+      <genClasses ecoreClass="technologies.ecore#//boilers/Boiler">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//boilers/Boiler/summerEfficiency"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//boilers/Boiler/winterEfficiency"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//boilers/Boiler/condensing"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//boilers/Boiler/weatherCompensated"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//boilers/Boiler/basicResponsiveness"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//boilers/Boiler/pumpInHeatedSpace"/>
+      </genClasses>
+      <genClasses ecoreClass="technologies.ecore#//boilers/CPSU">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//boilers/CPSU/storeTemperature"/>
+      </genClasses>
+      <genClasses ecoreClass="technologies.ecore#//boilers/KeepHotFacility">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//boilers/KeepHotFacility/timeClock"/>
+        <genOperations ecoreOperation="technologies.ecore#//boilers/KeepHotFacility/getAdditionalUsageLosses">
+          <genParameters ecoreParameter="technologies.ecore#//boilers/KeepHotFacility/getAdditionalUsageLosses/parameters"/>
+          <genParameters ecoreParameter="technologies.ecore#//boilers/KeepHotFacility/getAdditionalUsageLosses/state"/>
+        </genOperations>
+      </genClasses>
+      <genClasses ecoreClass="technologies.ecore#//boilers/StorageCombiBoiler">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute technologies.ecore#//boilers/StorageCombiBoiler/storeInPrimaryCircuit"/>
+      </genClasses>
+      <genClasses ecoreClass="technologies.ecore#//boilers/InstantaneousCombiBoiler">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference technologies.ecore#//boilers/InstantaneousCombiBoiler/keepHotFacility"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="technologies.ecore#//boilers/CombiBoiler"/>
+    </nestedGenPackages>
+  </genPackages>
+</genmodel:GenModel>

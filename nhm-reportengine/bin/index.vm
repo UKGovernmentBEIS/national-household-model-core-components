@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+#set( $unique = 0 )
+
+#macro( nextid )
+#set( $unique = $unique + 1 )
+${unique}#end
+
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<title>NHM Scenario Report</title>
+		<link rel="stylesheet" href="resources/index.css"></link>
+		<script type="text/javascript">
+<!--
+function toggle(id) {
+	var e = document.getElementById(id);
+	if (e.style.display == 'block') e.style.display = 'none';
+	else e.style.display = 'block';
+}
+//-->
+		</script>
+	</head>
+	<body>
+		#if($error)
+			<img class="logo" src="resources/nhm-on-fire-small.png" alt="NHM Error Logo"/>
+			<p class="error">There were problems with this scenario</p>
+		#end
+		#foreach($typeOfEntry in $entries.keySet())
+			<h1>${typeOfEntry}</h1>
+			<ul>
+				#foreach($entry in $entries.get($typeOfEntry))
+				<li>
+					#parse(${entry.Descriptor.IndexTemplate})
+				</li>
+				#end
+			</ul>
+		#end
+		<h1>Run information</h1>
+		<table class="stats">
+			<tr>
+				<td>Started</td>
+				<td>${started}</td>
+			</tr>
+			<tr>
+				<td>Finished</td>
+				<td>${finished}</td>
+			</tr>
+			<tr>
+				<td>Duration</td>
+				<td>${runtime}</td>
+			</tr>
+		</table>
+		<div class="warning">
+		It is your responsibility to ensure that data that could be considered as Protect or restricted is stored in a secure place and disposed of when appropriate.
+		</div> 
+	</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+	<head >
+		<link rel="stylesheet" href="../../resources/explainSankey/sankey.css">
+		<script src="../../resources/lib/jquery/jquery.min.js"></script>
+        <script src="../../resources/lib/jquery/jquery-ui.min.js"></script>
+		<script src="../../resources/lib/d3/d3.v2.min.js"></script>
+		<script src="../../resources/lib/d3plugins/sankey.js"></script>
+		<title>Group Transition Reports</title>
+	</head>
+
+	<body>
+		<select xmlns:c="http://java.sun.com/jsp/jstl/core" id="explain-sources">
+			#foreach($explain in $entries)
+				<option value="aggregate/explain-${explain}.jsonp">${explain}</option>
+				<option value="aggregate/explain-simple-${explain}.jsonp">${explain}-simple</option>
+			#end
+		</select>
+	
+		<p id="chart">
+		
+		<script src="../../resources/explainSankey/sankey.js"></script>
+		#foreach($explain in $entries)
+			<script src="../../aggregate/explain-${explain}.jsonp"></script>
+			<script src="../../aggregate/explain-simple-${explain}.jsonp"></script>
+		#end
+	</body>
+</html>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOFloorImputationDataFromExcelTest" tests="19" skipped="0" failures="0" errors="0" timestamp="2016-05-03T08:17:28" hostname="rich-Latitude-E6320" time="0.773">
+  <properties/>
+  <testcase name="FloorUValuesSetInFoorPropertyTable" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOFloorImputationDataFromExcelTest" time="0.073"/>
+  <testcase name="PartyFloorKValueSetInFloorPropertyTable" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOFloorImputationDataFromExcelTest" time="0.055"/>
+  <testcase name="deckThermalResistanceSetInFloorPropertyTable" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOFloorImputationDataFromExcelTest" time="0.051"/>
+  <testcase name="openingsPerMeterOfExposedPerimeterSetInFloorPropertyTable" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOFloorImputationDataFromExcelTest" time="0.046"/>
+  <testcase name="RsiSetInFloorPropertyTable" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOFloorImputationDataFromExcelTest" time="0.045"/>
+  <testcase name="averageWindSpeedAt10mSetInFloorPropertyTable" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOFloorImputationDataFromExcelTest" time="0.042"/>
+  <testcase name="RseSetInFloorPropertyTable" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOFloorImputationDataFromExcelTest" time="0.044"/>
+  <testcase name="FloorPropertyTableCreated" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOFloorImputationDataFromExcelTest" time="0.038"/>
+  <testcase name="soilThermalConductivitySetInFloorPropertyTable" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOFloorImputationDataFromExcelTest" time="0.037"/>
+  <testcase name="UninsulatedExposedFloorKValueSetInFloorPropertyTable" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOFloorImputationDataFromExcelTest" time="0.044"/>
+  <testcase name="GroundFloorKValuesReadFromExcelAndSetOnFloorPropertyTable" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOFloorImputationDataFromExcelTest" time="0.035"/>
+  <testcase name="SapAgeBandForSuspendedTimberSetInFloorPropertyTable" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOFloorImputationDataFromExcelTest" time="0.033"/>
+  <testcase name="heightAboveGroundLevelSetInFloorPropertyTable" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOFloorImputationDataFromExcelTest" time="0.039"/>
+  <testcase name="InsulationThicknessValuesByAgeBandFromFloorPropertyTable" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOFloorImputationDataFromExcelTest" time="0.032"/>
+  <testcase name="floorInsulationConductivitySetInFloorPropertyTable" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOFloorImputationDataFromExcelTest" time="0.035"/>
+  <testcase name="AddKValueForGroundFloorTypeInFloorPropertyTable" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOFloorImputationDataFromExcelTest" time="0.026"/>
+  <testcase name="windShieldingFactorSetInFloorPropertyTable" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOFloorImputationDataFromExcelTest" time="0.029"/>
+  <testcase name="uValueOfWallsToUnderfloorSpaceSetInFloorPropertyTable" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOFloorImputationDataFromExcelTest" time="0.032"/>
+  <testcase name="InsulatedExposedFloorKValueSetInFloorPropertyTable" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOFloorImputationDataFromExcelTest" time="0.03"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

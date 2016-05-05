@@ -1,0 +1,2 @@
+aacode,elevationType,tenthsAttached,tenthsOpening,tenthsPartyWall,externalWallConstructionType,cavityWallInsulation,internalInsulation,externalWallInsulation,percentageDoubleGlazed,doubleGlazedWindowFrame,singleGlazedWindowFrame,"doorFrame:Wood,doorType:Solid","doorFrame:Wood,doorType:Glazed","doorFrame:Metal,doorType:Solid","doorFrame:Metal,doorType:Glazed","doorFrame:uPVC,doorType:Solid","doorFrame:uPVC,doorType:Glazed"
+H0011103,FRONT,0,4,0,Sandstone,FALSE,TRUE,TRUE,66.66,Metal,Wood,1,1,1,1,1,1

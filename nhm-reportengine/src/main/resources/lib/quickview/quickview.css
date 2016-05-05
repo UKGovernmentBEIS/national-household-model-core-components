@@ -1,0 +1,73 @@
+body {
+    font-family:Sans;
+}
+
+h1, h2 {
+    color:#444;
+}
+
+h1 {
+	size: 1.5ex;
+}
+
+td {
+    vertical-align:top;
+    text-align:center;
+    padding:0;
+    border: 1px lightgrey solid;
+}
+
+td.chart {
+    border: 1px grey solid;
+}
+
+table {
+    border-spacing:4px;
+}
+
+circle {
+    fill:steelblue;
+    stroke:white;
+    fill-opacity:0.5;
+    shape-rendering: crispEdges;
+}
+
+circle.highlight {
+    fill:red;
+    stroke:red;
+    fill-opacity:1;
+    stroke-opacity:1;
+}
+
+div.variable {
+    border: 2px grey solid;
+    padding: 10px;
+    margin: 10px;
+    display: inline-block;
+}
+
+.hexagon {
+  fill: none;
+  stroke: #000;
+  stroke-width: .5px;
+}
+
+.bar rect {
+  fill: steelblue;
+  shape-rendering: crispEdges;
+}
+
+.axis path, .axis line {
+  fill: none;
+  stroke: grey;
+  shape-rendering: crispEdges;
+}
+
+svg text {
+  font: 10px sans-serif;
+  fill: grey;
+}
+
+.bar text {
+    fill:grey;
+}

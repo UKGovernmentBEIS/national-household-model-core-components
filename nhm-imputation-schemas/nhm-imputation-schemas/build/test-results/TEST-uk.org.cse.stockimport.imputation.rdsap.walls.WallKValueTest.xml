@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="uk.org.cse.stockimport.imputation.rdsap.walls.WallKValueTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2016-05-03T08:17:30" hostname="rich-Latitude-E6320" time="0.001">
+  <properties/>
+  <testcase name="testKValues" classname="uk.org.cse.stockimport.imputation.rdsap.walls.WallKValueTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

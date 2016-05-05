@@ -1,0 +1,12 @@
+(scenario
+ start-date:01/01/2014
+ end-date:01/01/2015
+ stock-id:dont-care
+
+ (on.dates
+  scenario-start
+  
+  (apply (house.flag flagged-as-good) to:(sample 5%))
+
+  (assert
+   (house.flags-match flagged-as-good))))

@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="ASCII"?>
+<api:API xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:api="http://www.larkery.com/basic-baselines/api/1/">
+  <types name="uk.org.cse.nhm.bredem.constants.AbstractConstant" firstCharacter="91" lastCharacter="892" sinceTag="" type="Class"/>
+  <types name="uk.org.cse.nhm.bredem.constants.ApplianceConstants09" firstCharacter="146" lastCharacter="1580" sinceTag="" type="Enumeration"/>
+  <types name="uk.org.cse.nhm.bredem.constants.BredemConstants" firstCharacter="146" lastCharacter="4556" sinceTag="" type="Enumeration"/>
+  <types name="uk.org.cse.nhm.bredem.constants.LightingConstants09" firstCharacter="264" lastCharacter="2778" sinceTag="" type="Enumeration"/>
+  <types name="uk.org.cse.nhm.bredem.constants.HotWaterConstants09" firstCharacter="146" lastCharacter="1308" sinceTag="" type="Enumeration"/>
+  <types name="uk.org.cse.nhm.bredem.constants.GainsConstants" firstCharacter="146" lastCharacter="1341" sinceTag="" type="Enumeration"/>
+  <types name="uk.org.cse.nhm.bredem.impl.BredemCalculator" firstCharacter="1694" lastCharacter="33041" sinceTag="" type="Class">
+    <methods name="BredemCalculator" type="void" dynamic="true" firstCharacter="3574" lastCharacter="3641" sinceTag=""/>
+    <methods name="BredemCalculator" type="void" dynamic="true" firstCharacter="3646" lastCharacter="4552" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.bredem.api.IConstants</parameterTypes>
+    </methods>
+    <methods name="calculateSpecificHeatLosses" type="uk.org.cse.nhm.bredem.api.ISpecificHeatLosses" dynamic="true" firstCharacter="4557" lastCharacter="7976" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.bredem.api.IBredemHouseCase</parameterTypes>
+      <parameterTypes>uk.org.cse.nhm.bredem.api.IBredemParameters</parameterTypes>
+      <parameterTypes>double</parameterTypes>
+      <parameterTypes>uk.org.cse.nhm.bredem.impl.IStructuralInfiltrationAccumulator</parameterTypes>
+      <parameterTypes>java.util.List</parameterTypes>
+    </methods>
+    <methods name="getStateFactory" type="uk.org.cse.nhm.bredem.impl.BredemCalculator.IEnergyStateFactory" dynamic="true" firstCharacter="12872" lastCharacter="12946" sinceTag=""/>
+    <methods name="setStateFactory" type="void" dynamic="true" firstCharacter="12951" lastCharacter="13055" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.bredem.impl.BredemCalculator.IEnergyStateFactory</parameterTypes>
+    </methods>
+    <methods name="evaluate" type="uk.org.cse.nhm.bredem.api.IEnergyCalculationResult" dynamic="true" firstCharacter="13060" lastCharacter="19822" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.bredem.api.IBredemHouseCase</parameterTypes>
+      <parameterTypes>uk.org.cse.nhm.bredem.api.IInternalParameters</parameterTypes>
+    </methods>
+  </types>
+  <types name="uk.org.cse.nhm.bredem.impl.BredemCalculator.IEnergyStateFactory" firstCharacter="2168" lastCharacter="2591" sinceTag="">
+    <methods name="createEnergyState" type="uk.org.cse.nhm.bredem.api.IEnergyState" dynamic="true" firstCharacter="2547" lastCharacter="2587" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.bredem.impl.StructuralInfiltrationAccumulator" firstCharacter="310" lastCharacter="5734" sinceTag="" type="Class">
+    <methods name="StructuralInfiltrationAccumulator" type="void" dynamic="true" firstCharacter="1471" lastCharacter="1899" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.bredem.api.IConstants</parameterTypes>
+    </methods>
+  </types>
+  <types name="uk.org.cse.nhm.bredem.impl.BredemResult" firstCharacter="389" lastCharacter="1506" sinceTag="" type="Class">
+    <methods name="BredemResult" type="void" dynamic="true" firstCharacter="734" lastCharacter="1082" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.bredem.api.IEnergyState</parameterTypes>
+      <parameterTypes>uk.org.cse.nhm.bredem.api.ISpecificHeatLosses</parameterTypes>
+      <parameterTypes>double</parameterTypes>
+    </methods>
+    <methods name="getHeatLossAreas" type="java.util.Map" dynamic="true" firstCharacter="1340" lastCharacter="1418" sinceTag=""/>
+    <methods name="getHeatLossByArea" type="java.util.Map" dynamic="true" firstCharacter="1423" lastCharacter="1503" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.bredem.impl.SpecificHeatLosses" firstCharacter="223" lastCharacter="1595" sinceTag="" type="Class">
+    <methods name="SpecificHeatLosses" type="void" dynamic="true" firstCharacter="508" lastCharacter="874" sinceTag="">
+      <parameterTypes>double</parameterTypes>
+    </methods>
+    <methods name="getSpecificHeatLoss" type="double" dynamic="true" firstCharacter="879" lastCharacter="948" sinceTag=""/>
+    <methods name="getInterzoneHeatLoss" type="double" dynamic="true" firstCharacter="953" lastCharacter="1024" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.bredem.impl.ParameterAdjustment" firstCharacter="360" lastCharacter="3285" sinceTag="" type="Class">
+    <methods name="ParameterAdjustment" type="void" dynamic="true" firstCharacter="695" lastCharacter="1363" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.bredem.api.IInternalParameters</parameterTypes>
+      <parameterTypes>double</parameterTypes>
+    </methods>
+    <methods name="getZoneOneDemandTemperature" type="double" dynamic="true" firstCharacter="1368" lastCharacter="1494" sinceTag=""/>
+    <methods name="getExternalTemperature" type="double" dynamic="true" firstCharacter="1499" lastCharacter="1588" sinceTag=""/>
+    <methods name="isZoneTwoDemandTemperatureSpecified" type="boolean" dynamic="true" firstCharacter="1593" lastCharacter="1667" sinceTag=""/>
+    <methods name="getZoneTwoDemandTemperature" type="double" dynamic="true" firstCharacter="1672" lastCharacter="1764" sinceTag=""/>
+    <methods name="getInterzoneTemperatureDifference" type="double" dynamic="true" firstCharacter="1769" lastCharacter="1880" sinceTag=""/>
+    <methods name="getHeatingSchedule" type="uk.org.cse.nhm.bredem.api.IHeatingSchedule" dynamic="true" firstCharacter="1885" lastCharacter="1999" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.bredem.api.types.ZoneType</parameterTypes>
+    </methods>
+  </types>
+  <types name="uk.org.cse.nhm.bredem.impl.IStructuralInfiltrationAccumulator" firstCharacter="146" lastCharacter="974" sinceTag="">
+    <methods name="getAirChangeRate" type="double" dynamic="true" firstCharacter="204" lastCharacter="298" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.bredem.api.IBredemHouseCase</parameterTypes>
+      <parameterTypes>uk.org.cse.nhm.bredem.api.IBredemParameters</parameterTypes>
+    </methods>
+    <methods name="addWallInfiltration" type="void" dynamic="true" firstCharacter="303" lastCharacter="556" sinceTag="">
+      <parameterTypes>double</parameterTypes>
+    </methods>
+    <methods name="addVentInfiltration" type="void" dynamic="true" firstCharacter="561" lastCharacter="693" sinceTag="">
+      <parameterTypes>double</parameterTypes>
+    </methods>
+    <methods name="addFloorInfiltration" type="void" dynamic="true" firstCharacter="698" lastCharacter="840" sinceTag="">
+      <parameterTypes>double</parameterTypes>
+    </methods>
+    <methods name="addFanInfiltration" type="void" dynamic="true" firstCharacter="845" lastCharacter="969" sinceTag="">
+      <parameterTypes>double</parameterTypes>
+    </methods>
+  </types>
+  <types name="uk.org.cse.nhm.bredem.impl.InternalParameters" firstCharacter="360" lastCharacter="2654" sinceTag="" type="Class">
+    <methods name="InternalParameters" type="void" dynamic="true" firstCharacter="525" lastCharacter="708" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.bredem.api.IBredemParameters</parameterTypes>
+      <parameterTypes>uk.org.cse.nhm.bredem.api.IConstants</parameterTypes>
+    </methods>
+    <methods name="getZoneOneDemandTemperature" type="double" dynamic="true" firstCharacter="792" lastCharacter="901" sinceTag=""/>
+    <methods name="getExternalTemperature" type="double" dynamic="true" firstCharacter="906" lastCharacter="1005" sinceTag=""/>
+    <methods name="isZoneTwoDemandTemperatureSpecified" type="boolean" dynamic="true" firstCharacter="1010" lastCharacter="1136" sinceTag=""/>
+    <methods name="getZoneTwoDemandTemperature" type="double" dynamic="true" firstCharacter="1141" lastCharacter="1250" sinceTag=""/>
+    <methods name="getInterzoneTemperatureDifference" type="double" dynamic="true" firstCharacter="1255" lastCharacter="1376" sinceTag=""/>
+    <methods name="getHeatingSchedule" type="uk.org.cse.nhm.bredem.api.IHeatingSchedule" dynamic="true" firstCharacter="1381" lastCharacter="1499" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.bredem.api.types.ZoneType</parameterTypes>
+    </methods>
+    <methods name="getSiteWindSpeed" type="double" dynamic="true" firstCharacter="1504" lastCharacter="1591" sinceTag=""/>
+    <methods name="getSolarDeclination" type="double" dynamic="true" firstCharacter="1596" lastCharacter="1689" sinceTag=""/>
+    <methods name="getNumberOfOccupants" type="int" dynamic="true" firstCharacter="1694" lastCharacter="1786" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.bredem.impl.HumanVentilationSystem" firstCharacter="141" lastCharacter="785" sinceTag="" type="Class">
+    <methods name="HumanVentilationSystem" type="void" dynamic="true" firstCharacter="443" lastCharacter="510" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.bredem.api.IConstants</parameterTypes>
+    </methods>
+  </types>
+  <types name="uk.org.cse.nhm.bredem.impl.appliances.Appliances09" firstCharacter="645" lastCharacter="3371" sinceTag="" type="Class">
+    <methods name="Appliances09" type="void" dynamic="true" firstCharacter="1104" lastCharacter="1710" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.bredem.api.IConstants</parameterTypes>
+    </methods>
+  </types>
+  <types name="uk.org.cse.nhm.bredem.impl.demands.HotWaterDemand09" firstCharacter="610" lastCharacter="2383" sinceTag="" type="Class">
+    <methods name="HotWaterDemand09" type="void" dynamic="true" firstCharacter="901" lastCharacter="1173" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.bredem.api.IConstants</parameterTypes>
+    </methods>
+  </types>
+  <types name="uk.org.cse.nhm.bredem.impl.demands.LightingDemand09" firstCharacter="579" lastCharacter="4110" sinceTag="" type="Class">
+    <methods name="LightingDemand09" type="void" dynamic="true" firstCharacter="1580" lastCharacter="2498" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.bredem.api.IConstants</parameterTypes>
+    </methods>
+    <methods name="addTransparentElement" type="void" dynamic="true" firstCharacter="3799" lastCharacter="4107" sinceTag="">
+      <parameterTypes>double</parameterTypes>
+      <parameterTypes>uk.org.cse.nhm.bredem.api.types.OvershadingType</parameterTypes>
+    </methods>
+  </types>
+  <types name="uk.org.cse.nhm.bredem.impl.gains.MetabolicGainsSource" firstCharacter="543" lastCharacter="1882" sinceTag="" type="Class">
+    <methods name="MetabolicGainsSource" type="void" dynamic="true" firstCharacter="773" lastCharacter="925" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.bredem.api.IConstants</parameterTypes>
+    </methods>
+  </types>
+  <types name="uk.org.cse.nhm.bredem.impl.gains.SolarGainsSource" firstCharacter="714" lastCharacter="3734" sinceTag="" type="Class">
+    <methods name="SolarGainsSource" type="void" dynamic="true" firstCharacter="1577" lastCharacter="2304" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.bredem.api.IConstants</parameterTypes>
+      <parameterTypes>uk.org.cse.nhm.bredem.api.types.EnergyType</parameterTypes>
+      <parameterTypes>uk.org.cse.nhm.bredem.api.IInternalParameters</parameterTypes>
+    </methods>
+    <methods name="addTransparentElement" type="void" dynamic="true" firstCharacter="2310" lastCharacter="2911" sinceTag="">
+      <parameterTypes>double</parameterTypes>
+      <parameterTypes>uk.org.cse.nhm.bredem.api.types.OvershadingType</parameterTypes>
+    </methods>
+  </types>
+  <types name="uk.org.cse.nhm.bredem.impl.gains.GainsTransducer" firstCharacter="603" lastCharacter="4483" sinceTag="" type="Class">
+    <methods name="GainsTransducer" type="void" dynamic="true" firstCharacter="903" lastCharacter="1218" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.bredem.api.IConstants</parameterTypes>
+    </methods>
+  </types>
+  <types name="uk.org.cse.nhm.bredem.impl.gains.EvaporativeGainsSource" firstCharacter="543" lastCharacter="1887" sinceTag="" type="Class">
+    <methods name="EvaporativeGainsSource" type="void" dynamic="true" firstCharacter="777" lastCharacter="935" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.bredem.api.IConstants</parameterTypes>
+    </methods>
+  </types>
+  <types name="uk.org.cse.nhm.bredem.impl.HumanVentilationSystemTest" firstCharacter="158" lastCharacter="542" sinceTag="" type="Class">
+    <methods name="testHumanVentilationSystemInactive" type="void" dynamic="true" firstCharacter="202" lastCharacter="539" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.bredem.impl.StructuralInfiltrationAccumulatorTest" firstCharacter="453" lastCharacter="4961" sinceTag="" type="Class">
+    <methods name="createAccumulator" type="void" dynamic="true" firstCharacter="647" lastCharacter="869" sinceTag=""/>
+    <methods name="clearAccumulator" type="void" dynamic="true" firstCharacter="875" lastCharacter="986" sinceTag=""/>
+    <methods name="testNothing" type="void" dynamic="true" firstCharacter="992" lastCharacter="1284" sinceTag=""/>
+    <methods name="testWindowAccumulation" type="void" dynamic="true" firstCharacter="1290" lastCharacter="1830" sinceTag=""/>
+    <methods name="testWindowAccumulation2" type="void" dynamic="true" firstCharacter="1836" lastCharacter="2453" sinceTag=""/>
+    <methods name="testWallAccumulation" type="void" dynamic="true" firstCharacter="2459" lastCharacter="3067" sinceTag=""/>
+    <methods name="testWallAccumulation2" type="void" dynamic="true" firstCharacter="3073" lastCharacter="3717" sinceTag=""/>
+    <methods name="testStackEffect" type="void" dynamic="true" firstCharacter="3723" lastCharacter="4332" sinceTag=""/>
+    <methods name="testDraughtLobby" type="void" dynamic="true" firstCharacter="4338" lastCharacter="4958" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.bredem.impl.BredemCalculatorTest" firstCharacter="993" lastCharacter="15205" sinceTag="" type="Class">
+    <methods name="testCalculateBackgroundTemperatures" type="void" dynamic="true" firstCharacter="1031" lastCharacter="2241" sinceTag=""/>
+    <methods name="testCalculateGainsUtilisationFactor" type="void" dynamic="true" firstCharacter="2247" lastCharacter="2698" sinceTag=""/>
+    <methods name="testThermalBridgingLosses" type="void" dynamic="true" firstCharacter="2704" lastCharacter="3798" sinceTag=""/>
+    <methods name="testThermalBridgingLossesBefore03" type="void" dynamic="true" firstCharacter="3804" lastCharacter="4886" sinceTag=""/>
+    <methods name="testVentilationHeatLoss" type="void" dynamic="true" firstCharacter="4892" lastCharacter="5993" sinceTag=""/>
+    <methods name="testFabricHeatLossAndMass" type="void" dynamic="true" firstCharacter="5996" lastCharacter="6952" sinceTag=""/>
+    <methods name="testHumanVentilation" type="void" dynamic="true" firstCharacter="6958" lastCharacter="8111" sinceTag=""/>
+    <methods name="testMechanicalVentilation" type="void" dynamic="true" firstCharacter="8117" lastCharacter="9481" sinceTag=""/>
+    <methods name="testTransducerSorting" type="void" dynamic="true" firstCharacter="9487" lastCharacter="11472" sinceTag=""/>
+    <methods name="testRunToNonHeatTransducers" type="void" dynamic="true" firstCharacter="11477" lastCharacter="12369" sinceTag=""/>
+    <methods name="testGetBackgroundTemperature" type="void" dynamic="true" firstCharacter="12375" lastCharacter="13629" sinceTag=""/>
+    <methods name="testGetBackgroundTemperatureWithNoHeatingSystems" type="void" dynamic="true" firstCharacter="13635" lastCharacter="14548" sinceTag=""/>
+    <methods name="testCalculateZoneTwoDemandTemperature" type="void" dynamic="true" firstCharacter="14554" lastCharacter="15202" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.bredem.impl.HeatingScheduleTest" firstCharacter="162" lastCharacter="737" sinceTag="" type="Class">
+    <methods name="testHeatingSchedule" type="void" dynamic="true" firstCharacter="199" lastCharacter="734" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.bredem.impl.ParameterAdjustmentTest" firstCharacter="39" lastCharacter="83" sinceTag="" type="Class"/>
+  <types name="uk.org.cse.nhm.bredem.impl.SpecificHeatLossesTest" firstCharacter="99" lastCharacter="555" sinceTag="" type="Class">
+    <methods name="testValues" type="void" dynamic="true" firstCharacter="139" lastCharacter="552" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.bredem.impl.appliances.AppliancesTest" firstCharacter="640" lastCharacter="1437" sinceTag="" type="Class">
+    <methods name="testApplianceDemand" type="void" dynamic="true" firstCharacter="672" lastCharacter="1434" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.bredem.impl.demands.HotWaterDemandTest" firstCharacter="637" lastCharacter="1661" sinceTag="" type="Class">
+    <methods name="testDemand1" type="void" dynamic="true" firstCharacter="673" lastCharacter="1658" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.bredem.impl.demands.LightingDemandTest" firstCharacter="631" lastCharacter="1998" sinceTag="" type="Class">
+    <methods name="testBaseDemand" type="void" dynamic="true" firstCharacter="667" lastCharacter="1286" sinceTag=""/>
+    <methods name="testWithTransparentElements" type="void" dynamic="true" firstCharacter="1292" lastCharacter="1995" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.bredem.impl.gains.GainsTransducerTest" firstCharacter="357" lastCharacter="1290" sinceTag="" type="Class">
+    <methods name="testGainsPassThrough" type="void" dynamic="true" firstCharacter="394" lastCharacter="834" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.bredem.api.types.EnergyType</parameterTypes>
+      <parameterTypes>double</parameterTypes>
+    </methods>
+    <methods name="testIndividualGainsPassedThrough" type="void" dynamic="true" firstCharacter="840" lastCharacter="1287" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.bredem.impl.gains.SolarGainsSourceTest" firstCharacter="524" lastCharacter="2073" sinceTag="" type="Class">
+    <methods name="testSolarGains" type="void" dynamic="true" firstCharacter="562" lastCharacter="2070" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.bredem.impl.testutil.TestUtil" firstCharacter="168" lastCharacter="785" sinceTag="" type="Class">
+    <methods name="around" type="double" firstCharacter="194" lastCharacter="782" sinceTag="">
+      <parameterTypes>double</parameterTypes>
+    </methods>
+  </types>
+</api:API>

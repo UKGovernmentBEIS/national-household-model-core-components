@@ -1,0 +1,84 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>uk.org.cse.nhm</groupId>
+		<artifactId>nhm-stockimport-parent</artifactId>
+		<version>5.1.2-SNAPSHOT</version>
+	</parent>
+	<artifactId>nhm-stockimport-ehcs10-export</artifactId>
+	<name>NHM - EHCS2010 Export</name>
+
+	<dependencies>
+		<!-- NHM Dependencies -->
+		<dependency>
+			<groupId>uk.org.cse.nhm</groupId>
+			<artifactId>spss-reader</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>uk.org.cse.nhm</groupId>
+			<artifactId>hom</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>uk.org.cse.nhm</groupId>
+			<artifactId>ehcs10</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>uk.org.cse.nhm</groupId>
+			<artifactId>nhm-stockimport-api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>uk.org.cse.nhm</groupId>
+			<artifactId>nhm-stockimprt-defaultdto-import</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
+		<!-- Spring Dependencies -->
+
+		<!-- Other Dependencies -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-math3</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-core</artifactId>
+			<version>4.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-analyzers-common</artifactId>
+			<version>4.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-sandbox</artifactId>
+			<version>4.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-suggest</artifactId>
+			<version>4.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.parboiled</groupId>
+			<artifactId>parboiled-core</artifactId>
+			<version>1.1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.parboiled</groupId>
+			<artifactId>parboiled-java</artifactId>
+			<version>1.1.4</version>
+		</dependency>
+	</dependencies>
+</project>

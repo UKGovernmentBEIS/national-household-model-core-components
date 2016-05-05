@@ -1,0 +1,87 @@
+<example xmlns="http://www.cse.org.uk/nhm/examples/" xmlns:e="http://www.cse.org.uk/nhm/examples/">
+	<caption>Computing a SAP-like fuel bill</caption>
+	<description>
+		By combining actions which put the house into a SAP-like condition
+		with the under element, we can determine the house's fuel bill as
+		though using a SAP calculation, no matter what fuel prices and weather
+		are being used in the simulation's base case.
+	</description>
+
+	<under xmlns="http://www.cse.org.uk/nhm/core/1/">
+		<!-- apply RDSAP thermal property lookup tables -->
+		<action.reimpute>
+			<schema.rdsap />
+		</action.reimpute>
+		<!-- use SAP09 occupancy -->
+		<sap.occupancy />
+		<!-- use SAP09 carbon factors -->
+		<counterfactual.carbon />
+		<!-- use SAP09 weather definition (same for all regions) -->
+		<counterfactual.weather />
+		<!-- use SAP09 tariffs  -->
+		<action.set-tariffs>
+			<e:example>
+				<e:caption>Defining SAP 2009 tariffs with tariff.simple</e:caption>
+				<e:description>
+					tariff.simple uses function.simple-pricing to construct a straightforward
+					tariff more briefly than the more general tariff definition elements.
+					Each function.simple-pricing will generate the costs for a particular fuel;
+					the tariff will produce one transaction for each fuel, amounting to the value
+					produced by the simple pricing function.
+				</e:description>
+				<tariff.simple name="sap09">
+					<e:example>
+						<e:caption>Computing a simple price with standing charge</e:caption>
+						<e:description>
+							This will produce a value of 106 + 0.031 * U, where U is the outstanding
+							meter reading in kWh for Mains Gas when the function is computed.
+						</e:description>
+						<function.simple-pricing unit-price="0.031" standing-charge="106" fuel="MainsGas" />
+					</e:example>
+					<function.simple-pricing unit-price="0.0573" standing-charge="70" fuel="BulkLPG" />
+					<function.simple-pricing unit-price="0.0834" fuel="BottledLPG" />
+					<function.simple-pricing unit-price="0.0406" fuel="Oil" />
+					<function.simple-pricing unit-price="0.0297" fuel="HouseCoal" />
+					<function.simple-pricing unit-price="0.0342" fuel="BiomassWood" />
+					<function.simple-pricing unit-price="0.0249" fuel="BiomassWoodchip" />
+					<function.simple-pricing unit-price="0.0545" fuel="BiomassPellets" />
+					<function.simple-pricing unit-price="0.0378" fuel="CommunityHeat" />
+					<function.simple-pricing unit-price="0.1146" fuel="PeakElectricity" />
+					<function.simple-pricing unit-price="0.1146" fuel="OffPeakElectricity" />
+				</tariff.simple>
+			</e:example>
+		</action.set-tariffs>
+		<!-- use SAP09 heating regime -->
+		<!-- 
+			combined with counterfactual weather above, 
+			this will make the heating season oct - may
+		-->
+		<action.set-heating-temperatures
+			living-area-temperature="21"
+			threshold-external-temperature="12" />
+		
+		<!-- standard SAP heating schedule: -->
+		<e:example>
+			<e:caption>Creating a SAP 2009 heating schedule</e:caption>
+			<e:description>
+				This action will set up heating 0700-0900 and 1600-2300 on weekdays,
+				and from 0700 to 2300 on weekends; these are the standard SAP heating periods.
+			</e:description>
+			<action.set-heating-schedule>
+				<schedule on="Weekdays">
+					<heating between="7" and="9" />
+					<heating between="16" and="23" />
+				</schedule>
+				<schedule on="Weekends">
+					<heating between="7" and="23" />
+				</schedule>
+			</action.set-heating-schedule>
+		</e:example>
+		
+		<!-- 
+			this is the function to evaluate under the counterfactual 
+			constructed by applying the actions above; in this case, fuel cost.	
+		-->
+		<house.fuel-cost />
+	</under>
+</example>

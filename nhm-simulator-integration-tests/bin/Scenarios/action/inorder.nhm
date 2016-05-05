@@ -1,0 +1,28 @@
+(scenario 
+	stock-id: test-survey-cases
+    end-date: 01/01/2014
+    start-date: 01/01/2012
+    quantum: 400000
+
+	(def obj on:house)
+	(def A on:simulation)
+	(def B on:simulation)
+	
+	(on.dates scenario-start
+		(set A 10000)
+		(set B 5000)
+		(apply
+			(in-order
+				objective: obj
+				
+				(do update-flags: got-a
+					(consume A)
+					(set obj 1))
+					
+				(do update-flags: got-b
+					(consume B)
+					(set obj 2))
+			)
+		)
+	)
+)

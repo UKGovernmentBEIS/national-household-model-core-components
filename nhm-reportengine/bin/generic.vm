@@ -1,0 +1,1 @@
+<a href="${entry.Name}">${entry.Name}</a> <span class="size">${entry.HumanReadableSize}</span>

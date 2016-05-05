@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="ASCII"?>
+<api:API xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:api="http://www.larkery.com/basic-baselines/api/1/">
+  <types name="uk.org.cse.nhm.energycalculator.api.ConstantDescription" firstCharacter="205" lastCharacter="448" sinceTag="1.0.0">
+    <methods name="value" type="java.lang.String" dynamic="true" firstCharacter="430" lastCharacter="445" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorHouseCase" firstCharacter="42" lastCharacter="1910" sinceTag="">
+    <methods name="accept" type="void" dynamic="true" firstCharacter="217" lastCharacter="544" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.IInternalParameters</parameterTypes>
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor</parameterTypes>
+    </methods>
+    <methods name="getFloorArea" type="double" dynamic="true" firstCharacter="549" lastCharacter="659" sinceTag=""/>
+    <methods name="getLivingAreaProportionOfFloorArea" type="double" dynamic="true" firstCharacter="664" lastCharacter="806" sinceTag=""/>
+    <methods name="getInterzoneSpecificHeatLoss" type="double" dynamic="true" firstCharacter="812" lastCharacter="940" sinceTag=""/>
+    <methods name="getHouseVolume" type="double" dynamic="true" firstCharacter="945" lastCharacter="988" sinceTag=""/>
+    <methods name="getNumberOfStoreys" type="int" dynamic="true" firstCharacter="993" lastCharacter="1101" sinceTag=""/>
+    <methods name="hasDraughtLobby" type="boolean" dynamic="true" firstCharacter="1106" lastCharacter="1422" sinceTag=""/>
+    <methods name="getNumberOfShelteredSides" type="int" dynamic="true" firstCharacter="1427" lastCharacter="1535" sinceTag=""/>
+    <methods name="getZoneTwoHeatedProportion" type="double" dynamic="true" firstCharacter="1540" lastCharacter="1658" sinceTag=""/>
+    <methods name="getBuildYear" type="int" dynamic="true" firstCharacter="1663" lastCharacter="1766" sinceTag=""/>
+    <methods name="getDraughtStrippedProportion" type="double" dynamic="true" firstCharacter="1771" lastCharacter="1907" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.IEnergyTransducer" firstCharacter="170" lastCharacter="2018" sinceTag="">
+    <methods name="getServiceType" type="uk.org.cse.nhm.energycalculator.api.types.ServiceType" dynamic="true" firstCharacter="549" lastCharacter="674" sinceTag=""/>
+    <methods name="getLeadingInputs" type="java.util.Set" dynamic="true" firstCharacter="680" lastCharacter="837" sinceTag=""/>
+    <methods name="getLeadingOutputs" type="java.util.Set" dynamic="true" firstCharacter="843" lastCharacter="1002" sinceTag=""/>
+    <methods name="getAllOutputs" type="java.util.Set" dynamic="true" firstCharacter="1008" lastCharacter="1123" sinceTag=""/>
+    <methods name="getAllInputs" type="java.util.Set" dynamic="true" firstCharacter="1129" lastCharacter="1241" sinceTag=""/>
+    <methods name="generate" type="void" dynamic="true" firstCharacter="1247" lastCharacter="1886" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorHouseCase</parameterTypes>
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.IInternalParameters</parameterTypes>
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses</parameterTypes>
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.IEnergyState</parameterTypes>
+    </methods>
+    <methods name="getPriority" type="int" dynamic="true" firstCharacter="1892" lastCharacter="2015" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.IEnergyCalculator" firstCharacter="38" lastCharacter="499" sinceTag="">
+    <methods name="evaluate" type="uk.org.cse.nhm.energycalculator.api.IEnergyCalculationResult" dynamic="true" firstCharacter="165" lastCharacter="496" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorHouseCase</parameterTypes>
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters</parameterTypes>
+    </methods>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses" firstCharacter="38" lastCharacter="1061" sinceTag="">
+    <methods name="getSpecificHeatLoss" type="double" dynamic="true" firstCharacter="199" lastCharacter="335" sinceTag=""/>
+    <methods name="getInterzoneHeatLoss" type="double" dynamic="true" firstCharacter="341" lastCharacter="461" sinceTag=""/>
+    <methods name="getHeatLossParameter" type="double" dynamic="true" firstCharacter="467" lastCharacter="598" sinceTag=""/>
+    <methods name="getThermalMass" type="double" dynamic="true" firstCharacter="604" lastCharacter="707" sinceTag=""/>
+    <methods name="getThermalMassParameter" type="double" dynamic="true" firstCharacter="713" lastCharacter="834" sinceTag=""/>
+    <methods name="getVentilationLoss" type="double" dynamic="true" firstCharacter="839" lastCharacter="941" sinceTag=""/>
+    <methods name="getThermalBridgeEffect" type="double" dynamic="true" firstCharacter="946" lastCharacter="1058" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters" firstCharacter="153" lastCharacter="2742" sinceTag="">
+    <methods name="getZoneOneDemandTemperature" type="double" dynamic="true" firstCharacter="291" lastCharacter="408" sinceTag=""/>
+    <methods name="getExternalTemperature" type="double" dynamic="true" firstCharacter="413" lastCharacter="495" sinceTag=""/>
+    <methods name="isZoneTwoDemandTemperatureSpecified" type="boolean" dynamic="true" firstCharacter="500" lastCharacter="618" sinceTag=""/>
+    <methods name="getZoneTwoDemandTemperature" type="double" dynamic="true" firstCharacter="623" lastCharacter="738" sinceTag=""/>
+    <methods name="getInterzoneTemperatureDifference" type="double" dynamic="true" firstCharacter="743" lastCharacter="914" sinceTag=""/>
+    <methods name="getHeatingSchedule" type="uk.org.cse.nhm.energycalculator.api.IHeatingSchedule" dynamic="true" firstCharacter="920" lastCharacter="1053" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.types.ZoneType</parameterTypes>
+    </methods>
+    <methods name="getSiteWindSpeed" type="double" dynamic="true" firstCharacter="1058" lastCharacter="1176" sinceTag=""/>
+    <methods name="getSolarDeclination" type="double" dynamic="true" firstCharacter="1181" lastCharacter="1277" sinceTag=""/>
+    <methods name="getSolarFlux" type="double" dynamic="true" firstCharacter="1282" lastCharacter="1820" sinceTag="">
+      <parameterTypes>double</parameterTypes>
+    </methods>
+    <methods name="getNumberOfOccupants" type="int" dynamic="true" firstCharacter="1825" lastCharacter="1921" sinceTag=""/>
+    <methods name="getMonthOfYear" type="int" dynamic="true" firstCharacter="1927" lastCharacter="2035" sinceTag=""/>
+    <methods name="getHotWaterFactor" type="double" dynamic="true" firstCharacter="2041" lastCharacter="2204" sinceTag=""/>
+    <methods name="getHotWaterRise" type="double" dynamic="true" firstCharacter="2210" lastCharacter="2380" sinceTag=""/>
+    <methods name="getLatitude" type="double" dynamic="true" firstCharacter="2386" lastCharacter="2510" sinceTag=""/>
+    <methods name="getTarrifType" type="uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType" dynamic="true" firstCharacter="2516" lastCharacter="2651" sinceTag=""/>
+    <methods name="isHeatingOn" type="boolean" dynamic="true" firstCharacter="2656" lastCharacter="2739" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor" firstCharacter="147" lastCharacter="3986" sinceTag="">
+    <methods name="visitHeatingSystem" type="void" dynamic="true" firstCharacter="607" lastCharacter="1068" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.IHeatingSystem</parameterTypes>
+    </methods>
+    <methods name="visitEnergyTransducer" type="void" dynamic="true" firstCharacter="1074" lastCharacter="1311" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.IEnergyTransducer</parameterTypes>
+    </methods>
+    <methods name="visitVentilationSystem" type="void" dynamic="true" firstCharacter="1317" lastCharacter="1651" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.IVentilationSystem</parameterTypes>
+    </methods>
+    <methods name="visitTransparentElement" type="void" dynamic="true" firstCharacter="1660" lastCharacter="2740" sinceTag="">
+      <parameterTypes>double</parameterTypes>
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.types.OvershadingType</parameterTypes>
+    </methods>
+    <methods name="addWallInfiltration" type="void" dynamic="true" firstCharacter="2743" lastCharacter="3018" sinceTag="">
+      <parameterTypes>double</parameterTypes>
+    </methods>
+    <methods name="addVentInfiltration" type="void" dynamic="true" firstCharacter="3024" lastCharacter="3224" sinceTag="">
+      <parameterTypes>double</parameterTypes>
+    </methods>
+    <methods name="addFanInfiltration" type="void" dynamic="true" firstCharacter="3230" lastCharacter="3442" sinceTag="">
+      <parameterTypes>double</parameterTypes>
+    </methods>
+    <methods name="addFloorInfiltration" type="void" dynamic="true" firstCharacter="3448" lastCharacter="3671" sinceTag="">
+      <parameterTypes>double</parameterTypes>
+    </methods>
+    <methods name="visitFabricElement" type="void" dynamic="true" firstCharacter="3677" lastCharacter="3983" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.types.AreaType</parameterTypes>
+      <parameterTypes>double</parameterTypes>
+    </methods>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.IConstants" firstCharacter="38" lastCharacter="1421" sinceTag="">
+    <methods name="get" dynamic="true" firstCharacter="176" lastCharacter="591" sinceTag="">
+      <parameterTypes xsi:nil="true"/>
+      <parameterTypes>java.lang.Class</parameterTypes>
+    </methods>
+    <methods name="get" type="double" dynamic="true" firstCharacter="594" lastCharacter="790" sinceTag="">
+      <parameterTypes xsi:nil="true"/>
+    </methods>
+    <methods name="get" type="double" dynamic="true" firstCharacter="793" lastCharacter="1047" sinceTag="">
+      <parameterTypes xsi:nil="true"/>
+      <parameterTypes>int</parameterTypes>
+    </methods>
+    <methods name="get" type="double" dynamic="true" firstCharacter="1053" lastCharacter="1418" sinceTag="">
+      <parameterTypes xsi:nil="true"/>
+      <parameterTypes>java.lang.Enum</parameterTypes>
+    </methods>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.IHeatingSystem" firstCharacter="42" lastCharacter="1620" sinceTag="">
+    <methods name="getBackgroundTemperatures" type="double" dynamic="true" firstCharacter="194" lastCharacter="1064" sinceTag="">
+      <parameterTypes>double</parameterTypes>
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.IInternalParameters</parameterTypes>
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.IEnergyState</parameterTypes>
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses</parameterTypes>
+    </methods>
+    <methods name="getSpaceHeatingBound" type="double" dynamic="true" firstCharacter="1067" lastCharacter="1239" sinceTag=""/>
+    <methods name="getDemandTemperatureAdjustment" type="double" dynamic="true" firstCharacter="1244" lastCharacter="1416" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.IInternalParameters</parameterTypes>
+    </methods>
+    <methods name="getZoneTwoControlParameter" type="double" dynamic="true" firstCharacter="1421" lastCharacter="1617" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.IInternalParameters</parameterTypes>
+    </methods>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.IInternalParameters" firstCharacter="38" lastCharacter="614" sinceTag="">
+    <methods name="getConstants" type="uk.org.cse.nhm.energycalculator.api.IConstants" dynamic="true" firstCharacter="335" lastCharacter="439" sinceTag=""/>
+    <methods name="getTemperatureAdjustment" type="double" dynamic="true" firstCharacter="444" lastCharacter="611" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.ITransparentElement" firstCharacter="97" lastCharacter="1135" sinceTag="">
+    <methods name="getVisibleLightTransmittivity" type="double" dynamic="true" firstCharacter="138" lastCharacter="337" sinceTag=""/>
+    <methods name="getSolarGainTransmissivity" type="double" dynamic="true" firstCharacter="343" lastCharacter="746" sinceTag=""/>
+    <methods name="getHorizontalOrientation" type="double" dynamic="true" firstCharacter="752" lastCharacter="887" sinceTag=""/>
+    <methods name="getVerticalOrientation" type="double" dynamic="true" firstCharacter="893" lastCharacter="1012" sinceTag=""/>
+    <methods name="getOvershading" type="uk.org.cse.nhm.energycalculator.api.types.OvershadingType" dynamic="true" firstCharacter="1018" lastCharacter="1132" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.IEnergyCalculationResult" firstCharacter="115" lastCharacter="705" sinceTag="">
+    <methods name="getEnergyState" type="uk.org.cse.nhm.energycalculator.api.IEnergyState" dynamic="true" firstCharacter="161" lastCharacter="282" sinceTag=""/>
+    <methods name="getHeatLosses" type="uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses" dynamic="true" firstCharacter="285" lastCharacter="389" sinceTag=""/>
+    <methods name="getHeatLossAreas" type="java.util.Map" dynamic="true" firstCharacter="392" lastCharacter="540" sinceTag=""/>
+    <methods name="getHeatLossByArea" type="java.util.Map" dynamic="true" firstCharacter="543" lastCharacter="702" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.IEnergyState" firstCharacter="145" lastCharacter="2846" sinceTag="">
+    <methods name="getBoundedTotalHeatDemand" type="double" dynamic="true" firstCharacter="270" lastCharacter="555" sinceTag="">
+      <parameterTypes>double</parameterTypes>
+    </methods>
+    <methods name="getBoundedTotalDemand" type="double" dynamic="true" firstCharacter="561" lastCharacter="837" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.types.EnergyType</parameterTypes>
+      <parameterTypes>double</parameterTypes>
+    </methods>
+    <methods name="getUnsatisfiedDemand" type="double" dynamic="true" firstCharacter="840" lastCharacter="1017" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.types.EnergyType</parameterTypes>
+    </methods>
+    <methods name="increaseSupply" type="void" dynamic="true" firstCharacter="1020" lastCharacter="1264" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.types.EnergyType</parameterTypes>
+      <parameterTypes>double</parameterTypes>
+    </methods>
+    <methods name="increaseDemand" type="void" dynamic="true" firstCharacter="1267" lastCharacter="1444" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.types.EnergyType</parameterTypes>
+      <parameterTypes>double</parameterTypes>
+    </methods>
+    <methods name="getTotalSupply" type="double" dynamic="true" firstCharacter="1447" lastCharacter="1615" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.types.EnergyType</parameterTypes>
+    </methods>
+    <methods name="getTotalSupply" type="double" dynamic="true" firstCharacter="1621" lastCharacter="1861" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.types.EnergyType</parameterTypes>
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.types.ServiceType</parameterTypes>
+    </methods>
+    <methods name="getTotalDemand" type="double" dynamic="true" firstCharacter="1866" lastCharacter="2100" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.types.EnergyType</parameterTypes>
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.types.ServiceType</parameterTypes>
+    </methods>
+    <methods name="getExcessSupply" type="double" dynamic="true" firstCharacter="2106" lastCharacter="2274" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.types.EnergyType</parameterTypes>
+    </methods>
+    <methods name="getTotalDemand" type="double" dynamic="true" firstCharacter="2280" lastCharacter="2453" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.types.EnergyType</parameterTypes>
+    </methods>
+    <methods name="increaseElectricityDemand" type="void" dynamic="true" firstCharacter="2459" lastCharacter="2648" sinceTag="">
+      <parameterTypes>double</parameterTypes>
+    </methods>
+    <methods name="setCurrentServiceType" type="void" dynamic="true" firstCharacter="2653" lastCharacter="2843" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.types.ServiceType</parameterTypes>
+      <parameterTypes>java.lang.String</parameterTypes>
+    </methods>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.IVentilationSystem" firstCharacter="38" lastCharacter="557" sinceTag="">
+    <methods name="getAirChangeRate" type="double" dynamic="true" firstCharacter="215" lastCharacter="554" sinceTag="">
+      <parameterTypes>double</parameterTypes>
+    </methods>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.IConstant" firstCharacter="38" lastCharacter="367" sinceTag="">
+    <methods name="getValue" dynamic="true" firstCharacter="221" lastCharacter="364" sinceTag="">
+      <parameterTypes>java.lang.Class</parameterTypes>
+    </methods>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.IHeatingSchedule" firstCharacter="38" lastCharacter="956" sinceTag="">
+    <methods name="getMeanTemperature" type="double" dynamic="true" firstCharacter="272" lastCharacter="853" sinceTag="">
+      <parameterTypes>double</parameterTypes>
+    </methods>
+    <methods name="isHeatingOn" type="boolean" dynamic="true" firstCharacter="859" lastCharacter="953" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.impl.ClassEnergyState" firstCharacter="250" lastCharacter="3304" sinceTag="1.0.0" type="Class">
+    <methods name="ClassEnergyState" type="void" dynamic="true" firstCharacter="827" lastCharacter="1060" sinceTag="1.0.0"/>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.impl.EnergyTransducer" firstCharacter="228" lastCharacter="1620" sinceTag="1.0.0" type="Class">
+    <methods name="EnergyTransducer" type="void" dynamic="true" firstCharacter="669" lastCharacter="1053" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.types.ServiceType</parameterTypes>
+      <parameterTypes>int</parameterTypes>
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.types.EnergyType</parameterTypes>
+    </methods>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.impl.WeeklyHeatingSchedule" firstCharacter="97" lastCharacter="1548" sinceTag="" type="Class">
+    <methods name="WeeklyHeatingSchedule" type="void" dynamic="true" firstCharacter="744" lastCharacter="1054" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.IHeatingSchedule</parameterTypes>
+    </methods>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.impl.HeatTransducer" firstCharacter="438" lastCharacter="2973" sinceTag="" type="Class">
+    <methods name="HeatTransducer" type="void" dynamic="true" firstCharacter="848" lastCharacter="1318" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.types.EnergyType</parameterTypes>
+      <parameterTypes>double</parameterTypes>
+      <parameterTypes>boolean</parameterTypes>
+      <parameterTypes>int</parameterTypes>
+    </methods>
+    <methods name="HeatTransducer" type="void" dynamic="true" firstCharacter="1324" lastCharacter="1448" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.types.EnergyType</parameterTypes>
+      <parameterTypes>double</parameterTypes>
+    </methods>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.impl.ElectricHeatTransducer" firstCharacter="360" lastCharacter="1695" sinceTag="1.0.0" type="Class">
+    <methods name="ElectricHeatTransducer" type="void" dynamic="true" firstCharacter="573" lastCharacter="1079" sinceTag="1.0.0">
+      <parameterTypes>double</parameterTypes>
+      <parameterTypes>int</parameterTypes>
+    </methods>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.impl.ExternalParameters" firstCharacter="263" lastCharacter="7243" sinceTag="" type="Class">
+    <methods name="getZoneOneHeatingSchedule" type="uk.org.cse.nhm.energycalculator.api.IHeatingSchedule" dynamic="true" firstCharacter="4893" lastCharacter="4984" sinceTag=""/>
+    <methods name="setZoneOneHeatingSchedule" type="void" dynamic="true" firstCharacter="4989" lastCharacter="5130" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.IHeatingSchedule</parameterTypes>
+    </methods>
+    <methods name="getZoneTwoHeatingSchedule" type="uk.org.cse.nhm.energycalculator.api.IHeatingSchedule" dynamic="true" firstCharacter="5135" lastCharacter="5226" sinceTag=""/>
+    <methods name="setZoneTwoHeatingSchedule" type="void" dynamic="true" firstCharacter="5231" lastCharacter="5372" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.IHeatingSchedule</parameterTypes>
+    </methods>
+    <methods name="getHorizontalSolarFlux" type="double" dynamic="true" firstCharacter="5377" lastCharacter="5452" sinceTag=""/>
+    <methods name="setHorizontalSolarFlux" type="void" dynamic="true" firstCharacter="5457" lastCharacter="5576" sinceTag="">
+      <parameterTypes>double</parameterTypes>
+    </methods>
+    <methods name="setZoneOneDemandTemperature" type="void" dynamic="true" firstCharacter="5581" lastCharacter="5720" sinceTag="">
+      <parameterTypes>double</parameterTypes>
+    </methods>
+    <methods name="setExternalTemperature" type="void" dynamic="true" firstCharacter="5725" lastCharacter="5844" sinceTag="">
+      <parameterTypes>double</parameterTypes>
+    </methods>
+    <methods name="setZoneTwoDemandTemperature" type="void" dynamic="true" firstCharacter="5849" lastCharacter="5988" sinceTag="">
+      <parameterTypes>java.lang.Double</parameterTypes>
+    </methods>
+    <methods name="setInterzoneTemperatureDifference" type="void" dynamic="true" firstCharacter="5993" lastCharacter="6161" sinceTag="">
+      <parameterTypes>double</parameterTypes>
+    </methods>
+    <methods name="setSiteWindSpeed" type="void" dynamic="true" firstCharacter="6166" lastCharacter="6261" sinceTag="">
+      <parameterTypes>double</parameterTypes>
+    </methods>
+    <methods name="setSolarDeclination" type="void" dynamic="true" firstCharacter="6266" lastCharacter="6373" sinceTag="">
+      <parameterTypes>double</parameterTypes>
+    </methods>
+    <methods name="setMonthOfYear" type="void" dynamic="true" firstCharacter="6378" lastCharacter="6574" sinceTag="">
+      <parameterTypes>int</parameterTypes>
+    </methods>
+    <methods name="setHotWaterFactor" type="void" dynamic="true" firstCharacter="6579" lastCharacter="6678" sinceTag="">
+      <parameterTypes>double</parameterTypes>
+    </methods>
+    <methods name="setHotWaterRise" type="void" dynamic="true" firstCharacter="6683" lastCharacter="6774" sinceTag="">
+      <parameterTypes>double</parameterTypes>
+    </methods>
+    <methods name="setNumberOfOccupants" type="void" dynamic="true" firstCharacter="6779" lastCharacter="6887" sinceTag="">
+      <parameterTypes>int</parameterTypes>
+    </methods>
+    <methods name="setLatitude" type="void" dynamic="true" firstCharacter="6892" lastCharacter="6967" sinceTag="">
+      <parameterTypes>double</parameterTypes>
+    </methods>
+    <methods name="setTarrifType" type="void" dynamic="true" firstCharacter="6972" lastCharacter="7070" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType</parameterTypes>
+    </methods>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.impl.DailyHeatingSchedule" firstCharacter="159" lastCharacter="3401" sinceTag="1.0.0" type="Class">
+    <methods name="DailyHeatingSchedule" type="void" dynamic="true" firstCharacter="580" lastCharacter="1020" sinceTag="1.0.0">
+      <parameterTypes>double</parameterTypes>
+    </methods>
+    <methods name="addHeatingPeriod" type="void" dynamic="true" firstCharacter="1429" lastCharacter="1693" sinceTag="1.0.0">
+      <parameterTypes>double</parameterTypes>
+    </methods>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.impl.Sink" firstCharacter="522" lastCharacter="1663" sinceTag="" type="Class"/>
+  <types name="uk.org.cse.nhm.energycalculator.api.impl.DefaultConstants" firstCharacter="136" lastCharacter="1094" sinceTag="1.0.0" type="Class">
+    <fields name="INSTANCE" type="uk.org.cse.nhm.energycalculator.api.IConstants" firstCharacter="417" lastCharacter="549" sinceTag="1.0.0"/>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.impl.GraphvizEnergyState" firstCharacter="250" lastCharacter="4575" sinceTag="" type="Class">
+    <methods name="toDotFile" type="java.lang.String" dynamic="true" firstCharacter="1593" lastCharacter="2251" sinceTag=""/>
+    <methods name="GraphvizEnergyState" type="void" dynamic="true" firstCharacter="2448" lastCharacter="2538" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.IEnergyState</parameterTypes>
+    </methods>
+    <methods name="increaseSupply" type="void" dynamic="true" firstCharacter="2544" lastCharacter="2724" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.types.EnergyType</parameterTypes>
+      <parameterTypes>double</parameterTypes>
+    </methods>
+    <methods name="increaseDemand" type="void" dynamic="true" firstCharacter="2729" lastCharacter="2912" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.types.EnergyType</parameterTypes>
+      <parameterTypes>double</parameterTypes>
+    </methods>
+    <methods name="getUnsatisfiedDemand" type="double" dynamic="true" firstCharacter="2918" lastCharacter="3026" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.types.EnergyType</parameterTypes>
+    </methods>
+    <methods name="getTotalSupply" type="double" dynamic="true" firstCharacter="3031" lastCharacter="3127" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.types.EnergyType</parameterTypes>
+    </methods>
+    <methods name="getTotalSupply" type="double" dynamic="true" firstCharacter="3132" lastCharacter="3258" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.types.EnergyType</parameterTypes>
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.types.ServiceType</parameterTypes>
+    </methods>
+    <methods name="getTotalDemand" type="double" dynamic="true" firstCharacter="3263" lastCharacter="3405" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.types.EnergyType</parameterTypes>
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.types.ServiceType</parameterTypes>
+    </methods>
+    <methods name="getTotalDemand" type="double" dynamic="true" firstCharacter="3410" lastCharacter="3514" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.types.EnergyType</parameterTypes>
+    </methods>
+    <methods name="increaseElectricityDemand" type="void" dynamic="true" firstCharacter="3519" lastCharacter="3773" sinceTag="">
+      <parameterTypes>double</parameterTypes>
+    </methods>
+    <methods name="setCurrentServiceType" type="void" dynamic="true" firstCharacter="4233" lastCharacter="4494" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.types.ServiceType</parameterTypes>
+      <parameterTypes>java.lang.String</parameterTypes>
+    </methods>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.types.EnergyType" firstCharacter="96" lastCharacter="4461" sinceTag="1.0.0" type="Class">
+    <methods name="EnergyType" type="void" dynamic="true" firstCharacter="468" lastCharacter="531" sinceTag="">
+      <parameterTypes>java.lang.String</parameterTypes>
+    </methods>
+    <methods name="setOf" type="java.util.Set" firstCharacter="537" lastCharacter="770" sinceTag="">
+      <parameterTypes>uk.org.cse.nhm.energycalculator.api.types.EnergyType</parameterTypes>
+    </methods>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.types.EnergyType.Community" firstCharacter="840" lastCharacter="1359" sinceTag="" type="Class">
+    <fields name="GAS" type="uk.org.cse.nhm.energycalculator.api.types.EnergyType" firstCharacter="1070" lastCharacter="1133" sinceTag=""/>
+    <fields name="ELECTRICITY" type="uk.org.cse.nhm.energycalculator.api.types.EnergyType" firstCharacter="1137" lastCharacter="1213" sinceTag=""/>
+    <fields name="OIL" type="uk.org.cse.nhm.energycalculator.api.types.EnergyType" firstCharacter="1217" lastCharacter="1280" sinceTag=""/>
+    <fields name="BIOMASS" type="uk.org.cse.nhm.energycalculator.api.types.EnergyType" firstCharacter="1284" lastCharacter="1355" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.types.EnergyType.Fuels" firstCharacter="1365" lastCharacter="2793" sinceTag="" type="Class">
+    <fields name="GAS" type="uk.org.cse.nhm.energycalculator.api.types.EnergyType" firstCharacter="1402" lastCharacter="1461" sinceTag=""/>
+    <fields name="BULK_LPG" type="uk.org.cse.nhm.energycalculator.api.types.EnergyType" firstCharacter="1465" lastCharacter="1534" sinceTag=""/>
+    <fields name="BOTTLED_LPG" type="uk.org.cse.nhm.energycalculator.api.types.EnergyType" firstCharacter="1538" lastCharacter="1613" sinceTag=""/>
+    <fields name="PEAK_ELECTRICITY" type="uk.org.cse.nhm.energycalculator.api.types.EnergyType" firstCharacter="1617" lastCharacter="1697" sinceTag=""/>
+    <fields name="OFFPEAK_ELECTRICITY" type="uk.org.cse.nhm.energycalculator.api.types.EnergyType" firstCharacter="1701" lastCharacter="1795" sinceTag=""/>
+    <fields name="SOLID_FUEL" type="uk.org.cse.nhm.energycalculator.api.types.EnergyType" firstCharacter="1799" lastCharacter="1872" sinceTag=""/>
+    <fields name="HEATING_OIL" type="uk.org.cse.nhm.energycalculator.api.types.EnergyType" firstCharacter="1876" lastCharacter="1951" sinceTag=""/>
+    <fields name="BIOMASS_WOODCHIP" type="uk.org.cse.nhm.energycalculator.api.types.EnergyType" firstCharacter="1955" lastCharacter="2042" sinceTag=""/>
+    <fields name="BIOMASS_WOOD" type="uk.org.cse.nhm.energycalculator.api.types.EnergyType" firstCharacter="2046" lastCharacter="2125" sinceTag=""/>
+    <fields name="BIOMASS_PELLETS" type="uk.org.cse.nhm.energycalculator.api.types.EnergyType" firstCharacter="2129" lastCharacter="2214" sinceTag=""/>
+    <fields name="PHOTONS" type="uk.org.cse.nhm.energycalculator.api.types.EnergyType" firstCharacter="2218" lastCharacter="2285" sinceTag=""/>
+    <fields name="COMMUNITY_HEAT" type="uk.org.cse.nhm.energycalculator.api.types.EnergyType" firstCharacter="2289" lastCharacter="2370" sinceTag=""/>
+    <fields name="ELECTRICITY" type="uk.org.cse.nhm.energycalculator.api.types.EnergyType" firstCharacter="2374" lastCharacter="2478" sinceTag=""/>
+    <methods name="allFuels" type="uk.org.cse.nhm.energycalculator.api.types.EnergyType" firstCharacter="2482" lastCharacter="2788" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.types.EnergyType.Hacks" firstCharacter="2799" lastCharacter="3278" sinceTag="" type="Class">
+    <fields name="MEAN_INTERNAL_TEMPERATURE" type="uk.org.cse.nhm.energycalculator.api.types.EnergyType" firstCharacter="2995" lastCharacter="3185" sinceTag=""/>
+    <fields name="UNADJUSTED_TEMPERATURE" type="uk.org.cse.nhm.energycalculator.api.types.EnergyType" firstCharacter="3189" lastCharacter="3274" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.types.EnergyType.Demands" firstCharacter="3283" lastCharacter="3633" sinceTag="" type="Class">
+    <fields name="HOT_WATER_VOLUME" type="uk.org.cse.nhm.energycalculator.api.types.EnergyType" firstCharacter="3322" lastCharacter="3401" sinceTag=""/>
+    <fields name="HOT_WATER" type="uk.org.cse.nhm.energycalculator.api.types.EnergyType" firstCharacter="3405" lastCharacter="3479" sinceTag=""/>
+    <fields name="VISIBLE_LIGHT" type="uk.org.cse.nhm.energycalculator.api.types.EnergyType" firstCharacter="3483" lastCharacter="3562" sinceTag=""/>
+    <fields name="HEAT" type="uk.org.cse.nhm.energycalculator.api.types.EnergyType" firstCharacter="3568" lastCharacter="3629" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.types.EnergyType.Gains" firstCharacter="3639" lastCharacter="4458" sinceTag="" type="Class">
+    <fields name="APPLIANCE_GAINS" type="uk.org.cse.nhm.energycalculator.api.types.EnergyType" firstCharacter="3676" lastCharacter="3758" sinceTag=""/>
+    <fields name="METABOLIC_GAINS" type="uk.org.cse.nhm.energycalculator.api.types.EnergyType" firstCharacter="3762" lastCharacter="3845" sinceTag=""/>
+    <fields name="LIGHTING_GAINS" type="uk.org.cse.nhm.energycalculator.api.types.EnergyType" firstCharacter="3849" lastCharacter="3930" sinceTag=""/>
+    <fields name="COOKING_GAINS" type="uk.org.cse.nhm.energycalculator.api.types.EnergyType" firstCharacter="3934" lastCharacter="4013" sinceTag=""/>
+    <fields name="PUMP_AND_FAN_GAINS" type="uk.org.cse.nhm.energycalculator.api.types.EnergyType" firstCharacter="4017" lastCharacter="4104" sinceTag=""/>
+    <fields name="HOT_WATER_USAGE_GAINS" type="uk.org.cse.nhm.energycalculator.api.types.EnergyType" firstCharacter="4108" lastCharacter="4198" sinceTag=""/>
+    <fields name="HOT_WATER_SYSTEM_GAINS" type="uk.org.cse.nhm.energycalculator.api.types.EnergyType" firstCharacter="4202" lastCharacter="4294" sinceTag=""/>
+    <fields name="SOLAR_GAINS" type="uk.org.cse.nhm.energycalculator.api.types.EnergyType" firstCharacter="4298" lastCharacter="4373" sinceTag=""/>
+    <fields name="USEFUL_GAINS" type="uk.org.cse.nhm.energycalculator.api.types.EnergyType" firstCharacter="4377" lastCharacter="4454" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.types.ServiceType" firstCharacter="44" lastCharacter="196" sinceTag="" type="Enumeration"/>
+  <types name="uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType" firstCharacter="44" lastCharacter="263" sinceTag="1.0.0" type="Enumeration"/>
+  <types name="uk.org.cse.nhm.energycalculator.api.types.ZoneType" firstCharacter="44" lastCharacter="84" sinceTag="" type="Enumeration"/>
+  <types name="uk.org.cse.nhm.energycalculator.api.types.AreaType" firstCharacter="106" lastCharacter="797" sinceTag="1.0.0" type="Enumeration">
+    <methods name="isExternal" type="boolean" dynamic="true" firstCharacter="430" lastCharacter="794" sinceTag="1.0.0"/>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.types.OvershadingType" firstCharacter="44" lastCharacter="135" sinceTag="" type="Enumeration"/>
+  <types name="uk.org.cse.nhm.energycalculator.api.impl.DailyHeatingScheduleTest" firstCharacter="121" lastCharacter="1536" sinceTag="" type="Class">
+    <methods name="setup" type="void" dynamic="true" firstCharacter="784" lastCharacter="918" sinceTag=""/>
+    <methods name="testGetMeanTemperature" type="void" dynamic="true" firstCharacter="924" lastCharacter="1397" sinceTag=""/>
+    <methods name="testIsHeatingOn" type="void" dynamic="true" firstCharacter="1403" lastCharacter="1533" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.impl.ElectricHeatTransducerTest" firstCharacter="486" lastCharacter="1193" sinceTag="" type="Class">
+    <methods name="testElectricHeatTransducer" type="void" dynamic="true" firstCharacter="530" lastCharacter="1190" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.impl.DoubleMapTest" firstCharacter="95" lastCharacter="1105" sinceTag="" type="Class">
+    <methods name="testInitialisedToZero" type="void" dynamic="true" firstCharacter="126" lastCharacter="490" sinceTag=""/>
+    <methods name="testIncrementAndDelta" type="void" dynamic="true" firstCharacter="496" lastCharacter="1102" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.impl.WeeklyHeatingScheduleTest" firstCharacter="233" lastCharacter="1613" sinceTag="" type="Class">
+    <methods name="testAverageValue" type="void" dynamic="true" firstCharacter="276" lastCharacter="789" sinceTag=""/>
+    <methods name="testIsOn" type="void" dynamic="true" firstCharacter="795" lastCharacter="1610" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.impl.SinkTest" firstCharacter="417" lastCharacter="975" sinceTag="" type="Class">
+    <methods name="testSink" type="void" dynamic="true" firstCharacter="443" lastCharacter="972" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.impl.HeatTransducerTest" firstCharacter="298" lastCharacter="1728" sinceTag="" type="Class">
+    <methods name="testHeatTransducer" type="void" dynamic="true" firstCharacter="334" lastCharacter="775" sinceTag=""/>
+    <methods name="testHeatTransducerProportionalBound" type="void" dynamic="true" firstCharacter="781" lastCharacter="1249" sinceTag=""/>
+    <methods name="testHeatTransducerAbsoluteBound" type="void" dynamic="true" firstCharacter="1255" lastCharacter="1725" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.impl.ClassEnergyStateTest" firstCharacter="261" lastCharacter="3413" sinceTag="" type="Class">
+    <methods name="createState" type="void" dynamic="true" firstCharacter="441" lastCharacter="559" sinceTag=""/>
+    <methods name="clear" type="void" dynamic="true" firstCharacter="676" lastCharacter="732" sinceTag=""/>
+    <methods name="testInitiallyZero" type="void" dynamic="true" firstCharacter="738" lastCharacter="1133" sinceTag=""/>
+    <methods name="testUnsatisfiedDemand" type="void" dynamic="true" firstCharacter="1139" lastCharacter="2297" sinceTag=""/>
+    <methods name="testServiceBreakdown" type="void" dynamic="true" firstCharacter="2303" lastCharacter="2994" sinceTag=""/>
+    <methods name="testElectricitySpecificMethod" type="void" dynamic="true" firstCharacter="3000" lastCharacter="3298" sinceTag=""/>
+    <methods name="testToString" type="void" dynamic="true" firstCharacter="3304" lastCharacter="3410" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.impl.ExternalParametersTest" firstCharacter="248" lastCharacter="2534" sinceTag="" type="Class">
+    <methods name="testInsolationAtAngle" type="void" dynamic="true" firstCharacter="288" lastCharacter="504" sinceTag=""/>
+    <methods name="testZoneTwoTemperatureSpecified" type="void" dynamic="true" firstCharacter="829" lastCharacter="1414" sinceTag=""/>
+    <methods name="testGetHeatingScheduleByZone" type="void" dynamic="true" firstCharacter="1420" lastCharacter="2019" sinceTag=""/>
+    <methods name="testProperties" type="void" dynamic="true" firstCharacter="2025" lastCharacter="2531" sinceTag=""/>
+  </types>
+  <types name="uk.org.cse.nhm.energycalculator.api.types.TypesCoveringTest" firstCharacter="70" lastCharacter="502" sinceTag="" type="Class">
+    <methods name="seeTypes" type="void" dynamic="true" firstCharacter="105" lastCharacter="499" sinceTag=""/>
+  </types>
+</api:API>

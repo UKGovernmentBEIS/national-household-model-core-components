@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../resources/warnings/warnings.css">
+  </head>
+
+  <body>
+	<script src="../resources/lib/d3/d3.v3.4.6.min.js"></script>
+  	<script src="../resources/warnings/warnings.js"></script>
+  	<script src="../aggregate/warnings.jsonp"></script>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+#parse("generic.vm")
+<a class="help" href="#" onclick="toggle('d#nextid');">[+]</a>
+<div class="help" id="d${unique}">
+	<span class="description">${entry.Descriptor.Description}
+		<a style="float:right;" href="resources/lib/quickview/quickview.html?file=../../../${entry.Name}">preview</a>
+	</span>
+	<table style="clear:both">
+		<thead>
+			<tr><td>Field Name</td><td>Description</td></tr>
+		</thead>
+		#foreach($a in ${entry.Descriptor.ColumnsAndDescriptions.entrySet()})
+		<tr>
+		<td>${a.Key}</td>
+		<td>${a.Value}</td>
+		</tr>
+		#end
+	</table>
+</div>

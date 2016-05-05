@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<title>User-defined lookup-tables</title>
+		<link rel="stylesheet" href="../resources/index.css"></link>
+	</head>
+	<body>
+		<h1>User-defined lookup-tables</h1>
+		<p>These are all of the tables defined with <tt>lookup-table</tt> in the scenario</p>
+		
+		#foreach($lookupTable in $lookupTables)
+			<h1 style="clear:both;">${lookupTable.name}</h1>
+			<div style="float:left;padding-left:50px;">
+				<h2>Defined at <tt>${lookupTable.location}.</tt></h2>
+				<h2>Row keys</h2>
+				<ol>
+				#foreach ($rowkey in $lookupTable.rowKeys)
+					<li><tt>${rowkey}</tt></li>
+				#end
+				</ol>
+				#if ($lookupTable.columnKey)
+				<h2>Column key</h2>
+				<tt>${lookupTable.columnKey}</tt>
+				#end
+				#if ($lookupTable.defaultValue)
+				<h2>Default value</h2>
+				<tt>${lookupTable.defaultValue}</tt>
+				#end
+			</div>
+			<div style="float:left; padding-left:100px;">
+				<h2>Table contents</h2>
+				<tt>
+				<table>
+					<thead>
+						#foreach($headerRow in $lookupTable.header)
+						<tr>
+							#foreach($cell in $headerRow)
+								#if ($cell.comment)
+								<th class="comment" title="${cell.title}" colspan="${lookupTable.numberOfColumns}">
+									${cell.body}
+								</th>
+								#else
+								<th title="${cell.title}">
+									${cell.body}
+								</th>
+								#end
+							#end
+						</tr>
+						#end
+					</thead>
+					<tbody>
+						#foreach($tableRow in $lookupTable.rows)
+						<tr>
+							#foreach($cell in $tableRow)
+								#if ($cell.comment)
+									<td class="comment" title="${cell.title}" colspan="${lookupTable.numberOfColumns}">
+										${cell.body}
+									</td>
+								#else
+									<td title="${cell.title}">
+										${cell.body}
+									</td>
+								#end
+							#end
+						</tr>
+						#end
+					</tbody>
+				</table>
+				</tt>
+			</div>
+		#end		
+	</body>
+</html>

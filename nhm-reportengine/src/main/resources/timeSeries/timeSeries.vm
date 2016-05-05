@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head >
+		<link rel="stylesheet" href="../../resources/lib/rickshaw/rickshaw.min.css">
+		<link rel="stylesheet" href="../../resources/lib/rickshaw/extensions/extensions.css">
+		<link rel="stylesheet" href="../../resources/timeSeries/timeSeries.css">
+		<script src="../../resources/lib/jquery/jquery.min.js"></script>
+        <script src="../../resources/lib/jquery/jquery-ui.min.js"></script>
+		<script src="../../resources/lib/d3/d3.v2.min.js"></script>
+		<script src="../../resources/lib/rickshaw/rickshaw.min.js"></script>
+		<script src="../../resources/lib/rickshaw/extensions/extensions.js"></script>
+		<title>NHM Time Series Charts</title>
+	</head>
+	<body>
+		<form id="side_panel">
+			<section xmlns:c="http://java.sun.com/jsp/jstl/core">
+				<h1 id="report">${report}</h1>
+			</section>
+			
+			<section>
+				<div id="renderer_form" class="toggler">
+					<input type="radio" name="renderer" id="bar" value="bar">
+					<label for="bar">bar</label>
+					<input type="radio" name="renderer" id="line" value="line" checked>
+					<label for="line">line</label>
+					<input type="radio" name="renderer" id="scatter" value="scatterplot">
+					<label for="scatter">scatter</label>
+				</div>
+			</section>
+			
+			<section>
+				<div id="offset_form" class="toggler">
+                    <span>
+                        <input type="radio" name="offset" id="stack" value="zero" checked>
+                        <label for="stack">stack</label>
+                    </span>
+                    <span>
+                        <input type="radio" name="offset" id="stream" value="wiggle">
+                        <label for="stream">stream</label>
+                    </span>
+                    <span>
+                        <input type="radio" name="offset" id="pct" value="expand">
+                        <label for="pct">pct</label>
+                    </span>
+                    <span>
+                        <input type="radio" name="offset" id="value" value="value">
+                        <label for="value">value</label>
+                    </span>
+				</div>
+			</section>
+			
+			<section>
+                <div id="transformations" class="toggler">
+                    <span>
+                        <input type="radio" name="dataTransform" id="gradient" value="gradient">
+                        <label for="gradient">gradient</label>
+                    </span>
+                    <span>
+                        <input type="radio" name="dataTransform" id="identity" value="identity" checked>
+                        <label for="identity">identity</label>
+                    </span>
+                    <span>
+                        <input type="radio" name="dataTransform" id="integral" value="integral">
+                        <label for="integral">integral</label>
+                    </span>
+                </div>
+            </section>
+		</form>
+		
+		<div id="chart_container">
+			<div id="timeline"></div>
+		    <div id="chart"></div>
+			<div id="legend"></div>
+		</div>
+		
+		<script src="../../resources/timeSeries/timeSeries.js"></script>
+		<script src="../../aggregate/${report}.jsonp"></script>
+	</body>
+</html>

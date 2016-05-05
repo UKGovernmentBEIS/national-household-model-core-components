@@ -1,0 +1,2 @@
+aacode,hasLoft,householdCaseWeight,dwellingCaseWeight,regionType,tenureType,builtFormType,adults,children,buildYear,livingAreaFaction,numOfHabitalRooms,numOfBedrooms,grndFloorType,hasDraftLobby,hasAccessToOutsideSpace,frontPlotDepth,frontPlotWidth,backPlotDepth,backPlotWidth,morphologyType,onGasGrid,partlyOwnsRoof
+H0011103,TRUE,23,2479,SouthWest,PrivateRented,ConvertedFlat,1,2,1840,12.2,4,2,SuspendedTimber,TRUE,TRUE,5.1,2.3,2.1,5.7,HamletsAndIsolatedDwellings,TRUE,TRUE

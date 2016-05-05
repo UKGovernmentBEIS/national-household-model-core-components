@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="uk.org.cse.stockimport.imputation.apertures.DoorPropertyImputerTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2016-05-03T08:17:30" hostname="rich-Latitude-E6320" time="0.05">
+  <properties/>
+  <testcase name="testArea" classname="uk.org.cse.stockimport.imputation.apertures.DoorPropertyImputerTest" time="0.0"/>
+  <testcase name="testUValue" classname="uk.org.cse.stockimport.imputation.apertures.DoorPropertyImputerTest" time="0.049"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

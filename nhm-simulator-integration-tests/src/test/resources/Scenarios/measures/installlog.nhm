@@ -1,0 +1,16 @@
+(scenario stock-id: test-survey-cases
+          end-date: 01/01/2014
+          start-date: 01/01/2012
+          quantum: 400
+          weighting:round
+
+  (on.dates scenario-start
+  	(apply
+  		(do
+  		(measure.wall-insulation type:cavity thickness:50 resistance:0.01 capex:100)
+  		(measure.heat-pump capex:10000)
+  		)
+  	)
+  	
+  )
+)

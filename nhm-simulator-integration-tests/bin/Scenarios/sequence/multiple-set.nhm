@@ -1,0 +1,31 @@
+(scenario
+	start-date: 01/01/2014
+	end-date: 01/01/2014
+	stock-id: my-lovely-stock
+
+    (def A on: house)
+    (def B on: house)
+    (def C on: house)
+
+    (def D on: house)
+    (def E on:house default:0)
+    (def F on:house default:0)
+    
+    (on.dates scenario-start
+              (apply
+               (set [A B C]
+                    [1 A (+ 1 B)])
+               )
+
+              (apply
+               (set D A
+                under: (set A 55))
+               )
+              (apply
+               (increase [E F])
+               )
+              )
+
+    
+    )
+

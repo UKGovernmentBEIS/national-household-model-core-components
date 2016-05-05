@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWindowImputationDataFromExcelTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2016-05-03T08:17:29" hostname="rich-Latitude-E6320" time="0.175">
+  <properties/>
+  <testcase name="UValuesAreReadFromExcelAndStoredInTable" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWindowImputationDataFromExcelTest" time="0.043"/>
+  <testcase name="testLightTransmittance" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWindowImputationDataFromExcelTest" time="0.027"/>
+  <testcase name="TransmittenceFactorsAreReadFromExcelAndStoredInTable" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWindowImputationDataFromExcelTest" time="0.024"/>
+  <testcase name="FrameFactorsAreReadFromExcelAndStoredInTable" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWindowImputationDataFromExcelTest" time="0.024"/>
+  <testcase name="EnsureAWindowsPropertiesTableIsCreated" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWindowImputationDataFromExcelTest" time="0.032"/>
+  <testcase name="testGainsTransmittance" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWindowImputationDataFromExcelTest" time="0.024"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

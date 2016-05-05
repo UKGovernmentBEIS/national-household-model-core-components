@@ -1,0 +1,10 @@
+(scenario stock-id: test-survey-cases
+          end-date: 31/12/2013
+          start-date: 01/01/2012
+          quantum: 400
+          (policy 
+          		(target	name:dependsonsecondaryheatingtest 
+          			group: (group.filter (house.depends-on-secondary-heating))
+          			exposure: (schedule.on-group-entry)
+          			action: (house.flag secondary-dependent)
+          )))

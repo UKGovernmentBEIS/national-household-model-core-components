@@ -1,0 +1,18 @@
+(scenario stock-id: test-survey-cases
+          end-date: 01/01/2014
+          start-date: 01/01/2012
+          quantum: 400000
+
+          (def ticks on:simulation default:0)
+          
+          (on.dates
+           (scenario-start)
+           
+           (repeat name:repeatedly
+            (apply (house.flag hello)
+                   to:(sample 2%))
+            (set ticks (+ 1 ticks))
+            until: (= (summarize (aggregate.where (house.flags-match hello)))
+                      (summarize aggregate.count)))
+           )
+)

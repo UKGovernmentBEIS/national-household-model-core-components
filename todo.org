@@ -1,0 +1,3 @@
+
+* Boiler matching code - find a way of excluding configuration when part of multiproject...
+* /nhm-stock-documenation/src/main/resources/variableref.xml - Has links to original beanstalk repo?
