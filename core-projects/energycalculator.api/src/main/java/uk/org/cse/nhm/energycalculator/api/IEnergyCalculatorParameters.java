@@ -30,6 +30,21 @@ public interface IEnergyCalculatorParameters {
 	 */
 	double getInterzoneTemperatureDifference();	
 	
+	/*
+	BEISDOC
+	NAME: occupancy
+	DESCRIPTION: Number of occupants in the dwelling
+	TYPE: formula
+	UNIT: people
+	SAP: (42), Table 1b
+	BREDEM: 1A
+	DEPS: sap-occupancy
+	GET: house.number-of-occupants
+	STOCK: people.csv (number of rows)
+	ID: occupancy
+	NOTES: Use the number of people from the stock unless we are in a part of the scenario where sap.occupancy applies.
+	CODSIEB
+	*/
 	/**
 	 * @return the number of people currently in the house
 	 */
