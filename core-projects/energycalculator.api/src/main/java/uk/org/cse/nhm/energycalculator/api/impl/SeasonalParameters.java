@@ -45,6 +45,18 @@ public class SeasonalParameters implements ISeasonalParameters {
 
 	@Override
 	public double getSolarFlux(final double angleFromHorizontal, final double angleFromNorth) {
+		/*
+		BEISDOC
+		NAME: Effective solar flux
+		DESCRIPTION: 
+		TYPE: formula
+		UNIT: W
+		SAP: (U1)
+		BREDEM: 2.4.1G
+		DEPS: weather
+		ID: effective-solar-flux
+		CODSIEB
+		*/
         return horizontalSolarFlux * InsolationPlaneUtil.getSolarFluxMultiplier(getSolarDeclination(), latitude, angleFromHorizontal, angleFromNorth);
 	}
 

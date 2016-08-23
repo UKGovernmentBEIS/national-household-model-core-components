@@ -24,11 +24,40 @@ public enum EnergyCalculatorConstants implements IConstant {
 	@ConstantDescription("The thermal bridging coefficient used to estimate the thermal bridge contribution for buildings which are built in or after the improvement year")
 	NEW_THERMAL_BRIDGING_COEFFICIENT(0.15/4.0), 
 	@ConstantDescription("The year in which the thermal bridging coefficient switches from OLD_THERMAL_BRIDGING_COEFFICIENT to NEW_THERMAL_BRIDGING_COEFFICIENT")
-	THERMAL_BRIDING_COEFFICIENT_IMPROVEMENT_YEAR(2003), 
+	THERMAL_BRIDING_COEFFICIENT_IMPROVEMENT_YEAR(2003),
+	
+	/*
+	BEISDOC
+	NAME: Overshading factor
+	DESCRIPTION: A constant multiplier due to overshading which reduces solar gains.
+	TYPE: 5 values (one for each overshading type)
+	UNIT: Dimensionless
+	SAP: Table 6d
+	BREDEM: Table 23 
+	DEPS: overshading
+	SET: context.energy-constants
+	NOTES: Only the middle overshading factor is ever used.
+	ID: overshading-factor
+	CODSIEB
+	*/
 	@ConstantDescription("The multipliers for OvershadingType which affect the degree of solar gains.")
 	SOLAR_GAINS_OVERSHADING(new double[] {1.0, 1.0, 0.77, 0.54, 0.3}), 
+	
+	/*
+	BEISDOC
+	NAME: Solar gains reflection
+	DESCRIPTION: A constant multiplier due to reflection which reduces solar gains. 
+	TYPE: value
+	UNIT: Dimensionless
+	SAP: (74-82)
+	BREDEM: 5A
+	SET: context.energy-constants
+	ID: solar-reflection
+	CODSIEB
+	*/
 	@ConstantDescription("The reflection factor in solar gains (how much solar gain is lost because of reflectivity)")
-	SOLAR_GAINS_REFLECTION_FACTOR(0.9), 
+	SOLAR_GAINS_REFLECTION_FACTOR(0.9),
+	
 	@ConstantDescription("The value to which the heat loss parameter is compared when determining the demand temperature in zone 2 (depending on heating system control parameter)")
 	REFERENCE_HEAT_LOSS_PARAMETER(6.0),
 	@ConstantDescription("The heat loss parameter multiplier used in calculating the time constant")

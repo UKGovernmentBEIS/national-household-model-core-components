@@ -8,6 +8,17 @@ package uk.org.cse.nhm.hom.types;
  * @since 0.0.1-SNAPSHOT
  */
 public enum RegionType {
+	/*
+	BEISDOC
+	NAME: Latitude
+	DESCRIPTION: The latitude in degrees of a UK region 
+	TYPE: value
+	UNIT: degrees
+	SAP: Table U4
+	BREDEM: Table A1 (latitude)
+	ID: latitude
+	CODSIEB
+	*/
     WesternScotland("W. Scotland", 55.8, Country.Scotland),
     EasternScotland("E. Scotland", 56.4, Country.Scotland),
     NorthEast("North East",55.5, Country.England),

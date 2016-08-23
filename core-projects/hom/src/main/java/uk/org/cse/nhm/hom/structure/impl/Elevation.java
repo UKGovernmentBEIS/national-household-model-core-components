@@ -29,7 +29,21 @@ public class Elevation implements IElevation {
 	 * This is the default vertical orientation of an elevation (it is assumed to be at 90 degrees to the ground).
 	 * TODO roof windows should be different in some way.
 	 */
+	/*
+	BEISDOC
+	NAME: Glazing angle		
+	DESCRIPTION: The vertical tilt (where horizontal is 0) of a glazed element. 
+	TYPE: value
+	UNIT: Radians
+	SAP: (U3), S13
+	BREDEM: 2.4.1A
+	NOTES: Glazed elements are assumed to be vertical in SAP.
+	NOTES: There is an exception to this for roof windows where tilt is known to be less than 70 degrees. This exception is not implemented in the NHM because there is no information about roof window tilt.
+	ID: glazing-angle
+	CODSIEB
+	*/
 	private final static double ANGLE_FROM_HORIZONTAL = Math.PI / 2;
+	
 	/**
 	 * This is the direction the elevation is facing.
 	 */
@@ -45,8 +59,29 @@ public class Elevation implements IElevation {
 	 */
 	private final List<Door> doors = new ArrayList<Door>();
 	
+	/*
+	BEISDOC
+	NAME: Elevation opening proportion
+	DESCRIPTION: The proportion of the elevation's area which is windows and doors. 
+	TYPE: value
+	UNIT: Unitless proportion
+	STOCK: elevations.csv (tenthsopening)
+	ID: opening-proportion
+	CODSIEB
+	*/
 	private double openingProportion;
 	
+	/*
+	BEISDOC
+	NAME: Overshading
+	DESCRIPTION: The overshading level for an elevation.
+	TYPE: value
+	SAP: Input to Table 6d, Table H2
+	BREDEM: Input to Table 18
+	NOTES: Overshading is always assumed to be average in the NHM.
+	ID: overshading
+	CODSIEB
+	*/
 	private final OvershadingType overshading = OvershadingType.AVERAGE;
 	
 	
@@ -103,12 +138,67 @@ public class Elevation implements IElevation {
 		double glazedArea = 0;
 		
 		for (final Glazing glazing : glazings) {
+			/*
+			BEISDOC
+			NAME: Glazing area
+			DESCRIPTION: The area of this type of glazing in this elevation 
+			TYPE: Formula
+			UNIT: m^2
+			SAP: sap
+			BREDEM: bredem
+			DEPS: elevation-glazed-proportion, opening-proportion, wall-element, door-element
+			ID: glazing-area
+			CODSIEB
+			*/
 			final double glazingArea = (wallArea * openingProportion - doorArea) * glazing.getGlazedProportion();
 			
+			/*
+			BEISDOC
+			NAME: Glazed element
+			DESCRIPTION: The area, u-value and k-value for a glazed area.
+			TYPE: formula
+			UNIT: area m^2, u-value W/m^2/℃, k-value kJ/m^2/℃
+			SAP: (27,27a)
+			BREDEM: 3B
+			DEPS: glazing-area
+			GET: house.u-value
+			SET: measure.install-glazing,action.reset-glazing
+			STOCK: elevations.csv (glazed doors, percentagedoubleglazed, singleglazedwindowframe), imputation schema (windows, doors)
+			ID: glazed-element
+			NOTES: Glazing's k-value (thermal mass) is always 0. When setting the u-value, ensure to include the curtain correction factor.
+			CODSIEB
+			*/
 			visitor.visitFabricElement(AreaType.Glazing, glazingArea, glazing.getuValue(), 0);
+			
 			visitor.visitTransparentElement(
+					/*
+					BEISDOC
+					NAME: Effective light transmission area
+					DESCRIPTION: Light transmittance multiplied by frame factor multiplied by area for a transparent element.
+					TYPE: Formula
+					UNIT: m^2
+					SAP: 
+					BREDEM: 
+					DEPS: light-transmittance-factor, frame-factor, glazing-area
+					ID: light-effective-transmission-area
+					CODSIEB
+					*/
 					glazing.getLightTransmissionFactor() * glazing.getFrameFactor() * glazingArea,
-					glazing.getGainsTransmissionFactor() * glazing.getFrameFactor() * glazingArea, 
+					
+					/*
+					BEISDOC
+					NAME: Effective solar gains transmission area
+					DESCRIPTION: SOlar gains transmittance multiplied by frame factor multiplied by area for a transparent element.
+					TYPE: formula
+					UNIT: m^2
+					SAP: (74-82)
+					BREDEM: 5A
+					DEPS: gains-transmittance-factor, frame-factor, glazing-area
+					ID: solar-gains-effective-transmission-area
+					CODSIEB
+					*/
+					glazing.getGainsTransmissionFactor() * glazing.getFrameFactor() * glazingArea,
+					
 					ANGLE_FROM_HORIZONTAL, 
 					angleFromNorth, 
 					overshading);
@@ -147,6 +237,22 @@ public class Elevation implements IElevation {
 	}
 	
 	private class CHMDoorVisitor implements IDoorVisitor {
+		/*
+		BEISDOC
+		NAME: Door element
+		DESCRIPTION: The area, u-value and k-value for a door.
+		TYPE: formula
+		UNIT: area m^2, u-value W/m^2/℃, k-value kJ/m^2/℃
+		SAP: (26)
+		BREDEM: 3B
+		DEPS:
+		GET: house.u-value
+		SET: action.reset-doors
+		STOCK: elevations.csv (doorframe, tenthsopening), imputation schema (doors)
+		ID: door-element
+		NOTES: Semi-glazed doors are not implemented. Doors are distributed amongst walls based on the opening proportion for this elevation in the stock, as per the CHM method. Some doors may be omitted if the total area of doors is greater than the area allowed by this openingProportion.  
+		CODSIEB
+		*/
 		private double totalDoorArea = 0;
 		private double totalDoorHeatLossArea = 0;
 		private double remainingDoorArea;

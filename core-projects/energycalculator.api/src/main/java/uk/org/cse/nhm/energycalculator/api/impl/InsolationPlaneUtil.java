@@ -12,12 +12,48 @@ public class InsolationPlaneUtil {
 		final double sin2 = Math.pow(sin1, 2);
 		final double sin3 = Math.pow(sin1, 3);
 		
+		/*
+		BEISDOC
+		NAME: Solar orientation parameters
+		DESCRIPTION: Orientation parameters for computing solar flux based on orientation
+		TYPE: formula
+		UNIT: Dimensionless
+		SAP: (U3)
+		BREDEM: 2.4.1B, 2.4.1C, 2.4.1D
+		DEPS: solar-flux-constants, angle-from-north
+		ID: solar-orientation-parameters
+		CODSIEB
+		*/
 		final double A = kA[0] * sin3 + kA[1] * sin2 + kA[2] * sin1;
 		final double B = kB[0] * sin3 + kB[1] * sin2 + kB[2] * sin1;
 		final double C = kC[0] * sin3 + kC[1] * sin2 + kC[2] * sin1 + 1;
 		
+		/*
+		BEISDOC
+		NAME: Solar height factor
+		DESCRIPTION: A factor which alters the solar flux received based on the angle of the sun and the latitude.
+		TYPE: formula
+		UNIT: Dimensionless
+		SAP: (U2)
+		BREDEM: 2.4.1E
+		DEPS: solar-declination, latitude
+		ID: solar-height-factor
+		CODSIEB
+		*/
 		final double cosSun = Math.cos(latitude - solarDeclination);
 		
+		/*
+		BEISDOC
+		NAME: Solar flux adjustment
+		DESCRIPTION: The combined solar flux adjustment caused by the height of the sun, latitude, and orientation 
+		TYPE: formula
+		UNIT: Dimensionless
+		SAP: (U2)
+		BREDEM: 2.4.1F
+		DEPS: solar-height-factor, solar-flux-constants
+		ID: solar-flux-adjustment
+		CODSIEB
+		*/
 		final double R = A * Math.pow(cosSun, 2) + B * cosSun + C;
 		
 		return R;
@@ -41,6 +77,17 @@ public class InsolationPlaneUtil {
 		return slice;
 	}
 	
+	/*
+	BEISDOC
+	NAME: Constants for calculation of solar flux
+	DESCRIPTION: Constants for calculation of solar flux, based on orientation.
+	TYPE: table
+	UNIT: Dimensionless
+	SAP: Table U5
+	BREDEM: Table 15
+	ID: solar-flux-constants
+	CODSIEB
+	*/
 	private static final double A_TERMS[][] =
     {
         {0.056, -5.790, 6.230},

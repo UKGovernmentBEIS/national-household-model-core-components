@@ -96,6 +96,18 @@ public class SolarGainsSource implements IEnergyTransducer {
 			final double angleFromHorizontal,
 			final double angleFromNorth,
 			final OvershadingType overshading) {
+		/*
+		BEISDOC
+		NAME: Solar gains effective transmission area 2
+		DESCRIPTION: The effective solar gains transmission area after reflection and overshading are accounted for.
+		TYPE: formula
+		UNIT: m2
+		SAP: (74-82)
+		BREDEM: 5A
+		DEPS: solar-gains-effective-transmission-area,overshading-factor, solar-reflection
+		ID: solar-gains-effective-transmission-area-2
+		CODSIEB
+		*/
 		final double t = solarGainTransmissivity *
 				OVERSHADING_FACTOR[overshading.ordinal()] *
 				REFLECTION_FACTOR;
@@ -117,6 +129,18 @@ public class SolarGainsSource implements IEnergyTransducer {
 
 	@Override
 	public void generate(final IEnergyCalculatorHouseCase house, final IInternalParameters parameters, final ISpecificHeatLosses losses, final IEnergyState state) {
+		/*
+		BEISDOC
+		NAME: Monthly solar gains
+		DESCRIPTION: Total solar gains each month
+		TYPE: type
+		UNIT: W
+		SAP: (74-83)
+		BREDEM: 5A
+		DEPS: solar-gains-effective-transmission-area-2, effective-solar-flux
+		ID: monthly-solar-gains
+		CODSIEB
+		*/
 		double solarGain = 0;
 		
 		final ISeasonalParameters climate = parameters.getClimate();
