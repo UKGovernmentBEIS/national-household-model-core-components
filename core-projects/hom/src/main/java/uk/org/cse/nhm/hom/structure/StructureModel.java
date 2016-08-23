@@ -54,10 +54,40 @@ public class StructureModel implements ICopyable<StructureModel> {
 	private final Map<ElevationType, Elevation> elevations = new HashMap<ElevationType, Elevation>();
 	private final List<Storey> storeys = new ArrayList<Storey>();
 	private double livingAreaProportionOfFloorArea;
+	/*
+	BEISDOC
+	NAME: Interzone specific heat loss
+	DESCRIPTION: description
+	TYPE: value
+	UNIT: W/℃
+	SAP: Not applicable
+	BREDEM: 3J
+	NOTES: Interzone specific heat loss is currently always 0. I do not believe we have any way to get the information we would need to implement it.
+	ID: interzone-specific-heat-loss
+	CODSIEB
+	*/
 	private double interzoneSpecificHeatLoss;
+	
 	private boolean hasDraughtLobby;
 	private double zoneTwoHeatedProportion;
+	
+	/*
+	BEISDOC
+	NAME: Draught stripped proportion
+	DESCRIPTION: The proportion of windows and doors in the dwelling which are draught stripped
+	TYPE: value
+	UNIT: dimensionless
+	SAP: (14)
+	BREDEM: Not applicable (windows and doors handled individually)
+	DEPS: 
+	GET:
+	SET: measure.install-draught-proofing
+	STOCK: ventilation.csv (windowsanddoorsdraughtstrippedproportion)
+	ID: draught-stripped-proportion
+	CODSIEB
+	*/
 	private double draughtStrippedProportion;
+	
 	private FloorConstructionType groundFloorConstructionType;
 	private RoofConstructionType roofConstructionType;
 	private double floorInsulationThickness;
@@ -68,6 +98,22 @@ public class StructureModel implements ICopyable<StructureModel> {
     
     private double frontPlotDepth, frontPlotWidth;
     private double backPlotDepth, backPlotWidth;
+    
+    /*
+	BEISDOC
+	NAME: Sheltered sides
+	DESCRIPTION: The number of sides of the dwelling which are sheltered 
+	TYPE: value
+	UNIT: Count of elevations
+	SAP: (19)
+	BREDEM: Table 22
+	DEPS:
+	GET: 
+	SET:
+	STOCK: elevations.csv (if tenthsattached > 5, elevation is considered sheltered) 
+	ID: num-sheltered-sides
+	CODSIEB
+	*/
 	private int numberOfShelteredSides;
 	
     private boolean onGasGrid;
@@ -157,7 +203,7 @@ public class StructureModel implements ICopyable<StructureModel> {
 	}
 	
 	/**
-	 * This does a composition, going through each storey and asking it to accept the visitor and present its
+	 * This does\ a composition, going through each storey and asking it to accept the visitor and present its
 	 * heat loss surfaces and windows and so on.
 	 * <br />
 	 * 
@@ -210,6 +256,22 @@ public class StructureModel implements ICopyable<StructureModel> {
 	public void accept(final IEnergyCalculatorVisitor visitor) {
 		final int storeyCount = storeys.size();
 		
+		/*
+		BEISDOC
+		NAME: Internal wall element
+		DESCRIPTION: The area, u-value and k-value for a section of internal wall
+		TYPE: formula
+		UNIT: area m^2, u-value W/m^2/℃, k-value kJ/m^2/℃
+		SAP: (32c)
+		BREDEM: 3B
+		DEPS:
+		GET:
+		SET: action.reset-walls
+		STOCK: Based on CHM - internal wall area is the same as facade area.
+		ID: internal-wall-element
+		NOTES: Internal walls always have a u-value of 0.
+		CODSIEB
+		*/
 		visitor.visitFabricElement(AreaType.InternalWall, internalWallArea, 0, internalWallKValue);
 		
 		final Map<ElevationType, IElevation> elmap = new EnumMap<ElevationType, IElevation>(elevations);
@@ -305,6 +367,21 @@ public class StructureModel implements ICopyable<StructureModel> {
 	}
 	
 	public double getVolume() {
+		/*
+		BEISDOC
+		ID: dwelling-volume
+		NAME: Total volume of house
+		DESCRIPTION: Calculates the total volume of the house
+		TYPE: formula
+		UNIT: m3
+		SAP: (5)
+		BREDEM: Input variable VT
+		DEPS: storey-volume
+		GET: house.volume
+		SET: 
+		CODSIEB
+		*/
+
 		double acc = 0;
 		for (final Storey s : storeys) {
 			acc += s.getVolume();
@@ -313,6 +390,21 @@ public class StructureModel implements ICopyable<StructureModel> {
 	}
 	
 	public double getFloorArea() {
+		/*
+		BEISDOC
+		ID: dwelling-floor-area
+		NAME: Total floor area
+		DESCRIPTION: The floor area of the entire house
+		TYPE: formula
+		UNIT: m2
+		SAP: (4)
+		BREDEM: Input variable TFA
+		DEPS: storey-floor-area
+		GET: house.total-floor-area
+		SET: 
+		CODSIEB
+		*/
+
 		double acc = 0;
 		//TODO distinguish between internal and external floor area.
 		for (final Storey s : storeys) {
