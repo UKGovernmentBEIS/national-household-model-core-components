@@ -15,8 +15,34 @@ public enum EnergyCalculatorConstants implements IConstant {
 	WIND_FACTOR_DIVISOR(4.0), 
 	@ConstantDescription("This is the amount below demand temperature a fully unresponsive heating system is assumed to provide.")
 	UNRESPONSIVE_HEATING_SYSTEM_DELTA_T(2.0), 
+	
+	/*
+	BEISDOC
+	NAME: Metabolic gains per person
+	DESCRIPTION: The heat gain per person due to human metabolism. 
+	TYPE: value
+	UNIT: W/person
+	SAP: (66), Table 5
+	BREDEM: 6A
+	SET: context.energy-constants
+	ID: metabolic-gains-per-person
+	CODSIEB
+	*/
 	@ConstantDescription("The gains per occupant, in watts due to metabolism")
 	METABOLIC_GAINS_PER_PERSON(60.0),
+	
+	/*
+	BEISDOC
+	NAME: Evaporation loss per person
+	DESCRIPTION: The heat lost from the house due to evaporation per person.
+	TYPE: value
+	UNIT: W/person
+	SAP: (71), Table 5 (losses row)
+	BREDEM: 6F
+	SET: context.energy-constants
+	ID: evaporation-loss-per-person
+	CODSIEB
+	*/
 	@ConstantDescription("The gains per occupant due to evaporation, in watts")
 	EVAPORATION_GAINS_PER_PERSON(40.0),
 	@ConstantDescription("The thermal bridging coefficient used to estimate the thermal bridge contribution to heat loss parameter, for buildings which are older than the improvement year")
@@ -32,9 +58,8 @@ public enum EnergyCalculatorConstants implements IConstant {
 	DESCRIPTION: A constant multiplier due to overshading which reduces solar gains.
 	TYPE: 5 values (one for each overshading type)
 	UNIT: Dimensionless
-	SAP: Table 6d
+	SAP: Table 6d (winter solar access factor column)
 	BREDEM: Table 23 
-	DEPS: overshading
 	SET: context.energy-constants
 	NOTES: Only the middle overshading factor is ever used.
 	ID: overshading-factor

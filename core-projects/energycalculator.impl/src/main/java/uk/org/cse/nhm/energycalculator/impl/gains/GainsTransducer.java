@@ -49,6 +49,18 @@ public class GainsTransducer implements IEnergyTransducer {
 		state.increaseDemand(EnergyType.GainsHOT_WATER_SYSTEM_GAINS, hotWaterGains2);
 		state.increaseDemand(EnergyType.GainsSOLAR_GAINS, solarGains);
 		
+		/*
+		BEISDOC
+		NAME: Useful Gains
+		DESCRIPTION: Adds up all the gains we found, multiplying them by utilisation factors as necessary.
+		TYPE: formula
+		UNIT: W
+		SAP: (73, 84)
+		BREDEM: 6J, 6K
+		DEPS: monthly-solar-gains,metabolic-gains,lighting-gains-utilisation,lighting-energy-demand,appliance-adjusted-demand,TODO
+		ID: useful-gains
+		CODSIEB
+		*/
 		final double usefulGains = 
 				solarGains + 
 				metabolicGains + 

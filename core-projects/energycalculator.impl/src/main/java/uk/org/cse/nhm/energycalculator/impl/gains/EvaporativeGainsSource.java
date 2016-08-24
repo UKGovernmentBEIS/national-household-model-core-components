@@ -31,6 +31,18 @@ public class EvaporativeGainsSource implements IEnergyTransducer {
 
 	@Override
 	public void generate(final IEnergyCalculatorHouseCase house, final IInternalParameters parameters,final ISpecificHeatLosses losses, final IEnergyState state) {
+		/*
+		BEISDOC
+		NAME: Evaporation loss
+		DESCRIPTION: The total energy lost to evaporation.
+		TYPE: formula
+		UNIT: W
+		SAP: (71), Table 5
+		BREDEM: 6F
+		DEPS: evaporation-loss-per-person,occupancy
+		ID: evaporation-loss
+		CODSIEB
+		*/
 		final double evaporationGains = EVAPORATION_GAINS_PER_PERSON * parameters.getNumberOfOccupants();
 		
 		state.increaseDemand(EnergyType.GainsUSEFUL_GAINS, evaporationGains);

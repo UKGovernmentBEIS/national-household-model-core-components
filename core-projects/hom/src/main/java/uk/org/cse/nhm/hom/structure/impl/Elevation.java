@@ -188,7 +188,7 @@ public class Elevation implements IElevation {
 					/*
 					BEISDOC
 					NAME: Effective solar gains transmission area
-					DESCRIPTION: SOlar gains transmittance multiplied by frame factor multiplied by area for a transparent element.
+					DESCRIPTION: Solar gains transmittance multiplied by frame factor multiplied by area for a transparent element.
 					TYPE: formula
 					UNIT: m^2
 					SAP: (74-82)

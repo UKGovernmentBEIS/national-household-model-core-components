@@ -31,6 +31,18 @@ public class MetabolicGainsSource implements IEnergyTransducer {
 
 	@Override
 	public void generate(final IEnergyCalculatorHouseCase house, final IInternalParameters parameters,final ISpecificHeatLosses losses, final IEnergyState state) {
+		/*
+		BEISDOC
+		NAME: Metabolic gains
+		DESCRIPTION: The total heat gain due to human metabolism
+		TYPE: formula
+		UNIT: W
+		SAP: (66), Table 5
+		BREDEM: 6F
+		DEPS: metabolic-gains-per-person, occupancy
+		ID: metabolic-gains
+		CODSIEB
+		*/
 		final double metabolicGains = METABOLIC_GAINS_PER_PERSON * parameters.getNumberOfOccupants();
 		
 		state.increaseSupply(EnergyType.GainsMETABOLIC_GAINS, metabolicGains);

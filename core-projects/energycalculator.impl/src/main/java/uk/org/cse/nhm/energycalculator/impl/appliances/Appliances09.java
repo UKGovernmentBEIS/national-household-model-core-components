@@ -47,14 +47,42 @@ public class Appliances09 implements IEnergyTransducer {
 			final IInternalParameters parameters, 
 			final ISpecificHeatLosses losses,
 			final IEnergyState state) {
+		
+		/*
+		BEISDOC
+		NAME: Appliance Initial Demand
+		DESCRIPTION: Electricity demand from household appliances, before adjustment.
+		TYPE: formula
+		UNIT: W
+		SAP: (L10)
+		BREDEM: 1I
+		DEPS: appliance-demand-coefficient,appliance-demand-exponent,occupancy,dwelling-floor-area
+		ID: appliance-initial-demand
+		CODSIEB
+		*/
 		final double demand = APPLIANCE_DEMAND_COEFFICIENT * 		
 				Math.pow(house.getFloorArea() * parameters.getNumberOfOccupants(),
 						APPLIANCE_DEMAND_EXPONENT);
+		
 		if (log.isDebugEnabled()) log.debug("Ea = {} W", demand);
+		
+		/*
+		BEISDOC
+		NAME: Appliance Adjusted Demand 
+		DESCRIPTION: Electric demand from household appliances, adjusted for the month of the year.
+		TYPE: formula
+		UNIT: W
+		SAP: (L11)
+		BREDEM: (1J)
+		DEPS: appliance-initial-demand,appliance-adjustement-cosine-coefficient,appliance-adjustment-cosine-offset
+		ID: appliance-adjusted-demand
+		CODSIEB
+		*/
 		final double monthlyAdjustment = 
 				1 + APPLIANCE_DEMAND_COSINE_COEFFICIENT *
 				Math.cos(Math.PI * 2 * (parameters.getClimate().getMonthOfYear() - APPLIANCE_DEMAND_COSINE_OFFSET) / 12);
 		final double adjustedDemand = monthlyAdjustment * demand;
+		
 		if (log.isDebugEnabled()) log.debug("Monthly adjustment = {} (adjusted = {})", monthlyAdjustment, adjustedDemand);
 		
 		state.increaseElectricityDemand(APPLIANCE_HIGH_RATE_FRACTION[parameters.getTarrifType().ordinal()], adjustedDemand);

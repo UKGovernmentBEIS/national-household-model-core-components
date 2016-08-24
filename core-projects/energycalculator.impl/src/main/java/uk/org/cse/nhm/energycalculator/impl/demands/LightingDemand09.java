@@ -75,21 +75,71 @@ public class LightingDemand09 extends Sink {
 			final ISpecificHeatLosses losses,
 			final IEnergyState state) {
 		log.debug("Total light from windows: {}", totalLightFromWindows);
+		/*
+		BEISDOC
+		NAME: Base light demand
+		DESCRIPTION: The amount of light demanded calculated in terms of people and floor area
+		TYPE: formula
+		UNIT: Watts
+		SAP: (L1)
+		BREDEM: 1B
+		DEPS: light-demand-exponent,occupancy,dwelling-floor-area
+		NOTES: In SAP and BREDEM, this is immediately multiplied by the energy demand per light demand. We leave that step until later, since we prefer to work on one energy type at a time.
+		ID: base-light-demand
+		CODSIEB
+		*/
 		final double floorAreaPeople = house.getFloorArea() * parameters.getNumberOfOccupants();
 		final double demandWithoutAdjustment = 
 				Math.pow(floorAreaPeople, LIGHT_DEMAND_EXPONENT);
 
+		/*
+		BEISDOC
+		NAME: Daylight adjustment
+		DESCRIPTION: Adjustment to light demand based on the available daylight
+		TYPE: formula
+		UNIT: Dimensionless
+		SAP: (L3,L4)
+		BREDEM: 1E
+		DEPS: daylight-parameter-maximum,glazed-light-gains,dwelling-floor-area,daylight-adjustment-coefficients
+		ID: daylight-adjustment
+		CODSIEB
+		*/
 		final double daylightParameter = Math.min(DAYLIGHT_PARAMETER_MAXIMUM, totalLightFromWindows / house.getFloorArea());
 		final double daylightSavingCoefficient =
 						DLP_A * Math.pow(daylightParameter, 2) +
 						DLP_B * daylightParameter + 
 						DLP_C;
 		
+		/*
+		BEISDOC
+		NAME: Lighting monthly adjustment
+		DESCRIPTION: Adjustment to light demand based on the time of year
+		TYPE: formula
+		UNIT: Dimensionless
+		SAP: (L7)
+		BREDEM: 1G
+		DEPS: light-month-adjustment-coefficients
+		ID: light-month-adjustment
+		CODSIEB
+		*/
 		final double monthlyAdjustment = MONTHLY_ADJUSTMENT_A + MONTHLY_ADJUSTMENT_B * 
 				Math.cos(2 * Math.PI * (parameters.getClimate().getMonthOfYear() - MONTHLY_ADJUSTMENT_C) / 12);
 		
 		log.debug("Raw demand: {}, Daylight parameter: {}, savings factor: {}, month factor: {}", demandWithoutAdjustment, daylightParameter, daylightSavingCoefficient, monthlyAdjustment);
 		
+		/*
+		BEISDOC
+		NAME: Adjusted light demand
+		DESCRIPTION: Light demand adjusted for daylight from windows and the time of year.
+		TYPE: formula
+		UNIT: Watts
+		SAP: (L3,L4,L7,L8)
+		BREDEM: 1F,1G,1H
+		DEPS: base-light-demand,daylight-adjustment,light-month-adjustment
+		NOTES: Energy demand per lighting demand still not included at this point.
+		ID: adjusted-light-demand
+		CODSIEB
+		*/
 		return demandWithoutAdjustment * daylightSavingCoefficient * monthlyAdjustment;
 	}
 	
@@ -101,6 +151,18 @@ public class LightingDemand09 extends Sink {
 	public void addTransparentElement(final double visibleLightTransmittivity,
 			final double solarGainTransmissivity, final double horizontalOrientation,
 			final double verticalOrientation, final OvershadingType overshading) {
+		/*
+		BEISDOC
+		NAME: Glazing Light Gains
+		DESCRIPTION: Light entering the house through glazed elements
+		TYPE: formula
+		UNIT: Watts
+		SAP: (L5)
+		BREDEM: 1D
+		DEPS: overshading,overshading-factor,light-effective-transmission-area
+		ID: glazed-light-gains
+		CODSIEB
+		*/
 		totalLightFromWindows += 0.9 * visibleLightTransmittivity * OVERSHADING_FACTORS[overshading.ordinal()];
 	}
 }
