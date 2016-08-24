@@ -663,15 +663,26 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		int indexOfFirstHeatingSystem = 0;
 		final boolean heatingOn = adjustedParameters.getClimate().isHeatingOn();
 		for (final IEnergyTransducer transducer : transducers) {
+			
+			/*
+			 *  Stop running once we get to the heating transducers: 
+			 *  we only want to run those after we've calculated the mean internal temperature.
+			 */
 			if (transducer == stop)
 				break;
+			
 			indexOfFirstHeatingSystem++;
-			if (heatingOn || (transducer.getServiceType() != ServiceType.PRIMARY_SPACE_HEATING && transducer.getServiceType() != ServiceType.SECONDARY_SPACE_HEATING)) {
+			
+			/*
+			 * If uncommented, these lines would cause pumps and fans to be disabled during periods when the heating is off.
+			 */
+			//if (heatingOn || (transducer.getServiceType() != ServiceType.PRIMARY_SPACE_HEATING && transducer.getServiceType() != ServiceType.SECONDARY_SPACE_HEATING)) {
+				
 				if (log.isDebugEnabled())
 					log.debug("Running {}", transducer);
 				state.setCurrentServiceType(transducer.getServiceType(), transducer.toString());
 				transducer.generate(houseCase, adjustedParameters, heatLosses, state);
-			}
+			//}
 		}
 		return indexOfFirstHeatingSystem;
 	}
