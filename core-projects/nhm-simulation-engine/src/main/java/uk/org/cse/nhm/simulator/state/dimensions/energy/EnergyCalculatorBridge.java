@@ -263,6 +263,17 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 
 		@Override
 		public double getZoneTwoHeatedProportion() {
+			/*
+			BEISDOC
+			NAME: Zone 2 Control Fraction
+			DESCRIPTION: The proportion of Zone 2 which has thermostatic radiator valves.
+			TYPE: value
+			UNIT: Dimensionless
+			BREDEM: Section 7 fz2c Input
+			NOTES: Always 100%, since we have no information about it.
+			ID: zone-2-control-fraction
+			CODSIEB
+			*/
 			return 1d;
 		}
 
