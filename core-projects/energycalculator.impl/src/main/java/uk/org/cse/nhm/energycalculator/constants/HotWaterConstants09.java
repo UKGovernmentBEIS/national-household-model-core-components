@@ -25,8 +25,39 @@ public enum HotWaterConstants09 implements IConstant {
 	
 	@ConstantDescription("The energy in watts per unit volume of water degree temperature rise (watts)")
 	ENERGY_PER_VOLUME(0.048494594 * 0.85),
+	
+	/*
+	BEISDOC
+	NAME: Hot water usage factor
+	DESCRIPTION: The hot water usage factor, by month of the year - this is used to scale the demand for hot water
+	TYPE: value
+	UNIT: Dimensionless
+	SAP: Table 1c
+	BREDEM: Table 7
+	DEPS: 
+	GET:
+	SET: context.energy-constants
+	ID: monthly-water-usage-factor
+	CODSIEB
+	*/
 	@ConstantDescription("The hot water usage factor, by month of the year - this is used to scale the demand for hot water")
 	USAGE_FACTOR(1.10, 1.06, 1.02, 0.98,	0.94, 0.90, 0.90, 0.94, 0.98, 1.02, 1.06, 1.10),
+	
+	/*
+	BEISDOC
+	NAME: Hot water temperature factor
+	DESCRIPTION: The hot water temperature rise required, by month of the year
+	TYPE: value
+	UNIT: ℃
+	SAP: Table 1d
+	BREDEM: Table 8
+	DEPS: deps
+	GET: get
+	SET: set
+	ID: id
+	CODSIEB
+	*/
+
 	@ConstantDescription("The hot water temperature rise required, by month of the year (kelvin)")
 	RISE_TEMPERATURE(41.2, 41.4, 40.1, 37.6,	36.4, 33.9, 30.4, 33.4, 33.5, 36.3, 39.4, 39.9)
 	;

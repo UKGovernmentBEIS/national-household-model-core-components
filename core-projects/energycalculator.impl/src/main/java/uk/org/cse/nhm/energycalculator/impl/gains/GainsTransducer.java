@@ -35,7 +35,21 @@ public class GainsTransducer implements IEnergyTransducer {
 		final double lightingGains = state.getTotalSupply(EnergyType.GainsLIGHTING_GAINS);
 		final double applianceGains = state.getTotalSupply(EnergyType.GainsAPPLIANCE_GAINS);
 		final double cookingGains = state.getTotalSupply(EnergyType.GainsCOOKING_GAINS);
+		
+		/*
+		BEISDOC
+		NAME: Pump and fan gains
+		DESCRIPTION: The total internal heat gains from pumps and fans.
+		TYPE: formula
+		UNIT: W
+		SAP: (70), Table 5a
+		BREDEM: 6G, Table 26
+		DEPS: warm-air-fan-electricity,central-heating-pump-gains,oil-boiler-pump-gains
+		ID: pump-and-fan-gains
+		CODSIEB
+		*/
 		final double pumpGains = state.getTotalSupply(EnergyType.GainsPUMP_AND_FAN_GAINS);
+		
 		final double hotWaterGains = state.getTotalSupply(EnergyType.GainsHOT_WATER_USAGE_GAINS);
 		final double hotWaterGains2 = state.getTotalSupply(EnergyType.GainsHOT_WATER_SYSTEM_GAINS);
 		final double solarGains = state.getTotalSupply(EnergyType.GainsSOLAR_GAINS);
@@ -57,7 +71,7 @@ public class GainsTransducer implements IEnergyTransducer {
 		UNIT: W
 		SAP: (73, 84)
 		BREDEM: 6J, 6K
-		DEPS: monthly-solar-gains,metabolic-gains,lighting-gains-utilisation,lighting-energy-demand,appliance-adjusted-demand,TODO
+		DEPS: monthly-solar-gains,metabolic-gains,lighting-gains-utilisation,lighting-energy-demand,appliance-adjusted-demand,pump-and-fan-gains,TODO
 		ID: useful-gains
 		CODSIEB
 		*/

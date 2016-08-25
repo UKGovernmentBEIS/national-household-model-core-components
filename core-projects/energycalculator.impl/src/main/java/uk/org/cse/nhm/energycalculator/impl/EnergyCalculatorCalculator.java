@@ -273,15 +273,56 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 	 */
 	protected static double calculateGainsUtilisationFactor(final double Tin, final double Text, final double H,
 			final double totalGains, final double utilisationFactorExponent) {
+		
+		/*
+		BEISDOC
+		NAME: Heat loss rate at temperature
+		DESCRIPTION: The amount of heat lost by a dwelling at given internal and external temperatures 
+		TYPE: formula
+		UNIT: W
+		SAP: Table 9a (computation of L)
+		BREDEM: 7H, 7Q
+		DEPS: weather,zone-1-demand-temperature,zone-2-adjusted-demand-temperature,heat-loss
+		ID: heat-loss-at-temperature
+		NOTES: This calculation step repeated twice - once for each Zone.
+		CODSIEB
+		*/
 		final double heatLossRate = H * (Tin - Text);
 
 		// from l'hopital's rule.
 		if (heatLossRate == 0)
 			return 0;
 
+		/*
+		BEISDOC
+		NAME: Gain to Loss Ratio
+		DESCRIPTION: The ratio of total internal gains to heat loss
+		TYPE: formula
+		UNIT: Dimensionless
+		SAP: Table 9a (computation of gamma)
+		BREDEM: 7I, 7R
+		DEPS: heat-loss-at-temperature,total-gains
+		ID: gain-to-loss-ratio
+		NOTES: This calculation step repeated twice - once for each Zone.
+		CODSIEB
+		*/
 		final double gainToLossRatio = totalGains / heatLossRate;
 
 		final double gainsUtilisationFactor;
+		
+		/*
+		BEISDOC
+		NAME: Gains Utilisation Factor
+		DESCRIPTION: The proportion of total internal gains which was useful for heating the dwelling.
+		TYPE: formula
+		UNIT: Dimensionless
+		SAP: Table 9a (computation of Nu)
+		BREDEM: 7J,7S
+		DEPS: utilisation-factor-exponent,gain-to-loss-ratio
+		ID: gains-utilisation-factor
+		NOTES: This calculation step repeated twice - once for each Zone.
+		CODSIEB
+		*/
 		if (gainToLossRatio < 0) {
 			gainsUtilisationFactor = 1;
 		} else if (gainToLossRatio == 1f) {
@@ -326,26 +367,100 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		final double H = specificHeatLoss;
 		final double H3 = heatLosses.interzoneHeatLoss;
 
+		/*
+		BEISDOC
+		NAME: Unheated Zone 2 Temperature
+		DESCRIPTION: The average temperature in Zone 2 while the heating is off.
+		TYPE: formula
+		UNIT: ℃
+		BREDEM: 7D
+		DEPS: zone-1-demand-temperature,interzone-specific-heat-loss,weather,heat-loss,total-gains
+		NOTES: This will never actually be used, because the zone two heated proportion is always 1.
+		ID: unheated-zone-2-temperature
+		CODSIEB
+		*/
 		// Equation corrected from BREDEM 2009
 		final double unheatedZoneTwoTemperature = Math.min(Td1, (Td1 * H3 + Text * H + totalGains) / (H + H3));
 
 		log.debug("Unheated zone 2 temperature (with gains): {}", unheatedZoneTwoTemperature);
 
+		/*
+		BEISDOC
+		NAME: Adjusted Zone 2 Demand Temperature 
+		DESCRIPTION: The Zone 2 Demand Temperature interpolated with the unheated Zone 2 temperature, based on the proportion of Zone 2 which is heated.  
+		TYPE: formula
+		UNIT: ℃
+		BREDEM: 7E
+		DEPS: unheated-zone-2-temperature,zone-2-demand-temperature,zone-2-control-fraction
+		NOTES: Since Zone Two control faction is always 1, this adjustment has no effect (degenerates to the SAP case).
+		NOTES: Zone two heat proportion in the code is the same as Zone two control fraction in BREDEM.
+		ID: zone-2-adjusted-demand-temperature
+		CODSIEB
+		*/
 		// interpolate zone two demand temperature
 		final double Td2_2 = Td2 * zoneTwoheatedProportion + (1 - zoneTwoheatedProportion) * unheatedZoneTwoTemperature;
 
+		/*
+		BEISDOC
+		NAME: Zone 1 Utilisation Factor
+		DESCRIPTION: The gains utilisation factor calculated with the temperatures from Zone 1.
+		TYPE: formula
+		UNIT: Dimensionless
+		SAP: Table 9a
+		BREDEM: 7J 
+		DEPS: gains-utilisation-factor
+		ID: zone-1-utilisation-factor
+		CODSIEB
+		*/
 		final double utilisationFactorInZone1 = calculateGainsUtilisationFactor(Td1, Text, specificHeatLoss, totalGains,
 				utilisationFactorExponent);
+		
+		/*
+		BEISDOC
+		NAME: Zone 2 Utilisation Factor
+		DESCRIPTION: The gains utilisation factor calculated with the temperatures from Zone 1.
+		TYPE: formula
+		UNIT: Dimensionless
+		SAP: Table 9a
+		BREDEM: 7J 
+		DEPS: gains-utilisation-factor
+		ID: zone-2-utilisation-factor
+		CODSIEB
+		*/
 		final double utilisationFactorInZone2 = calculateGainsUtilisationFactor(Td2_2, Text, specificHeatLoss,
 				totalGains, utilisationFactorExponent);
 
 		final double deltaT = parameters.getConstants().get(EnergyCalculatorConstants.UNRESPONSIVE_HEATING_SYSTEM_DELTA_T);
 
+		/*
+		BEISDOC
+		NAME: Unresponsive temperatures
+		DESCRIPTION: The temperatures of each Zone while heating is off, if the heating system were completely unresponsiveness.
+		TYPE: formula
+		UNIT: ℃
+		SAP: Table 9b
+		BREDEM: 7L, 7T
+		DEPS: unresponsive-temperature-reduction,zone-1-demand-temperature,zone-2-adjusted-demand-temperature
+		ID: unresponsive-temperatures
+		CODSIEB
+		*/
 		final double[] unresponsiveTemperatures = new double[] { Math.max(Text, Td1 - deltaT),
 				Math.max(Text, Td2_2 - deltaT) };
 
+		/*
+		BEISDOC
+		NAME: Responsive temperatures
+		DESCRIPTION: The temperatures of each Zone while heating is off, if the heating system were completely responsive.
+		TYPE: formula
+		UNIT: ℃
+		SAP: Table 9b
+		BREDEM: 7L, 7T
+		DEPS: weather,zone-1-utilisation-factor,zone-2-utilisation-factor,total-gains,heat-loss
+		ID: responsive-temperatures
+		CODSIEB
+		*/
 		final double[] responsiveTemperatures = new double[] {
-				Text + div(utilisationFactorInZone1 * totalGains, specificHeatLoss, "repsonsive temperature 0"),
+				Text + div(utilisationFactorInZone1 * totalGains, specificHeatLoss, "responsive temperature 0"),
 				Text + div(utilisationFactorInZone2 * totalGains, specificHeatLoss, "responsive temperature 1") };
 
 		log.debug("Utilisation factors: {}, {}", utilisationFactorInZone1, utilisationFactorInZone2);
@@ -460,6 +575,19 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		final double coolingTime = getCoolingTime(timeConstant);
 		final double utilisationFactorExponent = getUtilisationFactorExponent(timeConstant);
 
+		/*
+		BEISDOC
+		NAME: Total gains
+		DESCRIPTION: Offset evaporation loss against the internal heat gains.
+		TYPE: type
+		UNIT: unit
+		SAP: (73)
+		BREDEM: 6J
+		DEPS: useful-gains,evaporation-loss
+		NOTES: In SAP and BREDEM, this happens earlier on. We do it here in order to take advantage of the supply vs demand ledger structure of our code. 
+		ID: total-gains
+		CODSIEB
+		*/
 		final double totalGains = state.getExcessSupply(EnergyType.GainsUSEFUL_GAINS);
 		final double[][] backgroundTemperatures = calculateBackgroundTemperatures(adjustedParameters, heatLosses,
 				houseCase.getZoneTwoHeatedProportion(), totalGains, utilisationFactorExponent);
@@ -633,14 +761,51 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 	}
 
 	private final double getUtilisationFactorExponent(final double timeConstant) {
+		/*
+		BEISDOC
+		NAME: Utilisation Factor Exponent
+		TYPE: formula
+		UNIT: Dimensionless
+		SAP: Table 9a
+		BREDEM: 7G
+		DEPS: time-constant
+		ID: utilisation-factor-exponent,utilisation-factor-time-constant-divisor
+		CODSIEB
+		*/
+
 		return 1 + (timeConstant / UTILISATION_FACTOR_TIME_CONSTANT_DIVISOR);
 	}
 
 	private final double getCoolingTime(final double timeConstant) {
+		/*
+		BEISDOC
+		NAME: Cooling time
+		DESCRIPTION: The rate at which a dwelling cools down.
+		TYPE: formula
+		UNIT: Hours
+		SAP: Table 9b
+		BREDEM: 7K
+		DEPS: time-constant,mimimum-cooling-time,cooling-time-time-constant-multiplier
+		ID: cooling-time
+		CODSIEB
+		*/
+
 		return MINIMUM_COOLING_TIME + COOLING_TIME_CONSTANT_MULTIPLIER * timeConstant;
 	}
 
 	private final double getTimeConstant(final SpecificHeatLosses heatLosses) {
+		/*
+		BEISDOC
+		NAME: Time constant
+		DESCRIPTION: A number which represents how quickly the dwelling's temperature changes.  
+		TYPE: formula
+		UNIT: Hours
+		SAP: Table 9a
+		BREDEM: 7F
+		DEPS: thermal-mass-parameter,heat-loss-parameter,time-constant-heat-loss-parameter-multiplier
+		ID: time-constant
+		CODSIEB
+		*/
 		return div(heatLosses.thermalMassParameter,
 				(TIME_CONSTANT_HEAT_LOSS_PARAMETER_MULTIPLIER * heatLosses.heatLossParameter), "time constant");
 	}
@@ -736,15 +901,55 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 	protected double calculateZoneTwoDemandTemperature(final double interzoneTemperatureDifference,
 			final double heatLossParameter, final double heatingSystemZoneTwoControlParameter,
 			final double newZone1DemandTemperature) {
+		
+		/*
+		BEISDOC
+		NAME: Uncontrolled Zone 2 Demand Temperature
+		DESCRIPTION: The zone 2 demand temperature in case of heating control type 1.
+		TYPE: formula
+		UNIT: ℃
+		SAP: Table 9 (row 1, Temperature H2)
+		BREDEM: 7A
+		DEPS: reference-heat-loss-parameter,heat-loss-parameter,zone-1-demand-temperature,interzone-temperature-difference
+		ID: uncontrolled-zone2-demand-temperature
+		CODSIEB
+		*/
 		final double uncontrolledZoneTwoDemandTemperature = newZone1DemandTemperature - interzoneTemperatureDifference
 				* (Math.min(REFERENCE_HEAT_LOSS_PARAMETER, heatLossParameter) / REFERENCE_HEAT_LOSS_PARAMETER);
 
+		/*
+		BEISDOC
+		NAME: Controlled Zone 2 Demand Temperature
+		DESCRIPTION: The zone 2 demand temperature in case of heating control types 2 or 3 
+		TYPE: formula
+		UNIT: ℃
+		SAP: Table 9 (rows 2 and 3, Temperature H2)
+		BREDEM: 7B
+		DEPS: reference-heat-loss-parameter,heat-loss-parameter,zone-1-demand-temperature,interzone-temperature-difference
+		ID: controlled-zone2-demand-temperature 
+		CODSIEB
+		*/
 		final double controlledZoneTwoDemandTemperature = newZone1DemandTemperature + interzoneTemperatureDifference
 				* (Math.pow(Math.min(heatLossParameter - REFERENCE_HEAT_LOSS_PARAMETER, 0), 2)
 						/ REFERENCE_HEAT_LOSS_PARAMETER2 - 1);
 
+		/*
+		BEISDOC
+		NAME: Zone 2 Demand Temperature
+		DESCRIPTION: The zone 2 demand temperature
+		TYPE: formula
+		UNIT: ℃
+		SAP: Table 9 (Temperature H2 column)
+		BREDEM: 7C
+		DEPS: controlled-zone2-demand-temperature,uncontrolled-zone2-demand-temperature,zone-2-control-parameter
+		NOTES: While this looks like the BREDEM algorithm, it actually behaves according to SAP rather than BREDEM.
+		NOTES: If the zone 2 control parameter is 0, we get row 1 of the SAP table. If it is 1, we get rows 2 and 3 (which are the same).  
+		ID: zone2-demand-temperature
+		CODSIEB
+		*/
 		final double result = controlledZoneTwoDemandTemperature * heatingSystemZoneTwoControlParameter
 				+ uncontrolledZoneTwoDemandTemperature * (1 - heatingSystemZoneTwoControlParameter);
+		
 		return result;
 	}
 

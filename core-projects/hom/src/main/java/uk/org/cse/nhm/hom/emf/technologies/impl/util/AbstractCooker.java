@@ -118,6 +118,20 @@ public abstract class AbstractCooker implements IEnergyTransducer {
 	public void generate(final IEnergyCalculatorHouseCase house, final IInternalParameters parameters, final ISpecificHeatLosses losses, final IEnergyState state) {
 		if (parameters.getNumberOfOccupants() == 0) return;
 		
+		/*
+		BEISDOC
+		NAME: Cooker Demand
+		DESCRIPTION: The fuel energy demand for cooking.
+		TYPE: formula
+		UNIT: W
+		SAP: (L15)
+		DEPS: 
+		NOTES: This value is halved here, because we create two separate 'cooker objects' for the hob and the oven.
+		NOTES: TODO BREDEM has an entirely different implementation for cooking.
+		NOTES: TODO efficiency mess
+		ID: cooking-demand
+		CODSIEB
+		*/
 		final double demand = (baseLoad + personSensitivity * parameters.getNumberOfOccupants()) / 2;
 		
 		final double output = 

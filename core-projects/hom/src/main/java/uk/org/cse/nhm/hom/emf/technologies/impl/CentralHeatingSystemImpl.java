@@ -275,6 +275,18 @@ public class CentralHeatingSystemImpl extends SpaceHeaterImpl implements ICentra
 			// we need to include the central heating pump
 			
 			visitor.visitEnergyTransducer(
+					/*
+					BEISDOC
+					NAME: Central heating pump power demand
+					DESCRIPTION: The power consumed by the central heating pump. 
+					TYPE: formula
+					UNIT: W
+					SAP: Table 4f
+					BREDEM: Table 4
+					DEPS: central-heating-pump-base-power,pump-no-thermostat-modifier
+					ID: central-heating-pump-power
+					CODSIEB
+					*/
 					new Pump("CH", ServiceType.PRIMARY_SPACE_HEATING, 
 					constants.get(PumpAndFanConstants.CENTRAL_HEATING_PUMP_WATTAGE)
 					* (getControls().contains(HeatingSystemControlType.ROOM_THERMOSTAT) ?

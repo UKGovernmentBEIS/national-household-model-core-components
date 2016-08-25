@@ -283,6 +283,18 @@ public class StorageCombiBoilerImpl extends CombiBoilerImpl implements IStorageC
 	@Override
 	protected double getAdditionalUsageLosses(final IInternalParameters parameters,
 			final IEnergyState state) {
+		/*
+		BEISDOC
+		NAME: Storage combi losses
+		DESCRIPTION: Extra losses which only apply to combi boilers - storage version
+		TYPE: formula
+		UNIT: W
+		SAP: Table 3a
+		BREDEM: Table 13
+		DEPS: storage-combi-volume-threshold,storage-combi-storage-loss-factor,combi-loss-water-usage-limit
+		ID: combi-losses-storage
+		CODSIEB
+		*/
 		final IConstants constants = parameters.getConstants();
 		if (getStore().getVolume()  >= constants.get(HeatingSystemConstants.STORAGE_COMBI_VOLUME_THRESHOLD)) {
 			return 0;

@@ -327,7 +327,7 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 
 		if (getFuel().isGas() && getFlueType() == FlueType.FAN_ASSISTED_BALANCED_FLUE) {
 			visitor.visitEnergyTransducer(new Pump("Heat Pump Flue", ServiceType.PRIMARY_SPACE_HEATING, constants.get(
-					PumpAndFanConstants.GAS_BOILER_FLUE_FAN_WATTAGE), 0));
+					PumpAndFanConstants.GAS_HEAT_PUMP_FLUE_FAN_WATTAGE), 0));
 		}
 	}
 

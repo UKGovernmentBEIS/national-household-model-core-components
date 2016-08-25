@@ -614,6 +614,18 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 		if (getFuel() == FuelType.OIL && getSpaceHeater() != null) {
 			
 			visitor.visitEnergyTransducer(
+					/*
+					BEISDOC
+					NAME: Oil boiler pump energy demand
+					DESCRIPTION: The power consumed by an oil boiler pump.
+					TYPE: formula
+					UNIT: W
+					SAP: Table 4f
+					BREDEM: Table 4
+					DEPS: oil-boiler-pump-base-power,pump-no-thermostat-modifier
+					ID: oil-boiler-pump-power
+					CODSIEB
+					*/
 					new Pump("Oil Fuel", ServiceType.PRIMARY_SPACE_HEATING, 
 							constants.get(PumpAndFanConstants.OIL_FUEL_PUMP_WATTAGE) *
 							(getSpaceHeater().getControls().contains(HeatingSystemControlType.ROOM_THERMOSTAT) ?
@@ -872,7 +884,20 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 				!(store == null) && store.isThermostatFitted()
 				, primaryCorrectionFactor);
 		
+		/*
+		BEISDOC
+		NAME: Combi boiler losses
+		DESCRIPTION: Additional losses which apply only to combi boilers.
+		TYPE: formula
+		UNIT: W
+		SAP: (61), Table 3a
+		BREDEM: Table 13
+		DEPS: combi-losses-instant,combi-losses-storage
+		ID: combi-losses
+		CODSIEB
+		*/
 		final double additionalUsageLosses = getAdditionalUsageLosses(parameters, state);
+		
 		final double powerOutOfBoiler =  demandThisBoilerWillSatisfy + primaryCircuitLosses + additionalUsageLosses;
 
 		final double gainsOutOfBoiler =  primaryCircuitLosses;

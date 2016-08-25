@@ -196,6 +196,16 @@ public class WaterTankImpl extends MinimalEObjectImpl implements IWaterTank {
 
 	/**
 	 * <!-- begin-user-doc -->
+	BEISDOC
+	NAME: Cylinder factory insulated
+	DESCRIPTION: Whether or not the cylinder is factory insulated
+	TYPE: value
+	UNIT: Boolean
+	SAP: Input
+	BREDEM: Input
+	STOCK: water-heating.csv (cylinderfactoryinsulated)
+	ID: cylinder-insulation-type
+	CODSIEB	 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -217,6 +227,17 @@ public class WaterTankImpl extends MinimalEObjectImpl implements IWaterTank {
 
 	/**
 	 * <!-- begin-user-doc -->
+	BEISDOC
+	NAME: Cylinder volume
+	DESCRIPTION: The volume of the hot water cylinder (or the internal store of a storage combi or CPSU).
+	TYPE: value
+	UNIT: m^3
+	SAP: (47)
+	BREDEM: User input
+	SET: cylinder-volume property when installing a measure
+	STOCK: water-heating.csv (cylindervolume)
+	ID: cylinder-volume
+	CODSIEB
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -498,6 +519,18 @@ public class WaterTankImpl extends MinimalEObjectImpl implements IWaterTank {
 	 * @return
 	 */
 	private double getVolumeFactor(IConstants constants) {
+		/*
+		BEISDOC
+		NAME: Volume factor
+		DESCRIPTION: A mystery factor which the volume of the tank is multiplied by to get its losses.
+		TYPE: formula
+		UNIT: Dimensionless
+		SAP: (52), Table 2a footnote 2
+		BREDEM: 2.2B.b
+		DEPS: volume-factor-terms,cylinder-volume
+		ID: volume-factor
+		CODSIEB
+		*/
 		return Math.pow(constants.get(CylinderConstants.VOLUME_FACTOR_TERMS, 0) / getVolume(),
 				constants.get(CylinderConstants.VOLUME_FACTOR_TERMS, 1));
 	}
@@ -508,6 +541,20 @@ public class WaterTankImpl extends MinimalEObjectImpl implements IWaterTank {
 	 * @return
 	 */
 	private double getCylinderLossFactor(final IConstants constants) {
+		/*
+		BEISDOC
+		NAME: Cylinder loss factor
+		DESCRIPTION: A mystery factor which the volume of the tank is multiplied by to get its losses.
+		TYPE: formula
+		UNIT: W/litre
+		SAP: (51), Table 2
+		BREDEM: 2.2B.a
+		DEPS: cylinder-loss-constant,cylinder-loss-loose-jacket-terms,cylinder-loss-factory-foam-terms,cylinder-insulation-type
+		NOTES: Both SAP and BREDEM specify that CPSU cylinder loss factor should always be 0.022. This is not implemented in the NHM.
+		NOTES: In SAP and BREDEM this is in kWh/litre/day. In the NHM it is scaled to W/litre.
+		ID: cylinder-loss-factor
+		CODSIEB
+		*/
 		final double[] terms;
 		if (isFactoryInsulation()) {
 			terms = constants.get(CylinderConstants.FACTORY_JACKET_FACTORS, double[].class);

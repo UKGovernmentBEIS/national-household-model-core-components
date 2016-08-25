@@ -54,8 +54,37 @@ public class HotWaterDemand09 implements IEnergyTransducer {
 		final double USAGE_FACTOR = constants.get(HotWaterConstants09.USAGE_FACTOR, monthNumber);
 		final double RISE_TEMPERATURE = constants.get(HotWaterConstants09.RISE_TEMPERATURE, monthNumber);
 
+		/*
+		BEISDOC
+		NAME: Water volume
+		DESCRIPTION: The volume of hot water required by the house
+		TYPE: formula
+		UNIT: m^3
+		SAP: (43,44)
+		BREDEM: 2.1A to 2.1G
+		DEPS: occupancy,monthly-water-usage-factor
+		GET:
+		SET:
+		NOTES: This is the SAP calculation, which is simpler than the BREDEM calculation. The two calculations are equivalent if shower-type in BREDEM is set to "unknown". Since we don't have any information about showers, this is what we will do.
+		NOTES: We omit the 5% reduction in hot water usage for dwellings with hot water targets. We have no information about this.   
+		ID: water-volume
+		CODSIEB
+		*/
 		final double volume = (CONSTANT + PERSON * parameters.getNumberOfOccupants()) * USAGE_FACTOR;
 		
+		/*
+		BEISDOC
+		NAME: Water heating power
+		DESCRIPTION: The power required to provide hot water.
+		TYPE: formula
+		UNIT: W
+		SAP: (45,46), Tables
+		BREDEM: 2.1H, 2.1I
+		DEPS: water-volume,monthly-water-temperature-factor
+		NOTES: In the NHM this is expressed in Watts. In SAP and BREDEM it is expressed in kWh/month. These units are equivalent with a time conversion.
+		ID: water-heating-power
+		CODSIEB
+		*/
 		final double power = volume * RISE_TEMPERATURE * FACTOR;
 		
 		log.debug("Hot water demand: {} W, {} l", power, volume);

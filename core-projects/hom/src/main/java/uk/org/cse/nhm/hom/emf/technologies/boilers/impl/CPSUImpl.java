@@ -384,6 +384,20 @@ public class CPSUImpl extends BoilerImpl implements ICPSU {
 	
 	@Override
 	public double getContainedTankLosses(final IInternalParameters parameters) {
+		/*
+		BEISDOC
+		NAME: CPSU Storage losses
+		DESCRIPTION: Storage losses for a CPSU.
+		TYPE: formula
+		UNIT: W
+		SAP: Table 2, footnote 3
+		BREDEM: bredem
+		DEPS: deps
+		GET: get
+		SET: set
+		ID: id
+		CODSIEB
+		*/
 		final IWaterTank store = getStore();
 		
 		return store.getStandingLosses(parameters) * getStorageTemperatureFactor(parameters, store, true);

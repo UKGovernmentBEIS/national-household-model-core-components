@@ -11,15 +11,66 @@ import uk.org.cse.nhm.energycalculator.api.IConstant;
  */
 @ConstantDescription("Constants pertaining to the cylinder loss model, drawn from SAP tables 2, 2a, 2b.")
 public enum CylinderConstants implements IConstant {
+	/*
+	BEISDOC
+	NAME: Cylinder loss constant
+	DESCRIPTION: The constant term of the cylinder loss factor formula.
+	TYPE: value
+	UNIT: W
+	SAP: Table 2 footnote 1
+	BREDEM: 2.2B.a
+	SET: context.energy-constants
+	NOTES: Scaled by (1000/24) to convert from kWh/day to W.
+	ID: cylinder-loss-constant
+	CODSIEB
+	*/
 	@ConstantDescription("The constant term in all loss factor equations")
 	LOSS_FACTOR_CONSTANT_TERM(0.20833333),
 
+	/*
+	BEISDOC
+	NAME: Cylinder loss loose jacket terms 
+	DESCRIPTION: The remaining two numeric terms of the cylinder loss factor formula for mineral wool jacket insulation.
+	TYPE: value
+	UNIT: ???
+	SAP: Table 2 footnote 1
+	BREDEM: 2.2B.a
+	SET: context.energy-constants
+	NOTES: The first term must be scaled by (1000/24) to convert from kWh/day to W.
+	ID: cylinder-loss-loose-jacket-terms
+	CODSIEB
+	*/
 	@ConstantDescription("The loss factor equation terms for loose jacket cylinders")
 	LOOSE_JACKET_FACTORS(73.33333, 12.8),
 
+	/*
+	BEISDOC
+	NAME: Cylinder loss factor foam terms
+	DESCRIPTION: The remaining two numeric terms of the cylinder loss factor formula for factory foam insulation.
+	TYPE: value
+	UNIT: ???
+	SAP: Table 2 footnote 1
+	BREDEM: 2.2B.a
+	SET: context.energy-constants
+	NOTES: The first term must be scaled by (1000/24) to convert from kWh/day to W.
+	ID: cylinder-loss-factory-foam-terms
+	CODSIEB
+	*/
 	@ConstantDescription("The loss factor equation terms for factory jacket cylinders")
 	FACTORY_JACKET_FACTORS(22.9167, 4.0),
 
+	/*
+	BEISDOC
+	NAME: Volume factor terms
+	DESCRIPTION: The terms of the volume loss factor formula.
+	TYPE: value
+	UNIT: Dimensionless
+	SAP: (52), Table 2a footnote 2
+	BREDEM: 2.2B.b
+	SET: context.energy-constants
+	ID: volume-factor-terms
+	CODSIEB
+	*/
 	@ConstantDescription("The terms for the volume factor equation")
 	VOLUME_FACTOR_TERMS(120, 1 / 3.0),
 

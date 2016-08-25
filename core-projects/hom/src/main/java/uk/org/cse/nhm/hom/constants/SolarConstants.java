@@ -21,8 +21,22 @@ public enum SolarConstants implements IConstant {
 	OVERSHADING_FACTOR(1, 1, 0.9, 0.8, 0.5), // none, very little, average, above average, heavy - adjusted to match CHM on "average"
 	@ConstantDescription("Solar utilisation factor is multiplied by this if there is no tank thermostat")
 	UTILISATION_FACTOR_THERMOSTAT_FACTOR(0.9), 
+	
+	/*
+	BEISDOC
+	NAME: Solar water pump power
+	DESCRIPTION: The average wattage of the circulation pump for a solar water heater, assuming it is not PV powered
+	TYPE: value
+	UNIT: W
+	SAP: Table 4f
+	BREDEM: Table 4
+	SET: context.energy-constants
+	CONVERSION: From kWh/year to W, multiply by (hours/year) and divide by k; (365.25 * 24) / 1000
+	ID: solar-water-pump-power
+	CODSIEB
+	*/
 	@ConstantDescription("The average wattage of the circulation pump")
-	CIRCULATION_PUMP_WATTAGE(8.556) // this is 75 kWh/year in watts.
+	CIRCULATION_PUMP_WATTAGE(5.70) // this is 50 kWh/year in watts.
 	;
 	
 	private final double[] values;

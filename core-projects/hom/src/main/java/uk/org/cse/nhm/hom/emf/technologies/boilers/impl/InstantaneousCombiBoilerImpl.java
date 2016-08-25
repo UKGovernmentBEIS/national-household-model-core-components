@@ -178,6 +178,18 @@ public class InstantaneousCombiBoilerImpl extends CombiBoilerImpl implements IIn
 
 	@Override
 	protected double getAdditionalUsageLosses(final IInternalParameters parameters, final IEnergyState state) {
+		/*
+		BEISDOC
+		NAME: Instant combi losses
+		DESCRIPTION: Extra losses which only apply to combi boilers - instantaneous version
+		TYPE: formula
+		UNIT: W
+		SAP: Table 3a
+		BREDEM: Table 13
+		DEPS: combi-losses-instant-keep-hot,instantaneous-factor,combi-loss-water-usage-limit
+		ID: combi-losses-instant
+		CODSIEB
+		*/
 		final IKeepHotFacility facility = getKeepHotFacility();
 		if (facility == null) {
 			//SAP table 3a, instantaneous combi without anything

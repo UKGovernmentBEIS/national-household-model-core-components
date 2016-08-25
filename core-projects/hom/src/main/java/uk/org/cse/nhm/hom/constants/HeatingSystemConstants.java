@@ -38,21 +38,98 @@ public enum HeatingSystemConstants implements IConstant {
 	@ConstantDescription("Electric CPSU temperature offset (SAP appendix F)")
 	ELECTRIC_CPSU_WINTER_TEMPERATURE_OFFSET(48),
 	
+	/*
+	BEISDOC
+	NAME: Combi loss factor hot water usage limit
+	DESCRIPTION: Combi additional loss factor daily hot water usage limit
+	TYPE: value
+	UNIT: Litres/day
+	SAP: Table 3a second section
+	BREDEM: Table 13 footnote a
+	SET: context.energy-constants
+	ID: combi-loss-water-usage-limit
+	CODSIEB
+	*/
 	@ConstantDescription("Combi additional loss factor daily hot water usage limit (SAP 2009 table 3a)")
 	COMBI_HOT_WATER_USAGE_LIMIT(100),
 	
+	/*
+	BEISDOC
+	NAME: Instantaneous combi factor
+	DESCRIPTION: Instantaneous combi without keep-hot facility loss factor
+	TYPE: value
+	UNIT: W
+	SAP: Table 3a, row 1
+	BREDEM: Table 13, row 1
+	SET: context.energy-constants
+	CONVERSION: From kWh/year to W (1000 / (24 * 365)).  
+	ID: instantaneous-factor
+	CODSIEB
+	*/
 	@ConstantDescription("Instantaneous combi without KHF loss factor (SAP 2009 table 3a, row 1, converted from kWh/year to watts)")
 	INSTANTANEOUS_COMBI_FACTOR(68.4477), 
 	
+	
+	/*
+	BEISDOC
+	NAME: Storage combi volume threshold
+	DESCRIPTION: The threshold volume above which a storage combi boiler has no additional losses 
+	TYPE: value
+	UNIT: Litres
+	SAP: Table 3a, row 5
+	BREDEM: Table 13, row 4
+	SET: context.energy-constants
+	ID: storage-combi-volume-threshold
+	CODSIEB
+	*/
 	@ConstantDescription("The threshold volume above which a storage combi boiler has no additional losses (SAP 2009 table 3a)")
 	STORAGE_COMBI_VOLUME_THRESHOLD(55), 
 	
+	/*
+	BEISDOC
+	NAME: Instantaneous keep-hot factor with timeclock
+	DESCRIPTION: The additional wattage of combi losses when using a combi with a keep hot facility with a timeclock. 
+	TYPE: value
+	UNIT: W
+	SAP: Table 3a, row 2
+	BREDEM: Table 13, row 2
+	SET: context.energy-constants
+	CONVERSION: From kWh/year to W (1000 / (24 * 365)).  
+	ID: instantaneous-keep-hot-timeclock-factor
+	CODSIEB
+	*/
 	@ConstantDescription("The additional wattage of combi losses when using a combi with a keep hot facility with a timeclock (SAP 2009 table 3a, converted to watts)")
 	INSTANTANEOUS_COMBI_FACTOR_KHF_WITH_TIMECLOCK(68.4477),
 	
+	/*
+	BEISDOC
+	NAME: Instantaneous keep-hot factor without timeclock
+	DESCRIPTION: The additional wattage of combi losses when using a combi with a keep hot facility without a timeclock. 
+	TYPE: value
+	UNIT: W
+	SAP: Table 3a, row 3
+	BREDEM: Table 13, row 3
+	SET: context.energy-constants
+	CONVERSION: From kWh/year to W (1000 / (24 * 365)).  
+	ID: instantaneous-keep-hot-factor
+	CODSIEB
+	*/
 	@ConstantDescription("The additional wattage of combi losses when using a combi with a keep hot facility without a timeclock (SAP 2009 table 3a, converted to watts)")
 	INSTANTANEOUS_COMBI_FACTOR_KHF_WITHOUT_TIMECLOCK(102.671), 
 	
+	/*
+	BEISDOC
+	NAME: Storage combi loss factor
+	DESCRIPTION: The terms from the additional wattage equation for storage combis with store volume under 55l in SAP 2012 table 3a 
+	TYPE: value
+	UNIT: W, Dimensionless, W
+	SAP: Table 3a, row 5
+	BREDEM: Table 13, row 4
+	SET: context.energy-constants
+	CONVERSION: From kWh/year to W (1000 / (24 * 365)) (does not apply to dimensionless 2nd term).  
+	ID: storage-combi-storage-loss-factor
+	CODSIEB
+	*/
 	@ConstantDescription("The terms from the additional wattage equation for storage combis with store volume under 55l in SAP 2009 table 3a (in SAP this is fu * (600 - (volume - 15) * 15) - these values are in the same order here)")
 	STORAGE_COMBI_LOSS_TERMS(68.4477, 15, 1.711)
 	;

@@ -112,6 +112,21 @@ public class CentralHotWaterTransducer extends EnergyTransducer {
 			return;
 		}
 		
+		/*
+		BEISDOC
+		NAME: Water storage loss
+		DESCRIPTION: Losses from the heating system's water store.
+		TYPE: formula
+		UNIT: W
+		SAP: (51-56), Tables 2, 2a, 2b
+		BREDEM: 2.2B, 2.2C, Table 9
+		DEPS: cpsu-storage-loss, storage-combi-storage-loss
+		GET: 
+		SET: 
+		NOTES: In SAP and BREDEM, this is measured in kWh/month. In the NHM we use Watts. This is a simple time conversion.
+		ID: water-storage-loss
+		CODSIEB
+		*/
 		if (system.getStore() == null) {
 			tankLosses = 0;
 			if (primaryWaterHeater instanceof IMainWaterHeater) {
