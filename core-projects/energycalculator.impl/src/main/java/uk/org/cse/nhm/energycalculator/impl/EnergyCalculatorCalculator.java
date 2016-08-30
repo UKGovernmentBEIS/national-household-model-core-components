@@ -618,6 +618,17 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		double areaWeightedMeanTemperature = getAreaWeightedMeanTemperature(houseCase, meanTemperature);
 		state.increaseSupply(EnergyType.HackUNADJUSTED_TEMPERATURE, areaWeightedMeanTemperature);
 
+		/*
+		BEISDOC
+		NAME: Mean Internal Temperature
+		DESCRIPTION: The mean internal temperature for the whole dwelling, after heating system adjustments have been applied. 
+		TYPE: formula
+		UNIT: ℃
+		SAP: (93), Table 4e
+		DEPS: temperature-adjustments,mean-internal-temperature-unadjusted
+		ID: mean-internal-temperature-adjusted
+		CODSIEB
+		*/
 		areaWeightedMeanTemperature += adjustedParameters.getTemperatureAdjustment();
 
 		if (log.isDebugEnabled())
@@ -699,6 +710,18 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 	 */
 	protected static double getAreaWeightedMeanTemperature(final IEnergyCalculatorHouseCase houseCase,
 			final double[] meanTemperature) {
+		/*
+		BEISDOC
+		NAME: Mean Internal Temperature Unadjusted
+		DESCRIPTION: The mean internal temperature of the whole dwelling, before SAP adjustments are applied. 
+		TYPE: formula
+		UNIT: ℃
+		SAP: (92)
+		BREDEM: 7Y
+		DEPS: mean-zonal-temperatures,living-area-proportion
+		ID: mean-internal-temperature-unadjusted
+		CODSIEB
+		*/
 		return meanTemperature[0] * houseCase.getLivingAreaProportionOfFloorArea()
 				+ meanTemperature[1] * (1 - houseCase.getLivingAreaProportionOfFloorArea());
 	}
@@ -724,37 +747,46 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 			final Map<IHeatingSystem, Double> proportions, final ISpecificHeatLosses heatLosses,
 			final IInternalParameters adjustedParameters, final IEnergyState state, final double[] demandTemperature,
 			final double[] idealBackgroundTemperature, final double[] worstCaseBackgroundTemperature) {
-		final double[] backgroundTemperature = new double[2];
 		
-		double cumulativeProportions = 0d;
+		double[] backgroundTemperature = new double[2];
 		
+		IHeatingSystem main = null;
+		double highestProportion = 0;
 		for (final IHeatingSystem system : heatingSystems) {
-			final double[] systemBackgroundTemperature = system.getBackgroundTemperatures(demandTemperature,
-					idealBackgroundTemperature, worstCaseBackgroundTemperature, adjustedParameters, state, heatLosses);
-
-			if (log.isDebugEnabled())
-				log.debug("Background temperature from {} = {}", system, systemBackgroundTemperature);
-
-			final double systemContribution = proportions.get(system);
-			cumulativeProportions += systemContribution;
-
-			for (int i = 0; i < systemBackgroundTemperature.length; i++) {
-				backgroundTemperature[i] += systemBackgroundTemperature[i] * systemContribution;
+			if (proportions.get(system) >= highestProportion) {
+				main = system;
+				highestProportion = proportions.get(system);
 			}
 		}
 		
-		if (cumulativeProportions != 1d) {
-			throw new RuntimeException("Heating proportions should sum to 1 when calculating the background temperature. Was " + cumulativeProportions);
-		}
-
 		// here is where the assumption above is applied
-
-		if (heatingSystems.isEmpty()) {
+		if (main == null) {
 			if (log.isDebugEnabled())
 				log.debug("There are no heating systems - using ideal background temperature");
+			
 			for (final ZoneType zt : ZoneType.values()) {
 				backgroundTemperature[zt.ordinal()] = idealBackgroundTemperature[zt.ordinal()];
 			}
+			
+		} else {
+			/*
+			BEISDOC
+			NAME: Background temperature
+			DESCRIPTION: The temperature when the heating is off for Zones 1 and 2.
+			TYPE: formula
+			UNIT: 
+			SAP: Table 9b
+			BREDEM: 7L, 7T
+			DEPS: responsiveness, unresponsive-temperatures,responsive-temperatures
+			NOTES: TODO responsiveness needs fixing.
+			ID: background-temperature
+			CODSIEB
+			*/
+			backgroundTemperature = main.getBackgroundTemperatures(demandTemperature,
+					idealBackgroundTemperature, worstCaseBackgroundTemperature, adjustedParameters, state, heatLosses);
+
+			if (log.isDebugEnabled())
+				log.debug("Background temperature from {} = {}", main, backgroundTemperature);
 		}
 
 		return backgroundTemperature;

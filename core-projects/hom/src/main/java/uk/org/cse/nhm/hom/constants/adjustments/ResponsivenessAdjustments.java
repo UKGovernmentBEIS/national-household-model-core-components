@@ -10,6 +10,17 @@ import uk.org.cse.nhm.energycalculator.api.IConstant;
  */
 @ConstantDescription("Responsiveness adjustments, from SAP table 4d.")
 public enum ResponsivenessAdjustments implements IConstant {
+	/*
+	BEISDOC
+	NAME: Responsiveness Adjustments
+	DESCRIPTION: Wet system responsivness by emitter type (rads, underfloor timber, underfloor screed, underfloor concrete, fan convectors)
+	TYPE: value
+	UNIT: Unknown
+	SAP: Table 4d
+	SET: context.energy-constants
+	ID: responsiveness-adjustment
+	CODSIEB
+	*/
 	/**
 	 * This is in the order : radiators, underfloor timber, underfloor screed, underfloor concrete, convectors
 	 */

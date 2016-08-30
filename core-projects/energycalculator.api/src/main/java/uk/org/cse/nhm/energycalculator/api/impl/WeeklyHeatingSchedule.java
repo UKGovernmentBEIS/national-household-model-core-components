@@ -33,6 +33,19 @@ public class WeeklyHeatingSchedule implements IHeatingSchedule {
 	@Override
 	public double getMeanTemperature(final double demandTemperature,
 			final double backgroundTemperature, final double cutoffTime) {
+		/*
+		BEISDOC
+		NAME: Mean zonal temperatures
+		DESCRIPTION: The zone 1 and zone 2 mean internal temperatures, accounting for the heating schedule.
+		TYPE: formula 
+		UNIT: ℃
+		SAP: (87,90), Table 9c (Step 7)
+		BREDEM: 7P, 7X
+		DEPS: weekday-and-weekend-mean-temperatures 
+		TODO demand temperature as well, background-temperatures,cooling-time
+		ID: mean-zonal-temperatures
+		CODSIEB
+		*/
 		return (weekdays.getMeanTemperature(demandTemperature, backgroundTemperature, cutoffTime) * WEEKDAYS_PER_WEEK
 				+ weekends.getMeanTemperature(demandTemperature, backgroundTemperature, cutoffTime) * WEEKEND_DAYS_PER_WEEK) / DAYS_PER_WEEK;
 	}

@@ -53,7 +53,21 @@ public class StructureModel implements ICopyable<StructureModel> {
 	//private static final Logger log = LoggerFactory.getLogger(StructureModel.class);
 	private final Map<ElevationType, Elevation> elevations = new HashMap<ElevationType, Elevation>();
 	private final List<Storey> storeys = new ArrayList<Storey>();
+	
+	/*
+	BEISDOC
+	NAME: Living Area Proportion
+	DESCRIPTION: The size of the living area of the house, divided by the total floor area of the house.  
+	TYPE: value
+	UNIT: dimensionless
+	SAP: (91)
+	BREDEM: Input A1
+	STOCK: basic.csv (livingareafaction)
+	ID: living-area-proportion
+	CODSIEB
+	*/
 	private double livingAreaProportionOfFloorArea;
+	
 	/*
 	BEISDOC
 	NAME: Interzone specific heat loss

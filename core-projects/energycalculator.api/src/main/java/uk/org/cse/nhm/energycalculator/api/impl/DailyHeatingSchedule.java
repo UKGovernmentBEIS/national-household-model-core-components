@@ -71,6 +71,20 @@ public class DailyHeatingSchedule implements IHeatingSchedule {
 	
 	@Override
 	public double getMeanTemperature(final double demandTemperature, final double backgroundTemperature, final double cutoffTime) {
+		/*
+		BEISDOC
+		NAME: Temperature increase for heating period
+		DESCRIPTION: This is the proportion of the demand temperature which should be mixed into the mean internal temperature for the zone.
+		TYPE: formula
+		UNIT: Dimensionless
+		SAP: Table 9b
+		BREDEM: 7M,7U
+		DEPS: heating-schedule,cooling-time
+		NOTES: SAP and BREDEM multiply in (demand temperature - background temperature) here, while we do it later for computational efficiency.
+		NOTES: We've also rearranged the formula here for the same reasons. The end result is the same calculation.
+		ID: temperature-increase-for-heated-period
+		CODSIEB
+		*/
 		final double triangle = cutoffTime / 2;
 		/**
 		 * The area under the curve so far, normalized
@@ -109,6 +123,19 @@ public class DailyHeatingSchedule implements IHeatingSchedule {
 			}
 		}
 		
+		/*
+		BEISDOC
+		NAME: Weekday and weekend mean temperatures 
+		DESCRIPTION: The mean internal temperatures for each zone during weekdays and weekends separately. Calculated by adding the temperature increases for heating periods to the background temperature.
+		TYPE: formula 
+		UNIT: ℃
+		SAP: Table 9c (Steps 4 and 6)
+		BREDEM: 7N,7O,7V,7W
+		DEPS: background-temperatures,zone-1-demand-temperature,zone-2-demand-temperature,temperature-increase-for-heated-period
+		NOTES: SAP and BREDEM do this in reverse, subtracting a temperature reduction from the demand temperature. This is an equivalent calculation.  
+		ID: weekday-and-weekend-mean-temperatures
+		CODSIEB
+		*/
 		// now we scale the AUC up by demand and background temperature, and then divide by the duration to get avg. degrees.
 		return backgroundTemperature + (auc * (demandTemperature - backgroundTemperature)) / MINUTES_PER_DAY;
 	}
