@@ -264,6 +264,17 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 		 */
 		final double distributionLossFactor = constants.get(CommunityHeatingConstants.DEFAULT_DISTRIBUTION_LOSS_FACTOR);
 
+		/*
+		BEISDOC
+		NAME: Community space heat fuel energy demand 
+		DESCRIPTION: The total fuel demanded for community space heating, including the distribution loss factor and the adjustmentments from Table 4c.
+		TYPE: formula
+		UNIT: W
+		SAP: (211)
+		DEPS: community-distribution-loss-factor,community-space-heating-energy-multipliers,space-heating-fraction,heat-demand
+		ID: community-space-heating-fuel-energy-demand
+		CODSIEB
+		*/
 		final double communityHeatDemand = amount * controlFactor * distributionLossFactor;
 
 		state.increaseDemand(EnergyType.FuelCOMMUNITY_HEAT, communityHeatDemand);

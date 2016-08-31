@@ -659,6 +659,18 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 	private void runHeatTransducers(final IEnergyCalculatorHouseCase houseCase, final List<IEnergyTransducer> transducers,
 			final ISpecificHeatLosses heatLosses, final IInternalParameters adjustedParameters,
 			final IEnergyState state, final int indexOfFirstHeatingSystem) {
+		/*
+		BEISDOC
+		NAME: Space Heating Fuel Energy Demand
+		DESCRIPTION: Runs all the heating system transducers, triggering them to meet the space heating demand by consuming fuel. 
+		TYPE: ???
+		UNIT: W
+		DEPS: boiler-fuel-energy-demand,community-space-heating-fuel-energy-demand,heat-pump-fuel-energy-demand,room-heater-fuel-energy-demand,storage-heater-fuel-energy-demand,warm-air-system-fuel-energy-demand
+		GET: house.energy-use
+		NOTES: This doesn't strictly form a part of the SAP or BREDEM calculations. It's included in these documents to indicate the structure of the NHM energy calculator code. 
+		ID: all-space-heating-fuel-energy-demand
+		CODSIEB
+		*/
 		final boolean heatingOn = adjustedParameters.getClimate().isHeatingOn();
 		for (int i = indexOfFirstHeatingSystem; i < transducers.size(); i++) {
 			final IEnergyTransducer transducer = transducers.get(i);

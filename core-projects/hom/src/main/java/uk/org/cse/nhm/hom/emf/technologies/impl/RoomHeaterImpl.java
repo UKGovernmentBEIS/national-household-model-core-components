@@ -344,6 +344,20 @@ public class RoomHeaterImpl extends SpaceHeaterImpl implements IRoomHeater {
 	protected static void accept(final IRoomHeater self, final IConstants constants, final IEnergyCalculatorParameters parameters, final IEnergyCalculatorVisitor visitor, final AtomicInteger heatingSystemCounter, IHeatProportions heatProportions) {
 		visitor.visitHeatingSystem(new RoomHeaterHeatingSystem(self), heatProportions.spaceHeatingProportion(self));
 		final double effectiveProportion = heatProportions.spaceHeatingProportion(self);
+		
+		/*
+		BEISDOC
+		NAME: Room heater Fuel Energy demand
+		DESCRIPTION: The fuel energy used by a room heater to provide space heating.
+		TYPE: formula
+		UNIT: W
+		SAP: (215)
+		BREDEM: 8J,8K
+		DEPS: heat-demand,space-heating-fraction
+		NOTES: This code constructs a 'heat transducer', which is an object in the energy calculator which models converting fuel into heat.
+		ID: room-heater-fuel-energy-demand
+		CODSIEB
+		*/
 		if (self.getFuel() == FuelType.ELECTRICITY) {
 			visitor.visitEnergyTransducer(new DirectElectricHeatTransducer(heatingSystemCounter.getAndIncrement(), effectiveProportion));
 		} else {

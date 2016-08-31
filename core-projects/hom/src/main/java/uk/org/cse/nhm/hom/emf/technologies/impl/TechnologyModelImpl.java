@@ -934,6 +934,18 @@ public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnolo
 		boolean secondaryHeaterExists = getSecondarySpaceHeater() != null && !getSecondarySpaceHeater().isBroken();
 		boolean includeSecondaryHeater = secondaryHeaterExists || primaryHeaterExists && alwaysIncludeSecondaryHeater(getPrimarySpaceHeater());
 		
+		/*
+		BEISDOC
+		NAME: Space Heating Fraction
+		DESCRIPTION: The fraction of heat demand which will be met by each heating system.
+		TYPE: algorithm/lookup
+		UNIT: Dimensionless
+		SAP: (201,202,204), Table 11, Appendix A
+		BREDEM: User input (frsys1,frsys2,...)
+		NOTES: Does not implement SAP Table N9 secondary fraction for heat pumps.
+		ID: space-heating-fraction
+		CODSIEB
+		*/
 		if (primaryHeaterExists) {
 			if (includeSecondaryHeater) {
 				ISpaceHeater secondaryHeater = secondaryHeaterExists ? getSecondarySpaceHeater() : assumedElectricSpaceHeater; 

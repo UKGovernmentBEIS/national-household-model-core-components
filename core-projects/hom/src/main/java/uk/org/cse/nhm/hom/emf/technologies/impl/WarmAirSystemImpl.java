@@ -360,7 +360,20 @@ public class WarmAirSystemImpl extends SpaceHeaterImpl implements IWarmAirSystem
 	public void accept(final IConstants constants, final IEnergyCalculatorParameters parameters, final IEnergyCalculatorVisitor visitor, final AtomicInteger heatingSystemCounter, IHeatProportions heatProportions) {
 		visitor.visitHeatingSystem(this, heatProportions.spaceHeatingProportion(this));
 		final double effectiveProportion = heatProportions.spaceHeatingProportion(this);
-		
+	
+		/*
+		BEISDOC
+		NAME: Warm Air System Fuel Energy Demand
+		DESCRIPTION: The fuel energy used by a room heater to provide space heating.
+		TYPE: formula
+		UNIT: W
+		SAP: (211)
+		BREDEM: 8J,8K
+		DEPS: heat-demand,space-heating-fraction
+		NOTES: This code constructs a 'heat transducer', which is an object in the energy calculator which models converting fuel into heat.
+		ID: warm-air-system-fuel-energy-demand
+		CODSIEB
+		*/
 		if (getFuelType() == FuelType.ELECTRICITY) {
 			visitor.visitEnergyTransducer(new ElectricHeatTransducer(effectiveProportion, heatingSystemCounter.getAndIncrement()) {
 				@Override

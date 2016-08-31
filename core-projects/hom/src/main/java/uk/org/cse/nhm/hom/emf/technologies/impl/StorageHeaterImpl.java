@@ -297,6 +297,19 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 		// a plain old heating system with a given responsiveness (depending on their controls)
 		// with a split-rate pricing of 0.2. Hurrah.
 
+		/*
+		BEISDOC
+		NAME: Storage Heater Fuel Energy Demand
+		DESCRIPTION: The fuel demand of a storage heater for space heating
+		TYPE: formula
+		UNIT: W
+		SAP: (211)
+		BREDEM: 8J,8K
+		DEPS: heat-demand,space-heating-fraction
+		NOTES: This code constructs a 'heat transducer', which is an object in the energy calculator which models converting fuel into heat.
+		ID: storage-heater-fuel-energy-demand
+		CODSIEB
+		*/
 		visitor.visitHeatingSystem(this, heatProportions.spaceHeatingProportion(this));
 		visitor.visitEnergyTransducer(
 				new StorageHeatingTransducer(heatProportions.spaceHeatingProportion(this), 

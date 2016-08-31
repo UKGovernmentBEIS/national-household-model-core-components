@@ -455,6 +455,22 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 
 	@Override
 	public void acceptFromHeating(final IConstants constants, final IEnergyCalculatorParameters parameters, final IEnergyCalculatorVisitor visitor, final double proportion, final int priority) {
+		
+		/*
+		BEISDOC
+		NAME: Heat Pump Fuel Energy Demand
+		DESCRIPTION: The amount of fuel used by a heat pump to provide space heating.
+		TYPE: formula
+		UNIT: W
+		SAP: (206, 211)
+		BREDEM: 8J,8K
+		DEPS: space-heating-fraction,heat-demand
+		NOTES: TODO remove SAP 2009 efficiency adjustments which aren't present in SAP 2012.
+		NOTES: This code constructs a 'heat transducer', which is an object in the energy calculator which models converting fuel into heat.
+		ID: heat-pump-fuel-energy-demand
+		CODSIEB
+		*/
+
 		// heat transducer is all we need
 		final double adjustedSpaceHeatingEfficiency;
 		switch (getSpaceHeater().getEmitterType()) {

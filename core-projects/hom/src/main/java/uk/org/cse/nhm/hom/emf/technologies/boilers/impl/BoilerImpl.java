@@ -375,6 +375,17 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 	protected double getSpaceHeatingEfficiency(final IConstants constants, final boolean underfloorHeating, final double qWater, final double qSpace) {
 		double efficiency = getWinterEfficiency().value;
 	
+		/*
+		BEISDOC
+		NAME: Boiler Efficiency
+		DESCRIPTION: The efficiency of a boiler, modified by adjustments from Table 4c.
+		TYPE: formula
+		UNIT: Dimensionless
+		DEPS: boiler-without-interlock,condensing-underfloor-adjustment,condensing-weather-compensation
+		SAP: (206,208), Table 4c, PCDB
+		ID: boiler-efficiency
+		CODSIEB
+		*/
 		// apply adjustments for condensing boilers
 		if (isCondensing()) {
 			// efficiency adjustments resulting from reduced circulating temperature
@@ -781,6 +792,19 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 	 */
 	@Override
 	public void acceptFromHeating(final IConstants constants, final IEnergyCalculatorParameters parameters, final IEnergyCalculatorVisitor visitor, final double proportion, final int priority) {
+		/*
+		BEISDOC
+		NAME: Boiler Fuel Energy Demand
+		DESCRIPTION: The amount of fuel required to provide space heating for all kinds of boilers. 
+		TYPE: formula
+		UNIT: W
+		SAP: (208,201)
+		BREDEM: 8J,8K
+		DEPS: boiler-efficiency,heat-demand,space-heating-fraction
+		NOTES: This code constructs a 'heat transducer', which is an object in the energy calculator which models converting fuel into heat.
+		ID: boiler-fuel-energy-demand
+		CODSIEB
+		*/
 		if (isIntermediatePowerRequired()) {
 			visitor.visitEnergyTransducer(new HeatTransducer(parameters.getInternalEnergyType(this), 
 					1, proportion, true, priority, ServiceType.PRIMARY_SPACE_HEATING));
