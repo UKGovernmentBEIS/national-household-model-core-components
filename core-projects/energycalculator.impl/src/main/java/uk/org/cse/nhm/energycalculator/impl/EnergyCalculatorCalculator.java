@@ -690,6 +690,18 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 			final IInternalParameters adjustedParameters, final double[] demandTemperature, final double totalGains,
 			final double utilisationFactorExponent, final double areaWeightedMeanTemperature,
 			final GainLoadRatioAdjuster glrAdjuster) {
+		/*
+		BEISDOC
+		NAME: Revised Gains Utilisation Factor
+		DESCRIPTION: The gains utilisation factor, recalculated using the final mean internal temperature for the dwelling.
+		TYPE: formula
+		UNIT: Dimensionless
+		SAP: (94), Table 9a
+		BREDEM: 8A-C
+		DEPS: mean-internal-temperature-adjusted,weather,heat-loss,total-gains,utilisation-factor-exponent
+		ID: gains-utilisation-factor-revised
+		CODSIEB
+		*/
 		final double revisedGUF = calculateGainsUtilisationFactor(areaWeightedMeanTemperature,
 				adjustedParameters.getClimate().getExternalTemperature(), heatLosses.getSpecificHeatLoss(), totalGains,
 				utilisationFactorExponent);

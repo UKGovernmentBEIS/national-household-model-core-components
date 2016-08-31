@@ -71,18 +71,93 @@ class GainLoadRatioAdjuster implements IEnergyTransducer {
 	@Override
 	public void generate(final IEnergyCalculatorHouseCase house, final IInternalParameters parameters, final ISpecificHeatLosses losses, final IEnergyState state) {
 		final double totalGains = state.getExcessSupply(EnergyType.GainsUSEFUL_GAINS);
-
+		
+		/*
+		BEISDOC
+		NAME: Total Useful Gains
+		DESCRIPTION: The total gains multiplied by the revised gains utilisation factor.
+		TYPE: formula
+		UNIT: W
+		SAP: (95)
+		BREDEM: 8I
+		DEPS: gains-utilisation-factor-revised,total-gains
+		ID: total-useful-gains
+		CODSIEB
+		*/
 		final double revisedGains = totalGains * revisedGUF;
 
+		/*
+		BEISDOC
+		NAME: Threshold temperature
+		DESCRIPTION: The upper threshold temperature for BREDEM's degree days calculation.
+		TYPE: formula
+		UNIT: ℃
+		BREDEM: 8D
+		DEPS: zone-1-adjusted-demand-temperature,gains-utilisation-factor-threshold-difference
+		ID: threshold-temperature
+		CODSIEB
+		*/
 		final double thresholdTemperature = demandTemperature[0] - parameters.getConstants().get(EnergyCalculatorConstants.GAINS_UTILISATION_FACTOR_THRESHOLD_DIFFERENCE);
+		
+		/*
+		BEISDOC
+		NAME: Unheated temperature
+		DESCRIPTION: The lower threshold temperature for BREDEM's degree days calculation.
+		TYPE: formala
+		UNIT: ℃
+		BREDEM: 8E
+		DEPS: weather,total-useful-gains,specific-heat-loss
+		ID: unheated-temperature
+		CODSIEB
+		*/
 		final double unheatedTemperature = externalTemperature + totalGains / losses.getSpecificHeatLoss();
+		
+		
 		final double thresholdDegreeDays = calculateThresholdDegreeDays(parameters.getConstants(), thresholdTemperature, unheatedTemperature);
 
 		final double thresholdDegreeDaysPlus1 = calculateThresholdDegreeDays(parameters.getConstants(), thresholdTemperature + 1, unheatedTemperature);
 
+		/*
+		BEISDOC
+		NAME: Heating on Factor
+		DESCRIPTION: The fraction of the month which is heated. Calculated by subtracting the number of degree days at threshold -0.5 from those at threshold +0.5.
+		TYPE: formula
+		UNIT: Dimensionless
+		BREDEM: 8H
+		DEPS: threshold-degree-days
+		ID: heating-on-factor
+		CODSIEB
+		*/
 		final double heatingOnFactor = thresholdDegreeDaysPlus1 - thresholdDegreeDays;
 
-		final double heatDemand = heatingOnFactor * ((areaWeightedMeanTemperature - externalTemperature) * losses.getSpecificHeatLoss());
+		/*
+		BEISDOC
+		NAME: Heat Loss Rate for Mean Internal Temperature
+		DESCRIPTION: The total heat loss from the building at the given mean internal temperature.
+		TYPE: formula
+		UNIT: W
+		SAP: (97)
+		BREDEM: 8I
+		DEPS: specific-heat-loss,weather,mean-internal-temperature-adjusted
+		ID: heat-loss-at-mean-internal-temperature
+		CODSIEB
+		*/
+		final double heatLossRate = (areaWeightedMeanTemperature - externalTemperature) * losses.getSpecificHeatLoss();
+		
+		/*
+		BEISDOC
+		NAME: friendlyname
+		DESCRIPTION: description
+		TYPE: type
+		UNIT: unit
+		SAP: (98) 
+		BREDEM: 8I
+		DEPS: heating-on-factor,heat-loss-at-mean-internal-temperature
+		NOTES: TODO implement the SAP version of this, for which the heatingOnFactor is replaced by 1/0 depend on whether it is a heating month.
+		ID: heat-demand
+		CODSIEB
+		*/
+		final double heatDemand = heatingOnFactor * heatLossRate;
 
 		if (log.isDebugEnabled()) {
 			log.debug("{} total gains, {} useful gains, {} heat on factor, {} demand, {} external temp", totalGains, revisedGains, heatingOnFactor, heatDemand,
@@ -121,6 +196,18 @@ class GainLoadRatioAdjuster implements IEnergyTransducer {
 
 	protected double calculateThresholdDegreeDays(final IConstants constants, final double thresholdTemperature, final double unheatedTemperature) {
 		final double factor = constants.get(EnergyCalculatorConstants.THRESHOLD_DEGREE_DAYS_VALUE);
+		
+		/*
+		BEISDOC
+		NAME: Threshold degree days
+		DESCRIPTION: The number of degree days at threshold temp +-0.5 ℃.
+		TYPE: formula
+		UNIT: Degree Days
+		BREDEM: 8F, 8G
+		DEPS: threshold-degree-days-value,threshold-temperature,unheated-temperature
+		ID: threshold-degree-days
+		CODSIEB
+		*/
 		return (thresholdTemperature == unheatedTemperature) ? (1 / factor) : (thresholdTemperature - unheatedTemperature)
 				/ (1 - Math.exp(-factor * (thresholdTemperature - unheatedTemperature)));
 	}

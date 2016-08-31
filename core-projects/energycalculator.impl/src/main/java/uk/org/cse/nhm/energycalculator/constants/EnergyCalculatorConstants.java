@@ -218,9 +218,34 @@ public enum EnergyCalculatorConstants implements IConstant {
 	@ConstantDescription("Divisor of time constant for utilisation factor calculation")
 	UTILISATION_FACTOR_TIME_CONSTANT_DIVISOR(15.0),
 	
+	/*
+	BEISDOC
+	NAME: Threshold degree days value
+	DESCRIPTION: Threshold degree days value, used for determining heating on factor
+	TYPE: value
+	UNIT: 1 / Degree Days
+	BREDEM: 8F, 8G
+	SET: context.energy-constants
+	NOTES: This is the 1/5 which the degree days are set to if the upper and lower threshold temperatures are equal.
+	NOTES: It is also the multiple of 5 inside the exponential, when they are not equal. 
+	ID: threshold-degree-days-value
+	CODSIEB
+	*/
 	@ConstantDescription("Threshold degree days value, used for determining heating on factor")
 	THRESHOLD_DEGREE_DAYS_VALUE(5.0), 
 	
+	/*
+	BEISDOC
+	NAME: Gains Utilisation Factor Threshold Difference
+	DESCRIPTION: The amount below the demand temperature the threshold temperature is for gains utilisation factor calculation
+	TYPE: value
+	UNIT: ℃
+	BREDEM: 8D
+	SET: context.energy-constants
+	CONVERSION: This number is increased by 0.5 compared to BREDEM, because we skip out the +0.5 and convert the -0.5 into -1 later on in the calculation.
+	ID: gains-utilisation-factor-threshold-difference 
+	CODSIEB
+	*/
 	@ConstantDescription("The amount below the demand temperature the threshold temperature is for gains utilisation factor calculation")
 	GAINS_UTILISATION_FACTOR_THRESHOLD_DIFFERENCE(4.5),
 	
