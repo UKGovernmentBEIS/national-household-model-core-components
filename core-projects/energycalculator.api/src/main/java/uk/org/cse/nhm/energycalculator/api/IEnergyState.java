@@ -3,6 +3,19 @@ package uk.org.cse.nhm.energycalculator.api;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 
+/*
+BEISDOC
+NAME: Total fuel energy demand
+DESCRIPTION: The amount of fuel supplied to the house for all uses. 
+TYPE: table
+UNIT: W
+SAP: (231, 238)
+DEPS: lighting-energy-demand,all-space-heating-fuel-energy-demand,water-heating-energy-demand,pv-useful-electricity,pv-exported-electricity,warm-air-fan-electricity,central-heating-pump-power,oil-boiler-pump-power,gas-boiler-pump-power,combi-losses-instant-keep-hot,solar-water-pump-power,appliance-adjusted-demand
+GET: house.energy-use
+NOTES: Appliances are included here because they are made available to the NHM for reporting. However, they aren't included in the final SAP ratings.  
+ID: total-fuel-energy-demand
+CODSIEB
+*/
 /**
  * Tracks the state of an in-progress energy calculation
  * @author hinton
