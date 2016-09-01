@@ -94,6 +94,17 @@ public interface IEnergyState {
 	 */
 	public double getTotalDemand(final EnergyType energyType);
 	
+	/*
+	BEISDOC
+	NAME: Electricity Demand
+	DESCRIPTION: Whenever we use electricity in the NHM, we record it using this function which also requires you to pass the high rate fraction. This will split the electricity into separate high-rate and low-rate electricity types. 
+	TYPE: interface
+	UNIT: W
+	SAP: (243, 244, other parts of table 10a) 
+	DEPS: ashp-split-rate,default-split-rate,direct-electric-split-rate,electric-boiler-split-rate,gshp-split-rate,heat-pump-water-with-immersion-split-rate,heat-pump-water-without-immersion-split-rate,immersion-split-rate,integrated-storage-split-rate
+	ID: electricity-demand
+	CODSIEB
+	*/
 	/**
 	 * convenience for using electricity
 	 * @param highRateFraction

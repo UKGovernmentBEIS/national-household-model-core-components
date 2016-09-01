@@ -263,11 +263,7 @@ public class HeatPumpWarmAirSystemImpl extends WarmAirSystemImpl implements IHea
 			if (getSourceType() == HeatPumpSourceType.AIR) {
 				return SplitRateConstants.AIR_SOURCE_SPACE_HEAT;
 			} else if (getSourceType() == HeatPumpSourceType.GROUND) {
-				if (isAuxiliaryPresent()) {
-					return SplitRateConstants.GROUND_SOURCE_SPACE_HEAT_WITH_ON_PEAK_AUXILIARY;
-				} else {
-					return SplitRateConstants.GROUND_SOURCE_SPACE_HEAT_NO_AUXILIARY;
-				}
+				return SplitRateConstants.GROUND_SOURCE_SPACE_HEAT;
 			} else {
 				return super.getSplitRateConstants();
 			}

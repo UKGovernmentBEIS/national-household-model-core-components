@@ -225,6 +225,17 @@ public class ImmersionHeaterImpl extends CentralWaterHeaterImpl implements IImme
 		
 		final IConstants c = parameters.getConstants();
 		final ElectricityTariffType tt = parameters.getTarrifType();
+		/*
+		BEISDOC
+		NAME: Immersion Split Rate
+		DESCRIPTION: The fraction of electricity used by an immersion heater which should be at the higher rate
+		TYPE: formula
+		UNIT: Dimensionless
+		SAP: Table 13 (footnote 2)
+		DEPS: single-coil-immersion-split-rate-terms,dual-coil-immersion-split-rate-terms,occupancy,cylinder-volume,
+		ID: immersion-split-rate
+		CODSIEB
+		*/
 		if (isDualCoil()) {
 			final double value = ((c.get(DUAL_IMMERSION_TERM1, tt) - c.get(DUAL_IMMERSION_TERM2, tt) * tankVolume) * numberOfPeople + c.get(DUAL_IMMERSION_TERM3, tt) - c.get(DUAL_IMMERSION_TERM4, tt) * tankVolume);
 			return clamp(value / 100.0);

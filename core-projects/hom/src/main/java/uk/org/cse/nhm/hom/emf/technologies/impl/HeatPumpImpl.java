@@ -494,12 +494,7 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 		if (getSourceType() == HeatPumpSourceType.AIR) {
 			highRateFraction = constants.get(SplitRateConstants.AIR_SOURCE_SPACE_HEAT, parameters.getTarrifType());
 		} else {
-			if (isAuxiliaryPresent()) {
-				highRateFraction = constants
-						.get(SplitRateConstants.GROUND_SOURCE_SPACE_HEAT_WITH_ON_PEAK_AUXILIARY, parameters.getTarrifType());
-			} else {
-				highRateFraction = constants.get(SplitRateConstants.GROUND_SOURCE_SPACE_HEAT_NO_AUXILIARY, parameters.getTarrifType());
-			}
+			highRateFraction = constants.get(SplitRateConstants.GROUND_SOURCE_SPACE_HEAT, parameters.getTarrifType());
 		}
 
 		final IHybridHeater hybrid = getHybrid();
