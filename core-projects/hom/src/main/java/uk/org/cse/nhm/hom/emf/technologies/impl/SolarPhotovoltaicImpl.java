@@ -250,7 +250,8 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 				BREDEM: 10A
 				DEPS: effective-solar-flux,overshading-factor
 				GET: house.energy-use
-				NOTES: TODO where is overshading?
+				NOTES: TODO should include overshading.
+				NOTES: TODO This differs from SAP and BREDEM, in that we have (efficiency * area) instead of (0.8 * peak load). Should it be changed?
 				ID: pv-electricity-generated
 				CODSIEB
 				*/
