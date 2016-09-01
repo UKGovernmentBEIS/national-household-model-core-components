@@ -67,6 +67,20 @@ public class FuelCostFunction extends AbstractNamed implements IComponentsFuncti
         }
     }
     
+    /*
+	BEISDOC
+	NAME: Fuel cost
+	DESCRIPTION: The cost of each type of fuel consumed by the dwelling, computer using the tariffs written by the scenario author.  
+	TYPE: scenario-element
+	UNIT: W
+	SAP: Table 12, Section 10a
+	DEPS: total-fuel-energy-demand
+	GET: house.fuel-cost
+	NOTES: Not part of the energy calculator.
+	NOTES: To use SAP Table 12 fuel prices, you must specify them as a tariff in your NHM scenario.  
+	ID: fuel-cost
+	CODSIEB
+	*/
 	@Override
 	public Double compute(final IComponentsScope scope, final ILets lets) {
 		final ITariffs tariffs = scope.get(this.tariffs);
