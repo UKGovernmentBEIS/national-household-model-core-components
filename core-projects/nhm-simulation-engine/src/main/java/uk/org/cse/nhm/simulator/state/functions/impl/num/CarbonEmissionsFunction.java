@@ -40,6 +40,19 @@ public class CarbonEmissionsFunction extends AbstractNamed implements IComponent
 
 	@Override
 	public Double compute(final IComponentsScope scope, final ILets lets) {
+		/*
+		BEISDOC
+		NAME: Emissions
+		DESCRIPTION: The CO2 equivalent emissions produced by the dwelling.
+		TYPE: formula
+		UNIT: Unit of carbon (unit is the same as that for carbon factors without the denominator) 
+		SAP: (272)
+		DEPS: total-fuel-energy-demand,carbon-factors
+		GET: house.emissions
+		ID: carbon-emissions
+		CODSIEB
+		*/
+
 		final IEmissions calc = scope.get(costs);
 		
 		if (fuelType.isPresent()) {

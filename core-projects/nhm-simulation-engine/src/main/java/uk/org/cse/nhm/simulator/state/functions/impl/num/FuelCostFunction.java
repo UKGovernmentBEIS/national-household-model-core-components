@@ -70,9 +70,9 @@ public class FuelCostFunction extends AbstractNamed implements IComponentsFuncti
     /*
 	BEISDOC
 	NAME: Fuel cost
-	DESCRIPTION: The cost of each type of fuel consumed by the dwelling, computer using the tariffs written by the scenario author.  
+	DESCRIPTION: The cost of each type of fuel consumed by the dwelling, computed using the tariffs written by the scenario author. A unit of fuel is a kWh here.  
 	TYPE: scenario-element
-	UNIT: W
+	UNIT: £
 	SAP: Table 12, Section 10a
 	DEPS: total-fuel-energy-demand
 	GET: house.fuel-cost

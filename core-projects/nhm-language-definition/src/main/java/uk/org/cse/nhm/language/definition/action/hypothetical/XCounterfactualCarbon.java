@@ -13,18 +13,19 @@ import com.larkery.jasb.bind.BindNamedArgument;
 	  "If a factor is unspecified, the value from page 199 of SAP 2009 is used."})
 @Category(CategoryType.CARBON)
 public class XCounterfactualCarbon extends XCounterfactualAction {
-	private double mainsGas = 0.198;
-	private double bulkLPG = 0.245;
-	private double bottledLPG = 0.245;
-	private double peakElectricity = 0.517;
-	private double offPeakElectricity = 0.517;
-	private double oil = 0.274;
-	private double biomassPellets = 0.028;
-	private double biomassWoodchip = 0.009;
-	private double biomassWood = 0.028;
+	private double mainsGas = 0.216;
+	private double bulkLPG = 0.241;
+	private double bottledLPG = 0.241;
+	private double peakElectricity = 0.519;
+	private double offPeakElectricity = 0.519;
+	private double oil = 0.298;
+	private double biomassPellets = 0.039;
+	private double biomassWoodchip = 0.016;
+	private double biomassWood = 0.019;
 	private double photons = 0;
-	private double houseCoal = 0.301;
-    private double communityHeat = 0.198;
+	private double houseCoal = 0.394;
+	// Assuming mains gas community heat source.
+    private double communityHeat = 0.216;
     
     @Doc("The carbon factor for mains gas")
     
