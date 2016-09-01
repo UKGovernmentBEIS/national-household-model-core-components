@@ -256,7 +256,6 @@ public enum EnergyCalculatorConstants implements IConstant {
 	TYPE: value
 	UNIT: ach/h
 	SAP: (15)
-	BREDEM: Not applicable
 	DEPS: 
 	GET: 
 	SET: context.energy-calculator-constants
@@ -273,7 +272,6 @@ public enum EnergyCalculatorConstants implements IConstant {
 	TYPE: value
 	UNIT: ach/h
 	SAP: (15)
-	BREDEM: Not applicable
 	DEPS: 
 	GET: 
 	SET: context.energy-calculator-constants

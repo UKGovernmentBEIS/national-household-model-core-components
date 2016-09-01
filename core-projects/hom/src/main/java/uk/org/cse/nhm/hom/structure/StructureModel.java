@@ -74,7 +74,6 @@ public class StructureModel implements ICopyable<StructureModel> {
 	DESCRIPTION: description
 	TYPE: value
 	UNIT: W/℃
-	SAP: Not applicable
 	BREDEM: 3J
 	NOTES: Interzone specific heat loss is currently always 0. I do not believe we have any way to get the information we would need to implement it.
 	ID: interzone-specific-heat-loss
@@ -92,11 +91,11 @@ public class StructureModel implements ICopyable<StructureModel> {
 	TYPE: value
 	UNIT: dimensionless
 	SAP: (14)
-	BREDEM: Not applicable (windows and doors handled individually)
 	DEPS: 
 	GET:
 	SET: measure.install-draught-proofing
 	STOCK: ventilation.csv (windowsanddoorsdraughtstrippedproportion)
+	NOTES: TODO windows and doors handled individually in BREDEM
 	ID: draught-stripped-proportion
 	CODSIEB
 	*/
