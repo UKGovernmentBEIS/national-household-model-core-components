@@ -824,11 +824,10 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		UNIT: Dimensionless
 		SAP: Table 9a
 		BREDEM: 7G
-		DEPS: time-constant
-		ID: utilisation-factor-exponent,utilisation-factor-time-constant-divisor
+		DEPS: time-constant,utilisation-factor-time-constant-divisor
+		ID: utilisation-factor-exponent
 		CODSIEB
 		*/
-
 		return 1 + (timeConstant / UTILISATION_FACTOR_TIME_CONSTANT_DIVISOR);
 	}
 

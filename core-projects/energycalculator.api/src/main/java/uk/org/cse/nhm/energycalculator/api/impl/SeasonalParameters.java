@@ -53,8 +53,8 @@ public class SeasonalParameters implements ISeasonalParameters {
 		UNIT: W
 		SAP: (U1)
 		BREDEM: 2.4.1G
-		DEPS: weather
-		ID: effective-solar-flux,solar-flux-adjustment
+		DEPS: weather,solar-flux-adjustment
+		ID: effective-solar-flux
 		CODSIEB
 		*/
         return horizontalSolarFlux * InsolationPlaneUtil.getSolarFluxMultiplier(getSolarDeclination(), latitude, angleFromHorizontal, angleFromNorth);

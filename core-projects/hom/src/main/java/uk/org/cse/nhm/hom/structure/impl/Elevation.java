@@ -31,7 +31,7 @@ public class Elevation implements IElevation {
 	 */
 	/*
 	BEISDOC
-	NAME: Glazing angle		
+	NAME: Glazing angle
 	DESCRIPTION: The vertical tilt (where horizontal is 0) of a glazed element. 
 	TYPE: value
 	UNIT: Radians
