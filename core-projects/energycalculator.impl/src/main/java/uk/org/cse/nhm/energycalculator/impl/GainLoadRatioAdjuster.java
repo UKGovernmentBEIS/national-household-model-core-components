@@ -93,7 +93,7 @@ class GainLoadRatioAdjuster implements IEnergyTransducer {
 		TYPE: formula
 		UNIT: ℃
 		BREDEM: 8D
-		DEPS: zone-1-adjusted-demand-temperature,gains-utilisation-factor-threshold-difference
+		DEPS: zone-1-demand-temperature,gains-utilisation-factor-threshold-difference
 		ID: threshold-temperature
 		CODSIEB
 		*/

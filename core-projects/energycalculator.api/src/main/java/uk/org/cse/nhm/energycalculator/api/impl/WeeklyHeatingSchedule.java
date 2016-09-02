@@ -42,7 +42,6 @@ public class WeeklyHeatingSchedule implements IHeatingSchedule {
 		SAP: (87,90), Table 9c (Step 7)
 		BREDEM: 7P, 7X
 		DEPS: weekday-and-weekend-mean-temperatures 
-		TODO demand temperature as well, background-temperatures,cooling-time
 		ID: mean-zonal-temperatures
 		CODSIEB
 		*/

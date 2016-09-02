@@ -94,7 +94,7 @@ public enum SplitRateConstants implements IConstant {
 	UNIT: Dimensionless
 	SAP: Table 12a (integrated systems)
 	SET: context.energy-constants
-	ID: intergrated-storage-split-rate
+	ID: integrated-storage-split-rate
 	CODSIEB
 	*/
 	@ConstantDescription("The high rate fraction for integrated storage heaters.")

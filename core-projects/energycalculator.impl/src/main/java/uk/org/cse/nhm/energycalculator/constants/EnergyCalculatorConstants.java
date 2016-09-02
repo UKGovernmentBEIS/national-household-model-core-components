@@ -133,6 +133,7 @@ public enum EnergyCalculatorConstants implements IConstant {
 	SAP: Table 6d (winter solar access factor column)
 	BREDEM: Table 23 
 	SET: context.energy-constants
+	DEPS: overshading
 	NOTES: Only the middle overshading factor is ever used.
 	ID: overshading-factor
 	CODSIEB
@@ -155,6 +156,19 @@ public enum EnergyCalculatorConstants implements IConstant {
 	@ConstantDescription("The reflection factor in solar gains (how much solar gain is lost because of reflectivity)")
 	SOLAR_GAINS_REFLECTION_FACTOR(0.9),
 	
+	/*
+	BEISDOC
+	NAME: Reference Heat Loss Parameter
+	DESCRIPTION: The value to which the heat loss parameter is compared when determining the demand temperature in zone 2 (depending on heating system control parameter)
+	TYPE: value
+	UNIT: W/m^2/℃
+	SAP: Table 9 (note at bottom of table)
+	BREDEM: 7A,7B
+	SET: context.energy-constants
+	CONVERSION: conversion
+	ID: reference-heat-loss-parameter
+	CODSIEB
+	*/
 	@ConstantDescription("The value to which the heat loss parameter is compared when determining the demand temperature in zone 2 (depending on heating system control parameter)")
 	REFERENCE_HEAT_LOSS_PARAMETER(6.0),
 

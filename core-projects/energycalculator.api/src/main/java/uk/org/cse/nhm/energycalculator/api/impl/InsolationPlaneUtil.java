@@ -20,7 +20,7 @@ public class InsolationPlaneUtil {
 		UNIT: Dimensionless
 		SAP: (U3)
 		BREDEM: 2.4.1B, 2.4.1C, 2.4.1D
-		DEPS: solar-flux-constants, angle-from-north
+		DEPS: solar-flux-constants, angle-from-north,glazing-angle
 		ID: solar-orientation-parameters
 		CODSIEB
 		*/
@@ -50,7 +50,7 @@ public class InsolationPlaneUtil {
 		UNIT: Dimensionless
 		SAP: (U2)
 		BREDEM: 2.4.1F
-		DEPS: solar-height-factor, solar-flux-constants
+		DEPS: solar-height-factor, solar-orientation-parameters
 		ID: solar-flux-adjustment
 		CODSIEB
 		*/

@@ -795,7 +795,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		} else {
 			/*
 			BEISDOC
-			NAME: Background temperature
+			NAME: Background temperatures
 			DESCRIPTION: The temperature when the heating is off for Zones 1 and 2.
 			TYPE: formula
 			UNIT: 
@@ -803,7 +803,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 			BREDEM: 7L, 7T
 			DEPS: responsiveness, unresponsive-temperatures,responsive-temperatures
 			NOTES: TODO responsiveness needs fixing.
-			ID: background-temperature
+			ID: background-temperatures
 			CODSIEB
 			*/
 			backgroundTemperature = main.getBackgroundTemperatures(demandTemperature,
@@ -967,7 +967,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		SAP: Table 9 (row 1, Temperature H2)
 		BREDEM: 7A
 		DEPS: reference-heat-loss-parameter,heat-loss-parameter,zone-1-demand-temperature,interzone-temperature-difference
-		ID: uncontrolled-zone2-demand-temperature
+		ID: uncontrolled-zone-2-demand-temperature
 		CODSIEB
 		*/
 		final double uncontrolledZoneTwoDemandTemperature = newZone1DemandTemperature - interzoneTemperatureDifference
@@ -982,7 +982,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		SAP: Table 9 (rows 2 and 3, Temperature H2)
 		BREDEM: 7B
 		DEPS: reference-heat-loss-parameter,heat-loss-parameter,zone-1-demand-temperature,interzone-temperature-difference
-		ID: controlled-zone2-demand-temperature 
+		ID: controlled-zone-2-demand-temperature 
 		CODSIEB
 		*/
 		final double controlledZoneTwoDemandTemperature = newZone1DemandTemperature + interzoneTemperatureDifference
@@ -997,10 +997,10 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		UNIT: ℃
 		SAP: Table 9 (Temperature H2 column)
 		BREDEM: 7C
-		DEPS: controlled-zone2-demand-temperature,uncontrolled-zone2-demand-temperature,zone-2-control-parameter
+		DEPS: controlled-zone-2-demand-temperature,uncontrolled-zone-2-demand-temperature,zone-2-control-parameter
 		NOTES: While this looks like the BREDEM algorithm, it actually behaves according to SAP rather than BREDEM.
 		NOTES: If the zone 2 control parameter is 0, we get row 1 of the SAP table. If it is 1, we get rows 2 and 3 (which are the same).  
-		ID: zone2-demand-temperature
+		ID: zone-2-demand-temperature
 		CODSIEB
 		*/
 		final double result = controlledZoneTwoDemandTemperature * heatingSystemZoneTwoControlParameter
