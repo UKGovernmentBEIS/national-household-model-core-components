@@ -14,9 +14,45 @@ public class Weather implements IWeather {
 	 * The single, standard weather defined in SAP 2009
 	 */
 	public static final IWeather SAP09 = new Weather(
-			new double[] {4.50, 5.00, 6.80, 8.700, 11.70, 14.60, 16.90, 16.90, 14.30, 10.80, 7.00, 4.90},
-			new double[] {26.0, 54.0, 94.0, 150.0, 190.0, 201.0, 194.0, 164.0, 116.0, 68.00, 33.0, 21.0},
-			new double[] {5.40, 5.10, 5.10, 4.500, 4.100, 3.900, 3.700, 3.700, 4.200, 4.500, 4.80, 5.10});
+			/*
+			BEISDOC
+			NAME: External Temperature
+			DESCRIPTION: The average monthly temperatures for UK regions.
+			TYPE: table
+			UNIT: ℃
+			SAP: (22), Table U1 (UK average)
+			BREDEM: Table A2 (UK Average)
+			SET: context.weather,counterfactual.weather
+			ID: external-temperature
+			CODSIEB
+			*/
+			new double[] {4.30, 4.90, 6.50, 8.900, 11.70, 14.60, 16.60, 16.40, 14.10, 10.60, 7.10, 4.20},
+			/*
+			BEISDOC
+			NAME: Insolation
+			DESCRIPTION: The average monthly insolation for UK regions.
+			TYPE: table
+			UNIT: W/m^2
+			SAP: (22), Table U3 (UK average)
+			BREDEM: Table A1 (UK Average)
+			SET: context.weather,counterfactual.weather
+			ID: insolation
+			CODSIEB
+			*/
+			new double[] {26.0, 54.0, 96.0, 150.0, 192.0, 200.0, 189.0, 157.0, 115.0, 66.00, 33.0, 21.0},
+			/*
+			BEISDOC
+			NAME: Wind Speed
+			DESCRIPTION: The average monthly wind speed for UK regions.
+			TYPE: table
+			UNIT: m/s
+			SAP: (22), Table U2 (UK average)
+			BREDEM: Table A3 (UK Average)
+			SET: context.weather,counterfactual.weather
+			ID: wind-speed
+			CODSIEB
+			*/
+			new double[] {5.10, 5.00, 4.90, 4.400, 4.300, 3.800, 3.800, 3.700, 4.000, 4.300, 4.50, 4.70});
 	
 	public static final IWeather DEFAULT_WEATHER = SAP09;
 	
