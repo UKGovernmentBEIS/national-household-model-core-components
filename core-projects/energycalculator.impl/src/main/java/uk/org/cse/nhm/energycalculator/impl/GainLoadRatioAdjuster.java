@@ -138,7 +138,7 @@ class GainLoadRatioAdjuster implements IEnergyTransducer {
 		UNIT: W
 		SAP: (97)
 		BREDEM: 8I
-		DEPS: specific-heat-loss,weather,mean-internal-temperature-adjusted
+		DEPS: specific-heat-loss,external-temperature,mean-internal-temperature-adjusted
 		ID: heat-loss-at-mean-internal-temperature
 		CODSIEB
 		*/

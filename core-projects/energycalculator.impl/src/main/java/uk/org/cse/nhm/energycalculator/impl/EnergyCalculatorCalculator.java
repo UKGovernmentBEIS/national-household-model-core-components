@@ -323,8 +323,6 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		SAP: (37)
 		BREDEM: 3H
 		DEPS: fabric-heat-loss,thermal-bridging-heat-loss
-		GET: 
-		SET: 
 		ID: total-fabric-heat-loss
 		CODSIEB
 		*/
@@ -332,16 +330,15 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 
 		/*
 		BEISDOC
-		NAME: Heat transfer coefficient
-		DESCRIPTION: The ventilation heat loss added to the total fabric heat loss
+		NAME: Specific Heat Loss
+		DESCRIPTION: The rate at which the dwelling loses heat per degree of temperature difference with the outside. The ventilation heat loss added to the total fabric heat loss.
 		TYPE: Formula
 		UNIT: W/℃
 		SAP: (39)
 		BREDEM: 3H
 		DEPS: ventilation-heat-loss,total-fabric-heat-loss
 		GET: house.heat-loss
-		SET: 
-		ID: heat-transfer-coefficient
+		ID: specific-heat-loss
 		CODSIEB
 		*/
 		H1 += ventilationLosses;
@@ -381,7 +378,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		UNIT: W
 		SAP: Table 9a (computation of L)
 		BREDEM: 7H, 7Q
-		DEPS: external-temperature,zone-1-demand-temperature,zone-2-adjusted-demand-temperature,heat-loss
+		DEPS: external-temperature,zone-1-demand-temperature,zone-2-adjusted-demand-temperature,specific-heat-loss
 		ID: heat-loss-at-temperature
 		NOTES: This calculation step repeated twice - once for each Zone.
 		CODSIEB
@@ -473,7 +470,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		TYPE: formula
 		UNIT: ℃
 		BREDEM: 7D
-		DEPS: zone-1-demand-temperature,interzone-specific-heat-loss,external-temperature,heat-loss,total-gains
+		DEPS: zone-1-demand-temperature,interzone-specific-heat-loss,external-temperature,specific-heat-loss,total-gains
 		NOTES: This will never actually be used, because the zone two heated proportion is always 1.
 		ID: unheated-zone-2-temperature
 		CODSIEB
@@ -554,7 +551,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		UNIT: ℃
 		SAP: Table 9b
 		BREDEM: 7L, 7T
-		DEPS: external-temperature,zone-1-utilisation-factor,zone-2-utilisation-factor,total-gains,heat-loss
+		DEPS: external-temperature,zone-1-utilisation-factor,zone-2-utilisation-factor,total-gains,specific-heat-loss
 		ID: responsive-temperatures
 		CODSIEB
 		*/
@@ -809,7 +806,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		UNIT: Dimensionless
 		SAP: (94), Table 9a
 		BREDEM: 8A-C
-		DEPS: mean-internal-temperature-adjusted,external-temperature,heat-loss,total-gains,utilisation-factor-exponent
+		DEPS: mean-internal-temperature-adjusted,external-temperature,specific-heat-loss,total-gains,utilisation-factor-exponent
 		ID: gains-utilisation-factor-revised
 		CODSIEB
 		*/
