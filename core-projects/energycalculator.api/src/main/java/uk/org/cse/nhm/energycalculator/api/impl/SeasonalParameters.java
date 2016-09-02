@@ -53,7 +53,7 @@ public class SeasonalParameters implements ISeasonalParameters {
 		UNIT: W
 		SAP: (U1)
 		BREDEM: 2.4.1G
-		DEPS: weather,solar-flux-adjustment
+		DEPS: insolation,solar-flux-adjustment
 		ID: effective-solar-flux
 		CODSIEB
 		*/

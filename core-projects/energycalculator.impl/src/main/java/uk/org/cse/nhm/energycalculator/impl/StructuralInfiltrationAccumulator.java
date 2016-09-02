@@ -65,6 +65,21 @@ public class StructuralInfiltrationAccumulator implements IStructuralInfiltratio
 	@Override
 	public double getAirChangeRate(final IEnergyCalculatorHouseCase house, final IEnergyCalculatorParameters parameters) {
         final double volume = house.getHouseVolume();
+        
+        /*
+		BEISDOC
+		ID: vent-chimney-and-fan-air-changes
+		NAME: Conversion of units for air changes from vents and chimneys
+		DESCRIPTION: Divide by house volume to get from m3/h to ach rate
+		TYPE: formula
+		UNIT: ach/h
+		SAP: (8)
+		BREDEM: 3C, Table 20
+		DEPS: dwelling-vent-and-chimney-infiltration,dwelling-fan-infiltration,dwelling-volume
+		GET: 
+		SET:
+		CODSIEB
+		*/
 		/**
 		 * This is the number of air changes/hr due to fan infiltration;
 		 */
@@ -74,6 +89,21 @@ public class StructuralInfiltrationAccumulator implements IStructuralInfiltratio
 		 */
 		final double ventAirChanges = ventInfiltration == 0 ? 0 : ventInfiltration / volume;
 		
+		/*
+		BEISDOC
+		NAME: Draught proofing effect on air change rate
+		DESCRIPTION: Draught stripping reduces the constant air change rate from windows
+		TYPE: formula
+		UNIT: ach/h
+		SAP: (15)
+		BREDEM: Table 19
+		DEPS: window-infiltration-constant,draught-stripped-factor-constant,draught-stripped-proportion
+		GET:
+		SET:
+		STOCK: ventilation.csv (windowsanddoorsdraughtstrippedproportion)
+		ID: window-infiltration
+		CODSIEB
+		*/
 		final double windowAirChanges = WINDOW_INFILTRATION - DRAUGHT_STRIPPED_FACTOR * house.getDraughtStrippedProportion();
 		
 		if (log.isDebugEnabled()) {
@@ -93,9 +123,53 @@ public class StructuralInfiltrationAccumulator implements IStructuralInfiltratio
 				wallAirChangeRate +
 				windowAirChanges +
 				floorAirChangeRate +
+				/*
+				BEISDOC
+				NAME: Include effect of draught lobby
+				DESCRIPTION: Draught lobbies reduce some amount of air change rate
+				TYPE: formula
+				UNIT: ach/h
+				SAP: (13)
+				BREDEM: Table 19
+				DEPS: draught-lobby-constant
+				STOCK: cases.csv (hasdraftlobby)
+				ID: has-draught-lobby
+				CODSIEB
+				*/
 				(house.hasDraughtLobby() ? 0 : DRAUGHT_LOBBY_VENTILATION) + // SAP specifies 0.05 for no draught lobby. We presume flats have a draught lobby.
+				
+				/*
+				BEISDOC
+				ID: stack-effect
+				NAME: Stack effect
+				DESCRIPTION: Each storey adds some air change per hour
+				TYPE: formula
+				UNIT: ach/h
+				SAP: (9,10)
+				BREDEM: Table 19
+				DEPS: 
+				GET: house.number-of-storeys
+				SET:
+				STOCK: storeys.csv (number of rows for the house)
+				CODSIEB
+				*/
 				STACK_EFFECT_PARAMETER * (house.getNumberOfStoreys() - 1);
 		
+		/*
+		BEISDOC
+		NAME: Total infiltration rate
+		DESCRIPTION: The sum of deliberate ventilation and passive infiltration. 
+		TYPE: formula
+		UNIT: ach/h
+		SAP: (16,18)
+		BREDEM: 3D
+		DEPS: has-draught-lobby,stack-effect,window-infiltration,vent-chimney-and-fan-air-changes,wall-air-changes
+		NOTES: TODO floor infiltration.
+		NOTES: TODO additional infiltration.
+		ID: total-infiltration
+		CODSIEB
+		*/
+
 		return unforcedAirChanges  + fanAirChanges;
 	}
 
@@ -109,6 +183,21 @@ public class StructuralInfiltrationAccumulator implements IStructuralInfiltratio
 			return;
 		}
 		if (log.isTraceEnabled()) log.trace("Adding {} ach/hr of wall infiltration", airChangeRate);
+		
+		/*
+		BEISDOC
+		ID: wall-air-changes
+		NAME: Structural infiltration
+		DESCRIPTION: Having a particular type of wall contributes some air changes to the total air change rate. The largest wall breaks ties
+		TYPE: formula
+		UNIT: ach/h
+		SAP: (11)
+		BREDEM: Table 19
+		DEPS: external-wall-area
+		NOTES: TODO Bredem specifies that this should be an area-weighted average.
+		CODSIEB
+		*/
+		
 		if (wallArea > maximumWallArea) {
 			maximumWallArea = wallArea;
 			wallAirChangeRate = airChangeRate;
@@ -123,6 +212,23 @@ public class StructuralInfiltrationAccumulator implements IStructuralInfiltratio
 	@Override
 	public void addVentInfiltration(final double infiltrationRate) {
 		if (log.isTraceEnabled()) log.trace("Adding {} m3/hr of vent infiltration", infiltrationRate);
+		/*
+		BEISDOC
+		ID: dwelling-vent-and-chimney-infiltration
+		NAME: Sum of chimney and flue infiltration
+		DESCRIPTION: If there several flues or chimneys, their infiltration effects add
+		TYPE: formula
+		UNIT: m3/h
+		SAP: (6a,6b,7b)
+		BREDEM: Table 20
+		DEPS: chimney-or-flue-infiltration
+		GET: 
+		SET:
+		STOCK: ventilation.csv (chimneysmainheating, chimneysother, chimneyssecondaryheating, passivevents)
+		NOTES: TODO This is not connected to the stock at present. Instead, heating chimneys and flues are worked out from the heating system, while passive vents are ignored.
+		CODSIEB
+		*/
+
 		ventInfiltration += infiltrationRate;
 	}
 
@@ -142,5 +248,22 @@ public class StructuralInfiltrationAccumulator implements IStructuralInfiltratio
 	public void addFanInfiltration(double infiltrationRate) {
 		if (log.isTraceEnabled()) log.trace("Adding {} m3/hr of fan infiltration", infiltrationRate);
 		fanInfiltration += infiltrationRate;
+		/*
+		BEISDOC
+		ID: dwelling-fan-infiltration
+		NAME: Sum of fan infiltration rates
+		DESCRIPTION: Each intermittent fan contributes to the total infiltration rate
+		TYPE: formula
+		UNIT: m3/h
+		SAP: (7a)
+		BREDEM: Table 20
+		DEPS: 
+		GET: 
+		SET:
+		STOCK: ventilation.csv (intermittentfans)
+		NOTES: TODO this is not currently connected, so the fan infiltration will always be 0. 
+		CODSIEB
+		*/
+
 	}
 }

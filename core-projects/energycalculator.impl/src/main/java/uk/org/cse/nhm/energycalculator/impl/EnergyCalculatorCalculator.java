@@ -209,11 +209,51 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 
 		final double structuralAirChangeRate = infiltration.getAirChangeRate(houseCase, parameters);
 
-		final double exposure = 1 - (houseCase.getNumberOfShelteredSides() * SHELTERED_SIDES_EXPOSURE_FACTOR);
+		/*
+		BEISDOC
+		NAME: Shelter Factor
+		DESCRIPTION: Multiply the number of sheltered sides by the sheltered sides exposure factor. Subtract the result from 1. 
+		TYPE: formula
+		UNIT: dimensionless
+		SAP: 20
+		BREDEM: Table 22
+		DEPS: sheltered-sides-exposure-factor,num-sheltered-sides
+		GET: 
+		SET: 
+		ID: shelter-factor
+		CODSIEB
+		*/
+		final double shelterFactor = 1 - (houseCase.getNumberOfShelteredSides() * SHELTERED_SIDES_EXPOSURE_FACTOR);
+		
+		/*
+		BEISDOC
+		NAME: Wind factor
+		DESCRIPTION: The average wind speed divided by 4.
+		TYPE: formula
+		UNIT: m/s
+		SAP: (22a)
+		BREDEM: 3E
+		DEPS: wind-speed,wind-factor-divisor
+		GET: 
+		SET: 
+		ID: wind-factor
+		CODSIEB
+		*/
+		final double exposureFactor = (parameters.getClimate().getSiteWindSpeed() / WIND_FACTOR_DIVISOR) ;
 
-		final double exposureFactor = (parameters.getClimate().getSiteWindSpeed() / WIND_FACTOR_DIVISOR) * exposure;
-
-		final double climateAdjustedAirChangeRate = structuralAirChangeRate * exposureFactor;
+		/*
+		BEISDOC
+		NAME: Adjused infiltration rate
+		DESCRIPTION: The infiltration rate allowing for shelter and wind speed
+		TYPE: formula
+		UNIT: ach/h
+		SAP: (21,22b)
+		BREDEM: 3E
+		DEPS: wind-factor,shelter-factor,total-infiltration
+		ID: adjusted-infiltration
+		CODSIEB
+		*/
+		final double climateAdjustedAirChangeRate = structuralAirChangeRate * exposureFactor * shelterFactor;
 
 		double houseAirChangeRate = climateAdjustedAirChangeRate;
 
@@ -235,6 +275,21 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		// if the house is built before 2003,
 		// or 1/4 that if it is built after 2003.
 
+		/*
+		BEISDOC
+		NAME: Thermal bridges
+		DESCRIPTION: Heat loss due to thermal bridging
+		TYPE: formula
+		UNIT: W/℃
+		SAP: (36), Appendix K (K2)
+		BREDEM: 3A
+		DEPS: thermal-bridging-coefficient,external-area
+		GET: 
+		SET:
+		ID: thermal-bridging-heat-loss
+		NOTES: TODO investigate this after 2003 thermal bridging thing?
+		CODSIEB
+		*/
 		final double thermalBridgeEffect;
 		if (houseCase.getBuildYear() < THERMAL_BRIDGING_PARAMETER_IMPROVEMENT_YEAR) {
 			thermalBridgeEffect = OLD_THERMAL_BRIDGING_COEFFICIENT * totalExternalArea;
@@ -242,11 +297,55 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 			thermalBridgeEffect = NEW_THERMAL_BRIDGING_COEFFICIENT * totalExternalArea;
 		}
 
+		/*
+		BEISDOC
+		NAME: Ventilation heat loss
+		DESCRIPTION: The heat loss in the house due to ventilation and infiltration
+		TYPE: formula
+		UNIT: W/℃
+		SAP: (38)
+		BREDEM: 3G
+		DEPS: ventilation-heat-loss-coefficient,natural-infiltration,dwelling-volume
+		GET:
+		SET:
+		ID: ventilation-heat-loss
+		CODSIEB
+		*/
 		final double ventilationLosses = VENTILATION_HEAT_LOSS_COEFFICIENT * houseAirChangeRate
 				* houseCase.getHouseVolume();
 
+		/*
+		BEISDOC
+		NAME: Total fabric heat loss
+		DESCRIPTION: Fabric heat loss added to thermal bridging
+		TYPE: formula
+		UNIT: W/℃
+		SAP: (37)
+		BREDEM: 3H
+		DEPS: fabric-heat-loss,thermal-bridging-heat-loss
+		GET: 
+		SET: 
+		ID: total-fabric-heat-loss
+		CODSIEB
+		*/
 		H1 += thermalBridgeEffect;
+
+		/*
+		BEISDOC
+		NAME: Heat transfer coefficient
+		DESCRIPTION: The ventilation heat loss added to the total fabric heat loss
+		TYPE: Formula
+		UNIT: W/℃
+		SAP: (39)
+		BREDEM: 3H
+		DEPS: ventilation-heat-loss,total-fabric-heat-loss
+		GET: house.heat-loss
+		SET: 
+		ID: heat-transfer-coefficient
+		CODSIEB
+		*/
 		H1 += ventilationLosses;
+		
 		H3 = houseCase.getInterzoneSpecificHeatLoss();
 
 		return new SpecificHeatLosses(H1, H3, totalThermalMass, houseCase.getFloorArea(), ventilationLosses,
@@ -282,7 +381,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		UNIT: W
 		SAP: Table 9a (computation of L)
 		BREDEM: 7H, 7Q
-		DEPS: weather,zone-1-demand-temperature,zone-2-adjusted-demand-temperature,heat-loss
+		DEPS: external-temperature,zone-1-demand-temperature,zone-2-adjusted-demand-temperature,heat-loss
 		ID: heat-loss-at-temperature
 		NOTES: This calculation step repeated twice - once for each Zone.
 		CODSIEB
@@ -374,7 +473,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		TYPE: formula
 		UNIT: ℃
 		BREDEM: 7D
-		DEPS: zone-1-demand-temperature,interzone-specific-heat-loss,weather,heat-loss,total-gains
+		DEPS: zone-1-demand-temperature,interzone-specific-heat-loss,external-temperature,heat-loss,total-gains
 		NOTES: This will never actually be used, because the zone two heated proportion is always 1.
 		ID: unheated-zone-2-temperature
 		CODSIEB
@@ -455,7 +554,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		UNIT: ℃
 		SAP: Table 9b
 		BREDEM: 7L, 7T
-		DEPS: weather,zone-1-utilisation-factor,zone-2-utilisation-factor,total-gains,heat-loss
+		DEPS: external-temperature,zone-1-utilisation-factor,zone-2-utilisation-factor,total-gains,heat-loss
 		ID: responsive-temperatures
 		CODSIEB
 		*/
@@ -710,7 +809,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		UNIT: Dimensionless
 		SAP: (94), Table 9a
 		BREDEM: 8A-C
-		DEPS: mean-internal-temperature-adjusted,weather,heat-loss,total-gains,utilisation-factor-exponent
+		DEPS: mean-internal-temperature-adjusted,external-temperature,heat-loss,total-gains,utilisation-factor-exponent
 		ID: gains-utilisation-factor-revised
 		CODSIEB
 		*/

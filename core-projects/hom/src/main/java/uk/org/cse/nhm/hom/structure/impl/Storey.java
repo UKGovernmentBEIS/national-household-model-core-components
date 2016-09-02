@@ -73,6 +73,22 @@ public class Storey implements IStorey {
 	 * segment's line goes from the previous segment data in the list to the given one)
 	 */
 	protected List<SegmentData> segments = new ArrayList<SegmentData>();
+
+	/*
+	BEISDOC
+	ID: storey-height
+	NAME: Storey height
+	DESCRIPTION: The variable which contains the height of one storey
+	TYPE: variable
+	UNIT: m
+	SAP: (2a,2b...)
+	BREDEM: Input variable
+	DEPS: 
+	GET: 
+	SET: 
+	STOCK: storeys.csv (storyheight)
+	CODSIEB
+	*/
 	
 	/**
 	 * The ceiling height of this storey.
@@ -288,18 +304,53 @@ public class Storey implements IStorey {
 			showVisitorHeatLossWalls(visitor, elevations, doors);
 		}
 		
-		// present heat loss areas above and below
+				// present heat loss areas above and below
 		final double area = getArea();
 		if (area > areaBelow) {
+			/*
+			BEISDOC
+			NAME: Floor element
+			DESCRIPTION: The area, u-value and k-value for a section of floor which contributes to heat loss.
+			TYPE: formula
+			UNIT: area m^2, u-value W/m^2/℃, k-value kJ/m^2/℃
+			SAP: 28b, 32a
+			BREDEM: 3B
+			DEPS: 
+			GET: house.u-value
+			SET: action.reset-floors,action.set-floor-insulation
+			STOCK: cases.csv (grndfloortype), storeys.csv (shape of polygons), imputation schema (floors)
+			ID: floor-element
+			NOTES: Part floor's u-value is always 0.
+			CODSIEB
+			*/
 			//TODO does area below into ground count as External Area for thermal bridging purposes?
 			// there is a heat loss area pointing downwards, whose area is area - areaBelow
 			final double heatLossAreaBelow = area - areaBelow;
 			visitor.visitFabricElement(AreaType.ExternalFloor, heatLossAreaBelow, floorUValue, floorKValue);
+			visitor.visitFabricElement(AreaType.PartyFloor, areaBelow, 0, partyFloorKValue);
+			
+			// BEISDOC ID: 11
 			visitor.addFloorInfiltration(heatLossAreaBelow, floorAirChangeRate);
 			visitor.visitFabricElement(AreaType.PartyFloor, areaBelow, 0, partyFloorKValue);
 		}
 		
 		if (area > areaAbove) {
+			/*
+			BEISDOC
+			NAME: Ceiling element
+			DESCRIPTION: The area, u-value and k-value for a section of ceiling which contributes to heat loss
+			TYPE: formula
+			UNIT: area m^2, u-value W/m^2/℃, k-value kJ/m^2/℃
+			SAP: (30,32b)
+			BREDEM: 3B
+			DEPS: 
+			GET: house.u-value
+			SET: action.reset-roofs
+			STOCK: roofs.csv (all fields), imputation schema (roofs)
+			ID: ceiling-element
+			NOTES: Party ceiling's u-value is always 0.
+			CODSIEB
+			*/
 			// there is a heat loss area pointing upwards, whose area is area - areaAbove
 			final double heatLossAreaAbove = area - areaAbove;
 			visitor.visitFabricElement(AreaType.ExternalCeiling, heatLossAreaAbove, ceilingUValue, ceilingKValue);
@@ -321,6 +372,20 @@ public class Storey implements IStorey {
 	 */
 	@Override
 	public double getVolume() {
+		/*
+		BEISDOC
+		ID: storey-volume
+		NAME: Storey volume
+		DESCRIPTION: The volume of a single storey
+		TYPE: formula
+		UNIT: m3
+		SAP: (3a,3b..)
+		BREDEM: Input variable
+		DEPS: storey-floor-area,storey-height
+		GET: house.volume
+		SET: 
+		CODSIEB
+		*/
 		return getArea() * height;
 	}
 	
@@ -329,6 +394,21 @@ public class Storey implements IStorey {
 	 */
 	@Override
 	public double getArea() {
+		/*
+		BEISDOC
+		ID: storey-floor-area
+		NAME: Floor area
+		DESCRIPTION: Calculates the area of a single storey
+		TYPE: formula
+		UNIT: m2
+		SAP: (1a,1b...)
+		BREDEM: Input variable
+		DEPS: 
+		GET: 
+		SET: 
+		STOCK: stories.csv (polygon shape)
+		CODSIEB
+		*/		
         double accumulator = 0;
 
         final int count = segments.size();
@@ -385,6 +465,21 @@ public class Storey implements IStorey {
 			final double wallArea;
 			
 			if (segment.isPartyWall()) {
+				/*
+				BEISDOC
+				NAME: Party wall element
+				DESCRIPTION: The area, u-value and k-value for a section of party wall.
+				TYPE: formula
+				UNIT: area m^2, u-value W/m^2/℃, k-value kJ/m^2/℃
+				SAP: (32)
+				BREDEM: 3B
+				DEPS:
+				GET: house.u-value
+				SET: action.reset-walls
+				STOCK: elevations.csv (tenthspartywall), imputation schema (walls)
+				ID: party-wall-element
+				CODSIEB
+				*/
 				// party walls cannot contain windows or doors, and they have no infiltration effects
 				// so we just skip over all that stuff here
 				wallArea = basicArea;
@@ -401,11 +496,40 @@ public class Storey implements IStorey {
 				}
 				
 				final double glazedArea = e.visitGlazing(visitor, basicArea, doorArea);
+				
+				/*
+				BEISDOC
+				NAME: External Wall Area
+				DESCRIPTION: The area of an external wall excluding glazing and doors.
+				TYPE: formula
+				UNIT: m^2
+				SAP: (11)
+				BREDEM: Table 19
+				DEPS: elevation-glazed-proportion,opening-proportion,storey-height
+				STOCK: storeys.csv (polygons)
+				ID: external-wall-area
+				CODSIEB
+				*/
 				wallArea = basicArea - (glazedArea + doorArea);
 				
 				// TODO I am not sure whether the windows and doors should be netted off here
 				visitor.addWallInfiltration(basicArea, segment.getAirChangeRate());
 
+				/*
+				BEISDOC
+				NAME: External wall element
+				DESCRIPTION: The area, u-value and k-value for a section of external wall.
+				TYPE: formula
+				UNIT: area m^2, u-value W/m^2/℃, k-value kJ/m^2/℃
+				SAP: (29a)
+				BREDEM: 3B
+				DEPS:
+				GET: house.u-value
+				SET: action.reset-walls
+				STOCK: storeys.csv (polygon shape), imputation schemas (walls)
+				ID: external-wall-element
+				CODSIEB
+				*/
 				visitor.visitFabricElement(AreaType.ExternalWall, wallArea, segment.getUValue(), segment.getKValue());
 			}
 		}

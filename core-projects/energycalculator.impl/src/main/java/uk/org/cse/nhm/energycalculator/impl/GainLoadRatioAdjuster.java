@@ -106,7 +106,7 @@ class GainLoadRatioAdjuster implements IEnergyTransducer {
 		TYPE: formala
 		UNIT: ℃
 		BREDEM: 8E
-		DEPS: weather,total-useful-gains,specific-heat-loss
+		DEPS: external-temperature,total-useful-gains,specific-heat-loss
 		ID: unheated-temperature
 		CODSIEB
 		*/
