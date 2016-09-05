@@ -120,10 +120,7 @@ public class CentralHotWaterTransducer extends EnergyTransducer {
 		UNIT: W
 		SAP: (51-56), Tables 2, 2a, 2b
 		BREDEM: 2.2B, 2.2C, Table 9
-		DEPS: cpsu-storage-loss, storage-combi-storage-loss
-		GET: 
-		SET: 
-		NOTES: In SAP and BREDEM, this is measured in kWh/month. In the NHM we use Watts. This is a simple time conversion.
+		DEPS: tank-losses,storage-combi-storage-temperature-factor,cpsu-storage-temperature-factor
 		ID: water-storage-loss
 		CODSIEB
 		*/
@@ -209,6 +206,18 @@ public class CentralHotWaterTransducer extends EnergyTransducer {
 		 */
 		final double demandSatisfied = initialRemainingDemand - finalRemainingDemand;
 		
+		/*
+		BEISDOC
+		NAME: Central Hot Water Distribution Losses
+		DESCRIPTION: The distribution losses from the central water heating system
+		TYPE: formula
+		UNIT: W
+		SAP: (46)
+		BREDEM: 2.21
+		DEPS: distribution-loss-factor,usage-adjusted-water-volume,is-main-weater-heating
+		ID: central-hot-water-distribution-losses
+		CODSIEB
+		*/
 		/**
 		 * The amount of distribution losses that were incurred whilst satisfying demand
 		 */
@@ -220,6 +229,20 @@ public class CentralHotWaterTransducer extends EnergyTransducer {
 		 * Now we divvy up the system losses between the non-solar water heating elements:
 		 */
 		if (nonSolarGeneration > 0) {
+			/*
+			BEISDOC
+			NAME: Total central hot water losses
+			DESCRIPTION: Storage losses added to distribution losses for a central hot water system.
+			TYPE: formula
+			UNIT: W
+			SAP: (62)
+			BREDEM: 2.5A
+			DEPS: central-hot-water-distribution-losses,water-storage-loss
+			NOTES: Combi losses and pipework losses are not included here. They are added on inside the various kinds of heat source.
+			ID: total-central-hot-water-losses
+			CODSIEB
+			*/
+
 			if (primaryWaterHeater != null) {
 				primaryWaterHeater.generateSystemGains(parameters, state, systemStore, 
 						systemStoreInPrimaryCircuit, 

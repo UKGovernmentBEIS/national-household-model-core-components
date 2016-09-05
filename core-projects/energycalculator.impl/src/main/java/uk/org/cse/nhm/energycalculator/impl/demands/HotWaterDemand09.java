@@ -59,18 +59,28 @@ public class HotWaterDemand09 implements IEnergyTransducer {
 		NAME: Water volume
 		DESCRIPTION: The volume of hot water required by the house
 		TYPE: formula
-		UNIT: m^3
-		SAP: (43,44)
-		BREDEM: 2.1A to 2.1G
-		DEPS: occupancy,monthly-water-usage-factor
-		GET:
-		SET:
-		NOTES: This is the SAP calculation, which is simpler than the BREDEM calculation. The two calculations are equivalent if shower-type in BREDEM is set to "unknown". Since we don't have any information about showers, this is what we will do.
+		UNIT: litres
+		SAP: (43)
+		DEPS: base-hot-water-demand,person-hot-water-demand,occupancy
 		NOTES: We omit the 5% reduction in hot water usage for dwellings with hot water targets. We have no information about this.   
-		ID: water-volume
+		ID: sap-water-volume
 		CODSIEB
 		*/
 		final double volume = (CONSTANT + PERSON * parameters.getNumberOfOccupants()) * USAGE_FACTOR;
+		
+		/*
+		BEISDOC
+		NAME: Usage Adjusted Water Volume
+		DESCRIPTION: description
+		TYPE: type
+		UNIT: litres
+		SAP: (44)
+		BREDEM: 2.1G
+		DEPS: sap-water-volume,bredem-water-volume,monthly-water-usage-factor
+		ID: usage-adjusted-water-volume
+		CODSIEB
+		*/
+		final double usageAdjustedVolume = volume * USAGE_FACTOR;
 		
 		/*
 		BEISDOC
@@ -79,9 +89,8 @@ public class HotWaterDemand09 implements IEnergyTransducer {
 		TYPE: formula
 		UNIT: W
 		SAP: (45,46), Tables
-		BREDEM: 2.1H, 2.1I
-		DEPS: water-volume,monthly-water-temperature-factor
-		NOTES: In the NHM this is expressed in Watts. In SAP and BREDEM it is expressed in kWh/month. These units are equivalent with a time conversion.
+		BREDEM: 2.1H, 2.1I,2.2A
+		DEPS: usage-adjusted-water-volume,monthly-water-temperature-factor,energy-per-hot-water
 		ID: water-heating-power
 		CODSIEB
 		*/

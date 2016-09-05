@@ -39,6 +39,18 @@ public class HotWaterUtilities {
 		
 		//TODO this does not cover the case where the tank is in the primary circuit, and so is a thermal store.
 		
+		/*
+		BEISDOC
+		NAME: Primary Pipework Losses
+		DESCRIPTION: Losses due to the primary hot water pipework
+		TYPE: formula
+		UNIT: W
+		SAP: (59)
+		BREDEM: 2.2D 
+		NOTES: TODO 
+		ID: primary-pipework-losses
+		CODSIEB
+		*/
 		if (primaryPipeworkIsInsulated && tankPresentAndThermostatic) {
 			return parameters.getConstants().get(HeatingSystemConstants.GOOD_PRIMARY_PIPEWORK_LOSSES) *
 				   primaryCorrectionFactor;
@@ -63,6 +75,19 @@ public class HotWaterUtilities {
 	 */
 	public static final double getStorageTemperatureFactor(IInternalParameters parameters,
 			IWaterTank store, boolean storeInPrimaryCircuit, boolean systemIsSeparatelyTimeControlled) {
+		/*
+		BEISDOC
+		NAME: Storage Temperature Factor
+		DESCRIPTION: A factor which depends on the temperature of the hot water store. It is a multiplier to storage losses.
+		TYPE: formula
+		UNIT: Dimensionless
+		SAP: (53), Table 2b
+		BREDEM: 2.2B.C, Table 9
+		DEPS: basic-temperature-factor,temperature-factor-no-thermostat-multiplier,temperature-factor-separate-timer-multiplier
+		NOTES: TODO Handle case when store in primary circuit 
+		ID: storage-temperature-factor
+		CODSIEB
+		*/
 		final IConstants constants = parameters.getConstants();
 		if (storeInPrimaryCircuit) {
 			return 1; //TODO don't return 1 - this is probably a hot water only thermal store

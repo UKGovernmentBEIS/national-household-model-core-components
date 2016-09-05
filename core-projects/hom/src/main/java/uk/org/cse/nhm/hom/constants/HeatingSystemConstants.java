@@ -7,12 +7,15 @@ import uk.org.cse.nhm.energycalculator.api.IConstant;
 public enum HeatingSystemConstants implements IConstant {
 	@ConstantDescription("The temperature adjustment for a direct electric non-thermostatic heater")
 	DIRECT_ELECTRIC_NONTHERMOSTATIC_T_ADJ(0.5),
+	
+	
 	@ConstantDescription("The worst-case primary pipework losses for a heating system")
 	BAD_PRIMARY_PIPEWORK_LOSSES(139.1),
 	@ConstantDescription("The medium-case primary pipework losses for a heating system")
 	MED_PRIMARY_PIPEWORK_LOSSES(69.58),
 	@ConstantDescription("The best-case primary pipework losses for a heating system")
 	GOOD_PRIMARY_PIPEWORK_LOSSES(41.0),
+	
 	/**
 	 * Additional primary pipework losses to do with heep hot facility, in this order:
 	 * No KHF, Uncontrolled KHF, Controlled KHF
@@ -20,9 +23,36 @@ public enum HeatingSystemConstants implements IConstant {
 	@ConstantDescription("Additional losses caused by the presence of a keep hot facility on a combi boiler")
 	KEEP_HOT_FACILITY_PIPEWORK_LOSSES(25.0, 95.0, 25.0),
 	
+	/*
+	BEISDOC
+	NAME: Distribution Loss Factor
+	DESCRIPTION: Distribution losses from a centrally heated system, as a proportion of hot water energy
+	TYPE: value
+	UNIT: Dimensionless
+	SAP: (46)
+	BREDEM: 2.2A
+	SET: context.energy-constants
+	CONVERSION: Scaled up by dividing by 0.85. This is necessary because we are doing this calculation in reverse here. 
+	NOTES: In SAP and BREDEM, we subtract 15% distribution losses from an amount which already includes them.
+	NOTES: In the NHM, we add (15% / 85%) = 17.65% distribution losses to an amount which does not include them.
+	ID: distribution-loss-factor
+	CODSIEB
+	*/
 	@ConstantDescription("Distribution losses from a centrally heated system, as a proportion of hot water energy")
 	CENTRAL_HEATING_DISTRIBUTION_LOSSES(0.15 / 0.85),
 	
+	/*
+	BEISDOC
+	NAME: Solar Primary Pipework Correction Factor
+	DESCRIPTION: Solar primary pipework correction factor (by month)
+	TYPE: value
+	UNIT: Dimensionless
+	SAP: (59), Table H4
+	BREDEM: 2.2D, Table 12
+	SET: context.energy-constants
+	ID: solar-primary-pipework-correction
+	CODSIEB
+	*/
 	@ConstantDescription("Solar primary pipework correction factor (by month)")
 	CENTRAL_HEATING_SOLAR_PPCF(1, 1, 0.94, 0.70, 0.45, 0.44, 0.44, 0.48, 0.76, 0.94, 1, 1),
 	

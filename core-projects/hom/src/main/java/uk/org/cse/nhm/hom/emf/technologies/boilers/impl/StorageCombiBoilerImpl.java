@@ -342,6 +342,18 @@ public class StorageCombiBoilerImpl extends CombiBoilerImpl implements IStorageC
 			log.error("Storage temperature factor requested for {}, which is not my internal store - central water system is not correctly configured", store);
 		}
 		
+		/*
+		BEISDOC
+		NAME: Storage Combi Storage Temperature Factor
+		DESCRIPTION: Storage factor for storage combi boilers.
+		TYPE: formula
+		UNIT: W
+		SAP: (51-55)
+		BREDEM: 2.2B
+		DEPS: temperature-factor-storage-combi-primary-store-terms,temperature-factor-storage-combi-secondary-store-terms
+		ID: storage-combi-storage-temperature-factor
+		CODSIEB
+		*/
 		final IConstants constants = parameters.getConstants();
 		final double[] terms;
 		if (storeInPrimaryCircuit) {

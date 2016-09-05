@@ -365,6 +365,19 @@ public class CPSUImpl extends BoilerImpl implements ICPSU {
 	@Override
 	public double getStorageTemperatureFactor(final IInternalParameters parameters,
 			final IWaterTank store, final boolean storeInPrimaryCircuit) {
+		/*
+		BEISDOC
+		NAME: CPSU Storage Temperature Factor
+		DESCRIPTION: The storage temperature factor for a CPSU.
+		TYPE: formula
+		UNIT: Dimensionless
+		SAP: (53), Table 2b
+		BREDEM: 2.2B.c, Table 9
+		DEPS: cpsu-electric-storage-temperature-factor,cpsu-gas-storage-temperature-factor
+		NOTES: Does not implement footnotes (c) or (d), due to lack of data.
+		ID: cpsu-storage-temperature-factor
+		CODSIEB
+		*/
 		if (store != getStore()) {
 			log.error("CPSU should not be used with an external storage tank!");
 		}
@@ -384,20 +397,6 @@ public class CPSUImpl extends BoilerImpl implements ICPSU {
 	
 	@Override
 	public double getContainedTankLosses(final IInternalParameters parameters) {
-		/*
-		BEISDOC
-		NAME: CPSU Storage losses
-		DESCRIPTION: Storage losses for a CPSU.
-		TYPE: formula
-		UNIT: W
-		SAP: Table 2, footnote 3
-		BREDEM: bredem
-		DEPS: deps
-		GET: get
-		SET: set
-		ID: id
-		CODSIEB
-		*/
 		final IWaterTank store = getStore();
 		
 		return store.getStandingLosses(parameters) * getStorageTemperatureFactor(parameters, store, true);

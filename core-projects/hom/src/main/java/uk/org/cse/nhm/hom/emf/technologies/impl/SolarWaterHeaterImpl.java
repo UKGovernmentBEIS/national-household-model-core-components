@@ -155,6 +155,17 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	/**
 	 * The cached value of the '{@link #getZeroLossEfficiency() <em>Zero Loss Efficiency</em>}' attribute.
 	 * <!-- begin-user-doc -->
+	BEISDOC
+	NAME: Zero Loss Efficiency
+	DESCRIPTION:
+	TYPE: value
+	UNIT: Dimensionless
+	SAP: (H2)
+	BREDEM: User input
+	SET: measure.solar-dhw
+	STOCK: Set to 4 based on Cambridge Household Model assumptions
+	ID: zero-loss-efficiency
+	CODSIEB 
 	 * <!-- end-user-doc -->
 	 * @see #getZeroLossEfficiency()
 	 * @generated
@@ -169,10 +180,22 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 * @ordered
 	 */
+	
 	protected static final double LINEAR_HEAT_LOSS_COEFFICIENT_EDEFAULT = 0.0;
 	/**
 	 * The cached value of the '{@link #getLinearHeatLossCoefficient() <em>Linear Heat Loss Coefficient</em>}' attribute.
 	 * <!-- begin-user-doc -->
+	BEISDOC
+	NAME: Linear Heat Loss Coefficient
+	DESCRIPTION: 
+	TYPE: value
+	UNIT: Dimensionless
+	SAP: (H3b)
+	BREDEM: User input
+	SET: measure.solar-dhw
+	STOCK: Set to 0.8 based on Cambridge Household Model assumptions
+	ID: linear-heat-loss-coefficient
+	CODSIEB	 
 	 * <!-- end-user-doc -->
 	 * @see #getLinearHeatLossCoefficient()
 	 * @generated
@@ -676,13 +699,37 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	}
 
 	protected double getCollectorPerformanceFactor(final IConstants constants) {
+		/*
+		BEISDOC
+		NAME: Collector Performance Ratio
+		DESCRIPTION: Linear heat loss coefficient divided by zero loss efficiency
+		TYPE: formula
+		UNIT: ???
+		SAP: (H4)
+		BREDEM: 2.4.2B
+		DEPS: linear-heat-loss-coefficient,zero-loss-efficiency
+		ID: collector-performance-ratio
+		CODSIEB
+		*/
 		final double hlcOverE = linearHeatLossCoefficient / zeroLossEfficiency;
 		
+		/*
+		BEISDOC
+		NAME: Collector Performance Factor
+		DESCRIPTION: 
+		TYPE: formula
+		UNIT: ???
+		SAP: (H10)
+		BREDEM: 2.4.2B
+		DEPS: collector-performance-ratio,collector-performance-ratio-threshold,collector-performance-factor-lower-terms,collector-performance-factor-higher-terms
+		ID: collector-performance-factor
+		CODSIEB
+		*/
 		final double[] terms = 
 				hlcOverE < constants.get(SolarConstants.HLC_OVER_E_THRESHOLD) ?
 						constants.get(SolarConstants.LOW_HLC_EXPANSION, double[].class) : 
 							constants.get(SolarConstants.HIGH_HLC_EXPANSION, double[].class);
-		
+
 		return terms[0] + terms[1] * hlcOverE + terms[2] * hlcOverE * hlcOverE;
 	}
 	
@@ -706,12 +753,49 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 			return 0;
 		}
 		
+		/*
+		BEISDOC
+		NAME: Solar Energy Available
+		DESCRIPTION:
+		TYPE: formula
+		UNIT: W
+		SAP: (H7)
+		BREDEM: 2.4.2C (expression in parentheses)
+		DEPS: solar-thermal-collector-area,overshading-factor,effective-solar-flux,zero-loss-efficiency
+		ID: solar-energy-available
+		CODSIEB
+		*/
 		final double solarEnergyAvailable = area * solarRadiation * overshadingFactor * zeroLossEfficiency;
 		
+		/*
+		BEISDOC
+		NAME: Solar to Load Ratio
+		DESCRIPTION: The ratio of available solar energy to hot water demand, with some wrangling for distribution losses. 
+		TYPE: formula
+		UNIT: Dimensionless
+		SAP: (H8)
+		BREDEM: 2.4.2C
+		DEPS: solar-energy-available,distribution-loss-factor,water-heating-power
+		NOTES: TODO include Hot water use adjustment factor from table H3
+		ID: id
+		CODSIEB
+		*/
 		final double loadRatio = solarEnergyAvailable / (remainingHotWaterDemand * (1 + distributionLossFactor));
 		
 		log.debug("load ratio {} = {} m2 * {} * {} * {} / {}", loadRatio, area, zeroLossEfficiency, solarRadiation, overshadingFactor, remainingHotWaterDemand);
 		
+		/*
+		BEISDOC
+		NAME: Solar Utilisation Factor
+		DESCRIPTION: Utilisation factor for solar hot water.
+		TYPE: formula
+		UNIT: Dimensionless
+		SAP: (H9)
+		BREDEM: 2.4.2D
+		DEPS: solar-utilisation-factor-thermostat-factor
+		ID: solar-utilisation-factor
+		CODSIEB
+		*/
 		final double utilisationFactor;
 		if (store != null && !store.isThermostatFitted()) {
 			utilisationFactor = (1 - Math.exp(-1 / loadRatio)) * constants.get(SolarConstants.UTILISATION_FACTOR_THERMOSTAT_FACTOR);
@@ -729,13 +813,50 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 		// pre-heat tank
 		// twin-coil cylinder
 		
+		/*
+		BEISDOC
+		NAME: Solar Store Effective Volume
+		DESCRIPTION: The effective volume of a solar store
+		TYPE: formula
+		UNIT: Litres
+		SAP: (H13)
+		BREDEM: User input, 2.4.2 (footnote)
+		DEPS: solar-dedicated-store-volume,solar-system-store-volume
+		ID: solar-store-effective-volume
+		CODSIEB
+		*/
 		// issue here is that BREDEM does not appear to model losses from a combi preheat tank,
 		// so it can't be the tank in the hot water system. 
 		final double effectiveSolarVolume;
 		if (store == null) {
+			/*
+			BEISDOC
+			NAME: Separate Solar Store Volume
+			DESCRIPTION: The volume of a hot water store incorporated into a solar heating system.
+			TYPE: value
+			UNIT: Litres
+			SAP: (H11, H13)
+			BREDEM: User input, 2.4.2 (footnote)
+			STOCK: water-heating.csv (solarstorevolume if either solarstoreincylinder is 'true' or cylindervolume is not present or equal to 0)
+			ID: solar-dedicated-store-volume
+			CODSIEB
+			*/
 			effectiveSolarVolume = getPreHeatTankVolume();
 			log.debug("Hot water tank is null - effective solar volume = {}", effectiveSolarVolume);
 		} else {
+			/*
+			BEISDOC
+			NAME: Solar System Store Volume
+			DESCRIPTION: For a hot water cylinder which is part of a central hot water system, what volume of it is used for solar hot water.
+			TYPE: formula
+			UNIT: Litres
+			SAP: (H12, H13)
+			BREDEM: User input, 2.4.2 (footnote)
+			DEPS: cylinder-volume,solar-cylinder-remainder
+			STOCK: water-heating.csv (solarstorevolume) 
+			ID: solar-system-store-volume
+			CODSIEB
+			*/
 			final double ssv = store.getSolarStorageVolume();
 			final double cylinderRemainder = constants.get(SolarConstants.CYLINDER_REMAINDER_FACTOR);
 			if (ssv == 0) {
@@ -756,14 +877,39 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 		
 		final double minVolumeFactor = constants.get(SolarConstants.MINIMUM_VOLUME_FACTOR);
 		
+		// Solar water heating happens first, so this should always be equal to the actual volume of hot water demanded.
 		final double remainingVolume = state.getTotalDemand(EnergyType.DemandsHOT_WATER_VOLUME) * remainingHotWaterDemand / state.getTotalDemand(EnergyType.DemandsHOT_WATER);
 		
+		/*
+		BEISDOC
+		NAME: Solar Storage Volume Factor
+		DESCRIPTION: 
+		TYPE: formula
+		UNIT: Dimensionless
+		SAP: (H15, H16)
+		BREDEM: 2.4.2E
+		DEPS: solar-store-effective-volume,water-volume,solar-min-volume-factor,solar-volume-factor-coefficient
+		ID: solar-storage-volume-factor
+		CODSIEB
+		*/
 		final double solarStorageVolumeFactor =
 				Math.max(0, Math.min(minVolumeFactor, 
 						minVolumeFactor + 
 						constants.get(SolarConstants.VOLUME_FACTOR_COEFFICIENT) * 
 						Math.log(effectiveSolarVolume / remainingVolume)));
 		
+		/*
+		BEISDOC
+		NAME: Solar Hot Water Output
+		DESCRIPTION: The amount of hot water demand satisfied by a solar water heater.
+		TYPE: formula
+		UNIT: W
+		SAP: (H17)
+		BREDEM: 2.4.2G
+		DEPS: solar-energy-available,solar-utilisation-factor,collector-performance-factor,solar-storage-volume-factor
+		ID: solar-hot-water-output
+		CODSIEB
+		*/
 		final double demandSatisfied = 
 				solarEnergyAvailable *
 				utilisationFactor * 

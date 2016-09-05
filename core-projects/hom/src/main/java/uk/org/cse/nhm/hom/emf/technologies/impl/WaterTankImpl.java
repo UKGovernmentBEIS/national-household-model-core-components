@@ -354,6 +354,18 @@ public class WaterTankImpl extends MinimalEObjectImpl implements IWaterTank {
 	 */
 	@Override
 	public double getStandingLosses(final IInternalParameters parameters) {
+		/*
+		BEISDOC
+		NAME: Tank Storage Losses 
+		DESCRIPTION: Storage losses for a hot water cylinder. Excludes volume used for solar hot water.
+		TYPE: formula
+		UNIT: W
+		SAP: (54,55)
+		BREDEM: 2.2B
+		DEPS: cylinder-loss-factor,storage-temperature-factor,volume-factor,cylinder-volume,solar-store-effective-volume
+		ID: tank-losses
+		CODSIEB
+		*/
 		final IConstants constants = parameters.getConstants();
 		
 		final double lossFactor = getCylinderLossFactor(constants);

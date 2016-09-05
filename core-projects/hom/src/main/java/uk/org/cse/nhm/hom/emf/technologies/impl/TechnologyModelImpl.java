@@ -972,6 +972,20 @@ public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnolo
 			}
 		}
 		
+		/*
+		BEISDOC
+		NAME: Is Main Water Heater
+		DESCRIPTION: Only the main water heating system contributes hot water.
+		TYPE: formula
+		UNIT: True/False
+		SAP: (217)
+		NOTES: SAP allows for two main water heating systems. We do not support this.
+		NOTES: We do allow for secondary water heating systems, but they will only supply hot water if a main water heating system is not present or is not functioning.
+		NOTES: BREDEM computes a fraction based on volume or water heated and temperature rise. We do not implement this as we do not have the information.
+		NOTES: Solar water heating is dealt with separately.
+		ID: is-main-weater-heating
+		CODSIEB
+		*/
 		// Water
 		// Solar thermal happens first - we don't deal with that here.
 		// Other systems are either used completely or not at all.

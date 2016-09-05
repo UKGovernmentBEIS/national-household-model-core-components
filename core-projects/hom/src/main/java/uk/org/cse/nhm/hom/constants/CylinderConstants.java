@@ -74,24 +74,108 @@ public enum CylinderConstants implements IConstant {
 	@ConstantDescription("The terms for the volume factor equation")
 	VOLUME_FACTOR_TERMS(120, 1 / 3.0),
 
+	/*
+	BEISDOC
+	NAME: Basic Temperature Factor
+	DESCRIPTION: The storage temperature factor used in most cases
+	TYPE: value
+	UNIT: Dimensionless
+	SAP: Table 2b
+	BREDEM: Table 9
+	SET: context.energy-constants
+	ID: basic-temperature-factor
+	CODSIEB
+	*/
 	@ConstantDescription("The storage temperature factor used in most cases")
 	TEMPERATURE_FACTOR_BASIC(0.6),
 
+	/*
+	BEISDOC
+	NAME: Temperature Factor No Thermostat Multiplier
+	DESCRIPTION: The storage temperature factor multiplier when there is no thermostat.
+	TYPE: value
+	UNIT: Dimensionless
+	SAP: Table 2b (footnote a)
+	BREDEM: Table 9 (footnote a)
+	SET: context.energy-constants
+	ID: temperature-factor-no-thermostat-multiplier
+	CODSIEB
+	*/
 	@ConstantDescription("The storage temperature factor multiplier when there is no thermostat")
 	TEMPERATURE_FACTOR_NO_THERMOSTAT_MULTIPLIER(1.3),
 
+	/*
+	BEISDOC
+	NAME: Temperature Factor Separate Timer Multiplier
+	DESCRIPTION: The storage temperature factor multiplier when there is a separate hot water timer
+	TYPE: value
+	UNIT: Dimensionless
+	SAP: Table 2b (footnote b)
+	BREDEM: Table 9 (footnote b)
+	SET: context.energy-constants
+	ID: temperature-factor-separate-timer-multiplier
+	CODSIEB
+	*/
 	@ConstantDescription("The storage temperature factor used when there is a separate hot water timer")
 	TEMPERATURE_FACTOR_SEPARATE_HW_TIMER(0.9),
 
+	/*
+	BEISDOC
+	NAME: Storage Combi Primary Store Temperature Factor 
+	DESCRIPTION: The storage temperature factor terms for a combi with store in primary circuit.
+	TYPE: value
+	UNIT: Dimensionless
+	SAP: Table 2b (storage combi primary store)
+	BREDEM: Table 9 (storage combi primary store)
+	SET: context.energy-constants.
+	ID: temperature-factor-storage-combi-primary-store-terms
+	CODSIEB
+	*/
 	@ConstantDescription("The storage temperature factor terms for a combi with store in primary circuit")
 	TEMPERATURE_FACTOR_PRIMARY_STORAGE_COMBI(0.82, 0.0022, 115),
 
+	/*
+	BEISDOC
+	NAME: Storage Combi Secondary Store Temperature Factor 
+	DESCRIPTION: The storage temperature factor terms for a combi with store in secondary circuit.
+	TYPE: value
+	UNIT: Dimensionless
+	SAP: Table 2b (storage secondary store)
+	BREDEM: Table 9 (storage combi secondary store)
+	SET: context.energy-constants.
+	ID: temperature-factor-storage-combi-secondary-store-terms
+	CODSIEB
+	*/
 	@ConstantDescription("The STF terms for a combi with store in secondary circuit")
 	TEMPERATURE_FACTOR_SECONDARY_STORAGE_COMBI(0.6, 0.0016, 115),
 
+	/*
+	BEISDOC
+	NAME: Gas CPSU Storage Temperature Factor
+	DESCRIPTION: The STF for a gas CPSU 
+	TYPE: value
+	UNIT: Dimensionless
+	SAP: Table 2b
+	BREDEM: Table 9
+	SET: context.energy-constants
+	ID: cpsu-gas-storage-temperature-factor
+	CODSIEB
+	*/
 	@ConstantDescription("The STF for a gas CPSU")
 	TEMPERATURE_FACTOR_GAS_CPSU(1.08),
 
+	/*
+	BEISDOC
+	NAME: Electric CPSU Storage Temperature Factor
+	DESCRIPTION: The STF for an electric CPSU 
+	TYPE: value
+	UNIT: Dimensionless
+	SAP: Table 2b
+	BREDEM: Table 9
+	SET: context.energy-constants
+	ID: cpsu-electric-storage-temperature-factor
+	CODSIEB
+	*/
 	@ConstantDescription("The storage temperature factor for an electric CPSU.")
 	TEMPERATURE_FACTOR_ELECTRIC_CPSU(1.0);
 
