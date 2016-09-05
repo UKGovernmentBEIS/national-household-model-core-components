@@ -346,6 +346,18 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 	 * @return
 	 */
 	protected double getWaterHeatingEfficiency(final IConstants constants, final double qWater, final double qSpace) {
+		/*
+		BEISDOC
+		NAME: Boiler Water Heating Efficiency
+		DESCRIPTION: The water efficiency of a boiler in a given month, based on mixing together summer and winter efficiencies and applying heating control adjustments.
+		TYPE: formula
+		UNIT: Dimensionless
+		SAP: Section 9.2.1 (8), Table 4c
+		BREDEM: Appendix B2
+		DEPS: combi-boiler-hot-water-efficiency,cpsu-boiler-hot-water-efficiency,boiler-without-interlock
+		ID: boiler-water-heating-efficiency
+		CODSIEB
+		*/
 		final double seasonalEfficiency = getSeasonalEfficiency(qWater, qSpace);
 		
 		// apply adjustments due to control systems

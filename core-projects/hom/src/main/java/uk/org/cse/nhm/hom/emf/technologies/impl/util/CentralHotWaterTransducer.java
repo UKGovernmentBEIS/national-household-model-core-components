@@ -165,7 +165,19 @@ public class CentralHotWaterTransducer extends EnergyTransducer {
 		
 		final IWaterTank systemStore = system.getStore();
 		final boolean systemStoreInPrimaryCircuit = system.isStoreInPrimaryCircuit();
-		
+
+		/*
+		BEISDOC
+		NAME: Central Direct Hot Water Fuel Energy Demand
+		DESCRIPTION: From the central hot water system, calls the various heaters. Accumulates the overall amount of fuel used for providing hot water, including combi losses.
+		TYPE: formula
+		UNIT: W
+		SAP: (64,216,217,219)
+		BREDEM: 2.5
+		DEPS: boiler-water-heating-efficiency,combi-losses,community-water-heating-energy-multipliers,solar-hot-water-output
+		ID: central-direct-hot-water-fuel-demand
+		CODSIEB
+		*/
 		if (hasSolarHeater) {
 			system.getSolarWaterHeater().generateHotWaterAndPrimaryGains(parameters, state, systemStore, 
 					systemStoreInPrimaryCircuit, primaryPipeworkFactor, distributionLossFactor, 1);
@@ -226,27 +238,40 @@ public class CentralHotWaterTransducer extends EnergyTransducer {
 		log.debug("Distribution losses: {}, tank losses: {}", distributionLosses, tankLosses);
 		
 		/*
+		BEISDOC
+		NAME: Central System Hot Water Fuel Energy Demand
+		DESCRIPTION: From the central hot water system, calls the various heaters. Calculates distribution, pipework and storage losses and accumulates fuel demand caused by those.
+		TYPE: formula
+		UNIT: W
+		SAP: (64,216,217,219)
+		BREDEM: 2.5
+		DEPS: central-hot-water-distribution-losses,primary-pipework-losses,water-storage-loss
+		ID: central-system-hot-water-fuel-demand
+		CODSIEB
+		*/
+		/*
 		 * Now we divvy up the system losses between the non-solar water heating elements:
 		 */
 		if (nonSolarGeneration > 0) {
-			/*
-			BEISDOC
-			NAME: Total central hot water losses
-			DESCRIPTION: Storage losses added to distribution losses for a central hot water system.
-			TYPE: formula
-			UNIT: W
-			SAP: (62)
-			BREDEM: 2.5A
-			DEPS: central-hot-water-distribution-losses,water-storage-loss
-			NOTES: Combi losses and pipework losses are not included here. They are added on inside the various kinds of heat source.
-			ID: total-central-hot-water-losses
-			CODSIEB
-			*/
-
 			if (primaryWaterHeater != null) {
 				primaryWaterHeater.generateSystemGains(parameters, state, systemStore, 
 						systemStoreInPrimaryCircuit, 
-						(amountsGenerated[0] / nonSolarGeneration) * (tankLosses + distributionLosses));
+						(amountsGenerated[0] / nonSolarGeneration) *
+						/*
+						BEISDOC
+						NAME: Total central hot water losses
+						DESCRIPTION: Storage losses added to distribution losses for a central hot water system.
+						TYPE: formula
+						UNIT: W
+						SAP: (62)
+						BREDEM: 2.5A
+						DEPS: central-hot-water-distribution-losses,water-storage-loss
+						NOTES: Combi losses and pipework losses are not included here. They are added on inside the various kinds of heat source.
+						ID: total-central-hot-water-losses
+						CODSIEB
+						*/
+						(tankLosses + distributionLosses)
+						);
 			}
 			if (amountsGenerated[1] > 0) {
 				secondaryWaterHeater.generateSystemGains(parameters, state, systemStore, systemStoreInPrimaryCircuit, 

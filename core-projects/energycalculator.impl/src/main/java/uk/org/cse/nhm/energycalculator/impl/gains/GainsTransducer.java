@@ -106,7 +106,7 @@ public class GainsTransducer implements IEnergyTransducer {
 				UNIT: W
 				SAP: (65)
 				BREDEM: 6I
-				DEPS: primary-pipework-losses,distribution-losses,water-storage-loss,hot-water-system-gains-usefulness
+				DEPS: central-hot-water-distribution-losses,point-of-use-distribution-losses,distribution-losses,water-storage-loss,hot-water-system-gains-usefulness
 				ID: hot-water-system-gains
 				CODSIEB
 				*/

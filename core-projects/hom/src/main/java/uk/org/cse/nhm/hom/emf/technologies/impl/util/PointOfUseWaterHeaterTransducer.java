@@ -79,7 +79,7 @@ public class PointOfUseWaterHeaterTransducer extends EnergyTransducer {
 		DESCRIPTION: The amount of fuel consumed by a point-of-use water heater. 
 		TYPE: formula
 		UNIT: W
-		SAP: (64,217)
+		SAP: (64,217,219)
 		BREDEM: 2.2A-2.2D
 		DEPS: is-main-weater-heating,usage-adjusted-water-volume,point-of-use-distribution-losses
 		ID: point-of-use-fuel-energy-demand

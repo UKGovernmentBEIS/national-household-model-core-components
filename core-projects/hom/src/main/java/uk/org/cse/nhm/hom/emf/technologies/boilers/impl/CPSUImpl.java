@@ -408,6 +408,16 @@ public class CPSUImpl extends BoilerImpl implements ICPSU {
 	 */
 	@Override
 	protected double getWaterHeatingEfficiency(final IConstants constants, final double qWater, final double qSpace) {
+		/*
+		BEISDOC
+		NAME: CPSU Water Heating Efficiency
+		DESCRIPTION: Because in SAP table 4c (efficiency adjustments) CPSU water efficiency is not affected by presence of interlock, we override the method from the basic boiler here.
+		TYPE: formula
+		UNIT: Dimensionless
+		SAP: (206), Table 4c
+		ID: cpsu-boiler-hot-water-efficiency
+		CODSIEB
+		*/
 		return getSeasonalEfficiency(qWater, qSpace);
 	}
 
