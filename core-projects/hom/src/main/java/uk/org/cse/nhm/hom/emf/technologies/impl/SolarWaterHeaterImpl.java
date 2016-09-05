@@ -904,7 +904,7 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 		DESCRIPTION: The amount of hot water demand satisfied by a solar water heater.
 		TYPE: formula
 		UNIT: W
-		SAP: (H17)
+		SAP: (64,H17)
 		BREDEM: 2.4.2G
 		DEPS: solar-energy-available,solar-utilisation-factor,collector-performance-factor,solar-storage-volume-factor
 		ID: solar-hot-water-output

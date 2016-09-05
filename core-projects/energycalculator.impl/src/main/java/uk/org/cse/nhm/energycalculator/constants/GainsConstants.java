@@ -21,8 +21,33 @@ public enum GainsConstants implements IConstant {
 	@ConstantDescription("The proportion of lighting energy that provides useful gains")
 	LIGHTING_GAIN_USEFULNESS(0.85),
 	
+	/*
+	BEISDOC
+	NAME: Hot Water Direct Gains Usefulness
+	DESCRIPTION: The proportion of hot water energy that provides useful gains
+	TYPE: value
+	UNIT: Dimensionless
+	SAP: (65)
+	BREDEM: 6I
+	SET: context.energy-constants
+	ID: hot-water-direct-gains-usefulness
+	CODSIEB
+	*/
 	@ConstantDescription("The proportion of hot water energy that provides useful gains")
 	HOT_WATER_DIRECT_GAINS(0.25),
+	
+	/*
+	BEISDOC
+	NAME: Hot Water System Gains Usefulness
+	DESCRIPTION: The proportion of hot water system losses (primary pipework, tank, distribution etc) that provides useful gains
+	TYPE: value
+	UNIT: Dimensionless
+	SAP: (65)
+	BREDEM: 6I
+	SET: context.energy-constants
+	ID: hot-water-system-gains-usefulness
+	CODSIEB
+	*/
 	@ConstantDescription("The proportion of hot water system losses (primary pipework, tank, distribution etc) that provides useful gains")
 	HOT_WATER_SYSTEM_GAINS(0.8);
 
