@@ -777,7 +777,7 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 		BREDEM: 2.4.2C
 		DEPS: solar-energy-available,distribution-loss-factor,water-heating-power
 		NOTES: TODO include Hot water use adjustment factor from table H3
-		ID: id
+		ID: solar-to-load-ratio
 		CODSIEB
 		*/
 		final double loadRatio = solarEnergyAvailable / (remainingHotWaterDemand * (1 + distributionLossFactor));
@@ -792,7 +792,7 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 		UNIT: Dimensionless
 		SAP: (H9)
 		BREDEM: 2.4.2D
-		DEPS: solar-utilisation-factor-thermostat-factor
+		DEPS: solar-utilisation-factor-thermostat-factor,solar-to-load-ratio
 		ID: solar-utilisation-factor
 		CODSIEB
 		*/

@@ -52,14 +52,14 @@ public enum SolarConstants implements IConstant {
 	
 	/*
 	BEISDOC
-	NAME: Collector Performance Coefficient Threshold
+	NAME: Collector Performance Ratio Threshold
 	DESCRIPTION: Threshold for linear heatloss coefficient / zero loss efficiency to use lower expansion coefficients
 	TYPE: value
 	UNIT: ???
 	SAP: (H10)
 	BREDEM: 2.4.2B
 	SET: context.energy-constants
-	ID: collector-performance-coefficient-threshold
+	ID: collector-performance-ratio-threshold
 	CODSIEB
 	*/
 	@ConstantDescription("Threshold for linear heatloss coefficient / zero loss efficiency to use lower expansion coefficients")
