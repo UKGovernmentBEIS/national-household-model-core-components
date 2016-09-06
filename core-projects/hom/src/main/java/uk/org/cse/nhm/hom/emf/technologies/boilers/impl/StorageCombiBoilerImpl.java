@@ -324,15 +324,13 @@ public class StorageCombiBoilerImpl extends CombiBoilerImpl implements IStorageC
 	
 	@Override
 	public double getContainedTankLosses(final IInternalParameters parameters) {
-		return 0;
-		/*
 		if (getStore() == null) return 0;
 		
 		final double standingLosses = getStore().getStandingLosses(parameters);
 		
 		final double temperatureFactor = getStorageTemperatureFactor(parameters, getStore(), isStoreInPrimaryCircuit());
 		
-		return standingLosses * temperatureFactor;*/
+		return standingLosses * temperatureFactor;
 	}
 	
 	@Override
