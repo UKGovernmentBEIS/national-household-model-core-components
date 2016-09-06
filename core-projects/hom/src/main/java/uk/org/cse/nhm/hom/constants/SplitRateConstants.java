@@ -134,7 +134,7 @@ public enum SplitRateConstants implements IConstant {
 	DESCRIPTION: The high rate fraction for a heat pump providing DHW with an off-peak immersion heater
 	TYPE: value
 	UNIT: Dimensionless
-	SAP: Table 12c (both 'water heating with off-peak immersion' rows)
+	SAP: Table 12a (both 'water heating with off-peak immersion' rows)
 	SET: context.energy-constants
 	ID: heat-pump-water-with-immersion-split-rate
 	CODSIEB
@@ -148,7 +148,7 @@ public enum SplitRateConstants implements IConstant {
 	DESCRIPTION: The high rate fraction for a heat pump providing DHW without an off-peak immersion heater
 	TYPE: value
 	UNIT: Dimensionless
-	SAP: Table 12c (both 'water heating without immersion' rows)
+	SAP: Table 12a (both 'water heating without immersion' rows)
 	SET: context.energy-constants
 	ID: heat-pump-water-without-immersion-split-rate
 	CODSIEB
