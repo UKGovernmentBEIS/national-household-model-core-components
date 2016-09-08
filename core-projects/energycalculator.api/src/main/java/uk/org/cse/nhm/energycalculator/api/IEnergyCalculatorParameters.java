@@ -1,6 +1,7 @@
 package uk.org.cse.nhm.energycalculator.api;
 
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
+import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 
 /**
@@ -28,7 +29,14 @@ public interface IEnergyCalculatorParameters {
 	/**
 	 * @return the temperature difference between the zones, if the demand temperature for zone two is not specified.
 	 */
-	double getInterzoneTemperatureDifference();	
+	double getInterzoneTemperatureDifference();
+	
+	/**
+	 * Used to switch between SAP 2012 and BREDEM 2012 code paths. 
+	 * 
+	 * @return The type of energy calculation this calculator should be performing.
+	 */
+	EnergyCalculatorType getCalculatorType();
 	
 	/*
 	BEISDOC

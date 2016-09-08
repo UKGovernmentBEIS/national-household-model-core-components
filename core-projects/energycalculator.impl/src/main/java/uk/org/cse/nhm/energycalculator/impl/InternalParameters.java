@@ -5,6 +5,7 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
 import uk.org.cse.nhm.energycalculator.api.ISeasonalParameters;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
+import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 
 public class InternalParameters implements IInternalParameters {
@@ -67,5 +68,10 @@ public class InternalParameters implements IInternalParameters {
 	@Override
 	public EnergyType getInternalEnergyType(final Object object) {
 		return externalParameters.getInternalEnergyType(object);
+	}
+
+	@Override
+	public EnergyCalculatorType getCalculatorType() {
+		return externalParameters.getCalculatorType();
 	}
 }

@@ -4,6 +4,7 @@ import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
 import uk.org.cse.nhm.energycalculator.api.ISeasonalParameters;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
+import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 
 /**
@@ -83,5 +84,10 @@ public class ParameterAdjustment implements IInternalParameters {
 	@Override
 	public EnergyType getInternalEnergyType(final Object object) {
 		return delegate.getInternalEnergyType(object);
+	}
+
+	@Override
+	public EnergyCalculatorType getCalculatorType() {
+		return delegate.getCalculatorType();
 	}
 }

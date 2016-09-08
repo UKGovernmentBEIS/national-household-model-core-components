@@ -2,6 +2,7 @@ package uk.org.cse.nhm.energycalculator.api.impl;
 
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
+import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 
 public class ExternalParameters implements IEnergyCalculatorParameters {
@@ -12,6 +13,8 @@ public class ExternalParameters implements IEnergyCalculatorParameters {
 	private double numberOfOccupants;
 	private ElectricityTariffType tarrifType;
 	private Object internal1 = null, internal2 = null, internal3 = null;
+	
+	private EnergyCalculatorType calculatorType = EnergyCalculatorType.BREDEM2012;
 	
 	@Override
 	public double getZoneOneDemandTemperature() {
@@ -90,5 +93,14 @@ public class ExternalParameters implements IEnergyCalculatorParameters {
 		} else {
 			throw new IllegalArgumentException("Cannot do an energy calculation with more than three kinds of internal energy");
 		}
+	}
+
+	@Override
+	public EnergyCalculatorType getCalculatorType() {
+		return calculatorType;
+	}
+	
+	public void setCalculatorType(EnergyCalculatorType type) {
+		this.calculatorType = type;
 	}
 }
