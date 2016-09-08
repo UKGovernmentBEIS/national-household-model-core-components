@@ -1,6 +1,5 @@
 package uk.org.cse.nhm.energycalculator.impl;
 
-import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorHouseCase;
 import uk.org.cse.nhm.energycalculator.api.IEnergyState;
 import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
@@ -9,7 +8,6 @@ import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.TransducerPhaseType;
-import uk.org.cse.nhm.energycalculator.constants.EnergyCalculatorConstants;
 
 /**
  * This is an internal transducer which determines the gain-load ratio and
@@ -86,50 +84,8 @@ class GainLoadRatioAdjuster implements IEnergyTransducer {
 		*/
 		final double revisedGains = totalGains * revisedGUF;
 
-		/*
-		BEISDOC
-		NAME: Threshold temperature
-		DESCRIPTION: The upper threshold temperature for BREDEM's degree days calculation.
-		TYPE: formula
-		UNIT: ℃
-		BREDEM: 8D
-		DEPS: zone-1-demand-temperature,gains-utilisation-factor-threshold-difference
-		ID: threshold-temperature
-		CODSIEB
-		*/
-		final double thresholdTemperature = demandTemperature[0] - parameters.getConstants().get(EnergyCalculatorConstants.GAINS_UTILISATION_FACTOR_THRESHOLD_DIFFERENCE);
+		final double heatingOnFactor = getHeatingOnFactor(parameters, losses, revisedGains);
 		
-		/*
-		BEISDOC
-		NAME: Unheated temperature
-		DESCRIPTION: The lower threshold temperature for BREDEM's degree days calculation.
-		TYPE: formala
-		UNIT: ℃
-		BREDEM: 8E
-		DEPS: external-temperature,total-useful-gains,specific-heat-loss
-		ID: unheated-temperature
-		CODSIEB
-		*/
-		final double unheatedTemperature = externalTemperature + totalGains / losses.getSpecificHeatLoss();
-		
-		
-		final double thresholdDegreeDays = calculateThresholdDegreeDays(parameters.getConstants(), thresholdTemperature, unheatedTemperature);
-
-		final double thresholdDegreeDaysPlus1 = calculateThresholdDegreeDays(parameters.getConstants(), thresholdTemperature + 1, unheatedTemperature);
-
-		/*
-		BEISDOC
-		NAME: Heating on Factor
-		DESCRIPTION: The fraction of the month which is heated. Calculated by subtracting the number of degree days at threshold -0.5 from those at threshold +0.5.
-		TYPE: formula
-		UNIT: Dimensionless
-		BREDEM: 8H
-		DEPS: threshold-degree-days
-		ID: heating-on-factor
-		CODSIEB
-		*/
-		final double heatingOnFactor = thresholdDegreeDaysPlus1 - thresholdDegreeDays;
-
 		/*
 		BEISDOC
 		NAME: Heat Loss Rate for Mean Internal Temperature
@@ -146,14 +102,13 @@ class GainLoadRatioAdjuster implements IEnergyTransducer {
 		
 		/*
 		BEISDOC
-		NAME: friendlyname
-		DESCRIPTION: description
-		TYPE: type
-		UNIT: unit
+		NAME: Heat Demand
+		DESCRIPTION: The heat demand for the month, after the heating on factor is accounted for.
+		TYPE: formula
+		UNIT: W
 		SAP: (98) 
 		BREDEM: 8I
-		DEPS: heating-on-factor,heat-loss-at-mean-internal-temperature
-		NOTES: TODO implement the SAP version of this, for which the heatingOnFactor is replaced by 1/0 depend on whether it is a heating month.
+		DEPS: sap-heating-on-factor,bredem-heating-on-factor,heat-loss-at-mean-internal-temperature
 		ID: heat-demand
 		CODSIEB
 		*/
@@ -171,6 +126,17 @@ class GainLoadRatioAdjuster implements IEnergyTransducer {
 		state.increaseDemand(EnergyType.GainsUSEFUL_GAINS, totalGains);
 		state.increaseSupply(EnergyType.DemandsHEAT, revisedGains);
 		state.increaseSupply(EnergyType.HackMEAN_INTERNAL_TEMPERATURE, areaWeightedMeanTemperature);
+	}
+
+	private double getHeatingOnFactor(IInternalParameters parameters, ISpecificHeatLosses losses, double revisedGains) {
+		switch (parameters.getCalculatorType()) {
+		case BREDEM2012:
+			return new BREDEMHeatingOn().getHeatingOnFactor(parameters, losses, revisedGains, demandTemperature, externalTemperature);
+		case SAP2012:
+			return new SapHeatingOn().getHeatingOnFactor(parameters.getClimate());
+		default:
+			throw new UnsupportedOperationException("Unknown energy calculator type " + parameters.getCalculatorType());
+		}
 	}
 
 	public void setRevisedGUF(final double revisedGUF) {
@@ -192,23 +158,5 @@ class GainLoadRatioAdjuster implements IEnergyTransducer {
 	@Override
 	public int getPriority() {
 		return 0;
-	}
-
-	protected double calculateThresholdDegreeDays(final IConstants constants, final double thresholdTemperature, final double unheatedTemperature) {
-		final double factor = constants.get(EnergyCalculatorConstants.THRESHOLD_DEGREE_DAYS_VALUE);
-		
-		/*
-		BEISDOC
-		NAME: Threshold degree days
-		DESCRIPTION: The number of degree days at threshold temp +-0.5 ℃.
-		TYPE: formula
-		UNIT: Degree Days
-		BREDEM: 8F, 8G
-		DEPS: threshold-degree-days-value,threshold-temperature,unheated-temperature
-		ID: threshold-degree-days
-		CODSIEB
-		*/
-		return (thresholdTemperature == unheatedTemperature) ? (1 / factor) : (thresholdTemperature - unheatedTemperature)
-				/ (1 - Math.exp(-factor * (thresholdTemperature - unheatedTemperature)));
 	}
 }
