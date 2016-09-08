@@ -16,12 +16,13 @@ public enum ApplianceConstants09 implements IConstant {
 	BREDEM: 1I
 	SET: context.energy-constants
 	CONVERSION: From kWh/year to W, multiply by (hours/year) and divide by k; (365.25 * 24) / 1000
-	NOTES: TODO BREDEM 2012 and SAP 2012 should have different values.
+	NOTES: The SAP and BREDEM values are different here, but it is not clear why.
 	ID: appliance-demand-coefficient
 	CODSIEB
 	*/
 	@ConstantDescription("The coefficient in the appliance demand formula (watts)")
-	APPLIANCE_DEMAND_COEFFICIENT(23.70573),
+	APPLIANCE_DEMAND_COEFFICIENT_BREDEM(21.081451),
+	APPLIANCE_DEMAND_COEFFICENT_SAP(23.705225),
 	
 	/*
 	BEISDOC

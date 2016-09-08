@@ -22,14 +22,17 @@ import uk.org.cse.nhm.energycalculator.constants.ApplianceConstants09;
  */
 public class Appliances09 implements IEnergyTransducer {
 	private static final Logger log = LoggerFactory.getLogger(Appliances09.class);
-	private final double APPLIANCE_DEMAND_COEFFICIENT;
+	private final double APPLIANCE_DEMAND_COEFFICIENT_SAP;
+	private final double APPLIANCE_DEMAND_COEFFICIENT_BREDEM;
 	private final double APPLIANCE_DEMAND_EXPONENT;
 	private final double APPLIANCE_DEMAND_COSINE_COEFFICIENT;
 	private final double APPLIANCE_DEMAND_COSINE_OFFSET;
 	private final double[] APPLIANCE_HIGH_RATE_FRACTION;
 
 	public Appliances09(final IConstants constants) {
-		this.APPLIANCE_DEMAND_COEFFICIENT = constants.get(ApplianceConstants09.APPLIANCE_DEMAND_COEFFICIENT);
+		// SAP constants are not configurable.
+		this.APPLIANCE_DEMAND_COEFFICIENT_SAP = ApplianceConstants09.APPLIANCE_DEMAND_COEFFICENT_SAP.getValue(double.class);
+		this.APPLIANCE_DEMAND_COEFFICIENT_BREDEM = constants.get(ApplianceConstants09.APPLIANCE_DEMAND_COEFFICIENT_BREDEM);
 		this.APPLIANCE_DEMAND_EXPONENT = constants.get(ApplianceConstants09.APPLIANCE_DEMAND_EXPONENT);
 		this.APPLIANCE_DEMAND_COSINE_COEFFICIENT = constants.get(ApplianceConstants09.APPLIANCE_DEMAND_COSINE_COEFFICIENT);
 		this.APPLIANCE_DEMAND_COSINE_OFFSET = constants.get(ApplianceConstants09.APPLIANCE_DEMAND_COSINE_OFFSET);
@@ -60,7 +63,7 @@ public class Appliances09 implements IEnergyTransducer {
 		ID: appliance-initial-demand
 		CODSIEB
 		*/
-		final double demand = APPLIANCE_DEMAND_COEFFICIENT * 		
+		final double demand = getApplianceDemandCoefficient(parameters) * 		
 				Math.pow(house.getFloorArea() * parameters.getNumberOfOccupants(),
 						APPLIANCE_DEMAND_EXPONENT);
 		
@@ -87,6 +90,17 @@ public class Appliances09 implements IEnergyTransducer {
 		
 		state.increaseElectricityDemand(APPLIANCE_HIGH_RATE_FRACTION[parameters.getTarrifType().ordinal()], adjustedDemand);
 		state.increaseSupply(EnergyType.GainsAPPLIANCE_GAINS, adjustedDemand);
+	}
+
+	private double getApplianceDemandCoefficient(IInternalParameters parameters) {
+		switch(parameters.getCalculatorType()) {
+		case SAP2012:
+			return APPLIANCE_DEMAND_COEFFICIENT_SAP;
+		case BREDEM2012:
+			return APPLIANCE_DEMAND_COEFFICIENT_BREDEM;
+		default:
+			throw new UnsupportedOperationException("Unknown energy calculator type " + parameters.getCalculatorType());
+		}
 	}
 
 	@Override
