@@ -15,6 +15,7 @@ public final class SimulatorConfigurationConstants {
 	public static final String RANDOM_SEED = "simulator.randomSeed";
     public static final String PROFILING_DEPTH = "simulator.profilingDepth";
     public static final String SURVEY_WEIGHT_FUNCTION = "simulator.surveyWeightFunction";
+    public static final String ENERGY_CALCULATOR_TYPE = "simulator.energyCalculatorType";
 	
 	public static final Named StartDate = Names.named(START_DATE);
 	public static final Named EndDate = Names.named(END_DATE);
@@ -25,4 +26,5 @@ public final class SimulatorConfigurationConstants {
 	public static final Named Weighting = Names.named(WEIGHTING);
     public static final Named ProfilingDepth = Names.named(PROFILING_DEPTH);
 	public static final Named SurveyWeightFunction = Names.named(SURVEY_WEIGHT_FUNCTION);
+	public static final Named EnergyCalculatorType = Names.named(ENERGY_CALCULATOR_TYPE);
 }

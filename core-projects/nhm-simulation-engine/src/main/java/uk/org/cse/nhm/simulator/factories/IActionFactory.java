@@ -10,6 +10,7 @@ import com.google.inject.assistedinject.Assisted;
 
 import uk.org.cse.commons.Glob;
 import uk.org.cse.nhm.energycalculator.api.IHeatingSchedule;
+import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.simulator.action.CaseAction;
 import uk.org.cse.nhm.simulator.action.CaseAction.Case;
 import uk.org.cse.nhm.simulator.action.ConstructHousesAction;
@@ -34,6 +35,7 @@ import uk.org.cse.nhm.simulator.action.choices.WeightedRandomPicker;
 import uk.org.cse.nhm.simulator.action.fuels.ChangeTariffsAction;
 import uk.org.cse.nhm.simulator.action.fuels.extracharges.ExtraChargeAction;
 import uk.org.cse.nhm.simulator.action.fuels.extracharges.RemoveChargeAction;
+import uk.org.cse.nhm.simulator.action.hypothetical.EnergyCalculatorAction;
 import uk.org.cse.nhm.simulator.action.hypothetical.HypotheticalSetAction;
 import uk.org.cse.nhm.simulator.action.hypothetical.SapOccupancyAction;
 import uk.org.cse.nhm.simulator.action.hypothetical.UseUncalibratedEnergyAction;
@@ -175,4 +177,7 @@ public interface IActionFactory {
 
     public ConsumeAction createConsumeAction(Variable variable, IComponentsFunction<Number> amount);
     public FailUnless createFailUnless(IComponentsFunction<Boolean> amount);
+    
+    public EnergyCalculatorAction createEnergyCalculatorAction(
+    		@Assisted final EnergyCalculatorType calculatorType);
 }

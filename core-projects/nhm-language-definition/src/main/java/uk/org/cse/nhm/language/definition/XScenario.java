@@ -12,6 +12,7 @@ import org.joda.time.DateTime;
 
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
+import uk.org.cse.nhm.language.definition.enums.XEnergyCalculatorType;
 import uk.org.cse.nhm.language.definition.function.num.IHouseContext;
 import uk.org.cse.nhm.language.definition.function.num.XHouseWeight;
 import uk.org.cse.nhm.language.definition.function.num.XNumber;
@@ -48,6 +49,7 @@ public class XScenario extends XElement implements IHouseContext {
 		public static final String WEIGHTING = "weighting";
 		public static final String SURVEY_WEIGHTING = "surveyWeighting";
         public static final String PROFILE = "profile";
+        public static final String CALCULATOR_TYPE = "calculator";
 	}
 
 	@Doc("Defines the different ways the quantum can be used to create weights for simulated dwellings")
@@ -149,6 +151,8 @@ public class XScenario extends XElement implements IHouseContext {
 	private String scenarioDescription;
 
     private int profile = 0;
+    
+    private XEnergyCalculatorType energyCalculator = XEnergyCalculatorType.BREDEM2012;
     
 	@BindNamedArgument("stock-id")
 	@Prop(P.STOCKID)
@@ -311,5 +315,18 @@ public class XScenario extends XElement implements IHouseContext {
 	
 	public void setWeightBy(XNumber surveyWeighting) {
 		this.surveyWeighting = surveyWeighting;
+	}
+	
+	@BindNamedArgument("energy-calculator")
+	@Prop(P.CALCULATOR_TYPE)
+	@Doc({
+		"The energy calculator which will be used for this scenario."
+	})
+	public XEnergyCalculatorType getEnergyCalculator() {
+		return energyCalculator;
+	}
+	
+	public void setEnergyCalculator(XEnergyCalculatorType type) {
+		this.energyCalculator = type;
 	}
 }

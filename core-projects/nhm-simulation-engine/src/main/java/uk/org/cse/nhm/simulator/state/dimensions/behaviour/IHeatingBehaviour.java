@@ -3,6 +3,7 @@ package uk.org.cse.nhm.simulator.state.dimensions.behaviour;
 import com.google.common.base.Optional;
 
 import uk.org.cse.nhm.energycalculator.api.IHeatingSchedule;
+import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.hom.ICopyable;
 
 /**
@@ -74,4 +75,19 @@ public interface IHeatingBehaviour extends ICopyable<IHeatingBehaviour> {
 	 * @param temperatureDifference
 	 */
 	void setTemperatureDifference(double temperatureDifference);
+	
+	/**
+	 * @return The type of energy calculation to perform.
+	 */
+	EnergyCalculatorType getEnergyCalculatorType();
+	
+	/**
+	 * @param calculatorType Set the type of energy calculation to perform.
+	 */
+	void setEnergyCalculatorType(EnergyCalculatorType calculatorType);
+	
+	/**
+	 * Construct a new heating behaviour like this one but with the given temperature.
+	 */
+	public IHeatingBehaviour withEnergyCalculatorType(EnergyCalculatorType energyCalculatorType);
 }

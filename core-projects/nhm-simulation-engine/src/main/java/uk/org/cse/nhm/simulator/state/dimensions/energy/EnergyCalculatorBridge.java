@@ -379,7 +379,7 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 							
 							parameters.setNumberOfOccupants(key.people); 
 					
-							//TODO get tarriff type from somewhere
+							//TODO get tariff type from somewhere
 							parameters.setTarrifType(ElectricityTariffType.ECONOMY_7);
 							
 							final ISeasonalParameters[] climate = new ISeasonalParameters[MonthType.values().length];
@@ -402,6 +402,8 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 										Optional.<IHeatingSchedule>absent()
 										);
 							}
+							
+							parameters.setCalculatorType(key.heatingBehaviour.getEnergyCalculatorType());
 
                             return new Result(calculator.evaluate(key, parameters, climate));
 						}

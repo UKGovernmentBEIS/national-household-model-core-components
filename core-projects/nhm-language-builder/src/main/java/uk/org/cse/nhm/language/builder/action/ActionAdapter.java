@@ -22,6 +22,7 @@ import uk.org.cse.nhm.language.adapt.IConverter;
 import uk.org.cse.nhm.language.adapt.impl.Adapt;
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.adapt.impl.ReflectingAdapter;
+import uk.org.cse.nhm.language.builder.function.MapEnum;
 import uk.org.cse.nhm.language.definition.action.XCaseAction;
 import uk.org.cse.nhm.language.definition.action.XCaseAction.XCaseActionWhen;
 import uk.org.cse.nhm.language.definition.action.XConstructAction;
@@ -38,6 +39,7 @@ import uk.org.cse.nhm.language.definition.action.XOrderedAction;
 import uk.org.cse.nhm.language.definition.action.XRepeatAction;
 import uk.org.cse.nhm.language.definition.action.XSetLivingAreaFractionAction;
 import uk.org.cse.nhm.language.definition.action.XSometimesAction;
+import uk.org.cse.nhm.language.definition.action.hypothetical.XCounterfactualCalculator;
 import uk.org.cse.nhm.language.definition.action.hypothetical.XCounterfactualCarbon;
 import uk.org.cse.nhm.language.definition.action.hypothetical.XCounterfactualWeather;
 import uk.org.cse.nhm.language.definition.action.hypothetical.XDecalibrateEnergyAction;
@@ -213,6 +215,12 @@ public class ActionAdapter extends ReflectingAdapter {
 		m.put(FuelType.PHOTONS, 			carbon.getPhotons());
 		
 		return measureFactory.createSetCarbon(CarbonFactors.of(m));
+	}
+	
+	@Adapt(XCounterfactualCalculator.class)
+	public IComponentsAction buildCounterFactualEnergyCalculatorAction(final XCounterfactualCalculator calculator) {
+		return measureFactory.createEnergyCalculatorAction(
+				MapEnum.energyCalc(calculator.getCalculatorType()));
 	}
 	
 	@Adapt(XSapOccupancyAction.class)

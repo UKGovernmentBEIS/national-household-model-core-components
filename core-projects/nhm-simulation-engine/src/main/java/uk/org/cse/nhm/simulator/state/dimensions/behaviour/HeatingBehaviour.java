@@ -8,35 +8,42 @@ import com.google.common.base.Optional;
 import uk.org.cse.nhm.energycalculator.api.IHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.impl.DailyHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.impl.WeeklyHeatingSchedule;
+import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 
 @AutoProperty
 public class HeatingBehaviour implements IHeatingBehaviour {
 	public static final IHeatingBehaviour DEFAULT_BEHAVIOUR = 
 			new HeatingBehaviour(
-					new WeeklyHeatingSchedule(
-							new DailyHeatingSchedule(7 * 60, 8*60, 18 * 60, 23 * 60),
-							new DailyHeatingSchedule(7 * 60, 23 * 60)),
-							11.9d,
-							19d, 
-							3d, 
-							true);
+				new WeeklyHeatingSchedule(
+						new DailyHeatingSchedule(7 * 60, 8*60, 18 * 60, 23 * 60),
+						new DailyHeatingSchedule(7 * 60, 23 * 60)
+				),
+				11.9d,
+				19d, 
+				3d, 
+				true,
+				EnergyCalculatorType.BREDEM2012
+			);
 	
 	private IHeatingSchedule heatingSchedule;
 	private double livingAreaDemandTemperature;
 	private double secondAreaDemandTemperatureOrDifference;
 	private double heatingOnThreshold;
 	private boolean secondTemperatureIsDifference;
+	private EnergyCalculatorType calculatorType;
 	
 	public HeatingBehaviour(final IHeatingSchedule heatingSchedule,
 			final double heatingOnThreshold,
 			final double livingAreaDemandTemperature,
 			final double secondTemperature,
-			final boolean secondTemperatureIsDifference) {
+			final boolean secondTemperatureIsDifference,
+			EnergyCalculatorType calculatorType) {
 		this.heatingSchedule = heatingSchedule;
 		this.livingAreaDemandTemperature = livingAreaDemandTemperature;
 		this.secondAreaDemandTemperatureOrDifference = secondTemperature;
 		this.secondTemperatureIsDifference = secondTemperatureIsDifference;
 		this.heatingOnThreshold = heatingOnThreshold;
+		this.calculatorType = calculatorType;
 	}
 
 	@Override
@@ -92,7 +99,7 @@ public class HeatingBehaviour implements IHeatingBehaviour {
 	@Override
 	public IHeatingBehaviour withLivingAreaDemandTemperature(final double newLivingAreaTemp) {
 		return new HeatingBehaviour(getHeatingSchedule(), heatingOnThreshold, newLivingAreaTemp, 
-				secondAreaDemandTemperatureOrDifference, secondTemperatureIsDifference);
+				secondAreaDemandTemperatureOrDifference, secondTemperatureIsDifference, calculatorType);
 	}
 	
 	@Override
@@ -106,6 +113,27 @@ public class HeatingBehaviour implements IHeatingBehaviour {
 	}
 	
 	@Override
+	public EnergyCalculatorType getEnergyCalculatorType() {
+		return calculatorType;
+	}
+
+	@Override
+	public void setEnergyCalculatorType(EnergyCalculatorType calculatorType) {
+		this.calculatorType = calculatorType;
+	}
+	
+	@Override
+	public IHeatingBehaviour withEnergyCalculatorType(EnergyCalculatorType newCalculatorType) {
+		return new HeatingBehaviour(
+				heatingSchedule, 
+				heatingOnThreshold, 
+				livingAreaDemandTemperature, 
+				secondAreaDemandTemperatureOrDifference, 
+				secondTemperatureIsDifference, 
+				newCalculatorType);
+	}
+	
+	@Override
 	public String toString() {
 		return Pojomatic.toString(this);
 	}
@@ -114,6 +142,7 @@ public class HeatingBehaviour implements IHeatingBehaviour {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((calculatorType == null) ? 0 : calculatorType.hashCode());
 		long temp;
 		temp = Double.doubleToLongBits(heatingOnThreshold);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -127,14 +156,16 @@ public class HeatingBehaviour implements IHeatingBehaviour {
 	}
 
 	@Override
-	public boolean equals(final Object obj) {
+	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final HeatingBehaviour other = (HeatingBehaviour) obj;
+		HeatingBehaviour other = (HeatingBehaviour) obj;
+		if (calculatorType != other.calculatorType)
+			return false;
 		if (Double.doubleToLongBits(heatingOnThreshold) != Double.doubleToLongBits(other.heatingOnThreshold))
 			return false;
 		if (heatingSchedule == null) {
@@ -142,9 +173,11 @@ public class HeatingBehaviour implements IHeatingBehaviour {
 				return false;
 		} else if (!heatingSchedule.equals(other.heatingSchedule))
 			return false;
-		if (Double.doubleToLongBits(livingAreaDemandTemperature) != Double.doubleToLongBits(other.livingAreaDemandTemperature))
+		if (Double.doubleToLongBits(livingAreaDemandTemperature) != Double
+				.doubleToLongBits(other.livingAreaDemandTemperature))
 			return false;
-		if (Double.doubleToLongBits(secondAreaDemandTemperatureOrDifference) != Double.doubleToLongBits(other.secondAreaDemandTemperatureOrDifference))
+		if (Double.doubleToLongBits(secondAreaDemandTemperatureOrDifference) != Double
+				.doubleToLongBits(other.secondAreaDemandTemperatureOrDifference))
 			return false;
 		if (secondTemperatureIsDifference != other.secondTemperatureIsDifference)
 			return false;
@@ -153,6 +186,6 @@ public class HeatingBehaviour implements IHeatingBehaviour {
 
 	@Override
 	public IHeatingBehaviour copy() {
-		return new HeatingBehaviour(heatingSchedule, heatingOnThreshold, livingAreaDemandTemperature, secondAreaDemandTemperatureOrDifference, secondTemperatureIsDifference);
+		return new HeatingBehaviour(heatingSchedule, heatingOnThreshold, livingAreaDemandTemperature, secondAreaDemandTemperatureOrDifference, secondTemperatureIsDifference, calculatorType);
 	}
 }
