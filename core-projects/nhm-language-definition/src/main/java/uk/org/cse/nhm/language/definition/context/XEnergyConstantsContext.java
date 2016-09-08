@@ -119,8 +119,8 @@ public class XEnergyConstantsContext extends XContextParameter {
 	 GainsConstants_HOT_WATER_DIRECT_GAINS(1),
 	@Doc("The proportion of hot water system losses (primary pipework, tank, distribution etc) that provides useful gains - default is 0.800 ")
 	 GainsConstants_HOT_WATER_SYSTEM_GAINS(1),
-	@Doc("The coefficient in the appliance demand formula (watts) - default is 23.706 ")
-	 ApplianceConstants09_APPLIANCE_DEMAND_COEFFICIENT(1),
+	@Doc("The coefficient in the appliance demand formula (watts) - default is 21.081451 ")
+	 ApplianceConstants09_APPLIANCE_DEMAND_COEFFICIENT_BREDEM(1),
 	@Doc("The exponent in the appliance demand formula - default is 0.471 ")
 	 ApplianceConstants09_APPLIANCE_DEMAND_EXPONENT(1),
 	@Doc("The coefficient of the cosine in the appliance demand monthly adjustment factor - default is 0.157 ")
