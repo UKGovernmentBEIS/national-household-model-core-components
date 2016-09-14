@@ -96,7 +96,7 @@ public enum SolarConstants implements IConstant {
 	HIGH_HLC_EXPANSION(0.693, -0.0108, 0),
 	
 	@ConstantDescription("Solar overshading factor by overshading type")
-	OVERSHADING_FACTOR(1, 1, 0.9, 0.8, 0.5), // none, very little, average, above average, heavy - adjusted to match CHM on "average"
+	OVERSHADING_FACTOR(1, 0.8, 0.65, 0.5), // none or little, average, above average, heavy - adjusted to match CHM on "average"
 	
 	/*
 	BEISDOC

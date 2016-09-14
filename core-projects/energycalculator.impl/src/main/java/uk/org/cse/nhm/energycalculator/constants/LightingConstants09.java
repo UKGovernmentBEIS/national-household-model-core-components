@@ -93,7 +93,7 @@ public enum LightingConstants09 implements IConstant {
 	 * Source: SAP table 6d
 	 */
 	@ConstantDescription("This is the mean loss factor for overshading (an array)")
-	OVERSHADING_ACCESS_FACTORS(new double[] {1.0, 1.0, 0.83, 0.67, 0.50}),
+	OVERSHADING_ACCESS_FACTORS(new double[] {1.0, 0.83, 0.67, 0.50}),
 	
 	/*
 	BEISDOC
