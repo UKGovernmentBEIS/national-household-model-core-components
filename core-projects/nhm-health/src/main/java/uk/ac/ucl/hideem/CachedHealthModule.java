@@ -27,8 +27,10 @@ public class CachedHealthModule implements IHealthModule {
         public final double floorArea;
         public final BuiltForm.Region region;
         public final int mainFloorLevel;
-        public final boolean hasWorkingExtractorFans;
-        public final boolean hasTrickleVents;
+        public final boolean hadWorkingExtractorFans; // per finwhatever
+        public final boolean hadTrickleVents;         // this is cooked up elsewhere
+        public final boolean hasWorkingExtractorFans; // per finwhatever
+        public final boolean hasTrickleVents;         // this is cooked up elsewhere
         public final boolean hasDoubleGlazing;
         public final boolean hadDoubleGlazing;
         public final List<Person> people;
@@ -44,7 +46,9 @@ public class CachedHealthModule implements IHealthModule {
                  final double floorArea,
                  final BuiltForm.Region region,
                  final int mainFloorLevel,
-                 final boolean hasWorkingExtractorFans,
+                 final boolean hadWorkingExtractorFans, // per finwhatever
+                 final boolean hadTrickleVents,         // this is cooked up elsewhere
+                 final boolean hasWorkingExtractorFans, // per finwhatever
                  final boolean hasTrickleVents,
                  final boolean hadDoubleGlazing,
                  final boolean hasDoubleGlazing,
@@ -53,6 +57,8 @@ public class CachedHealthModule implements IHealthModule {
             this.people = people;
             this.hadDoubleGlazing = hadDoubleGlazing;
             this.hasDoubleGlazing = hasDoubleGlazing;
+            this.hadTrickleVents = hadTrickleVents;
+            this.hadWorkingExtractorFans = hadWorkingExtractorFans;
             this.hasTrickleVents = hasTrickleVents;
             this.hasWorkingExtractorFans = hasWorkingExtractorFans;
             this.mainFloorLevel = mainFloorLevel;
@@ -84,6 +90,8 @@ public class CachedHealthModule implements IHealthModule {
                                              key.floorArea,
                                              key.region,
                                              key.mainFloorLevel,
+                                             key.hadWorkingExtractorFans,
+                                             key.hadTrickleVents,
                                              key.hasWorkingExtractorFans,
                                              key.hasTrickleVents,
                                              key.hadDoubleGlazing,
@@ -111,6 +119,8 @@ public class CachedHealthModule implements IHealthModule {
                                                 double floorArea,
                                                 BuiltForm.Region region,
                                                 int mainFloorLevel,
+                                                boolean hadWorkingExtractorFans,
+                                                boolean hadTrickleVents,
                                                 boolean hasWorkingExtractorFans,
                                                 boolean hasTrickleVents,
                                                 boolean hasDoubleGlazing,
@@ -120,7 +130,8 @@ public class CachedHealthModule implements IHealthModule {
             return (T) outcome.get(new K(supplier,
                                          t1, t2, p1, p2, h1, h2,
                                          form, floorArea, region,
-                                         mainFloorLevel, hasWorkingExtractorFans,
+                                         mainFloorLevel, hadWorkingExtractorFans,
+                                         hadTrickleVents,hasWorkingExtractorFans,
                                          hasTrickleVents, hasDoubleGlazing, hadDoubleGlazing,
                                          people));
         } catch (final ExecutionException ex) {

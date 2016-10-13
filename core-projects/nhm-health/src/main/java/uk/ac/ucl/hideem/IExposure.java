@@ -1,6 +1,5 @@
 package uk.ac.ucl.hideem;
 
-
 /**
  * Everything HIDEEM needs to know about exposures.
  */
@@ -84,8 +83,13 @@ public interface IExposure {
         }
 
     }
-
+    
+    //array of values for different exposure occupancies
+    public double[] getCoefs(final OccupancyType occupancy);
+    
     public void modify(
+    	//
+    	final double[] coefsV1,	
         // effect of change
         final double t1,
         final double t2,
@@ -94,7 +98,7 @@ public interface IExposure {
 
         final double e1,
         final double e2,
-
+        
         // details
         final boolean smoker,
         final int mainFloorLevel,
@@ -105,4 +109,5 @@ public interface IExposure {
         // occupancy, outcome to modify
         final OccupancyType occupancy,
         final HealthOutcome result);
+
 }

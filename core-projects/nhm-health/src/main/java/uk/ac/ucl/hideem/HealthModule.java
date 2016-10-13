@@ -144,9 +144,11 @@ public class HealthModule implements IHealthModule {
         final BuiltForm.Region region,
         final int mainFloorLevel,
 
+        final boolean hadWorkingExtractorFans, // per finwhatever
+        final boolean hadTrickleVents,         // this is cooked up elsewhere
         final boolean hasWorkingExtractorFans, // per finwhatever
         final boolean hasTrickleVents,         // this is cooked up elsewhere
-
+        
         final boolean wasDoubleGlazed,
         final boolean isDoubleGlazed,
 
@@ -156,7 +158,8 @@ public class HealthModule implements IHealthModule {
         
         //perform the matching between NHM built form and ventilation and Hideem
         final IExposure.ExposureBuiltForm matchedBuiltForm = mapBuiltForm(form, floorArea, mainFloorLevel);
-        final IExposure.VentilationType matchedVentilation = mapVentilation(hasWorkingExtractorFans, hasTrickleVents);
+        final IExposure.VentilationType matchedVentilation = mapVentilation(hadWorkingExtractorFans, hadTrickleVents);
+        final IExposure.VentilationType matchedVentilation2 = mapVentilation(hasWorkingExtractorFans, hasTrickleVents);
               
         //Get the correct exposures coefficients and calculate base and modified exposures for each individual
 
@@ -167,29 +170,50 @@ public class HealthModule implements IHealthModule {
                 break;
             }
         }
+        
+        final Iterator<IExposure> it1 = exposures.get(matchedBuiltForm, matchedVentilation).iterator();
+        final Iterator<IExposure> it2 = exposures.get(matchedBuiltForm, matchedVentilation2).iterator();
 
-        for (final IExposure exposure : exposures.get(matchedBuiltForm, matchedVentilation)) {
-            for(final IExposure.OccupancyType occupancy : IExposure.OccupancyType.values()){
-                exposure.modify(t1, t2,
-                                p1, p2,
+        while (it1.hasNext() && it2.hasNext()) {
+            
+        //}
+        	try {
+            	IExposure exposure1 = it1.next();
+            	IExposure exposure2 = it2.next();
+            	
+	            for(final IExposure.OccupancyType occupancy : IExposure.OccupancyType.values()){
+	            	//get the coefs for new ventilation case
+	            	final double[] coefsVent1 = exposure1.getCoefs(occupancy);
 
-                                h1, h2,
-
-                                smoker,
-                                mainFloorLevel,
-                                form,
-                                region,
-                                isDoubleGlazed,
-
-                                occupancy,
-                                result);
+	            	exposure2.modify(coefsVent1,
+	                				t1, t2,
+	                                p1, p2,
+	
+	                                h1, h2,
+	                                
+	                                smoker,
+	                                mainFloorLevel,
+	                                form,
+	                                region,
+	                                isDoubleGlazed,
+	
+	                                occupancy,
+	                                result);
+	            } 
+                
             }
+        	catch (final Exception ex) {
+                // problem?
+        	}
         }
 
         for (final IExposure.OccupancyType occupancy : IExposure.OccupancyType.values()){
             // apply the overheating exposure. It applies for all ventilations and built forms
             // so we just need to bash it out here.
-            overheating.modify(t1, t2,
+        	final double[] coefsVent1 = overheating.getCoefs(occupancy);
+        	
+            overheating.modify(coefsVent1,
+            				   t1, t2,
                                p1, p2,
 
                                h1, h2,
@@ -296,7 +320,13 @@ public class HealthModule implements IHealthModule {
                             cost = Constants.INCIDENCE(disease, personAgeInYear, person.sex) * (deaths) * Constants.COST_PER_CASE(disease); // TODO is this correct?
                             break;
                         }
-
+                        
+                        //Added to output qalys
+                        result.setQaly(disease, mortalityChange);
+                        result.setMorbQaly(disease, morbidityQalys);
+                        result.setCost(disease, cost);
+                        
+                        
                         // TODO what API here? do we want person specific info?
 
                         result.addEffects(disease, year, person, mortalityChange, morbidityQalys, cost);
