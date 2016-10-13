@@ -32,11 +32,11 @@ import uk.org.cse.nhm.hom.emf.technologies.boilers.IStorageCombiBoiler;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.boilers.impl.StorageCombiBoilerImpl#getStore <em>Store</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.boilers.impl.StorageCombiBoilerImpl#isStoreInPrimaryCircuit <em>Store In Primary Circuit</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -316,12 +316,6 @@ public class StorageCombiBoilerImpl extends CombiBoilerImpl implements IStorageC
 		}
 	}
 
-	@Override
-	protected double getPrimaryPipeworkLosses(final IInternalParameters parameters,
-			final boolean tankPresentAndThermostatic, final double primaryCorrectionFactor) {
-		return 0;
-	}
-	
 	@Override
 	public double getContainedTankLosses(final IInternalParameters parameters) {
 		if (getStore() == null) return 0;

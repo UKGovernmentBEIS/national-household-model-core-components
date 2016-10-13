@@ -32,10 +32,10 @@ import uk.org.cse.nhm.hom.emf.technologies.IWaterTank;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.ImmersionHeaterImpl#isDualCoil <em>Dual Coil</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -243,5 +243,15 @@ public class ImmersionHeaterImpl extends CentralWaterHeaterImpl implements IImme
 			final double value = ((c.get(SINGLE_IMMERSION_TERM1, tt) - c.get(SINGLE_IMMERSION_TERM2, tt) * numberOfPeople) / (c.get(SINGLE_IMMERSION_TERM3, tt) * tankVolume) - c.get(SINGLE_IMMERSION_TERM4, tt) + c.get(SINGLE_IMMERSION_TERM5, tt) * numberOfPeople);
 			return clamp(value / 100.0);
 		}
+	}
+
+	@Override
+	public boolean causesPipeworkLosses() {
+		return false;
+	}
+
+	@Override
+	public boolean isCommunityHeating() {
+		return false;
 	}
 } //ImmersionHeaterImpl

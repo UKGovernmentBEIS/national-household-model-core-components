@@ -42,6 +42,11 @@ public class TechnologyOperationsTest {
 				final EmitterType emitterType) {
 			return super.getSAPTable4dResponsiveness(parameters, controls, emitterType);
 		}
+
+		@Override
+		public boolean isCommunityHeating() {
+			return false;
+		}
 	}
 	
 	@Before

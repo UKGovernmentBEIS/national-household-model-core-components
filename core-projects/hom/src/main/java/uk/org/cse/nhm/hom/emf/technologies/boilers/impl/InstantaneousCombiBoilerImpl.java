@@ -22,10 +22,10 @@ import uk.org.cse.nhm.hom.emf.technologies.boilers.IKeepHotFacility;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.boilers.impl.InstantaneousCombiBoilerImpl#getKeepHotFacility <em>Keep Hot Facility</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -202,11 +202,5 @@ public class InstantaneousCombiBoilerImpl extends CombiBoilerImpl implements IIn
 		} else {
 			return facility.getAdditionalUsageLosses(parameters, state);
 		}
-	}
-
-	@Override
-	protected double getPrimaryPipeworkLosses(final IInternalParameters parameters,
-			final boolean tankPresentAndThermostatic, final double primaryCorrectionFactor) {
-		return 0;
 	}
 } //InstantaneousCombiBoilerImpl

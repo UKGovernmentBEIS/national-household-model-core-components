@@ -2192,14 +2192,14 @@ public interface ITechnologiesPackage extends EPackage {
 	int HEAT_PUMP_SOURCE_TYPE = 42;
 
 	/**
-	 * The meta object id for the '<em>IEnergyCalc Visitor</em>' data type.
+	 * The meta object id for the '<em>IEnergy Calculator Visitor</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor
-	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getEnergyCalcVisitor()
+	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getIEnergyCalculatorVisitor()
 	 * @generated
 	 */
-	int IENERGY_CALC_VISITOR = 43;
+	int IENERGY_CALCULATOR_VISITOR = 43;
 
 	/**
 	 * The meta object id for the '<em>IInternal Parameters</em>' data type.
@@ -2256,15 +2256,14 @@ public interface ITechnologiesPackage extends EPackage {
 	int ICONSTANTS = 48;
 
 	/**
-	 * The meta object id for the '<em>IEnergyCalculator Parameters</em>' data type.
+	 * The meta object id for the '<em>IEnergy Calculator Parameters</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters
-	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getIEnergyCalcParameters()
+	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getIEnergyCalculatorParameters()
 	 * @generated
 	 */
-	int IENERGY_CALC__PARAMETERS = 49;
-
+	int IENERGY_CALCULATOR_PARAMETERS = 49;
 
 	/**
 	 * The meta object id for the '<em>Efficiency</em>' data type.
@@ -3676,15 +3675,15 @@ public interface ITechnologiesPackage extends EPackage {
 	EEnum getHeatPumpSourceType();
 
 	/**
-	 * Returns the meta object for data type '{@link uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor <em>IEnergyCalc Visitor</em>}'.
+	 * Returns the meta object for data type '{@link uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor <em>IEnergy Calculator Visitor</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for data type '<em>IEnergyCalc Visitor</em>'.
+	 * @return the meta object for data type '<em>IEnergy Calculator Visitor</em>'.
 	 * @see uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor
 	 * @model instanceClass="uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor"
 	 * @generated
 	 */
-	EDataType getEnergyCalcVisitor();
+	EDataType getIEnergyCalculatorVisitor();
 
 	/**
 	 * Returns the meta object for data type '{@link uk.org.cse.nhm.energycalculator.api.IInternalParameters <em>IInternal Parameters</em>}'.
@@ -3742,15 +3741,15 @@ public interface ITechnologiesPackage extends EPackage {
 	EDataType getIConstants();
 
 	/**
-	 * Returns the meta object for data type '{@link uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters <em>IEnergyCalc Parameters</em>}'.
+	 * Returns the meta object for data type '{@link uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters <em>IEnergy Calculator Parameters</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for data type '<em>IEnergyCalc Parameters</em>'.
+	 * @return the meta object for data type '<em>IEnergy Calculator Parameters</em>'.
 	 * @see uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters
 	 * @model instanceClass="uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters"
 	 * @generated
 	 */
-	EDataType getIEnergyCalcParameters();
+	EDataType getIEnergyCalculatorParameters();
 
 	/**
 	 * Returns the meta object for data type '{@link uk.org.cse.nhm.hom.emf.util.Efficiency <em>Efficiency</em>}'.
@@ -4923,14 +4922,14 @@ public interface ITechnologiesPackage extends EPackage {
 		EEnum HEAT_PUMP_SOURCE_TYPE = eINSTANCE.getHeatPumpSourceType();
 
 		/**
-		 * The meta object literal for the '<em>IEnergyCalc Visitor</em>' data type.
+		 * The meta object literal for the '<em>IEnergy Calculator Visitor</em>' data type.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @see uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor
-		 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getEnergyCalcVisitor()
+		 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getIEnergyCalculatorVisitor()
 		 * @generated
 		 */
-		EDataType IENERGY_CALC_VISITOR = eINSTANCE.getEnergyCalcVisitor();
+		EDataType IENERGY_CALCULATOR_VISITOR = eINSTANCE.getIEnergyCalculatorVisitor();
 
 		/**
 		 * The meta object literal for the '<em>IInternal Parameters</em>' data type.
@@ -4983,14 +4982,14 @@ public interface ITechnologiesPackage extends EPackage {
 		EDataType ICONSTANTS = eINSTANCE.getIConstants();
 
 		/**
-		 * The meta object literal for the '<em>IEnergyCalc Parameters</em>' data type.
+		 * The meta object literal for the '<em>IEnergy Calculator Parameters</em>' data type.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @see uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters
-		 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getIEnergyCalcParameters()
+		 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getIEnergyCalculatorParameters()
 		 * @generated
 		 */
-		EDataType IENERGY_CALC_PARAMETERS = eINSTANCE.getIEnergyCalcParameters();
+		EDataType IENERGY_CALCULATOR_PARAMETERS = eINSTANCE.getIEnergyCalculatorParameters();
 
 		/**
 		 * The meta object literal for the '<em>Efficiency</em>' data type.

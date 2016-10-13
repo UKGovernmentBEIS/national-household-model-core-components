@@ -382,7 +382,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EDataType IEnergyCalculatorVisitorEDataType = null;
+	private EDataType iEnergyCalculatorVisitorEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -424,7 +424,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EDataType IEnergyCalculatorParametersEDataType = null;
+	private EDataType iEnergyCalculatorParametersEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1681,8 +1681,8 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EDataType getEnergyCalcVisitor() {
-		return IEnergyCalculatorVisitorEDataType;
+	public EDataType getIEnergyCalculatorVisitor() {
+		return iEnergyCalculatorVisitorEDataType;
 	}
 
 	/**
@@ -1735,8 +1735,8 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EDataType getIEnergyCalcParameters() {
-		return IEnergyCalculatorParametersEDataType;
+	public EDataType getIEnergyCalculatorParameters() {
+		return iEnergyCalculatorParametersEDataType;
 	}
 
 	/**
@@ -1955,13 +1955,13 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		heatPumpSourceTypeEEnum = createEEnum(HEAT_PUMP_SOURCE_TYPE);
 
 		// Create data types
-		IEnergyCalculatorVisitorEDataType = createEDataType(IENERGY_CALC_VISITOR);
+		iEnergyCalculatorVisitorEDataType = createEDataType(IENERGY_CALCULATOR_VISITOR);
 		iInternalParametersEDataType = createEDataType(IINTERNAL_PARAMETERS);
 		iEnergyStateEDataType = createEDataType(IENERGY_STATE);
 		energyTypeEDataType = createEDataType(ENERGY_TYPE);
 		atomicIntegerEDataType = createEDataType(ATOMIC_INTEGER);
 		iConstantsEDataType = createEDataType(ICONSTANTS);
-		IEnergyCalculatorParametersEDataType = createEDataType(IENERGY_CALC__PARAMETERS);
+		iEnergyCalculatorParametersEDataType = createEDataType(IENERGY_CALCULATOR_PARAMETERS);
 		efficiencyEDataType = createEDataType(EFFICIENCY);
 		heatProportionsEDataType = createEDataType(HEAT_PROPORTIONS);
 	}
@@ -2084,8 +2084,8 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 
 		EOperation op = addEOperation(heatSourceEClass, null, "acceptFromHeating", 1, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getIConstants(), "constants", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getIEnergyCalcParameters(), "parameters", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getEnergyCalcVisitor(), "visitor", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getIEnergyCalculatorParameters(), "parameters", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getIEnergyCalculatorVisitor(), "visitor", 1, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEDouble(), "proportion", 1, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEInt(), "priority", 1, 1, IS_UNIQUE, IS_ORDERED);
 
@@ -2127,6 +2127,8 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		addEParameter(op, this.getHeatingSystemControlType(), "controls", 0, -1, IS_UNIQUE, !IS_ORDERED);
 		addEParameter(op, this.getEmitterType(), "emitterType", 1, 1, IS_UNIQUE, IS_ORDERED);
 
+		addEOperation(heatSourceEClass, ecorePackage.getEBoolean(), "isCommunityHeating", 1, 1, IS_UNIQUE, IS_ORDERED);
+
 		initEClass(namedEClass, INamed.class, "Named", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getNamed_Name(), ecorePackage.getEString(), "name", null, 1, 1, INamed.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -2158,7 +2160,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		addEParameter(op, this.getIEnergyState(), "state", 1, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getWaterTank(), "store", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEBoolean(), "storeIsPrimary", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEDouble(), "primaryCorrectionFactor", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEDouble(), "primaryLosses", 1, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEDouble(), "distributionLossFactor", 1, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEDouble(), "systemProportion", 1, 1, IS_UNIQUE, IS_ORDERED);
 
@@ -2170,6 +2172,10 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		addEParameter(op, ecorePackage.getEDouble(), "systemLosses", 1, 1, IS_UNIQUE, IS_ORDERED);
 
 		addEOperation(centralWaterHeaterEClass, this.getCentralWaterSystem(), "getSystem", 1, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(centralWaterHeaterEClass, ecorePackage.getEBoolean(), "causesPipeworkLosses", 1, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(centralWaterHeaterEClass, ecorePackage.getEBoolean(), "isCommunityHeating", 1, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(mainWaterHeaterEClass, IMainWaterHeater.class, "MainWaterHeater", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMainWaterHeater_HeatSource(), this.getHeatSource(), this.getHeatSource_WaterHeater(), "heatSource", null, 1, 1, IMainWaterHeater.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2189,8 +2195,8 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 
 		op = addEOperation(visitorAccepterEClass, null, "accept", 1, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getIConstants(), "constants", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getIEnergyCalcParameters(), "parameters", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getEnergyCalcVisitor(), "visitor", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getIEnergyCalculatorParameters(), "parameters", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getIEnergyCalculatorVisitor(), "visitor", 1, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getAtomicInteger(), "heatingSystemCounter", 1, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getHeatProportions(), "heatProportions", 0, 1, IS_UNIQUE, IS_ORDERED);
 
@@ -2352,13 +2358,13 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		addEEnumLiteral(heatPumpSourceTypeEEnum, HeatPumpSourceType.AIR);
 
 		// Initialize data types
-		initEDataType(IEnergyCalculatorVisitorEDataType, IEnergyCalculatorVisitor.class, "IEnergyCalculatorVisitor", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(iEnergyCalculatorVisitorEDataType, IEnergyCalculatorVisitor.class, "IEnergyCalculatorVisitor", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(iInternalParametersEDataType, IInternalParameters.class, "IInternalParameters", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(iEnergyStateEDataType, IEnergyState.class, "IEnergyState", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(energyTypeEDataType, EnergyType.class, "EnergyType", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(atomicIntegerEDataType, AtomicInteger.class, "AtomicInteger", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(iConstantsEDataType, IConstants.class, "IConstants", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
-		initEDataType(IEnergyCalculatorParametersEDataType, IEnergyCalculatorParameters.class, "IEnergyCalculatorParameters", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(iEnergyCalculatorParametersEDataType, IEnergyCalculatorParameters.class, "IEnergyCalculatorParameters", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(efficiencyEDataType, Efficiency.class, "Efficiency", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(heatProportionsEDataType, IHeatProportions.class, "HeatProportions", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 

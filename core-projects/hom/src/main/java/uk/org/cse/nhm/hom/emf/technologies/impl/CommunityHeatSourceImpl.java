@@ -39,11 +39,11 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
  * <em><b>Community Heat Source</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.CommunityHeatSourceImpl#isChargingUsageBased <em>Charging Usage Based</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.CommunityHeatSourceImpl#getHeatEfficiency <em>Heat Efficiency</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -457,5 +457,10 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 		} else {
 			return 1;
 		}
+	}
+
+	@Override
+	public boolean isCommunityHeating() {
+		return true;
 	}
 } // CommunityHeatSourceImpl

@@ -147,7 +147,7 @@ public class TechnologiesFactoryImpl extends EFactoryImpl implements ITechnologi
 				return createStorageHeaterTypeFromString(eDataType, initialValue);
 			case ITechnologiesPackage.HEAT_PUMP_SOURCE_TYPE:
 				return createHeatPumpSourceTypeFromString(eDataType, initialValue);
-			case ITechnologiesPackage.IENERGY_CALC_VISITOR:
+			case ITechnologiesPackage.IENERGY_CALCULATOR_VISITOR:
 				return createIEnergyCalculatorVisitorFromString(eDataType, initialValue);
 			case ITechnologiesPackage.IINTERNAL_PARAMETERS:
 				return createIInternalParametersFromString(eDataType, initialValue);
@@ -159,7 +159,7 @@ public class TechnologiesFactoryImpl extends EFactoryImpl implements ITechnologi
 				return createAtomicIntegerFromString(eDataType, initialValue);
 			case ITechnologiesPackage.ICONSTANTS:
 				return createIConstantsFromString(eDataType, initialValue);
-			case ITechnologiesPackage.IENERGY_CALC__PARAMETERS:
+			case ITechnologiesPackage.IENERGY_CALCULATOR_PARAMETERS:
 				return createIEnergyCalculatorParametersFromString(eDataType, initialValue);
 			case ITechnologiesPackage.EFFICIENCY:
 				return createEfficiencyFromString(eDataType, initialValue);
@@ -190,7 +190,7 @@ public class TechnologiesFactoryImpl extends EFactoryImpl implements ITechnologi
 				return convertStorageHeaterTypeToString(eDataType, instanceValue);
 			case ITechnologiesPackage.HEAT_PUMP_SOURCE_TYPE:
 				return convertHeatPumpSourceTypeToString(eDataType, instanceValue);
-			case ITechnologiesPackage.IENERGY_CALC_VISITOR:
+			case ITechnologiesPackage.IENERGY_CALCULATOR_VISITOR:
 				return convertIEnergyCalculatorVisitorToString(eDataType, instanceValue);
 			case ITechnologiesPackage.IINTERNAL_PARAMETERS:
 				return convertIInternalParametersToString(eDataType, instanceValue);
@@ -202,7 +202,7 @@ public class TechnologiesFactoryImpl extends EFactoryImpl implements ITechnologi
 				return convertAtomicIntegerToString(eDataType, instanceValue);
 			case ITechnologiesPackage.ICONSTANTS:
 				return convertIConstantsToString(eDataType, instanceValue);
-			case ITechnologiesPackage.IENERGY_CALC__PARAMETERS:
+			case ITechnologiesPackage.IENERGY_CALCULATOR_PARAMETERS:
 				return convertIEnergyCalculatorParametersToString(eDataType, instanceValue);
 			case ITechnologiesPackage.EFFICIENCY:
 				return convertEfficiencyToString(eDataType, instanceValue);

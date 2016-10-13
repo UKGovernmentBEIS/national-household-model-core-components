@@ -39,7 +39,6 @@ import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoilersPackage;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.impl.util.FlueVentilationHelper;
 import uk.org.cse.nhm.hom.emf.technologies.impl.HeatSourceImpl;
-import uk.org.cse.nhm.hom.emf.technologies.impl.util.HotWaterUtilities;
 import uk.org.cse.nhm.hom.emf.technologies.impl.util.Pump;
 import uk.org.cse.nhm.hom.emf.util.Efficiency;
 
@@ -901,7 +900,7 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 	@Override
 	public double generateHotWaterAndPrimaryGains(final IInternalParameters parameters,
 			final IEnergyState state, final IWaterTank store, final boolean storeIsPrimary,
-			final double primaryCorrectionFactor, final double distributionLossFactor, final double proportion) {
+			final double primaryLosses, final double distributionLossFactor, final double proportion) {
 		/**
 		 * The amount of hot water power required overall
 		 */
@@ -915,10 +914,6 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 		 * The amount this will satisfy
 		 */
 		final double demandThisBoilerWillSatisfy = Math.min(remainingDemand, totalDemand * proportion);
-		
-		final double primaryCircuitLosses = getPrimaryPipeworkLosses(parameters, 
-				!(store == null) && store.isThermostatFitted()
-				, primaryCorrectionFactor);
 		
 		/*
 		BEISDOC
@@ -934,12 +929,12 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 		*/
 		final double additionalUsageLosses = getAdditionalUsageLosses(parameters, state);
 		
-		final double powerOutOfBoiler =  demandThisBoilerWillSatisfy + primaryCircuitLosses + additionalUsageLosses;
+		final double powerOutOfBoiler =  demandThisBoilerWillSatisfy + primaryLosses + additionalUsageLosses;
 
-		final double gainsOutOfBoiler =  primaryCircuitLosses;
+		final double gainsOutOfBoiler =  primaryLosses;
 		
 		
-		log.debug("Primary pipework losses: {}", primaryCircuitLosses);
+		log.debug("Primary pipework losses: {}", primaryLosses);
 		log.debug("Additional usage losses: {}", additionalUsageLosses);
 		log.debug("Output power: {}", powerOutOfBoiler);
 		
@@ -969,12 +964,6 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 	 */
 	protected double getAdditionalUsageLosses(final IInternalParameters parameters, final IEnergyState state) {
 		return 0;
-	}
-
-	protected double getPrimaryPipeworkLosses(final IInternalParameters parameters,
-			final boolean tankPresentAndThermostatic, final double primaryCorrectionFactor) {
-		final boolean primaryPipeworkIsInsulated = getWaterHeater().getSystem().isPrimaryPipeworkInsulated();
-		return HotWaterUtilities.getPrimaryPipeworkLosses(parameters, primaryPipeworkIsInsulated, tankPresentAndThermostatic, primaryCorrectionFactor);
 	}
 
 	@Override
@@ -1007,6 +996,11 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 		} else {
 			return 0;
 		}
+	}
+
+	@Override
+	public boolean isCommunityHeating() {
+		return false;
 	}
 	
 	

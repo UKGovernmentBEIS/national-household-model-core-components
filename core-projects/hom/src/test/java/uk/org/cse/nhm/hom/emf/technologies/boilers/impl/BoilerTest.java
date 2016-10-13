@@ -87,26 +87,6 @@ public class BoilerTest {
 	}
 	
 	@Test
-	public void testPrimaryPipeworkLosses() {
-		final IConstants c = mock(IConstants.class);
-		when(c.get(HeatingSystemConstants.BAD_PRIMARY_PIPEWORK_LOSSES)).thenReturn(30d);
-		when(c.get(HeatingSystemConstants.GOOD_PRIMARY_PIPEWORK_LOSSES)).thenReturn(10d);
-		when(c.get(HeatingSystemConstants.MED_PRIMARY_PIPEWORK_LOSSES)).thenReturn(20d);
-		
-		final IInternalParameters p = mock(IInternalParameters.class);
-		when(p.getConstants()).thenReturn(c);
-		
-		boiler.getWaterHeater().getSystem().setPrimaryPipeworkInsulated(false);
-		
-		assertEquals(30d, boiler.getPrimaryPipeworkLosses(p, false, 1), 0);
-		assertEquals(20d, boiler.getPrimaryPipeworkLosses(p, true, 1), 0);
-		boiler.getWaterHeater().getSystem().setPrimaryPipeworkInsulated(true);
-		
-		assertEquals(20d, boiler.getPrimaryPipeworkLosses(p, false, 1), 0);
-		assertEquals(10d, boiler.getPrimaryPipeworkLosses(p, true, 1), 0);
-	}
-	
-	@Test
 	public void testGenerateHotWater() {
 		boiler.setSummerEfficiency(Efficiency.fromDouble(1.0));
 		boiler.setWinterEfficiency(Efficiency.fromDouble(1.0));

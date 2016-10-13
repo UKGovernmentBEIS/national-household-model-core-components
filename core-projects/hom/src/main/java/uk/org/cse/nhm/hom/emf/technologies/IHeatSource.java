@@ -21,11 +21,11 @@ import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IHeatSource#getWaterHeater <em>Water Heater</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IHeatSource#getSpaceHeater <em>Space Heater</em>}</li>
  * </ul>
- * </p>
  *
  * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getHeatSource()
  * @model abstract="true"
@@ -177,5 +177,13 @@ public interface IHeatSource extends IFuelAndFlue, IOperationalCost, IHasOverrid
 	 * @generated
 	 */
 	double getZoneTwoControlParameter(IInternalParameters parameters, EList<HeatingSystemControlType> controls, EmitterType emitterType);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation" required="true"
+	 * @generated
+	 */
+	boolean isCommunityHeating();
 
 } // IHeatSource

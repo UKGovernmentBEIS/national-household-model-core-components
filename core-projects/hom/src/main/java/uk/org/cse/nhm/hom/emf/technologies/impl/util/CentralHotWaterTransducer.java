@@ -21,6 +21,7 @@ import uk.org.cse.nhm.hom.emf.technologies.ICentralWaterSystem;
 import uk.org.cse.nhm.hom.emf.technologies.IHeatSource;
 import uk.org.cse.nhm.hom.emf.technologies.IImmersionHeater;
 import uk.org.cse.nhm.hom.emf.technologies.IMainWaterHeater;
+import uk.org.cse.nhm.hom.emf.technologies.IWarmAirSystem;
 import uk.org.cse.nhm.hom.emf.technologies.IWaterTank;
 import uk.org.cse.nhm.hom.emf.technologies.impl.CentralWaterSystemImpl;
 
@@ -84,7 +85,7 @@ public class CentralHotWaterTransducer extends EnergyTransducer {
 		/**
 		 * The solar primary pipework correction factor
 		 */
-		final double primaryPipeworkFactor = 
+		final double solarPipeworkFactor = 
 				applySolarPipeworkFactor ?
 						constants.get(HeatingSystemConstants.CENTRAL_HEATING_SOLAR_PPCF,
 								parameters.getClimate().getMonthOfYear()-1) : 1d;
@@ -165,7 +166,7 @@ public class CentralHotWaterTransducer extends EnergyTransducer {
 		
 		final IWaterTank systemStore = system.getStore();
 		final boolean systemStoreInPrimaryCircuit = system.isStoreInPrimaryCircuit();
-
+		
 		/*
 		BEISDOC
 		NAME: Central Direct Hot Water Fuel Energy Demand
@@ -180,28 +181,50 @@ public class CentralHotWaterTransducer extends EnergyTransducer {
 		*/
 		if (hasSolarHeater) {
 			system.getSolarWaterHeater().generateHotWaterAndPrimaryGains(parameters, state, systemStore, 
-					systemStoreInPrimaryCircuit, primaryPipeworkFactor, distributionLossFactor, 1);
+					systemStoreInPrimaryCircuit, 0, distributionLossFactor, 1);
 		}
 		
 		amountsGenerated[0] = 0;
 		amountsGenerated[1] = 0;
 		amountsGenerated[2] = 0;
 		
+		final double pipeworkLosses;
+		
 		if (primaryWaterHeater != null) {
+			pipeworkLosses = primaryWaterHeater.causesPipeworkLosses() ? 
+					getPrimaryPipeworkLosses(
+							parameters,
+							system.isPrimaryPipeworkInsulated(),
+							primaryWaterHeater.isCommunityHeating(),
+							systemStore, 
+							solarPipeworkFactor
+						) 
+					: 0;
+							
 			amountsGenerated[0] = primaryWaterHeater.generateHotWaterAndPrimaryGains(parameters, state, systemStore, 
-					systemStoreInPrimaryCircuit, primaryPipeworkFactor, distributionLossFactor, 1);
+					systemStoreInPrimaryCircuit, pipeworkLosses, distributionLossFactor, 1);
 			
 			log.debug("primary generated {}", amountsGenerated[0]);
 		} else if (secondaryWaterHeater != null) {
+			pipeworkLosses = secondaryWaterHeater.causesPipeworkLosses() ? 
+					getPrimaryPipeworkLosses(
+							parameters,
+							system.isPrimaryPipeworkInsulated(),
+							secondaryWaterHeater.isCommunityHeating(),
+							systemStore,
+							solarPipeworkFactor
+						) 
+					: 0;
+			
 			amountsGenerated[1] =
 						secondaryWaterHeater.generateHotWaterAndPrimaryGains(parameters, state, systemStore, 
-								systemStoreInPrimaryCircuit, primaryPipeworkFactor, distributionLossFactor, 1);
+								systemStoreInPrimaryCircuit, pipeworkLosses, distributionLossFactor, 1);
 			
 			log.debug("secondary generated {}", amountsGenerated[1]);
 		} else if (immersionHeater != null) {
 			amountsGenerated[2] =
 					immersionHeater.generateHotWaterAndPrimaryGains(parameters, state, systemStore, 
-								systemStoreInPrimaryCircuit, primaryPipeworkFactor, distributionLossFactor, 1);
+								systemStoreInPrimaryCircuit, 0, distributionLossFactor, 1);
 
 			log.debug("immersion generated {}", amountsGenerated[2]);
 		}
@@ -298,5 +321,113 @@ public class CentralHotWaterTransducer extends EnergyTransducer {
 		//TODO check for dubious things here, and break the scheduling if there is a problem
 		
 		return TransducerPhaseType.HotWater;
+	}
+	
+	/**
+	 * Get standard primary pipework losses for different kinds of {@link IHeatSource} and {@link IWarmAirSystem}
+	 * used for DHW.
+	 * 
+	 * @param parameters
+	 * @param primaryPipeworkIsInsulated
+	 * @param tankPresentAndThermostatic
+	 * @param primaryCorrectionFactor
+	 * @return
+	 */
+	protected final double getPrimaryPipeworkLosses(
+			final IInternalParameters parameters,
+			final boolean primaryPipeworkIsInsulated,
+			final boolean isCommunityHeating,
+			final IWaterTank store,
+			final double solarCorrectionFactor) {
+
+		/*
+		BEISDOC
+		NAME: Primary pipework insulated fraction
+		DESCRIPTION: The fraction of the primary pipework which is insulated.
+		TYPE: Lookup
+		UNIT: Dimensionless
+		SAP: Table 3
+		BREDEM: Table 10
+		NOTES: In the NHM we only implement the rows for uninsulated and fully insulated, and community heating is always fully insulated.
+		ID: pipework-insulation-fraction
+		CODSIEB
+		*/
+		final double pipeworkInsulatedFraction = (isCommunityHeating || primaryPipeworkIsInsulated) ? 1 : 0;
+		
+		final double hoursPerDayHot = hoursPerDayPrimaryHot(
+				parameters,
+				isCommunityHeating,
+				store.isThermostatFitted()
+		);
+		
+		final double ppCoefficent = parameters.getConstants().get(HeatingSystemConstants.PRIMARY_PIPEWORK_COEFFICIENT);
+		final double insulatedMultiplier = parameters.getConstants().get(HeatingSystemConstants.PRIMARY_PIPEWORK_INSULATED_MULTIPLIER);
+		final double uninsulatedMultiplier = parameters.getConstants().get(HeatingSystemConstants.PRIMARY_PIPEWORK_UNINSULATED_MULTIPLIER);
+		final double ppConstant = parameters.getConstants().get(HeatingSystemConstants.PRIMARY_PIPEWORK_CONSTANT);
+				
+		/*
+		BEISDOC
+		NAME: Primary Pipework Losses
+		DESCRIPTION: Losses due to the primary hot water pipework
+		TYPE: formula
+		UNIT: W
+		SAP: (59), Table 3
+		BREDEM: 2.2D 
+		DEPS: primary-pipework-coefficient, primary-pipework-insulated-multiplier, primary-pipework-uninsulated-multiplier, primary-pipework-constant, pipework-insulation-fraction, hours-per-day-primary-hot, solar-primary-pipework-correction
+		ID: primary-pipework-losses
+		CODSIEB
+		*/
+		return ppCoefficent * (
+			(
+				(
+						(pipeworkInsulatedFraction * insulatedMultiplier) + 
+						((1 - pipeworkInsulatedFraction) * uninsulatedMultiplier)
+				)
+				* hoursPerDayHot
+			)
+			+ ppConstant
+		) * solarCorrectionFactor;
+	}
+	
+	protected double hoursPerDayPrimaryHot(
+			final IInternalParameters parameters,
+			final boolean isCommunityHeating,
+			final boolean cylinderThermostat
+			) {
+		
+		final boolean waterHeatingSeparatelyTimed = false;
+		
+		/*
+		BEISDOC
+		NAME: Hours Primary Hot
+		DESCRIPTION: The number of hours per day the primary pipework is hot.
+		TYPE: formula
+		UNIT: Hours
+		SAP: Table 3
+		BREDEM: Table 11
+		DEPS: month-of-year,hours-per-day-primary-hot-lookup
+		NOTES: We assume that water heating is not separately timed by default.
+		NOTES: 
+		ID: hours-per-day-primary-hot
+		CODSIEB
+		*/
+		if (isCommunityHeating) {
+			// Community heating always uses the lower value. 
+			return parameters.getConstants().get(HeatingSystemConstants.HOURS_PIPEWORK_HOT, 2);
+		} else if (parameters.getClimate().isHeatingOn()) {
+			if (!cylinderThermostat) {
+				// Winter no cylinder thermostat
+				return parameters.getConstants().get(HeatingSystemConstants.HOURS_PIPEWORK_HOT, 0);
+			} else if (waterHeatingSeparatelyTimed) {
+				// Winter separate water heater timing
+				return parameters.getConstants().get(HeatingSystemConstants.HOURS_PIPEWORK_HOT, 2);
+			} else {
+				// Winter no separate water heating timing
+				return parameters.getConstants().get(HeatingSystemConstants.HOURS_PIPEWORK_HOT, 1); 
+			}
+		} else {
+			// SUmmer value
+			return parameters.getConstants().get(HeatingSystemConstants.HOURS_PIPEWORK_HOT, 2);
+		}
 	}
 }

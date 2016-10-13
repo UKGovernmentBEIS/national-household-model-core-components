@@ -39,7 +39,6 @@ import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
 import uk.org.cse.nhm.hom.emf.technologies.IWaterTank;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.FlueType;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.impl.util.FlueVentilationHelper;
-import uk.org.cse.nhm.hom.emf.technologies.impl.util.HotWaterUtilities;
 import uk.org.cse.nhm.hom.emf.technologies.impl.util.Pump;
 import uk.org.cse.nhm.hom.emf.util.Efficiency;
 
@@ -48,6 +47,7 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
  * <em><b>Heat Pump</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.HeatPumpImpl#getSourceType <em>Source Type</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.HeatPumpImpl#getCoefficientOfPerformance <em>Coefficient Of Performance</em>}</li>
@@ -55,7 +55,6 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.HeatPumpImpl#isAuxiliaryPresent <em>Auxiliary Present</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.HeatPumpImpl#getHybrid <em>Hybrid</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -554,7 +553,7 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 
 	@Override
 	public double generateHotWaterAndPrimaryGains(final IInternalParameters parameters, final IEnergyState state, final IWaterTank store, final boolean storeIsPrimary,
-			final double primaryCorrectionFactor, final double distributionLossFactor, final double proportion) {
+			final double primaryLosses, final double distributionLossFactor, final double proportion) {
 		
 		final double adjustedEfficiency;
 		final FuelType fuel;
@@ -574,14 +573,10 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 
 		final double hotWaterToGenerate = state.getBoundedTotalDemand(EnergyType.DemandsHOT_WATER, proportion);
 		
-		// primary pipework losses
-		final double ppLosses = HotWaterUtilities.getPrimaryPipeworkLosses(parameters, getWaterHeater().getSystem().isPrimaryPipeworkInsulated(),
-				(store != null) && store.isThermostatFitted(), primaryCorrectionFactor);
-
-		final double totalToGenerate = hotWaterToGenerate + ppLosses;
+		final double totalToGenerate = hotWaterToGenerate + primaryLosses;
 
 		state.increaseSupply(EnergyType.DemandsHOT_WATER, hotWaterToGenerate);
-		state.increaseSupply(EnergyType.GainsHOT_WATER_SYSTEM_GAINS, ppLosses);
+		state.increaseSupply(EnergyType.GainsHOT_WATER_SYSTEM_GAINS, primaryLosses);
 
 		final double sourceEnergy = totalToGenerate / adjustedEfficiency;
 
@@ -655,5 +650,10 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 	protected double getResponsivenessImpl(final IConstants parameters,
 			final EList<HeatingSystemControlType> controls, final EmitterType emitterType) {
 		return getSAPTable4dResponsiveness(parameters, controls, emitterType);
+	}
+
+	@Override
+	public boolean isCommunityHeating() {
+		return false;
 	}
 } // HeatPumpImpl

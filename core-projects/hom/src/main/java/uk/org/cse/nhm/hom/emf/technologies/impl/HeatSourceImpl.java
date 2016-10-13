@@ -36,6 +36,7 @@ import uk.org.cse.nhm.hom.emf.technologies.impl.util.HotWaterUtilities;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.HeatSourceImpl#getFuel <em>Fuel</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.HeatSourceImpl#getFlueType <em>Flue Type</em>}</li>
@@ -45,7 +46,6 @@ import uk.org.cse.nhm.hom.emf.technologies.impl.util.HotWaterUtilities;
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.HeatSourceImpl#getWaterHeater <em>Water Heater</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.HeatSourceImpl#getSpaceHeater <em>Space Heater</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -666,6 +666,13 @@ public abstract class HeatSourceImpl extends MinimalEObjectImpl implements IHeat
 		// Ensure that you remove @generated or mark it @generated NOT
 		throw new UnsupportedOperationException();
 	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public abstract boolean isCommunityHeating();
 
 	/**
 	 * <!-- begin-user-doc -->

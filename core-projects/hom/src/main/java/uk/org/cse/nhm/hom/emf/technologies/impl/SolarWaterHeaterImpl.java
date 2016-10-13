@@ -936,4 +936,14 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 			final double systemLosses) {
 		// do nothing intentionally.
 	}
+
+	@Override
+	public boolean causesPipeworkLosses() {
+		return false;
+	}
+
+	@Override
+	public boolean isCommunityHeating() {
+		return false;
+	}
 } //SolarWaterHeaterImpl

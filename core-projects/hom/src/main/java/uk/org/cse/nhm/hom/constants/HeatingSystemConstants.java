@@ -5,23 +5,82 @@ import uk.org.cse.nhm.energycalculator.api.IConstant;
 
 @ConstantDescription("Miscellaneous constants to do with various heating systems. Some of these could do with tidying up into other places.")
 public enum HeatingSystemConstants implements IConstant {
-	@ConstantDescription("The temperature adjustment for a direct electric non-thermostatic heater")
-	DIRECT_ELECTRIC_NONTHERMOSTATIC_T_ADJ(0.5),
 	
+	/*
+	BEISDOC
+	NAME: Primary pipework coefficient
+	DESCRIPTION: The number '14' which is used as a multiplier in the primary pipework losses calculation. 
+	TYPE: value
+	UNIT: W
+	SAP: Table 3
+	BREDEM: 2.2D
+	SET: context.energy-constants
+	CONVERSION: From kWh/day to W (1000 / (24)).
+	ID: primary-pipework-coefficient
+	CODSIEB
+	*/
+	@ConstantDescription("The number '14' which is used as a multiplier in the primary pipework losses calculation (converted to W from kWh/day).")
+	PRIMARY_PIPEWORK_COEFFICIENT(583.33),
 	
-	@ConstantDescription("The worst-case primary pipework losses for a heating system")
-	BAD_PRIMARY_PIPEWORK_LOSSES(139.1),
-	@ConstantDescription("The medium-case primary pipework losses for a heating system")
-	MED_PRIMARY_PIPEWORK_LOSSES(69.58),
-	@ConstantDescription("The best-case primary pipework losses for a heating system")
-	GOOD_PRIMARY_PIPEWORK_LOSSES(41.0),
+	/*
+	BEISDOC
+	NAME: Primary pipework insulated multiplier
+	DESCRIPTION: The value which is multiplied by pipework insulated fraction in the primary pipework losses calculation.
+	TYPE: value
+	UNIT: Dimensionless
+	SAP: Table 3
+	BREDEM: 2.2D
+	SET: context.energy-constants
+	ID: primary-pipework-insulated-multiplier
+	CODSIEB
+	*/
+	@ConstantDescription("The value which is multiplied by pipework insulated fraction in the primary pipework losses calculation.")
+	PRIMARY_PIPEWORK_INSULATED_MULTIPLIER(0.0091),
 	
-	/**
-	 * Additional primary pipework losses to do with heep hot facility, in this order:
-	 * No KHF, Uncontrolled KHF, Controlled KHF
-	 */
-	@ConstantDescription("Additional losses caused by the presence of a keep hot facility on a combi boiler")
-	KEEP_HOT_FACILITY_PIPEWORK_LOSSES(25.0, 95.0, 25.0),
+	/*
+	BEISDOC
+	NAME: Primary pipework uninsulated multiplier
+	DESCRIPTION: The value which is multiplied by (1 - pipework insulated fraction) in the primary pipework losses calculation.
+	TYPE: value
+	UNIT: Dimensionless
+	SAP: Table 3
+	BREDEM: 2.2D
+	SET: context.energy-constants
+	ID: primary-pipework-uninsulated-multiplier
+	CODSIEB
+	*/
+	@ConstantDescription("The value which is multiplied by (1 - pipework insulated fraction) in the primary pipework losses calculation.")
+	PRIMARY_PIPEWORK_UNINSULATED_MULTIPLIER(0.0245),
+	
+	/*
+	BEISDOC
+	NAME: Primary pipework constant
+	DESCRIPTION: The final constant term in the primary pipework losses calculation.
+	TYPE: value
+	UNIT: Dimensionless
+	SAP: Table 3
+	BREDEM: 2.2D
+	SET: context.energy-constants
+	ID: primary-pipework-constant
+	CODSIEB
+	*/
+	@ConstantDescription("The final constant term in the primary pipework losses calculation.")
+	PRIMARY_PIPEWORK_CONSTANT(0.0263),
+
+	/*
+	BEISDOC
+	NAME: Hours per day primary hot lookup
+	DESCRIPTION: The number of hours per day the primary pipework is hot (a) in winter without a cylinder thermostat, (b) in winter without a separate water heating timer and (c) otherwise.
+	TYPE: value
+	UNIT: Hours
+	SAP: Table 3
+	BREDEM: Table 11
+	SET: context.energy-constants
+	ID: hours-per-day-primary-hot-lookup
+	CODSIEB
+	*/
+	@ConstantDescription("The number of hours per day the primary pipework is hot (a) in winter without a cylinder thermostat, (b) in winter without a separate water heating timer and (c) otherwise.")
+	HOURS_PIPEWORK_HOT(11, 5, 3),
 	
 	/*
 	BEISDOC

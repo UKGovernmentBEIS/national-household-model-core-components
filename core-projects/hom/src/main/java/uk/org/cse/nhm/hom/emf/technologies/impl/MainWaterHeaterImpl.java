@@ -14,6 +14,8 @@ import uk.org.cse.nhm.hom.emf.technologies.IHeatSource;
 import uk.org.cse.nhm.hom.emf.technologies.IMainWaterHeater;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
 import uk.org.cse.nhm.hom.emf.technologies.IWaterTank;
+import uk.org.cse.nhm.hom.emf.technologies.boilers.ICPSU;
+import uk.org.cse.nhm.hom.emf.technologies.boilers.ICombiBoiler;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,10 +23,10 @@ import uk.org.cse.nhm.hom.emf.technologies.IWaterTank;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.MainWaterHeaterImpl#getHeatSource <em>Heat Source</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -227,5 +229,19 @@ public class MainWaterHeaterImpl extends CentralWaterHeaterImpl implements IMain
 		if (getHeatSource() != null) {
 			getHeatSource().generateHotWaterSystemGains(parameters, state, store, storeIsPrimary, systemLosses);
 		}
+	}
+
+	@Override
+	public boolean causesPipeworkLosses() {
+		if (getHeatSource() instanceof ICombiBoiler || getHeatSource() instanceof ICPSU) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	@Override
+	public boolean isCommunityHeating() {
+		return getHeatSource() != null && getHeatSource().isCommunityHeating();
 	}
 } //MainWaterHeaterImpl

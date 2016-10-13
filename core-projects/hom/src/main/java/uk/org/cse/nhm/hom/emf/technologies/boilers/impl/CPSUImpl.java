@@ -35,11 +35,11 @@ import uk.org.cse.nhm.hom.emf.technologies.boilers.ICPSU;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.boilers.impl.CPSUImpl#getStore <em>Store</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.boilers.impl.CPSUImpl#getStoreTemperature <em>Store Temperature</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -313,15 +313,6 @@ public class CPSUImpl extends BoilerImpl implements ICPSU {
 	@Override
 	protected boolean isIntermediatePowerRequired() {
 		return getFuel() == FuelType.ELECTRICITY || super.isIntermediatePowerRequired();
-	}
-
-	/**
-	 * As we all know, SAP 2009 table 3 declares that CPSUs have no primary pipework losses.
-	 */
-	@Override
-	protected double getPrimaryPipeworkLosses(final IInternalParameters parameters,
-			final boolean tankPresentAndThermostatic, final double primaryCorrectionFactor) {
-		return 0;
 	}
 
 	protected double getDegreeDays(final double temperature, final double outsideTemperature) {

@@ -22,48 +22,6 @@ import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler;
  */
 public class HotWaterUtilities {
 	/**
-	 * Get standard primary pipework losses for different kinds of {@link IHeatSource} and {@link IWarmAirSystem}
-	 * used for DHW.
-	 * 
-	 * @param parameters
-	 * @param primaryPipeworkIsInsulated
-	 * @param tankPresentAndThermostatic
-	 * @param primaryCorrectionFactor
-	 * @return
-	 */
-	public static final double getPrimaryPipeworkLosses(IInternalParameters parameters,
-			boolean primaryPipeworkIsInsulated,
-			boolean tankPresentAndThermostatic, double primaryCorrectionFactor) {
-		// primary pipework insulation is a property of the heating system
-		// so to be honest maybe it belongs elsewhere.
-		
-		//TODO this does not cover the case where the tank is in the primary circuit, and so is a thermal store.
-		
-		/*
-		BEISDOC
-		NAME: Primary Pipework Losses
-		DESCRIPTION: Losses due to the primary hot water pipework
-		TYPE: formula
-		UNIT: W
-		SAP: (59)
-		BREDEM: 2.2D 
-		NOTES: TODO 
-		ID: primary-pipework-losses
-		CODSIEB
-		*/
-		if (primaryPipeworkIsInsulated && tankPresentAndThermostatic) {
-			return parameters.getConstants().get(HeatingSystemConstants.GOOD_PRIMARY_PIPEWORK_LOSSES) *
-				   primaryCorrectionFactor;
-		} else if (!(primaryPipeworkIsInsulated || tankPresentAndThermostatic)) {
-			return parameters.getConstants().get(HeatingSystemConstants.BAD_PRIMARY_PIPEWORK_LOSSES) *
-					primaryCorrectionFactor;
-		} else {
-			return parameters.getConstants().get(HeatingSystemConstants.MED_PRIMARY_PIPEWORK_LOSSES) *
-					primaryCorrectionFactor;
-		}
-	}
-	
-	/**
 	 * Get the standard storage temperature factors for hot water tanks; this is defined by SAP 2009 table 2b
 	 * 
 	 * This doesn't cover special cases from that table like combis (the combi implementation does that).
