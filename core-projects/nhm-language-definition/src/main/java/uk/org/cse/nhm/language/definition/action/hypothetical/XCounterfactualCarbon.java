@@ -10,7 +10,7 @@ import com.larkery.jasb.bind.BindNamedArgument;
 
 @Bind("counterfactual.carbon")
 @Doc({"Sets counterfactual carbon factors for a house, if used in an under.",
-	  "If a factor is unspecified, the value from page 199 of SAP 2009 is used."})
+	  "If a factor is unspecified, the value from SAP 2012 Table 12 is used."})
 @Category(CategoryType.CARBON)
 public class XCounterfactualCarbon extends XCounterfactualAction {
 	private double mainsGas = 0.216;

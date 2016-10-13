@@ -46,12 +46,12 @@ class CarbonFactorFunction extends AbstractNamed implements IComponentsFunction<
 		UNIT: Fuel Type (categorical) -> Function (no arguments, return value is quantity of carbon / kWh fuel)
 		SAP: Table 12, Section 12a (Emission factor column)
 		SET: context.carbon-factors,counterfactual.carbon
-		NOTES: The SAP emissions factors will be used for fuels for which no carbon factor has been specified.
-		NOTES: Additionally, the default values of counterfactual.carbon are the SAP numbers.
+		NOTES: 0 will be used for fuels for which no carbon factor has been specified.
+		NOTES: The default values for counterfactual.carbon are the SAP 2012 carbon factors.
 		ID: carbon-factors
 		CODSIEB
 		*/
-		final CarbonFactors cf = CarbonFactors.of(ICarbonFactors.SapFactors.factors);
+		CarbonFactors cf = new CarbonFactors();
 		for (final IComponentsFunction<Number> f : mm.keySet()) {
 			final Double value = f.compute(scope, lets).doubleValue();
 			

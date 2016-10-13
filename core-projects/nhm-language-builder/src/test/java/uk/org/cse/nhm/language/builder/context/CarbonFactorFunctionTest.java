@@ -20,12 +20,12 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 public class CarbonFactorFunctionTest {
 	
 	@Test
-	public void defaultValueIsSap09() {
+	public void defaultValueIsZero() {
 		final CarbonFactorFunction cff = new CarbonFactorFunction(HashMultimap.
 				<IComponentsFunction<Number>, FuelType>
 				create());
 		
-		Assert.assertEquals("With no function, SAP09 comes out", ICarbonFactors.SAP09.getCarbonFactor(FuelType.MAINS_GAS), 
+		Assert.assertEquals("With no function, 0 comes out", 0, 
 				cff.compute(null, ILets.EMPTY).getCarbonFactor(FuelType.MAINS_GAS), 0d);
 	}
 	
@@ -61,7 +61,9 @@ public class CarbonFactorFunctionTest {
 		Assert.assertEquals(2d, compute.getCarbonFactor(FuelType.MAINS_GAS), 0d);
 		Assert.assertEquals(3d, compute.getCarbonFactor(FuelType.HOUSE_COAL), 0d);
 		Assert.assertEquals(3d, compute.getCarbonFactor(FuelType.PEAK_ELECTRICITY), 0d);
-		Assert.assertEquals( ICarbonFactors.SAP09.getCarbonFactor(FuelType.BIOMASS_WOOD), compute.getCarbonFactor(FuelType.BIOMASS_WOOD), 0d);
+		
+		// Default carbon factor is 0
+		Assert.assertEquals(0, compute.getCarbonFactor(FuelType.BIOMASS_WOOD), 0d);
 		
 		
 		Assert.assertEquals(cff.getDependencies(), ImmutableSet.of(d1, d2));

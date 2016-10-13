@@ -49,7 +49,6 @@ import uk.org.cse.nhm.simulator.state.dimensions.energy.IPowerTable;
 import uk.org.cse.nhm.simulator.state.dimensions.energy.PowerDimension;
 import uk.org.cse.nhm.simulator.state.dimensions.energy.calibration.CalibratedPowerDimension;
 import uk.org.cse.nhm.simulator.state.dimensions.energy.calibration.IEnergyCalibrations;
-import uk.org.cse.nhm.simulator.state.dimensions.fuel.CarbonFactors;
 import uk.org.cse.nhm.simulator.state.dimensions.fuel.ICarbonFactors;
 import uk.org.cse.nhm.simulator.state.dimensions.fuel.cost.EmissionsDimension;
 import uk.org.cse.nhm.simulator.state.dimensions.fuel.cost.IEmissions;
@@ -237,10 +236,6 @@ public class StateModule extends AbstractModule  {
 						@Override
 						protected void configure() {
 							bind(String.class).toInstance("Carbon Factors");
-							
-							bind(new TypeLiteral<IComponentsFunction<ICarbonFactors>>() {}).toInstance(ConstantComponentsFunction.of(
-									Name.of("SAP Carbon"),
-									CarbonFactors.SAP09));
 							
 							final TypeLiteral<FunctionDimension<ICarbonFactors>> implementationType = new TypeLiteral<FunctionDimension<ICarbonFactors>>() {};
 							final TypeLiteral<IFunctionDimension<ICarbonFactors>> fDimType = new TypeLiteral<IFunctionDimension<ICarbonFactors>>() {};
