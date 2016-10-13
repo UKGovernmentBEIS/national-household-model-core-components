@@ -12,7 +12,8 @@ import com.larkery.jasb.bind.BindNamedArgument;
 
 @Doc(
 		{
-			"Installs a solar DHW system in a house."
+			"Installs a solar DHW system in a house.",
+			"The defaults for this measure are taken from the Cambridge Housing Model, and are the same as when creating a solar water heater in the stock import."
 		}
 	)
 @Unsuitability({
@@ -30,7 +31,7 @@ public class XSolarHotWaterMeasure extends XMeasure {
         public static final String zle = "zeroLossEfficiency";
 	}
 	
-	private XNumber area = XNumberConstant.create(4d);
+	private XNumber area = XNumberConstant.create(3d);
 	private XNumber cost = XNumberConstant.create(0d);
 	private XNumber cylinderVolume = XNumberConstant.create(50d);
     private XNumber zeroLossEfficiency = XNumberConstant.create(0.8d);
