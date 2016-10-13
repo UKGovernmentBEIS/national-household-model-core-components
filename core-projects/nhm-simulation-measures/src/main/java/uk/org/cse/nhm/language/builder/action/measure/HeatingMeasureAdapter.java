@@ -189,7 +189,8 @@ public class HeatingMeasureAdapter extends ReflectingAdapter {
             @Prop(XWetHeatingMeasure.P.WET_HEATING_CAPEX) final Optional<IComponentsFunction<Number>> whCapexFunction,
             @Prop(XDistrictHeatingMeasure.P.cylinderInsulationThickness) final double insulation,
             @Prop(XDistrictHeatingMeasure.P.cylinderVolume) final IComponentsFunction<Number> volume,
-            @Prop(XDistrictHeatingMeasure.P.efficiency) final IComponentsFunction<Number> efficiency
+            @Prop(XDistrictHeatingMeasure.P.efficiency) final IComponentsFunction<Number> efficiency,
+            @Prop(XDistrictHeatingMeasure.P.chargingUsageBased) final boolean chargingUsageBased
             ) {
         return factory.createDistrictHeatingMeasure(wrap.sizing (identifier, sizingFunction),
                                                     wrap.capex(identifier, capexFunction),
@@ -197,7 +198,8 @@ public class HeatingMeasureAdapter extends ReflectingAdapter {
                                                     wrap.systemCapex(identifier, whCapexFunction),
                                                     insulation,
                                                     wrap.tank(identifier, volume),
-                                                    wrap.efficiency(identifier, efficiency)
+                                                    wrap.efficiency(identifier, efficiency),
+                                                    chargingUsageBased
                                                     );
     }
 

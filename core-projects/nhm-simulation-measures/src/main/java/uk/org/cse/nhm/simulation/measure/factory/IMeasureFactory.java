@@ -157,7 +157,8 @@ public interface IMeasureFactory {
             @Assisted("wetHeating") final IComponentsFunction<Number> wetHeatingCostFunction,
             @Assisted("insulation") final double cylinderInsulation,
             @Assisted("volume") final IComponentsFunction<Number> cylinderVolume,
-            @Assisted("efficiency") final IComponentsFunction<Number> efficiency);
+            @Assisted("efficiency") final IComponentsFunction<Number> efficiency,
+            @Assisted("chargingUsageBased") final boolean chargingUsageBased);
 
     public BreakBoilerMeasure createBreakBoilerMeasure();
 

@@ -66,7 +66,8 @@ public class DistrictHeatingMeasureTest {
 				ConstantComponentsFunction.<Number>of(Name.of("Test"), 0d),
                 ConstantComponentsFunction.<Number>of(Name.of("Tank Size"), 110d),
 				insulation, 
-				efficiency);
+				efficiency,
+				false);
 	}
 	
 	@After
