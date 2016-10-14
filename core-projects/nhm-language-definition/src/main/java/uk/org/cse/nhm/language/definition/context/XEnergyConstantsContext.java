@@ -35,14 +35,6 @@ public class XEnergyConstantsContext extends XContextParameter {
 		 EfficiencyAdjustments_CONDENSING_ADVANCED_COMPENSATOR(2),
 		@Doc("Efficiency adjustment for regular & combi boilers when there is no interlock or thermostat (combi boilers apply only to space heat efficiency) - default is -0.050 ")
 		 EfficiencyAdjustments_BOILER_WITHOUT_INTERLOCK(1),
-		@Doc("Efficiency adjustment for space heating heat pumps with fan coils - default is 0.850 ")
-		 EfficiencyAdjustments_HEAT_PUMP_WITH_FAN_COILS(1),
-		@Doc("Efficiency adjustment for space heat pump with radiators & load compensator - default is 0.750 ")
-		 EfficiencyAdjustments_HEAT_PUMP_WITH_RADIATORS_AND_COMPENSATOR(1),
-		@Doc("Efficiency adjustment for space heat pump with radiators & no load compensator - default is 0.700 ")
-		 EfficiencyAdjustments_HEAT_PUMP_WITH_RADIATORS(1),
-		@Doc("Efficiency adjustment for heat pump supplying all DHW - default is 0.700 ")
-		 EfficiencyAdjustments_HEAT_PUMP_SUPPLYING_ALL_DHW(1),
 		@Doc("The constant term in all loss factor equations - default is 0.208 ")
 		 CylinderConstants_LOSS_FACTOR_CONSTANT_TERM(1),
 		@Doc("The loss factor equation terms for loose jacket cylinders - default is 73.333, 12.800 ")
