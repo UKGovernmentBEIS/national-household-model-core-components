@@ -20,6 +20,7 @@ import uk.org.cse.nhm.energycalculator.api.impl.SeasonalParameters;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
+import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
 import uk.org.cse.nhm.energycalculator.impl.EnergyCalculatorCalculator;
 import uk.org.cse.nhm.hom.BasicCaseAttributes;
 import uk.org.cse.nhm.hom.SurveyCase;
@@ -55,7 +56,8 @@ public class TestCase1 {
 		final StructureModel structure = new StructureModel(BuiltFormType.MidTerrace);
 		final BasicCaseAttributes attrs = new BasicCaseAttributes("aacode", 1, 1, RegionType.London, 
 				MorphologyType.HamletsAndIsolatedDwellings, TenureType.HousingAssociation,
-				1983);
+				1983,
+				SiteExposureType.Average);
 		final ITechnologyModel tech = ITechnologiesFactory.eINSTANCE.createTechnologyModel();
 		
 		sc.setStructure(structure);

@@ -12,6 +12,7 @@ import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorHouseCase;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
+import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
 import uk.org.cse.nhm.hom.people.People;
 import uk.org.cse.nhm.hom.structure.StructureModel;
@@ -129,6 +130,11 @@ public class SurveyCase implements IEnergyCalculatorHouseCase {
 	@Override
 	public int getNumberOfShelteredSides() {
 		return structure.getNumberOfShelteredSides();
+	}
+	
+	@Override
+	public SiteExposureType getSiteExposure() {
+		return basicAttributes.getSiteExposure();
 	}
 
     /**

@@ -1,5 +1,6 @@
 package uk.org.cse.nhm.energycalculator.impl;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -26,6 +27,8 @@ import uk.org.cse.nhm.energycalculator.api.ISeasonalParameters;
 import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
 import uk.org.cse.nhm.energycalculator.api.IVentilationSystem;
 import uk.org.cse.nhm.energycalculator.api.impl.DefaultConstants;
+import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
+import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
 import uk.org.cse.nhm.energycalculator.impl.EnergyCalculatorCalculator;
 import uk.org.cse.nhm.energycalculator.impl.IStructuralInfiltrationAccumulator;
 import uk.org.cse.nhm.energycalculator.impl.SpecificHeatLosses;
@@ -80,6 +83,7 @@ public class EnerggyCalculatorTest {
 		
 		final IEnergyCalculatorHouseCase houseCase = mock(IEnergyCalculatorHouseCase.class);
 		final IInternalParameters parameters = mock(IInternalParameters.class);
+		when(parameters.getCalculatorType()).thenReturn(EnergyCalculatorType.SAP2012);
 		final ISeasonalParameters climate = mock(ISeasonalParameters.class);
 		when(parameters.getClimate()).thenReturn(climate);
 		final IStructuralInfiltrationAccumulator infiltration = mock(IStructuralInfiltrationAccumulator.class);
@@ -105,6 +109,7 @@ public class EnerggyCalculatorTest {
 		
 		final IEnergyCalculatorHouseCase houseCase = mock(IEnergyCalculatorHouseCase.class);
 		final IInternalParameters parameters = mock(IInternalParameters.class);
+		when(parameters.getCalculatorType()).thenReturn(EnergyCalculatorType.SAP2012);
 		final ISeasonalParameters climate = mock(ISeasonalParameters.class);
 		when(parameters.getClimate()).thenReturn(climate);
 		final IStructuralInfiltrationAccumulator infiltration = mock(IStructuralInfiltrationAccumulator.class);
@@ -125,6 +130,7 @@ public class EnerggyCalculatorTest {
 		
 		final IEnergyCalculatorHouseCase houseCase = mock(IEnergyCalculatorHouseCase.class);
 		final IInternalParameters parameters = mock(IInternalParameters.class);
+		when(parameters.getCalculatorType()).thenReturn(EnergyCalculatorType.SAP2012);
 		final IStructuralInfiltrationAccumulator infiltration = mock(IStructuralInfiltrationAccumulator.class);
 		final List<IVentilationSystem> ventilationSystems = new ArrayList<IVentilationSystem>();
 
@@ -152,6 +158,7 @@ public class EnerggyCalculatorTest {
 		
 		final IEnergyCalculatorHouseCase houseCase = mock(IEnergyCalculatorHouseCase.class);
 		final IInternalParameters parameters = mock(IInternalParameters.class);
+		when(parameters.getCalculatorType()).thenReturn(EnergyCalculatorType.SAP2012);
 
 		final ISeasonalParameters climate = mock(ISeasonalParameters.class);
 		when(parameters.getClimate()).thenReturn(climate);
@@ -177,6 +184,7 @@ public class EnerggyCalculatorTest {
 		
 		final IEnergyCalculatorHouseCase houseCase = mock(IEnergyCalculatorHouseCase.class);
 		final IInternalParameters parameters = mock(IInternalParameters.class);
+		when(parameters.getCalculatorType()).thenReturn(EnergyCalculatorType.SAP2012);
 		final IStructuralInfiltrationAccumulator infiltration = mock(IStructuralInfiltrationAccumulator.class);
 		final List<IVentilationSystem> ventilationSystems = new ArrayList<IVentilationSystem>();
 		
@@ -204,6 +212,7 @@ public class EnerggyCalculatorTest {
 		
 		final IEnergyCalculatorHouseCase houseCase = mock(IEnergyCalculatorHouseCase.class);
 		final IInternalParameters parameters = mock(IInternalParameters.class);
+		when(parameters.getCalculatorType()).thenReturn(EnergyCalculatorType.SAP2012);
 		final IStructuralInfiltrationAccumulator infiltration = mock(IStructuralInfiltrationAccumulator.class);
 
 		final List<IVentilationSystem> ventilationSystems = new ArrayList<IVentilationSystem>();
@@ -322,5 +331,32 @@ public class EnerggyCalculatorTest {
 					3, 
 					1,
                         10), 0.01);
+	}
+	
+	@Test
+	public void testSiteExposure() {
+		testSiteExposure("Site Exposure not implemented in SAP 2012", 1, EnergyCalculatorType.SAP2012, SiteExposureType.Exposed);
+		testSiteExposure("Site Exposure not implemented in SAP 2012", 1, EnergyCalculatorType.SAP2012, SiteExposureType.Sheltered);
+		
+		testSiteExposure("Site Exposure varies in BREDEM 2012", 1.10, EnergyCalculatorType.BREDEM2012, SiteExposureType.Exposed);
+		testSiteExposure("Site Exposure varies in BREDEM 2012", 1.05, EnergyCalculatorType.BREDEM2012, SiteExposureType.AboveAverage);
+		testSiteExposure("Site Exposure varies in BREDEM 2012", 1.00, EnergyCalculatorType.BREDEM2012, SiteExposureType.Average);
+		testSiteExposure("Site Exposure varies in BREDEM 2012", 0.95, EnergyCalculatorType.BREDEM2012, SiteExposureType.BelowAverage);
+		testSiteExposure("Site Exposure varies in BREDEM 2012", 0.90, EnergyCalculatorType.BREDEM2012, SiteExposureType.Sheltered);
+	}
+	
+	private void testSiteExposure(String message, double expected, EnergyCalculatorType calculatorType, SiteExposureType siteExposure) {
+		IEnergyCalculatorHouseCase houseCase = mock(IEnergyCalculatorHouseCase.class);
+		IInternalParameters parameters = mock(IInternalParameters.class);
+		
+		when(parameters.getCalculatorType()).thenReturn(calculatorType);
+		when(houseCase.getSiteExposure()).thenReturn(siteExposure);
+		
+		assertEquals(
+				message, 
+				expected, 
+				new EnergyCalculatorCalculator().getSiteExposureFactor(houseCase, parameters), 
+				0
+			);
 	}
 }

@@ -1,6 +1,6 @@
 package uk.org.cse.nhm.energycalculator.api;
 
-
+import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
 
 /**
  * An interface which describes a house in sufficient detail for a energy calculator to operate on it.
@@ -70,4 +70,10 @@ public interface IEnergyCalculatorHouseCase {
 	 * @return the proportion of windows & doors that have been draught stripped
 	 */
 	public double getDraughtStrippedProportion();
+
+	/**
+	 * @since 6.4.1
+	 * @return
+	 */
+	public SiteExposureType getSiteExposure();
 }

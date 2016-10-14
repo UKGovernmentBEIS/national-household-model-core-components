@@ -272,7 +272,7 @@ public enum EnergyCalculatorConstants implements IConstant {
 	SAP: (15)
 	DEPS: 
 	GET: 
-	SET: context.energy-calculator-constants
+	SET: context.energy-constants
 	ID: window-infiltration-constant
 	CODSIEB
 	*/
@@ -288,14 +288,43 @@ public enum EnergyCalculatorConstants implements IConstant {
 	SAP: (15)
 	DEPS: 
 	GET: 
-	SET: context.energy-calculator-constants
+	SET: context.energy-constants
 	ID: draught-stripped-factor-constant
 	CODSIEB
 	*/
 	@ConstantDescription("The reduction in air change rate due to doors and windows for a house where all of the doors and windows are draught stripped")
 	DRAUGHT_STRIPPED_FACTOR(0.2), 
-	@ConstantDescription("The reduction in effective local wind speed due to having 1 sheltered side")
+	
+	/*
+	BEISDOC
+	NAME: Sheltered sides exposure factor
+	DESCRIPTION: Proportional reduction in air changes for to each side of the house which is sheltered
+	TYPE: value
+	UNIT: Dimensionless
+	SAP: (20)
+	BREDEM: Table 22
+	DEPS: 
+	GET: 
+	SET: context.energy-constants
+	ID: sheltered-sides-exposure-factor
+	CODSIEB
+	*/
+	@ConstantDescription("Proportional reduction in air changes for to each side of the house which is sheltered")
 	SHELTERED_SIDES_EXPOSURE_FACTOR(0.075),
+	
+	/*
+	BEISDOC
+	NAME: Site Exposure Factor Lookup
+	DESCRIPTION: The values for the site exposure factor.
+	TYPE: value
+	UNIT: Dimensionless
+	BREDEM: Table 21
+	SET: context.energy-constants
+	ID: site-exposure-factor-lookup
+	CODSIEB
+	*/
+	// The related categories are in the SiteExposureType enum.
+	SITE_EXPOSURE_FACTOR(new double[]{1.10, 1.05, 1.00, 0.95, 0.90})
 	;
 	
 	private double[] multipleValues;

@@ -239,7 +239,9 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		ID: wind-factor
 		CODSIEB
 		*/
-		final double exposureFactor = (parameters.getClimate().getSiteWindSpeed() / WIND_FACTOR_DIVISOR) ;
+		final double windFactor = (parameters.getClimate().getSiteWindSpeed() / WIND_FACTOR_DIVISOR) ;
+		
+		final double siteExposureFactor = getSiteExposureFactor(houseCase, parameters);
 
 		/*
 		BEISDOC
@@ -249,11 +251,11 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		UNIT: ach/h
 		SAP: (21,22b)
 		BREDEM: 3E
-		DEPS: wind-factor,shelter-factor,total-infiltration
+		DEPS: wind-factor,shelter-factor,total-infiltrationsite-exposure-factor
 		ID: adjusted-infiltration
 		CODSIEB
 		*/
-		final double climateAdjustedAirChangeRate = structuralAirChangeRate * exposureFactor * shelterFactor;
+		final double climateAdjustedAirChangeRate = structuralAirChangeRate * windFactor * siteExposureFactor * shelterFactor;
 
 		double houseAirChangeRate = climateAdjustedAirChangeRate;
 
@@ -347,6 +349,29 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 
 		return new SpecificHeatLosses(H1, H3, totalThermalMass, houseCase.getFloorArea(), ventilationLosses,
 				thermalBridgeEffect, climateAdjustedAirChangeRate);
+	}
+
+	protected final double getSiteExposureFactor(IEnergyCalculatorHouseCase houseCase, IInternalParameters parameters) {
+		/*
+		BEISDOC
+		NAME: Site Exposure Factor
+		DESCRIPTION: A multiplier to the air change rate based on the local geographical area of the dwelling.
+		TYPE: value
+		UNIT: Dimensionless
+		BREDEM: Table 21
+		DEPS: site-exposure-factor-lookup
+		NOTES: Does not apply when the calculator is running in SAP mode.
+		ID: site-exposure-factor
+		CODSIEB
+		*/
+		switch(parameters.getCalculatorType()) {
+		case SAP2012:
+			return 1;
+		case BREDEM2012:
+			return constants.get(EnergyCalculatorConstants.SITE_EXPOSURE_FACTOR, houseCase.getSiteExposure().ordinal());
+		default:
+			throw new UnsupportedOperationException("Site exposure calculation does not know about energy calculator type " + parameters.getCalculatorType());
+		}
 	}
 
 	/**

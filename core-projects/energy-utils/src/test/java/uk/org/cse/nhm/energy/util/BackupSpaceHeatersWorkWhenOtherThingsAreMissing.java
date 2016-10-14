@@ -21,6 +21,7 @@ import uk.org.cse.nhm.energycalculator.api.impl.WeeklyHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
+import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
 import uk.org.cse.nhm.energycalculator.impl.EnergyCalculatorCalculator;
 import uk.org.cse.nhm.energycalculator.impl.EnergyCalculatorCalculator.IEnergyStateFactory;
 import uk.org.cse.nhm.hom.BasicCaseAttributes;
@@ -139,7 +140,7 @@ public class BackupSpaceHeatersWorkWhenOtherThingsAreMissing {
 		final ITechnologyModel technologies = ITechnologiesFactory.eINSTANCE.createTechnologyModel();
 		final BasicCaseAttributes attrs = new BasicCaseAttributes("aacode", 1, 1, RegionType.London, 
 				MorphologyType.HamletsAndIsolatedDwellings, TenureType.HousingAssociation,
-				1900);
+				1900, SiteExposureType.Average);
 		sc.setStructure(sm);
 		sc.setTechnologies(technologies);
 		sc.setBasicAttributes(attrs);

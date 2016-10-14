@@ -14,6 +14,7 @@ import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
 import uk.org.cse.nhm.energycalculator.api.ISeasonalParameters;
 import uk.org.cse.nhm.energycalculator.api.impl.DefaultConstants;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
+import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.impl.appliances.Appliances09;
 
@@ -30,6 +31,7 @@ public class AppliancesTest {
 		when(climate.getMonthOfYear()).thenReturn(1);
 		
 		final IInternalParameters params = mock(IInternalParameters.class);
+		when(params.getCalculatorType()).thenReturn(EnergyCalculatorType.SAP2012);
 		
 		when(params.getClimate()).thenReturn(climate);
 		
