@@ -28,6 +28,7 @@ import uk.org.cse.nhm.energycalculator.api.IVentilationSystem;
 import uk.org.cse.nhm.energycalculator.api.impl.ClassEnergyState;
 import uk.org.cse.nhm.energycalculator.api.impl.DefaultConstants;
 import uk.org.cse.nhm.energycalculator.api.impl.GraphvizEnergyState;
+import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.ZoneType;
@@ -200,11 +201,6 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 			final List<IVentilationSystem> ventilationSystems) {
 		double H1 = totalSpecificHeatLoss;
 
-		/**
-		 * Interzone specific heat loss
-		 */
-		double H3 = 0;
-
 		log.debug("Total thermal mass: {}", totalThermalMass);
 
 		final double structuralAirChangeRate = infiltration.getAirChangeRate(houseCase, parameters);
@@ -345,10 +341,22 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		*/
 		H1 += ventilationLosses;
 		
-		H3 = houseCase.getInterzoneSpecificHeatLoss();
+		final double H3 = getInterzoneSpecificHeatLoss(parameters.getCalculatorType(), houseCase);
 
 		return new SpecificHeatLosses(H1, H3, totalThermalMass, houseCase.getFloorArea(), ventilationLosses,
 				thermalBridgeEffect, climateAdjustedAirChangeRate);
+	}
+
+	protected final double getInterzoneSpecificHeatLoss(EnergyCalculatorType calculatorType,
+			IEnergyCalculatorHouseCase houseCase) {
+		switch(calculatorType) {
+		case SAP2012:
+			return 0;
+		case BREDEM2012:
+			return houseCase.getInterzoneSpecificHeatLoss();
+		default:
+			throw new UnsupportedOperationException("getInterzoneSpecificHeatLoss does not know about EnergyCalculatorType " + calculatorType);
+		}
 	}
 
 	protected final double getSiteExposureFactor(IEnergyCalculatorHouseCase houseCase, IInternalParameters parameters) {
@@ -495,13 +503,15 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		TYPE: formula
 		UNIT: ℃
 		BREDEM: 7D
-		DEPS: zone-1-demand-temperature,interzone-specific-heat-loss,external-temperature,specific-heat-loss,total-gains
+		DEPS: zone-1-demand-temperature,interzone-specific-heat-loss,external-temperature,specific-heat-loss,total-gains,interzone-specific-heat-loss
 		NOTES: This will never actually be used, because the zone two heated proportion is always 1.
 		ID: unheated-zone-2-temperature
 		CODSIEB
 		*/
-		// Equation corrected from BREDEM 2009
-		final double unheatedZoneTwoTemperature = Math.min(Td1, (Td1 * H3 + Text * H + totalGains) / (H + H3));
+		final double unheatedZoneTwoTemperature = Math.min(
+				Td1, 
+				((Td1 * H3) + (Text * H) + totalGains) / (H + H3)
+			);
 
 		log.debug("Unheated zone 2 temperature (with gains): {}", unheatedZoneTwoTemperature);
 

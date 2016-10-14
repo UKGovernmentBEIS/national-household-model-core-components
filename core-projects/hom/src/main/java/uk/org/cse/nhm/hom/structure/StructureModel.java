@@ -75,7 +75,7 @@ public class StructureModel implements ICopyable<StructureModel> {
 	TYPE: value
 	UNIT: W/℃
 	BREDEM: 3J
-	NOTES: Interzone specific heat loss is currently always 0. I do not believe we have any way to get the information we would need to implement it.
+	NOTES: Interzone specific heat loss is always treated as 0 in SAP 2012 mode.
 	ID: interzone-specific-heat-loss
 	CODSIEB
 	*/
