@@ -24,13 +24,12 @@ public class BasicCaseAttributes implements ICopyable<BasicCaseAttributes> {
 	private int buildYear;
 	private TenureType tenureType;
 	private MorphologyType morphologyType;
-	private SiteExposureType siteExposure;
+	private SiteExposureType siteExposure = SiteExposureType.Average;
 
     /**
      * Default Constructor.
      */
     public BasicCaseAttributes() {
-
     }
 
 	public BasicCaseAttributes(
