@@ -11,10 +11,10 @@ import uk.org.cse.nhm.hom.emf.technologies.IStoreContainer;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.boilers.IStorageCombiBoiler#isStoreInPrimaryCircuit <em>Store In Primary Circuit</em>}</li>
  * </ul>
- * </p>
  *
  * @see uk.org.cse.nhm.hom.emf.technologies.boilers.IBoilersPackage#getStorageCombiBoiler()
  * @model

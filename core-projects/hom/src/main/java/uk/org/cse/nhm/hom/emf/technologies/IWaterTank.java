@@ -13,6 +13,7 @@ import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IWaterTank#getInsulation <em>Insulation</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IWaterTank#isFactoryInsulation <em>Factory Insulation</em>}</li>
@@ -21,7 +22,6 @@ import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IWaterTank#getSolarStorageVolume <em>Solar Storage Volume</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IWaterTank#getImmersionHeater <em>Immersion Heater</em>}</li>
  * </ul>
- * </p>
  *
  * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getWaterTank()
  * @model

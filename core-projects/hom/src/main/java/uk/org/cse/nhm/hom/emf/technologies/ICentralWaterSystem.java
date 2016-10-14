@@ -10,6 +10,7 @@ package uk.org.cse.nhm.hom.emf.technologies;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ICentralWaterSystem#isStoreInPrimaryCircuit <em>Store In Primary Circuit</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ICentralWaterSystem#isPrimaryPipeworkInsulated <em>Primary Pipework Insulated</em>}</li>
@@ -18,7 +19,6 @@ package uk.org.cse.nhm.hom.emf.technologies;
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ICentralWaterSystem#getPrimaryWaterHeater <em>Primary Water Heater</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ICentralWaterSystem#getSecondaryWaterHeater <em>Secondary Water Heater</em>}</li>
  * </ul>
- * </p>
  *
  * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getCentralWaterSystem()
  * @model

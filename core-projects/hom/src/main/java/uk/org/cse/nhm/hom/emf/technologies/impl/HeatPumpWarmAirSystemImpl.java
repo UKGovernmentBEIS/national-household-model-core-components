@@ -18,11 +18,11 @@ import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.HeatPumpWarmAirSystemImpl#getSourceType <em>Source Type</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.HeatPumpWarmAirSystemImpl#isAuxiliaryPresent <em>Auxiliary Present</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

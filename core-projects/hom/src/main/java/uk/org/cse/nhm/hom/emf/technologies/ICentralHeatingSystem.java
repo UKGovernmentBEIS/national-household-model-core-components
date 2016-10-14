@@ -12,12 +12,12 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ICentralHeatingSystem#getHeatSource <em>Heat Source</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ICentralHeatingSystem#getControls <em>Controls</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ICentralHeatingSystem#getEmitterType <em>Emitter Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getCentralHeatingSystem()
  * @model

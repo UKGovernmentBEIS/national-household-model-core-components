@@ -19,13 +19,13 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IWarmAirSystem#getFuelType <em>Fuel Type</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IWarmAirSystem#getEfficiency <em>Efficiency</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IWarmAirSystem#getCirculator <em>Circulator</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IWarmAirSystem#getControls <em>Controls</em>}</li>
  * </ul>
- * </p>
  *
  * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getWarmAirSystem()
  * @model

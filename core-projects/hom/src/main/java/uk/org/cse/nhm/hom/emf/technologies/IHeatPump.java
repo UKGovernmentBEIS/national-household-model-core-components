@@ -13,6 +13,7 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IHeatPump#getSourceType <em>Source Type</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IHeatPump#getCoefficientOfPerformance <em>Coefficient Of Performance</em>}</li>
@@ -20,7 +21,6 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IHeatPump#isAuxiliaryPresent <em>Auxiliary Present</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IHeatPump#getHybrid <em>Hybrid</em>}</li>
  * </ul>
- * </p>
  *
  * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getHeatPump()
  * @model

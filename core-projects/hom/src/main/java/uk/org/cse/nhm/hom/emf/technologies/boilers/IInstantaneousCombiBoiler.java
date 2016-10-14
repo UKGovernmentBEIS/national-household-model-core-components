@@ -10,10 +10,10 @@ package uk.org.cse.nhm.hom.emf.technologies.boilers;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.boilers.IInstantaneousCombiBoiler#getKeepHotFacility <em>Keep Hot Facility</em>}</li>
  * </ul>
- * </p>
  *
  * @see uk.org.cse.nhm.hom.emf.technologies.boilers.IBoilersPackage#getInstantaneousCombiBoiler()
  * @model

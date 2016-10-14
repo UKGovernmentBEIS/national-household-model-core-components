@@ -16,10 +16,10 @@ import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.OperationalCostImpl#getAnnualOperationalCost <em>Annual Operational Cost</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

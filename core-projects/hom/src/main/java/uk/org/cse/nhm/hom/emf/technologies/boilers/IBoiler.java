@@ -29,6 +29,7 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler#getSummerEfficiency <em>Summer Efficiency</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler#getWinterEfficiency <em>Winter Efficiency</em>}</li>
@@ -37,7 +38,6 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler#getBasicResponsiveness <em>Basic Responsiveness</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler#isPumpInHeatedSpace <em>Pump In Heated Space</em>}</li>
  * </ul>
- * </p>
  *
  * @see uk.org.cse.nhm.hom.emf.technologies.boilers.IBoilersPackage#getBoiler()
  * @model

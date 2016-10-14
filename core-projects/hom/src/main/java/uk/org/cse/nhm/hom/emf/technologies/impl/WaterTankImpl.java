@@ -22,6 +22,7 @@ import uk.org.cse.nhm.hom.emf.technologies.IWaterTank;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.WaterTankImpl#getInsulation <em>Insulation</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.WaterTankImpl#isFactoryInsulation <em>Factory Insulation</em>}</li>
@@ -30,7 +31,6 @@ import uk.org.cse.nhm.hom.emf.technologies.IWaterTank;
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.WaterTankImpl#getSolarStorageVolume <em>Solar Storage Volume</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.WaterTankImpl#getImmersionHeater <em>Immersion Heater</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

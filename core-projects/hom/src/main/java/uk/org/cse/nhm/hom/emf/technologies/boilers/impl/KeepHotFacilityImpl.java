@@ -19,10 +19,10 @@ import uk.org.cse.nhm.hom.emf.technologies.boilers.IKeepHotFacility;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.boilers.impl.KeepHotFacilityImpl#isTimeClock <em>Time Clock</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

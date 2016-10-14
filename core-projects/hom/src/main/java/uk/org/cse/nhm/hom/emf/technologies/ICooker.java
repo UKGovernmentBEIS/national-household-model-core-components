@@ -10,6 +10,7 @@ package uk.org.cse.nhm.hom.emf.technologies;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ICooker#isHob <em>Hob</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ICooker#isOven <em>Oven</em>}</li>
@@ -18,7 +19,6 @@ package uk.org.cse.nhm.hom.emf.technologies;
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ICooker#getOccupancyFactor <em>Occupancy Factor</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ICooker#getGainsFactor <em>Gains Factor</em>}</li>
  * </ul>
- * </p>
  *
  * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getCooker()
  * @model

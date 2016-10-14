@@ -23,12 +23,12 @@ import uk.org.cse.nhm.hom.emf.technologies.impl.util.SimpleLightingTransducer;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.LightImpl#getName <em>Name</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.LightImpl#getEfficiency <em>Efficiency</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.LightImpl#getProportion <em>Proportion</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

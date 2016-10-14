@@ -25,10 +25,10 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.CommunityCHPImpl#getElectricalEfficiency <em>Electrical Efficiency</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -3,8 +3,6 @@
 package uk.org.cse.nhm.hom.emf.technologies;
 
 import org.eclipse.emf.common.util.EList;
-
-import uk.org.cse.nhm.hom.ICopyable;
 import uk.org.cse.nhm.hom.IHeatProportions;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -35,7 +33,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
  * @generated no
  */
 @JsonTypeInfo(use = Id.NONE)
-public interface ITechnologyModel extends IVisitorAccepter, ICopyable<ITechnologyModel> {
+public interface ITechnologyModel extends IVisitorAccepter {
 	/**
 	 * Returns the value of the '<em><b>Appliances</b></em>' containment reference list.
 	 * The list contents are of type {@link uk.org.cse.nhm.hom.emf.technologies.IAppliance}.
