@@ -27,7 +27,6 @@ import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.hom.IHeatProportions;
 import uk.org.cse.nhm.hom.constants.PumpAndFanConstants;
 import uk.org.cse.nhm.hom.constants.SplitRateConstants;
-import uk.org.cse.nhm.hom.constants.adjustments.EfficiencyAdjustments;
 import uk.org.cse.nhm.hom.constants.adjustments.TemperatureAdjustments;
 import uk.org.cse.nhm.hom.emf.technologies.EmitterType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
@@ -471,23 +470,7 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 		*/
 
 		// heat transducer is all we need
-		final double adjustedSpaceHeatingEfficiency;
-		switch (getSpaceHeater().getEmitterType()) {
-		case WARM_AIR_FAN_COIL:
-			adjustedSpaceHeatingEfficiency = getCoefficientOfPerformance().value * constants.get(EfficiencyAdjustments.HEAT_PUMP_WITH_FAN_COILS);
-			break;
-		case RADIATORS:
-			if (isWeatherCompensated()) {
-				adjustedSpaceHeatingEfficiency = getCoefficientOfPerformance().value
-						* constants.get(EfficiencyAdjustments.HEAT_PUMP_WITH_RADIATORS_AND_COMPENSATOR);
-			} else {
-				adjustedSpaceHeatingEfficiency = getCoefficientOfPerformance().value * constants.get(EfficiencyAdjustments.HEAT_PUMP_WITH_RADIATORS);
-			}
-			break;
-		default:
-			adjustedSpaceHeatingEfficiency = getCoefficientOfPerformance().value;
-			break;
-		}
+		final double spaceHeatingEfficiency = getCoefficientOfPerformance().value;
 
 		final double highRateFraction;
 		if (getSourceType() == HeatPumpSourceType.AIR) {
@@ -507,12 +490,12 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 
 					@Override
 					protected double getEfficiency() {
-						return adjustedSpaceHeatingEfficiency;
+						return spaceHeatingEfficiency;
 					}
 				});
 			} else {
 				visitor.visitEnergyTransducer(
-						new HeatTransducer(getFuel().getEnergyType(), adjustedSpaceHeatingEfficiency, proportion, true, priority, ServiceType.PRIMARY_SPACE_HEATING)
+						new HeatTransducer(getFuel().getEnergyType(), spaceHeatingEfficiency, proportion, true, priority, ServiceType.PRIMARY_SPACE_HEATING)
 						);
 			}
 			
@@ -525,7 +508,7 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 				visitor.visitEnergyTransducer(
 						new HybridHeatpumpTransducer(priority, 
 								highRateFraction, hybrid.getFuel().getEnergyType(), 
-								adjustedSpaceHeatingEfficiency, 
+								spaceHeatingEfficiency, 
 								hybrid.getEfficiency().value, proportion, 
 								months
 								));
@@ -534,7 +517,7 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 						new HybridHeatpumpTransducer(priority, 
 								getFuel().getEnergyType(), 
 								hybrid.getFuel().getEnergyType(), 
-								adjustedSpaceHeatingEfficiency, 
+								spaceHeatingEfficiency, 
 								hybrid.getEfficiency().value, proportion, 
 								months
 								));
@@ -558,12 +541,7 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 		final double adjustedEfficiency;
 		final FuelType fuel;
 		if (getHybrid() == null) {
-			if (proportion == 1) {
-				// heat pump is supplying all DHW, efficiency *= 0.7 (Table 4c)
-				adjustedEfficiency = getCoefficientOfPerformance().value * parameters.getConstants().get(EfficiencyAdjustments.HEAT_PUMP_SUPPLYING_ALL_DHW);
-			} else {
-				adjustedEfficiency = getCoefficientOfPerformance().value;
-			}
+			adjustedEfficiency = getCoefficientOfPerformance().value;
 			fuel = getFuel();
 		} else {
 			final IHybridHeater hybrid = getHybrid();
@@ -605,8 +583,7 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 		final FuelType fuel;
 		
 		if (getHybrid() == null) {
-			// heat pump is supplying all DHW, efficiency *= 0.7 (Table 4c)
-			adjustedEfficiency = getCoefficientOfPerformance().value * parameters.getConstants().get(EfficiencyAdjustments.HEAT_PUMP_SUPPLYING_ALL_DHW);
+			adjustedEfficiency = getCoefficientOfPerformance().value;
 			fuel = getFuel();
 		} else {
 			final IHybridHeater hybrid = getHybrid();

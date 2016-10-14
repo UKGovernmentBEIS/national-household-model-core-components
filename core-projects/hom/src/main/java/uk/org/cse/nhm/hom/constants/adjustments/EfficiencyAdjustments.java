@@ -51,20 +51,7 @@ public enum EfficiencyAdjustments implements IConstant {
 	CODSIEB
 	*/
 	@ConstantDescription("Efficiency adjustment for regular & combi boilers when there is no interlock or thermostat (combi boilers apply only to space heat efficiency)")
-	BOILER_WITHOUT_INTERLOCK(-5/100.0),
-
-	@ConstantDescription("Efficiency adjustment for space heating heat pumps with fan coils")
-	HEAT_PUMP_WITH_FAN_COILS(0.85),
-	
-	@ConstantDescription("Efficiency adjustment for space heat pump with radiators & load compensator")
-	HEAT_PUMP_WITH_RADIATORS_AND_COMPENSATOR(0.75),
-	
-	@ConstantDescription("Efficiency adjustment for space heat pump with radiators & no load compensator")
-	HEAT_PUMP_WITH_RADIATORS(0.7),
-	
-	@ConstantDescription("Efficiency adjustment for heat pump supplying all DHW")
-	HEAT_PUMP_SUPPLYING_ALL_DHW(0.7),
-	
+	BOILER_WITHOUT_INTERLOCK(-5/100.0)
 	;
 	
 	private final double[] values;
