@@ -246,7 +246,7 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 
 		@Override
 		public double getInterzoneSpecificHeatLoss() {
-			return 1;
+			return structure.getInterzoneSpecificHeatLoss();
 		}
 
 		@Override

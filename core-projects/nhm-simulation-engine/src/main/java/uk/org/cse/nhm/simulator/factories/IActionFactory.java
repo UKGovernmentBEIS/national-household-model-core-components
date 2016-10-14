@@ -25,6 +25,7 @@ import uk.org.cse.nhm.simulator.action.ModifyFlagsAction;
 import uk.org.cse.nhm.simulator.action.OrderedChoiceAction;
 import uk.org.cse.nhm.simulator.action.OrderedPackageAction;
 import uk.org.cse.nhm.simulator.action.RepeatAction;
+import uk.org.cse.nhm.simulator.action.SetInterzoneSpecificHeatTransferAction;
 import uk.org.cse.nhm.simulator.action.SetLivingAreaFractionAction;
 import uk.org.cse.nhm.simulator.action.SetSiteExposureAction;
 import uk.org.cse.nhm.simulator.action.SometimesAction;
@@ -79,6 +80,10 @@ public interface IActionFactory {
 	
 	public SetSiteExposureAction createSiteExposureAction(
 			@Assisted("siteExposure") SiteExposureType siteExposure
+			);
+	
+	public SetInterzoneSpecificHeatTransferAction createInterzoneSpecificHeatTransferAction(
+			@Assisted("interzoneSpecificHeatTransfer") IComponentsFunction<Number> interzoneSpecificHeatTransfer
 			);
 
 	public ChangeTariffsAction createChangeTariffsAction(@Assisted final List<ITariff> tariffs);

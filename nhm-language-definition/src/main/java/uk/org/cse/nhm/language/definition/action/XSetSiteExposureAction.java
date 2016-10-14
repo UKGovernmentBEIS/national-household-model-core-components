@@ -27,7 +27,7 @@ public class XSetSiteExposureAction extends XFlaggedDwellingAction{
 	
 	@BindPositionalArgument(0)
 	@Prop(P.siteExposure)
-	@NotNull
+	@NotNull(message = "action.set-site-exposure must specify a site exposure to set on the dwelling.")
 	public XSiteExposureType getSiteExposure() {
 		return siteExposure;
 	}

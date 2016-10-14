@@ -37,6 +37,7 @@ import uk.org.cse.nhm.language.definition.action.XHeatingTemperaturesAction;
 import uk.org.cse.nhm.language.definition.action.XHeatingTemperaturesAction.XMonth;
 import uk.org.cse.nhm.language.definition.action.XOrderedAction;
 import uk.org.cse.nhm.language.definition.action.XRepeatAction;
+import uk.org.cse.nhm.language.definition.action.XSetInterzoneSpecificHeatTransferAction;
 import uk.org.cse.nhm.language.definition.action.XSetLivingAreaFractionAction;
 import uk.org.cse.nhm.language.definition.action.XSetSiteExposureAction;
 import uk.org.cse.nhm.language.definition.action.XSometimesAction;
@@ -129,6 +130,13 @@ public class ActionAdapter extends ReflectingAdapter {
 			 @Prop(XSetSiteExposureAction.P.siteExposure) final XSetSiteExposureAction.XSiteExposureType siteExposure
 			 ) {
 		 return measureFactory.createSiteExposureAction(MapEnum.siteExposure(siteExposure));
+	 }
+	 
+	 @Adapt(XSetInterzoneSpecificHeatTransferAction.class)
+	 public IComponentsAction buildSetInterzoneSpecificHeatTransferAction(
+			 @Prop(XSetInterzoneSpecificHeatTransferAction.P.interzoneSpecificHeatTransfer) final IComponentsFunction<Number> interzoneSpecificHeatTransfer
+			 ) {
+		 return measureFactory.createInterzoneSpecificHeatTransferAction(interzoneSpecificHeatTransfer);
 	 }
 	 
 	 @Adapt(XHeatingScheduleAction.class)

@@ -11,6 +11,7 @@ import org.pojomatic.Pojomatic;
 
 import com.google.common.collect.ImmutableMap;
 
+import uk.org.cse.nhm.NHMException;
 import uk.org.cse.nhm.hom.components.fabric.types.DoorType;
 import uk.org.cse.nhm.hom.components.fabric.types.WallInsulationType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
@@ -225,5 +226,26 @@ public class ResetTests extends SimulatorIntegrationTest {
 				}
 			}
 		}
+	}
+	
+	@Test
+	public void canSetInterzoneSpecificHeatTransfer() throws NHMException, InterruptedException {
+		super.runSimulation(
+				dataService, 
+				loadScenario("resetting/doSetInterzoneSpecificHeatTransfer.s"), 
+				true, 
+				Collections.<Class<?>>emptySet()
+			);
+	}
+	
+	
+	@Test
+	public void canSetSiteExposure() throws NHMException, InterruptedException {
+		super.runSimulation(
+				dataService, 
+				loadScenario("resetting/doSetSiteExposure.s"), 
+				true, 
+				Collections.<Class<?>>emptySet()
+			);
 	}
 }
