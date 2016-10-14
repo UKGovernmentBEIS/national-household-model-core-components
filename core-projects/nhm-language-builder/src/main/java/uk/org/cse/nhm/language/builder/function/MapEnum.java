@@ -7,6 +7,7 @@ import java.util.Map;
 import com.google.common.collect.ImmutableMap;
 
 import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
+import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
 import uk.org.cse.nhm.energycalculator.constants.ApplianceConstants09;
 import uk.org.cse.nhm.energycalculator.constants.EnergyCalculatorConstants;
 import uk.org.cse.nhm.energycalculator.constants.GainsConstants;
@@ -31,6 +32,7 @@ import uk.org.cse.nhm.hom.types.BuiltFormType;
 import uk.org.cse.nhm.hom.types.MorphologyType;
 import uk.org.cse.nhm.hom.types.RegionType;
 import uk.org.cse.nhm.hom.types.TenureType;
+import uk.org.cse.nhm.language.definition.action.XSetSiteExposureAction;
 import uk.org.cse.nhm.language.definition.action.measure.insulation.XWallInsulationMeasure.XWallInsulationType;
 import uk.org.cse.nhm.language.definition.context.XEnergyConstantsContext.XEnergyConstantType;
 import uk.org.cse.nhm.language.definition.enums.XBuiltFormType;
@@ -50,6 +52,10 @@ public class MapEnum {
 	}
 	private static <E extends Enum<E>, Q extends Enum<Q>> E mapName(final Class<E> ec, final Q name) {
 		return Enum.valueOf(ec, name.name());
+	}
+	
+	public static final SiteExposureType siteExposure(final XSetSiteExposureAction.XSiteExposureType siteExposure) {
+		return mapName(SiteExposureType.class, siteExposure);
 	}
 	
 	public static final FrameType frameType(final XFrameType in) {

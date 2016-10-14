@@ -11,6 +11,7 @@ import com.google.inject.assistedinject.Assisted;
 import uk.org.cse.commons.Glob;
 import uk.org.cse.nhm.energycalculator.api.IHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
+import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
 import uk.org.cse.nhm.simulator.action.CaseAction;
 import uk.org.cse.nhm.simulator.action.CaseAction.Case;
 import uk.org.cse.nhm.simulator.action.ConstructHousesAction;
@@ -25,6 +26,7 @@ import uk.org.cse.nhm.simulator.action.OrderedChoiceAction;
 import uk.org.cse.nhm.simulator.action.OrderedPackageAction;
 import uk.org.cse.nhm.simulator.action.RepeatAction;
 import uk.org.cse.nhm.simulator.action.SetLivingAreaFractionAction;
+import uk.org.cse.nhm.simulator.action.SetSiteExposureAction;
 import uk.org.cse.nhm.simulator.action.SometimesAction;
 import uk.org.cse.nhm.simulator.action.TemperaturesAction;
 import uk.org.cse.nhm.simulator.action.choices.ChoiceAction;
@@ -73,6 +75,10 @@ public interface IActionFactory {
 	public HeatingScheduleAction createHeatingScheduleAction(final IHeatingSchedule iHeatingSchedule);
 	
 	public SetLivingAreaFractionAction createLivingAreaFractionAction(final double fraction);
+	
+	public SetSiteExposureAction createSiteExposureAction(
+			@Assisted("siteExposure") SiteExposureType siteExposure
+			);
 
 	public ChangeTariffsAction createChangeTariffsAction(@Assisted final List<ITariff> tariffs);
 

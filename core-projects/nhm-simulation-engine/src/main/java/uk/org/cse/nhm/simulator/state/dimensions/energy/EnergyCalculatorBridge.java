@@ -30,6 +30,7 @@ import uk.org.cse.nhm.energycalculator.api.impl.SeasonalParameters;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
+import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
 import uk.org.cse.nhm.hom.BasicCaseAttributes;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
@@ -212,6 +213,7 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 		private final int buildYear;
 		private final double latitudeRadians;
 		private final IHeatingBehaviour heatingBehaviour;
+		private final SiteExposureType siteExposure;
 		private final int hash;
 		
 		public Wrapper(final StructureModel structure, final ITechnologyModel technology, final BasicCaseAttributes attributes, final IWeather weather, final double npeople, final IHeatingBehaviour behaviour) {
@@ -221,6 +223,7 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 			this.people = npeople;
 			this.buildYear = attributes.getBuildYear();
 			this.latitudeRadians = attributes.getRegionType().getLatitudeRadians();
+			this.siteExposure = attributes.getSiteExposure();
 			this.heatingBehaviour = behaviour;
 			this.hash = _hashCode();
 		}
@@ -293,11 +296,16 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 		}
 		
 		@Override
+		public SiteExposureType getSiteExposure() {
+			return siteExposure;
+		}
+		
+		@Override
 		public int hashCode() {
 			return this.hash;
 		}
 		
-		public int _hashCode() {
+		protected int _hashCode() {
 			final int prime = 31;
 			int result = 1;
 			result = prime * result + buildYear;
@@ -307,21 +315,26 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 			result = prime * result + (int) (temp ^ (temp >>> 32));
 			temp = Double.doubleToLongBits(people);
 			result = prime * result + (int) (temp ^ (temp >>> 32));
+			result = prime * result + ((siteExposure == null) ? 0 : siteExposure.hashCode());
 			result = prime * result + ((structure == null) ? 0 : structure.hashCode());
 			result = prime * result + ((technology == null) ? 0 : technology.hashCode());
 			result = prime * result + ((weather == null) ? 0 : weather.hashCode());
 			return result;
 		}
-
+		
+		/**
+		 * equals generated using Eclipse source menu.
+		 * Includes all fields except "hash".
+		 */
 		@Override
-		public boolean equals(final Object obj) {
+		public boolean equals(Object obj) {
 			if (this == obj)
 				return true;
 			if (obj == null)
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			final Wrapper other = (Wrapper) obj;
+			Wrapper other = (Wrapper) obj;
 			if (buildYear != other.buildYear)
 				return false;
 			if (heatingBehaviour == null) {
@@ -333,6 +346,8 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 				return false;
 			if (Double.doubleToLongBits(people) != Double.doubleToLongBits(other.people))
 				return false;
+			if (siteExposure != other.siteExposure)
+				return false;
 			if (structure == null) {
 				if (other.structure != null)
 					return false;
@@ -341,8 +356,7 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 			if (technology == null) {
 				if (other.technology != null)
 					return false;
-			} else if (!technology.equals(other.technology)) // this is manually relaxed, because elsewhere there is an interner making sure this works.
-//			} else if (technology.unwrap() != other.technology.unwrap())
+			} else if (!technology.equals(other.technology))
 				return false;
 			if (weather == null) {
 				if (other.weather != null)

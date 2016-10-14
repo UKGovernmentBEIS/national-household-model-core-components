@@ -38,6 +38,7 @@ import uk.org.cse.nhm.language.definition.action.XHeatingTemperaturesAction.XMon
 import uk.org.cse.nhm.language.definition.action.XOrderedAction;
 import uk.org.cse.nhm.language.definition.action.XRepeatAction;
 import uk.org.cse.nhm.language.definition.action.XSetLivingAreaFractionAction;
+import uk.org.cse.nhm.language.definition.action.XSetSiteExposureAction;
 import uk.org.cse.nhm.language.definition.action.XSometimesAction;
 import uk.org.cse.nhm.language.definition.action.hypothetical.XCounterfactualCalculator;
 import uk.org.cse.nhm.language.definition.action.hypothetical.XCounterfactualCarbon;
@@ -119,6 +120,13 @@ public class ActionAdapter extends ReflectingAdapter {
 	 @Adapt(XSetLivingAreaFractionAction.class)
 	 public IComponentsAction buildSetLivingAreaFractionAction(@Prop(XSetLivingAreaFractionAction.P.fraction) final double value) {
 		 return measureFactory.createLivingAreaFractionAction(value);
+	 }
+	 
+	 @Adapt(XSetSiteExposureAction.class)
+	 public IComponentsAction buildSetSiteExposureAction(
+			 @Prop(XSetSiteExposureAction.P.siteExposure) final XSetSiteExposureAction.XSiteExposureType siteExposure
+			 ) {
+		 return measureFactory.createSiteExposureAction(MapEnum.siteExposure(siteExposure));
 	 }
 	 
 	 @Adapt(XHeatingScheduleAction.class)

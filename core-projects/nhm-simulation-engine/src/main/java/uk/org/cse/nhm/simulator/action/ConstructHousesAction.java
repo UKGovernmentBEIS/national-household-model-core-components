@@ -123,7 +123,7 @@ public class ConstructHousesAction extends AbstractNamed implements IStateAction
 
 	private BasicCaseAttributes basicAttributesWithNewDate(final BasicCaseAttributes existingBasic, final int newConstructionYear) {
 		return new BasicCaseAttributes(existingBasic.getAacode(), existingBasic.getDwellingCaseWeight(), existingBasic.getHouseholdCaseWeight(),
-				existingBasic.getRegionType(), existingBasic.getMorphologyType(), existingBasic.getTenureType(), newConstructionYear);
+				existingBasic.getRegionType(), existingBasic.getMorphologyType(), existingBasic.getTenureType(), newConstructionYear, existingBasic.getSiteExposure());
 	}
 	
 	
