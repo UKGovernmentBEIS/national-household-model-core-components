@@ -17,7 +17,8 @@ import com.larkery.jasb.bind.BindPositionalArgument;
 @Doc({"Declares an adjustment which can be inserted into a house's energy calculation.",
 	"Each adjustment represents the installation of an unknown better appliance or technology into a house,",
 	"which changes the demand for different fuels and may also introduce some missed gains, increasing the need for heat.",
-	"Each house may only have each adjustment once."
+	"Each house may only have each adjustment once.",
+	"Adjustments will not have any effect when the energy calculator is in SAP 2012 mode."
 })
 @Category(CategoryType.DECLARATIONS)
 public class XAdjustment extends XDeclaration {
