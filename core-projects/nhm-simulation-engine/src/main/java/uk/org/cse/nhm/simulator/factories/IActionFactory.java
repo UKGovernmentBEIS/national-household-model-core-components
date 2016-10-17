@@ -70,6 +70,7 @@ public interface IActionFactory {
 			@Assisted("threshold") final Optional<IComponentsFunction<Number>> thresholdTemperature,
 			@Assisted("delta") final Optional<IComponentsFunction<Number>> deltaTemperature,
 			@Assisted("rest") final Optional<IComponentsFunction<Number>> restTemperature,
+			@Assisted("restHeatedProportion") final Optional<IComponentsFunction<Number>> restHeatedProportion,
 			@Assisted final Optional<boolean[]> heatingMonths);
 	
 	public HeatingScheduleAction createHeatingScheduleAction(final IHeatingSchedule iHeatingSchedule);

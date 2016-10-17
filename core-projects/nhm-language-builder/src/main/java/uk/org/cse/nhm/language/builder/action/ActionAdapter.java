@@ -97,6 +97,7 @@ public class ActionAdapter extends ReflectingAdapter {
 			 @Prop(XHeatingTemperaturesAction.P.thresholdExternalTemperature) final Optional<IComponentsFunction<Number>> thresholdTemperature, 
 			 @Prop(XHeatingTemperaturesAction.P.temperatureDifference) final Optional<IComponentsFunction<Number>> deltaTemperature, 
 			 @Prop(XHeatingTemperaturesAction.P.restofDwellingTemperature) final Optional<IComponentsFunction<Number>> restTemperature,
+			 @Prop(XHeatingTemperaturesAction.P.restOfDwellingHeatedProportion) final Optional<IComponentsFunction<Number>> restHeatedProportion,
 			 @Prop(XHeatingTemperaturesAction.P.desiredHeatingMonths) final List<XMonth> heatingMonths) {
 		 
 		 final boolean[] months;
@@ -114,6 +115,7 @@ public class ActionAdapter extends ReflectingAdapter {
 				 thresholdTemperature, 
 				 deltaTemperature, 
 				 restTemperature,
+				 restHeatedProportion,
 				 Optional.fromNullable(months));
 	 }
 	 

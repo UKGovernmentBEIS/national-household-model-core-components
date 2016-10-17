@@ -23,12 +23,14 @@ public class XHeatingTemperaturesAction extends XFlaggedDwellingAction {
 		public static final String thresholdExternalTemperature = "thresholdExternalTemperature";
 		public static final String temperatureDifference = "temperatureDifference";
 		public static final String restofDwellingTemperature = "restOfDwellingTemperature";
+		public static final String restOfDwellingHeatedProportion = "restOfDwellingHeatedProportion";
 		public static final String desiredHeatingMonths = "desiredHeatingMonths";
 	}
 	private XNumber livingAreaTemperature = null;
 	private XNumber thresholdExternalTemperature = null;
 	private XNumber temperatureDifference = null;
 	private XNumber restOfDwellingTemperature = null;
+	private XNumber restOfDwellingHeatedProportion = null;
 	private List<XMonth> desiredHeatingMonths = new ArrayList<>();
 	
 	public enum XMonth {
@@ -97,6 +99,19 @@ public class XHeatingTemperaturesAction extends XFlaggedDwellingAction {
 	public void setRestOfDwellingTemperature(final XNumber restOfDwellingTemperature) {
 		this.restOfDwellingTemperature = restOfDwellingTemperature;
 	}
+	
+	@BindNamedArgument("rest-of-dwelling-heated-proportion")
+	@Doc({
+		"If specified, this action will set the heated proportion in the rest of the house (a number from 0 to 1).",
+		"This is the parameter fz2htd used in calculation 7E of BREDEM 2012.",
+		"This will have no effect if the energy calculator is set to SAP 2012 mode (when the proportion is always 1, or 100%)."
+	})
+	public XNumber getRestOfDwellingHeatedProportion() {
+		return restOfDwellingHeatedProportion;
+	}
+	public void setRestOfDwellingHeatedProportion(final XNumber restOfDwellingHeatedProportion) {
+		this.restOfDwellingHeatedProportion = restOfDwellingHeatedProportion;
+	}	
 	
 	@BindNamedArgument("desired-heating-months")
 	@Doc({

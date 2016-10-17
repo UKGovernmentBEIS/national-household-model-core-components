@@ -4,6 +4,7 @@ import com.google.common.base.Optional;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
+import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.simulator.let.ILets;
 import uk.org.cse.nhm.simulator.scope.ISettableComponentsScope;
 import uk.org.cse.nhm.simulator.state.IBranch.IModifier;
@@ -17,24 +18,31 @@ public class TemperaturesAction extends AbstractHeatingAction {
 	private final Optional<IComponentsFunction<Number>> livingAreaTemperature;
 	private final Optional<IComponentsFunction<Number>> secondaryTemperature;
 	private final Optional<IComponentsFunction<Number>> thresholdTemperature;
+	private final Optional<IComponentsFunction<Number>> restHeatedProportion;
 	private final Optional<boolean[]> desiredHeatingMonths;
 	private final boolean secondaryTemperatureIsDifference;
 	private final IDimension<IWeather> weather;
+	private IDimension<StructureModel> structureDimension;
+	
 	
 	@AssistedInject
 	public TemperaturesAction(
 			final IDimension<IWeather> weather,
 			final IDimension<IHeatingBehaviour> dimension,
+			final IDimension<StructureModel> structureDimension,
 			@Assisted("livingArea") final Optional<IComponentsFunction<Number>> livingAreaTemperature,
 			@Assisted("threshold") final Optional<IComponentsFunction<Number>> thresholdTemperature,
 			@Assisted("delta") final Optional<IComponentsFunction<Number>> deltaTemperature,
 			@Assisted("rest") final Optional<IComponentsFunction<Number>> restTemperature,
+			@Assisted("restHeatedProportion") final Optional<IComponentsFunction<Number>> restHeatedProportion,
 			@Assisted final Optional<boolean[]> desiredHeatingMonths
 			) {
 		super(dimension);
 		this.weather = weather;
+		this.structureDimension = structureDimension;
 		this.livingAreaTemperature = livingAreaTemperature;
 		this.thresholdTemperature = thresholdTemperature;
+		this.restHeatedProportion = restHeatedProportion;
 		this.desiredHeatingMonths = desiredHeatingMonths;
 		if (deltaTemperature.isPresent()) {
 			secondaryTemperature = deltaTemperature;
@@ -89,5 +97,23 @@ public class TemperaturesAction extends AbstractHeatingAction {
 				}
 				return result;
 			}});
+		
+		if (restHeatedProportion.isPresent()) {
+			final double heatedProportion = restHeatedProportion.get().compute(scope, lets).doubleValue();
+			
+			if (heatedProportion < 0) {
+				throw new RuntimeException("Rest of dwelling heated proportion should never be less than 0, was: " + heatedProportion);
+				
+			} else if (heatedProportion > 1) {
+				throw new RuntimeException("Rest of dwelling heated proportion should never be greater than 1, was: " + heatedProportion);
+			}
+			
+			scope.modify(structureDimension, new IModifier<StructureModel>(){
+				@Override
+				public boolean modify(StructureModel structure) {
+					structure.setZoneTwoHeatedProportion(heatedProportion);
+					return true;
+				}});
+		}
 	}
 }

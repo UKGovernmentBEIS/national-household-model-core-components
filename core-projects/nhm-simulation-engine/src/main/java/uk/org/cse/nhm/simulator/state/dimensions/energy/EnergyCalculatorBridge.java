@@ -268,16 +268,23 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 		public double getZoneTwoHeatedProportion() {
 			/*
 			BEISDOC
-			NAME: Zone 2 Control Fraction
-			DESCRIPTION: The proportion of Zone 2 which has thermostatic radiator valves.
+			NAME: Zone 2 Heated Proportion
+			DESCRIPTION: The fraction of Zone 2 which is heated. This should be a number between 0 and 1. A dwelling with central heating usually has the value 1. 
 			TYPE: value
 			UNIT: Dimensionless
-			BREDEM: Section 7 fz2c Input
-			NOTES: Always 100%, since we have no information about it.
-			ID: zone-2-control-fraction
+			BREDEM: Section 7 fz2htd Input
+			NOTES: Always 100% in SAP 2012 mode.
+			ID: zone-2-heated-proportion
 			CODSIEB
 			*/
-			return 1d;
+			switch(heatingBehaviour.getEnergyCalculatorType()) {
+			case SAP2012:
+				return 1d;
+			case BREDEM2012:
+				return structure.getZoneTwoHeatedProportion();
+			default:
+				throw new RuntimeException("Unknown energy calculator type while working out zone 2 heated proportion " + heatingBehaviour.getEnergyCalculatorType());
+			}
 		}
 
 		@Override
