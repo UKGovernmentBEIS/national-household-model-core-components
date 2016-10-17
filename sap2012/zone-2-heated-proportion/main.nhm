@@ -1,0 +1,17 @@
+(scenario
+  start-date: 01/01/2015
+  end-date: 01/01/2015
+  stock-id: ../../EHS2012.json.gz
+
+  (def-report energy
+    (column
+     name: space-heating
+     value: (house.energy-use by-service: SpaceHeating)))
+
+  (on.dates
+   [(scenario-start)]
+
+   (apply
+    (action.set-heating-temperatures
+     report: energy
+     rest-of-dwelling-heated-proportion: 0%))))
