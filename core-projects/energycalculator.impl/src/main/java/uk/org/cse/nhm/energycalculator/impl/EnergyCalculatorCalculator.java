@@ -504,7 +504,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		UNIT: ℃
 		BREDEM: 7D
 		DEPS: zone-1-demand-temperature,interzone-specific-heat-loss,external-temperature,specific-heat-loss,total-gains,interzone-specific-heat-loss
-		NOTES: This will never actually be used, because the zone two heated proportion is always 1.
+		NOTES: This will only be used in BREDEM 2012 mode, because the zone 2 heated proportion is always 100% in SAP 2012.
 		ID: unheated-zone-2-temperature
 		CODSIEB
 		*/
@@ -522,9 +522,8 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		TYPE: formula
 		UNIT: ℃
 		BREDEM: 7E
-		DEPS: unheated-zone-2-temperature,zone-2-demand-temperature,zone-2-control-fraction
-		NOTES: Since Zone Two control faction is always 1, this adjustment has no effect (degenerates to the SAP case).
-		NOTES: Zone two heat proportion in the code is the same as Zone two control fraction in BREDEM.
+		DEPS: unheated-zone-2-temperature,zone-2-demand-temperature,zone-2-heated-proportion
+		NOTES: This does not have an effect in SAP 2012 mode (the zone-2 heated proportion is considered to be 1).
 		ID: zone-2-adjusted-demand-temperature
 		CODSIEB
 		*/

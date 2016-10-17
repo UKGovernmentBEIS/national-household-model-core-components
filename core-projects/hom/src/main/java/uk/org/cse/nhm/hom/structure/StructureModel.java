@@ -82,7 +82,7 @@ public class StructureModel implements ICopyable<StructureModel> {
 	private double interzoneSpecificHeatLoss;
 	
 	private boolean hasDraughtLobby;
-	private double zoneTwoHeatedProportion;
+	private double zoneTwoHeatedProportion = 1.0;
 	
 	/*
 	BEISDOC
