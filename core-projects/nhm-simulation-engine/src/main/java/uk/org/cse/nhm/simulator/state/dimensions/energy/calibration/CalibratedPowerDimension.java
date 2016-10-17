@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.simulator.IProfilingStack;
 import uk.org.cse.nhm.simulator.state.IBranch;
@@ -13,6 +14,7 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.IDwelling;
 import uk.org.cse.nhm.simulator.state.IState;
 import uk.org.cse.nhm.simulator.state.dimensions.DimensionCounter;
+import uk.org.cse.nhm.simulator.state.dimensions.behaviour.IHeatingBehaviour;
 import uk.org.cse.nhm.simulator.state.dimensions.energy.IPowerTable;
 import uk.org.cse.nhm.simulator.state.dimensions.impl.DerivedDimensionWithCache;
 import uk.org.cse.nhm.simulator.state.impl.IInternalDimension;
@@ -29,24 +31,28 @@ public class CalibratedPowerDimension extends DerivedDimensionWithCache<IPowerTa
 	private final IDimension<IPowerTable> uncalibrated;
 	private final IState state;
 	private final CalibrationCache cache;
+	private final IDimension<IHeatingBehaviour> heatingBehaviour;
 	
 	@Inject
 	public CalibratedPowerDimension(final IProfilingStack profiler,
 			final DimensionCounter dc,
 			final ICanonicalState state, 
-			@Named("uncalibrated") final IDimension<IPowerTable> uncalibrated) {
-		this(profiler, dc.next(), null, state, uncalibrated, new CalibrationCache(dc, state), IInternalDimension.DEFAULT_CAPACITY);
+			@Named("uncalibrated") final IDimension<IPowerTable> uncalibrated,
+			final IDimension<IHeatingBehaviour> heatingBehaviour) {
+		this(profiler, dc.next(), null, state, uncalibrated, heatingBehaviour, new CalibrationCache(dc, state), IInternalDimension.DEFAULT_CAPACITY);
 	}
 	
 	public CalibratedPowerDimension(final IProfilingStack profiler,
 			final int index, final CalibratedPowerDimension parent,
 			final IState forkingState, 
 			final IDimension<IPowerTable> uncalibrated, 
+			final IDimension<IHeatingBehaviour> heatingBehaviour,
 			final CalibrationCache calibrationCache, final int capacity) {
 		super(index, parent, capacity);
         this.profiler = profiler;
 		this.state = forkingState;
 		this.uncalibrated = uncalibrated;
+		this.heatingBehaviour = heatingBehaviour;
 		this.cache = calibrationCache;
 	}
 	
@@ -69,12 +75,15 @@ public class CalibratedPowerDimension extends DerivedDimensionWithCache<IPowerTa
 
 	@Override
 	public IInternalDimension<IPowerTable> branch(final IBranch forkingState, final int capacity) {
-		return new CalibratedPowerDimension(profiler, index, this, forkingState, uncalibrated, cache.branch(forkingState, capacity), capacity);
+		return new CalibratedPowerDimension(profiler, index, this, forkingState, uncalibrated, heatingBehaviour, cache.branch(forkingState, capacity), capacity);
 	}
 
     @Override
     public IPowerTable get(final IDwelling instance) {
-        if (cache.isEmpty()) {
+    	if (state.get(heatingBehaviour, instance).getEnergyCalculatorType() == EnergyCalculatorType.SAP2012) {
+    		// In SAP 2012 mode, we don't apply the calibrations.
+    		return state.get(uncalibrated, instance);
+    	} else if (cache.isEmpty()) {
             return state.get(uncalibrated, instance);
         } else {
             return super.get(instance);
