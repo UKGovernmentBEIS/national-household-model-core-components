@@ -285,11 +285,19 @@ public class StateModule extends AbstractModule  {
         //bind(IEnergyCalculator.class).to(EnergyCalculator.class).in(SimulationScope);
 
 		// this should allow us to share an energy calculator bridge /between runs/
+    	bind(EnergyCalculatorBridgeProvider.class).in(Scopes.SINGLETON);
+    	
 		bind(IEnergyCalculatorBridge.class)
-			.toProvider(EnergyCalculatorBridgeProvider.class)
-			.in(Scopes.SINGLETON);
+			.toProvider(EnergyCalculatorBridgeProvider.class);
 
         bind(IConstants.class).toProvider(Providers.of(DefaultConstants.INSTANCE)).in(SimulationScope);
+        
+        // The energy calculator bridge which uses the default constant gets tied to this name.
+        bind(IEnergyCalculatorBridge.class)
+        	.annotatedWith(Names.named("defaultConstantsBridge"))
+        	.toProvider(EnergyCalculatorBridgeProvider.WithDefaultConstants.class)
+        	.in(Scopes.SINGLETON);
+        	
         
         // and these are a couple of parts of the simulation which should be automatically created
         // that just do some maintenance.
