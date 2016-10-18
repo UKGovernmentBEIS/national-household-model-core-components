@@ -1,0 +1,160 @@
+plugins {
+  id 'java'
+  id 'maven-publish'
+  id 'org.dm.bundle' version '0.6.2'
+}
+
+apply plugin: 'java'
+apply plugin: 'org.dm.bundle'
+
+// this is a small bit of horror designed to let us remove files from a zipfile
+
+import java.util.*;
+import java.net.URI;
+import java.nio.file.Path;
+import java.nio.file.*;
+import java.nio.file.StandardCopyOption;
+
+def removeFromZip (file, things) {
+  FileSystems
+  .newFileSystem(URI.create("jar:file:${file}"), ["create": "false"])
+  .withCloseable {
+    def jar = it
+    def remove = []
+    def v = [ visitFile:
+        {f, a ->
+            things.each { if (it.matcher(f.toString()).matches()) remove << f }
+            FileVisitResult.CONTINUE} ] as SimpleFileVisitor<Path>
+    try {
+      jar.rootDirectories.each {
+          Files.walkFileTree(it, v)
+      }
+
+      println ">> Deleting files from zip"
+      remove.each{ println it
+                   Files.delete(it) }
+      } catch (e) {
+      logger.error("Removing ${it} from ${file}: ${e.message}")
+    }
+  }
+}
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+ext.nhmversion = '6.4.0-SNAPSHOT'
+ext.nhmstockversion = '6.4.0-SNAPSHOT'
+
+ext.buildtype = nhmversion.endsWith("-SNAPSHOT") ? "D" : "R"
+ext.buildVersion = nhmversion.replace("-SNAPSHOT", "") + "." + buildtype + System.currentTimeMillis()
+
+version = buildVersion
+
+ext.mavenUser = project.hasProperty('mvnUser') ? project.mvnUser : 'deploy'
+ext.mavenPassword = project.hasProperty('mvnPassword') ? project.mvnPassword : 'da9fc69a5d93f07432ace3fc7015fffa4d4b032a88d267f88cb2dd5369d1b6af'
+
+ext.nhm =
+  [
+    "uk.org.cse.nhm:nhm-batch:$nhmversion",
+    "uk.org.cse.nhm:nhm-simulator:$nhmversion",
+    "uk.org.cse.nhm:nhm-reportengine:$nhmversion",
+    "uk.org.cse.nhm:nhm-stockimport-simple:$nhmstockversion",
+    "uk.org.cse.nhm:nhm-stock-io:$nhmversion"
+  ]
+
+group = 'uk.org.cse.nhm'
+
+// define a new type of dependency, 'embed'
+// this is automatically transitive on the dependencies
+// of the embedded deps.
+configurations {
+  embed
+  
+  compile {
+    extendsFrom embed
+  }
+}
+
+// access the list of embedded dependencies, with @s on their paths
+// joined by comma, which is the format bnd likes for Include-Resources
+def resourcesFrom(config) {
+  return (config.collect {it -> '@' + it.path}).join(',')
+}
+
+dependencies {
+  compile 'org.osgi:org.osgi.core:6.0.0'
+  compile 'org.osgi:org.osgi.compendium:5.0.0'
+  compile "org.eclipse.equinox:org.eclipse.equinox.common:3.6.0"
+  compile "uk.org.cse.nhm:bundle-api:2.0.0"
+
+  embed nhm
+}
+
+repositories {
+  mavenCentral()
+  mavenLocal()
+  maven { url "http://localhost:8080/maven/7b9c5ef4-16a1-4b8f-ae4e-83bb87337fdb/"}
+}
+
+bundle {
+  instructions <<
+    [
+     'Export-Package': '',
+     'Bundle-Version': buildVersion,
+     'Import-Package': 'org.osgi.framework,org.eclipse.core.runtime,org.osgi.service.component,uk.org.cse.nhm.bundle.api;version="[2.0, 3.0)"',
+     'Bundle-Name': 'NHM Model Implementation',
+     'Bundle-SymbolicName': 'uk.org.cse.nhm.bundle.impl',
+     'Bundle-Activator': 'uk.org.cse.nhm.clitools.bundle.Activator',
+     'Require-Bundle': 'com.google.guava,org.apache.xerces',
+     'Bundle-ActivationPolicy': 'lazy',
+     'Service-Component': 'OSGi-INF/service.xml',
+     'Private-Package': '!org.osgi.*,!uk.org.cse.nhm.bundle.api.*,!org.eclipse.core.*,!org.eclipse.equinox.*,*;-split-package:=merge-last',
+     'Include-Resource': resourcesFrom(configurations.embed)
+    ]
+}
+
+ext.badFiles = [
+    ~'^/META-INF/ECLIPSE_\\.RSA$', // if we have a signature, that is bad
+    ~'.+\\.sav$', // at the moment we have some sav files in the result. bad.
+    ~'.+\\.spv$', // this is related in some way.
+    ~'^/org/apache/poi/xslf/usermodel/presetShapeDefinitions\\.xml$' // this is something to do with poi which we shouldn't really need. I think it's the shapes for things you can draw in office.
+  ]
+
+jar << { removeFromZip(jar.archivePath, badFiles) }
+
+publishing {
+  publications {
+    mavenJava(MavenPublication) {
+      from components.java
+
+      pom.withXml {
+         asNode().dependencies.dependency.each {
+              if (it.groupId.text() == 'uk.org.cse.nhm' &&
+                  it.artifactId.text() != 'bundle-api') {
+                 // all the NHM dependencies are getting embedded
+                 // so we remove them from the POM.
+                 it.parent().remove(it)
+              }
+         }
+      }
+
+      repositories {
+        maven {
+          credentials {
+            username mavenUser
+            password mavenPassword
+          }
+          url "http://localhost:8080/maven/7b9c5ef4-16a1-4b8f-ae4e-83bb87337fdb/"
+        }}}}}
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '2.3'
+}
+
+processResources {
+    filesMatching('**/nhm-impl-bundle.properties') {
+        filter {
+           it.replace('@buildnumber@', project.ext.buildVersion)
+        }
+    }
+}

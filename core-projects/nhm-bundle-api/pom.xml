@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>uk.org.cse.nhm</groupId>
+  <artifactId>bundle-api</artifactId>
+  <version>1.1.0</version>
+
+  <name>NHM API Bundle</name>
+
+  <distributionManagement>
+    <repository>
+      <id>package-drone</id>
+      <name>package-drone</name>
+      <url>http://build.research.cse.org.uk:8083/maven/E7F114C5-4FF5-4D00-BDF4-10BDF976587F/</url>
+    </repository>
+    
+    <snapshotRepository>
+      <id>package-drone</id>
+      <name>package-drone</name>
+      <url>http://build.research.cse.org.uk:8083/maven/E7F114C5-4FF5-4D00-BDF4-10BDF976587F/</url>
+    </snapshotRepository>
+  </distributionManagement>
+  
+  <description>
+    Provides the API for an interface to the NHM for OSGi platforms
+    like eclipse. No implementation provided; the clitools project
+    should implement this.
+  </description>
+  
+  <packaging>bundle</packaging>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <version>2.5.3</version>
+        
+        <extensions>true</extensions>
+        
+        <configuration>
+          <instructions>
+            <Export-Package>uk.org.cse.nhm.bundle.api</Export-Package>
+            <Import-Package>com.google.common.base;version="15.0.0"</Import-Package>
+          </instructions>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+	  <groupId>com.google.guava</groupId>
+	  <artifactId>guava</artifactId>
+		  <version>18.0</version>
+	  <type>bundle</type>
+	  <scope>provided</scope>
+    </dependency>
+  </dependencies>
+</project>
