@@ -8,12 +8,20 @@ If you would like to run a compiled version of the National Household Model, the
 The project has been written using Java 1.7.
 
 # Installation
-The project and sub-projects here can be built using Gradle, there is a single gradle build file for all projects. To install the projects into your local Maven respository use the command './gradlew install' (linux) 'gradle.bat install' (win).
+This is a bit basic, we will fill in later, the project can be built end-to-end on a linux machine.
 
-# External Project Dependencies
-1. Requires [Sebuk boiler matcher](https://github.com/cse-bristol/sedbuk-boiler-matching) as subproject within this build, this is configured a a git submodule at present, ensure that the commit you have checked out for this project does not include any Gradle build files.
+## Pre-requisits
+- Linux os - tested on Ubuntu 15+ and Debian?
+- Java 7, but will also work on 8
+- Maven 3
+
+## Build process
+There is a shell script named build, this wil build the core projects, then start a p2 drone server, build some p2 bundles and push them to drone server, build the ide-project using the drone server to fetch the osgi bundles, then stop the drone server.
+
+### Things stil todo
+- [ ] More detail needed on the above including why etc...  currnently lives in other README files so maybe just linking to those is ok.
+- [ ] Re-create past history of nhm bundle builds, by putting old p2 bundles into repo, tagging each one as a specific version, you could then just build the ide at that point?
+
 
 # License
 [Open Government License] (http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)
-
-
