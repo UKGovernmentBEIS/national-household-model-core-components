@@ -1,3 +1,6 @@
 [submodule "sedbuk-boiler-matching"]
 	path = sedbuk-boiler-matching
 	url = git@github.com:decc/sedbuk-boiler-matching.git
+[submodule "nhm-ide/nhm-ide-signing-keys"]
+	path = nhm-ide/nhm-ide-signing-keys
+	url = git@bitbucket.org:cse-bristol/nhm-ide-signing-keys.git
