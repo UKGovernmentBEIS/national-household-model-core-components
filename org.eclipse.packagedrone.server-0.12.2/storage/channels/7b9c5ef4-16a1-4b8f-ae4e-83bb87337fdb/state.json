@@ -1,0 +1,17 @@
+{
+  "creationTimestamp": 1476278604959,
+  "modificationTimestamp": 1476794409970,
+  "locked": false,
+  "aspects": {
+    "map": {
+      "hasher": "1.0.0",
+      "maven.repo": "1.0.2",
+      "mime": "1.0.0",
+      "osgi": "1.0.3",
+      "p2.metadata": "1.0.1",
+      "p2.repo": "1.1.0"
+    }
+  },
+  "artifacts": {},
+  "cacheEntries": {}
+}

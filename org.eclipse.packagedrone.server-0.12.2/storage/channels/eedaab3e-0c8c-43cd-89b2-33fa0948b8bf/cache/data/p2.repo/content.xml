@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?metadataRepository version='1.1.0'?>
+<repository name='Package Drone Channel: eedaab3e-0c8c-43cd-89b2-33fa0948b8bf' type='org.eclipse.equinox.internal.p2.metadata.repository.LocalMetadataRepository' version='1'>
+  <properties size='1'>
+    <property name='p2.timestamp' value='1476276163852'/>
+  </properties>
+  <units size='1'>
+<unit id="uk.org.cse.nhm.bundle.impl" singleton="false" version="6.4.0.D1476276141533">
+  <update id="uk.org.cse.nhm.bundle.impl" range="[0.0.0,6.4.0.D1476276141533)" severity="0"/>
+  <properties size="1">
+    <property name="org.eclipse.equinox.p2.name" value="NHM Model Implementation"/>
+  </properties>
+  <provides size="3">
+    <provided name="uk.org.cse.nhm.bundle.impl" namespace="osgi.bundle" version="6.4.0.D1476276141533"/>
+    <provided name="uk.org.cse.nhm.bundle.impl" namespace="org.eclipse.equinox.p2.iu" version="6.4.0.D1476276141533"/>
+    <provided name="bundle" namespace="org.eclipse.equinox.p2.eclipse.type" version="1.0.0"/>
+  </provides>
+  <requires size="6">
+    <required name="org.osgi.framework" namespace="java.package" range="[1.8.0,2.0.0)"/>
+    <required name="org.eclipse.core.runtime" namespace="java.package" range="[3.4.0,4.0.0)"/>
+    <required name="uk.org.cse.nhm.bundle.api" namespace="java.package" range="[2.0.0,3.0.0)"/>
+    <required name="org.osgi.service.component" namespace="java.package" range="[1.2.0,2.0.0)"/>
+    <required name="com.google.guava" namespace="osgi.bundle" range="0.0.0"/>
+    <required name="org.apache.xerces" namespace="osgi.bundle" range="0.0.0"/>
+  </requires>
+  <artifacts size="1">
+    <artifact classifier="osgi.bundle" id="uk.org.cse.nhm.bundle.impl" version="6.4.0.D1476276141533"/>
+  </artifacts>
+  <touchpoint id="org.eclipse.equinox.p2.osgi" version="1.0.0"/>
+  <touchpointData size="1">
+    <instructions size="1">
+      <instruction key="manifest">Manifest-Version: 1.0
+Bundle-SymbolicName: uk.org.cse.nhm.bundle.impl
+Bundle-Version: 6.4.0.D1476276141533
+
+</instruction>
+    </instructions>
+  </touchpointData>
+  <licenses size="0"/>
+</unit>
+  </units>
+</repository>
