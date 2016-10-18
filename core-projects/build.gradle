@@ -71,7 +71,7 @@ subprojects {
   apply plugin: 'maven'
 
   group = 'uk.org.cse.nhm'
-  version = scmVersion.version
+  version = '6.4.0-SNAPSHOT'
 
   sourceCompatibility = 1.7
   targetCompatibility = 1.7
