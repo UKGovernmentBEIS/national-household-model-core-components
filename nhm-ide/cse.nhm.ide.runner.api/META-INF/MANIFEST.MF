@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Scenario Execution API
+Bundle-SymbolicName: cse.nhm.ide.runner.api;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: CSE
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Import-Package: com.google.common.base;version="15.0.0",
+ com.google.common.collect;version="15.0.0",
+ com.google.common.hash;version="15.0.0",
+ com.google.common.io;version="15.0.0",
+ cse.nhm.ide.ui,
+ cse.nhm.ide.ui.builder,
+ cse.nhm.ide.ui.models,
+ org.eclipse.core.resources,
+ org.eclipse.core.runtime,
+ org.osgi.framework;version="1.8.0",
+ uk.org.cse.nhm.bundle.api;version="2.0.0"
+Export-Package: cse.nhm.ide.runner.api

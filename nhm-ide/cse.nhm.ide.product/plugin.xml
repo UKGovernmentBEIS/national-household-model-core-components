@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="nhmide"
+         name="NHM Product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="org.eclipse.ui.ide.workbench"
+            name="NHM IDE">
+         <property
+               name="appName"
+               value="NHM IDE">
+         </property>
+         <property
+               name="aboutImage"
+               value="icons/icon-128x128.gif">
+         </property>
+         <property
+               name="aboutText"
+               value="The National Household Model is a simulation model for domestic housing created by CSE, the Centre for Sustainable Energy, on behalf of DECC.">
+         </property>
+         <property
+               name="windowImages"
+               value="icons/Home.png,icons/icon-32x32.gif,icons/icon-48x48.gif,icons/icon-64x64.gif,icons/icon-128x128.gif,icons/icon-256x256.gif">
+         </property>
+         <property
+               name="startupForegroundColor"
+               value="FFFFFF">
+         </property>
+         <property
+               name="startupMessageRect"
+               value="0,290,500,20">
+         </property>
+         <property
+               name="startupProgressRect"
+               value="0,310,500,20">
+         </property>
+         <property
+               name="preferenceCustomization"
+               value="plugin_customization.ini">
+         </property>
+      </product>
+   </extension>
+
+   
+
+</plugin>

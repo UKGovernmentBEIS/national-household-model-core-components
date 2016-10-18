@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.importWizards">
+      <wizard
+            name="Import Stock"
+            icon="icons/house.png"
+            class="cse.nhm.ide.stock.ui.StockImportWizard"
+            id="cse.nhm.ide.stock.ui.StockImportWizard">
+         <description>
+            Runs the NHM stock import code on an import package; for documentation on what should be in an import package, see the help pages.
+         </description>
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="cse.nhm.ide.stock.ui.editors.JSONEditor"
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
+            extensions="stock, json.gz"
+            icon="icons/house.png"
+            id="cse.nhm.ide.stock.ui.editors.JSONEditor"
+            name="Stock Viewer">
+      </editor>
+      <editor
+            class="cse.nhm.ide.stock.ui.editors.JSONEditor"
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
+            extensions="json"
+            id="cse.nhm.ide.stock.ui.editors.JSONEditor2"
+            name="Json Editor">
+      </editor>
+   </extension>
+
+</plugin>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<contexts>
+	<context id="scenarioEditorContext" title="NHM Scenario Editor">
+		<description>The scenario editor has some functions to make writing your scenarios easier.
+
+☛ <b>Language help</b>:
+   ⇒ Hover the mouse over NHM commands to see help about them from the manual.
+   ⇒ Press Control+Space when editing for suggestions about what you can type in.
+☛ <b>Automatic typing</b>:
+   ⇒ Typing (, [ or { will type ), ] or } as well for you
+   ⇒ Typing ), ] or } will move to the next bracket if brackets are balanced
+     This means typing () will just insert (), and typing ))) will tidy up your brackets.
+   ⇒ Deleting one bracket will delete the other when brackets are balanced.
+   ⇒ Selecting some text and typing an open bracket will enclose the selection in a balanced pair.
+☛ <b>Movement commands</b>:
+   ⇒ <b>Alt+Up</b> goes up to the start of the next higher level expression
+     e.g. (<b>|</b> is the cursor) If you have (a (b (c <b>|</b>))), repeated presses give:
+          (a (b (<b>|</b>c)))
+          (a (<b>|</b>b (c)))
+          (<b>|</b>a (b (c)))
+   ⇒ <b>Alt+Down</b> goes down to the start of the next lower level expression
+   ⇒ <b>Alt+Right</b> goes right to skip over the next expression at this level
+     e.g. If you have (a <b>|</b> (b) (c)), repeated presses give:
+          (a <b>|</b>(b) (c))
+          (a (b)<b>|</b> (c))
+          (a (b) <b>|</b>(c))
+          (a (b) (c)<b>|</b>)
+   ⇒ <b>Alt+Left</b>  goes left to skip over the previous expression at this level
+☛ <b>Structure editing</b>:
+   ⇒ <b>Control+]</b>  ejects the last item from the current expression
+     e.g. If you have (a <b>|</b> (b) (c d)), repeated presses give:
+          (a <b>|</b> (b)) (c d)
+          (a)<b>|</b> (b) (c d)
+          ()<b>|</b>a (b) (c d)
+   ⇒ <b>Control+[</b>  does the reverse
+     e.g. If you have (<b>|</b>) a (b c) d e, repeated presses give:
+          (<b>|</b>a) (b c) d e
+          (<b>|</b>a (b c)) d e
+          (<b>|</b>a (b c) d) e
+          (<b>|</b>a (b c) d e)
+		</description>
+	</context>
+</contexts>

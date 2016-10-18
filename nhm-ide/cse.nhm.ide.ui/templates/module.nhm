@@ -1,0 +1,23 @@
+;; the test scenario for {modulename} - this should validate
+;; that the module works correctly, and indicate how to use it
+(scenario
+	start-date: 01/01/2014
+	end-date:   01/01/2014
+	stock-id:   stock
+	
+	;; this will use the /init templates for any included modules.
+	(~init-modules))
+
+;; the module's dependencies
+
+; use include-modules to include other modules you need.
+; (include-modules another-module.nhm)
+
+;; the module definition
+
+(~module {modulename}
+	;; a setup template for users of the module
+	(template init []
+		;; define any variables and actions here
+	)
+)

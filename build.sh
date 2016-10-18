@@ -2,12 +2,12 @@
 echo "Building and installing core projects to local maven repo"
 cd core-projects/
 ./gradlew clean install -x test
+cd ..
 
-echo "Stating package-drone p2 server"
-cd ../org.eclipse.packagedrone.server-0.12.2
+#echo "Stating package-drone p2 server"
+cd org.eclipse.packagedrone.server-0.12.2
 java -jar plugins/org.eclipse.equinox.launcher_1.3.100.v20150511-1540.jar &
 SERVER=$!
-
 cd ..
 
 echo "Building and publising nhm-api-bundle"

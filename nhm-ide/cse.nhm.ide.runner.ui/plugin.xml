@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="NHM"
+            id="cse.nhm.ide.runner.ui">
+      </category>
+      <view
+            allowMultiple="false"
+            category="cse.nhm.ide.runner.ui"
+            class="cse.nhm.ide.runner.ui.views.ScenarioRunnerView"
+            icon="icons/run_icon.gif"
+            id="cse.nhm.ide.runner.ui.views.ScenarioRunnerView"
+            name="Model runs">
+         <description>
+            This view lists the model runs which have happened.
+         </description>
+      </view>
+      <view
+            category="cse.nhm.ide.runner.ui"
+            class="cse.nhm.ide.runner.ui.views.LogView"
+            icon="icons/log.gif"
+            id="cse.nhm.ide.runner.ui.views.LogView"
+            name="Model run log"
+            restorable="true">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml">
+      </contexts>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            categoryId="cse.nhm.ide.ui.nhmNature.category"
+            description="Run the selected scenarios; if used in an editor, runs the current saved version"
+            id="cse.nhm.ide.runner.ui.run"
+            name="Run scenario">
+         <commandParameter
+               id="cse.nhm.ide.runner.ui.serviceNameParameter"
+               name="The service for running the scenarios with"
+               optional="true"
+               values="cse.nhm.ide.runner.ui.commands.RunCommandParameterValues">
+         </commandParameter>
+      </command>
+      <command
+            categoryId="cse.nhm.ide.ui.nhmNature.category"
+            defaultHandler="cse.nhm.ide.runner.ui.commands.DeleteCancelCommandHandler"
+            description="Delete run"
+            id="cse.nhm.ide.runner.ui.delete"
+            name="Delete">
+      </command>
+      <command
+            categoryId="cse.nhm.ide.ui.nhmNature.category"
+            defaultHandler="cse.nhm.ide.runner.ui.commands.GetResultsCommandHandler"
+            description="Download the results from this run"
+            id="cse.nhm.ide.runner.ui.get"
+            name="Get results">
+      </command>
+      <command
+          categoryId="cse.nhm.ide.ui.nhmNature.category"
+          defaultHandler="cse.nhm.ide.runner.ui.commands.RefreshRunnersCommandHandler"
+          description="Refresh the status of all jobs"
+          id="cse.nhm.ide.runner.ui.refresh"
+          name="Refresh jobs"
+          >
+      </command>
+
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:org.eclipse.ui.main.toolbar?after=org.eclipse.ui.workbench.navigate">
+         <toolbar
+               id="cse.nhm.ide.runner.ui.runtoolbar">
+            <command
+                  commandId="cse.nhm.ide.runner.ui.run"
+                  icon="icons/run_icon.gif"
+                  style="pulldown">
+            </command>
+         </toolbar>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:cse.nhm.ide.runner.ui.run">
+         <dynamic
+               class="cse.nhm.ide.runner.ui.commands.DynamicRunCommandContributor"
+               id="cse.nhm.ide.runner.ui.dynamic4">
+         </dynamic>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:cse.nhm.ide.runner.ui.views.ScenarioRunnerView">
+        <command
+            commandId="cse.nhm.ide.runner.ui.refresh"
+            icon="icons/refresh_icon.gif"
+            style="push">
+        </command>
+
+         <command
+               commandId="cse.nhm.ide.runner.ui.get"
+               icon="icons/download_icon.gif"
+               style="push">
+         </command>
+         <command
+               commandId="cse.nhm.ide.runner.ui.delete"
+               icon="icons/delete_icon.gif"
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="cse.nhm.ide.runner.ui.commands.RunFromEditor"
+            commandId="cse.nhm.ide.runner.ui.run">
+         <activeWhen>
+            <with
+                  variable="activeEditorId">
+               <equals
+                     value="cse.nhm.ide.ui.scenarioEditor">
+               </equals>
+            </with>
+         </activeWhen>
+      </handler>
+      <handler
+            class="cse.nhm.ide.runner.ui.commands.RunFiles"
+            commandId="cse.nhm.ide.runner.ui.run">
+         <activeWhen>
+            <with
+                  variable="selection">
+               <iterate
+                     ifEmpty="false"
+                     operator="or">
+                  <or>
+                     <and>
+                        <instanceof
+                              value="org.eclipse.core.resources.IFile">
+                        </instanceof>
+                        <test
+                              property="org.eclipse.core.resources.name"
+                              value="*.nhm">
+                        </test>
+                     </and>
+                     <instanceof
+                           value="org.eclipse.core.resources.IContainer">
+                     </instanceof>
+                  </or>
+               </iterate>
+            </with>
+         </activeWhen>
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="cse.nhm.ide.runner.ui.run"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="cse.nhm.ide.ui.editor.scheme"
+            sequence="CTRL+R">
+      </key>
+   </extension>
+   <extension point="org.eclipse.core.runtime.preferences">
+     <initializer
+         class="cse.nhm.ide.runner.ui.preferences.RunnerUIPreferences" >
+     </initializer>
+   </extension>
+
+   <extension
+       point="org.eclipse.ui.preferencePages">
+     <page
+         category="cse.nhm.ide.ui.preferences"
+            class="cse.nhm.ide.runner.ui.preferences.RunnerUIPreferencePage"
+            id="cse.nhm.ide.runner.ui.preferences.RunnerUIPreferencePage"
+            name="Running scenarios">
+     </page>
+   </extension>
+</plugin>
