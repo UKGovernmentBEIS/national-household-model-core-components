@@ -42,11 +42,12 @@ public enum EfficiencyAdjustments implements IConstant {
 	/*
 	BEISDOC
 	NAME: Boiler Without Interlock
-	DESCRIPTION: Efficiency adjustment for regular & combi boilers when there is no interlock or thermostat (combi boilers apply only to space heat efficiency)
+	DESCRIPTION: Efficiency adjustment for regular & combi boilers when there is no interlock or thermostat (for combi boilers this applies only to space heat efficiency)
 	TYPE: value
 	UNIT: Dimenionless
 	SAP: Table 4c
 	SET: context.energy-constants
+	NOTES: Boiler interlock is defined as having both room temperature thermostatically controlled and a cylinder thermostat (assuming there is a cylinder present).
 	ID: boiler-without-interlock
 	CODSIEB
 	*/

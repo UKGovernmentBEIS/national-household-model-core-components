@@ -359,12 +359,33 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 		*/
 		final double seasonalEfficiency = getSeasonalEfficiency(qWater, qSpace);
 		
-		// apply adjustments due to control systems
-		if (getSpaceHeater() != null && getSpaceHeater().isThermostaticallyControlled()) {
-			return seasonalEfficiency;
-		} else {
+		if (shouldApplyInterlockPenalty()) {
 			log.debug("Adjusting water heating efficiency due to lack of thermostatic control");
-			return seasonalEfficiency + constants.get(EfficiencyAdjustments.BOILER_WITHOUT_INTERLOCK);
+			return seasonalEfficiency + constants.get(EfficiencyAdjustments.BOILER_WITHOUT_INTERLOCK);				
+		} else {
+			return seasonalEfficiency;
+		}
+	}
+
+	/**
+	 * Should we apply the 5% reduction from SAP 2012 Table 4c (2)
+	 * 
+	 * This applies if either of the following are true:
+	 * + We have a space heating system, but it is not thermostatically controlled
+	 * + We have a water heating system with a tank, but the tank does not have a thermostat
+	 * 
+	 * In the table we see the term "boiler interlock".
+	 */
+	protected boolean shouldApplyInterlockPenalty() {
+		if (getFuel().isGas() || getFuel() == FuelType.OIL) {
+			final boolean spaceControl = getSpaceHeater() == null || getSpaceHeater().isThermostaticallyControlled();
+			final boolean waterControl = getWaterHeater() == null || getWaterHeater().getSystem() == null || 
+					getWaterHeater().getSystem().getStore() == null || getWaterHeater().getSystem().getStore().isThermostatFitted();
+			
+			return !spaceControl || !waterControl;
+			
+		} else {
+			return false;
 		}
 	}
 	
@@ -393,6 +414,7 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 		TYPE: formula
 		UNIT: Dimensionless
 		DEPS: boiler-without-interlock,condensing-underfloor-adjustment,condensing-weather-compensation
+		NOTES: The adjustments here apply to both the SAP and BREDEM energy calculations.
 		SAP: (206,208), Table 4c, PCDB
 		ID: boiler-efficiency
 		CODSIEB
@@ -400,7 +422,7 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 		// apply adjustments for condensing boilers
 		if (isCondensing()) {
 			// efficiency adjustments resulting from reduced circulating temperature
-			int gasOrOil;
+			final int gasOrOil;
 			switch (getFuel()) {
 			case MAINS_GAS:
 				gasOrOil = 0;
@@ -428,7 +450,7 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 		}
 		
 		// apply adjustments due to control systems
-		if (!getSpaceHeater().isThermostaticallyControlled()) {
+		if (shouldApplyInterlockPenalty()) {
 			log.debug("Reducing space heating efficiency due to lack of thermostatic control");
 			efficiency += constants.get(EfficiencyAdjustments.BOILER_WITHOUT_INTERLOCK);
 		}
