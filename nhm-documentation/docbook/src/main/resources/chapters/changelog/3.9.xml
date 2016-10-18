@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section xmlns="http://docbook.org/ns/docbook">
+	<title>3.9</title>
+
+	<section>
+		<title>Capturing information</title>
+
+		Policies could not previously look at the change in a function attributable to an
+		action, but only at its final value. This meant that savings could not be calculate. We have introduced some changes to remedy this
+		problem. These also enable modellers to add their own number
+		constants on a per-measure basis. Lastly, they allow the reuse of a
+		function result in many places without having to recompute it.
+
+		<itemizedlist>
+			<listitem>
+				<code>let</code>
+				stores number function results and snapshots against names. Let
+				values may be accessed by elements which are deeper in the XML.
+			</listitem>
+			<listitem>
+				<code><![CDATA[<f.let>]]></code>
+				as with let, except cannot store snapshots and is used as a
+				function instead of an action.
+			</listitem>
+			<listitem>
+				<code>yield</code>
+				as with let, but in the opposite direction. Yielded values may be
+				accessed by elements which are deeper in the XML. Cannot store
+				snapshots. Yielded values are forgotten once a target completes.
+			</listitem>
+			<listitem>
+				<code><![CDATA[<f.yield>]]></code>
+				as with yield, but goes in the place of a function rather than an action.
+			</listitem>
+			<listitem>
+				<xref linkend="ref.get" />
+				retrieves a number which was stored by let or yield.
+			</listitem>
+			<listitem>
+				<xref linkend="ref.under" />
+				evaluates a function under a hypothetical condition created by
+				applying a list of actions. May load a named snapshot to use as its
+				hypothesis.
+			</listitem>
+			<listitem>
+				<xref linkend="ref.snapshot.delta" />
+				compares the result of a number function evaluated against two
+				different snapshots.
+			</listitem>
+		</itemizedlist>
+
+		Choice actions have changed. Introduced a filter function to weed out
+		options before the utility function. Added var and snapshot sections
+		which behave similarly to those in let, except that they bind to
+		different names for values before and after an option has been
+		installed. We also added a maximize choice action for convenience.
+
+		<itemizedlist>
+			<listitem>
+				<code><![CDATA[<choice.minmum>]]></code>
+			</listitem>
+			<listitem>
+				<code><![CDATA[<choice.maximum>]]></code>
+			</listitem>
+			<listitem>
+				<code><![CDATA[<choice.weighted>]]></code>
+			</listitem>
+		</itemizedlist>
+	</section>
+
+	<section>
+		<title>Registers</title>
+		
+		<para>
+		Registers allow a modeller to store the value of some function against a house permanently. This means that they can be used to share information between targets and policies. They can also be used in reports.
+		
+		If a modeller wants a register to be reset, it is up to them to specify a policy which does that.
+		</para>
+		
+		<para>
+		Registers are conceptually quite similar to let and yield in that they store a number on a particular house under a user-specified name. The difference is that they persist on the house throughout the scenario.
+		
+		Registers are an extension of the flags mechanism, and should not use the same name as a flag.
+		</para>
+		
+		New elements:
+		<itemizedlist>
+			<listitem><code>register.set</code></listitem>
+			<listitem><code>register.add</code></listitem>
+			<listitem><code>register.get</code></listitem>
+		</itemizedlist>
+		
+
+	</section>
+
+	<section>
+		<title>Finance</title>
+
+		Added some helper actions for subsidising actions, which would
+		otherwise be done with a negative cost using
+		<xref linkend="ref.measure.with-cost" />.
+
+		<itemizedlist>
+			<listitem>
+				<xref linkend="ref.finance.with-subsidy" />
+			</listitem>
+			<listitem>
+				<xref linkend="ref.finance.fully" />
+			</listitem>
+		</itemizedlist>
+
+		<para>
+		All finance elements (which includes those already mentioned, and
+		<xref linkend="ref.finance.with-loan" />
+		include a tags attribute. This contains a space-separated list of
+		tags. Previously tags were comma-separated. Spaces are no longer
+		valid tag names.
+		</para>
+		
+		<para>
+		Finance elements now include a counterparty attribute which is the account which the house will pay or be paid by.
+		In the case of <code>finance.with-loan</code>, this replaces the <code>creditor</code> attribute.
+		</para>
+
+		<xref linkend="ref.measure.with-cost" />
+		previously had a name attribute, which was acting as a single extra
+		tag. We have removed this, and replaced it with a tags attribute.
+
+
+		Added the number-valued function <xref
+		linkend="ref.obligations.predict" />, which will
+		forecast obligations for a number of years. This is
+		analogous to net present value, but without discounting or
+		capital costs.
+	</section>
+
+	<section>
+		<title>Flags</title>
+		<para>
+		  All per-dwelling actions now have two additional
+		  attributes, <code>update-flags</code> contains flags
+		  that will be added and removed after applying the
+		  action, and <code>test-flags</code> which will be
+		  checked before applying the action. Each of these can
+		  contain a space-separated list of flags, with each flag
+		  optionally negated by prefixing with the <code>!</code>
+		  character.
+		</para>
+		<para>
+		  Additionally, a similarly defined logical test <code>house.flags</code> has been added, for
+		  consistency. <code>(house.test-flag)</code> may be subsequently removed as this subsumes it.
+		</para>
+	</section>
+
+	<section>
+		<title>SAP Assumptions</title>
+		<!-- TODO -->
+		<itemizedlist>
+		  <listitem><xref linkend="ref.sap.occupancy" /></listitem>
+		  <listitem><code>action.reimpute</code></listitem>
+		  <listitem><xref linkend="ref.counterfactual.carbon" /></listitem>
+		  <listitem><xref linkend="ref.counterfactual.weather" /></listitem>
+		</itemizedlist>
+	</section>
+
+	<section>
+		<title>Boiler Failure Measures</title>
+		<para>
+			Added a measure <xref linkend="ref.measure.change-boiler-efficiency"/> to allow the efficiency of existing boilers to be changed. 
+		</para>
+		
+		<para>
+			Added a measure <xref linkend="ref.measure.break-boiler" /> to simulate breaking a boiler.
+			We do not allow a measure to put a house into a state where it has no space or water heating, so the boiler breaking measure requires you to include room heater and point-of-use hot water measures to provide these.    
+		</para>
+		
+		<para>
+			Added a measure <xref linkend="ref.measure.room-heater" /> to install a room heater with a given fuel and efficiency.
+			This measure has a <code>replace-existing</code> attribute, which determines whether or not it will replace any existing secondary space heaters.
+			Electric room heaters are always 100% efficient.
+			This measure requires that you always specify size and capex functions. Room heaters have no opex, because you are much more likely to have them replaced than to pay someone to repair them.
+			Room heaters may be marked as <code>backup</code>, in which case they will only operate if there are no other space heating systems present in the house.
+		</para>
+		
+		<para>
+			Added a measure <xref linkend="ref.measure.point-of-use-hot-water" /> to install an electric water heater.
+			This measure has a <code>replace-existing</code> attribute, which determines whether or not it will replace any existing secondary water heaters.
+			This measure requires that you always specify the capex function. It has no size or opex functions.
+			Point of use water heaters may be marked as <code>backup</code>, in which case they will only operate if there are no other water heating systems present in the house. 
+		</para>
+		
+		<para>
+			The heating fractions for a house are now normalized during energy calculation. 
+			If the heating fractions for all of the heating devices in a house do not sum to 1.0, they will all be scaled.
+			This fixes a bug where if you broke someone's boiler and replaced it temporarily with a secondary heating system, they would end up using far less energy.
+			This occurred because SAP assumes that secondary heaters are always topping up an existing primary heating system.
+		</para>
+		
+		<para>
+			Added a function <xref linkend="ref.house.has-boiler" /> which matches houses that have a boiler. This lets us target our boiler breaking measures on those houses.
+		</para>
+	</section>
+	
+	<section>
+		<title>Basic Number Functions</title>
+		<para>The Green Deal Utility function requires <xref linkend="ref.exp" />. 
+		We have also added <xref linkend="ref.pow" /> for conceptual consistency, since it can be considered a generalization of <code>exp</code>.</para>
+	</section>
+	
+	<section>
+		<title>Changes to Measure References</title>
+		<para>
+			The element <xref linkend="ref.measure.ref" /> has been broadened in scope. 
+			It can now refer to any action which applies to an individual dwelling, and may go in any place where one of these can be put.
+			This meets the need where a scenario author wants to define some packages using <code>action.all-of</code>, or add some extra information to a measure using <code>yield</code>, and then re-use that in multiple places.   
+		</para>
+	</section>
+	
+</section>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section xmlns="http://docbook.org/ns/docbook" xmlns:xl="http://www.w3.org/1999/xlink">
+  <title>5.1.3</title>
+  <section>
+    <title>Language Changes</title>
+    <section>
+      <title>Improvement of <code>interpolate</code></title>
+      <para>
+        The <xref linkend="ref.interpolate"/> function has been improved to support
+        linear interpolation into an arbitrary piecewise curve; instead of interpolating
+        between two points, you can now specify as many points as you like. This is also
+        possible using the <code>lookup-table</code> macro, but a direct use of
+        interpolate may be easier to read and write, and can extrapolate beyond the ends
+        of the function if desired.
+      </para>
+      <para>
+        This is intended to be useful for specifying pricing or sizing functions derived
+        from real data.
+      </para>
+    </section>
+    <section>
+      <title>Improvement of <code>finance.with-loan</code></title>
+      <para>
+        <xref linkend="ref.finance.with-loan" /> has been improved so that the
+        <code>term:</code>, <code>rate:</code> and <code>tilt:</code> arguments can all be
+        specified using run-time functions rather than fixed constants.
+      </para>
+    </section>
+    <section>
+      <title>Change to definition of NPV</title>
+      <para>
+        <xref linkend="ref.npv" /> has been redefined so that the
+        <code>discount:</code> argument is used to discount future costs according to a
+        annual geometric progression whose multiplier is 1/(1+rate). Previously, the
+        discount argument discounted costs according to an annual geometric progression
+        with a multiplier of (1-rate).
+      </para>
+      <para>
+        This makes the discount rate for NPV analogous to the current rate of interest,
+        rather than the degree of depreciation of uninvested capital as it was before.
+      </para>
+    </section>
+  </section>
+</section>

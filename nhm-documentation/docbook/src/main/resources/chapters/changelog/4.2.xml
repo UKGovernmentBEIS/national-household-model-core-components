@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section xmlns="http://docbook.org/ns/docbook" xmlns:xl="http://www.w3.org/1999/xlink">
+	<title>4.2</title>
+	<section>
+		<title>Move to s-expressions</title>
+			
+		<para>
+			The NHM scenario language is now written in s-expressions instead of XML.
+		</para>
+	</section>
+
+	<section>
+		<title>Advanced Tariffs</title>
+		
+		<para>
+			Advanced tariffs provide policy mechanisms to modify a dwellings's ongoing obligations and to modify its fuel bills. 
+		</para>
+		
+		<itemizedlist>
+			<listitem>
+				<xref linkend="ref.action.delayed" /> is a convenience for triggering another action some time in the future. 
+			</listitem>
+			<listitem>
+				<xref linkend="ref.finance.with-obligation" /> puts a long-term obligation on a dwelling. 
+			</listitem>
+			<listitem>
+				<xref linkend="ref.action.extra-fuel-charge" /> adds an extra charge (or subsidy) to a part of a dwelling's fuel bill. 
+			</listitem>
+			<listitem>
+				<xref linkend="ref.action.remove-fuel-charge" /> takes extra fuel charges back away again. 
+			</listitem>
+		</itemizedlist>
+	</section>
+	
+	<section>
+		<title>Conditional Selector</title>
+		
+		<para>
+			We have created the new choice selector <xref linkend="ref.select.fallback" />. This allows us to meet the requirements for <link xl:href="https://cseresearch.atlassian.net/browse/NHM-1049" />.
+		</para>
+		
+		<para>
+			<quote>If there are any measures that can improve a dwelling such that it reaches SAP band C, do the cheapest of those. Otherwise do the best measure possible.</quote>
+		</para>
+	</section>
+	
+	<section>
+		<title>Sometimes Action</title>
+		
+		<para>
+			Added <xref linkend="ref.action.sometimes" />. This has a chance of success or failure. If it succeeded, it delegates to another action.
+		</para>
+	</section>
+	
+	<section>
+		<title>Transactions Function</title>
+		
+		<para>Added a function <xref linkend="ref.house.sum-transactions" />. This lets you look at how much money has been paid by a house broken down by payee and tags.</para>
+	</section>
+	
+	<section>
+		<title>Scenario Setup</title>
+		
+		<para>
+			We have added a number of actions to aid with setting up houses at the start of a scenario. These actions set some property of a house to a particular value.
+		</para>
+		
+		<itemizedlist>
+			<listitem><xref linkend="ref.action.set-loft-insulation" /></listitem>
+			<listitem><xref linkend="ref.action.set-floor-insulation" /></listitem>
+			<listitem><xref linkend="ref.action.set-wall-insulation" /></listitem>
+			<listitem><xref linkend="ref.action.set-wall-construction" /></listitem>
+		</itemizedlist>
+		
+		<para>
+			We have added a scheduling element <xref linkend="ref.schedule.init" />. This causes the action in a target to be run once only immediately after the stock creator has prepared the houses.
+		</para>
+		
+		<para>
+			We have added a new optional scenario context section <xref linkend="ref.context.calibration" />.
+			This allows a modeller to set some rules which modify energy calculator results. It is intended to be used to fudge the results where they don't fit the evidence.
+		</para>
+	</section>
+	
+	<section>
+		<title>New Measures</title>
+		
+		<para>
+			We have added a number of new measures to allow the improvement of a house.
+		</para>
+		
+		<itemizedlist>
+			<listitem><xref linkend="ref.measure.install-glazing" /> and its corresponding technology <code>technology.glazing</code></listitem>
+			<listitem><xref linkend="ref.measure.install-draught-proofing" /> and its corresponding technology <code>technology.draught-proofing"</code></listitem>
+			<listitem><xref linkend="ref.measure.storage-heater" /> and its corresponding technology <code>technology.storage-heater</code></listitem>
+			<listitem><xref linkend="ref.measure.heating-control" /></listitem>
+		</itemizedlist>
+	</section>
+	
+	<section>
+		<title>New Tests</title>
+		
+		<para>The following new measures were added, each of which tests something about a house.</para>
+		
+		<itemizedlist>
+			<listitem><xref linkend="ref.house.has-central-heating" /></listitem>
+			<listitem><xref linkend="ref.house.has-loft" /></listitem>
+			<listitem><xref linkend="ref.house.is-on-gas" /></listitem>
+		</itemizedlist>
+	</section>
+	
+	<section>
+		<title>New Number Functions</title>
+		
+		<itemizedlist>
+			<listitem>Added <xref linkend="ref.inflate" />, which inflates or deflates another number function by some proportion on an annual basis.</listitem>
+			<listitem>Added <code>(sim.runtime)</code>, which returns the number of seconds (of real time, not simulation time) since the simulation started.</listitem>
+		</itemizedlist>
+	</section>
+	
+	<section>
+		<title>Batch Tables</title>
+		
+		<para>
+			Improved the <xref linkend="ref.table" /> element. You no longer need to explicitly write "row" or "header:". Instead, it contains many lists surrounded with square brackets []. 
+			The first of these lists will be the header, and remaining lists will be the rows. 
+		</para>
+		
+		<para>
+			Removed the special behaviour of scenarios tagged with 'table'. Previously, if you included a scenario tagged with table, it would treat it as a tab separated file and automatically transform it into a scenario element table.
+			This is no longer useful because we now have the simpler table element.
+		</para>
+	</section>
+	
+	<section>
+		<title>Includes</title>
+		
+		<para>Including another file in your scenario has changed. See <xref linkend="include" />.</para>
+	</section>
+	
+	<section>
+		<title>Renaming</title>
+		
+		<itemizedlist>
+			<listitem><code>house.flags</code> has been renamed to <xref linkend="ref.house.flags-match" />.</listitem>
+			<listitem><code>function.yield</code> has been renamed to <code>yield</code>.</listitem>
+			<listitem><code>action.probe</code> has been renamed to <xref linkend="ref.probe" />.</listitem>
+			<listitem><code>difference</code> renamed to <xref linkend="ref.-" />.</listitem>
+			<listitem><code>sum</code> renamed to <xref linkend="ref.plus" />.</listitem>
+			<listitem><code>ratio</code> renamed to <xref linkend="ref.slash" />.</listitem>
+			<listitem><code>product</code> renamed to <xref linkend="ref.star" />.</listitem>
+		</itemizedlist>
+	</section>
+</section>

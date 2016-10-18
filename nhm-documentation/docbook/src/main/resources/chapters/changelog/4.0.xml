@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section xmlns="http://docbook.org/ns/docbook">
+	<title>4.0</title>
+		
+	<section>
+		<title>Insulation Measures</title>
+		
+		Both wall and loft insulation measures have been modified so that:
+		
+		<itemizedlist>
+			<listitem>
+				<para>
+					Thermal resistance values are now specified <emphasis>per millimeter</emphasis>;
+					You must divide the resistances used in existing scenarios by the thicknesses to
+					preserve the behaviour. This has the consequence that you can try different thicknesses
+					and see the effect of change in resistance. 
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					Thermal resistances can now be specified as a function of the house's condition rather
+					than just as a constant value.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					If you really want, you can specify the resultant u-value of the surface after insulating,
+					again as a function of the house's condition. This has a likelihood of causing incoherent
+					scenarios unless the function is comprehensive, so use with caution.
+				</para>
+			</listitem>
+		</itemizedlist>
+		
+		The suitability criteria for wall insulation measures are now user-definable,
+		so if you want to you can apply cavity wall insulation to a sandstone wall or similar.
+		
+		If you relax the suitability criteria to allow reinsulation of an already insulated wall,
+		the new insulation will apply additively on top of existing insulation, unless you have used
+		the resultant u-value feature.
+	</section>
+	
+	<section>
+		<title>Element Names</title>
+		
+		All naming attributes for elements have been changed to <code>name</code>name; all
+		attributes previously called <code>id</code>, on actions, measures, groups, tariffs and so on
+		are now called <code>name</code>.
+	</section>
+	
+	<section>
+		<title>Tilted Loans</title>
+		
+		The repayment series for loans can be tilted geometrically using the new <code>tilt</code>
+		attribute on <xref linkend="ref.finance.with-loan" />.
+	</section>
+	
+	<section>
+		<title>SAP Scores</title>
+		
+		An operating cost score defined in the same way as SAP score can be calculated using
+		<xref linkend="ref.house.fuel-cost-index" />. This is not identical to a SAP score,
+		unless used in the right way, so check the documentation for it before getting carried away.
+	</section>
+	
+	<section>
+		<title>Batch</title>
+		We've added batch running to the model. This introduces a new set of elements which are use outside of a scenario to control its inputs. 
+		These may be found in <xref linkend="cat--Batch" />. 
+	</section>
+	
+	<section>
+		<title>Table Data</title>
+		
+		<para>
+		It is now possible to include tabular data in the NHM. 
+		If you tag your scenario with the word 'table' in the user interface, then it will be treated as tab-separated tabular data in the editor window.
+		 </para>
+		 
+		 <para>
+		 We've added an extra kind of include to be used with tables.
+		 If you use <code><![CDATA[<xi:include href="nhm:table/id/some_id"/>]]></code> then it will transform the scenario with that id into a <xref linkend="ref.table" /> before including it.  
+		 </para>
+		 
+		 <para>
+			Tables includes may contain a 'run' column which denotes which batch run the row provides data for. 
+			This allows multiple rows to be specified in the input table per run. 
+			If a 'run' column is included, Any other column which does not begin with a '$' symbol will be used to generate extra input variables from those which exist already.
+		 </para>
+	
+		<example>
+			<title>Table to XML Transformation</title>
+			
+			<table>
+				<title>Original Table Input By User</title>
+				
+				<tgroup cols="3">
+					<thead>
+						<row>
+							<entry>run</entry>
+							<entry>date</entry>
+							<entry>$a</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>1</entry>
+							<entry>2013</entry>
+							<entry>10</entry>
+						</row>
+						<row>
+							<entry>1</entry>
+							<entry>2014</entry>
+							<entry>20</entry>
+						</row>
+						<row>
+							<entry>2</entry>
+							<entry>2013</entry>
+							<entry>15</entry>
+						</row>
+						<row>
+							<entry>2</entry>
+							<entry>2014</entry>
+							<entry>30</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+	
+			<table>
+				<title>Automatically Widened Table (never actually seen by user)</title>
+				<tgroup cols='2'>
+					<thead>
+						<row>
+							<entry>$a-2013</entry>
+							<entry>$a-2014</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>10</entry>
+							<entry>20</entry>
+						</row>
+						<row>
+							<entry>15</entry>
+							<entry>30</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+	
+			Widened table in XML form which will be included in the batch XML:
+			<programlisting language="xml">
+				<![CDATA[
+					<table>
+						<header>
+							<cell value="$a-2013" />
+							<cell value="$a-2014" />
+						</header>
+						<row>
+							<cell value="10" />
+							<cell value="20" />
+						</row>
+						<row>
+							<cell value="15" />
+							<cell value="30" />
+						</row>
+					</table>
+				]]>
+			</programlisting>
+		</example>
+	</section>
+	
+	<section>
+		<title>Reporting Changes</title>
+		<para>We have added reporting modes to <xref linkend="ref.report.aggregate" />.
+		These modes make it output less data when it would otherwise, and may also do some calculations over time.
+		They are intended to be used in batch mode, since putting out large tables of data per scenario would be unhelpful in this case.
+		Most other reports are disallowed when running in batch mode for the same reason.</para>
+		
+		<para>Most reports are now disabled by default. 
+		We have added elements to turn each of them back on, which may be found in <xref linkend="cat--Reports" />.</para>
+		
+		<para>Aggregations <xref linkend="ref.aggregate.mean" />, <xref linkend="ref.aggregate.sum" /> and <xref linkend="ref.aggregate.count" /> now have a name attribute.
+		This overrides their automatically generated column headers.
+		This is useful because the generated headers are often quite long. 
+		It's also sometimes necessary if you use batch running to vary an attribute in a report, since the auto-generated column name can trick the system into making extra columns.   
+		</para>
+		
+		<para>
+			Removed <code><![CDATA[<report.group-members>]]></code> and replaced it with <xref linkend="ref.report.dwellings" />.
+			This new report observes the dwellings in a single group. It has user customizable fields.
+			It also records whether a dwelling entered, left or remained in the group since the last time it was reported on.
+			<xref linkend="ref.report.dwellings" /> also makes use of <xref linkend="cat--Reporting Modes" />.
+			If it is used with <xref linkend="ref.mode.on-change" />, a change is defined as when a dwelling enters or exits the group, or the value of one of its fields changes.
+		</para>
+		
+		<para>
+			User-specified columns in reports now come out in the order in which they were written by the scenario author.
+		</para>
+		
+		<para>
+			<xref linkend="ref.report.aggregate" /> now outputs a table which is long rather than wide. It may produce multiple rows per date, and has an extra column for group. 
+			If it is used together with <xref linkend="ref.division.by-combination" />, then there will be many group columns: one for each different function used to produce the combination.
+		</para>
+	</section>
+	
+	<section>
+		<title>f.let and f.yield</title>
+		
+		These elements have been renamed to <code>function.let</code> and <code>function.yield</code> for clarity.
+		<code><![CDATA[<f.let>]]></code> may now contain snapshot elements.
+	</section>
+	
+	<section>
+		<title>Scenario Description</title>
+		
+		Added a description element to a scenario to allow separate descriptions to be assigned to a version of a scenario.
+	</section>
+</section>

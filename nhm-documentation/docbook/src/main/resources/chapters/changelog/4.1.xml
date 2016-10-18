@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section xmlns="http://docbook.org/ns/docbook">
+	<title>4.1</title>
+
+	<section>
+	  <title>Changes to Choice Actions</title>
+	  
+	  <para>
+	    There were some problems with the existing choice actions. Modellers were finding the order in which things happened inside a choice confusing. Furthermore, it was not possible to express some complicated utility functions.
+	  </para>
+	
+	  <para>
+	    To remedy this, we have merged the various choice actions into a single <xref linkend="ref.actioncombinations.choice" />. The choice now contains a selector element, which provides the mechanism for choosing between the measures specified in the choice.
+	  </para>
+	
+	  <para>
+	    We have removed the <code><![CDATA[<filter>]]></code> attribute which was inside choices and replaced it with the <xref linkend="ref.select.filter" /> element.
+	  </para>
+	
+	  <para>
+	    We have eliminated the <code>before</code> and <code>after</code> attributes on snapshots inside a choice. These now have a single <code>name</code> attribute and behave like a snapshot in a <code>let</code>. To get the same behaviour as the <code>after</code> snapshots, you may now declare snapshots and vars on a selector.
+	  </para>
+	
+	  <para>
+	    The available selectors are:
+	    <itemizedlist>
+	      <listitem><xref linkend="ref.select.minimum" /></listitem>
+	      <listitem><xref linkend="ref.select.maximum" /></listitem>
+	      <listitem><xref linkend="ref.select.weighted" /></listitem>
+	      <listitem><xref linkend="ref.select.filter" /></listitem>
+	    </itemizedlist>
+	  </para>
+	</section>
+</section>

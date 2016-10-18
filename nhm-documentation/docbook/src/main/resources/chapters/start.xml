@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<part xmlns="http://docbook.org/ns/docbook"
+	  xmlns:xi="http://www.w3.org/2001/XInclude"
+	  version="5.0">
+  <title>Getting started</title>
+
+  <chapter>
+    <title>About this document</title>
+    <para>
+      This document is the manual for the National Household Model (NHM). It's broadly divided into a few main parts
+    </para>
+  </chapter>
+
+  <chapter>
+    <title>What is the NHM?</title>
+  </chapter>
+
+  <chapter>
+    <title>Reading scenarios</title>
+  </chapter>
+
+  <chapter>
+    <title>Creating outputs</title>
+  </chapter>
+  
+  <chapter>
+    <title>Making changes to houses</title>
+  </chapter>
+
+  <chapter>
+    <title>Selecting houses to operate on</title>
+  </chapter>
+  
+  <chapter>
+    <title>Important parameters for energy use</title>
+  </chapter>
+
+  <chapter>
+    <title>Energy bills and money</title>
+  </chapter>
+
+  <chapter>
+    <title>Reusing code and organising your work</title>
+  </chapter>
+</part>

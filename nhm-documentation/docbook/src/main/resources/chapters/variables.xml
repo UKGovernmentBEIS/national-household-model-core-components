@@ -1,0 +1,62 @@
+<section xmlns="http://docbook.org/ns/docbook" id="variables" xreflabel="Variables">
+	<title>Variables</title>
+
+	<para>
+		The NHM will generate and discard large quantities of temporary information while running a scenario.
+		Modellers will sometimes want to use parts of this information in this calculations, so we have created some scenario language elements which act as variables.
+		This section acts as a summary describing those elements and their different uses.
+	</para>
+	
+	<itemizedlist>
+		<title>Reasons for using a variable</title>
+		<listitem>Keeping some historical data so that they can measure change over time.</listitem>
+		<listitem>Accumulating some value over time so that they can report on a total.</listitem>
+		<listitem>Introducing custom properties which the model has no built-in understanding of.</listitem>
+		<listitem>Tracking what has happened to a house during the scenario.</listitem>
+		<listitem>Looking at the internals of a a user-defined calculation, so that they may debug a scenario.</listitem>
+		<listitem>Re-using the result of a calculation in many different places.</listitem>
+	</itemizedlist>
+
+	<para>
+		To use variables in your scenario you must first declare them. This is done using the <xref linkend="ref.def" /> element. 
+		Each variable you use must be defined exactly once.
+		The declaration provides a place to define how permanent you want the variable to be.
+		It it also intended to guard against duplicate names and typing mistakes.
+	</para>
+
+	<para>
+		Having declared your variable, you may operating on it using <xref linkend="ref.declarations.set" />, <xref linkend="ref.increase" />, <xref linkend="ref.decrease" /> and <xref linkend="ref.get" />.
+		Inside each of these elements, you refer back to your declaration using <xref linkend="cross-references" />.
+	</para>
+
+	<para>
+		Variables frequently need to be put in sequence. For example, one variable may depend on the value of another which must be calculated first.
+		Alternatively, a variable may depend on the result of an action. You might also want an action to use a variable to look at the historical state of a house in some way.
+		To make this easier, we have introduced a sequencing element <xref linkend="ref.actioncombinations--do" />.
+		Do performs a sequence of actions in the order they are written, whilst allowing set actions access to values which would otherwise be invisible, such as the total cost of transactions performed within the do.
+		(It is worth taking some time to read through the examples listed for do.)
+	</para>
+	
+	<para>
+		Additionally, the <xref linkend="ref.actioncombinations.choice" /> elements and the various selectors which go inside it all have a do-first property.
+		This property may contain a list of <xref linkend="ref.declarations.set" /> and <xref linkend="ref.take-snapshot" /> actions.
+		These will be applied before that choice or selector does anything else.
+	</para>	  
+	
+	<section>
+		<title>Snapshots</title>
+			
+		<para>
+			In addition to storing numbers, variables may also be used to store snapshots using <xref linkend="ref.take-snapshot" /> and <xref linkend="ref.def-snapshot" />.
+			
+			A snapshot stores a copy of the entire state of the house frozen in time, which you may then compute functions against using the <xref linkend="ref.under" /> and <xref linkend="ref.snapshot-delta" /> elements.
+			Set and take-snapshot can both be used to achieve the same results. We recommend choosing whichever makes your scenario easier to read in any given situation.
+		</para>
+		
+		<para>
+			A snapshot may also contain some additional actions which will be applied to the copy of the house. 
+			A modeller can use this to put a house into a hypothetical state, from where they can ask what-if questions about it (sometimes known as a counterfactual).
+			The hypothetical state will never affect the real house, and will be discarded when the snapshot expires.
+		</para>
+	</section>
+</section>

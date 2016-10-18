@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section xmlns="http://docbook.org/ns/docbook" xmlns:xl="http://www.w3.org/1999/xlink">
+  <title>5.1.0</title>
+
+  <section>
+    <title>Changes to quantisation</title>
+
+    <para>
+      The quantisation methods available have been extended to allow for fractional weights, and
+      weights which vary between simulated houses. This change means that quantisation-related
+      grossing errors can be eliminated.
+
+      The default quantisation mode <emphasis>has been changed</emphasis>, so existing scenarios
+      will behave slightly differently (they will no longer have any rounding errors in grossed
+      figures).
+    </para>
+
+    <para>
+      For more about the changes to quantisation, see the <xref linkend="ref.scenario" />
+      element documentation, which details the new <code>weighting:</code> parameter available on
+      all scenarios and how it is used when running a simulation.
+    </para>
+  </section>
+
+
+  <section>
+    <title>New language elements</title>
+    
+    <para>
+      These new elements have been added to the language, to assist in the validation of new
+      stocks, and for general use.
+    </para>
+
+    <section>
+      <title>Hot water tanks</title>
+      <para>
+        The two new elements <xref linkend="ref.house.has-hot-water-cylinder" /> and <xref
+        linkend="ref.house.has-insulated-hot-water-cylinder" /> have been added which
+        allow you to find out about the status of a hot water cylinder in a house.
+      </para>
+    </section>
+
+    <section>
+      <title>Main heating system type</title>
+      <para>
+        The element <xref linkend="ref.house.main-heating-system-type" /> has been added,
+        which allows you to report on the type of main heating system in a house.
+      </para>
+    </section>
+
+    <section>
+      <title>Proportion of double glazed windows</title>
+
+      <para>
+        The element <xref linkend="ref.house.double-glazed-proportion" /> has been added,
+        which will produce the proportion of a house's glazing which is double glazing.
+      </para>
+    </section>
+
+    <section>
+        <title>Measure to install insulation on a Hot Water Cylinder</title>
+        <para>
+            The element <xref linkend="ref.measure.hot-water-tank-insulation" /> has been added which will top-up insulation on an existing hot water cylinder.
+        </para>
+    </section>
+    
+     <section>
+        <title>Measure to update an existing WarmAirHeatingSystem.</title>
+        <para>
+            The element <xref linkend="ref.measure.warm-air-system" /> has been added which will renew an existing Warm Air heating system.
+        </para>
+    </section>
+    
+    <section>
+      <title>Access to per-house weights</title>
+
+      <para>
+        The element <xref linkend="ref.house.weight" /> has been added, which allows access to
+        the weight of the current house. This should typically be used in preference to <xref
+        linkend="ref.sim.quantum" />, when summing up weighted values.
+      </para>
+    </section>
+    
+    <section>
+    	<title>Aggregate probes</title>
+    	<para>
+    		The <xref linkend="ref.probe.aggregate" /> element has been added, which allows users to
+    		probe the aggregate effect of a measure (for example, to aggregate how many houses were suitable).
+    	</para>
+    </section>
+    
+    <section>
+    	<title>Improvement to <xref linkend="ref.action.set-heating-temperatures" /></title>
+    	
+    	<para>
+	    	<xref linkend="ref.action.set-heating-temperatures" /> has a new argument
+	    	<code>desired-heating-months:</code>, which is a convenience for selecting a 
+	    	<code>threshold-external-temperature:</code> that results in a particular set of
+	    	heating months under a house's current weather conditions (note that this does
+			not exactly set the months in which the heating is on; it remains impossible to
+			have the heating on in a month which is warmer than another month for which the heating
+			is off).
+    	</para>
+    </section>
+    
+    <section>
+    	<title>Addition of <xref linkend="ref.house.mean-internal-temperature" /></title>
+    	
+    	<para>
+    		This element has been added to aid in the production of statistical tables which
+    		DECC publishes; it gives the mean internal temperature of the house over the whole year, 
+    		as determined by SAP.
+    	</para>
+    </section>
+  </section>
+  
+  <section>
+  	<title>UI Improvements</title>
+  	
+  	<section>
+  		<title>Report links</title>
+  		
+  		<para>
+  			When viewing a report, the leftmost link at the top of the page now returns
+  			to the front of the report, rather than to the scenario editor. To access the
+  			scenario editor, follow the third link entitled "view scenario".
+  		</para>
+  	</section>
+  	
+  	<section>
+  		<title>Quick preview graphs</title>
+  		
+  		<para>
+  			Tabular outputs now have a small preview page available from their help section
+  			(click the [+] link in the report index to view the help section). This allows a quick
+  			view of the distribution and correlation of numerical outputs, broken down by
+  			categorical outputs.
+  		</para>
+  	</section>
+  	
+  	<section>
+  		<title>Improved behaviour of F4 key</title>
+  		
+  		<para>
+  			Previously, the <code>F4</code> key could be used to navigate to includes.
+  			Now it will also navigate to the definition of templates, or help for elements.
+  		</para>
+  	</section>
+  </section>
+
+	<section>
+		<title>Performance Improvements</title>
+		
+		<para>
+			The memory usage and CPU time associated with validation have been reduced, which should
+			allow larger and more complex scenarios to be validated.
+		</para>
+	</section>
+
+  <section>
+    <title>Bugs fixed</title>
+    <section>
+      <title>Error in <xref linkend="ref.house.heat-loss" /></title>
+
+      <para>
+        <xref linkend="ref.house.heat-loss" /> was erroneously being negated and produced in
+        kilowatts/degree, rather than being positive and in watts/degree. This has been fixed, and
+        the documentation for the element has been improved.
+      </para>
+    </section>
+    
+    <section>
+    	<title>Error in lookup</title>
+    	
+    	<para>
+    		<xref linkend="ref.lookup" /> did not behave correctly when used in a time-sensitive context
+    		(for example in defining carbon factors) if one of the row-keys was itself time sensitive; the change
+    		in value due to the row key changing did not always happen. This has been fixed.
+    	</para>
+    </section>
+  </section>
+
+</section>

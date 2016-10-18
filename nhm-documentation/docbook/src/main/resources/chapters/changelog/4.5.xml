@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section xmlns="http://docbook.org/ns/docbook" xmlns:xl="http://www.w3.org/1999/xlink">
+	<title>4.5</title>
+	
+	<section>
+		<title>Updated schedule.init</title>
+		
+		<para>
+			<xref linkend="ref.schedule.init" /> has been improved to allow specification of an optional
+			sampling rule, so the initialization action can apply to a nondeterministic subset of a given group.
+		</para>
+	</section>
+	
+	<section>
+		<title>Improved tidy button</title>
+		
+		<para>
+			In the web interface, the source code tidy button's algorithm has been improved so that it will try
+			and preserve the line breaks that are present in the scenario.
+		</para>
+	</section>
+	
+	<section>
+		<title>Addition of action.case</title>
+		<para>
+			<xref linkend="ref.action.case" /> has been added, which lets you choose between several actions
+			by testing a boolean condition.
+		</para>
+	</section>
+	
+	<section>
+		<title>Updated finance.with-obligation</title>
+		
+		<xref linkend="ref.finance.with-obligation" /> has been updated to allow capturing of values at the time
+		when the obligation is created, for use when evaluating the amount of the obligation.
+	</section>
+	
+	<section>
+		<title>Added low energy lighting measure.</title>
+		
+		<xref linkend="ref.measure.low-energy-lighting" /> replaces incandescent bulbs with CFL bulbs. 
+	</section>
+	
+	<section>
+		<title>Additions for the LCH</title>
+		<section>
+			<title>Expose Household income.</title>
+			<para>
+				Added numeric value exposing the total income before tax for a house hold.
+				<xref linkend="ref.house.household-income" />
+			</para>
+		</section>
+		
+		<section>
+			<title>Expose occupants length of residence</title>
+			<para>
+				Added numeric value exposing how long the current occupants have been living in the survey-case.
+				<xref linkend="ref.house.length-of-residence" />
+			</para>
+		</section>
+		
+		<section>
+			<title>Test whether a house has radiators.</title>
+			<para>
+				Added a Boolean function defining whether a house has radiators or not. Based on centeral heating system being
+				present and emitters being radiators.
+				<xref linkend="ref.house.has-radiators" />
+			</para>
+		</section>
+	</section>
+</section>

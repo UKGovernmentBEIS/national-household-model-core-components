@@ -1,0 +1,135 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>uk.org.cse.nhm.manual</groupId>
+    <artifactId>parent</artifactId>
+    <version>6.4.0-SNAPSHOT</version>
+    <relativePath>..</relativePath>
+  </parent>
+  
+  <artifactId>pdf</artifactId>
+  <packaging>jar</packaging>
+  <name>PDF manual</name>
+  
+  <properties>
+    <documentation.dir>${project.build.directory}/generated-sources/documentation</documentation.dir>
+    <fonts.dir>${basedir}/src/fonts/</fonts.dir>
+  </properties>
+  
+  <dependencies>
+    <!-- depends on the docbook sources -->
+    <dependency>
+      <groupId>uk.org.cse.nhm.manual</groupId>
+      <artifactId>docbook</artifactId>
+      <version>${project.version}</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+  
+  <build>
+    <!-- embed pdf into jar
+         will also make sure to copy it into the war
+    -->
+    <resources>
+      <resource>
+        <directory>${project.build.directory}/generated-sources/documentation</directory>
+      </resource>
+    </resources>
+    
+    <plugins>
+      <plugin>
+        <artifactId>maven-dependency-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+	    <groupId>com.agilejava.docbkx</groupId>
+	    <artifactId>docbkx-fop-support</artifactId>
+	    <executions>
+	      <execution>
+	        <phase>generate-resources</phase>
+	        <goals>
+	          <goal>generate</goal>
+	        </goals>
+	        <configuration>
+	          <ansi>true</ansi>
+	          <sourceDirectory>${fonts.dir}</sourceDirectory>
+	        </configuration>
+	      </execution>
+	    </executions>
+      </plugin>
+      
+      <plugin>
+        <!-- this is meant to be handled by the parent but for some reason it gets upset -->
+        <groupId>com.agilejava.docbkx</groupId>
+	    <artifactId>docbkx-maven-plugin</artifactId>
+	    <version>2.0.15</version>
+	      
+        <executions>
+          <execution>
+	        <id>pdf</id>
+	        <phase>generate-resources</phase>
+	        <goals>
+	          <goal>generate-pdf</goal>
+	        </goals>
+	        <configuration>
+              <targetDirectory>${documentation.dir}</targetDirectory>
+              
+		      <ulinkShow>0</ulinkShow>
+	          <draftMode>no</draftMode>
+	          <paperType>A4</paperType>
+	          <fop1Extensions>1</fop1Extensions>
+	          <foCustomization>${basedir}/src/stylesheet/docbook.xsl</foCustomization>
+	          <fonts>
+		        <font>
+		          <name>Consolas</name>
+		          <style>normal</style>
+		          <weight>normal</weight>
+		          <embedFile>${fonts.dir}/consola.ttf</embedFile>
+		          <metricsFile>${basedir}/target/fonts/consola-metrics.xml</metricsFile>
+		        </font>
+
+		        <font>
+		          <name>Consolas</name>
+		          <style>italic</style>
+		          <weight>normal</weight>
+		          <embedFile>${fonts.dir}/consolai.ttf</embedFile>
+		          <metricsFile>${basedir}/target/fonts/consolai-metrics.xml</metricsFile>
+		        </font>
+		        <font>
+		          <name>Calibri</name>
+		          <style>normal</style>
+		          <weight>normal</weight>
+		          <embedFile>${fonts.dir}/calibri.ttf</embedFile>
+		          <metricsFile>${basedir}/target/fonts/calibri-metrics.xml</metricsFile>
+		        </font>
+		        <font>
+		          <name>Calibri</name>
+		          <style>italic</style>
+		          <weight>normal</weight>
+		          <embedFile>${fonts.dir}/calibrii.ttf</embedFile>
+		          <metricsFile>${basedir}/target/fonts/calibrii-metrics.xml</metricsFile>
+		        </font>
+		        <font>
+		          <name>Calibri</name>
+		          <style>normal</style>
+		          <weight>bold</weight>
+		          <embedFile>${fonts.dir}/calibrib.ttf</embedFile>
+		          <metricsFile>${basedir}/target/fonts/calibrib-metrics.xml</metricsFile>
+		        </font>
+	          </fonts>
+
+	          <bodyFontFamily>Calibri</bodyFontFamily>
+	          <titleFontFamily>Calibri</titleFontFamily>
+	          <monospaceFontFamily>Consolas</monospaceFontFamily>
+	        </configuration>
+	      </execution> 
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
+
+
+      

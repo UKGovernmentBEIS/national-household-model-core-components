@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section xmlns="http://docbook.org/ns/docbook" xmlns:xl="http://www.w3.org/1999/xlink">
+  <title>5.1.4</title>
+  <section>
+    <title>Language Changes</title>
+    <section>
+      <title>Addition of <code>repeat</code></title>
+      <para>
+        A new element <xref linkend="ref.scheduling.repeat"/> has been added, which can be used inside <xref linkend="ref.on.dates" /> to repeat the execution of things like <xref linkend="ref.apply" /> until a particular condition is met.
+      </para>
+      <para>
+        In addition, the repeat element can be configured to re-try its actions from scratch, allowing for a very limited kind of optimisation. To allow this, the use of randomness in the model has been changed, making this a <emphasis role="strong">breaking change</emphasis>. As of this version, consuming entropy during circumstances whose effects are discarded (within <code>under</code>, or in a choice alternative that is not taken, or when <code>repeat</code> re-tries an iteration) does not have an effect on subsequent random events in the scenario. Previously, using the random number source at any point in the scenario would affect all subsequent use of randomness within that run.
+      </para>
+    </section>
+
+    <!-- requested by the RHI team; adding variable fuels has been asked for by a few people, did it whilst was in there. -->
+    <section>
+      <title>Changes to heat pumps</title>
+      <para>
+        The model's representation of heat pumps has been changed to allow non-electric heat pumps and hybrid heat pumps to be represented. Existing heat pumps in scenarios will be unaffected, as these changes only take effect when the new parameters to <xref linkend="ref.measure.heat-pump" /> are supplied.
+      </para>
+      <para>
+        The treatment of non-electric heat pumps is identical to electric heat pumps, except the fuel consumed is all of one sort (rather than being peak / off-peak). The <code>fuel:</code> argument to <code>measure.heat-pump</code> can be used to select a fuel.
+      </para>
+      <para>
+        Hybrid heat pumps are represented in a manner suggested by the RHI team; three additional parameters are provided:
+        
+        <orderedlist>
+          <listitem>
+            <para><code>hybrid-fuel:</code>, which specifies the fuel used by the burner in the hybrid part of the heat pump,</para>
+          </listitem>
+          <listitem>
+            <para><code>hybrid-efficiency:</code>, which is computed to determine the efficiency of the hybrid part of the heat pump, and</para>
+          </listitem>
+          <listitem>
+            <para><code>hybrid-ratio:</code>, which is a list of twelve numbers intended to be used to set the heat-pump to hybrid burner output fraction in each month of the year.</para>
+          </listitem>
+        </orderedlist>
+
+        When a hybrid heat pump is installed, all hot water is produced using the hybrid fuel at the hybrid efficiency. In each month of the year, space heat is produced according to the hybrid ratio for that month (if the hybrid ratio is 1, all space heat is produced from the hybrid fuel at the hybrid efficiency; if 0, the space heat is produced using the heat pump as normal).
+      </para>
+      <para>
+        This is in line with the indications given in <link linkend="http://www.daikin.co.uk/binaries/FINAL%20-%20Installer%20Brochure%20-%2010.02.2014_tcm511-305363.pdf">this documentation</link> about the Daikin Altherma hybrid heat pump.
+      </para>
+      <para>
+        <emphasis>Users should note</emphasis> that this approach suffers from the same problems as using an average seasonal performance factor for a heat pump, but with some additional complications. The performance of a heat pump is determined by a (typically asymmetric, nonlinear) function of the circulating temperature and the heat store temperature. These two values are in turn functions of exterior temperature, emitter performance, the dwelling's heat loss, and thermostat settings. A choice of SPF, and equally of the monthly hybrid ratios, implies a choice of distribution over all of these factors which can then be used to produce an average performance; such an average performance will by systematically biased when the distribution over one of the factors changes (for example when considering the geographical relationship to climate). In addition, because a hybrid heat pump is likely to select fuel based on <emphasis>economic</emphasis> considerations, the hybrid ratios also imply an additional choice of relationship between the costs of different fuels.
+      </para>
+    </section>
+
+    <section>
+      <title>Obsolesence of <code>house.main-heating-fuel</code></title>
+      <para>
+       <xref linkend="ref.house.main-heating-fuel" /> is inconsistent with other language elements that referred to fuels, in that it uses an internal labelling for fuels containing underscores (e.g. <code>MAINS_GAS</code> rather than <code>MainsGas</code>).
+      </para>
+      <para>
+        It has been superseded by <xref linkend="ref.house.heating-fuel" />, which is the same except that the labelling for fuels is consistent.
+      </para>
+    </section>
+    
+    <section>
+      <title>Addition of <code>in-order</code></title>
+      <para>
+        To support modelling the renewable heat incentive, the <xref linkend="ref.in-order" /> element has been added. This is a fairly flexible device which can perform actions in an optimal order presuming certain conditions pertain (mainly that the quality of the actions must be independent). This can be used to allocate the most cost-effective measures subject to supply-chain constraints, for example.
+      </para>
+    </section>
+
+    <section>
+      <title>Addition of <code>consume</code></title>
+
+      <para>
+        To support modelling the renewable heat incentive, <xref linkend="ref.consume" /> has been added. This is a convenience designed for representing supply chains, or other constrained resources. It is an action which either takes some amount off a variable representing a limited quantity, or fails if there is not enough left for that to be possible. Used within a <code>do</code> command, it prevents the command from exhausting the limited resource.
+      </para>
+    </section>
+
+    <section>
+      <title>Improvements to present cost calculations</title>
+
+      <para>
+        To support modelling the renewable heat incentive, and because it will be of wider user, the old <code>npv</code> function has been superseded by a more flexible replacement set of tools.
+      </para>
+
+      <para>
+        Firstly, the <xref linkend="ref.future-value" /> element has been added; this will predict the (un-discounted) sum of any other function over some horizon. To produce a discounted sum, the <xref linkend="ref.exponential-discount" /> term has been added, which computes an exponentially discounted version of another function, when used inside <code>predict-sum</code>. Finally, since the previous version of npv always computed the discounted sum of all annual costs a house would have to pay, the <xref linkend="ref.house.annual-cost" /> element has been added.
+      </para>
+
+      <para>
+        The behaviour of the old NPV can be reproduced with:
+      </para>
+
+      <programlisting><![CDATA[(def-function old-npv
+  (+ (net-cost)
+     (future-value
+      predict:[]
+      horizon:10
+      (exponential-discount
+       rate:5%
+       (house.annual-cost)))))]]></programlisting>
+
+      <para>
+        However, unlike the old NPV, you can modify the function to be predicted (so it can be a restricted subset of costs, or something which is not a cost), you can change the discounting rule to be anything you would like (for example, <xref linkend="ref.hyperbolic-discount" /> has also been added), and you can control which time-sensitive aspects of the calculation should or should not be predictable.
+      </para>
+    </section>
+  </section>
+</section>

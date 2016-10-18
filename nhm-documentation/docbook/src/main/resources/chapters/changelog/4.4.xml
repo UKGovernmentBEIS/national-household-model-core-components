@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section xmlns="http://docbook.org/ns/docbook" xmlns:xl="http://www.w3.org/1999/xlink">
+	<title>4.4</title>
+	
+	<section>
+		<title>Loft Insulation Actions and Suitability</title>
+		
+		<para>
+			<xref linkend="ref.action.set-has-loft" /> allows you to set
+			whether or not a house has a loft; it is the counterpart to
+			<xref linkend="ref.house.has-loft" />. The modify insulation action
+			and roof insulation measure have both been updated so that they are only
+			suitable for houses which have a loft.
+		</para>
+	</section>
+	
+	<section>
+		<title>Extra House Functions</title>
+		
+		<para>We have added the following house functions.</para>
+		
+		<itemizedlist>
+			<listitem><xref linkend="ref.house.total-floor-area" /></listitem>
+			<listeitem><xref linkend="ref.house.heat-loss" /></listeitem>
+		</itemizedlist>
+	</section>
+	
+	<section>
+		<title>Uncalibrated Energy Calculator</title>
+		
+		<para>
+			Previously, we added elements to calibrate the energy calculator using external values. This calibration then propagated out to fuel bills, carbon emissions etc.
+			We've now added an element <xref linkend = "ref.action.decalibrate-energy" /> which removes the effects of the energy calibration and goes back to the raw energy calculator values.
+			This action may only be used as a hypothesis or counterfactual (that is, inside an under function or a snapshot), and so its effects are temporary. 
+		</para>
+	</section>
+	
+	<section>
+		<title>Weather Changes</title>
+	
+		<para>
+			We've added the element <xref linkend = "ref.weather.perturb" /> which allows for bulk modification of the weather.
+			This is a convenience to avoid having to modify every single weather number when you want to change the weather in a systematic way.
+			It would be useful for examining the sensitivity of a scenario to the weather using a batch. 
+		</para>
+		
+		<para>
+			As part of this, we've also changed how weather is defined in general to make it easier to read and write.
+			See the changed elements <xref linkend="ref.context.weather" /> and <xref linkend="ref.counterfactual.weather" /> for details.
+		</para>
+	</section>
+	
+	<section>
+		<title>Removed Deprecated Flag Action and Test</title>
+		
+		<para>
+			 Removed deprecated items <code>house.test-flag)</code> and <code>(action.flag)</code>.
+			 Use <xref linkend="ref.house.flags-match" /> and <xref linkend="ref.house.flag" /> instead.
+		</para>
+	</section>
+</section>

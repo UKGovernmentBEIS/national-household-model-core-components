@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section xmlns="http://docbook.org/ns/docbook" xmlns:xl="http://www.w3.org/1999/xlink">
+  <title>5.0.1</title>
+  <section>
+    <title>Bug fixes</title>
+    
+    <para>The following bugs have been fixed:</para>
+    
+    <itemizedlist>
+      <listitem>
+	<para>
+	  A failure to close all of the files used when generating reports would eventually cause simulator machines
+	  to stop working after some large number of reports had been generated. This error should now be eliminated.
+	</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+</section>

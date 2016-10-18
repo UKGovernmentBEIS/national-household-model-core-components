@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section xmlns="http://docbook.org/ns/docbook" id="include" xreflabel="Including Scenarios">
+	<title>Includes</title>
+	
+	<para>
+		Includes are a way to split scenarios across many files. 
+		They are especially helpful for re-using parts which are common to many scenarios.
+	</para>
+		
+	<para>
+	  To include into a scenario you can use the special
+	  <code>include</code> language element; You can include a
+	  scenario using its id by writing <code>(include id:ID_GOES_HERE)</code>, 
+	  or using its name and version stamp by writing 
+	  <code>(include name:my-scenario version:1)</code>.
+
+	  To get a version stamp to go with a scenario, find the version
+	  you want to include in the interface and click the green shape
+	  next to the name field. This will generate a number which
+	  together with the name uniquely identifies that scenario
+	</para>
+	
+	<para>
+	  Includes work a bit like templates, in that the
+	  <code>include</code> expression is replaced by all the contents
+	  of the included file; inclusion takes place before template
+	  expansion, so you can include a file of templates and use them
+	  in another file. This does mean that you cannot give two
+	  templates the same name if you include them into the same
+	  scenario, and that if you define a template with an include in
+	  its template body, the include will be filled out before the
+	  template is expanded, so you can't substitute a template
+	  parameter into the include's arguments.
+	</para>
+</section>

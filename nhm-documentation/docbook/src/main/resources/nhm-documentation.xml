@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<book version="5.0" xmlns="http://docbook.org/ns/docbook"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      xmlns:db="http://docbook.org/ns/docbook">
+  <info>
+    <title>National Household Model</title>
+	<subtitle>User Manual</subtitle>
+	<subtitle>Version <?eval ${nhmversion}?></subtitle>
+  </info>
+
+
+  <xi:include href="generated/changelog.xml" />
+  <xi:include href="chapters/introduction.xml" />
+  <xi:include href="chapters/macroref.xml" />
+  <xi:include href="generated/langref.xml" />
+  <xi:include href="chapters/stock.xml" />
+  <xi:include href="chapters/appendix.xml" />
+</book>

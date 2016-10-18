@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<part xmlns="http://docbook.org/ns/docbook"
+	xmlns:xi="http://www.w3.org/2001/XInclude"
+	  version="5.0">
+  <title>Appendices</title>
+
+  <appendix id="appendix--databases">
+	<title>Manipulating NHM outputs using other software</title>
+	<para>
+	  As mentioned above, you may find that you want to process the NHM’s
+	  outputs using other software systems. Two popular tools which many
+	  people find adequate for this kind of work are Microsoft Excel,
+	  which is a kind of programmable grid of numbers, and Microsoft
+	  Access which resembles a relational database. Fully explaining these
+	  tools is outside the scope of this document, but there ought to be
+	  enough information here to get you started using them.
+	</para>
+	<section id="opening-tab-separated-files-in-excel">
+	  <title>Opening tab-separated files in Excel</title>
+	  <para>
+		Excel can open several non-proprietary file formats, including
+		<emphasis>tab-separated</emphasis> files, which are what the NHM
+		produces. Unfortunately, the factory configuration for Windows
+		does not associate Excel with the <literal>.tab</literal> file
+		extension normally used with tab-separated files; however this is
+		easily remedied.
+	  </para>
+	  <para>
+		The first time you attempt to download and open a file for which
+		there is no association, Internet Explorer will display a dialog
+		letting you know that it has no association for that type of file,
+		and asking what to do with it. Figure [fig--excel-open] shows the
+		sequence of dialogs that you have to click through at this point.
+	  </para>
+	  <figure>
+		<title>How to open tab-separated files using Excel</title>
+		<mediaobject>
+		  <imageobject>
+			<imagedata width="100%" scalefit="1" fileref="one.png" />
+		  </imageobject>
+		</mediaobject>
+
+		<para>
+		  First click on the <quote>open</quote> button to open the file
+		  after downloading.
+		</para>
+
+		<mediaobject>
+		  <imageobject>
+			<imagedata width="100%" scalefit="1" fileref="two.png" />
+		  </imageobject>
+		</mediaobject>
+
+		<para>
+		  In the resulting dialog, select the second option (choose from
+		  list, rather than by web service).
+		</para>
+
+		<mediaobject>
+		  <imageobject>
+			<imagedata width="100%" scalefit="1" fileref="three.png" />
+		  </imageobject>
+		</mediaobject>
+	  </figure>
+	  <para>
+		Finally select Excel from the list; if it does not appear in the
+		list, you will need to click the <quote>Browse</quote> button and
+		navigate to the location where EXCEL.EXE is found on your
+		computer. This depends on how your computer has been set up, but
+		often it is in
+		<literal>C:\Program Files\Microsoft Office\Office14\EXCEL.EXE</literal>
+		(the <literal>Office14</literal> part depends on your version of
+		Office).
+	  </para>
+	</section>
+	<section id="relational-databases">
+	  <title>Relational databases</title>
+	  <para>
+		A relational database typically contains a set of
+		<emphasis>tables</emphasis>. Each table can contain many rows,
+		each having the same schema (column names and types) but different
+		values. The interesting features of relational databases mostly
+		arise from connections <emphasis>between</emphasis> tables. Using
+		Structured Query Language, or SQL, it is possible to construct a
+		view on information contained in many tables, by joining the rows
+		together where they have common values in a particular field. The
+		joining process is also called denormalisation, and its inverse
+		normalisation; for example, imagine a denormalised table of
+		information about people, some of whom live in the same house:
+	  </para>
+	  <informaltable>
+		<tgroup cols="4">
+		  <colspec align="center" />
+		  <colspec align="center" />
+		  <colspec align="center" />
+		  <colspec align="center" />
+		  <thead>
+			<row>
+			  <entry>
+				Name
+			  </entry>
+			  <entry>
+				House
+			  </entry>
+			  <entry>
+				Street
+			  </entry>
+			  <entry>
+				Postcode
+			  </entry>
+			</row>
+		  </thead>
+		  <tbody>
+			<row>
+			  <entry>
+				Jim
+			  </entry>
+			  <entry>
+				3
+			  </entry>
+			  <entry>
+				Smith St.
+			  </entry>
+			  <entry>
+				BS8 1EL
+			  </entry>
+			</row>
+			<row>
+			  <entry>
+				Bob
+			  </entry>
+			  <entry>
+				3
+			  </entry>
+			  <entry>
+				Smith St.
+			  </entry>
+			  <entry>
+				BS8 1EL
+			  </entry>
+			</row>
+			<row>
+			  <entry>
+				Edna
+			  </entry>
+			  <entry>
+				6
+			  </entry>
+			  <entry>
+				Melon St.
+			  </entry>
+			  <entry>
+				BS1 9EU
+			  </entry>
+			</row>
+			<row>
+			  <entry>
+				Clare
+			  </entry>
+			  <entry>
+				6
+			  </entry>
+			  <entry>
+				Melon St.
+			  </entry>
+			  <entry>
+				BS1 9EU
+			  </entry>
+			</row>
+		  </tbody>
+		</tgroup>
+	  </informaltable>
+
+	  <para>
+		Although this table is easy to read, it is not easy to search
+		or otherwise manipulate, and it contains a lot of redundant
+		information. To make the table smaller, and for ease of
+		processing, it can be divided into two joined tables, as shown
+		below. It is in this sense that the
+		<literal>dwelling/housing-stock-attributes</literal> table is
+		a normalisation of the <literal>dwelling/structure</literal>
+		table.
+	  </para>
+	  <informaltable>
+		<tgroup cols="2">
+		  <colspec align="center" />
+		  <colspec align="center" />
+		  <thead>
+			<row>
+			  <entry>
+				Name
+			  </entry>
+			  <entry>
+				AddressID
+			  </entry>
+			</row>
+		  </thead>
+		  <tbody>
+			<row>
+			  <entry>
+				Jim
+			  </entry>
+			  <entry>
+				1
+			  </entry>
+			</row>
+			<row>
+			  <entry>
+				Bob
+			  </entry>
+			  <entry>
+				1
+			  </entry>
+			</row>
+			<row>
+			  <entry>
+				Edna
+			  </entry>
+			  <entry>
+				2
+			  </entry>
+			</row>
+			<row>
+			  <entry>
+				Clare
+			  </entry>
+			  <entry>
+				2
+			  </entry>
+			</row>
+		  </tbody>
+		</tgroup>
+	  </informaltable>
+	  <informaltable>
+		<tgroup cols="4">
+		  <colspec align="center" />
+		  <colspec align="center" />
+		  <colspec align="center" />
+		  <colspec align="center" />
+		  <thead>
+			<row>
+			  <entry>
+				AddressID
+			  </entry>
+			  <entry>
+				House
+			  </entry>
+			  <entry>
+				Street
+			  </entry>
+			  <entry>
+				Postcode
+			  </entry>
+			</row>
+		  </thead>
+		  <tbody>
+			<row>
+			  <entry>
+				1
+			  </entry>
+			  <entry>
+				3
+			  </entry>
+			  <entry>
+				Smith St.
+			  </entry>
+			  <entry>
+				BS8 1EL
+			  </entry>
+			</row>
+			<row>
+			  <entry>
+				2
+			  </entry>
+			  <entry>
+				6
+			  </entry>
+			  <entry>
+				Melon St.
+			  </entry>
+			  <entry>
+				BS1 9EU
+			  </entry>
+			</row>
+		  </tbody>
+		</tgroup>
+	  </informaltable>
+
+	  <para>
+		The identifiers which relate rows in linked tables are commonly
+		called <quote>keys</quote>; the identifier for a row in its table
+		is a <quote>primary key</quote> and identifiers for rows in other
+		tables are <quote>foreign keys</quote>. In the example already
+		shown, <literal>AddressID</literal> is the primary key of the
+		address table and a foreign key in the table of people.
+	  </para>
+	  <para>
+		With this knowledge in hand, we can now understand the
+		relationship between the structure, attributes, and other
+		per-dwelling tables. <xref linkend="fig--erd" /> gives a
+		graphical representation of the relationships
+	  </para>
+
+	  <figure id="fig--erd">
+		<title>Relationships between structure, energy and housing-stock-attributes</title>
+		<mediaobject>
+		  <imageobject>
+			<imagedata width="75%" scalefit="1" fileref="erd.svg" />
+		  </imageobject>
+		</mediaobject>
+	  </figure>
+	</section>
+
+	<section id="integrating-tables-of-changes">
+	  <title>Integrating tables of changes</title>
+	  <para>
+		Since the dwelling tables are related many-to-many by
+		<literal>dwelling-id</literal>, determining the state of the
+		housing stock at a particular point in time requires some SQL;
+		similarly producing a time-series also requires a bit of work.
+		Let’s consider the first of these.
+	  </para>
+	  <sect3 id="querying-for-the-state-at-a-point-in-time">
+		<title>Querying for the state at a point in time</title>
+		<para>
+		  Let us say you wanted to know the state of the system with
+		  respect to energy usage on a given date, say the 1st of January
+		  2030. Because the energy table contains changes, there may not
+		  be a row for that date for most houses.
+		</para>
+		<para>
+		  Instead, we must select the <emphasis>latest</emphasis> row
+		  before that date; first let’s just think about getting the
+		  latest record for each house that matches the date.
+		</para>
+		<programlisting language="sql">
+		  SELECT [dwelling-id], MAX([date]) AS maxdate FROM [energy] 
+		  WHERE [date] &lt;= #01/01/2030#
+		  GROUP BY [dwelling-id]
+		</programlisting>
+		<para>
+		  This query yields a table with one row per dwelling, with an
+		  extra column containing the latest date up to 01/01/2030 for
+		  that dwelling. Now to retrieve the energy consumption values as
+		  well we have to join this table back on to the energy table,
+		  keeping only those rows where the date and dwelling ID both
+		  match. A join which only keeps matching rows is an inner join,
+		  so we can write
+		</para>
+		<programlisting language="sql">
+		  SELECT * FROM [energy]
+		  INNER JOIN ((
+		  SELECT [dwelling-id], MAX([date]) AS maxdate FROM [energy] 
+		  WHERE [date] &lt;= #01/01/2030#
+		  GROUP BY [dwelling-id]
+		  ) AS latest)
+		  ON [latest].[dwelling-id] = [energy].[dwelling-id]
+		  AND [latest].[maxdate] = [energy].[date]
+		</programlisting>
+		<para>
+		  This join will tell us how every house’s energy consumption was
+		  on 01/01/2030; analogous joins can get the state at a point in
+		  time for other tables. The resulting tables can then be joined
+		  together to do things like aggregating energy use by region in a
+		  particular year:
+		</para>
+		<programlisting language="sql">
+		  SELECT SUM([energy].[MAINS_GAS]), [region] FROM [housing-stock-attributes]
+		  INNER JOIN
+
+		  (SELECT * FROM [structure]
+		  INNER JOIN ((
+		  SELECT [dwelling-id], MAX([date]) AS maxdate FROM [structure] 
+		  WHERE [date] &lt;= #01/01/2030#
+		  GROUP BY [dwelling-id]
+		  ) AS latest)
+		  ON [latest].[dwelling-id] = [structure].[dwelling-id]
+		  AND [latest].[maxdate] = [structure].[date]
+		  AS [attributes-2030])
+
+		  ON [housing-stock-attributes].[attributes-id] = [attributes-2030].[attributes-id]
+
+		  INNER JOIN 
+
+		  (SELECT * FROM [energy]
+		  INNER JOIN ((
+		  SELECT [dwelling-id], MAX([date]) AS maxdate FROM [energy] 
+		  WHERE [date] &lt;= #01/01/2030#
+		  GROUP BY [dwelling-id]
+		  ) AS latest)
+		  ON [latest].[dwelling-id] = [energy].[dwelling-id]
+		  AND [latest].[maxdate] = [energy].[date]
+		  AS [energy-2030])
+
+		  ON [attributes-2030].[dwelling-id] = [energy-2030].[dwelling-id]
+
+		  GROUP BY region
+		</programlisting>
+	  </sect3>
+	  <sect3 id="creating-time-series-from-tables-of-changes">
+		<title>Creating time-series from tables of changes</title>
+		<para>
+		  Although the NHM has inbuilt functionality for extracting
+		  user-defined timeseries, it may also be useful to know how to
+		  construct timeseries using SQL on the standard output tables.
+		  This cannot be done using any simple combination of joins, but
+		  instead requires that you use a sub-select as one of the fields
+		  to produce in a query; for example, to compute the total rate of
+		  consumption of mains gas in a yearly table, you could use a
+		  query like this:
+		</para>
+		<programlisting language="sql">
+		  SELECT years.year,
+		  (SUM(MAINS_GAS) FROM [energy]
+		  INNER JOIN ((
+		  SELECT [dwelling-id], MAX([date]) AS maxdate FROM [energy] 
+		  WHERE [date] &lt;= [years].[year]
+		  GROUP BY [dwelling-id]
+		  ) AS latest)
+		  ON [latest].[dwelling-id] = [energy].[dwelling-id]
+		  AND [latest].[maxdate] = energy.[date]) as suminyear
+		  FROM years
+		</programlisting>
+		<para>
+		  Where the table <literal>years</literal> contains the the series
+		  of dates you want to use for the time axis.
+		</para>
+	  </sect3>
+	</section>
+  </appendix>
+  
+  <xi:include href="imputation.xml" />
+</part>

@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section xmlns="http://docbook.org/ns/docbook" id="batch-running" xreflabel="Batch Running">
+	<title>Batch</title>
+
+	<para>
+		Batch running is a way is to experiment with a scenario. You can vary parameters in a controlled way and observe how your chosen outputs change in response.
+	</para>
+
+	<para>
+		It is useful for:
+		<itemizedlist>
+			<listitem>
+				Trying out different assumptions to see their impact on your scenario.
+			</listitem>
+			<listitem>
+				Introducing randomness to confirm the stability of your results.
+			</listitem>
+			<listitem>
+				Sensitivity analysis to examine how a particular parameter influences others. For example, you could examine how varying the demand temperature of houses effects their carbon emissions.
+			</listitem>
+			<listitem>
+				Varying the parameters of a policy to see their impact.
+			</listitem>
+			<listitem>
+				Switching policies on and off entirely by varying flags.
+			</listitem>
+		</itemizedlist>
+	</para>
+
+	<para>
+		A batch consists of many
+		<emphasis>runs</emphasis>
+		. Each run consists of running the complete scenario from scratch. For this reason, batches can take a long time to run.
+	</para>
+
+	<para>
+		To run a batch/
+		<orderedlist>
+			<listitem>
+				Begin by writing the
+				<xref linkend="ref.batch" />
+				element.
+			</listitem>
+			<listitem>
+				Inside the batch element, you will write your
+				<xref linkend="ref.scenario" />
+				as normal.
+			</listitem>
+			<listitem>
+				Next to your scenario, but still inside the batch element, write your definition of the inputs which you want to vary.
+			</listitem>
+			<listitem>
+				Then, modify your scenario to include placeholders which indicate where in the scenario these inputs will go.
+			</listitem>
+			<listitem>
+				Change the reports in your scenario to provide outputs suitable for batch running.
+			</listitem>
+			<listitem>
+				Lastly, run your scenario as normal.
+			</listitem>
+		</orderedlist>
+	</para>
+
+	<section>
+		<title>Batch Inputs</title>
+
+		<para>
+			Batch inputs are described by the language elements listed in
+			<xref linkend="cat--Batch" />
+			.
+		</para>
+
+		<section>
+			<title>Batch Tables</title>
+			<para>
+				Each batch input element produces a table (although in many
+				cases the table may only have one column).  The
+				headers of the table are
+				<emphasis>placeholders</emphasis> .  These specify the
+				name of an input parameter, and always begin with the
+				'$' character.  The rows of the table provide the
+				values for a single scenario run.
+			</para>
+
+			<para>
+				The simplest batch input is probably
+				<xref linkend="ref.table" />
+				, where the table of inputs is explicitly written out by the modeller.
+			</para>
+
+		</section>
+
+		<section>
+			<title>Scenario Placeholders</title>
+
+			<para>
+				Having specified your batch inputs, you need to mark up your scenario with the places where the values they generate will be used.
+				This is done by identifying the atom you want to replace, then setting it to be equal to a
+				placeholder name you defined in your inputs.
+			</para>
+
+			<para>
+				For example, if we wanted to vary the efficiency of a measure, we might define a placeholder
+				<emphasis>$efficiency</emphasis>
+				in our inputs.
+				We could then use this in our scenario by using it as the value for the efficiency of a measure
+				<code><![CDATA[(measure.standard-boiler efficiency: $efficiency)]]></code>
+				.
+				This would then be filled in with a different value for each run in the batch.
+				Note that you may use the same placeholder to fill in the same value in multiple places within a scenario.
+			</para>
+
+		</section>
+
+		<section>
+			<title>Distributions</title>
+			<para>
+				Distributions are inputs which supply random numbers. All the
+				distributions
+				supplied with the NHM are single-variable, and require
+				you to define
+				a placeholder. If you wish to define a multi-variate,
+				you should
+				generate it off-model and
+				import it into the NHM as a
+				table.
+			</para>
+
+			<para>
+				Some examples of distributions:
+				<itemizedlist>
+					<listitem>
+						<xref linkend="ref.gaussian" />
+					</listitem>
+					<listitem>
+						<xref linkend="ref.uniform" />
+					</listitem>
+					<listitem>
+						<xref linkend="ref.discrete" />
+					</listitem>
+				</itemizedlist>
+			</para>
+
+			<para>
+				Distributions are
+				<emphasis>unbounded</emphasis>
+				. This means that they can produce a table of any length. Since each
+				row of the table represent a run of the scenario, and we cannot run
+				an infinite number of scenarios, the top level batch input (which
+				goes directly inside the
+				<xref linkend="ref.batch" />
+				element) must be bounded. You can wrap the
+				<xref linkend="ref.bounded" />
+				element around a distribution to limit the number of rows it will
+				produce.
+			</para>
+		</section>
+
+		<section>
+			<title>Combinators</title>
+
+			<para>
+				Since most batch inputs only allow you to specify one variable,
+				we need a
+				way to join them together for when we want to vary many
+				things at
+				once. The elements which do this are called combinators.
+			</para>
+
+			<itemizedlist>
+				<listitem>
+					<xref linkend="ref.concat" />
+					joins together inputs with the same placeholders (column headers)
+					one after another to create a long table.
+				</listitem>
+				<listitem>
+					<xref linkend="ref.zip" />
+					joins together inputs with different placeholders into a wide
+					table.
+				</listitem>
+				<listitem>
+					<xref linkend="ref.cross" />
+					joins together inputs by working out all their possible
+					combinations, creating a table which is both wide and long.
+				</listitem>
+			</itemizedlist>
+		</section>
+
+	</section>
+
+	<section>
+		<title>Randomness</title>
+
+		<para>
+			The
+			<xref linkend="ref.repetitions" />
+			element multiplies the number of the rows in the inputs. It produces
+			a new random seed each time.
+		</para>
+	</section>
+
+	<section>
+		<title>Batch Outputs</title>
+
+		<para>
+			When we run batch simulations, we need to reduce the information we output so
+			that we can effectively compare it between scenarios. Instead of building report
+			tables, each scenario should output a single row.
+			We would also like the columns that it outputs to have the same headings for every run of the scenario so that we may compare them.
+			For this reason, most existing reports are disallowed during batch running.
+		</para>
+
+		<para>
+			Some examples of questions we want to ask using batch scenario runs:
+			<itemizedlist>
+				<listitem>How many ECO points were generated?</listitem>
+				<listitem>How much money did my policy spend?</listitem>
+				<listitem>What were the cumulative CO2 emissions of all houses in England?</listitem>
+			</itemizedlist>
+		</para>
+
+		<para>
+			The kind of report which can answer these questions is
+			<xref linkend="ref.report.aggregate" />
+			.
+			In batch mode, the aggregate report has the restriction that it may not operate in on-change mode
+			<xref linkend="ref.mode.on-change" />
+			(which is the default under normal circumstances), since that produces a large table of data which may vary on a per-run basis.
+			Instead, you should set it to use one of the other reporting modes from
+			<xref linkend="cat--Reporting Modes" />.
+		</para>
+
+		<para>
+			The output from a batch run is an extended (widened) version of the inputs table.
+			It still contains a single row per run and a column for each input placeholder.
+			It also contains a column for each value which was output. This would correspond to one column for each of the example questions above.
+		</para>
+
+		<para>
+			A batch run will also output a second table which may have multiple rows per scenario run if any report emitted multiple values in a run.
+			This report will have extra columns for grouping, which will usually contain dates and dwelling
+			groups.
+			It is effectively a partially transposed version of the standard batch table, and is included as it may be easier to use if you want to report on the same value on different dates.
+		</para>
+
+		<example>
+			<title>How many ECO points were generated?</title>
+			<programlisting language="lisp"><![CDATA[(report.aggregate name:total-eco-points
+    mode:(mode.sum)
+
+    (aggregate.sum (register.get name:ECO-points)))]]>
+			</programlisting>
+		</example>
+
+		<example>
+			<title>What were the cumulative CO2 emissions of all houses in England?</title>
+			<programlisting language="lisp">
+					<![CDATA[(report.aggregate name:cumulative-CO2
+    mode:(mode.integral)
+
+    (aggregate.sum (house.emissions)))]]>
+			</programlisting>
+		</example>
+	</section>
+</section>
