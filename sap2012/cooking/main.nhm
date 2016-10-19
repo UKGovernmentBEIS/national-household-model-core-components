@@ -1,0 +1,25 @@
+(scenario
+ start-date: 2015
+ end-date: 2015
+ stock-id: ../../EHS2012.json.gz
+
+ (def-report cooking
+   (column
+    name: gas
+    value: (house.energy-use by-service: Cooking by-fuel: MainsGas))
+
+   (column
+    name: elec
+    value: (+
+	    (house.energy-use by-service: Cooking by-fuel: PeakElectricity)
+	    (house.energy-use by-service: Cooking by-fuel: OffPeakElectricity))
+
+   (column
+    name: occupancy
+    value: (house.number-of-occupants)))
+
+ (on.dates
+  [(scenario-start)]
+
+  (apply
+   (send-to-report #cooking))))
