@@ -33,7 +33,7 @@ public interface ILight extends INamed, IVisitorAccepter {
 	UNIT: Dimensionless
 	SAP: (L1)
 	BREDEM: 1B
-	CONVERSION: From kWh/year to W, multiply by (hours/year) and divide by k; (365.25 * 24) / 1000
+	CONVERSION: From kWh/year to W (1000 / (365.25 * 24))
 	ID: incandescent-energy-consumption
 	CODSIEB
 	*/

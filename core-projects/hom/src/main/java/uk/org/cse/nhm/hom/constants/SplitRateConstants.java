@@ -55,7 +55,6 @@ public enum SplitRateConstants implements IConstant {
 	UNIT: Dimensionless
 	SAP: Table 13 (footnote 2)
 	SET: context.energy-constants
-	CONVERSION: conversion
 	ID: dual-coil-immersion-split-rate-terms
 	CODSIEB
 	*/
@@ -74,7 +73,6 @@ public enum SplitRateConstants implements IConstant {
 	UNIT: Dimensionless
 	SAP: Table 13 (footnote 2)
 	SET: context.energy-constants
-	CONVERSION: conversion
 	ID: single-coil-immersion-split-rate-terms
 	CODSIEB
 	*/

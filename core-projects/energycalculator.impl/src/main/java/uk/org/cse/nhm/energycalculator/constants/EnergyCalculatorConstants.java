@@ -165,7 +165,6 @@ public enum EnergyCalculatorConstants implements IConstant {
 	SAP: Table 9 (note at bottom of table)
 	BREDEM: 7A,7B
 	SET: context.energy-constants
-	CONVERSION: conversion
 	ID: reference-heat-loss-parameter
 	CODSIEB
 	*/

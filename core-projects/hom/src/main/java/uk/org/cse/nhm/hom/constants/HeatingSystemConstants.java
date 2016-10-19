@@ -15,7 +15,7 @@ public enum HeatingSystemConstants implements IConstant {
 	SAP: Table 3
 	BREDEM: 2.2D
 	SET: context.energy-constants
-	CONVERSION: From kWh/day to W (1000 / (24)).
+	CONVERSION: From kWh/day to W (1000 / 24).
 	ID: primary-pipework-coefficient
 	CODSIEB
 	*/
@@ -151,7 +151,7 @@ public enum HeatingSystemConstants implements IConstant {
 	SAP: Table 3a, row 1
 	BREDEM: Table 13, row 1
 	SET: context.energy-constants
-	CONVERSION: From kWh/year to W (1000 / (24 * 365)).  
+	CONVERSION: From kWh/year to W (1000 / (24 * 365.25)).  
 	ID: instantaneous-factor
 	CODSIEB
 	*/
@@ -183,7 +183,7 @@ public enum HeatingSystemConstants implements IConstant {
 	SAP: Table 3a, row 2
 	BREDEM: Table 13, row 2
 	SET: context.energy-constants
-	CONVERSION: From kWh/year to W (1000 / (24 * 365)).  
+	CONVERSION: From kWh/year to W (1000 / (24 * 365.25)).  
 	ID: instantaneous-keep-hot-timeclock-factor
 	CODSIEB
 	*/
@@ -199,7 +199,7 @@ public enum HeatingSystemConstants implements IConstant {
 	SAP: Table 3a, row 3
 	BREDEM: Table 13, row 3
 	SET: context.energy-constants
-	CONVERSION: From kWh/year to W (1000 / (24 * 365)).  
+	CONVERSION: From kWh/year to W (1000 / (24 * 365.25)).  
 	ID: instantaneous-keep-hot-factor
 	CODSIEB
 	*/
@@ -215,7 +215,7 @@ public enum HeatingSystemConstants implements IConstant {
 	SAP: Table 3a, row 5
 	BREDEM: Table 13, row 4
 	SET: context.energy-constants
-	CONVERSION: From kWh/year to W (1000 / (24 * 365)) (does not apply to dimensionless 2nd term).  
+	CONVERSION: From kWh/year to W (1000 / (24 * 365.25)) (does not apply to dimensionless 2nd term).  
 	ID: storage-combi-storage-loss-factor
 	CODSIEB
 	*/

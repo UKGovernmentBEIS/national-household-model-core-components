@@ -15,7 +15,7 @@ public enum PumpAndFanConstants implements IConstant {
 	SAP: Table 4f
 	BREDEM: Table 4
 	SET: context.energy-constants
-	CONVERSION: From kWh/year to W, multiply by (hours/year) and divide by k; (365.25 * 24) / 1000
+	CONVERSION: From kWh/year to W (1000 / (365.25 * 24))
 	ID: central-heating-pump-base-power
 	CODSIEB
 	*/
@@ -47,7 +47,7 @@ public enum PumpAndFanConstants implements IConstant {
 	SAP: Table 4f
 	BREDEM: Table 4
 	SET: context.energy-constants
-	CONVERSION: From kWh/year to W, multiply by (hours/year) and divide by k; (365.25 * 24) / 1000
+	CONVERSION: From kWh/year to W (1000 / (365.25 * 24))
 	ID: oil-boiler-pump-base-power
 	CODSIEB
 	*/
@@ -78,7 +78,7 @@ public enum PumpAndFanConstants implements IConstant {
 	SAP: Table 4f
 	BREDEM: Table 4
 	SET: context.energy-constants
-	CONVERSION: From kWh/year to W, multiply by (hours/year) and divide by k; (365.25 * 24) / 1000
+	CONVERSION: From kWh/year to W (1000 / (365.25 * 24))
 	ID: gas-boiler-pump-power
 	CODSIEB
 	*/
@@ -94,7 +94,7 @@ public enum PumpAndFanConstants implements IConstant {
 	SAP: Table 4f
 	BREDEM: Table 4
 	SET: context.energy-constants
-	CONVERSION: From kWh/year to W, multiply by (hours/year) and divide by k; (365.25 * 24) / 1000
+	CONVERSION: From kWh/year to W (1000 / (365.25 * 24))
 	ID: gas-heat-pump-pump-power
 	CODSIEB
 	*/
