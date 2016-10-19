@@ -28,25 +28,7 @@ import java.util.Set;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.JAXBException;
 
-import org.apache.commons.lang.StringEscapeUtils;
-
-import uk.org.cse.nhm.documentation.Exemplar.Example;
-import uk.org.cse.nhm.language.definition.Category;
-import uk.org.cse.nhm.language.definition.Category.CategoryType;
-import uk.org.cse.nhm.language.definition.Doc;
-import uk.org.cse.nhm.language.definition.Obsolete;
-import uk.org.cse.nhm.language.definition.ProducesTags;
-import uk.org.cse.nhm.language.definition.ProducesTags.Tag;
-import uk.org.cse.nhm.language.definition.ReturnsEnum;
-import uk.org.cse.nhm.language.definition.SeeAlso;
-import uk.org.cse.nhm.language.definition.TopLevel;
-import uk.org.cse.nhm.language.definition.XElement;
-import uk.org.cse.nhm.language.definition.action.Unsuitability;
-import uk.org.cse.nhm.language.definition.function.bool.XBoolean;
-import uk.org.cse.nhm.language.sexp.Defaults;
-import uk.org.cse.nhm.language.validate.contents.ForbidChild;
-import uk.org.cse.nhm.language.validate.contents.RequireParent;
-import uk.org.cse.nhm.macros.ExtraMacros;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
@@ -85,6 +67,24 @@ import com.larkery.jasb.sexp.parse.MacroExpander;
 import com.larkery.jasb.sexp.parse.MacroModel;
 import com.larkery.jasb.sexp.parse.Parser;
 
+import uk.org.cse.nhm.documentation.Exemplar.Example;
+import uk.org.cse.nhm.language.definition.Category;
+import uk.org.cse.nhm.language.definition.Category.CategoryType;
+import uk.org.cse.nhm.language.definition.Doc;
+import uk.org.cse.nhm.language.definition.Obsolete;
+import uk.org.cse.nhm.language.definition.ProducesTags;
+import uk.org.cse.nhm.language.definition.ProducesTags.Tag;
+import uk.org.cse.nhm.language.definition.ReturnsEnum;
+import uk.org.cse.nhm.language.definition.SeeAlso;
+import uk.org.cse.nhm.language.definition.TopLevel;
+import uk.org.cse.nhm.language.definition.XElement;
+import uk.org.cse.nhm.language.definition.action.Unsuitability;
+import uk.org.cse.nhm.language.definition.function.bool.XBoolean;
+import uk.org.cse.nhm.language.sexp.Defaults;
+import uk.org.cse.nhm.language.validate.contents.ForbidChild;
+import uk.org.cse.nhm.language.validate.contents.RequireParent;
+import uk.org.cse.nhm.macros.ExtraMacros;
+
 /**
  * Tool which generates the language reference, in docbook format.
  *
@@ -122,7 +122,7 @@ public class LanguageReferenceGenerator {
 				
 				for (final Node type : ((Seq) (inv.arguments.get("types")))) {
 					b.put(((Atom) type).getValue(), 
-							StringEscapeUtils.escapeXml(((Atom)inv.arguments.get("doc")).getValue()));
+							org.apache.commons.lang3.StringEscapeUtils.escapeXml(((Atom)inv.arguments.get("doc")).getValue()));
 				}
 			}
 		}
