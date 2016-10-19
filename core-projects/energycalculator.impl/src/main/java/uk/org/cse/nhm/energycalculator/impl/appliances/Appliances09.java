@@ -31,7 +31,7 @@ public class Appliances09 implements IEnergyTransducer {
 
 	public Appliances09(final IConstants constants) {
 		// SAP constants are not configurable.
-		this.APPLIANCE_DEMAND_COEFFICIENT_SAP = constants.get(ApplianceConstants09.APPLIANCE_DEMAND_COEFFICENT_SAP);
+		this.APPLIANCE_DEMAND_COEFFICIENT_SAP = constants.get(ApplianceConstants09.APPLIANCE_DEMAND_COEFFICIENT_SAP);
 		this.APPLIANCE_DEMAND_COEFFICIENT_BREDEM = constants.get(ApplianceConstants09.APPLIANCE_DEMAND_COEFFICIENT_BREDEM);
 		this.APPLIANCE_DEMAND_EXPONENT = constants.get(ApplianceConstants09.APPLIANCE_DEMAND_EXPONENT);
 		this.APPLIANCE_DEMAND_COSINE_COEFFICIENT = constants.get(ApplianceConstants09.APPLIANCE_DEMAND_COSINE_COEFFICIENT);

@@ -276,7 +276,7 @@ public class XEnergyConstantsContext extends XContextParameter {
 		@Doc("The coefficient in the appliance demand formula (watts) - default is 21.081 ")
 		 ApplianceConstants09_APPLIANCE_DEMAND_COEFFICIENT_BREDEM(1),
 		@Doc("no description - default is 23.705 ")
-		 ApplianceConstants09_APPLIANCE_DEMAND_COEFFICENT_SAP(1),
+		 ApplianceConstants09_APPLIANCE_DEMAND_COEFFICIENT_SAP(1),
 		@Doc("The exponent in the appliance demand formula - default is 0.471 ")
 		 ApplianceConstants09_APPLIANCE_DEMAND_EXPONENT(1),
 		@Doc("The coefficient of the cosine in the appliance demand monthly adjustment factor - default is 0.157 ")

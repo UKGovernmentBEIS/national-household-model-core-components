@@ -23,7 +23,7 @@ public enum ApplianceConstants09 implements IConstant {
 	@ConstantDescription("The coefficient in the appliance demand formula (watts) for BREDEM 2012")
 	APPLIANCE_DEMAND_COEFFICIENT_BREDEM(21.081451),
 	@ConstantDescription("The coefficient in the appliance demand formula (watts) for SAP 2012")
-	APPLIANCE_DEMAND_COEFFICENT_SAP(23.705225),
+	APPLIANCE_DEMAND_COEFFICIENT_SAP(23.705225),
 	
 	/*
 	BEISDOC
