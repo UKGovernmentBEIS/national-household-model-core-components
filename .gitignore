@@ -14,7 +14,7 @@ gradle-app.setting
 org.eclipse.packagedrone.server-0.12.2/configuration/*.log
 
 # Eclipse built folders
-/nhm-ide/*/target/
+**/target/
 /nhm-ide/workspace/
 **/bin/**
 
@@ -22,3 +22,7 @@ org.eclipse.packagedrone.server-0.12.2/configuration/*.log
 **/.project
 **/.settings
 **/.classpath
+
+## Stock documentation generated files
+core-projects/nhm-stock-documentation/src/main/resources/stockref.xml
+core-projects/nhm-stock-documentation/src/main/resources/variableref.xml
