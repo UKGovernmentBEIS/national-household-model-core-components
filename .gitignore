@@ -16,3 +16,9 @@ org.eclipse.packagedrone.server-0.12.2/configuration/*.log
 # Eclipse built folders
 /nhm-ide/*/target/
 /nhm-ide/workspace/
+**/bin/**
+
+# Eclipse files
+**/.project
+**/.settings
+**/.classpath

@@ -1,2 +1,0 @@
-aacode,BasicEfficiency,CHPFraction,CylinderInsulationThickness,CylinderVolume,ElectricTariff,FlueType,ImmersionHeaterType,InstallationYear,MainHeatingFuel,SolarStoreVolume,SummerEfficiency,WaterHeatingSystemType,WinterEfficiency,CommunityChargingUsageBased,CylinderFactoryInsulated,CylinderThermostatPresent,SolarHotWaterPresent,SolarStoreInCylinder,WithCentralHeating
-H0011103,0.6,0.25,38,140,FLAT_RATE,BalancedFlue,SINGLE_COIL,1922,BIOMASS_WOOD,122.5,0.5,BACK_BOILER,0.8,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE
