@@ -18,7 +18,7 @@ This is a bit basic, we will fill in later, the project can be built end-to-end 
 ## Build process
 There is a shell script named build, this wil build the core projects, then start a p2 drone server, build some p2 bundles and push them to drone server, build the ide-project using the drone server to fetch the osgi bundles, then stop the drone server.
 
-- Make sure you add the following to your maven settigns file (/usr/share/maven/conf/settings.xml). 
+- Make sure you add the following to your maven settigns file (/usr/share/maven/conf/settings.xml or ~/.m2/settings.xml).
 
 ```xml
 <servers>

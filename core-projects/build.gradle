@@ -284,6 +284,7 @@ project(':nhm-report-messages') {
 project(':nhm-language-documentation') {
   dependencies {
     compile project(':nhm-language-definition')
+    compile libs.commonsLang
   }
 
   // this defines a new task which runs the language reference generator
