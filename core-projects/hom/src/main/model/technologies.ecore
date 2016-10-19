@@ -335,14 +335,18 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Cooker" eSuperTypes="#//VisitorAccepter">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hob" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="oven" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fuelType" lowerBound="1"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hobBaseLoad" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hobOccupancyFactor" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hobFuelType" lowerBound="1"
         eType="#//FuelType"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="baseLoad" lowerBound="1"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ovenBaseLoad" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="occupancyFactor" lowerBound="1"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ovenOccupancyFactor" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ovenFuelType" lowerBound="1"
+        eType="#//FuelType"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="gainsFactor" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
   </eClassifiers>

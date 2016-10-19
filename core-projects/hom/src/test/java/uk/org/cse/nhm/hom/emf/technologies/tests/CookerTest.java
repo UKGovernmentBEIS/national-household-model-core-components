@@ -23,8 +23,10 @@ import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
 import uk.org.cse.nhm.energycalculator.api.impl.ClassEnergyState;
 import uk.org.cse.nhm.energycalculator.api.impl.DefaultConstants;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
+import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.ICooker;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;
+import uk.org.cse.nhm.hom.emf.technologies.impl.CookerImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -33,7 +35,7 @@ import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;
  * <p>
  * The following operations are tested:
  * <ul>
- *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IVisitorAccepter#accept(IConstants, IEnergyCalculatorParameters, uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor, java.util.concurrent.atomic.AtomicInteger, double, double) <em>Accept</em>}</li>
+ *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IVisitorAccepter#accept(uk.org.cse.nhm.energycalculator.api.IConstants, uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters, uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor, java.util.concurrent.atomic.AtomicInteger, uk.org.cse.nhm.hom.IHeatProportions) <em>Accept</em>}</li>
  * </ul>
  * </p>
  * @generated
@@ -110,6 +112,19 @@ public class CookerTest extends TestCase {
 	}
 
 	/**
+	 * Tests the '{@link uk.org.cse.nhm.hom.emf.technologies.IVisitorAccepter#accept(uk.org.cse.nhm.energycalculator.api.IConstants, uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters, uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor, java.util.concurrent.atomic.AtomicInteger, uk.org.cse.nhm.hom.IHeatProportions) <em>Accept</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see uk.org.cse.nhm.hom.emf.technologies.IVisitorAccepter#accept(uk.org.cse.nhm.energycalculator.api.IConstants, uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters, uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor, java.util.concurrent.atomic.AtomicInteger, uk.org.cse.nhm.hom.IHeatProportions)
+	 * @generated
+	 */
+	public void testAccept__IConstants_IEnergyCalculatorParameters_IEnergyCalculatorVisitor_AtomicInteger_IHeatProportions() {
+		// TODO: implement this operation test method
+		// Ensure that you remove @generated or mark it @generated NOT
+		fail();
+	}
+
+	/**
 	 * Tests the '{@link uk.org.cse.nhm.hom.emf.technologies.IVisitorAccepter#accept(IConstants, IEnergyCalculatorParameters, uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor, java.util.concurrent.atomic.AtomicInteger, double, double) <em>Accept</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -147,11 +162,10 @@ public class CookerTest extends TestCase {
 
 	private void checkGasHob() {
 		final ICooker cooker = createCooker(true);
-		cooker.setHob(true);
+		cooker.setHobBaseLoad(ICooker.GAS_HOB_BASE_LOAD);
+		cooker.setHobFuelType(FuelType.MAINS_GAS);
 		
 		final CookerResult evaluate = evaluate(cooker);
-		
-		
 	}
 
 	private CookerResult evaluate(final ICooker cooker) {
@@ -191,16 +205,6 @@ public class CookerTest extends TestCase {
 	}
 	
 	private ICooker createCooker(boolean isGas) {
-		final ICooker c = ITechnologiesFactory.eINSTANCE.createCooker();
-		if (isGas) {
-			c.setBaseLoad(ICooker.GAS_BASE_LOAD);
-			c.setOccupancyFactor(ICooker.GAS_OCCUPANCY_FACTOR);
-			c.setGainsFactor(ICooker.GAS_GAINS_FACTOR);
-		} else {
-			c.setBaseLoad(ICooker.ELECTRIC_BASE_LOAD);
-			c.setOccupancyFactor(ICooker.ELECTRIC_OCCUPANCY_FACTOR);
-			c.setGainsFactor(ICooker.ELECTRIC_GAINS_FACTOR);
-		}
-		return c;
+		return isGas ? CookerImpl.createMixed() : CookerImpl.createElectric();
 	}
 } //CookerTest

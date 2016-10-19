@@ -43,6 +43,7 @@ import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
 import uk.org.cse.nhm.hom.emf.technologies.IWaterTank;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoilersFactory;
+import uk.org.cse.nhm.hom.emf.technologies.impl.CookerImpl;
 import uk.org.cse.nhm.hom.emf.util.Efficiency;
 import uk.org.cse.nhm.hom.structure.Glazing;
 import uk.org.cse.nhm.hom.structure.IMutableWall;
@@ -284,22 +285,7 @@ public class TestCase2 {
 	}
 
 	private void addCookers(final SurveyCase sc) {
-		final ICooker gasHob = ITechnologiesFactory.eINSTANCE.createCooker();
-		gasHob.setBaseLoad(54.986);
-		gasHob.setOccupancyFactor(10.99);
-		gasHob.setGainsFactor(0.24917);
-		gasHob.setHob(true);
-		gasHob.setFuelType(FuelType.MAINS_GAS);
-		
-		final ICooker electricOven = ITechnologiesFactory.eINSTANCE.createCooker();
-		
-		electricOven.setFuelType(FuelType.ELECTRICITY);
-		electricOven.setBaseLoad(31.48);
-		electricOven.setOccupancyFactor(6.274);
-		electricOven.setOven(true);
-		electricOven.setGainsFactor(0.1);
-		
-		sc.getTechnologies().getCookers().add(gasHob);
-		sc.getTechnologies().getCookers().add(electricOven);
+		sc.getTechnologies().getCookers().add(
+				CookerImpl.createMixed());
 	}
 }

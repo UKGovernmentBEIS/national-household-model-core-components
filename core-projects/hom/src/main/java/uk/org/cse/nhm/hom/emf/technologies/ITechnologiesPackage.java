@@ -1018,49 +1018,58 @@ public interface ITechnologiesPackage extends EPackage {
 	int IMMERSION_HEATER_FEATURE_COUNT = CENTRAL_WATER_HEATER_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Hob</b></em>' attribute.
+	 * The feature id for the '<em><b>Hob Base Load</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COOKER__HOB = VISITOR_ACCEPTER_FEATURE_COUNT + 0;
+	int COOKER__HOB_BASE_LOAD = VISITOR_ACCEPTER_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Oven</b></em>' attribute.
+	 * The feature id for the '<em><b>Hob Occupancy Factor</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COOKER__OVEN = VISITOR_ACCEPTER_FEATURE_COUNT + 1;
+	int COOKER__HOB_OCCUPANCY_FACTOR = VISITOR_ACCEPTER_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Fuel Type</b></em>' attribute.
+	 * The feature id for the '<em><b>Hob Fuel Type</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COOKER__FUEL_TYPE = VISITOR_ACCEPTER_FEATURE_COUNT + 2;
+	int COOKER__HOB_FUEL_TYPE = VISITOR_ACCEPTER_FEATURE_COUNT + 2;
 
 	/**
-	 * The feature id for the '<em><b>Base Load</b></em>' attribute.
+	 * The feature id for the '<em><b>Oven Base Load</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COOKER__BASE_LOAD = VISITOR_ACCEPTER_FEATURE_COUNT + 3;
+	int COOKER__OVEN_BASE_LOAD = VISITOR_ACCEPTER_FEATURE_COUNT + 3;
 
 	/**
-	 * The feature id for the '<em><b>Occupancy Factor</b></em>' attribute.
+	 * The feature id for the '<em><b>Oven Occupancy Factor</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COOKER__OCCUPANCY_FACTOR = VISITOR_ACCEPTER_FEATURE_COUNT + 4;
+	int COOKER__OVEN_OCCUPANCY_FACTOR = VISITOR_ACCEPTER_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Oven Fuel Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COOKER__OVEN_FUEL_TYPE = VISITOR_ACCEPTER_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Gains Factor</b></em>' attribute.
@@ -1069,7 +1078,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COOKER__GAINS_FACTOR = VISITOR_ACCEPTER_FEATURE_COUNT + 5;
+	int COOKER__GAINS_FACTOR = VISITOR_ACCEPTER_FEATURE_COUNT + 6;
 
 	/**
 	 * The number of structural features of the '<em>Cooker</em>' class.
@@ -1078,7 +1087,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COOKER_FEATURE_COUNT = VISITOR_ACCEPTER_FEATURE_COUNT + 6;
+	int COOKER_FEATURE_COUNT = VISITOR_ACCEPTER_FEATURE_COUNT + 7;
 
 	/**
 	 * The number of structural features of the '<em>Electric Shower</em>' class.
@@ -2931,59 +2940,70 @@ public interface ITechnologiesPackage extends EPackage {
 	EClass getCooker();
 
 	/**
-	 * Returns the meta object for the attribute '{@link uk.org.cse.nhm.hom.emf.technologies.ICooker#isHob <em>Hob</em>}'.
+	 * Returns the meta object for the attribute '{@link uk.org.cse.nhm.hom.emf.technologies.ICooker#getHobBaseLoad <em>Hob Base Load</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Hob</em>'.
-	 * @see uk.org.cse.nhm.hom.emf.technologies.ICooker#isHob()
+	 * @return the meta object for the attribute '<em>Hob Base Load</em>'.
+	 * @see uk.org.cse.nhm.hom.emf.technologies.ICooker#getHobBaseLoad()
 	 * @see #getCooker()
 	 * @generated
 	 */
-	EAttribute getCooker_Hob();
+	EAttribute getCooker_HobBaseLoad();
 
 	/**
-	 * Returns the meta object for the attribute '{@link uk.org.cse.nhm.hom.emf.technologies.ICooker#isOven <em>Oven</em>}'.
+	 * Returns the meta object for the attribute '{@link uk.org.cse.nhm.hom.emf.technologies.ICooker#getHobOccupancyFactor <em>Hob Occupancy Factor</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Oven</em>'.
-	 * @see uk.org.cse.nhm.hom.emf.technologies.ICooker#isOven()
+	 * @return the meta object for the attribute '<em>Hob Occupancy Factor</em>'.
+	 * @see uk.org.cse.nhm.hom.emf.technologies.ICooker#getHobOccupancyFactor()
 	 * @see #getCooker()
 	 * @generated
 	 */
-	EAttribute getCooker_Oven();
+	EAttribute getCooker_HobOccupancyFactor();
 
 	/**
-	 * Returns the meta object for the attribute '{@link uk.org.cse.nhm.hom.emf.technologies.ICooker#getFuelType <em>Fuel Type</em>}'.
+	 * Returns the meta object for the attribute '{@link uk.org.cse.nhm.hom.emf.technologies.ICooker#getHobFuelType <em>Hob Fuel Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Fuel Type</em>'.
-	 * @see uk.org.cse.nhm.hom.emf.technologies.ICooker#getFuelType()
+	 * @return the meta object for the attribute '<em>Hob Fuel Type</em>'.
+	 * @see uk.org.cse.nhm.hom.emf.technologies.ICooker#getHobFuelType()
 	 * @see #getCooker()
 	 * @generated
 	 */
-	EAttribute getCooker_FuelType();
+	EAttribute getCooker_HobFuelType();
 
 	/**
-	 * Returns the meta object for the attribute '{@link uk.org.cse.nhm.hom.emf.technologies.ICooker#getBaseLoad <em>Base Load</em>}'.
+	 * Returns the meta object for the attribute '{@link uk.org.cse.nhm.hom.emf.technologies.ICooker#getOvenBaseLoad <em>Oven Base Load</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Base Load</em>'.
-	 * @see uk.org.cse.nhm.hom.emf.technologies.ICooker#getBaseLoad()
+	 * @return the meta object for the attribute '<em>Oven Base Load</em>'.
+	 * @see uk.org.cse.nhm.hom.emf.technologies.ICooker#getOvenBaseLoad()
 	 * @see #getCooker()
 	 * @generated
 	 */
-	EAttribute getCooker_BaseLoad();
+	EAttribute getCooker_OvenBaseLoad();
 
 	/**
-	 * Returns the meta object for the attribute '{@link uk.org.cse.nhm.hom.emf.technologies.ICooker#getOccupancyFactor <em>Occupancy Factor</em>}'.
+	 * Returns the meta object for the attribute '{@link uk.org.cse.nhm.hom.emf.technologies.ICooker#getOvenOccupancyFactor <em>Oven Occupancy Factor</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Occupancy Factor</em>'.
-	 * @see uk.org.cse.nhm.hom.emf.technologies.ICooker#getOccupancyFactor()
+	 * @return the meta object for the attribute '<em>Oven Occupancy Factor</em>'.
+	 * @see uk.org.cse.nhm.hom.emf.technologies.ICooker#getOvenOccupancyFactor()
 	 * @see #getCooker()
 	 * @generated
 	 */
-	EAttribute getCooker_OccupancyFactor();
+	EAttribute getCooker_OvenOccupancyFactor();
+
+	/**
+	 * Returns the meta object for the attribute '{@link uk.org.cse.nhm.hom.emf.technologies.ICooker#getOvenFuelType <em>Oven Fuel Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Oven Fuel Type</em>'.
+	 * @see uk.org.cse.nhm.hom.emf.technologies.ICooker#getOvenFuelType()
+	 * @see #getCooker()
+	 * @generated
+	 */
+	EAttribute getCooker_OvenFuelType();
 
 	/**
 	 * Returns the meta object for the attribute '{@link uk.org.cse.nhm.hom.emf.technologies.ICooker#getGainsFactor <em>Gains Factor</em>}'.
@@ -4310,44 +4330,52 @@ public interface ITechnologiesPackage extends EPackage {
 		EClass COOKER = eINSTANCE.getCooker();
 
 		/**
-		 * The meta object literal for the '<em><b>Hob</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Hob Base Load</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute COOKER__HOB = eINSTANCE.getCooker_Hob();
+		EAttribute COOKER__HOB_BASE_LOAD = eINSTANCE.getCooker_HobBaseLoad();
 
 		/**
-		 * The meta object literal for the '<em><b>Oven</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Hob Occupancy Factor</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute COOKER__OVEN = eINSTANCE.getCooker_Oven();
+		EAttribute COOKER__HOB_OCCUPANCY_FACTOR = eINSTANCE.getCooker_HobOccupancyFactor();
 
 		/**
-		 * The meta object literal for the '<em><b>Fuel Type</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Hob Fuel Type</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute COOKER__FUEL_TYPE = eINSTANCE.getCooker_FuelType();
+		EAttribute COOKER__HOB_FUEL_TYPE = eINSTANCE.getCooker_HobFuelType();
 
 		/**
-		 * The meta object literal for the '<em><b>Base Load</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Oven Base Load</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute COOKER__BASE_LOAD = eINSTANCE.getCooker_BaseLoad();
+		EAttribute COOKER__OVEN_BASE_LOAD = eINSTANCE.getCooker_OvenBaseLoad();
 
 		/**
-		 * The meta object literal for the '<em><b>Occupancy Factor</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Oven Occupancy Factor</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute COOKER__OCCUPANCY_FACTOR = eINSTANCE.getCooker_OccupancyFactor();
+		EAttribute COOKER__OVEN_OCCUPANCY_FACTOR = eINSTANCE.getCooker_OvenOccupancyFactor();
+
+		/**
+		 * The meta object literal for the '<em><b>Oven Fuel Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COOKER__OVEN_FUEL_TYPE = eINSTANCE.getCooker_OvenFuelType();
 
 		/**
 		 * The meta object literal for the '<em><b>Gains Factor</b></em>' attribute feature.

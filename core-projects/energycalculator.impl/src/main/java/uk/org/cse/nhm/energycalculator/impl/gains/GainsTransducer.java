@@ -71,7 +71,7 @@ public class GainsTransducer implements IEnergyTransducer {
 		UNIT: W
 		SAP: (73, 84)
 		BREDEM: 6J, 6K
-		DEPS: monthly-solar-gains,metabolic-gains,lighting-gains-utilisation,lighting-energy-demand,appliance-adjusted-demand,pump-and-fan-gains,hot-water-usage-gains,hot-water-system-gains
+		DEPS: monthly-solar-gains,metabolic-gains,lighting-gains-utilisation,lighting-energy-demand,appliance-adjusted-demand,cooking-gains,pump-and-fan-gains,hot-water-usage-gains,hot-water-system-gains
 		ID: useful-gains
 		CODSIEB
 		*/

@@ -32,6 +32,7 @@ import uk.org.cse.nhm.hom.emf.technologies.ICooker;
 import uk.org.cse.nhm.hom.emf.technologies.ILight;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
+import uk.org.cse.nhm.hom.emf.technologies.impl.CookerImpl;
 import uk.org.cse.nhm.hom.structure.Glazing;
 import uk.org.cse.nhm.hom.structure.IMutableWall;
 import uk.org.cse.nhm.hom.structure.StructureModel;
@@ -216,15 +217,8 @@ public class TestCase1 {
 		
 		Assert.assertEquals(140d, structure.getFloorArea(), 0d);
 		
-		final ICooker cooker = ITechnologiesFactory.eINSTANCE.createCooker();
-		cooker.setBaseLoad(54.872);
-		cooker.setOccupancyFactor(10.985);
-		cooker.setGainsFactor(0.24917);
-		cooker.setFuelType(FuelType.MAINS_GAS);
-		cooker.setHob(true);
-		cooker.setOven(true);
-		
-		tech.getCookers().add(cooker);
+		tech.getCookers().add(
+				CookerImpl.createMixed());
 		
 		final ILight light = ITechnologiesFactory.eINSTANCE.createLight();
 		light.setEfficiency(ILight.INCANDESCENT_EFFICIENCY);

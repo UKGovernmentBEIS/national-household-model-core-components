@@ -1051,7 +1051,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCooker_Hob() {
+	public EAttribute getCooker_HobBaseLoad() {
 		return (EAttribute)cookerEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1060,7 +1060,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCooker_Oven() {
+	public EAttribute getCooker_HobOccupancyFactor() {
 		return (EAttribute)cookerEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -1069,7 +1069,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCooker_FuelType() {
+	public EAttribute getCooker_HobFuelType() {
 		return (EAttribute)cookerEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -1078,7 +1078,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCooker_BaseLoad() {
+	public EAttribute getCooker_OvenBaseLoad() {
 		return (EAttribute)cookerEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -1087,7 +1087,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCooker_OccupancyFactor() {
+	public EAttribute getCooker_OvenOccupancyFactor() {
 		return (EAttribute)cookerEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -1096,8 +1096,17 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCooker_GainsFactor() {
+	public EAttribute getCooker_OvenFuelType() {
 		return (EAttribute)cookerEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCooker_GainsFactor() {
+		return (EAttribute)cookerEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -1861,11 +1870,12 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		createEAttribute(immersionHeaterEClass, IMMERSION_HEATER__DUAL_COIL);
 
 		cookerEClass = createEClass(COOKER);
-		createEAttribute(cookerEClass, COOKER__HOB);
-		createEAttribute(cookerEClass, COOKER__OVEN);
-		createEAttribute(cookerEClass, COOKER__FUEL_TYPE);
-		createEAttribute(cookerEClass, COOKER__BASE_LOAD);
-		createEAttribute(cookerEClass, COOKER__OCCUPANCY_FACTOR);
+		createEAttribute(cookerEClass, COOKER__HOB_BASE_LOAD);
+		createEAttribute(cookerEClass, COOKER__HOB_OCCUPANCY_FACTOR);
+		createEAttribute(cookerEClass, COOKER__HOB_FUEL_TYPE);
+		createEAttribute(cookerEClass, COOKER__OVEN_BASE_LOAD);
+		createEAttribute(cookerEClass, COOKER__OVEN_OCCUPANCY_FACTOR);
+		createEAttribute(cookerEClass, COOKER__OVEN_FUEL_TYPE);
 		createEAttribute(cookerEClass, COOKER__GAINS_FACTOR);
 
 		electricShowerEClass = createEClass(ELECTRIC_SHOWER);
@@ -2217,11 +2227,12 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		initEAttribute(getImmersionHeater_DualCoil(), ecorePackage.getEBoolean(), "dualCoil", null, 1, 1, IImmersionHeater.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(cookerEClass, ICooker.class, "Cooker", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getCooker_Hob(), ecorePackage.getEBoolean(), "hob", null, 1, 1, ICooker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCooker_Oven(), ecorePackage.getEBoolean(), "oven", null, 1, 1, ICooker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCooker_FuelType(), this.getFuelType(), "fuelType", null, 1, 1, ICooker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCooker_BaseLoad(), ecorePackage.getEDouble(), "baseLoad", null, 1, 1, ICooker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCooker_OccupancyFactor(), ecorePackage.getEDouble(), "occupancyFactor", null, 1, 1, ICooker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCooker_HobBaseLoad(), ecorePackage.getEDouble(), "hobBaseLoad", null, 1, 1, ICooker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCooker_HobOccupancyFactor(), ecorePackage.getEDouble(), "hobOccupancyFactor", null, 1, 1, ICooker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCooker_HobFuelType(), this.getFuelType(), "hobFuelType", null, 1, 1, ICooker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCooker_OvenBaseLoad(), ecorePackage.getEDouble(), "ovenBaseLoad", null, 1, 1, ICooker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCooker_OvenOccupancyFactor(), ecorePackage.getEDouble(), "ovenOccupancyFactor", null, 1, 1, ICooker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCooker_OvenFuelType(), this.getFuelType(), "ovenFuelType", null, 1, 1, ICooker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCooker_GainsFactor(), ecorePackage.getEDouble(), "gainsFactor", null, 1, 1, ICooker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(electricShowerEClass, IElectricShower.class, "ElectricShower", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
