@@ -162,6 +162,10 @@ public class PluginPreferences extends AbstractPreferenceInitializer {
 			}
 		}
 		
+		public String getVersionString() {
+			return versionString;
+		}
+		
 		public boolean isPreferredVersion(final Version suggestion) {
 			return String.valueOf(suggestion).equals(versionString);
 		}

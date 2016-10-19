@@ -2,6 +2,8 @@ package uk.org.cse.nhm.simulator.scope;
 
 import java.util.Map;
 
+import uk.org.cse.commons.scopes.IScope;
+
 import uk.org.cse.nhm.simulator.state.IBranch;
 import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.IDwelling;
@@ -19,8 +21,9 @@ class TestScope extends ComponentsScope {
 	}
 	
 	@Override
-	protected ComponentsScope createChild(
-			final IStateChangeSource action, final IBranch branch, final Map<String, Double> y) {
+    protected ComponentsScope doCreateChild(
+        final IScope<?> parentScope,
+        final IStateChangeSource action, final IBranch branch, final Map<String, Double> y) {
 		return new TestScope(this.transactionDimension, this.timeDimension, action, branch, dwelling, y);
 	}
 

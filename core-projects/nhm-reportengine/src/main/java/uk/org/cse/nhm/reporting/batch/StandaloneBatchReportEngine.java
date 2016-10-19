@@ -26,7 +26,7 @@ import uk.org.cse.nhm.reporting.standard.IReportingSession;
 public class StandaloneBatchReportEngine implements IReportEngine {
     class Session implements IReportingSession {
         private Map<String, String> inputs = new HashMap<>();
-        private Map<String, Double> outputs = new HashMap<>();
+        private List<Map<String, Object>> outputs = new ArrayList<>();
         private List<String> errors = new ArrayList<>();
 
         private Path result;
@@ -63,7 +63,10 @@ public class StandaloneBatchReportEngine implements IReportEngine {
                 final Optional<BatchOutputEntry> boe =
                     BatchLogEntryConverter.convert(entry, null);
                 if (boe.isPresent()) {
-                    outputs.putAll(boe.get().getColumns());
+                    final Map<String, Object> row = new HashMap<>();
+                    row.putAll(boe.get().getReducedRowKey());
+                    row.putAll(boe.get().getColumns());
+                    outputs.add(row);
                 }
             }
         }

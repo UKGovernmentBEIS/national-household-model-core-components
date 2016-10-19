@@ -13,10 +13,14 @@ import com.larkery.jasb.bind.Bind;
 import com.larkery.jasb.bind.BindNamedArgument;
 import com.larkery.jasb.bind.BindRemainingArguments;
 
-@Doc({ "The expected cost of all or some of a house's obligations for the next year.",
-	"This includes predicted transactions from the (apparent) current date until a year from that date.",
-	"The foresight level of calculations made by obligations which are not on the current date will be determined from the context;",
-	"If this is used with predict-sum, only those things which the predict-sum can predict will change. Otherwise, everything will be fully predictable."
+@Doc({ "The expected cost of all or some of a house's obligations for the next year from now.",
+       "Obligations are produced by (for example), the house's tariff and energy use, the house's operational costs, the repayment of extant loans, or finance.with-obligation.",
+       "Each such obligation will produce some transactions for the house on some future dates.",
+       "This command looks at the house's current obligations, and asks them to predict the transactions that they will make during the next year, ceteris paribus.",
+       "The resulting transactions are filtered according to the patterns supplied, and then added up.",
+       "The resulting sum is the value produced by this command.",
+       "If you wish to know about more than one year's likely obligations, you can use the predict-sum command to predict the future value of this function in later years.",
+       "The bounds of the next year are determined by the include-year-end: argument. By default, this excludes now and includes the date exactly one year hence."
 })
 @Bind("house.annual-cost")
 @Category(CategoryType.MONEY)

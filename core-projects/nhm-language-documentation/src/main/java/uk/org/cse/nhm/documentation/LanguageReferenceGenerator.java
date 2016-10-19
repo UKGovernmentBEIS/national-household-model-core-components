@@ -28,7 +28,7 @@ import java.util.Set;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.JAXBException;
 
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang.StringEscapeUtils;
 
 import uk.org.cse.nhm.documentation.Exemplar.Example;
 import uk.org.cse.nhm.language.definition.Category;

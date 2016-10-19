@@ -64,9 +64,16 @@ public class HypotheticalComponentsScope extends ComponentsScope implements IHyp
 	}
 	
 	@Override
-	protected ComponentsScope createChild(final IStateChangeSource action, final IBranch branch, final Map<String, Double> yieldedValues) {
+    protected ComponentsScope doCreateChild(final IScope<?> parentScope,
+                                            final IStateChangeSource action,
+                                            final IBranch branch,
+                                            final Map<String, Double> yieldedValues) {
 		final HypotheticalComponentsScope result = scopeFactory.
-            createHypotheticalScope(this, action, hypotheticalBranch, dwelling, yieldedValues);
+            createHypotheticalScope(parentScope,
+                                    action,
+                                    (IHypotheticalBranch) branch,
+                                    dwelling,
+                                    yieldedValues);
 		for (final IDimension<?> d : imagination.keySet()) {
 			put(d, result);
 		}

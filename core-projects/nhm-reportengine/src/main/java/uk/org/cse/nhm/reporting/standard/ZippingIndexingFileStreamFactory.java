@@ -93,4 +93,9 @@ public class ZippingIndexingFileStreamFactory extends ZippingFileStreamFactory i
 		this.creationDate = creationDate;
 		this.endDate = endDate;
 	}
+
+	@Override
+	protected List<CompletedOutput> filter(List<CompletedOutput> outputs) {
+		return outputs;
+	}
 }

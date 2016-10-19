@@ -12,6 +12,7 @@
   <properties>
     <tycho-version>0.24.0</tycho-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <stupid-root-dir-hack>${session.executionRootDirectory}</stupid-root-dir-hack>
   </properties>
   
   <repositories>
@@ -44,6 +45,7 @@
 
   <modules>
     <module>cse.nhm.ide.ui</module>
+    <module>cse.nhm.ide.support</module>
     <module>cse.nhm.ide.ui.editor</module>
     <module>cse.nhm.ide.ui.results</module>
     <module>cse.nhm.ide.feature</module>
@@ -60,7 +62,6 @@
 
   <build>
 	<plugins>
-
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>properties-maven-plugin</artifactId>
@@ -73,7 +74,7 @@
             </goals>
             <configuration>
               <files>
-<file>${session.executionRootDirectory}/nhm-ide-signing-keys/signing-password.properties</file>
+<file>${stupid-root-dir-hack}/nhm-ide-signing-keys/signing-password.properties</file>
               </files>
             </configuration>
           </execution>

@@ -13,7 +13,7 @@ import java.util.zip.ZipOutputStream;
 import org.apache.commons.io.IOUtils;
 import org.joda.time.DateTime;
 
-public class ZippingFileStreamFactory extends TemporaryFileStreamFactory implements Closeable, IZippingFileStreamFactory {
+abstract public class ZippingFileStreamFactory extends TemporaryFileStreamFactory implements Closeable, IZippingFileStreamFactory {
 	boolean alreadyClosed = false;
 	private Path outputPath;
 	
@@ -32,7 +32,7 @@ public class ZippingFileStreamFactory extends TemporaryFileStreamFactory impleme
 			try {
 				zos.setLevel(9);
 				zos.setMethod(ZipOutputStream.DEFLATED);
-				saveOutputs(zos, super.getOutputs());
+				saveOutputs(zos, filter(super.getOutputs()));
 			} finally {
 				zos.flush();
 				zos.close();
@@ -41,6 +41,8 @@ public class ZippingFileStreamFactory extends TemporaryFileStreamFactory impleme
 			super.close();
 		}
 	}
+	
+	protected abstract List<CompletedOutput> filter(final List<CompletedOutput> outputs);
 
 	private void setOutputPath(Path outputPath) {
 		this.outputPath = outputPath;

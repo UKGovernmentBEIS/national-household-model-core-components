@@ -92,15 +92,30 @@ public class ComponentsScope extends Scope<IStateChangeSource> implements ISetta
             throw new UnsupportedOperationException("Cannot get prior scope from this");
         }
     }
-	
-    protected ComponentsScope createChild(final IStateChangeSource action, final IBranch branch, final Map<String, Double> yieldedValues) {
+
+    /**
+     * This is called in various places to create a sub-scope.
+     * Different subclasses of this want to return class specific children.
+     * However, they must all be forced to pass down "this" as the parent scope,
+     * if the branch for the child scope is not the branch for this scope.
+     * So, the actual subclass behaviour is in doCreateChild, and this is final
+     * and offers the correct parent scope for the child.
+     */
+    final protected ComponentsScope createChild(final IStateChangeSource action, final IBranch branch, final Map<String, Double> yieldedValues) {
         if (branch == this.branch) {
-            return scopeFactory.createComponentsScope(parentScope, action, branch, dwelling, yieldedValues);
+            return doCreateChild(parentScope, action, branch, yieldedValues);
         } else {
-            return scopeFactory.createComponentsScope(this, action, branch, dwelling, yieldedValues);
+            return doCreateChild(this, action, branch, yieldedValues);
         }
-	}
-	
+    }
+
+    protected ComponentsScope doCreateChild(final IScope<?> parentScope,
+                                            final IStateChangeSource action,
+                                            final IBranch branch,
+                                            final Map<String, Double> yieldedValues) {
+        return scopeFactory.createComponentsScope(parentScope, action, branch, dwelling, yieldedValues);
+    }
+    
 	@Override
 	public boolean apply(final IComponentsAction action, final ILets lets)
 			throws NHMException {

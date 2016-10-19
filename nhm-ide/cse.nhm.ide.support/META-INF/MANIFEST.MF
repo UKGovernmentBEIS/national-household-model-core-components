@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: NHM Support Requests
+Bundle-SymbolicName: cse.nhm.ide.support;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: cse.nhm.ide.support.Activator
+Bundle-Vendor: CSE
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.jface.text,
+ org.eclipse.core.resources,
+ org.eclipse.ui.editors,
+ org.eclipse.ui.ide
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Import-Package: com.google.common.base;version="15.0.0",
+ com.google.common.collect;version="15.0.0",
+ com.google.common.io;version="15.0.0",
+ cse.nhm.ide.ui,
+ cse.nhm.ide.ui.builder,
+ cse.nhm.ide.ui.models,
+ org.eclipse.core.filesystem,
+ org.eclipse.core.filesystem.provider,
+ uk.org.cse.nhm.bundle.api;version="2.0.0"

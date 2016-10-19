@@ -25,6 +25,11 @@ If you want to cross-reference to a language element, you need to use the unique
 **** Bugs fixed
 ***** Flags and reports work on def-action
 If an action was used at the top level of a =ref.def-action= command with the =update-flags:=, =test-flags:= or =report:= keyword arguments, and referred to in two places within the scenario, the later references would not update or test flags, or perform reporting.
+***** Mistake with hypotheses
+In certain fairly rare conditions, the =rise-in=, =fall-in= and =original= functions would return the wrong result when evaluated within a hypothetical situation. This has been remedied.
+***** Improvements to the manual
+- The heating control measure suitability has been changed to be (hopefully) more readable
+- The documentation for =ref.house.annual-cost= has been changed to be more descriptive.
 **** New features
 ***** Multiple stocks
 You can now specify multiple stocks in a scenario by supplying a list of values to the scenario's =stock-id:= argument; for example writing =stock-id: [a b c]= will use all the houses from stocks =a=, =b=, and =c= together.
@@ -33,6 +38,12 @@ This does not affect old scenarios with a single stock, but should make it easie
 It is now possible to write logical tests in any place where you would write a group of houses.
 The logical test will have an "implicit" =ref.filter= command added to it, so where you would previously have written =(filter (X))= you may now write just =(X)=.
 Note that to use =filter='s second argument (a specific set to filter, rather than the whole population) you will still have to write it out in full.
+***** Addition of =fail-unless=
+The =ref.fail-unless= command has been added, to make a common pattern easier to write.
+*** Version 6.3.2
+**** Bugs fixed
+***** Batch reports work properly in the desktop application
+A mistake whereby only the last year's output for reports from each part of a batch run was present in the output in the desktop version of the NHM has been fixed.
 *** Version 6.3.1
 **** Bugs Fixed
 ***** Summer Boiler Efficiencies
@@ -467,7 +478,7 @@ Written out and unescaped it is
 
 pandoc -f org -t docbook changelog.org --chapters |                        convert this file to docbook with pandoc
     sed 's!id=""!!g' |                                                     remove id="" from the thing - pandoc makes this and it upsets maven docbook
-    sed 's!<chapter>!<chapter xmlns="http://docbook.org/ns/docbook">!g' |  add the docbook namespace to the top-level chapter - pandoc does not put this in
+    sed 's!<chapter.*>!<chapter xmlns="http://docbook.org/ns/docbook">!g' |  add the docbook namespace to the top-level chapter - pandoc does not put this in
     sed 's!<literal>\(ref\..\+\)</literal>!<xref linkend="\1\/>!g'         finally, fix cross-references written in the org-mode source
 
 To explain about cross-references:
@@ -484,7 +495,7 @@ In the local variables line below we have eval:, which is a special local variab
 The lisp we are running adds the lisp above onto the after-save-hook, which is a list of functions to call after saving.
 
 Local Variables:
-eval: (add-hook 'after-save-hook (lambda () (shell-command "pandoc -f org -t docbook changelog.org --chapters | sed 's! id=\"\"!!g' | sed 's!<chapter>!<chapter xmlns=\"http://docbook.org/ns/docbook\">!g' | sed 's!<literal>\\(ref\\..\\+\\)</literal>!<xref linkend=\"\\1\"/>!g' > changelog.xml")) nil t)
+eval: (add-hook 'after-save-hook (lambda () (shell-command "pandoc -f org -t docbook changelog.org --chapters | sed 's! id=\"\"!!g' | sed 's!<chapter.*>!<chapter xmlns=\"http://docbook.org/ns/docbook\">!g' | sed 's!<literal>\\(ref\\..\\+\\)</literal>!<xref linkend=\"\\1\"/>!g' > changelog.xml")) nil t)
 End:
 #+END_COMMENT
 

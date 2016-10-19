@@ -10,7 +10,6 @@ import uk.org.cse.nhm.language.definition.action.XMeasure;
 import uk.org.cse.nhm.language.definition.function.num.XNumber;
 import uk.org.cse.nhm.language.definition.function.num.XNumberConstant;
 import uk.org.cse.nhm.language.definition.money.TransactionTags;
-import uk.org.cse.nhm.language.validate.BoundedDouble;
 
 import com.larkery.jasb.bind.BindNamedArgument;
 
@@ -26,7 +25,7 @@ public abstract class XInsulationMeasure extends XMeasure {
 		public static final String uValueFunction = "uValueFunction";
 	}
 	
-	private double thickness = 0;
+    private Double thickness = null;
 	private XNumber capex;
 	private XNumber resistanceFunction = new XNumberConstant();
 	private XNumber uvalueFunction;
@@ -38,11 +37,10 @@ public abstract class XInsulationMeasure extends XMeasure {
 		"If the u-value: argument is used to specify the thermal property, then the thickness associated with this kind of insulation is just set to the given value."
 	})
 	@NotNull(message = "insulation measure must have a defined 'thickness' of insulation to be installed.")
-	@BoundedDouble(lower=0.01d, upper=Double.POSITIVE_INFINITY, message="applying 0mm of insulation does nothing - specify a thickness")
-	public double getThickness() {
+    public Double getThickness() {
 		return thickness;
 	}
-	public void setThickness(final double thickness) {
+    public void setThickness(final Double thickness) {
 		this.thickness = thickness;
 	}
 	
