@@ -19,12 +19,10 @@
 
    <requires>
      <import plugin="uk.org.cse.nhm.bundle.impl" version="6.4.0" match="equivalent"/>
-     <!--
      <import plugin="uk.org.cse.nhm.bundle.impl" version="6.3.2" match="equivalent"/>
      <import plugin="uk.org.cse.nhm.bundle.impl" version="6.3.0" match="equivalent"/>
      <import plugin="uk.org.cse.nhm.bundle.impl" version="6.2.2" match="equivalent"/>
      <import plugin="uk.org.cse.nhm.manual" version="0.0.0" match="greaterOrEqual" />
-     -->
    </requires>
 
 </feature>

@@ -119,8 +119,8 @@ public class Maths {
 			if (arguments.isEmpty()) {
 				return Double.NaN;
 			} else {
-				double value = arguments.get(0).compute(scope, lets).doubleValue();
-				for (int i = 1; i<arguments.size(); i++) {
+                double value = arguments.get(0).compute(scope, lets).doubleValue();
+                for (int i = 1; i<arguments.size(); i++) {
 					value = (value - arguments.get(i).compute(scope, lets).doubleValue());
 				}
 				return value;
@@ -282,9 +282,11 @@ public class Maths {
 		@Override
 		public Boolean compute(final IComponentsScope scope, final ILets lets) {
 			if (arguments.size() >= 2) {
-				double value = arguments.get(0).compute(scope, lets).doubleValue();
+                double value = arguments.get(0).compute(scope, lets).doubleValue();
+                if (Double.isNaN(value)) return false;
 				for (int i = 1; i<arguments.size(); i++) {
-					final double next = arguments.get(i).compute(scope, lets).doubleValue();
+                    final double next = arguments.get(i).compute(scope, lets).doubleValue();
+                    if (Double.isNaN(next)) return false;
 					if (invalid(value, next)) {
 						return false;
 					}

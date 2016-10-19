@@ -9,7 +9,7 @@ import uk.org.cse.nhm.reporting.IReportEngine;
 import uk.org.cse.nhm.reporting.standard.IReporterFactory;
 import uk.org.cse.nhm.reporting.standard.IZippingFileStreamFactory;
 import uk.org.cse.nhm.reporting.standard.StandardReportEngine;
-import uk.org.cse.nhm.reporting.standard.ZippingFileStreamFactory;
+import uk.org.cse.nhm.reporting.standard.ZippingStandaloneFileStreamFactory;
 import uk.org.cse.nhm.reporting.standard.ZippingIndexingFileStreamFactory;
 
 class ReportingModule extends PrivateModule {
@@ -31,7 +31,7 @@ class ReportingModule extends PrivateModule {
 		if (webbish) {
 			bind(IZippingFileStreamFactory.class).to(ZippingIndexingFileStreamFactory.class);
 		} else {
-			bind(IZippingFileStreamFactory.class).to(ZippingFileStreamFactory.class);
+			bind(IZippingFileStreamFactory.class).to(ZippingStandaloneFileStreamFactory.class);
 		}
 		
 		bind(StandardReportEngine.class).in(Scopes.SINGLETON);

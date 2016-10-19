@@ -53,6 +53,7 @@ public class NHMBuilder extends IncrementalProjectBuilder {
 	public static final String MARKER_ADDITIONAL_LINE_PREFIX = MARKER_TYPE + ".otherLine";
 	public static final String MARKER_PREVIOUS_MARKER = MARKER_TYPE + ".previous";
 	public static final String MARKER_NEXT_MARKER = MARKER_TYPE + ".next";
+	protected static final int K_MAX_PROBLEMS = 2000;
 	
 	private final Multimap<IPath, IPath> dependencies = HashMultimap.create();
 	private final Multimap<IPath, IPath> dependents = HashMultimap.create();
@@ -134,13 +135,6 @@ public class NHMBuilder extends IncrementalProjectBuilder {
 			});
 			
 		}
-
-		NHMUIPlugin.logInformation("Dependency graph for %s: %s",
-				getProject().getName(),
-				this.dependents);
-		
-		this.dependents.clear();
-		Multimaps.invertFrom(this.dependencies, this.dependents);
 		
 		NHMUIPlugin.logInformation("Resources to process for %s: %s", 
 				getProject().getName(),
@@ -158,6 +152,7 @@ public class NHMBuilder extends IncrementalProjectBuilder {
 		final ExecutorService executor = Executors.newSingleThreadExecutor();
 		
 		for (final IResource resource : resourcesToProcess) {
+			monitor.subTask("Validate " + resource.getName());
 			final Future<Collection<IValidationProblem<IPath>>> future = executor.submit(new Callable<Collection<IValidationProblem<IPath>>>() {
 				@Override
 				public Collection<IValidationProblem<IPath>> call() throws Exception {
@@ -185,6 +180,7 @@ public class NHMBuilder extends IncrementalProjectBuilder {
 							ee);
 					done = true;
 				} catch (final TimeoutException e) {
+					monitor.subTask("Validate " + resource.getName() + " (" + counter +"s)...");
 					NHMUIPlugin.logInformation("Validation of %s in %s has taken %d seconds so far...", 
 							getProject().getName(),
 							resource.getName(),
@@ -205,6 +201,15 @@ public class NHMBuilder extends IncrementalProjectBuilder {
 			return null;
 		}
 		
+		NHMUIPlugin.logInformation("Dependency graph for %s: %s",
+				getProject().getName(),
+				this.dependents);
+		
+		this.dependents.clear();
+		Multimaps.invertFrom(this.dependencies, this.dependents);
+		
+		nature.setDependencies(this.dependencies);
+		
 		final IWorkspaceRunnable r = new IWorkspaceRunnable() {
 			@Override
 			public void run(final IProgressMonitor monitor) throws CoreException {
@@ -213,19 +218,57 @@ public class NHMBuilder extends IncrementalProjectBuilder {
 						resourcesToProcess.size(),
 						getProject().getName());
 				monitor.beginTask("Updating markers", resourcesToProcess.size());
+				
+				final int nProblems = problemsForFiles.values().size();
+				final int problemsPerFile;
+				
+				if (nProblems > K_MAX_PROBLEMS) {
+					NHMUIPlugin.logInformation("There are %d problems, which exceeds the max. marker count of %d. Some problems will be omitted.", 
+							nProblems, K_MAX_PROBLEMS);
+					problemsPerFile = 1 + K_MAX_PROBLEMS / problemsForFiles.keySet().size();
+				} else {
+					problemsPerFile = Integer.MAX_VALUE;
+				}
+				
+				outer:
 				for (final IResource resource : resourcesToProcess) {
 					if (resource instanceof IFile) {
 						final IFile file = (IFile) resource;
+						Collection<IValidationProblem<IPath>> problemsForThisFile = problemsForFiles.get(file);
 						try {
 							file.deleteMarkers(MARKER_TYPE, false, IResource.DEPTH_ZERO);
-							for (final IValidationProblem<IPath> p : problemsForFiles.get(file)) {
-								addMarkersForProblem(file, p);
+							int problemCounter = 0;
+							
+							if (problemsForThisFile.size() > problemsPerFile) {
+								addMarker(file, "There are too many validation errors in the workspace to display all of them. Some errors have been omitted.", 
+										1, 1, IMarker.SEVERITY_WARNING);
+								// if we are limiting the display of errors, we need to do the fatal errors
+								// first so that we don't display a million warnings and nothing else.
+								for (final IValidationProblem<IPath> p : problemsForThisFile) {
+									if (p.level().isFatal()) {
+										addMarkersForProblem(file, p);
+										problemCounter++;
+									}
+									if (problemCounter >= problemsPerFile) continue outer;
+								}
+								for (final IValidationProblem<IPath> p : problemsForThisFile) {
+									if (!p.level().isFatal()) {
+										addMarkersForProblem(file, p);
+										problemCounter++;
+									}
+									if (problemCounter >= problemsPerFile) continue outer;
+								}
+							} else {
+								// we can display all the problems.
+								for (final IValidationProblem<IPath> p : problemsForThisFile) {
+									addMarkersForProblem(file, p);
+								}
 							}
 						} catch (final Exception ex) {
 							NHMUIPlugin.logException(
 									String.format("Whilst adding problem markers to %s in %s, an exception occurred. This probably should not happen.\n"+
 											"The problems with that file are: " +
-											Joiner.on("\n - ").join(problemsForFiles.get(file)),
+											Joiner.on("\n - ").join(problemsForThisFile),
 									file.getName(),
 									getProject().getName())
 									, ex);
@@ -241,6 +284,14 @@ public class NHMBuilder extends IncrementalProjectBuilder {
 		return null;
 	}
 
+	/**
+	 * Create the problem markers related to a problem. A problem can put markers in several files, if it is induced from a template.
+	 * 
+	 * @param file
+	 * @param p
+	 * @param 
+	 * @throws CoreException
+	 */
 	private void addMarkersForProblem(final IFile file, final IValidationProblem<IPath> p)
 			throws CoreException {
 		IMarker sourceMarker = null;
@@ -256,15 +307,16 @@ public class NHMBuilder extends IncrementalProjectBuilder {
 			IMarker thisMarker = null;
 			if (loc.type() == LocationType.Source) {
 				thisMarker = sourceMarker = addMarker(psFile.or(file), p.message(), loc.line(), loc.offset(), severityOf(p));
-			} else if (psFile.isPresent() && p.level() != ProblemLevel.SemanticWarning) {
-				// secondary error through template or include
+			} else if (psFile.isPresent() && p.level().isFatal()) {
+				// secondary error through template or include - we should probably only display a few of these
+				// in the event that there are a vast number of errors.
 				thisMarker = addMarker(psFile.get(), "From " + file.getName() + ": " + p.message(), loc.line(), loc.offset(), IMarker.SEVERITY_INFO);
 				additionalLocations.put(MARKER_ADDITIONAL_LINE_PREFIX + "." + i, here);
 				i++;
 			} else {
 				
 			}
-			
+
 			if (thisMarker != null) {
 				if (previousMarker != null) {
 					thisMarker.setAttribute(

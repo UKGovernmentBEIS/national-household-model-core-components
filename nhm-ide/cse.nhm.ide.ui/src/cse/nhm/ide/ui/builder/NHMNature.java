@@ -167,6 +167,8 @@ public class NHMNature implements IProjectNature {
 	}
 	
 	private ServiceTrackingModel model;
+
+	private HashMultimap<IPath, IPath> dependencies = HashMultimap.create();
 	
 	public ServiceTrackingModel getModel() {
 		if (model == null) {
@@ -232,5 +234,14 @@ public class NHMNature implements IProjectNature {
 	
 	public Set<? extends IDefinition<IPath>> getAllDefinitions(final IProgressMonitor monitor) {
 		return ImmutableSet.copyOf(this.defns.values());
+	}
+
+	public void setDependencies(Multimap<IPath, IPath> dependencies) {
+		this.dependencies.clear();
+		this.dependencies.putAll(dependencies);
+	}
+	
+	public Set<IPath> getDependencies(final IPath path) {
+		return this.dependencies.get(path);
 	}
 }
