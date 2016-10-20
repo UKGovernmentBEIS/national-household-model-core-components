@@ -1024,7 +1024,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 			final ISpecificHeatLosses heatLosses, final IInternalParameters adjustedParameters,
 			final IEnergyState state) {
 		int indexOfFirstHeatingSystem = 0;
-		final boolean heatingOn = adjustedParameters.getClimate().isHeatingOn();
+		
 		for (final IEnergyTransducer transducer : transducers) {
 			
 			/*
@@ -1039,6 +1039,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 			/*
 			 * If uncommented, these lines would cause pumps and fans to be disabled during periods when the heating is off.
 			 */
+			//final boolean heatingOn = adjustedParameters.getClimate().isHeatingOn();
 			//if (heatingOn || (transducer.getServiceType() != ServiceType.PRIMARY_SPACE_HEATING && transducer.getServiceType() != ServiceType.SECONDARY_SPACE_HEATING)) {
 				
 				if (log.isDebugEnabled())

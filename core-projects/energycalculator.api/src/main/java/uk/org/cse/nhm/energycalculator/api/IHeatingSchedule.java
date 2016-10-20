@@ -21,7 +21,9 @@ public interface IHeatingSchedule {
 	public double getMeanTemperature(final double demandTemperature, final double backgroundTemperature, final double cutoffTime);
 	
 	/**
-	 * @return true if the heating is on at any point.
+	 * Note that this does not control which months the heating is on for (for that, see {@link BREDEMHeatingOn} and {@link SAPHeatingOn}).
+	 * 
+	 * @return true if the heating is on at any point. 
 	 */
 	public boolean isHeatingOn();
 }

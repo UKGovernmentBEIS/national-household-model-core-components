@@ -61,8 +61,7 @@ public class XHeatingTemperaturesAction extends XFlaggedDwellingAction {
 	@Doc({
 		"If specified, this action will set the outside temperature threshold for heating to come on to this value (in celsius).",
 		"The house will only be heated when the outside temperature is less than or equal to this value.",
-		"SAP does not have an equivalent value, but instead defines the summer months to be the months in which heating is",
-		"off, but because the NHM allows you to vary the external temperature the heating months must be derived instead."
+		"In SAP 2012 mode, this will have no effect. SAP instead defines the summer months to be the months in which heating is off."
 	})
 	public XNumber getThresholdExternalTemperature() {
 		return thresholdExternalTemperature;
@@ -115,8 +114,8 @@ public class XHeatingTemperaturesAction extends XFlaggedDwellingAction {
 	
 	@BindNamedArgument("desired-heating-months")
 	@Doc({
-		"If at least one month is specified, and threshold external temperature is not specified, this will attempt to set a threshold external temperature",
-		"such that the current weather would result in the heating being on during as many of the given months as possible and off otherwise."
+		"If at least one month is specified, and threshold external temperature is not specified, this will attempt to set the highest possible threshold temperature such that the heating is off for all the other months.",
+		"Has no effect if the energy calculator is set to SAP 2012 mode."
 	})
 	public List<XMonth> getDesiredHeatingMonths() {
 		return desiredHeatingMonths;
