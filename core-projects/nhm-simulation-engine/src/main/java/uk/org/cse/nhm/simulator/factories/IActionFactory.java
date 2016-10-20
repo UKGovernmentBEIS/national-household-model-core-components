@@ -28,6 +28,7 @@ import uk.org.cse.nhm.simulator.action.RepeatAction;
 import uk.org.cse.nhm.simulator.action.SetInterzoneSpecificHeatTransferAction;
 import uk.org.cse.nhm.simulator.action.SetLivingAreaFractionAction;
 import uk.org.cse.nhm.simulator.action.SetSiteExposureAction;
+import uk.org.cse.nhm.simulator.action.SetThermalBridgingFactorAction;
 import uk.org.cse.nhm.simulator.action.SometimesAction;
 import uk.org.cse.nhm.simulator.action.TemperaturesAction;
 import uk.org.cse.nhm.simulator.action.choices.ChoiceAction;
@@ -192,4 +193,7 @@ public interface IActionFactory {
     
     public EnergyCalculatorAction createEnergyCalculatorAction(
     		@Assisted final EnergyCalculatorType calculatorType);
+
+	public SetThermalBridgingFactorAction createThermalBridgingFactorAction(
+			@Assisted IComponentsFunction<Number> thermalBridgingFactor);
 }

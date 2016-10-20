@@ -104,28 +104,6 @@ public enum EnergyCalculatorConstants implements IConstant {
 	
 	/*
 	BEISDOC
-	NAME: Thermal Briding Coefficient
-	DESCRIPTION: The thermal bridging coefficient used to estimate the thermal bridge contribution to heat loss parameter
-	TYPE: value
-	UNIT: W/℃/m^2
-	SAP: (36)
-	BREDEM: 3A
-	DEPS: 
-	GET: 
-	SET: context.energy-calculator-constants
-	ID: thermal-bridging-coefficient
-	CODSIEB
-	*/
-
-	@ConstantDescription("The thermal bridging coefficient used to estimate the thermal bridge contribution to heat loss parameter, for buildings which are older than the improvement year")
-	OLD_THERMAL_BRIDGING_COEFFICIENT(0.15), 
-	@ConstantDescription("The thermal bridging coefficient used to estimate the thermal bridge contribution for buildings which are built in or after the improvement year")
-	NEW_THERMAL_BRIDGING_COEFFICIENT(0.15/4.0), 
-	@ConstantDescription("The year in which the thermal bridging coefficient switches from OLD_THERMAL_BRIDGING_COEFFICIENT to NEW_THERMAL_BRIDGING_COEFFICIENT")
-	THERMAL_BRIDING_COEFFICIENT_IMPROVEMENT_YEAR(2003),
-	
-	/*
-	BEISDOC
 	NAME: Overshading factor
 	DESCRIPTION: A constant multiplier due to overshading which reduces solar gains.
 	TYPE: 5 values (one for each overshading type)

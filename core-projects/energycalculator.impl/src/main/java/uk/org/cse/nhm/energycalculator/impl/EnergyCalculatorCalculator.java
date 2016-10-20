@@ -119,8 +119,17 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 
 	private final double TIME_CONSTANT_HEAT_LOSS_PARAMETER_MULTIPLIER;
 
-	private final double OLD_THERMAL_BRIDGING_COEFFICIENT;
-	private final double NEW_THERMAL_BRIDGING_COEFFICIENT;
+	/*
+	BEISDOC
+	NAME: Thermal Briding Coefficient
+	DESCRIPTION: The thermal bridging coefficient used to estimate the thermal bridge contribution to heat loss parameter under SAP 2012.
+	TYPE: value
+	UNIT: W/℃/m^2
+	SAP: (36)
+	ID: thermal-bridging-coefficient
+	CODSIEB
+	*/
+	private final double SAP_THERMAL_BRIDGING_COEFFICIENT = 0.15;
 
 	/**
 	 * Contains a list of transducers which are present in every house. These
@@ -128,8 +137,6 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 	 * threads.
 	 */
 	private final List<IEnergyTransducer> defaultTransducers = new ArrayList<IEnergyTransducer>();
-
-	private final int THERMAL_BRIDGING_PARAMETER_IMPROVEMENT_YEAR;
 
 	private final double SHELTERED_SIDES_EXPOSURE_FACTOR;
 
@@ -154,10 +161,6 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 
 		this.constants = constants;
 		VENTILATION_HEAT_LOSS_COEFFICIENT = constants.get(EnergyCalculatorConstants.VENTILATION_HEAT_LOSS_COEFFICIENT);
-		OLD_THERMAL_BRIDGING_COEFFICIENT = constants.get(EnergyCalculatorConstants.OLD_THERMAL_BRIDGING_COEFFICIENT);
-		NEW_THERMAL_BRIDGING_COEFFICIENT = constants.get(EnergyCalculatorConstants.NEW_THERMAL_BRIDGING_COEFFICIENT);
-		THERMAL_BRIDGING_PARAMETER_IMPROVEMENT_YEAR = (int) constants
-				.get(EnergyCalculatorConstants.THERMAL_BRIDING_COEFFICIENT_IMPROVEMENT_YEAR);
 		TIME_CONSTANT_HEAT_LOSS_PARAMETER_MULTIPLIER = constants
 				.get(EnergyCalculatorConstants.TIME_CONSTANT_HEAT_LOSS_PARAMETER_MULTIPLIER);
 		SHELTERED_SIDES_EXPOSURE_FACTOR = constants.get(EnergyCalculatorConstants.SHELTERED_SIDES_EXPOSURE_FACTOR);
@@ -273,27 +276,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		// if the house is built before 2003,
 		// or 1/4 that if it is built after 2003.
 
-		/*
-		BEISDOC
-		NAME: Thermal bridges
-		DESCRIPTION: Heat loss due to thermal bridging
-		TYPE: formula
-		UNIT: W/℃
-		SAP: (36), Appendix K (K2)
-		BREDEM: 3A
-		DEPS: thermal-bridging-coefficient,external-area
-		GET: 
-		SET:
-		ID: thermal-bridging-heat-loss
-		NOTES: TODO investigate this after 2003 thermal bridging thing?
-		CODSIEB
-		*/
-		final double thermalBridgeEffect;
-		if (houseCase.getBuildYear() < THERMAL_BRIDGING_PARAMETER_IMPROVEMENT_YEAR) {
-			thermalBridgeEffect = OLD_THERMAL_BRIDGING_COEFFICIENT * totalExternalArea;
-		} else {
-			thermalBridgeEffect = NEW_THERMAL_BRIDGING_COEFFICIENT * totalExternalArea;
-		}
+		final double thermalBridgeEffect = getThermalBridgeEffect(houseCase, parameters, totalExternalArea);
 
 		/*
 		BEISDOC
@@ -345,6 +328,36 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 
 		return new SpecificHeatLosses(H1, H3, totalThermalMass, houseCase.getFloorArea(), ventilationLosses,
 				thermalBridgeEffect, climateAdjustedAirChangeRate);
+	}
+
+	protected double getThermalBridgeEffect(IEnergyCalculatorHouseCase houseCase, IInternalParameters parameters,
+			double totalExternalArea) {
+		/*
+		BEISDOC
+		NAME: Thermal Bridging Heat Loss
+		DESCRIPTION: Heat loss due to thermal bridging per degree of temperature difference.
+		TYPE: formula
+		UNIT: W / ℃
+		SAP: (36), Appendix K (K2)
+		BREDEM: 3A.b
+		DEPS: sap-thermal-bridging-coefficient,thermal-bridging-coefficient,external-area
+		ID: thermal-bridging-heat-loss
+		NOTES: The thermal bridging coefficient is always 0.15 in SAP 2012 mode. 
+		CODSIEB
+		*/
+		final double thermalBridgingCoefficient;
+		switch (parameters.getCalculatorType()) { 
+		case SAP2012:
+			thermalBridgingCoefficient = SAP_THERMAL_BRIDGING_COEFFICIENT;
+			break;
+		case BREDEM2012:
+			thermalBridgingCoefficient = houseCase.getThermalBridgingCoefficient();
+			break;
+		default:
+			throw new UnsupportedOperationException("Unknown energy calculator type while calculating thermal bridging " + parameters.getCalculatorType());
+		}
+		
+		return thermalBridgingCoefficient * totalExternalArea;
 	}
 
 	protected final double getInterzoneSpecificHeatLoss(EnergyCalculatorType calculatorType,

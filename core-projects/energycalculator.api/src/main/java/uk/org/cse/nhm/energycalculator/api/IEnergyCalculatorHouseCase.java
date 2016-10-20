@@ -72,8 +72,12 @@ public interface IEnergyCalculatorHouseCase {
 	public double getDraughtStrippedProportion();
 
 	/**
-	 * @since 6.4.1
-	 * @return
+	 * @since 6.4.0
 	 */
 	public SiteExposureType getSiteExposure();
+
+	/**
+	 * @since 6.4.0
+	 */
+	public double getThermalBridgingCoefficient();
 }

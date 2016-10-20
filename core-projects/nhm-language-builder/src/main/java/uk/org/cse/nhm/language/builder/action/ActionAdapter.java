@@ -40,6 +40,7 @@ import uk.org.cse.nhm.language.definition.action.XRepeatAction;
 import uk.org.cse.nhm.language.definition.action.XSetInterzoneSpecificHeatTransferAction;
 import uk.org.cse.nhm.language.definition.action.XSetLivingAreaFractionAction;
 import uk.org.cse.nhm.language.definition.action.XSetSiteExposureAction;
+import uk.org.cse.nhm.language.definition.action.XSetThermalBridgingFactorAction;
 import uk.org.cse.nhm.language.definition.action.XSometimesAction;
 import uk.org.cse.nhm.language.definition.action.hypothetical.XCounterfactualCalculator;
 import uk.org.cse.nhm.language.definition.action.hypothetical.XCounterfactualCarbon;
@@ -130,6 +131,13 @@ public class ActionAdapter extends ReflectingAdapter {
 			 @Prop(XSetSiteExposureAction.P.siteExposure) final XSetSiteExposureAction.XSiteExposureType siteExposure
 			 ) {
 		 return measureFactory.createSiteExposureAction(MapEnum.siteExposure(siteExposure));
+	 }
+	 
+	 @Adapt(XSetThermalBridgingFactorAction.class)
+	 public IComponentsAction buildSetThermalBridgingFactorAction(
+			 @Prop(XSetThermalBridgingFactorAction.P.thermalBridgingFactor) final IComponentsFunction<Number> factor
+			 ) {
+		 return measureFactory.createThermalBridgingFactorAction(factor);
 	 }
 	 
 	 @Adapt(XSetInterzoneSpecificHeatTransferAction.class)

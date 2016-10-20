@@ -138,6 +138,19 @@ public class StructureModel implements ICopyable<StructureModel> {
     
     private int mainFloorLevel;
     
+    /*
+	BEISDOC
+	NAME: Thermal Bridging Coefficient
+	DESCRIPTION: This is multiplied by the external area of the dwelling to produce the thermal bridging loss per degree of temperature difference.
+	TYPE: value
+	UNIT: W/℃/m^2
+	BREDEM: 3A.b, see footnote vii 
+	SET: action.set-thermal-bridging-factor
+	ID: thermal-bridging-coefficient
+	CODSIEB
+	*/
+	private double thermalBridgingCoefficient = 0.15;
+    
 	public StructureModel() {
         super();
     }
@@ -179,7 +192,7 @@ public class StructureModel implements ICopyable<StructureModel> {
     	copy.setFrontPlotWidth(getFrontPlotWidth());
     	copy.setBackPlotDepth(getBackPlotDepth());
     	copy.setBackPlotWidth(getBackPlotWidth());
-    	
+    	copy.setThermalBridigingCoefficient(getThermalBridgingCoefficient());    	
     	copy.setNumberOfShelteredSides(getNumberOfShelteredSides());
     	copy.setOnGasGrid(isOnGasGrid());
     	copy.setNumberOfBedrooms(getNumberOfBedrooms());
@@ -654,6 +667,14 @@ public class StructureModel implements ICopyable<StructureModel> {
 			this.hasLoft = hasLoft;
 		}
 	}
+	
+	public double getThermalBridgingCoefficient() {
+		return thermalBridgingCoefficient;
+	}
+	
+	public void setThermalBridigingCoefficient(final double thermalBridgingCoefficient) {
+		this.thermalBridgingCoefficient = thermalBridgingCoefficient;
+	}	
 
 	@Override
 	public int hashCode() {
@@ -664,22 +685,17 @@ public class StructureModel implements ICopyable<StructureModel> {
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(backPlotWidth);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result
-				+ ((builtFormType == null) ? 0 : builtFormType.hashCode());
+		result = prime * result + ((builtFormType == null) ? 0 : builtFormType.hashCode());
 		temp = Double.doubleToLongBits(draughtStrippedProportion);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result
-				+ ((elevations == null) ? 0 : elevations.hashCode());
+		result = prime * result + ((elevations == null) ? 0 : elevations.hashCode());
 		temp = Double.doubleToLongBits(floorInsulationThickness);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(frontPlotDepth);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(frontPlotWidth);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime
-				* result
-				+ ((groundFloorConstructionType == null) ? 0
-						: groundFloorConstructionType.hashCode());
+		result = prime * result + ((groundFloorConstructionType == null) ? 0 : groundFloorConstructionType.hashCode());
 		result = prime * result + (hasAccessToOutsideSpace ? 1231 : 1237);
 		result = prime * result + (hasDraughtLobby ? 1231 : 1237);
 		result = prime * result + (hasLoft ? 1231 : 1237);
@@ -691,37 +707,34 @@ public class StructureModel implements ICopyable<StructureModel> {
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(livingAreaProportionOfFloorArea);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + mainFloorLevel;
 		result = prime * result + numberOfBedrooms;
 		result = prime * result + numberOfShelteredSides;
 		result = prime * result + (onGasGrid ? 1231 : 1237);
 		result = prime * result + (ownsPartOfRoof ? 1231 : 1237);
-		result = prime
-				* result
-				+ ((roofConstructionType == null) ? 0 : roofConstructionType
-						.hashCode());
+		result = prime * result + ((roofConstructionType == null) ? 0 : roofConstructionType.hashCode());
 		temp = Double.doubleToLongBits(roofInsulationThickness);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((storeys == null) ? 0 : storeys.hashCode());
+		temp = Double.doubleToLongBits(thermalBridgingCoefficient);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(zoneTwoHeatedProportion);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-        result = prime * result + mainFloorLevel;
 		return result;
 	}
 
 	@Override
-	public boolean equals(final Object obj) {
+	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final StructureModel other = (StructureModel) obj;
-		if (Double.doubleToLongBits(backPlotDepth) != Double
-				.doubleToLongBits(other.backPlotDepth))
+		StructureModel other = (StructureModel) obj;
+		if (Double.doubleToLongBits(backPlotDepth) != Double.doubleToLongBits(other.backPlotDepth))
 			return false;
-		if (Double.doubleToLongBits(backPlotWidth) != Double
-				.doubleToLongBits(other.backPlotWidth))
+		if (Double.doubleToLongBits(backPlotWidth) != Double.doubleToLongBits(other.backPlotWidth))
 			return false;
 		if (builtFormType != other.builtFormType)
 			return false;
@@ -736,11 +749,9 @@ public class StructureModel implements ICopyable<StructureModel> {
 		if (Double.doubleToLongBits(floorInsulationThickness) != Double
 				.doubleToLongBits(other.floorInsulationThickness))
 			return false;
-		if (Double.doubleToLongBits(frontPlotDepth) != Double
-				.doubleToLongBits(other.frontPlotDepth))
+		if (Double.doubleToLongBits(frontPlotDepth) != Double.doubleToLongBits(other.frontPlotDepth))
 			return false;
-		if (Double.doubleToLongBits(frontPlotWidth) != Double
-				.doubleToLongBits(other.frontPlotWidth))
+		if (Double.doubleToLongBits(frontPlotWidth) != Double.doubleToLongBits(other.frontPlotWidth))
 			return false;
 		if (groundFloorConstructionType != other.groundFloorConstructionType)
 			return false;
@@ -750,17 +761,17 @@ public class StructureModel implements ICopyable<StructureModel> {
 			return false;
 		if (hasLoft != other.hasLoft)
 			return false;
-		if (Double.doubleToLongBits(internalWallArea) != Double
-				.doubleToLongBits(other.internalWallArea))
+		if (Double.doubleToLongBits(internalWallArea) != Double.doubleToLongBits(other.internalWallArea))
 			return false;
-		if (Double.doubleToLongBits(internalWallKValue) != Double
-				.doubleToLongBits(other.internalWallKValue))
+		if (Double.doubleToLongBits(internalWallKValue) != Double.doubleToLongBits(other.internalWallKValue))
 			return false;
 		if (Double.doubleToLongBits(interzoneSpecificHeatLoss) != Double
 				.doubleToLongBits(other.interzoneSpecificHeatLoss))
 			return false;
 		if (Double.doubleToLongBits(livingAreaProportionOfFloorArea) != Double
 				.doubleToLongBits(other.livingAreaProportionOfFloorArea))
+			return false;
+		if (mainFloorLevel != other.mainFloorLevel)
 			return false;
 		if (numberOfBedrooms != other.numberOfBedrooms)
 			return false;
@@ -772,20 +783,18 @@ public class StructureModel implements ICopyable<StructureModel> {
 			return false;
 		if (roofConstructionType != other.roofConstructionType)
 			return false;
-		if (Double.doubleToLongBits(roofInsulationThickness) != Double
-				.doubleToLongBits(other.roofInsulationThickness))
+		if (Double.doubleToLongBits(roofInsulationThickness) != Double.doubleToLongBits(other.roofInsulationThickness))
 			return false;
 		if (storeys == null) {
 			if (other.storeys != null)
 				return false;
 		} else if (!storeys.equals(other.storeys))
 			return false;
-		if (Double.doubleToLongBits(zoneTwoHeatedProportion) != Double
-				.doubleToLongBits(other.zoneTwoHeatedProportion))
+		if (Double.doubleToLongBits(thermalBridgingCoefficient) != Double
+				.doubleToLongBits(other.thermalBridgingCoefficient))
 			return false;
-
-        if (mainFloorLevel != other.mainFloorLevel) return false;
-        
+		if (Double.doubleToLongBits(zoneTwoHeatedProportion) != Double.doubleToLongBits(other.zoneTwoHeatedProportion))
+			return false;
 		return true;
 	}
 }

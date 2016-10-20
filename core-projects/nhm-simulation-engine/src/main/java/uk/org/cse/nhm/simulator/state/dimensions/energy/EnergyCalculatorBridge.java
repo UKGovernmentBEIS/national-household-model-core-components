@@ -376,6 +376,11 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 		public double getLatitudeRadians() {
 			return latitudeRadians;
 		}
+
+		@Override
+		public double getThermalBridgingCoefficient() {
+			return structure.getThermalBridgingCoefficient();
+		}
 	}
 	
 	@Inject

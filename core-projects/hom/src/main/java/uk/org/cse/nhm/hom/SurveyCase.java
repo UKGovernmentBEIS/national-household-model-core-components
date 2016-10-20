@@ -184,4 +184,12 @@ public class SurveyCase implements IEnergyCalculatorHouseCase {
 	public void setAdditionalProperties(final Map<String, String> additionalProperties) {
 		this.additionalProperties = additionalProperties;
 	}
+
+	/**
+	 * @since 6.4.0
+	 */
+	@Override
+	public double getThermalBridgingCoefficient() {
+		return structure.getThermalBridgingCoefficient();
+	}
 }
