@@ -1,0 +1,20 @@
+(scenario
+    start-date: 2015
+    end-date: 2015
+    stock-id: ../../EHS2012.json.gz
+    energy-calculator: SAP2012
+    
+    (def-report energy
+                (column name: sap
+                        value: (house.energy-use by-service: SpaceHeating))
+                
+                (column name: bredem
+                        value: (under
+                                   (counterfactual.energy-calculator BREDEM2012)
+                                   evaluate: (house.energy-use by-service: SpaceHeating))))
+    
+    (on.dates
+        [(scenario-start)]
+        
+        (apply
+            (action.set-thermal-bridging-factor 0.05 report: #energy))))
