@@ -33,7 +33,7 @@ public class XEnergyConstantsContext extends XContextParameter {
 		 EfficiencyAdjustments_CONDENSING_UNDERFLOOR_HEATING(2),
 		@Doc("Efficiency adjustment for condensing boiler with weather or enhanced load compensator - default is 0.030, 0.015 ")
 		 EfficiencyAdjustments_CONDENSING_ADVANCED_COMPENSATOR(2),
-		@Doc("Efficiency adjustment for regular & combi boilers when there is no interlock or thermostat (combi boilers apply only to space heat efficiency) - default is -0.050 ")
+		@Doc("Efficiency adjustment for regular and combi boilers when there is no interlock or thermostat (combi boilers apply only to space heat efficiency) - default is -0.050 ")
 		 EfficiencyAdjustments_BOILER_WITHOUT_INTERLOCK(1),
 		@Doc("The constant term in all loss factor equations - default is 0.208 ")
 		 CylinderConstants_LOSS_FACTOR_CONSTANT_TERM(1),
@@ -181,7 +181,7 @@ public class XEnergyConstantsContext extends XContextParameter {
 		 PumpAndFanConstants_GAS_BOILER_FLUE_FAN_WATTAGE(1),
 		@Doc("The wattage of gas heat pump flue fan - from SAP table 4f, converted into watts and distributed over the year - default is 5.134 ")
 		 PumpAndFanConstants_GAS_HEAT_PUMP_FLUE_FAN_WATTAGE(1),
-		@Doc("The multiplier for room thermostat being missing, applied to central heating & oil boiler pump power requirement, from SAP table 4f note (a) - default is 1.300 ")
+		@Doc("The multiplier for room thermostat being missing, applied to central heating and oil boiler pump power requirement, from SAP table 4f note (a) - default is 1.300 ")
 		 PumpAndFanConstants_NO_ROOM_THERMOSTAT_MULTIPLIER(1),
 		@Doc("The volume multiplier for a warm air system's circulating fan - default is 0.060 ")
 		 PumpAndFanConstants_WARM_AIR_SYSTEM_VOLUME_MULTIPLIER(1),

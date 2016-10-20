@@ -104,7 +104,7 @@ public enum PumpAndFanConstants implements IConstant {
 	/*
 	BEISDOC
 	NAME: Pump no thermostat multiplier
-	DESCRIPTION: The multiplier for room thermostat being missing, applied to central heating & oil boiler pump power requirement
+	DESCRIPTION: The multiplier for room thermostat being missing, applied to central heating and oil boiler pump power requirement
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: Table 4f
@@ -114,7 +114,7 @@ public enum PumpAndFanConstants implements IConstant {
 	ID: pump-no-thermostat-modifier
 	CODSIEB
 	*/
-	@ConstantDescription("The multiplier for room thermostat being missing, applied to central heating & oil boiler pump power requirement, from SAP table 4f note (a)")
+	@ConstantDescription("The multiplier for room thermostat being missing, applied to central heating and oil boiler pump power requirement, from SAP table 4f note (a)")
 	NO_ROOM_THERMOSTAT_MULTIPLIER(1.3),
 	
 	/*

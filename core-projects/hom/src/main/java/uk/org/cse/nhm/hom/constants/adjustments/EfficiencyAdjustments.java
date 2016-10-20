@@ -51,7 +51,7 @@ public enum EfficiencyAdjustments implements IConstant {
 	ID: boiler-without-interlock
 	CODSIEB
 	*/
-	@ConstantDescription("Efficiency adjustment for regular & combi boilers when there is no interlock or thermostat (combi boilers apply only to space heat efficiency)")
+	@ConstantDescription("Efficiency adjustment for regular and combi boilers when there is no interlock or thermostat (combi boilers apply only to space heat efficiency)")
 	BOILER_WITHOUT_INTERLOCK(-5/100.0)
 	;
 	
