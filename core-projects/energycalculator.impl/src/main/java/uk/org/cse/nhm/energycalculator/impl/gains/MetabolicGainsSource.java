@@ -19,9 +19,11 @@ import uk.org.cse.nhm.energycalculator.constants.EnergyCalculatorConstants;
  */
 public class MetabolicGainsSource implements IEnergyTransducer {
 	private final double METABOLIC_GAINS_PER_PERSON;
+	private final double REDUCED_METABOLIC_GAINS_PER_PERSON;
 
 	public MetabolicGainsSource(final IConstants constants) {
 		METABOLIC_GAINS_PER_PERSON = constants.get(EnergyCalculatorConstants.METABOLIC_GAINS_PER_PERSON);
+		REDUCED_METABOLIC_GAINS_PER_PERSON = constants.get(EnergyCalculatorConstants.REDUCED_METABOLIC_GAINS_PER_PERSON);
 	}
 	
 	@Override
@@ -39,11 +41,11 @@ public class MetabolicGainsSource implements IEnergyTransducer {
 		UNIT: W
 		SAP: (66), Table 5
 		BREDEM: 6F
-		DEPS: metabolic-gains-per-person, occupancy
+		DEPS: metabolic-gains-per-person,reduced-metabolic-gains-per-person,occupancy,reduced-internal-gains
 		ID: metabolic-gains
 		CODSIEB
 		*/
-		final double metabolicGains = METABOLIC_GAINS_PER_PERSON * parameters.getNumberOfOccupants();
+		final double metabolicGains = parameters.getNumberOfOccupants() * (house.hasReducedInternalGains() ? REDUCED_METABOLIC_GAINS_PER_PERSON: METABOLIC_GAINS_PER_PERSON);
 		
 		state.increaseSupply(EnergyType.GainsMETABOLIC_GAINS, metabolicGains);
 	}

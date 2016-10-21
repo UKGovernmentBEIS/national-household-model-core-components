@@ -85,6 +85,7 @@ public class StructureInitializingBuildStep implements ISurveyCaseBuildStep {
         structure.setMainFloorLevel(dto.getMainFloorLevel());
         structure.setZoneTwoHeatedProportion(1);
         structure.setThermalBridigingCoefficient(0.15);
+        structure.setReducedInternalGains(false);
         
         final Optional<IVentilationDTO> ventilation = dtoProvider.getOne(IVentilationDTO.class);
         if (ventilation.isPresent()) {

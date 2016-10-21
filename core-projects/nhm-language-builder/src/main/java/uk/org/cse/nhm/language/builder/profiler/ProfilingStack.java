@@ -17,7 +17,7 @@ import com.carrotsearch.hppc.ObjectIntOpenHashMap;
 import com.carrotsearch.hppc.ObjectLongOpenHashMap;
 import com.carrotsearch.hppc.cursors.ObjectLongCursor;
 import com.google.common.collect.ImmutableList;
-import com.sun.management.OperatingSystemMXBean;
+//import com.sun.management.OperatingSystemMXBean;
 
 import uk.org.cse.commons.names.IIdentified;
 import uk.org.cse.commons.names.Name;
@@ -45,7 +45,7 @@ public class ProfilingStack implements IProfilingStack, ISimulationStepListener,
      */
     private final Deque<Long> clocks = new LinkedList<>();
     private final Deque<Name> path = new LinkedList<>();
-    private final OperatingSystemMXBean mx = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+    //private final OperatingSystemMXBean mx = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
     private final ObjectLongOpenHashMap<List<Name>> timers = new ObjectLongOpenHashMap<>();
     private final ObjectIntOpenHashMap<List<Name>> hits = new ObjectIntOpenHashMap<>();
     private final ILogEntryHandler log;
@@ -66,7 +66,8 @@ public class ProfilingStack implements IProfilingStack, ISimulationStepListener,
     }
     
     private long time () {
-        return mx.getProcessCpuTime();
+    	return 0;
+        //return mx.getProcessCpuTime();
     }
     
     @Override

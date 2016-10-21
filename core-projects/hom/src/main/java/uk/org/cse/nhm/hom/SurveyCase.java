@@ -192,4 +192,12 @@ public class SurveyCase implements IEnergyCalculatorHouseCase {
 	public double getThermalBridgingCoefficient() {
 		return structure.getThermalBridgingCoefficient();
 	}
+
+	/**
+	 * @since 6.4.0
+	 */
+	@Override
+	public boolean hasReducedInternalGains() {
+		return structure.hasReducedInternalGains();
+	}
 }

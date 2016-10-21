@@ -139,6 +139,21 @@ public class StructureModel implements ICopyable<StructureModel> {
     private int mainFloorLevel;
     
     /*
+    BEISDOC
+    NAME: Reduced Internal Gains
+    DESCRIPTION: Whether or not the dwelling should be subject to reduced internal gains.
+    Type: value
+    Unit: true/false
+    SAP: Table 5
+    SET: action.reduced-internal-gains
+    NOTES: Never applies in SAP 2012 mode.
+    ID: reduced-internal-gains  
+    CODSIEB
+    */
+    
+	private boolean reducedInternalGains;
+    
+    /*
 	BEISDOC
 	NAME: Thermal Bridging Coefficient
 	DESCRIPTION: This is multiplied by the external area of the dwelling to produce the thermal bridging loss per degree of temperature difference.
@@ -202,6 +217,7 @@ public class StructureModel implements ICopyable<StructureModel> {
     	copy.setInternalWallArea(getInternalWallArea());
     	copy.setInternalWallKValue(getInternalWallKValue());
     	copy.setHasLoft(getHasLoft());
+    	copy.setReducedInternalGains(hasReducedInternalGains());
     	
     	for (final ElevationType et : ElevationType.values()) {
     		copy.setElevation(et, getElevations().get(et).copy());
@@ -674,7 +690,16 @@ public class StructureModel implements ICopyable<StructureModel> {
 	
 	public void setThermalBridigingCoefficient(final double thermalBridgingCoefficient) {
 		this.thermalBridgingCoefficient = thermalBridgingCoefficient;
-	}	
+	}
+
+	public boolean hasReducedInternalGains() {
+		return this.reducedInternalGains;
+	}
+	
+	public void setReducedInternalGains(final boolean reducedInternalGains) {
+		this.reducedInternalGains = reducedInternalGains;
+	}
+
 
 	@Override
 	public int hashCode() {
@@ -712,6 +737,7 @@ public class StructureModel implements ICopyable<StructureModel> {
 		result = prime * result + numberOfShelteredSides;
 		result = prime * result + (onGasGrid ? 1231 : 1237);
 		result = prime * result + (ownsPartOfRoof ? 1231 : 1237);
+		result = prime * result + (reducedInternalGains ? 1231 : 1237);
 		result = prime * result + ((roofConstructionType == null) ? 0 : roofConstructionType.hashCode());
 		temp = Double.doubleToLongBits(roofInsulationThickness);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -780,6 +806,8 @@ public class StructureModel implements ICopyable<StructureModel> {
 		if (onGasGrid != other.onGasGrid)
 			return false;
 		if (ownsPartOfRoof != other.ownsPartOfRoof)
+			return false;
+		if (reducedInternalGains != other.reducedInternalGains)
 			return false;
 		if (roofConstructionType != other.roofConstructionType)
 			return false;

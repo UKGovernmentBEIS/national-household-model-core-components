@@ -448,15 +448,15 @@ public class CookerImpl extends MinimalEObjectImpl implements ICooker, IEnergyTr
 		ID: cooking-demand
 		CODSIEB
 		*/
-		final double ovenDemand = getOvenBaseLoad() + (getOvenOccupancyFactor() * parameters.getNumberOfOccupants());
-		increaseFuelDemandMaybeElectricity(state, parameters, getOvenFuelType(), ovenDemand);
+		final double ovenOccupancyDemand = getOvenOccupancyFactor() * parameters.getNumberOfOccupants();
+		increaseFuelDemandMaybeElectricity(state, parameters, getOvenFuelType(), getOvenBaseLoad() + ovenOccupancyDemand);
 		
-		final double hobDemand = getHobBaseLoad() + (getHobOccupancyFactor() * parameters.getNumberOfOccupants());
-		increaseFuelDemandMaybeElectricity(state, parameters, getHobFuelType(), hobDemand);
+		final double hobOccupancyDemand = getHobOccupancyFactor() * parameters.getNumberOfOccupants();
+		increaseFuelDemandMaybeElectricity(state, parameters, getHobFuelType(), getHobBaseLoad() + hobOccupancyDemand);
 		
 		state.increaseSupply(
 				EnergyType.GainsCOOKING_GAINS,
-				computeGains(ovenDemand, hobDemand, house, parameters)
+				computeGains(ovenOccupancyDemand, hobOccupancyDemand, house, parameters)
 			);
 	}
 	
@@ -472,7 +472,7 @@ public class CookerImpl extends MinimalEObjectImpl implements ICooker, IEnergyTr
 		}
 	}
 
-	protected double computeGains(double ovenDemand, double hobDemand, IEnergyCalculatorHouseCase house,
+	protected double computeGains(double ovenOccupancyDemand, double hobOccupancyDemand, IEnergyCalculatorHouseCase house,
 			IInternalParameters parameters) {
 		/*
 		BEISDOC
@@ -482,7 +482,7 @@ public class CookerImpl extends MinimalEObjectImpl implements ICooker, IEnergyTr
 		UNIT: W
 		SAP: Table 5
 		BREDEM: Table 25, 6D
-		DEPS: sap-base-cooking-gains,sap-cooking-gains-occupancy-factor,electric-cooking-gains-factor,gas-and-electric-cooking-gains-factor,cooking-demand
+		DEPS: sap-base-cooking-gains,sap-cooking-gains-occupancy-factor,electric-cooking-gains-factor,gas-and-electric-cooking-gains-factor,cooking-demand,reduced-internal-gains
 		NOTES: We implement the different SAP 2012 and BREDEM 2012 formulas for their respective energy calculators here.
 		NOTES: Note that the SAP 2012 formula is *entirely unrelated* to the actual amount of energy used for cooking.
 		ID: cooking-gains
@@ -492,7 +492,10 @@ public class CookerImpl extends MinimalEObjectImpl implements ICooker, IEnergyTr
 		case SAP2012:
 			return ICooker.SAP_BASE_GAINS + (ICooker.SAP_GAINS_OCCUPANCY_FACTOR * parameters.getNumberOfOccupants());
 		case BREDEM2012:
-			return (ovenDemand + hobDemand) * getGainsFactor();
+			final double baseGainsRatio = house.hasReducedInternalGains() ? (23 / 35) : 1;
+			final double occupancyGainsRatio = house.hasReducedInternalGains() ? (5 / 7) : 1;
+			
+			return (((getOvenBaseLoad() + getHobBaseLoad()) * baseGainsRatio) + ((ovenOccupancyDemand + hobOccupancyDemand) * occupancyGainsRatio)) * getGainsFactor();
 		default:
 			throw new UnsupportedOperationException("Unknown energy calculator type while computing cooking gains " + parameters.getCalculatorType());
 		}
