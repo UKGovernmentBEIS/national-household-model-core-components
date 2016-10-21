@@ -73,8 +73,8 @@ subprojects {
   group = 'uk.org.cse.nhm'
   version = '6.4.0-SNAPSHOT'
 
-  sourceCompatibility = 1.7
-  targetCompatibility = 1.7
+  sourceCompatibility = 1.8
+  targetCompatibility = 1.8
   
   repositories {
     mavenCentral()
@@ -95,12 +95,21 @@ subprojects {
 }
 
 // get everything to publish a jar, except for the integration tests which don't need to
-configure(subprojects - project(':nhm-simulator-integration-tests') - project(':nhm-language-documentation') - project(':nhm-stock-documentation') - project(':sedbuk-boiler-matching')) {
+configure(subprojects -
+            project(':nhm-simulator-integration-tests') -
+            project(':nhm-language-documentation') -
+            project(':nhm-stock-documentation') -
+            project(':sedbuk-boiler-matching') -
+            project(':nhm-bundle-api') -
+            project(':nhm-impl-bundle') -
+            project(':nhm-cli-tools')
+            )
+{
   publishing {
     publications {
       mavenJava(MavenPublication) {
         from components.java
-      }}}}
+}}}}
 
 // Core-Projects
 project(':energycalculator.api') {
@@ -435,5 +444,5 @@ project(':sedbuk-boiler-matching'){
 }
 
 task wrapper(type: Wrapper) {
-     gradleVersion = '2.4'
+     gradleVersion = '3.0'
 }

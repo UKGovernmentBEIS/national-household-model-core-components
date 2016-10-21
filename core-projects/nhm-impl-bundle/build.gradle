@@ -1,7 +1,7 @@
 plugins {
   id 'java'
   id 'maven-publish'
-  id 'org.dm.bundle' version '0.6.2'
+  id 'org.dm.bundle' version '0.8.6'
 }
 
 apply plugin: 'java'
@@ -39,27 +39,22 @@ def removeFromZip (file, things) {
   }
 }
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
-ext.nhmversion = '6.4.0-SNAPSHOT'
-ext.nhmstockversion = '6.4.0-SNAPSHOT'
-
-ext.buildtype = nhmversion.endsWith("-SNAPSHOT") ? "D" : "R"
-ext.buildVersion = nhmversion.replace("-SNAPSHOT", "") + "." + buildtype + System.currentTimeMillis()
-
-version = buildVersion
+ext.buildtype = version.endsWith("-SNAPSHOT") ? "D" : "R"
+ext.buildVersion = version.replace("-SNAPSHOT", "") + "." + buildtype + System.currentTimeMillis()
 
 ext.mavenUser = project.hasProperty('mvnUser') ? project.mvnUser : 'deploy'
 ext.mavenPassword = project.hasProperty('mvnPassword') ? project.mvnPassword : 'da9fc69a5d93f07432ace3fc7015fffa4d4b032a88d267f88cb2dd5369d1b6af'
 
 ext.nhm =
   [
-    "uk.org.cse.nhm:nhm-batch:$nhmversion",
-    "uk.org.cse.nhm:nhm-simulator:$nhmversion",
-    "uk.org.cse.nhm:nhm-reportengine:$nhmversion",
-    "uk.org.cse.nhm:nhm-stockimport-simple:$nhmstockversion",
-    "uk.org.cse.nhm:nhm-stock-io:$nhmversion"
+    project(":nhm-batch"),
+    project(":nhm-simulator"),
+    project(":nhm-reportengine"),
+    project(":nhm-stockimport-simple"),
+    project(":nhm-stock-io")
   ]
 
 group = 'uk.org.cse.nhm'
@@ -85,7 +80,9 @@ dependencies {
   compile 'org.osgi:org.osgi.core:6.0.0'
   compile 'org.osgi:org.osgi.compendium:5.0.0'
   compile "org.eclipse.equinox:org.eclipse.equinox.common:3.6.0"
-  compile "uk.org.cse.nhm:bundle-api:2.0.0"
+  compile project(':nhm-bundle-api')
+
+  //"uk.org.cse.nhm:bundle-api:2.0.0"
 
   embed nhm
 }
@@ -122,6 +119,8 @@ ext.badFiles = [
 
 jar << { removeFromZip(jar.archivePath, badFiles) }
 
+// TODO we should publish the artifact
+
 publishing {
   publications {
     mavenJava(MavenPublication) {
@@ -146,10 +145,6 @@ publishing {
           }
           url "http://localhost:8080/maven/7b9c5ef4-16a1-4b8f-ae4e-83bb87337fdb/"
         }}}}}
-
-task wrapper(type: Wrapper) {
-  gradleVersion = '2.3'
-}
 
 processResources {
     filesMatching('**/nhm-impl-bundle.properties') {
