@@ -1,34 +1,40 @@
 #!/usr/bin/env bash
 GRADLE="./gradlew"
+CLEAN=1
+BUILD_API=0
+BUILD_DOCS=1
 while [[ $# -gt 0 ]]; do
     case $1 in
-        --no-documentation)
-            SKIP_DOCUMENTATION=1
+        --no-clean)
+            CLEAN=0
             ;;
-        --stupid-gradle)
-            GRADLE="gradle"
+        --skip-docs)
+            BUILD_DOCS=0
             ;;
-        --include-api)
+        --gradle-command)
+            shift
+            GRADLE="$1"
+            ;;
+        --build-api)
             BUILD_API=1
             ;;
-        --help)
-            echo "usage: ./build.sh [--no-documentation] [--stupid-gradle] [--include-api]"
+        *)
+            echo "usage: ./build.sh [--skip-docs] [--build-api] [--no-clean] [--gradle-command <cmd>]"
             exit 0
             ;;
     esac
     shift # use up this argument
 done
 
-
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 
-ERRS=""
+declare -a ERRORS
 
 red () {
     printf "${RED}WARN${NC} $*\n"
-    ERRS="$ERRS\n$*"
+    ERRORS+="$*"
 }
 
 green () {
@@ -38,65 +44,78 @@ green () {
 # use maven global settings from this folder
 SETTINGS="$PWD/maven-settings.xml"
 maven () {
+    green "mvn $@ ($(basename $PWD))"
     mvn -gs "$SETTINGS" "$@"
     RES=$?
     if [ $RES -ne 0 ]; then
-        red "ERROR: mvn $@ => $RES (in $PWD)"
+        red "ERROR: mvn $@ => $RES"
     fi
 }
 
 # my machine (tom) has some problem with gradlew binaries.
 gradle () {
-    $GRADLE "$@"
+    green "gradle $@ ($(basename $PWD))"
+    $GRADLE --no-daemon "$@"
     RES=$?
     if [ $RES -ne 0 ]; then
-        red "ERROR: gradle $@ => $RES (in $PWD)"
+        red "ERROR: gradle $@ => $RES"
     fi
 }
 
-green "Building and installing core projects to local maven repo"
-pushd core-projects/
-gradle clean install -x test
-popd
+nc -zv localhost 8080
+if [ $? -eq 0 ]; then
+    red "Some other process is using port 8080"
+    red "Use sudo netstat -n -p | head to find it"
+    exit 1
+fi
 
 ./start_p2.sh &
 SERVER=$!
-green "Started P2 Server [$SERVER]"
+green "Starting P2 server [$SERVER]"
 
-if [ ! -z $BUILD_API ]; then
-    green "Building and publising nhm-api-bundle"
-    pushd core-projects/nhm-bundle-api
-    gradle clean publish
-    popd
+while ! nc -zv localhost 8080 ; do
+    green "Waiting for port 8080..."
+    sleep 5
+done
+
+green "Started P2 server [$SERVER]"
+
+pushd core-projects
+
+if [ $CLEAN == 1 ]; then
+    gradle clean
 else
-    green "skipping API"
+    green "Skip clean"
 fi
 
-green "Building and publishing nhm-impl-bundle"
-pushd core-projects/nhm-impl-bundle
-gradle clean publish
+if [ $BUILD_API == 1 ]; then
+    gradle :nhm-bundle-api:publish
+else
+    green "Skip API"
+fi
+
+gradle :nhm-impl-bundle:publish
+gradle :nhm-cli-tools:publish
+
 popd
 
-#TODO Not sure why the ide doesn't pick this up from p2
-
-if [ -z "$SKIP_DOCUMENTATION" ]; then
-    green "Building and publishing documentation bundle"
-    pushd nhm-documentation
+pushd nhm-documentation
+if [ $BUILD_DOCS == 1 ]; then
     maven install
     cd eclipse
     maven deploy
-    popd
 else
-    green "skipping documentation"
+    green "Skip documentation"
 fi
+popd
+
 
 pushd nhm-ide
 
-green "Getting signing keys submodule"
+green "Update signing keys"
 git submodule init
 git submodule update
 
-green "Building IDE"
 maven clean package
 
 popd
@@ -104,8 +123,8 @@ popd
 green "Stopping p2 server [$SERVER]..."
 kill $SERVER
 
-if [ ! -z $ERRS ]; then
-    red "$ERRS"
+if [ ! -z $ERRORS ]; then
+    red "$ERRORS"
 else
     green "IDE built into nhm-ide/nhm-ide/cse.nhm.ide.build/target/products/"
 fi
