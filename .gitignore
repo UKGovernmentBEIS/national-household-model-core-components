@@ -13,10 +13,10 @@ gradle-app.setting
 # Stuff from p2 drone server
 org.eclipse.packagedrone.server-0.12.2/configuration/*.log
 
-# Eclipse built folders
+# Eclipse build folders
 **/target/
 /nhm-ide/workspace/
-**/bin/**
+## **/bin/**
 
 # Eclipse files
 **/.project
