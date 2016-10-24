@@ -44,7 +44,7 @@ import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.CookerImpl#getGainsFactor <em>Gains Factor</em>}</li>
  * </ul>
  *
- * @generated
+ * @generated no (extra interface) - this generated flag just affects the implemented interface list.
  */
 public class CookerImpl extends MinimalEObjectImpl implements ICooker, IEnergyTransducer {
 	/**
