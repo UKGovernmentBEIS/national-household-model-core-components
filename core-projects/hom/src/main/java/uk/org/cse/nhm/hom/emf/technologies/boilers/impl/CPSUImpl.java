@@ -427,12 +427,8 @@ public class CPSUImpl extends BoilerImpl implements ICPSU {
 	 * Electric CPSU and storage boilers have a fixed responsiveness, for no reason.
 	 */
 	@Override
-	public double getResponsivenessImpl(final IConstants parameters,
+	public double getResponsiveness(final IConstants parameters,
 			final EList<HeatingSystemControlType> controls, final EmitterType emitter) {
-		if (getFuel() == FuelType.ELECTRICITY) {
-			return getBasicResponsiveness();			
-		} else {
-			return super.getSAPTable4dResponsiveness(parameters, controls, emitter);
-		}
+		return 1;
 	}
 } //CPSUImpl

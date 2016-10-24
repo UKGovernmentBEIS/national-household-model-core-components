@@ -35,7 +35,6 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler#getWinterEfficiency <em>Winter Efficiency</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler#isCondensing <em>Condensing</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler#isWeatherCompensated <em>Weather Compensated</em>}</li>
- *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler#getBasicResponsiveness <em>Basic Responsiveness</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler#isPumpInHeatedSpace <em>Pump In Heated Space</em>}</li>
  * </ul>
  *
@@ -153,36 +152,6 @@ public interface IBoiler extends IIndividualHeatSource, IVisitorAccepter, IFuelA
 	 * @generated
 	 */
 	void setWeatherCompensated(boolean value);
-
-	/**
-	 * Returns the value of the '<em><b>Basic Responsiveness</b></em>' attribute.
-	 * The default value is <code>"1"</code>.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Basic Responsiveness</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * For most boilers, this defines the responsiveness; various responsiveness tweak factors are applied depending on things in the various SAP tables 4a,b,c, etc.
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Basic Responsiveness</em>' attribute.
-	 * @see #setBasicResponsiveness(double)
-	 * @see uk.org.cse.nhm.hom.emf.technologies.boilers.IBoilersPackage#getBoiler_BasicResponsiveness()
-	 * @model default="1" required="true"
-	 * @generated
-	 */
-	double getBasicResponsiveness();
-
-	/**
-	 * Sets the value of the '{@link uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler#getBasicResponsiveness <em>Basic Responsiveness</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Basic Responsiveness</em>' attribute.
-	 * @see #getBasicResponsiveness()
-	 * @generated
-	 */
-	void setBasicResponsiveness(double value);
 
 	/**
 	 * Returns the value of the '<em><b>Pump In Heated Space</b></em>' attribute.

@@ -36,7 +36,6 @@ import uk.org.cse.nhm.hom.emf.technologies.ICooker;
 import uk.org.cse.nhm.hom.emf.technologies.IElectricShower;
 import uk.org.cse.nhm.hom.emf.technologies.IFuelAndFlue;
 import uk.org.cse.nhm.hom.emf.technologies.IHasInstallationYear;
-import uk.org.cse.nhm.hom.emf.technologies.IHasOverrideResponsiveness;
 import uk.org.cse.nhm.hom.emf.technologies.IHeatPump;
 import uk.org.cse.nhm.hom.emf.technologies.IHeatPumpWarmAirSystem;
 import uk.org.cse.nhm.hom.emf.technologies.IHeatSource;
@@ -299,13 +298,6 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * @generated
 	 */
 	private EClass operationalCostEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass hasOverrideResponsivenessEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1132,7 +1124,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getStorageHeater_Responsiveness() {
+	public EAttribute getStorageHeater_ResponsivenessOverride() {
 		return (EAttribute)storageHeaterEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1213,7 +1205,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getRoomHeater_Responsiveness() {
+	public EAttribute getRoomHeater_Efficiency() {
 		return (EAttribute)roomHeaterEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1222,17 +1214,8 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getRoomHeater_Efficiency() {
-		return (EAttribute)roomHeaterEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getRoomHeater_ThermostatFitted() {
-		return (EAttribute)roomHeaterEClass.getEStructuralFeatures().get(2);
+		return (EAttribute)roomHeaterEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1485,24 +1468,6 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 */
 	public EAttribute getOperationalCost_AnnualOperationalCost() {
 		return (EAttribute)operationalCostEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getHasOverrideResponsiveness() {
-		return hasOverrideResponsivenessEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getHasOverrideResponsiveness_OverrideResponsiveness() {
-		return (EAttribute)hasOverrideResponsivenessEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1881,7 +1846,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		electricShowerEClass = createEClass(ELECTRIC_SHOWER);
 
 		storageHeaterEClass = createEClass(STORAGE_HEATER);
-		createEAttribute(storageHeaterEClass, STORAGE_HEATER__RESPONSIVENESS);
+		createEAttribute(storageHeaterEClass, STORAGE_HEATER__RESPONSIVENESS_OVERRIDE);
 		createEAttribute(storageHeaterEClass, STORAGE_HEATER__CONTROL_TYPE);
 		createEAttribute(storageHeaterEClass, STORAGE_HEATER__TYPE);
 
@@ -1893,7 +1858,6 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		createEAttribute(communityCHPEClass, COMMUNITY_CHP__ELECTRICAL_EFFICIENCY);
 
 		roomHeaterEClass = createEClass(ROOM_HEATER);
-		createEAttribute(roomHeaterEClass, ROOM_HEATER__RESPONSIVENESS);
 		createEAttribute(roomHeaterEClass, ROOM_HEATER__EFFICIENCY);
 		createEAttribute(roomHeaterEClass, ROOM_HEATER__THERMOSTAT_FITTED);
 
@@ -1934,9 +1898,6 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 
 		operationalCostEClass = createEClass(OPERATIONAL_COST);
 		createEAttribute(operationalCostEClass, OPERATIONAL_COST__ANNUAL_OPERATIONAL_COST);
-
-		hasOverrideResponsivenessEClass = createEClass(HAS_OVERRIDE_RESPONSIVENESS);
-		createEAttribute(hasOverrideResponsivenessEClass, HAS_OVERRIDE_RESPONSIVENESS__OVERRIDE_RESPONSIVENESS);
 
 		solarPhotovoltaicEClass = createEClass(SOLAR_PHOTOVOLTAIC);
 		createEAttribute(solarPhotovoltaicEClass, SOLAR_PHOTOVOLTAIC__AREA);
@@ -2017,7 +1978,6 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		lightEClass.getESuperTypes().add(this.getVisitorAccepter());
 		heatSourceEClass.getESuperTypes().add(this.getFuelAndFlue());
 		heatSourceEClass.getESuperTypes().add(this.getOperationalCost());
-		heatSourceEClass.getESuperTypes().add(this.getHasOverrideResponsiveness());
 		heatSourceEClass.getESuperTypes().add(this.getHasInstallationYear());
 		centralWaterSystemEClass.getESuperTypes().add(this.getWaterHeater());
 		centralWaterSystemEClass.getESuperTypes().add(this.getVisitorAccepter());
@@ -2044,7 +2004,6 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		heatPumpEClass.getESuperTypes().add(this.getVisitorAccepter());
 		warmAirSystemEClass.getESuperTypes().add(this.getPrimarySpaceHeater());
 		warmAirSystemEClass.getESuperTypes().add(this.getVisitorAccepter());
-		warmAirSystemEClass.getESuperTypes().add(this.getHasOverrideResponsiveness());
 		pointOfUseWaterHeaterEClass.getESuperTypes().add(this.getWaterHeater());
 		pointOfUseWaterHeaterEClass.getESuperTypes().add(this.getVisitorAccepter());
 		heatPumpWarmAirSystemEClass.getESuperTypes().add(this.getWarmAirSystem());
@@ -2238,7 +2197,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		initEClass(electricShowerEClass, IElectricShower.class, "ElectricShower", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(storageHeaterEClass, IStorageHeater.class, "StorageHeater", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getStorageHeater_Responsiveness(), ecorePackage.getEDouble(), "responsiveness", null, 1, 1, IStorageHeater.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStorageHeater_ResponsivenessOverride(), ecorePackage.getEDoubleObject(), "responsivenessOverride", null, 1, 1, IStorageHeater.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStorageHeater_ControlType(), this.getStorageHeaterControlType(), "controlType", null, 1, 1, IStorageHeater.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStorageHeater_Type(), this.getStorageHeaterType(), "type", null, 1, 1, IStorageHeater.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -2250,7 +2209,6 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		initEAttribute(getCommunityCHP_ElectricalEfficiency(), this.getEfficiency(), "electricalEfficiency", null, 1, 1, ICommunityCHP.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(roomHeaterEClass, IRoomHeater.class, "RoomHeater", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getRoomHeater_Responsiveness(), ecorePackage.getEDouble(), "responsiveness", null, 1, 1, IRoomHeater.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRoomHeater_Efficiency(), this.getEfficiency(), "efficiency", null, 1, 1, IRoomHeater.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRoomHeater_ThermostatFitted(), ecorePackage.getEBoolean(), "thermostatFitted", null, 1, 1, IRoomHeater.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -2281,9 +2239,6 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 
 		initEClass(primarySpaceHeaterEClass, IPrimarySpaceHeater.class, "PrimarySpaceHeater", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		op = addEOperation(primarySpaceHeaterEClass, ecorePackage.getEDouble(), "getDerivedResponsiveness", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getIConstants(), "constants", 0, 1, IS_UNIQUE, IS_ORDERED);
-
 		initEClass(backBoilerEClass, IBackBoiler.class, "BackBoiler", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(fuelAndFlueEClass, IFuelAndFlue.class, "FuelAndFlue", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -2294,9 +2249,6 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 
 		initEClass(operationalCostEClass, IOperationalCost.class, "OperationalCost", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getOperationalCost_AnnualOperationalCost(), ecorePackage.getEDouble(), "annualOperationalCost", null, 1, 1, IOperationalCost.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(hasOverrideResponsivenessEClass, IHasOverrideResponsiveness.class, "HasOverrideResponsiveness", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getHasOverrideResponsiveness_OverrideResponsiveness(), ecorePackage.getEDouble(), "overrideResponsiveness", null, 0, 1, IHasOverrideResponsiveness.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(solarPhotovoltaicEClass, ISolarPhotovoltaic.class, "SolarPhotovoltaic", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getSolarPhotovoltaic_Area(), ecorePackage.getEDouble(), "area", null, 1, 1, ISolarPhotovoltaic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

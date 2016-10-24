@@ -1,4 +1,4 @@
-package uk.org.cse.nhm.language.definition.action.scaling.heating;
+package uk.org.cse.nhm.language.definition.enums;
 
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;

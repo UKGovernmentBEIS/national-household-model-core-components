@@ -734,18 +734,18 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		final double totalGains = state.getExcessSupply(EnergyType.GainsUSEFUL_GAINS);
 		final double[][] backgroundTemperatures = calculateBackgroundTemperatures(adjustedParameters, heatLosses,
 				houseCase.getZoneTwoHeatedProportion(), totalGains, utilisationFactorExponent);
-		final double[] idealBackgroundTemperature = backgroundTemperatures[0];
-		final double[] worstCaseBackgroundTemperature = backgroundTemperatures[1];
+		final double[] responsiveBackgroundTemperature = backgroundTemperatures[0];
+		final double[] unresponsiveBackgroundTemperature = backgroundTemperatures[1];
 
 		if (log.isDebugEnabled()) {
 			log.debug("Demand temperature: {}", demandTemperature);
-			log.debug("Fully responsive background temperature: {}", idealBackgroundTemperature);
-			log.debug("Fully unresponsive background temperature: {}", worstCaseBackgroundTemperature);
+			log.debug("Fully responsive background temperature: {}", responsiveBackgroundTemperature);
+			log.debug("Fully unresponsive background temperature: {}", unresponsiveBackgroundTemperature);
 		}
 
 		final double[] backgroundTemperature = getBackgroundTemperatureFromHeatingSystems(v.heatingSystems,
-				v.proportions, heatLosses, adjustedParameters, state, demandTemperature, idealBackgroundTemperature,
-				worstCaseBackgroundTemperature);
+				v.proportions, heatLosses, adjustedParameters, state, demandTemperature, responsiveBackgroundTemperature,
+				unresponsiveBackgroundTemperature);
 
 		if (log.isDebugEnabled())
 			log.debug("Average background temperature for all systems = {}", backgroundTemperature);
@@ -904,18 +904,13 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 	 * @param worstCaseBackgroundTemperature
 	 * @param remainingContribution
 	 * @return
-	 * @assumption If there is no heating system in the house, the background
-	 *             temperature is taken to be the ideal background temperature
-	 *             for a fully responsive system; this is used to compute energy
-	 *             demand, which will then be unsatisfied as there's no heating
-	 *             system. BREDEM does not specify a rule for this.
+	 * @assumption If there is no heating system in the house, the responsiveness will 
+	 * 			   equal 1 as specified in SAP Table 4a Category 1: No Heating Present
 	 */
 	protected static double[] getBackgroundTemperatureFromHeatingSystems(final List<IHeatingSystem> heatingSystems,
 			final Map<IHeatingSystem, Double> proportions, final ISpecificHeatLosses heatLosses,
 			final IInternalParameters adjustedParameters, final IEnergyState state, final double[] demandTemperature,
-			final double[] idealBackgroundTemperature, final double[] worstCaseBackgroundTemperature) {
-		
-		double[] backgroundTemperature = new double[2];
+			final double[] responsiveBackgroundTemperature, final double[] unresponsiveBackgroundTemperature) {
 		
 		IHeatingSystem main = null;
 		double highestProportion = 0;
@@ -926,37 +921,50 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 			}
 		}
 		
-		// here is where the assumption above is applied
+		/*
+		BEISDOC
+		NAME: Responsiveness
+		DESCRIPTION: The speed with which the heating system moves the house to a new temperature. 
+		TYPE: lookup
+		UNIT: Unknown
+		SAP: Table 4a, 4d
+		BREDEM: Defers to SAP
+		DEPS: room-heater-responsiveness, storage-heater-responsiveness
+		ID: responsiveness
+		CODSIEB
+		*/
+		final double responsiveness;
 		if (main == null) {
+			responsiveness = 1;
+			
 			if (log.isDebugEnabled())
-				log.debug("There are no heating systems - using ideal background temperature");
-			
-			for (final ZoneType zt : ZoneType.values()) {
-				backgroundTemperature[zt.ordinal()] = idealBackgroundTemperature[zt.ordinal()];
-			}
-			
+				log.debug("There are no heating systems - using assumed electric heaters in responsiveness calculation");
+
 		} else {
-			/*
-			BEISDOC
-			NAME: Background temperatures
-			DESCRIPTION: The temperature when the heating is off for Zones 1 and 2.
-			TYPE: formula
-			UNIT: 
-			SAP: Table 9b
-			BREDEM: 7L, 7T
-			DEPS: responsiveness, unresponsive-temperatures,responsive-temperatures
-			NOTES: TODO responsiveness needs fixing.
-			ID: background-temperatures
-			CODSIEB
-			*/
-			backgroundTemperature = main.getBackgroundTemperatures(demandTemperature,
-					idealBackgroundTemperature, worstCaseBackgroundTemperature, adjustedParameters, state, heatLosses);
-
+			responsiveness = main.getResponsiveness(adjustedParameters.getConstants(), adjustedParameters.getCalculatorType(), adjustedParameters.getTarrifType());
+			
 			if (log.isDebugEnabled())
-				log.debug("Background temperature from {} = {}", main, backgroundTemperature);
+				log.debug("Responsiveness from {} = {}", main, responsiveness);
 		}
-
-		return backgroundTemperature;
+		
+		/*
+		BEISDOC
+		NAME: Background temperatures
+		DESCRIPTION: The temperature when the heating is off for Zones 1 and 2.
+		TYPE: formula
+		UNIT: ℃
+		SAP: Table 9b
+		BREDEM: 7L, 7T
+		DEPS: responsiveness, unresponsive-temperatures,responsive-temperatures
+		ID: background-temperatures
+		CODSIEB
+		*/
+		final double unresponsiveness = 1 - responsiveness;
+		
+		return new double[] {
+				(responsiveBackgroundTemperature[0] * responsiveness) + (unresponsiveBackgroundTemperature[0] * unresponsiveness),
+				(responsiveBackgroundTemperature[1] * responsiveness) + (unresponsiveBackgroundTemperature[1] * unresponsiveness)
+			};
 	}
 
 	private final double getUtilisationFactorExponent(final double timeConstant) {

@@ -18,8 +18,7 @@ import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.language.adapt.impl.Adapt;
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.action.XForesightLevel;
-import uk.org.cse.nhm.language.definition.action.scaling.heating.XHeatingSystem;
-import uk.org.cse.nhm.language.definition.action.scaling.heating.XSpaceHeatingSystem;
+import uk.org.cse.nhm.language.definition.enums.XHeatingSystem;
 import uk.org.cse.nhm.language.definition.fuel.XRangeCharge;
 import uk.org.cse.nhm.language.definition.fuel.XSteppedPricing;
 import uk.org.cse.nhm.language.definition.function.house.XMatchingFlags;
@@ -259,9 +258,7 @@ public interface IObjectFunctionFactory {
 			@Prop(XHeatingEfficiency.P.measurement) @Assisted final XEfficiencyMeasurement measurement);
 
 	@Adapt(XSpaceHeatingResponsiveness.class)
-	public HeatingResponsivenessFunction createHeatingResponsiveness(
-			@Prop(XSpaceHeatingResponsiveness.P.of)
-			@Assisted final XSpaceHeatingSystem of);
+	public HeatingResponsivenessFunction createHeatingResponsiveness();
 
 	@Adapt(XGaussian.class)
 	public GaussianRandomFunction createGaussian(

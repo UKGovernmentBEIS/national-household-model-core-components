@@ -31,7 +31,7 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
  * @model
  * @generated
  */
-public interface IWarmAirSystem extends IPrimarySpaceHeater, IVisitorAccepter, IHasOverrideResponsiveness {
+public interface IWarmAirSystem extends IPrimarySpaceHeater, IVisitorAccepter {
 
 	/**
 	 * Returns the value of the '<em><b>Fuel Type</b></em>' attribute.

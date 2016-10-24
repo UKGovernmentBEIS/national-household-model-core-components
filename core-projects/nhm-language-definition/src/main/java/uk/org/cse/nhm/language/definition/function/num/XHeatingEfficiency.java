@@ -4,7 +4,7 @@ import javax.validation.constraints.NotNull;
 
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Doc;
-import uk.org.cse.nhm.language.definition.action.scaling.heating.XHeatingSystem;
+import uk.org.cse.nhm.language.definition.enums.XHeatingSystem;
 
 import com.larkery.jasb.bind.Bind;
 import com.larkery.jasb.bind.BindNamedArgument;

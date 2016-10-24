@@ -16,10 +16,10 @@ import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
-import uk.org.cse.nhm.energycalculator.api.IEnergyState;
 import uk.org.cse.nhm.energycalculator.api.IHeatingSystem;
 import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
-import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
+import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
+import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.hom.IHeatProportions;
 import uk.org.cse.nhm.hom.constants.PumpAndFanConstants;
@@ -302,9 +302,16 @@ public class CentralHeatingSystemImpl extends SpaceHeaterImpl implements ICentra
 	 * @generated no
 	 */
 	@Override
-	public double getDerivedResponsiveness(final IConstants constants) {
-		if (heatSource == null) {
-			return 0.0;
+	public double getResponsiveness(final IConstants constants, final EnergyCalculatorType energyCalculatorType, final ElectricityTariffType electricityTariffType) {
+		if (isBroken()) {
+			/*
+			 * This represents the case when the heat source is broken or missing, 
+			 * and we have to use assumed portable electric heaters instead. 
+
+			 * This is included for completeness, but should never actually get called, 
+			 * because the heating proportion for this system will be 0 if there is no heat source.
+			 */
+			return 1.0;
 		} else {
 			return heatSource.getResponsiveness(constants, getControls(), getEmitterType());
 		}
@@ -438,28 +445,6 @@ public class CentralHeatingSystemImpl extends SpaceHeaterImpl implements ICentra
 		result.append(EMITTER_TYPE_EFLAG_VALUES[(flags & EMITTER_TYPE_EFLAG) >>> EMITTER_TYPE_EFLAG_OFFSET]);
 		result.append(')');
 		return result.toString();
-	}
-
-	/**
-	 * This is typically determined by the responsiveness, which comes from SAP table 4a and SAP table 4d.
-	 * It is different for all different kinds of boilers and emitters, but for now we will just use responsiveness
-	 * in the heat source.
-	 */
-	@Override
-	public double[] getBackgroundTemperatures(final double[] demandTemperature,
-			final double[] responsiveBackgroundTemperature,
-			final double[] unresponsiveBackgroundTemperature,
-			final IInternalParameters parameters,
-			final IEnergyState state, final ISpecificHeatLosses losses) {
-		if (getHeatSource() == null) return responsiveBackgroundTemperature;
-		final double responsiveness = getHeatSource().getResponsiveness(parameters.getConstants(), getControls(), getEmitterType());
-		
-		final double unresponsiveness = 1 - responsiveness;
-		
-		return new double[] {
-			responsiveBackgroundTemperature[0] * responsiveness + unresponsiveBackgroundTemperature[0] * unresponsiveness,
-			responsiveBackgroundTemperature[1] * responsiveness + unresponsiveBackgroundTemperature[1] * unresponsiveness
-		};
 	}
 
 	/**

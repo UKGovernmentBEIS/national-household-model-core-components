@@ -50,29 +50,6 @@ import uk.org.cse.stockimport.domain.services.SpaceHeatingSystemType;
  */
 public class HeatSourceBuilderTest {
 	@Test
-	public void testGetResponsiveness() {
-		final HeatSourceBuilder bb = new HeatSourceBuilder();
-
-		
-		assertEquals(1.00, bb.getResponsiveness(STANDARD, MAINS_GAS));
-		assertEquals(1.00, bb.getResponsiveness(COMBI, MAINS_GAS));
-		assertEquals(1.00, bb.getResponsiveness(STORAGE_COMBI, MAINS_GAS));
-		assertEquals(1.00, bb.getResponsiveness(BACK_BOILER, MAINS_GAS));
-		assertEquals(1.00, bb.getResponsiveness(STANDARD, OIL));
-		assertEquals(0.75, bb.getResponsiveness(STANDARD, HOUSE_COAL));
-		assertEquals(0.75, bb.getResponsiveness(STANDARD, ELECTRICITY));
-		// ignore storage heater, because it's problematic.
-		assertEquals(1.00, bb.getResponsiveness(ROOM_HEATER, ELECTRICITY));
-		assertEquals(1.00, bb.getResponsiveness(WARM_AIR, MAINS_GAS));
-		assertEquals(0.75, bb.getResponsiveness(WARM_AIR, ELECTRICITY));
-		assertEquals(1.00, bb.getResponsiveness(COMMUNITY_HEATING_WITHOUT_CHP, MAINS_GAS));
-		assertEquals(1.00, bb.getResponsiveness(COMMUNITY_HEATING_WITH_CHP, MAINS_GAS));
-		assertEquals(0.75, bb.getResponsiveness(STANDARD, BIOMASS_PELLETS));
-		assertEquals(1.00, bb.getResponsiveness(GROUND_SOURCE_HEAT_PUMP, ELECTRICITY));
-		assertEquals(1.00, bb.getResponsiveness(AIR_SOURCE_HEAT_PUMP, ELECTRICITY));
-	}
-	
-	@Test
 	public void testBuildCommunityCHP() {
 		final HeatSourceBuilder builder = new HeatSourceBuilder();
 		
@@ -166,7 +143,6 @@ public class HeatSourceBuilderTest {
 		Assert.assertTrue(b.getClass().equals(BoilerImpl.class));
 		
 		Assert.assertEquals(FuelType.OIL, b.getFuel());
-		Assert.assertEquals(1d, b.getBasicResponsiveness());
 		Assert.assertEquals(FlueType.BALANCED_FLUE, b.getFlueType());
 		Assert.assertEquals(Efficiency.fromDouble(1d), b.getSummerEfficiency());
 		Assert.assertEquals(Efficiency.fromDouble(1d), b.getWinterEfficiency());
@@ -194,7 +170,6 @@ public class HeatSourceBuilderTest {
 		Assert.assertTrue(b.getClass().equals(StorageCombiBoilerImpl.class));
 		
 		Assert.assertEquals(FuelType.MAINS_GAS, b.getFuel());
-		Assert.assertEquals(1d, b.getBasicResponsiveness());
 		Assert.assertEquals(FlueType.BALANCED_FLUE, b.getFlueType());
 		Assert.assertEquals(Efficiency.fromDouble(1d), b.getSummerEfficiency());
 		Assert.assertEquals(Efficiency.fromDouble(1d), b.getWinterEfficiency());
@@ -222,7 +197,6 @@ public class HeatSourceBuilderTest {
 		
 		Assert.assertTrue(b.getClass().equals(InstantaneousCombiBoilerImpl.class));
 		Assert.assertEquals(FuelType.MAINS_GAS, b.getFuel());
-		Assert.assertEquals(1d, b.getBasicResponsiveness());
 		Assert.assertEquals(FlueType.BALANCED_FLUE, b.getFlueType());
 		Assert.assertEquals(Efficiency.fromDouble(1d), b.getSummerEfficiency());
 		Assert.assertEquals(Efficiency.fromDouble(1d), b.getWinterEfficiency());

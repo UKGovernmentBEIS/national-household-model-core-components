@@ -29,7 +29,7 @@ import uk.org.cse.nhm.hom.emf.technologies.IWarmAirCirculator;
 import uk.org.cse.nhm.hom.emf.technologies.IWarmAirSystem;
 import uk.org.cse.nhm.hom.emf.technologies.IWaterHeater;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler;
-import uk.org.cse.nhm.language.definition.action.scaling.heating.XHeatingSystem;
+import uk.org.cse.nhm.language.definition.enums.XHeatingSystem;
 import uk.org.cse.nhm.language.definition.function.num.XEfficiencyMeasurement;
 import uk.org.cse.nhm.simulator.AbstractNamed;
 import uk.org.cse.nhm.simulator.let.ILets;

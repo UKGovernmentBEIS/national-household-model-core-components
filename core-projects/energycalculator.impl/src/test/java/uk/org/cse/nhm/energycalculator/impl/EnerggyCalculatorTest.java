@@ -1,7 +1,6 @@
 package uk.org.cse.nhm.energycalculator.impl;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -266,9 +265,6 @@ public class EnerggyCalculatorTest {
 	@Test
 	public void testGetBackgroundTemperature() {
 		final IHeatingSystem system = mock(IHeatingSystem.class);
-		when(
-				system.getBackgroundTemperatures(any(double[].class), any(double[].class), any(double[].class), any(IInternalParameters.class),
-						any(IEnergyState.class), any(ISpecificHeatLosses.class))).thenReturn(new double[] { 18, 18 });
 		final List<IHeatingSystem> systems = ImmutableList.of(system);
 		final Map<IHeatingSystem, Double> proportions = ImmutableMap.of(system, 1.0);
 		final ISpecificHeatLosses heatLosses = mock(ISpecificHeatLosses.class);

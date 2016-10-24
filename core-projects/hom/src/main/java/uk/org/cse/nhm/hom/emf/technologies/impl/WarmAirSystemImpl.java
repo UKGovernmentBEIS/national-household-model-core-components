@@ -23,15 +23,15 @@ import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
 import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
 import uk.org.cse.nhm.energycalculator.api.impl.ElectricHeatTransducer;
 import uk.org.cse.nhm.energycalculator.api.impl.HeatTransducer;
+import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
+import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.hom.IHeatProportions;
 import uk.org.cse.nhm.hom.constants.SplitRateConstants;
 import uk.org.cse.nhm.hom.constants.adjustments.TemperatureAdjustments;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
-import uk.org.cse.nhm.hom.emf.technologies.IHasOverrideResponsiveness;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
-import uk.org.cse.nhm.hom.emf.technologies.IVisitorAccepter;
 import uk.org.cse.nhm.hom.emf.technologies.IWarmAirCirculator;
 import uk.org.cse.nhm.hom.emf.technologies.IWarmAirSystem;
 import uk.org.cse.nhm.hom.emf.technologies.impl.util.WarmAirFans;
@@ -54,32 +54,6 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
  */
 public class WarmAirSystemImpl extends SpaceHeaterImpl implements IWarmAirSystem, IHeatingSystem {
 	/**
-	 * The default value of the '{@link #getOverrideResponsiveness() <em>Override Responsiveness</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getOverrideResponsiveness()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final double OVERRIDE_RESPONSIVENESS_EDEFAULT = 0.0;
-	/**
-	 * The cached value of the '{@link #getOverrideResponsiveness() <em>Override Responsiveness</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getOverrideResponsiveness()
-	 * @generated
-	 * @ordered
-	 */
-	protected double overrideResponsiveness = OVERRIDE_RESPONSIVENESS_EDEFAULT;
-	/**
-	 * The flag representing whether the Override Responsiveness attribute has been set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	protected static final int OVERRIDE_RESPONSIVENESS_ESETFLAG = 1 << 0;
-	/**
 	 * The default value of the '{@link #getFuelType() <em>Fuel Type</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -95,7 +69,7 @@ public class WarmAirSystemImpl extends SpaceHeaterImpl implements IWarmAirSystem
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int FUEL_TYPE_EFLAG_OFFSET = 1;
+	protected static final int FUEL_TYPE_EFLAG_OFFSET = 0;
 	/**
 	 * The flags representing the default value of the '{@link #getFuelType() <em>Fuel Type</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -177,56 +151,6 @@ public class WarmAirSystemImpl extends SpaceHeaterImpl implements IWarmAirSystem
 	@Override
 	protected EClass eStaticClass() {
 		return ITechnologiesPackage.Literals.WARM_AIR_SYSTEM;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public double getOverrideResponsiveness() {
-		return overrideResponsiveness;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void setOverrideResponsiveness(double newOverrideResponsiveness) {
-		double oldOverrideResponsiveness = overrideResponsiveness;
-		overrideResponsiveness = newOverrideResponsiveness;
-		boolean oldOverrideResponsivenessESet = (flags & OVERRIDE_RESPONSIVENESS_ESETFLAG) != 0;
-		flags |= OVERRIDE_RESPONSIVENESS_ESETFLAG;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.WARM_AIR_SYSTEM__OVERRIDE_RESPONSIVENESS, oldOverrideResponsiveness, overrideResponsiveness, !oldOverrideResponsivenessESet));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void unsetOverrideResponsiveness() {
-		double oldOverrideResponsiveness = overrideResponsiveness;
-		boolean oldOverrideResponsivenessESet = (flags & OVERRIDE_RESPONSIVENESS_ESETFLAG) != 0;
-		overrideResponsiveness = OVERRIDE_RESPONSIVENESS_EDEFAULT;
-		flags &= ~OVERRIDE_RESPONSIVENESS_ESETFLAG;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, ITechnologiesPackage.WARM_AIR_SYSTEM__OVERRIDE_RESPONSIVENESS, oldOverrideResponsiveness, OVERRIDE_RESPONSIVENESS_EDEFAULT, oldOverrideResponsivenessESet));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean isSetOverrideResponsiveness() {
-		return (flags & OVERRIDE_RESPONSIVENESS_ESETFLAG) != 0;
 	}
 
 	/**
@@ -398,8 +322,12 @@ public class WarmAirSystemImpl extends SpaceHeaterImpl implements IWarmAirSystem
 	 * @generated no
 	 */
 	@Override
-	public double getDerivedResponsiveness(final IConstants constants) {
-		return getResponsiveness();
+	public double getResponsiveness(final IConstants constants, EnergyCalculatorType calculatorType, ElectricityTariffType electricityTariffType) {
+		if (getFuelType() == FuelType.ELECTRICITY) {
+			return 0.75; //TODO remove magic number
+		} else {
+			return 1;
+		}
 	}
 
 	protected SplitRateConstants getSplitRateConstants() {
@@ -444,8 +372,6 @@ public class WarmAirSystemImpl extends SpaceHeaterImpl implements IWarmAirSystem
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ITechnologiesPackage.WARM_AIR_SYSTEM__OVERRIDE_RESPONSIVENESS:
-				return getOverrideResponsiveness();
 			case ITechnologiesPackage.WARM_AIR_SYSTEM__FUEL_TYPE:
 				return getFuelType();
 			case ITechnologiesPackage.WARM_AIR_SYSTEM__EFFICIENCY:
@@ -468,9 +394,6 @@ public class WarmAirSystemImpl extends SpaceHeaterImpl implements IWarmAirSystem
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ITechnologiesPackage.WARM_AIR_SYSTEM__OVERRIDE_RESPONSIVENESS:
-				setOverrideResponsiveness((Double)newValue);
-				return;
 			case ITechnologiesPackage.WARM_AIR_SYSTEM__FUEL_TYPE:
 				setFuelType((FuelType)newValue);
 				return;
@@ -496,9 +419,6 @@ public class WarmAirSystemImpl extends SpaceHeaterImpl implements IWarmAirSystem
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ITechnologiesPackage.WARM_AIR_SYSTEM__OVERRIDE_RESPONSIVENESS:
-				unsetOverrideResponsiveness();
-				return;
 			case ITechnologiesPackage.WARM_AIR_SYSTEM__FUEL_TYPE:
 				setFuelType(FUEL_TYPE_EDEFAULT);
 				return;
@@ -523,8 +443,6 @@ public class WarmAirSystemImpl extends SpaceHeaterImpl implements IWarmAirSystem
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ITechnologiesPackage.WARM_AIR_SYSTEM__OVERRIDE_RESPONSIVENESS:
-				return isSetOverrideResponsiveness();
 			case ITechnologiesPackage.WARM_AIR_SYSTEM__FUEL_TYPE:
 				return (flags & FUEL_TYPE_EFLAG) != FUEL_TYPE_EFLAG_DEFAULT;
 			case ITechnologiesPackage.WARM_AIR_SYSTEM__EFFICIENCY:
@@ -543,55 +461,11 @@ public class WarmAirSystemImpl extends SpaceHeaterImpl implements IWarmAirSystem
 	 * @generated
 	 */
 	@Override
-	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
-		if (baseClass == IVisitorAccepter.class) {
-			switch (derivedFeatureID) {
-				default: return -1;
-			}
-		}
-		if (baseClass == IHasOverrideResponsiveness.class) {
-			switch (derivedFeatureID) {
-				case ITechnologiesPackage.WARM_AIR_SYSTEM__OVERRIDE_RESPONSIVENESS: return ITechnologiesPackage.HAS_OVERRIDE_RESPONSIVENESS__OVERRIDE_RESPONSIVENESS;
-				default: return -1;
-			}
-		}
-		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
-		if (baseClass == IVisitorAccepter.class) {
-			switch (baseFeatureID) {
-				default: return -1;
-			}
-		}
-		if (baseClass == IHasOverrideResponsiveness.class) {
-			switch (baseFeatureID) {
-				case ITechnologiesPackage.HAS_OVERRIDE_RESPONSIVENESS__OVERRIDE_RESPONSIVENESS: return ITechnologiesPackage.WARM_AIR_SYSTEM__OVERRIDE_RESPONSIVENESS;
-				default: return -1;
-			}
-		}
-		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (overrideResponsiveness: ");
-		if ((flags & OVERRIDE_RESPONSIVENESS_ESETFLAG) != 0) result.append(overrideResponsiveness); else result.append("<unset>");
-		result.append(", fuelType: ");
+		result.append(" (fuelType: ");
 		result.append(FUEL_TYPE_EFLAG_VALUES[(flags & FUEL_TYPE_EFLAG) >>> FUEL_TYPE_EFLAG_OFFSET]);
 		result.append(", efficiency: ");
 		result.append(efficiency);
@@ -599,35 +473,6 @@ public class WarmAirSystemImpl extends SpaceHeaterImpl implements IWarmAirSystem
 		result.append(controls);
 		result.append(')');
 		return result.toString();
-	}
-
-	@Override
-	public double[] getBackgroundTemperatures(final double[] demandTemperature,
-			final double[] responsiveBackgroundTemperature,
-			final double[] unresponsiveBackgroundTemperature,
-			final IInternalParameters parameters,
-			final IEnergyState state, final ISpecificHeatLosses losses) {
-		final double responsiveness = getResponsiveness();
-		
-		final double unresponsiveness = 1 - responsiveness;
-		
-		return new double[] {
-			responsiveBackgroundTemperature[0] * responsiveness + unresponsiveBackgroundTemperature[0] * unresponsiveness,
-			responsiveBackgroundTemperature[1] * responsiveness + unresponsiveBackgroundTemperature[1] * unresponsiveness
-		};
-	}
-
-	public double getResponsiveness() {
-		if (isSetOverrideResponsiveness()) {
-			return getOverrideResponsiveness();
-		}
-		
-		
-		if (getFuelType() == FuelType.ELECTRICITY) {
-			return 0.75; //TODO remove magic number
-		} else {
-			return 1;
-		}
 	}
 
 	public boolean isThermostaticallyControlled() {

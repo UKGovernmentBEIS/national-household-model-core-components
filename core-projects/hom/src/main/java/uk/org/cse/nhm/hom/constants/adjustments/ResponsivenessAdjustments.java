@@ -12,13 +12,13 @@ import uk.org.cse.nhm.energycalculator.api.IConstant;
 public enum ResponsivenessAdjustments implements IConstant {
 	/*
 	BEISDOC
-	NAME: Responsiveness Adjustments
-	DESCRIPTION: Wet system responsivness by emitter type (rads, underfloor timber, underfloor screed, underfloor concrete, fan convectors)
+	NAME: Wet System Responsiveness
+	DESCRIPTION: Wet system responsiveness by emitter type (rads, underfloor timber, underfloor screed, underfloor concrete, fan convectors)
 	TYPE: value
 	UNIT: Unknown
 	SAP: Table 4d
 	SET: context.energy-constants
-	ID: responsiveness-adjustment
+	ID: wet-system-responsiveness
 	CODSIEB
 	*/
 	/**

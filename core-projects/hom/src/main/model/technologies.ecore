@@ -106,7 +106,7 @@
       </eAnnotations>
     </eOperations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="HeatSource" abstract="true" eSuperTypes="#//FuelAndFlue #//OperationalCost #//HasOverrideResponsiveness #//HasInstallationYear">
+  <eClassifiers xsi:type="ecore:EClass" name="HeatSource" abstract="true" eSuperTypes="#//FuelAndFlue #//OperationalCost #//HasInstallationYear">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A heat source is a device (like a boiler, or community heating heat exchanger) which can provide heat to wet heating and hot water systems. On its own, the device does nothing - it needs to be connected to a central heating system and/or a central hot water system to work."/>
     </eAnnotations>
@@ -362,8 +362,8 @@
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A storage heater is a kind of heating system which stores electricity in some kind of thermal store during the night time and emits the heat during the daytime."/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="responsiveness" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="responsivenessOverride"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDoubleObject"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="controlType" lowerBound="1"
         eType="#//StorageHeaterControlType"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//StorageHeaterType"/>
@@ -395,8 +395,6 @@
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A room heater is a direct room heating system; some room heaters&#xA;may also have a &quot;back boiler&quot; (the backBoiler reference), which can be&#xA;connected to a central heating system or a domestic hot water system&#xA;to produce some additional heating or hot water.&#xA;&#xA;Typically this would look something like one of those old gas fireplaces,&#xA;placed in a chimney."/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="responsiveness" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="efficiency" lowerBound="1"
         eType="#//Efficiency">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -418,7 +416,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="hybrid" eType="#//HybridHeater"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="WarmAirSystem" eSuperTypes="#//PrimarySpaceHeater #//VisitorAccepter #//HasOverrideResponsiveness">
+  <eClassifiers xsi:type="ecore:EClass" name="WarmAirSystem" eSuperTypes="#//PrimarySpaceHeater #//VisitorAccepter">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Warm air systems are things which directly heat air and then blow it around&#xA;through ducts (as opposed to central heating systems, which use hot water&#xA;to transport the heat to a radiator)."/>
     </eAnnotations>
@@ -457,11 +455,7 @@
         eType="#//WarmAirSystem" eOpposite="#//WarmAirSystem/circulator"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PrimarySpaceHeater" abstract="true"
-      interface="true" eSuperTypes="#//SpaceHeater">
-    <eOperations name="getDerivedResponsiveness" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
-      <eParameters name="constants" eType="#//IConstants"/>
-    </eOperations>
-  </eClassifiers>
+      interface="true" eSuperTypes="#//SpaceHeater"/>
   <eClassifiers xsi:type="ecore:EClass" name="BackBoiler" eSuperTypes="#//boilers/Boiler #//RoomHeater"/>
   <eClassifiers xsi:type="ecore:EClass" name="FuelAndFlue" abstract="true" interface="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="fuel" lowerBound="1" eType="#//FuelType"/>
@@ -476,11 +470,6 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="IConstants" instanceClassName="uk.org.cse.nhm.energycalculator.api.IConstants"/>
   <eClassifiers xsi:type="ecore:EDataType" name="IEnergyCalculatorParameters" instanceClassName="uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters"/>
-  <eClassifiers xsi:type="ecore:EClass" name="HasOverrideResponsiveness" abstract="true"
-      interface="true">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="overrideResponsiveness"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble" unsettable="true"/>
-  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SolarPhotovoltaic" eSuperTypes="#//VisitorAccepter">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="area" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="efficiency" lowerBound="1"
@@ -530,13 +519,6 @@
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
           <details key="documentation" value="Only relevant for condensing boilers - if there is a weather compensator, this affects the efficiency according to table 4c"/>
-        </eAnnotations>
-      </eStructuralFeatures>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="basicResponsiveness"
-          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
-          defaultValueLiteral="1">
-        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="documentation" value="For most boilers, this defines the responsiveness; various responsiveness tweak factors are applied depending on things in the various SAP tables 4a,b,c, etc."/>
         </eAnnotations>
       </eStructuralFeatures>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="pumpInHeatedSpace" lowerBound="1"

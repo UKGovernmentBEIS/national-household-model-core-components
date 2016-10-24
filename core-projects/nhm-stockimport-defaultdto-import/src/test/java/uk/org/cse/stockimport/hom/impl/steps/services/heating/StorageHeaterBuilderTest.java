@@ -53,7 +53,6 @@ public class StorageHeaterBuilderTest {
 		
 		Assert.assertEquals(StorageHeaterType.SLIMLINE, sh.getType());
 		Assert.assertEquals(StorageHeaterControlType.MANUAL_CHARGE_CONTROL, sh.getControlType());
-		Assert.assertEquals(0.5, sh.getResponsiveness());
 	}
 	
 	@Test
@@ -67,6 +66,5 @@ public class StorageHeaterBuilderTest {
 		
 		Assert.assertEquals(StorageHeaterType.SLIMLINE, sh.getType());
 		Assert.assertEquals(StorageHeaterControlType.MANUAL_CHARGE_CONTROL, sh.getControlType());
-		Assert.assertEquals(0.25, sh.getResponsiveness());
 	}
 }

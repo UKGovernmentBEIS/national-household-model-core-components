@@ -8,7 +8,6 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 import uk.org.cse.nhm.hom.emf.technologies.IFuelAndFlue;
 import uk.org.cse.nhm.hom.emf.technologies.IHasInstallationYear;
-import uk.org.cse.nhm.hom.emf.technologies.IHasOverrideResponsiveness;
 import uk.org.cse.nhm.hom.emf.technologies.IHeatSource;
 import uk.org.cse.nhm.hom.emf.technologies.IIndividualHeatSource;
 import uk.org.cse.nhm.hom.emf.technologies.IOperationalCost;
@@ -109,10 +108,6 @@ public class BoilersAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseOperationalCost(IOperationalCost object) {
 				return createOperationalCostAdapter();
-			}
-			@Override
-			public Adapter caseHasOverrideResponsiveness(IHasOverrideResponsiveness object) {
-				return createHasOverrideResponsivenessAdapter();
 			}
 			@Override
 			public Adapter caseHasInstallationYear(IHasInstallationYear object) {
@@ -305,20 +300,6 @@ public class BoilersAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createOperationalCostAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link uk.org.cse.nhm.hom.emf.technologies.IHasOverrideResponsiveness <em>Has Override Responsiveness</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see uk.org.cse.nhm.hom.emf.technologies.IHasOverrideResponsiveness
-	 * @generated
-	 */
-	public Adapter createHasOverrideResponsivenessAdapter() {
 		return null;
 	}
 

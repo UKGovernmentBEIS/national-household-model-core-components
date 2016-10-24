@@ -14,7 +14,6 @@ import uk.org.cse.stockimport.domain.services.SpaceHeatingSystemType;
  */
 public class RoomHeaterBuilder implements IRoomHeaterBuilder {
 	private static final ITechnologiesFactory T = ITechnologiesFactory.eINSTANCE;
-	private static final double ROOM_HEATER_RESPONSIVENESS = 1;
 	
 	@Override
 	public IRoomHeater buildRoomHeater(final int constructionYear, final ISpaceHeatingDTO dto) {
@@ -26,7 +25,6 @@ public class RoomHeaterBuilder implements IRoomHeaterBuilder {
 			
 			boiler.setInstallationYear(dto.getInstallationYear().or(constructionYear));
 			
-			boiler.setBasicResponsiveness(result.getResponsiveness());
 			if (dto.getCondensing().isPresent()) {
 				boiler.setCondensing(dto.getCondensing().get());
 			} else {
@@ -48,7 +46,6 @@ public class RoomHeaterBuilder implements IRoomHeaterBuilder {
 		final IRoomHeater result = T.createRoomHeater();
 		result.setFuel(FuelType.ELECTRICITY);
 		result.setEfficiency(Efficiency.ONE);
-		result.setResponsiveness(ROOM_HEATER_RESPONSIVENESS);
 		result.setThermostatFitted(false);
 		result.setFlueType(FlueType.NOT_APPLICABLE);
 		return result;
@@ -60,7 +57,6 @@ public class RoomHeaterBuilder implements IRoomHeaterBuilder {
 	private void setRoomHeaterProperties(final ISpaceHeatingDTO dto, final IRoomHeater result) {
 		result.setFuel(dto.getMainHeatingFuel());
 		result.setEfficiency(Efficiency.fromDouble(dto.getBasicEfficiency()));
-		result.setResponsiveness(ROOM_HEATER_RESPONSIVENESS);
 		result.setThermostatFitted(false);
 		result.setFlueType(dto.getFlueType().or(result.getFuel() == FuelType.ELECTRICITY ? FlueType.NOT_APPLICABLE : FlueType.OPEN_FLUE));
 	}

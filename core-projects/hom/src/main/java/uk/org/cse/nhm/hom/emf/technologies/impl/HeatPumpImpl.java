@@ -73,7 +73,7 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int SOURCE_TYPE_EFLAG_OFFSET = 9;
+	protected static final int SOURCE_TYPE_EFLAG_OFFSET = 8;
 	/**
 	 * The flags representing the default value of the '{@link #getSourceType() <em>Source Type</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -135,7 +135,7 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int WEATHER_COMPENSATED_EFLAG = 1 << 10;
+	protected static final int WEATHER_COMPENSATED_EFLAG = 1 << 9;
 	/**
 	 * The default value of the '{@link #isAuxiliaryPresent() <em>Auxiliary Present</em>}' attribute.
 	 * <!-- begin-user-doc --> <!--
@@ -153,7 +153,7 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int AUXILIARY_PRESENT_EFLAG = 1 << 11;
+	protected static final int AUXILIARY_PRESENT_EFLAG = 1 << 10;
 	/**
 	 * The cached value of the '{@link #getHybrid() <em>Hybrid</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -624,7 +624,7 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 	}
 
 	@Override
-	protected double getResponsivenessImpl(final IConstants parameters,
+	public double getResponsiveness(final IConstants parameters,
 			final EList<HeatingSystemControlType> controls, final EmitterType emitterType) {
 		return getSAPTable4dResponsiveness(parameters, controls, emitterType);
 	}

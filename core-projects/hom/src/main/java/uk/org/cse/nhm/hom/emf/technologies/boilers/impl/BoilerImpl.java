@@ -54,7 +54,6 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.boilers.impl.BoilerImpl#getWinterEfficiency <em>Winter Efficiency</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.boilers.impl.BoilerImpl#isCondensing <em>Condensing</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.boilers.impl.BoilerImpl#isWeatherCompensated <em>Weather Compensated</em>}</li>
- *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.boilers.impl.BoilerImpl#getBasicResponsiveness <em>Basic Responsiveness</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.boilers.impl.BoilerImpl#isPumpInHeatedSpace <em>Pump In Heated Space</em>}</li>
  * </ul>
  *
@@ -117,7 +116,7 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int CONDENSING_EFLAG = 1 << 9;
+	protected static final int CONDENSING_EFLAG = 1 << 8;
 
 	/**
 	 * The default value of the '{@link #isWeatherCompensated() <em>Weather Compensated</em>}' attribute.
@@ -136,26 +135,7 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int WEATHER_COMPENSATED_EFLAG = 1 << 10;
-
-	/**
-	 * The default value of the '{@link #getBasicResponsiveness() <em>Basic Responsiveness</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getBasicResponsiveness()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final double BASIC_RESPONSIVENESS_EDEFAULT = 1.0;
-	/**
-	 * The cached value of the '{@link #getBasicResponsiveness() <em>Basic Responsiveness</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getBasicResponsiveness()
-	 * @generated
-	 * @ordered
-	 */
-	protected double basicResponsiveness = BASIC_RESPONSIVENESS_EDEFAULT;
+	protected static final int WEATHER_COMPENSATED_EFLAG = 1 << 9;
 
 	/**
 	 * The default value of the '{@link #isPumpInHeatedSpace() <em>Pump In Heated Space</em>}' attribute.
@@ -174,7 +154,7 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int PUMP_IN_HEATED_SPACE_EFLAG = 1 << 11;
+	protected static final int PUMP_IN_HEATED_SPACE_EFLAG = 1 << 10;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -285,29 +265,6 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 		if (newWeatherCompensated) flags |= WEATHER_COMPENSATED_EFLAG; else flags &= ~WEATHER_COMPENSATED_EFLAG;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, IBoilersPackage.BOILER__WEATHER_COMPENSATED, oldWeatherCompensated, newWeatherCompensated));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public double getBasicResponsiveness() {
-		return basicResponsiveness;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void setBasicResponsiveness(double newBasicResponsiveness) {
-		double oldBasicResponsiveness = basicResponsiveness;
-		basicResponsiveness = newBasicResponsiveness;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, IBoilersPackage.BOILER__BASIC_RESPONSIVENESS, oldBasicResponsiveness, basicResponsiveness));
 	}
 
 	/**
@@ -709,8 +666,6 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 				return isCondensing();
 			case IBoilersPackage.BOILER__WEATHER_COMPENSATED:
 				return isWeatherCompensated();
-			case IBoilersPackage.BOILER__BASIC_RESPONSIVENESS:
-				return getBasicResponsiveness();
 			case IBoilersPackage.BOILER__PUMP_IN_HEATED_SPACE:
 				return isPumpInHeatedSpace();
 		}
@@ -736,9 +691,6 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 				return;
 			case IBoilersPackage.BOILER__WEATHER_COMPENSATED:
 				setWeatherCompensated((Boolean)newValue);
-				return;
-			case IBoilersPackage.BOILER__BASIC_RESPONSIVENESS:
-				setBasicResponsiveness((Double)newValue);
 				return;
 			case IBoilersPackage.BOILER__PUMP_IN_HEATED_SPACE:
 				setPumpInHeatedSpace((Boolean)newValue);
@@ -767,9 +719,6 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 			case IBoilersPackage.BOILER__WEATHER_COMPENSATED:
 				setWeatherCompensated(WEATHER_COMPENSATED_EDEFAULT);
 				return;
-			case IBoilersPackage.BOILER__BASIC_RESPONSIVENESS:
-				setBasicResponsiveness(BASIC_RESPONSIVENESS_EDEFAULT);
-				return;
 			case IBoilersPackage.BOILER__PUMP_IN_HEATED_SPACE:
 				setPumpInHeatedSpace(PUMP_IN_HEATED_SPACE_EDEFAULT);
 				return;
@@ -793,8 +742,6 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 				return ((flags & CONDENSING_EFLAG) != 0) != CONDENSING_EDEFAULT;
 			case IBoilersPackage.BOILER__WEATHER_COMPENSATED:
 				return ((flags & WEATHER_COMPENSATED_EFLAG) != 0) != WEATHER_COMPENSATED_EDEFAULT;
-			case IBoilersPackage.BOILER__BASIC_RESPONSIVENESS:
-				return basicResponsiveness != BASIC_RESPONSIVENESS_EDEFAULT;
 			case IBoilersPackage.BOILER__PUMP_IN_HEATED_SPACE:
 				return ((flags & PUMP_IN_HEATED_SPACE_EFLAG) != 0) != PUMP_IN_HEATED_SPACE_EDEFAULT;
 		}
@@ -875,20 +822,41 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 	
 	
 	@Override
-	public double getResponsivenessImpl(final IConstants parameters,final EList<HeatingSystemControlType> controls, final EmitterType emitter) {
-		
+	public double getResponsiveness(final IConstants parameters,final EList<HeatingSystemControlType> controls, final EmitterType emitter) {
+		/*
+		BEISDOC
+		NAME: Boiler Responsiveness
+		DESCRIPTION: The responsiveness of a boiler
+		TYPE: lookup
+		UNIT: Unknown
+		SAP: Table 4a (category 2)
+		BREDEM: Defers to SAP.
+		ID: boiler-reponsiveness
+		CODSIEB
+		*/
+
 		switch (getFuel()) {
 		case ELECTRICITY:
-			// hold on, what about electric dry core storage boiler?
+			// Note that dry core electric boilers are treated as combi boilers, which override this method.
 		case BOTTLED_LPG:
 		case BULK_LPG:
 		case MAINS_GAS:
 		case OIL:
 			// a lookup from a table.
 			return super.getSAPTable4dResponsiveness(parameters, controls, emitter);
+		case BIOMASS_PELLETS:
+		case BIOMASS_WOOD:
+		case BIOMASS_WOODCHIP:
+		case HOUSE_COAL:
+			if (emitter == EmitterType.RADIATORS) {
+				// Open fire with back boiler to radiators OR closed roomheater with boiler to radiators
+				return 0.5;
+			} else {
+				return 0.75;
+			}
+			
 		default:
-			// this applies for things like solid fuel boilers and so on.
-			return getBasicResponsiveness();
+			throw new UnsupportedOperationException("Unknown fuel type for boiler when calculating responsiveness " + getFuel());
 		}
 	}
 

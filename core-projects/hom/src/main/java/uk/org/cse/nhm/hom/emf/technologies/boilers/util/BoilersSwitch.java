@@ -7,7 +7,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
 import uk.org.cse.nhm.hom.emf.technologies.IFuelAndFlue;
 import uk.org.cse.nhm.hom.emf.technologies.IHasInstallationYear;
-import uk.org.cse.nhm.hom.emf.technologies.IHasOverrideResponsiveness;
 import uk.org.cse.nhm.hom.emf.technologies.IHeatSource;
 import uk.org.cse.nhm.hom.emf.technologies.IIndividualHeatSource;
 import uk.org.cse.nhm.hom.emf.technologies.IOperationalCost;
@@ -86,7 +85,6 @@ public class BoilersSwitch<T> extends Switch<T> {
 				if (result == null) result = caseHeatSource(boiler);
 				if (result == null) result = caseFuelAndFlue(boiler);
 				if (result == null) result = caseOperationalCost(boiler);
-				if (result == null) result = caseHasOverrideResponsiveness(boiler);
 				if (result == null) result = caseHasInstallationYear(boiler);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -101,7 +99,6 @@ public class BoilersSwitch<T> extends Switch<T> {
 				if (result == null) result = caseHeatSource(cpsu);
 				if (result == null) result = caseFuelAndFlue(cpsu);
 				if (result == null) result = caseOperationalCost(cpsu);
-				if (result == null) result = caseHasOverrideResponsiveness(cpsu);
 				if (result == null) result = caseHasInstallationYear(cpsu);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -123,7 +120,6 @@ public class BoilersSwitch<T> extends Switch<T> {
 				if (result == null) result = caseHeatSource(storageCombiBoiler);
 				if (result == null) result = caseFuelAndFlue(storageCombiBoiler);
 				if (result == null) result = caseOperationalCost(storageCombiBoiler);
-				if (result == null) result = caseHasOverrideResponsiveness(storageCombiBoiler);
 				if (result == null) result = caseHasInstallationYear(storageCombiBoiler);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -138,7 +134,6 @@ public class BoilersSwitch<T> extends Switch<T> {
 				if (result == null) result = caseHeatSource(instantaneousCombiBoiler);
 				if (result == null) result = caseFuelAndFlue(instantaneousCombiBoiler);
 				if (result == null) result = caseOperationalCost(instantaneousCombiBoiler);
-				if (result == null) result = caseHasOverrideResponsiveness(instantaneousCombiBoiler);
 				if (result == null) result = caseHasInstallationYear(instantaneousCombiBoiler);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -152,7 +147,6 @@ public class BoilersSwitch<T> extends Switch<T> {
 				if (result == null) result = caseHeatSource(combiBoiler);
 				if (result == null) result = caseFuelAndFlue(combiBoiler);
 				if (result == null) result = caseOperationalCost(combiBoiler);
-				if (result == null) result = caseHasOverrideResponsiveness(combiBoiler);
 				if (result == null) result = caseHasInstallationYear(combiBoiler);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -323,21 +317,6 @@ public class BoilersSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseOperationalCost(IOperationalCost object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Has Override Responsiveness</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Has Override Responsiveness</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseHasOverrideResponsiveness(IHasOverrideResponsiveness object) {
 		return null;
 	}
 

@@ -640,22 +640,13 @@ public interface ITechnologiesPackage extends EPackage {
 	int HEAT_SOURCE__ANNUAL_OPERATIONAL_COST = FUEL_AND_FLUE_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Override Responsiveness</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int HEAT_SOURCE__OVERRIDE_RESPONSIVENESS = FUEL_AND_FLUE_FEATURE_COUNT + 1;
-
-	/**
 	 * The feature id for the '<em><b>Installation Year</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int HEAT_SOURCE__INSTALLATION_YEAR = FUEL_AND_FLUE_FEATURE_COUNT + 2;
+	int HEAT_SOURCE__INSTALLATION_YEAR = FUEL_AND_FLUE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Water Heater</b></em>' reference.
@@ -664,7 +655,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int HEAT_SOURCE__WATER_HEATER = FUEL_AND_FLUE_FEATURE_COUNT + 3;
+	int HEAT_SOURCE__WATER_HEATER = FUEL_AND_FLUE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Space Heater</b></em>' reference.
@@ -673,7 +664,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int HEAT_SOURCE__SPACE_HEATER = FUEL_AND_FLUE_FEATURE_COUNT + 4;
+	int HEAT_SOURCE__SPACE_HEATER = FUEL_AND_FLUE_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Heat Source</em>' class.
@@ -682,7 +673,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int HEAT_SOURCE_FEATURE_COUNT = FUEL_AND_FLUE_FEATURE_COUNT + 5;
+	int HEAT_SOURCE_FEATURE_COUNT = FUEL_AND_FLUE_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Store</b></em>' containment reference.
@@ -1108,13 +1099,13 @@ public interface ITechnologiesPackage extends EPackage {
 	int STORAGE_HEATER__ANNUAL_OPERATIONAL_COST = PRIMARY_SPACE_HEATER_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Responsiveness</b></em>' attribute.
+	 * The feature id for the '<em><b>Responsiveness Override</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STORAGE_HEATER__RESPONSIVENESS = PRIMARY_SPACE_HEATER_FEATURE_COUNT + 1;
+	int STORAGE_HEATER__RESPONSIVENESS_OVERRIDE = PRIMARY_SPACE_HEATER_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Control Type</b></em>' attribute.
@@ -1169,15 +1160,6 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @ordered
 	 */
 	int COMMUNITY_HEAT_SOURCE__ANNUAL_OPERATIONAL_COST = HEAT_SOURCE__ANNUAL_OPERATIONAL_COST;
-
-	/**
-	 * The feature id for the '<em><b>Override Responsiveness</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMMUNITY_HEAT_SOURCE__OVERRIDE_RESPONSIVENESS = HEAT_SOURCE__OVERRIDE_RESPONSIVENESS;
 
 	/**
 	 * The feature id for the '<em><b>Installation Year</b></em>' attribute.
@@ -1261,15 +1243,6 @@ public interface ITechnologiesPackage extends EPackage {
 	int COMMUNITY_CHP__ANNUAL_OPERATIONAL_COST = COMMUNITY_HEAT_SOURCE__ANNUAL_OPERATIONAL_COST;
 
 	/**
-	 * The feature id for the '<em><b>Override Responsiveness</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMMUNITY_CHP__OVERRIDE_RESPONSIVENESS = COMMUNITY_HEAT_SOURCE__OVERRIDE_RESPONSIVENESS;
-
-	/**
 	 * The feature id for the '<em><b>Installation Year</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1351,22 +1324,13 @@ public interface ITechnologiesPackage extends EPackage {
 	int ROOM_HEATER__FLUE_TYPE = SPACE_HEATER_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Responsiveness</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ROOM_HEATER__RESPONSIVENESS = SPACE_HEATER_FEATURE_COUNT + 2;
-
-	/**
 	 * The feature id for the '<em><b>Efficiency</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ROOM_HEATER__EFFICIENCY = SPACE_HEATER_FEATURE_COUNT + 3;
+	int ROOM_HEATER__EFFICIENCY = SPACE_HEATER_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Thermostat Fitted</b></em>' attribute.
@@ -1375,7 +1339,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ROOM_HEATER__THERMOSTAT_FITTED = SPACE_HEATER_FEATURE_COUNT + 4;
+	int ROOM_HEATER__THERMOSTAT_FITTED = SPACE_HEATER_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Room Heater</em>' class.
@@ -1384,7 +1348,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ROOM_HEATER_FEATURE_COUNT = SPACE_HEATER_FEATURE_COUNT + 5;
+	int ROOM_HEATER_FEATURE_COUNT = SPACE_HEATER_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Fuel</b></em>' attribute.
@@ -1412,15 +1376,6 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @ordered
 	 */
 	int INDIVIDUAL_HEAT_SOURCE__ANNUAL_OPERATIONAL_COST = HEAT_SOURCE__ANNUAL_OPERATIONAL_COST;
-
-	/**
-	 * The feature id for the '<em><b>Override Responsiveness</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INDIVIDUAL_HEAT_SOURCE__OVERRIDE_RESPONSIVENESS = HEAT_SOURCE__OVERRIDE_RESPONSIVENESS;
 
 	/**
 	 * The feature id for the '<em><b>Installation Year</b></em>' attribute.
@@ -1484,15 +1439,6 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @ordered
 	 */
 	int HEAT_PUMP__ANNUAL_OPERATIONAL_COST = INDIVIDUAL_HEAT_SOURCE__ANNUAL_OPERATIONAL_COST;
-
-	/**
-	 * The feature id for the '<em><b>Override Responsiveness</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int HEAT_PUMP__OVERRIDE_RESPONSIVENESS = INDIVIDUAL_HEAT_SOURCE__OVERRIDE_RESPONSIVENESS;
 
 	/**
 	 * The feature id for the '<em><b>Installation Year</b></em>' attribute.
@@ -1576,22 +1522,13 @@ public interface ITechnologiesPackage extends EPackage {
 	int HEAT_PUMP_FEATURE_COUNT = INDIVIDUAL_HEAT_SOURCE_FEATURE_COUNT + 5;
 
 	/**
-	 * The feature id for the '<em><b>Override Responsiveness</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int WARM_AIR_SYSTEM__OVERRIDE_RESPONSIVENESS = PRIMARY_SPACE_HEATER_FEATURE_COUNT + 0;
-
-	/**
 	 * The feature id for the '<em><b>Fuel Type</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int WARM_AIR_SYSTEM__FUEL_TYPE = PRIMARY_SPACE_HEATER_FEATURE_COUNT + 1;
+	int WARM_AIR_SYSTEM__FUEL_TYPE = PRIMARY_SPACE_HEATER_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Efficiency</b></em>' attribute.
@@ -1600,7 +1537,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int WARM_AIR_SYSTEM__EFFICIENCY = PRIMARY_SPACE_HEATER_FEATURE_COUNT + 2;
+	int WARM_AIR_SYSTEM__EFFICIENCY = PRIMARY_SPACE_HEATER_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Circulator</b></em>' reference.
@@ -1609,7 +1546,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int WARM_AIR_SYSTEM__CIRCULATOR = PRIMARY_SPACE_HEATER_FEATURE_COUNT + 3;
+	int WARM_AIR_SYSTEM__CIRCULATOR = PRIMARY_SPACE_HEATER_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Controls</b></em>' attribute list.
@@ -1618,7 +1555,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int WARM_AIR_SYSTEM__CONTROLS = PRIMARY_SPACE_HEATER_FEATURE_COUNT + 4;
+	int WARM_AIR_SYSTEM__CONTROLS = PRIMARY_SPACE_HEATER_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Warm Air System</em>' class.
@@ -1627,7 +1564,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int WARM_AIR_SYSTEM_FEATURE_COUNT = PRIMARY_SPACE_HEATER_FEATURE_COUNT + 5;
+	int WARM_AIR_SYSTEM_FEATURE_COUNT = PRIMARY_SPACE_HEATER_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Fuel Type</b></em>' attribute.
@@ -1664,15 +1601,6 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @ordered
 	 */
 	int POINT_OF_USE_WATER_HEATER_FEATURE_COUNT = WATER_HEATER_FEATURE_COUNT + 3;
-
-	/**
-	 * The feature id for the '<em><b>Override Responsiveness</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int HEAT_PUMP_WARM_AIR_SYSTEM__OVERRIDE_RESPONSIVENESS = WARM_AIR_SYSTEM__OVERRIDE_RESPONSIVENESS;
 
 	/**
 	 * The feature id for the '<em><b>Fuel Type</b></em>' attribute.
@@ -1783,15 +1711,6 @@ public interface ITechnologiesPackage extends EPackage {
 	int BACK_BOILER__ANNUAL_OPERATIONAL_COST = IBoilersPackage.BOILER__ANNUAL_OPERATIONAL_COST;
 
 	/**
-	 * The feature id for the '<em><b>Override Responsiveness</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BACK_BOILER__OVERRIDE_RESPONSIVENESS = IBoilersPackage.BOILER__OVERRIDE_RESPONSIVENESS;
-
-	/**
 	 * The feature id for the '<em><b>Installation Year</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1855,15 +1774,6 @@ public interface ITechnologiesPackage extends EPackage {
 	int BACK_BOILER__WEATHER_COMPENSATED = IBoilersPackage.BOILER__WEATHER_COMPENSATED;
 
 	/**
-	 * The feature id for the '<em><b>Basic Responsiveness</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BACK_BOILER__BASIC_RESPONSIVENESS = IBoilersPackage.BOILER__BASIC_RESPONSIVENESS;
-
-	/**
 	 * The feature id for the '<em><b>Pump In Heated Space</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1873,22 +1783,13 @@ public interface ITechnologiesPackage extends EPackage {
 	int BACK_BOILER__PUMP_IN_HEATED_SPACE = IBoilersPackage.BOILER__PUMP_IN_HEATED_SPACE;
 
 	/**
-	 * The feature id for the '<em><b>Responsiveness</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BACK_BOILER__RESPONSIVENESS = IBoilersPackage.BOILER_FEATURE_COUNT + 0;
-
-	/**
 	 * The feature id for the '<em><b>Efficiency</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BACK_BOILER__EFFICIENCY = IBoilersPackage.BOILER_FEATURE_COUNT + 1;
+	int BACK_BOILER__EFFICIENCY = IBoilersPackage.BOILER_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Thermostat Fitted</b></em>' attribute.
@@ -1897,7 +1798,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BACK_BOILER__THERMOSTAT_FITTED = IBoilersPackage.BOILER_FEATURE_COUNT + 2;
+	int BACK_BOILER__THERMOSTAT_FITTED = IBoilersPackage.BOILER_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Back Boiler</em>' class.
@@ -1906,7 +1807,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BACK_BOILER_FEATURE_COUNT = IBoilersPackage.BOILER_FEATURE_COUNT + 3;
+	int BACK_BOILER_FEATURE_COUNT = IBoilersPackage.BOILER_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.impl.OperationalCostImpl <em>Operational Cost</em>}' class.
@@ -1937,34 +1838,6 @@ public interface ITechnologiesPackage extends EPackage {
 	int OPERATIONAL_COST_FEATURE_COUNT = 1;
 
 	/**
-	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.IHasOverrideResponsiveness <em>Has Override Responsiveness</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see uk.org.cse.nhm.hom.emf.technologies.IHasOverrideResponsiveness
-	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getHasOverrideResponsiveness()
-	 * @generated
-	 */
-	int HAS_OVERRIDE_RESPONSIVENESS = 32;
-
-	/**
-	 * The feature id for the '<em><b>Override Responsiveness</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int HAS_OVERRIDE_RESPONSIVENESS__OVERRIDE_RESPONSIVENESS = 0;
-
-	/**
-	 * The number of structural features of the '<em>Has Override Responsiveness</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int HAS_OVERRIDE_RESPONSIVENESS_FEATURE_COUNT = 1;
-
-	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.impl.SolarPhotovoltaicImpl <em>Solar Photovoltaic</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1972,7 +1845,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getSolarPhotovoltaic()
 	 * @generated
 	 */
-	int SOLAR_PHOTOVOLTAIC = 33;
+	int SOLAR_PHOTOVOLTAIC = 32;
 
 	/**
 	 * The feature id for the '<em><b>Area</b></em>' attribute.
@@ -2018,7 +1891,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getAdjuster()
 	 * @generated
 	 */
-	int ADJUSTER = 34;
+	int ADJUSTER = 33;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -2073,7 +1946,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getHybridHeater()
 	 * @generated
 	 */
-	int HYBRID_HEATER = 35;
+	int HYBRID_HEATER = 34;
 
 	/**
 	 * The feature id for the '<em><b>Fuel</b></em>' attribute.
@@ -2119,7 +1992,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getHasInstallationYear()
 	 * @generated
 	 */
-	int HAS_INSTALLATION_YEAR = 36;
+	int HAS_INSTALLATION_YEAR = 35;
 
 	/**
 	 * The feature id for the '<em><b>Installation Year</b></em>' attribute.
@@ -2147,7 +2020,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getFuelType()
 	 * @generated
 	 */
-	int FUEL_TYPE = 37;
+	int FUEL_TYPE = 36;
 
 
 	/**
@@ -2158,7 +2031,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getHeatingSystemControlType()
 	 * @generated
 	 */
-	int HEATING_SYSTEM_CONTROL_TYPE = 38;
+	int HEATING_SYSTEM_CONTROL_TYPE = 37;
 
 	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.EmitterType <em>Emitter Type</em>}' enum.
@@ -2168,7 +2041,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getEmitterType()
 	 * @generated
 	 */
-	int EMITTER_TYPE = 39;
+	int EMITTER_TYPE = 38;
 
 	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.StorageHeaterControlType <em>Storage Heater Control Type</em>}' enum.
@@ -2178,7 +2051,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getStorageHeaterControlType()
 	 * @generated
 	 */
-	int STORAGE_HEATER_CONTROL_TYPE = 40;
+	int STORAGE_HEATER_CONTROL_TYPE = 39;
 
 	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.StorageHeaterType <em>Storage Heater Type</em>}' enum.
@@ -2188,7 +2061,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getStorageHeaterType()
 	 * @generated
 	 */
-	int STORAGE_HEATER_TYPE = 41;
+	int STORAGE_HEATER_TYPE = 40;
 
 	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.HeatPumpSourceType <em>Heat Pump Source Type</em>}' enum.
@@ -2198,7 +2071,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getHeatPumpSourceType()
 	 * @generated
 	 */
-	int HEAT_PUMP_SOURCE_TYPE = 42;
+	int HEAT_PUMP_SOURCE_TYPE = 41;
 
 	/**
 	 * The meta object id for the '<em>IEnergy Calculator Visitor</em>' data type.
@@ -2208,7 +2081,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getIEnergyCalculatorVisitor()
 	 * @generated
 	 */
-	int IENERGY_CALCULATOR_VISITOR = 43;
+	int IENERGY_CALCULATOR_VISITOR = 42;
 
 	/**
 	 * The meta object id for the '<em>IInternal Parameters</em>' data type.
@@ -2218,7 +2091,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getIInternalParameters()
 	 * @generated
 	 */
-	int IINTERNAL_PARAMETERS = 44;
+	int IINTERNAL_PARAMETERS = 43;
 
 
 	/**
@@ -2229,7 +2102,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getIEnergyState()
 	 * @generated
 	 */
-	int IENERGY_STATE = 45;
+	int IENERGY_STATE = 44;
 
 
 	/**
@@ -2240,7 +2113,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getEnergyType()
 	 * @generated
 	 */
-	int ENERGY_TYPE = 46;
+	int ENERGY_TYPE = 45;
 
 
 	/**
@@ -2251,7 +2124,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getAtomicInteger()
 	 * @generated
 	 */
-	int ATOMIC_INTEGER = 47;
+	int ATOMIC_INTEGER = 46;
 
 
 	/**
@@ -2262,7 +2135,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getIConstants()
 	 * @generated
 	 */
-	int ICONSTANTS = 48;
+	int ICONSTANTS = 47;
 
 	/**
 	 * The meta object id for the '<em>IEnergy Calculator Parameters</em>' data type.
@@ -2272,7 +2145,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getIEnergyCalculatorParameters()
 	 * @generated
 	 */
-	int IENERGY_CALCULATOR_PARAMETERS = 49;
+	int IENERGY_CALCULATOR_PARAMETERS = 48;
 
 	/**
 	 * The meta object id for the '<em>Efficiency</em>' data type.
@@ -2282,7 +2155,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getEfficiency()
 	 * @generated
 	 */
-	int EFFICIENCY = 50;
+	int EFFICIENCY = 49;
 
 
 	/**
@@ -2293,7 +2166,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getHeatProportions()
 	 * @generated
 	 */
-	int HEAT_PROPORTIONS = 51;
+	int HEAT_PROPORTIONS = 50;
 
 
 	/**
@@ -3037,15 +2910,15 @@ public interface ITechnologiesPackage extends EPackage {
 	EClass getStorageHeater();
 
 	/**
-	 * Returns the meta object for the attribute '{@link uk.org.cse.nhm.hom.emf.technologies.IStorageHeater#getResponsiveness <em>Responsiveness</em>}'.
+	 * Returns the meta object for the attribute '{@link uk.org.cse.nhm.hom.emf.technologies.IStorageHeater#getResponsivenessOverride <em>Responsiveness Override</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Responsiveness</em>'.
-	 * @see uk.org.cse.nhm.hom.emf.technologies.IStorageHeater#getResponsiveness()
+	 * @return the meta object for the attribute '<em>Responsiveness Override</em>'.
+	 * @see uk.org.cse.nhm.hom.emf.technologies.IStorageHeater#getResponsivenessOverride()
 	 * @see #getStorageHeater()
 	 * @generated
 	 */
-	EAttribute getStorageHeater_Responsiveness();
+	EAttribute getStorageHeater_ResponsivenessOverride();
 
 	/**
 	 * Returns the meta object for the attribute '{@link uk.org.cse.nhm.hom.emf.technologies.IStorageHeater#getControlType <em>Control Type</em>}'.
@@ -3131,17 +3004,6 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getRoomHeater();
-
-	/**
-	 * Returns the meta object for the attribute '{@link uk.org.cse.nhm.hom.emf.technologies.IRoomHeater#getResponsiveness <em>Responsiveness</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Responsiveness</em>'.
-	 * @see uk.org.cse.nhm.hom.emf.technologies.IRoomHeater#getResponsiveness()
-	 * @see #getRoomHeater()
-	 * @generated
-	 */
-	EAttribute getRoomHeater_Responsiveness();
 
 	/**
 	 * Returns the meta object for the attribute '{@link uk.org.cse.nhm.hom.emf.technologies.IRoomHeater#getEfficiency <em>Efficiency</em>}'.
@@ -3462,27 +3324,6 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getOperationalCost_AnnualOperationalCost();
-
-	/**
-	 * Returns the meta object for class '{@link uk.org.cse.nhm.hom.emf.technologies.IHasOverrideResponsiveness <em>Has Override Responsiveness</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Has Override Responsiveness</em>'.
-	 * @see uk.org.cse.nhm.hom.emf.technologies.IHasOverrideResponsiveness
-	 * @generated
-	 */
-	EClass getHasOverrideResponsiveness();
-
-	/**
-	 * Returns the meta object for the attribute '{@link uk.org.cse.nhm.hom.emf.technologies.IHasOverrideResponsiveness#getOverrideResponsiveness <em>Override Responsiveness</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Override Responsiveness</em>'.
-	 * @see uk.org.cse.nhm.hom.emf.technologies.IHasOverrideResponsiveness#getOverrideResponsiveness()
-	 * @see #getHasOverrideResponsiveness()
-	 * @generated
-	 */
-	EAttribute getHasOverrideResponsiveness_OverrideResponsiveness();
 
 	/**
 	 * Returns the meta object for class '{@link uk.org.cse.nhm.hom.emf.technologies.ISolarPhotovoltaic <em>Solar Photovoltaic</em>}'.
@@ -4406,12 +4247,12 @@ public interface ITechnologiesPackage extends EPackage {
 		EClass STORAGE_HEATER = eINSTANCE.getStorageHeater();
 
 		/**
-		 * The meta object literal for the '<em><b>Responsiveness</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Responsiveness Override</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute STORAGE_HEATER__RESPONSIVENESS = eINSTANCE.getStorageHeater_Responsiveness();
+		EAttribute STORAGE_HEATER__RESPONSIVENESS_OVERRIDE = eINSTANCE.getStorageHeater_ResponsivenessOverride();
 
 		/**
 		 * The meta object literal for the '<em><b>Control Type</b></em>' attribute feature.
@@ -4482,14 +4323,6 @@ public interface ITechnologiesPackage extends EPackage {
 		 * @generated
 		 */
 		EClass ROOM_HEATER = eINSTANCE.getRoomHeater();
-
-		/**
-		 * The meta object literal for the '<em><b>Responsiveness</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute ROOM_HEATER__RESPONSIVENESS = eINSTANCE.getRoomHeater_Responsiveness();
 
 		/**
 		 * The meta object literal for the '<em><b>Efficiency</b></em>' attribute feature.
@@ -4750,24 +4583,6 @@ public interface ITechnologiesPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute OPERATIONAL_COST__ANNUAL_OPERATIONAL_COST = eINSTANCE.getOperationalCost_AnnualOperationalCost();
-
-		/**
-		 * The meta object literal for the '{@link uk.org.cse.nhm.hom.emf.technologies.IHasOverrideResponsiveness <em>Has Override Responsiveness</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see uk.org.cse.nhm.hom.emf.technologies.IHasOverrideResponsiveness
-		 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getHasOverrideResponsiveness()
-		 * @generated
-		 */
-		EClass HAS_OVERRIDE_RESPONSIVENESS = eINSTANCE.getHasOverrideResponsiveness();
-
-		/**
-		 * The meta object literal for the '<em><b>Override Responsiveness</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute HAS_OVERRIDE_RESPONSIVENESS__OVERRIDE_RESPONSIVENESS = eINSTANCE.getHasOverrideResponsiveness_OverrideResponsiveness();
 
 		/**
 		 * The meta object literal for the '{@link uk.org.cse.nhm.hom.emf.technologies.impl.SolarPhotovoltaicImpl <em>Solar Photovoltaic</em>}' class.

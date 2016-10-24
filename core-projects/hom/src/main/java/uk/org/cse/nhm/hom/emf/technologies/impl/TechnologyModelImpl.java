@@ -96,7 +96,6 @@ public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnolo
 	static {
 		assumedElectricSpaceHeater.setFuel(FuelType.ELECTRICITY);
 		assumedElectricWaterHeater.setEfficiency(Efficiency.fromDouble(1.0));
-		assumedElectricSpaceHeater.setResponsiveness(1.0);
 		assumedElectricSpaceHeater.setFlueType(FlueType.NOT_APPLICABLE);
 		assumedElectricSpaceHeater.setThermostatFitted(true);
 		

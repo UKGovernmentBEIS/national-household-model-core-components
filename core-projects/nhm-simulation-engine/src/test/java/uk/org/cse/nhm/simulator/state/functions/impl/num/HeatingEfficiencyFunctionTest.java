@@ -12,7 +12,7 @@ import org.junit.Test;
 import com.google.common.collect.ImmutableSet;
 
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
-import uk.org.cse.nhm.language.definition.action.scaling.heating.XHeatingSystem;
+import uk.org.cse.nhm.language.definition.enums.XHeatingSystem;
 import uk.org.cse.nhm.language.definition.function.num.XEfficiencyMeasurement;
 import uk.org.cse.nhm.simulator.let.ILets;
 import uk.org.cse.nhm.simulator.scope.IComponentsScope;

@@ -21,7 +21,6 @@ import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
 import uk.org.cse.nhm.hom.emf.technologies.ICentralHeatingSystem;
 import uk.org.cse.nhm.hom.emf.technologies.IHasInstallationYear;
-import uk.org.cse.nhm.hom.emf.technologies.IHasOverrideResponsiveness;
 import uk.org.cse.nhm.hom.emf.technologies.IHeatSource;
 import uk.org.cse.nhm.hom.emf.technologies.IMainWaterHeater;
 import uk.org.cse.nhm.hom.emf.technologies.IOperationalCost;
@@ -41,7 +40,6 @@ import uk.org.cse.nhm.hom.emf.technologies.impl.util.HotWaterUtilities;
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.HeatSourceImpl#getFuel <em>Fuel</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.HeatSourceImpl#getFlueType <em>Flue Type</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.HeatSourceImpl#getAnnualOperationalCost <em>Annual Operational Cost</em>}</li>
- *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.HeatSourceImpl#getOverrideResponsiveness <em>Override Responsiveness</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.HeatSourceImpl#getInstallationYear <em>Installation Year</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.HeatSourceImpl#getWaterHeater <em>Water Heater</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.HeatSourceImpl#getSpaceHeater <em>Space Heater</em>}</li>
@@ -174,35 +172,6 @@ public abstract class HeatSourceImpl extends MinimalEObjectImpl implements IHeat
 	protected double annualOperationalCost = ANNUAL_OPERATIONAL_COST_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getOverrideResponsiveness() <em>Override Responsiveness</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getOverrideResponsiveness()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final double OVERRIDE_RESPONSIVENESS_EDEFAULT = 0.0;
-
-	/**
-	 * The cached value of the '{@link #getOverrideResponsiveness() <em>Override Responsiveness</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getOverrideResponsiveness()
-	 * @generated
-	 * @ordered
-	 */
-	protected double overrideResponsiveness = OVERRIDE_RESPONSIVENESS_EDEFAULT;
-
-	/**
-	 * The flag representing whether the Override Responsiveness attribute has been set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	protected static final int OVERRIDE_RESPONSIVENESS_ESETFLAG = 1 << 7;
-
-	/**
 	 * The default value of the '{@link #getInstallationYear() <em>Installation Year</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -229,7 +198,7 @@ public abstract class HeatSourceImpl extends MinimalEObjectImpl implements IHeat
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int INSTALLATION_YEAR_ESETFLAG = 1 << 8;
+	protected static final int INSTALLATION_YEAR_ESETFLAG = 1 << 7;
 
 	/**
 	 * The cached value of the '{@link #getWaterHeater() <em>Water Heater</em>}' reference.
@@ -339,56 +308,6 @@ public abstract class HeatSourceImpl extends MinimalEObjectImpl implements IHeat
 		annualOperationalCost = newAnnualOperationalCost;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.HEAT_SOURCE__ANNUAL_OPERATIONAL_COST, oldAnnualOperationalCost, annualOperationalCost));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public double getOverrideResponsiveness() {
-		return overrideResponsiveness;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void setOverrideResponsiveness(double newOverrideResponsiveness) {
-		double oldOverrideResponsiveness = overrideResponsiveness;
-		overrideResponsiveness = newOverrideResponsiveness;
-		boolean oldOverrideResponsivenessESet = (flags & OVERRIDE_RESPONSIVENESS_ESETFLAG) != 0;
-		flags |= OVERRIDE_RESPONSIVENESS_ESETFLAG;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.HEAT_SOURCE__OVERRIDE_RESPONSIVENESS, oldOverrideResponsiveness, overrideResponsiveness, !oldOverrideResponsivenessESet));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void unsetOverrideResponsiveness() {
-		double oldOverrideResponsiveness = overrideResponsiveness;
-		boolean oldOverrideResponsivenessESet = (flags & OVERRIDE_RESPONSIVENESS_ESETFLAG) != 0;
-		overrideResponsiveness = OVERRIDE_RESPONSIVENESS_EDEFAULT;
-		flags &= ~OVERRIDE_RESPONSIVENESS_ESETFLAG;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, ITechnologiesPackage.HEAT_SOURCE__OVERRIDE_RESPONSIVENESS, oldOverrideResponsiveness, OVERRIDE_RESPONSIVENESS_EDEFAULT, oldOverrideResponsivenessESet));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean isSetOverrideResponsiveness() {
-		return (flags & OVERRIDE_RESPONSIVENESS_ESETFLAG) != 0;
 	}
 
 	/**
@@ -577,25 +496,19 @@ public abstract class HeatSourceImpl extends MinimalEObjectImpl implements IHeat
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * The default behaviour is to assume SAP Table 4d, since most heat sources will follow that table.
 	 * <!-- end-user-doc -->
-	 * @generated no
+	 * @generated
 	 */
-	@Override
-	public final double getResponsiveness(final IConstants constants, final EList<HeatingSystemControlType> controls, final EmitterType emitterType) {
-		if (isSetOverrideResponsiveness()) {
-			return getOverrideResponsiveness();
-		} else {
-			return getResponsivenessImpl(constants, controls, emitterType);
-		}
+	public double getResponsiveness(IConstants parameters, EList<HeatingSystemControlType> controls, EmitterType emitterType) {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
 	}
-	
+
 	protected final double getSAPTable4dResponsiveness(final IConstants constants, final EList<HeatingSystemControlType> controls, final EmitterType emitterType) {
 		return constants.get(ResponsivenessAdjustments.WET_SYSTEM_RESPONSIVENESS, emitterType);
 	}
 	
-	protected abstract double getResponsivenessImpl(final IConstants constants, final EList<HeatingSystemControlType> controls, final EmitterType emitterType);
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -724,8 +637,6 @@ public abstract class HeatSourceImpl extends MinimalEObjectImpl implements IHeat
 				return getFlueType();
 			case ITechnologiesPackage.HEAT_SOURCE__ANNUAL_OPERATIONAL_COST:
 				return getAnnualOperationalCost();
-			case ITechnologiesPackage.HEAT_SOURCE__OVERRIDE_RESPONSIVENESS:
-				return getOverrideResponsiveness();
 			case ITechnologiesPackage.HEAT_SOURCE__INSTALLATION_YEAR:
 				return getInstallationYear();
 			case ITechnologiesPackage.HEAT_SOURCE__WATER_HEATER:
@@ -754,9 +665,6 @@ public abstract class HeatSourceImpl extends MinimalEObjectImpl implements IHeat
 				return;
 			case ITechnologiesPackage.HEAT_SOURCE__ANNUAL_OPERATIONAL_COST:
 				setAnnualOperationalCost((Double)newValue);
-				return;
-			case ITechnologiesPackage.HEAT_SOURCE__OVERRIDE_RESPONSIVENESS:
-				setOverrideResponsiveness((Double)newValue);
 				return;
 			case ITechnologiesPackage.HEAT_SOURCE__INSTALLATION_YEAR:
 				setInstallationYear((Integer)newValue);
@@ -788,9 +696,6 @@ public abstract class HeatSourceImpl extends MinimalEObjectImpl implements IHeat
 			case ITechnologiesPackage.HEAT_SOURCE__ANNUAL_OPERATIONAL_COST:
 				setAnnualOperationalCost(ANNUAL_OPERATIONAL_COST_EDEFAULT);
 				return;
-			case ITechnologiesPackage.HEAT_SOURCE__OVERRIDE_RESPONSIVENESS:
-				unsetOverrideResponsiveness();
-				return;
 			case ITechnologiesPackage.HEAT_SOURCE__INSTALLATION_YEAR:
 				unsetInstallationYear();
 				return;
@@ -818,8 +723,6 @@ public abstract class HeatSourceImpl extends MinimalEObjectImpl implements IHeat
 				return (flags & FLUE_TYPE_EFLAG) != FLUE_TYPE_EFLAG_DEFAULT;
 			case ITechnologiesPackage.HEAT_SOURCE__ANNUAL_OPERATIONAL_COST:
 				return annualOperationalCost != ANNUAL_OPERATIONAL_COST_EDEFAULT;
-			case ITechnologiesPackage.HEAT_SOURCE__OVERRIDE_RESPONSIVENESS:
-				return isSetOverrideResponsiveness();
 			case ITechnologiesPackage.HEAT_SOURCE__INSTALLATION_YEAR:
 				return isSetInstallationYear();
 			case ITechnologiesPackage.HEAT_SOURCE__WATER_HEATER:
@@ -843,12 +746,6 @@ public abstract class HeatSourceImpl extends MinimalEObjectImpl implements IHeat
 				default: return -1;
 			}
 		}
-		if (baseClass == IHasOverrideResponsiveness.class) {
-			switch (derivedFeatureID) {
-				case ITechnologiesPackage.HEAT_SOURCE__OVERRIDE_RESPONSIVENESS: return ITechnologiesPackage.HAS_OVERRIDE_RESPONSIVENESS__OVERRIDE_RESPONSIVENESS;
-				default: return -1;
-			}
-		}
 		if (baseClass == IHasInstallationYear.class) {
 			switch (derivedFeatureID) {
 				case ITechnologiesPackage.HEAT_SOURCE__INSTALLATION_YEAR: return ITechnologiesPackage.HAS_INSTALLATION_YEAR__INSTALLATION_YEAR;
@@ -868,12 +765,6 @@ public abstract class HeatSourceImpl extends MinimalEObjectImpl implements IHeat
 		if (baseClass == IOperationalCost.class) {
 			switch (baseFeatureID) {
 				case ITechnologiesPackage.OPERATIONAL_COST__ANNUAL_OPERATIONAL_COST: return ITechnologiesPackage.HEAT_SOURCE__ANNUAL_OPERATIONAL_COST;
-				default: return -1;
-			}
-		}
-		if (baseClass == IHasOverrideResponsiveness.class) {
-			switch (baseFeatureID) {
-				case ITechnologiesPackage.HAS_OVERRIDE_RESPONSIVENESS__OVERRIDE_RESPONSIVENESS: return ITechnologiesPackage.HEAT_SOURCE__OVERRIDE_RESPONSIVENESS;
 				default: return -1;
 			}
 		}
@@ -902,8 +793,6 @@ public abstract class HeatSourceImpl extends MinimalEObjectImpl implements IHeat
 		result.append(FLUE_TYPE_EFLAG_VALUES[(flags & FLUE_TYPE_EFLAG) >>> FLUE_TYPE_EFLAG_OFFSET]);
 		result.append(", annualOperationalCost: ");
 		result.append(annualOperationalCost);
-		result.append(", overrideResponsiveness: ");
-		if ((flags & OVERRIDE_RESPONSIVENESS_ESETFLAG) != 0) result.append(overrideResponsiveness); else result.append("<unset>");
 		result.append(", installationYear: ");
 		if ((flags & INSTALLATION_YEAR_ESETFLAG) != 0) result.append(installationYear); else result.append("<unset>");
 		result.append(')');

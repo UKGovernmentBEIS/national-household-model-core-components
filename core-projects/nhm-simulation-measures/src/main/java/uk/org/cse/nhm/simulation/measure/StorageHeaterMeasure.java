@@ -66,12 +66,12 @@ public class StorageHeaterMeasure extends AbstractHeatingMeasure {
 		private final double opex;
 		private final ITechnologyOperations operations;
 		private final StorageHeaterType type;
-		private final double responsiveness;
+		private final Optional<Double> responsiveness;
 		private final StorageHeaterControlType controlType;
 
 		public Modifier(final ITechnologyOperations operations,
 				final StorageHeaterType type,
-				final double responsiveness,
+				final Optional<Double> responsiveness,
 				final StorageHeaterControlType controlType,
 				final double opex) {
 			this.operations = operations;
@@ -86,7 +86,10 @@ public class StorageHeaterMeasure extends AbstractHeatingMeasure {
 			final IStorageHeater storageHeater = ITechnologiesFactory.eINSTANCE.createStorageHeater();
 			
 			storageHeater.setControlType(controlType);
-			storageHeater.setResponsiveness(responsiveness);
+			
+			if (responsiveness.isPresent()) {
+				storageHeater.setResponsivenessOverride(responsiveness.get());
+			}
 			storageHeater.setType(type);
 			storageHeater.setAnnualOperationalCost(opex);
 						
@@ -102,11 +105,16 @@ public class StorageHeaterMeasure extends AbstractHeatingMeasure {
 			final ILets lets,
 			final double size, 
 			final double capex, final double opex) throws NHMException {
-		final double responsiveness;
+		final Optional<Double> responsiveness;
 		if (responsivenessFunction.isPresent()) {
-			responsiveness = responsivenessFunction.get().compute(components, lets).doubleValue();
+			responsiveness = Optional.of(
+					responsivenessFunction.get().compute(components, lets).doubleValue());
+			
+			if (responsiveness.get() < 0 || responsiveness.get() > 1) {
+				throw new RuntimeException("Responsiveness should be between 0 and 1, but was " + responsiveness.get());
+			}
 		} else {
-			responsiveness = getSapResponsiveness(type, controlType);
+			responsiveness = Optional.absent();
 		}
 		components.modify(techs, 
 				new Modifier(operations, 
@@ -116,30 +124,6 @@ public class StorageHeaterMeasure extends AbstractHeatingMeasure {
 						opex
 						));
 		return true;
-	}
-
-	/**
-	 * An implementation of SAP 2009 table 4a
-	 * @param type
-	 * @param control
-	 * @return responsiveness
-	 */
-	protected static double getSapResponsiveness(
-			final StorageHeaterType type,
-			final StorageHeaterControlType control) {
-		final boolean celect = control == StorageHeaterControlType.CELECT_CHARGE_CONTROL;
-		switch (type) {
-		case FAN:
-			return celect ? 0.75 : 0.5;
-		case INTEGRATED_DIRECT_ACTING:
-			return 0.75;
-		case CONVECTOR:
-		case SLIMLINE:
-			return celect ? 0.5 : 0.25;
-		case OLD_LARGE_VOLUME:
-		default:
-			return 0;
-		}
 	}
 
 	@Override

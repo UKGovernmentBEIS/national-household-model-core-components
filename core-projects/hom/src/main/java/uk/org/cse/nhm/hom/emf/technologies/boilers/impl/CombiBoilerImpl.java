@@ -2,9 +2,12 @@
  */
 package uk.org.cse.nhm.hom.emf.technologies.boilers.impl;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
 import uk.org.cse.nhm.energycalculator.api.IConstants;
+import uk.org.cse.nhm.hom.emf.technologies.EmitterType;
+import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoilersPackage;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.ICombiBoiler;
 
@@ -53,5 +56,11 @@ public abstract class CombiBoilerImpl extends BoilerImpl implements ICombiBoiler
 		*/
 
 		return getSeasonalEfficiency(qWater, qSpace);
+	}
+	
+	@Override
+	public double getResponsiveness(IConstants parameters, EList<HeatingSystemControlType> controls,
+			EmitterType emitter) {
+		return 0.75;
 	}
 } //CombiBoilerImpl

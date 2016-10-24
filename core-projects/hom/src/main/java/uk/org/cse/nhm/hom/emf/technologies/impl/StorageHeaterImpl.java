@@ -11,10 +11,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
-import uk.org.cse.nhm.energycalculator.api.IEnergyState;
 import uk.org.cse.nhm.energycalculator.api.IHeatingSystem;
 import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
-import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
+import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
+import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.hom.IHeatProportions;
 import uk.org.cse.nhm.hom.constants.adjustments.TemperatureAdjustments;
 import uk.org.cse.nhm.hom.emf.technologies.IOperationalCost;
@@ -60,24 +60,24 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 	protected double annualOperationalCost = ANNUAL_OPERATIONAL_COST_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getResponsiveness() <em>Responsiveness</em>}' attribute.
+	 * The default value of the '{@link #getResponsivenessOverride() <em>Responsiveness Override</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getResponsiveness()
+	 * @see #getResponsivenessOverride()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final double RESPONSIVENESS_EDEFAULT = 0.0;
+	protected static final Double RESPONSIVENESS_OVERRIDE_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getResponsiveness() <em>Responsiveness</em>}' attribute.
+	 * The cached value of the '{@link #getResponsivenessOverride() <em>Responsiveness Override</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getResponsiveness()
+	 * @see #getResponsivenessOverride()
 	 * @generated
 	 * @ordered
 	 */
-	protected double responsiveness = RESPONSIVENESS_EDEFAULT;
+	protected Double responsivenessOverride = RESPONSIVENESS_OVERRIDE_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getControlType() <em>Control Type</em>}' attribute.
@@ -220,9 +220,8 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public double getResponsiveness() {
-		return responsiveness;
+	public Double getResponsivenessOverride() {
+		return responsivenessOverride;
 	}
 
 	/**
@@ -230,12 +229,11 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public void setResponsiveness(double newResponsiveness) {
-		double oldResponsiveness = responsiveness;
-		responsiveness = newResponsiveness;
+	public void setResponsivenessOverride(Double newResponsivenessOverride) {
+		Double oldResponsivenessOverride = responsivenessOverride;
+		responsivenessOverride = newResponsivenessOverride;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.STORAGE_HEATER__RESPONSIVENESS, oldResponsiveness, responsiveness));
+			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.STORAGE_HEATER__RESPONSIVENESS_OVERRIDE, oldResponsivenessOverride, responsivenessOverride));
 	}
 
 	/**
@@ -323,8 +321,55 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 	 * @generated no
 	 */
 	@Override
-	public double getDerivedResponsiveness(final IConstants constants) {
-		return responsiveness;
+	public double getResponsiveness(final IConstants constants, final EnergyCalculatorType calculatorType, final ElectricityTariffType electricityTariffType) {
+		/*
+		BEISDOC
+		NAME: Storage Heater Responsiveness
+		DESCRIPTION: The responsiveness of a storage heater
+		TYPE: lookup
+		UNIT: Dimensionless
+		SAP: Table 4a (Category 7)
+		BREDEM: Defers to SAP
+		SET: measure.storage-heater
+		NOTES: In BREDEM 2012 mode, the storage heater responsiveness can be overridden by the scenario author. In SAP 2012 mode, it cannot.
+		ID: storage-heater-responsiveness
+		CODSIEB
+		*/
+		switch(calculatorType) {
+		case BREDEM2012:
+			// Use the override if it has been specified, otherwise fall through to the SAP behaviour.
+			if (getResponsivenessOverride() != null) {
+				return getResponsivenessOverride();
+			}
+		case SAP2012:
+			final double baseResponsiveness;
+			
+			switch (getType()) {
+			case OLD_LARGE_VOLUME:
+				return 0;
+			case SLIMLINE:
+			case CONVECTOR:
+				if (electricityTariffType == ElectricityTariffType.TWENTYFOUR_HOUR_HEATING) {
+					baseResponsiveness = 0.4;
+				} else {
+					baseResponsiveness = 0.2;
+				}
+				break;
+			case FAN:
+				baseResponsiveness = 0.4;
+				break;
+			case INTEGRATED_DIRECT_ACTING:
+				return 0.6;
+			default:
+				throw new UnsupportedOperationException("Unknown storage heater type " + getType());
+			}
+			
+			final boolean isCelect = getControlType() == StorageHeaterControlType.CELECT_CHARGE_CONTROL;
+			
+			return baseResponsiveness + (isCelect ? 0.2 : 0.0); 
+		default:
+			throw new UnsupportedOperationException("Unknown energy calculator type when computing storage heater responsiveness " + calculatorType);
+		}
 	}
 
 	/**
@@ -337,8 +382,8 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 		switch (featureID) {
 			case ITechnologiesPackage.STORAGE_HEATER__ANNUAL_OPERATIONAL_COST:
 				return getAnnualOperationalCost();
-			case ITechnologiesPackage.STORAGE_HEATER__RESPONSIVENESS:
-				return getResponsiveness();
+			case ITechnologiesPackage.STORAGE_HEATER__RESPONSIVENESS_OVERRIDE:
+				return getResponsivenessOverride();
 			case ITechnologiesPackage.STORAGE_HEATER__CONTROL_TYPE:
 				return getControlType();
 			case ITechnologiesPackage.STORAGE_HEATER__TYPE:
@@ -358,8 +403,8 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 			case ITechnologiesPackage.STORAGE_HEATER__ANNUAL_OPERATIONAL_COST:
 				setAnnualOperationalCost((Double)newValue);
 				return;
-			case ITechnologiesPackage.STORAGE_HEATER__RESPONSIVENESS:
-				setResponsiveness((Double)newValue);
+			case ITechnologiesPackage.STORAGE_HEATER__RESPONSIVENESS_OVERRIDE:
+				setResponsivenessOverride((Double)newValue);
 				return;
 			case ITechnologiesPackage.STORAGE_HEATER__CONTROL_TYPE:
 				setControlType((StorageHeaterControlType)newValue);
@@ -382,8 +427,8 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 			case ITechnologiesPackage.STORAGE_HEATER__ANNUAL_OPERATIONAL_COST:
 				setAnnualOperationalCost(ANNUAL_OPERATIONAL_COST_EDEFAULT);
 				return;
-			case ITechnologiesPackage.STORAGE_HEATER__RESPONSIVENESS:
-				setResponsiveness(RESPONSIVENESS_EDEFAULT);
+			case ITechnologiesPackage.STORAGE_HEATER__RESPONSIVENESS_OVERRIDE:
+				setResponsivenessOverride(RESPONSIVENESS_OVERRIDE_EDEFAULT);
 				return;
 			case ITechnologiesPackage.STORAGE_HEATER__CONTROL_TYPE:
 				setControlType(CONTROL_TYPE_EDEFAULT);
@@ -405,8 +450,8 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 		switch (featureID) {
 			case ITechnologiesPackage.STORAGE_HEATER__ANNUAL_OPERATIONAL_COST:
 				return annualOperationalCost != ANNUAL_OPERATIONAL_COST_EDEFAULT;
-			case ITechnologiesPackage.STORAGE_HEATER__RESPONSIVENESS:
-				return responsiveness != RESPONSIVENESS_EDEFAULT;
+			case ITechnologiesPackage.STORAGE_HEATER__RESPONSIVENESS_OVERRIDE:
+				return RESPONSIVENESS_OVERRIDE_EDEFAULT == null ? responsivenessOverride != null : !RESPONSIVENESS_OVERRIDE_EDEFAULT.equals(responsivenessOverride);
 			case ITechnologiesPackage.STORAGE_HEATER__CONTROL_TYPE:
 				return (flags & CONTROL_TYPE_EFLAG) != CONTROL_TYPE_EFLAG_DEFAULT;
 			case ITechnologiesPackage.STORAGE_HEATER__TYPE:
@@ -469,30 +514,14 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (annualOperationalCost: ");
 		result.append(annualOperationalCost);
-		result.append(", responsiveness: ");
-		result.append(responsiveness);
+		result.append(", responsivenessOverride: ");
+		result.append(responsivenessOverride);
 		result.append(", controlType: ");
 		result.append(CONTROL_TYPE_EFLAG_VALUES[(flags & CONTROL_TYPE_EFLAG) >>> CONTROL_TYPE_EFLAG_OFFSET]);
 		result.append(", type: ");
 		result.append(TYPE_EFLAG_VALUES[(flags & TYPE_EFLAG) >>> TYPE_EFLAG_OFFSET]);
 		result.append(')');
 		return result.toString();
-	}
-
-	@Override
-	public double[] getBackgroundTemperatures(final double[] demandTemperature,
-			final double[] responsiveBackgroundTemperature,
-			final double[] unresponsiveBackgroundTemperature,
-			final IInternalParameters parameters,
-			final IEnergyState state, final ISpecificHeatLosses losses) {
-		// TODO responsiveness changes by tarrif type, in scotland (24hr heating tarriff)
-		final double responsiveness = getResponsiveness();
-		final double unresponsiveness = 1 - responsiveness;
-		
-		return new double[] {
-			responsiveness * responsiveBackgroundTemperature[0] + unresponsiveness * unresponsiveBackgroundTemperature[0],
-			responsiveness * responsiveBackgroundTemperature[1] + unresponsiveness * unresponsiveBackgroundTemperature[1]
-		};
 	}
 
 	/**

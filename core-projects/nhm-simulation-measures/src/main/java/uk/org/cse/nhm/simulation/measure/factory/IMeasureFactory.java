@@ -18,7 +18,6 @@ import uk.org.cse.nhm.hom.emf.technologies.IAdjuster;
 import uk.org.cse.nhm.hom.emf.technologies.StorageHeaterControlType;
 import uk.org.cse.nhm.hom.emf.technologies.StorageHeaterType;
 import uk.org.cse.nhm.hom.structure.IWall;
-import uk.org.cse.nhm.language.definition.action.scaling.heating.XSpaceHeatingSystem;
 import uk.org.cse.nhm.language.definition.enums.XChangeDirection;
 import uk.org.cse.nhm.simulation.measure.HeatingControlMeasure;
 import uk.org.cse.nhm.simulation.measure.StorageHeaterMeasure;
@@ -48,7 +47,6 @@ import uk.org.cse.nhm.simulation.measure.otherspaceheating.WarmAirMeasure;
 import uk.org.cse.nhm.simulation.measure.renewables.SolarHotWaterMeasure;
 import uk.org.cse.nhm.simulation.measure.renewables.SolarPhotovoltaicMeasure;
 import uk.org.cse.nhm.simulation.measure.roomheaters.RoomHeaterMeasure;
-import uk.org.cse.nhm.simulation.measure.scaling.ResponsivenessScalingAction;
 import uk.org.cse.nhm.simulation.measure.structure.AlterWallHeatLossMeasure;
 import uk.org.cse.nhm.simulation.measure.structure.ModifyWallConstructionTypeMeasure;
 import uk.org.cse.nhm.simulator.measure.sizing.ISizingFunction;
@@ -212,10 +210,6 @@ public interface IMeasureFactory {
                     @Assisted final double thickness,
                     @Assisted final boolean isSolidFloor
             );
-
-    public ResponsivenessScalingAction createResponsivenessScalingAction(
-            @Assisted final Set<XSpaceHeatingSystem> systems,
-            @Assisted final IComponentsFunction<Number> scaling);
 
     public AddOrRemoveLoftAction createAddOrRemoveLoftAction(final boolean addLoft);
 

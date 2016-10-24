@@ -118,8 +118,6 @@ public class RoomHeaterTest extends SpaceHeaterTest {
 		
 		Assert.assertEquals(0.3, hs.getDemandTemperatureAdjustment(parameters), 0);
 		
-		Assert.assertTrue(Arrays.equals(new double[]{1, 2}, hs.getBackgroundTemperatures(new double[2], new double[] {99, 99}, new double[]{1, 2}, parameters, null, null)));
-	
 		final ArgumentCaptor<IEnergyTransducer> etArgumentCaptor = ArgumentCaptor.forClass(IEnergyTransducer.class);
 		
 		verify(visitor).visitEnergyTransducer(etArgumentCaptor.capture());

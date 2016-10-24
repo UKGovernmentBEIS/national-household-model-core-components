@@ -36,7 +36,7 @@ public class TechnologyOperationsTest {
 
 	private static class IndividualSource extends HeatSourceImpl implements IIndividualHeatSource {
 		@Override
-		protected double getResponsivenessImpl(
+		public double getResponsiveness(
 				final IConstants parameters,
 				final EList<HeatingSystemControlType> controls,
 				final EmitterType emitterType) {

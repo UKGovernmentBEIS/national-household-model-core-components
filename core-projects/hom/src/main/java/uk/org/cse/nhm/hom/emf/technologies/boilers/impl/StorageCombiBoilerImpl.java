@@ -4,7 +4,6 @@ package uk.org.cse.nhm.hom.emf.technologies.boilers.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -17,9 +16,6 @@ import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.hom.constants.CylinderConstants;
 import uk.org.cse.nhm.hom.constants.HeatingSystemConstants;
-import uk.org.cse.nhm.hom.emf.technologies.EmitterType;
-import uk.org.cse.nhm.hom.emf.technologies.FuelType;
-import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
 import uk.org.cse.nhm.hom.emf.technologies.IStoreContainer;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
 import uk.org.cse.nhm.hom.emf.technologies.IWaterTank;
@@ -68,7 +64,7 @@ public class StorageCombiBoilerImpl extends CombiBoilerImpl implements IStorageC
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int STORE_IN_PRIMARY_CIRCUIT_EFLAG = 1 << 12;
+	protected static final int STORE_IN_PRIMARY_CIRCUIT_EFLAG = 1 << 11;
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -355,18 +351,5 @@ public class StorageCombiBoilerImpl extends CombiBoilerImpl implements IStorageC
 		}
 		
 		return terms[0] + Math.min(0, terms[1] * (terms[2] - store.getVolume()));
-	}
-	
-	/**
-	 * Electric CPSU and storage boilers have a fixed responsiveness, for no reason that I can understand.
-	 */
-	@Override
-	public double getResponsivenessImpl(final IConstants constants,
-			final EList<HeatingSystemControlType> controls, final EmitterType emitter) {
-		if (getFuel() == FuelType.ELECTRICITY) {
-			return getBasicResponsiveness();			
-		} else {
-			return super.getSAPTable4dResponsiveness(constants, controls, emitter);
-		}
 	}
 } //StorageCombiBoilerImpl

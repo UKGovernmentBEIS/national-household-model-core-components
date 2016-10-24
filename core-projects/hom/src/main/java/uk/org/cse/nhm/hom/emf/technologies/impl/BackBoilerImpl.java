@@ -30,7 +30,6 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.BackBoilerImpl#getResponsiveness <em>Responsiveness</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.BackBoilerImpl#getEfficiency <em>Efficiency</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.BackBoilerImpl#isThermostatFitted <em>Thermostat Fitted</em>}</li>
  * </ul>
@@ -38,26 +37,6 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
  * @generated
  */
 public class BackBoilerImpl extends BoilerImpl implements IBackBoiler {
-	/**
-	 * The default value of the '{@link #getResponsiveness() <em>Responsiveness</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getResponsiveness()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final double RESPONSIVENESS_EDEFAULT = 0.0;
-
-	/**
-	 * The cached value of the '{@link #getResponsiveness() <em>Responsiveness</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getResponsiveness()
-	 * @generated
-	 * @ordered
-	 */
-	protected double responsiveness = RESPONSIVENESS_EDEFAULT;
-
 	/**
 	 * The default value of the '{@link #getEfficiency() <em>Efficiency</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -96,7 +75,7 @@ public class BackBoilerImpl extends BoilerImpl implements IBackBoiler {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int THERMOSTAT_FITTED_EFLAG = 1 << 12;
+	protected static final int THERMOSTAT_FITTED_EFLAG = 1 << 11;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -115,27 +94,6 @@ public class BackBoilerImpl extends BoilerImpl implements IBackBoiler {
 	@Override
 	protected EClass eStaticClass() {
 		return ITechnologiesPackage.Literals.BACK_BOILER;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public double getResponsiveness() {
-		return responsiveness;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setResponsiveness(double newResponsiveness) {
-		double oldResponsiveness = responsiveness;
-		responsiveness = newResponsiveness;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.BACK_BOILER__RESPONSIVENESS, oldResponsiveness, responsiveness));
 	}
 
 	/**
@@ -197,8 +155,6 @@ public class BackBoilerImpl extends BoilerImpl implements IBackBoiler {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ITechnologiesPackage.BACK_BOILER__RESPONSIVENESS:
-				return getResponsiveness();
 			case ITechnologiesPackage.BACK_BOILER__EFFICIENCY:
 				return getEfficiency();
 			case ITechnologiesPackage.BACK_BOILER__THERMOSTAT_FITTED:
@@ -215,9 +171,6 @@ public class BackBoilerImpl extends BoilerImpl implements IBackBoiler {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ITechnologiesPackage.BACK_BOILER__RESPONSIVENESS:
-				setResponsiveness((Double)newValue);
-				return;
 			case ITechnologiesPackage.BACK_BOILER__EFFICIENCY:
 				setEfficiency((Efficiency)newValue);
 				return;
@@ -236,9 +189,6 @@ public class BackBoilerImpl extends BoilerImpl implements IBackBoiler {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ITechnologiesPackage.BACK_BOILER__RESPONSIVENESS:
-				setResponsiveness(RESPONSIVENESS_EDEFAULT);
-				return;
 			case ITechnologiesPackage.BACK_BOILER__EFFICIENCY:
 				setEfficiency(EFFICIENCY_EDEFAULT);
 				return;
@@ -257,8 +207,6 @@ public class BackBoilerImpl extends BoilerImpl implements IBackBoiler {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ITechnologiesPackage.BACK_BOILER__RESPONSIVENESS:
-				return responsiveness != RESPONSIVENESS_EDEFAULT;
 			case ITechnologiesPackage.BACK_BOILER__EFFICIENCY:
 				return EFFICIENCY_EDEFAULT == null ? efficiency != null : !EFFICIENCY_EDEFAULT.equals(efficiency);
 			case ITechnologiesPackage.BACK_BOILER__THERMOSTAT_FITTED:
@@ -281,7 +229,6 @@ public class BackBoilerImpl extends BoilerImpl implements IBackBoiler {
 		}
 		if (baseClass == IRoomHeater.class) {
 			switch (derivedFeatureID) {
-				case ITechnologiesPackage.BACK_BOILER__RESPONSIVENESS: return ITechnologiesPackage.ROOM_HEATER__RESPONSIVENESS;
 				case ITechnologiesPackage.BACK_BOILER__EFFICIENCY: return ITechnologiesPackage.ROOM_HEATER__EFFICIENCY;
 				case ITechnologiesPackage.BACK_BOILER__THERMOSTAT_FITTED: return ITechnologiesPackage.ROOM_HEATER__THERMOSTAT_FITTED;
 				default: return -1;
@@ -304,7 +251,6 @@ public class BackBoilerImpl extends BoilerImpl implements IBackBoiler {
 		}
 		if (baseClass == IRoomHeater.class) {
 			switch (baseFeatureID) {
-				case ITechnologiesPackage.ROOM_HEATER__RESPONSIVENESS: return ITechnologiesPackage.BACK_BOILER__RESPONSIVENESS;
 				case ITechnologiesPackage.ROOM_HEATER__EFFICIENCY: return ITechnologiesPackage.BACK_BOILER__EFFICIENCY;
 				case ITechnologiesPackage.ROOM_HEATER__THERMOSTAT_FITTED: return ITechnologiesPackage.BACK_BOILER__THERMOSTAT_FITTED;
 				default: return -1;

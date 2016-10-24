@@ -67,7 +67,7 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int CHARGING_USAGE_BASED_EFLAG = 1 << 9;
+	protected static final int CHARGING_USAGE_BASED_EFLAG = 1 << 8;
 
 	/**
 	 * The default value of the '{@link #getHeatEfficiency() <em>Heat Efficiency</em>}' attribute.
@@ -372,11 +372,6 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 	}
 
 	@Override
-	public double getResponsivenessImpl(final IConstants parameters, final EList<HeatingSystemControlType> controls, final EmitterType emitterType) {
-		return 1;
-	}
-
-	@Override
 	public double getDemandTemperatureAdjustment(final IInternalParameters parameters, final EList<HeatingSystemControlType> controlTypes) {
 
 		if (!isChargingUsageBased()) {
@@ -462,5 +457,11 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 	@Override
 	public boolean isCommunityHeating() {
 		return true;
+	}
+
+	@Override
+	public double getResponsiveness(IConstants parameters, EList<HeatingSystemControlType> controls,
+			EmitterType emitterType) {
+		return 1;
 	}
 } // CommunityHeatSourceImpl

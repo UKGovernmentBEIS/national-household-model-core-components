@@ -31,7 +31,7 @@ import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
  * @model abstract="true"
  * @generated
  */
-public interface IHeatSource extends IFuelAndFlue, IOperationalCost, IHasOverrideResponsiveness, IHasInstallationYear {
+public interface IHeatSource extends IFuelAndFlue, IOperationalCost, IHasInstallationYear {
 	/**
 	 * Returns the value of the '<em><b>Water Heater</b></em>' reference.
 	 * It is bidirectional and its opposite is '{@link uk.org.cse.nhm.hom.emf.technologies.IMainWaterHeater#getHeatSource <em>Heat Source</em>}'.

@@ -35,7 +35,6 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.RoomHeaterImpl#getFuel <em>Fuel</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.RoomHeaterImpl#getFlueType <em>Flue Type</em>}</li>
- *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.RoomHeaterImpl#getResponsiveness <em>Responsiveness</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.RoomHeaterImpl#getEfficiency <em>Efficiency</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.RoomHeaterImpl#isThermostatFitted <em>Thermostat Fitted</em>}</li>
  * </ul>
@@ -136,26 +135,6 @@ public class RoomHeaterImpl extends SpaceHeaterImpl implements IRoomHeater {
 	 * @ordered
 	 */
 	protected static final int FLUE_TYPE_EFLAG = 0x7 << FLUE_TYPE_EFLAG_OFFSET;
-
-	/**
-	 * The default value of the '{@link #getResponsiveness() <em>Responsiveness</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getResponsiveness()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final double RESPONSIVENESS_EDEFAULT = 0.0;
-
-	/**
-	 * The cached value of the '{@link #getResponsiveness() <em>Responsiveness</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getResponsiveness()
-	 * @generated
-	 * @ordered
-	 */
-	protected double responsiveness = RESPONSIVENESS_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getEfficiency() <em>Efficiency</em>}' attribute.
@@ -265,27 +244,6 @@ public class RoomHeaterImpl extends SpaceHeaterImpl implements IRoomHeater {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public double getResponsiveness() {
-		return responsiveness;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setResponsiveness(double newResponsiveness) {
-		double oldResponsiveness = responsiveness;
-		responsiveness = newResponsiveness;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.ROOM_HEATER__RESPONSIVENESS, oldResponsiveness, responsiveness));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public Efficiency getEfficiency() {
 		return efficiency;
 	}
@@ -387,8 +345,6 @@ public class RoomHeaterImpl extends SpaceHeaterImpl implements IRoomHeater {
 				return getFuel();
 			case ITechnologiesPackage.ROOM_HEATER__FLUE_TYPE:
 				return getFlueType();
-			case ITechnologiesPackage.ROOM_HEATER__RESPONSIVENESS:
-				return getResponsiveness();
 			case ITechnologiesPackage.ROOM_HEATER__EFFICIENCY:
 				return getEfficiency();
 			case ITechnologiesPackage.ROOM_HEATER__THERMOSTAT_FITTED:
@@ -410,9 +366,6 @@ public class RoomHeaterImpl extends SpaceHeaterImpl implements IRoomHeater {
 				return;
 			case ITechnologiesPackage.ROOM_HEATER__FLUE_TYPE:
 				setFlueType((FlueType)newValue);
-				return;
-			case ITechnologiesPackage.ROOM_HEATER__RESPONSIVENESS:
-				setResponsiveness((Double)newValue);
 				return;
 			case ITechnologiesPackage.ROOM_HEATER__EFFICIENCY:
 				setEfficiency((Efficiency)newValue);
@@ -438,9 +391,6 @@ public class RoomHeaterImpl extends SpaceHeaterImpl implements IRoomHeater {
 			case ITechnologiesPackage.ROOM_HEATER__FLUE_TYPE:
 				setFlueType(FLUE_TYPE_EDEFAULT);
 				return;
-			case ITechnologiesPackage.ROOM_HEATER__RESPONSIVENESS:
-				setResponsiveness(RESPONSIVENESS_EDEFAULT);
-				return;
 			case ITechnologiesPackage.ROOM_HEATER__EFFICIENCY:
 				setEfficiency(EFFICIENCY_EDEFAULT);
 				return;
@@ -463,8 +413,6 @@ public class RoomHeaterImpl extends SpaceHeaterImpl implements IRoomHeater {
 				return (flags & FUEL_EFLAG) != FUEL_EFLAG_DEFAULT;
 			case ITechnologiesPackage.ROOM_HEATER__FLUE_TYPE:
 				return (flags & FLUE_TYPE_EFLAG) != FLUE_TYPE_EFLAG_DEFAULT;
-			case ITechnologiesPackage.ROOM_HEATER__RESPONSIVENESS:
-				return responsiveness != RESPONSIVENESS_EDEFAULT;
 			case ITechnologiesPackage.ROOM_HEATER__EFFICIENCY:
 				return EFFICIENCY_EDEFAULT == null ? efficiency != null : !EFFICIENCY_EDEFAULT.equals(efficiency);
 			case ITechnologiesPackage.ROOM_HEATER__THERMOSTAT_FITTED:
@@ -531,8 +479,6 @@ public class RoomHeaterImpl extends SpaceHeaterImpl implements IRoomHeater {
 		result.append(FUEL_EFLAG_VALUES[(flags & FUEL_EFLAG) >>> FUEL_EFLAG_OFFSET]);
 		result.append(", flueType: ");
 		result.append(FLUE_TYPE_EFLAG_VALUES[(flags & FLUE_TYPE_EFLAG) >>> FLUE_TYPE_EFLAG_OFFSET]);
-		result.append(", responsiveness: ");
-		result.append(responsiveness);
 		result.append(", efficiency: ");
 		result.append(efficiency);
 		result.append(", thermostatFitted: ");

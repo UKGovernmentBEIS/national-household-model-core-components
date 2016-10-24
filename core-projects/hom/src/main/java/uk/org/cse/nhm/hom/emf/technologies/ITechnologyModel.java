@@ -32,7 +32,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
  *
  * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getTechnologyModel()
  * @model
- * @generated no
+ * @generated no 
  */
 @JsonTypeInfo(use = Id.NONE)
 public interface ITechnologyModel extends IVisitorAccepter, ICopyable<ITechnologyModel> {

@@ -194,17 +194,8 @@ public class BoilersPackageImpl extends EPackageImpl implements IBoilersPackage 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getBoiler_BasicResponsiveness() {
-		return (EAttribute)boilerEClass.getEStructuralFeatures().get(4);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getBoiler_PumpInHeatedSpace() {
-		return (EAttribute)boilerEClass.getEStructuralFeatures().get(5);
+		return (EAttribute)boilerEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -330,7 +321,6 @@ public class BoilersPackageImpl extends EPackageImpl implements IBoilersPackage 
 		createEAttribute(boilerEClass, BOILER__WINTER_EFFICIENCY);
 		createEAttribute(boilerEClass, BOILER__CONDENSING);
 		createEAttribute(boilerEClass, BOILER__WEATHER_COMPENSATED);
-		createEAttribute(boilerEClass, BOILER__BASIC_RESPONSIVENESS);
 		createEAttribute(boilerEClass, BOILER__PUMP_IN_HEATED_SPACE);
 
 		cpsuEClass = createEClass(CPSU);
@@ -398,7 +388,6 @@ public class BoilersPackageImpl extends EPackageImpl implements IBoilersPackage 
 		initEAttribute(getBoiler_WinterEfficiency(), theTechnologiesPackage.getEfficiency(), "winterEfficiency", null, 1, 1, IBoiler.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getBoiler_Condensing(), ecorePackage.getEBoolean(), "condensing", null, 1, 1, IBoiler.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getBoiler_WeatherCompensated(), ecorePackage.getEBoolean(), "weatherCompensated", null, 1, 1, IBoiler.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getBoiler_BasicResponsiveness(), ecorePackage.getEDouble(), "basicResponsiveness", "1", 1, 1, IBoiler.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getBoiler_PumpInHeatedSpace(), ecorePackage.getEBoolean(), "pumpInHeatedSpace", null, 1, 1, IBoiler.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(cpsuEClass, ICPSU.class, "CPSU", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
