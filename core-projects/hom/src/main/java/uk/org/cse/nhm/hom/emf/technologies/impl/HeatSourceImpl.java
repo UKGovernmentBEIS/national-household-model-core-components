@@ -497,13 +497,9 @@ public abstract class HeatSourceImpl extends MinimalEObjectImpl implements IHeat
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated no
 	 */
-	public double getResponsiveness(IConstants parameters, EList<HeatingSystemControlType> controls, EmitterType emitterType) {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
-	}
+	public abstract double getResponsiveness(IConstants parameters, EList<HeatingSystemControlType> controls, EmitterType emitterType);
 
 	protected final double getSAPTable4dResponsiveness(final IConstants constants, final EList<HeatingSystemControlType> controls, final EmitterType emitterType) {
 		return constants.get(ResponsivenessAdjustments.WET_SYSTEM_RESPONSIVENESS, emitterType);

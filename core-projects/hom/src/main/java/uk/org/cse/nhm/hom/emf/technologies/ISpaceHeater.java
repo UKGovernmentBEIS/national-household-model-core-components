@@ -8,7 +8,7 @@ import org.eclipse.emf.ecore.EObject;
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Space Heater</b></em>'.
  * 
- * Implementations of this should 
+ * Implementations of this should consider inheriting from IHeatingSystem.
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->

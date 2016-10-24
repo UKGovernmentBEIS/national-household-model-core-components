@@ -929,7 +929,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		UNIT: Unknown
 		SAP: Table 4a, 4d
 		BREDEM: Defers to SAP
-		DEPS: room-heater-responsiveness, storage-heater-responsiveness
+		DEPS: room-heater-responsiveness, storage-heater-responsiveness,wet-system-responsiveness
 		ID: responsiveness
 		CODSIEB
 		*/
