@@ -36,6 +36,7 @@ import uk.org.cse.nhm.language.definition.action.XHeatingScheduleAction.XHeating
 import uk.org.cse.nhm.language.definition.action.XHeatingTemperaturesAction;
 import uk.org.cse.nhm.language.definition.action.XHeatingTemperaturesAction.XMonth;
 import uk.org.cse.nhm.language.definition.action.XOrderedAction;
+import uk.org.cse.nhm.language.definition.action.XReducedInternalGainsAction;
 import uk.org.cse.nhm.language.definition.action.XRepeatAction;
 import uk.org.cse.nhm.language.definition.action.XSetInterzoneSpecificHeatTransferAction;
 import uk.org.cse.nhm.language.definition.action.XSetLivingAreaFractionAction;
@@ -145,6 +146,11 @@ public class ActionAdapter extends ReflectingAdapter {
 			 @Prop(XSetInterzoneSpecificHeatTransferAction.P.interzoneSpecificHeatTransfer) final IComponentsFunction<Number> interzoneSpecificHeatTransfer
 			 ) {
 		 return measureFactory.createInterzoneSpecificHeatTransferAction(interzoneSpecificHeatTransfer);
+	 }
+
+	 @Adapt(XReducedInternalGainsAction.class)
+	 public IComponentsAction buildReducedInternalGainsAction() {
+		 return measureFactory.createReducedInternalGainsAction();
 	 }
 	 
 	 @Adapt(XHeatingScheduleAction.class)

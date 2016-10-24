@@ -86,6 +86,20 @@ public enum EnergyCalculatorConstants implements IConstant {
 	*/
 	@ConstantDescription("The gains per occupant, in watts due to metabolism")
 	METABOLIC_GAINS_PER_PERSON(60.0),
+
+	/*
+	BEISDOC
+	NAME: Reduced Metabolic gains per person
+	DESCRIPTION: The heat gain per person due to human metabolism when using reduced internal gains. 
+	TYPE: value
+	UNIT: W/person
+	SAP: Table 5
+	SET: context.energy-constants
+	ID: metabolic-gains-per-person
+	CODSIEB
+	*/
+	@ConstantDescription("The gains per occupant, in watts due to metabolism")
+	REDUCED_METABOLIC_GAINS_PER_PERSON(50.0),
 	
 	/*
 	BEISDOC

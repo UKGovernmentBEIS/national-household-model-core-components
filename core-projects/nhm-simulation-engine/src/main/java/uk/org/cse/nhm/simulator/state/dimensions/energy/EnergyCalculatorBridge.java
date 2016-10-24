@@ -307,6 +307,27 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 			return siteExposure;
 		}
 		
+		public double getLatitudeRadians() {
+			return latitudeRadians;
+		}
+
+		@Override
+		public double getThermalBridgingCoefficient() {
+			return structure.getThermalBridgingCoefficient();
+		}
+
+		@Override
+		public boolean hasReducedInternalGains() {
+			switch (heatingBehaviour.getEnergyCalculatorType()) {
+			case SAP2012:
+				return false;
+			case BREDEM2012:
+				return structure.hasReducedInternalGains();	
+			default:
+				throw new UnsupportedOperationException("Unknown energy calculator type when trying to determine if we should use reduced internal gains " + heatingBehaviour.getEnergyCalculatorType());
+			}
+		}
+		
 		@Override
 		public int hashCode() {
 			return this.hash;
@@ -371,15 +392,6 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 			} else if (!weather.equals(other.weather))
 				return false;
 			return true;
-		}
-
-		public double getLatitudeRadians() {
-			return latitudeRadians;
-		}
-
-		@Override
-		public double getThermalBridgingCoefficient() {
-			return structure.getThermalBridgingCoefficient();
 		}
 	}
 	

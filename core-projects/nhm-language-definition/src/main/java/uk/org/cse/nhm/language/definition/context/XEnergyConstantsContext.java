@@ -235,6 +235,8 @@ public class XEnergyConstantsContext extends XContextParameter {
 		 EnergyCalculatorConstants_UNRESPONSIVE_HEATING_SYSTEM_DELTA_T(1),
 		@Doc("The gains per occupant, in watts due to metabolism - default is 60.000 ")
 		 EnergyCalculatorConstants_METABOLIC_GAINS_PER_PERSON(1),
+		 @Doc("The gains per occupant, in watts due to metabolism, when using reduced internal gains - default is 50.000 ")
+		 EnergyCalculatorConstants_REDUCED_METABOLIC_GAINS_PER_PERSON(1),
 		@Doc("The gains per occupant due to evaporation, in watts - default is 40.000 ")
 		 EnergyCalculatorConstants_EVAPORATION_GAINS_PER_PERSON(1),
 		@Doc("The thermal bridging coefficient used to estimate the thermal bridge contribution to heat loss parameter, for buildings which are older than the improvement year - default is 0.150 ")

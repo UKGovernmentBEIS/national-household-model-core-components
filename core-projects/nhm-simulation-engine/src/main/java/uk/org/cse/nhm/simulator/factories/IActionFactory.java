@@ -24,6 +24,7 @@ import uk.org.cse.nhm.simulator.action.IUnifiedReport;
 import uk.org.cse.nhm.simulator.action.ModifyFlagsAction;
 import uk.org.cse.nhm.simulator.action.OrderedChoiceAction;
 import uk.org.cse.nhm.simulator.action.OrderedPackageAction;
+import uk.org.cse.nhm.simulator.action.ReducedInternalGainsAction;
 import uk.org.cse.nhm.simulator.action.RepeatAction;
 import uk.org.cse.nhm.simulator.action.SetInterzoneSpecificHeatTransferAction;
 import uk.org.cse.nhm.simulator.action.SetLivingAreaFractionAction;
@@ -196,4 +197,6 @@ public interface IActionFactory {
 
 	public SetThermalBridgingFactorAction createThermalBridgingFactorAction(
 			@Assisted IComponentsFunction<Number> thermalBridgingFactor);
+
+	public ReducedInternalGainsAction createReducedInternalGainsAction();
 }

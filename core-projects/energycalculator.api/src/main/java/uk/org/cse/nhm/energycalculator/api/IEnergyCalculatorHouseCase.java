@@ -80,4 +80,9 @@ public interface IEnergyCalculatorHouseCase {
 	 * @since 6.4.0
 	 */
 	public double getThermalBridgingCoefficient();
+	
+	/**
+	 * @since 6.4.0
+	 */
+	public boolean hasReducedInternalGains();
 }

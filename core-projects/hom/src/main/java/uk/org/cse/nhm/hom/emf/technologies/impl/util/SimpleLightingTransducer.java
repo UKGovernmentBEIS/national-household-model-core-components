@@ -61,7 +61,10 @@ public class SimpleLightingTransducer implements IEnergyTransducer {
 		log.debug("Satisfying demand for {} W of light with {} W of electricity ({})", lightingDemand, powerDemand, proportion);
 		state.increaseElectricityDemand(getHighRateFraction(parameters), powerDemand);		
 		state.increaseSupply(EnergyType.DemandsVISIBLE_LIGHT, lightingDemand);
-		state.increaseSupply(EnergyType.GainsLIGHTING_GAINS, powerDemand);
+		state.increaseSupply(
+				EnergyType.GainsLIGHTING_GAINS, 
+				house.hasReducedInternalGains() ? (0.4 * powerDemand) : powerDemand
+					);
 	}
 
 	private double getHighRateFraction(final IInternalParameters parameters) {

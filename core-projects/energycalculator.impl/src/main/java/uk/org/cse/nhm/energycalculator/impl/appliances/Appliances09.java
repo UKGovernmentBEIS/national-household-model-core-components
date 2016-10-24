@@ -89,7 +89,10 @@ public class Appliances09 implements IEnergyTransducer {
 		if (log.isDebugEnabled()) log.debug("Monthly adjustment = {} (adjusted = {})", monthlyAdjustment, adjustedDemand);
 		
 		state.increaseElectricityDemand(APPLIANCE_HIGH_RATE_FRACTION[parameters.getTarrifType().ordinal()], adjustedDemand);
-		state.increaseSupply(EnergyType.GainsAPPLIANCE_GAINS, adjustedDemand);
+		state.increaseSupply(
+				EnergyType.GainsAPPLIANCE_GAINS, 
+				house.hasReducedInternalGains() ? (0.6 * adjustedDemand) : adjustedDemand
+					);
 	}
 
 	private double getApplianceDemandCoefficient(IInternalParameters parameters) {
