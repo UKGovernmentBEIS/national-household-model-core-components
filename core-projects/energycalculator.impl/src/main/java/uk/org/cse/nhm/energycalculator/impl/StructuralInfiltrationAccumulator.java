@@ -98,13 +98,11 @@ public class StructuralInfiltrationAccumulator implements IStructuralInfiltratio
 		SAP: (15)
 		BREDEM: Table 19
 		DEPS: window-infiltration-constant,draught-stripped-factor-constant,draught-stripped-proportion
-		GET:
-		SET:
 		STOCK: ventilation.csv (windowsanddoorsdraughtstrippedproportion)
 		ID: window-infiltration
 		CODSIEB
 		*/
-		final double windowAirChanges = WINDOW_INFILTRATION - DRAUGHT_STRIPPED_FACTOR * house.getDraughtStrippedProportion();
+		final double windowAirChanges = WINDOW_INFILTRATION - (DRAUGHT_STRIPPED_FACTOR * house.getDraughtStrippedProportion());
 		
 		if (log.isDebugEnabled()) {
 			log.debug("Fan ventilation {} ach/hr", fanAirChanges);

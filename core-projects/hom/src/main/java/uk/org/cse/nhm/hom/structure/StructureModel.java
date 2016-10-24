@@ -91,11 +91,10 @@ public class StructureModel implements ICopyable<StructureModel> {
 	TYPE: value
 	UNIT: dimensionless
 	SAP: (14)
-	DEPS: 
-	GET:
+	BREDEM: 3D, Table 19
 	SET: measure.install-draught-proofing
 	STOCK: ventilation.csv (windowsanddoorsdraughtstrippedproportion)
-	NOTES: TODO windows and doors handled individually in BREDEM
+	NOTES: We do not have the information required to implement the BREDEM 2012 algorithm, so we use the SAP 2012 algorithm in both energy calculator modes. 
 	ID: draught-stripped-proportion
 	CODSIEB
 	*/
