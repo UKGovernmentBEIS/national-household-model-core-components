@@ -277,7 +277,7 @@ public class BackBoilerImpl extends BoilerImpl implements IBackBoiler {
 	 */
 	public void accept(IConstants constants, final IEnergyCalculatorParameters parameters, final IEnergyCalculatorVisitor visitor, final AtomicInteger heatingSystemCounter, IHeatProportions heatProportions) {
 		super.accept(constants, parameters, visitor, heatingSystemCounter, heatProportions);
-		RoomHeaterImpl.accept(this,constants, parameters, visitor, heatingSystemCounter, heatProportions);
+		RoomHeaterImpl.accept(this,constants, parameters, visitor, heatingSystemCounter, heatProportions, true);
 	}
 
 } //BackBoilerImpl

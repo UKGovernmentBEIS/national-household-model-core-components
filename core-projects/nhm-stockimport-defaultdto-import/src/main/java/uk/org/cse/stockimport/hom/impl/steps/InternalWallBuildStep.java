@@ -64,12 +64,7 @@ public class InternalWallBuildStep implements ISurveyCaseBuildStep {
 		}
 
 		@Override
-		public void addVentInfiltration(double infiltrationRate) {
-			
-		}
-
-		@Override
-		public void addFanInfiltration(double infiltrationRate) {
+		public void addFanInfiltration(int fans) {
 			
 		}
 
@@ -94,6 +89,15 @@ public class InternalWallBuildStep implements ISurveyCaseBuildStep {
 		public double getExternalArea() {
 			return externalArea;
 		}
+
+		@Override
+		public void addVentInfiltration(int vents) {}
+
+		@Override
+		public void addFlueInfiltration() {}
+
+		@Override
+		public void addChimneyInfiltration() {}
 	}
 	
 	@Override

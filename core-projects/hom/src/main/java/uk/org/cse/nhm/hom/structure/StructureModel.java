@@ -111,6 +111,9 @@ public class StructureModel implements ICopyable<StructureModel> {
     private double frontPlotDepth, frontPlotWidth;
     private double backPlotDepth, backPlotWidth;
     
+    private int intermittentFans;
+	private int passiveVents;
+    
     /*
 	BEISDOC
 	NAME: Sheltered sides
@@ -217,6 +220,8 @@ public class StructureModel implements ICopyable<StructureModel> {
     	copy.setInternalWallKValue(getInternalWallKValue());
     	copy.setHasLoft(getHasLoft());
     	copy.setReducedInternalGains(hasReducedInternalGains());
+    	copy.setIntermittentFans(getIntermittentFans());
+    	copy.setPassiveVents(getPassiveVents());
     	
     	for (final ElevationType et : ElevationType.values()) {
     		copy.setElevation(et, getElevations().get(et).copy());
@@ -295,6 +300,9 @@ public class StructureModel implements ICopyable<StructureModel> {
 	 * @param visitor the visitor to show heat loss surfaces to.
 	 */
 	public void accept(final IEnergyCalculatorVisitor visitor) {
+		visitor.addFanInfiltration(getIntermittentFans());
+		visitor.addVentInfiltration(getPassiveVents());
+		
 		final int storeyCount = storeys.size();
 		
 		/*
@@ -698,7 +706,22 @@ public class StructureModel implements ICopyable<StructureModel> {
 	public void setReducedInternalGains(final boolean reducedInternalGains) {
 		this.reducedInternalGains = reducedInternalGains;
 	}
+	
+    public int getIntermittentFans() {
+		return intermittentFans;
+	}
 
+	public void setIntermittentFans(int intermittentFans) {
+		this.intermittentFans = intermittentFans;
+	}
+
+	public int getPassiveVents() {
+		return passiveVents;
+	}
+
+	public void setPassiveVents(int passiveVents) {
+		this.passiveVents = passiveVents;
+	}
 
 	@Override
 	public int hashCode() {
@@ -723,6 +746,7 @@ public class StructureModel implements ICopyable<StructureModel> {
 		result = prime * result + (hasAccessToOutsideSpace ? 1231 : 1237);
 		result = prime * result + (hasDraughtLobby ? 1231 : 1237);
 		result = prime * result + (hasLoft ? 1231 : 1237);
+		result = prime * result + intermittentFans;
 		temp = Double.doubleToLongBits(internalWallArea);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(internalWallKValue);
@@ -736,6 +760,7 @@ public class StructureModel implements ICopyable<StructureModel> {
 		result = prime * result + numberOfShelteredSides;
 		result = prime * result + (onGasGrid ? 1231 : 1237);
 		result = prime * result + (ownsPartOfRoof ? 1231 : 1237);
+		result = prime * result + passiveVents;
 		result = prime * result + (reducedInternalGains ? 1231 : 1237);
 		result = prime * result + ((roofConstructionType == null) ? 0 : roofConstructionType.hashCode());
 		temp = Double.doubleToLongBits(roofInsulationThickness);
@@ -786,6 +811,8 @@ public class StructureModel implements ICopyable<StructureModel> {
 			return false;
 		if (hasLoft != other.hasLoft)
 			return false;
+		if (intermittentFans != other.intermittentFans)
+			return false;
 		if (Double.doubleToLongBits(internalWallArea) != Double.doubleToLongBits(other.internalWallArea))
 			return false;
 		if (Double.doubleToLongBits(internalWallKValue) != Double.doubleToLongBits(other.internalWallKValue))
@@ -805,6 +832,8 @@ public class StructureModel implements ICopyable<StructureModel> {
 		if (onGasGrid != other.onGasGrid)
 			return false;
 		if (ownsPartOfRoof != other.ownsPartOfRoof)
+			return false;
+		if (passiveVents != other.passiveVents)
 			return false;
 		if (reducedInternalGains != other.reducedInternalGains)
 			return false;

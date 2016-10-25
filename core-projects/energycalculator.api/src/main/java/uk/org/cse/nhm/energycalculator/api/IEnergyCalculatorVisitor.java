@@ -82,18 +82,28 @@ public interface IEnergyCalculatorVisitor {
 	public void addWallInfiltration(final double wallArea, final double airChangeRate);
 	
 	/**
-	 * Add the infiltration contribution from a vent / / flue etc.
+	 * Add the infiltration contribution from passive vents
 	 * 
-	 * @param infiltrationRate in cubic metres per hour
+	 * @param the number of vents 
 	 */
-	public void addVentInfiltration(final double infiltrationRate);
+	public void addVentInfiltration(final int vents);
 	
 	/**
-	 * Add the infiltration contribution from a fan (something which is forced)
-	 * 
-	 * @param infiltrationRate in cubic metres per hour
+	 * Add the infiltration contribution from a single open flue.
 	 */
-	public void addFanInfiltration(final double infiltrationRate);
+	public void addFlueInfiltration();
+	
+	/**
+	 * Add the infiltration contribution from a single chimney.
+	 */
+	public void addChimneyInfiltration(); 
+	
+	/**
+	 * Add the infiltration contribution from intermittent fans (something which is forced)
+	 * 
+	 * @param Number of fans
+	 */
+	public void addFanInfiltration(final int fans);
 	
 	/**
 	 * Add the infiltration contribution from a floor of the given area and ACH

@@ -23,7 +23,6 @@ import uk.org.cse.nhm.hom.constants.HeatingSystemConstants;
 import uk.org.cse.nhm.hom.constants.PumpAndFanConstants;
 import uk.org.cse.nhm.hom.constants.SolarConstants;
 import uk.org.cse.nhm.hom.constants.SplitRateConstants;
-import uk.org.cse.nhm.hom.constants.VentilationConstants;
 import uk.org.cse.nhm.hom.constants.adjustments.EfficiencyAdjustments;
 import uk.org.cse.nhm.hom.constants.adjustments.ResponsivenessAdjustments;
 import uk.org.cse.nhm.hom.constants.adjustments.TemperatureAdjustments;
@@ -201,8 +200,8 @@ public class MapEnum {
 	.put(XEnergyConstantType.PumpAndFanConstants_GAS_HEAT_PUMP_FLUE_FAN_WATTAGE, PumpAndFanConstants.GAS_HEAT_PUMP_FLUE_FAN_WATTAGE)
 	.put(XEnergyConstantType.PumpAndFanConstants_NO_ROOM_THERMOSTAT_MULTIPLIER, PumpAndFanConstants.NO_ROOM_THERMOSTAT_MULTIPLIER)
 	.put(XEnergyConstantType.PumpAndFanConstants_WARM_AIR_SYSTEM_VOLUME_MULTIPLIER, PumpAndFanConstants.WARM_AIR_SYSTEM_VOLUME_MULTIPLIER)
-	.put(XEnergyConstantType.VentilationConstants_OPEN_FLUE_VENTILATION_RATE, VentilationConstants.OPEN_FLUE_VENTILATION_RATE)
-	.put(XEnergyConstantType.VentilationConstants_CHIMNEY_VENTILATION_RATE, VentilationConstants.CHIMNEY_VENTILATION_RATE)
+	.put(XEnergyConstantType.EnergyCalculatorConstants_OPEN_FLUE_VENTILATION_RATE, EnergyCalculatorConstants.OPEN_FLUE_VENTILATION_RATE)
+	.put(XEnergyConstantType.EnergyCalculatorConstants_CHIMNEY_VENTILATION_RATE, EnergyCalculatorConstants.CHIMNEY_VENTILATION_RATE)
 	.put(XEnergyConstantType.HotWaterConstants09_BASE_VOLUME, HotWaterConstants09.BASE_VOLUME)
 	.put(XEnergyConstantType.HotWaterConstants09_PERSON_DEPENDENT_VOLUME, HotWaterConstants09.PERSON_DEPENDENT_VOLUME)
 	.put(XEnergyConstantType.HotWaterConstants09_ENERGY_PER_VOLUME, HotWaterConstants09.ENERGY_PER_VOLUME)

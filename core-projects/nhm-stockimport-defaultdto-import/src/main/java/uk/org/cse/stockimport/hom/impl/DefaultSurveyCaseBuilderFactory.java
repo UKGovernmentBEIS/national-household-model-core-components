@@ -11,6 +11,7 @@ import uk.org.cse.stockimport.hom.impl.steps.PeopleBuildStep;
 import uk.org.cse.stockimport.hom.impl.steps.RoofBuildStep;
 import uk.org.cse.stockimport.hom.impl.steps.StoreyBuildStep;
 import uk.org.cse.stockimport.hom.impl.steps.StructureInitializingBuildStep;
+import uk.org.cse.stockimport.hom.impl.steps.VentilationBuildStep;
 import uk.org.cse.stockimport.hom.impl.steps.WarningsStep;
 import uk.org.cse.stockimport.hom.impl.steps.imputation.DoorWranglingStep;
 import uk.org.cse.stockimport.hom.impl.steps.imputation.MainImputationStep;
@@ -41,6 +42,7 @@ public class DefaultSurveyCaseBuilderFactory implements ISurveyCaseBuilderFactor
         caseBuilder.addStep(new BasicAttributesBuildStep());
         caseBuilder.addStep(new AdditionalHouseCasePropertyStep());
         caseBuilder.addStep(new StructureInitializingBuildStep(new HousePropertyImputer(imputationSchema.getHousePropertyTables())));
+        caseBuilder.addStep(new VentilationBuildStep());
         caseBuilder.addStep(new StoreyBuildStep());
         caseBuilder.addStep(new ElevationBuildStep());
         caseBuilder.addStep(new RoofBuildStep());

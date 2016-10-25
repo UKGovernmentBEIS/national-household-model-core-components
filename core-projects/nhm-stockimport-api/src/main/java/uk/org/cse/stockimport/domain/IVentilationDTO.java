@@ -6,7 +6,15 @@ import uk.org.cse.stockimport.domain.schema.DTOField;
 /**
  * @since 1.0
  */
-@DTO(value = "ventilation", required=true)
+@DTO(
+		value = "ventilation",
+		description = {
+				"Used to setup details of the ventilation for the dwelling.",
+				"Note that the chimney fields are currently ignored (derived from heating systems instead).",
+				"Note that the ventilationsystem field is currently ignored (always treated as 'natural')."
+		},
+		required=true
+	)
 public interface IVentilationDTO extends IBasicDTO {
 	public static final String CHIMNEYSMAIN_FIELD = "ChimneysMainHeating";
 	public static final String CHIMNEYSOTHER_FIELD = "ChimneysOther";

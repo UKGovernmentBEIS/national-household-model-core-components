@@ -106,18 +106,29 @@ class Visitor implements IEnergyCalculatorVisitor {
 	}
 
 	@Override
-	public void addFanInfiltration(final double infiltrationRate) {
-		infiltration.addFanInfiltration(infiltrationRate);
+	public void addFanInfiltration(final int fans) {
+		infiltration.addFanInfiltration(fans);
 	}
 
 	@Override
 	public void addFloorInfiltration(final double floorArea, final double airChangeRate) {
 		infiltration.addFloorInfiltration(floorArea, airChangeRate);
 	}
+	
 
 	@Override
-	public void addVentInfiltration(final double infiltrationRate) {
-		infiltration.addVentInfiltration(infiltrationRate);
+	public void addVentInfiltration(int vents) {
+		infiltration.addVentInfiltration(vents);
+	}
+
+	@Override
+	public void addFlueInfiltration() {
+		infiltration.addFlueInfiltration();
+	}
+
+	@Override
+	public void addChimneyInfiltration() {
+		infiltration.addChimneyInfiltration();
 	}
 
 	@Override

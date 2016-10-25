@@ -315,7 +315,13 @@ public enum EnergyCalculatorConstants implements IConstant {
 	CODSIEB
 	*/
 	// The related categories are in the SiteExposureType enum.
-	SITE_EXPOSURE_FACTOR(new double[]{1.10, 1.05, 1.00, 0.95, 0.90})
+	SITE_EXPOSURE_FACTOR(new double[]{1.10, 1.05, 1.00, 0.95, 0.90}),
+	
+	@ConstantDescription("Ventilation rate for open flue")
+	OPEN_FLUE_VENTILATION_RATE(20.0), 
+	
+	@ConstantDescription("Ventilation rate for chimney.")
+	CHIMNEY_VENTILATION_RATE(40.0)
 	;
 	
 	private double[] multipleValues;

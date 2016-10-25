@@ -57,13 +57,7 @@ public class AreaAccumulator implements IEnergyCalculatorVisitor {
 	}
 
 	@Override
-	public void addVentInfiltration(double infiltrationRate) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void addFanInfiltration(double infiltrationRate) {
+	public void addFanInfiltration(int fans) {
 		// TODO Auto-generated method stub
 
 	}
@@ -84,6 +78,24 @@ public class AreaAccumulator implements IEnergyCalculatorVisitor {
 
 	public double getTotalArea() {
 		return totalArea;
+	}
+
+	@Override
+	public void addVentInfiltration(int vents) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addFlueInfiltration() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addChimneyInfiltration() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -186,9 +186,9 @@ public class XEnergyConstantsContext extends XContextParameter {
 		@Doc("The volume multiplier for a warm air system's circulating fan - default is 0.060 ")
 		 PumpAndFanConstants_WARM_AIR_SYSTEM_VOLUME_MULTIPLIER(1),
 		@Doc("Ventilation rate for open flue - default is 20.000 ")
-		 VentilationConstants_OPEN_FLUE_VENTILATION_RATE(1),
+		EnergyCalculatorConstants_OPEN_FLUE_VENTILATION_RATE(1),
 		@Doc("Ventilation rate for chimney. - default is 40.000 ")
-		 VentilationConstants_CHIMNEY_VENTILATION_RATE(1),
+		EnergyCalculatorConstants_CHIMNEY_VENTILATION_RATE(1),
 		@Doc("The volume of hot water used independent of the number of people in the house (liters) - default is 36.000 ")
 		 HotWaterConstants09_BASE_VOLUME(1),
 		@Doc("The volume of additional hot water use per person (liters per person) - default is 25.000 ")

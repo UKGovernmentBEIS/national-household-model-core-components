@@ -288,7 +288,7 @@ public class RoomHeaterImpl extends SpaceHeaterImpl implements IRoomHeater {
 	 * @generated not
 	 */
 	public void accept(IConstants constants, final IEnergyCalculatorParameters parameters, final IEnergyCalculatorVisitor visitor, final AtomicInteger heatingSystemCounter, IHeatProportions heatProportions) {
-		accept(this, constants, parameters, visitor, heatingSystemCounter, heatProportions);
+		accept(this, constants, parameters, visitor, heatingSystemCounter, heatProportions, false);
 	}
 	
 	/**
@@ -299,7 +299,7 @@ public class RoomHeaterImpl extends SpaceHeaterImpl implements IRoomHeater {
 	 * @param heatingSystemCounter
 	 * @param heatProportions 
 	 */
-	protected static void accept(final IRoomHeater self, final IConstants constants, final IEnergyCalculatorParameters parameters, final IEnergyCalculatorVisitor visitor, final AtomicInteger heatingSystemCounter, IHeatProportions heatProportions) {
+	protected static void accept(final IRoomHeater self, final IConstants constants, final IEnergyCalculatorParameters parameters, final IEnergyCalculatorVisitor visitor, final AtomicInteger heatingSystemCounter, IHeatProportions heatProportions, final boolean isBackBoiler) {
 		visitor.visitHeatingSystem(new RoomHeaterHeatingSystem(self), heatProportions.spaceHeatingProportion(self));
 		final double effectiveProportion = heatProportions.spaceHeatingProportion(self);
 		
@@ -324,11 +324,14 @@ public class RoomHeaterImpl extends SpaceHeaterImpl implements IRoomHeater {
 					);
 		}
 		
-		// TODO flue goes here; if we have a back boiler, it shouldn't have a flue
-		if (self.getFuel() != FuelType.ELECTRICITY) {
-			if (self.getFlueType() == FlueType.OPEN_FLUE || self.getFlueType() == FlueType.CHIMNEY) {
-				// these are the only kind of flue which cause ventilation
-				FlueVentilationHelper.addInfiltration(visitor, self.getFlueType(), constants);
+		if (!isBackBoiler) {
+			// Back boiler flue has already been added in BoilerImpl
+			
+			if (self.getFuel() != FuelType.ELECTRICITY) {
+				if (self.getFlueType() == FlueType.OPEN_FLUE || self.getFlueType() == FlueType.CHIMNEY) {
+					// these are the only kind of flue which cause ventilation
+					FlueVentilationHelper.addInfiltration(visitor, self.getFlueType(), constants);
+				}
 			}
 		}
 	}

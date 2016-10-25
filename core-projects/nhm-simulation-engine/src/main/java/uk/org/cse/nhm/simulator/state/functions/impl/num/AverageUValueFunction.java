@@ -64,10 +64,7 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 		public void addWallInfiltration(final double wallArea, final double airChangeRate) {}
 
 		@Override
-		public void addVentInfiltration(final double infiltrationRate) {}
-
-		@Override
-		public void addFanInfiltration(final double infiltrationRate) {}
+		public void addFanInfiltration(final int fans) {}
 
 		@Override
 		public void addFloorInfiltration(final double floorArea, final double airChangeRate) {}
@@ -83,6 +80,15 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 		public double getAverageUValue() {
 			return totalU / totalA;
 		}
+
+		@Override
+		public void addVentInfiltration(int vents) {}
+
+		@Override
+		public void addFlueInfiltration() {}
+
+		@Override
+		public void addChimneyInfiltration() {}
 	}
 	
 	@Override
