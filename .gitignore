@@ -13,10 +13,10 @@ gradle-app.setting
 # Stuff from p2 drone server
 org.eclipse.packagedrone.server-0.12.2/configuration/*.log
 
-# Eclipse built folders
+# Eclipse build folders
 **/target/
 /nhm-ide/workspace/
-**/bin/**
+## **/bin/**
 
 # Eclipse files
 **/.project
@@ -31,12 +31,12 @@ core-projects/nhm-stock-documentation/src/main/resources/variableref.xml
 /releases/
 
 # system tests
-/system-tests/**-log.txt
-/system-tests/.versions
-/system-tests/failed-tests
-/system-tests/**output.zip
-/system-tests/**.Rhistory
-/system-tests/**.csv
-/system-tests/**.pdf
-/system-tests/**.svg
-/system-tests/**.png
+system-tests/**/*-log.txt
+system-tests/.versions
+system-tests/failed-tests
+system-tests/**/*output.zip
+system-tests/**/*.Rhistory
+system-tests/**/*.csv
+system-tests/**/*.pdf
+system-tests/**/*.svg
+system-tests/**/*.png

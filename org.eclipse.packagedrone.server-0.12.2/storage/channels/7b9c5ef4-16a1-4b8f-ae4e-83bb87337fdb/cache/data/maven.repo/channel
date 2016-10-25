@@ -1,5 +1,109 @@
 {
   "root": {
-    "nodes": {}
+    "nodes": {
+      "uk": {
+        "type": "DirectoryNode",
+        "node": {
+          "nodes": {
+            "org": {
+              "type": "DirectoryNode",
+              "node": {
+                "nodes": {
+                  "cse": {
+                    "type": "DirectoryNode",
+                    "node": {
+                      "nodes": {
+                        "nhm": {
+                          "type": "DirectoryNode",
+                          "node": {
+                            "nodes": {
+                              "nhm-bundle-api": {
+                                "type": "DirectoryNode",
+                                "node": {
+                                  "nodes": {
+                                    "2.0.0": {
+                                      "type": "DirectoryNode",
+                                      "node": {
+                                        "nodes": {
+                                          "nhm-bundle-api-2.0.0.pom.sha1": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "NTdjZTkyYzg2Y2YxMGE4NDkwZThiMzYxMTE3ZTAwMzhhMDg2MDkzOA\u003d\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-bundle-api-2.0.0.pom": {
+                                            "type": "ArtifactNode",
+                                            "node": {
+                                              "artifactId": "8ca2c548-59a5-478b-a185-6f0b374bf592"
+                                            }
+                                          },
+                                          "nhm-bundle-api-2.0.0.jar.md5": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "ODIxMTcwNmRhYjMwZDdjOTM2ZDNmMjkzYTc4MDU1NTA\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-bundle-api-2.0.0.jar.sha1": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "NWNjYjcyYmYzMjZkOWM1YzcwZTAxYWQ0N2VjMzBkMzM0MDdmN2I5OQ\u003d\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-bundle-api-2.0.0.pom.md5": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "OGJjNWJiMTRmZWIyMzBmMWZjMmYzZTRmOGZkYzdhMzE\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-bundle-api-2.0.0.jar": {
+                                            "type": "ArtifactNode",
+                                            "node": {
+                                              "artifactId": "81c3d112-d6db-4416-a9b1-86b09449e322"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    "maven-metadata.xml.md5": {
+                                      "type": "DataNode",
+                                      "node": {
+                                        "data": "M2NmYjAzN2Q2MjNjMWI1YTFkMjViY2YxNGYwNGEzNWY\u003d",
+                                        "mimeType": "text/plain"
+                                      }
+                                    },
+                                    "maven-metadata.xml.sha1": {
+                                      "type": "DataNode",
+                                      "node": {
+                                        "data": "MGU1N2I2MzU1YWU3NjgzMDlhZTA2YWY5MDE3ODc3MWI3Y2U1ODIyNg\u003d\u003d",
+                                        "mimeType": "text/plain"
+                                      }
+                                    },
+                                    "maven-metadata.xml": {
+                                      "type": "DataNode",
+                                      "node": {
+                                        "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG08L2dyb3VwSWQ+CiAgPGFydGlmYWN0SWQ+bmhtLWJ1bmRsZS1hcGk8L2FydGlmYWN0SWQ+CiAgPHZlcnNpb25pbmc+CiAgICA8dmVyc2lvbnM+CiAgICAgIDx2ZXJzaW9uPjIuMC4wPC92ZXJzaW9uPgogICAgPC92ZXJzaW9ucz4KICAgIDxyZWxlYXNlPjIuMC4wPC9yZWxlYXNlPgogICAgPGxhdGVzdD4yLjAuMDwvbGF0ZXN0PgogICAgPGxhc3RVcGRhdGVkPjIwMTYxMDI0MTMyNDEyPC9sYXN0VXBkYXRlZD4KICA8L3ZlcnNpb25pbmc+CjwvbWV0YWRhdGE+Cg\u003d\u003d",
+                                        "mimeType": "application/xml"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
