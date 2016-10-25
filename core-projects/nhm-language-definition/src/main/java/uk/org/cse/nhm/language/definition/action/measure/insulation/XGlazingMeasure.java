@@ -21,7 +21,8 @@ import com.larkery.jasb.bind.BindNamedArgument;
 @Bind("measure.install-glazing")
 @Doc( { "Sets the values of glazed surfaces in the dwelling.",
 		"You can specify the type of glazing and provide additional parameters such as frame type and new u-values.",
-		"This will replace any existing glazing with the new type."
+		"This will replace any existing glazing with the new type.",
+		"This measure only affects windows - it has no effect on glazed doors."
 })
 @Unsuitability(alwaysSuitable = true)
 public class XGlazingMeasure extends XMeasure {

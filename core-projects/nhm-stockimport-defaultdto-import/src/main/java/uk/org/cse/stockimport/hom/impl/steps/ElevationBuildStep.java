@@ -131,6 +131,7 @@ public class ElevationBuildStep implements ISurveyCaseBuildStep {
      */
     protected void buildDoors(final IElevationDTO dto, final Elevation elevation) {
         final double doorArea = STD_DOOR_HEIGHT * STD_DOOR_WIDTH;
+        final GlazingType doorGlazingType = dto.getPercentageWindowDblGlazed() > 0.5 ? GlazingType.Double : GlazingType.Single;  
 
         for (final FrameType frameType : FrameType.values()) {
             for (final DoorType doorType : DoorType.values()) {
@@ -142,6 +143,10 @@ public class ElevationBuildStep implements ISurveyCaseBuildStep {
                         door.setDoorType(doorType);
                         door.setFrameType(frameType);
                         door.setArea(doorArea);
+                        
+                        if (doorType == DoorType.Glazed) {
+                        	door.setGlazingType(doorGlazingType);
+                        }
 
                         elevation.addDoor(door);
                     }
@@ -167,7 +172,7 @@ public class ElevationBuildStep implements ISurveyCaseBuildStep {
                     ONE,
                     GlazingType.Double,
                     get(dto.getDoubleGlazedWindowFrame(), "double glazing frame type")));
-            logger.debug("buildWindowsForElevation(): 100% double glazed buidling window", elevation);
+            logger.debug("buildWindowsForElevation(): 100% double glazed building window", elevation);
         } else if (percentDoubleGlazed > 0) {
             final double areaOfDoubleGlazedWindow = ONE * (percentDoubleGlazed / 100);
             final double areaOfSingleGlazedWindow = ONE - areaOfDoubleGlazedWindow;

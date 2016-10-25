@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.energycalculator.api.types.AreaType;
 import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
+import uk.org.cse.nhm.hom.components.fabric.types.DoorType;
 import uk.org.cse.nhm.hom.structure.Door;
 import uk.org.cse.nhm.hom.structure.Glazing;
 import uk.org.cse.nhm.hom.structure.IElevation;
@@ -250,28 +251,55 @@ public class Elevation implements IElevation {
 		SET: action.reset-doors
 		STOCK: elevations.csv (doorframe, tenthsopening), imputation schema (doors)
 		ID: door-element
-		NOTES: Semi-glazed doors are not implemented. Doors are distributed amongst walls based on the opening proportion for this elevation in the stock, as per the CHM method. Some doors may be omitted if the total area of doors is greater than the area allowed by this openingProportion.  
+		NOTES: Doors are distributed amongst walls based on the opening proportion for this elevation in the stock, as per the CHM method. 
+		NOTES: Some doors may be omitted if the total area of doors is greater than the area allowed by this openingProportion.  
 		CODSIEB
 		*/
 		private double totalDoorArea = 0;
 		private double totalDoorHeatLossArea = 0;
+		
+		private final double meanDoorLightTransmissionPerArea;
+		private final double meanDoorGainsTransmissionPerArea;
+		
 		private double remainingDoorArea;
 		public CHMDoorVisitor() {
+			double totalDoorLightTransmissionArea = 0;
+			double totalDoorGainsTransmissionArea = 0;
+			
 			for (final Door d : doors) {
 				totalDoorArea += d.getArea();
 				totalDoorHeatLossArea += d.getArea() * d.getuValue();
+				
+				if (d.getDoorType() == DoorType.Glazed) {
+					totalDoorLightTransmissionArea += d.getArea() * d.getFrameFactor() * d.getLightTransmissionFactor();
+					totalDoorGainsTransmissionArea += d.getArea() * d.getFrameFactor() * d.getGainsTransmissionFactor();
+				}
 			}
 			remainingDoorArea = totalDoorArea;
+			
+			meanDoorLightTransmissionPerArea = totalDoorLightTransmissionArea / totalDoorArea;
+			meanDoorGainsTransmissionPerArea = totalDoorGainsTransmissionArea / totalDoorArea;
 		}
 		@Override
 		public double visitDoors(final IEnergyCalculatorVisitor visitor, final double wallArea) {
 			if (!hasMoreDoors()) return 0;
 			final double openingArea = openingProportion * wallArea;
 			final double doorArea = Math.min(openingArea, remainingDoorArea);
+			
 			visitor.visitFabricElement(AreaType.Door, 
 					doorArea,
 					(totalDoorHeatLossArea / totalDoorArea), 0);
 			remainingDoorArea -= doorArea;
+			
+			visitor.visitTransparentElement(
+					doorArea * meanDoorLightTransmissionPerArea,
+					doorArea * meanDoorGainsTransmissionPerArea,
+					ANGLE_FROM_HORIZONTAL, 
+					angleFromNorth,
+					overshading
+					);
+
+			
 			return doorArea;
 		}
 		
