@@ -26,3 +26,17 @@ org.eclipse.packagedrone.server-0.12.2/configuration/*.log
 ## Stock documentation generated files
 core-projects/nhm-stock-documentation/src/main/resources/stockref.xml
 core-projects/nhm-stock-documentation/src/main/resources/variableref.xml
+
+# release folder
+/releases/
+
+# system tests
+/system-tests/**-log.txt
+/system-tests/.versions
+/system-tests/failed-tests
+/system-tests/**output.zip
+/system-tests/**.Rhistory
+/system-tests/**.csv
+/system-tests/**.pdf
+/system-tests/**.svg
+/system-tests/**.png

@@ -1,0 +1,23 @@
+* NHM System Tests
+
+  The NHM has been needing a bunch of whole-system tests for a while; we have integration tests, and also the clojure test system, but these are both complicated and annoying.
+
+  This repository contains a simpler replacement. Each test is stored in a subdirectory; each subdirectory should contain a file called =main.nhm=, and a test script called =tests.R=. The main part of the system is the shell script =run-tests.sh=; this will enter each subdirectory, run the model, get the outputs, check there are no system errors in the NHM, start R, load all the output tables into R, and then evaluate the given tests against them.
+
+* Dependencies
+
+  The main script depends on:
+
+  - bash [to run at all]
+  - mvn  [to download NHM versions]
+  - R    [to run the test scripts]
+
+* Future features?
+
+  - Amend the script to let you run a single test
+    - ... and drop you into an R shell to look at the outputs
+  - Amend the script to import stocks as part of a test
+  - Allow tests to be sorted into subfolders
+  - Do something to log the results for past versions
+  - Allow testing of the run-time for scenarios, to prevent big regressions in speed
+

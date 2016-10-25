@@ -1,0 +1,70 @@
+(scenario
+    start-date:01/01/2014
+    end-date:01/01/2014
+    stock-id:../../EHS2012.json.gz
+    
+    ;; todo does not check by-service
+    
+    ;; add tariffs to make fuel costs nonzero
+    
+    (context.tariffs
+        defaults:
+        (tariff.simple name: asdf
+                       (function.simple-pricing
+                           fuel: PeakElectricity
+                           unit-price: 1
+                           standing-charge: 1)
+                       (function.simple-pricing
+                           fuel: OffPeakElectricity
+                           unit-price: 1
+                           standing-charge: 1)
+                       )
+        )
+    
+    (on.dates (scenario-start)
+              (CHECK house.energy-use)
+              (CHECK house.fuel-cost)
+              (CHECK house.emissions))
+    
+    (template CHECK [@1]
+              (EQUALS name: (~join sum-equals- @1)
+                      (@1 by-fuel: electricity)
+                      (+ (@1 by-fuel: peakelectricity)
+                         (@1 by-fuel: offpeakelectricity))
+                      )
+              (EQUALS name:(~join total-excludes- @1)
+                      (@1)
+                      (SUM-OVER @1))
+              
+              (aggregate name: @1
+                         (aggregate.mean name:electricity (@1 by-fuel: electricity))
+                         (aggregate.mean name:peak (@1 by-fuel: peakelectricity))
+                         (aggregate.mean name:offpeak (@1 by-fuel: offpeakelectricity))))
+    
+    (template EQUALS [@1 @2 @name]
+              (assert name:@name
+                      capture: [@1 @2]
+                      over: all-houses
+                      (< -0.01 (- @1 @2) 0.01)))
+    
+    
+    (template SUM-OVER [@1]
+              ;; except electricity
+              (+
+                  (@1 by-fuel:MainsGas)
+                  (@1 by-fuel:BulkLPG)
+                  (@1 by-fuel:BottledLPG)
+                  (@1 by-fuel:PeakElectricity)
+                  (@1 by-fuel:OffPeakElectricity)
+                  (@1 by-fuel:ExportedElectricity)
+                  (@1 by-fuel:Oil)
+                  (@1 by-fuel:BiomassPellets)
+                  (@1 by-fuel:BiomassWoodchip)
+                  (@1 by-fuel:BiomassWood)
+                  (@1 by-fuel:Photons)
+                  (@1 by-fuel:HouseCoal)
+                  (@1 by-fuel:CommunityHeat))
+              ))
+
+
+

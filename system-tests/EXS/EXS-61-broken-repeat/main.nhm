@@ -1,0 +1,18 @@
+(scenario
+ start-date: 01/01/2015
+ end-date:   01/01/2015
+ stock-id:   ../../EHS2012.json.gz
+ quantum:    1000000
+
+ (def var1 on:simulation default:0)
+ (def var2 on:simulation default:0)
+
+ (on.dates scenario-start
+   (repeat
+     (set var1 (+ 1 var1))
+     (set var2 (+ 1 var2))
+     (aggregate name:vars (aggregate.mean name:var1 var1)
+                          (aggregate.mean name:var2 var2))
+     until: (> var1 9)
+     preserving: [var1 var2]
+   )))

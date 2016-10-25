@@ -1,0 +1,19 @@
+(scenario
+ start-date: 01/01/2015
+ end-date: 01/01/2015
+ stock-id: ../../EHS2012.json.gz
+ ;; We want one dwelling per survey case.
+ quantum: 999999
+
+
+  (def-action test-action (action.do-nothing update-flags:got-flag))
+
+
+   (on.dates scenario-start
+             (apply to:(filter (house.is-suitable-for #test-action))
+                    #test-action)
+             (aggregate name:output
+                        (aggregate.count name:count-all)
+                        (aggregate.where name:count-suitable (house.is-suitable-for #test-action))
+                        (aggregate.where name:count-match (house.flags-match got-flag))
+             )))

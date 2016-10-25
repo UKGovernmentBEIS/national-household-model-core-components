@@ -1,0 +1,15 @@
+(scenario
+    start-date:2015
+    end-date:2015
+    stock-id: ../../EHS2012.json.gz
+
+    (on.dates 2015
+       (assert
+        (= (summarize
+            (aggregate.count)
+            (filter (house.region-is London))
+           )
+           (summarize
+            (aggregate.count)
+            (house.region-is London)
+           )))))

@@ -1,0 +1,14 @@
+(scenario
+ start-date: 2016
+ end-date: 2016
+ stock-id:   ../../EHS2012.json.gz
+ weight-by: 1
+
+  (def-report report
+    (column name: weight value: (house.weight) summary: [(mean)]))
+
+  (on.dates
+   [(scenario-start)]
+
+   (apply
+    (send-to-report #report))))

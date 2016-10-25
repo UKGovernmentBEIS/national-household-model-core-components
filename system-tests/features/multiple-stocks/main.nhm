@@ -1,0 +1,8 @@
+(scenario
+    start-date:2015
+    end-date:2015
+    stock-id: [a.stock b.stock a.stock]
+    quantum:10000
+
+    (on.dates (scenario-start)
+       (apply (probe name: p capture: (house.survey-code name:aacode)))))
