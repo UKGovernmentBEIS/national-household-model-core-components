@@ -1,0 +1,18 @@
+(scenario
+ start-date: 2015
+ end-date:   2015
+ stock-id:   ../../EHS2012.json.gz
+ quantum:    1000000
+
+ (def-action the-measure
+   (measure.standard-boiler capex:1000))
+
+ (on.dates
+  (scenario-start)
+  (apply to: (sample 10000 (filter (house.is-suitable-for #the-measure)))
+         (probe name:probe capture: (capital-cost name:capex) #the-measure))
+  (aggregate name:sum-transactions
+             (aggregate.sum name:all (house.sum-transactions tags: "*"))
+             (aggregate.sum name:none (house.sum-transactions tags: "!*"))
+             (aggregate.sum name:capex1 (house.sum-transactions tags: "capex"))
+             (aggregate.sum name:capex2 (house.sum-transactions tags: ":CAPEX")))))

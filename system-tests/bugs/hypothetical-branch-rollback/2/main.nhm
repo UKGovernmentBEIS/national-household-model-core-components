@@ -1,0 +1,21 @@
+;; this is to check the behaviour fixed in
+;; nhm-simulation-logic/892741cbee86b6eff3107f86827d2f730317f3ca
+
+(scenario
+    start-date: 2015
+    end-date:   2015
+    stock-id:   ../../../EHS2012.json.gz
+    quantum:    1000000
+
+    (def x on:house default:0)
+
+    ;; this was the original fault
+    (on.dates scenario-start
+    (apply
+       (in-order objective: 1
+                 (do (set #x 9)
+                 (probe name: in-order capture: (rise-in #x name: D)
+                        (set x 2)
+                        ))))
+    )
+)

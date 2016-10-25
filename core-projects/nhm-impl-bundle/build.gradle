@@ -7,38 +7,6 @@ plugins {
 apply plugin: 'java'
 apply plugin: 'org.dm.bundle'
 
-// this is a small bit of horror designed to let us remove files from a zipfile
-
-import java.util.*;
-import java.net.URI;
-import java.nio.file.Path;
-import java.nio.file.*;
-import java.nio.file.StandardCopyOption;
-
-def removeFromZip (file, things) {
-  FileSystems
-  .newFileSystem(URI.create("jar:file:${file}"), ["create": "false"])
-  .withCloseable {
-    def jar = it
-    def remove = []
-    def v = [ visitFile:
-        {f, a ->
-            things.each { if (it.matcher(f.toString()).matches()) remove << f }
-            FileVisitResult.CONTINUE} ] as SimpleFileVisitor<Path>
-    try {
-      jar.rootDirectories.each {
-          Files.walkFileTree(it, v)
-      }
-
-      println ">> Deleting files from zip"
-      remove.each{ println it
-                   Files.delete(it) }
-      } catch (e) {
-      logger.error("Removing ${it} from ${file}: ${e.message}")
-    }
-  }
-}
-
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
@@ -81,16 +49,13 @@ dependencies {
   compile 'org.osgi:org.osgi.compendium:5.0.0'
   compile "org.eclipse.equinox:org.eclipse.equinox.common:3.6.0"
   compile project(':nhm-bundle-api')
-
-  //"uk.org.cse.nhm:bundle-api:2.0.0"
-
   embed nhm
 }
 
 repositories {
   mavenCentral()
   mavenLocal()
-  maven { url "http://localhost:8080/maven/7b9c5ef4-16a1-4b8f-ae4e-83bb87337fdb/"}
+  maven { url "http://localhost:8080/maven/7b9c5ef4-16a1-4b8f-ae4e-83bb87337fdb/" }
 }
 
 bundle {
@@ -110,16 +75,66 @@ bundle {
     ]
 }
 
+
+// the combined jar file will end up containing various files we do not want, so
+// the following code filters these files out after the jar has been created
+
 ext.badFiles = [
     ~'^/META-INF/ECLIPSE_\\.RSA$', // if we have a signature, that is bad
+
     ~'.+\\.sav$', // at the moment we have some sav files in the result. bad.
     ~'.+\\.spv$', // this is related in some way.
-    ~'^/org/apache/poi/xslf/usermodel/presetShapeDefinitions\\.xml$' // this is something to do with poi which we shouldn't really need. I think it's the shapes for things you can draw in office.
+
+    // this is something to do with poi which we shouldn't really need. I think it's the shapes for things you can draw in office.
+    ~'^/org/apache/poi/xslf/usermodel/presetShapeDefinitions\\.xml$'
   ]
+
+import java.util.*;
+import java.net.URI;
+import java.nio.file.Path;
+import java.nio.file.*;
+import java.nio.file.StandardCopyOption;
+
+def removeFromZip (file, things) {
+  FileSystems
+  .newFileSystem(URI.create("jar:file:${file}"), ["create": "false"])
+  .withCloseable {
+    def jar = it
+    def remove = []
+    def v = [ visitFile:
+        {f, a ->
+            things.each { if (it.matcher(f.toString()).matches()) remove << f }
+            FileVisitResult.CONTINUE} ] as SimpleFileVisitor<Path>
+    try {
+      jar.rootDirectories.each {
+          Files.walkFileTree(it, v)
+      }
+
+      println ">> Deleting files from zip"
+      remove.each{ println it
+                   Files.delete(it) }
+      } catch (e) {
+      logger.error("Removing ${it} from ${file}: ${e.message}")
+    }
+  }
+}
 
 jar << { removeFromZip(jar.archivePath, badFiles) }
 
-// TODO we should publish the artifact
+// this is needed to get the build number w/timestamp into the resulting jar
+// in a way the CLI tools can access (a properties file on the classpath)
+
+processResources {
+    filesMatching('**/nhm-impl-bundle.properties') {
+        filter {
+           it.replace('@buildnumber@', project.ext.buildVersion)
+        }
+    }
+}
+
+// finally we produce a maven output
+// the POM needs changing as it naively depends on the dependencies above
+// but actually we have embedded some of them into the jar.
 
 publishing {
   publications {
@@ -145,11 +160,3 @@ publishing {
           }
           url "http://localhost:8080/maven/7b9c5ef4-16a1-4b8f-ae4e-83bb87337fdb/"
         }}}}}
-
-processResources {
-    filesMatching('**/nhm-impl-bundle.properties') {
-        filter {
-           it.replace('@buildnumber@', project.ext.buildVersion)
-        }
-    }
-}

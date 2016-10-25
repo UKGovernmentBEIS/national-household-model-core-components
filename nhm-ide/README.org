@@ -141,19 +141,4 @@ To run a thing in eclipse, you need a run configuration; the easiest way to get 
 If this has problems, you may need to make sure the run configuration has all the plugins it needs in it; this can end up wrong when a new build of the implementation plugin happens.
 
 To do this, open the run configurations window, and look at the =nhm= run configuration (under Eclipse Application). You will see on that a "Plug-ins" tab. Mostly if something is not working, you can click "Add required plugins" and all will be well. Otherwise, you may need to manually fiddle with the auto-start column for a particular plugin.
-** Deployment & updates
-There is a deploy job on the build server; this just uses scp to copy some files onto the deccnhm server, in a folder that's served up over http. It copies:
 
-1. the product zip files, which you can get from http://deccnhm.org.uk/standalone/
-2. the p2 repository for the product which is at http://deccnhm.org.uk/p2/
-
-The second is what is used for updates.
-* External dependencies
-** API & impl bundles
-All the actual nhm code is built into versions of the implementation bundle; this connects to the GUI by publishing an instance of INationalHouseholdModel, which is an interface defined in the API bundle. Both of these are built by gradle and published to the CSE internal p2 repository at http://p2.research.cse.org.uk/
-** Documentation
-The nhm-documentation project contains a submodule which builds eclipse documentation; this is also published to the p2 repository
-** p2 repository
-The aforementioned p2 repository is accessible using my top-secret credentials:
- - tom.hinton@cse.org.uk / password
-It's a program called package-drone, which seems to work quite well. It does one particularly clever thing for us, which is to automatically create a "feature" that helps the target platform file work in eclipse.

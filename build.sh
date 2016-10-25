@@ -1,25 +1,48 @@
 #!/usr/bin/env bash
 GRADLE="./gradlew"
-CLEAN=1
-BUILD_API=0
-BUILD_DOCS=1
+
+declare -A steps
+declare -A doc
+
+steps["clean"]=1
+steps["api"]=0
+steps["docs"]=1
+steps["tests"]=1
+steps["ide"]=1
+steps["release"]=0
+
+doc["clean"]="clean before build"
+doc["api"]="attempt to publish the API bundle"
+doc["docs"]="build the manual (slow!)"
+doc["tests"]="run the whole system tests"
+doc["ide"]="build the IDE"
+doc["release"]="get the IDE and CLI tools and put them in a zip file"
+
 while [[ $# -gt 0 ]]; do
     case $1 in
-        --no-clean)
-            CLEAN=0
+        --do)
+            shift
+            steps[$1]=1
             ;;
-        --skip-docs)
-            BUILD_DOCS=0
+        --skip)
+            shift
+            steps[$1]=0
             ;;
         --gradle-command)
             shift
             GRADLE="$1"
             ;;
-        --build-api)
-            BUILD_API=1
-            ;;
         *)
-            echo "usage: ./build.sh [--skip-docs] [--build-api] [--no-clean] [--gradle-command <cmd>]"
+            echo "usage: ./build.sh [--[skip|do] <clean|api|docs|tests|ide>] [--gradle-command <cmd>]"
+            echo "with current arguments:"
+            for i in "${!steps[@]}"
+            do
+                if [ ${steps[$i]} == 1 ]; then
+                    echo "    --do $i : ${doc[$i]}"
+                else
+                    echo "    --skip $i : do not ${doc[$i]}"
+                fi
+            done
             exit 0
             ;;
     esac
@@ -44,7 +67,7 @@ green () {
 # use maven global settings from this folder
 SETTINGS="$PWD/maven-settings.xml"
 maven () {
-    green "mvn $@ ($(basename $PWD))"
+    green "$(basename $PWD) => mvn $@"
     mvn -gs "$SETTINGS" "$@"
     RES=$?
     if [ $RES -ne 0 ]; then
@@ -54,7 +77,7 @@ maven () {
 
 # my machine (tom) has some problem with gradlew binaries.
 gradle () {
-    green "gradle $@ ($(basename $PWD))"
+    green "$(basename $PWD) => gradle $@ "
     $GRADLE --no-daemon "$@"
     RES=$?
     if [ $RES -ne 0 ]; then
@@ -82,25 +105,24 @@ green "Started P2 server [$SERVER]"
 
 pushd core-projects
 
-if [ $CLEAN == 1 ]; then
+if [ ${steps["clean"]} == 1 ]; then
     gradle clean
 else
     green "Skip clean"
 fi
 
-if [ $BUILD_API == 1 ]; then
+if [ ${steps["api"]} == 1 ]; then
     gradle :nhm-bundle-api:publish
 else
     green "Skip API"
 fi
 
-gradle :nhm-impl-bundle:publish
-gradle :nhm-cli-tools:publish
+gradle :nhm-cli-tools:publish :nhm-impl-bundle:publish
 
 popd
 
 pushd nhm-documentation
-if [ $BUILD_DOCS == 1 ]; then
+if [ ${steps["docs"]} == 1 ]; then
     maven install
     cd eclipse
     maven deploy
@@ -109,21 +131,67 @@ else
 fi
 popd
 
+if [ ${steps["tests"]} == 1 ]; then
+    green "Running system tests"
+    pushd system-tests
+    ./run-tests.sh
+    popd
+fi
 
-pushd nhm-ide
+if [ ${steps["ide"]} == 1 ]; then
+    pushd nhm-ide
 
-green "Update signing keys"
-git submodule init
-git submodule update
+    green "Update signing keys"
+    git submodule init
+    git submodule update
 
-maven clean package
+    maven clean package
 
-popd
+    popd
+fi
+
+if [ ${steps["release"]} == 1 ]; then
+    # make a release of it all
+    release=$(date -Idate)
+    green "Release: $release"
+    rdir="releases/$release"
+    rm -f "${rdir}.zip"
+    rm -rf "$rdir"
+    mkdir -p "$rdir"
+    cp nhm-ide/cse.nhm.ide.build/target/products/*.zip "$rdir"
+    versions=($())
+
+    get() {
+        maven 'org.apache.maven.plugins:maven-dependency-plugin:2.8:get' \
+              '-U' \
+              '-DremoteRepositories=http://localhost:8080/maven/7b9c5ef4-16a1-4b8f-ae4e-83bb87337fdb/'\
+              "-Dartifact=uk.org.cse.nhm:nhm-cli-tools:$1" \
+              "-Ddest=tools.jar" 2>/dev/null >/dev/null
+        if [ ! -f tools.jar ]; then
+            red "unable to find CLI tools $1"
+            return 1
+        else
+            V=$(java -jar tools.jar version)
+            green "found CLI tools $1: $V"
+            mv tools.jar "$rdir/$V.jar"
+        fi
+    }
+
+    # attempt to download CLI jars for the required versions
+    xmlstarlet sel -t -v '//import[@plugin="uk.org.cse.nhm.bundle.impl"]/@version' < nhm-ide/cse.nhm.models.feature/feature.xml |
+        while read -r i || [[ -n "$i" ]]
+        do
+            get $i || get $i-SNAPSHOT || true
+        done
+
+    zip -r "${rdir}.zip" "$rdir"
+fi
 
 green "Stopping p2 server [$SERVER]..."
+
 kill $SERVER
 
-if [ ! -z $ERRORS ]; then
+if [ ! -z "$ERRORS" ]; then
     red "$ERRORS"
 else
     green "IDE built into nhm-ide/nhm-ide/cse.nhm.ide.build/target/products/"
