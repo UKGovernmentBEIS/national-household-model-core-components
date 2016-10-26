@@ -35,12 +35,8 @@ import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>
- * {@link uk.org.cse.nhm.hom.emf.technologies.impl.SolarPhotovoltaicImpl#getPeakPower
- * <em>Peak Power</em>}</li>
- * <li>
- * {@link uk.org.cse.nhm.hom.emf.technologies.impl.SolarPhotovoltaicImpl#getOwnUseProportion
- * <em>Own Use Proportion</em>}</li>
+ *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.SolarPhotovoltaicImpl#getPeakPower <em>Peak Power</em>}</li>
+ *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.SolarPhotovoltaicImpl#getOwnUseProportion <em>Own Use Proportion</em>}</li>
  * </ul>
  *
  * @generated
@@ -63,19 +59,17 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 	private final OvershadingType overshading = OvershadingType.AVERAGE;
 
 	/**
-	 * A set of bit flags representing the values of boolean attributes and
-	 * whether unsettable features have been set. <!-- begin-user-doc --> <!--
+	 * A set of bit flags representing the values of boolean attributes and whether unsettable features have been set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected int flags = 0;
 
 	/**
-	 * The default value of the '{@link #getPeakPower() <em>Peak Power</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getPeakPower() <em>Peak Power</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getPeakPower()
 	 * @generated
 	 * @ordered
@@ -83,9 +77,8 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 	protected static final double PEAK_POWER_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getPeakPower() <em>Peak Power</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getPeakPower() <em>Peak Power</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getPeakPower()
 	 * @generated
 	 * @ordered
@@ -93,10 +86,9 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 	protected double peakPower = PEAK_POWER_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getOwnUseProportion()
-	 * <em>Own Use Proportion</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * The default value of the '{@link #getOwnUseProportion() <em>Own Use Proportion</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @see #getOwnUseProportion()
 	 * @generated
 	 * @ordered
@@ -104,15 +96,14 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 	protected static final double OWN_USE_PROPORTION_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getOwnUseProportion()
-	 * <em>Own Use Proportion</em>}' attribute. <!-- begin-user-doc --> BEISDOC
+	 * The cached value of the '{@link #getOwnUseProportion() <em>Own Use Proportion</em>}' attribute.
+	 * <!-- begin-user-doc --> BEISDOC
 	 * NAME: PV Own Use Proportion DESCRIPTION: The proportion of generated
 	 * solar PV electricity which is used in the home instead of exported. TYPE:
 	 * value UNIT: Dimensionless SAP: Appendix M (M1 section 3) SET:
 	 * measure.solar-photovoltaic NOTES: In SAP 2012 mode, this will always be
 	 * 0.5, regardless of which value was put in by measure.solar-photovoltaic.
 	 * ID: pv-own-use-proportion CODSIEB <!-- end-user-doc -->
-	 * 
 	 * @see #getOwnUseProportion()
 	 * @generated
 	 * @ordered
@@ -121,7 +112,6 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected SolarPhotovoltaicImpl() {
@@ -130,7 +120,6 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -140,7 +129,6 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public double getPeakPower() {
@@ -149,20 +137,17 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setPeakPower(double newPeakPower) {
 		double oldPeakPower = peakPower;
 		peakPower = newPeakPower;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__PEAK_POWER,
-					oldPeakPower, peakPower));
+			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__PEAK_POWER, oldPeakPower, peakPower));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -172,7 +157,6 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -180,9 +164,7 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 		double oldOwnUseProportion = ownUseProportion;
 		ownUseProportion = newOwnUseProportion;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__OWN_USE_PROPORTION, oldOwnUseProportion,
-					ownUseProportion));
+			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__OWN_USE_PROPORTION, oldOwnUseProportion, ownUseProportion));
 	}
 
 	/**
@@ -310,81 +292,75 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__PEAK_POWER:
-			return getPeakPower();
-		case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__OWN_USE_PROPORTION:
-			return getOwnUseProportion();
+			case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__PEAK_POWER:
+				return getPeakPower();
+			case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__OWN_USE_PROPORTION:
+				return getOwnUseProportion();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__PEAK_POWER:
-			setPeakPower((Double) newValue);
-			return;
-		case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__OWN_USE_PROPORTION:
-			setOwnUseProportion((Double) newValue);
-			return;
+			case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__PEAK_POWER:
+				setPeakPower((Double)newValue);
+				return;
+			case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__OWN_USE_PROPORTION:
+				setOwnUseProportion((Double)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__PEAK_POWER:
-			setPeakPower(PEAK_POWER_EDEFAULT);
-			return;
-		case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__OWN_USE_PROPORTION:
-			setOwnUseProportion(OWN_USE_PROPORTION_EDEFAULT);
-			return;
+			case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__PEAK_POWER:
+				setPeakPower(PEAK_POWER_EDEFAULT);
+				return;
+			case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__OWN_USE_PROPORTION:
+				setOwnUseProportion(OWN_USE_PROPORTION_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__PEAK_POWER:
-			return peakPower != PEAK_POWER_EDEFAULT;
-		case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__OWN_USE_PROPORTION:
-			return ownUseProportion != OWN_USE_PROPORTION_EDEFAULT;
+			case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__PEAK_POWER:
+				return peakPower != PEAK_POWER_EDEFAULT;
+			case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__OWN_USE_PROPORTION:
+				return ownUseProportion != OWN_USE_PROPORTION_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
-			return super.toString();
+		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (peakPower: ");

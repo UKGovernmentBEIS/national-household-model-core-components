@@ -34,6 +34,7 @@ import uk.org.cse.nhm.hom.emf.technologies.EmitterType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
 import uk.org.cse.nhm.hom.emf.technologies.IWaterTank;
+import uk.org.cse.nhm.hom.emf.technologies.boilers.EfficiencySourceType;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.FlueType;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoilersPackage;
@@ -55,6 +56,7 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.boilers.impl.BoilerImpl#isCondensing <em>Condensing</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.boilers.impl.BoilerImpl#isWeatherCompensated <em>Weather Compensated</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.boilers.impl.BoilerImpl#isPumpInHeatedSpace <em>Pump In Heated Space</em>}</li>
+ *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.boilers.impl.BoilerImpl#getEfficiencySource <em>Efficiency Source</em>}</li>
  * </ul>
  *
  * @generated
@@ -155,6 +157,53 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 	 * @ordered
 	 */
 	protected static final int PUMP_IN_HEATED_SPACE_EFLAG = 1 << 10;
+
+	/**
+	 * The default value of the '{@link #getEfficiencySource() <em>Efficiency Source</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEfficiencySource()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final EfficiencySourceType EFFICIENCY_SOURCE_EDEFAULT = EfficiencySourceType.SAP_DEFAULT;
+
+	/**
+	 * The offset of the flags representing the value of the '{@link #getEfficiencySource() <em>Efficiency Source</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int EFFICIENCY_SOURCE_EFLAG_OFFSET = 11;
+
+	/**
+	 * The flags representing the default value of the '{@link #getEfficiencySource() <em>Efficiency Source</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int EFFICIENCY_SOURCE_EFLAG_DEFAULT = EFFICIENCY_SOURCE_EDEFAULT.ordinal() << EFFICIENCY_SOURCE_EFLAG_OFFSET;
+
+	/**
+	 * The array of enumeration values for '{@link EfficiencySourceType Efficiency Source Type}'
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	private static final EfficiencySourceType[] EFFICIENCY_SOURCE_EFLAG_VALUES = EfficiencySourceType.values();
+
+	/**
+	 * The flag representing the value of the '{@link #getEfficiencySource() <em>Efficiency Source</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEfficiencySource()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int EFFICIENCY_SOURCE_EFLAG = 1 << EFFICIENCY_SOURCE_EFLAG_OFFSET;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -288,6 +337,28 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 		if (newPumpInHeatedSpace) flags |= PUMP_IN_HEATED_SPACE_EFLAG; else flags &= ~PUMP_IN_HEATED_SPACE_EFLAG;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, IBoilersPackage.BOILER__PUMP_IN_HEATED_SPACE, oldPumpInHeatedSpace, newPumpInHeatedSpace));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EfficiencySourceType getEfficiencySource() {
+		return EFFICIENCY_SOURCE_EFLAG_VALUES[(flags & EFFICIENCY_SOURCE_EFLAG) >>> EFFICIENCY_SOURCE_EFLAG_OFFSET];
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setEfficiencySource(EfficiencySourceType newEfficiencySource) {
+		EfficiencySourceType oldEfficiencySource = EFFICIENCY_SOURCE_EFLAG_VALUES[(flags & EFFICIENCY_SOURCE_EFLAG) >>> EFFICIENCY_SOURCE_EFLAG_OFFSET];
+		if (newEfficiencySource == null) newEfficiencySource = EFFICIENCY_SOURCE_EDEFAULT;
+		flags = flags & ~EFFICIENCY_SOURCE_EFLAG | newEfficiencySource.ordinal() << EFFICIENCY_SOURCE_EFLAG_OFFSET;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, IBoilersPackage.BOILER__EFFICIENCY_SOURCE, oldEfficiencySource, newEfficiencySource));
 	}
 
 	/**
@@ -668,6 +739,8 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 				return isWeatherCompensated();
 			case IBoilersPackage.BOILER__PUMP_IN_HEATED_SPACE:
 				return isPumpInHeatedSpace();
+			case IBoilersPackage.BOILER__EFFICIENCY_SOURCE:
+				return getEfficiencySource();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -694,6 +767,9 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 				return;
 			case IBoilersPackage.BOILER__PUMP_IN_HEATED_SPACE:
 				setPumpInHeatedSpace((Boolean)newValue);
+				return;
+			case IBoilersPackage.BOILER__EFFICIENCY_SOURCE:
+				setEfficiencySource((EfficiencySourceType)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -722,6 +798,9 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 			case IBoilersPackage.BOILER__PUMP_IN_HEATED_SPACE:
 				setPumpInHeatedSpace(PUMP_IN_HEATED_SPACE_EDEFAULT);
 				return;
+			case IBoilersPackage.BOILER__EFFICIENCY_SOURCE:
+				setEfficiencySource(EFFICIENCY_SOURCE_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -744,6 +823,8 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 				return ((flags & WEATHER_COMPENSATED_EFLAG) != 0) != WEATHER_COMPENSATED_EDEFAULT;
 			case IBoilersPackage.BOILER__PUMP_IN_HEATED_SPACE:
 				return ((flags & PUMP_IN_HEATED_SPACE_EFLAG) != 0) != PUMP_IN_HEATED_SPACE_EDEFAULT;
+			case IBoilersPackage.BOILER__EFFICIENCY_SOURCE:
+				return (flags & EFFICIENCY_SOURCE_EFLAG) != EFFICIENCY_SOURCE_EFLAG_DEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}

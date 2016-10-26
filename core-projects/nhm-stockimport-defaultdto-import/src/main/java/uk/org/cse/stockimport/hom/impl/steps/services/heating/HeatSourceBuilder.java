@@ -13,6 +13,7 @@ import uk.org.cse.nhm.hom.emf.technologies.IHeatPump;
 import uk.org.cse.nhm.hom.emf.technologies.IHeatSource;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;
 import uk.org.cse.nhm.hom.emf.technologies.IWaterTank;
+import uk.org.cse.nhm.hom.emf.technologies.boilers.EfficiencySourceType;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.FlueType;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoilersFactory;
@@ -127,6 +128,7 @@ public class HeatSourceBuilder implements IHeatSourceBuilder {
 			boiler.setPumpInHeatedSpace(false);
 			boiler.setWeatherCompensated(false);
 			boiler.setCondensing(condensing);
+			boiler.setEfficiencySource(EfficiencySourceType.SAP_DEFAULT);
 		}
 		
 		return boiler;

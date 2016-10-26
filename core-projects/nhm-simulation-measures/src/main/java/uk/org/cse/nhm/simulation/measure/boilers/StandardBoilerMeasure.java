@@ -13,6 +13,7 @@ import uk.org.cse.nhm.hom.emf.technologies.EmitterType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
+import uk.org.cse.nhm.hom.emf.technologies.boilers.EfficiencySourceType;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoilersFactory;
 import uk.org.cse.nhm.hom.emf.util.Efficiency;
@@ -121,6 +122,7 @@ public class StandardBoilerMeasure extends AbstractCylinderBoilerMeasure {
 			heating.setFlueType(getFlueType());
 			heating.setCondensing(isCondensing());
 			heating.setAnnualOperationalCost(opex);
+			heating.setEfficiencySource(EfficiencySourceType.MANUFACTURER_DECLARED);
 			
 			operations.installHeatSource(newCase,
                                          heating,

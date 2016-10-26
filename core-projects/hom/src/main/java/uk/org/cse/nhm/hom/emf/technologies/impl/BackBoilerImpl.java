@@ -75,7 +75,7 @@ public class BackBoilerImpl extends BoilerImpl implements IBackBoiler {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int THERMOSTAT_FITTED_EFLAG = 1 << 11;
+	protected static final int THERMOSTAT_FITTED_EFLAG = 1 << 12;
 
 	/**
 	 * <!-- begin-user-doc -->
