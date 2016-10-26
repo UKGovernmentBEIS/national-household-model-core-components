@@ -526,6 +526,8 @@
           <details key="documentation" value="If fuel == oil, this determines whether the oil circulating pump produces internal heat gains"/>
         </eAnnotations>
       </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="efficiencySource" lowerBound="1"
+          eType="#//boilers/EfficiencySourceType"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="CPSU" eSuperTypes="#//boilers/Boiler #//StoreContainer">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="storeTemperature" lowerBound="1"
@@ -555,5 +557,9 @@
       <eLiterals name="NotApplicable" value="4"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="CombiBoiler" abstract="true" eSuperTypes="#//boilers/Boiler"/>
+    <eClassifiers xsi:type="ecore:EEnum" name="EfficiencySourceType">
+      <eLiterals name="SAPDefault"/>
+      <eLiterals name="ManufacturerDeclared" value="1"/>
+    </eClassifiers>
   </eSubpackages>
 </ecore:EPackage>

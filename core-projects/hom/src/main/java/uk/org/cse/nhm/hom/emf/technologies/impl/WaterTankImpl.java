@@ -363,6 +363,8 @@ public class WaterTankImpl extends MinimalEObjectImpl implements IWaterTank {
 		SAP: (54,55)
 		BREDEM: 2.2B
 		DEPS: cylinder-loss-factor,storage-temperature-factor,volume-factor,cylinder-volume,solar-store-effective-volume
+		NOTES: Storage losses apply to system water tanks, CPSU water tanks, and storage combi water tanks.
+		NOTES: Storage-combi water tanks are excluded if its efficiency numbers are the SAP defaults, and included if they are the manufacturers declared efficiencies.  
 		ID: tank-losses
 		CODSIEB
 		*/

@@ -1783,6 +1783,15 @@ public interface ITechnologiesPackage extends EPackage {
 	int BACK_BOILER__PUMP_IN_HEATED_SPACE = IBoilersPackage.BOILER__PUMP_IN_HEATED_SPACE;
 
 	/**
+	 * The feature id for the '<em><b>Efficiency Source</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BACK_BOILER__EFFICIENCY_SOURCE = IBoilersPackage.BOILER__EFFICIENCY_SOURCE;
+
+	/**
 	 * The feature id for the '<em><b>Efficiency</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

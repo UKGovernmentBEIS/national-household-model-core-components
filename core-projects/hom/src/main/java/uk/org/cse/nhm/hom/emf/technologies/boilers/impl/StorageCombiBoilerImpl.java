@@ -19,6 +19,7 @@ import uk.org.cse.nhm.hom.constants.HeatingSystemConstants;
 import uk.org.cse.nhm.hom.emf.technologies.IStoreContainer;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
 import uk.org.cse.nhm.hom.emf.technologies.IWaterTank;
+import uk.org.cse.nhm.hom.emf.technologies.boilers.EfficiencySourceType;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoilersPackage;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IStorageCombiBoiler;
 
@@ -64,7 +65,7 @@ public class StorageCombiBoilerImpl extends CombiBoilerImpl implements IStorageC
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int STORE_IN_PRIMARY_CIRCUIT_EFLAG = 1 << 11;
+	protected static final int STORE_IN_PRIMARY_CIRCUIT_EFLAG = 1 << 12;
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -315,6 +316,11 @@ public class StorageCombiBoilerImpl extends CombiBoilerImpl implements IStorageC
 	@Override
 	public double getContainedTankLosses(final IInternalParameters parameters) {
 		if (getStore() == null) return 0;
+
+		if (getEfficiencySource() == EfficiencySourceType.MANUFACTURER_DECLARED) {
+			// See SAP 2012 section 4.2 Storage loss
+			return 0;
+		}
 		
 		final double standingLosses = getStore().getStandingLosses(parameters);
 		

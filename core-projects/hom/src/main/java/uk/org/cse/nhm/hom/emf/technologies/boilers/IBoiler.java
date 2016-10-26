@@ -36,6 +36,7 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler#isCondensing <em>Condensing</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler#isWeatherCompensated <em>Weather Compensated</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler#isPumpInHeatedSpace <em>Pump In Heated Space</em>}</li>
+ *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler#getEfficiencySource <em>Efficiency Source</em>}</li>
  * </ul>
  *
  * @see uk.org.cse.nhm.hom.emf.technologies.boilers.IBoilersPackage#getBoiler()
@@ -181,5 +182,34 @@ public interface IBoiler extends IIndividualHeatSource, IVisitorAccepter, IFuelA
 	 * @generated
 	 */
 	void setPumpInHeatedSpace(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Efficiency Source</b></em>' attribute.
+	 * The literals are from the enumeration {@link uk.org.cse.nhm.hom.emf.technologies.boilers.EfficiencySourceType}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Efficiency Source</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Efficiency Source</em>' attribute.
+	 * @see uk.org.cse.nhm.hom.emf.technologies.boilers.EfficiencySourceType
+	 * @see #setEfficiencySource(EfficiencySourceType)
+	 * @see uk.org.cse.nhm.hom.emf.technologies.boilers.IBoilersPackage#getBoiler_EfficiencySource()
+	 * @model required="true"
+	 * @generated
+	 */
+	EfficiencySourceType getEfficiencySource();
+
+	/**
+	 * Sets the value of the '{@link uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler#getEfficiencySource <em>Efficiency Source</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Efficiency Source</em>' attribute.
+	 * @see uk.org.cse.nhm.hom.emf.technologies.boilers.EfficiencySourceType
+	 * @see #getEfficiencySource()
+	 * @generated
+	 */
+	void setEfficiencySource(EfficiencySourceType value);
 
 } // IBoiler
