@@ -9,7 +9,6 @@ import com.google.inject.assistedinject.Assisted;
 
 import uk.org.cse.nhm.NHMException;
 import uk.org.cse.nhm.hom.emf.technologies.ICentralWaterSystem;
-import uk.org.cse.nhm.hom.emf.technologies.ISolarPhotovoltaic;
 import uk.org.cse.nhm.hom.emf.technologies.ISolarWaterHeater;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
@@ -159,11 +158,6 @@ public class SolarHotWaterMeasure extends AbstractMeasure {
             && !structureModel.getBuiltFormType().isFlat()) {
             double roofArea = structureModel.getExternalRoofArea();
 
-            final ISolarPhotovoltaic pv = technologyModel.getSolarPhotovoltaic();
-            if (pv != null) {
-                roofArea -= pv.getArea();
-            }
-            
 			return roofArea >= installedArea.compute(components, lets).doubleValue();
 		} else {
 			return false;

@@ -118,7 +118,7 @@ public enum EnergyCalculatorConstants implements IConstant {
 	
 	/*
 	BEISDOC
-	NAME: Overshading factor
+	NAME: Gains Overshading factor
 	DESCRIPTION: A constant multiplier due to overshading which reduces solar gains.
 	TYPE: 5 values (one for each overshading type)
 	UNIT: Dimensionless
@@ -127,7 +127,7 @@ public enum EnergyCalculatorConstants implements IConstant {
 	SET: context.energy-constants
 	DEPS: overshading
 	NOTES: Only the middle overshading factor is ever used.
-	ID: overshading-factor
+	ID: gains-overshading-factor
 	CODSIEB
 	*/
 	@ConstantDescription("The multipliers for OvershadingType which affect the degree of solar gains.")

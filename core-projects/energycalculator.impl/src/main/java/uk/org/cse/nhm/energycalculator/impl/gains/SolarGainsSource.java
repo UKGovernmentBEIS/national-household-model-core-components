@@ -104,7 +104,7 @@ public class SolarGainsSource implements IEnergyTransducer {
 		UNIT: m2
 		SAP: (74-82)
 		BREDEM: 5A
-		DEPS: solar-gains-effective-transmission-area,overshading-factor,solar-reflection
+		DEPS: solar-gains-effective-transmission-area,gains-overshading-factor,solar-reflection
 		ID: solar-gains-effective-transmission-area-2
 		CODSIEB
 		*/

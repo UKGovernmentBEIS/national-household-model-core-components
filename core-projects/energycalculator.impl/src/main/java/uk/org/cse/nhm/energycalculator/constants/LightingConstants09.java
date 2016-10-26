@@ -84,7 +84,7 @@ public enum LightingConstants09 implements IConstant {
 	BREDEM: Table 3
 	SET: context.energy-constants
 	NOTES: Only the middle light access factor is ever used.
-	ID: overshading-factor
+	ID: light-overshading-factor
 	CODSIEB
 	*/
 	/**

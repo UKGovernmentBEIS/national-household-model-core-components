@@ -219,8 +219,7 @@ public interface IMeasureFactory {
             @Assisted final IComponentsFunction<Number> capex);
 
     public SolarPhotovoltaicMeasure createSolarPhotovoltaicMeasure(
-            @Assisted("efficiency") final IComponentsFunction<Number> efficiency,
-            @Assisted("roofCoverage") final IComponentsFunction<Number> roofCoverage,
+    		@Assisted("sizing") final ISizingFunction sizing,
             @Assisted("capex") final IComponentsFunction<Number> capex, 
             @Assisted("ownUse") final IComponentsFunction<Number> ownUse);
 

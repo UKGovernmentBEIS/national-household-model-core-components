@@ -1484,7 +1484,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSolarPhotovoltaic_Area() {
+	public EAttribute getSolarPhotovoltaic_PeakPower() {
 		return (EAttribute)solarPhotovoltaicEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1493,17 +1493,8 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSolarPhotovoltaic_Efficiency() {
-		return (EAttribute)solarPhotovoltaicEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getSolarPhotovoltaic_OwnUseProportion() {
-		return (EAttribute)solarPhotovoltaicEClass.getEStructuralFeatures().get(2);
+		return (EAttribute)solarPhotovoltaicEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1900,8 +1891,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		createEAttribute(operationalCostEClass, OPERATIONAL_COST__ANNUAL_OPERATIONAL_COST);
 
 		solarPhotovoltaicEClass = createEClass(SOLAR_PHOTOVOLTAIC);
-		createEAttribute(solarPhotovoltaicEClass, SOLAR_PHOTOVOLTAIC__AREA);
-		createEAttribute(solarPhotovoltaicEClass, SOLAR_PHOTOVOLTAIC__EFFICIENCY);
+		createEAttribute(solarPhotovoltaicEClass, SOLAR_PHOTOVOLTAIC__PEAK_POWER);
 		createEAttribute(solarPhotovoltaicEClass, SOLAR_PHOTOVOLTAIC__OWN_USE_PROPORTION);
 
 		adjusterEClass = createEClass(ADJUSTER);
@@ -2251,8 +2241,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		initEAttribute(getOperationalCost_AnnualOperationalCost(), ecorePackage.getEDouble(), "annualOperationalCost", null, 1, 1, IOperationalCost.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(solarPhotovoltaicEClass, ISolarPhotovoltaic.class, "SolarPhotovoltaic", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getSolarPhotovoltaic_Area(), ecorePackage.getEDouble(), "area", null, 1, 1, ISolarPhotovoltaic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSolarPhotovoltaic_Efficiency(), this.getEfficiency(), "efficiency", null, 1, 1, ISolarPhotovoltaic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSolarPhotovoltaic_PeakPower(), ecorePackage.getEDouble(), "peakPower", null, 1, 1, ISolarPhotovoltaic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSolarPhotovoltaic_OwnUseProportion(), ecorePackage.getEDouble(), "ownUseProportion", null, 1, 1, ISolarPhotovoltaic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(adjusterEClass, IAdjuster.class, "Adjuster", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

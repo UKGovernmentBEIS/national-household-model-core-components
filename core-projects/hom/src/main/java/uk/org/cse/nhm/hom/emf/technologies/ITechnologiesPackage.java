@@ -1848,22 +1848,13 @@ public interface ITechnologiesPackage extends EPackage {
 	int SOLAR_PHOTOVOLTAIC = 32;
 
 	/**
-	 * The feature id for the '<em><b>Area</b></em>' attribute.
+	 * The feature id for the '<em><b>Peak Power</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SOLAR_PHOTOVOLTAIC__AREA = VISITOR_ACCEPTER_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Efficiency</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SOLAR_PHOTOVOLTAIC__EFFICIENCY = VISITOR_ACCEPTER_FEATURE_COUNT + 1;
+	int SOLAR_PHOTOVOLTAIC__PEAK_POWER = VISITOR_ACCEPTER_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Own Use Proportion</b></em>' attribute.
@@ -1872,7 +1863,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SOLAR_PHOTOVOLTAIC__OWN_USE_PROPORTION = VISITOR_ACCEPTER_FEATURE_COUNT + 2;
+	int SOLAR_PHOTOVOLTAIC__OWN_USE_PROPORTION = VISITOR_ACCEPTER_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Solar Photovoltaic</em>' class.
@@ -1881,7 +1872,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SOLAR_PHOTOVOLTAIC_FEATURE_COUNT = VISITOR_ACCEPTER_FEATURE_COUNT + 3;
+	int SOLAR_PHOTOVOLTAIC_FEATURE_COUNT = VISITOR_ACCEPTER_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.impl.AdjusterImpl <em>Adjuster</em>}' class.
@@ -3336,26 +3327,15 @@ public interface ITechnologiesPackage extends EPackage {
 	EClass getSolarPhotovoltaic();
 
 	/**
-	 * Returns the meta object for the attribute '{@link uk.org.cse.nhm.hom.emf.technologies.ISolarPhotovoltaic#getArea <em>Area</em>}'.
+	 * Returns the meta object for the attribute '{@link uk.org.cse.nhm.hom.emf.technologies.ISolarPhotovoltaic#getPeakPower <em>Peak Power</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Area</em>'.
-	 * @see uk.org.cse.nhm.hom.emf.technologies.ISolarPhotovoltaic#getArea()
+	 * @return the meta object for the attribute '<em>Peak Power</em>'.
+	 * @see uk.org.cse.nhm.hom.emf.technologies.ISolarPhotovoltaic#getPeakPower()
 	 * @see #getSolarPhotovoltaic()
 	 * @generated
 	 */
-	EAttribute getSolarPhotovoltaic_Area();
-
-	/**
-	 * Returns the meta object for the attribute '{@link uk.org.cse.nhm.hom.emf.technologies.ISolarPhotovoltaic#getEfficiency <em>Efficiency</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Efficiency</em>'.
-	 * @see uk.org.cse.nhm.hom.emf.technologies.ISolarPhotovoltaic#getEfficiency()
-	 * @see #getSolarPhotovoltaic()
-	 * @generated
-	 */
-	EAttribute getSolarPhotovoltaic_Efficiency();
+	EAttribute getSolarPhotovoltaic_PeakPower();
 
 	/**
 	 * Returns the meta object for the attribute '{@link uk.org.cse.nhm.hom.emf.technologies.ISolarPhotovoltaic#getOwnUseProportion <em>Own Use Proportion</em>}'.
@@ -4595,20 +4575,12 @@ public interface ITechnologiesPackage extends EPackage {
 		EClass SOLAR_PHOTOVOLTAIC = eINSTANCE.getSolarPhotovoltaic();
 
 		/**
-		 * The meta object literal for the '<em><b>Area</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Peak Power</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute SOLAR_PHOTOVOLTAIC__AREA = eINSTANCE.getSolarPhotovoltaic_Area();
-
-		/**
-		 * The meta object literal for the '<em><b>Efficiency</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute SOLAR_PHOTOVOLTAIC__EFFICIENCY = eINSTANCE.getSolarPhotovoltaic_Efficiency();
+		EAttribute SOLAR_PHOTOVOLTAIC__PEAK_POWER = eINSTANCE.getSolarPhotovoltaic_PeakPower();
 
 		/**
 		 * The meta object literal for the '<em><b>Own Use Proportion</b></em>' attribute feature.

@@ -159,7 +159,7 @@ public class LightingDemand09 extends Sink {
 		UNIT: Watts
 		SAP: (L5)
 		BREDEM: 1D
-		DEPS: overshading-factor,light-effective-transmission-area
+		DEPS: light-overshading-factor,light-effective-transmission-area
 		ID: glazed-light-gains
 		CODSIEB
 		*/

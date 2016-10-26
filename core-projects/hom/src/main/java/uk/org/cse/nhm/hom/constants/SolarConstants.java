@@ -95,6 +95,18 @@ public enum SolarConstants implements IConstant {
 	@ConstantDescription("Coefficients for quadratic model of collector performance factor when HLC/e is above or equal to the threshold")
 	HIGH_HLC_EXPANSION(0.693, -0.0108, 0),
 	
+	/*
+	BEISDOC
+	NAME: Solar Overshading Factor
+	DESCRIPTION: A modification to the amount of solar flux received on a dwelling's roof.
+	TYPE: value
+	UNIT: Dimensionless
+	SAP: Table H2
+	BREDEM: Table 18
+	SET: context.energy-constants
+	ID: solar-overshading-factor
+	CODSIEB
+	*/
 	@ConstantDescription("Solar overshading factor by overshading type")
 	OVERSHADING_FACTOR(1, 0.8, 0.65, 0.5), // none or little, average, above average, heavy - adjusted to match CHM on "average"
 	

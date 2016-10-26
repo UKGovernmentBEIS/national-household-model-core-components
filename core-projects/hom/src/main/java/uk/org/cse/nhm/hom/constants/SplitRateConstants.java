@@ -16,7 +16,7 @@ public enum SplitRateConstants implements IConstant {
 	ID: default-split-rate
 	CODSIEB
 	*/
-	@ConstantDescription("The high rate fraction for all default appliances (from SAP 2009 table 12a)")
+	@ConstantDescription("The high rate fraction for all default appliances (from SAP 2012 table 12a)")
 	DEFAULT_FRACTIONS(0.9, 0.8),
 	
 	/*
@@ -30,7 +30,7 @@ public enum SplitRateConstants implements IConstant {
 	ID: direct-electric-split-rate
 	CODSIEB
 	*/
-	@ConstantDescription("The high rate fraction for a direct electric space heater (SAP 2009 table 12a)")
+	@ConstantDescription("The high rate fraction for a direct electric space heater (SAP 2012 table 12a)")
 	DIRECT_ELECTRIC_FRACTIONS(1, 0.5),
 	
 	/*
@@ -44,7 +44,7 @@ public enum SplitRateConstants implements IConstant {
 	ID: electric-boiler-split-rate
 	CODSIEB
 	*/
-	@ConstantDescription("The high rate fraction for an electric boiler (SAP 2009 12a)")
+	@ConstantDescription("The high rate fraction for an electric boiler (SAP 2012 12a)")
 	ELECTRIC_BOILER_FRACTIONS(0.9, 0.5),
 	
 	/*

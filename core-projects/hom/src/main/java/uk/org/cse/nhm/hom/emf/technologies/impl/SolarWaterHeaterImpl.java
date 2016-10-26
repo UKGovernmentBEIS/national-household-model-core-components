@@ -761,7 +761,7 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 		UNIT: W
 		SAP: (H7)
 		BREDEM: 2.4.2C (expression in parentheses)
-		DEPS: solar-thermal-collector-area,overshading-factor,effective-solar-flux,zero-loss-efficiency
+		DEPS: solar-thermal-collector-area,solar-overshading-factor,effective-solar-flux,zero-loss-efficiency
 		ID: solar-energy-available
 		CODSIEB
 		*/

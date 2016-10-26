@@ -471,9 +471,8 @@
   <eClassifiers xsi:type="ecore:EDataType" name="IConstants" instanceClassName="uk.org.cse.nhm.energycalculator.api.IConstants"/>
   <eClassifiers xsi:type="ecore:EDataType" name="IEnergyCalculatorParameters" instanceClassName="uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters"/>
   <eClassifiers xsi:type="ecore:EClass" name="SolarPhotovoltaic" eSuperTypes="#//VisitorAccepter">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="area" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="efficiency" lowerBound="1"
-        eType="#//Efficiency"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="peakPower" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ownUseProportion" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
   </eClassifiers>
