@@ -3,11 +3,6 @@ import static uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType.Ca
 import static uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType.Cob;
 import static uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType.GraniteOrWhinstone;
 import static uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType.MetalFrame;
-import static uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType.Party_DensePlasterBothSidesDenseBlocksCavity;
-import static uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType.Party_DoublePlasterBothSidesTwinTimberFrame;
-import static uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType.Party_MetalFrame;
-import static uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType.Party_SinglePlasterboardBothSidesDenseAACBlocksCavity;
-import static uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType.Party_SinglePlasterboardBothSidesDenseBlocksCavity;
 import static uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType.Sandstone;
 import static uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType.SolidBrick;
 import static uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType.SystemBuild;
@@ -25,12 +20,10 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallInsulationType;
 import uk.org.cse.nhm.hom.types.SAPAgeBandValue;
 import uk.org.cse.stockimport.imputation.lookupbuilders.ILookUpTableBuilder;
 import uk.org.cse.stockimport.imputation.walls.IWallPropertyTables;
 import uk.org.cse.stockimport.imputation.walls.WallInfiltrationImputer;
-import uk.org.cse.stockimport.imputation.walls.WallKValueImputer;
 import uk.org.cse.stockimport.imputation.walls.WallPropertyTables;
 import uk.org.cse.stockimport.imputation.walls.WallThicknessImputer;
 import uk.org.cse.stockimport.imputation.walls.WallUValueImputer;
@@ -47,42 +40,8 @@ public class WallPropertyTablesBuilder implements ILookUpTableBuilder<IWallPrope
 		buildInfiltrationTables(workbook, wallPropertyTables, sheet);
 		buildWallThicknessTables(workbook, wallPropertyTables, sheet);
 		buildWallUValueTables(workbook, wallPropertyTables, sheet);
-		buildWallKValueTables(workbook, wallPropertyTables, sheet);
 		
 		return wallPropertyTables;
-	}
-	
-	void buildWallKValueTables(final XSSFWorkbook workbook, final IWallPropertyTables wallPropertyTables, final XSSFSheet sheet){
-		final WallKValueImputer wallKValueImputer = new WallKValueImputer(false);
-		
-		//AsBuilt
-		wallKValueImputer.addAsBuiltWallUValue(Party_DensePlasterBothSidesDenseBlocksCavity, sheet.getRow(81).getCell(1).getNumericCellValue());
-		wallKValueImputer.addAsBuiltWallUValue(Party_SinglePlasterboardBothSidesDenseBlocksCavity, sheet.getRow(82).getCell(1).getNumericCellValue());
-		wallKValueImputer.addAsBuiltWallUValue(Party_SinglePlasterboardBothSidesDenseAACBlocksCavity, sheet.getRow(83).getCell(1).getNumericCellValue());
-		wallKValueImputer.addAsBuiltWallUValue(Party_DoublePlasterBothSidesTwinTimberFrame, sheet.getRow(84).getCell(1).getNumericCellValue());
-		wallKValueImputer.addAsBuiltWallUValue(Party_MetalFrame, sheet.getRow(85).getCell(1).getNumericCellValue());
-		wallKValueImputer.addAsBuiltWallUValue(GraniteOrWhinstone, sheet.getRow(86).getCell(1).getNumericCellValue());
-		wallKValueImputer.addAsBuiltWallUValue(Sandstone, sheet.getRow(87).getCell(1).getNumericCellValue());
-		wallKValueImputer.addAsBuiltWallUValue(SolidBrick, sheet.getRow(88).getCell(1).getNumericCellValue());
-		wallKValueImputer.addAsBuiltWallUValue(Cob, sheet.getRow(89).getCell(1).getNumericCellValue());
-		wallKValueImputer.addAsBuiltWallUValue(Cavity, sheet.getRow(90).getCell(1).getNumericCellValue());
-		wallKValueImputer.addAsBuiltWallUValue(TimberFrame, sheet.getRow(91).getCell(1).getNumericCellValue());
-		wallKValueImputer.addAsBuiltWallUValue(SystemBuild, sheet.getRow(92).getCell(1).getNumericCellValue());
-		wallKValueImputer.addAsBuiltWallUValue(MetalFrame, sheet.getRow(93).getCell(1).getNumericCellValue());
-
-		//SolidBrick
-		wallKValueImputer.addInsulatedWallType(SolidBrick, WallInsulationType.External, sheet.getRow(96).getCell(1).getNumericCellValue());
-		wallKValueImputer.addInsulatedWallType(SolidBrick, WallInsulationType.Internal, sheet.getRow(97).getCell(1).getNumericCellValue());
-		
-		//Cob
-		wallKValueImputer.addInsulatedWallType(Cob, WallInsulationType.External, sheet.getRow(100).getCell(1).getNumericCellValue());
-		wallKValueImputer.addInsulatedWallType(Cob, WallInsulationType.Internal, sheet.getRow(101).getCell(1).getNumericCellValue());
-		
-		//SystemBuild
-		wallKValueImputer.addInsulatedWallType(SystemBuild, WallInsulationType.External, sheet.getRow(104).getCell(1).getNumericCellValue());
-		wallKValueImputer.addInsulatedWallType(SystemBuild, WallInsulationType.Internal, sheet.getRow(105).getCell(1).getNumericCellValue());
-		
-		wallPropertyTables.setWallKValueImputer(wallKValueImputer);
 	}
 	
 	void buildWallUValueTables(final XSSFWorkbook workbook, final IWallPropertyTables wallPropertyTables, final XSSFSheet sheet){

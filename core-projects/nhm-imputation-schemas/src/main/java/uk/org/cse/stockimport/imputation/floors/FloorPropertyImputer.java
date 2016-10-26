@@ -161,23 +161,4 @@ public class FloorPropertyImputer implements IFloorPropertyImputer {
 	public double getExposedFloorUValue(final Band ageBand, final boolean isInsulated) {
 		return floorPropertyTables.getExposedFloorUValueBySapAgeBand()[isInsulated ? 1 : 0][ageBand.ordinal()];
 	}
-
-	@Override
-	public double getExposedFloorKValue(final boolean isInsulated) {
-		if (isInsulated) {
-			return floorPropertyTables.getInsulatedExposedFloorKValue();
-		} else {
-			return floorPropertyTables.getUninsulatedExposedFloorKValue();
-		}
-	}
-
-	@Override
-	public double getGroundFloorKValue(final FloorConstructionType constructionType) {
-		return floorPropertyTables.getGroundFloorKValues().get(constructionType);
-	}
-
-	@Override
-	public double getPartyFloorKValue() {
-		return floorPropertyTables.getPartyFloorKValue();
-	}
 }

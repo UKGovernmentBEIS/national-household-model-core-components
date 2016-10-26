@@ -35,30 +35,7 @@ public interface IFloorPropertyImputer {
      * @since 1.0	
 	 */
 	double getExposedFloorUValue(Band ageBand, boolean isInsulated);
-	
-	/**
-	 * Get the K value for an exposed floor
-	 * @param isInsulated
-	 * @return
-     * @since 1.0
-	 */
-	double getExposedFloorKValue(boolean isInsulated);
-	
-	/**
-	 * Get the K value for a party or internal floor
-	 * 
-	 * @return
-     * @since 1.0
-	 */
-	double getPartyFloorKValue();
-	
-	/**
-	 * Get the K value for a ground floor of the given construction type.
-	 * @param constructionType
-	 * @return
-     * @since 1.0
-	 */
-	double getGroundFloorKValue(final FloorConstructionType constructionType);
+		
 	
 	/**
 	 * Lookup the infiltration rate for a floor constructed in the given interval with the given type

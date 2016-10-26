@@ -59,7 +59,6 @@ public class MainImputationStepTest {
 		
 		for (final IMutableWall wall : s.getWalls()) {
 			Assert.assertEquals(2.1, wall.getUValue());
-			Assert.assertEquals(135.0, wall.getKValue());
 			Assert.assertEquals(0.35, wall.getAirChangeRate());
 		}
 		

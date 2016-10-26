@@ -29,16 +29,4 @@ public interface ICeilingPropertyImputer {
 	 */
 	public double getRoofUValue(final Band ageBand, final RoofConstructionType constructionType, final boolean roomInRoof);
 
-	/**
-	 * @return the k value for all party ceilings.
-	 * @since 1.0
-	 */
-	public double getPartyCeilingKValue();
-	
-	/**
-	 * @param constructionType
-	 * @return the k-value for a roof constructed in the given manner.
-	 * @since 1.0
-	 */
-	public double getRoofKValue(final RoofConstructionType constructionType);
 }

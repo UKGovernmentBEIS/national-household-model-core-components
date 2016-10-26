@@ -27,8 +27,6 @@ import uk.org.cse.nhm.hom.SurveyCase;
 import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
 import uk.org.cse.nhm.hom.components.fabric.types.FloorLocationType;
 import uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType;
-import uk.org.cse.nhm.hom.emf.technologies.FuelType;
-import uk.org.cse.nhm.hom.emf.technologies.ICooker;
 import uk.org.cse.nhm.hom.emf.technologies.ILight;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
@@ -85,12 +83,10 @@ public class TestCase1 {
 			if (wall.getLength() == 10d) {
 				partyWallCounter++;
 				wall.setWallConstructionType(WallConstructionType.Party_DensePlasterBothSidesDenseBlocksCavity);
-				wall.setKValue(180);
 				wall.setUValue(0.02);
 			} else {
 				nonPartyWallCounter++;
 				wall.setWallConstructionType(WallConstructionType.SolidBrick);
-				wall.setKValue(17);
 				wall.setUValue(2.1);
 				wall.setAirChangeRate(0.3);
 			}
@@ -103,12 +99,10 @@ public class TestCase1 {
 			if (wall.getLength() == 10) {
 				partyWallCounter++;
 				wall.setWallConstructionType(WallConstructionType.Party_DensePlasterBothSidesDenseBlocksCavity);
-				wall.setKValue(180);
 				wall.setUValue(0.02);
 			} else {
 				nonPartyWallCounter++;
 				wall.setWallConstructionType(WallConstructionType.SolidBrick);
-				wall.setKValue(17);
 				wall.setUValue(2.1);
 				wall.setAirChangeRate(0.3);
 			}
@@ -176,7 +170,6 @@ public class TestCase1 {
 //		final Window backWindow = new Window(4, 2, 2.5, 0, 0.05, 1.0, 0.76, 0.8);
 //		
 //		frontWindow.setHorizontalOrientation(Math.PI / 2);
-//		backWindow.setHorizontalOrientation(Math.PI/2);
 //		
 //		frontWindow.setVerticalOrientation(Math.PI);
 //		
@@ -184,10 +177,7 @@ public class TestCase1 {
 //		
 //		frontWall.addChildElement(frontWindow);
 //		backWall.addChildElement(backWindow);
-		
-		ground.setFloorKValue(110);
 		ground.setFloorUValue(1);
-		first.setCeilingKValue(9);
 		first.setCeilingUValue(0.67);
 //		
 //		// create roof and floor

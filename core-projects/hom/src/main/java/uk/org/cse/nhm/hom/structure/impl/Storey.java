@@ -212,22 +212,6 @@ public class Storey implements IStorey {
 	}
 
 	/* (non-Javadoc)
-	 * @see uk.org.cse.nhm.hom.structure.IStorey#getFloorKValue()
-	 */
-	@Override
-	public double getFloorKValue() {
-		return floorKValue;
-	}
-
-	/* (non-Javadoc)
-	 * @see uk.org.cse.nhm.hom.structure.IStorey#setFloorKValue(double)
-	 */
-	@Override
-	public void setFloorKValue(final double floorKValue) {
-		this.floorKValue = floorKValue;
-	}
-
-	/* (non-Javadoc)
 	 * @see uk.org.cse.nhm.hom.structure.IStorey#getCeilingUValue()
 	 */
 	@Override
@@ -242,43 +226,7 @@ public class Storey implements IStorey {
 	public void setCeilingUValue(final double ceilingUValue) {
 		this.ceilingUValue = ceilingUValue;
 	}
-
-	/* (non-Javadoc)
-	 * @see uk.org.cse.nhm.hom.structure.IStorey#getCeilingKValue()
-	 */
-	@Override
-	public double getCeilingKValue() {
-		return ceilingKValue;
-	}
-
-	/* (non-Javadoc)
-	 * @see uk.org.cse.nhm.hom.structure.IStorey#setCeilingKValue(double)
-	 */
-	@Override
-	public void setCeilingKValue(final double ceilingKValue) {
-		this.ceilingKValue = ceilingKValue;
-	}
-
-	@Override
-	public double getPartyFloorKValue() {
-		return partyFloorKValue;
-	}
-
-	@Override
-	public void setPartyFloorKValue(final double partyFloorKValue) {
-		this.partyFloorKValue = partyFloorKValue;
-	}
-
-	@Override
-	public double getPartyCeilingKValue() {
-		return partyCeilingKValue;
-	}
-
-	@Override
-	public void setPartyCeilingKValue(final double partyCeilingKValue) {
-		this.partyCeilingKValue = partyCeilingKValue;
-	}
-
+	
 	/**
 	 * Present the heat loss surfaces from this storey to the given {@link IEnergyCalculatorVisitor}.
 	 * 
@@ -634,16 +582,12 @@ public class Storey implements IStorey {
 		final Storey other = new Storey();
 		
 		// copy simple properties
-		other.setCeilingKValue(getCeilingKValue());
 		other.setCeilingUValue(getCeilingUValue());
 		other.setFloorAirChangeRate(getFloorAirChangeRate());
-		other.setFloorKValue(getFloorKValue());
 		other.setFloorLocationType(getFloorLocationType());
 		other.setFloorUValue(getFloorUValue());
 		other.setHeight(getHeight());
-		other.setPartyCeilingKValue(getPartyCeilingKValue());
-		other.setPartyFloorKValue(getPartyFloorKValue());
-
+		
 		// poke segment data in directly
 		other.copySegments(segments);
 		

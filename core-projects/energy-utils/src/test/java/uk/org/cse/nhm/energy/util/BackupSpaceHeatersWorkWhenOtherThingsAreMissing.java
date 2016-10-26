@@ -84,12 +84,10 @@ public class BackupSpaceHeatersWorkWhenOtherThingsAreMissing {
 			for (final IMutableWall wall : storey.getWalls()) {
 				if (wall.getLength() == 6) {
 					wall.setWallConstructionType(WallConstructionType.SolidBrick);
-					wall.setKValue(110);
 					wall.setUValue(2.1);
 					wall.setAirChangeRate(0.3);
 				} else {
 					wall.setWallConstructionType(WallConstructionType.SolidBrick);
-					wall.setKValue(110);
 					wall.setUValue(2.1);
 					wall.setAirChangeRate(0.2);
 				}
@@ -123,10 +121,8 @@ public class BackupSpaceHeatersWorkWhenOtherThingsAreMissing {
 		leftElevation.setAngleFromNorth(Math.PI/2);
 		
 		ground.setFloorUValue(1);
-		ground.setFloorKValue(75);
 		
 		second.setCeilingUValue(0.5);
-		second.setCeilingKValue(9);
 		second.setHeight(2.095);
 		//TODO need to set room in roof correctly.
 //		final Floor floor = new Floor(6, 10, 1, 75, 0);

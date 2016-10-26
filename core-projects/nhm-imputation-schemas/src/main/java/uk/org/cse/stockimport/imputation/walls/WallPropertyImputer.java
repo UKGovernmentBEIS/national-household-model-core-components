@@ -32,8 +32,6 @@ public class WallPropertyImputer implements IWallPropertyImputer {
 	
 	private IWallThicknessImputer thickness = new WallThicknessImputer();
 	
-	private IWallKValueImputer kValues = new WallKValueImputer();
-	
 	private IWallInfiltrationImputer infiltration = new WallInfiltrationImputer();
 	
 	public WallPropertyImputer(){
@@ -43,13 +41,7 @@ public class WallPropertyImputer implements IWallPropertyImputer {
 	public WallPropertyImputer(final IWallPropertyTables wallPropertyTables){
 		uValues = wallPropertyTables.getWallUValueImputer();
 		thickness = wallPropertyTables.getWallThicknessImputer();
-		kValues = wallPropertyTables.getWallKValueImputer();
 		infiltration = wallPropertyTables.getWallInfiltrationImputer();
-	}
-	
-	@Override
-	public double getInternalWallKValue() {
-		return kValues.getInternalWallKValue();
 	}
 	
 	@Override
@@ -90,11 +82,6 @@ public class WallPropertyImputer implements IWallPropertyImputer {
 			final RegionType region, final WallConstructionType construction,
 			final Set<WallInsulationType> insulations) {
 			return thickness.getWallThickness(ageBand, region, construction, insulations);
-	}
-
-	@Override
-	public double getKValue(final WallConstructionType constructionType, final Set<WallInsulationType> insulationTypes) {
-		return kValues.getKValue(constructionType, insulationTypes);
 	}
 
 	@Override

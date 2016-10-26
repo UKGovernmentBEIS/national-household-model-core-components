@@ -11,7 +11,6 @@ import static uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType.So
 import static uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType.SystemBuild;
 import static uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType.TimberFrame;
 import static uk.org.cse.nhm.hom.components.fabric.types.WallInsulationType.External;
-import static uk.org.cse.nhm.hom.components.fabric.types.WallInsulationType.Internal;
 import static uk.org.cse.nhm.hom.types.RegionType.London;
 import static uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band.A;
 import static uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band.B;
@@ -29,11 +28,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import junit.framework.Assert;
-
 import org.junit.Before;
 import org.junit.Test;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+
+import junit.framework.Assert;
 import uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType;
 import uk.org.cse.nhm.hom.components.fabric.types.WallInsulationType;
 import uk.org.cse.nhm.hom.types.SAPAgeBandValue;
@@ -41,12 +42,8 @@ import uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band;
 import uk.org.cse.stockimport.imputation.ImputationSchema;
 import uk.org.cse.stockimport.imputation.lookupbuilders.excel.WallPropertyTablesBuilder;
 import uk.org.cse.stockimport.imputation.walls.IWallInfiltrationImputer;
-import uk.org.cse.stockimport.imputation.walls.IWallKValueImputer;
 import uk.org.cse.stockimport.imputation.walls.IWallThicknessImputer;
 import uk.org.cse.stockimport.imputation.walls.IWallUValueImputer;
-
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 
 public class CreationOfWallImputationDataFromExcelTest extends AbsImputationFromExcelTest{
 	
@@ -414,40 +411,5 @@ public class CreationOfWallImputationDataFromExcelTest extends AbsImputationFrom
 		
 		Assert.assertEquals(0.86, imputer.getUValue(E, London, MetalFrame, none, 0d));
 		Assert.assertEquals(0.30, imputer.getUValue(K, London, MetalFrame, none, 0d));
-	}
-	
-	@Test
-	public void EnsureWallKValueTablesAreReadFromExcelSheet() throws Exception {
-		final IWallKValueImputer imputer = imputationSchema.getWallPropertyTables().getWallKValueImputer();
-		assertThat("imputer", imputer, is(notNullValue()));
-	}
-	
-	@Test
-	public void KValueForAsBuiltWallsMustMatchThoseInExcelSheet() throws Exception {
-		final IWallKValueImputer imputer = imputationSchema.getWallPropertyTables().getWallKValueImputer();
-		
-		Assert.assertEquals(202d, imputer.getKValue(GraniteOrWhinstone, ImmutableSet.<WallInsulationType>of()));
-		Assert.assertEquals(156d, imputer.getKValue(Sandstone, ImmutableSet.<WallInsulationType>of()));
-		Assert.assertEquals(135d, imputer.getKValue(SolidBrick, ImmutableSet.<WallInsulationType>of()));
-		Assert.assertEquals(148d, imputer.getKValue(Cob, ImmutableSet.<WallInsulationType>of()));
-		Assert.assertEquals(139d, imputer.getKValue(Cavity, ImmutableSet.<WallInsulationType>of()));
-		Assert.assertEquals(9d, imputer.getKValue(TimberFrame, ImmutableSet.<WallInsulationType>of()));
-		Assert.assertEquals(211d, imputer.getKValue(SystemBuild, ImmutableSet.<WallInsulationType>of()));
-		Assert.assertEquals(14d, imputer.getKValue(MetalFrame, ImmutableSet.<WallInsulationType>of()));
-	}
-	
-	@Test
-	public void KValuesForInsulatedSolidBrickWallsMustMatchThoseInExcelSheet() throws Exception {
-		final IWallKValueImputer imputer = imputationSchema.getWallPropertyTables().getWallKValueImputer();
-		
-		Assert.assertEquals(17d, imputer.getKValue(SolidBrick, ImmutableSet.of(Internal)));
-		Assert.assertEquals(135d, imputer.getKValue(SolidBrick, ImmutableSet.of(External)));
-		
-		Assert.assertEquals(66d, imputer.getKValue(Cob, ImmutableSet.of(Internal)));
-		Assert.assertEquals(148d, imputer.getKValue(Cob, ImmutableSet.of(External)));
-		
-		Assert.assertEquals(10d, imputer.getKValue(SystemBuild, ImmutableSet.of(Internal)));
-		Assert.assertEquals(211d, imputer.getKValue(SystemBuild, ImmutableSet.of(External)));
-		
 	}
 }

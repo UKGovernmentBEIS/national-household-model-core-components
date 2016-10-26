@@ -1,11 +1,10 @@
 package uk.org.cse.stockimport.imputation.rdsap.ceilings;
 
-import junit.framework.Assert;
-
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 
+import junit.framework.Assert;
 import uk.org.cse.nhm.hom.components.fabric.types.RoofConstructionType;
 import uk.org.cse.nhm.hom.types.SAPAgeBandValue;
 import uk.org.cse.stockimport.imputation.ceilings.CeilingPropertyImputer;
@@ -24,16 +23,6 @@ public class CeilingPropertyImputerTest {
 	public void initialiseTests(){
 		i = new RdSAPCeilingLookUpBuilder().buildTables(StringUtils.EMPTY);
 	}
-	
-	@Test
-	public void testKValues() {
-		Assert.assertEquals(13.5, i.getPartyCeilingKValue());
-		
-		Assert.assertEquals(9d, i.getRoofKValue(RoofConstructionType.Flat));
-		Assert.assertEquals(9d, i.getRoofKValue(RoofConstructionType.PitchedSlateOrTiles));
-		Assert.assertEquals(9d, i.getRoofKValue(RoofConstructionType.Thatched));
-	}
-
 	
 	@Test
 	public void testKnownInsulation() {

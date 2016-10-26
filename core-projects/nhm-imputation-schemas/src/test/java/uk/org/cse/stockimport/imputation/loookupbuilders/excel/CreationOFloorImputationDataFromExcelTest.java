@@ -5,16 +5,12 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
-import java.util.Map;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import uk.org.cse.nhm.hom.components.fabric.types.FloorConstructionType;
 import uk.org.cse.nhm.hom.types.SAPAgeBandValue;
 import uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band;
 import uk.org.cse.stockimport.imputation.ImputationSchema;
-import uk.org.cse.stockimport.imputation.floors.FloorPropertyTables;
 import uk.org.cse.stockimport.imputation.floors.IFloorPropertyTables;
 import uk.org.cse.stockimport.imputation.lookupbuilders.excel.FloorPropertyTableBuilder;
 
@@ -29,26 +25,9 @@ public class CreationOFloorImputationDataFromExcelTest extends AbsImputationFrom
 	}
 
 	@Test
-	public void AddKValueForGroundFloorTypeInFloorPropertyTable() throws Exception {
-		final FloorPropertyTables floorPropertyTables = new FloorPropertyTables();
-		floorPropertyTables.addGroundFloorKValue(FloorConstructionType.Solid, 20.12d);
-		assertThat("k value not added for type",
-				floorPropertyTables.getGroundFloorKValues().get(FloorConstructionType.Solid), equalTo(20.12d));
-	}
-	
-	@Test
 	public void FloorPropertyTableCreated() throws Exception {
 		final IFloorPropertyTables floorPropertyTables = imputationSchema.getFloorPropertyTables();
 		assertThat("Floor property table", floorPropertyTables, is(notNullValue()));
-	}
-	
-	@Test
-	public void GroundFloorKValuesReadFromExcelAndSetOnFloorPropertyTable() throws Exception {
-		final IFloorPropertyTables floorPropertyTables = imputationSchema.getFloorPropertyTables();
-		final Map<FloorConstructionType, Double>  kValues = floorPropertyTables.getGroundFloorKValues();
-		assertThat("Ground floor k values", kValues, is(notNullValue()));
-		assertThat("Number of grnd floor k-values", kValues.size(), equalTo(2));
-		assertThat("K value of solid floor", kValues.get(FloorConstructionType.Solid), equalTo(110d));
 	}
 	
 	@Test
@@ -65,24 +44,6 @@ public class CreationOFloorImputationDataFromExcelTest extends AbsImputationFrom
 		final Band ageBandValue = imputationSchema.getFloorPropertyTables().getLastAgeBandForSuspendedTimber();
 		assertThat("SAPAgeBand for last suspended timber", ageBandValue, is(notNullValue()));
 		assertThat("Suspended timber age band", ageBandValue, equalTo(SAPAgeBandValue.Band.B));
-	}
-	
-	@Test
-	public void InsulatedExposedFloorKValueSetInFloorPropertyTable() throws Exception {
-		final double expectedValue = imputationSchema.getFloorPropertyTables().getInsulatedExposedFloorKValue();
-		assertThat("InsulatedExposedFloorKValue", expectedValue, equalTo(20d));
-	}
-	
-	@Test
-	public void UninsulatedExposedFloorKValueSetInFloorPropertyTable() throws Exception {
-		final double expectedValue = imputationSchema.getFloorPropertyTables().getUninsulatedExposedFloorKValue();
-		assertThat("UninsulatedExposedFloorKValue", expectedValue, equalTo(20d));
-	}
-	
-	@Test
-	public void PartyFloorKValueSetInFloorPropertyTable() throws Exception {
-		final double expectedValue = imputationSchema.getFloorPropertyTables().getPartyFloorKValue();
-		assertThat("PartyFloorKValue", expectedValue, equalTo(35d));
 	}
 	
 	@Test

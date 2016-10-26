@@ -85,20 +85,4 @@ public class CeilingPropertyImputer implements ICeilingPropertyImputer {
 			return ceilingUValues.getUnknownValuesByRoofTypeAndAgeBand()[constructionType.ordinal()][ageBand.ordinal()];
 		}
 	}
-
-	/* (non-Javadoc)
-	 * @see uk.org.cse.stockimport.imputation.ICeilingPropertyImputer#getPartyCeilingKValue()
-	 */
-	@Override
-	public double getPartyCeilingKValue() {
-		return ceilingUValues.getPartyCeilingKValue();
-	}
-
-	/* (non-Javadoc)
-	 * @see uk.org.cse.stockimport.imputation.ICeilingPropertyImputer#getRoofKValue(uk.org.cse.nhm.hom.components.fabric.types.RoofConstructionType)
-	 */
-	@Override
-	public double getRoofKValue(final RoofConstructionType constructionType) {
-		return ceilingUValues.getRoofKValue();
-	}
 }
