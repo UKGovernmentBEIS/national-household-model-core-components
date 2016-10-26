@@ -9,9 +9,6 @@ group = 'uk.org.cse.nhm'
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
-ext.mavenUser = project.hasProperty('mvnUser') ? project.mvnUser : 'deploy'
-ext.mavenPassword = project.hasProperty('mvnPassword') ? project.mvnPassword : 'da9fc69a5d93f07432ace3fc7015fffa4d4b032a88d267f88cb2dd5369d1b6af'
-
 dependencies {
   compile "com.fifesoft:rsyntaxtextarea:2.5.3"
   compile project(':nhm-impl-bundle')
