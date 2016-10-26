@@ -81,6 +81,14 @@ public class GetResultsCommandHandler extends AbstractHandler {
             final List<List<String>> rows = new ArrayList<>();
             List<String> thisRow;
 
+            void addEntireRow(String... keyValue) {
+                addRow();
+
+                for (int i = 0; i<keyValue.length; i+=2) {
+                    addFieldToRow(keyValue[i], keyValue[i+1]);
+                }
+            }
+
             void addRow() {
                 thisRow = new ArrayList<>();
                 rows.add(thisRow);
@@ -204,7 +212,8 @@ public class GetResultsCommandHandler extends AbstractHandler {
 		@Override
 		public void run(final IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 			monitor.beginTask("Getting results", 100);
-			final String outputFolderName = run.getName() + " (" + DTFM.format(run.getQueuedDate()) + ")";
+            final String outputFolderName = run.getName() + " (" + DTFM.format(run.getQueuedDate()) + ")";
+
 			try {
 				switch (run.getType()) {
 				case Batch:
@@ -261,8 +270,26 @@ public class GetResultsCommandHandler extends AbstractHandler {
 	
 					}
 					break;
-				}
-			} catch (final Exception ex) {
+                }
+
+                {
+                    // EXS-195 RUN INFORMATION
+                    final TableOutput metadata = new TableOutput();
+                    final String K_KEY = "key";
+                    final String K_VALUE = "value";
+                    metadata.addEntireRow(K_KEY, "id",         K_VALUE, run.getID());
+                    metadata.addEntireRow(K_KEY, "name",       K_VALUE, run.getName());
+                    metadata.addEntireRow(K_KEY, "user",       K_VALUE, run.getUser());
+                    metadata.addEntireRow(K_KEY, "queued",     K_VALUE, String.valueOf(run.getQueuedDate()));
+                    metadata.addEntireRow(K_KEY, "downloaded", K_VALUE, String.valueOf(new java.util.Date()));
+                    metadata.addEntireRow(K_KEY, "version",    K_VALUE, run.getVersion());
+                    metadata.addEntireRow(K_KEY, "type",       K_VALUE, String.valueOf(run.getType()));
+                    metadata.addEntireRow(K_KEY, "server",     K_VALUE, run.getRunner().getName());
+                    final InputStream stream =
+                        new ByteArrayInputStream(metadata.getString().getBytes(StandardCharsets.UTF_8));
+                    store("run-information.tab", stream, null);
+                }
+            } catch (final Exception ex) {
 				RunnerUIPlugin .error("Error getting results for " + run.getName(), ex);
 			}
 			monitor.done();
