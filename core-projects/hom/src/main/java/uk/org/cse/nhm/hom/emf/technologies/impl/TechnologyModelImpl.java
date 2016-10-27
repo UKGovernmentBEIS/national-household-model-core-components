@@ -26,7 +26,6 @@ import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.energycalculator.impl.demands.HotWaterDemand09;
-import uk.org.cse.nhm.hom.ICopyable;
 import uk.org.cse.nhm.hom.IHeatProportions;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.IAdjuster;
@@ -60,6 +59,7 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.TechnologyModelImpl#getAppliances <em>Appliances</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.TechnologyModelImpl#getLights <em>Lights</em>}</li>
@@ -70,12 +70,14 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.TechnologyModelImpl#getCentralWaterSystem <em>Central Water System</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.TechnologyModelImpl#getSecondaryWaterHeater <em>Secondary Water Heater</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.TechnologyModelImpl#getCommunityHeatSource <em>Community Heat Source</em>}</li>
+ *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.TechnologyModelImpl#getSolarPhotovoltaic <em>Solar Photovoltaic</em>}</li>
+ *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.TechnologyModelImpl#getAdjusters <em>Adjusters</em>}</li>
+ *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.TechnologyModelImpl#getShower <em>Shower</em>}</li>
  * </ul>
- * </p>
  *
- * @generated no
+ * @generated
  */
-public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnologyModel, ICopyable<ITechnologyModel> {
+public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnologyModel {
 	/**
 	 * <!-- begin-user-doc -->
 	 * This corresponds to heating system 693 "Portable Electric Heaters" and 699 "Electric heaters (assumed)" in SAP tables 4a to 4c.

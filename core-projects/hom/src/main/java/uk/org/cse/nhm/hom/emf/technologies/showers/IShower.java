@@ -22,7 +22,7 @@ import uk.org.cse.nhm.hom.emf.technologies.IVisitorAccepter;
  *
  * @see uk.org.cse.nhm.hom.emf.technologies.showers.IShowersPackage#getShower()
  * @model abstract="true"
- * @generated
+ * @generated NOT
  */
 public interface IShower extends IVisitorAccepter, IBredemShower {
 	/**
