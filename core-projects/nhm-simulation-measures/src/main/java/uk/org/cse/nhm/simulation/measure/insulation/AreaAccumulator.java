@@ -2,10 +2,13 @@ package uk.org.cse.nhm.simulation.measure.insulation;
 
 import java.util.EnumSet;
 
+import com.google.common.base.Optional;
+
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
 import uk.org.cse.nhm.energycalculator.api.IHeatingSystem;
 import uk.org.cse.nhm.energycalculator.api.IVentilationSystem;
+import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
 import uk.org.cse.nhm.energycalculator.api.types.AreaType;
 import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
 
@@ -70,7 +73,7 @@ public class AreaAccumulator implements IEnergyCalculatorVisitor {
 
 	@Override
 	public void visitFabricElement(AreaType type, double area, double uValue,
-			double kValue) {
+			Optional<ThermalMassLevel> thermalMassLevel) {
 		if(this.areaTypes.contains(type)) {
 			this.totalArea += area;
 		}
@@ -97,5 +100,8 @@ public class AreaAccumulator implements IEnergyCalculatorVisitor {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public double getTotalThermalMass() { return 0; }
 
 }

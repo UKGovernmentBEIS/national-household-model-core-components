@@ -2,12 +2,14 @@ package uk.org.cse.stockimport.hom.impl.steps;
 
 import java.util.Set;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
 import uk.org.cse.nhm.energycalculator.api.IHeatingSystem;
 import uk.org.cse.nhm.energycalculator.api.IVentilationSystem;
+import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
 import uk.org.cse.nhm.energycalculator.api.types.AreaType;
 import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
 import uk.org.cse.nhm.hom.SurveyCase;
@@ -75,7 +77,7 @@ public class InternalWallBuildStep implements ISurveyCaseBuildStep {
 
 		@SuppressWarnings("incomplete-switch")
 		@Override
-		public void visitFabricElement(AreaType type, double area, double uValue, double kValue) {
+		public void visitFabricElement(AreaType type, double area, double uValue, final Optional<ThermalMassLevel> thermalMassLevel) {
 			switch (type) {
 			case Door:
 			case ExternalWall:
@@ -98,6 +100,9 @@ public class InternalWallBuildStep implements ISurveyCaseBuildStep {
 
 		@Override
 		public void addChimneyInfiltration() {}
+
+		@Override
+		public double getTotalThermalMass() { return 0; }
 	}
 	
 	@Override
