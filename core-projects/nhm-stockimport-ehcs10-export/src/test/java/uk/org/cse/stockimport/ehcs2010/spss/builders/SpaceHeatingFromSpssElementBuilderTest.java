@@ -57,12 +57,16 @@ public class SpaceHeatingFromSpssElementBuilderTest {
         when(element.getStorageCombiCylinderFactoryInsulated()).thenReturn(Optional.<Boolean> absent());
         when(element.getCondensing()).thenReturn(Optional.<Boolean> absent());
         when(element.getInstallationYear()).thenReturn(Optional.<Integer> absent());
+        when(element.getPcdbMatch()).thenReturn(Optional.of(Boolean.TRUE));
+
 
         return element;
     }
 
     @Test
     public void testBuildRowHasSensibleDefaults() {
+        //[dummyAACode, 0.0, , , , , true, , , , , , mains_gas, not_known, standard, , , , , , , ]
+        
         assertArrayEquals(new String[] {
                 "dummyAACode",
                 "0.0",
@@ -70,6 +74,7 @@ public class SpaceHeatingFromSpssElementBuilderTest {
                 "",
                 "",
                 "",
+                "true",
                 "",
                 "",
                 "",
@@ -106,7 +111,7 @@ public class SpaceHeatingFromSpssElementBuilderTest {
         when(element.getCommunityChargingUsageBased()).thenReturn(Optional.<Boolean> absent());
         when(element.getChpFraction()).thenReturn(Optional.<Double> absent());
         when(element.getSecondaryHeatingSystemType()).thenReturn(SecondaryHeatingSystemType.ELECTRIC_ROOM_HEATERS);
-
+        
         when(element.getStorageCombiCylinderVolume()).thenReturn(Optional.<Double> absent());
         when(element.getStorageCombiSolarVolume()).thenReturn(Optional.<Double> absent());
         when(element.getStorageCombiCylinderInsulationThickness()).thenReturn(Optional.<Double> absent());
@@ -114,7 +119,9 @@ public class SpaceHeatingFromSpssElementBuilderTest {
         when(element.getStorageCombiCylinderFactoryInsulated()).thenReturn(Optional.<Boolean> absent());
         when(element.getCondensing()).thenReturn(Optional.<Boolean> absent());
         when(element.getInstallationYear()).thenReturn(Optional.<Integer> absent());
-
+        when(element.getPcdbMatch()).thenReturn(Optional.of(Boolean.TRUE));
+        
+        
         assertArrayEquals(new String[] {
                 "H0011103",
                 "0.898",
@@ -122,6 +129,7 @@ public class SpaceHeatingFromSpssElementBuilderTest {
                 "",
                 "",
                 "fan_assisted_balanced_flue",
+                "true",
                 "0.806",
                 "0.907",
                 "",

@@ -22,6 +22,8 @@ public interface IHeatingDTO extends IBasicDTO {
 	public static final String SUMMEREFFICIENCY_FIELD = "SummerEfficiency";
 	public static final String BASICEFFICIENCY_FIELD = "BasicEfficiency";
 	public static final String FLUETYPE_FIELD = "flueType";
+		   
+    public static final String IS_PCDB_MATCH_FIELD = "PcdbMatch";
 
 	@DTOField(value=FLUETYPE_FIELD)
 	public Optional<FlueType> getFlueType() ;
@@ -50,4 +52,8 @@ public interface IHeatingDTO extends IBasicDTO {
 	@DTOField(BASICEFFICIENCY_FIELD)
 	public double getBasicEfficiency();
 	public void setBasicEfficiency(double basicEfficiency);
+	
+	@DTOField(value=IS_PCDB_MATCH_FIELD, description="Indicates whether boiler detailed came from a PCDB match.")
+    public Optional<Boolean> getPcdbMatch();
+    public void setPcdbMatch(final Optional<Boolean> isMatch);
 }

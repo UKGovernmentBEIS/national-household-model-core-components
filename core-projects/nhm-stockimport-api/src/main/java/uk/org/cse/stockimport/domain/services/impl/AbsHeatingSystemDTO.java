@@ -17,6 +17,9 @@ public abstract class AbsHeatingSystemDTO extends AbsDTO implements IHeatingDTO 
 	private Optional<Double> summerEfficiency = Optional.absent();
 	private Optional<Double> winterEfficiency = Optional.absent();
 	private double basicEfficiency;
+	
+	private Optional<Boolean>isFromPcdbMatch = Optional.of(false);
+	
 	@Override
 	public Optional<Double> getChpFraction() {
 		return chpFraction;
@@ -66,4 +69,22 @@ public abstract class AbsHeatingSystemDTO extends AbsDTO implements IHeatingDTO 
 	public void setBasicEfficiency(final double basicEfficiency) {
 		this.basicEfficiency = basicEfficiency;
 	}
+	
+	 /**
+     * @return
+     * @see uk.org.cse.stockimport.domain.services.ISpaceHeatingDTO#getPcdbMatch()
+     */
+    @Override
+    public Optional<Boolean> getPcdbMatch() {
+        return isFromPcdbMatch;
+    }
+
+    /**
+     * @param isMatch
+     * @see uk.org.cse.stockimport.domain.services.ISpaceHeatingDTO#setPcdbMatch(com.google.common.base.Optional)
+     */
+    @Override
+    public void setPcdbMatch(Optional<Boolean> isMatch) {
+        isFromPcdbMatch = isMatch;
+    }
 }
