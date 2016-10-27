@@ -30,7 +30,6 @@ import uk.org.cse.nhm.hom.emf.technologies.ICentralWaterSystem;
 import uk.org.cse.nhm.hom.emf.technologies.ICommunityCHP;
 import uk.org.cse.nhm.hom.emf.technologies.ICommunityHeatSource;
 import uk.org.cse.nhm.hom.emf.technologies.ICooker;
-import uk.org.cse.nhm.hom.emf.technologies.IElectricShower;
 import uk.org.cse.nhm.hom.emf.technologies.IHeatPump;
 import uk.org.cse.nhm.hom.emf.technologies.IHeatPumpWarmAirSystem;
 import uk.org.cse.nhm.hom.emf.technologies.IHybridHeater;
@@ -107,7 +106,6 @@ public class TechnologiesFactoryImpl extends EFactoryImpl implements ITechnologi
 			case ITechnologiesPackage.SOLAR_WATER_HEATER: return createSolarWaterHeater();
 			case ITechnologiesPackage.IMMERSION_HEATER: return createImmersionHeater();
 			case ITechnologiesPackage.COOKER: return createCooker();
-			case ITechnologiesPackage.ELECTRIC_SHOWER: return createElectricShower();
 			case ITechnologiesPackage.STORAGE_HEATER: return createStorageHeater();
 			case ITechnologiesPackage.COMMUNITY_HEAT_SOURCE: return createCommunityHeatSource();
 			case ITechnologiesPackage.COMMUNITY_CHP: return createCommunityCHP();
@@ -311,16 +309,6 @@ public class TechnologiesFactoryImpl extends EFactoryImpl implements ITechnologi
 	public ICooker createCooker() {
 		CookerImpl cooker = new CookerImpl();
 		return cooker;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public IElectricShower createElectricShower() {
-		ElectricShowerImpl electricShower = new ElectricShowerImpl();
-		return electricShower;
 	}
 
 	/**

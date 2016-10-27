@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
@@ -19,6 +20,7 @@ import uk.org.cse.nhm.hom.emf.technologies.ICentralWaterSystem;
 import uk.org.cse.nhm.hom.emf.technologies.ISolarWaterHeater;
 import uk.org.cse.nhm.hom.emf.technologies.IStoreContainer;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
+import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
 import uk.org.cse.nhm.hom.emf.technologies.IVisitorAccepter;
 import uk.org.cse.nhm.hom.emf.technologies.IWaterTank;
 import uk.org.cse.nhm.hom.emf.technologies.impl.util.CentralHotWaterTransducer;
@@ -38,6 +40,7 @@ import uk.org.cse.nhm.hom.emf.technologies.impl.util.CentralHotWaterTransducer;
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.CentralWaterSystemImpl#getSolarWaterHeater <em>Solar Water Heater</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.CentralWaterSystemImpl#getPrimaryWaterHeater <em>Primary Water Heater</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.CentralWaterSystemImpl#getSecondaryWaterHeater <em>Secondary Water Heater</em>}</li>
+ *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.CentralWaterSystemImpl#getTechnologyModel <em>Technology Model</em>}</li>
  * </ul>
  *
  * @generated
@@ -402,6 +405,47 @@ public class CentralWaterSystemImpl extends WaterHeaterImpl implements ICentralW
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public ITechnologyModel getTechnologyModel() {
+		if (eContainerFeatureID() != ITechnologiesPackage.CENTRAL_WATER_SYSTEM__TECHNOLOGY_MODEL) return null;
+		return (ITechnologyModel)eInternalContainer();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetTechnologyModel(ITechnologyModel newTechnologyModel, NotificationChain msgs) {
+		msgs = eBasicSetContainer((InternalEObject)newTechnologyModel, ITechnologiesPackage.CENTRAL_WATER_SYSTEM__TECHNOLOGY_MODEL, msgs);
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTechnologyModel(ITechnologyModel newTechnologyModel) {
+		if (newTechnologyModel != eInternalContainer() || (eContainerFeatureID() != ITechnologiesPackage.CENTRAL_WATER_SYSTEM__TECHNOLOGY_MODEL && newTechnologyModel != null)) {
+			if (EcoreUtil.isAncestor(this, newTechnologyModel))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+			NotificationChain msgs = null;
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
+			if (newTechnologyModel != null)
+				msgs = ((InternalEObject)newTechnologyModel).eInverseAdd(this, ITechnologiesPackage.TECHNOLOGY_MODEL__CENTRAL_WATER_SYSTEM, ITechnologyModel.class, msgs);
+			msgs = basicSetTechnologyModel(newTechnologyModel, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.CENTRAL_WATER_SYSTEM__TECHNOLOGY_MODEL, newTechnologyModel, newTechnologyModel));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public boolean isBroken() {
 		return getPrimaryWaterHeater() == null && getSecondaryWaterHeater() == null && 
 						(getStore() == null || getStore().getImmersionHeater() == null);
@@ -424,6 +468,22 @@ public class CentralWaterSystemImpl extends WaterHeaterImpl implements ICentralW
 	 * @generated
 	 */
 	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case ITechnologiesPackage.CENTRAL_WATER_SYSTEM__TECHNOLOGY_MODEL:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetTechnologyModel((ITechnologyModel)otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case ITechnologiesPackage.CENTRAL_WATER_SYSTEM__STORE:
@@ -434,8 +494,24 @@ public class CentralWaterSystemImpl extends WaterHeaterImpl implements ICentralW
 				return basicSetPrimaryWaterHeater(null, msgs);
 			case ITechnologiesPackage.CENTRAL_WATER_SYSTEM__SECONDARY_WATER_HEATER:
 				return basicSetSecondaryWaterHeater(null, msgs);
+			case ITechnologiesPackage.CENTRAL_WATER_SYSTEM__TECHNOLOGY_MODEL:
+				return basicSetTechnologyModel(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+		switch (eContainerFeatureID()) {
+			case ITechnologiesPackage.CENTRAL_WATER_SYSTEM__TECHNOLOGY_MODEL:
+				return eInternalContainer().eInverseRemove(this, ITechnologiesPackage.TECHNOLOGY_MODEL__CENTRAL_WATER_SYSTEM, ITechnologyModel.class, msgs);
+		}
+		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
 
 	/**
@@ -460,6 +536,8 @@ public class CentralWaterSystemImpl extends WaterHeaterImpl implements ICentralW
 				return getPrimaryWaterHeater();
 			case ITechnologiesPackage.CENTRAL_WATER_SYSTEM__SECONDARY_WATER_HEATER:
 				return getSecondaryWaterHeater();
+			case ITechnologiesPackage.CENTRAL_WATER_SYSTEM__TECHNOLOGY_MODEL:
+				return getTechnologyModel();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -492,6 +570,9 @@ public class CentralWaterSystemImpl extends WaterHeaterImpl implements ICentralW
 				return;
 			case ITechnologiesPackage.CENTRAL_WATER_SYSTEM__SECONDARY_WATER_HEATER:
 				setSecondaryWaterHeater((ICentralWaterHeater)newValue);
+				return;
+			case ITechnologiesPackage.CENTRAL_WATER_SYSTEM__TECHNOLOGY_MODEL:
+				setTechnologyModel((ITechnologyModel)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -526,6 +607,9 @@ public class CentralWaterSystemImpl extends WaterHeaterImpl implements ICentralW
 			case ITechnologiesPackage.CENTRAL_WATER_SYSTEM__SECONDARY_WATER_HEATER:
 				setSecondaryWaterHeater((ICentralWaterHeater)null);
 				return;
+			case ITechnologiesPackage.CENTRAL_WATER_SYSTEM__TECHNOLOGY_MODEL:
+				setTechnologyModel((ITechnologyModel)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -552,6 +636,8 @@ public class CentralWaterSystemImpl extends WaterHeaterImpl implements ICentralW
 				return primaryWaterHeater != null;
 			case ITechnologiesPackage.CENTRAL_WATER_SYSTEM__SECONDARY_WATER_HEATER:
 				return secondaryWaterHeater != null;
+			case ITechnologiesPackage.CENTRAL_WATER_SYSTEM__TECHNOLOGY_MODEL:
+				return getTechnologyModel() != null;
 		}
 		return super.eIsSet(featureID);
 	}

@@ -188,8 +188,6 @@ public class TestCase2 {
 		
 		technologies.setPrimarySpaceHeater(centralHeatingSystem);
 		
-		technologies.setSecondaryWaterHeater(ITechnologiesFactory.eINSTANCE.createElectricShower());
-		
 		addWaterHeatingSystem(boiler, sc);
 		
 		final ExternalParameters ep = new ExternalParameters();

@@ -185,8 +185,6 @@ public class BackupSpaceHeatersWorkWhenOtherThingsAreMissing {
 		
 		technologies.setPrimarySpaceHeater(centralHeatingSystem);
 		
-		technologies.setSecondaryWaterHeater(ITechnologiesFactory.eINSTANCE.createElectricShower());
-		
 		addWaterHeatingSystem(boiler, sc);
 		
 		breakBoilerAndAddRoomHeater(technologies);

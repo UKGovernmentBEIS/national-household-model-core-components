@@ -102,8 +102,6 @@ public class TechnologyTestBuilder {
 		switch (type) {
 		case CentralHotWater:
 			return factory.createCentralWaterSystem();
-		case ElectricShower:
-			return factory.createElectricShower();
 		case PointOfUse:
 			final IPointOfUseWaterHeater pointOfUse = factory.createPointOfUseWaterHeater();
 			if (maybeEfficiency.isPresent()) {

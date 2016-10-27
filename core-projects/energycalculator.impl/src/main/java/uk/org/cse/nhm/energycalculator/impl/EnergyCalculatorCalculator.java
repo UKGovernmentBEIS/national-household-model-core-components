@@ -172,7 +172,6 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		UTILISATION_FACTOR_TIME_CONSTANT_DIVISOR = constants
 				.get(EnergyCalculatorConstants.UTILISATION_FACTOR_TIME_CONSTANT_DIVISOR);
 
-		defaultTransducers.add(new HotWaterDemand09(constants));
 		defaultTransducers.add(new Appliances09(constants));
 		defaultTransducers.add(new MetabolicGainsSource(constants));
 		defaultTransducers.add(new EvaporativeGainsSource(constants));

@@ -18,6 +18,7 @@ package uk.org.cse.nhm.hom.emf.technologies;
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ICentralWaterSystem#getSolarWaterHeater <em>Solar Water Heater</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ICentralWaterSystem#getPrimaryWaterHeater <em>Primary Water Heater</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ICentralWaterSystem#getSecondaryWaterHeater <em>Secondary Water Heater</em>}</li>
+ *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ICentralWaterSystem#getTechnologyModel <em>Technology Model</em>}</li>
  * </ul>
  *
  * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getCentralWaterSystem()
@@ -180,6 +181,34 @@ public interface ICentralWaterSystem extends IWaterHeater, IVisitorAccepter, ISt
 	 * @generated
 	 */
 	void setSecondaryWaterHeater(ICentralWaterHeater value);
+
+	/**
+	 * Returns the value of the '<em><b>Technology Model</b></em>' container reference.
+	 * It is bidirectional and its opposite is '{@link uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel#getCentralWaterSystem <em>Central Water System</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Technology Model</em>' container reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Technology Model</em>' container reference.
+	 * @see #setTechnologyModel(ITechnologyModel)
+	 * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getCentralWaterSystem_TechnologyModel()
+	 * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel#getCentralWaterSystem
+	 * @model opposite="centralWaterSystem" transient="false"
+	 * @generated
+	 */
+	ITechnologyModel getTechnologyModel();
+
+	/**
+	 * Sets the value of the '{@link uk.org.cse.nhm.hom.emf.technologies.ICentralWaterSystem#getTechnologyModel <em>Technology Model</em>}' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Technology Model</em>' container reference.
+	 * @see #getTechnologyModel()
+	 * @generated
+	 */
+	void setTechnologyModel(ITechnologyModel value);
 
 	/**
 	 * <!-- begin-user-doc -->

@@ -105,10 +105,6 @@ public class XEnergyConstantsContext extends XContextParameter {
 		 HeatingSystemConstants_CENTRAL_HEATING_DISTRIBUTION_LOSSES(1),
 		@Doc("Solar primary pipework correction factor (by month) - default is 1.000, 1.000, 0.940, 0.700, 0.450, 0.440, 0.440, 0.480, 0.760, 0.940, 1.000, 1.000 ")
 		 HeatingSystemConstants_CENTRAL_HEATING_SOLAR_PPCF(12),
-		@Doc("The proportion of hot water energy that is used showering (for electric showers) - default is 0.348 ")
-		 HeatingSystemConstants_SHOWER_DEMAND_PROPORTION(1),
-		@Doc("The proportion of hot water volume that is consumed by electric showers - default is 0.250 ")
-		 HeatingSystemConstants_SHOWER_VOLUME_PROPORTION(1),
 		@Doc("Electric CPSU low-rate heat constant - default is 0.146 ")
 		 HeatingSystemConstants_ELECTRIC_CPSU_LOW_RATE_HEAT_CONSTANT(1),
 		@Doc("Electric CPSU temperature offset (SAP appendix F) - default is 48.000 ")

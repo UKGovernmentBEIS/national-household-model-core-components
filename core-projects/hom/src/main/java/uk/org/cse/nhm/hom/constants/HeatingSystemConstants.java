@@ -115,12 +115,6 @@ public enum HeatingSystemConstants implements IConstant {
 	@ConstantDescription("Solar primary pipework correction factor (by month)")
 	CENTRAL_HEATING_SOLAR_PPCF(1, 1, 0.94, 0.70, 0.45, 0.44, 0.44, 0.48, 0.76, 0.94, 1, 1),
 	
-	@ConstantDescription("The proportion of hot water energy that is used showering (for electric showers)")
-	SHOWER_DEMAND_PROPORTION(0.348),
-	
-	@ConstantDescription("The proportion of hot water volume that is consumed by electric showers")
-	SHOWER_VOLUME_PROPORTION(0.25),
-	
 	@ConstantDescription("Electric CPSU low-rate heat constant")
 	ELECTRIC_CPSU_LOW_RATE_HEAT_CONSTANT(0.1456), 
 	

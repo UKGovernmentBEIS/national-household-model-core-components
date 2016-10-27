@@ -45,7 +45,7 @@
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="centralWaterSystem" eType="#//CentralWaterSystem"
-        containment="true">
+        containment="true" eOpposite="#//CentralWaterSystem/technologyModel">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="If the house has central DHW, it is presumed to have one DHW system which will be here"/>
       </eAnnotations>
@@ -66,6 +66,8 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="adjusters" upperBound="-1"
         eType="#//Adjuster" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="shower" eType="#//showers/Shower"
+        containment="true" eOpposite="#//showers/Shower/technologyModel"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Appliance" eSuperTypes="#//Named #//VisitorAccepter">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="efficiency" lowerBound="1"
@@ -201,6 +203,8 @@
         eType="#//CentralWaterHeater" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="secondaryWaterHeater" eType="#//CentralWaterHeater"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="technologyModel" eType="#//TechnologyModel"
+        eOpposite="#//TechnologyModel/centralWaterSystem"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CentralHeatingSystem" eSuperTypes="#//PrimarySpaceHeater #//VisitorAccepter">
     <eOperations name="isThermostaticallyControlled" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
@@ -350,7 +354,6 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="gainsFactor" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ElectricShower" eSuperTypes="#//WaterHeater #//VisitorAccepter"/>
   <eClassifiers xsi:type="ecore:EEnum" name="EmitterType">
     <eLiterals name="Radiators"/>
     <eLiterals name="UnderfloorTimber" value="1"/>
@@ -561,5 +564,15 @@
       <eLiterals name="SAPDefault"/>
       <eLiterals name="ManufacturerDeclared" value="1"/>
     </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="showers" nsURI="http://www.cse.org.uk/nhm/schema/emf/technology/showers/1/"
+      nsPrefix="showers">
+    <eClassifiers xsi:type="ecore:EClass" name="Shower" abstract="true" eSuperTypes="#//VisitorAccepter">
+      <eOperations name="solarAdjustment" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="technologyModel" eType="#//TechnologyModel"
+          eOpposite="#//TechnologyModel/shower"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="MixerShower" eSuperTypes="#//showers/Shower"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ElectricShower" eSuperTypes="#//showers/Shower"/>
   </eSubpackages>
 </ecore:EPackage>
