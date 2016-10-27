@@ -15,8 +15,10 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.google.common.base.Optional;
 
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
+import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
 import uk.org.cse.nhm.energycalculator.api.types.AreaType;
 import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
 import uk.org.cse.nhm.hom.components.fabric.types.FloorLocationType;
@@ -106,30 +108,10 @@ public class Storey implements IStorey {
 	private double floorUValue;
 	
 	/**
-	 * the k-value for thermal mass below this floor into the ground.
-	 */
-	private double floorKValue;
-	
-	/**
-	 * The k value for the party part of the floor.
-	 */
-	private double partyFloorKValue;
-	
-	/**
-	 * The k value for the party part of the ceiling
-	 */
-	private double partyCeilingKValue;
-	
-	/**
 	 * The u-value for heat loss from this floor to void space above it.
 	 */
 	private double ceilingUValue;
 	
-	/**
-	 * The k-value for this floor to void space above it.
-	 */
-	private double ceilingKValue;
-
 	private double floorAirChangeRate;
 	
 	private transient double exposedPerimeterCache = -1;
@@ -274,12 +256,12 @@ public class Storey implements IStorey {
 			//TODO does area below into ground count as External Area for thermal bridging purposes?
 			// there is a heat loss area pointing downwards, whose area is area - areaBelow
 			final double heatLossAreaBelow = area - areaBelow;
-			visitor.visitFabricElement(AreaType.ExternalFloor, heatLossAreaBelow, floorUValue, floorKValue);
-			visitor.visitFabricElement(AreaType.PartyFloor, areaBelow, 0, partyFloorKValue);
+			visitor.visitFabricElement(AreaType.ExternalFloor, heatLossAreaBelow, floorUValue, Optional.<ThermalMassLevel>absent());
+			visitor.visitFabricElement(AreaType.PartyFloor, areaBelow, 0, Optional.<ThermalMassLevel>absent());
 			
 			// BEISDOC ID: 11
 			visitor.addFloorInfiltration(heatLossAreaBelow, floorAirChangeRate);
-			visitor.visitFabricElement(AreaType.PartyFloor, areaBelow, 0, partyFloorKValue);
+			visitor.visitFabricElement(AreaType.PartyFloor, areaBelow, 0, Optional.<ThermalMassLevel>absent());
 		}
 		
 		if (area > areaAbove) {
@@ -301,8 +283,8 @@ public class Storey implements IStorey {
 			*/
 			// there is a heat loss area pointing upwards, whose area is area - areaAbove
 			final double heatLossAreaAbove = area - areaAbove;
-			visitor.visitFabricElement(AreaType.ExternalCeiling, heatLossAreaAbove, ceilingUValue, ceilingKValue);
-			visitor.visitFabricElement(AreaType.PartyCeiling, areaAbove, 0, partyCeilingKValue);
+			visitor.visitFabricElement(AreaType.ExternalCeiling, heatLossAreaAbove, ceilingUValue, Optional.<ThermalMassLevel>absent());
+			visitor.visitFabricElement(AreaType.PartyCeiling, areaAbove, 0, Optional.<ThermalMassLevel>absent());
 		}
 	}
 	
@@ -431,7 +413,7 @@ public class Storey implements IStorey {
 				// party walls cannot contain windows or doors, and they have no infiltration effects
 				// so we just skip over all that stuff here
 				wallArea = basicArea;
-				visitor.visitFabricElement(AreaType.PartyWall, wallArea, segment.getUValue(), segment.getKValue());
+				visitor.visitFabricElement(AreaType.PartyWall, wallArea, segment.getUValue(), Optional.<ThermalMassLevel>absent());
 			} else {				
 				// non-attached walls can hold windows and doors, so we need to talk to the elevation about that.
 				final IElevation e = elevations.get(segment.getElevationType());
@@ -478,7 +460,7 @@ public class Storey implements IStorey {
 				ID: external-wall-element
 				CODSIEB
 				*/
-				visitor.visitFabricElement(AreaType.ExternalWall, wallArea, segment.getUValue(), segment.getKValue());
+				visitor.visitFabricElement(AreaType.ExternalWall, wallArea, segment.getUValue(), segment.getThermalMassLevel());
 			}
 		}
 	}
@@ -604,65 +586,37 @@ public class Storey implements IStorey {
 		final int prime = 31;
 		int result = 1;
 		long temp;
-		temp = Double.doubleToLongBits(ceilingKValue);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(ceilingUValue);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(floorAirChangeRate);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(floorKValue);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime
-				* result
-				+ ((floorLocationType == null) ? 0 : floorLocationType
-						.hashCode());
+		result = prime * result + ((floorLocationType == null) ? 0 : floorLocationType.hashCode());
 		temp = Double.doubleToLongBits(floorUValue);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(height);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(partyCeilingKValue);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(partyFloorKValue);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result
-				+ ((segments == null) ? 0 : segments.hashCode());
+		result = prime * result + ((segments == null) ? 0 : segments.hashCode());
 		return result;
 	}
 
 	@Override
-	public boolean equals(final Object obj) {
+	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final Storey other = (Storey) obj;
-		if (Double.doubleToLongBits(ceilingKValue) != Double
-				.doubleToLongBits(other.ceilingKValue))
+		Storey other = (Storey) obj;
+		if (Double.doubleToLongBits(ceilingUValue) != Double.doubleToLongBits(other.ceilingUValue))
 			return false;
-		if (Double.doubleToLongBits(ceilingUValue) != Double
-				.doubleToLongBits(other.ceilingUValue))
-			return false;
-		if (Double.doubleToLongBits(floorAirChangeRate) != Double
-				.doubleToLongBits(other.floorAirChangeRate))
-			return false;
-		if (Double.doubleToLongBits(floorKValue) != Double
-				.doubleToLongBits(other.floorKValue))
+		if (Double.doubleToLongBits(floorAirChangeRate) != Double.doubleToLongBits(other.floorAirChangeRate))
 			return false;
 		if (floorLocationType != other.floorLocationType)
 			return false;
-		if (Double.doubleToLongBits(floorUValue) != Double
-				.doubleToLongBits(other.floorUValue))
+		if (Double.doubleToLongBits(floorUValue) != Double.doubleToLongBits(other.floorUValue))
 			return false;
-		if (Double.doubleToLongBits(height) != Double
-				.doubleToLongBits(other.height))
-			return false;
-		if (Double.doubleToLongBits(partyCeilingKValue) != Double
-				.doubleToLongBits(other.partyCeilingKValue))
-			return false;
-		if (Double.doubleToLongBits(partyFloorKValue) != Double
-				.doubleToLongBits(other.partyFloorKValue))
+		if (Double.doubleToLongBits(height) != Double.doubleToLongBits(other.height))
 			return false;
 		if (segments == null) {
 			if (other.segments != null)

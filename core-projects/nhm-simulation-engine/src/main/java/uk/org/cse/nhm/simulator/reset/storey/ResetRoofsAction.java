@@ -25,8 +25,6 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 public class ResetRoofsAction extends AbstractNamed implements IComponentsAction {
 	private final IDimension<StructureModel> structureDimension;
 	private final IComponentsFunction<Number> uValue;
-	private final IComponentsFunction<Number> kValue;
-	private final IComponentsFunction<Number> partykValue;
 	
 	private final RoofPropertyFunction floorProperties;
 	
@@ -35,16 +33,12 @@ public class ResetRoofsAction extends AbstractNamed implements IComponentsAction
 	 * @author hinton
 	 *
 	 */
-	class RoofPropertyFunction extends AbstractNamed implements IComponentsFunction<double[]> {
+	class RoofPropertyFunction extends AbstractNamed implements IComponentsFunction<Number> {
 		@Override
-		public double[] compute(final IComponentsScope scope, final ILets lets) {
+		public Number compute(final IComponentsScope scope, final ILets lets) {
 			final Storey s = lets.get(ResetFloorsAction.STOREY_SCOPE_KEY, Storey.class).get();
 			
-			return new double[] {
-					uValue == null ? s.getCeilingUValue():uValue.compute(scope, lets).doubleValue(),
-					kValue == null ? s.getCeilingKValue():kValue.compute(scope, lets).doubleValue(),
-					partykValue == null ? s.getPartyCeilingKValue() : partykValue.compute(scope, lets).doubleValue()
-			};
+			return uValue == null ? s.getCeilingUValue() : uValue.compute(scope, lets);
 		}
 
 		@Override
@@ -61,14 +55,10 @@ public class ResetRoofsAction extends AbstractNamed implements IComponentsAction
 	@AssistedInject
 	public ResetRoofsAction(
 			final IDimension<StructureModel> structureDimension,
-			@Assisted("uValue") final Optional<IComponentsFunction<Number>> uValue,
-			@Assisted("kValue") final Optional<IComponentsFunction<Number>> kValue,
-			@Assisted("partyKValue") final Optional<IComponentsFunction<Number>> partyKValue
+			@Assisted("uValue") final Optional<IComponentsFunction<Number>> uValue
 			) {
 		this.structureDimension = structureDimension;
 		this.uValue = uValue.orNull();
-		this.kValue = kValue.orNull();
-		this.partykValue = partyKValue.orNull();
 		this.floorProperties = new RoofPropertyFunction();
 	}	
 	
@@ -83,12 +73,10 @@ public class ResetRoofsAction extends AbstractNamed implements IComponentsAction
 			@Override
 			public boolean modify(final StructureModel modifiable) {
 				for (final Storey storey : modifiable.getStoreys()) {
-					final double[] result = 
+					final Number result = 
 							floorProperties.compute(scope, 
 									lets.withBinding(ResetFloorsAction.STOREY_SCOPE_KEY, storey));
-					storey.setCeilingUValue(result[0]);
-					storey.setCeilingKValue(result[1]);
-					storey.setPartyCeilingKValue(result[2]);
+					storey.setCeilingUValue(result.doubleValue());
 				}
 				return true;
 			}

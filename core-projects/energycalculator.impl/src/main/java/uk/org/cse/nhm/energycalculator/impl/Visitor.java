@@ -44,7 +44,7 @@ class Visitor implements IEnergyCalculatorVisitor {
 	private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Visitor.class);
 
 	public final IStructuralInfiltrationAccumulator infiltration;
-
+	
 	public final List<IEnergyTransducer> transducers;
 	public final List<IHeatingSystem> heatingSystems = new ArrayList<IHeatingSystem>();
 	public final Map<IHeatingSystem, Double> proportions = new HashMap<>();
@@ -162,7 +162,7 @@ class Visitor implements IEnergyCalculatorVisitor {
 		UNIT: kJ/m^2.℃
 		SAP: Table 1f
 		BREDEM: 4A
-		DEPS: thermal-mass-level
+		DEPS: thermal-mass-level,wall-thermal-mass-category
 		ID: thermal-mass
 		CODSIEB
 		*/

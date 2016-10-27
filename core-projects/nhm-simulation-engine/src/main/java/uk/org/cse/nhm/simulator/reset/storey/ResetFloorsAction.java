@@ -26,8 +26,6 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 public class ResetFloorsAction extends AbstractNamed implements IComponentsAction {
 	private final IDimension<StructureModel> structureDimension;
 	private final IComponentsFunction<Number> uValue;
-	private final IComponentsFunction<Number> kValue;
-	private final IComponentsFunction<Number> partykValue;
 	private final IComponentsFunction<Number> infiltration;
 	private final FloorPropertyFunction floorProperties;
 	/**
@@ -52,9 +50,7 @@ public class ResetFloorsAction extends AbstractNamed implements IComponentsActio
 			
 			return new double[] {
 					uValue == null ? s.getFloorUValue():uValue.compute(scope, lets).doubleValue(),
-					kValue == null ? s.getFloorKValue():kValue.compute(scope, lets).doubleValue(),
-					infiltration == null ? s.getFloorAirChangeRate():infiltration.compute(scope, lets).doubleValue(),
-					partykValue == null ? s.getPartyFloorKValue() : partykValue.compute(scope, lets).doubleValue()
+					infiltration == null ? s.getFloorAirChangeRate():infiltration.compute(scope, lets).doubleValue()
 			};
 		}
 
@@ -73,15 +69,11 @@ public class ResetFloorsAction extends AbstractNamed implements IComponentsActio
 	public ResetFloorsAction(
 			final IDimension<StructureModel> structureDimension,
 			@Assisted("uValue") final Optional<IComponentsFunction<Number>> uValue,
-			@Assisted("kValue") final Optional<IComponentsFunction<Number>> kValue,
-			@Assisted("infiltration") final Optional<IComponentsFunction<Number>> infiltration,
-			@Assisted("partyKValue") final Optional<IComponentsFunction<Number>> partyKValue
+			@Assisted("infiltration") final Optional<IComponentsFunction<Number>> infiltration
 			) {
 		this.structureDimension = structureDimension;
 		this.uValue = uValue.orNull();
-		this.kValue = kValue.orNull();
 		this.infiltration = infiltration.orNull();
-		this.partykValue = partyKValue.orNull();
 		this.floorProperties = new FloorPropertyFunction();
 	}	
 	
@@ -104,9 +96,7 @@ public class ResetFloorsAction extends AbstractNamed implements IComponentsActio
 										STOREY_GROUND_AREA_KEY, areaBelow)));
 					
 					storey.setFloorUValue(result[0]);
-					storey.setFloorKValue(result[1]);
-					storey.setFloorAirChangeRate(result[2]);
-					storey.setPartyFloorKValue(result[3]);
+					storey.setFloorAirChangeRate(result[1]);
 					
 					areaBelow = storey.getArea();
 				}

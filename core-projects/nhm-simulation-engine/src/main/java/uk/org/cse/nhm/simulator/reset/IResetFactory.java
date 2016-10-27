@@ -23,7 +23,6 @@ import uk.org.cse.nhm.simulator.reset.walls.ResetWallsAction;
 import uk.org.cse.nhm.simulator.reset.walls.WallConstructionFunction;
 import uk.org.cse.nhm.simulator.reset.walls.WallInfiltrationFunction;
 import uk.org.cse.nhm.simulator.reset.walls.WallInsulationFunction;
-import uk.org.cse.nhm.simulator.reset.walls.WallKValueFunction;
 import uk.org.cse.nhm.simulator.reset.walls.WallUValueFunction;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
@@ -36,14 +35,12 @@ public interface IResetFactory {
 	
 	public ResetWallsAction
 		createResetWallsAction(@Assisted("uvalues") final Optional<IComponentsFunction<Number>> uLookup,
-							   @Assisted("kvalues") final Optional<IComponentsFunction<Number>> kLookup,
 							   @Assisted("infiltration") final Optional<IComponentsFunction<Number>> infiltration,
 							   @Assisted("thickness") final Optional<IComponentsFunction<Number>> thickness);
 
 	public WallConstructionFunction createWallConstructionFunction();
 	public WallInfiltrationFunction createWallInfiltrationFunction();
 	public WallInsulationFunction createWallInsulationThicknessFunction(final Set<WallInsulationType> matching);
-	public WallKValueFunction createWallKValueFunction();
 	public WallUValueFunction createWallUValueFunction();
 
 	/* Functions pertinent to glazing */
@@ -67,9 +64,7 @@ public interface IResetFactory {
 
 	public ResetFloorsAction createResetFloorsAction(
 			@Assisted("uValue") Optional<IComponentsFunction<Number>> uValue,
-			@Assisted("kValue") Optional<IComponentsFunction<Number>> kValue,
-			@Assisted("infiltration") Optional<IComponentsFunction<Number>> infiltration,
-			@Assisted("partyKValue") Optional<IComponentsFunction<Number>> partyKValue);
+			@Assisted("infiltration") Optional<IComponentsFunction<Number>> infiltration);
 
 	public RdSapFloorUValueFunction createComputeFloorUValueFunction(
 			@Assisted("rsi") final double rsi, 
@@ -87,9 +82,7 @@ public interface IResetFactory {
 	public FloorIsNotExposedFunction createFloorIsGroundFloorFunction();
 
 	public ResetRoofsAction createResetRoofsAction(			
-			@Assisted("uValue") final Optional<IComponentsFunction<Number>> uValue,
-			@Assisted("kValue") final Optional<IComponentsFunction<Number>> kValue,
-			@Assisted("partyKValue") final Optional<IComponentsFunction<Number>> partyKValue
+			@Assisted("uValue") final Optional<IComponentsFunction<Number>> uValue
 			);
 	
 	public ResetOpexAction createResetOpexAction(

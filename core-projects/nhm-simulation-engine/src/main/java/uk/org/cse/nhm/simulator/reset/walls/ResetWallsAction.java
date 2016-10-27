@@ -27,19 +27,16 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 public class ResetWallsAction extends AbstractNamed implements IComponentsAction {
 	static class WallPropertyFunction extends AbstractNamed implements IComponentsFunction<double[]> {
 		private final IComponentsFunction<Number> uValue;
-		private final IComponentsFunction<Number> kValue;
 		private final IComponentsFunction<Number> infiltration;
 		private final IComponentsFunction<Number> thickness;
 		
 		private final IDimension<?> structureDimension;
 
 		public WallPropertyFunction(final IComponentsFunction<Number> uValue,
-									final IComponentsFunction<Number> kValue,
 									final IComponentsFunction<Number> infiltration,
 									final IComponentsFunction<Number> thickness,
 									final IDimension<?> structureDimension) {
 			this.uValue = uValue;
-			this.kValue = kValue;
 			this.infiltration = infiltration;
 			this.thickness = thickness;
 			this.structureDimension = structureDimension;
@@ -47,24 +44,21 @@ public class ResetWallsAction extends AbstractNamed implements IComponentsAction
 
 		@Override
 		public double[] compute(final IComponentsScope scope, final ILets lets) {
-			final double[] result = new double[4];
+			final double[] result = new double[3];
 
 			final IWall wall = lets.get(CURRENT_WALL_LET_IDENTITY, IWall.class).get();
 			
-			if (kValue != null) result[1] = kValue.compute(scope, lets).doubleValue();
-			else result[1] = wall.getKValue();
-
 			if (wall.getWallConstructionType().getWallType() == WallType.External) {
 				if (uValue != null) result[0] = uValue.compute(scope, lets).doubleValue();
 				else result[0] = wall.getUValue();
 				if (infiltration != null) result[2] = infiltration.compute(scope, lets).doubleValue();
-				else result[2] = wall.getAirChangeRate();
+				else result[1] = wall.getAirChangeRate();
 				if (thickness != null) result[3] = thickness.compute(scope, lets).doubleValue();
-				else result[3] = wall.getThicknessWithoutInsulation();
+				else result[2] = wall.getThicknessWithoutInsulation();
 			} else {
 				result[0] = wall.getUValue();
-				result[2] = wall.getAirChangeRate();
-				result[3] = wall.getThicknessWithoutInsulation();
+				result[1] = wall.getAirChangeRate();
+				result[2] = wall.getThicknessWithoutInsulation();
 			}
 			
 			return result;
@@ -94,7 +88,6 @@ public class ResetWallsAction extends AbstractNamed implements IComponentsAction
 		this.structureDimension = structureDimension;
 		this.allFunctionsTogether =
 			new WallPropertyFunction(uValue.orNull(),
-									 kValue.orNull(),
 									 infiltration.orNull(),
 									 thickness.orNull(),
 									 structureDimension);
@@ -118,9 +111,8 @@ public class ResetWallsAction extends AbstractNamed implements IComponentsAction
 								lets.withBinding(CURRENT_WALL_LET_IDENTITY, wall));
 
 						wall.setUValue(results[0]);
-						wall.setKValue(results[1]);
-						wall.setAirChangeRate(results[2]);
-						wall.setThicknessWithExistingInsulation(results[3]);
+						wall.setAirChangeRate(results[1]);
+						wall.setThicknessWithExistingInsulation(results[2]);
 					}
 				}
 				return true;

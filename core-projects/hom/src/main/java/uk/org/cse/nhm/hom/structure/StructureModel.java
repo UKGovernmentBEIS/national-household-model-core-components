@@ -12,8 +12,10 @@ import org.pojomatic.annotations.AutoProperty;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.google.common.base.Optional;
 
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
+import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
 import uk.org.cse.nhm.energycalculator.api.types.AreaType;
 import uk.org.cse.nhm.hom.ICopyable;
 import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
@@ -319,7 +321,7 @@ public class StructureModel implements ICopyable<StructureModel> {
 		NOTES: Internal walls always have a u-value of 0.
 		CODSIEB
 		*/
-		visitor.visitFabricElement(AreaType.InternalWall, internalWallArea, 0, internalWallKValue);
+		visitor.visitFabricElement(AreaType.InternalWall, internalWallArea, 0, Optional.<ThermalMassLevel>absent());
 		
 		final Map<ElevationType, IElevation> elmap = new EnumMap<ElevationType, IElevation>(elevations);
 		final Map<ElevationType, IDoorVisitor> doors = new EnumMap<ElevationType, Elevation.IDoorVisitor>(ElevationType.class);

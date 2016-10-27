@@ -8,7 +8,10 @@ import static org.mockito.Mockito.verify;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.google.common.base.Optional;
+
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
+import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
 import uk.org.cse.nhm.energycalculator.api.types.AreaType;
 import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
 import uk.org.cse.nhm.hom.components.fabric.types.DoorType;
@@ -31,7 +34,7 @@ public class ElevationTest {
 		
 		e.visitGlazing(visitor, 100, 0);
 		
-		verify(visitor).visitFabricElement(any(AreaType.class), eq(50d), eq(2d), eq(0d));
+		verify(visitor).visitFabricElement(any(AreaType.class), eq(50d), eq(2d), eq(Optional.<ThermalMassLevel>absent()));
 	}
 	
 	@Test
@@ -73,7 +76,7 @@ public class ElevationTest {
 		
 		double visitDoors = doorVisitor.visitDoors(visitor, 100);
 		Assert.assertEquals(10d, visitDoors, 0d);
-		verify(visitor).visitFabricElement(any(AreaType.class), eq(10d), eq(5d), eq(0d));
+		verify(visitor).visitFabricElement(any(AreaType.class), eq(10d), eq(5d), eq(Optional.<ThermalMassLevel>absent()));
 		
 		Assert.assertEquals(0d, doorVisitor.visitDoors(visitor, 100), 0d);
 	}

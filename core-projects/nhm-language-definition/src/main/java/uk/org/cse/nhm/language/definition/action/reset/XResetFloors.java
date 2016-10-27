@@ -17,14 +17,10 @@ public class XResetFloors extends XFlaggedDwellingAction {
 	public static final class P {
 		public static final String uValue = "uValue";
 		public static final String infiltration = "infiltration";
-		public static final String kValue = "kValue";
-		public static final String partyKValue = "partyKValue";
 	}
 	
 	private XNumber uValue;
 	private XNumber infiltration;
-	private XNumber kValue;
-	private XNumber partyKValue;
 	
 	@Prop(P.uValue)
 	@BindNamedArgument("u-values")
@@ -44,25 +40,5 @@ public class XResetFloors extends XFlaggedDwellingAction {
 	}
 	public void setInfiltration(final XNumber infiltration) {
 		this.infiltration = infiltration;
-	}
-	
-	@Prop(P.kValue)
-	@BindNamedArgument("k-values")
-	@Doc("A function used to compute the new k-value for each floor.")
-	public XNumber getkValue() {
-		return kValue;
-	}
-	public void setkValue(final XNumber kValue) {
-		this.kValue = kValue;
-	}
-	
-	@Prop(P.partyKValue)
-	@BindNamedArgument("party-k-values")
-	@Doc("A function used to compute the new k-value for the part of each floor which is party floor.")
-	public XNumber getPartyKValue() {
-		return partyKValue;
-	}
-	public void setPartyKValue(final XNumber partyKValue) {
-		this.partyKValue = partyKValue;
 	}
 }

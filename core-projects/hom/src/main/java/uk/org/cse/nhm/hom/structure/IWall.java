@@ -2,6 +2,9 @@ package uk.org.cse.nhm.hom.structure;
 
 import java.util.Set;
 
+import com.google.common.base.Optional;
+
+import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
 import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
 import uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType;
 import uk.org.cse.nhm.hom.components.fabric.types.WallInsulationType;
@@ -21,6 +24,8 @@ public interface IWall {
 	public double getUValue();
 	public double getThicknessWithInsulation();
 	public double getThicknessWithoutInsulation();
+	
+	public Optional<ThermalMassLevel> getThermalMassLevel();
 	
 	public WallConstructionType getWallConstructionType();
 
