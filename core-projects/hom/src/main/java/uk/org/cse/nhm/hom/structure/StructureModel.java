@@ -106,7 +106,6 @@ public class StructureModel implements ICopyable<StructureModel> {
 	private double roofInsulationThickness;
     private BuiltFormType builtFormType;
     private double internalWallArea;
-    private double internalWallKValue;
     
     private double frontPlotDepth, frontPlotWidth;
     private double backPlotDepth, backPlotWidth;
@@ -217,7 +216,6 @@ public class StructureModel implements ICopyable<StructureModel> {
     	copy.setOwnsPartOfRoof(ownsPartOfRoof());
     	
     	copy.setInternalWallArea(getInternalWallArea());
-    	copy.setInternalWallKValue(getInternalWallKValue());
     	copy.setHasLoft(getHasLoft());
     	copy.setReducedInternalGains(hasReducedInternalGains());
     	copy.setIntermittentFans(getIntermittentFans());
@@ -617,14 +615,6 @@ public class StructureModel implements ICopyable<StructureModel> {
 	public void setInternalWallArea(final double internalWallArea) {
 		this.internalWallArea = internalWallArea;
 	}
-
-	public double getInternalWallKValue() {
-		return internalWallKValue;
-	}
-
-	public void setInternalWallKValue(final double internalWallKValue) {
-		this.internalWallKValue = internalWallKValue;
-	}
 	
 	@Override
 	public String toString() {
@@ -749,7 +739,6 @@ public class StructureModel implements ICopyable<StructureModel> {
 		result = prime * result + intermittentFans;
 		temp = Double.doubleToLongBits(internalWallArea);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(internalWallKValue);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(interzoneSpecificHeatLoss);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -814,8 +803,6 @@ public class StructureModel implements ICopyable<StructureModel> {
 		if (intermittentFans != other.intermittentFans)
 			return false;
 		if (Double.doubleToLongBits(internalWallArea) != Double.doubleToLongBits(other.internalWallArea))
-			return false;
-		if (Double.doubleToLongBits(internalWallKValue) != Double.doubleToLongBits(other.internalWallKValue))
 			return false;
 		if (Double.doubleToLongBits(interzoneSpecificHeatLoss) != Double
 				.doubleToLongBits(other.interzoneSpecificHeatLoss))

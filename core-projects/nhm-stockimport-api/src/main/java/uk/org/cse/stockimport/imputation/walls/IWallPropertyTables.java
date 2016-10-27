@@ -6,9 +6,6 @@ public interface IWallPropertyTables {
 	IWallInfiltrationImputer getWallInfiltrationImputer();
 	void setWallInfiltrationImputer(IWallInfiltrationImputer infiltrationImputer);
 	
-	IWallKValueImputer getWallKValueImputer();
-	void setWallKValueImputer(IWallKValueImputer wallKValueImputer);
-	
 	IWallUValueImputer getWallUValueImputer();
 	void setWallUValueImputer(IWallUValueImputer wallIWallUValueImputer);
 	

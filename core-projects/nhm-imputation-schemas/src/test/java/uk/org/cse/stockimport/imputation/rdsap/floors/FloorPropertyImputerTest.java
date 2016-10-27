@@ -83,12 +83,6 @@ public class FloorPropertyImputerTest {
 	}
 
 	@Test
-	public void testExposedFloorKValue() {
-		Assert.assertEquals(20d, i.getExposedFloorKValue(false));
-		Assert.assertEquals(20d, i.getExposedFloorKValue(true));
-	}
-
-	@Test
 	public void testFloorConstructionType() {
 		for (final SAPAgeBandValue.Band value : SAPAgeBandValue.Band.values()) {
 			final FloorConstructionType fct = i.getFloorConstructionType(value);
@@ -98,11 +92,6 @@ public class FloorPropertyImputerTest {
 							FloorConstructionType.SuspendedTimber : FloorConstructionType.Solid,
 							fct);
 		}
-	}
-	
-	@Test
-	public void testPartyFloorKValue() {
-		Assert.assertEquals(35d, i.getPartyFloorKValue());
 	}
 	
 	@Test

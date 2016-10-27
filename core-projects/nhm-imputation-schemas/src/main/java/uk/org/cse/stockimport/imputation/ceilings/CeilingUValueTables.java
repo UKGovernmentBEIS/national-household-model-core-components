@@ -93,12 +93,4 @@ public class CeilingUValueTables implements ICeilingUValueTables {
 		final TreeMap<Integer,Double> ageBandValues = unknownValuesByRoofTypeAndAgeBandWithRoomInRoof.get(roofType.ordinal());
 		ageBandValues.put(ageBandValue.ordinal(), value);
 	}
-	
-	public void setPartyCeilingKValue(final double partyCeilingKValue) {
-		this.partyCeilingKValue = partyCeilingKValue;
-	}
-
-	public void setRoofKValue(final double roofKValue) {
-		this.roofKValue = roofKValue;
-	}
 }

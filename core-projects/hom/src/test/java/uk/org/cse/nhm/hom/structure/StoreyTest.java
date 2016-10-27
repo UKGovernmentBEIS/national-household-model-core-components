@@ -196,20 +196,8 @@ public class StoreyTest {
         final Storey s = new Storey();
         s.setFloorLocationType(FloorLocationType.GROUND);
         Assert.assertEquals(FloorLocationType.GROUND, s.getFloorLocationType());
-
-        s.setFloorKValue(1024);
-        Assert.assertEquals(1024d, s.getFloorKValue(), 0d);
-
+     
         s.setFloorUValue(99);
         Assert.assertEquals(99d, s.getFloorUValue(), 0d);
-
-        s.setCeilingKValue(1234);
-        Assert.assertEquals(1234d, s.getCeilingKValue(), 0d);
-
-        s.setPartyCeilingKValue(585);
-        Assert.assertEquals(585d, s.getPartyCeilingKValue(), 0d);
-
-        s.setPartyFloorKValue(66);
-        Assert.assertEquals(66d, s.getPartyFloorKValue(), 0d);
     }
 }

@@ -6,16 +6,10 @@ public class WallPropertyTables implements IWallPropertyTables {
 	IWallInfiltrationImputer infiltrationImputer;
 	IWallThicknessImputer wallThicknessImputer;
 	IWallUValueImputer wallUValueImputer;
-	IWallKValueImputer wallKValueImputer;
 
 	@Override
 	public IWallInfiltrationImputer getWallInfiltrationImputer() {
 		return infiltrationImputer;
-	}
-
-	@Override
-	public IWallKValueImputer getWallKValueImputer() {
-		return wallKValueImputer;
 	}
 
 	@Override
@@ -42,10 +36,5 @@ public class WallPropertyTables implements IWallPropertyTables {
 	@Override
 	public void setWallUValueImputer(IWallUValueImputer wallIWallUValueImputer) {
 		this.wallUValueImputer = wallIWallUValueImputer;
-	}
-
-	@Override
-	public void setWallKValueImputer(IWallKValueImputer wallKValueImputer) {
-		this.wallKValueImputer = wallKValueImputer;
 	}
 }

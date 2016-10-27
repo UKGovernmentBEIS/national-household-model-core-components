@@ -1,12 +1,9 @@
 package uk.org.cse.stockimport.imputation.floors;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.TreeMap;
 
-import uk.org.cse.nhm.hom.components.fabric.types.FloorConstructionType;
 import uk.org.cse.nhm.hom.types.SAPAgeBandValue;
 import uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band;
 
@@ -14,13 +11,6 @@ public class FloorPropertyTables implements IFloorPropertyTables {
 
 	private double[] englandInsulationBySapAgeBand;
 	private SAPAgeBandValue.Band lastAgeBandForSuspendedTimber;
-
-	private final Map<FloorConstructionType, Double> groundFloorKValues = new HashMap<FloorConstructionType, Double>();
-
-	private double insulatedExposedFloorKValue;
-	private double uninsulatedExposedFloorKValue;
-
-	private double partyFloorKValue;
 
 	private double Rsi;
 	private double Rse; // square meter kelvin per watt
@@ -53,31 +43,6 @@ public class FloorPropertyTables implements IFloorPropertyTables {
 		return lastAgeBandForSuspendedTimber;
 	}
 
-	@Override
-	public Map<FloorConstructionType, Double> getGroundFloorKValues() {
-		return groundFloorKValues;
-	}
-
-	@Override
-	public double getInsulatedExposedFloorKValue() {
-		return insulatedExposedFloorKValue;
-	}
-
-	@Override
-	public double getUninsulatedExposedFloorKValue() {
-		return uninsulatedExposedFloorKValue;
-	}
-
-	@Override
-	public double getPartyFloorKValue() {
-		return partyFloorKValue;
-	}
-
-	public void addGroundFloorKValue(final FloorConstructionType constructionType,
-			final Double kValue) {
-		groundFloorKValues.put(constructionType, kValue);
-	}
-
 	public void setEnglandInsulationBySapAgeBand(
 			final double[] englandInsulationBySapAgeBand) {
 		this.englandInsulationBySapAgeBand = englandInsulationBySapAgeBand;
@@ -86,20 +51,6 @@ public class FloorPropertyTables implements IFloorPropertyTables {
 	public void setLastAgeBandForSuspendedTimber(
 			final SAPAgeBandValue.Band lastAgeBandForSuspendedTimber) {
 		this.lastAgeBandForSuspendedTimber = lastAgeBandForSuspendedTimber;
-	}
-
-	public void setInsulatedExposedFloorKValue(
-			final double insulatedExposedFloorKValue) {
-		this.insulatedExposedFloorKValue = insulatedExposedFloorKValue;
-	}
-
-	public void setUninsulatedExposedFloorKValue(
-			final double uninsulatedExposedFloorKValue) {
-		this.uninsulatedExposedFloorKValue = uninsulatedExposedFloorKValue;
-	}
-
-	public void setPartyFloorKValue(final double partyFloorKValue) {
-		this.partyFloorKValue = partyFloorKValue;
 	}
 
 	@Override

@@ -128,7 +128,9 @@ public class HeatSourceBuilder implements IHeatSourceBuilder {
 			boiler.setPumpInHeatedSpace(false);
 			boiler.setWeatherCompensated(false);
 			boiler.setCondensing(condensing);
-			boiler.setEfficiencySource(EfficiencySourceType.SAP_DEFAULT);
+			boiler.setEfficiencySource(dto.getPcdbMatch().or(false) ?
+			        EfficiencySourceType.MANUFACTURER_DECLARED :
+			        EfficiencySourceType.SAP_DEFAULT);
 		}
 		
 		return boiler;

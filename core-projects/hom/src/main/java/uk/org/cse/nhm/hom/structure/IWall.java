@@ -19,7 +19,6 @@ public interface IWall {
 	
 	public double getArea();
 	public double getUValue();
-	public double getKValue();
 	public double getThicknessWithInsulation();
 	public double getThicknessWithoutInsulation();
 	

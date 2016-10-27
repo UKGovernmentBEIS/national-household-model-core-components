@@ -66,26 +66,9 @@ public interface IWallPropertyImputer {
 	public double getWallThickness(SAPAgeBandValue.Band ageBand, RegionType region,
 			WallConstructionType construction,
 			Set<WallInsulationType> insulations);
-
-
-	/**
-	 * Get the K value for a wall of the given construction type and added insulation types.
-	 * 
-	 * @param constructionType
-	 * @param insulationTypes
-	 * @return
-	 * @since 1.0
-	 */
-	double getKValue(WallConstructionType constructionType,
-			Set<WallInsulationType> insulationTypes);
 	
 	/**
      * @since 1.0
      */
     double getAirChangeRate(WallConstructionType constructionType);
-
-    /**
-     * @since 1.0
-     */
-    public double getInternalWallKValue();
 }

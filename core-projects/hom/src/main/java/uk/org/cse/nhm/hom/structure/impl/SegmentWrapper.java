@@ -89,11 +89,6 @@ class SegmentWrapper implements IMutableWall {
     }
 
     @Override
-	public double getKValue() {
-        return endpoint.getKValue();
-    }
-
-    @Override
 	public WallConstructionType getWallConstructionType() {
         return endpoint.getWallConstructionType();
     }
@@ -108,10 +103,6 @@ class SegmentWrapper implements IMutableWall {
         endpoint.setUValue(u);
     }
 
-    @Override
-	public void setKValue(final double k) {
-        endpoint.setKValue(k);
-    }
 
     @Override
     public void split(final double proportion) {

@@ -90,9 +90,6 @@ public class CeilingPropertyTableBuilder implements ILookUpTableBuilder<ICeiling
 			roofType++;
 		}
 		
-		((CeilingUValueTables) ceilingUValueTables).setPartyCeilingKValue(Double.valueOf(sheet.getRow(partyCeilingKValue).getCell(1).getRawValue()));
-		((CeilingUValueTables) ceilingUValueTables).setRoofKValue(Double.valueOf(sheet.getRow(roofKValue).getCell(1).getRawValue()));
-		
 		return ceilingUValueTables;
 	 }
 	

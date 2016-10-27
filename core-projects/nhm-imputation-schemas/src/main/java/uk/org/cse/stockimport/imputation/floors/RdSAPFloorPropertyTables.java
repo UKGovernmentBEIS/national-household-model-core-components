@@ -19,15 +19,6 @@ public class RdSAPFloorPropertyTables implements IFloorPropertyTables {
 	 */
 	private final SAPAgeBandValue.Band lastAgeBandForSuspendedTimber = SAPAgeBandValue.Band.B;
 	
-	private final Map<FloorConstructionType, Double> groundFloorKValues = 
-			new EnumMap<FloorConstructionType, Double>(
-					ImmutableMap.of(
-							FloorConstructionType.Solid, 110d, 
-							FloorConstructionType.SuspendedTimber, 20d
-							));
-		
-	private final double insulatedExposedFloorKValue = 20;
-	private final double uninsulatedExposedFloorKValue = 20;
 	
 	private final double Rsi = 0.17; // square meter kelvin per watt
 	private final double Rse = 0.04; // square meter kelvin per watt
@@ -57,12 +48,6 @@ public class RdSAPFloorPropertyTables implements IFloorPropertyTables {
 	        }
 	      };
 	
-	/**
-	 * The CHM only understands one kind of party floor, so for now I just have that K value
-	 * @assumption All party floors are precast concrete plank floors with screed and carpet
-	 */
-	private final double partyFloorKValue = 35;
-	
 	@Override
 	public double[] getEnglandInsulationBySapAgeBand() {
 		return englandInsulationBySapAgeBand;
@@ -71,26 +56,6 @@ public class RdSAPFloorPropertyTables implements IFloorPropertyTables {
 	@Override
 	public SAPAgeBandValue.Band getLastAgeBandForSuspendedTimber() {
 		return lastAgeBandForSuspendedTimber;
-	}
-
-	@Override
-	public Map<FloorConstructionType, Double> getGroundFloorKValues() {
-		return groundFloorKValues;
-	}
-
-	@Override
-	public double getInsulatedExposedFloorKValue() {
-		return insulatedExposedFloorKValue;
-	}
-
-	@Override
-	public double getUninsulatedExposedFloorKValue() {
-		return uninsulatedExposedFloorKValue;
-	}
-
-	@Override
-	public double getPartyFloorKValue() {
-		return partyFloorKValue;
 	}
 
 	@Override

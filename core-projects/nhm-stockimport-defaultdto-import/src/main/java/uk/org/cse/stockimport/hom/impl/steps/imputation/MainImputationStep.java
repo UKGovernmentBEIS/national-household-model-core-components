@@ -103,8 +103,6 @@ public class MainImputationStep implements ISurveyCaseBuildStep {
 		final double roofInsulationThickness = sm.getRoofInsulationThickness();
 		final double floorInsulationThickness = sm.getFloorInsulationThickness();
 		
-		sm.setInternalWallKValue(walls.getInternalWallKValue());
-		
 		double areaBelow = 0;
 		for (final Storey storey : sm.getStoreys()) {
 			// impute wall properties
@@ -117,11 +115,8 @@ public class MainImputationStep implements ISurveyCaseBuildStep {
 				
 				final double uValue = walls.getUValue(ageBand.getName(), caseDTO.getRegionType(), 
 						wallConstructionType, wall.getWallInsulationTypes());
-				final double kValue = walls.getKValue(wallConstructionType, 
-						wall.getWallInsulationTypes());
 			
 				wall.setUValue(uValue);
-				wall.setKValue(kValue);
 				wall.setAirChangeRate(walls.getAirChangeRate(wallConstructionType));
 				if (wallConstructionType.getWallType() == WallType.External) {
 					maxWallThickness = Math.max(maxWallThickness,
@@ -135,7 +130,6 @@ public class MainImputationStep implements ISurveyCaseBuildStep {
 					location == FloorLocationType.BASEMENT || location == FloorLocationType.GROUND;
 			
 			final double lowerUValue;
-			final double lowerKValue;
 
 			if (isInContactWithGround) {
 				// we work out the area of this floor that is actually in contact with the ground
@@ -148,22 +142,16 @@ public class MainImputationStep implements ISurveyCaseBuildStep {
 						storey.getExposedPerimeter(), 
 						contactArea);
 				
-				lowerKValue = floors.getGroundFloorKValue(groundFloorConstructionType);
 				storey.setFloorAirChangeRate(floors.getFloorInfiltration(ageBand.getName(), groundFloorConstructionType));
 			} else {
 				lowerUValue = floors.getExposedFloorUValue(ageBand.getName(), floorInsulationThickness > 0);
-				lowerKValue = floors.getExposedFloorKValue(floorInsulationThickness > 0);
 				storey.setFloorAirChangeRate(0);
 			}
 			
-			storey.setFloorKValue(lowerKValue);
 			storey.setFloorUValue(lowerUValue);
-			storey.setPartyFloorKValue(floors.getPartyFloorKValue());
 			
 			// impute ceiling properties using the global information about the top of the house.
 			//TODO should we infer something about flat roofs on additional modules differently from the top floor?
-			storey.setPartyCeilingKValue(ceilings.getPartyCeilingKValue());
-			storey.setCeilingKValue(ceilings.getRoofKValue(roofConstructionType));
 			if (roofConstructionType == RoofConstructionType.Flat) {
 				storey.setCeilingUValue(ceilings.getRoofUValue(ageBand.getName(), roofConstructionType, location == FloorLocationType.ROOM_IN_ROOF));
 			} else {

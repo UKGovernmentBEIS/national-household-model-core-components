@@ -5,7 +5,6 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import uk.org.cse.nhm.hom.components.fabric.types.FloorConstructionType;
 import uk.org.cse.nhm.hom.types.SAPAgeBandValue;
 import uk.org.cse.stockimport.imputation.floors.FloorPropertyTables;
 import uk.org.cse.stockimport.imputation.floors.IFloorPropertyTables;
@@ -14,12 +13,8 @@ public class FloorPropertyTableBuilder {
 
 	/* Static values for reading in floor property tables */
 	public final String floorSheetName = "Floors";
-	public final Range<Integer> grndKValueRowRange = Range.between(20, 21);
 	public final Range<Integer> ageBandInsValueRowRange = Range.between(2, 12);
 	public final int timberAgeBandRow = 15;
-	public final int insulatedExposedFloorKValueRow = 24;
-	public final int uninsulatedExposedFloorKValueRow = 25;
-	public final int partyFloorKValueRow = 26;
 	
 	/**
 	 * @param workbook
@@ -32,12 +27,6 @@ public class FloorPropertyTableBuilder {
 		//Ground k values
 		final XSSFSheet sheet = workbook.getSheet(floorSheetName);
 		XSSFRow row;
-		for (int ct = grndKValueRowRange.getMinimum(); ct <= grndKValueRowRange.getMaximum(); ct++) {
-			row = sheet.getRow(ct);
-			((FloorPropertyTables)floorPropertyTables).addGroundFloorKValue(
-					FloorConstructionType.valueOf(row.getCell(0).getStringCellValue()), 
-					row.getCell(1).getNumericCellValue());
-		}
 		
 		//Insulation thickness by age band
 		final double[] ageBand = new double[SAPAgeBandValue.Band.values().length];
@@ -52,15 +41,6 @@ public class FloorPropertyTableBuilder {
 		//Suspended timber age-band
 		row = sheet.getRow(timberAgeBandRow);
 		((FloorPropertyTables)floorPropertyTables).setLastAgeBandForSuspendedTimber(SAPAgeBandValue.Band.valueOf(row.getCell(1).getStringCellValue()));
-		
-		row = sheet.getRow(insulatedExposedFloorKValueRow);
-		((FloorPropertyTables)floorPropertyTables).setInsulatedExposedFloorKValue(row.getCell(1).getNumericCellValue());
-		
-		row = sheet.getRow(uninsulatedExposedFloorKValueRow);
-		((FloorPropertyTables)floorPropertyTables).setUninsulatedExposedFloorKValue(row.getCell(1).getNumericCellValue());
-		
-		row = sheet.getRow(partyFloorKValueRow);
-		((FloorPropertyTables)floorPropertyTables).setPartyFloorKValue(row.getCell(1).getNumericCellValue());
 		
 		/* U-values */
 		((FloorPropertyTables)floorPropertyTables).setRsi(sheet.getRow(28).getCell(1).getNumericCellValue());
