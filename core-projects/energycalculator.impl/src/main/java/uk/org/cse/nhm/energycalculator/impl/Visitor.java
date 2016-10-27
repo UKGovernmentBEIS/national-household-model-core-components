@@ -5,12 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.base.Optional;
+
 import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
 import uk.org.cse.nhm.energycalculator.api.IHeatingSystem;
 import uk.org.cse.nhm.energycalculator.api.IVentilationSystem;
+import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
 import uk.org.cse.nhm.energycalculator.api.types.AreaType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
@@ -49,7 +52,9 @@ class Visitor implements IEnergyCalculatorVisitor {
 
 	public final double[][] areasByType = new double[2][AreaType.values().length];
 
-	public double totalSpecificHeatLoss, totalExternalArea, totalThermalMass;
+	public double totalSpecificHeatLoss, totalExternalArea;
+	
+	public double[] thermalMassAreas = new double[ThermalMassLevel.values().length];
 
 	public final GainLoadRatioAdjuster glrAdjuster;
 
@@ -96,10 +101,14 @@ class Visitor implements IEnergyCalculatorVisitor {
 	}
 
 	@Override
-	public void visitFabricElement(final AreaType name, final double area, final double u, final double k) {
-		log.debug("VISIT, {}, {}, {}, {}", name, area, u, k);
+	public void visitFabricElement(final AreaType name, final double area, final double u, final Optional<ThermalMassLevel> thermalMassLevel) {
+		log.debug("VISIT, {}, {}, {}, {}", name, area, u, thermalMassLevel);
 		totalSpecificHeatLoss += u * area;
-		totalThermalMass += k * area;
+		
+		if (thermalMassLevel.isPresent()) {
+			thermalMassAreas[thermalMassLevel.get().ordinal()] += area;
+		}
+		
 		totalExternalArea += name.isExternal() ? area : 0;
 		areasByType[0][name.ordinal()] += area;
 		areasByType[1][name.ordinal()] += area * u;
@@ -144,8 +153,33 @@ class Visitor implements IEnergyCalculatorVisitor {
 	}
 	
 	@Override
+	public double getTotalThermalMass() {
+		/*
+		BEISDOC
+		NAME: Thermal Mass
+		DESCRIPTION: Choose the thermal mass parameter based on which level has the largest wall area.
+		TYPE: lookup
+		UNIT: kJ/m^2.℃
+		SAP: Table 1f
+		BREDEM: 4A
+		DEPS: thermal-mass-level
+		ID: thermal-mass
+		CODSIEB
+		*/
+		double highestArea = 0;
+		ThermalMassLevel level = ThermalMassLevel.MEDIUM;
+		for (int i = 0; i < thermalMassAreas.length; i++) {
+			if (thermalMassAreas[i] > highestArea) {
+				level = ThermalMassLevel.values()[i];
+			}
+		}
+		
+		return level.getThermalMassParameter();
+	}
+	
+	@Override
 	public String toString() {
 		return "Visitor [totalSpecificHeatLoss=" + totalSpecificHeatLoss + ", totalExternalArea=" + totalExternalArea + ", totalThermalMass="
-				+ totalThermalMass + "]";
+				+ getTotalThermalMass() + "]";
 	}
 }

@@ -1,5 +1,7 @@
 package uk.org.cse.nhm.energycalculator.api;
 
+import com.google.common.base.Optional;
+
 import uk.org.cse.nhm.energycalculator.api.types.AreaType;
 import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
 
@@ -119,5 +121,7 @@ public interface IEnergyCalculatorVisitor {
 	 * @param thermalMass
 	 * @param externalArea
 	 */
-	public void visitFabricElement(final AreaType type, final double area, final double uValue, final double kValue);
+	public void visitFabricElement(final AreaType type, final double area, final double uValue, final Optional<ThermalMassLevel> thermalMassLevel);
+	
+	public double getTotalThermalMass();
 }
