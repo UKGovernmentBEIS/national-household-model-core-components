@@ -11,9 +11,9 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallInsulationType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallType;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.WallType;
 
 /**
  * This represents the segment of a {@link Storey}'s perimeter which <em>ends</em> at a given coordinate pair.

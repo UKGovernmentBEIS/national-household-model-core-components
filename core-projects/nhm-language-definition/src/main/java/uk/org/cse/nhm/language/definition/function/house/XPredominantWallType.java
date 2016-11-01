@@ -1,6 +1,6 @@
 package uk.org.cse.nhm.language.definition.function.house;
 
-import uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.ReturnsEnum;
 import uk.org.cse.nhm.language.definition.SeeAlso;

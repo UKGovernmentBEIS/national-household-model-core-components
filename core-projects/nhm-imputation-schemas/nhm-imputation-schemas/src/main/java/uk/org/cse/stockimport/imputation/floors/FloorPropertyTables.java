@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import uk.org.cse.nhm.hom.components.fabric.types.FloorConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
 import uk.org.cse.nhm.hom.types.SAPAgeBandValue;
 import uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band;
 

@@ -1,6 +1,6 @@
 package uk.org.cse.stockimport.imputation.floors;
 
-import uk.org.cse.nhm.hom.components.fabric.types.FloorConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
 import uk.org.cse.nhm.hom.types.RegionType;
 import uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band;
 import uk.org.cse.stockimport.imputation.walls.IWallPropertyImputer;
@@ -36,17 +36,6 @@ public interface IFloorPropertyImputer {
 	 */
 	double getExposedFloorUValue(Band ageBand, boolean isInsulated);
 		
-	
-	/**
-	 * Lookup the infiltration rate for a floor constructed in the given interval with the given type
-	 * @param ageBand
-	 * @param constructionType
-	 * @return
-     * @since 1.0
-	 */
-	double getFloorInfiltration(Band ageBand,
-			FloorConstructionType constructionType);
-
 	/**
 	 * Get the floor insulation thickness for a floor constructed in the given place and time
 	 * @param constructionInterval
@@ -57,15 +46,4 @@ public interface IFloorPropertyImputer {
 	 */
 	double getFloorInsulationThickness(Band ageBand,
 			RegionType region, FloorConstructionType constructionType);
-
-	/**
-	 * Get the probable floor construction type for a floor constructed in a given interval.
-	 * 
-	 * Note that the CHM has a slightly more detailed behaviour than this which should be elsewhere?
-	 * 
-	 * @param constructionInterval
-	 * @return
-     * @since 1.0
-	 */
-	FloorConstructionType getFloorConstructionType(Band ageBand);
 }

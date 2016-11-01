@@ -3,22 +3,16 @@ package uk.org.cse.nhm.hom.structure;
 import org.pojomatic.Pojomatic;
 import org.pojomatic.annotations.AutoProperty;
 
+import uk.org.cse.nhm.energycalculator.api.types.FrameType;
+import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 import uk.org.cse.nhm.hom.components.fabric.types.DoorType;
-import uk.org.cse.nhm.hom.components.fabric.types.FrameType;
-import uk.org.cse.nhm.hom.components.fabric.types.GlazingType;
 
 @AutoProperty
 public class Door {
 	private DoorType doorType;
 	private GlazingType glazingType;
-    public GlazingType getGlazingType() {
-		return glazingType;
-	}
-
-	public void setGlazingType(GlazingType glazingType) {
-		this.glazingType = glazingType;
-	}
-
+	
 	private FrameType frameType;
 	private double uValue;
 
@@ -34,6 +28,18 @@ public class Door {
 
 	public void setDoorType(final DoorType doorType) {
 		this.doorType = doorType;
+	}
+	
+    public GlazingType getGlazingType() {
+		return glazingType;
+	}
+
+	public void setGlazingType(GlazingType glazingType) {
+		this.glazingType = glazingType;
+	}
+	
+	public WindowInsulationType getWindowInsulationType() {
+		return WindowInsulationType.Air;
 	}
 
 	public double getuValue() {

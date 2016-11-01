@@ -3,9 +3,9 @@ package uk.org.cse.nhm.hom.structure;
 import org.pojomatic.Pojomatic;
 import org.pojomatic.annotations.AutoProperty;
 
-import uk.org.cse.nhm.hom.components.fabric.types.FrameType;
-import uk.org.cse.nhm.hom.components.fabric.types.GlazingType;
-import uk.org.cse.nhm.hom.components.fabric.types.WindowInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.FrameType;
+import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 
 /**
  * Describes glazing as a proportion of an elevation that is glazed in a certain way. 

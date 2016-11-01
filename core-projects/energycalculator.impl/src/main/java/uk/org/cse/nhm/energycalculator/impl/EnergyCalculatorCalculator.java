@@ -680,7 +680,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 	@Override
 	public IEnergyCalculationResult[] evaluate(final IEnergyCalculatorHouseCase houseCase, final IEnergyCalculatorParameters eparameters,
 			final ISeasonalParameters[] climate) {
-		final Visitor v = new Visitor(constants, eparameters, defaultTransducers);
+		final Visitor v = Visitor.create(constants, eparameters, defaultTransducers);
 
 		houseCase.accept(constants, eparameters, v);
 		log.debug("visitor: {}", v);

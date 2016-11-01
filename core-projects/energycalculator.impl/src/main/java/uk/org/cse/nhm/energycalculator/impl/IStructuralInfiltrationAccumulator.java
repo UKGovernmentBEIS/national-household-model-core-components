@@ -31,7 +31,7 @@ public interface IStructuralInfiltrationAccumulator {
 	/**
 	 * Floor infiltration rates are just added up
 	 */
-	public abstract void addFloorInfiltration(double floorArea, double airChangeRate);
+	public abstract void addFloorInfiltration(double airChangeRate);
 
 	/**
 	 * Fan infiltration rates are summed as well

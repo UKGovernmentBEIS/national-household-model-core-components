@@ -11,16 +11,17 @@ import com.larkery.jasb.bind.Bind;
 import com.larkery.jasb.bind.BindNamedArgument;
 
 @Bind("action.reset-floors")
-@Doc("Resets the thermal properties of all the floors in a house one by one, using the supplied functions to compute new values.")
+@Doc({
+	"Resets the thermal properties of all the floors in a house one by one, using the supplied functions to compute new values.",
+	"When the energy calculator is in SAP 2012 mode, these values will be ignored and the relevant SAP tables will be used instead."
+})
 @Category(CategoryType.RESETACTIONS)
 public class XResetFloors extends XFlaggedDwellingAction {
 	public static final class P {
 		public static final String uValue = "uValue";
-		public static final String infiltration = "infiltration";
 	}
 	
 	private XNumber uValue;
-	private XNumber infiltration;
 	
 	@Prop(P.uValue)
 	@BindNamedArgument("u-values")
@@ -30,15 +31,5 @@ public class XResetFloors extends XFlaggedDwellingAction {
 	}
 	public void setuValue(final XNumber uValue) {
 		this.uValue = uValue;
-	}
-	
-	@Prop(P.infiltration)
-	@BindNamedArgument("infiltrations")
-	@Doc("A function used to compute the new air-change rate for each floor.")
-	public XNumber getInfiltration() {
-		return infiltration;
-	}
-	public void setInfiltration(final XNumber infiltration) {
-		this.infiltration = infiltration;
 	}
 }

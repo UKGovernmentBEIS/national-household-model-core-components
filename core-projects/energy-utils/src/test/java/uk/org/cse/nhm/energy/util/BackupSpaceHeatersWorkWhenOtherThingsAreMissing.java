@@ -28,7 +28,7 @@ import uk.org.cse.nhm.hom.BasicCaseAttributes;
 import uk.org.cse.nhm.hom.SurveyCase;
 import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
 import uk.org.cse.nhm.hom.components.fabric.types.FloorLocationType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
 import uk.org.cse.nhm.hom.emf.technologies.ICentralHeatingSystem;

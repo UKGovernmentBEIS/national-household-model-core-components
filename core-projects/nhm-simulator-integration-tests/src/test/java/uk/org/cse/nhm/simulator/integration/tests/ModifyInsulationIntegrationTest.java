@@ -7,7 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import uk.org.cse.nhm.NHMException;
-import uk.org.cse.nhm.hom.components.fabric.types.WallInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
 import uk.org.cse.nhm.hom.structure.IWall;
 import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.hom.structure.impl.Storey;

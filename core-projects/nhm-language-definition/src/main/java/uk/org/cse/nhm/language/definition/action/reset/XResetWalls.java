@@ -12,7 +12,8 @@ import com.larkery.jasb.bind.BindNamedArgument;
 
 @Bind("action.reset-walls")
 @Doc({
-		"Reset the properties of all the external walls in a house according to some lookup functions."
+		"Reset the properties of all the external walls in a house according to some lookup functions.",
+		"When the energy calculator is in SAP 2012 mode, these values will be ignored and the relevant SAP tables will be used instead."
 	 })
 @Category(CategoryType.RESETACTIONS)
 public class XResetWalls extends XFlaggedDwellingAction {

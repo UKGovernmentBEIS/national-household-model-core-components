@@ -6,9 +6,9 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.org.cse.nhm.hom.components.fabric.types.FrameType;
-import uk.org.cse.nhm.hom.components.fabric.types.GlazingType;
-import uk.org.cse.nhm.hom.components.fabric.types.WindowInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.FrameType;
+import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -35,7 +35,7 @@ public class UValues implements IWindowUValues {
 		}
 		
 		/* (non-Javadoc)
-		 * @see uk.org.cse.stockimport.imputation.apertures.windows.IWindowUValues#addSingleGlazingUValue(uk.org.cse.nhm.hom.components.fabric.types.FrameType, java.lang.Double)
+		 * @see uk.org.cse.stockimport.imputation.apertures.windows.IWindowUValues#addSingleGlazingUValue(uk.org.cse.nhm.energycalculator.api.types.FrameType, java.lang.Double)
 		 */
 		@Override
 		public void addSingleGlazingUValue(FrameType frameType, Double uValue){
@@ -43,7 +43,7 @@ public class UValues implements IWindowUValues {
 		}
 		
 		/* (non-Javadoc)
-		 * @see uk.org.cse.stockimport.imputation.apertures.windows.IWindowUValues#addSecondaryGlazingUValue(uk.org.cse.nhm.hom.components.fabric.types.FrameType, java.lang.Double)
+		 * @see uk.org.cse.stockimport.imputation.apertures.windows.IWindowUValues#addSecondaryGlazingUValue(uk.org.cse.nhm.energycalculator.api.types.FrameType, java.lang.Double)
 		 */
 		@Override
 		public void addSecondaryGlazingUValue(FrameType frameType, Double uValue){
@@ -51,7 +51,7 @@ public class UValues implements IWindowUValues {
 		}
 		
 		/* (non-Javadoc)
-		 * @see uk.org.cse.stockimport.imputation.apertures.windows.IWindowUValues#addDoubleGlazing(uk.org.cse.nhm.hom.components.fabric.types.FrameType, uk.org.cse.nhm.hom.components.fabric.types.WindowInsulationType, java.lang.Double)
+		 * @see uk.org.cse.stockimport.imputation.apertures.windows.IWindowUValues#addDoubleGlazing(uk.org.cse.nhm.energycalculator.api.types.FrameType, uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType, java.lang.Double)
 		 */
 		@Override
 		public void addDoubleGlazing(FrameType frameType, WindowInsulationType insulationType, Double uValue){
@@ -66,7 +66,7 @@ public class UValues implements IWindowUValues {
 		}
 		
 		/* (non-Javadoc)
-		 * @see uk.org.cse.stockimport.imputation.apertures.windows.IWindowUValues#addTripleGlazing(uk.org.cse.nhm.hom.components.fabric.types.FrameType, uk.org.cse.nhm.hom.components.fabric.types.WindowInsulationType, java.lang.Double)
+		 * @see uk.org.cse.stockimport.imputation.apertures.windows.IWindowUValues#addTripleGlazing(uk.org.cse.nhm.energycalculator.api.types.FrameType, uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType, java.lang.Double)
 		 */
 		@Override
 		public void addTripleGlazing(FrameType frameType, WindowInsulationType insulationType, Double uValue){
@@ -154,7 +154,7 @@ public class UValues implements IWindowUValues {
 		}
 		
 		/* (non-Javadoc)
-		 * @see uk.org.cse.stockimport.imputation.apertures.windows.IWindowUValues#getUValue(uk.org.cse.nhm.hom.components.fabric.types.FrameType, uk.org.cse.nhm.hom.components.fabric.types.GlazingType, uk.org.cse.nhm.hom.components.fabric.types.WindowInsulationType)
+		 * @see uk.org.cse.stockimport.imputation.apertures.windows.IWindowUValues#getUValue(uk.org.cse.nhm.energycalculator.api.types.FrameType, uk.org.cse.nhm.energycalculator.api.types.GlazingType, uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType)
 		 */
 		@Override
 		public double getUValue(FrameType frameType, GlazingType glazingType, WindowInsulationType insulationType) {

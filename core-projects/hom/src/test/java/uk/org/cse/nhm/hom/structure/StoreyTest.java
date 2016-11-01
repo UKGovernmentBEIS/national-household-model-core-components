@@ -18,9 +18,9 @@ import com.google.common.base.Optional;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
 import uk.org.cse.nhm.energycalculator.api.types.AreaType;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
 import uk.org.cse.nhm.hom.components.fabric.types.FloorLocationType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType;
 import uk.org.cse.nhm.hom.structure.impl.Elevation.IDoorVisitor;
 import uk.org.cse.nhm.hom.structure.impl.Storey;
 

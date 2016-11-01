@@ -13,7 +13,7 @@ import com.google.common.collect.ImmutableMap;
 
 import uk.org.cse.nhm.NHMException;
 import uk.org.cse.nhm.hom.components.fabric.types.DoorType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.structure.Door;
 import uk.org.cse.nhm.hom.structure.IWall;

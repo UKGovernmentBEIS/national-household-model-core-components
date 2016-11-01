@@ -30,9 +30,9 @@ import uk.org.cse.nhm.ehcs10.physical.InteriorEntry;
 import uk.org.cse.nhm.ehcs10.physical.IntroomsEntry;
 import uk.org.cse.nhm.ehcs10.physical.types.Enum1186;
 import uk.org.cse.nhm.ehcs10.physical.types.Enum1650;
-import uk.org.cse.nhm.hom.components.fabric.types.FloorConstructionType;
 import uk.org.cse.stockimport.domain.IHouseCaseDTO;
 import uk.org.cse.stockimport.domain.impl.HouseCaseDTO;
+import uk.org.cse.stockimport.domain.types.DTOFloorConstructionType;
 import uk.org.cse.stockimport.repository.IHouseCaseSourcesRepositoryFactory;
 import uk.org.cse.stockimport.repository.IHouseCaseSourcesRespository;
 
@@ -161,27 +161,27 @@ public class SpssHouseCaseReaderTest extends Mockito {
         // Test both solid floors then ground floor is solid
         when(kitchen.getFLOORS_SolidFloors()).thenReturn(Enum10.Yes);
         when(livingRoom.getFLOORS_SolidFloors()).thenReturn(Enum10.Yes);
-        FloorConstructionType floor = houseCaseReader.getGroundFloorConstrutionType(interiorEntry, rooms);
-        assertEquals("when kitche+livingroom=ground,solid", FloorConstructionType.Solid, floor);
+        DTOFloorConstructionType floor = houseCaseReader.getGroundFloorConstrutionType(interiorEntry, rooms);
+        assertEquals("when kitche+livingroom=ground,solid", DTOFloorConstructionType.Solid, floor);
 
         // Test Suspended returned if kitchen on ground floor and is suspended
         when(kitchen.getFLOORS_SolidFloors()).thenReturn(Enum10.No);
         when(livingRoom.getFLOORS_SolidFloors()).thenReturn(Enum10.Yes);
         floor = houseCaseReader.getGroundFloorConstrutionType(interiorEntry, rooms);
-        assertEquals("when kitchen=ground,suspended", FloorConstructionType.SuspendedTimber, floor);
+        assertEquals("when kitchen=ground,suspended", DTOFloorConstructionType.SuspendedTimber, floor);
 
         // Test Suspended returned if living room on ground floor and is suspended
         when(kitchen.getFLOORS_SolidFloors()).thenReturn(Enum10.Yes);
         when(livingRoom.getFLOORS_SolidFloors()).thenReturn(Enum10.No);
         floor = houseCaseReader.getGroundFloorConstrutionType(interiorEntry, rooms);
-        assertEquals("when livingroom=ground,suspended", FloorConstructionType.SuspendedTimber, floor);
+        assertEquals("when livingroom=ground,suspended", DTOFloorConstructionType.SuspendedTimber, floor);
 
         // Test if kitchen on ground floor + suspended but living room is not on ground that still suspended
         when(kitchen.getFLOORS_SolidFloors()).thenReturn(Enum10.No);
         when(interiorEntry.getLivingRoomLevel()).thenReturn("01");
         when(livingRoom.getFLOORS_SolidFloors()).thenReturn(Enum10.Yes);
         floor = houseCaseReader.getGroundFloorConstrutionType(interiorEntry, rooms);
-        assertEquals("when kitchen=ground,suspended but livingroom=first,solid", FloorConstructionType.SuspendedTimber,
+        assertEquals("when kitchen=ground,suspended but livingroom=first,solid", DTOFloorConstructionType.SuspendedTimber,
                 floor);
 
         // Test if living room on ground floor + suspended but kitchen room is not on ground that still suspended
@@ -190,7 +190,7 @@ public class SpssHouseCaseReaderTest extends Mockito {
         when(interiorEntry.getLivingRoomLevel()).thenReturn("GG");
         when(livingRoom.getFLOORS_SolidFloors()).thenReturn(Enum10.No);
         floor = houseCaseReader.getGroundFloorConstrutionType(interiorEntry, rooms);
-        assertEquals("when livingroom=ground,suspended but kitchen=first,solid", FloorConstructionType.SuspendedTimber,
+        assertEquals("when livingroom=ground,suspended but kitchen=first,solid", DTOFloorConstructionType.SuspendedTimber,
                 floor);
 
         // Test both suspended floors but on 1st floor then ground floor is solid
@@ -199,7 +199,7 @@ public class SpssHouseCaseReaderTest extends Mockito {
         when(interiorEntry.getKitchenLevel()).thenReturn("01");
         when(interiorEntry.getLivingRoomLevel()).thenReturn("01");
         floor = houseCaseReader.getGroundFloorConstrutionType(interiorEntry, rooms);
-        assertEquals("when kitche+livingroom=01,suspended", FloorConstructionType.Solid, floor);
+        assertEquals("when kitche+livingroom=01,suspended", DTOFloorConstructionType.Solid, floor);
     }
 
     @Test

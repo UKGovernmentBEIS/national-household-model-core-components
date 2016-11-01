@@ -1,6 +1,6 @@
 package uk.org.cse.stockimport.imputation.walls;
 
-import uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 
 /**
  * Lookup table for wall infiltration rates.
@@ -28,7 +28,7 @@ public class WallInfiltrationImputer implements IWallInfiltrationImputer {
 	
 	
 	/* (non-Javadoc)
-	 * @see uk.org.cse.stockimport.imputation.rdsap.walls.IWallInfiltrationImputer#getAirChangeRate(uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType)
+	 * @see uk.org.cse.stockimport.imputation.rdsap.walls.IWallInfiltrationImputer#getAirChangeRate(uk.org.cse.nhm.energycalculator.api.types.WallConstructionType)
 	 */
     @Override
 	public double getAirChangeRate(final WallConstructionType constructionType) {

@@ -5,9 +5,9 @@ import java.util.Set;
 import com.google.common.base.Optional;
 
 import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
 import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallInsulationType;
 
 /**
  * Represents a wall - part of the extrusion of this storey.

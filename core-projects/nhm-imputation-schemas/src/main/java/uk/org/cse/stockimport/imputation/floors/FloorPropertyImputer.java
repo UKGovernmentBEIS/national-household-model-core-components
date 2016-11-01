@@ -6,9 +6,8 @@ import static java.lang.Math.log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.org.cse.nhm.hom.components.fabric.types.FloorConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
 import uk.org.cse.nhm.hom.types.RegionType;
-import uk.org.cse.nhm.hom.types.SAPAgeBandValue;
 import uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band;
 
 /**
@@ -55,20 +54,21 @@ public class FloorPropertyImputer implements IFloorPropertyImputer {
 				final double surfaceThermalResistance = 0.001
 						* insulationThickness / floorInsulationConductivity;
 
-				final double dt = wallThickness + soilThermalConductivity
-						* (Rsi + surfaceThermalResistance + Rse);
+				final double dt = wallThickness + (soilThermalConductivity
+						* (Rsi + surfaceThermalResistance + Rse));
 
 				if (dt < B) {
-					return 2 * soilThermalConductivity * log(PI * B / dt + 1)
-							/ (PI * B + dt);
+					return 2 * soilThermalConductivity * log((PI * B / dt) + 1)
+							/ ((PI * B) + dt);
 				} else {
-					return soilThermalConductivity / (0.457 * B + dt);
+					return soilThermalConductivity / ((0.457 * B) + dt);
 				}
-			case SuspendedTimber:
+			case SuspendedTimberSealed:
+			case SuspendedTimberUnsealed:
 				final double dg = wallThickness + soilThermalConductivity
 						* (Rsi + Rse);
 				final double Ug = 2 * soilThermalConductivity
-						* log(PI * B / dg + 1) / (PI * B + dg);
+						* log((PI * B / dg) + 1) / ((PI * B) + dg);
 				final double Ux = (2 * heightAboveGroundLevel
 						* uValueOfWallsToUnderfloorSpace / B)
 						+ (1450 * openingsPerMeterOfExposedPerimeter
@@ -76,7 +76,7 @@ public class FloorPropertyImputer implements IFloorPropertyImputer {
 				
 				log.debug("Suspended U; dg = {}, Ug = {}, Ux = {}, B = {}", new Object[] {dg, Ug, Ux, B});
 				
-				return 1 / (2 * Rsi + deckThermalResistance + 0.2 + 1 / (Ug + Ux));
+				return 1 / ((2 * Rsi) + deckThermalResistance + 0.2 + (1 / (Ug + Ux)));
 			default:
 				log.error("Unknown floor construction type {}",
 						constructionType);
@@ -88,21 +88,6 @@ public class FloorPropertyImputer implements IFloorPropertyImputer {
 
 	private final UValues uValues;
 
-	/**
-	 * The infiltration rate for a sealed suspended timber floor
-	 */
-	private final double sealedSuspendedTimberInfiltration = 0.1;
-	
-	/**
-	 * The infiltration rate for an unsealed suspended timber floor
-	 */
-	private final double unsealedSuspendedTimberInfiltration = 0.2;
-	
-	/**
-	 * The latest SAP age band in which you are assumed to have an unsealed floor, if you have a suspended timber floor.
-	 */
-	private final SAPAgeBandValue.Band lastAgeBandForUnsealed = SAPAgeBandValue.Band.E;
-	
 	@Override
 	public double getGroundFloorUValue(
 			final FloorConstructionType constructionType, 
@@ -117,44 +102,9 @@ public class FloorPropertyImputer implements IFloorPropertyImputer {
      * @since 1.0
      */
     @Override
-	public double getFloorInfiltration(final Band ageBand, final FloorConstructionType constructionType) {
-		switch (constructionType) {
-		case Solid:
-			// solid floors have no infiltration
-			return 0;
-		case SuspendedTimber:
-			// suspended wood floors have 0.2 for unsealed or 0.1 for sealed.
-			// sealed is a function of dwelling age.
-			if (ageBand.compareTo(lastAgeBandForUnsealed) > 0) {
-				return sealedSuspendedTimberInfiltration;
-			} else {
-				return unsealedSuspendedTimberInfiltration;
-			}
-		default:
-			log.error("Unknown floor construction type {}", constructionType);
-			return 0;
-		}
-	}
-	
-	/**
-     * @since 1.0
-     */
-    @Override
 	public double getFloorInsulationThickness(final Band sapAgeBand, final RegionType region, final FloorConstructionType constructionType) {
 		// TODO switch on region here
 		return floorPropertyTables.getEnglandInsulationBySapAgeBand()[sapAgeBand.ordinal()];
-	}
-	
-	/**
-     * @since 1.0
-     */
-    @Override
-	public FloorConstructionType getFloorConstructionType(final Band ageBand) {
-		if (ageBand.compareTo(floorPropertyTables.getLastAgeBandForSuspendedTimber()) > 0) {
-			return FloorConstructionType.Solid;
-		} else {
-			return FloorConstructionType.SuspendedTimber;
-		}
 	}
 	
 	@Override

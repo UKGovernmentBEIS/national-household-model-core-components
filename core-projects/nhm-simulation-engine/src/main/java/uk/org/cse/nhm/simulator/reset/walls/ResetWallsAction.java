@@ -9,7 +9,7 @@ import com.google.common.base.Optional;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
-import uk.org.cse.nhm.hom.components.fabric.types.WallType;
+import uk.org.cse.nhm.energycalculator.api.types.WallType;
 import uk.org.cse.nhm.hom.structure.IMutableWall;
 import uk.org.cse.nhm.hom.structure.IWall;
 import uk.org.cse.nhm.hom.structure.StructureModel;

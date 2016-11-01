@@ -3,7 +3,12 @@ package uk.org.cse.nhm.energycalculator.api;
 import com.google.common.base.Optional;
 
 import uk.org.cse.nhm.energycalculator.api.types.AreaType;
+import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.FrameType;
+import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 
 /**
  * A visitor interface for a house to accept; the energy calculator algorithm can use this to collect
@@ -52,25 +57,28 @@ public interface IEnergyCalculatorVisitor {
     public void visitVentilationSystem(final IVentilationSystem ventilation);
     
 	/**
-	 * @param visibleLightTransmittivity the visible light
-	 * transmittivity; this is analogous to solar gain transmissivity,
-	 * in that the area is included
-	 * @param solarGainTransmissivity the solar gain transmissivity in
-	 * M2 - this includes the area and the dimensionless quantity
-	 * describing how much solar energy is absorbed, so a 1M2 panel
-	 * which absorbs half of the power it receives from the sun will
-	 * have a gain transmissivity of 0.5 M2; multiply this by W/M2 to
-	 * get the solar gain for this element at a given power.
-	 * @param horizontalOrientation the angle from the dot product of
-	 * this plane's normal and the north vector.
-	 * @param verticalOrientation the angle between the normal from
-	 * this plane and the vertical
-	 * @param overshading the degree of overshading for this
-	 * transparent element.
+	 * @param glazingType
+	 * @param insulationType
+	 * @param visibleLightTransmittivity the visible light transmittivity
+	 * @param solarGainTransmissivity the solar gain transmissivity
+
+	 * @param area
+	 * 
+	 * @param frameType
+	 * @param frameFactor the proportion of the window which is glazed
+	 * 
+	 * @param horizontalOrientation the angle from the dot product of this plane's normal and the north vector.
+	 * @param verticalOrientation the angle between the normal from this plane and the vertical
+	 * @param overshading the degree of overshading for this transparent element.
 	 */
 	public void visitTransparentElement(
+			final GlazingType glazingType,
+			final WindowInsulationType insulationType,
 			final double visibleLightTransmittivity,
 			final double solarGainTransmissivity,
+			final double area,
+			final FrameType frameType,
+			final double frameFactor,
 			final double horizontalOrientation,
 			final double verticalOrientation,
 			final OvershadingType overshading
@@ -81,7 +89,7 @@ public interface IEnergyCalculatorVisitor {
 	 * @param wallArea
 	 * @param airChangeRate air change rate (proportion of house volume / hr)
 	 */
-	public void addWallInfiltration(final double wallArea, final double airChangeRate);
+	public void addWallInfiltration(final double wallArea, final WallConstructionType wallType, final double airChangeRate);
 	
 	/**
 	 * Add the infiltration contribution from passive vents
@@ -108,11 +116,10 @@ public interface IEnergyCalculatorVisitor {
 	public void addFanInfiltration(final int fans);
 	
 	/**
-	 * Add the infiltration contribution from a floor of the given area and ACH
-	 * @param floorArea
+	 * Add the infiltration contribution from a floor of the given type and ACH
 	 * @param airChangeRate
 	 */
-	public void addFloorInfiltration(final double floorArea, final double airChangeRate);
+	public void addGroundFloorInfiltration(final FloorConstructionType floorType);
 	
 	/**
 	 * Visit a fabric element with the given heat loss, thermal mass, and external area.

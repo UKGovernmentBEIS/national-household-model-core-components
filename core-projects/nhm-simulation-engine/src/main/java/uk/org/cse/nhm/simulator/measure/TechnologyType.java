@@ -3,8 +3,8 @@ package uk.org.cse.nhm.simulator.measure;
 import java.util.HashMap;
 import java.util.Map;
 
-import uk.org.cse.nhm.hom.components.fabric.types.GlazingType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
+import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
 

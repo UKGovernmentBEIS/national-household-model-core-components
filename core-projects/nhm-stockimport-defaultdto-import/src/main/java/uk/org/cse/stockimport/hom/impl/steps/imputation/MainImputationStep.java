@@ -6,14 +6,14 @@ import com.google.common.collect.ImmutableSet;
 
 import uk.org.cse.nhm.hom.SurveyCase;
 import uk.org.cse.nhm.hom.components.fabric.types.DoorType;
-import uk.org.cse.nhm.hom.components.fabric.types.FloorConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
 import uk.org.cse.nhm.hom.components.fabric.types.FloorLocationType;
-import uk.org.cse.nhm.hom.components.fabric.types.FrameType;
-import uk.org.cse.nhm.hom.components.fabric.types.GlazingType;
+import uk.org.cse.nhm.energycalculator.api.types.FrameType;
+import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.hom.components.fabric.types.RoofConstructionType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallType;
-import uk.org.cse.nhm.hom.components.fabric.types.WindowInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WallType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 import uk.org.cse.nhm.hom.structure.Door;
 import uk.org.cse.nhm.hom.structure.Glazing;
 import uk.org.cse.nhm.hom.structure.IMutableWall;
@@ -142,10 +142,8 @@ public class MainImputationStep implements ISurveyCaseBuildStep {
 						storey.getExposedPerimeter(), 
 						contactArea);
 				
-				storey.setFloorAirChangeRate(floors.getFloorInfiltration(ageBand.getName(), groundFloorConstructionType));
 			} else {
 				lowerUValue = floors.getExposedFloorUValue(ageBand.getName(), floorInsulationThickness > 0);
-				storey.setFloorAirChangeRate(0);
 			}
 			
 			storey.setFloorUValue(lowerUValue);

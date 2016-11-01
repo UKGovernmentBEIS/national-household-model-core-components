@@ -15,10 +15,10 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import uk.org.cse.nhm.energycalculator.api.types.FrameType;
+import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.hom.BasicCaseAttributes;
 import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
-import uk.org.cse.nhm.hom.components.fabric.types.FrameType;
-import uk.org.cse.nhm.hom.components.fabric.types.GlazingType;
 import uk.org.cse.nhm.hom.structure.Glazing;
 import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.hom.structure.impl.Elevation;

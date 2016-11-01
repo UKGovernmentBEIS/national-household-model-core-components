@@ -10,7 +10,6 @@ import com.google.common.collect.ImmutableSet;
 import uk.org.cse.nhm.hom.SurveyCase;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.ICooker;
-import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;
 import uk.org.cse.nhm.hom.emf.technologies.impl.CookerImpl;
 import uk.org.cse.stockimport.domain.IBasicDTO;
 import uk.org.cse.stockimport.domain.services.ISpaceHeatingDTO;

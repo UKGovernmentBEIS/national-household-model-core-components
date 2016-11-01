@@ -5,7 +5,7 @@ import java.util.Set;
 import com.google.common.base.Optional;
 import com.google.inject.assistedinject.Assisted;
 
-import uk.org.cse.nhm.hom.components.fabric.types.WallInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
 import uk.org.cse.nhm.simulator.reset.doors.DoorTypeFunction;
 import uk.org.cse.nhm.simulator.reset.doors.ResetDoorsAction;
 import uk.org.cse.nhm.simulator.reset.glazing.GlazingFrameTypeFunction;
@@ -63,8 +63,7 @@ public interface IResetFactory {
 	public DoorTypeFunction createDoorTypeFunction();
 
 	public ResetFloorsAction createResetFloorsAction(
-			@Assisted("uValue") Optional<IComponentsFunction<Number>> uValue,
-			@Assisted("infiltration") Optional<IComponentsFunction<Number>> infiltration);
+			@Assisted("uValue") Optional<IComponentsFunction<Number>> uValue);
 
 	public RdSapFloorUValueFunction createComputeFloorUValueFunction(
 			@Assisted("rsi") final double rsi, 

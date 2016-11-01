@@ -18,8 +18,8 @@ import com.google.common.collect.ImmutableSet;
 
 import uk.org.cse.nhm.hom.SurveyCase;
 import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
 import uk.org.cse.nhm.hom.structure.IMutableWall;
 import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.hom.structure.impl.Storey;

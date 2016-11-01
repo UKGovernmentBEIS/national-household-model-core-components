@@ -2,7 +2,7 @@ package uk.org.cse.nhm.simulator.reset.glazing;
 
 import com.google.inject.assistedinject.AssistedInject;
 
-import uk.org.cse.nhm.hom.components.fabric.types.WindowInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 import uk.org.cse.nhm.hom.structure.Glazing;
 import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.ipc.api.tasks.report.ILogEntryHandler;

@@ -10,12 +10,12 @@ import javax.inject.Inject;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 
+import uk.org.cse.nhm.energycalculator.api.types.FrameType;
+import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 import uk.org.cse.nhm.hom.components.fabric.types.DoorType;
-import uk.org.cse.nhm.hom.components.fabric.types.FrameType;
-import uk.org.cse.nhm.hom.components.fabric.types.GlazingType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallInsulationType;
-import uk.org.cse.nhm.hom.components.fabric.types.WindowInsulationType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.language.adapt.IAdapterInterceptor;
 import uk.org.cse.nhm.language.adapt.IConverter;
@@ -154,13 +154,9 @@ public class ResetActionsAdapter extends ReflectingAdapter {
 	
 	@Adapt(XResetFloors.class)
 	public IComponentsAction buildResetFloors(
-			@Prop(XResetFloors.P.uValue) final Optional<IComponentsFunction<Number>> uValue,
-			@Prop(XResetFloors.P.infiltration) final Optional<IComponentsFunction<Number>> infiltration
+			@Prop(XResetFloors.P.uValue) final Optional<IComponentsFunction<Number>> uValue
 			) {
-		return factory.createResetFloorsAction(
-				uValue,
-				infiltration
-				);
+		return factory.createResetFloorsAction(uValue);
 	}
 	
 	@Adapt(XComputeFloorUValue.class)

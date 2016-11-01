@@ -20,9 +20,9 @@ import com.google.common.base.Optional;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
 import uk.org.cse.nhm.energycalculator.api.types.AreaType;
+import uk.org.cse.nhm.energycalculator.api.types.WallType;
 import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
 import uk.org.cse.nhm.hom.components.fabric.types.FloorLocationType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallType;
 import uk.org.cse.nhm.hom.structure.IElevation;
 import uk.org.cse.nhm.hom.structure.IMutableWall;
 import uk.org.cse.nhm.hom.structure.IStorey;
@@ -111,8 +111,6 @@ public class Storey implements IStorey {
 	 * The u-value for heat loss from this floor to void space above it.
 	 */
 	private double ceilingUValue;
-	
-	private double floorAirChangeRate;
 	
 	private transient double exposedPerimeterCache = -1;
 	
@@ -259,8 +257,6 @@ public class Storey implements IStorey {
 			visitor.visitFabricElement(AreaType.ExternalFloor, heatLossAreaBelow, floorUValue, Optional.<ThermalMassLevel>absent());
 			visitor.visitFabricElement(AreaType.PartyFloor, areaBelow, 0, Optional.<ThermalMassLevel>absent());
 			
-			// BEISDOC ID: 11
-			visitor.addFloorInfiltration(heatLossAreaBelow, floorAirChangeRate);
 			visitor.visitFabricElement(AreaType.PartyFloor, areaBelow, 0, Optional.<ThermalMassLevel>absent());
 		}
 		
@@ -420,7 +416,7 @@ public class Storey implements IStorey {
 				final double doorArea;
 				// if we are visiting doors (i.e. we are on the ground floor), we need to net them off the area.
 				if (doors != null) {
-					doorArea = doors.get(segment.getElevationType()).visitDoors(visitor, basicArea);
+					doorArea = doors.get(segment.getElevationType()).offerPotentialDoorArea(basicArea);
 				} else {
 					doorArea = 0;
 				}
@@ -442,8 +438,11 @@ public class Storey implements IStorey {
 				*/
 				wallArea = basicArea - (glazedArea + doorArea);
 				
-				// TODO I am not sure whether the windows and doors should be netted off here
-				visitor.addWallInfiltration(basicArea, segment.getAirChangeRate());
+				/*
+				 *  Confirmed that area of openings (windows and doors) should be netted off here.
+				 *  See SAP{ 2012 step (11).
+				 */
+				visitor.addWallInfiltration(basicArea, segment.getWallConstructionType(), segment.getAirChangeRate());
 
 				/*
 				BEISDOC
@@ -552,20 +551,11 @@ public class Storey implements IStorey {
 		return exposedPerimeterCache;
 	}
 
-	public void setFloorAirChangeRate(final double airChangeRate) {
-		this.floorAirChangeRate = airChangeRate;
-	}
-	
-	public double getFloorAirChangeRate() {
-		return floorAirChangeRate;
-	}
-
 	public Storey copy() {
 		final Storey other = new Storey();
 		
 		// copy simple properties
 		other.setCeilingUValue(getCeilingUValue());
-		other.setFloorAirChangeRate(getFloorAirChangeRate());
 		other.setFloorLocationType(getFloorLocationType());
 		other.setFloorUValue(getFloorUValue());
 		other.setHeight(getHeight());
@@ -588,8 +578,6 @@ public class Storey implements IStorey {
 		long temp;
 		temp = Double.doubleToLongBits(ceilingUValue);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(floorAirChangeRate);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((floorLocationType == null) ? 0 : floorLocationType.hashCode());
 		temp = Double.doubleToLongBits(floorUValue);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -609,8 +597,6 @@ public class Storey implements IStorey {
 			return false;
 		Storey other = (Storey) obj;
 		if (Double.doubleToLongBits(ceilingUValue) != Double.doubleToLongBits(other.ceilingUValue))
-			return false;
-		if (Double.doubleToLongBits(floorAirChangeRate) != Double.doubleToLongBits(other.floorAirChangeRate))
 			return false;
 		if (floorLocationType != other.floorLocationType)
 			return false;

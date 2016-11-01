@@ -174,34 +174,13 @@ public class Elevation implements IElevation {
 			visitor.visitFabricElement(AreaType.Glazing, glazingArea, glazing.getuValue(), Optional.<ThermalMassLevel>absent());
 			
 			visitor.visitTransparentElement(
-					/*
-					BEISDOC
-					NAME: Effective light transmission area
-					DESCRIPTION: Light transmittance multiplied by frame factor multiplied by area for a transparent element.
-					TYPE: Formula
-					UNIT: m^2
-					SAP: 
-					BREDEM: 
-					DEPS: light-transmittance-factor, frame-factor, glazing-area
-					ID: light-effective-transmission-area
-					CODSIEB
-					*/
-					glazing.getLightTransmissionFactor() * glazing.getFrameFactor() * glazingArea,
-					
-					/*
-					BEISDOC
-					NAME: Effective solar gains transmission area
-					DESCRIPTION: Solar gains transmittance multiplied by frame factor multiplied by area for a transparent element.
-					TYPE: formula
-					UNIT: m^2
-					SAP: (74-82)
-					BREDEM: 5A
-					DEPS: gains-transmittance-factor, frame-factor, glazing-area
-					ID: solar-gains-effective-transmission-area
-					CODSIEB
-					*/
-					glazing.getGainsTransmissionFactor() * glazing.getFrameFactor() * glazingArea,
-					
+					glazing.getGlazingType(),
+					glazing.getInsulationType(),
+					glazing.getLightTransmissionFactor(),
+					glazing.getGainsTransmissionFactor(),
+					glazingArea,
+					glazing.getFrameType(),
+					glazing.getFrameFactor(),
 					ANGLE_FROM_HORIZONTAL, 
 					angleFromNorth, 
 					overshading);
@@ -220,14 +199,19 @@ public class Elevation implements IElevation {
 	 */
 	public interface IDoorVisitor {
 		/**
-		 * Add as many doors as possible into the given area, returning the total area of doors added
-		 * @param visitor
-		 * @param area
+		 *  Record that some area of a wall segment is available for doors, and return how much of that area will be taken up by doors.
+		 *  
+		 *  Call this multiple times. The visitor will internally accumulate how much area is available to it.
+		 *  
+		 * @param area the available opening area on the wall segment 
 		 * @return
 		 */
-		public double visitDoors(final IEnergyCalculatorVisitor visitor, final double area);
-
-		boolean hasMoreDoors();
+		public double offerPotentialDoorArea(final double area);
+		
+		/**
+		 * Call this last. It will add the doors, scaling them down as needed if they took up too much area. 
+		 */
+		public void visitDoors(final IEnergyCalculatorVisitor visitor);
 	}
 	
 	/* (non-Javadoc)
@@ -258,57 +242,56 @@ public class Elevation implements IElevation {
 		CODSIEB
 		*/
 		private double totalDoorArea = 0;
-		private double totalDoorHeatLossArea = 0;
-		
-		private final double meanDoorLightTransmissionPerArea;
-		private final double meanDoorGainsTransmissionPerArea;
-		
 		private double remainingDoorArea;
+		
 		public CHMDoorVisitor() {
-			double totalDoorLightTransmissionArea = 0;
-			double totalDoorGainsTransmissionArea = 0;
-			
 			for (final Door d : doors) {
 				totalDoorArea += d.getArea();
-				totalDoorHeatLossArea += d.getArea() * d.getuValue();
-				
-				if (d.getDoorType() == DoorType.Glazed) {
-					totalDoorLightTransmissionArea += d.getArea() * d.getFrameFactor() * d.getLightTransmissionFactor();
-					totalDoorGainsTransmissionArea += d.getArea() * d.getFrameFactor() * d.getGainsTransmissionFactor();
-				}
 			}
 			remainingDoorArea = totalDoorArea;
-			
-			meanDoorLightTransmissionPerArea = totalDoorLightTransmissionArea / totalDoorArea;
-			meanDoorGainsTransmissionPerArea = totalDoorGainsTransmissionArea / totalDoorArea;
-		}
-		@Override
-		public double visitDoors(final IEnergyCalculatorVisitor visitor, final double wallArea) {
-			if (!hasMoreDoors()) return 0;
-			final double openingArea = openingProportion * wallArea;
-			final double doorArea = Math.min(openingArea, remainingDoorArea);
-			
-			visitor.visitFabricElement(AreaType.Door, 
-					doorArea,
-					(totalDoorHeatLossArea / totalDoorArea), 
-					Optional.<ThermalMassLevel>absent());
-			remainingDoorArea -= doorArea;
-			
-			visitor.visitTransparentElement(
-					doorArea * meanDoorLightTransmissionPerArea,
-					doorArea * meanDoorGainsTransmissionPerArea,
-					ANGLE_FROM_HORIZONTAL, 
-					angleFromNorth,
-					overshading
-					);
-
-			
-			return doorArea;
 		}
 		
 		@Override
-		public boolean hasMoreDoors() {
-			return remainingDoorArea > 0;
+		public double offerPotentialDoorArea(double wallArea) {
+			if (remainingDoorArea == 0) {
+				return 0;
+			}
+			
+			final double potentialDoorArea = wallArea * openingProportion;
+			final double actualDoorArea = Math.min(remainingDoorArea, potentialDoorArea);
+			
+			remainingDoorArea -= actualDoorArea;
+			
+			return actualDoorArea;
+		}
+		
+		@Override
+		public void visitDoors(final IEnergyCalculatorVisitor visitor) {
+			final double doorScaling = (totalDoorArea - remainingDoorArea) / totalDoorArea;
+			
+			for (Door d : doors) {
+				visitor.visitFabricElement(
+						AreaType.Door, 
+						d.getArea() * doorScaling, 
+						d.getuValue(), 
+						Optional.<ThermalMassLevel>absent()
+					);
+				
+				if (d.getDoorType() == DoorType.Glazed) {
+					visitor.visitTransparentElement(
+							d.getGlazingType(), 
+							d.getWindowInsulationType(), 
+							d.getLightTransmissionFactor(), 
+							d.getGainsTransmissionFactor(), 
+							d.getArea() * doorScaling, 
+							d.getFrameType(), 
+							d.getFrameFactor(), 
+							ANGLE_FROM_HORIZONTAL, 
+							angleFromNorth, 
+							overshading
+						);
+				}
+			}
 		}
 	}
 

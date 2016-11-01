@@ -1,7 +1,7 @@
 package uk.org.cse.nhm.hom.structure;
 
-import uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
 
 /**
  * Adds mutator methods to {@link IWall}

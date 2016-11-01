@@ -20,7 +20,6 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
-import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorHouseCase;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.energycalculator.api.IEnergyState;
@@ -32,7 +31,6 @@ import uk.org.cse.nhm.energycalculator.api.impl.DefaultConstants;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.hom.DummyHeatProportions;
-import uk.org.cse.nhm.hom.constants.HeatingSystemConstants;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.ICentralHeatingSystem;
 import uk.org.cse.nhm.hom.emf.technologies.ICentralWaterSystem;
