@@ -12,12 +12,14 @@ import org.pojomatic.annotations.AutoProperty;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.google.common.base.Optional;
 
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
+import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
 import uk.org.cse.nhm.energycalculator.api.types.AreaType;
+import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
 import uk.org.cse.nhm.hom.ICopyable;
 import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
-import uk.org.cse.nhm.hom.components.fabric.types.FloorConstructionType;
 import uk.org.cse.nhm.hom.components.fabric.types.FloorLocationType;
 import uk.org.cse.nhm.hom.components.fabric.types.RoofConstructionType;
 import uk.org.cse.nhm.hom.structure.impl.Elevation;
@@ -300,6 +302,7 @@ public class StructureModel implements ICopyable<StructureModel> {
 	public void accept(final IEnergyCalculatorVisitor visitor) {
 		visitor.addFanInfiltration(getIntermittentFans());
 		visitor.addVentInfiltration(getPassiveVents());
+		visitor.addGroundFloorInfiltration(getGroundFloorConstructionType());
 		
 		final int storeyCount = storeys.size();
 		
@@ -319,7 +322,7 @@ public class StructureModel implements ICopyable<StructureModel> {
 		NOTES: Internal walls always have a u-value of 0.
 		CODSIEB
 		*/
-		visitor.visitFabricElement(AreaType.InternalWall, internalWallArea, 0, internalWallKValue);
+		visitor.visitFabricElement(AreaType.InternalWall, internalWallArea, 0, Optional.<ThermalMassLevel>absent());
 		
 		final Map<ElevationType, IElevation> elmap = new EnumMap<ElevationType, IElevation>(elevations);
 		final Map<ElevationType, IDoorVisitor> doors = new EnumMap<ElevationType, Elevation.IDoorVisitor>(ElevationType.class);
@@ -366,6 +369,13 @@ public class StructureModel implements ICopyable<StructureModel> {
 					areaHere = areaAbove;
 				}
 			}
+		}
+		
+		for (IDoorVisitor v : doors.values()) {
+			/*
+			 * This has to happen after the storeys, because they tell the door visitors how much wall area there is to play with.
+			 */
+			v.visitDoors(visitor);
 		}
 	}
 	

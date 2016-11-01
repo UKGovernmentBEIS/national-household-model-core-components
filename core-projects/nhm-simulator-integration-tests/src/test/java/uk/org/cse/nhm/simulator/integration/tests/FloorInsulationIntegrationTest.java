@@ -5,7 +5,7 @@ import java.util.Collections;
 import org.junit.Assert;
 import org.junit.Test;
 
-import uk.org.cse.nhm.hom.components.fabric.types.FloorConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
 import uk.org.cse.nhm.hom.structure.impl.Storey;
 import uk.org.cse.nhm.simulator.integration.tests.guice.IntegrationTestOutput;
 import uk.org.cse.nhm.simulator.state.IDwelling;
@@ -27,7 +27,7 @@ public class FloorInsulationIntegrationTest extends SimulatorIntegrationTest {
 		int countPurchased = 0;
 		
 		for (final IDwelling dwelling : output.dwellingsWithFlag("suspended-insulated")) {
-			Assert.assertEquals(FloorConstructionType.SuspendedTimber,
+			Assert.assertEquals(FloorConstructionType.SuspendedTimberSealed,
 								output.state.get(output.structure, dwelling).getGroundFloorConstructionType());
 			affectedAtLeastOneSuspendedTimber = true;
 			

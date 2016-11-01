@@ -11,9 +11,9 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallInsulationType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallType;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.WallType;
 
 /**
  * This represents the segment of a {@link Storey}'s perimeter which <em>ends</em> at a given coordinate pair.
@@ -29,7 +29,6 @@ public class SegmentData {
     
     private final double[] wallInsulation = new double[WallInsulationType.values().length];
 	
-	private double kValue;
 	private double uValue;
 	private double basicThickness;
 	
@@ -49,7 +48,6 @@ public class SegmentData {
 		setY(other.getY());
 		setAirChangeRate(other.getAirChangeRate());
 		setUValue(other.getUValue());
-		setKValue(other.getKValue());
 		setWallConstructionType(other.getWallConstructionType());
 		setBasicThickness(other.getBasicThickness());
 		for (final WallInsulationType wit : WallInsulationType.values()) {
@@ -107,10 +105,6 @@ public class SegmentData {
 		return this.uValue;
 	}
 
-	public double getKValue() {
-		return this.kValue;
-	}
-
 	public WallConstructionType getWallConstructionType() {
 		return this.wallConstructionType;
 	}
@@ -121,18 +115,6 @@ public class SegmentData {
 
 	public void setUValue(final double u) {
 		this.uValue = u;
-	}
-
-	public void setKValue(final double k) {
-		this.kValue = k;
-	}
-
-	public double getkValue() {
-		return kValue;
-	}
-
-	public void setkValue(final double kValue) {
-		this.kValue = kValue;
 	}
 
 	public double getuValue() {

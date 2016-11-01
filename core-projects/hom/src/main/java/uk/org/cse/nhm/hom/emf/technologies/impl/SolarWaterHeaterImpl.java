@@ -26,6 +26,7 @@ import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
 import uk.org.cse.nhm.hom.emf.technologies.IVisitorAccepter;
 import uk.org.cse.nhm.hom.emf.technologies.IWaterTank;
 import uk.org.cse.nhm.hom.emf.technologies.impl.util.Pump;
+import uk.org.cse.nhm.hom.emf.technologies.showers.IShower;
 
 /**
  * <!-- begin-user-doc -->
@@ -49,6 +50,8 @@ import uk.org.cse.nhm.hom.emf.technologies.impl.util.Pump;
  * @generated
  */
 public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISolarWaterHeater {
+	private final double SAP_BATH_ONLY_HOT_WATER_USE_ADJUSTMENT = 1.09;
+	
 	/**
 	 * The default value of the '{@link #getAnnualOperationalCost() <em>Annual Operational Cost</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -767,6 +770,7 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 		*/
 		final double solarEnergyAvailable = area * solarRadiation * overshadingFactor * zeroLossEfficiency;
 		
+		
 		/*
 		BEISDOC
 		NAME: Solar to Load Ratio
@@ -775,12 +779,11 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 		UNIT: Dimensionless
 		SAP: (H8)
 		BREDEM: 2.4.2C
-		DEPS: solar-energy-available,distribution-loss-factor,water-heating-power
-		NOTES: TODO include Hot water use adjustment factor from table H3
+		DEPS: solar-energy-available,distribution-loss-factor,water-heating-power,solar-hot-water-use-adjustment-factor
 		ID: solar-to-load-ratio
 		CODSIEB
 		*/
-		final double loadRatio = solarEnergyAvailable / (remainingHotWaterDemand * (1 + distributionLossFactor));
+		final double loadRatio = solarEnergyAvailable * getHotWaterUseAdjustmentFactor(parameters) / (remainingHotWaterDemand * (1 + distributionLossFactor));
 		
 		log.debug("load ratio {} = {} m2 * {} * {} * {} / {}", loadRatio, area, zeroLossEfficiency, solarRadiation, overshadingFactor, remainingHotWaterDemand);
 		
@@ -928,6 +931,33 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 		state.increaseSupply(EnergyType.DemandsHOT_WATER, demandSatisfied);
 		
 		return demandSatisfied;
+	}
+
+	private double getHotWaterUseAdjustmentFactor(IInternalParameters parameters) {
+		/*
+		BEISDOC
+		NAME: Solar Hot Water Use Adjustment 
+		DESCRIPTION: An adjustment to the solar-to-load ratio based on which kinds of showers are present in the dwelling.
+		TYPE: formula
+		UNIT: Dimensionless
+		SAP: (H7a), Table H3
+		NOTES: Only has an effect in SAP 2012 mode.
+		ID: solar-hot-water-use-adjustment
+		CODSIEB
+		*/
+		switch(parameters.getCalculatorType()) {
+		case BREDEM2012:
+			return 1.0;
+		case SAP2012:
+			final IShower shower = getSystem().getTechnologyModel().getShower();
+			if (shower == null) {
+				return SAP_BATH_ONLY_HOT_WATER_USE_ADJUSTMENT;
+			} else {
+				return shower.solarAdjustment();
+			}
+		default:
+			throw new UnsupportedOperationException("Unknown energy calculator type when calculating solar hot water use adjustment " + parameters.getCalculatorType());
+		}
 	}
 
 	@Override

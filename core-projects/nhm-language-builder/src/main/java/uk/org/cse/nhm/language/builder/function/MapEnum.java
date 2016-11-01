@@ -7,16 +7,16 @@ import java.util.Map;
 import com.google.common.collect.ImmutableMap;
 
 import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
+import uk.org.cse.nhm.energycalculator.api.types.FrameType;
+import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
+import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 import uk.org.cse.nhm.energycalculator.constants.ApplianceConstants09;
 import uk.org.cse.nhm.energycalculator.constants.EnergyCalculatorConstants;
 import uk.org.cse.nhm.energycalculator.constants.GainsConstants;
 import uk.org.cse.nhm.energycalculator.constants.HotWaterConstants09;
 import uk.org.cse.nhm.energycalculator.constants.LightingConstants09;
-import uk.org.cse.nhm.hom.components.fabric.types.FrameType;
-import uk.org.cse.nhm.hom.components.fabric.types.GlazingType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallInsulationType;
-import uk.org.cse.nhm.hom.components.fabric.types.WindowInsulationType;
 import uk.org.cse.nhm.hom.constants.CommunityHeatingConstants;
 import uk.org.cse.nhm.hom.constants.CylinderConstants;
 import uk.org.cse.nhm.hom.constants.HeatingSystemConstants;
@@ -160,8 +160,6 @@ public class MapEnum {
 	.put(XEnergyConstantType.HeatingSystemConstants_HOURS_PIPEWORK_HOT, HeatingSystemConstants.HOURS_PIPEWORK_HOT)
 	.put(XEnergyConstantType.HeatingSystemConstants_CENTRAL_HEATING_DISTRIBUTION_LOSSES, HeatingSystemConstants.CENTRAL_HEATING_DISTRIBUTION_LOSSES)
 	.put(XEnergyConstantType.HeatingSystemConstants_CENTRAL_HEATING_SOLAR_PPCF, HeatingSystemConstants.CENTRAL_HEATING_SOLAR_PPCF)
-	.put(XEnergyConstantType.HeatingSystemConstants_SHOWER_DEMAND_PROPORTION, HeatingSystemConstants.SHOWER_DEMAND_PROPORTION)
-	.put(XEnergyConstantType.HeatingSystemConstants_SHOWER_VOLUME_PROPORTION, HeatingSystemConstants.SHOWER_VOLUME_PROPORTION)
 	.put(XEnergyConstantType.HeatingSystemConstants_ELECTRIC_CPSU_LOW_RATE_HEAT_CONSTANT, HeatingSystemConstants.ELECTRIC_CPSU_LOW_RATE_HEAT_CONSTANT)
 	.put(XEnergyConstantType.HeatingSystemConstants_ELECTRIC_CPSU_WINTER_TEMPERATURE_OFFSET, HeatingSystemConstants.ELECTRIC_CPSU_WINTER_TEMPERATURE_OFFSET)
 	.put(XEnergyConstantType.HeatingSystemConstants_COMBI_HOT_WATER_USAGE_LIMIT, HeatingSystemConstants.COMBI_HOT_WATER_USAGE_LIMIT)

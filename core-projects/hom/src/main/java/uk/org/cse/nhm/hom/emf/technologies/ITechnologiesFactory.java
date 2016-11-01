@@ -112,15 +112,6 @@ public interface ITechnologiesFactory extends EFactory {
 	ICooker createCooker();
 
 	/**
-	 * Returns a new object of class '<em>Electric Shower</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Electric Shower</em>'.
-	 * @generated
-	 */
-	IElectricShower createElectricShower();
-
-	/**
 	 * Returns a new object of class '<em>Storage Heater</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

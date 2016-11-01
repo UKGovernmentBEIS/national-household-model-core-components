@@ -2,14 +2,21 @@ package uk.org.cse.stockimport.hom.impl.steps;
 
 import java.util.Set;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
 import uk.org.cse.nhm.energycalculator.api.IHeatingSystem;
 import uk.org.cse.nhm.energycalculator.api.IVentilationSystem;
+import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
 import uk.org.cse.nhm.energycalculator.api.types.AreaType;
+import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.FrameType;
+import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 import uk.org.cse.nhm.hom.SurveyCase;
 import uk.org.cse.stockimport.domain.IBasicDTO;
 import uk.org.cse.stockimport.hom.ISurveyCaseBuildStep;
@@ -53,13 +60,7 @@ public class InternalWallBuildStep implements ISurveyCaseBuildStep {
 		}
 
 		@Override
-		public void visitTransparentElement(double visibleLightTransmittivity, double solarGainTransmissivity,
-				double horizontalOrientation, double verticalOrientation, OvershadingType overshading) {
-			
-		}
-
-		@Override
-		public void addWallInfiltration(double wallArea, double airChangeRate) {
+		public void addWallInfiltration(double wallArea, WallConstructionType wallConstructionType, double airChangeRate) {
 			
 		}
 
@@ -69,13 +70,13 @@ public class InternalWallBuildStep implements ISurveyCaseBuildStep {
 		}
 
 		@Override
-		public void addFloorInfiltration(double floorArea, double airChangeRate) {
+		public void addGroundFloorInfiltration(FloorConstructionType floorType) {
 			
 		}
 
 		@SuppressWarnings("incomplete-switch")
 		@Override
-		public void visitFabricElement(AreaType type, double area, double uValue, double kValue) {
+		public void visitFabricElement(AreaType type, double area, double uValue, final Optional<ThermalMassLevel> thermalMassLevel) {
 			switch (type) {
 			case Door:
 			case ExternalWall:
@@ -98,6 +99,18 @@ public class InternalWallBuildStep implements ISurveyCaseBuildStep {
 
 		@Override
 		public void addChimneyInfiltration() {}
+
+		@Override
+		public double getTotalThermalMass() { return 0; }
+
+		@Override
+		public void visitTransparentElement(GlazingType glazingType, WindowInsulationType insulationType,
+				double visibleLightTransmittivity, double solarGainTransmissivity, double area, FrameType frameType,
+				double frameFactor, double horizontalOrientation, double verticalOrientation,
+				OvershadingType overshading) {
+			// TODO Auto-generated method stub
+			
+		}
 	}
 	
 	@Override

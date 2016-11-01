@@ -13,11 +13,14 @@ import java.util.EnumMap;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.google.common.base.Optional;
+
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
+import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
 import uk.org.cse.nhm.energycalculator.api.types.AreaType;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
 import uk.org.cse.nhm.hom.components.fabric.types.FloorLocationType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType;
 import uk.org.cse.nhm.hom.structure.impl.Elevation.IDoorVisitor;
 import uk.org.cse.nhm.hom.structure.impl.Storey;
 
@@ -134,9 +137,9 @@ public class StoreyTest {
         s.accept(visitor, els, null, 50, 50);
 
         // should visit the four walls
-        verify(visitor, times(4)).visitFabricElement(any(AreaType.class), eq(100d), eq(2d), eq(0d));
+        verify(visitor, times(4)).visitFabricElement(any(AreaType.class), eq(100d), eq(2d), eq(Optional.<ThermalMassLevel>absent()));
         // then the top and bottom of the room
-        verify(visitor, times(2)).visitFabricElement(any(AreaType.class), eq(50d), eq(2d), eq(0d));
+        verify(visitor, times(2)).visitFabricElement(any(AreaType.class), eq(50d), eq(2d), eq(Optional.<ThermalMassLevel>absent()));
     }
 
     @Test

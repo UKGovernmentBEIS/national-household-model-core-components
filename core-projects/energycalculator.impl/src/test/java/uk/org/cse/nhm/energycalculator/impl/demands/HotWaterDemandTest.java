@@ -6,6 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static uk.org.cse.nhm.energycalculator.impl.testutil.TestUtil.around;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorHouseCase;
@@ -13,36 +14,62 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyState;
 import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
 import uk.org.cse.nhm.energycalculator.api.ISeasonalParameters;
 import uk.org.cse.nhm.energycalculator.api.impl.DefaultConstants;
-import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
+import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
-import uk.org.cse.nhm.energycalculator.impl.demands.HotWaterDemand09;
 
 public class HotWaterDemandTest {
-	@Test
-	public void testDemand1() {
-		final HotWaterDemand09 hwd = new HotWaterDemand09(DefaultConstants.INSTANCE);
+	private HotWaterDemand09 demand;
+	private IEnergyCalculatorHouseCase house;
+	private IInternalParameters params;
+	private IEnergyState energyState;
+	private IBredemShower shower;
+	private double occupancy;
+	private ISeasonalParameters climate;
+	private double usageFactor;
+
+	@Before
+	public void setup() {
+		shower = mock(IBredemShower.class);
+		demand = new HotWaterDemand09(DefaultConstants.INSTANCE, shower);
 		
-		final IEnergyCalculatorHouseCase hc = mock(IEnergyCalculatorHouseCase.class);
+		house = mock(IEnergyCalculatorHouseCase.class);
+		params = mock(IInternalParameters.class);
 		
-		when(hc.getFloorArea()).thenReturn(100d);
-		
-		final IInternalParameters params = mock(IInternalParameters.class);
-		
-		final ISeasonalParameters climate = mock(ISeasonalParameters.class);
-		
-		when(params.getNumberOfOccupants()).thenReturn(2d);
-		when(params.getTarrifType()).thenReturn(ElectricityTariffType.FLAT_RATE);
 		when(params.getConstants()).thenReturn(DefaultConstants.INSTANCE);
-		when(climate.getMonthOfYear()).thenReturn(1);
+
+		occupancy = 2d;
+		when(params.getNumberOfOccupants()).thenReturn(occupancy);
+
+		climate = mock(ISeasonalParameters.class);
 		when(params.getClimate()).thenReturn(climate);
+		when(climate.getMonthOfYear()).thenReturn(1);
+		usageFactor = 1.1;
 		
-		final IEnergyState state = mock(IEnergyState.class);
+		energyState = mock(IEnergyState.class);
+	}
+	
+	@Test
+	public void testSAPDemand() {
+		test(EnergyCalculatorType.SAP2012, usageFactor * (36 + (25 * occupancy)));
+	}
+	
+	@Test
+	public void testBREDEMDemand() {
+		final double expectedBath = 50.8 * (0.19 + (0.13 * occupancy));
+		final double expectedShower = 1;
+		final double expectedOther = 14 + (9.8 * occupancy);
 		
-		hwd.generate(hc, params, null, state);
+		when(shower.numShowers(occupancy)).thenReturn(1.0);
+		when(shower.hotWaterVolumePerShower()).thenReturn(expectedShower);
 		
-		final double volume = 1.1*(25.0 * 2 + 36);
+		test(EnergyCalculatorType.BREDEM2012, usageFactor * (expectedBath + expectedShower + expectedOther));
+	}
+	
+	private void test(EnergyCalculatorType calc, double expectedVolume) {
+		when(params.getCalculatorType()).thenReturn(calc);
+		demand.generate(house, params, null, energyState);
 		
-		verify(state).increaseDemand(eq(EnergyType.DemandsHOT_WATER_VOLUME), around(volume, 0.01));
-		verify(state).increaseDemand(eq(EnergyType.DemandsHOT_WATER), around(volume * 41.2 * 0.85 * (4.19/3600) * (1000 / 24.0), 0.01));
+		verify(energyState).increaseDemand(eq(EnergyType.DemandsHOT_WATER_VOLUME), around(expectedVolume, 0.01));
+		verify(energyState).increaseDemand(eq(EnergyType.DemandsHOT_WATER), around(expectedVolume * 41.2 * 0.85 * (4.19/3600) * (1000 / 24.0), 0.01));
 	}
 }

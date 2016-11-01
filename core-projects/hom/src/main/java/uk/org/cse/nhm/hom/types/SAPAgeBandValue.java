@@ -31,6 +31,14 @@ public class SAPAgeBandValue {
 		J,
 		K,
         L;
+		
+		public boolean after(Band b) {
+			return this.compareTo(b) > 0;
+		}
+		
+		public boolean before(Band b) {
+			return this.compareTo(b) < 0;
+		}
 	}
 	
 	private static SAPAgeBandValue[] englandAndWales = new SAPAgeBandValue[]{

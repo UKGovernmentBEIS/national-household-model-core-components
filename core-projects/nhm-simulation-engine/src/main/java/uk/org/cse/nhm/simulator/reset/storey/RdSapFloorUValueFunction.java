@@ -13,7 +13,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
-import uk.org.cse.nhm.hom.components.fabric.types.FloorConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
 import uk.org.cse.nhm.hom.structure.IWall;
 import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.hom.structure.impl.Storey;
@@ -84,26 +84,27 @@ public class RdSapFloorUValueFunction extends AbstractNamed implements IComponen
 			final double surfaceThermalResistance = 0.001
 					* insulationThickness / floorInsulationConductivity;
 
-			final double dt = wallThickness + soilThermalConductivity
-					* (Rsi + surfaceThermalResistance + Rse);
+			final double dt = wallThickness + (soilThermalConductivity
+					* (Rsi + surfaceThermalResistance + Rse));
 
 			if (dt < B) {
-				return 2 * soilThermalConductivity * log(PI * B / dt + 1)
-						/ (PI * B + dt);
+				return 2 * soilThermalConductivity * log((PI * B / dt) + 1)
+						/ ((PI * B) + dt);
 			} else {
-				return soilThermalConductivity / (0.457 * B + dt);
+				return soilThermalConductivity / ((0.457 * B) + dt);
 			}
-		case SuspendedTimber:
+		case SuspendedTimberSealed:
+		case SuspendedTimberUnsealed:
 			final double dg = wallThickness + soilThermalConductivity
 					* (Rsi + Rse);
 			final double Ug = 2 * soilThermalConductivity
-					* log(PI * B / dg + 1) / (PI * B + dg);
+					* log((PI * B / dg) + 1) / ((PI * B) + dg);
 			final double Ux = (2 * heightAboveGroundLevel
 					* uValueOfWallsToUnderfloorSpace / B)
 					+ (1450 * openingsPerMeterOfExposedPerimeter
 							* averageWindSpeedAt10m * windShieldingFactor / B);
 			
-			return 1 / (2 * Rsi + deckThermalResistance + 0.2 + 1 / (Ug + Ux));
+			return 1 / ((2 * Rsi) + deckThermalResistance + 0.2 + (1 / (Ug + Ux)));
 		default:
 			return 0;
 		}

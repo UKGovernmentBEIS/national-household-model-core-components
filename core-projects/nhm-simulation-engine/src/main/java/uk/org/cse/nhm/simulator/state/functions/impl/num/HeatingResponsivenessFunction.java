@@ -5,20 +5,17 @@ import java.util.Set;
 import org.joda.time.DateTime;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IHeatingSystem;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
-import uk.org.cse.nhm.language.definition.enums.XSpaceHeatingSystem;
 import uk.org.cse.nhm.simulator.AbstractNamed;
 import uk.org.cse.nhm.simulator.let.ILets;
 import uk.org.cse.nhm.simulator.scope.IComponentsScope;
 import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.dimensions.behaviour.IHeatingBehaviour;
-import uk.org.cse.nhm.simulator.state.dimensions.energy.IEnergyCalculatorBridge;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class HeatingResponsivenessFunction extends AbstractNamed implements IComponentsFunction<Double> {

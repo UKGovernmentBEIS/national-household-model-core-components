@@ -46,7 +46,6 @@ import uk.org.cse.nhm.ehcs10.physical.types.Enum1553;
 import uk.org.cse.nhm.ehcs10.physical.types.Enum1650;
 import uk.org.cse.nhm.ehcs10.physical.types.Enum1757;
 import uk.org.cse.nhm.ehcs10.physical.types.Enum1758;
-import uk.org.cse.nhm.hom.components.fabric.types.FloorConstructionType;
 import uk.org.cse.nhm.hom.components.fabric.types.FloorLocationType;
 import uk.org.cse.nhm.hom.types.BuiltFormType;
 import uk.org.cse.nhm.hom.types.MorphologyType;
@@ -54,6 +53,7 @@ import uk.org.cse.nhm.hom.types.RegionType;
 import uk.org.cse.nhm.hom.types.TenureType;
 import uk.org.cse.stockimport.domain.IHouseCaseDTO;
 import uk.org.cse.stockimport.domain.impl.HouseCaseDTO;
+import uk.org.cse.stockimport.domain.types.DTOFloorConstructionType;
 import uk.org.cse.stockimport.repository.IHouseCaseSources;
 import uk.org.cse.stockimport.repository.IHouseCaseSourcesRepositoryFactory;
 
@@ -142,7 +142,7 @@ public class SpssHouseCaseReader extends AbsSpssReader<IHouseCaseDTO> {
                 .setMorphologyType(rumorphToMorphologyType(provider.getAacode(), general.getRurality_Morphology_COA_()));
 
         houseCase.setBuildYear(getBuildYear(houseCase.getAacode(), firstImp));
-
+        
         houseCase.setAdultOccupants(Optional.fromNullable(getAdultOccupants(interview)));
         if (interview.isPresent()) {
             houseCase.setChildOccupants(Optional
@@ -258,9 +258,9 @@ public class SpssHouseCaseReader extends AbsSpssReader<IHouseCaseDTO> {
      * @param interiorEntry
      * @since 0.0.1-SNAPSHOT
      */
-    protected FloorConstructionType getGroundFloorConstrutionType(final InteriorEntry interiorEntry,
+    protected DTOFloorConstructionType getGroundFloorConstrutionType(final InteriorEntry interiorEntry,
             final List<IntroomsEntry> rooms) {
-        FloorConstructionType floorContructionType = FloorConstructionType.Solid;
+    	DTOFloorConstructionType floorContructionType = DTOFloorConstructionType.Solid;
 
         final FloorLocationType kitchenFloorLevel = roomLevelConversion.get(interiorEntry.getKitchenLevel());
         final FloorLocationType livingRoomLevel = roomLevelConversion.get(interiorEntry.getLivingRoomLevel());
@@ -275,7 +275,7 @@ public class SpssHouseCaseReader extends AbsSpssReader<IHouseCaseDTO> {
             // If both kitchen and living rooms are not solid floors then set
             // floor to suspended timber
             if (Boolean.FALSE.equals(hasSolidFloor(kitchen)) || Boolean.FALSE.equals(hasSolidFloor(livingRoom))) {
-                floorContructionType = FloorConstructionType.SuspendedTimber;
+                floorContructionType = DTOFloorConstructionType.SuspendedTimber;
             }
         }
 

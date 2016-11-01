@@ -2,12 +2,20 @@ package uk.org.cse.nhm.simulation.measure.insulation;
 
 import java.util.EnumSet;
 
+import com.google.common.base.Optional;
+
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
 import uk.org.cse.nhm.energycalculator.api.IHeatingSystem;
 import uk.org.cse.nhm.energycalculator.api.IVentilationSystem;
+import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
 import uk.org.cse.nhm.energycalculator.api.types.AreaType;
+import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.FrameType;
+import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 
 public class AreaAccumulator implements IEnergyCalculatorVisitor {
 
@@ -43,15 +51,7 @@ public class AreaAccumulator implements IEnergyCalculatorVisitor {
 	}
 
 	@Override
-	public void visitTransparentElement(double visibleLightTransmittivity,
-			double solarGainTransmissivity, double horizontalOrientation,
-			double verticalOrientation, OvershadingType overshading) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void addWallInfiltration(double wallArea, double airChangeRate) {
+	public void addWallInfiltration(double wallArea, final WallConstructionType wallConstructionType,double airChangeRate) {
 		// TODO Auto-generated method stub
 
 	}
@@ -63,14 +63,8 @@ public class AreaAccumulator implements IEnergyCalculatorVisitor {
 	}
 
 	@Override
-	public void addFloorInfiltration(double floorArea, double airChangeRate) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void visitFabricElement(AreaType type, double area, double uValue,
-			double kValue) {
+			Optional<ThermalMassLevel> thermalMassLevel) {
 		if(this.areaTypes.contains(type)) {
 			this.totalArea += area;
 		}
@@ -97,5 +91,23 @@ public class AreaAccumulator implements IEnergyCalculatorVisitor {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public double getTotalThermalMass() { return 0; }
+
+	@Override
+	public void visitTransparentElement(GlazingType glazingType, WindowInsulationType insulationType,
+			double visibleLightTransmittivity, double solarGainTransmissivity, double area, FrameType frameType,
+			double frameFactor, double horizontalOrientation, double verticalOrientation, OvershadingType overshading) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addGroundFloorInfiltration(FloorConstructionType floorType) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

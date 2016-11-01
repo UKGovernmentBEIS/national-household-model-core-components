@@ -24,8 +24,19 @@ public class HotWaterDemand09 implements IEnergyTransducer {
 	private final double CONSTANT;
 	private final double PERSON;
 	private final double FACTOR;
+	
+	private final double BREDEM_BATHS_BASE = 0.19;
+	private final double BREDEM_BATHS_BASE_NO_SHOWER = 0.5;
+	private final double BREDEM_BATHS_OCCUPANCY_FACTOR = 0.13;
+	private final double BREDEM_BATHS_OCCUPANCY_FACTOR_NO_SHOWER = 0.35;
+	
+	private final double BREDEM_BATH_VOLUME = 50.8;
+	private final double BREDEM_OTHER_BASE = 14;
+	private final double BREDEM_OTHER_OCCUPANCY_FACTOR = 9.8;
+	private final IBredemShower shower;
 
-	public HotWaterDemand09(final IConstants constants) {
+	public HotWaterDemand09(final IConstants constants, IBredemShower shower) {
+		this.shower = shower;
 		this.CONSTANT = constants.get(HotWaterConstants09.BASE_VOLUME);
 		this.PERSON = constants.get(HotWaterConstants09.PERSON_DEPENDENT_VOLUME);
 		this.FACTOR = constants.get(HotWaterConstants09.ENERGY_PER_VOLUME);
@@ -53,20 +64,6 @@ public class HotWaterDemand09 implements IEnergyTransducer {
 		
 		final double USAGE_FACTOR = constants.get(HotWaterConstants09.USAGE_FACTOR, monthNumber);
 		final double RISE_TEMPERATURE = constants.get(HotWaterConstants09.RISE_TEMPERATURE, monthNumber);
-
-		/*
-		BEISDOC
-		NAME: Water volume
-		DESCRIPTION: The volume of hot water required by the house
-		TYPE: formula
-		UNIT: litres
-		SAP: (43)
-		DEPS: base-hot-water-demand,person-hot-water-demand,occupancy
-		NOTES: We omit the 5% reduction in hot water usage for dwellings with hot water targets. We have no information about this.   
-		ID: sap-water-volume
-		CODSIEB
-		*/
-		final double volume = (CONSTANT + PERSON * parameters.getNumberOfOccupants()) * USAGE_FACTOR;
 		
 		/*
 		BEISDOC
@@ -80,7 +77,7 @@ public class HotWaterDemand09 implements IEnergyTransducer {
 		ID: usage-adjusted-water-volume
 		CODSIEB
 		*/
-		final double usageAdjustedVolume = volume * USAGE_FACTOR;
+		final double usageAdjustedVolume = getHotWaterVolume(house, parameters) * USAGE_FACTOR;
 		
 		/*
 		BEISDOC
@@ -94,12 +91,61 @@ public class HotWaterDemand09 implements IEnergyTransducer {
 		ID: water-heating-power
 		CODSIEB
 		*/
-		final double power = volume * RISE_TEMPERATURE * FACTOR;
+		final double power = usageAdjustedVolume * RISE_TEMPERATURE * FACTOR;
 		
-		log.debug("Hot water demand: {} W, {} l", power, volume);
+		log.debug("Hot water demand: {} W, {} l", power, usageAdjustedVolume);
 		
-		state.increaseDemand(EnergyType.DemandsHOT_WATER_VOLUME, volume);
+		state.increaseDemand(EnergyType.DemandsHOT_WATER_VOLUME, usageAdjustedVolume);
 		state.increaseDemand(EnergyType.DemandsHOT_WATER, power);
+	}
+	
+	/**
+	 * @param house 
+	 * @param parameters 
+	 * @return The volume of hot water demanded by the dwelling.
+	 */
+	protected double getHotWaterVolume(final IEnergyCalculatorHouseCase house, final IInternalParameters parameters) {
+		switch (parameters.getCalculatorType()) {
+		case SAP2012:
+			/*
+			BEISDOC
+			NAME: SAP Water volume
+			DESCRIPTION: The volume of hot water required by the house according to SAP, calculated as a base amount plus an amount per occupant.
+			TYPE: formula
+			UNIT: litres
+			SAP: (43)
+			DEPS: base-hot-water-demand,person-hot-water-demand,occupancy
+			NOTES: We omit the 5% reduction in hot water usage for dwellings with hot water targets. We have no information about this.   
+			ID: sap-water-volume
+			CODSIEB
+			*/
+			return (CONSTANT + PERSON * parameters.getNumberOfOccupants());
+		case BREDEM2012:
+			/*
+			BEISDOC
+			NAME: BREDEM Water Volume
+			DESCRIPTION: The volume of hot water required by the house according to BREDEM.
+			TYPE: formula
+			UNIT: litres
+			BREDEM: 2.1A-2.2F
+			DEPS: 
+			ID: bredem-water-volume
+			CODSIEB
+			*/
+			
+			final boolean showerExists = shower != null;
+			final double numShowers = showerExists ? shower.numShowers(parameters.getNumberOfOccupants()) : 0; 
+			final double showerVolume = numShowers * (showerExists ? shower.hotWaterVolumePerShower() : 0);
+			final double numBaths = (showerExists ? BREDEM_BATHS_BASE : BREDEM_BATHS_BASE_NO_SHOWER) + ((showerExists ? BREDEM_BATHS_OCCUPANCY_FACTOR : BREDEM_BATHS_OCCUPANCY_FACTOR_NO_SHOWER) * parameters.getNumberOfOccupants());
+			final double bathVolume = numBaths * BREDEM_BATH_VOLUME;
+			final double otherVolume = BREDEM_OTHER_BASE + (BREDEM_OTHER_OCCUPANCY_FACTOR * parameters.getNumberOfOccupants());
+			
+			return showerVolume + bathVolume + otherVolume; 
+
+		default:
+			throw new UnsupportedOperationException("Unknown energy calculator type when calculating hot water volume " + parameters.getCalculatorType());
+		}
+
 	}
 	
 	@Override

@@ -5,13 +5,13 @@ import org.pojomatic.annotations.AutoProperty;
 
 import com.google.common.base.Optional;
 
-import uk.org.cse.nhm.hom.components.fabric.types.FloorConstructionType;
 import uk.org.cse.nhm.hom.types.BuiltFormType;
 import uk.org.cse.nhm.hom.types.MorphologyType;
 import uk.org.cse.nhm.hom.types.RegionType;
 import uk.org.cse.nhm.hom.types.TenureType;
 import uk.org.cse.stockimport.domain.IHouseCaseDTO;
 import uk.org.cse.stockimport.domain.geometry.impl.AbsDTO;
+import uk.org.cse.stockimport.domain.types.DTOFloorConstructionType;
 
 /**
  * HouseCaseDTO.
@@ -29,7 +29,7 @@ public class HouseCaseDTO extends AbsDTO implements IHouseCaseDTO {
     BuiltFormType builtFormType = BuiltFormType.Bungalow;
     Optional<Integer> adultOccupants = Optional.absent();
     Optional<Integer> childOccupants = Optional.absent();
-    FloorConstructionType floorConstructionType = FloorConstructionType.Solid;
+    DTOFloorConstructionType floorConstructionType = DTOFloorConstructionType.Solid;
     double livingAreaFaction = 0;
     int numOfHabitalRooms = 0;
     boolean hasDraftLoby = false;
@@ -126,12 +126,12 @@ public class HouseCaseDTO extends AbsDTO implements IHouseCaseDTO {
 	}
 
 	@Override
-	public FloorConstructionType getFloorConstructionType() {
+	public DTOFloorConstructionType getFloorConstructionType() {
 		return floorConstructionType;
 	}
 
 	@Override
-	public void setFloorConstructionType(final FloorConstructionType floorConstructionType) {
+	public void setFloorConstructionType(final DTOFloorConstructionType floorConstructionType) {
 		this.floorConstructionType = floorConstructionType;
 	}
 

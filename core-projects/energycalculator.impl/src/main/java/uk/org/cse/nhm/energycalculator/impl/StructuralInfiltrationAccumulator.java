@@ -253,7 +253,7 @@ public class StructuralInfiltrationAccumulator implements IStructuralInfiltratio
 	 * @see uk.org.cse.nhm.energycalculator.impl.IStructuralInfiltrationAccumulator#addFloorInfiltration(double, double)
 	 */
 	@Override
-	public void addFloorInfiltration(double floorArea, double airChangeRate) {
+	public void addFloorInfiltration(double airChangeRate) {
 		if (log.isTraceEnabled()) log.trace("Adding {} ach/hr of floor infiltration", airChangeRate);
 		/*
 		BEISDOC

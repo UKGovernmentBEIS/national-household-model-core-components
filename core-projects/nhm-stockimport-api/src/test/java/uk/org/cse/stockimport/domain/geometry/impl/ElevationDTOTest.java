@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import uk.org.cse.nhm.hom.components.fabric.types.FrameType;
+import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.stockimport.domain.geometry.IElevationDTO;
 
 /**

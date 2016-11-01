@@ -1,6 +1,6 @@
 package uk.org.cse.nhm.language.definition.action.reset;
 
-import uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
 import uk.org.cse.nhm.language.definition.Doc;

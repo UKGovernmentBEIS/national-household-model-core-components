@@ -220,11 +220,22 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 			this.structure = structure;
 			this.technology = new EObjectWrapper<ITechnologyModel>(technology);
 			this.weather = weather;
-			this.people = npeople;
 			this.buildYear = attributes.getBuildYear();
 			this.latitudeRadians = attributes.getRegionType().getLatitudeRadians();
 			this.siteExposure = attributes.getSiteExposure();
 			this.heatingBehaviour = behaviour;
+			
+			switch(behaviour.getEnergyCalculatorType()) {
+			case SAP2012:
+				this.people = SAPOccupancy.calculate(structure.getFloorArea());
+				break;
+			case BREDEM2012:
+				this.people = npeople;
+				break;
+			default:
+				throw new UnsupportedOperationException("Unknown energy calculator type when constructing EnergyCalcujlatorBridge.Wrapper " + behaviour.getEnergyCalculatorType());
+			}		
+			
 			this.hash = _hashCode();
 		}
 

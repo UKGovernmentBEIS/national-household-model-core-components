@@ -1,6 +1,4 @@
-package uk.org.cse.nhm.hom.components.fabric.types;
-
-import uk.org.cse.nhm.hom.structure.impl.Storey;
+package uk.org.cse.nhm.energycalculator.api.types;
 
 /**
  * Used to describe the construction type of a {@link Storey}'s floor
@@ -9,5 +7,6 @@ import uk.org.cse.nhm.hom.structure.impl.Storey;
  */
 public enum FloorConstructionType {
 	Solid,
-	SuspendedTimber
+	SuspendedTimberSealed,
+	SuspendedTimberUnsealed
 }

@@ -22,6 +22,8 @@ import uk.org.cse.nhm.hom.emf.technologies.boilers.IInstantaneousCombiBoiler;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IKeepHotFacility;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IStorageCombiBoiler;
 import uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl;
+import uk.org.cse.nhm.hom.emf.technologies.showers.IShowersPackage;
+import uk.org.cse.nhm.hom.emf.technologies.showers.impl.ShowersPackageImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -134,14 +136,17 @@ public class BoilersPackageImpl extends EPackageImpl implements IBoilersPackage 
 
 		// Obtain or create and register interdependencies
 		TechnologiesPackageImpl theTechnologiesPackage = (TechnologiesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ITechnologiesPackage.eNS_URI) instanceof TechnologiesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ITechnologiesPackage.eNS_URI) : ITechnologiesPackage.eINSTANCE);
+		ShowersPackageImpl theShowersPackage = (ShowersPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(IShowersPackage.eNS_URI) instanceof ShowersPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(IShowersPackage.eNS_URI) : IShowersPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theBoilersPackage.createPackageContents();
 		theTechnologiesPackage.createPackageContents();
+		theShowersPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theBoilersPackage.initializePackageContents();
 		theTechnologiesPackage.initializePackageContents();
+		theShowersPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theBoilersPackage.freeze();

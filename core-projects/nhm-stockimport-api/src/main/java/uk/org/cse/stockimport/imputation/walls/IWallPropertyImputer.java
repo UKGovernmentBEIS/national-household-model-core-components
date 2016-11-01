@@ -5,8 +5,8 @@ import java.util.Set;
 
 import org.joda.time.DateTime;
 
-import uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
 import uk.org.cse.nhm.hom.types.RegionType;
 import uk.org.cse.nhm.hom.types.SAPAgeBandValue;
 import uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band;

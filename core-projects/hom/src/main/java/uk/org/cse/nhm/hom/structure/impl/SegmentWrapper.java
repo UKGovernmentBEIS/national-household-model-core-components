@@ -5,9 +5,12 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Optional;
+
+import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
 import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallInsulationType;
 import uk.org.cse.nhm.hom.structure.IMutableWall;
 import uk.org.cse.nhm.hom.util.PhysicsUtil;
 
@@ -169,5 +172,45 @@ class SegmentWrapper implements IMutableWall {
 		endpoint.setWallInsulationThickness(type, thickness + endpoint.getWallInsulationThickness(type));
 		
 		endpoint.setUValue(PhysicsUtil.addRValueToUValue(endpoint.getUValue(), thickness * rValue));
+	}
+
+	@Override
+	public Optional<ThermalMassLevel> getThermalMassLevel() {
+		/*
+		BEISDOC
+		NAME: Wall Thermal Mass Category
+		DESCRIPTION: Lookup the thermal mass level of the wall based on its construction type and whether it has insulation.
+		TYPE: lookup
+		UNIT: Thermal Mass Level
+		DEPS: thermal-mass-level
+		NOTES: Specified by BRE.
+		ID: wall-thermal-mass-category
+		CODSIEB
+		*/
+
+		switch(getWallConstructionType()) {
+		case SolidBrick:
+		case GraniteOrWhinstone:
+		case Sandstone:
+			return Optional.of(
+					(internalOrExternalInsulationThickness() > 0) ? ThermalMassLevel.LOW : ThermalMassLevel.HIGH);
+			
+		case TimberFrame:
+			return Optional.of(ThermalMassLevel.LOW);
+			
+		case Internal_DenseBlockDensePlaster:
+		case Internal_DenseBlockPlasterboardOnDabs:
+		case Internal_PlasterboardOnTimberFrame:
+		case Party_DensePlasterBothSidesDenseBlocksCavity:
+		case Party_DoublePlasterBothSidesTwinTimberFrame:
+		case Party_MetalFrame:
+		case Party_SinglePlasterboardBothSidesDenseAACBlocksCavity:
+		case Party_SinglePlasterboardBothSidesDenseBlocksCavity:
+		case Party_SinglePlasterboardBothSidesDenseCellularBlocksCavity:
+			return Optional.absent();
+			
+		default:
+			return Optional.of(ThermalMassLevel.MEDIUM);
+		}
 	}
 }

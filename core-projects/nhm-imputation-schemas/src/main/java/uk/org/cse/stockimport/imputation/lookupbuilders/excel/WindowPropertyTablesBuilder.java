@@ -3,8 +3,8 @@ package uk.org.cse.stockimport.imputation.lookupbuilders.excel;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import uk.org.cse.nhm.hom.components.fabric.types.FrameType;
-import uk.org.cse.nhm.hom.components.fabric.types.WindowInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.FrameType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 import uk.org.cse.stockimport.imputation.apertures.windows.IWindowPropertyTables;
 import uk.org.cse.stockimport.imputation.apertures.windows.IWindowUValues;
 import uk.org.cse.stockimport.imputation.apertures.windows.TransmittanceFactors;

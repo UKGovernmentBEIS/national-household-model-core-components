@@ -5,15 +5,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.base.Optional;
+
 import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
 import uk.org.cse.nhm.energycalculator.api.IHeatingSystem;
 import uk.org.cse.nhm.energycalculator.api.IVentilationSystem;
+import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
 import uk.org.cse.nhm.energycalculator.api.types.AreaType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
+import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.FrameType;
+import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 import uk.org.cse.nhm.energycalculator.impl.demands.LightingDemand09;
 import uk.org.cse.nhm.energycalculator.impl.gains.SolarGainsSource;
 
@@ -37,11 +45,11 @@ import uk.org.cse.nhm.energycalculator.impl.gains.SolarGainsSource;
  * @author hinton
  *
  */
-class Visitor implements IEnergyCalculatorVisitor {
+abstract class Visitor implements IEnergyCalculatorVisitor {
 	private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Visitor.class);
 
 	public final IStructuralInfiltrationAccumulator infiltration;
-
+	
 	public final List<IEnergyTransducer> transducers;
 	public final List<IHeatingSystem> heatingSystems = new ArrayList<IHeatingSystem>();
 	public final Map<IHeatingSystem, Double> proportions = new HashMap<>();
@@ -49,15 +57,28 @@ class Visitor implements IEnergyCalculatorVisitor {
 
 	public final double[][] areasByType = new double[2][AreaType.values().length];
 
-	public double totalSpecificHeatLoss, totalExternalArea, totalThermalMass;
+	public double totalSpecificHeatLoss, totalExternalArea;
+	
+	public double[] thermalMassAreas = new double[ThermalMassLevel.values().length];
 
 	public final GainLoadRatioAdjuster glrAdjuster;
 
 	private final LightingDemand09 lightingDemand;
 
 	private final SolarGainsSource solarGains;
+	
+	public static Visitor create(final IConstants constants, final IEnergyCalculatorParameters parameters, final List<IEnergyTransducer> defaultTransducers) {
+		switch(parameters.getCalculatorType()) {
+		case SAP2012:
+			return new SAPVisitor(constants, parameters, defaultTransducers);
+		case BREDEM2012:
+			return new BREDEMVisitor(constants, parameters, defaultTransducers);
+		default:
+			throw new UnsupportedOperationException("Unknown calculator type when choosing visitor to construct " + parameters.getCalculatorType());
+		}
+	}
 
-	public Visitor(final IConstants constants, final IEnergyCalculatorParameters parameters, final List<IEnergyTransducer> defaultTransducers) {
+	protected Visitor(final IConstants constants, final IEnergyCalculatorParameters parameters, final List<IEnergyTransducer> defaultTransducers) {
 		this.solarGains = new SolarGainsSource(constants, EnergyType.GainsSOLAR_GAINS);
 		this.glrAdjuster = new GainLoadRatioAdjuster();
 		this.lightingDemand = new LightingDemand09(constants);
@@ -96,10 +117,14 @@ class Visitor implements IEnergyCalculatorVisitor {
 	}
 
 	@Override
-	public void visitFabricElement(final AreaType name, final double area, final double u, final double k) {
-		log.debug("VISIT, {}, {}, {}, {}", name, area, u, k);
+	public void visitFabricElement(final AreaType name, final double area, final double u, final Optional<ThermalMassLevel> thermalMassLevel) {
+		log.debug("VISIT, {}, {}, {}, {}", name, area, u, thermalMassLevel);
 		totalSpecificHeatLoss += u * area;
-		totalThermalMass += k * area;
+		
+		if (thermalMassLevel.isPresent()) {
+			thermalMassAreas[thermalMassLevel.get().ordinal()] += area;
+		}
+		
 		totalExternalArea += name.isExternal() ? area : 0;
 		areasByType[0][name.ordinal()] += area;
 		areasByType[1][name.ordinal()] += area * u;
@@ -111,11 +136,22 @@ class Visitor implements IEnergyCalculatorVisitor {
 	}
 
 	@Override
-	public void addFloorInfiltration(final double floorArea, final double airChangeRate) {
-		infiltration.addFloorInfiltration(floorArea, airChangeRate);
+	public void addGroundFloorInfiltration(final FloorConstructionType floorType) {
+		final double airChangeRate;
+		switch(floorType) {
+		case SuspendedTimberUnsealed:
+			airChangeRate = 0.2;
+			break;
+		case SuspendedTimberSealed:
+			airChangeRate = 0.1;
+			break;
+		case Solid:
+		default:
+			return;
+		}
+		infiltration.addFloorInfiltration(airChangeRate);
 	}
 	
-
 	@Override
 	public void addVentInfiltration(int vents) {
 		infiltration.addVentInfiltration(vents);
@@ -132,20 +168,80 @@ class Visitor implements IEnergyCalculatorVisitor {
 	}
 
 	@Override
-	public void addWallInfiltration(final double wallArea, final double airChangeRate) {
+	public void addWallInfiltration(final double wallArea, final WallConstructionType wallType, final double airChangeRate) {
 		infiltration.addWallInfiltration(wallArea, airChangeRate);
 	}
+	
+	protected abstract double overrideAirChangeRate(final WallConstructionType wallType, final double airChangeRate);
 
 	@Override
-	public void visitTransparentElement(final double visibleLightTransmittivity, final double solarGainTransmissivity, final double horizontalOrientation,
-			final double verticalOrientation, final OvershadingType overshading) {
-		solarGains.addTransparentElement(visibleLightTransmittivity, solarGainTransmissivity, horizontalOrientation, verticalOrientation, overshading);
-		lightingDemand.addTransparentElement(visibleLightTransmittivity, solarGainTransmissivity, horizontalOrientation, verticalOrientation, overshading);
+	public final void visitTransparentElement(	
+			final GlazingType glazingType,
+			final WindowInsulationType insulationType,
+			final double visibleLightTransmittivity,
+			final double solarGainTransmissivity,
+			final double area,
+			final FrameType frameType,
+			final double frameFactor,
+			final double horizontalOrientation,
+			final double verticalOrientation,
+			final OvershadingType overshading
+			) {
+		
+		final double usefulArea = overrideFrameFactor(frameType, frameFactor) * area;
+		final double totalVisibleLightTransmittivity = overrideVisibleLightTransmittivity(glazingType, visibleLightTransmittivity) * usefulArea;
+		final double totalSolarGainTransmissivity = overrideSolarGainTransmissivity(glazingType, insulationType, solarGainTransmissivity) * usefulArea;
+		
+		solarGains.addTransparentElement(
+				totalVisibleLightTransmittivity, 
+				totalSolarGainTransmissivity, 
+				horizontalOrientation, 
+				verticalOrientation, 
+				overshading
+			);
+		
+		lightingDemand.addTransparentElement(
+				totalVisibleLightTransmittivity, 
+				totalSolarGainTransmissivity, 
+				horizontalOrientation, 
+				verticalOrientation, 
+				overshading
+			);
+	}
+	
+	protected abstract double overrideFrameFactor(final FrameType frameType, final double frameFactor);
+	protected abstract double overrideVisibleLightTransmittivity(final GlazingType glazingType, final double visibleLightTransmittivity);
+	protected abstract double overrideSolarGainTransmissivity(final GlazingType glazingType, final WindowInsulationType insulationType, final double solarGainTransmissivity);
+
+	
+	@Override
+	public double getTotalThermalMass() {
+		/*
+		BEISDOC
+		NAME: Thermal Mass
+		DESCRIPTION: Choose the thermal mass parameter based on which level has the largest wall area.
+		TYPE: lookup
+		UNIT: kJ/m^2.℃
+		SAP: Table 1f
+		BREDEM: 4A
+		DEPS: thermal-mass-level,wall-thermal-mass-category
+		ID: thermal-mass
+		CODSIEB
+		*/
+		double highestArea = 0;
+		ThermalMassLevel level = ThermalMassLevel.MEDIUM;
+		for (int i = 0; i < thermalMassAreas.length; i++) {
+			if (thermalMassAreas[i] > highestArea) {
+				level = ThermalMassLevel.values()[i];
+			}
+		}
+		
+		return level.getThermalMassParameter();
 	}
 	
 	@Override
 	public String toString() {
-		return "Visitor [totalSpecificHeatLoss=" + totalSpecificHeatLoss + ", totalExternalArea=" + totalExternalArea + ", totalThermalMass="
-				+ totalThermalMass + "]";
+		return this.getClass().getSimpleName() + " [totalSpecificHeatLoss=" + totalSpecificHeatLoss + ", totalExternalArea=" + totalExternalArea + ", totalThermalMass="
+				+ getTotalThermalMass() + "]";
 	}
 }

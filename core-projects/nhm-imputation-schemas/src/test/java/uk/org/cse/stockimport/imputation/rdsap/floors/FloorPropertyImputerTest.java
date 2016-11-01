@@ -5,7 +5,7 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import uk.org.cse.nhm.hom.components.fabric.types.FloorConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
 import uk.org.cse.nhm.hom.types.RegionType;
 import uk.org.cse.nhm.hom.types.SAPAgeBandValue;
 import uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band;
@@ -26,12 +26,12 @@ public class FloorPropertyImputerTest {
 		// these are just some test cases picked from the CHM spreadsheet
 
 		Assert.assertEquals(0.56, i.getGroundFloorUValue(
-				FloorConstructionType.SuspendedTimber, 250, 0, 26.09, 70.93),
+				FloorConstructionType.SuspendedTimberUnsealed, 250, 0, 26.09, 70.93),
 				0.05);
 		Assert.assertEquals(0.64, i.getGroundFloorUValue(
-				FloorConstructionType.SuspendedTimber, 100, 0, 100, 200), 0.05);
+				FloorConstructionType.SuspendedTimberUnsealed, 100, 0, 100, 200), 0.05);
 		Assert.assertEquals(0.64, i.getGroundFloorUValue(
-				FloorConstructionType.SuspendedTimber, 100, 100, 100, 200),
+				FloorConstructionType.SuspendedTimberUnsealed, 100, 100, 100, 200),
 				0.05);
 	}
 
@@ -82,25 +82,6 @@ public class FloorPropertyImputerTest {
 				SAPAgeBandValue.Band.K, false));
 	}
 
-	@Test
-	public void testFloorConstructionType() {
-		for (final SAPAgeBandValue.Band value : SAPAgeBandValue.Band.values()) {
-			final FloorConstructionType fct = i.getFloorConstructionType(value);
-		
-			Assert.assertEquals(
-					(value == SAPAgeBandValue.Band.A || value == SAPAgeBandValue.Band.B) ?
-							FloorConstructionType.SuspendedTimber : FloorConstructionType.Solid,
-							fct);
-		}
-	}
-	
-	@Test
-	public void testFloorInfiltration() {
-		Assert.assertEquals(0.0, i.getFloorInfiltration(SAPAgeBandValue.Band.A, FloorConstructionType.Solid));
-		Assert.assertEquals(0.2, i.getFloorInfiltration(SAPAgeBandValue.Band.E, FloorConstructionType.SuspendedTimber));
-		Assert.assertEquals(0.1, i.getFloorInfiltration(SAPAgeBandValue.Band.F, FloorConstructionType.SuspendedTimber));
-	}
-	
 	@Test
 	public void testInsulationThickness() {
 		Assert.assertEquals(100d, i.getFloorInsulationThickness(SAPAgeBandValue.Band.K, RegionType.London, FloorConstructionType.Solid));

@@ -8,12 +8,16 @@ import static org.mockito.Mockito.verify;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.google.common.base.Optional;
+
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
+import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
 import uk.org.cse.nhm.energycalculator.api.types.AreaType;
+import uk.org.cse.nhm.energycalculator.api.types.FrameType;
+import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 import uk.org.cse.nhm.hom.components.fabric.types.DoorType;
-import uk.org.cse.nhm.hom.components.fabric.types.FrameType;
-import uk.org.cse.nhm.hom.components.fabric.types.GlazingType;
 import uk.org.cse.nhm.hom.structure.impl.Elevation;
 import uk.org.cse.nhm.hom.structure.impl.Elevation.IDoorVisitor;
 
@@ -31,7 +35,7 @@ public class ElevationTest {
 		
 		e.visitGlazing(visitor, 100, 0);
 		
-		verify(visitor).visitFabricElement(any(AreaType.class), eq(50d), eq(2d), eq(0d));
+		verify(visitor).visitFabricElement(any(AreaType.class), eq(50d), eq(2d), eq(Optional.<ThermalMassLevel>absent()));
 	}
 	
 	@Test
@@ -52,7 +56,13 @@ public class ElevationTest {
 		e.visitGlazing(visitor, 100, 0);
 		
 		verify(visitor).visitTransparentElement(
-				50, 50 * 3 / 2.0, 
+				GlazingType.Single,
+				WindowInsulationType.Air,
+				2,
+				3,
+				50,
+				FrameType.uPVC,
+				0.5,
 				Math.PI/2, Math.PI/3, OvershadingType.AVERAGE);
 	}
 	
@@ -63,18 +73,35 @@ public class ElevationTest {
 		d.setArea(10);
 		d.setDoorType(DoorType.Glazed);
 		d.setuValue(5);
+		d.setFrameFactor(0.9);
+		d.setFrameType(FrameType.uPVC);
+		d.setGainsTransmissionFactor(1);
+		d.setLightTransmissionFactor(0.5);
+		d.setGlazingType(GlazingType.Double);
 		e.addDoor(d);
 		
 		e.setOpeningProportion(0.5);
 		
 		IDoorVisitor doorVisitor = e.getDoorVisitor();
 		
-		final IEnergyCalculatorVisitor visitor = mock(IEnergyCalculatorVisitor.class);
+		IEnergyCalculatorVisitor visitor = mock(IEnergyCalculatorVisitor.class);
 		
-		double visitDoors = doorVisitor.visitDoors(visitor, 100);
+		double visitDoors = doorVisitor.offerPotentialDoorArea(100);
 		Assert.assertEquals(10d, visitDoors, 0d);
-		verify(visitor).visitFabricElement(any(AreaType.class), eq(10d), eq(5d), eq(0d));
+		Assert.assertEquals(0d, doorVisitor.offerPotentialDoorArea(100), 0d);
 		
-		Assert.assertEquals(0d, doorVisitor.visitDoors(visitor, 100), 0d);
+		doorVisitor.visitDoors(visitor);
+		verify(visitor).visitFabricElement(any(AreaType.class), eq(10d), eq(5d), eq(Optional.<ThermalMassLevel>absent()));
+		verify(visitor).visitTransparentElement(
+				eq(GlazingType.Double),
+				eq(WindowInsulationType.Air),
+				eq(0.5d),
+				eq(1d),
+				eq(10d),
+				eq(FrameType.uPVC),
+				eq(0.9d),
+				eq(Math.PI / 2),
+				eq(0d),
+				eq(OvershadingType.AVERAGE));
 	}
 }

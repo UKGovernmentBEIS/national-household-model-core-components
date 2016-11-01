@@ -15,7 +15,6 @@ import uk.org.cse.nhm.hom.emf.technologies.ICentralHeatingSystem;
 import uk.org.cse.nhm.hom.emf.technologies.ICentralWaterHeater;
 import uk.org.cse.nhm.hom.emf.technologies.ICentralWaterSystem;
 import uk.org.cse.nhm.hom.emf.technologies.ICommunityHeatSource;
-import uk.org.cse.nhm.hom.emf.technologies.IElectricShower;
 import uk.org.cse.nhm.hom.emf.technologies.IHeatPump;
 import uk.org.cse.nhm.hom.emf.technologies.IHeatSource;
 import uk.org.cse.nhm.hom.emf.technologies.IImmersionHeater;
@@ -223,9 +222,6 @@ public class HeatingEfficiencyFunction extends AbstractNamed implements ICompone
 	private double waterHeaterEfficiency(final IWaterHeater secondaryWaterHeater, XEfficiencyMeasurement measurement) {
 		if (secondaryWaterHeater instanceof ICentralWaterSystem) {
 			return centralWaterEfficiency((ICentralWaterSystem) secondaryWaterHeater, measurement);
-			
-		} else if (secondaryWaterHeater instanceof IElectricShower) {
-			return ELECTRIC_RESISTIVE;
 			
 		} else if (secondaryWaterHeater instanceof IPointOfUseWaterHeater) {
 			return ((IPointOfUseWaterHeater) secondaryWaterHeater).getEfficiency().value;

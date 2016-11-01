@@ -10,7 +10,7 @@ import com.google.common.collect.ImmutableSet;
 
 import uk.org.cse.nhm.hom.SurveyCase;
 import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallType;
+import uk.org.cse.nhm.energycalculator.api.types.WallType;
 import uk.org.cse.nhm.hom.structure.Door;
 import uk.org.cse.nhm.hom.structure.IMutableWall;
 import uk.org.cse.nhm.hom.structure.impl.Elevation;
@@ -20,7 +20,9 @@ import uk.org.cse.stockimport.hom.ISurveyCaseBuildStep;
 import uk.org.cse.stockimport.repository.IHouseCaseSources;
 
 /**
- * A step which wrangles doors to match the CHM's expectations for doors
+ * A step which wrangles doors to match the CHM's expectations for doors by shrinking them.
+ * 
+ * TODO: maybe we should throw away some doors instead of making them all really small? It has a similar impact though.
  * 
  * @author hinton
  * @since 1.0
@@ -31,6 +33,7 @@ public class DoorWranglingStep implements ISurveyCaseBuildStep {
 	
 	private static final Logger log = LoggerFactory.getLogger(DoorWranglingStep.class);
 	
+	// At least 50% of the openings must be windows.
 	private double maximumOpeningDoorAreaProportion = 0.5;
 	
 	@Override

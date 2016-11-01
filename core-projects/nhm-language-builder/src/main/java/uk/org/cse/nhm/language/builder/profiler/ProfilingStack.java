@@ -1,6 +1,5 @@
 package uk.org.cse.nhm.language.builder.profiler;
 
-import java.lang.management.ManagementFactory;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;

@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 import org.joda.time.DateTime;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.assistedinject.Assisted;
 
@@ -14,8 +15,14 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
 import uk.org.cse.nhm.energycalculator.api.IHeatingSystem;
 import uk.org.cse.nhm.energycalculator.api.IVentilationSystem;
+import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
 import uk.org.cse.nhm.energycalculator.api.types.AreaType;
+import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.FrameType;
+import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.simulator.AbstractNamed;
 import uk.org.cse.nhm.simulator.let.ILets;
@@ -56,21 +63,13 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 		public void visitVentilationSystem(final IVentilationSystem ventilation) {}
 
 		@Override
-		public void visitTransparentElement(final double visibleLightTransmittivity,
-				final double solarGainTransmissivity, final double horizontalOrientation,
-				final double verticalOrientation, final OvershadingType overshading) {}
-
-		@Override
-		public void addWallInfiltration(final double wallArea, final double airChangeRate) {}
+		public void addWallInfiltration(final double wallArea, final WallConstructionType wallConstructionType, final double airChangeRate) {}
 
 		@Override
 		public void addFanInfiltration(final int fans) {}
 
 		@Override
-		public void addFloorInfiltration(final double floorArea, final double airChangeRate) {}
-
-		@Override
-		public void visitFabricElement(final AreaType type, final double area, final double uValue, final double kValue) {
+		public void visitFabricElement(final AreaType type, final double area, final double uValue, final Optional<ThermalMassLevel> thermalMassLevel) {
 			if (includedAreas.contains(type)) {
 				totalA += area;
 				totalU += uValue * area;
@@ -89,6 +88,24 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 
 		@Override
 		public void addChimneyInfiltration() {}
+
+		@Override
+		public double getTotalThermalMass() { return 0; }
+
+		@Override
+		public void visitTransparentElement(GlazingType glazingType, WindowInsulationType insulationType,
+				double visibleLightTransmittivity, double solarGainTransmissivity, double area, FrameType frameType,
+				double frameFactor, double horizontalOrientation, double verticalOrientation,
+				OvershadingType overshading) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void addGroundFloorInfiltration(FloorConstructionType floorType) {
+			// TODO Auto-generated method stub
+			
+		}
 	}
 	
 	@Override

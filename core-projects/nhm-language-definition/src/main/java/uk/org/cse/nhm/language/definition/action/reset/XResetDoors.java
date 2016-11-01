@@ -11,7 +11,10 @@ import com.larkery.jasb.bind.Bind;
 import com.larkery.jasb.bind.BindNamedArgument;
 
 @Bind("action.reset-doors")
-@Doc("An action which will be applied for each door on a house in turn, recomputing its u-value and size.")
+@Doc({
+	"An action which will be applied for each door on a house in turn, recomputing its u-value and size.",
+	"When the energy calculator is in SAP 2012 mode, these values will be ignored and the relevant SAP tables will be used instead."
+})
 @Category(CategoryType.RESETACTIONS)
 public class XResetDoors extends XFlaggedDwellingAction {
 	public static final class P {

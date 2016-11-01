@@ -12,13 +12,13 @@ import com.larkery.jasb.bind.BindNamedArgument;
 
 @Bind("action.reset-walls")
 @Doc({
-		"Reset the properties of all the external walls in a house according to some lookup functions."
+		"Reset the properties of all the external walls in a house according to some lookup functions.",
+		"When the energy calculator is in SAP 2012 mode, these values will be ignored and the relevant SAP tables will be used instead."
 	 })
 @Category(CategoryType.RESETACTIONS)
 public class XResetWalls extends XFlaggedDwellingAction {
 	public static final class P {
 		public static final String uvalue = "uValue";
-		public static final String kvalue = "kValue";
 		public static final String infiltration = "infiltration";
 		public static final String thickness = "thickness";
 		
@@ -26,7 +26,6 @@ public class XResetWalls extends XFlaggedDwellingAction {
 	
 	private XNumber uValue;
 	private XNumber infiltration;
-	private XNumber kValue;
 	private XNumber thickness;
 	
 	@Prop(P.uvalue)
@@ -57,15 +56,5 @@ public class XResetWalls extends XFlaggedDwellingAction {
 	}
 	public void setInfiltration(final XNumber infiltration) {
 		this.infiltration = infiltration;
-	}
-	
-	@Prop(P.kvalue)
-	@Doc("A function which will be evaluated once for each wall to compute a new k-value for the wall. Applied for external and party walls.")
-	@BindNamedArgument("k-values")
-	public XNumber getkValue() {
-		return kValue;
-	}
-	public void setkValue(final XNumber kValue) {
-		this.kValue = kValue;
 	}
 }

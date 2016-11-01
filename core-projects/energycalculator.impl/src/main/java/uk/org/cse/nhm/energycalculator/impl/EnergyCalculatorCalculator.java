@@ -172,7 +172,6 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		UTILISATION_FACTOR_TIME_CONSTANT_DIVISOR = constants
 				.get(EnergyCalculatorConstants.UTILISATION_FACTOR_TIME_CONSTANT_DIVISOR);
 
-		defaultTransducers.add(new HotWaterDemand09(constants));
 		defaultTransducers.add(new Appliances09(constants));
 		defaultTransducers.add(new MetabolicGainsSource(constants));
 		defaultTransducers.add(new EvaporativeGainsSource(constants));
@@ -681,7 +680,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 	@Override
 	public IEnergyCalculationResult[] evaluate(final IEnergyCalculatorHouseCase houseCase, final IEnergyCalculatorParameters eparameters,
 			final ISeasonalParameters[] climate) {
-		final Visitor v = new Visitor(constants, eparameters, defaultTransducers);
+		final Visitor v = Visitor.create(constants, eparameters, defaultTransducers);
 
 		houseCase.accept(constants, eparameters, v);
 		log.debug("visitor: {}", v);
@@ -702,7 +701,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 	private IEnergyCalculationResult evaluate(final IEnergyCalculatorHouseCase houseCase, final IInternalParameters parameters,
 			final Visitor v) {
 		final SpecificHeatLosses heatLosses = calculateSpecificHeatLosses(houseCase, parameters,
-				v.totalSpecificHeatLoss, v.totalThermalMass, v.totalExternalArea, v.infiltration, v.ventilationSystems);
+				v.totalSpecificHeatLoss, v.getTotalThermalMass(), v.totalExternalArea, v.infiltration, v.ventilationSystems);
 
 		// apply demand temperature adjustment, and compute zone 2 temp etc.
 		final IInternalParameters adjustedParameters = adjustParameters(parameters, heatLosses, v.heatingSystems);

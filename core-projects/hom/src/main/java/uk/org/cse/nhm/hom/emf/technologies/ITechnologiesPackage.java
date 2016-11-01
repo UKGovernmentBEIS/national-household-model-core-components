@@ -188,13 +188,22 @@ public interface ITechnologiesPackage extends EPackage {
 	int TECHNOLOGY_MODEL__ADJUSTERS = VISITOR_ACCEPTER_FEATURE_COUNT + 10;
 
 	/**
+	 * The feature id for the '<em><b>Shower</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TECHNOLOGY_MODEL__SHOWER = VISITOR_ACCEPTER_FEATURE_COUNT + 11;
+
+	/**
 	 * The number of structural features of the '<em>Technology Model</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TECHNOLOGY_MODEL_FEATURE_COUNT = VISITOR_ACCEPTER_FEATURE_COUNT + 11;
+	int TECHNOLOGY_MODEL_FEATURE_COUNT = VISITOR_ACCEPTER_FEATURE_COUNT + 12;
 
 	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.INamed <em>Named</em>}' class.
@@ -373,7 +382,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getPrimarySpaceHeater()
 	 * @generated
 	 */
-	int PRIMARY_SPACE_HEATER = 27;
+	int PRIMARY_SPACE_HEATER = 26;
 
 	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.impl.CentralHeatingSystemImpl <em>Central Heating System</em>}' class.
@@ -456,16 +465,6 @@ public interface ITechnologiesPackage extends EPackage {
 	int COOKER = 16;
 
 	/**
-	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.impl.ElectricShowerImpl <em>Electric Shower</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.ElectricShowerImpl
-	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getElectricShower()
-	 * @generated
-	 */
-	int ELECTRIC_SHOWER = 17;
-
-	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.impl.StorageHeaterImpl <em>Storage Heater</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -473,7 +472,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getStorageHeater()
 	 * @generated
 	 */
-	int STORAGE_HEATER = 18;
+	int STORAGE_HEATER = 17;
 
 	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.impl.CommunityHeatSourceImpl <em>Community Heat Source</em>}' class.
@@ -483,7 +482,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getCommunityHeatSource()
 	 * @generated
 	 */
-	int COMMUNITY_HEAT_SOURCE = 19;
+	int COMMUNITY_HEAT_SOURCE = 18;
 
 	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.impl.CommunityCHPImpl <em>Community CHP</em>}' class.
@@ -493,7 +492,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getCommunityCHP()
 	 * @generated
 	 */
-	int COMMUNITY_CHP = 20;
+	int COMMUNITY_CHP = 19;
 
 	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.impl.RoomHeaterImpl <em>Room Heater</em>}' class.
@@ -503,7 +502,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getRoomHeater()
 	 * @generated
 	 */
-	int ROOM_HEATER = 21;
+	int ROOM_HEATER = 20;
 
 	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.IIndividualHeatSource <em>Individual Heat Source</em>}' class.
@@ -513,7 +512,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getIndividualHeatSource()
 	 * @generated
 	 */
-	int INDIVIDUAL_HEAT_SOURCE = 30;
+	int INDIVIDUAL_HEAT_SOURCE = 29;
 
 	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.impl.HeatPumpImpl <em>Heat Pump</em>}' class.
@@ -523,7 +522,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getHeatPump()
 	 * @generated
 	 */
-	int HEAT_PUMP = 22;
+	int HEAT_PUMP = 21;
 
 	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.impl.WarmAirSystemImpl <em>Warm Air System</em>}' class.
@@ -533,7 +532,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getWarmAirSystem()
 	 * @generated
 	 */
-	int WARM_AIR_SYSTEM = 23;
+	int WARM_AIR_SYSTEM = 22;
 
 	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.impl.PointOfUseWaterHeaterImpl <em>Point Of Use Water Heater</em>}' class.
@@ -543,7 +542,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getPointOfUseWaterHeater()
 	 * @generated
 	 */
-	int POINT_OF_USE_WATER_HEATER = 24;
+	int POINT_OF_USE_WATER_HEATER = 23;
 
 	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.impl.HeatPumpWarmAirSystemImpl <em>Heat Pump Warm Air System</em>}' class.
@@ -553,7 +552,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getHeatPumpWarmAirSystem()
 	 * @generated
 	 */
-	int HEAT_PUMP_WARM_AIR_SYSTEM = 25;
+	int HEAT_PUMP_WARM_AIR_SYSTEM = 24;
 
 	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.impl.WarmAirCirculatorImpl <em>Warm Air Circulator</em>}' class.
@@ -563,7 +562,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getWarmAirCirculator()
 	 * @generated
 	 */
-	int WARM_AIR_CIRCULATOR = 26;
+	int WARM_AIR_CIRCULATOR = 25;
 
 	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.impl.BackBoilerImpl <em>Back Boiler</em>}' class.
@@ -573,7 +572,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getBackBoiler()
 	 * @generated
 	 */
-	int BACK_BOILER = 28;
+	int BACK_BOILER = 27;
 
 	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.IFuelAndFlue <em>Fuel And Flue</em>}' class.
@@ -583,7 +582,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getFuelAndFlue()
 	 * @generated
 	 */
-	int FUEL_AND_FLUE = 29;
+	int FUEL_AND_FLUE = 28;
 
 	/**
 	 * The feature id for the '<em><b>Fuel</b></em>' attribute.
@@ -739,13 +738,22 @@ public interface ITechnologiesPackage extends EPackage {
 	int CENTRAL_WATER_SYSTEM__SECONDARY_WATER_HEATER = WATER_HEATER_FEATURE_COUNT + 6;
 
 	/**
+	 * The feature id for the '<em><b>Technology Model</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CENTRAL_WATER_SYSTEM__TECHNOLOGY_MODEL = WATER_HEATER_FEATURE_COUNT + 7;
+
+	/**
 	 * The number of structural features of the '<em>Central Water System</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CENTRAL_WATER_SYSTEM_FEATURE_COUNT = WATER_HEATER_FEATURE_COUNT + 7;
+	int CENTRAL_WATER_SYSTEM_FEATURE_COUNT = WATER_HEATER_FEATURE_COUNT + 8;
 
 	/**
 	 * The number of structural features of the '<em>Primary Space Heater</em>' class.
@@ -1079,15 +1087,6 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @ordered
 	 */
 	int COOKER_FEATURE_COUNT = VISITOR_ACCEPTER_FEATURE_COUNT + 7;
-
-	/**
-	 * The number of structural features of the '<em>Electric Shower</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ELECTRIC_SHOWER_FEATURE_COUNT = WATER_HEATER_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Annual Operational Cost</b></em>' attribute.
@@ -1826,7 +1825,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getOperationalCost()
 	 * @generated
 	 */
-	int OPERATIONAL_COST = 31;
+	int OPERATIONAL_COST = 30;
 
 	/**
 	 * The feature id for the '<em><b>Annual Operational Cost</b></em>' attribute.
@@ -1854,7 +1853,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getSolarPhotovoltaic()
 	 * @generated
 	 */
-	int SOLAR_PHOTOVOLTAIC = 32;
+	int SOLAR_PHOTOVOLTAIC = 31;
 
 	/**
 	 * The feature id for the '<em><b>Peak Power</b></em>' attribute.
@@ -1891,7 +1890,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getAdjuster()
 	 * @generated
 	 */
-	int ADJUSTER = 33;
+	int ADJUSTER = 32;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1946,7 +1945,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getHybridHeater()
 	 * @generated
 	 */
-	int HYBRID_HEATER = 34;
+	int HYBRID_HEATER = 33;
 
 	/**
 	 * The feature id for the '<em><b>Fuel</b></em>' attribute.
@@ -1992,7 +1991,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getHasInstallationYear()
 	 * @generated
 	 */
-	int HAS_INSTALLATION_YEAR = 35;
+	int HAS_INSTALLATION_YEAR = 34;
 
 	/**
 	 * The feature id for the '<em><b>Installation Year</b></em>' attribute.
@@ -2020,7 +2019,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getFuelType()
 	 * @generated
 	 */
-	int FUEL_TYPE = 36;
+	int FUEL_TYPE = 35;
 
 
 	/**
@@ -2031,7 +2030,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getHeatingSystemControlType()
 	 * @generated
 	 */
-	int HEATING_SYSTEM_CONTROL_TYPE = 37;
+	int HEATING_SYSTEM_CONTROL_TYPE = 36;
 
 	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.EmitterType <em>Emitter Type</em>}' enum.
@@ -2041,7 +2040,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getEmitterType()
 	 * @generated
 	 */
-	int EMITTER_TYPE = 38;
+	int EMITTER_TYPE = 37;
 
 	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.StorageHeaterControlType <em>Storage Heater Control Type</em>}' enum.
@@ -2051,7 +2050,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getStorageHeaterControlType()
 	 * @generated
 	 */
-	int STORAGE_HEATER_CONTROL_TYPE = 39;
+	int STORAGE_HEATER_CONTROL_TYPE = 38;
 
 	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.StorageHeaterType <em>Storage Heater Type</em>}' enum.
@@ -2061,7 +2060,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getStorageHeaterType()
 	 * @generated
 	 */
-	int STORAGE_HEATER_TYPE = 40;
+	int STORAGE_HEATER_TYPE = 39;
 
 	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.HeatPumpSourceType <em>Heat Pump Source Type</em>}' enum.
@@ -2071,7 +2070,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getHeatPumpSourceType()
 	 * @generated
 	 */
-	int HEAT_PUMP_SOURCE_TYPE = 41;
+	int HEAT_PUMP_SOURCE_TYPE = 40;
 
 	/**
 	 * The meta object id for the '<em>IEnergy Calculator Visitor</em>' data type.
@@ -2081,7 +2080,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getIEnergyCalculatorVisitor()
 	 * @generated
 	 */
-	int IENERGY_CALCULATOR_VISITOR = 42;
+	int IENERGY_CALCULATOR_VISITOR = 41;
 
 	/**
 	 * The meta object id for the '<em>IInternal Parameters</em>' data type.
@@ -2091,7 +2090,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getIInternalParameters()
 	 * @generated
 	 */
-	int IINTERNAL_PARAMETERS = 43;
+	int IINTERNAL_PARAMETERS = 42;
 
 
 	/**
@@ -2102,7 +2101,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getIEnergyState()
 	 * @generated
 	 */
-	int IENERGY_STATE = 44;
+	int IENERGY_STATE = 43;
 
 
 	/**
@@ -2113,7 +2112,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getEnergyType()
 	 * @generated
 	 */
-	int ENERGY_TYPE = 45;
+	int ENERGY_TYPE = 44;
 
 
 	/**
@@ -2124,7 +2123,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getAtomicInteger()
 	 * @generated
 	 */
-	int ATOMIC_INTEGER = 46;
+	int ATOMIC_INTEGER = 45;
 
 
 	/**
@@ -2135,7 +2134,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getIConstants()
 	 * @generated
 	 */
-	int ICONSTANTS = 47;
+	int ICONSTANTS = 46;
 
 	/**
 	 * The meta object id for the '<em>IEnergy Calculator Parameters</em>' data type.
@@ -2145,7 +2144,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getIEnergyCalculatorParameters()
 	 * @generated
 	 */
-	int IENERGY_CALCULATOR_PARAMETERS = 48;
+	int IENERGY_CALCULATOR_PARAMETERS = 47;
 
 	/**
 	 * The meta object id for the '<em>Efficiency</em>' data type.
@@ -2155,7 +2154,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getEfficiency()
 	 * @generated
 	 */
-	int EFFICIENCY = 49;
+	int EFFICIENCY = 48;
 
 
 	/**
@@ -2166,7 +2165,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getHeatProportions()
 	 * @generated
 	 */
-	int HEAT_PROPORTIONS = 50;
+	int HEAT_PROPORTIONS = 49;
 
 
 	/**
@@ -2299,6 +2298,17 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getTechnologyModel_Adjusters();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel#getShower <em>Shower</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Shower</em>'.
+	 * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel#getShower()
+	 * @see #getTechnologyModel()
+	 * @generated
+	 */
+	EReference getTechnologyModel_Shower();
 
 	/**
 	 * Returns the meta object for class '{@link uk.org.cse.nhm.hom.emf.technologies.IAppliance <em>Appliance</em>}'.
@@ -2501,6 +2511,17 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getCentralWaterSystem_SecondaryWaterHeater();
+
+	/**
+	 * Returns the meta object for the container reference '{@link uk.org.cse.nhm.hom.emf.technologies.ICentralWaterSystem#getTechnologyModel <em>Technology Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Technology Model</em>'.
+	 * @see uk.org.cse.nhm.hom.emf.technologies.ICentralWaterSystem#getTechnologyModel()
+	 * @see #getCentralWaterSystem()
+	 * @generated
+	 */
+	EReference getCentralWaterSystem_TechnologyModel();
 
 	/**
 	 * Returns the meta object for class '{@link uk.org.cse.nhm.hom.emf.technologies.ICentralHeatingSystem <em>Central Heating System</em>}'.
@@ -2888,16 +2909,6 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getCooker_GainsFactor();
-
-	/**
-	 * Returns the meta object for class '{@link uk.org.cse.nhm.hom.emf.technologies.IElectricShower <em>Electric Shower</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Electric Shower</em>'.
-	 * @see uk.org.cse.nhm.hom.emf.technologies.IElectricShower
-	 * @generated
-	 */
-	EClass getElectricShower();
 
 	/**
 	 * Returns the meta object for class '{@link uk.org.cse.nhm.hom.emf.technologies.IStorageHeater <em>Storage Heater</em>}'.
@@ -3744,6 +3755,14 @@ public interface ITechnologiesPackage extends EPackage {
 		EReference TECHNOLOGY_MODEL__ADJUSTERS = eINSTANCE.getTechnologyModel_Adjusters();
 
 		/**
+		 * The meta object literal for the '<em><b>Shower</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TECHNOLOGY_MODEL__SHOWER = eINSTANCE.getTechnologyModel_Shower();
+
+		/**
 		 * The meta object literal for the '{@link uk.org.cse.nhm.hom.emf.technologies.impl.ApplianceImpl <em>Appliance</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3908,6 +3927,14 @@ public interface ITechnologiesPackage extends EPackage {
 		 * @generated
 		 */
 		EReference CENTRAL_WATER_SYSTEM__SECONDARY_WATER_HEATER = eINSTANCE.getCentralWaterSystem_SecondaryWaterHeater();
+
+		/**
+		 * The meta object literal for the '<em><b>Technology Model</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CENTRAL_WATER_SYSTEM__TECHNOLOGY_MODEL = eINSTANCE.getCentralWaterSystem_TechnologyModel();
 
 		/**
 		 * The meta object literal for the '{@link uk.org.cse.nhm.hom.emf.technologies.impl.CentralHeatingSystemImpl <em>Central Heating System</em>}' class.
@@ -4214,16 +4241,6 @@ public interface ITechnologiesPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute COOKER__GAINS_FACTOR = eINSTANCE.getCooker_GainsFactor();
-
-		/**
-		 * The meta object literal for the '{@link uk.org.cse.nhm.hom.emf.technologies.impl.ElectricShowerImpl <em>Electric Shower</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see uk.org.cse.nhm.hom.emf.technologies.impl.ElectricShowerImpl
-		 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getElectricShower()
-		 * @generated
-		 */
-		EClass ELECTRIC_SHOWER = eINSTANCE.getElectricShower();
 
 		/**
 		 * The meta object literal for the '{@link uk.org.cse.nhm.hom.emf.technologies.impl.StorageHeaterImpl <em>Storage Heater</em>}' class.
