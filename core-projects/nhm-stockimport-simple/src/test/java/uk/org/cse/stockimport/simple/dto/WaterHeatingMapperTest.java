@@ -39,6 +39,7 @@ public class WaterHeatingMapperTest extends AbsMapperTest {
 	final Boolean expectedCylinderThermostatPresent = Boolean.TRUE;
 	final Boolean expectedCylinderFactoryInsulated = Boolean.TRUE;
 	final double expectedCylinderInsulationThickness = 38.0;
+	final Boolean isFromPCDBMatch = Boolean.TRUE;
 	
 	
 	final Boolean expectedIsSolarHotWaterPresent = Boolean.TRUE;
@@ -70,6 +71,7 @@ public class WaterHeatingMapperTest extends AbsMapperTest {
 		.add(IWaterHeatingDTO.FLUETYPE_FIELD, expectedFlueType.toString())
 		.add(IWaterHeatingDTO.INSTALLATIONYEAR_FIELD, String.valueOf(expectedInstallationYear))
 		.add(IWaterHeatingDTO.INSTALLATIONYEAR_FIELD, Integer.toString(expectedInstallationYear))
+		.add(IWaterHeatingDTO.IS_PCDB_MATCH_FIELD, Boolean.toString(isFromPCDBMatch))
 		
 		//Cylinder Data
 		.add(IWaterHeatingDTO.CYLINDERVOLUME_FIELD, String.valueOf(expectedCylinderVolume))
