@@ -65,6 +65,10 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 		private final Country country;
 		private final Band ageBand;
 		
+		private RoofConstructionType roofConstructionType;
+		private Double roofInsulationThickness;
+
+
 		public Visitor(final Set<AreaType> includedAreas, EnergyCalculatorType calculatorType, final Country country, final Band ageBand) {
 			this.includedAreas = includedAreas;
 			this.calculatorType = calculatorType;
@@ -120,13 +124,11 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 				double frameFactor, double horizontalOrientation, double verticalOrientation,
 				OvershadingType overshading) {
 			// TODO Auto-generated method stub
-			
 		}
 
 		@Override
 		public void addGroundFloorInfiltration(FloorConstructionType floorType) {
 			// TODO Auto-generated method stub
-			
 		}
 
 		@Override
@@ -181,7 +183,13 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 		}
 
 		@Override
-		public void visitRoof(RoofType type, double area, double uValue, RoofConstructionType constructionType, double insulationThickness) {
+		public void setRoofType(RoofConstructionType constructionType, double insulationThickness) {
+			this.roofConstructionType = constructionType;
+			this.roofInsulationThickness = insulationThickness;
+		}
+
+		@Override
+		public void visitCeiling(RoofType type, double area, double uValue) {
 			if (includedAreas.contains(type.getAreaType())) {
 				totalA += area;
 
@@ -192,7 +200,11 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 					overrideU = uValue;
 					break;
 				case SAP2012:
-					overrideU = SAPUValues.Roofs.get(type, constructionType, insulationThickness, country, ageBand);
+					if (roofConstructionType == null || roofInsulationThickness == null) {
+						throw new RuntimeException("setRoofType should be called before visitCeiling");
+					}
+
+					overrideU = SAPUValues.Roofs.get(type, roofConstructionType, roofInsulationThickness, country, ageBand);
 					break;
 				default:
 					throw new UnsupportedOperationException("Unknown energy calculator type when computing average u value for roofs " + calculatorType);

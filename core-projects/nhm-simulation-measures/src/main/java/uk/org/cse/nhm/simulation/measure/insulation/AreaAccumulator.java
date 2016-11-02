@@ -108,7 +108,6 @@ public class AreaAccumulator implements IEnergyCalculatorVisitor {
 	@Override
 	public void addGroundFloorInfiltration(FloorConstructionType floorType) {
 		// TODO Auto-generated method stub
-		
 	}
 	
 	@Override
@@ -129,7 +128,12 @@ public class AreaAccumulator implements IEnergyCalculatorVisitor {
 	}
 
 	@Override
-	public void visitRoof(RoofType type, double area, double uValue, RoofConstructionType constructionType, double insulationThickness) {
+	public void setRoofType(RoofConstructionType constructionType, double insulationThickness) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void visitCeiling(RoofType type, double area, double uValue) {
 		if (this.areaTypes.contains(type.getAreaType())) {
 			this.totalArea += area;
 		}

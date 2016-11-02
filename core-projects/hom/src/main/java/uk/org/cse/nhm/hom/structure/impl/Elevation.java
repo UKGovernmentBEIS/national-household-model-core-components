@@ -8,11 +8,8 @@ import org.pojomatic.Pojomatic;
 import org.pojomatic.annotations.AutoProperty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.common.base.Optional;
 
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
-import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
-import uk.org.cse.nhm.energycalculator.api.types.AreaType;
 import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
 import uk.org.cse.nhm.hom.components.fabric.types.DoorType;
 import uk.org.cse.nhm.hom.structure.Door;
@@ -171,7 +168,7 @@ public class Elevation implements IElevation {
 			NOTES: Glazing's k-value (thermal mass) is always 0. When setting the u-value, ensure to include the curtain correction factor.
 			CODSIEB
 			*/
-			visitor.visitFabricElement(AreaType.Glazing, glazingArea, glazing.getuValue(), Optional.<ThermalMassLevel>absent());
+			visitor.visitWindow(glazingArea, glazing.getuValue(), glazing.getFrameType(), glazing.getGlazingType(), glazing.getInsulationType());
 			
 			visitor.visitTransparentElement(
 					glazing.getGlazingType(),

@@ -20,6 +20,7 @@ import com.google.common.base.Optional;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
 import uk.org.cse.nhm.energycalculator.api.types.AreaType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofType;
 import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
 import uk.org.cse.nhm.energycalculator.api.types.WallType;
 import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
@@ -280,8 +281,8 @@ public class Storey implements IStorey {
 			*/
 			// there is a heat loss area pointing upwards, whose area is area - areaAbove
 			final double heatLossAreaAbove = area - areaAbove;
-			visitor.visitFabricElement(AreaType.ExternalCeiling, heatLossAreaAbove, ceilingUValue, Optional.<ThermalMassLevel>absent());
-			visitor.visitFabricElement(AreaType.PartyCeiling, areaAbove, 0, Optional.<ThermalMassLevel>absent());
+			visitor.visitCeiling(RoofType.ExternalHeatLoss, heatLossAreaAbove, ceilingUValue);
+			visitor.visitCeiling(RoofType.Party, areaAbove, 0);
 		}
 	}
 	

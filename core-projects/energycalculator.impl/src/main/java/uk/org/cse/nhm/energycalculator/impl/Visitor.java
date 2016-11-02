@@ -69,6 +69,10 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 	private final LightingDemand09 lightingDemand;
 
 	private final SolarGainsSource solarGains;
+
+	private RoofConstructionType roofConstructionType;
+
+	private Double roofInsulationThickness;
 	
 	public static Visitor create(final IConstants constants, final IEnergyCalculatorParameters parameters, final int buildYear, final Country country, final List<IEnergyTransducer> defaultTransducers) {
 		switch(parameters.getCalculatorType()) {
@@ -157,13 +161,23 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 	protected abstract double overrideDoorUValue(double uValue);
 
 	@Override
-	public void visitRoof(final RoofType type, final double area, final double uValue, final RoofConstructionType constructionType, final double insulationThickness) {
-		log.debug("VISIT {}, {}, {}, {}, {}", type, area, uValue, constructionType, insulationThickness);
+	public void setRoofType(RoofConstructionType constructionType, double insulationThickness) {
+		this.roofConstructionType = constructionType;
+		this.roofInsulationThickness = insulationThickness;
+	}
+
+	@Override
+	public void visitCeiling(final RoofType type, final double area, final double uValue) {
+		log.debug("VISIT {}, {}, {}, {}, {}", type, area, uValue, roofConstructionType, roofInsulationThickness);
+
+		if (roofConstructionType == null || roofInsulationThickness == null) {
+			throw new RuntimeException("setRoofType must be called before visitCeiling");
+		}
 
 		visitExternalArea(type.getAreaType(), area);
 
 		areasByType[0][type.ordinal()] += area;
-		areasByType[1][type.ordinal()] += area * overrideRoofUValue(uValue, type, constructionType, insulationThickness);
+		areasByType[1][type.ordinal()] += area * overrideRoofUValue(uValue, type, roofConstructionType, roofInsulationThickness);
 	}
 
 	protected abstract double overrideRoofUValue(double uValue, RoofType type, RoofConstructionType constructionType,

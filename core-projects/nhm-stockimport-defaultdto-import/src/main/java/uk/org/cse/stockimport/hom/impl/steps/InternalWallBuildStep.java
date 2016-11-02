@@ -129,7 +129,12 @@ public class InternalWallBuildStep implements ISurveyCaseBuildStep {
 		}
 
 		@Override
-		public void visitRoof(RoofType type, double area, double uValue, RoofConstructionType constructionType, double insulationThickness) {
+		public void setRoofType(RoofConstructionType constructionType, double insulationThickness) {
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void visitCeiling(RoofType type, double area, double uValue) {
 			// TODO Auto-generated method stub
 		}
 

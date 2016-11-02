@@ -144,14 +144,20 @@ public interface IEnergyCalculatorVisitor {
 		);
 
 	/**
-	 * Add the heat loss from a roof.
+	 * Sets the roof type for the dwelling.
 	 */
-	public void visitRoof(
-			final RoofType type,
-			final double area,
-			final double uValue,
+	public void setRoofType(
 			final RoofConstructionType constructionType,
 			final double insulationThickness
+		);
+
+	/**
+	 * Add the heat loss from a ceiling.
+	 */
+	public void visitCeiling(
+			final RoofType type,
+			final double area,
+			final double uValue
 		);
 
 	public void visitWindow(

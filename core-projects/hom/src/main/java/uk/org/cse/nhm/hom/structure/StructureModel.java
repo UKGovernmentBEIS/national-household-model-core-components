@@ -303,6 +303,7 @@ public class StructureModel implements ICopyable<StructureModel> {
 		visitor.addFanInfiltration(getIntermittentFans());
 		visitor.addVentInfiltration(getPassiveVents());
 		visitor.addGroundFloorInfiltration(getGroundFloorConstructionType());
+		visitor.setRoofType(roofConstructionType, roofInsulationThickness);
 		
 		final int storeyCount = storeys.size();
 		
