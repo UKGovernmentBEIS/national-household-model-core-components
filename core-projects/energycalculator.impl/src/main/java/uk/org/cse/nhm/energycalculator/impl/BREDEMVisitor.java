@@ -55,4 +55,10 @@ public class BREDEMVisitor extends Visitor {
 			double insulationThickness) {
 		return uValue;
 	}
+
+	@Override
+	protected double overrideWindowUValue(double uValue, FrameType frameType, GlazingType glazingType,
+			WindowInsulationType insulationType) {
+		return uValue;
+	}
 }

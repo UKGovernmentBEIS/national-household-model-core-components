@@ -201,6 +201,30 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 				totalU += overrideU * area;
 			}
 		}
+
+		@Override
+		public void visitWindow(double area, double uValue, FrameType frameType, GlazingType glazingType,
+				WindowInsulationType insulationType) {
+
+			if (includedAreas.contains(AreaType.Glazing)) {
+				totalA += area;
+
+				final double overrideU;
+
+				switch(calculatorType) {
+				case BREDEM2012:
+					overrideU = uValue;
+					break;
+				case SAP2012:
+					overrideU = SAPUValues.Windows.get(frameType, glazingType, insulationType);
+					break;
+				default:
+					throw new UnsupportedOperationException("Unknown energy calculator type when computing average u value for windows " + calculatorType);
+				}
+
+				totalU += overrideU * area;
+			}
+		}
 	}
 	
 	@Override

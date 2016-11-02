@@ -1,5 +1,7 @@
 package uk.org.cse.nhm.energycalculator.impl;
 
+import uk.org.cse.nhm.energycalculator.api.types.FrameType;
+import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
 import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.RoofType;
@@ -19,6 +21,7 @@ import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WallType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 
 public class SAPUValues {
 	/**
@@ -458,8 +461,19 @@ public class SAPUValues {
 		
 	}
 	
+	/**
+	 * Window u-value lookup based on Table 6e.
+	 *
+	 * (RdSAP also includes a Table S14, but we ignore this as we have extra information about frame type and insulation in the model.)
+	 *
+	 * We ignore the footnotes in the table.
+	 */
 	public static class Windows {
+		private static final IWindowUValues windowUValues = new WindowUValues();
 		
+		public static double get(final FrameType frameType, final GlazingType glazingType, final WindowInsulationType insulationType) {
+			return windowUValues.getUValue(frameType, glazingType, insulationType);
+		}
 	}
 	
 	public static class Floors {

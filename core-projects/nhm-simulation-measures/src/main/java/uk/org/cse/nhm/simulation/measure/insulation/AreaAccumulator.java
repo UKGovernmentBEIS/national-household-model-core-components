@@ -134,4 +134,12 @@ public class AreaAccumulator implements IEnergyCalculatorVisitor {
 			this.totalArea += area;
 		}
 	}
+
+	@Override
+	public void visitWindow(double area, double uValue, FrameType frameType, GlazingType glazingType,
+			WindowInsulationType insulationType) {
+		if (this.areaTypes.contains(AreaType.Glazing)) {
+			this.totalArea += area;
+		}
+	}
 }

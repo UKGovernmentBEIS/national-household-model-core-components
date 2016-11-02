@@ -12,10 +12,10 @@ import org.junit.Test;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
+import uk.org.cse.nhm.energycalculator.impl.IWindowUValues;
 import uk.org.cse.stockimport.imputation.ImputationSchema;
 import uk.org.cse.stockimport.imputation.apertures.windows.ITransmittanceFactors;
 import uk.org.cse.stockimport.imputation.apertures.windows.IWindowFrameFactor;
-import uk.org.cse.stockimport.imputation.apertures.windows.IWindowUValues;
 import uk.org.cse.stockimport.imputation.lookupbuilders.excel.WindowPropertyTablesBuilder;
 
 public class CreationOfWindowImputationDataFromExcelTest extends AbsImputationFromExcelTest {

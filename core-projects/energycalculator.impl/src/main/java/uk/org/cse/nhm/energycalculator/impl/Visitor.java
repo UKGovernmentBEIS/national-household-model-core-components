@@ -169,6 +169,25 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 	protected abstract double overrideRoofUValue(double uValue, RoofType type, RoofConstructionType constructionType,
 			double insulationThickness);
 
+	@Override
+	public void visitWindow(
+			final double area,
+			final double uValue,
+			final FrameType frameType,
+			final GlazingType glazingType,
+			final WindowInsulationType insulationType
+			) {
+		log.debug("VISIT Window, {}, {}, {}, {}, {}", area, uValue, frameType, glazingType, insulationType);
+
+		visitExternalArea(AreaType.Glazing, area);
+
+		areasByType[0][AreaType.Glazing.ordinal()] += area;
+		areasByType[1][AreaType.Glazing.ordinal()] += area * overrideWindowUValue(uValue, frameType, glazingType, insulationType);
+	}
+
+	protected abstract double overrideWindowUValue(final double uValue, final FrameType frameType, final GlazingType glazingType,
+			final WindowInsulationType insulationType);
+
 	public void visitExternalArea(AreaType type, double area) {
 		if (type.isExternal()) {
 			totalExternalArea += area;

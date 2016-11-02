@@ -132,6 +132,12 @@ public class InternalWallBuildStep implements ISurveyCaseBuildStep {
 		public void visitRoof(RoofType type, double area, double uValue, RoofConstructionType constructionType, double insulationThickness) {
 			// TODO Auto-generated method stub
 		}
+
+		@Override
+		public void visitWindow(double area, double uValue, FrameType frameType, GlazingType glazingType,
+				WindowInsulationType insulationType) {
+			externalArea += area;
+		}
 	}
 	
 	@Override
@@ -153,5 +159,4 @@ public class InternalWallBuildStep implements ISurveyCaseBuildStep {
 		model.getStructure().accept(av);
 		model.getStructure().setInternalWallArea(av.getExternalArea());
 	}
-
 }

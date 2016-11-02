@@ -7,13 +7,13 @@ import org.junit.Test;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
-import uk.org.cse.stockimport.imputation.apertures.windows.IWindowUValues;
-import uk.org.cse.stockimport.imputation.apertures.windows.UValues;
+import uk.org.cse.nhm.energycalculator.impl.IWindowUValues;
+import uk.org.cse.nhm.energycalculator.impl.WindowUValues;
 
 public class UValuesTest {
 	@Test
 	public void testUValues() {
-		final IWindowUValues uvalues = new UValues();
+		final IWindowUValues uvalues = new WindowUValues();
 		
 		testSingleGlazing(uvalues);
 

@@ -154,6 +154,14 @@ public interface IEnergyCalculatorVisitor {
 			final double insulationThickness
 		);
 
+	public void visitWindow(
+			final double area,
+			final double uValue,
+			final FrameType frameType,
+			final GlazingType glazingType,
+			final WindowInsulationType insulationType
+		);
+
 	/**
 	 * Visit a fabric element with the given heat loss, thermal mass, and external area.
 	 * @param name TODO

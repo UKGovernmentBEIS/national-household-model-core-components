@@ -175,4 +175,10 @@ public class SAPVisitor extends Visitor {
 			double insulationThickness) {
 		return SAPUValues.Roofs.get(type, constructionType, insulationThickness, country, ageBand);
 	}
+
+	@Override
+	protected double overrideWindowUValue(double uValue, FrameType frameType, GlazingType glazingType,
+			WindowInsulationType insulationType) {
+		return SAPUValues.Windows.get(frameType, glazingType, insulationType);
+	}
 }
