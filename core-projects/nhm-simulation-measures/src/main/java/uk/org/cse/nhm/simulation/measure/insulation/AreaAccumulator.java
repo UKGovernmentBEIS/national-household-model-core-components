@@ -118,4 +118,11 @@ public class AreaAccumulator implements IEnergyCalculatorVisitor {
 			this.totalArea += area;
 		}
 	}
+
+	@Override
+	public void visitDoor(double area, double uValue) {
+		if (this.areaTypes.contains(AreaType.Door)) {
+			this.totalArea += area;
+		}
+	}
 }

@@ -155,6 +155,28 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 				totalU += overrideU * area;
 			}
 		}
+
+		@Override
+		public void visitDoor(double area, double uValue) {
+			if (includedAreas.contains(AreaType.Door)) {
+				totalA += area;
+
+				final double overrideU;
+
+				switch(calculatorType) {
+				case BREDEM2012:
+					overrideU = uValue;
+					break;
+				case SAP2012:
+					overrideU = SAPUValues.Doors.getOutside(ageBand, country);
+					break;
+				default:
+					throw new UnsupportedOperationException("Unknown energy calculator type when computing average u value for doors " + calculatorType);
+				}
+
+				totalU += overrideU * area;
+			}
+		}
 	}
 	
 	@Override

@@ -143,6 +143,18 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 	abstract protected double overrideWallUValue(final WallConstructionType constructionType, final double externalOrInternalInsulationThickness, final boolean hasCavityInsulation, final double uValue);
 
 	@Override
+	public void visitDoor(double area, double uValue) {
+		log.debug("VISIT Door, {}, {}", area, uValue);
+
+		final int doorI = AreaType.Door.ordinal();
+
+		areasByType[0][doorI] += area;
+		areasByType[1][doorI] += area * overrideDoorUValue(uValue);
+	}
+
+	protected abstract double overrideDoorUValue(double uValue);
+
+	@Override
 	public void visitFabricElement(final AreaType name, final double area, final double u, final Optional<ThermalMassLevel> thermalMassLevel) {
 		log.debug("VISIT, {}, {}, {}, {}", name, area, u, thermalMassLevel);
 		totalSpecificHeatLoss += u * area;

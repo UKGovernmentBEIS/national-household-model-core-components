@@ -270,12 +270,10 @@ public class Elevation implements IElevation {
 			final double doorScaling = (totalDoorArea - remainingDoorArea) / totalDoorArea;
 			
 			for (Door d : doors) {
-				visitor.visitFabricElement(
-						AreaType.Door, 
-						d.getArea() * doorScaling, 
-						d.getuValue(), 
-						Optional.<ThermalMassLevel>absent()
-					);
+				visitor.visitDoor(
+					d.getArea() * doorScaling,
+					d.getuValue()
+				);
 				
 				if (d.getDoorType() == DoorType.Glazed) {
 					visitor.visitTransparentElement(

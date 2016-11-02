@@ -9,6 +9,7 @@ import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 
@@ -16,8 +17,8 @@ public class SAPVisitor extends Visitor {
 	final double steelOrTimberFrameInfiltration = 0.25;
 	final double otherWallInfiltration = 0.35;
 	
-	private final int buildYear;
 	private final Country country;
+	private final Band ageBand;
 
 	protected SAPVisitor(
 			final IConstants constants,
@@ -27,7 +28,7 @@ public class SAPVisitor extends Visitor {
 			final List<IEnergyTransducer> defaultTransducers
 			) {
 		super(constants, parameters, defaultTransducers);
-		this.buildYear = buildYear;
+		ageBand = SAPAgeBandValue.fromYear(buildYear, country).getName();
 		this.country = country;
 	}
 
@@ -158,7 +159,12 @@ public class SAPVisitor extends Visitor {
 				constructionType,
 				externalOrInternalInsulationThickness,
 				hasCavityInsulation,
-				SAPAgeBandValue.fromYear(buildYear, country).getName()
+				ageBand
 			);
+	}
+
+	@Override
+	protected double overrideDoorUValue(double uValue) {
+		return SAPUValues.Doors.getOutside(ageBand, country);
 	}
 }

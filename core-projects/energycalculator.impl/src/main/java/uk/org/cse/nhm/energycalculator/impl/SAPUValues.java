@@ -348,7 +348,7 @@ public class SAPUValues {
 		}
 
 		/**
-		 * SAP 2012 Table S3 
+		 * SAP 2012 Table S3
 		 */
 		public static class Thickness {
 			public static double getExternal(Country country, WallConstructionType constructionType, SAPAgeBandValue.Band ageBand) {
@@ -413,7 +413,46 @@ public class SAPUValues {
 		}
 	}
 	
+	/**
+	 * @assumption All doors in the stock lead to the outside.
+	 *
+	 * (We have no information about hallways or stairwells adjacent to the outside of the dwelling.)
+	 */
 	public static class Doors {
+		/**
+		 * @param country
+		 * @return the u-value for an outside door according to SAP 2012 Table S15A
+		 */
+		public static double getOutside(Band ageBand, Country country) {
+			switch (ageBand) {
+			case A:
+			case B:
+			case C:
+			case D:
+			case E:
+			case F:
+			case G:
+			case H:
+			case I:
+			case J:
+				return 3.0;
+			case K:
+				return 2.0;
+			case L:
+				switch(country) {
+				case England:
+				case Wales:
+				case NorthernIreland:
+					return 1.8;
+				case Scotland:
+					return 1.6;
+				default:
+					throw new IllegalArgumentException("Unknown country when computing door u-value " + country);
+				}
+			default:
+				throw new IllegalArgumentException("Unknown age band when computing door u-value " + ageBand);
+			}
+		}
 		
 	}
 	

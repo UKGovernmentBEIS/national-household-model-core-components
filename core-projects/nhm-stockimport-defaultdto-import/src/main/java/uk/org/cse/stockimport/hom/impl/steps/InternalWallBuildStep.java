@@ -118,6 +118,11 @@ public class InternalWallBuildStep implements ISurveyCaseBuildStep {
 				Optional<ThermalMassLevel> thermalMassLevel) {
 			// TODO Auto-generated method stub
 		}
+
+		@Override
+		public void visitDoor(double area, double uValue) {
+			// TODO Auto-generated method stub
+		}
 	}
 	
 	@Override

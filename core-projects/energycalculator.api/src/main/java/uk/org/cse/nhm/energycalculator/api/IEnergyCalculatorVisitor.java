@@ -133,6 +133,11 @@ public interface IEnergyCalculatorVisitor {
 			final Optional<ThermalMassLevel> thermalMassLevel
 		);
 	
+	public void visitDoor(
+			final double area,
+			final double uValue
+		);
+
 	/**
 	 * Visit a fabric element with the given heat loss, thermal mass, and external area.
 	 * @param name TODO

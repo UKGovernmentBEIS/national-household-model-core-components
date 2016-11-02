@@ -42,4 +42,9 @@ public class BREDEMVisitor extends Visitor {
 			double externalOrInternalInsulationThickness, boolean hasCavityInsulation, double uValue) {
 		return uValue;
 	}
+
+	@Override
+	protected double overrideDoorUValue(double uValue) {
+		return uValue;
+	}
 }
