@@ -72,6 +72,7 @@ public class WaterHeatingMapperTest extends AbsMapperTest {
 		.add(IWaterHeatingDTO.INSTALLATIONYEAR_FIELD, String.valueOf(expectedInstallationYear))
 		.add(IWaterHeatingDTO.INSTALLATIONYEAR_FIELD, Integer.toString(expectedInstallationYear))
 		.add(IWaterHeatingDTO.IS_PCDB_MATCH_FIELD, Boolean.toString(isFromPCDBMatch))
+		.add(IWaterHeatingDTO.HAS_ELECTRIC_SHOWER_FIELD, "")
 		
 		//Cylinder Data
 		.add(IWaterHeatingDTO.CYLINDERVOLUME_FIELD, String.valueOf(expectedCylinderVolume))
@@ -82,7 +83,7 @@ public class WaterHeatingMapperTest extends AbsMapperTest {
 		//Solar Data
 		.add(IWaterHeatingDTO.HASSOLARHOTWATER_FIELD, expectedIsSolarHotWaterPresent.toString())
 		.add(IWaterHeatingDTO.ISSOLARSTOREINCYLINDER_FIELD, expectedIsSolarStoreInCylinder.toString())
-		.add(IWaterHeatingDTO.SOLARSTOREVOLUME_FIELD, String.valueOf(expectedSolarVolumeOutsideCylinder));
+		.add(IWaterHeatingDTO.SOLARSTOREVOLUME_FIELD, String.valueOf(expectedSolarVolumeOutsideCylinder));		
 	}
 
 	@Test

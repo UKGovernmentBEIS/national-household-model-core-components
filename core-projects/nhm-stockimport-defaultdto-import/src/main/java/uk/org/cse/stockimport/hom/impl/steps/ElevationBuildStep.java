@@ -90,7 +90,7 @@ public class ElevationBuildStep implements ISurveyCaseBuildStep {
         for (final IElevationDTO elevationDTO : elevations) {
             elevation = new Elevation();
             
-            elevation.setAngleFromNorth(Math.PI/4); 
+            elevation.setAngleFromNorth(elevationDTO.getAngleFromNorth().or(Math.PI/4)); 
             // this is east/west, which is the angle we set for all walls in the absence of more information
             
             structure.setElevation(elevationDTO.getElevationType(), elevation);

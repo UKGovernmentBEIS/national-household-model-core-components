@@ -49,6 +49,8 @@ public class ElevationDTO extends AbsDTO implements IElevationDTO {
     private Optional<FrameType> singleGlazedWindowFrame = Optional.of(FrameType.Metal);
     private Optional<FrameType> doubleGlazedWindowFrame = Optional.absent();
     
+    private Optional<Double> angleFromNorth = Optional.absent();
+    
     @Property(policy=PojomaticPolicy.NONE)
     private Table<FrameType, DoorType, Integer> doors = HashBasedTable.create();
     
@@ -275,4 +277,22 @@ public class ElevationDTO extends AbsDTO implements IElevationDTO {
 	public String toString() {
 		return Pojomatic.toString(this);
 	}
+
+    /**
+     * @return
+     * @see uk.org.cse.stockimport.domain.geometry.IElevationDTO#getAngleFromNorth()
+     */
+    @Override
+    public Optional<Double> getAngleFromNorth() {
+        return angleFromNorth;
+    }
+
+    /**
+     * @param angleFromNorth
+     * @see uk.org.cse.stockimport.domain.geometry.IElevationDTO#setAngleFromNorth(com.google.common.base.Optional)
+     */
+    @Override
+    public void setAngleFromNorth(Optional<Double> angleFromNorth) {
+        this.angleFromNorth = angleFromNorth;
+    }
 }

@@ -28,8 +28,8 @@ public interface IWaterHeatingDTO extends IHeatingDTO {
 	public static final String CYLINDERVOLUME_FIELD = "CylinderVolume";
 	public static final String IMMERSIONTYPE_FIELD = "ImmersionHeaterType";
 	public static final String CYLINDERFACTORYINSULATED_FIELD = "CylinderFactoryInsulated";
-	
 	public static final String HEATINGFUEL_FIELD = "mainHeatingFuel";
+	public static final String HAS_ELECTRIC_SHOWER_FIELD = "hasElectricShower";
 	
 	@DTOField(HEATINGFUEL_FIELD)
 	public Optional<FuelType> getMainHeatingFuel() ;
@@ -79,4 +79,8 @@ public interface IWaterHeatingDTO extends IHeatingDTO {
 	@DTOField(value=INSTALLATIONYEAR_FIELD)
 	public Optional<Integer> getInstallationYear() ;
 	public void setInstallationYear(Optional<Integer> installationYear) ;
+   
+	@DTOField(value=HAS_ELECTRIC_SHOWER_FIELD)
+    public Optional<Boolean> getHasElectricShower();
+	public void setHasElectricShower(Optional<Boolean> hasElectricShower);
 }
