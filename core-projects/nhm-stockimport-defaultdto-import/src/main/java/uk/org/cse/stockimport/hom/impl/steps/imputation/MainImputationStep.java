@@ -176,13 +176,17 @@ public class MainImputationStep implements ISurveyCaseBuildStep {
 			
 			for (final Door d : e.getDoors()) {
 				final DoorType doorType = d.getDoorType();
-				final FrameType ft = d.getFrameType();
-				final GlazingType gt = d.getGlazingType();
+				
 				d.setArea(doors.getArea(doorType));
 				d.setuValue(doors.getUValue(ageBand.getName(), doorType));
-				d.setFrameFactor(windows.getFrameFactor(ageBand, ft, gt, WindowInsulationType.Air));
-				d.setGainsTransmissionFactor(windows.getGainsTransmittance(ageBand, ft, gt, WindowInsulationType.Air));
-				d.setLightTransmissionFactor(windows.getLightTransmittance(ageBand, ft, gt, WindowInsulationType.Air));
+				
+				if (doorType == DoorType.Glazed) {
+					final FrameType ft = d.getFrameType();
+					final GlazingType gt = d.getGlazingType();
+					d.setFrameFactor(windows.getFrameFactor(ageBand, ft, gt, WindowInsulationType.Air));
+					d.setGainsTransmissionFactor(windows.getGainsTransmittance(ageBand, ft, gt, WindowInsulationType.Air));
+					d.setLightTransmissionFactor(windows.getLightTransmittance(ageBand, ft, gt, WindowInsulationType.Air));
+				}
 			}
 		}
 	}
