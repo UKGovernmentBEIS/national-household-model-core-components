@@ -18,7 +18,7 @@ import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.hom.structure.impl.Elevation;
 import uk.org.cse.nhm.hom.structure.impl.Storey;
 import uk.org.cse.nhm.hom.types.BuiltFormType;
-import uk.org.cse.nhm.hom.types.RegionType;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.stockimport.domain.IBasicDTO;
 import uk.org.cse.stockimport.domain.impl.HouseCaseDTO;
 import uk.org.cse.stockimport.repository.IHouseCaseSources;

@@ -118,6 +118,7 @@ configure(subprojects -
 project(':energycalculator.api') {
   dependencies {
     compile libs.guava
+    compile libs.joda
   }
 }
 

@@ -3,8 +3,8 @@ package uk.org.cse.nhm.simulator.state.functions.impl.house;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
 import uk.org.cse.nhm.hom.BasicCaseAttributes;
-import uk.org.cse.nhm.hom.types.SAPAgeBandValue;
 import uk.org.cse.nhm.simulator.let.ILets;
 import uk.org.cse.nhm.simulator.scope.IComponentsScope;
 import uk.org.cse.nhm.simulator.state.IDimension;

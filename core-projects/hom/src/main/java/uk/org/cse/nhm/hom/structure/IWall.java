@@ -32,6 +32,11 @@ public interface IWall {
 	public double getLength();
 
 	public Set<WallInsulationType> getWallInsulationTypes();
+	public boolean hasWallInsulation(WallInsulationType type);
 
 	double getWallInsulationThickness(WallInsulationType type);
+	/**
+	 * @return The sum of the wall insulation thickness for the given types.
+	 */
+	double getWallInsulationThickness(Set<WallInsulationType> types);
 }

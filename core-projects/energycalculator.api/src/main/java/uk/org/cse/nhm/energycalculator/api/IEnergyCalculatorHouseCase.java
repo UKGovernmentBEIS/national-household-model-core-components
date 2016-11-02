@@ -1,5 +1,6 @@
 package uk.org.cse.nhm.energycalculator.api;
 
+import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
 
 /**
@@ -85,4 +86,9 @@ public interface IEnergyCalculatorHouseCase {
 	 * @since 6.4.0
 	 */
 	public boolean hasReducedInternalGains();
+	
+	/**
+	 * @since 6.4.0
+	 */
+	public RegionType.Country getCountry();
 }

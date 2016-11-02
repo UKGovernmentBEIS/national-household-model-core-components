@@ -17,28 +17,41 @@ import uk.org.cse.nhm.energycalculator.api.IHeatingSystem;
 import uk.org.cse.nhm.energycalculator.api.IVentilationSystem;
 import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
 import uk.org.cse.nhm.energycalculator.api.types.AreaType;
+import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
+import uk.org.cse.nhm.energycalculator.impl.SAPUValues;
+import uk.org.cse.nhm.hom.BasicCaseAttributes;
 import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.simulator.AbstractNamed;
 import uk.org.cse.nhm.simulator.let.ILets;
 import uk.org.cse.nhm.simulator.scope.IComponentsScope;
 import uk.org.cse.nhm.simulator.state.IDimension;
+import uk.org.cse.nhm.simulator.state.dimensions.behaviour.IHeatingBehaviour;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class AverageUValueFunction extends AbstractNamed implements IComponentsFunction<Double> {
 	private final IDimension<StructureModel> structure;
+	private final IDimension<BasicCaseAttributes> basic;
+	private final IDimension<IHeatingBehaviour> heavingBehaviour;
 	private final Set<AreaType> includedAreas;
 	
 	@Inject 
 	public AverageUValueFunction(
 			final IDimension<StructureModel> structure,
+			final IDimension<BasicCaseAttributes> basic,
+			final IDimension<IHeatingBehaviour> heavingBehaviour,
 			@Assisted final Set<AreaType> includedAreas) {
 		this.structure = structure;
+		this.basic = basic;
+		this.heavingBehaviour = heavingBehaviour;
 		this.includedAreas = includedAreas;
 	}
 
@@ -46,8 +59,15 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 		private double totalU = 0;
 		private double totalA = 0;
 		private final Set<AreaType> includedAreas;
-		public Visitor(final Set<AreaType> includedAreas) {
+		private final EnergyCalculatorType calculatorType;
+		private final Country country;
+		private final Band ageBand;
+		
+		public Visitor(final Set<AreaType> includedAreas, EnergyCalculatorType calculatorType, final Country country, final Band ageBand) {
 			this.includedAreas = includedAreas;
+			this.calculatorType = calculatorType;
+			this.country = country;
+			this.ageBand = ageBand;
 		}
 
 		@Override
@@ -106,12 +126,47 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 			// TODO Auto-generated method stub
 			
 		}
+
+		@Override
+		public void visitWall(
+				WallConstructionType constructionType,
+				double externalOrExternalInsulationThickness, 
+				boolean hasCavityInsulation, 
+				double area, double 
+				uValue,
+				Optional<ThermalMassLevel> thermalMassLevel
+				) {
+			
+			if (includedAreas.contains(constructionType.getWallType().getAreaType())) {
+				totalA += area;
+				
+				final double overrideU;
+				switch (calculatorType) {
+				case BREDEM2012:
+					overrideU = uValue;
+					break;
+				case SAP2012:
+					overrideU = SAPUValues.Walls.get(country, constructionType, externalOrExternalInsulationThickness, hasCavityInsulation, ageBand);
+					break;
+				default:
+					throw new UnsupportedOperationException("Unknown energy calculator type when computing average u value for walls " + calculatorType);
+				}
+				
+				totalU += overrideU * area;
+			}
+		}
 	}
 	
 	@Override
 	public Double compute(final IComponentsScope scope, final ILets lets) {
 		final StructureModel structure = scope.get(this.structure);
-		final Visitor v = new Visitor(includedAreas);
+		final BasicCaseAttributes basicAttributes = scope.get(this.basic);
+		final Visitor v = new Visitor(
+				includedAreas, 
+				scope.get(heavingBehaviour).getEnergyCalculatorType(), 
+				basicAttributes.getRegionType().getCountry(),
+				SAPAgeBandValue.fromYear(basicAttributes.getBuildYear(), basicAttributes.getRegionType()).getName()
+				);
 		structure.accept(v);
 		return v.getAverageUValue();
 	}

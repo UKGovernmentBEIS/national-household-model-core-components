@@ -4,7 +4,7 @@ import java.util.Map;
 
 import com.google.common.collect.ImmutableList;
 
-import uk.org.cse.nhm.hom.types.RegionType;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.logging.logentry.ConstructAndDemoLogEntry;
 import uk.org.cse.nhm.logging.logentry.ReportHeaderLogEntry;
 import uk.org.cse.nhm.reporting.standard.IReporterFactory.IOutputStreamFactory;

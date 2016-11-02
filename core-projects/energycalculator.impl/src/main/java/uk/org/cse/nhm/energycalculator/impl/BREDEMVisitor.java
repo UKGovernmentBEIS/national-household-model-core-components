@@ -36,4 +36,10 @@ public class BREDEMVisitor extends Visitor {
 	protected double overrideSolarGainTransmissivity(GlazingType glazingType, WindowInsulationType insulationType, double solarGainTransmissivity) {
 		return solarGainTransmissivity;
 	}
+	
+	@Override
+	protected double overrideWallUValue(WallConstructionType constructionType,
+			double externalOrInternalInsulationThickness, boolean hasCavityInsulation, double uValue) {
+		return uValue;
+	}
 }

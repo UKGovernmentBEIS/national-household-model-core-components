@@ -126,7 +126,7 @@ public class ModifyWallConstructionTypeMeasureTest {
 	public void testSuitability() throws NHMException {
 		final ModifyWallConstructionTypeMeasure m = this.measure;
 
-		IMutableWall wall2 = makeAWall(WallConstructionType.Internal_DenseBlockDensePlaster);
+		IMutableWall wall2 = makeAWall(WallConstructionType.Internal_Any);
 
 		ISettableComponentsScope houseIncludingWall2 = buildHouseIncludingWall(wall2);
 

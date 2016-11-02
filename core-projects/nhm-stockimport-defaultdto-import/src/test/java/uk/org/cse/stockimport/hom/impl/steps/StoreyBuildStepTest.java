@@ -18,6 +18,7 @@ import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
 import uk.org.cse.nhm.hom.components.fabric.types.FloorLocationType;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.WallType;
 import uk.org.cse.nhm.hom.structure.IMutableWall;
 import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.hom.structure.impl.Storey;
@@ -212,7 +213,7 @@ public class StoreyBuildStepTest extends Mockito {
         int numPartyWalls = 0;
         for (final IMutableWall wall : storey.getWalls()) {
             if (wall.getWallConstructionType() != null &&
-                    wall.getWallConstructionType().equals(StoreyBuildStep.DEF_PARTYWALL)) {
+                    wall.getWallConstructionType().getWallType() == WallType.Party) {
                 Assert.assertEquals("Incorrect party wall length", 3.15d * FloorPoylgonBuilder.SCALING_FACTOR,
                         wall.getLength());
                 numPartyWalls++;

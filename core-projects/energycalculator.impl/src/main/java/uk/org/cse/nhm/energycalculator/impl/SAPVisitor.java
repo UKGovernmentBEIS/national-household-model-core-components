@@ -7,16 +7,28 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 
 public class SAPVisitor extends Visitor {
 	final double steelOrTimberFrameInfiltration = 0.25;
 	final double otherWallInfiltration = 0.35;
+	
+	private final int buildYear;
+	private final Country country;
 
-	protected SAPVisitor(IConstants constants, IEnergyCalculatorParameters parameters,
-			List<IEnergyTransducer> defaultTransducers) {
+	protected SAPVisitor(
+			final IConstants constants,
+			final IEnergyCalculatorParameters parameters,
+			final int buildYear,
+			final Country country,
+			final List<IEnergyTransducer> defaultTransducers
+			) {
 		super(constants, parameters, defaultTransducers);
+		this.buildYear = buildYear;
+		this.country = country;
 	}
 
 	@Override
@@ -137,5 +149,16 @@ public class SAPVisitor extends Visitor {
 		default:
 			throw new IllegalArgumentException("Unknown glazing type while computing solar gains tranmissivity " + glazingType);
 		}	
+	}
+
+	@Override
+	protected double overrideWallUValue(WallConstructionType constructionType, final double externalOrInternalInsulationThickness, final boolean hasCavityInsulation, double uValue) {
+		return SAPUValues.Walls.get(
+				country,
+				constructionType,
+				externalOrInternalInsulationThickness,
+				hasCavityInsulation,
+				SAPAgeBandValue.fromYear(buildYear, country).getName()
+			);
 	}
 }

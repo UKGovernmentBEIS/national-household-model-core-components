@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.org.cse.nhm.hom.components.fabric.types.RoofConstructionType;
-import uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
 
 /**
  * This may be more CHM than RDSAP; provides ceiling u and k values.
@@ -70,7 +70,7 @@ public class CeilingPropertyImputer implements ICeilingPropertyImputer {
 	}
 	
 	/* (non-Javadoc)
-	 * @see uk.org.cse.stockimport.imputation.ICeilingPropertyImputer#getRoofUValue(uk.org.cse.nhm.hom.types.SAPAgeBandValue, uk.org.cse.nhm.hom.components.fabric.types.RoofConstructionType, boolean)
+	 * @see uk.org.cse.stockimport.imputation.ICeilingPropertyImputer#getRoofUValue(uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue, uk.org.cse.nhm.hom.components.fabric.types.RoofConstructionType, boolean)
 	 */
 	@Override
 	public double getRoofUValue(final Band ageBand, final RoofConstructionType constructionType, final boolean roomInRoof) {

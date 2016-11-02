@@ -122,6 +122,18 @@ public interface IEnergyCalculatorVisitor {
 	public void addGroundFloorInfiltration(final FloorConstructionType floorType);
 	
 	/**
+	 * Add the heat loss, thermal mass, and external erea from a wall.
+	 */
+	public void visitWall(
+			final WallConstructionType constructionType,
+			final double externalOrExternalInsulationThickness,
+			final boolean hasCavityInsulation,
+			final double area,
+			final double uValue,
+			final Optional<ThermalMassLevel> thermalMassLevel
+		);
+	
+	/**
 	 * Visit a fabric element with the given heat loss, thermal mass, and external area.
 	 * @param name TODO
 	 * @param specificHeatLoss

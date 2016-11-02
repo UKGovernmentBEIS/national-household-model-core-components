@@ -1,12 +1,12 @@
-package uk.org.cse.nhm.hom.types;
+package uk.org.cse.nhm.energycalculator.api.types;
 
 import java.util.Map;
 
 import org.joda.time.DateTime;
 
-import uk.org.cse.nhm.hom.types.RegionType.Country;
-
 import com.google.common.collect.ImmutableMap;
+
+import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
 
 /**
  * SAPAgeBandValue.
@@ -126,12 +126,12 @@ public class SAPAgeBandValue {
 				&& (endDate == null || endDate.getYear() > year);
 	}
 
-    public static SAPAgeBandValue fromYear(final int year, final RegionType region, final Band maxBand) {
-        if (!byCountry.containsKey(region.getCountry())) {
-			throw new IllegalArgumentException("Unknown country: " + region.getCountry());	
+    public static SAPAgeBandValue fromYear(final int year, final Country country, final Band maxBand) {
+        if (!byCountry.containsKey(country)) {
+			throw new IllegalArgumentException("Unknown country: " + country);	
 		}
 		
-		for(final SAPAgeBandValue band : byCountry.get(region.getCountry())) {
+		for(final SAPAgeBandValue band : byCountry.get(country)) {
             if (band.name == maxBand) return band;
 			if(band.isYearInBand(year)) {
 				return band;
@@ -141,7 +141,11 @@ public class SAPAgeBandValue {
     }
     
 	public static SAPAgeBandValue fromYear(final int year, final RegionType region) {
-        return fromYear(year, region, Band.L);
+        return fromYear(year, region.getCountry());
+	}
+	
+	public static SAPAgeBandValue fromYear(final int year, final Country country) {
+		return fromYear(year, country, Band.L);
 	}
 	
 	@Override

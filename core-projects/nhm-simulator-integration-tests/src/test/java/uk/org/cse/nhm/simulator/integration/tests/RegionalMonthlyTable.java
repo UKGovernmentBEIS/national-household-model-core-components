@@ -6,7 +6,7 @@ import java.io.Reader;
 import java.util.Arrays;
 import java.util.EnumSet;
 
-import uk.org.cse.nhm.hom.types.RegionType;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 
 /**
  * A lightweight helper that reads a monthly TSV file. Doesn't support any fancy CSV options. Probably should.

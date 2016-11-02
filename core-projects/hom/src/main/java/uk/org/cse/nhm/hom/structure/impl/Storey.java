@@ -20,6 +20,7 @@ import com.google.common.base.Optional;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
 import uk.org.cse.nhm.energycalculator.api.types.AreaType;
+import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
 import uk.org.cse.nhm.energycalculator.api.types.WallType;
 import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
 import uk.org.cse.nhm.hom.components.fabric.types.FloorLocationType;
@@ -394,22 +395,29 @@ public class Storey implements IStorey {
 				/*
 				BEISDOC
 				NAME: Party wall element
-				DESCRIPTION: The area, u-value and k-value for a section of party wall.
+				DESCRIPTION: The area, u-value, and thermal mass for a section of party wall.
 				TYPE: formula
 				UNIT: area m^2, u-value W/m^2/℃, k-value kJ/m^2/℃
 				SAP: (32)
 				BREDEM: 3B
-				DEPS:
 				GET: house.u-value
 				SET: action.reset-walls
 				STOCK: elevations.csv (tenthspartywall), imputation schema (walls)
+				NOTES: In SAP 2012 mode, the u-value of the wall will be overridden by one of tables S6, S7 or S8.
 				ID: party-wall-element
 				CODSIEB
 				*/
 				// party walls cannot contain windows or doors, and they have no infiltration effects
 				// so we just skip over all that stuff here
 				wallArea = basicArea;
-				visitor.visitFabricElement(AreaType.PartyWall, wallArea, segment.getUValue(), Optional.<ThermalMassLevel>absent());
+				visitor.visitWall(
+						segment.getWallConstructionType(),
+						segment.getWallInsulationThickness(WallInsulationType.InternalOrExternal),
+						segment.hasWallInsulation(WallInsulationType.FilledCavity),
+						wallArea,
+						segment.getUValue(),
+						Optional.<ThermalMassLevel>absent()
+					);
 			} else {				
 				// non-attached walls can hold windows and doors, so we need to talk to the elevation about that.
 				final IElevation e = elevations.get(segment.getElevationType());
@@ -459,7 +467,14 @@ public class Storey implements IStorey {
 				ID: external-wall-element
 				CODSIEB
 				*/
-				visitor.visitFabricElement(AreaType.ExternalWall, wallArea, segment.getUValue(), segment.getThermalMassLevel());
+				visitor.visitWall(
+						segment.getWallConstructionType(),
+						segment.getWallInsulationThickness(WallInsulationType.InternalOrExternal),
+						segment.hasWallInsulation(WallInsulationType.FilledCavity),
+						wallArea,
+						segment.getUValue(),
+						segment.getThermalMassLevel()
+					);
 			}
 		}
 	}

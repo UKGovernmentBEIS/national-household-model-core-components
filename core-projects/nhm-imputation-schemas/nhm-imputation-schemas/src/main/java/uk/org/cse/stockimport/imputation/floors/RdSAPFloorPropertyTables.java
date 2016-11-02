@@ -4,8 +4,8 @@ import java.util.EnumMap;
 import java.util.Map;
 
 import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
-import uk.org.cse.nhm.hom.types.SAPAgeBandValue;
-import uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
 
 import com.google.common.collect.ImmutableMap;
 

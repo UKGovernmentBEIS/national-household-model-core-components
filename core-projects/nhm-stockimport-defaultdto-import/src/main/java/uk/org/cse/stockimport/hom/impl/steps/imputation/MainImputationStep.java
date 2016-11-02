@@ -20,7 +20,7 @@ import uk.org.cse.nhm.hom.structure.IMutableWall;
 import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.hom.structure.impl.Elevation;
 import uk.org.cse.nhm.hom.structure.impl.Storey;
-import uk.org.cse.nhm.hom.types.SAPAgeBandValue;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
 import uk.org.cse.stockimport.domain.IBasicDTO;
 import uk.org.cse.stockimport.domain.impl.HouseCaseDTO;
 import uk.org.cse.stockimport.hom.ISurveyCaseBuildStep;
@@ -95,7 +95,7 @@ public class MainImputationStep implements ISurveyCaseBuildStep {
 		final HouseCaseDTO caseDTO = dtos.requireOne(HouseCaseDTO.class);
 		
 		SAPAgeBandValue ageBand = SAPAgeBandValue.fromYear(caseDTO.getBuildYear(),
-                                                           caseDTO.getRegionType(),
+                                                           caseDTO.getRegionType().getCountry(),
                                                            SAPAgeBandValue.Band.K);
 
 		final FloorConstructionType groundFloorConstructionType = sm.getGroundFloorConstructionType();

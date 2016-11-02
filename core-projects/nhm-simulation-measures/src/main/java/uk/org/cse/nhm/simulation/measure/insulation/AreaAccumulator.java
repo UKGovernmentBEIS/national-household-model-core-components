@@ -108,6 +108,14 @@ public class AreaAccumulator implements IEnergyCalculatorVisitor {
 		// TODO Auto-generated method stub
 		
 	}
-
-
+	
+	@Override
+	public void visitWall(WallConstructionType constructionType,
+			double externalOrExternalInsulationThickness, boolean hasCavityInsulation, double area, double uValue,
+			Optional<ThermalMassLevel> thermalMassLevel) {
+		
+		if(this.areaTypes.contains(constructionType.getWallType().getAreaType())) {
+			this.totalArea += area;
+		}
+	}
 }
