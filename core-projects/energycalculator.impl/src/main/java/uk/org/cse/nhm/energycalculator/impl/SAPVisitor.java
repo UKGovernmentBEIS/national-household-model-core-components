@@ -7,6 +7,8 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofType;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
@@ -166,5 +168,11 @@ public class SAPVisitor extends Visitor {
 	@Override
 	protected double overrideDoorUValue(double uValue) {
 		return SAPUValues.Doors.getOutside(ageBand, country);
+	}
+
+	@Override
+	protected double overrideRoofUValue(double uValue, RoofType type, RoofConstructionType constructionType,
+			double insulationThickness) {
+		return SAPUValues.Roofs.get(type, constructionType, insulationThickness, country, ageBand);
 	}
 }

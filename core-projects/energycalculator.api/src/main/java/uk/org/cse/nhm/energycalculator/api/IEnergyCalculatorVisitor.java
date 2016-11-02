@@ -7,6 +7,8 @@ import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofType;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 
@@ -122,7 +124,7 @@ public interface IEnergyCalculatorVisitor {
 	public void addGroundFloorInfiltration(final FloorConstructionType floorType);
 	
 	/**
-	 * Add the heat loss, thermal mass, and external erea from a wall.
+	 * Add the heat loss, thermal mass, and external area from a wall.
 	 */
 	public void visitWall(
 			final WallConstructionType constructionType,
@@ -133,9 +135,23 @@ public interface IEnergyCalculatorVisitor {
 			final Optional<ThermalMassLevel> thermalMassLevel
 		);
 	
+	/**
+	 * Add the heat loss from a door.
+	 */
 	public void visitDoor(
 			final double area,
 			final double uValue
+		);
+
+	/**
+	 * Add the heat loss from a roof.
+	 */
+	public void visitRoof(
+			final RoofType type,
+			final double area,
+			final double uValue,
+			final RoofConstructionType constructionType,
+			final double insulationThickness
 		);
 
 	/**

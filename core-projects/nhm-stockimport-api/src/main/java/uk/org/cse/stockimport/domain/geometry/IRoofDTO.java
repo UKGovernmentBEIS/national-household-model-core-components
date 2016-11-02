@@ -3,7 +3,7 @@ package uk.org.cse.stockimport.domain.geometry;
 import com.google.common.base.Optional;
 
 import uk.org.cse.nhm.hom.components.fabric.types.CoveringType;
-import uk.org.cse.nhm.hom.components.fabric.types.RoofConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
 import uk.org.cse.nhm.hom.components.fabric.types.RoofStructureType;
 import uk.org.cse.stockimport.domain.IBasicDTO;
 import uk.org.cse.stockimport.domain.schema.Constraint;

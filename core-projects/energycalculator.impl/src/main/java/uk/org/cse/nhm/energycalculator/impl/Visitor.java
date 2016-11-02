@@ -20,6 +20,8 @@ import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofType;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
@@ -134,7 +136,7 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 			thermalMassAreas[thermalMassLevel.get().ordinal()] += area;
 		}
 
-		totalExternalArea += areaType.isExternal() ? area : 0;
+		visitExternalArea(areaType, area);
 		areasByType[0][areaType.ordinal()] += area;
 
 		areasByType[1][areaType.ordinal()] += area * overrideWallUValue(constructionType, externalOrExternalInsulationThickness, hasCavityInsulation, uValue);
@@ -146,24 +148,43 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 	public void visitDoor(double area, double uValue) {
 		log.debug("VISIT Door, {}, {}", area, uValue);
 
-		final int doorI = AreaType.Door.ordinal();
+		visitExternalArea(AreaType.Door, area);
 
-		areasByType[0][doorI] += area;
-		areasByType[1][doorI] += area * overrideDoorUValue(uValue);
+		areasByType[0][AreaType.Door.ordinal()] += area;
+		areasByType[1][AreaType.Door.ordinal()] += area * overrideDoorUValue(uValue);
 	}
 
 	protected abstract double overrideDoorUValue(double uValue);
 
 	@Override
+	public void visitRoof(final RoofType type, final double area, final double uValue, final RoofConstructionType constructionType, final double insulationThickness) {
+		log.debug("VISIT {}, {}, {}, {}, {}", type, area, uValue, constructionType, insulationThickness);
+
+		visitExternalArea(type.getAreaType(), area);
+
+		areasByType[0][type.ordinal()] += area;
+		areasByType[1][type.ordinal()] += area * overrideRoofUValue(uValue, type, constructionType, insulationThickness);
+	}
+
+	protected abstract double overrideRoofUValue(double uValue, RoofType type, RoofConstructionType constructionType,
+			double insulationThickness);
+
+	public void visitExternalArea(AreaType type, double area) {
+		if (type.isExternal()) {
+			totalExternalArea += area;
+		}
+	}
+
+	@Override
 	public void visitFabricElement(final AreaType name, final double area, final double u, final Optional<ThermalMassLevel> thermalMassLevel) {
 		log.debug("VISIT, {}, {}, {}, {}", name, area, u, thermalMassLevel);
 		totalSpecificHeatLoss += u * area;
-		
+
 		if (thermalMassLevel.isPresent()) {
 			thermalMassAreas[thermalMassLevel.get().ordinal()] += area;
 		}
-		
-		totalExternalArea += name.isExternal() ? area : 0;
+
+		visitExternalArea(name, area);
 		areasByType[0][name.ordinal()] += area;
 		areasByType[1][name.ordinal()] += area * u;
 	}

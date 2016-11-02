@@ -25,7 +25,7 @@ import uk.org.cse.nhm.ehcs10.derived.types.Enum136;
 import uk.org.cse.nhm.ehcs10.physical.ServicesEntry;
 import uk.org.cse.nhm.ehcs10.physical.impl.ServicesEntryImpl;
 import uk.org.cse.nhm.ehcs10.physical.types.Enum1757;
-import uk.org.cse.nhm.hom.components.fabric.types.RoofConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
 import uk.org.cse.stockimport.domain.geometry.IRoofDTO;
 import uk.org.cse.stockimport.domain.geometry.IStoreyDTO;
 import uk.org.cse.stockimport.repository.IHouseCaseSources;

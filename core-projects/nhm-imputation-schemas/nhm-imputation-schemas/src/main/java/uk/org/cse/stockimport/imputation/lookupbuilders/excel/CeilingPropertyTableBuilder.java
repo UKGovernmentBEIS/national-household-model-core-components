@@ -5,7 +5,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import uk.org.cse.nhm.hom.components.fabric.types.RoofConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
 import uk.org.cse.stockimport.imputation.ceilings.CeilingUValueTables;

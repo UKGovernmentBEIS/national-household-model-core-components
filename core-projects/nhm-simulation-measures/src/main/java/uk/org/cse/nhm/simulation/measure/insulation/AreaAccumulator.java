@@ -14,6 +14,8 @@ import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofType;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 
@@ -122,6 +124,13 @@ public class AreaAccumulator implements IEnergyCalculatorVisitor {
 	@Override
 	public void visitDoor(double area, double uValue) {
 		if (this.areaTypes.contains(AreaType.Door)) {
+			this.totalArea += area;
+		}
+	}
+
+	@Override
+	public void visitRoof(RoofType type, double area, double uValue, RoofConstructionType constructionType, double insulationThickness) {
+		if (this.areaTypes.contains(type.getAreaType())) {
 			this.totalArea += area;
 		}
 	}

@@ -6,7 +6,7 @@ import java.util.TreeMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.org.cse.nhm.hom.components.fabric.types.RoofConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
 
 /**
@@ -44,7 +44,7 @@ public class CeilingPropertyImputer implements ICeilingPropertyImputer {
 	}
 	
 	/* (non-Javadoc)
-	 * @see uk.org.cse.stockimport.imputation.ICeilingPropertyImputer#getRoofUValue(uk.org.cse.nhm.hom.components.fabric.types.RoofConstructionType, double, boolean)
+	 * @see uk.org.cse.stockimport.imputation.ICeilingPropertyImputer#getRoofUValue(uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType, double, boolean)
 	 */
 	@Override
 	public double getRoofUValue(final RoofConstructionType constructionType, final double insulationThickness, final boolean roomInRoof) {
@@ -70,7 +70,7 @@ public class CeilingPropertyImputer implements ICeilingPropertyImputer {
 	}
 	
 	/* (non-Javadoc)
-	 * @see uk.org.cse.stockimport.imputation.ICeilingPropertyImputer#getRoofUValue(uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue, uk.org.cse.nhm.hom.components.fabric.types.RoofConstructionType, boolean)
+	 * @see uk.org.cse.stockimport.imputation.ICeilingPropertyImputer#getRoofUValue(uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue, uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType, boolean)
 	 */
 	@Override
 	public double getRoofUValue(final Band ageBand, final RoofConstructionType constructionType, final boolean roomInRoof) {

@@ -11,7 +11,7 @@ import junit.framework.Assert;
 import uk.org.cse.nhm.hom.SurveyCase;
 import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
 import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
-import uk.org.cse.nhm.hom.components.fabric.types.RoofConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.hom.structure.IMutableWall;
 import uk.org.cse.nhm.hom.structure.StructureModel;

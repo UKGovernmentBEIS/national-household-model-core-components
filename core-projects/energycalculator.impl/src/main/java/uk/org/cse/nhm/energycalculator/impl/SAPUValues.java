@@ -1,6 +1,8 @@
 package uk.org.cse.nhm.energycalculator.impl;
 
 import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
+import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofType;
 
 import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.*;
 import static uk.org.cse.nhm.energycalculator.api.types.RegionType.Country.*;
@@ -463,8 +465,53 @@ public class SAPUValues {
 	public static class Floors {
 		
 	}
-	
+
+	/**
+	 * Roof u-value lookup based on Tables S9 (for PitchedSlateOrTiles or Thatched) and S10 (for Flat).
+	 */
 	public static class Roofs {
-		
+		private static final double[] S9Levels = new double[]{0, 12, 25, 50, 75, 100, 150, 200, 250, 270, 300, 350, 400};
+		private static final double[] S9Slate = new double[]{2.30, 1.50, 1.00, 0.68, 0.50, 0.40, 0.30, 0.21, 0.17, 0.16, 0.14, 0.12, 0.11};
+		private static final double[] S9Thatched = new double[]{0.35, 0.32, 0.30, 0.25, 0.22, 0.20, 0.17, 0.14, 0.12, 0.12, 0.11, 0.10, 0.09};
+
+		private static final double[] S10Flat = new double[]{2.30, 2.30, 2.30, 2.30, 1.50, 0.68, 0.40, 0.35, 0.35, 0.25, 0.25, 0.18};
+		private static final Band S10ScottishFootnote2Band = Band.K;
+		private static final double S10ScottishFootnote2 = 0.2;
+
+		public static double get(RoofType type, RoofConstructionType constructionType, double insulationThickness, Country country, Band ageBand) {
+			if (type == RoofType.Party) {
+				return 0.0;
+			}
+
+			final double[] s9Lookup;
+
+			switch (constructionType) {
+			case PitchedSlateOrTiles:
+				s9Lookup = S9Slate;
+				break;
+
+			case Thatched:
+				s9Lookup = S9Thatched;
+				break;
+
+			case Flat:
+				if (country == Country.Scotland && ageBand == S10ScottishFootnote2Band) {
+					return S10ScottishFootnote2;
+				} else {
+					return S10Flat[ageBand.ordinal()];
+				}
+
+			default:
+				throw new IllegalArgumentException("Unknown roof construction type when looking up roof u-value " + constructionType);
+			}
+
+			for (int i = 0; i < S9Levels.length; i++) {
+				if (insulationThickness <= S9Levels[i]) {
+					return s9Lookup[i];
+				}
+			}
+
+			throw new RuntimeException("Roof u-value lookup failed with insulation thickness " + insulationThickness + " and roof type " + constructionType);
+		}
 	}
 }
