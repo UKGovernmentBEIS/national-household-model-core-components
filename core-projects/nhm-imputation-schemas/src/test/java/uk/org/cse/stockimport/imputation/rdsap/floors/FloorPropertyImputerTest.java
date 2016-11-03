@@ -6,8 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
-import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
 import uk.org.cse.stockimport.imputation.floors.FloorPropertyImputer;
 import uk.org.cse.stockimport.imputation.floors.RdSAPFloorPropertyTables;
@@ -84,11 +84,11 @@ public class FloorPropertyImputerTest {
 
 	@Test
 	public void testInsulationThickness() {
-		Assert.assertEquals(100d, i.getFloorInsulationThickness(SAPAgeBandValue.Band.K, RegionType.London, FloorConstructionType.Solid));
-		Assert.assertEquals(75d, i.getFloorInsulationThickness(SAPAgeBandValue.Band.J, RegionType.London, FloorConstructionType.Solid));
-		Assert.assertEquals(25d, i.getFloorInsulationThickness(SAPAgeBandValue.Band.I, RegionType.London, FloorConstructionType.Solid));
+		Assert.assertEquals(100d, i.getFloorInsulationThickness(SAPAgeBandValue.Band.K, Country.England, FloorConstructionType.Solid));
+		Assert.assertEquals(75d, i.getFloorInsulationThickness(SAPAgeBandValue.Band.J, Country.England, FloorConstructionType.Solid));
+		Assert.assertEquals(25d, i.getFloorInsulationThickness(SAPAgeBandValue.Band.I, Country.England, FloorConstructionType.Solid));
 		for (final SAPAgeBandValue.Band value : SAPAgeBandValue.Band.values()) {
-			Assert.assertEquals(0d, i.getFloorInsulationThickness(value, RegionType.London, FloorConstructionType.Solid));
+			Assert.assertEquals(0d, i.getFloorInsulationThickness(value, Country.England, FloorConstructionType.Solid));
 			if (value == Band.H) return;
 		}
 	}

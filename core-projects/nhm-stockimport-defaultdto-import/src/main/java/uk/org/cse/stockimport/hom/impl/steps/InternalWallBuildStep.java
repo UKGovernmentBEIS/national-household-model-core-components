@@ -12,6 +12,7 @@ import uk.org.cse.nhm.energycalculator.api.IVentilationSystem;
 import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
 import uk.org.cse.nhm.energycalculator.api.types.AreaType;
 import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.FloorType;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
@@ -31,7 +32,7 @@ import uk.org.cse.stockimport.repository.IHouseCaseSources;
  */
 public class InternalWallBuildStep implements ISurveyCaseBuildStep {
 	final String IDENTIFIER = InternalWallBuildStep.class.getCanonicalName();
-	
+
 	/**
 	 * A visitor which collects up all the external areas on the structure model for us.
 	 * @author hinton
@@ -41,110 +42,116 @@ public class InternalWallBuildStep implements ISurveyCaseBuildStep {
 		private double externalArea = 0;
 
 		@Override
-		public void visitHeatingSystem(IHeatingSystem system, double proportion) {
-			
+		public void visitHeatingSystem(final IHeatingSystem system, final double proportion) {
+			// Noop
 		}
-		
+
 		@Override
-		public double heatSystemProportion(IHeatingSystem system) {
-			// We don't care about this method for this visitor.
+		public double heatSystemProportion(final IHeatingSystem system) {
+			// Noop
 			return 0.0;
 		}
 
 		@Override
-		public void visitEnergyTransducer(IEnergyTransducer transducer) {
-			
+		public void visitEnergyTransducer(final IEnergyTransducer transducer) {
+			// Noop
 		}
 
 		@Override
-		public void visitVentilationSystem(IVentilationSystem ventilation) {
-			
+		public void visitVentilationSystem(final IVentilationSystem ventilation) {
+			// Noop
 		}
 
 		@Override
-		public void addWallInfiltration(double wallArea, WallConstructionType wallConstructionType, double airChangeRate) {
-			
+		public void addWallInfiltration(final double wallArea, final WallConstructionType wallConstructionType, final double airChangeRate) {
+			// Noop
 		}
 
 		@Override
-		public void addFanInfiltration(int fans) {
-			
+		public void addFanInfiltration(final int fans) {
+			// Noop
 		}
 
 		@Override
-		public void addGroundFloorInfiltration(FloorConstructionType floorType) {
-			
+		public void addGroundFloorInfiltration(final FloorConstructionType floorType) {
+			// Noop
 		}
 
-		@SuppressWarnings("incomplete-switch")
-		@Override
-		public void visitFabricElement(AreaType type, double area, double uValue, final Optional<ThermalMassLevel> thermalMassLevel) {
-			switch (type) {
-			case Door:
-			case ExternalWall:
-			case Glazing:
-			case PartyWall:
-				externalArea += area;
-				break;
-			}
-		}
-		
 		public double getExternalArea() {
 			return externalArea;
 		}
 
 		@Override
-		public void addVentInfiltration(int vents) {}
-
-		@Override
-		public void addFlueInfiltration() {}
-
-		@Override
-		public void addChimneyInfiltration() {}
-
-		@Override
-		public double getTotalThermalMass() { return 0; }
-
-		@Override
-		public void visitTransparentElement(GlazingType glazingType, WindowInsulationType insulationType,
-				double visibleLightTransmittivity, double solarGainTransmissivity, double area, FrameType frameType,
-				double frameFactor, double horizontalOrientation, double verticalOrientation,
-				OvershadingType overshading) {
-			// TODO Auto-generated method stub
-			
+		public void addVentInfiltration(final int vents) {
+			// Noop
 		}
 
 		@Override
-		public void visitWall(WallConstructionType constructionType,
-				double externalOrExternalInsulationThickness, boolean hasCavityInsulation, double area, double uValue,
-				Optional<ThermalMassLevel> thermalMassLevel) {
+		public void addFlueInfiltration() {
+			// Noop
+		}
+
+		@Override
+		public void addChimneyInfiltration() {
+			// Noop
+		}
+
+		@Override
+		public double getTotalThermalMass() {
+			// Noop
+			return 0;
+		}
+
+		@Override
+		public void visitTransparentElement(final GlazingType glazingType, final WindowInsulationType insulationType,
+				final double visibleLightTransmittivity, final double solarGainTransmissivity, final double area, final FrameType frameType,
+				final double frameFactor, final double horizontalOrientation, final double verticalOrientation,
+				final OvershadingType overshading) {
+			// Noop
+
+		}
+
+		@Override
+		public void visitWall(final WallConstructionType constructionType,
+				final double externalOrExternalInsulationThickness, final boolean hasCavityInsulation, final double area, final double uValue, final double thickness,
+				final Optional<ThermalMassLevel> thermalMassLevel) {
 			if (constructionType.getWallType().isExternal() || constructionType.getWallType().getAreaType() == AreaType.PartyWall) {
 				externalArea += area;
 			}
 		}
 
 		@Override
-		public void visitDoor(double area, double uValue) {
+		public void visitDoor(final double area, final double uValue) {
 			externalArea += area;
 		}
 
 		@Override
-		public void setRoofType(RoofConstructionType constructionType, double insulationThickness) {
-			// TODO Auto-generated method stub
+		public void setRoofType(final RoofConstructionType constructionType, final double insulationThickness) {
+			// Noop
 		}
 
 		@Override
-		public void visitCeiling(RoofType type, double area, double uValue) {
-			// TODO Auto-generated method stub
+		public void visitCeiling(final RoofType type, final double area, final double uValue) {
+			// Noop
 		}
 
 		@Override
-		public void visitWindow(double area, double uValue, FrameType frameType, GlazingType glazingType,
-				WindowInsulationType insulationType) {
+		public void visitWindow(final double area, final double uValue, final FrameType frameType, final GlazingType glazingType,
+				final WindowInsulationType insulationType) {
 			externalArea += area;
+		}
+
+		@Override
+		public void setFloorType(final FloorConstructionType groundFloorConstructionType, final double insulationThickness) {
+			// Noop
+		}
+
+		@Override
+		public void visitFloor(final FloorType type, final boolean isGroundFloor, final double area, final double uValue, final double exposedPerimeter, final double wallThickness) {
+			// Noop
 		}
 	}
-	
+
 	@Override
 	public String getIdentifier() {
 		return IDENTIFIER;
@@ -159,7 +166,7 @@ public class InternalWallBuildStep implements ISurveyCaseBuildStep {
     /**
      * @assumption Based on CHM: internal wall area is the same as facade area.
      */
-	public void build(SurveyCase model, IHouseCaseSources<IBasicDTO> dtoProvider) {
+	public void build(final SurveyCase model, final IHouseCaseSources<IBasicDTO> dtoProvider) {
 		final AreaVisitor av = new AreaVisitor();
 		model.getStructure().accept(av);
 		model.getStructure().setInternalWallArea(av.getExternalArea());

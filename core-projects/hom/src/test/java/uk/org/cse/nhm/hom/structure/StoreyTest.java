@@ -1,6 +1,5 @@
 package uk.org.cse.nhm.hom.structure;
 
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -17,7 +16,8 @@ import com.google.common.base.Optional;
 
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
-import uk.org.cse.nhm.energycalculator.api.types.AreaType;
+import uk.org.cse.nhm.energycalculator.api.types.FloorType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofType;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
 import uk.org.cse.nhm.hom.components.fabric.types.FloorLocationType;
@@ -136,10 +136,17 @@ public class StoreyTest {
 
         s.accept(visitor, els, null, 50, 50);
 
-        // should visit the four walls
-        verify(visitor, times(4)).visitFabricElement(any(AreaType.class), eq(100d), eq(2d), eq(Optional.<ThermalMassLevel>absent()));
-        // then the top and bottom of the room
-        verify(visitor, times(2)).visitFabricElement(any(AreaType.class), eq(50d), eq(2d), eq(Optional.<ThermalMassLevel>absent()));
+
+        // should visit:
+        // four walls
+        verify(visitor, times(1)).visitWall(eq(WallConstructionType.Party_MetalFrame), eq(0d), eq(false), eq(10d * 10d), eq(2d), eq(0d), eq(Optional.of(ThermalMassLevel.MEDIUM)));
+        verify(visitor, times(3)).visitWall(eq(WallConstructionType.Cavity), eq(0d), eq(false), eq(10d * 10d), eq(2d), eq(0d), eq(Optional.of(ThermalMassLevel.MEDIUM)));
+
+        // floor
+        verify(visitor, times(1)).visitFloor(eq(FloorType.External), eq(true), eq(10d * 10d), eq(2d), eq(4d * 10d), eq(0d));
+
+        // ceiling
+        verify(visitor, times(1)).visitCeiling(eq(RoofType.ExternalHeatLoss), eq(10d * 10d), eq(0d));
     }
 
     @Test
@@ -189,7 +196,7 @@ public class StoreyTest {
                 new int[] { 0, 0, 10, 10 },
                 4);
 
-        final Storey s = new Storey(); 
+        final Storey s = new Storey();
         s.setPerimeter(p);
         Assert.assertEquals(40d, s.getPerimeter(), 0d);
     }
@@ -199,7 +206,7 @@ public class StoreyTest {
         final Storey s = new Storey();
         s.setFloorLocationType(FloorLocationType.GROUND);
         Assert.assertEquals(FloorLocationType.GROUND, s.getFloorLocationType());
-     
+
         s.setFloorUValue(99);
         Assert.assertEquals(99d, s.getFloorUValue(), 0d);
     }

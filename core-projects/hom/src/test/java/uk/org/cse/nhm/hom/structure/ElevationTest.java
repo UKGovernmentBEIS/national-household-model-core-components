@@ -1,6 +1,5 @@
 package uk.org.cse.nhm.hom.structure;
 
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -8,11 +7,7 @@ import static org.mockito.Mockito.verify;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.google.common.base.Optional;
-
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
-import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
-import uk.org.cse.nhm.energycalculator.api.types.AreaType;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
@@ -26,23 +21,23 @@ public class ElevationTest {
 	public void testGlazingHeatLoss() {
 		final Elevation e = new Elevation();
 		final IEnergyCalculatorVisitor visitor = mock(IEnergyCalculatorVisitor.class);
-		
+
 		e.setOpeningProportion(0.5);
 		final Glazing glazing = new Glazing(1, GlazingType.Single, FrameType.uPVC);
 		glazing.setUValue(2);
-		
+
 		e.addGlazing(glazing);
-		
+
 		e.visitGlazing(visitor, 100, 0);
-		
-		verify(visitor).visitFabricElement(any(AreaType.class), eq(50d), eq(2d), eq(Optional.<ThermalMassLevel>absent()));
+
+		verify(visitor).visitWindow(eq(50d), eq(2d), eq(FrameType.uPVC), eq(GlazingType.Single), eq(WindowInsulationType.Air));
 	}
-	
+
 	@Test
 	public void testGlazingLightAndGains() {
 		final Elevation e = new Elevation();
 		final IEnergyCalculatorVisitor visitor = mock(IEnergyCalculatorVisitor.class);
-		
+
 		e.setAngleFromNorth(Math.PI/3);
 		e.setOpeningProportion(0.5);
 		final Glazing glazing = new Glazing(1, GlazingType.Single, FrameType.uPVC);
@@ -50,11 +45,11 @@ public class ElevationTest {
 		glazing.setLightTransmissionFactor(2);
 		glazing.setGainsTransmissionFactor(3);
 		glazing.setFrameFactor(0.5);
-		
+
 		e.addGlazing(glazing);
-		
+
 		e.visitGlazing(visitor, 100, 0);
-		
+
 		verify(visitor).visitTransparentElement(
 				GlazingType.Single,
 				WindowInsulationType.Air,
@@ -65,7 +60,7 @@ public class ElevationTest {
 				0.5,
 				Math.PI/2, Math.PI/3, OvershadingType.AVERAGE);
 	}
-	
+
 	@Test
 	public void testDoors() {
 		final Elevation e = new Elevation();
@@ -79,17 +74,17 @@ public class ElevationTest {
 		d.setLightTransmissionFactor(0.5);
 		d.setGlazingType(GlazingType.Double);
 		e.addDoor(d);
-		
+
 		e.setOpeningProportion(0.5);
-		
-		IDoorVisitor doorVisitor = e.getDoorVisitor();
-		
-		IEnergyCalculatorVisitor visitor = mock(IEnergyCalculatorVisitor.class);
-		
-		double visitDoors = doorVisitor.offerPotentialDoorArea(100);
+
+		final IDoorVisitor doorVisitor = e.getDoorVisitor();
+
+		final IEnergyCalculatorVisitor visitor = mock(IEnergyCalculatorVisitor.class);
+
+		final double visitDoors = doorVisitor.offerPotentialDoorArea(100);
 		Assert.assertEquals(10d, visitDoors, 0d);
 		Assert.assertEquals(0d, doorVisitor.offerPotentialDoorArea(100), 0d);
-		
+
 		doorVisitor.visitDoors(visitor);
 		verify(visitor).visitDoor(10d, 5d);
 		verify(visitor).visitTransparentElement(

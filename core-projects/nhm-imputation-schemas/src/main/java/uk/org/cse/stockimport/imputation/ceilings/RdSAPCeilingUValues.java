@@ -11,8 +11,8 @@ import com.google.common.collect.ImmutableMap;
  * @since 3.0
  */
 public class RdSAPCeilingUValues implements ICeilingUValueTables {
-	
-	private final TreeMap<Integer, Double> insulatedPitchedUValues = 
+
+	private final TreeMap<Integer, Double> insulatedPitchedUValues =
 			new TreeMap<Integer, Double>(
 				ImmutableMap.<Integer, Double>builder()
 					.put(0,	2.3)
@@ -27,8 +27,8 @@ public class RdSAPCeilingUValues implements ICeilingUValueTables {
 					.put(300,	0.1)
 				.build());
 
-		
-		private final TreeMap<Integer, Double> insulatedThatchedUValues = 
+
+		private final TreeMap<Integer, Double> insulatedThatchedUValues =
 			new TreeMap<Integer, Double>(
 				ImmutableMap.<Integer, Double>builder()
 					.put(0,	0.4)
@@ -42,7 +42,7 @@ public class RdSAPCeilingUValues implements ICeilingUValueTables {
 					.put(250,	0.1)
 					.put(300,	0.1)
 				.build());
-		
+
 		/**
 		 * Unknown insulation thickness u value by roof type, pitched and thatched, no room in roof
 		 */
@@ -52,7 +52,7 @@ public class RdSAPCeilingUValues implements ICeilingUValueTables {
 					{0.35,	0.35,	0.35,	0.35,	0.35,	0.35,	0.35,	0.35,	0.35,	0.30,	0.25}, // thatched
 					{2.30,	2.30,	2.30,	2.30,	1.50,	0.68,	0.40,	0.35,	0.35,	0.25,	0.25} // flat
 				};
-		
+
 		/**
 		 * Unknown insulation thickness u value by roof type, pitched and thatched. flat is missing, because CHM doesn't have it. room in roof present.
 		 */
@@ -60,9 +60,9 @@ public class RdSAPCeilingUValues implements ICeilingUValueTables {
 				{2.30,	2.30,	2.30,	2.30,	1.50,	0.80,	0.50,	0.35,	0.35,	0.30,	0.25},
 				{0.25,	0.25,	0.25,	0.25,	0.25,	0.25,	0.25,	0.25,	0.25,	0.25,	0.25}
 		};
-		
-		private double partyCeilingKValue = 13.5;
-		private double roofKValue = 9;
+
+		private final double partyCeilingKValue = 13.5;
+		private final double roofKValue = 9;
 
 	@Override
 	public TreeMap<Integer, Double> getInsulatedPitchedUValues() {
@@ -87,10 +87,5 @@ public class RdSAPCeilingUValues implements ICeilingUValueTables {
 	@Override
 	public double getPartyCeilingKValue() {
 		return partyCeilingKValue;
-	}
-
-	@Override
-	public double getRoofKValue() {
-		return roofKValue;
 	}
 }

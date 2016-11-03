@@ -10,39 +10,39 @@ import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
 
 /**
- * This may be more CHM than RDSAP; provides ceiling u and k values.
- * 
+ * This may be more CHM than RDSAP; provides ceiling u values.
+ *
  * @author hinton
  * @since 1.0
  */
 public class CeilingPropertyImputer implements ICeilingPropertyImputer {
 	private static final Logger log = LoggerFactory.getLogger(CeilingPropertyImputer.class);
-	
+
 	private final ICeilingUValueTables ceilingUValues;
-	
+
 	public CeilingPropertyImputer(final ICeilingUValueTables ceilingUValues){
 		this.ceilingUValues = ceilingUValues;
 	}
-	
+
 	private double interpolate(final double thickness, final TreeMap<Integer, Double> values) {
 		final Integer intThickness = (int) Math.round(thickness);
-		
+
 		if (values.containsKey(intThickness)) {
 			return values.get(intThickness);
 		}
-		
+
 		final Entry<Integer, Double> above = values.ceilingEntry(intThickness);
 		if (above == null) return values.lastEntry().getValue();
 		final Entry<Integer, Double> below = values.floorEntry(intThickness);
 		if (below == null) return values.firstEntry().getValue();
-		
+
 		final double gap = above.getKey() - below.getKey();
 		final double offset = above.getKey() - thickness;
 		final double proportion = offset / gap;
-		
+
 		return below.getValue() + (above.getValue() - below.getValue()) * proportion;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see uk.org.cse.stockimport.imputation.ICeilingPropertyImputer#getRoofUValue(uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType, double, boolean)
 	 */
@@ -50,7 +50,7 @@ public class CeilingPropertyImputer implements ICeilingPropertyImputer {
 	public double getRoofUValue(final RoofConstructionType constructionType, final double insulationThickness, final boolean roomInRoof) {
 		if (roomInRoof) {
 //			log.warn("Not sure that I know how to get roof u values with given loft insulation and room-in-roof, but I will give it a try");
-		} 
+		}
 
         if (constructionType == null) {
             log.debug("Roof construction type is null, returning 0");
@@ -68,7 +68,7 @@ public class CeilingPropertyImputer implements ICeilingPropertyImputer {
 			return 0;
 		}
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see uk.org.cse.stockimport.imputation.ICeilingPropertyImputer#getRoofUValue(uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue, uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType, boolean)
 	 */
@@ -80,7 +80,7 @@ public class CeilingPropertyImputer implements ICeilingPropertyImputer {
 				return 0;
 			}
 			return ceilingUValues.getUnknownValuesByRoofTypeAndAgeBandWithRoomInRoof()[constructionType.ordinal()][ageBand.ordinal()];
-			
+
 		} else {
 			return ceilingUValues.getUnknownValuesByRoofTypeAndAgeBand()[constructionType.ordinal()][ageBand.ordinal()];
 		}

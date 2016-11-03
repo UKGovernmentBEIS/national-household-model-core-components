@@ -1,7 +1,7 @@
 package uk.org.cse.stockimport.imputation.floors;
 
 import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
-import uk.org.cse.nhm.energycalculator.api.types.RegionType;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
 import uk.org.cse.stockimport.imputation.walls.IWallPropertyImputer;
 
@@ -13,9 +13,9 @@ import uk.org.cse.stockimport.imputation.walls.IWallPropertyImputer;
 public interface IFloorPropertyImputer {
 	/**
 	 * Calculate the U value of a floor with the given construction type and so on
-	 * 
+	 *
 	 * You may want to use an {@link IWallPropertyImputer} to get wall thickness.
-	 * 
+	 *
 	 * @param constructionType
 	 * @param wallThickness
 	 * @param insulationThickness
@@ -32,10 +32,10 @@ public interface IFloorPropertyImputer {
 	 * Get the u value for an exposed upper floor
 	 * @param ageBand
 	 * @return
-     * @since 1.0	
+     * @since 1.0
 	 */
 	double getExposedFloorUValue(Band ageBand, boolean isInsulated);
-		
+
 	/**
 	 * Get the floor insulation thickness for a floor constructed in the given place and time
 	 * @param constructionInterval
@@ -45,5 +45,5 @@ public interface IFloorPropertyImputer {
      * @since 1.0
 	 */
 	double getFloorInsulationThickness(Band ageBand,
-			RegionType region, FloorConstructionType constructionType);
+			Country country, FloorConstructionType constructionType);
 }

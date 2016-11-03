@@ -29,23 +29,23 @@ import uk.org.cse.nhm.hom.types.BuiltFormType;
 
 /**
  * Describes the structural form of a house case. It is composed of two main parts
- * 
+ *
  * <ol>
  * 	<li> {@link Storey} instances - each of these describes one of the storeys of the house, in terms of its perimeter, height, u-values etc.</li>
  * 	<li> {@link Elevation} instances - each of these describes the apertures in one of the four elevations of the house, in terms of the percentage of exterior walls that is glazed,
  * or contains doors</li>
  * </ol>
- * 
- * The {@link #addStorey(Storey)} and {@link #setElevation(ElevationType, Elevation)} methods should be used to 
+ *
+ * The {@link #addStorey(Storey)} and {@link #setElevation(ElevationType, Elevation)} methods should be used to
  * set up the storeys and elevations in this structure.
  * <br />
- * 
+ *
  * This class is intended to be easily serializable to MongoDB, so it oughtn't have any cross-references between fields.
  * <br />
- * 
+ *
  * At the moment it has no other information in it, but at some point it should probably hold some details like
  * draught lobby presence & other broad structural properties.
- * 
+ *
  * @author hinton
  *
  */
@@ -55,11 +55,11 @@ public class StructureModel implements ICopyable<StructureModel> {
 	//private static final Logger log = LoggerFactory.getLogger(StructureModel.class);
 	private final Map<ElevationType, Elevation> elevations = new HashMap<ElevationType, Elevation>();
 	private final List<Storey> storeys = new ArrayList<Storey>();
-	
+
 	/*
 	BEISDOC
 	NAME: Living Area Proportion
-	DESCRIPTION: The size of the living area of the house, divided by the total floor area of the house.  
+	DESCRIPTION: The size of the living area of the house, divided by the total floor area of the house.
 	TYPE: value
 	UNIT: dimensionless
 	SAP: (91)
@@ -69,7 +69,7 @@ public class StructureModel implements ICopyable<StructureModel> {
 	CODSIEB
 	*/
 	private double livingAreaProportionOfFloorArea;
-	
+
 	/*
 	BEISDOC
 	NAME: Interzone specific heat loss
@@ -82,10 +82,10 @@ public class StructureModel implements ICopyable<StructureModel> {
 	CODSIEB
 	*/
 	private double interzoneSpecificHeatLoss;
-	
+
 	private boolean hasDraughtLobby;
 	private double zoneTwoHeatedProportion = 1.0;
-	
+
 	/*
 	BEISDOC
 	NAME: Draught stripped proportion
@@ -96,51 +96,51 @@ public class StructureModel implements ICopyable<StructureModel> {
 	BREDEM: 3D, Table 19
 	SET: measure.install-draught-proofing
 	STOCK: ventilation.csv (windowsanddoorsdraughtstrippedproportion)
-	NOTES: We do not have the information required to implement the BREDEM 2012 algorithm, so we use the SAP 2012 algorithm in both energy calculator modes. 
+	NOTES: We do not have the information required to implement the BREDEM 2012 algorithm, so we use the SAP 2012 algorithm in both energy calculator modes.
 	ID: draught-stripped-proportion
 	CODSIEB
 	*/
 	private double draughtStrippedProportion;
-	
+
 	private FloorConstructionType groundFloorConstructionType;
 	private RoofConstructionType roofConstructionType;
 	private double floorInsulationThickness;
 	private double roofInsulationThickness;
     private BuiltFormType builtFormType;
     private double internalWallArea;
-    
+
     private double frontPlotDepth, frontPlotWidth;
     private double backPlotDepth, backPlotWidth;
-    
+
     private int intermittentFans;
 	private int passiveVents;
-    
+
     /*
 	BEISDOC
 	NAME: Sheltered sides
-	DESCRIPTION: The number of sides of the dwelling which are sheltered 
+	DESCRIPTION: The number of sides of the dwelling which are sheltered
 	TYPE: value
 	UNIT: Count of elevations
 	SAP: (19)
 	BREDEM: Table 22
 	DEPS:
-	GET: 
+	GET:
 	SET:
-	STOCK: elevations.csv (if tenthsattached > 5, elevation is considered sheltered) 
+	STOCK: elevations.csv (if tenthsattached > 5, elevation is considered sheltered)
 	ID: num-sheltered-sides
 	CODSIEB
 	*/
 	private int numberOfShelteredSides;
-	
+
     private boolean onGasGrid;
 
     private int numberOfBedrooms;
     private boolean hasAccessToOutsideSpace;
     private boolean ownsPartOfRoof;
 	private boolean hasLoft;
-    
+
     private int mainFloorLevel;
-    
+
     /*
     BEISDOC
     NAME: Reduced Internal Gains
@@ -150,53 +150,53 @@ public class StructureModel implements ICopyable<StructureModel> {
     SAP: Table 5
     SET: action.reduced-internal-gains
     NOTES: Never applies in SAP 2012 mode.
-    ID: reduced-internal-gains  
+    ID: reduced-internal-gains
     CODSIEB
     */
-    
+
 	private boolean reducedInternalGains;
-    
+
     /*
 	BEISDOC
 	NAME: Thermal Bridging Coefficient
 	DESCRIPTION: This is multiplied by the external area of the dwelling to produce the thermal bridging loss per degree of temperature difference.
 	TYPE: value
 	UNIT: W/℃/m^2
-	BREDEM: 3A.b, see footnote vii 
+	BREDEM: 3A.b, see footnote vii
 	SET: action.set-thermal-bridging-factor
 	ID: thermal-bridging-coefficient
 	CODSIEB
 	*/
 	private double thermalBridgingCoefficient = 0.15;
-    
+
 	public StructureModel() {
         super();
     }
-	
+
     public StructureModel(final BuiltFormType builtFormType) {
 		this.builtFormType = builtFormType;
 	}
 
-    
-    
+
+
     public int getMainFloorLevel() {
         return mainFloorLevel;
     }
-    
-    public void setMainFloorLevel(int mainFloorLevel) {
+
+    public void setMainFloorLevel(final int mainFloorLevel) {
         this.mainFloorLevel = mainFloorLevel;
     }
 
-	
+
     /**
      * This is like the clone method, but I dislike the cloning interfaces for the usual reasons
-     * 
+     *
      * @return a deep copy of this structure model
      */
     @Override
 	public StructureModel copy() {
     	final StructureModel copy = new StructureModel(getBuiltFormType());
-    	
+
     	copy.setLivingAreaProportionOfFloorArea(getLivingAreaProportionOfFloorArea());
     	copy.setInterzoneSpecificHeatLoss(getInterzoneSpecificHeatLoss());
     	copy.setHasDraughtLobby(hasDraughtLobby());
@@ -210,36 +210,36 @@ public class StructureModel implements ICopyable<StructureModel> {
     	copy.setFrontPlotWidth(getFrontPlotWidth());
     	copy.setBackPlotDepth(getBackPlotDepth());
     	copy.setBackPlotWidth(getBackPlotWidth());
-    	copy.setThermalBridigingCoefficient(getThermalBridgingCoefficient());    	
+    	copy.setThermalBridigingCoefficient(getThermalBridgingCoefficient());
     	copy.setNumberOfShelteredSides(getNumberOfShelteredSides());
     	copy.setOnGasGrid(isOnGasGrid());
     	copy.setNumberOfBedrooms(getNumberOfBedrooms());
     	copy.setHasAccessToOutsideSpace(hasAccessToOutsideSpace());
     	copy.setOwnsPartOfRoof(ownsPartOfRoof());
-    	
+
     	copy.setInternalWallArea(getInternalWallArea());
     	copy.setHasLoft(getHasLoft());
     	copy.setReducedInternalGains(hasReducedInternalGains());
     	copy.setIntermittentFans(getIntermittentFans());
     	copy.setPassiveVents(getPassiveVents());
-    	
+
     	for (final ElevationType et : ElevationType.values()) {
     		copy.setElevation(et, getElevations().get(et).copy());
     	}
-    	
+
     	for (final Storey storey : getStoreys()) {
     		copy.addStorey(storey.copy());
     	}
 
         copy.setMainFloorLevel(getMainFloorLevel());
-        
+
     	return copy;
     }
 
 	public void addStorey(final Storey storey) {
 		storeys.add(storey);
 	}
-	
+
 	public BuiltFormType getBuiltFormType() {
 		return builtFormType;
 	}
@@ -247,56 +247,56 @@ public class StructureModel implements ICopyable<StructureModel> {
 	public void setElevation(final ElevationType type, final Elevation elevation) {
 		elevations.put(type, elevation);
 	}
-	
+
 	/**
 	 * This does\ a composition, going through each storey and asking it to accept the visitor and present its
 	 * heat loss surfaces and windows and so on.
 	 * <br />
-	 * 
-	 * 
+	 *
+	 *
 	 * @assumption This method presumes that the maximum contact area is shared between each storey, so heat loss area above and below
 	 * is minimal.
 	 * <br />
 	 * This assumption makes it much easier to work out heat loss through the roof and floor of a storey, as the alternative is to
 	 * compute the non-intersecting area between each polygon. Also, houses typically do have this property (they usually don't look like this in plan:
-	 * 
+	 *
 	 * <pre>
 	 *[-------]
 	 *    [-------]
 	 *[-------]
 	 *    [-------]
 	 * </pre>
-	 * 
+	 *
 	 * If you did have a house which looked like this, the heat loss from the roof of the ground storey,
-	 * the roof and floor of the first storey, the roof and floor of the second storey and the floor of 
-	 * the top storey would all be underestimated by this approach (they would be zero, because the assumption 
+	 * the roof and floor of the first storey, the roof and floor of the second storey and the floor of
+	 * the top storey would all be underestimated by this approach (they would be zero, because the assumption
 	 * makes a house which looks like this:
-	 * 
+	 *
 	 * <pre>
 	 *[-------]
 	 *[-------]
 	 *[-------]
 	 *[-------]
 	 * </pre>)
-	 * 
+	 *
 	 * Since a normal house might look like this:
-	 * 
+	 *
 	 * <pre>
 	 *  [---]
 	 * [------]
 	 * [--------]
 	 * </pre>
-	 * 
+	 *
 	 * or maybe this, on Grand Designs
-	 * 
+	 *
 	 * <pre>
 	 * [--------]
 	 * [----]
 	 * [----]
 	 * </pre>
-	 * 
+	 *
 	 * this assumption will mostly be OK.
-	 * 
+	 *
 	 * @param visitor the visitor to show heat loss surfaces to.
 	 */
 	public void accept(final IEnergyCalculatorVisitor visitor) {
@@ -304,9 +304,9 @@ public class StructureModel implements ICopyable<StructureModel> {
 		visitor.addVentInfiltration(getPassiveVents());
 		visitor.addGroundFloorInfiltration(getGroundFloorConstructionType());
 		visitor.setRoofType(roofConstructionType, roofInsulationThickness);
-		
+
 		final int storeyCount = storeys.size();
-		
+
 		/*
 		BEISDOC
 		NAME: Internal wall element
@@ -327,35 +327,36 @@ public class StructureModel implements ICopyable<StructureModel> {
 				false,
 				internalWallArea,
 				0,
+				0,
 				Optional.<ThermalMassLevel>absent()
 			);
-		
+
 		final Map<ElevationType, IElevation> elmap = new EnumMap<ElevationType, IElevation>(elevations);
 		final Map<ElevationType, IDoorVisitor> doors = new EnumMap<ElevationType, Elevation.IDoorVisitor>(ElevationType.class);
-		
+
 		for (final ElevationType et : ElevationType.values()) {
 			doors.put(et, elmap.get(et).getDoorVisitor());
 		}
-		
+
 		if (storeyCount > 0) {
 			/**
 			 * The area of this storey
 			 */
 			double areaHere = storeys.get(0).getArea();
-			
+
 			/**
 			 * This holds the area of the floor below this one
 			 */
 			double areaBelow = 0;
-			
+
 			/**
 			 * The area of the storey above this one, if there is such a storey.
 			 */
 			double areaAbove = 0;
-			
+
 			for (int i = 0; i<storeyCount; i++) {
 				final Storey here = storeys.get(i);
-				
+
 				if (builtFormType.isFlat()) {
 					//TODO some flats may have exposed roofs or floors
 					areaAbove = areaBelow = here.getArea();
@@ -366,9 +367,9 @@ public class StructureModel implements ICopyable<StructureModel> {
 						areaAbove = storeys.get(i+1).getArea(); // get area of next storey
 					}
 				}
-				
+
 				here.accept(visitor, elmap, doors, areaBelow, areaAbove);
-				
+
 				// shift areas around
 				if (!builtFormType.isFlat()) {
 					areaBelow = areaHere ;
@@ -376,15 +377,15 @@ public class StructureModel implements ICopyable<StructureModel> {
 				}
 			}
 		}
-		
-		for (IDoorVisitor v : doors.values()) {
+
+		for (final IDoorVisitor v : doors.values()) {
 			/*
 			 * This has to happen after the storeys, because they tell the door visitors how much wall area there is to play with.
 			 */
 			v.visitDoors(visitor);
 		}
 	}
-	
+
 	public double getEnvelopeArea() {
 		final double roof = getExternalRoofArea();
 		final double floor = getExternalFloorArea();
@@ -394,7 +395,7 @@ public class StructureModel implements ICopyable<StructureModel> {
 		}
 		return floor + roof + wall;
 	}
-	
+
 	public double getExternalFloorArea() {
 		if (builtFormType.isFlat()) {
 			//TODO some flats may have exposed roofs or floors
@@ -410,7 +411,7 @@ public class StructureModel implements ICopyable<StructureModel> {
 			return d;
 		}
 	}
-	
+
 	/**
 	 * @since 1.3.4
 	 * @return
@@ -428,7 +429,7 @@ public class StructureModel implements ICopyable<StructureModel> {
 			return result;
 		}
 	}
-	
+
 	public double getVolume() {
 		/*
 		BEISDOC
@@ -441,7 +442,7 @@ public class StructureModel implements ICopyable<StructureModel> {
 		BREDEM: Input variable VT
 		DEPS: storey-volume
 		GET: house.volume
-		SET: 
+		SET:
 		CODSIEB
 		*/
 
@@ -451,7 +452,7 @@ public class StructureModel implements ICopyable<StructureModel> {
 		}
 		return acc;
 	}
-	
+
 	public double getFloorArea() {
 		/*
 		BEISDOC
@@ -464,7 +465,7 @@ public class StructureModel implements ICopyable<StructureModel> {
 		BREDEM: Input variable TFA
 		DEPS: storey-floor-area
 		GET: house.total-floor-area
-		SET: 
+		SET:
 		CODSIEB
 		*/
 
@@ -478,7 +479,7 @@ public class StructureModel implements ICopyable<StructureModel> {
 
 	public int getNumberOfStoreys() {
 		return storeys.size();
-				
+
 	}
 
 	public double getLivingAreaProportionOfFloorArea() {
@@ -508,7 +509,7 @@ public class StructureModel implements ICopyable<StructureModel> {
 	public void setHasDraughtLobby(final boolean hasDraughtLobby) {
 		this.hasDraughtLobby = hasDraughtLobby;
 	}
-	
+
 	public void setLivingAreaProportionOfFloorArea(
 			final double livingAreaProportionOfFloorArea) {
 		this.livingAreaProportionOfFloorArea = livingAreaProportionOfFloorArea;
@@ -623,7 +624,7 @@ public class StructureModel implements ICopyable<StructureModel> {
 	public void setOnGasGrid(final boolean onGasGrid) {
 		this.onGasGrid = onGasGrid;
 	}
-	
+
 	public double getInternalWallArea() {
 		return internalWallArea;
 	}
@@ -631,7 +632,7 @@ public class StructureModel implements ICopyable<StructureModel> {
 	public void setInternalWallArea(final double internalWallArea) {
 		this.internalWallArea = internalWallArea;
 	}
-	
+
 	@Override
 	public String toString() {
 		return Pojomatic.toString(this);
@@ -639,7 +640,7 @@ public class StructureModel implements ICopyable<StructureModel> {
 
     /**
      * Return the numberOfBedrooms.
-     * 
+     *
      * @return the numberOfBedrooms
      * @since 1.1.0
      */
@@ -649,42 +650,42 @@ public class StructureModel implements ICopyable<StructureModel> {
 
     /**
      * Set the numberOfBedrooms.
-     * 
+     *
      * @param numberOfBedrooms the numberOfBedrooms
      * @since 1.1.0
      */
     public void setNumberOfBedrooms(final int numberOfBedrooms) {
         this.numberOfBedrooms = numberOfBedrooms;
     }
-    
+
     /**
      * @since 1.1.0
      */
     public boolean hasAccessToOutsideSpace(){
     	return this.hasAccessToOutsideSpace;
     }
-    
+
     /**
      * @since 1.1.0
      */
     public void setHasAccessToOutsideSpace(final boolean hasAccessToOutsideSpace) {
 		this.hasAccessToOutsideSpace = hasAccessToOutsideSpace;
 	}
-    
+
     /**
      * @since 1.1.0
      */
     public boolean ownsPartOfRoof(){
     	return this.ownsPartOfRoof;
     }
-    
+
     /**
      * @since 1.1.0
      */
     public void setOwnsPartOfRoof(final boolean ownsPartOfRoof) {
 		this.ownsPartOfRoof = ownsPartOfRoof;
 	}
-    
+
     public boolean getHasLoft() {
     	return this.hasLoft;
     }
@@ -696,11 +697,11 @@ public class StructureModel implements ICopyable<StructureModel> {
 			this.hasLoft = hasLoft;
 		}
 	}
-	
+
 	public double getThermalBridgingCoefficient() {
 		return thermalBridgingCoefficient;
 	}
-	
+
 	public void setThermalBridigingCoefficient(final double thermalBridgingCoefficient) {
 		this.thermalBridgingCoefficient = thermalBridgingCoefficient;
 	}
@@ -708,16 +709,16 @@ public class StructureModel implements ICopyable<StructureModel> {
 	public boolean hasReducedInternalGains() {
 		return this.reducedInternalGains;
 	}
-	
+
 	public void setReducedInternalGains(final boolean reducedInternalGains) {
 		this.reducedInternalGains = reducedInternalGains;
 	}
-	
+
     public int getIntermittentFans() {
 		return intermittentFans;
 	}
 
-	public void setIntermittentFans(int intermittentFans) {
+	public void setIntermittentFans(final int intermittentFans) {
 		this.intermittentFans = intermittentFans;
 	}
 
@@ -725,7 +726,7 @@ public class StructureModel implements ICopyable<StructureModel> {
 		return passiveVents;
 	}
 
-	public void setPassiveVents(int passiveVents) {
+	public void setPassiveVents(final int passiveVents) {
 		this.passiveVents = passiveVents;
 	}
 
@@ -779,14 +780,14 @@ public class StructureModel implements ICopyable<StructureModel> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		StructureModel other = (StructureModel) obj;
+		final StructureModel other = (StructureModel) obj;
 		if (Double.doubleToLongBits(backPlotDepth) != Double.doubleToLongBits(other.backPlotDepth))
 			return false;
 		if (Double.doubleToLongBits(backPlotWidth) != Double.doubleToLongBits(other.backPlotWidth))

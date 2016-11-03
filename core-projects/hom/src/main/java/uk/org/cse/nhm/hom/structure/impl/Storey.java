@@ -19,7 +19,7 @@ import com.google.common.base.Optional;
 
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
-import uk.org.cse.nhm.energycalculator.api.types.AreaType;
+import uk.org.cse.nhm.energycalculator.api.types.FloorType;
 import uk.org.cse.nhm.energycalculator.api.types.RoofType;
 import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
 import uk.org.cse.nhm.energycalculator.api.types.WallType;
@@ -44,7 +44,7 @@ import uk.org.cse.nhm.hom.util.PhysicsUtil;
  *  }
  * </pre>
  * <br />
- * Calls to {@link #setPerimeter(Polygon)} will clear all existing state for the storey's walls, and 
+ * Calls to {@link #setPerimeter(Polygon)} will clear all existing state for the storey's walls, and
  * replace them with new empty walls according to the given polygon. This is the only way to move the corners
  * of the storey around.
  * <br />
@@ -60,11 +60,11 @@ import uk.org.cse.nhm.hom.util.PhysicsUtil;
  *  <li>{@link #getFloorLocationType()}</li>
  *  <li>{@link #getHeight()}</li>
  * </ul>
- * 
+ *
  * TODO internal dimensions vs. external dimensions.
  * TODO room in roof behaviour
  * TODO basement behaviour
- * 
+ *
  * @author hinton
  *
  */
@@ -87,18 +87,18 @@ public class Storey implements IStorey {
 	UNIT: m
 	SAP: (2a,2b...)
 	BREDEM: Input variable
-	DEPS: 
-	GET: 
-	SET: 
+	DEPS:
+	GET:
+	SET:
 	STOCK: storeys.csv (storyheight)
 	CODSIEB
 	*/
-	
+
 	/**
 	 * The ceiling height of this storey.
 	 */
 	private double height;
-	
+
 	/**
 	 * What kind of storey this is - this affects how we present area to the calculator.
 	 */
@@ -108,23 +108,25 @@ public class Storey implements IStorey {
 	 * The u-value for heat loss from this floor to void space or ground below it
 	 */
 	private double floorUValue;
-	
+
 	/**
 	 * The u-value for heat loss from this floor to void space above it.
 	 */
 	private double ceilingUValue;
-	
+
 	private transient double exposedPerimeterCache = -1;
-	
+
+	private transient Double averageWallThicknessCache = null;
+
 	public Storey() {
-		
+
 	}
-	
+
 	/**
 	 * This will destroy all the existing information about the storey, and replace it with a new polygon with
 	 * default values for all the segments. Use {@link #getWalls()} to iterate through the walls and set their
 	 * u-values and construction types. Actually, that stuff could live in the elevation as well. hmm.
-	 * 
+	 *
 	 * @param polygon
 	 */
     public void setPerimeter(final Polygon polygon, final double scalingFactor) {
@@ -133,14 +135,14 @@ public class Storey implements IStorey {
             segments.add(new SegmentData(polygon.xpoints[i] / scalingFactor, polygon.ypoints[i] / scalingFactor));
 		}
 	}
-    
+
     protected void copySegments(final List<SegmentData> segmentsToCopy) {
 		segments.clear();
 		for (final SegmentData sd : segmentsToCopy) {
 			segments.add(sd.copy());
 		}
     }
-	
+
     public void setPerimeter(final Polygon polygon) {
         this.setPerimeter(polygon, 1);
     }
@@ -176,7 +178,7 @@ public class Storey implements IStorey {
 	public void setFloorLocationType(final FloorLocationType floorLocationType) {
 		this.floorLocationType = floorLocationType;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see uk.org.cse.nhm.hom.structure.IStorey#getFloorUValue()
 	 */
@@ -208,20 +210,20 @@ public class Storey implements IStorey {
 	public void setCeilingUValue(final double ceilingUValue) {
 		this.ceilingUValue = ceilingUValue;
 	}
-	
+
 	/**
 	 * Present the heat loss surfaces from this storey to the given {@link IEnergyCalculatorVisitor}.
-	 * 
+	 *
 	 * @param visitor the visitor
 	 * @param elevations a map from elevation type to elevation, which should be populated for all four elevations
 	 * @param areaBelow the heated area underneath this storey (i.e. the area of the storey below)
 	 * @param areaAbove the heated area above this storey (i.e. the area of the storey above)
 	 */
 	public void accept(
-			final IEnergyCalculatorVisitor visitor, 
-			final Map<ElevationType, IElevation> elevations, 
+			final IEnergyCalculatorVisitor visitor,
+			final Map<ElevationType, IElevation> elevations,
 			final Map<ElevationType, IDoorVisitor> doors,
-			final double areaBelow, 
+			final double areaBelow,
 			final double areaAbove) {
 		// present heat loss areas on the perimeter
 		switch (floorLocationType) {
@@ -233,19 +235,19 @@ public class Storey implements IStorey {
 		default:
 			showVisitorHeatLossWalls(visitor, elevations, doors);
 		}
-		
+
 				// present heat loss areas above and below
 		final double area = getArea();
 		if (area > areaBelow) {
 			/*
 			BEISDOC
 			NAME: Floor element
-			DESCRIPTION: The area, u-value and k-value for a section of floor which contributes to heat loss.
+			DESCRIPTION: The area and u-value for a section of floor which contributes to heat loss.
 			TYPE: formula
 			UNIT: area m^2, u-value W/m^2/℃, k-value kJ/m^2/℃
 			SAP: 28b, 32a
 			BREDEM: 3B
-			DEPS: 
+			DEPS:
 			GET: house.u-value
 			SET: action.reset-floors,action.set-floor-insulation
 			STOCK: cases.csv (grndfloortype), storeys.csv (shape of polygons), imputation schema (floors)
@@ -253,15 +255,11 @@ public class Storey implements IStorey {
 			NOTES: Part floor's u-value is always 0.
 			CODSIEB
 			*/
-			//TODO does area below into ground count as External Area for thermal bridging purposes?
-			// there is a heat loss area pointing downwards, whose area is area - areaBelow
 			final double heatLossAreaBelow = area - areaBelow;
-			visitor.visitFabricElement(AreaType.ExternalFloor, heatLossAreaBelow, floorUValue, Optional.<ThermalMassLevel>absent());
-			visitor.visitFabricElement(AreaType.PartyFloor, areaBelow, 0, Optional.<ThermalMassLevel>absent());
-			
-			visitor.visitFabricElement(AreaType.PartyFloor, areaBelow, 0, Optional.<ThermalMassLevel>absent());
+			visitor.visitFloor(FloorType.External, floorLocationType == FloorLocationType.GROUND, heatLossAreaBelow, floorUValue, getExposedPerimeter(), getAverageWallThicknessWithInsulation());
+			visitor.visitFloor(FloorType.Party, floorLocationType == FloorLocationType.GROUND, areaBelow, 0, getExposedPerimeter(), getAverageWallThicknessWithInsulation());
 		}
-		
+
 		if (area > areaAbove) {
 			/*
 			BEISDOC
@@ -271,7 +269,7 @@ public class Storey implements IStorey {
 			UNIT: area m^2, u-value W/m^2/℃, k-value kJ/m^2/℃
 			SAP: (30,32b)
 			BREDEM: 3B
-			DEPS: 
+			DEPS:
 			GET: house.u-value
 			SET: action.reset-roofs
 			STOCK: roofs.csv (all fields), imputation schema (roofs)
@@ -285,7 +283,7 @@ public class Storey implements IStorey {
 			visitor.visitCeiling(RoofType.Party, areaAbove, 0);
 		}
 	}
-	
+
 	/**
 	 * Modify {@link #getCeilingUValue()} by adding a layer of insulation which has the stated r-value
 	 * @param rValue
@@ -294,7 +292,7 @@ public class Storey implements IStorey {
 	public void addCeilingInsulation(final double rValue) {
 		setCeilingUValue(PhysicsUtil.addRValueToUValue(getCeilingUValue(), rValue));
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see uk.org.cse.nhm.hom.structure.IStorey#getVolume()
 	 */
@@ -311,12 +309,12 @@ public class Storey implements IStorey {
 		BREDEM: Input variable
 		DEPS: storey-floor-area,storey-height
 		GET: house.volume
-		SET: 
+		SET:
 		CODSIEB
 		*/
 		return getArea() * height;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see uk.org.cse.nhm.hom.structure.IStorey#getArea()
 	 */
@@ -331,12 +329,12 @@ public class Storey implements IStorey {
 		UNIT: m2
 		SAP: (1a,1b...)
 		BREDEM: Input variable
-		DEPS: 
-		GET: 
-		SET: 
+		DEPS:
+		GET:
+		SET:
 		STOCK: stories.csv (polygon shape)
 		CODSIEB
-		*/		
+		*/
         double accumulator = 0;
 
         final int count = segments.size();
@@ -354,7 +352,7 @@ public class Storey implements IStorey {
 
         return Math.abs(accumulator / 2d);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see uk.org.cse.nhm.hom.structure.IStorey#getPerimeter()
 	 */
@@ -366,7 +364,7 @@ public class Storey implements IStorey {
 		}
 		return accumulator;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see uk.org.cse.nhm.hom.structure.IStorey#getLength(uk.org.cse.nhm.hom.components.fabric.types.ElevationType)
 	 */
@@ -391,7 +389,7 @@ public class Storey implements IStorey {
 		for (final IWall segment : getImmutableWalls()) {
 			final double basicArea = segment.getArea();
 			final double wallArea;
-			
+
 			if (segment.isPartyWall()) {
 				/*
 				BEISDOC
@@ -417,9 +415,10 @@ public class Storey implements IStorey {
 						segment.hasWallInsulation(WallInsulationType.FilledCavity),
 						wallArea,
 						segment.getUValue(),
+						segment.getThicknessWithInsulation(),
 						Optional.<ThermalMassLevel>absent()
 					);
-			} else {				
+			} else {
 				// non-attached walls can hold windows and doors, so we need to talk to the elevation about that.
 				final IElevation e = elevations.get(segment.getElevationType());
 				final double doorArea;
@@ -429,9 +428,9 @@ public class Storey implements IStorey {
 				} else {
 					doorArea = 0;
 				}
-				
+
 				final double glazedArea = e.visitGlazing(visitor, basicArea, doorArea);
-				
+
 				/*
 				BEISDOC
 				NAME: External Wall Area
@@ -446,7 +445,7 @@ public class Storey implements IStorey {
 				CODSIEB
 				*/
 				wallArea = basicArea - (glazedArea + doorArea);
-				
+
 				/*
 				 *  Confirmed that area of openings (windows and doors) should be netted off here.
 				 *  See SAP{ 2012 step (11).
@@ -474,12 +473,13 @@ public class Storey implements IStorey {
 						segment.hasWallInsulation(WallInsulationType.FilledCavity),
 						wallArea,
 						segment.getUValue(),
+						segment.getThicknessWithInsulation(),
 						segment.getThermalMassLevel()
 					);
 			}
 		}
 	}
-	
+
 	/**
 	 * This is used by the {@link SegmentWrapper} class to implment {@link IMutableWall#split(double)}; it inserts
 	 * a new point into the polygon after the given existing point.
@@ -496,13 +496,13 @@ public class Storey implements IStorey {
 		} else {
 			segments.add(afterIndex, inserted);
 		}
-        
+
 		// }
 	}
-	
+
 	@Property(policy=PojomaticPolicy.NONE)
 	private transient List<IWall> immutableWalls = new ArrayList<IWall>();
-	
+
 	@Property(policy=PojomaticPolicy.NONE)
 	public  Iterable<IWall> getImmutableWalls() {
 		synchronized (this) {
@@ -514,7 +514,7 @@ public class Storey implements IStorey {
 		}
 		return immutableWalls;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see uk.org.cse.nhm.hom.structure.IStorey#getWalls()
 	 */
@@ -539,11 +539,11 @@ public class Storey implements IStorey {
 					@Override
 					public IMutableWall next() {
 						final SegmentData current = segments.get(index++ % segments.size());
-						
+
 						final SegmentWrapper result = new SegmentWrapper(previous.getX(), previous.getY(), height, current, Storey.this);
-						
+
 						previous = current;
-						
+
 						return result;
 					}
 
@@ -567,21 +567,42 @@ public class Storey implements IStorey {
 		return exposedPerimeterCache;
 	}
 
+	/**
+	 * @return a weighted average of wall thickness, as specified in the yellow box underneath SAP 2012 S3.
+	 */
+	public double getAverageWallThicknessWithInsulation() {
+		if (averageWallThicknessCache == null) {
+			double area = 0;
+			double thicknessWeightedArea = 0;
+
+			for (final IWall wall : getImmutableWalls()) {
+				if (wall.getWallConstructionType().getWallType() != WallType.Internal) {
+					area += wall.getArea();
+					thicknessWeightedArea += wall.getArea() * wall.getThicknessWithInsulation();
+				}
+			}
+
+			averageWallThicknessCache = thicknessWeightedArea / area;
+		}
+
+		return averageWallThicknessCache;
+	}
+
 	public Storey copy() {
 		final Storey other = new Storey();
-		
+
 		// copy simple properties
 		other.setCeilingUValue(getCeilingUValue());
 		other.setFloorLocationType(getFloorLocationType());
 		other.setFloorUValue(getFloorUValue());
 		other.setHeight(getHeight());
-		
+
 		// poke segment data in directly
 		other.copySegments(segments);
-		
+
 		return other;
 	}
-	
+
 	@Override
 	public String toString() {
 		return Pojomatic.toString(this);
@@ -604,14 +625,14 @@ public class Storey implements IStorey {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Storey other = (Storey) obj;
+		final Storey other = (Storey) obj;
 		if (Double.doubleToLongBits(ceilingUValue) != Double.doubleToLongBits(other.ceilingUValue))
 			return false;
 		if (floorLocationType != other.floorLocationType)

@@ -5,6 +5,8 @@ import java.util.List;
 import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
+import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.FloorType;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
@@ -18,7 +20,7 @@ import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 public class SAPVisitor extends Visitor {
 	final double steelOrTimberFrameInfiltration = 0.25;
 	final double otherWallInfiltration = 0.35;
-	
+
 	private final Country country;
 	private final Band ageBand;
 
@@ -35,7 +37,7 @@ public class SAPVisitor extends Visitor {
 	}
 
 	@Override
-	protected double overrideAirChangeRate(WallConstructionType wallType, double airChangeRate) {
+	protected double overrideAirChangeRate(final WallConstructionType wallType, final double airChangeRate) {
 		if (wallType == WallConstructionType.TimberFrame || wallType == WallConstructionType.MetalFrame) {
 			return steelOrTimberFrameInfiltration;
 		} else {
@@ -44,7 +46,7 @@ public class SAPVisitor extends Visitor {
 	}
 
 	@Override
-	protected double overrideFrameFactor(FrameType frameType, double frameFactor) {
+	protected double overrideFrameFactor(final FrameType frameType, final double frameFactor) {
 		/*
 		BEISDOC
 		NAME: Frame Factor
@@ -52,7 +54,7 @@ public class SAPVisitor extends Visitor {
 		TYPE: Lookup
 		UNIT: Dimensionless
 		SAP: Table 6c
-		BREDEM: Table 2 
+		BREDEM: Table 2
 		DEPS: frame-type
 		SET: action.reset-glazing, measure.install-glazing
 		STOCK: Imputation schema (windows)
@@ -72,8 +74,8 @@ public class SAPVisitor extends Visitor {
 	}
 
 	@Override
-	protected double overrideVisibleLightTransmittivity(GlazingType glazingType,
-			double visibleLightTransmittivity) {
+	protected double overrideVisibleLightTransmittivity(final GlazingType glazingType,
+			final double visibleLightTransmittivity) {
 		/*
 		BEISDOC
 		NAME: Soalr Light Transmittivity
@@ -103,8 +105,8 @@ public class SAPVisitor extends Visitor {
 	}
 
 	@Override
-	protected double overrideSolarGainTransmissivity(GlazingType glazingType, WindowInsulationType insulationType,
-			double solarGainTransmissivity) {
+	protected double overrideSolarGainTransmissivity(final GlazingType glazingType, final WindowInsulationType insulationType,
+			final double solarGainTransmissivity) {
 		/*
 		BEISDOC
 		NAME: Solar Gain Transmissivity
@@ -117,7 +119,7 @@ public class SAPVisitor extends Visitor {
 		SET: action.reset-glazing, measure.install-glazing
 		STOCK: Imputation schema (windows)
 		NOTES: In SAP 2012 mode, values for the gains transmissivity set in the scenario will be overridden by the SAP table lookup.
-		ID: solar-gain-transmissivity 
+		ID: solar-gain-transmissivity
 		CODSIEB
 		*/
 		switch (glazingType) {
@@ -134,9 +136,9 @@ public class SAPVisitor extends Visitor {
 			case LowESoftCoat:
 				return 0.63;
 			default:
-				throw new IllegalArgumentException("Unknown window insulation type while computing solar gains tranmissivity " + insulationType);	
+				throw new IllegalArgumentException("Unknown window insulation type while computing solar gains tranmissivity " + insulationType);
 			}
-			
+
 		case Triple:
 			switch (insulationType) {
 			case Air:
@@ -146,39 +148,55 @@ public class SAPVisitor extends Visitor {
 			case LowESoftCoat:
 				return 0.57;
 			default:
-				throw new IllegalArgumentException("Unknown window insulation type while computing solar gains tranmissivity " + insulationType);	
+				throw new IllegalArgumentException("Unknown window insulation type while computing solar gains tranmissivity " + insulationType);
 			}
-			
+
 		default:
 			throw new IllegalArgumentException("Unknown glazing type while computing solar gains tranmissivity " + glazingType);
-		}	
+		}
 	}
 
 	@Override
-	protected double overrideWallUValue(WallConstructionType constructionType, final double externalOrInternalInsulationThickness, final boolean hasCavityInsulation, double uValue) {
+	protected double overrideWallUValue(final double uValue, final WallConstructionType constructionType, final double externalOrInternalInsulationThickness, final boolean hasCavityInsulation, final double thickness) {
 		return SAPUValues.Walls.get(
 				country,
 				constructionType,
 				externalOrInternalInsulationThickness,
 				hasCavityInsulation,
-				ageBand
+				ageBand,
+				thickness
 			);
 	}
 
 	@Override
-	protected double overrideDoorUValue(double uValue) {
+	protected double overrideDoorUValue(final double uValue) {
 		return SAPUValues.Doors.getOutside(ageBand, country);
 	}
 
 	@Override
-	protected double overrideRoofUValue(double uValue, RoofType type, RoofConstructionType constructionType,
-			double insulationThickness) {
+	protected double overrideRoofUValue(final double uValue, final RoofType type, final RoofConstructionType constructionType,
+			final double insulationThickness) {
 		return SAPUValues.Roofs.get(type, constructionType, insulationThickness, country, ageBand);
 	}
 
 	@Override
-	protected double overrideWindowUValue(double uValue, FrameType frameType, GlazingType glazingType,
-			WindowInsulationType insulationType) {
+	protected double overrideWindowUValue(final double uValue, final FrameType frameType, final GlazingType glazingType,
+			final WindowInsulationType insulationType) {
 		return SAPUValues.Windows.get(frameType, glazingType, insulationType);
+	}
+
+	@Override
+	protected double overrideFloorUValue(
+			final double uValue,
+			final FloorType type,
+			final boolean isGroundFloor,
+			final double area,
+			final double exposedPerimeter,
+			final FloorConstructionType groundFloorConstructionType,
+			final double groundFloorInsulationThickness,
+			final double wallThickness
+			) {
+
+		return SAPUValues.Floors.get(type, isGroundFloor, area, exposedPerimeter, groundFloorConstructionType, groundFloorInsulationThickness, wallThickness, ageBand, country);
 	}
 }

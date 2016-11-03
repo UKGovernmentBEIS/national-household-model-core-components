@@ -19,6 +19,7 @@ import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
 import uk.org.cse.nhm.energycalculator.api.types.AreaType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.FloorType;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
@@ -44,8 +45,8 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 	private final IDimension<BasicCaseAttributes> basic;
 	private final IDimension<IHeatingBehaviour> heavingBehaviour;
 	private final Set<AreaType> includedAreas;
-	
-	@Inject 
+
+	@Inject
 	public AverageUValueFunction(
 			final IDimension<StructureModel> structure,
 			final IDimension<BasicCaseAttributes> basic,
@@ -64,12 +65,14 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 		private final EnergyCalculatorType calculatorType;
 		private final Country country;
 		private final Band ageBand;
-		
+
 		private RoofConstructionType roofConstructionType;
 		private Double roofInsulationThickness;
+		private FloorConstructionType groundFloorConstructionType;
+		private double insulationThickness;
 
 
-		public Visitor(final Set<AreaType> includedAreas, EnergyCalculatorType calculatorType, final Country country, final Band ageBand) {
+		public Visitor(final Set<AreaType> includedAreas, final EnergyCalculatorType calculatorType, final Country country, final Band ageBand) {
 			this.includedAreas = includedAreas;
 			this.calculatorType = calculatorType;
 			this.country = country;
@@ -78,7 +81,7 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 
 		@Override
 		public void visitHeatingSystem(final IHeatingSystem system, final double proportion) {}
-		
+
 		@Override
 		public double heatSystemProportion(final IHeatingSystem system) { return 0.0; }
 
@@ -94,20 +97,12 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 		@Override
 		public void addFanInfiltration(final int fans) {}
 
-		@Override
-		public void visitFabricElement(final AreaType type, final double area, final double uValue, final Optional<ThermalMassLevel> thermalMassLevel) {
-			if (includedAreas.contains(type)) {
-				totalA += area;
-				totalU += uValue * area;
-			}
-		}
-		
 		public double getAverageUValue() {
 			return totalU / totalA;
 		}
 
 		@Override
-		public void addVentInfiltration(int vents) {}
+		public void addVentInfiltration(final int vents) {}
 
 		@Override
 		public void addFlueInfiltration() {}
@@ -119,49 +114,50 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 		public double getTotalThermalMass() { return 0; }
 
 		@Override
-		public void visitTransparentElement(GlazingType glazingType, WindowInsulationType insulationType,
-				double visibleLightTransmittivity, double solarGainTransmissivity, double area, FrameType frameType,
-				double frameFactor, double horizontalOrientation, double verticalOrientation,
-				OvershadingType overshading) {
+		public void visitTransparentElement(final GlazingType glazingType, final WindowInsulationType insulationType,
+				final double visibleLightTransmittivity, final double solarGainTransmissivity, final double area, final FrameType frameType,
+				final double frameFactor, final double horizontalOrientation, final double verticalOrientation,
+				final OvershadingType overshading) {
 			// TODO Auto-generated method stub
 		}
 
 		@Override
-		public void addGroundFloorInfiltration(FloorConstructionType floorType) {
+		public void addGroundFloorInfiltration(final FloorConstructionType floorType) {
 			// TODO Auto-generated method stub
 		}
 
 		@Override
 		public void visitWall(
-				WallConstructionType constructionType,
-				double externalOrExternalInsulationThickness, 
-				boolean hasCavityInsulation, 
-				double area, double 
-				uValue,
-				Optional<ThermalMassLevel> thermalMassLevel
+				final WallConstructionType constructionType,
+				final double externalOrExternalInsulationThickness,
+				final boolean hasCavityInsulation,
+				final double area,
+				final double uValue,
+				final double thickness,
+				final Optional<ThermalMassLevel> thermalMassLevel
 				) {
-			
+
 			if (includedAreas.contains(constructionType.getWallType().getAreaType())) {
 				totalA += area;
-				
+
 				final double overrideU;
 				switch (calculatorType) {
 				case BREDEM2012:
 					overrideU = uValue;
 					break;
 				case SAP2012:
-					overrideU = SAPUValues.Walls.get(country, constructionType, externalOrExternalInsulationThickness, hasCavityInsulation, ageBand);
+					overrideU = SAPUValues.Walls.get(country, constructionType, externalOrExternalInsulationThickness, hasCavityInsulation, ageBand, thickness);
 					break;
 				default:
 					throw new UnsupportedOperationException("Unknown energy calculator type when computing average u value for walls " + calculatorType);
 				}
-				
+
 				totalU += overrideU * area;
 			}
 		}
 
 		@Override
-		public void visitDoor(double area, double uValue) {
+		public void visitDoor(final double area, final double uValue) {
 			if (includedAreas.contains(AreaType.Door)) {
 				totalA += area;
 
@@ -183,13 +179,13 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 		}
 
 		@Override
-		public void setRoofType(RoofConstructionType constructionType, double insulationThickness) {
+		public void setRoofType(final RoofConstructionType constructionType, final double insulationThickness) {
 			this.roofConstructionType = constructionType;
 			this.roofInsulationThickness = insulationThickness;
 		}
 
 		@Override
-		public void visitCeiling(RoofType type, double area, double uValue) {
+		public void visitCeiling(final RoofType type, final double area, final double uValue) {
 			if (includedAreas.contains(type.getAreaType())) {
 				totalA += area;
 
@@ -215,8 +211,8 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 		}
 
 		@Override
-		public void visitWindow(double area, double uValue, FrameType frameType, GlazingType glazingType,
-				WindowInsulationType insulationType) {
+		public void visitWindow(final double area, final double uValue, final FrameType frameType, final GlazingType glazingType,
+				final WindowInsulationType insulationType) {
 
 			if (includedAreas.contains(AreaType.Glazing)) {
 				totalA += area;
@@ -237,15 +233,46 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 				totalU += overrideU * area;
 			}
 		}
+
+		@Override
+		public void setFloorType(final FloorConstructionType groundFloorConstructionType, final double insulationThickness) {
+			this.groundFloorConstructionType = groundFloorConstructionType;
+			this.insulationThickness = insulationThickness;
+		}
+
+		@Override
+		public void visitFloor(final FloorType type, final boolean isGroundFloor, final double area, final double uValue,
+				final double exposedPerimeter, final double wallThickness) {
+
+			if (includedAreas.contains(type.getAreaType())) {
+				totalA += area;
+
+				final double overrideU;
+
+				switch(calculatorType) {
+				case BREDEM2012:
+					overrideU = uValue;
+					break;
+				case SAP2012:
+					overrideU = SAPUValues.Floors.get(type, isGroundFloor, area, exposedPerimeter, groundFloorConstructionType, insulationThickness, wallThickness, ageBand, country);
+					break;
+				default:
+					throw new UnsupportedOperationException("Unknown energy calculator type when computing average u value for floors " + calculatorType);
+				}
+
+				totalU += overrideU * area;
+
+			}
+		}
 	}
-	
+
 	@Override
 	public Double compute(final IComponentsScope scope, final ILets lets) {
 		final StructureModel structure = scope.get(this.structure);
 		final BasicCaseAttributes basicAttributes = scope.get(this.basic);
 		final Visitor v = new Visitor(
-				includedAreas, 
-				scope.get(heavingBehaviour).getEnergyCalculatorType(), 
+				includedAreas,
+				scope.get(heavingBehaviour).getEnergyCalculatorType(),
 				basicAttributes.getRegionType().getCountry(),
 				SAPAgeBandValue.fromYear(basicAttributes.getBuildYear(), basicAttributes.getRegionType()).getName()
 				);
