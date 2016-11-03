@@ -1,14 +1,13 @@
 package uk.org.cse.nhm.energycalculator.api.impl;
 
 public class InsolationPlaneUtil {
-	public static double getSolarFluxMultiplier(final double solarDeclination, final double latitude, final double angleFromHorizontal, final double angleFromNorth) {
-		final int orientation = getOrientationFromNorth(angleFromNorth);
-		
-		final double[] kA = A_TERMS[orientation];
-		final double[] kB = B_TERMS[orientation];
-		final double[] kC = C_TERMS[orientation];
-		
-		final double sin1 = Math.sin(angleFromHorizontal);
+    public static double getSolarFluxMultiplier(final double solarDeclination,
+                                                final double latitude,
+                                                final double angleFromHorizontal,
+                                                final double angleFromNorth) {
+        final double[] k = interpolateTableU5(angleFromNorth);
+
+        final double sin1 = Math.sin(angleFromHorizontal/2);
 		final double sin2 = Math.pow(sin1, 2);
 		final double sin3 = Math.pow(sin1, 3);
 		
@@ -24,10 +23,10 @@ public class InsolationPlaneUtil {
 		ID: solar-orientation-parameters
 		CODSIEB
 		*/
-		final double A = kA[0] * sin3 + kA[1] * sin2 + kA[2] * sin1;
-		final double B = kB[0] * sin3 + kB[1] * sin2 + kB[2] * sin1;
-		final double C = kC[0] * sin3 + kC[1] * sin2 + kC[2] * sin1 + 1;
-		
+        final double A = k[0] * sin3 + k[1] * sin2 + k[2] * sin1;
+        final double B = k[3] * sin3 + k[4] * sin2 + k[5] * sin1;
+        final double C = k[6] * sin3 + k[7] * sin2 + k[8] * sin1 + 1;
+
 		/*
 		BEISDOC
 		NAME: Solar height factor
@@ -59,23 +58,60 @@ public class InsolationPlaneUtil {
 		return R;
 	}
 
-	private static final int getOrientationFromNorth(double angle) {
-		final int slices = A_TERMS.length;
-		// so North = 0
-		
-		final double sliceWidth = Math.PI / slices;
-		if (angle > Math.PI) {
-			angle -= Math.PI;
-		} else if (angle < 0) {
-			angle += Math.PI;
-		} else if (angle == Math.PI) { // flips over to slices at PI; alternatively could subtract a small delta I guess.
-			return slices - 1;
-		}
-		
-		// angle is in the positive half from north through south now
-		int slice = (int) Math.floor(angle / sliceWidth);
-		return slice;
-	}
+    /**
+     * Given @angle in radians from North, generate the three constants
+     * A, B and C per table U5 (p176 of SAP2012)
+     */
+    private static final double[] interpolateTableU5(final double angle) {
+        // the rows in table U5T below go from 0 to 2PI
+        // our angle could be in any range, so we put it into the desired range
+        final double clampedAngle = clampAngle(angle);
+        // then we scale it to be between 0 and the number of rows in that table
+        final double rowInU5T = (TABLE_U5T.length - 1) * clampedAngle / _2PI;
+        // then we find the rows above and below and interpolate between them
+        final double rowBelow = Math.floor(rowInU5T);
+
+        if (rowBelow == rowInU5T) {
+            return TABLE_U5T[(int)rowBelow];
+        } else {
+            return interpolateRows(rowInU5T);
+        }
+    }
+
+    private static final double _2PI = 2*Math.PI;
+
+    /**
+     * @return an angle in radians between 0 and 2PI which points
+     *         in the same direction as @angle
+     */
+    private static final double clampAngle(double angle) {
+        while (angle < 0) angle += _2PI;
+        while (angle > _2PI) angle -= _2PI;
+        return angle;
+    }
+
+    /**
+     * @return an array of 9 elements, each produced by interpolating
+     *         the corresponding elements from the two rows above and below rowNumber TABLE_U5T
+     */
+    private static final double[] interpolateRows(final double rowNumber) {
+        final int rowBelow = (int) Math.floor(rowNumber);
+        final int rowAbove = (int) Math.ceil(rowNumber);
+
+        final double[] low = TABLE_U5T[rowBelow];
+        final double[] high = TABLE_U5T[rowAbove];
+
+        final double fabove = rowNumber - rowBelow;
+        final double fbelow = rowAbove - rowNumber;
+
+        final double[] result = new double[low.length];
+
+        for (int i = 0; i<result.length; i++) {
+            result[i] = low[i] * fbelow + high[i] * fabove;
+        }
+
+        return result;
+    }
 	
 	/*
 	BEISDOC
@@ -88,41 +124,29 @@ public class InsolationPlaneUtil {
 	ID: solar-flux-constants
 	CODSIEB
 	*/
-	private static final double A_TERMS[][] =
+    private static final double[][] TABLE_U5T =
     {
-        {0.056, -5.790, 6.230},
-        {-1.397, -1.450, 3.264},
-        {-2.850, 2.890, 0.298},
-        {-1.546, 1.433, 0.325},
-        {-0.241, -0.024, 0.351},
-        {0.299, -0.314, 0.670},
-        {0.839, -0.607, 0.989},
-        {1.595, -1.787, 1.695},
-        {2.350, -2.970, 2.400}
-    };
-	private static final double B_TERMS[][] = 
-    {
-        {3.320,-0.159,-3.740},
-        {3.920,-3.220,-1.135},
-        {4.520,-6.280,1.470},
-        {2.562,-3.387,0.484},
-        {0.604,-0.494,-0.502},
-        {0.025,-0.122,-1.496},
-        {-0.554,0.251,-2.490},
-        {-1.797,2.066,-3.730},
-        {-3.040,3.880,-4.970}
-    };
-	private static final double C_TERMS[][] = 
-    {
-        {-2.7, 3.450, -1.21},
-        {-2.64, 3.705, -1.545},
-        {-2.58, 3.960, -1.88},
-        {-2.185, 3.010, -1.143},
-        {-1.79, 2.06, -0.405},
-        {-1.895, 2.17, 0.201},
-        {-2.0, 2.28, 0.807},
-        {-1.655, 1.775, 1.319},
-        {-1.310, 1.27, 1.830}
+        // copied, pasted, and transposed
+        // and then repeated
+        // k1 ,     k2 ,   k3 ,     k4 ,     k5 ,     k6 ,     k7 ,     k8 ,     k9 }
+        //N
+        { 26.3 ,  -38.5 , 14.8 ,  -16.5 ,   27.3 ,  -11.9 ,  -1.06 , 0.0872 , -0.191 },
+        // NE (and NW)
+        { 0.165 ,  -3.68 ,  3.0 ,   6.38 ,  -4.53 , -0.405 ,  -4.38 ,   4.89 ,  -1.99 },
+        // East (and W)
+        { 1.44 ,  -2.36 , 1.07 , -0.514 ,   1.89 ,  -1.64 , -0.542 , -0.757 ,  0.604 },
+        // SE (and SW)
+        { -2.95 ,   2.89 , 1.17 ,   5.67 ,  -3.54 ,  -4.28 ,  -2.72 ,  -0.25 ,   3.07 },
+        // South
+        { -0.66 , -0.106 , 2.93 ,   3.63 , -0.374 ,   -7.4 ,  -2.71 , -0.991 ,   4.59 },
+        // SW
+        { -2.95 ,   2.89 , 1.17 ,   5.67 ,  -3.54 ,  -4.28 ,  -2.72 ,  -0.25 ,   3.07 },
+        // W
+        { 1.44 ,  -2.36 , 1.07 , -0.514 ,   1.89 ,  -1.64 , -0.542 , -0.757 ,  0.604 },
+        // NW
+        { 0.165 ,  -3.68 ,  3.0 ,   6.38 ,  -4.53 , -0.405 ,  -4.38 ,   4.89 ,  -1.99 },
+        // N again
+        { 26.3 ,  -38.5 , 14.8 ,  -16.5 ,   27.3 ,  -11.9 ,  -1.06 , 0.0872 , -0.191 }
     };
 
 }
