@@ -65,62 +65,45 @@ public class TransmittanceFactors implements ITransmittanceFactors {
 		}
 	}
 	
-    /*
-     * (non-Javadoc)
-     * @see
-     * uk.org.cse.stockimport.imputation.apertures.windows.ITransmittanceFactors#getGainsTransmittance(uk.org.cse.nhm.
-     * energycalculator.api.types.GlazingType, uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType)
-     */
+	/* (non-Javadoc)
+	 * @see uk.org.cse.stockimport.imputation.apertures.windows.ITransmittanceFactors#getGainsTransmittance(uk.org.cse.nhm.energycalculator.api.types.GlazingType, uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType)
+	 */
     @Override
-    public double getGainsTransmittance(final GlazingType glazingType, final WindowInsulationType insulation) {
-        if (glazingType == null) {
-            log.debug("Unknown glazing type {} returning 0 gains", glazingType);
-            return 0;
-        } else {
-
-            switch (glazingType) {
-                case Secondary:
-                    return secondaryGlazingGainsTransmittance;
-                case Single:
-                    return singleGlazingGainsTransmittance;
-                case Double:
-                    return doubleGlazingGainsTransmittance.get(insulation);
-                case Triple:
-                    return tripleGlazingGainsTransmittance.get(insulation);
-                default:
-                    log.error("Unknown glazing type {}", glazingType);
-                    return 0;
-            }
-        }
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see
-     * uk.org.cse.stockimport.imputation.apertures.windows.ITransmittanceFactors#getLightTransmittance(uk.org.cse.nhm.
-     * energycalculator.api.types.GlazingType, uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType)
-     */
+	public double getGainsTransmittance(final GlazingType glazingType, final WindowInsulationType insulation) {
+		switch (glazingType) {
+		case Secondary:
+			return secondaryGlazingGainsTransmittance;
+		case Single:
+			return singleGlazingGainsTransmittance;
+		case Double:
+			return doubleGlazingGainsTransmittance.get(insulation);
+		case Triple:
+			return tripleGlazingGainsTransmittance.get(insulation);
+		default:
+			log.error("Unknown glazing type {}", glazingType);
+			return 0;
+		}
+	}
+	
+    /* (non-Javadoc)
+	 * @see uk.org.cse.stockimport.imputation.apertures.windows.ITransmittanceFactors#getLightTransmittance(uk.org.cse.nhm.energycalculator.api.types.GlazingType, uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType)
+	 */
     @Override
-    public double getLightTransmittance(final GlazingType glazingType, final WindowInsulationType insulation) {
-        if (glazingType == null) {
-            log.debug("Unknown glazing type {} returning 0 gains", glazingType);
-            return 0;
-        } else {
-            switch (glazingType) {
-                case Secondary:
-                    return secondaryGlazingLightTransmittance;
-                case Single:
-                    return singleGlazingLightTransmittance;
-                case Double:
-                    return doubleGlazingLightTransmittance.get(insulation);
-                case Triple:
-                    return tripleGlazingLightTransmittance.get(insulation);
-                default:
-                    log.error("Unknown glazing type {}", glazingType);
-                    return 0;
-            }
-        }
-    }
+	public double getLightTransmittance(final GlazingType glazingType, final WindowInsulationType insulation) {
+		switch (glazingType) {
+		case Secondary:
+			return secondaryGlazingLightTransmittance;
+		case Single:
+			return singleGlazingLightTransmittance;
+		case Double:
+			return doubleGlazingLightTransmittance.get(insulation);
+		case Triple:
+			return tripleGlazingLightTransmittance.get(insulation);
+		default:
+			log.error("Unknown glazing type {}", glazingType);
+			return 0;
+		}
+	}
 
 	public void setSingleGlazingGainsTransmittance(
 			double singleGlazingGainsTransmittance) {
