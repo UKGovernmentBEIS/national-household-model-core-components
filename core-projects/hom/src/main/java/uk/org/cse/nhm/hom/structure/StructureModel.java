@@ -16,12 +16,12 @@ import com.google.common.base.Optional;
 
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
-import uk.org.cse.nhm.energycalculator.api.types.AreaType;
 import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.hom.ICopyable;
 import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
 import uk.org.cse.nhm.hom.components.fabric.types.FloorLocationType;
-import uk.org.cse.nhm.hom.components.fabric.types.RoofConstructionType;
 import uk.org.cse.nhm.hom.structure.impl.Elevation;
 import uk.org.cse.nhm.hom.structure.impl.Elevation.IDoorVisitor;
 import uk.org.cse.nhm.hom.structure.impl.Storey;
@@ -303,6 +303,7 @@ public class StructureModel implements ICopyable<StructureModel> {
 		visitor.addFanInfiltration(getIntermittentFans());
 		visitor.addVentInfiltration(getPassiveVents());
 		visitor.addGroundFloorInfiltration(getGroundFloorConstructionType());
+		visitor.setRoofType(roofConstructionType, roofInsulationThickness);
 		
 		final int storeyCount = storeys.size();
 		
@@ -314,15 +315,20 @@ public class StructureModel implements ICopyable<StructureModel> {
 		UNIT: area m^2, u-value W/m^2/℃, k-value kJ/m^2/℃
 		SAP: (32c)
 		BREDEM: 3B
-		DEPS:
-		GET:
 		SET: action.reset-walls
 		STOCK: Based on CHM - internal wall area is the same as facade area.
 		ID: internal-wall-element
 		NOTES: Internal walls always have a u-value of 0.
 		CODSIEB
 		*/
-		visitor.visitFabricElement(AreaType.InternalWall, internalWallArea, 0, Optional.<ThermalMassLevel>absent());
+		visitor.visitWall(
+				WallConstructionType.Internal_Any,
+				0,
+				false,
+				internalWallArea,
+				0,
+				Optional.<ThermalMassLevel>absent()
+			);
 		
 		final Map<ElevationType, IElevation> elmap = new EnumMap<ElevationType, IElevation>(elevations);
 		final Map<ElevationType, IDoorVisitor> doors = new EnumMap<ElevationType, Elevation.IDoorVisitor>(ElevationType.class);

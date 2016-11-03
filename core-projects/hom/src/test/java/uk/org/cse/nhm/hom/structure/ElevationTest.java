@@ -91,7 +91,7 @@ public class ElevationTest {
 		Assert.assertEquals(0d, doorVisitor.offerPotentialDoorArea(100), 0d);
 		
 		doorVisitor.visitDoors(visitor);
-		verify(visitor).visitFabricElement(any(AreaType.class), eq(10d), eq(5d), eq(Optional.<ThermalMassLevel>absent()));
+		verify(visitor).visitDoor(10d, 5d);
 		verify(visitor).visitTransparentElement(
 				eq(GlazingType.Double),
 				eq(WindowInsulationType.Air),

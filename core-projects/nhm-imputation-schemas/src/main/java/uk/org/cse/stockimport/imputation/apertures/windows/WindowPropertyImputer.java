@@ -3,7 +3,9 @@ package uk.org.cse.stockimport.imputation.apertures.windows;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
-import uk.org.cse.nhm.hom.types.SAPAgeBandValue;
+import uk.org.cse.nhm.energycalculator.impl.IWindowUValues;
+import uk.org.cse.nhm.energycalculator.impl.WindowUValues;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
 
 /**
  * The RD SAP window property imputer.
@@ -26,7 +28,7 @@ public class WindowPropertyImputer implements IWindowPropertyImputer {
 	private final ITransmittanceFactors transmittanceFactors;
 	
 	public WindowPropertyImputer(){
-		uValues = new UValues();
+		uValues = new WindowUValues();
 		frameFactors = new FrameFactors();
 		transmittanceFactors = new TransmittanceFactors();
 	}

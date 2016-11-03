@@ -18,7 +18,7 @@ import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.impl.EnergyCalculatorCalculator;
 import uk.org.cse.nhm.hom.SurveyCase;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
-import uk.org.cse.nhm.hom.types.RegionType;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.language.definition.XScenario;
 import uk.org.cse.nhm.simulator.integration.tests.AnnualizedEnergyCalculator.Result;
 import uk.org.cse.nhm.simulator.state.IDwelling;

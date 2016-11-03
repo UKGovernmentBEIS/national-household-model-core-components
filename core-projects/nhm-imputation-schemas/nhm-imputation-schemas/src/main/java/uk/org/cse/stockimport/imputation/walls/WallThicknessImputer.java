@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 
 import uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType;
 import uk.org.cse.nhm.hom.components.fabric.types.WallInsulationType;
-import uk.org.cse.nhm.hom.types.RegionType;
-import uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
 
 /**
  * An implementation of RDSAP Table S3. 
@@ -131,7 +131,7 @@ public class WallThicknessImputer implements IWallThicknessImputer {
 	}
 	
 	/* (non-Javadoc)
-	 * @see uk.org.cse.stockimport.imputation.tables.IWallThicknessImputer#getWallThickness(uk.org.cse.nhm.hom.types.SAPAgeBandValue, uk.org.cse.nhm.hom.types.RegionType, uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType, java.util.Set)
+	 * @see uk.org.cse.stockimport.imputation.tables.IWallThicknessImputer#getWallThickness(uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue, uk.org.cse.nhm.energycalculator.api.types.RegionType, uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType, java.util.Set)
 	 */
     @Override
 	public double getWallThickness(final Band ageBand, final RegionType region, final WallConstructionType construction, final Set<WallInsulationType> insulations) {

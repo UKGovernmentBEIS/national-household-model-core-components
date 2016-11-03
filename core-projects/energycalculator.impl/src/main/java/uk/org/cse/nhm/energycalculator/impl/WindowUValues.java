@@ -1,4 +1,4 @@
-package uk.org.cse.stockimport.imputation.apertures.windows;
+package uk.org.cse.nhm.energycalculator.impl;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -12,8 +12,16 @@ import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 
 import com.google.common.collect.ImmutableMap;
 
-public class UValues implements IWindowUValues {
-	private static final Logger log = LoggerFactory.getLogger(UValues.class);
+/**
+ * This contains the default SAP 2012 u-values for windows from Table 6e, including the curtain adjustment factor.
+ *
+ * We do not implement any of the footnotes.
+ *
+ * Separate instances are used by the windows imputation in the stock import (which may override these values),
+ * and by the energy calculator's SAP u-values lookup.
+ */
+public class WindowUValues implements IWindowUValues {
+	private static final Logger log = LoggerFactory.getLogger(WindowUValues.class);
 	/**
 		 * The R-Value for curtains
 		 */
@@ -30,7 +38,7 @@ public class UValues implements IWindowUValues {
 		private Map<WindowInsulationType, Map<FrameType, Double>> tripleGlazingByFrameAndInsulationType = 
 				new EnumMap<WindowInsulationType, Map<FrameType, Double>>(WindowInsulationType.class);
 		
-		public UValues(){
+		public WindowUValues(){
 			this(true);
 		}
 		
@@ -88,7 +96,7 @@ public class UValues implements IWindowUValues {
 			this.curtainEffectFactor = curtainEffectFactor;
 		}
 		
-		public UValues(boolean useRdSAPValues){
+		public WindowUValues(boolean useRdSAPValues){
 			if (useRdSAPValues){
 				setCurtainEffectFactor(0.04d);
 				

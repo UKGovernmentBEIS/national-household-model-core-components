@@ -90,4 +90,8 @@ public interface IHeatingBehaviour extends ICopyable<IHeatingBehaviour> {
 	 * Construct a new heating behaviour like this one but with the given temperature.
 	 */
 	public IHeatingBehaviour withEnergyCalculatorType(EnergyCalculatorType energyCalculatorType);
+
+	public int hashCode();
+
+	public boolean equals(Object obj);
 }

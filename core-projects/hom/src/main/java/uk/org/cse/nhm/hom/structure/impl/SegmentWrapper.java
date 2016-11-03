@@ -161,10 +161,21 @@ class SegmentWrapper implements IMutableWall {
 			final double thickness) {
 		endpoint.setWallInsulationThickness(type, thickness);
 	}
-	
+
 	@Override
 	public double getWallInsulationThickness(final WallInsulationType type) {
 		return endpoint.getWallInsulationThickness(type);
+	}
+
+	@Override
+	public double getWallInsulationThickness(Set<WallInsulationType> types) {
+		double accum = 0;
+
+		for (WallInsulationType t : types) {
+			accum += getWallInsulationThickness(t);
+		}
+
+		return accum;
 	}
 
 	@Override
@@ -188,29 +199,32 @@ class SegmentWrapper implements IMutableWall {
 		CODSIEB
 		*/
 
-		switch(getWallConstructionType()) {
-		case SolidBrick:
-		case GraniteOrWhinstone:
-		case Sandstone:
-			return Optional.of(
-					(internalOrExternalInsulationThickness() > 0) ? ThermalMassLevel.LOW : ThermalMassLevel.HIGH);
-			
-		case TimberFrame:
-			return Optional.of(ThermalMassLevel.LOW);
-			
-		case Internal_DenseBlockDensePlaster:
-		case Internal_DenseBlockPlasterboardOnDabs:
-		case Internal_PlasterboardOnTimberFrame:
-		case Party_DensePlasterBothSidesDenseBlocksCavity:
-		case Party_DoublePlasterBothSidesTwinTimberFrame:
-		case Party_MetalFrame:
-		case Party_SinglePlasterboardBothSidesDenseAACBlocksCavity:
-		case Party_SinglePlasterboardBothSidesDenseBlocksCavity:
-		case Party_SinglePlasterboardBothSidesDenseCellularBlocksCavity:
+		switch (getWallConstructionType().getWallType()) {
+		case Internal:
+		case Party:
 			return Optional.absent();
-			
+
+		case External:
+			switch(getWallConstructionType()) {
+			case SolidBrick:
+			case GraniteOrWhinstone:
+			case Sandstone:
+				return Optional.of(
+						(internalOrExternalInsulationThickness() > 0) ? ThermalMassLevel.LOW : ThermalMassLevel.HIGH);
+
+			case TimberFrame:
+				return Optional.of(ThermalMassLevel.LOW);
+
+			default:
+				return Optional.of(ThermalMassLevel.MEDIUM);
+			}
 		default:
-			return Optional.of(ThermalMassLevel.MEDIUM);
+			throw new IllegalArgumentException("Unknown wall type " + getWallConstructionType().getWallType());
 		}
+	}
+
+	@Override
+	public boolean hasWallInsulation(WallInsulationType type) {
+		return endpoint.getWallInsulationTypes().contains(type);
 	}
 }

@@ -17,7 +17,7 @@ import com.google.common.base.Optional;
 
 import uk.org.cse.commons.names.Name;
 import uk.org.cse.nhm.NHMException;
-import uk.org.cse.nhm.hom.components.fabric.types.RoofConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
 import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.hom.structure.impl.Storey;
 import uk.org.cse.nhm.simulator.let.ILets;

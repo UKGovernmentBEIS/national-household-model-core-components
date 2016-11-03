@@ -6,4 +6,7 @@ public interface IWeather {
 	double getExternalTemperature(final MonthType month);
 	double getHorizontalSolarFlux(final MonthType month);
 	double getWindSpeed(final MonthType month);
+
+	public int hashCode();
+	public boolean equals(Object obj);
 }

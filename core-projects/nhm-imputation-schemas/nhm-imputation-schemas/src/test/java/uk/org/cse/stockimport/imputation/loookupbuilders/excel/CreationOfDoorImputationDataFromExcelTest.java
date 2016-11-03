@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import uk.org.cse.nhm.hom.components.fabric.types.DoorType;
-import uk.org.cse.nhm.hom.types.SAPAgeBandValue;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
 import uk.org.cse.stockimport.imputation.ImputationSchema;
 import uk.org.cse.stockimport.imputation.apertures.doors.IDoorPropertyImputer;
 import uk.org.cse.stockimport.imputation.lookupbuilders.excel.DoorPropertyTablesBuilder;

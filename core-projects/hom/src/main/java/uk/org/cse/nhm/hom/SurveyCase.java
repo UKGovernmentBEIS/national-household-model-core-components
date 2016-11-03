@@ -12,6 +12,7 @@ import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorHouseCase;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
 import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
 import uk.org.cse.nhm.hom.people.People;
@@ -199,5 +200,13 @@ public class SurveyCase implements IEnergyCalculatorHouseCase {
 	@Override
 	public boolean hasReducedInternalGains() {
 		return structure.hasReducedInternalGains();
+	}
+
+	/**
+	 * @since 6.4.0
+	 */
+	@Override
+	public Country getCountry() {
+		return basicAttributes.getRegionType().getCountry();
 	}
 }

@@ -1,6 +1,6 @@
 package uk.org.cse.stockimport.imputation.floors;
 
-import uk.org.cse.nhm.hom.types.SAPAgeBandValue;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
 
 /**
  * @author richardt

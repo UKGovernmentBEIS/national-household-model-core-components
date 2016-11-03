@@ -3,23 +3,19 @@ package uk.org.cse.nhm.hom.structure;
 import org.pojomatic.Pojomatic;
 import org.pojomatic.annotations.AutoProperty;
 
+import com.google.common.base.Optional;
+
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 import uk.org.cse.nhm.hom.components.fabric.types.DoorType;
 
 @AutoProperty
-public class Door {
+public class Door implements IGlazedElement {
 	private DoorType doorType;
-	private GlazingType glazingType;
+	private Optional<Glazing> glazing;
 	
-	private FrameType frameType;
 	private double uValue;
-
-	private double frameFactor = 1;
-	private double lightTransmissionFactor = 0;
-	private double gainsTransmissionFactor = 0;
-	
 	private double area;
 
 	public DoorType getDoorType() {
@@ -28,14 +24,6 @@ public class Door {
 
 	public void setDoorType(final DoorType doorType) {
 		this.doorType = doorType;
-	}
-	
-    public GlazingType getGlazingType() {
-		return glazingType;
-	}
-
-	public void setGlazingType(GlazingType glazingType) {
-		this.glazingType = glazingType;
 	}
 	
 	public WindowInsulationType getWindowInsulationType() {
@@ -58,48 +46,14 @@ public class Door {
 		this.area = area;
 	}
 
-    /**
-     * Return the frameTYpe.
-     * 
-     * @return the frameTYpe
-     */
-    public FrameType getFrameType() {
-        return frameType;
-    }
-
-    /**
-     * Set the frameTYpe.
-     * 
-     * @param frameType the frameTYpe
-     */
-    public void setFrameType(final FrameType frameType) {
-        this.frameType = frameType;
-    }
-    
-	public double getFrameFactor() {
-		return frameFactor;
+	public Optional<Glazing> getGlazing() {
+		return glazing;
 	}
 
-	public void setFrameFactor(double frameFactor) {
-		this.frameFactor = frameFactor;
+	public void setGlazing(Optional<Glazing> glazing) {
+		this.glazing = glazing;
 	}
 
-	public double getLightTransmissionFactor() {
-		return lightTransmissionFactor;
-	}
-
-	public void setLightTransmissionFactor(double lightTransmissionFactor) {
-		this.lightTransmissionFactor = lightTransmissionFactor;
-	}
-
-	public double getGainsTransmissionFactor() {
-		return gainsTransmissionFactor;
-	}
-
-	public void setGainsTransmissionFactor(double gainsTransmissionFactor) {
-		this.gainsTransmissionFactor = gainsTransmissionFactor;
-	}
-    
 	@Override
 	public String toString() {
 		return Pojomatic.toString(this);
@@ -110,16 +64,94 @@ public class Door {
 		
 		other.setArea(getArea());
 		other.setDoorType(getDoorType());
-		other.setGlazingType(getGlazingType());
-		other.setFrameType(getFrameType());
+		other.setGlazing(getGlazing());
 		other.setuValue(getuValue());
-		other.setFrameFactor(getFrameFactor());
-		other.setLightTransmissionFactor(getLightTransmissionFactor());
-		other.setGainsTransmissionFactor(getGainsTransmissionFactor());
 		
 		return other;
 	}
 
+	public GlazingType getGlazingType() {
+		if (glazing.isPresent()) {
+			return glazing.get().getGlazingType();
+		} else {
+			throw new RuntimeException("Called getGlazingType on an unglazed door " + getDoorType());
+		}
+	}
+	
+	public void setGlazingType(GlazingType type) {
+		if (glazing.isPresent()) {
+			glazing.get().setGlazingType(type);
+		} else {
+			throw new RuntimeException("Called setGlazingType on an unglazed door " + getDoorType());
+		}
+	}
+
+	public double getLightTransmissionFactor() {
+		if (glazing.isPresent()) {
+			return glazing.get().getLightTransmissionFactor();
+		} else {
+			throw new RuntimeException("Called getLightTransmissionFactor on an unglazed door " + getDoorType());
+		}
+	}
+	
+	public void setLightTransmissionFactor(double lightTransmissionFactor) {
+		if (glazing.isPresent()) {
+			glazing.get().setLightTransmissionFactor(lightTransmissionFactor);
+		} else {
+			throw new RuntimeException("Called setLightTransmissionFactor on an unglazed door " + getDoorType());
+		}
+		
+	}
+
+	public double getGainsTransmissionFactor() {
+		if (glazing.isPresent()) {
+			return glazing.get().getGainsTransmissionFactor();
+		} else {
+			throw new RuntimeException("Called getGainsTransmissionFactor on an unglazed door " + getDoorType());
+		}
+	}
+	
+	public void setGainsTransmissionFactor(double gainsTransmissionFactor) {
+		if (glazing.isPresent()) {
+			glazing.get().setGainsTransmissionFactor(gainsTransmissionFactor);
+		} else {
+			throw new RuntimeException("Called setGainsTransmissionFactor on an unglazed door " + getDoorType());
+		}
+		
+	}
+
+	public FrameType getFrameType() {
+		if (glazing.isPresent()) {
+			return glazing.get().getFrameType();
+		} else {
+			throw new RuntimeException("Called getFrameType on an unglazed door " + getDoorType());
+		}
+	}
+	
+	public void setFrameType(FrameType frameType) {
+		if (glazing.isPresent()) {
+			glazing.get().setFrameType(frameType);
+		} else {
+			throw new RuntimeException("Called setFrameType on an unglazed door " + getDoorType());
+		}
+	}
+
+	public double getFrameFactor() {
+		if (glazing.isPresent()) {
+			return glazing.get().getFrameFactor();
+		} else {
+			throw new RuntimeException("Called getFrameFactor on an unglazed door " + getDoorType());
+		}
+	}
+
+	public void setFrameFactor(double frameFactor) {
+		if (glazing.isPresent()) {
+			glazing.get().setFrameFactor(frameFactor);
+		} else {
+			throw new RuntimeException("Called setFrameFactor on an unglazed door " + getDoorType());
+		}
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -128,14 +160,7 @@ public class Door {
 		temp = Double.doubleToLongBits(area);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((doorType == null) ? 0 : doorType.hashCode());
-		temp = Double.doubleToLongBits(frameFactor);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + ((frameType == null) ? 0 : frameType.hashCode());
-		temp = Double.doubleToLongBits(gainsTransmissionFactor);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + ((glazingType == null) ? 0 : glazingType.hashCode());
-		temp = Double.doubleToLongBits(lightTransmissionFactor);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((glazing == null) ? 0 : glazing.hashCode());
 		temp = Double.doubleToLongBits(uValue);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
@@ -154,15 +179,10 @@ public class Door {
 			return false;
 		if (doorType != other.doorType)
 			return false;
-		if (Double.doubleToLongBits(frameFactor) != Double.doubleToLongBits(other.frameFactor))
-			return false;
-		if (frameType != other.frameType)
-			return false;
-		if (Double.doubleToLongBits(gainsTransmissionFactor) != Double.doubleToLongBits(other.gainsTransmissionFactor))
-			return false;
-		if (glazingType != other.glazingType)
-			return false;
-		if (Double.doubleToLongBits(lightTransmissionFactor) != Double.doubleToLongBits(other.lightTransmissionFactor))
+		if (glazing == null) {
+			if (other.glazing != null)
+				return false;
+		} else if (!glazing.equals(other.glazing))
 			return false;
 		if (Double.doubleToLongBits(uValue) != Double.doubleToLongBits(other.uValue))
 			return false;

@@ -1,4 +1,4 @@
-package uk.org.cse.stockimport.imputation.apertures.windows;
+package uk.org.cse.nhm.energycalculator.impl;
 
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;

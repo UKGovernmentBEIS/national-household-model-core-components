@@ -10,7 +10,9 @@ import com.larkery.jasb.bind.BindNamedArgument;
 @Bind("house.u-value")
 @Doc({"Yields the average u-value of all the external surfaces of a particular type in the house.",
 	"This average is weighted by the areas of each surface, so if multiplied by the external area of the given type",
-	"you will get the fabric heat loss associated with those elements."})
+	"you will get the fabric heat loss associated with those elements.",
+	"The value reported will be appropriate to the energy calculator mode currently in effect on the dwelling."
+	})
 public class XAverageUValue extends XHouseNumber {
 	public static final class P {
 		public static final String of = "of";

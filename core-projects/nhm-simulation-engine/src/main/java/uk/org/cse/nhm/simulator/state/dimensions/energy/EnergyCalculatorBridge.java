@@ -29,6 +29,7 @@ import uk.org.cse.nhm.energycalculator.api.impl.ExternalParameters;
 import uk.org.cse.nhm.energycalculator.api.impl.SeasonalParameters;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
 import uk.org.cse.nhm.hom.BasicCaseAttributes;
@@ -214,8 +215,10 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 		private final double latitudeRadians;
 		private final IHeatingBehaviour heatingBehaviour;
 		private final SiteExposureType siteExposure;
+		private final Country country;
 		private final int hash;
-		
+
+
 		public Wrapper(final StructureModel structure, final ITechnologyModel technology, final BasicCaseAttributes attributes, final IWeather weather, final double npeople, final IHeatingBehaviour behaviour) {
 			this.structure = structure;
 			this.technology = new EObjectWrapper<ITechnologyModel>(technology);
@@ -224,6 +227,7 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 			this.latitudeRadians = attributes.getRegionType().getLatitudeRadians();
 			this.siteExposure = attributes.getSiteExposure();
 			this.heatingBehaviour = behaviour;
+			this.country = attributes.getRegionType().getCountry();
 			
 			switch(behaviour.getEnergyCalculatorType()) {
 			case SAP2012:
@@ -340,6 +344,10 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 		}
 		
 		@Override
+		public Country getCountry() {
+			return country;
+		}
+
 		public int hashCode() {
 			return this.hash;
 		}
@@ -348,6 +356,7 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 			final int prime = 31;
 			int result = 1;
 			result = prime * result + buildYear;
+			result = prime * result + ((country == null) ? 0 : country.hashCode());
 			result = prime * result + ((heatingBehaviour == null) ? 0 : heatingBehaviour.hashCode());
 			long temp;
 			temp = Double.doubleToLongBits(latitudeRadians);
@@ -375,6 +384,8 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 				return false;
 			Wrapper other = (Wrapper) obj;
 			if (buildYear != other.buildYear)
+				return false;
+			if (country != other.country)
 				return false;
 			if (heatingBehaviour == null) {
 				if (other.heatingBehaviour != null)

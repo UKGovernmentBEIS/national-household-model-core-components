@@ -13,7 +13,7 @@ import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
  *
  */
 @AutoProperty
-public class Glazing {
+public class Glazing implements IGlazedElement {
 	/**
 	 * The u-value of this glazing
 	 */

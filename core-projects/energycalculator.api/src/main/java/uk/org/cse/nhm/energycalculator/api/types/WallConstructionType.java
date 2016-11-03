@@ -18,52 +18,62 @@ import uk.org.cse.nhm.energycalculator.api.types.WallType;
  */
 public enum WallConstructionType {
 	
-    Internal_PlasterboardOnTimberFrame(Internal),
-    Internal_DenseBlockDensePlaster(Internal),
-    Internal_DenseBlockPlasterboardOnDabs(Internal),
+    Internal_Any(Internal),
    
-    Party_DensePlasterBothSidesDenseBlocksCavity(Party),
-    Party_SinglePlasterboardBothSidesDenseBlocksCavity(Party),
-    Party_SinglePlasterboardBothSidesDenseCellularBlocksCavity(Party),
-    Party_SinglePlasterboardBothSidesDenseAACBlocksCavity(Party),
-    Party_DoublePlasterBothSidesTwinTimberFrame(Party),
+    Party_Solid(Party),
+    Party_Cob(Party),
+    Party_Cavity(Party),
+    Party_TimberFrame(Party),
+    Party_SystemBuild(Party),
     Party_MetalFrame(Party),
-   
-    GraniteOrWhinstone(internalAndExternal()),
-    Sandstone(internalAndExternal()),
-    SolidBrick(internalAndExternal()),
-    Cob(internalAndExternal()),
-    Cavity(EnumSet.allOf(WallInsulationType.class)),
-    TimberFrame(EnumSet.allOf(WallInsulationType.class)),
-    SystemBuild(EnumSet.allOf(WallInsulationType.class)),
-    MetalFrame(EnumSet.allOf(WallInsulationType.class));
+    
+    GraniteOrWhinstone(internalAndExternal(), Party_Solid),
+    Sandstone(internalAndExternal(), Party_Solid),
+    SolidBrick(internalAndExternal(), Party_Solid),
+    Cob(internalAndExternal(), Party_Cob),
+    Cavity(EnumSet.allOf(WallInsulationType.class), Party_Cavity),
+    TimberFrame(EnumSet.allOf(WallInsulationType.class), Party_TimberFrame),
+    SystemBuild(EnumSet.allOf(WallInsulationType.class), Party_SystemBuild),
+    MetalFrame(EnumSet.allOf(WallInsulationType.class), Party_MetalFrame);
     
     private static Set<WallInsulationType> internalAndExternal() { 
     	return EnumSet.of(WallInsulationType.Internal, WallInsulationType.External);
     }
     
-    private WallType wallType;
-    private Set<WallInsulationType> allowedInsulationTypes;
+    private final WallType wallType;
+    private final Set<WallInsulationType> allowedInsulationTypes;
+	private final WallConstructionType partyWallEquivalent;
     
     public boolean isAllowedInsulationType(final WallInsulationType wit) {
     	return allowedInsulationTypes.contains(wit);
     }
 
-    private WallConstructionType(final Set<WallInsulationType> insulationTypes) {
-    	this(WallType.External, insulationTypes);
+    private WallConstructionType(final Set<WallInsulationType> insulationTypes, final WallConstructionType partyWallEquivalent) {
+    	this(WallType.External, insulationTypes, partyWallEquivalent);
     }
     
-    private WallConstructionType(final WallType type, final Set<WallInsulationType> insulationTypes) {
+    private WallConstructionType(final WallType type, final Set<WallInsulationType> insulationTypes, final WallConstructionType partyWallEquivalent) {
     	this.wallType = type;
     	this.allowedInsulationTypes = EnumSet.copyOf(insulationTypes);
+    	this.partyWallEquivalent = partyWallEquivalent;
     }
     
     private WallConstructionType(final WallType type) {
-        this(type, EnumSet.noneOf(WallInsulationType.class));
+        this(type, EnumSet.noneOf(WallInsulationType.class), null);
     }
 
    public WallType getWallType() {
        return wallType;
+   }
+   
+   public WallConstructionType getPartyWallEquivalent() {
+	   if (getWallType() == WallType.Party) {
+		   return this;
+	   } else if (partyWallEquivalent == null) {
+		   throw new UnsupportedOperationException("Cannot make a party wall out of " + this);
+	   } else {
+		   return partyWallEquivalent;
+	   }
    }
 
    /**

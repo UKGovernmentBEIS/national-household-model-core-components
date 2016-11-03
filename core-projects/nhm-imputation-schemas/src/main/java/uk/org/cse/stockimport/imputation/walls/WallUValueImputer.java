@@ -7,9 +7,9 @@ import org.slf4j.LoggerFactory;
 
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
-import uk.org.cse.nhm.hom.types.RegionType;
-import uk.org.cse.nhm.hom.types.SAPAgeBandValue;
-import uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
 
 /**
  * An RD-Sap wall property imputer. Currently only works for england.
@@ -231,7 +231,7 @@ public class WallUValueImputer implements IWallUValueImputer {
 	}
 	
 	/* (non-Javadoc)
-	 * @see uk.org.cse.stockimport.imputation.rdsap.walls.IWallUValueImputer#getUValue(uk.org.cse.nhm.hom.types.SAPAgeBandValue, uk.org.cse.nhm.hom.types.RegionType, uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType, java.util.Map, double)
+	 * @see uk.org.cse.stockimport.imputation.rdsap.walls.IWallUValueImputer#getUValue(uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue, uk.org.cse.nhm.energycalculator.api.types.RegionType, uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType, java.util.Map, double)
 	 */
 	@Override
 	public double getUValue(

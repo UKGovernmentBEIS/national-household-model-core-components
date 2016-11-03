@@ -4,7 +4,7 @@ import com.google.common.base.Optional;
 
 import uk.org.cse.nhm.hom.types.BuiltFormType;
 import uk.org.cse.nhm.hom.types.MorphologyType;
-import uk.org.cse.nhm.hom.types.RegionType;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.hom.types.TenureType;
 import uk.org.cse.stockimport.domain.schema.Constraint;
 import uk.org.cse.stockimport.domain.schema.DTO;

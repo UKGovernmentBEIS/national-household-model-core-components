@@ -15,7 +15,7 @@ import org.junit.Test;
 import com.google.common.collect.ImmutableList;
 
 import uk.org.cse.commons.names.Name;
-import uk.org.cse.nhm.hom.types.RegionType;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.ipc.api.tasks.report.ILogEntryHandler;
 import uk.org.cse.nhm.language.definition.function.lookup.LookupRule;
 import uk.org.cse.nhm.simulator.let.ILets;

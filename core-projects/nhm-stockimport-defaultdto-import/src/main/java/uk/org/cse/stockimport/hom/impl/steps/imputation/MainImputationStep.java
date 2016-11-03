@@ -10,7 +10,7 @@ import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
 import uk.org.cse.nhm.hom.components.fabric.types.FloorLocationType;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
-import uk.org.cse.nhm.hom.components.fabric.types.RoofConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WallType;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
@@ -20,7 +20,7 @@ import uk.org.cse.nhm.hom.structure.IMutableWall;
 import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.hom.structure.impl.Elevation;
 import uk.org.cse.nhm.hom.structure.impl.Storey;
-import uk.org.cse.nhm.hom.types.SAPAgeBandValue;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
 import uk.org.cse.stockimport.domain.IBasicDTO;
 import uk.org.cse.stockimport.domain.impl.HouseCaseDTO;
 import uk.org.cse.stockimport.hom.ISurveyCaseBuildStep;
@@ -95,7 +95,7 @@ public class MainImputationStep implements ISurveyCaseBuildStep {
 		final HouseCaseDTO caseDTO = dtos.requireOne(HouseCaseDTO.class);
 		
 		SAPAgeBandValue ageBand = SAPAgeBandValue.fromYear(caseDTO.getBuildYear(),
-                                                           caseDTO.getRegionType(),
+                                                           caseDTO.getRegionType().getCountry(),
                                                            SAPAgeBandValue.Band.K);
 
 		final FloorConstructionType groundFloorConstructionType = sm.getGroundFloorConstructionType();
@@ -176,13 +176,17 @@ public class MainImputationStep implements ISurveyCaseBuildStep {
 			
 			for (final Door d : e.getDoors()) {
 				final DoorType doorType = d.getDoorType();
-				final FrameType ft = d.getFrameType();
-				final GlazingType gt = d.getGlazingType();
+				
 				d.setArea(doors.getArea(doorType));
 				d.setuValue(doors.getUValue(ageBand.getName(), doorType));
-				d.setFrameFactor(windows.getFrameFactor(ageBand, ft, gt, WindowInsulationType.Air));
-				d.setGainsTransmissionFactor(windows.getGainsTransmittance(ageBand, ft, gt, WindowInsulationType.Air));
-				d.setLightTransmissionFactor(windows.getLightTransmittance(ageBand, ft, gt, WindowInsulationType.Air));
+				
+				if (doorType == DoorType.Glazed) {
+					final FrameType ft = d.getFrameType();
+					final GlazingType gt = d.getGlazingType();
+					d.setFrameFactor(windows.getFrameFactor(ageBand, ft, gt, WindowInsulationType.Air));
+					d.setGainsTransmissionFactor(windows.getGainsTransmittance(ageBand, ft, gt, WindowInsulationType.Air));
+					d.setLightTransmissionFactor(windows.getLightTransmittance(ageBand, ft, gt, WindowInsulationType.Air));
+				}
 			}
 		}
 	}

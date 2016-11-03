@@ -5,8 +5,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
+import uk.org.cse.nhm.energycalculator.impl.IWindowUValues;
 import uk.org.cse.stockimport.imputation.apertures.windows.IWindowPropertyTables;
-import uk.org.cse.stockimport.imputation.apertures.windows.IWindowUValues;
 import uk.org.cse.stockimport.imputation.apertures.windows.TransmittanceFactors;
 import uk.org.cse.stockimport.imputation.apertures.windows.WindowPropertyTables;
 import uk.org.cse.stockimport.imputation.lookupbuilders.ILookUpTableBuilder;

@@ -7,16 +7,31 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofType;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 
 public class SAPVisitor extends Visitor {
 	final double steelOrTimberFrameInfiltration = 0.25;
 	final double otherWallInfiltration = 0.35;
+	
+	private final Country country;
+	private final Band ageBand;
 
-	protected SAPVisitor(IConstants constants, IEnergyCalculatorParameters parameters,
-			List<IEnergyTransducer> defaultTransducers) {
+	protected SAPVisitor(
+			final IConstants constants,
+			final IEnergyCalculatorParameters parameters,
+			final int buildYear,
+			final Country country,
+			final List<IEnergyTransducer> defaultTransducers
+			) {
 		super(constants, parameters, defaultTransducers);
+		ageBand = SAPAgeBandValue.fromYear(buildYear, country).getName();
+		this.country = country;
 	}
 
 	@Override
@@ -137,5 +152,33 @@ public class SAPVisitor extends Visitor {
 		default:
 			throw new IllegalArgumentException("Unknown glazing type while computing solar gains tranmissivity " + glazingType);
 		}	
+	}
+
+	@Override
+	protected double overrideWallUValue(WallConstructionType constructionType, final double externalOrInternalInsulationThickness, final boolean hasCavityInsulation, double uValue) {
+		return SAPUValues.Walls.get(
+				country,
+				constructionType,
+				externalOrInternalInsulationThickness,
+				hasCavityInsulation,
+				ageBand
+			);
+	}
+
+	@Override
+	protected double overrideDoorUValue(double uValue) {
+		return SAPUValues.Doors.getOutside(ageBand, country);
+	}
+
+	@Override
+	protected double overrideRoofUValue(double uValue, RoofType type, RoofConstructionType constructionType,
+			double insulationThickness) {
+		return SAPUValues.Roofs.get(type, constructionType, insulationThickness, country, ageBand);
+	}
+
+	@Override
+	protected double overrideWindowUValue(double uValue, FrameType frameType, GlazingType glazingType,
+			WindowInsulationType insulationType) {
+		return SAPUValues.Windows.get(frameType, glazingType, insulationType);
 	}
 }

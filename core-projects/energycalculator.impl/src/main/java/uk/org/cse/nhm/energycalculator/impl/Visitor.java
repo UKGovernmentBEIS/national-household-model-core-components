@@ -20,6 +20,9 @@ import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofType;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 import uk.org.cse.nhm.energycalculator.impl.demands.LightingDemand09;
@@ -66,11 +69,15 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 	private final LightingDemand09 lightingDemand;
 
 	private final SolarGainsSource solarGains;
+
+	private RoofConstructionType roofConstructionType;
+
+	private Double roofInsulationThickness;
 	
-	public static Visitor create(final IConstants constants, final IEnergyCalculatorParameters parameters, final List<IEnergyTransducer> defaultTransducers) {
+	public static Visitor create(final IConstants constants, final IEnergyCalculatorParameters parameters, final int buildYear, final Country country, final List<IEnergyTransducer> defaultTransducers) {
 		switch(parameters.getCalculatorType()) {
 		case SAP2012:
-			return new SAPVisitor(constants, parameters, defaultTransducers);
+			return new SAPVisitor(constants, parameters, buildYear, country, defaultTransducers);
 		case BREDEM2012:
 			return new BREDEMVisitor(constants, parameters, defaultTransducers);
 		default:
@@ -117,15 +124,100 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 	}
 
 	@Override
-	public void visitFabricElement(final AreaType name, final double area, final double u, final Optional<ThermalMassLevel> thermalMassLevel) {
-		log.debug("VISIT, {}, {}, {}, {}", name, area, u, thermalMassLevel);
-		totalSpecificHeatLoss += u * area;
-		
+	public void visitWall(
+			final WallConstructionType constructionType,
+			final double externalOrExternalInsulationThickness,
+			final boolean hasCavityInsulation,
+			final double area,
+			final double uValue,
+			final Optional<ThermalMassLevel> thermalMassLevel) {
+
+		log.debug("VISIT Wall, {}, {}, {}, {}, {}", constructionType, area, uValue, thermalMassLevel);
+
+		final AreaType areaType = constructionType.getWallType().getAreaType();
+
 		if (thermalMassLevel.isPresent()) {
 			thermalMassAreas[thermalMassLevel.get().ordinal()] += area;
 		}
-		
-		totalExternalArea += name.isExternal() ? area : 0;
+
+		visitExternalArea(areaType, area);
+		areasByType[0][areaType.ordinal()] += area;
+
+		areasByType[1][areaType.ordinal()] += area * overrideWallUValue(constructionType, externalOrExternalInsulationThickness, hasCavityInsulation, uValue);
+	}
+
+	abstract protected double overrideWallUValue(final WallConstructionType constructionType, final double externalOrInternalInsulationThickness, final boolean hasCavityInsulation, final double uValue);
+
+	@Override
+	public void visitDoor(double area, double uValue) {
+		log.debug("VISIT Door, {}, {}", area, uValue);
+
+		visitExternalArea(AreaType.Door, area);
+
+		areasByType[0][AreaType.Door.ordinal()] += area;
+		areasByType[1][AreaType.Door.ordinal()] += area * overrideDoorUValue(uValue);
+	}
+
+	protected abstract double overrideDoorUValue(double uValue);
+
+	@Override
+	public void setRoofType(RoofConstructionType constructionType, double insulationThickness) {
+		this.roofConstructionType = constructionType;
+		this.roofInsulationThickness = insulationThickness;
+	}
+
+	@Override
+	public void visitCeiling(final RoofType type, final double area, final double uValue) {
+		log.debug("VISIT {}, {}, {}, {}, {}", type, area, uValue, roofConstructionType, roofInsulationThickness);
+
+		if (roofConstructionType == null || roofInsulationThickness == null) {
+			throw new RuntimeException("setRoofType must be called before visitCeiling");
+		}
+
+		visitExternalArea(type.getAreaType(), area);
+
+		areasByType[0][type.ordinal()] += area;
+		areasByType[1][type.ordinal()] += area * overrideRoofUValue(uValue, type, roofConstructionType, roofInsulationThickness);
+	}
+
+	protected abstract double overrideRoofUValue(double uValue, RoofType type, RoofConstructionType constructionType,
+			double insulationThickness);
+
+	@Override
+	public void visitWindow(
+			final double area,
+			final double uValue,
+			final FrameType frameType,
+			final GlazingType glazingType,
+			final WindowInsulationType insulationType
+			) {
+		log.debug("VISIT Window, {}, {}, {}, {}, {}", area, uValue, frameType, glazingType, insulationType);
+
+		visitExternalArea(AreaType.Glazing, area);
+
+		areasByType[0][AreaType.Glazing.ordinal()] += area;
+		areasByType[1][AreaType.Glazing.ordinal()] += area * overrideWindowUValue(uValue, frameType, glazingType, insulationType);
+	}
+
+	protected abstract double overrideWindowUValue(final double uValue, final FrameType frameType, final GlazingType glazingType,
+			final WindowInsulationType insulationType);
+
+	public void visitExternalArea(AreaType type, double area) {
+		if (type.isExternal()) {
+			totalExternalArea += area;
+		}
+	}
+
+	@Override
+	public void visitFabricElement(final AreaType name, final double area, final double u, final Optional<ThermalMassLevel> thermalMassLevel) {
+		log.debug("VISIT, {}, {}, {}, {}", name, area, u, thermalMassLevel);
+		totalSpecificHeatLoss += u * area;
+
+		if (thermalMassLevel.isPresent()) {
+			thermalMassAreas[thermalMassLevel.get().ordinal()] += area;
+		}
+
+		visitExternalArea(name, area);
 		areasByType[0][name.ordinal()] += area;
 		areasByType[1][name.ordinal()] += area * u;
 	}

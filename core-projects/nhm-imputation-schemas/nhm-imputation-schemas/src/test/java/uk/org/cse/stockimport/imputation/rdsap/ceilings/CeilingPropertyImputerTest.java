@@ -6,8 +6,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-import uk.org.cse.nhm.hom.components.fabric.types.RoofConstructionType;
-import uk.org.cse.nhm.hom.types.SAPAgeBandValue;
+import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
 import uk.org.cse.stockimport.imputation.ceilings.CeilingPropertyImputer;
 import uk.org.cse.stockimport.imputation.ceilings.ICeilingPropertyImputer;
 import uk.org.cse.stockimport.imputation.ceilings.ICeilingUValueTables;

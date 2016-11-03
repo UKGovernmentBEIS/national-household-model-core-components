@@ -43,11 +43,11 @@ public class StoreyBuildStep implements ISurveyCaseBuildStep {
 
     /** @since 1.0*/
     public static final String IDENTIFIER = StoreyBuildStep.class.getCanonicalName();
-    /** Default party wall type used @since 1.0 */
-    public static final WallConstructionType DEF_PARTYWALL = WallConstructionType.Party_DensePlasterBothSidesDenseBlocksCavity;
     private static final double TEN = 10.00;
     
     private final int floorPolygonScalingFactor = 100;
+
+    private static final WallConstructionType DEFAULT_PARTYWALL = WallConstructionType.Party_Cavity;
 
     /**
      * @assumption All cavity wall insulation is 50mm thick
@@ -146,7 +146,7 @@ public class StoreyBuildStep implements ISurveyCaseBuildStep {
         	if (elevationDTO == null) {
         		throw new IllegalArgumentException("No " + wall.getElevationType() + "(" + elevationDTOs + ")");
         	}
-			wall.setWallConstructionType(elevationDTO.getExternalWallConstructionType().or(DEF_PARTYWALL));
+			wall.setWallConstructionType(elevationDTO.getExternalWallConstructionType().or(DEFAULT_PARTYWALL));
 			if (elevationDTO.getCavityInsulation().or(false)) {
 				tryInsulatingWall(wall, WallInsulationType.FilledCavity, DEFAULT_CAVITY_INSULATION_THICKNESS);
 			}
@@ -174,7 +174,7 @@ public class StoreyBuildStep implements ISurveyCaseBuildStep {
 	
 	/**
      * <p>Adjust attached wall lengths, currently sets Party wall/attached construction type to
-     * {@link StoreyBuildStep#DEF_PARTYWALL}.</p>
+     * {@link StoreyBuildStep#DEFAULT_PARTYWALL}.</p>
      * 
      * @param walls
      * @param elevationDTOs
@@ -196,21 +196,22 @@ public class StoreyBuildStep implements ISurveyCaseBuildStep {
 				if (LOGGER.isDebugEnabled()) {
 					LOGGER.debug("buildAttachedWalls(): creating party wall for elevation:{}", wall.getElevationType());
 				}
-				// TODO look up DEF_PARTYWALL
 				if (partyWallProportion < TEN) {
 					wall.split(partyWallProportion / TEN);
-					wall.setWallConstructionType(DEF_PARTYWALL);
+					wall.setWallConstructionType(
+							wall.getWallConstructionType().getPartyWallEquivalent());
+
 					for (final WallInsulationType wit : WallInsulationType.values()) {
 						wall.setWallInsulationThicknessAndAddOrRemoveInsulation(wit, 0);
 					}
 					if (LOGGER.isDebugEnabled()) {
-						LOGGER.debug("buildAttachedWalls(): wall length:{},type:" + DEF_PARTYWALL, wall.getLength());
+						LOGGER.debug("buildAttachedWalls(): wall length:{},type:" + wall.getWallConstructionType(), wall.getLength());
 					}
 					wall = wallsItr.next(); // skip the next wall, because it's
 											// the unattached half of the one we
 											// just did.
 				} else {
-					wall.setWallConstructionType(DEF_PARTYWALL);
+					wall.setWallConstructionType(wall.getWallConstructionType().getPartyWallEquivalent());
 					for (final WallInsulationType wit : WallInsulationType.values()) {
 						if (wall.getWallInsulationThickness(wit) > 0) {
 							LOGGER.warn("a party wall was specified with insulation type {}; this insulation will be ignored", 
@@ -219,7 +220,7 @@ public class StoreyBuildStep implements ISurveyCaseBuildStep {
 						wall.setWallInsulationThicknessAndAddOrRemoveInsulation(wit, 0);
 					}
 					if (LOGGER.isDebugEnabled()) {
-						LOGGER.debug("buildAttachedWalls(): wall length:{},type:" + DEF_PARTYWALL, wall.getLength());
+						LOGGER.debug("buildAttachedWalls(): wall length:{},type:" + wall.getWallConstructionType().getPartyWallEquivalent(), wall.getLength());
 					}
 				}
 			}

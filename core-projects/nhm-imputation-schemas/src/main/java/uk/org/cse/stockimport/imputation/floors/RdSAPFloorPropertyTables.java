@@ -1,7 +1,7 @@
 package uk.org.cse.stockimport.imputation.floors;
 
-import uk.org.cse.nhm.hom.types.SAPAgeBandValue;
-import uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
 
 public class RdSAPFloorPropertyTables implements IFloorPropertyTables {
 	

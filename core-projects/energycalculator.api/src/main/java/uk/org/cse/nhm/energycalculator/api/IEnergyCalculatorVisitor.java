@@ -7,6 +7,8 @@ import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofType;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 
@@ -121,6 +123,51 @@ public interface IEnergyCalculatorVisitor {
 	 */
 	public void addGroundFloorInfiltration(final FloorConstructionType floorType);
 	
+	/**
+	 * Add the heat loss, thermal mass, and external area from a wall.
+	 */
+	public void visitWall(
+			final WallConstructionType constructionType,
+			final double externalOrExternalInsulationThickness,
+			final boolean hasCavityInsulation,
+			final double area,
+			final double uValue,
+			final Optional<ThermalMassLevel> thermalMassLevel
+		);
+	
+	/**
+	 * Add the heat loss from a door.
+	 */
+	public void visitDoor(
+			final double area,
+			final double uValue
+		);
+
+	/**
+	 * Sets the roof type for the dwelling.
+	 */
+	public void setRoofType(
+			final RoofConstructionType constructionType,
+			final double insulationThickness
+		);
+
+	/**
+	 * Add the heat loss from a ceiling.
+	 */
+	public void visitCeiling(
+			final RoofType type,
+			final double area,
+			final double uValue
+		);
+
+	public void visitWindow(
+			final double area,
+			final double uValue,
+			final FrameType frameType,
+			final GlazingType glazingType,
+			final WindowInsulationType insulationType
+		);
+
 	/**
 	 * Visit a fabric element with the given heat loss, thermal mass, and external area.
 	 * @param name TODO

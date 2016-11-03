@@ -8,18 +8,18 @@ import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.Sol
 import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.SystemBuild;
 import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.TimberFrame;
 import static uk.org.cse.nhm.energycalculator.api.types.WallInsulationType.External;
-import static uk.org.cse.nhm.hom.types.RegionType.London;
-import static uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band.A;
-import static uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band.B;
-import static uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band.C;
-import static uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band.D;
-import static uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band.E;
-import static uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band.F;
-import static uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band.G;
-import static uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band.H;
-import static uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band.I;
-import static uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band.J;
-import static uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band.K;
+import static uk.org.cse.nhm.energycalculator.api.types.RegionType.London;
+import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.A;
+import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.B;
+import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.C;
+import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.D;
+import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.E;
+import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.F;
+import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.G;
+import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.H;
+import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.I;
+import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.J;
+import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.K;
 
 import java.util.Set;
 
@@ -30,8 +30,8 @@ import org.junit.Test;
 
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
-import uk.org.cse.nhm.hom.types.SAPAgeBandValue;
-import uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
 import uk.org.cse.stockimport.imputation.walls.WallPropertyImputer;
 
 import com.google.common.collect.ImmutableSet;

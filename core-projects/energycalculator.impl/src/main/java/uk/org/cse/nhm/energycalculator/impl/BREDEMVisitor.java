@@ -7,6 +7,8 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofType;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 
@@ -35,5 +37,28 @@ public class BREDEMVisitor extends Visitor {
 	@Override
 	protected double overrideSolarGainTransmissivity(GlazingType glazingType, WindowInsulationType insulationType, double solarGainTransmissivity) {
 		return solarGainTransmissivity;
+	}
+	
+	@Override
+	protected double overrideWallUValue(WallConstructionType constructionType,
+			double externalOrInternalInsulationThickness, boolean hasCavityInsulation, double uValue) {
+		return uValue;
+	}
+
+	@Override
+	protected double overrideDoorUValue(double uValue) {
+		return uValue;
+	}
+
+	@Override
+	protected double overrideRoofUValue(double uValue, RoofType type, RoofConstructionType constructionType,
+			double insulationThickness) {
+		return uValue;
+	}
+
+	@Override
+	protected double overrideWindowUValue(double uValue, FrameType frameType, GlazingType glazingType,
+			WindowInsulationType insulationType) {
+		return uValue;
 	}
 }

@@ -14,6 +14,8 @@ import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofType;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 
@@ -106,8 +108,42 @@ public class AreaAccumulator implements IEnergyCalculatorVisitor {
 	@Override
 	public void addGroundFloorInfiltration(FloorConstructionType floorType) {
 		// TODO Auto-generated method stub
+	}
+	
+	@Override
+	public void visitWall(WallConstructionType constructionType,
+			double externalOrExternalInsulationThickness, boolean hasCavityInsulation, double area, double uValue,
+			Optional<ThermalMassLevel> thermalMassLevel) {
 		
+		if(this.areaTypes.contains(constructionType.getWallType().getAreaType())) {
+			this.totalArea += area;
+		}
 	}
 
+	@Override
+	public void visitDoor(double area, double uValue) {
+		if (this.areaTypes.contains(AreaType.Door)) {
+			this.totalArea += area;
+		}
+	}
 
+	@Override
+	public void setRoofType(RoofConstructionType constructionType, double insulationThickness) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void visitCeiling(RoofType type, double area, double uValue) {
+		if (this.areaTypes.contains(type.getAreaType())) {
+			this.totalArea += area;
+		}
+	}
+
+	@Override
+	public void visitWindow(double area, double uValue, FrameType frameType, GlazingType glazingType,
+			WindowInsulationType insulationType) {
+		if (this.areaTypes.contains(AreaType.Glazing)) {
+			this.totalArea += area;
+		}
+	}
 }

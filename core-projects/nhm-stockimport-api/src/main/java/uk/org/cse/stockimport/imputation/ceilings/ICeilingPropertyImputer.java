@@ -1,7 +1,7 @@
 package uk.org.cse.stockimport.imputation.ceilings;
 
-import uk.org.cse.nhm.hom.components.fabric.types.RoofConstructionType;
-import uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band;
+import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
 
 /**
  * Impute u, k values etc. for ceilings (inc. roofs)

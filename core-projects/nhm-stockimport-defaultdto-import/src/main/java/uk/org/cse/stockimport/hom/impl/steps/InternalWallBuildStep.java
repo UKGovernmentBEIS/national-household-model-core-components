@@ -15,6 +15,8 @@ import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofType;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 import uk.org.cse.nhm.hom.SurveyCase;
@@ -111,6 +113,36 @@ public class InternalWallBuildStep implements ISurveyCaseBuildStep {
 			// TODO Auto-generated method stub
 			
 		}
+
+		@Override
+		public void visitWall(WallConstructionType constructionType,
+				double externalOrExternalInsulationThickness, boolean hasCavityInsulation, double area, double uValue,
+				Optional<ThermalMassLevel> thermalMassLevel) {
+			if (constructionType.getWallType().isExternal() || constructionType.getWallType().getAreaType() == AreaType.PartyWall) {
+				externalArea += area;
+			}
+		}
+
+		@Override
+		public void visitDoor(double area, double uValue) {
+			externalArea += area;
+		}
+
+		@Override
+		public void setRoofType(RoofConstructionType constructionType, double insulationThickness) {
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void visitCeiling(RoofType type, double area, double uValue) {
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void visitWindow(double area, double uValue, FrameType frameType, GlazingType glazingType,
+				WindowInsulationType insulationType) {
+			externalArea += area;
+		}
 	}
 	
 	@Override
@@ -132,5 +164,4 @@ public class InternalWallBuildStep implements ISurveyCaseBuildStep {
 		model.getStructure().accept(av);
 		model.getStructure().setInternalWallArea(av.getExternalArea());
 	}
-
 }

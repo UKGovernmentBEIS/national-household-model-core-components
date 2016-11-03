@@ -16,7 +16,7 @@ import uk.org.cse.nhm.energycalculator.api.types.WallType;
 import uk.org.cse.nhm.hom.structure.IWall;
 import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.hom.structure.impl.Storey;
-import uk.org.cse.nhm.hom.types.RegionType;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.language.builder.function.MapWallTypes;
 import uk.org.cse.nhm.language.definition.enums.XWallConstructionTypeRule;
 import uk.org.cse.nhm.simulator.integration.tests.guice.IntegrationTestOutput;

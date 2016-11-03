@@ -12,13 +12,13 @@ import static uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType.Sa
 import static uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType.SolidBrick;
 import static uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType.SystemBuild;
 import static uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType.TimberFrame;
-import static uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band.A;
-import static uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band.B;
-import static uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band.C;
-import static uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band.D;
-import static uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band.E;
-import static uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band.F;
-import static uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band.G;
+import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.A;
+import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.B;
+import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.C;
+import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.D;
+import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.E;
+import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.F;
+import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.G;
 
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -26,7 +26,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType;
 import uk.org.cse.nhm.hom.components.fabric.types.WallInsulationType;
-import uk.org.cse.nhm.hom.types.SAPAgeBandValue;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
 import uk.org.cse.stockimport.imputation.lookupbuilders.ILookUpTableBuilder;
 import uk.org.cse.stockimport.imputation.walls.IWallPropertyTables;
 import uk.org.cse.stockimport.imputation.walls.WallInfiltrationImputer;

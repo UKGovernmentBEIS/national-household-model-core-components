@@ -38,7 +38,7 @@ import uk.org.cse.nhm.hom.structure.impl.Elevation;
 import uk.org.cse.nhm.hom.structure.impl.Storey;
 import uk.org.cse.nhm.hom.types.BuiltFormType;
 import uk.org.cse.nhm.hom.types.MorphologyType;
-import uk.org.cse.nhm.hom.types.RegionType;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.hom.types.TenureType;
 
 /**
@@ -82,7 +82,7 @@ public class TestCase1 {
 		for (final IMutableWall wall : ground.getWalls()) {
 			if (wall.getLength() == 10d) {
 				partyWallCounter++;
-				wall.setWallConstructionType(WallConstructionType.Party_DensePlasterBothSidesDenseBlocksCavity);
+				wall.setWallConstructionType(WallConstructionType.Party_Cavity);
 				wall.setUValue(0.02);
 			} else {
 				nonPartyWallCounter++;
@@ -98,7 +98,7 @@ public class TestCase1 {
 		for (final IMutableWall wall : first.getWalls()) {
 			if (wall.getLength() == 10) {
 				partyWallCounter++;
-				wall.setWallConstructionType(WallConstructionType.Party_DensePlasterBothSidesDenseBlocksCavity);
+				wall.setWallConstructionType(WallConstructionType.Party_Cavity);
 				wall.setUValue(0.02);
 			} else {
 				nonPartyWallCounter++;
