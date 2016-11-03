@@ -28,6 +28,7 @@ public class WaterHeatingDTO extends AbsHeatingSystemDTO implements IWaterHeatin
     private boolean solarHotWaterPresent;
     private boolean solarStoreInCylinder;
     private double solarStoreVolume;
+    private Optional<Boolean> hasElectricShower = Optional.absent();
 
     private Optional<Integer> installationYear = Optional.absent();
 
@@ -172,4 +173,22 @@ public class WaterHeatingDTO extends AbsHeatingSystemDTO implements IWaterHeatin
 	public boolean equals(final Object obj) {
 		return Pojomatic.equals(this, obj);
 	}
+
+    /**
+     * @return
+     * @see uk.org.cse.stockimport.domain.services.IWaterHeatingDTO#getHasElectricShower()
+     */
+    @Override
+    public Optional<Boolean> getHasElectricShower() {
+        return hasElectricShower;
+    }
+
+    /**
+     * @param hasElectricShower
+     * @see uk.org.cse.stockimport.domain.services.IWaterHeatingDTO#setHasElectricShower(com.google.common.base.Optional)
+     */
+    @Override
+    public void setHasElectricShower(Optional<Boolean> hasElectricShower) {
+        this.hasElectricShower = hasElectricShower;
+    }
 }
