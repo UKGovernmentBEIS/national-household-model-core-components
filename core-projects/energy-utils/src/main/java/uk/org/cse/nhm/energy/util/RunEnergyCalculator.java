@@ -14,10 +14,11 @@ import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculationResult;
+import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.ISeasonalParameters;
+import uk.org.cse.nhm.energycalculator.api.impl.BredemExternalParameters;
 import uk.org.cse.nhm.energycalculator.api.impl.DailyHeatingSchedule;
-import uk.org.cse.nhm.energycalculator.api.impl.ExternalParameters;
 import uk.org.cse.nhm.energycalculator.api.impl.SeasonalParameters;
 import uk.org.cse.nhm.energycalculator.api.impl.WeeklyHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
@@ -34,30 +35,33 @@ import uk.org.cse.nhm.hom.util.EObjectSerializer;
  * with full debug logging on.
  */
 public class RunEnergyCalculator {
-    public static void main(String[] args) throws Exception {
+    public static void main(final String[] args) throws Exception {
         // setup energy calculator
         final ObjectMapper mapper = getMapper();
-        
+
         final EnergyCalculatorCalculator calc = new EnergyCalculatorCalculator();
 
-        final ExternalParameters parameters = new ExternalParameters();
-        final IHeatingSchedule schedule = 
+        final IHeatingSchedule schedule =
             new WeeklyHeatingSchedule(
                 new DailyHeatingSchedule(7 * 60, 8*60, 18 * 60, 23 * 60),
                 new DailyHeatingSchedule(7 * 60, 23 * 60));
-        
-        parameters.setZoneOneDemandTemperature(21);
-        parameters.setInterzoneTemperatureDifference(3);
-        parameters.setTarrifType(ElectricityTariffType.FLAT_RATE);
 
         // only running one month because we don't care
-        final ISeasonalParameters climate = new SeasonalParameters(1, -20.7 * Math.PI / 180,// 1, 30, 
+        final ISeasonalParameters climate = new SeasonalParameters(1, -20.7 * Math.PI / 180,// 1, 30,
                                                                    5, 4, 25, 52.0 * Math.PI / 180, schedule, Optional.<IHeatingSchedule>absent());
 
         SurveyCase in = null;
         while ((in = mapper.readValue(System.in, SurveyCase.class)) != null) {
-            IEnergyCalculationResult x = calc.evaluate(in, parameters, new ISeasonalParameters[] {climate})[0];
-            
+            final IEnergyCalculatorParameters parameters = new BredemExternalParameters(
+            		ElectricityTariffType.FLAT_RATE,
+            		21,
+            		Optional.absent(),
+            		Optional.of(3.0),
+            		in.getPeople().getNumberOfPeople()
+        		);
+
+            final IEnergyCalculationResult x = calc.evaluate(in, parameters, new ISeasonalParameters[] {climate})[0];
+
             for (final EnergyType et : EnergyType.values()) {
             	System.out.println(String.format("%s\t%s\t%s", et, x.getEnergyState().getTotalDemand(et),
             			x.getEnergyState().getTotalSupply(et)
@@ -67,14 +71,14 @@ public class RunEnergyCalculator {
     }
 
     static ObjectMapper getMapper() {
-        final ObjectMapper mapper = new ObjectMapper();		
+        final ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JodaModule());
         mapper.registerModule(new GuavaModule());
 
         mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-		
+
         mapper.configure(JsonParser.Feature.AUTO_CLOSE_SOURCE, false);
-        
+
         mapper.setTimeZone(DateTimeZone.getDefault().toTimeZone());
 
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -85,11 +89,11 @@ public class RunEnergyCalculator {
 
     static Module createExtraMappingModule() {
         final SimpleModule module = new SimpleModule();
-		
+
         module.addSerializer(ITechnologyModel.class, new EObjectSerializer.Serializer<ITechnologyModel>(
                                  ITechnologyModel.class
                                  ));
-		
+
         module.addDeserializer(ITechnologyModel.class, new EObjectSerializer.Deserializer<ITechnologyModel>(
                                    ITechnologyModel.class,
                                    ImmutableList.of(

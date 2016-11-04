@@ -24,8 +24,9 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.energycalculator.api.IEnergyState;
 import uk.org.cse.nhm.energycalculator.api.IHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.ISeasonalParameters;
+import uk.org.cse.nhm.energycalculator.api.impl.BredemExternalParameters;
 import uk.org.cse.nhm.energycalculator.api.impl.DailyHeatingSchedule;
-import uk.org.cse.nhm.energycalculator.api.impl.ExternalParameters;
+import uk.org.cse.nhm.energycalculator.api.impl.SAPExternalParameters;
 import uk.org.cse.nhm.energycalculator.api.impl.SeasonalParameters;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
@@ -45,24 +46,27 @@ import uk.org.cse.nhm.types.MonthType;
 
 /**
  * Glue that runs a energy calculator from within the simulator.
- * 
+ *
  * @author hinton
  *
  */
 public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 	private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(EnergyCalculatorBridge.class);
-	public static final double[] DECLINATION = { 
+	public static final double[] DECLINATION = {
 		-0.36128316, -0.22340214,
 			-0.03141593, 0.17104227, 0.3281219, 0.40317106, 0.3700098,
-			0.23911011, 0.05061455, -0.15184364, -0.32114058, -0.40142573 
+			0.23911011, 0.05061455, -0.15184364, -0.32114058, -0.40142573
 	};
 
 	private static final IHeatingSchedule OFF_SCHEDULE = new DailyHeatingSchedule();
 	public static final String CACHE_SIZE = "CACHE_SIZE";
-	
-	private LoadingCache<Wrapper, Result> cache;
+
+	//TODO get tariff type from somewhere
+	private static final ElectricityTariffType tariffType = ElectricityTariffType.ECONOMY_7;
+
+	private final LoadingCache<Wrapper, Result> cache;
 	private long requests;
-	
+
 	private static class Result implements IPowerTable {
 		private static final float WATT_DAYS_TO_KWH = 24f / 1000f;
 
@@ -80,9 +84,9 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
             float specificHeatLoss = 0;
             float airChangeRate = 0;
             float meanInternalTemperature = 0;
-            
+
             final FuelServiceTable.Builder builder = FuelServiceTable.builder();
-            
+
             float hotWaterDemandAccum = 0;
             float primaryHeatDemandAccum = 0;
             float secondaryHeatDemandAccum = 0;
@@ -90,40 +94,40 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
             for (final MonthType m : MonthType.values()) {
                 final IEnergyCalculationResult result = months[m.ordinal()];
                 final IEnergyState energyState = result.getEnergyState();
-                
+
                 final double wattsPerDayToKWHPerMonth = m.getStandardDays() * WATT_DAYS_TO_KWH;
-                
+
                 hotWaterDemandAccum += wattsPerDayToKWHPerMonth * energyState.getTotalSupply(
-                		EnergyType.DemandsHOT_WATER, 
+                		EnergyType.DemandsHOT_WATER,
                 		ServiceType.WATER_HEATING);
-                
+
                 primaryHeatDemandAccum += wattsPerDayToKWHPerMonth * energyState.getTotalSupply(
-                		EnergyType.DemandsHEAT, 
+                		EnergyType.DemandsHEAT,
                 		ServiceType.PRIMARY_SPACE_HEATING);
-                
+
                 secondaryHeatDemandAccum += wattsPerDayToKWHPerMonth * energyState.getTotalSupply(
-                		EnergyType.DemandsHEAT, 
+                		EnergyType.DemandsHEAT,
                 		ServiceType.SECONDARY_SPACE_HEATING);
-                
+
                 for (final EnergyType et : EnergyType.allFuels) {
                     final FuelType ft = FuelType.of(et);
                     for (final ServiceType st : ServiceType.values()) {
                         final double kWhUsed = wattsPerDayToKWHPerMonth
-							* (energyState.getTotalDemand(et, st) - energyState.getTotalSupply(et, st)); 
-					
+							* (energyState.getTotalDemand(et, st) - energyState.getTotalSupply(et, st));
+
                         builder.add(ft, st, kWhUsed);
-					
+
                         if (Double.isInfinite(kWhUsed) || Double.isNaN(kWhUsed)) {
                             log.error("Used {} kWh of {} for {} in {}", new Object[] {kWhUsed, ft, st, m});
                         }
                     }
                 }
-            
+
 
                 specificHeatLoss += result.getHeatLosses().getSpecificHeatLoss() * m.getStandardDays();
 
-                meanInternalTemperature += 
-                    m.getStandardDays() * 
+                meanInternalTemperature +=
+                    m.getStandardDays() *
                     result.getEnergyState().getTotalSupply(EnergyType.HackMEAN_INTERNAL_TEMPERATURE);
 
                 airChangeRate += result.getHeatLosses().getAirChangeRate() * m.getStandardDays();
@@ -136,23 +140,23 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
             this.specificHeatLoss = specificHeatLoss;
             this.airChangeRate = airChangeRate;
             this.meanInternalTemperature = meanInternalTemperature;
-            
+
             this.primaryHeatDemand = primaryHeatDemandAccum;
             this.secondaryHeatDemand = secondaryHeatDemandAccum;
             this.hotWaterDemand = hotWaterDemandAccum;
 
             this.table = builder.build();
         }
-        
+
 		@Override
 		public float getFuelUseByEnergyService(final ServiceType es, final FuelType ft) {
             return table.get(ft, es);
 		}
-		
+
 		@Override
-		public float getFuelUseByEnergyService(List<ServiceType> es, FuelType ft) {
+		public float getFuelUseByEnergyService(final List<ServiceType> es, final FuelType ft) {
 			float accum = 0f;
-			for (ServiceType serviceType : es) {
+			for (final ServiceType serviceType : es) {
 				accum += getFuelUseByEnergyService(serviceType, ft);
 			}
 			return accum;
@@ -162,7 +166,7 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 		public float getPowerByFuel(final FuelType ft) {
             return table.get(ft);
 		}
-		
+
 		@Override
 		public float getSpecificHeatLoss() {
 			return specificHeatLoss / 365f;
@@ -204,7 +208,7 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 			return hotWaterDemand;
 		}
 	}
-	
+
 	@AutoProperty
 	private static class Wrapper implements IEnergyCalculatorHouseCase {
 		final StructureModel structure;
@@ -228,18 +232,22 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 			this.siteExposure = attributes.getSiteExposure();
 			this.heatingBehaviour = behaviour;
 			this.country = attributes.getRegionType().getCountry();
-			
+
 			switch(behaviour.getEnergyCalculatorType()) {
 			case SAP2012:
-				this.people = SAPOccupancy.calculate(structure.getFloorArea());
+				/*
+				 * This field is derived from floor area in SAP 2012 mode, so we set it to a dummy value.
+				 * See {@link SAPExternalParameters}
+				 */
+				this.people = 0;
 				break;
 			case BREDEM2012:
 				this.people = npeople;
 				break;
 			default:
 				throw new UnsupportedOperationException("Unknown energy calculator type when constructing EnergyCalcujlatorBridge.Wrapper " + behaviour.getEnergyCalculatorType());
-			}		
-			
+			}
+
 			this.hash = _hashCode();
 		}
 
@@ -284,7 +292,7 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 			/*
 			BEISDOC
 			NAME: Zone 2 Heated Proportion
-			DESCRIPTION: The fraction of Zone 2 which is heated. This should be a number between 0 and 1. A dwelling with central heating usually has the value 1. 
+			DESCRIPTION: The fraction of Zone 2 which is heated. This should be a number between 0 and 1. A dwelling with central heating usually has the value 1.
 			TYPE: value
 			UNIT: Dimensionless
 			BREDEM: Section 7 fz2htd Input
@@ -316,12 +324,12 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 		public int getNumberOfShelteredSides() {
 			return structure.getNumberOfShelteredSides();
 		}
-		
+
 		@Override
 		public SiteExposureType getSiteExposure() {
 			return siteExposure;
 		}
-		
+
 		public double getLatitudeRadians() {
 			return latitudeRadians;
 		}
@@ -337,21 +345,22 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 			case SAP2012:
 				return false;
 			case BREDEM2012:
-				return structure.hasReducedInternalGains();	
+				return structure.hasReducedInternalGains();
 			default:
 				throw new UnsupportedOperationException("Unknown energy calculator type when trying to determine if we should use reduced internal gains " + heatingBehaviour.getEnergyCalculatorType());
 			}
 		}
-		
+
 		@Override
 		public Country getCountry() {
 			return country;
 		}
 
+		@Override
 		public int hashCode() {
 			return this.hash;
 		}
-		
+
 		protected int _hashCode() {
 			final int prime = 31;
 			int result = 1;
@@ -369,20 +378,20 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 			result = prime * result + ((weather == null) ? 0 : weather.hashCode());
 			return result;
 		}
-		
+
 		/**
 		 * equals generated using Eclipse source menu.
 		 * Includes all fields except "hash".
 		 */
 		@Override
-		public boolean equals(Object obj) {
+		public boolean equals(final Object obj) {
 			if (this == obj)
 				return true;
 			if (obj == null)
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			Wrapper other = (Wrapper) obj;
+			final Wrapper other = (Wrapper) obj;
 			if (buildYear != other.buildYear)
 				return false;
 			if (country != other.country)
@@ -416,7 +425,7 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 			return true;
 		}
 	}
-	
+
 	@Inject
 	public EnergyCalculatorBridge(final IEnergyCalculator calculator, @Named(CACHE_SIZE) final int cacheSize) {
 		this.cache = CacheBuilder.newBuilder().
@@ -427,45 +436,48 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 					new CacheLoader<Wrapper, Result>() {
 						@Override
 						public Result load(final Wrapper key) throws Exception {
-							final ExternalParameters parameters = new ExternalParameters();
-							
-							parameters.setZoneOneDemandTemperature(key.heatingBehaviour.getLivingAreaDemandTemperature());
-							
-							if (key.heatingBehaviour.getTemperatureDifference().isPresent()) {
-								parameters.setInterzoneTemperatureDifference(key.heatingBehaviour.getTemperatureDifference().get());
-							} else {
-								parameters.setZoneTwoDemandTemperature(key.heatingBehaviour.getSecondAreaDemandTemperature().get());
-							}
-							
-							parameters.setNumberOfOccupants(key.people); 
-					
-							//TODO get tariff type from somewhere
-							parameters.setTarrifType(ElectricityTariffType.ECONOMY_7);
-							
+
+							final IEnergyCalculatorParameters parameters = createParameters(key.heatingBehaviour, key.structure.getFloorArea(), key.people);
+
 							final ISeasonalParameters[] climate = new ISeasonalParameters[MonthType.values().length];
-							
+
 							for (final MonthType m : MonthType.values()) {
 								final double externalTemperature = key.weather.getExternalTemperature(m);
 								final double heatingThresholdTemperature = key.heatingBehaviour.getHeatingOnThreshold();
-								
+
 								final boolean heatingShouldBeOn = externalTemperature < heatingThresholdTemperature;
-								
+
 								climate[m.ordinal()] = new SeasonalParameters(
 										m.ordinal()+1, DECLINATION[m.ordinal()],
 										externalTemperature,
 										key.weather.getWindSpeed(m),
-										key.weather.getHorizontalSolarFlux(m), 
+										key.weather.getHorizontalSolarFlux(m),
 										key.getLatitudeRadians(),
-										
+
 										heatingShouldBeOn ? key.heatingBehaviour.getHeatingSchedule() : OFF_SCHEDULE,
-												
+
 										Optional.<IHeatingSchedule>absent()
 										);
 							}
-							
-							parameters.setCalculatorType(key.heatingBehaviour.getEnergyCalculatorType());
 
                             return new Result(calculator.evaluate(key, parameters, climate));
+						}
+
+						private IEnergyCalculatorParameters createParameters(final IHeatingBehaviour heatingBehaviour, final double floorArea, final double occupancy) {
+							switch (heatingBehaviour.getEnergyCalculatorType()) {
+							case BREDEM2012:
+								return new BredemExternalParameters(
+										tariffType,
+										heatingBehaviour.getLivingAreaDemandTemperature(),
+										heatingBehaviour.getSecondAreaDemandTemperature(),
+										heatingBehaviour.getTemperatureDifference(),
+										occupancy
+									);
+							case SAP2012:
+								return new SAPExternalParameters(tariffType, floorArea);
+							default:
+								throw new IllegalArgumentException("Unknown energy calculator type when creating energy calculator parameters " + heatingBehaviour.getEnergyCalculatorType());
+							}
 						}
 					}
 				);
@@ -473,10 +485,10 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 
 	@Override
 	public IPowerTable evaluate(
-			final IWeather weather, 
-			final StructureModel structure, 
-			final ITechnologyModel technology, 
-			final BasicCaseAttributes attributes, 
+			final IWeather weather,
+			final StructureModel structure,
+			final ITechnologyModel technology,
+			final BasicCaseAttributes attributes,
 			final People people,
 			final IHeatingBehaviour behaviour) {
 		Preconditions.checkNotNull(weather, "Weather was null");
@@ -485,7 +497,7 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 		Preconditions.checkNotNull(attributes, "Basic attributes were null");
 		Preconditions.checkNotNull(people, "People was null");
 		Preconditions.checkNotNull(behaviour, "Heating behaviour was null");
-		
+
 		requests++;
 		final Wrapper w = new Wrapper(structure, technology, attributes, weather, people.getOccupancy(), behaviour);
 		try {

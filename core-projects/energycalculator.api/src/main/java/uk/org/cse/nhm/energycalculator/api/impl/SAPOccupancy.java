@@ -1,4 +1,4 @@
-package uk.org.cse.nhm.simulator.state.dimensions.energy;
+package uk.org.cse.nhm.energycalculator.api.impl;
 
 public class SAPOccupancy {
 	private static final double FLOOR_AREA_THRESHOLD = 13.9;
