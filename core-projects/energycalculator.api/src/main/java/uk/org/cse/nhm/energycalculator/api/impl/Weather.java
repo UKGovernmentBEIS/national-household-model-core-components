@@ -1,19 +1,19 @@
-package uk.org.cse.nhm.simulator.state.components.impl;
+package uk.org.cse.nhm.energycalculator.api.impl;
 
 import java.util.Arrays;
 
 import org.pojomatic.Pojomatic;
 import org.pojomatic.annotations.AutoProperty;
 
-import uk.org.cse.nhm.simulator.state.dimensions.weather.IWeather;
-import uk.org.cse.nhm.types.MonthType;
+import uk.org.cse.nhm.energycalculator.api.IWeather;
+import uk.org.cse.nhm.energycalculator.api.types.MonthType;
 
 @AutoProperty
 public class Weather implements IWeather {
 	/**
-	 * The single, standard weather defined in SAP 2009
+	 * The single, standard weather defined in SAP 2012
 	 */
-	public static final IWeather SAP09 = new Weather(
+	public static final IWeather SAP12 = new Weather(
 			/*
 			BEISDOC
 			NAME: External Temperature
@@ -53,9 +53,9 @@ public class Weather implements IWeather {
 			CODSIEB
 			*/
 			new double[] {5.10, 5.00, 4.90, 4.400, 4.300, 3.800, 3.800, 3.700, 4.000, 4.300, 4.50, 4.70});
-	
-	public static final IWeather DEFAULT_WEATHER = SAP09;
-	
+
+	public static final IWeather DEFAULT_WEATHER = SAP12;
+
 	private final double[] externalTemperature = new double[MonthType.values().length];
 	private final double[] horizontalSolarFlux = new double[MonthType.values().length];
 	private final double[] windspeed = new double[MonthType.values().length];

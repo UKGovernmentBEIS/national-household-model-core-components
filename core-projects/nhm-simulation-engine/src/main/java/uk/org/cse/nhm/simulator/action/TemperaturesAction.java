@@ -4,15 +4,15 @@ import com.google.common.base.Optional;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
+import uk.org.cse.nhm.energycalculator.api.IWeather;
+import uk.org.cse.nhm.energycalculator.api.types.MonthType;
 import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.simulator.let.ILets;
 import uk.org.cse.nhm.simulator.scope.ISettableComponentsScope;
 import uk.org.cse.nhm.simulator.state.IBranch.IModifier;
 import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.dimensions.behaviour.IHeatingBehaviour;
-import uk.org.cse.nhm.simulator.state.dimensions.weather.IWeather;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
-import uk.org.cse.nhm.types.MonthType;
 
 public class TemperaturesAction extends AbstractHeatingAction {
 	private final Optional<IComponentsFunction<Number>> livingAreaTemperature;

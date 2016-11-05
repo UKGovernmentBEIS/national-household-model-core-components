@@ -119,6 +119,7 @@ project(':energycalculator.api') {
   dependencies {
     compile libs.guava
     compile libs.joda
+    compile libs.pojomatic
   }
 }
 

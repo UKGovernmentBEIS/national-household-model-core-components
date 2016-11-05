@@ -13,6 +13,9 @@ import com.google.inject.Injector;
 
 import uk.org.cse.commons.names.Name;
 import uk.org.cse.nhm.NHMException;
+import uk.org.cse.nhm.energycalculator.api.IWeather;
+import uk.org.cse.nhm.energycalculator.api.impl.Weather;
+import uk.org.cse.nhm.energycalculator.api.types.MonthType;
 import uk.org.cse.nhm.language.adapt.IAdapterInterceptor;
 import uk.org.cse.nhm.language.adapt.IConverter;
 import uk.org.cse.nhm.language.adapt.impl.Adapt;
@@ -29,12 +32,9 @@ import uk.org.cse.nhm.simulator.let.ILets;
 import uk.org.cse.nhm.simulator.main.Initializable;
 import uk.org.cse.nhm.simulator.scope.IComponentsScope;
 import uk.org.cse.nhm.simulator.state.IDimension;
-import uk.org.cse.nhm.simulator.state.components.impl.Weather;
 import uk.org.cse.nhm.simulator.state.dimensions.IFunctionDimension;
-import uk.org.cse.nhm.simulator.state.dimensions.weather.IWeather;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.ConstantComponentsFunction;
-import uk.org.cse.nhm.types.MonthType;
 
 /**
  * This handles the {@link XWeatherContext} context parameter and its contents.

@@ -5,25 +5,26 @@ import uk.org.cse.nhm.energycalculator.api.IHeatingSystem;
 import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
+import uk.org.cse.nhm.energycalculator.api.types.Zone2ControlParameter;
 import uk.org.cse.nhm.hom.constants.adjustments.TemperatureAdjustments;
 import uk.org.cse.nhm.hom.emf.technologies.IBackBoiler;
 import uk.org.cse.nhm.hom.emf.technologies.IRoomHeater;
 
 /**
  * Wraps an {@link IRoomHeater} and presents it as an {@link IHeatingSystem}.
- * 
+ *
  * This is to avoid code duplication between {@link IBackBoiler} and {@link IRoomHeater}.
- * 
+ *
  * @author hinton
  *
  */
 public class RoomHeaterHeatingSystem implements IHeatingSystem {
 	final IRoomHeater roomHeater;
-	
-	public RoomHeaterHeatingSystem(IRoomHeater roomHeater) {
+
+	public RoomHeaterHeatingSystem(final IRoomHeater roomHeater) {
 		this.roomHeater = roomHeater;
 	}
-	
+
 	/**
 	 * SAP Table 4e Group 6 explains room heater systems, and details that there is a +0.3 deg demand temperature
 	 * adjustment if the heater does not have a thermostat fitted.
@@ -39,15 +40,14 @@ public class RoomHeaterHeatingSystem implements IHeatingSystem {
 
 	/**
 	 * SAP Table 4e Group 6 says that room heaters have a control type of 2 if they are not thermostatic, or 3 otherwise.
-	 * These both correspond to a Z2 control parameters of 1
 	 */
 	@Override
-	public double getZoneTwoControlParameter(final IInternalParameters parameters) {
-		return 1;
+	public Zone2ControlParameter getZoneTwoControlParameter(final IInternalParameters parameters) {
+		return roomHeater.isThermostatFitted() ? Zone2ControlParameter.Three : Zone2ControlParameter.Two;
 	}
-	
+
 	@Override
-	public double getResponsiveness(IConstants parameters, EnergyCalculatorType energyCalculatorType, ElectricityTariffType electricityTariffType) {
+	public double getResponsiveness(final IConstants parameters, final EnergyCalculatorType energyCalculatorType, final ElectricityTariffType electricityTariffType) {
 		/*
 		BEISDOC
 		NAME: Room heater responsiveness.
@@ -66,20 +66,20 @@ public class RoomHeaterHeatingSystem implements IHeatingSystem {
 		case ELECTRICITY:
 			/*
 			 * Electric room heaters currently also encompass portable electric heaters.
-			 * 
-			 * This should not really be the case, but works ok. 
+			 *
+			 * This should not really be the case, but works ok.
 			 */
 		case MAINS_GAS:
 		case BOTTLED_LPG:
 		case BULK_LPG:
 			return 1;
-		
+
 		case BIOMASS_PELLETS:
 		case BIOMASS_WOOD:
 		case BIOMASS_WOODCHIP:
 		case HOUSE_COAL:
 			return 0.50;
-		
+
 		case COMMUNITY_HEAT:
 		default:
 			throw new UnsupportedOperationException("Invalid or unknown fuel type for room heater " + roomHeater.getFuel());

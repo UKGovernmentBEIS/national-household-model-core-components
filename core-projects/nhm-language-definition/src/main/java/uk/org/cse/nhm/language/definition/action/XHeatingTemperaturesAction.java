@@ -14,7 +14,8 @@ import com.larkery.jasb.bind.BindNamedArgument;
 	value = {
 		"This action sets the various heating temperature controls for houses to which it is applied.",
 		"There are four possible attributes which can be specified - for those which are left unspecified,",
-		"no change will be made to the corresponding aspect of the house's temperature settings."
+		"no change will be made to the corresponding aspect of the house's temperature settings.",
+		"These settings have no effect if the energy calculator is in SAP 2012 mode."
 		})
 @Bind("action.set-heating-temperatures")
 public class XHeatingTemperaturesAction extends XFlaggedDwellingAction {
@@ -32,7 +33,7 @@ public class XHeatingTemperaturesAction extends XFlaggedDwellingAction {
 	private XNumber restOfDwellingTemperature = null;
 	private XNumber restOfDwellingHeatedProportion = null;
 	private List<XMonth> desiredHeatingMonths = new ArrayList<>();
-	
+
 	public enum XMonth {
 		January,
 		February,
@@ -47,7 +48,7 @@ public class XHeatingTemperaturesAction extends XFlaggedDwellingAction {
 		November,
 		December
 	}
-	
+
 	@BindNamedArgument("living-area-temperature")
 	@Doc("If specified, this action will set the living area demand temperature to this value (in celsius). This is the heating temperature in the main part of the house.")
 	public XNumber getLivingAreaTemperature() {
@@ -56,7 +57,7 @@ public class XHeatingTemperaturesAction extends XFlaggedDwellingAction {
 	public void setLivingAreaTemperature(final XNumber livingAreaTemperature) {
 		this.livingAreaTemperature = livingAreaTemperature;
 	}
-	
+
 	@BindNamedArgument("threshold-external-temperature")
 	@Doc({
 		"If specified, this action will set the outside temperature threshold for heating to come on to this value (in celsius).",
@@ -69,7 +70,7 @@ public class XHeatingTemperaturesAction extends XFlaggedDwellingAction {
 	public void setThresholdExternalTemperature(final XNumber thresholdExternalTemperature) {
 		this.thresholdExternalTemperature = thresholdExternalTemperature;
 	}
-	
+
 	@BindNamedArgument("temperature-difference")
 	@Doc(
 			{
@@ -85,9 +86,9 @@ public class XHeatingTemperaturesAction extends XFlaggedDwellingAction {
 	public void setTemperatureDifference(final XNumber temperatureDifference) {
 		this.temperatureDifference = temperatureDifference;
 	}
-	
+
 	@BindNamedArgument("rest-of-dwelling-temperature")
-	
+
 	@Doc({
 		"If specified, this action will set the demand temperature in the rest of the house (in celsius). See temperature-difference for more detail",
 		"on this. If temperature-difference is also specified, this value will be ignored (because they are exclusive)."
@@ -98,7 +99,7 @@ public class XHeatingTemperaturesAction extends XFlaggedDwellingAction {
 	public void setRestOfDwellingTemperature(final XNumber restOfDwellingTemperature) {
 		this.restOfDwellingTemperature = restOfDwellingTemperature;
 	}
-	
+
 	@BindNamedArgument("rest-of-dwelling-heated-proportion")
 	@Doc({
 		"If specified, this action will set the heated proportion in the rest of the house (a number from 0 to 1).",
@@ -110,8 +111,8 @@ public class XHeatingTemperaturesAction extends XFlaggedDwellingAction {
 	}
 	public void setRestOfDwellingHeatedProportion(final XNumber restOfDwellingHeatedProportion) {
 		this.restOfDwellingHeatedProportion = restOfDwellingHeatedProportion;
-	}	
-	
+	}
+
 	@BindNamedArgument("desired-heating-months")
 	@Doc({
 		"If at least one month is specified, and threshold external temperature is not specified, this will attempt to set the highest possible threshold temperature such that the heating is off for all the other months.",

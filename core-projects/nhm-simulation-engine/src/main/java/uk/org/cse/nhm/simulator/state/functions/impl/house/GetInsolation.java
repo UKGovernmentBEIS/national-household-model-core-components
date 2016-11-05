@@ -8,16 +8,16 @@ import com.google.common.collect.ImmutableSet;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
+import uk.org.cse.nhm.energycalculator.api.IWeather;
 import uk.org.cse.nhm.energycalculator.api.impl.InsolationPlaneUtil;
+import uk.org.cse.nhm.energycalculator.api.types.MonthType;
+import uk.org.cse.nhm.energycalculator.impl.SeasonalParameters;
 import uk.org.cse.nhm.hom.BasicCaseAttributes;
 import uk.org.cse.nhm.simulator.AbstractNamed;
 import uk.org.cse.nhm.simulator.let.ILets;
 import uk.org.cse.nhm.simulator.scope.IComponentsScope;
 import uk.org.cse.nhm.simulator.state.IDimension;
-import uk.org.cse.nhm.simulator.state.dimensions.energy.EnergyCalculatorBridge;
-import uk.org.cse.nhm.simulator.state.dimensions.weather.IWeather;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
-import uk.org.cse.nhm.types.MonthType;
 
 public class GetInsolation extends AbstractNamed implements IComponentsFunction<Number> {
 	private final IDimension<IWeather> weather;
@@ -36,7 +36,7 @@ public class GetInsolation extends AbstractNamed implements IComponentsFunction<
 	}
 
 	@Override
-	public Double compute(final IComponentsScope scope, ILets lets) {
+	public Double compute(final IComponentsScope scope, final ILets lets) {
 		final IWeather weather = scope.get(this.weather);
         final double latitude = scope.get(this.basicAttributes).getRegionType().getLatitudeRadians();
 		double acc = 0;
@@ -44,11 +44,11 @@ public class GetInsolation extends AbstractNamed implements IComponentsFunction<
 			// weather value is in wats per square meter
 			// we want kWh/year
 			final double flux = weather.getHorizontalSolarFlux(mt);
-            final double declination = EnergyCalculatorBridge.DECLINATION[mt.ordinal()];
+            final double declination = SeasonalParameters.DECLINATION[mt.ordinal()];
             // wangle flux into flux w/inclination
             final double multiplier = InsolationPlaneUtil.getSolarFluxMultiplier(declination, latitude, inclination, orientation);
 			final int days = mt.getStandardDays();
-			acc += 
+			acc +=
 				(multiplier * flux / 1000) // flux in kW / m2
 				* (days * 24); // number of hours in the month
 			// i.e. kWh/m2

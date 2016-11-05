@@ -26,6 +26,7 @@ import uk.org.cse.nhm.energycalculator.api.impl.HeatTransducer;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
+import uk.org.cse.nhm.energycalculator.api.types.Zone2ControlParameter;
 import uk.org.cse.nhm.hom.IHeatProportions;
 import uk.org.cse.nhm.hom.constants.SplitRateConstants;
 import uk.org.cse.nhm.hom.constants.adjustments.TemperatureAdjustments;
@@ -192,6 +193,7 @@ public class WarmAirSystemImpl extends SpaceHeaterImpl implements IWarmAirSystem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setEfficiency(Efficiency newEfficiency) {
 		Efficiency oldEfficiency = efficiency;
 		efficiency = newEfficiency;
@@ -281,10 +283,10 @@ public class WarmAirSystemImpl extends SpaceHeaterImpl implements IWarmAirSystem
 	 * @generated no
 	 */
 	@Override
-	public void accept(final IConstants constants, final IEnergyCalculatorParameters parameters, final IEnergyCalculatorVisitor visitor, final AtomicInteger heatingSystemCounter, IHeatProportions heatProportions) {
+	public void accept(final IConstants constants, final IEnergyCalculatorParameters parameters, final IEnergyCalculatorVisitor visitor, final AtomicInteger heatingSystemCounter, final IHeatProportions heatProportions) {
 		visitor.visitHeatingSystem(this, heatProportions.spaceHeatingProportion(this));
 		final double effectiveProportion = heatProportions.spaceHeatingProportion(this);
-	
+
 		/*
 		BEISDOC
 		NAME: Warm Air System Fuel Energy Demand
@@ -309,20 +311,20 @@ public class WarmAirSystemImpl extends SpaceHeaterImpl implements IWarmAirSystem
 
 			});
 		} else {
-			visitor.visitEnergyTransducer(new HeatTransducer(getFuelType().getEnergyType(), getEfficiency().value, 
+			visitor.visitEnergyTransducer(new HeatTransducer(getFuelType().getEnergyType(), getEfficiency().value,
 					effectiveProportion, true, heatingSystemCounter.getAndIncrement(), ServiceType.PRIMARY_SPACE_HEATING));
 		}
-		
+
 		visitor.visitEnergyTransducer(new WarmAirFans());
 	}
-	
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated no
 	 */
 	@Override
-	public double getResponsiveness(final IConstants constants, EnergyCalculatorType calculatorType, ElectricityTariffType electricityTariffType) {
+	public double getResponsiveness(final IConstants constants, final EnergyCalculatorType calculatorType, final ElectricityTariffType electricityTariffType) {
 		if (getFuelType() == FuelType.ELECTRICITY) {
 			return 0.75; //TODO remove magic number
 		} else {
@@ -485,7 +487,7 @@ public class WarmAirSystemImpl extends SpaceHeaterImpl implements IWarmAirSystem
 		else
 			return false;
 	}
-	
+
 	/**
 	 * From SAP table 4e group 5
 	 */
@@ -501,14 +503,15 @@ public class WarmAirSystemImpl extends SpaceHeaterImpl implements IWarmAirSystem
 
 	/**
 	 * From SAP table 4e group 5
+	 *
+	 * Ignore the row 'Programmer and at least two room thermostats': we don't have this information.
 	 */
 	@Override
-	public double getZoneTwoControlParameter(final IInternalParameters parameters) {
-		// zero unless there is TTZ control.
+	public Zone2ControlParameter getZoneTwoControlParameter(final IInternalParameters parameters) {
 		if (getControls().contains(HeatingSystemControlType.TIME_TEMPERATURE_ZONE_CONTROL)) {
-			return 1;
+			return Zone2ControlParameter.Three;
 		} else {
-			return 0;
+			return Zone2ControlParameter.One;
 		}
 	}
 

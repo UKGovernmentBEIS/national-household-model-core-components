@@ -10,6 +10,7 @@ import com.google.inject.assistedinject.Assisted;
 
 import uk.org.cse.commons.Glob;
 import uk.org.cse.nhm.energycalculator.api.IHeatingSchedule;
+import uk.org.cse.nhm.energycalculator.api.IWeather;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
 import uk.org.cse.nhm.simulator.action.CaseAction;
@@ -56,7 +57,6 @@ import uk.org.cse.nhm.simulator.sequence.SnapshotAction;
 import uk.org.cse.nhm.simulator.state.dimensions.fuel.ICarbonFactors;
 import uk.org.cse.nhm.simulator.state.dimensions.fuel.cost.IExtraCharge;
 import uk.org.cse.nhm.simulator.state.dimensions.fuel.cost.ITariff;
-import uk.org.cse.nhm.simulator.state.dimensions.weather.IWeather;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public interface IActionFactory {

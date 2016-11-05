@@ -18,11 +18,12 @@ import uk.org.cse.nhm.energycalculator.api.impl.BredemExternalParameters;
 import uk.org.cse.nhm.energycalculator.api.impl.ClassEnergyState;
 import uk.org.cse.nhm.energycalculator.api.impl.DailyHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.impl.GraphvizEnergyState;
-import uk.org.cse.nhm.energycalculator.api.impl.SeasonalParameters;
 import uk.org.cse.nhm.energycalculator.api.impl.WeeklyHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
+import uk.org.cse.nhm.energycalculator.api.types.MonthType;
 import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
+import uk.org.cse.nhm.energycalculator.impl.BredemSeasonalParameters;
 import uk.org.cse.nhm.energycalculator.impl.EnergyCalculatorCalculator;
 import uk.org.cse.nhm.energycalculator.impl.EnergyCalculatorCalculator.IEnergyStateFactory;
 import uk.org.cse.nhm.hom.BasicCaseAttributes;
@@ -196,15 +197,15 @@ public class TestCase2 {
 						new DailyHeatingSchedule(7 * 60, 8*60, 18 * 60, 23 * 60),
 						new DailyHeatingSchedule(7 * 60, 23 * 60)
 						);
-		final ISeasonalParameters climate = new
-				SeasonalParameters(
-						3,
-						-0.031415,
-
+		final ISeasonalParameters climate = new BredemSeasonalParameters(
+						MonthType.March,
 						7.4,
 						5 * 1.5,
 						99,
-						0.8988, weeklyHeatingSchedule, Optional.<IHeatingSchedule>absent());
+						0.8988,
+						weeklyHeatingSchedule,
+						Optional.<IHeatingSchedule>absent()
+					);
 
 		final EnergyCalculatorCalculator calc = new EnergyCalculatorCalculator();
 		calc.setStateFactory(new IEnergyStateFactory() {

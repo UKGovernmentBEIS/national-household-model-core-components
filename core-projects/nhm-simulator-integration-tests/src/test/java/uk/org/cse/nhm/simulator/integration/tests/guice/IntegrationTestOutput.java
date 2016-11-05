@@ -15,6 +15,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
 
 import uk.org.cse.hom.money.FinancialAttributes;
+import uk.org.cse.nhm.energycalculator.api.IWeather;
 import uk.org.cse.nhm.hom.BasicCaseAttributes;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
 import uk.org.cse.nhm.hom.people.People;
@@ -29,7 +30,6 @@ import uk.org.cse.nhm.simulator.state.components.IFlags;
 import uk.org.cse.nhm.simulator.state.dimensions.energy.IPowerTable;
 import uk.org.cse.nhm.simulator.state.dimensions.fuel.ICarbonFactors;
 import uk.org.cse.nhm.simulator.state.dimensions.fuel.cost.IEmissions;
-import uk.org.cse.nhm.simulator.state.dimensions.weather.IWeather;
 import uk.org.cse.nhm.simulator.transactions.DwellingTransactionHistory;
 
 public class IntegrationTestOutput {

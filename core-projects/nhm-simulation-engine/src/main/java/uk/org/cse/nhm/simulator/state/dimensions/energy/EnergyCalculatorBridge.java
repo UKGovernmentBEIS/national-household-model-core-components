@@ -24,13 +24,16 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.energycalculator.api.IEnergyState;
 import uk.org.cse.nhm.energycalculator.api.IHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.ISeasonalParameters;
+import uk.org.cse.nhm.energycalculator.api.IWeather;
 import uk.org.cse.nhm.energycalculator.api.impl.BredemExternalParameters;
 import uk.org.cse.nhm.energycalculator.api.impl.DailyHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.impl.SAPExternalParameters;
-import uk.org.cse.nhm.energycalculator.api.impl.SeasonalParameters;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
+import uk.org.cse.nhm.energycalculator.api.types.MonthType;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
+import uk.org.cse.nhm.energycalculator.impl.BredemSeasonalParameters;
+import uk.org.cse.nhm.energycalculator.impl.SAPSeasonalParameters;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
 import uk.org.cse.nhm.hom.BasicCaseAttributes;
@@ -41,8 +44,6 @@ import uk.org.cse.nhm.hom.people.People;
 import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.simulator.state.dimensions.FuelServiceTable;
 import uk.org.cse.nhm.simulator.state.dimensions.behaviour.IHeatingBehaviour;
-import uk.org.cse.nhm.simulator.state.dimensions.weather.IWeather;
-import uk.org.cse.nhm.types.MonthType;
 
 /**
  * Glue that runs a energy calculator from within the simulator.
@@ -52,11 +53,6 @@ import uk.org.cse.nhm.types.MonthType;
  */
 public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 	private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(EnergyCalculatorBridge.class);
-	public static final double[] DECLINATION = {
-		-0.36128316, -0.22340214,
-			-0.03141593, 0.17104227, 0.3281219, 0.40317106, 0.3700098,
-			0.23911011, 0.05061455, -0.15184364, -0.32114058, -0.40142573
-	};
 
 	private static final IHeatingSchedule OFF_SCHEDULE = new DailyHeatingSchedule();
 	public static final String CACHE_SIZE = "CACHE_SIZE";
@@ -442,22 +438,31 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 							final ISeasonalParameters[] climate = new ISeasonalParameters[MonthType.values().length];
 
 							for (final MonthType m : MonthType.values()) {
-								final double externalTemperature = key.weather.getExternalTemperature(m);
-								final double heatingThresholdTemperature = key.heatingBehaviour.getHeatingOnThreshold();
+								switch (key.heatingBehaviour.getEnergyCalculatorType()) {
+								case SAP2012:
+									climate[m.ordinal()] = new SAPSeasonalParameters(m);
+									break;
+								case BREDEM2012:
+									final double externalTemperature = key.weather.getExternalTemperature(m);
+									final double heatingThresholdTemperature = key.heatingBehaviour.getHeatingOnThreshold();
 
-								final boolean heatingShouldBeOn = externalTemperature < heatingThresholdTemperature;
+									final boolean heatingShouldBeOn = externalTemperature < heatingThresholdTemperature;
 
-								climate[m.ordinal()] = new SeasonalParameters(
-										m.ordinal()+1, DECLINATION[m.ordinal()],
-										externalTemperature,
-										key.weather.getWindSpeed(m),
-										key.weather.getHorizontalSolarFlux(m),
-										key.getLatitudeRadians(),
+									climate[m.ordinal()] = new BredemSeasonalParameters(
+											m,
+											externalTemperature,
+											key.weather.getWindSpeed(m),
+											key.weather.getHorizontalSolarFlux(m),
+											key.getLatitudeRadians(),
 
-										heatingShouldBeOn ? key.heatingBehaviour.getHeatingSchedule() : OFF_SCHEDULE,
+											heatingShouldBeOn ? key.heatingBehaviour.getHeatingSchedule() : OFF_SCHEDULE,
 
-										Optional.<IHeatingSchedule>absent()
-										);
+											Optional.<IHeatingSchedule>absent()
+											);
+								break;
+								default:
+									throw new UnsupportedOperationException("Unknown energy calculator type when preparing seasonal parameters " + key.heatingBehaviour.getEnergyCalculatorType());
+								};
 							}
 
                             return new Result(calculator.evaluate(key, parameters, climate));

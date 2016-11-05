@@ -11,7 +11,7 @@ public enum RegionType {
 	/*
 	BEISDOC
 	NAME: Latitude
-	DESCRIPTION: The latitude in degrees of a UK region 
+	DESCRIPTION: The latitude in degrees of a UK region
 	TYPE: value
 	UNIT: degrees
 	SAP: Table U4
@@ -32,8 +32,9 @@ public enum RegionType {
     London("",51.5, Country.England),
     NorthernScotland("",57.2, Country.Scotland),
 	Wales("Wales", 52.5, Country.Wales),
-	/* Latitude taken from SAP Table U4: Representative latitude and height above mean sea level */
     NorthernIreland("Northern Ireland", 54.6, Country.NorthernIreland);
+
+	public static double UK_AVERAGE_LATITUDE = 35.5;
 
     private final String friendlyName;
     private final double latitude, latrads;
@@ -50,15 +51,15 @@ public enum RegionType {
 	public String toString() {
         return super.toString();
     }
-    
+
     public double getLatitudeDegrees() {
 		return latitude;
 	}
-    
+
     public double getLatitudeRadians() {
     	return latrads;
     }
-    
+
     public Country getCountry() {
 		return country;
 	}

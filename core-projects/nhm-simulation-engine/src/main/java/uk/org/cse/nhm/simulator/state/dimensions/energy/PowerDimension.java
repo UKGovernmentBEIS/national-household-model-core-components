@@ -3,6 +3,7 @@ package uk.org.cse.nhm.simulator.state.dimensions.energy;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import uk.org.cse.nhm.energycalculator.api.IWeather;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.hom.BasicCaseAttributes;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
@@ -15,7 +16,6 @@ import uk.org.cse.nhm.simulator.state.IState;
 import uk.org.cse.nhm.simulator.state.dimensions.DimensionCounter;
 import uk.org.cse.nhm.simulator.state.dimensions.behaviour.IHeatingBehaviour;
 import uk.org.cse.nhm.simulator.state.dimensions.impl.DerivedDimensionWithCache;
-import uk.org.cse.nhm.simulator.state.dimensions.weather.IWeather;
 import uk.org.cse.nhm.simulator.state.impl.IInternalDimension;
 
 /**

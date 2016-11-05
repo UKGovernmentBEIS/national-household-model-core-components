@@ -14,9 +14,9 @@ import uk.org.cse.nhm.energycalculator.api.types.TransducerPhaseType;
  * produces Gains See
  * {@link #generate(IEnergyCalculatorHouseCase, IInternalParameters, ISpecificHeatLosses, IEnergyState)}
  * for details about what this does.
- * 
+ *
  * @author hinton
- * 
+ *
  */
 class GainLoadRatioAdjuster implements IEnergyTransducer {
 	private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(GainLoadRatioAdjuster.class);
@@ -53,13 +53,13 @@ class GainLoadRatioAdjuster implements IEnergyTransducer {
 	 * {@link IEnergyState}, and then supplies some of that heat demand using
 	 * the adjusted gains (as for some reason BREDEM 2009 specifies that
 	 * internal gains should be scaled by the same amount as heat demand).
-	 * 
-	 * 
+	 *
+	 *
 	 * @param house
 	 * @param parameters
 	 * @param losses
 	 * @param state
-	 * @oddity BREDEM 2009 specifies that a "heating on factor" is calculated to
+	 * @oddity BREDEM 2012 specifies that a "heating on factor" is calculated to
 	 *         account for the variation in how much heating systems are on in
 	 *         warmer months. For some reason, this scaling factor is also
 	 *         applied to internal gains, in spite of the fact that (for
@@ -69,7 +69,7 @@ class GainLoadRatioAdjuster implements IEnergyTransducer {
 	@Override
 	public void generate(final IEnergyCalculatorHouseCase house, final IInternalParameters parameters, final ISpecificHeatLosses losses, final IEnergyState state) {
 		final double totalGains = state.getExcessSupply(EnergyType.GainsUSEFUL_GAINS);
-		
+
 		/*
 		BEISDOC
 		NAME: Total Useful Gains
@@ -84,8 +84,8 @@ class GainLoadRatioAdjuster implements IEnergyTransducer {
 		*/
 		final double revisedGains = totalGains * revisedGUF;
 
-		final double heatingOnFactor = getHeatingOnFactor(parameters, losses, revisedGains);
-		
+		final double heatingOnFactor = parameters.getClimate().getHeatingOnFactor(parameters, losses, revisedGains, demandTemperature);
+
 		/*
 		BEISDOC
 		NAME: Heat Loss Rate for Mean Internal Temperature
@@ -99,14 +99,14 @@ class GainLoadRatioAdjuster implements IEnergyTransducer {
 		CODSIEB
 		*/
 		final double heatLossRate = (areaWeightedMeanTemperature - externalTemperature) * losses.getSpecificHeatLoss();
-		
+
 		/*
 		BEISDOC
 		NAME: Heat Demand
 		DESCRIPTION: The heat demand for the month, after the heating on factor is accounted for.
 		TYPE: formula
 		UNIT: W
-		SAP: (98) 
+		SAP: (98)
 		BREDEM: 8I
 		DEPS: sap-heating-on-factor,bredem-heating-on-factor,heat-loss-at-mean-internal-temperature
 		ID: heat-demand
@@ -126,17 +126,6 @@ class GainLoadRatioAdjuster implements IEnergyTransducer {
 		state.increaseDemand(EnergyType.GainsUSEFUL_GAINS, totalGains);
 		state.increaseSupply(EnergyType.DemandsHEAT, revisedGains);
 		state.increaseSupply(EnergyType.HackMEAN_INTERNAL_TEMPERATURE, areaWeightedMeanTemperature);
-	}
-
-	private double getHeatingOnFactor(IInternalParameters parameters, ISpecificHeatLosses losses, double revisedGains) {
-		switch (parameters.getCalculatorType()) {
-		case BREDEM2012:
-			return new BREDEMHeatingOn().getHeatingOnFactor(parameters, losses, revisedGains, demandTemperature, externalTemperature);
-		case SAP2012:
-			return new SapHeatingOn().getHeatingOnFactor(parameters.getClimate());
-		default:
-			throw new UnsupportedOperationException("Unknown energy calculator type " + parameters.getCalculatorType());
-		}
 	}
 
 	public void setRevisedGUF(final double revisedGUF) {

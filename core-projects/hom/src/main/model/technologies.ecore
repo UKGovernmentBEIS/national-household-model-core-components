@@ -170,11 +170,6 @@
       </eAnnotations>
       <eParameters name="parameters" lowerBound="1" eType="#//IInternalParameters"/>
     </eOperations>
-    <eOperations name="getZoneTwoControlParameter" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
-      <eParameters name="parameters" lowerBound="1" eType="#//IInternalParameters"/>
-      <eParameters name="controls" ordered="false" upperBound="-1" eType="#//HeatingSystemControlType"/>
-      <eParameters name="emitterType" lowerBound="1" eType="#//EmitterType"/>
-    </eOperations>
     <eOperations name="isCommunityHeating" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="waterHeater" eType="#//MainWaterHeater"
         eOpposite="#//MainWaterHeater/heatSource"/>

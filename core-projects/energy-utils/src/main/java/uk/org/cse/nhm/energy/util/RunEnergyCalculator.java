@@ -19,10 +19,11 @@ import uk.org.cse.nhm.energycalculator.api.IHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.ISeasonalParameters;
 import uk.org.cse.nhm.energycalculator.api.impl.BredemExternalParameters;
 import uk.org.cse.nhm.energycalculator.api.impl.DailyHeatingSchedule;
-import uk.org.cse.nhm.energycalculator.api.impl.SeasonalParameters;
 import uk.org.cse.nhm.energycalculator.api.impl.WeeklyHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
+import uk.org.cse.nhm.energycalculator.api.types.MonthType;
+import uk.org.cse.nhm.energycalculator.impl.BredemSeasonalParameters;
 import uk.org.cse.nhm.energycalculator.impl.EnergyCalculatorCalculator;
 import uk.org.cse.nhm.hom.SurveyCase;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
@@ -47,7 +48,7 @@ public class RunEnergyCalculator {
                 new DailyHeatingSchedule(7 * 60, 23 * 60));
 
         // only running one month because we don't care
-        final ISeasonalParameters climate = new SeasonalParameters(1, -20.7 * Math.PI / 180,// 1, 30,
+        final ISeasonalParameters climate = new BredemSeasonalParameters(MonthType.January,
                                                                    5, 4, 25, 52.0 * Math.PI / 180, schedule, Optional.<IHeatingSchedule>absent());
 
         SurveyCase in = null;

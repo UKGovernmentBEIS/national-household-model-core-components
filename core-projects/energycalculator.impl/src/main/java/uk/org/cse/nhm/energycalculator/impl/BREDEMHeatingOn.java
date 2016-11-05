@@ -10,7 +10,7 @@ import uk.org.cse.nhm.energycalculator.constants.EnergyCalculatorConstants;
  */
 public class BREDEMHeatingOn {
 
-	public double getHeatingOnFactor(IInternalParameters parameters, ISpecificHeatLosses losses, double revisedGains, double[] demandTemperature, double externalTemperature) {
+	public static double getHeatingOnFactor(final IInternalParameters parameters, final ISpecificHeatLosses losses, final double revisedGains, final double[] demandTemperature, final double externalTemperature) {
 		/*
 		BEISDOC
 		NAME: Threshold temperature
@@ -23,7 +23,7 @@ public class BREDEMHeatingOn {
 		CODSIEB
 		*/
 		final double thresholdTemperature = demandTemperature[0] - parameters.getConstants().get(EnergyCalculatorConstants.GAINS_UTILISATION_FACTOR_THRESHOLD_DIFFERENCE);
-		
+
 		/*
 		BEISDOC
 		NAME: Unheated temperature
@@ -36,7 +36,7 @@ public class BREDEMHeatingOn {
 		CODSIEB
 		*/
 		final double unheatedTemperature = externalTemperature + revisedGains / losses.getSpecificHeatLoss();
-		
+
 		final double thresholdDegreeDays = calculateThresholdDegreeDays(parameters.getConstants(), thresholdTemperature, unheatedTemperature);
 
 		final double thresholdDegreeDaysPlus1 = calculateThresholdDegreeDays(parameters.getConstants(), thresholdTemperature + 1, unheatedTemperature);
@@ -54,10 +54,10 @@ public class BREDEMHeatingOn {
 		*/
 		return thresholdDegreeDaysPlus1 - thresholdDegreeDays;
 	}
-	
-	protected double calculateThresholdDegreeDays(final IConstants constants, final double thresholdTemperature, final double unheatedTemperature) {
+
+	protected static double calculateThresholdDegreeDays(final IConstants constants, final double thresholdTemperature, final double unheatedTemperature) {
 		final double factor = constants.get(EnergyCalculatorConstants.THRESHOLD_DEGREE_DAYS_VALUE);
-		
+
 		/*
 		BEISDOC
 		NAME: Threshold degree days
@@ -72,8 +72,8 @@ public class BREDEMHeatingOn {
 		return (thresholdTemperature == unheatedTemperature) ? (1 / factor) : (thresholdTemperature - unheatedTemperature)
 				/ (1 - Math.exp(-factor * (thresholdTemperature - unheatedTemperature)));
 	}
-	
-	public double getCoolingOnFactor() {
+
+	public static double getCoolingOnFactor() {
 		throw new UnsupportedOperationException("Cooling not yet implemented in the NHM energy calculator.");
 	}
 }

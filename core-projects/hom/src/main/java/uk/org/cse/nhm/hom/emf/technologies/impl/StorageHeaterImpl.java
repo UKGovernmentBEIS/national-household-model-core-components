@@ -15,6 +15,7 @@ import uk.org.cse.nhm.energycalculator.api.IHeatingSystem;
 import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
+import uk.org.cse.nhm.energycalculator.api.types.Zone2ControlParameter;
 import uk.org.cse.nhm.hom.IHeatProportions;
 import uk.org.cse.nhm.hom.constants.adjustments.TemperatureAdjustments;
 import uk.org.cse.nhm.hom.emf.technologies.IOperationalCost;
@@ -220,6 +221,7 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Double getResponsivenessOverride() {
 		return responsivenessOverride;
 	}
@@ -229,6 +231,7 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setResponsivenessOverride(Double newResponsivenessOverride) {
 		Double oldResponsivenessOverride = responsivenessOverride;
 		responsivenessOverride = newResponsivenessOverride;
@@ -310,7 +313,7 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 		*/
 		visitor.visitHeatingSystem(this, heatProportions.spaceHeatingProportion(this));
 		visitor.visitEnergyTransducer(
-				new StorageHeatingTransducer(heatProportions.spaceHeatingProportion(this), 
+				new StorageHeatingTransducer(heatProportions.spaceHeatingProportion(this),
 				heatingSystemCounter.getAndIncrement(),
 				getType() == StorageHeaterType.INTEGRATED_DIRECT_ACTING));
 	}
@@ -343,7 +346,7 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 			}
 		case SAP2012:
 			final double baseResponsiveness;
-			
+
 			switch (getType()) {
 			case OLD_LARGE_VOLUME:
 				return 0;
@@ -363,10 +366,10 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 			default:
 				throw new UnsupportedOperationException("Unknown storage heater type " + getType());
 			}
-			
+
 			final boolean isCelect = getControlType() == StorageHeaterControlType.CELECT_CHARGE_CONTROL;
-			
-			return baseResponsiveness + (isCelect ? 0.2 : 0.0); 
+
+			return baseResponsiveness + (isCelect ? 0.2 : 0.0);
 		default:
 			throw new UnsupportedOperationException("Unknown energy calculator type when computing storage heater responsiveness " + calculatorType);
 		}
@@ -533,10 +536,8 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 	}
 
 	@Override
-	public double getZoneTwoControlParameter(final IInternalParameters parameters) {
-		// in SAP, this is either 1 or 0 depending on the heating system type (1 2 or 3)
-		// all electric storage systems have control type 3, which is a zone 2 control parameter of 1
-		return 1;
+	public Zone2ControlParameter getZoneTwoControlParameter(final IInternalParameters parameters) {
+		return Zone2ControlParameter.Three;
 	}
 
 } //StorageHeaterImpl

@@ -2088,11 +2088,6 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		op = addEOperation(heatSourceEClass, ecorePackage.getEDouble(), "getContainedTankLosses", 1, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getIInternalParameters(), "parameters", 1, 1, IS_UNIQUE, IS_ORDERED);
 
-		op = addEOperation(heatSourceEClass, ecorePackage.getEDouble(), "getZoneTwoControlParameter", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getIInternalParameters(), "parameters", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getHeatingSystemControlType(), "controls", 0, -1, IS_UNIQUE, !IS_ORDERED);
-		addEParameter(op, this.getEmitterType(), "emitterType", 1, 1, IS_UNIQUE, IS_ORDERED);
-
 		addEOperation(heatSourceEClass, ecorePackage.getEBoolean(), "isCommunityHeating", 1, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(namedEClass, INamed.class, "Named", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

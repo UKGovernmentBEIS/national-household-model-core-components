@@ -25,6 +25,7 @@ import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.TransducerPhaseType;
+import uk.org.cse.nhm.energycalculator.api.types.Zone2ControlParameter;
 import uk.org.cse.nhm.hom.constants.CommunityHeatingConstants;
 import uk.org.cse.nhm.hom.emf.technologies.EmitterType;
 import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
@@ -119,8 +120,8 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 	 * @generated
 	 */
 	@Override
-	public void setChargingUsageBased(boolean newChargingUsageBased) {
-		boolean oldChargingUsageBased = (flags & CHARGING_USAGE_BASED_EFLAG) != 0;
+	public void setChargingUsageBased(final boolean newChargingUsageBased) {
+		final boolean oldChargingUsageBased = (flags & CHARGING_USAGE_BASED_EFLAG) != 0;
 		if (newChargingUsageBased) flags |= CHARGING_USAGE_BASED_EFLAG; else flags &= ~CHARGING_USAGE_BASED_EFLAG;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.COMMUNITY_HEAT_SOURCE__CHARGING_USAGE_BASED, oldChargingUsageBased, newChargingUsageBased));
@@ -140,8 +141,9 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setHeatEfficiency(Efficiency newHeatEfficiency) {
-		Efficiency oldHeatEfficiency = heatEfficiency;
+	@Override
+	public void setHeatEfficiency(final Efficiency newHeatEfficiency) {
+		final Efficiency oldHeatEfficiency = heatEfficiency;
 		heatEfficiency = newHeatEfficiency;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.COMMUNITY_HEAT_SOURCE__HEAT_EFFICIENCY, oldHeatEfficiency, heatEfficiency));
@@ -152,7 +154,7 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+	public Object eGet(final int featureID, final boolean resolve, final boolean coreType) {
 		switch (featureID) {
 			case ITechnologiesPackage.COMMUNITY_HEAT_SOURCE__CHARGING_USAGE_BASED:
 				return isChargingUsageBased();
@@ -167,7 +169,7 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue) {
+	public void eSet(final int featureID, final Object newValue) {
 		switch (featureID) {
 			case ITechnologiesPackage.COMMUNITY_HEAT_SOURCE__CHARGING_USAGE_BASED:
 				setChargingUsageBased((Boolean)newValue);
@@ -184,7 +186,7 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
+	public void eUnset(final int featureID) {
 		switch (featureID) {
 			case ITechnologiesPackage.COMMUNITY_HEAT_SOURCE__CHARGING_USAGE_BASED:
 				setChargingUsageBased(CHARGING_USAGE_BASED_EDEFAULT);
@@ -201,7 +203,7 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
+	public boolean eIsSet(final int featureID) {
 		switch (featureID) {
 			case ITechnologiesPackage.COMMUNITY_HEAT_SOURCE__CHARGING_USAGE_BASED:
 				return ((flags & CHARGING_USAGE_BASED_EFLAG) != 0) != CHARGING_USAGE_BASED_EDEFAULT;
@@ -213,7 +215,7 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated no
 	 */
 	@Override
@@ -270,7 +272,7 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 
 		/*
 		BEISDOC
-		NAME: Community space heat fuel energy demand 
+		NAME: Community space heat fuel energy demand
 		DESCRIPTION: The total fuel demanded for community space heating, including the distribution loss factor and the adjustmentments from Table 4c.
 		TYPE: formula
 		UNIT: W
@@ -286,7 +288,7 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 		consumeSystemFuel(constants, state, communityHeatDemand);
 	}
 
-	protected void satisfyHotWaterDemand(final IConstants constants, final IEnergyState state, final double hw, final double gains, EnergyCalculatorType calculatorType) {
+	protected void satisfyHotWaterDemand(final IConstants constants, final IEnergyState state, final double hw, final double gains, final EnergyCalculatorType calculatorType) {
 		state.increaseSupply(EnergyType.DemandsHOT_WATER, hw);
 		state.increaseSupply(EnergyType.GainsHOT_WATER_SYSTEM_GAINS, gains);
 
@@ -296,7 +298,7 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 		 * Control factor from SAP 2012 table 4c(3)
 		 */
 		final double controlFactor;
-		
+
 		if (calculatorType == EnergyCalculatorType.SAP2012) {
 			if (isChargingUsageBased()) {
 				controlFactor = constants.get(CommunityHeatingConstants.LOW_WATER_USAGE_MULTIPLIER);
@@ -323,7 +325,7 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 	 * Called to do whatever is required to record the amount of source-fuel
 	 * used by the community heat source in generating the heat that the user
 	 * will pay for.
-	 * 
+	 *
 	 * @param state
 	 *            the state to add some community fuel usage to (and/or
 	 *            electricity generated, in CHP)
@@ -363,7 +365,7 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 			public String toString() {
 				return "Community Heat Source";
 			}
-			
+
 			@Override
 			public TransducerPhaseType getPhase() {
 				return TransducerPhaseType.Heat;
@@ -444,13 +446,13 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 	}
 
 	@Override
-	public double getZoneTwoControlParameter(final IInternalParameters parameters, final EList<HeatingSystemControlType> controls, final EmitterType emitterType) {
-		if (!isChargingUsageBased() && !controls.contains(HeatingSystemControlType.THERMOSTATIC_RADIATOR_VALVE)) {
-			// flat rate charging and no TRVs means control type = 1, otherwise
-			// control type = 3
-			return 0;
+	public Zone2ControlParameter getZoneTwoControlParameter(final IInternalParameters parameters, final EList<HeatingSystemControlType> controls, final EmitterType emitterType) {
+		final boolean hasTRVs = controls.contains(HeatingSystemControlType.THERMOSTATIC_RADIATOR_VALVE);
+
+		if (isChargingUsageBased()) {
+			return hasTRVs ? Zone2ControlParameter.Three : Zone2ControlParameter.Two;
 		} else {
-			return 1;
+			return hasTRVs ? Zone2ControlParameter.Two : Zone2ControlParameter.One;
 		}
 	}
 
@@ -460,8 +462,8 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 	}
 
 	@Override
-	public double getResponsiveness(IConstants parameters, EList<HeatingSystemControlType> controls,
-			EmitterType emitterType) {
+	public double getResponsiveness(final IConstants parameters, final EList<HeatingSystemControlType> controls,
+			final EmitterType emitterType) {
 		return 1;
 	}
 } // CommunityHeatSourceImpl

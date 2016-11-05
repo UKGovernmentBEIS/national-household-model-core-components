@@ -8,6 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import uk.org.cse.nhm.energycalculator.api.IConstants;
+import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
+import uk.org.cse.nhm.energycalculator.api.types.Zone2ControlParameter;
 import uk.org.cse.nhm.hom.emf.technologies.EmitterType;
 import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
 import uk.org.cse.nhm.hom.emf.technologies.ICentralHeatingSystem;
@@ -44,16 +46,22 @@ public class TechnologyOperationsTest {
 		}
 
 		@Override
+		public Zone2ControlParameter getZoneTwoControlParameter(final IInternalParameters parameters,
+				final EList<HeatingSystemControlType> controls, final EmitterType emitterType) {
+			return Zone2ControlParameter.Two;
+		}
+
+		@Override
 		public boolean isCommunityHeating() {
 			return false;
 		}
 	}
-	
+
 	@Before
 	public void setup() {
 		this.operations = new TechnologyOperations();
 	}
-	
+
 	@Test
 	public void testHasCommunitySpaceHeating() {
 		final ITechnologiesFactory factory = ITechnologiesFactory.eINSTANCE;
@@ -71,7 +79,7 @@ public class TechnologyOperationsTest {
 
 		Assert.assertTrue("Should detect when community space heating is the main heating system", operations.hasCommunitySpaceHeating(technologies));
 	}
-	
+
 	@Test
 	public void testHasCommunitySpaceHeatingReturnsFalseWhenNotPresent() {
 		final ITechnologyModel technologies = new TechnologyModelImpl() {
@@ -79,7 +87,7 @@ public class TechnologyOperationsTest {
 
 		Assert.assertFalse("Should detect when no community space heating is present", operations.hasCommunitySpaceHeating(technologies));
 	}
-	
+
 	@Test
 	public void testHasCommunityWaterHeating() {
 		final ITechnologiesFactory factory = ITechnologiesFactory.eINSTANCE;
@@ -102,7 +110,7 @@ public class TechnologyOperationsTest {
 
 		Assert.assertTrue("Should detect when community water heating is the main hot water system", operations.hasCommunityWaterHeating(technologies));
 	}
-	
+
 	@Test
 	public void testHasCommunityWaterHeatingReturnsFalseWhenNotPresent() {
 		final ITechnologyModel technologies = new TechnologyModelImpl() {
@@ -110,14 +118,14 @@ public class TechnologyOperationsTest {
 
 		Assert.assertFalse("Should detect when no community water heating is present", operations.hasCommunityWaterHeating(technologies));
 	}
-	
+
 	@Test
 	public void testReplaceMainHeatSourceForCentralHeatingAndCentralWaterAddsAHeatSource() {
 		final ITechnologyModel technologies = new TechnologyModelImpl() {
 		};
 
 		final IHeatSource heatSource = new BoilerImpl() {};
-		
+
 		operations.installHeatSource(technologies, heatSource, true, true, EmitterType.RADIATORS, Collections.<HeatingSystemControlType> emptySet(), 0.0f, 0.0f);
 
 		Assert.assertEquals(heatSource, technologies.getIndividualHeatSource());
@@ -139,7 +147,7 @@ public class TechnologyOperationsTest {
 
 		Assert.assertEquals(heatSource, technologies.getIndividualHeatSource());
 	}
-	
+
 	@Test
 	public void testReplaceCentralHeatingHeatSourceShouldAddNewCentralHeatingIfNoSpaceHeatingPresent() {
 		final ITechnologyModel technologies = new TechnologyModelImpl() {
@@ -153,7 +161,7 @@ public class TechnologyOperationsTest {
 		Assert.assertSame(newHeatSource, ((ICentralHeatingSystem) technologies.getPrimarySpaceHeater()).getHeatSource());
 		Assert.assertNull(technologies.getSecondarySpaceHeater());
 	}
-	
+
 	@Test
 	public void testReplaceCentralHeatingHeatSourceShouldReplaceOldNonCentralSpaceHeating() {
 		final ITechnologyModel technologies = new TechnologyModelImpl() {
@@ -168,7 +176,7 @@ public class TechnologyOperationsTest {
 		Assert.assertTrue(technologies.getPrimarySpaceHeater() instanceof ICentralHeatingSystem);
 		Assert.assertNull(technologies.getSecondarySpaceHeater());
 	}
-	
+
 	@Test
 	public void testReplaceCentralHeatingHeatSourceShouldReuseOldCentralHeating() {
 
@@ -192,7 +200,7 @@ public class TechnologyOperationsTest {
 		Assert.assertSame(newHeatSource, ((ICentralHeatingSystem) technologies.getPrimarySpaceHeater()).getHeatSource());
 		Assert.assertNull(technologies.getSecondarySpaceHeater());
 	}
-	
+
 	@Test
 	public void testReplaceCentralHeatingHeatSourceShouldKeepOldSecondarySystems() {
 
@@ -206,7 +214,7 @@ public class TechnologyOperationsTest {
 				setSecondarySpaceHeater(existingSecondaryHeating);
 			}
 		};
-		
+
 		final IHeatSource newHeatSource = new IndividualSource();
 
 		operations.installHeatSource(technologies, newHeatSource, EmitterType.RADIATORS, Collections.<HeatingSystemControlType> emptySet());
@@ -215,7 +223,7 @@ public class TechnologyOperationsTest {
 		Assert.assertSame(existingSecondaryHeating, technologies.getSecondarySpaceHeater());
 		Assert.assertSame(newHeatSource, ((ICentralHeatingSystem) technologies.getPrimarySpaceHeater()).getHeatSource());
 	}
-	
+
 	@Test
 	public void testInstallHotWaterCylinderShouldInstallStandardModernTank() {
 		final ICentralWaterSystem water = new CentralWaterSystemImpl() {
@@ -223,22 +231,22 @@ public class TechnologyOperationsTest {
 		operations.installWaterTank(water, false, 0,0);
 
 		Assert.assertTrue(water.isPrimaryPipeworkInsulated());
-		
+
 		final IWaterTank tank = water.getStore();
 		Assert.assertTrue(tank instanceof IWaterTank);
 		final IWaterTank standardTank = tank;
-		
+
 		Assert.assertTrue(standardTank.isThermostatFitted());
 		Assert.assertTrue(standardTank.isFactoryInsulation());
 		Assert.assertEquals(0f, standardTank.getVolume(), ERROR_DELTA);
 		Assert.assertEquals(0f, standardTank.getInsulation(), ERROR_DELTA);
 	}
-	
+
 	@Test
 	public void testInstallHotWaterCylinderShouldReplaceExistingTank() {
 		final IWaterTank tank = new WaterTankImpl() {
 		};
-		
+
 		final ICentralWaterSystem water = new CentralWaterSystemImpl() {
 			{
 				setStore(tank);
@@ -247,22 +255,22 @@ public class TechnologyOperationsTest {
 		operations.installWaterTank(water,false, 0f, 0f);
 		Assert.assertNotSame(tank, water.getStore());
 	}
-	
+
 	@Test
 	public void testInstallHotWaterCylinderShouldObeyRetainExisting() {
 		final IWaterTank tank = new WaterTankImpl() {
 		};
-		
+
 		final ICentralWaterSystem water = new CentralWaterSystemImpl() {
 			{
 				setStore(tank);
 			}
 		};
-		
+
 		operations.installWaterTank(water,true, 0f, 0f);
 		Assert.assertSame(tank,  water.getStore());
 	}
-	
+
 	@Test
 	public void testInstallHotWaterCylinderShouldIgnoreRetainExistingIfNoExistingCylinder() {
 		final ICentralWaterSystem water = new CentralWaterSystemImpl() {

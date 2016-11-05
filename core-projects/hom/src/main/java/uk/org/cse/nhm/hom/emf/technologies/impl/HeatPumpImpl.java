@@ -24,6 +24,7 @@ import uk.org.cse.nhm.energycalculator.api.impl.HeatTransducer;
 import uk.org.cse.nhm.energycalculator.api.impl.HybridHeatpumpTransducer;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
+import uk.org.cse.nhm.energycalculator.api.types.Zone2ControlParameter;
 import uk.org.cse.nhm.hom.IHeatProportions;
 import uk.org.cse.nhm.hom.constants.PumpAndFanConstants;
 import uk.org.cse.nhm.hom.constants.SplitRateConstants;
@@ -196,7 +197,7 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 	 */
 	@Override
 	public void setSourceType(HeatPumpSourceType newSourceType) {
-		HeatPumpSourceType oldSourceType = SOURCE_TYPE_EFLAG_VALUES[(flags & SOURCE_TYPE_EFLAG) >>> SOURCE_TYPE_EFLAG_OFFSET];
+		final HeatPumpSourceType oldSourceType = SOURCE_TYPE_EFLAG_VALUES[(flags & SOURCE_TYPE_EFLAG) >>> SOURCE_TYPE_EFLAG_OFFSET];
 		if (newSourceType == null) newSourceType = SOURCE_TYPE_EDEFAULT;
 		flags = flags & ~SOURCE_TYPE_EFLAG | newSourceType.ordinal() << SOURCE_TYPE_EFLAG_OFFSET;
 		if (eNotificationRequired())
@@ -217,8 +218,9 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setCoefficientOfPerformance(Efficiency newCoefficientOfPerformance) {
-		Efficiency oldCoefficientOfPerformance = coefficientOfPerformance;
+	@Override
+	public void setCoefficientOfPerformance(final Efficiency newCoefficientOfPerformance) {
+		final Efficiency oldCoefficientOfPerformance = coefficientOfPerformance;
 		coefficientOfPerformance = newCoefficientOfPerformance;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.HEAT_PUMP__COEFFICIENT_OF_PERFORMANCE, oldCoefficientOfPerformance, coefficientOfPerformance));
@@ -238,8 +240,8 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 	 * @generated
 	 */
 	@Override
-	public void setWeatherCompensated(boolean newWeatherCompensated) {
-		boolean oldWeatherCompensated = (flags & WEATHER_COMPENSATED_EFLAG) != 0;
+	public void setWeatherCompensated(final boolean newWeatherCompensated) {
+		final boolean oldWeatherCompensated = (flags & WEATHER_COMPENSATED_EFLAG) != 0;
 		if (newWeatherCompensated) flags |= WEATHER_COMPENSATED_EFLAG; else flags &= ~WEATHER_COMPENSATED_EFLAG;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.HEAT_PUMP__WEATHER_COMPENSATED, oldWeatherCompensated, newWeatherCompensated));
@@ -259,8 +261,8 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 	 * @generated
 	 */
 	@Override
-	public void setAuxiliaryPresent(boolean newAuxiliaryPresent) {
-		boolean oldAuxiliaryPresent = (flags & AUXILIARY_PRESENT_EFLAG) != 0;
+	public void setAuxiliaryPresent(final boolean newAuxiliaryPresent) {
+		final boolean oldAuxiliaryPresent = (flags & AUXILIARY_PRESENT_EFLAG) != 0;
 		if (newAuxiliaryPresent) flags |= AUXILIARY_PRESENT_EFLAG; else flags &= ~AUXILIARY_PRESENT_EFLAG;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.HEAT_PUMP__AUXILIARY_PRESENT, oldAuxiliaryPresent, newAuxiliaryPresent));
@@ -281,11 +283,11 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetHybrid(IHybridHeater newHybrid, NotificationChain msgs) {
-		IHybridHeater oldHybrid = hybrid;
+	public NotificationChain basicSetHybrid(final IHybridHeater newHybrid, NotificationChain msgs) {
+		final IHybridHeater oldHybrid = hybrid;
 		hybrid = newHybrid;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.HEAT_PUMP__HYBRID, oldHybrid, newHybrid);
+			final ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.HEAT_PUMP__HYBRID, oldHybrid, newHybrid);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
@@ -297,7 +299,7 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 	 * @generated
 	 */
 	@Override
-	public void setHybrid(IHybridHeater newHybrid) {
+	public void setHybrid(final IHybridHeater newHybrid) {
 		if (newHybrid != hybrid) {
 			NotificationChain msgs = null;
 			if (hybrid != null)
@@ -314,7 +316,7 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 	/**
 	 * <!-- begin-user-doc --> Puts the flue fan into the system <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @generated no
 	 */
 	@Override
@@ -335,7 +337,7 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(final InternalEObject otherEnd, final int featureID, final NotificationChain msgs) {
 		switch (featureID) {
 			case ITechnologiesPackage.HEAT_PUMP__HYBRID:
 				return basicSetHybrid(null, msgs);
@@ -348,7 +350,7 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+	public Object eGet(final int featureID, final boolean resolve, final boolean coreType) {
 		switch (featureID) {
 			case ITechnologiesPackage.HEAT_PUMP__SOURCE_TYPE:
 				return getSourceType();
@@ -369,7 +371,7 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue) {
+	public void eSet(final int featureID, final Object newValue) {
 		switch (featureID) {
 			case ITechnologiesPackage.HEAT_PUMP__SOURCE_TYPE:
 				setSourceType((HeatPumpSourceType)newValue);
@@ -395,7 +397,7 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
+	public void eUnset(final int featureID) {
 		switch (featureID) {
 			case ITechnologiesPackage.HEAT_PUMP__SOURCE_TYPE:
 				setSourceType(SOURCE_TYPE_EDEFAULT);
@@ -421,7 +423,7 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
+	public boolean eIsSet(final int featureID) {
 		switch (featureID) {
 			case ITechnologiesPackage.HEAT_PUMP__SOURCE_TYPE:
 				return (flags & SOURCE_TYPE_EFLAG) != SOURCE_TYPE_EFLAG_DEFAULT;
@@ -439,7 +441,7 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated no
 	 */
 	@Override
@@ -453,7 +455,7 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 
 	@Override
 	public void acceptFromHeating(final IConstants constants, final IEnergyCalculatorParameters parameters, final IEnergyCalculatorVisitor visitor, final double proportion, final int priority) {
-		
+
 		/*
 		BEISDOC
 		NAME: Heat Pump Fuel Energy Demand
@@ -498,7 +500,7 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 						new HeatTransducer(getFuel().getEnergyType(), spaceHeatingEfficiency, proportion, true, priority, ServiceType.PRIMARY_SPACE_HEATING)
 						);
 			}
-			
+
 		} else {
 			final double[] months = new double[12];
 			for (int i = 0; i<12 && i<hybrid.getFraction().size(); i++) {
@@ -506,25 +508,25 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 			}
 			if (getFuel() == FuelType.ELECTRICITY) {
 				visitor.visitEnergyTransducer(
-						new HybridHeatpumpTransducer(priority, 
-								highRateFraction, hybrid.getFuel().getEnergyType(), 
-								spaceHeatingEfficiency, 
-								hybrid.getEfficiency().value, proportion, 
+						new HybridHeatpumpTransducer(priority,
+								highRateFraction, hybrid.getFuel().getEnergyType(),
+								spaceHeatingEfficiency,
+								hybrid.getEfficiency().value, proportion,
 								months
 								));
 			} else {
 				visitor.visitEnergyTransducer(
-						new HybridHeatpumpTransducer(priority, 
-								getFuel().getEnergyType(), 
-								hybrid.getFuel().getEnergyType(), 
-								spaceHeatingEfficiency, 
-								hybrid.getEfficiency().value, proportion, 
+						new HybridHeatpumpTransducer(priority,
+								getFuel().getEnergyType(),
+								hybrid.getFuel().getEnergyType(),
+								spaceHeatingEfficiency,
+								hybrid.getEfficiency().value, proportion,
 								months
 								));
 			}
 		}
 	}
-	
+
 	@Override
 	public double getDemandTemperatureAdjustment(final IInternalParameters parameters, final EList<HeatingSystemControlType> controlTypes) {
 		if (getSpaceHeater() != null && getSpaceHeater().isThermostaticallyControlled() == false) {
@@ -537,7 +539,7 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 	@Override
 	public double generateHotWaterAndPrimaryGains(final IInternalParameters parameters, final IEnergyState state, final IWaterTank store, final boolean storeIsPrimary,
 			final double primaryLosses, final double distributionLossFactor, final double proportion) {
-		
+
 		final double adjustedEfficiency;
 		final FuelType fuel;
 		if (getHybrid() == null) {
@@ -550,7 +552,7 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 		}
 
 		final double hotWaterToGenerate = state.getBoundedTotalDemand(EnergyType.DemandsHOT_WATER, proportion);
-		
+
 		final double totalToGenerate = hotWaterToGenerate + primaryLosses;
 
 		state.increaseSupply(EnergyType.DemandsHOT_WATER, hotWaterToGenerate);
@@ -567,7 +569,7 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 		} else {
 			state.increaseDemand(fuel.getEnergyType(), sourceEnergy);
 		}
-		
+
 		return hotWaterToGenerate;
 	}
 
@@ -581,7 +583,7 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 	public void generateHotWaterSystemGains(final IInternalParameters parameters, final IEnergyState state, final IWaterTank store, final boolean storeIsPrimary, final double systemLosses) {
 		final double adjustedEfficiency;
 		final FuelType fuel;
-		
+
 		if (getHybrid() == null) {
 			adjustedEfficiency = getCoefficientOfPerformance().value;
 			fuel = getFuel();
@@ -613,13 +615,18 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
          *             the fourth row in Group 2 of SAP table 4e.
 	 */
 	@Override
-	public double getZoneTwoControlParameter(final IInternalParameters parameters, final EList<HeatingSystemControlType> controls, final EmitterType emitterType) {
-		if (controls.contains(HeatingSystemControlType.TIME_TEMPERATURE_ZONE_CONTROL)
-				|| controls.containsAll(EnumSet.of(HeatingSystemControlType.PROGRAMMER, HeatingSystemControlType.THERMOSTATIC_RADIATOR_VALVE,
-						HeatingSystemControlType.BYPASS))) {
-			return 1;
+	public Zone2ControlParameter getZoneTwoControlParameter(final IInternalParameters parameters, final EList<HeatingSystemControlType> controls, final EmitterType emitterType) {
+
+		if (controls.contains(HeatingSystemControlType.TIME_TEMPERATURE_ZONE_CONTROL)) {
+			return Zone2ControlParameter.Three;
+		} else if (controls.containsAll(EnumSet.of(
+				HeatingSystemControlType.PROGRAMMER,
+				HeatingSystemControlType.THERMOSTATIC_RADIATOR_VALVE,
+				HeatingSystemControlType.BYPASS
+			))) {
+			return Zone2ControlParameter.Two;
 		} else {
-			return 0;
+			return Zone2ControlParameter.One;
 		}
 	}
 

@@ -12,6 +12,8 @@ import com.google.common.collect.ImmutableMap;
 
 import uk.org.cse.nhm.NHMException;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
+import uk.org.cse.nhm.energycalculator.api.IWeather;
+import uk.org.cse.nhm.energycalculator.api.types.MonthType;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.language.definition.XScenario;
 import uk.org.cse.nhm.simulator.integration.tests.guice.IFunctionAssertion;
@@ -22,8 +24,6 @@ import uk.org.cse.nhm.simulator.state.ICanonicalState;
 import uk.org.cse.nhm.simulator.state.IDwelling;
 import uk.org.cse.nhm.simulator.state.components.IFlags;
 import uk.org.cse.nhm.simulator.state.dimensions.fuel.ICarbonFactors;
-import uk.org.cse.nhm.simulator.state.dimensions.weather.IWeather;
-import uk.org.cse.nhm.types.MonthType;
 
 /*
  * Tests for flags, registers, let, get, yield, snapshot etc.

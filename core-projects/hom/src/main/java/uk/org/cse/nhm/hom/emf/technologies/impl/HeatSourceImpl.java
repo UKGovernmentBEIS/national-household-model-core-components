@@ -567,18 +567,6 @@ public abstract class HeatSourceImpl extends MinimalEObjectImpl implements IHeat
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public double getZoneTwoControlParameter(IInternalParameters parameters, EList<HeatingSystemControlType> controls, EmitterType emitterType) {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	public abstract boolean isCommunityHeating();

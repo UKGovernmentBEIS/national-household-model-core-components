@@ -14,6 +14,7 @@ import uk.org.cse.commons.names.ISettableIdentified;
 import uk.org.cse.commons.names.Name;
 import uk.org.cse.nhm.NHMException;
 import uk.org.cse.nhm.energycalculator.api.IHeatingSchedule;
+import uk.org.cse.nhm.energycalculator.api.IWeather;
 import uk.org.cse.nhm.energycalculator.api.impl.DailyHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.impl.SevenDayHeatingSchedule;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
@@ -65,7 +66,6 @@ import uk.org.cse.nhm.simulator.scope.IStateAction;
 import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
 import uk.org.cse.nhm.simulator.state.dimensions.fuel.CarbonFactors;
 import uk.org.cse.nhm.simulator.state.dimensions.fuel.cost.ITariff;
-import uk.org.cse.nhm.simulator.state.dimensions.weather.IWeather;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.ConstantComponentsFunction;
 

@@ -12,19 +12,19 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import uk.org.cse.nhm.NHMException;
+import uk.org.cse.nhm.energycalculator.api.IWeather;
 import uk.org.cse.nhm.energycalculator.api.impl.DailyHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.impl.WeeklyHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.impl.EnergyCalculatorCalculator;
 import uk.org.cse.nhm.hom.SurveyCase;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
+import uk.org.cse.nhm.energycalculator.api.types.MonthType;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.language.definition.XScenario;
 import uk.org.cse.nhm.simulator.integration.tests.AnnualizedEnergyCalculator.Result;
 import uk.org.cse.nhm.simulator.state.IDwelling;
 import uk.org.cse.nhm.simulator.state.dimensions.energy.IPowerTable;
-import uk.org.cse.nhm.simulator.state.dimensions.weather.IWeather;
-import uk.org.cse.nhm.types.MonthType;
 
 public class EnergyCalculatorIntegrationTest extends SimulatorIntegrationTest {
 

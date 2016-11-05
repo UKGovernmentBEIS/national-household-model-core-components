@@ -12,6 +12,7 @@ import com.google.common.base.Predicate;
 import com.google.inject.assistedinject.Assisted;
 
 import uk.org.cse.commons.Glob;
+import uk.org.cse.nhm.energycalculator.api.IWeather;
 import uk.org.cse.nhm.energycalculator.api.types.AreaType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
@@ -56,7 +57,6 @@ import uk.org.cse.nhm.simulator.measure.Units;
 import uk.org.cse.nhm.simulator.measure.sizing.impl.SizingFunction;
 import uk.org.cse.nhm.simulator.sequence.ISequenceSpecialAction;
 import uk.org.cse.nhm.simulator.sequence.SequenceFunction;
-import uk.org.cse.nhm.simulator.state.dimensions.weather.IWeather;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.ConditionComponentsFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.TimeSeriesComponentsFunction;

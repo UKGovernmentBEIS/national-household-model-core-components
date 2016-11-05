@@ -11,6 +11,8 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Optional;
+
 import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculationResult;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculator;
@@ -31,6 +33,7 @@ import uk.org.cse.nhm.energycalculator.api.impl.GraphvizEnergyState;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
+import uk.org.cse.nhm.energycalculator.api.types.Zone2ControlParameter;
 import uk.org.cse.nhm.energycalculator.api.types.ZoneType;
 import uk.org.cse.nhm.energycalculator.constants.EnergyCalculatorConstants;
 import uk.org.cse.nhm.energycalculator.impl.appliances.Appliances09;
@@ -44,9 +47,9 @@ import uk.org.cse.nhm.energycalculator.impl.gains.MetabolicGainsSource;
  * method is the {@link #evaluate(IEnergyCalculatorHouseCase, IEnergyCalculatorParameters)} method,
  * which has an extensive javadoc where the operation of the algorithm is
  * described.
- * 
+ *
  * @author hinton
- * 
+ *
  */
 public class EnergyCalculatorCalculator implements IEnergyCalculator {
 	private static final Logger log = LoggerFactory.getLogger(EnergyCalculatorCalculator.class);
@@ -91,7 +94,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 	 * keep track of calculations, for example to produce something like
 	 * {@link GraphvizEnergyState}'s output, you can set an instance of this
 	 * interface into the calculator to ensure the right kind of state is used.
-	 * 
+	 *
 	 * @author hinton
 	 *
 	 */
@@ -182,7 +185,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 	 * Compute the specific heat losses for a house case, given the summed
 	 * values collected from visiting a house; this method combines the fabric
 	 * losses together with thermal bridging losses and ventilation losses.
-	 * 
+	 *
 	 * @param houseCase
 	 * @param parameters
 	 * @param totalSpecificHeatLoss
@@ -191,7 +194,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 	 * @param infiltration
 	 * @param ventilationSystems
 	 * @return
-	 * 
+	 *
 	 * @assumption In the CHM, the thermal bridging parameter is switched on
 	 *             houses that are built before 2003, but in BREDEM8 a thermal
 	 *             bridging value is computed with reference to the layout of
@@ -210,19 +213,19 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		/*
 		BEISDOC
 		NAME: Shelter Factor
-		DESCRIPTION: Multiply the number of sheltered sides by the sheltered sides exposure factor. Subtract the result from 1. 
+		DESCRIPTION: Multiply the number of sheltered sides by the sheltered sides exposure factor. Subtract the result from 1.
 		TYPE: formula
 		UNIT: dimensionless
 		SAP: 20
 		BREDEM: Table 22
 		DEPS: sheltered-sides-exposure-factor,num-sheltered-sides
-		GET: 
-		SET: 
+		GET:
+		SET:
 		ID: shelter-factor
 		CODSIEB
 		*/
 		final double shelterFactor = 1 - (houseCase.getNumberOfShelteredSides() * SHELTERED_SIDES_EXPOSURE_FACTOR);
-		
+
 		/*
 		BEISDOC
 		NAME: Wind factor
@@ -232,13 +235,13 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		SAP: (22a)
 		BREDEM: 3E
 		DEPS: wind-speed,wind-factor-divisor
-		GET: 
-		SET: 
+		GET:
+		SET:
 		ID: wind-factor
 		CODSIEB
 		*/
 		final double windFactor = (parameters.getClimate().getSiteWindSpeed() / WIND_FACTOR_DIVISOR) ;
-		
+
 		final double siteExposureFactor = getSiteExposureFactor(houseCase, parameters);
 
 		/*
@@ -322,15 +325,15 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		CODSIEB
 		*/
 		H1 += ventilationLosses;
-		
+
 		final double H3 = getInterzoneSpecificHeatLoss(parameters.getCalculatorType(), houseCase);
 
 		return new SpecificHeatLosses(H1, H3, totalThermalMass, houseCase.getFloorArea(), ventilationLosses,
 				thermalBridgeEffect, climateAdjustedAirChangeRate);
 	}
 
-	protected double getThermalBridgeEffect(IEnergyCalculatorHouseCase houseCase, IInternalParameters parameters,
-			double totalExternalArea) {
+	protected double getThermalBridgeEffect(final IEnergyCalculatorHouseCase houseCase, final IInternalParameters parameters,
+			final double totalExternalArea) {
 		/*
 		BEISDOC
 		NAME: Thermal Bridging Heat Loss
@@ -341,11 +344,11 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		BREDEM: 3A.b
 		DEPS: sap-thermal-bridging-coefficient,thermal-bridging-coefficient,external-area
 		ID: thermal-bridging-heat-loss
-		NOTES: The thermal bridging coefficient is always 0.15 in SAP 2012 mode. 
+		NOTES: The thermal bridging coefficient is always 0.15 in SAP 2012 mode.
 		CODSIEB
 		*/
 		final double thermalBridgingCoefficient;
-		switch (parameters.getCalculatorType()) { 
+		switch (parameters.getCalculatorType()) {
 		case SAP2012:
 			thermalBridgingCoefficient = SAP_THERMAL_BRIDGING_COEFFICIENT;
 			break;
@@ -355,12 +358,12 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		default:
 			throw new UnsupportedOperationException("Unknown energy calculator type while calculating thermal bridging " + parameters.getCalculatorType());
 		}
-		
+
 		return thermalBridgingCoefficient * totalExternalArea;
 	}
 
-	protected final double getInterzoneSpecificHeatLoss(EnergyCalculatorType calculatorType,
-			IEnergyCalculatorHouseCase houseCase) {
+	protected final double getInterzoneSpecificHeatLoss(final EnergyCalculatorType calculatorType,
+			final IEnergyCalculatorHouseCase houseCase) {
 		switch(calculatorType) {
 		case SAP2012:
 			return 0;
@@ -371,7 +374,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		}
 	}
 
-	protected final double getSiteExposureFactor(IEnergyCalculatorHouseCase houseCase, IInternalParameters parameters) {
+	protected final double getSiteExposureFactor(final IEnergyCalculatorHouseCase houseCase, final IInternalParameters parameters) {
 		/*
 		BEISDOC
 		NAME: Site Exposure Factor
@@ -396,14 +399,14 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 
 	/**
 	 * Compute the gains utilisation factor as defined in BREDEM 2009 ch. 7.
-	 * 
+	 *
 	 * @param Tin
 	 * @param Text
 	 * @param H
 	 * @param totalGains
 	 * @param utilisationFactorExponent
 	 * @return
-	 * 
+	 *
 	 * @assumption In BREDEM, the gains utilisation factor is defined using the
 	 *             gain to loss ratio. The BREDEM 2009 definition contains a
 	 *             singular point at Tin = TextAs the specific heat loss tends
@@ -414,11 +417,11 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 	 */
 	protected static double calculateGainsUtilisationFactor(final double Tin, final double Text, final double H,
 			final double totalGains, final double utilisationFactorExponent) {
-		
+
 		/*
 		BEISDOC
 		NAME: Heat loss rate at temperature
-		DESCRIPTION: The amount of heat lost by a dwelling at given internal and external temperatures 
+		DESCRIPTION: The amount of heat lost by a dwelling at given internal and external temperatures
 		TYPE: formula
 		UNIT: W
 		SAP: Table 9a (computation of L)
@@ -450,7 +453,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		final double gainToLossRatio = totalGains / heatLossRate;
 
 		final double gainsUtilisationFactor;
-		
+
 		/*
 		BEISDOC
 		NAME: Gains Utilisation Factor
@@ -483,7 +486,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 	/**
 	 * This calculates the background temperature (responsive / unresponsive) as
 	 * specified in BREDEM 2009. The CHM does something different.
-	 * 
+	 *
 	 * @param parameters
 	 * @param heatLosses
 	 * @param zoneTwoheatedProportion
@@ -521,7 +524,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		CODSIEB
 		*/
 		final double unheatedZoneTwoTemperature = Math.min(
-				Td1, 
+				Td1,
 				((Td1 * H3) + (Text * H) + totalGains) / (H + H3)
 			);
 
@@ -529,8 +532,8 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 
 		/*
 		BEISDOC
-		NAME: Adjusted Zone 2 Demand Temperature 
-		DESCRIPTION: The Zone 2 Demand Temperature interpolated with the unheated Zone 2 temperature, based on the proportion of Zone 2 which is heated.  
+		NAME: Adjusted Zone 2 Demand Temperature
+		DESCRIPTION: The Zone 2 Demand Temperature interpolated with the unheated Zone 2 temperature, based on the proportion of Zone 2 which is heated.
 		TYPE: formula
 		UNIT: ℃
 		BREDEM: 7E
@@ -549,14 +552,14 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		TYPE: formula
 		UNIT: Dimensionless
 		SAP: Table 9a
-		BREDEM: 7J 
+		BREDEM: 7J
 		DEPS: gains-utilisation-factor
 		ID: zone-1-utilisation-factor
 		CODSIEB
 		*/
 		final double utilisationFactorInZone1 = calculateGainsUtilisationFactor(Td1, Text, specificHeatLoss, totalGains,
 				utilisationFactorExponent);
-		
+
 		/*
 		BEISDOC
 		NAME: Zone 2 Utilisation Factor
@@ -564,7 +567,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		TYPE: formula
 		UNIT: Dimensionless
 		SAP: Table 9a
-		BREDEM: 7J 
+		BREDEM: 7J
 		DEPS: gains-utilisation-factor
 		ID: zone-2-utilisation-factor
 		CODSIEB
@@ -647,7 +650,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 	 * <li>{@link EvaporativeGainsSource}</li>
 	 * <li>{@link GainsTransducer}</li>
 	 * </ol>
-	 * 
+	 *
 	 * As these are passed into the visitor's constructor via the
 	 * {@link #defaultTransducers} list.</li>
 	 * <li>Computes the background temperature for each zone, by computing the
@@ -672,7 +675,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 	 * {@link #runHeatTransducers(IEnergyCalculatorHouseCase, List, ISpecificHeatLosses, IInternalParameters, IEnergyState, int)}
 	 * </li>
 	 * </ol>
-	 * 
+	 *
 	 * @param houseCase
 	 * @param parameters
 	 * @return
@@ -726,7 +729,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		SAP: (73)
 		BREDEM: 6J
 		DEPS: useful-gains,evaporation-loss
-		NOTES: In SAP and BREDEM, this happens earlier on. We do it here in order to take advantage of the supply vs demand ledger structure of our code. 
+		NOTES: In SAP and BREDEM, this happens earlier on. We do it here in order to take advantage of the supply vs demand ledger structure of our code.
 		ID: total-gains
 		CODSIEB
 		*/
@@ -753,8 +756,14 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		final double[] meanTemperature = new double[ZoneType.values().length];
 		for (final ZoneType zt : ZoneType.values()) {
 			final int zi = zt.ordinal();
-			meanTemperature[zi] = adjustedParameters.getClimate().getHeatingSchedule(zt).getMeanTemperature(
-					demandTemperature[zi], backgroundTemperature[zi], coolingTime * MINUTES_PER_HOUR);
+			meanTemperature[zi] = adjustedParameters.getClimate().getHeatingSchedule(
+					zt,
+					zt == ZoneType.ZONE2 ? Optional.of(adjustedParameters.getZone2ControlParameter()) : Optional.absent()
+				).getMeanTemperature(
+					demandTemperature[zi],
+					backgroundTemperature[zi],
+					coolingTime * MINUTES_PER_HOUR
+				);
 		}
 
 		double areaWeightedMeanTemperature = getAreaWeightedMeanTemperature(houseCase, meanTemperature);
@@ -763,7 +772,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		/*
 		BEISDOC
 		NAME: Mean Internal Temperature
-		DESCRIPTION: The mean internal temperature for the whole dwelling, after heating system adjustments have been applied. 
+		DESCRIPTION: The mean internal temperature for the whole dwelling, after heating system adjustments have been applied.
 		TYPE: formula
 		UNIT: ℃
 		SAP: (93), Table 4e
@@ -789,7 +798,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 	 * happened (call to
 	 * {@link #configureGainLossAdjuster(ISpecificHeatLosses, IInternalParameters, double[], double, double, double, GainLoadRatioAdjuster)}
 	 * )
-	 * 
+	 *
 	 * @param houseCase
 	 * @param transducers
 	 * @param heatLosses
@@ -804,12 +813,12 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		/*
 		BEISDOC
 		NAME: Space Heating Fuel Energy Demand
-		DESCRIPTION: Runs all the heating system transducers, triggering them to meet the space heating demand by consuming fuel. 
+		DESCRIPTION: Runs all the heating system transducers, triggering them to meet the space heating demand by consuming fuel.
 		TYPE: ???
 		UNIT: W
 		DEPS: boiler-fuel-energy-demand,community-space-heating-fuel-energy-demand,heat-pump-fuel-energy-demand,room-heater-fuel-energy-demand,storage-heater-fuel-energy-demand,warm-air-system-fuel-energy-demand
 		GET: house.energy-use
-		NOTES: This doesn't strictly form a part of the SAP or BREDEM calculations. It's included in these documents to indicate the structure of the NHM energy calculator code. 
+		NOTES: This doesn't strictly form a part of the SAP or BREDEM calculations. It's included in these documents to indicate the structure of the NHM energy calculator code.
 		ID: all-space-heating-fuel-energy-demand
 		CODSIEB
 		*/
@@ -831,7 +840,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 	 * {@link #calculateGainsUtilisationFactor(double, double, double, double, double)}
 	 * to determine the final, true gain utilisation factor after doing the
 	 * zone-specific versions.
-	 * 
+	 *
 	 * @param heatLosses
 	 * @param adjustedParameters
 	 * @param demandTemperature
@@ -869,7 +878,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 	/**
 	 * Compute the area weighted mean temperature for the given zonal means &
 	 * house case
-	 * 
+	 *
 	 * @param houseCase
 	 * @param meanTemperature
 	 * @return
@@ -879,7 +888,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		/*
 		BEISDOC
 		NAME: Mean Internal Temperature Unadjusted
-		DESCRIPTION: The mean internal temperature of the whole dwelling, before SAP adjustments are applied. 
+		DESCRIPTION: The mean internal temperature of the whole dwelling, before SAP adjustments are applied.
 		TYPE: formula
 		UNIT: ℃
 		SAP: (92)
@@ -893,7 +902,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param v
 	 * @param heatLosses
 	 * @param adjustedParameters
@@ -903,14 +912,14 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 	 * @param worstCaseBackgroundTemperature
 	 * @param remainingContribution
 	 * @return
-	 * @assumption If there is no heating system in the house, the responsiveness will 
+	 * @assumption If there is no heating system in the house, the responsiveness will
 	 * 			   equal 1 as specified in SAP Table 4a Category 1: No Heating Present
 	 */
 	protected static double[] getBackgroundTemperatureFromHeatingSystems(final List<IHeatingSystem> heatingSystems,
 			final Map<IHeatingSystem, Double> proportions, final ISpecificHeatLosses heatLosses,
 			final IInternalParameters adjustedParameters, final IEnergyState state, final double[] demandTemperature,
 			final double[] responsiveBackgroundTemperature, final double[] unresponsiveBackgroundTemperature) {
-		
+
 		IHeatingSystem main = null;
 		double highestProportion = 0;
 		for (final IHeatingSystem system : heatingSystems) {
@@ -919,11 +928,11 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 				highestProportion = proportions.get(system);
 			}
 		}
-		
+
 		/*
 		BEISDOC
 		NAME: Responsiveness
-		DESCRIPTION: The speed with which the heating system moves the house to a new temperature. 
+		DESCRIPTION: The speed with which the heating system moves the house to a new temperature.
 		TYPE: lookup
 		UNIT: Unknown
 		SAP: Table 4a, 4d
@@ -935,17 +944,17 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		final double responsiveness;
 		if (main == null) {
 			responsiveness = 1;
-			
+
 			if (log.isDebugEnabled())
 				log.debug("There are no heating systems - using assumed electric heaters in responsiveness calculation");
 
 		} else {
 			responsiveness = main.getResponsiveness(adjustedParameters.getConstants(), adjustedParameters.getCalculatorType(), adjustedParameters.getTarrifType());
-			
+
 			if (log.isDebugEnabled())
 				log.debug("Responsiveness from {} = {}", main, responsiveness);
 		}
-		
+
 		/*
 		BEISDOC
 		NAME: Background temperatures
@@ -959,7 +968,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		CODSIEB
 		*/
 		final double unresponsiveness = 1 - responsiveness;
-		
+
 		return new double[] {
 				(responsiveBackgroundTemperature[0] * responsiveness) + (unresponsiveBackgroundTemperature[0] * unresponsiveness),
 				(responsiveBackgroundTemperature[1] * responsiveness) + (unresponsiveBackgroundTemperature[1] * unresponsiveness)
@@ -1002,7 +1011,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		/*
 		BEISDOC
 		NAME: Time constant
-		DESCRIPTION: A number which represents how quickly the dwelling's temperature changes.  
+		DESCRIPTION: A number which represents how quickly the dwelling's temperature changes.
 		TYPE: formula
 		UNIT: Hours
 		SAP: Table 9a
@@ -1018,7 +1027,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 	/**
 	 * Run all the transducers until we get to the gain to loss ratio adjuster
 	 * passed in, and then return the index we stopped at
-	 * 
+	 *
 	 * @param houseCase
 	 * @param v
 	 * @param heatLosses
@@ -1031,24 +1040,24 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 			final ISpecificHeatLosses heatLosses, final IInternalParameters adjustedParameters,
 			final IEnergyState state) {
 		int indexOfFirstHeatingSystem = 0;
-		
+
 		for (final IEnergyTransducer transducer : transducers) {
-			
+
 			/*
-			 *  Stop running once we get to the heating transducers: 
+			 *  Stop running once we get to the heating transducers:
 			 *  we only want to run those after we've calculated the mean internal temperature.
 			 */
 			if (transducer == stop)
 				break;
-			
+
 			indexOfFirstHeatingSystem++;
-			
+
 			/*
 			 * If uncommented, these lines would cause pumps and fans to be disabled during periods when the heating is off.
 			 */
 			//final boolean heatingOn = adjustedParameters.getClimate().isHeatingOn();
 			//if (heatingOn || (transducer.getServiceType() != ServiceType.PRIMARY_SPACE_HEATING && transducer.getServiceType() != ServiceType.SECONDARY_SPACE_HEATING)) {
-				
+
 				if (log.isDebugEnabled())
 					log.debug("Running {}", transducer);
 				state.setCurrentServiceType(transducer.getServiceType(), transducer.toString());
@@ -1060,16 +1069,16 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 
 	/**
 	 * Adjust the demand temperature in the input parameters
-	 * 
+	 *
 	 * In summary,
-	 * 
+	 *
 	 * <ol>
 	 * <li>Accumulate zone 1 temperature tweaks from heating system</li>
 	 * <li>If zone 2 temperature is not set, calculate and override it</li>
 	 * <li>Accumulate heating period time tweaks</li>
 	 * <li>Create a new parameters which applies these tweaks</li>
 	 * </ol>
-	 * 
+	 *
 	 * @param parameters
 	 * @param heatingSystems
 	 * @return
@@ -1079,35 +1088,39 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 	 * @assumption When adjusting the demand temperature, if there are multiple
 	 *             adjustments due to multiple systems the adjustments are
 	 *             summed (BREDEM does not specify)
-	 * 
+	 *
 	 */
 	protected IInternalParameters adjustParameters(final IInternalParameters parameters,
 			final ISpecificHeatLosses heatLosses, final List<IHeatingSystem> heatingSystems) {
 		double totalTemperatureAdjustment = 0;
-		double heatingSystemZoneTwoControlParameter = 0;
+		int heatingSystemZoneTwoControlParameterOrdinal = 0;
 		double heatingSystemZoneTwoTemperature;
 
 		for (final IHeatingSystem system : heatingSystems) {
 			totalTemperatureAdjustment += system.getDemandTemperatureAdjustment(parameters);
-			heatingSystemZoneTwoControlParameter = Math.max(heatingSystemZoneTwoControlParameter,
-					system.getZoneTwoControlParameter(parameters));
+			heatingSystemZoneTwoControlParameterOrdinal = Math.max(
+					heatingSystemZoneTwoControlParameterOrdinal,
+					system.getZoneTwoControlParameter(parameters).ordinal()
+				);
 		}
+
+		final Zone2ControlParameter zone2ControlParameter = Zone2ControlParameter.values()[heatingSystemZoneTwoControlParameterOrdinal];
 
 		if (!parameters.isZoneTwoDemandTemperatureSpecified()) {
 			heatingSystemZoneTwoTemperature = calculateZoneTwoDemandTemperature(
 					parameters.getInterzoneTemperatureDifference(), heatLosses.getHeatLossParameter(),
-					heatingSystemZoneTwoControlParameter, parameters.getZoneOneDemandTemperature());
+					zone2ControlParameter, parameters.getZoneOneDemandTemperature());
 		} else {
 			heatingSystemZoneTwoTemperature = parameters.getZoneTwoDemandTemperature();
 		}
 
-		return new ParameterAdjustment(parameters, totalTemperatureAdjustment, heatingSystemZoneTwoTemperature);
+		return new ParameterAdjustment(parameters, totalTemperatureAdjustment, heatingSystemZoneTwoTemperature,  zone2ControlParameter);
 	}
 
 	protected double calculateZoneTwoDemandTemperature(final double interzoneTemperatureDifference,
-			final double heatLossParameter, final double heatingSystemZoneTwoControlParameter,
+			final double heatLossParameter, final Zone2ControlParameter zoneTwoControlParameter,
 			final double newZone1DemandTemperature) {
-		
+
 		/*
 		BEISDOC
 		NAME: Uncontrolled Zone 2 Demand Temperature
@@ -1126,13 +1139,13 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		/*
 		BEISDOC
 		NAME: Controlled Zone 2 Demand Temperature
-		DESCRIPTION: The zone 2 demand temperature in case of heating control types 2 or 3 
+		DESCRIPTION: The zone 2 demand temperature in case of heating control types 2 or 3
 		TYPE: formula
 		UNIT: ℃
 		SAP: Table 9 (rows 2 and 3, Temperature H2)
 		BREDEM: 7B
 		DEPS: reference-heat-loss-parameter,heat-loss-parameter,zone-1-demand-temperature,interzone-temperature-difference
-		ID: controlled-zone-2-demand-temperature 
+		ID: controlled-zone-2-demand-temperature
 		CODSIEB
 		*/
 		final double controlledZoneTwoDemandTemperature = newZone1DemandTemperature + interzoneTemperatureDifference
@@ -1149,13 +1162,13 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		BREDEM: 7C
 		DEPS: controlled-zone-2-demand-temperature,uncontrolled-zone-2-demand-temperature,zone-2-control-parameter
 		NOTES: While this looks like the BREDEM algorithm, it actually behaves according to SAP rather than BREDEM.
-		NOTES: If the zone 2 control parameter is 0, we get row 1 of the SAP table. If it is 1, we get rows 2 and 3 (which are the same).  
+		NOTES: If the zone 2 control parameter is 0, we get row 1 of the SAP table. If it is 1, we get rows 2 and 3 (which are the same).
 		ID: zone-2-demand-temperature
 		CODSIEB
 		*/
-		final double result = controlledZoneTwoDemandTemperature * heatingSystemZoneTwoControlParameter
-				+ uncontrolledZoneTwoDemandTemperature * (1 - heatingSystemZoneTwoControlParameter);
-		
+		final double result = controlledZoneTwoDemandTemperature * zoneTwoControlParameter.controlledProportion()
+				+ uncontrolledZoneTwoDemandTemperature * (1 - zoneTwoControlParameter.controlledProportion());
+
 		return result;
 	}
 
@@ -1168,7 +1181,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 	 * <li>if something is /output led/ that means that everything which inputs
 	 * it /or/ lazily outputs it needs to happen before it</li>
 	 * </ol>
-	 * 
+	 *
 	 * @param transducers
 	 */
 	protected static void sortTransducers(final List<IEnergyTransducer> transducers) {

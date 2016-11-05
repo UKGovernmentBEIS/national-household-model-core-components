@@ -15,11 +15,12 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyState;
 import uk.org.cse.nhm.energycalculator.api.IHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.impl.BredemExternalParameters;
 import uk.org.cse.nhm.energycalculator.api.impl.DailyHeatingSchedule;
-import uk.org.cse.nhm.energycalculator.api.impl.SeasonalParameters;
 import uk.org.cse.nhm.energycalculator.api.types.AreaType;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
+import uk.org.cse.nhm.energycalculator.api.types.MonthType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
+import uk.org.cse.nhm.energycalculator.impl.BredemSeasonalParameters;
 import uk.org.cse.nhm.hom.SurveyCase;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 
@@ -32,12 +33,6 @@ public class AnnualizedEnergyCalculator {
 	private static final Logger log = LoggerFactory.getLogger(AnnualizedEnergyCalculator.class);
 	private static final int[] days = {
 		31,28,31, 30, 31, 30, 31, 31, 30, 31, 30, 31
-	};
-
-	private static final double[] declination = {
-		-0.36128316, -0.22340214,
-			-0.03141593, 0.17104227, 0.3281219, 0.40317106, 0.3700098,
-			0.23911011, 0.05061455, -0.15184364, -0.32114058, -0.40142573
 	};
 
 	private IEnergyCalculator calculator;
@@ -143,15 +138,15 @@ public class AnnualizedEnergyCalculator {
 		surveyCase.getStructure().setZoneTwoHeatedProportion(1d);
 
 
-		final SeasonalParameters[] seasons = new SeasonalParameters[12];
+		final BredemSeasonalParameters[] seasons = new BredemSeasonalParameters[12];
 
 		// set monthly varying parameters
-		for (int month = 0; month < 12; month++) {
-			seasons[month] = new SeasonalParameters(month+1, declination[month],
-					externalTemperature.get(region, month), windSpeed.get(
-							region, month), horizontalSolarFlux.get(region,
-							month), region.getLatitudeRadians(),
-					heatingMonths[month] ? heatingSchedule : heatingOff, Optional.<IHeatingSchedule>absent());
+		for (final MonthType m : MonthType.values()) {
+			seasons[m.ordinal()] = new BredemSeasonalParameters(m,
+					externalTemperature.get(region, m.ordinal()), windSpeed.get(
+							region, m.ordinal()), horizontalSolarFlux.get(region,
+							m.ordinal()), region.getLatitudeRadians(),
+					heatingMonths[m.ordinal()] ? heatingSchedule : heatingOff, Optional.<IHeatingSchedule>absent());
 		}
 
 

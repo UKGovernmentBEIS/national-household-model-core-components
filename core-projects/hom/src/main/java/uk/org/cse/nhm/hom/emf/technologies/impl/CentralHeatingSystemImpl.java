@@ -21,6 +21,7 @@ import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
+import uk.org.cse.nhm.energycalculator.api.types.Zone2ControlParameter;
 import uk.org.cse.nhm.hom.IHeatProportions;
 import uk.org.cse.nhm.hom.constants.PumpAndFanConstants;
 import uk.org.cse.nhm.hom.emf.technologies.EmitterType;
@@ -269,16 +270,16 @@ public class CentralHeatingSystemImpl extends SpaceHeaterImpl implements ICentra
 		if (getHeatSource() != null) {
 			// this will connect up the heat source to supply space heat
 			final double effectiveProportion = heatProportions.spaceHeatingProportion(this);
-			getHeatSource().acceptFromHeating(constants, parameters, visitor, effectiveProportion, heatingSystemCounter.getAndIncrement()); 
+			getHeatSource().acceptFromHeating(constants, parameters, visitor, effectiveProportion, heatingSystemCounter.getAndIncrement());
 			// we also need to tell the EC we are here, for responsiveness & background temperature calculations.
 			visitor.visitHeatingSystem(this, heatProportions.spaceHeatingProportion(this));
 			// we need to include the central heating pump
-			
+
 			visitor.visitEnergyTransducer(
 					/*
 					BEISDOC
 					NAME: Central heating pump power demand
-					DESCRIPTION: The power consumed by the central heating pump. 
+					DESCRIPTION: The power consumed by the central heating pump.
 					TYPE: formula
 					UNIT: W
 					SAP: Table 4f
@@ -287,11 +288,11 @@ public class CentralHeatingSystemImpl extends SpaceHeaterImpl implements ICentra
 					ID: central-heating-pump-power
 					CODSIEB
 					*/
-					new Pump("CH", ServiceType.PRIMARY_SPACE_HEATING, 
+					new Pump("CH", ServiceType.PRIMARY_SPACE_HEATING,
 					constants.get(PumpAndFanConstants.CENTRAL_HEATING_PUMP_WATTAGE)
 					* (getControls().contains(HeatingSystemControlType.ROOM_THERMOSTAT) ?
 							1 : constants.get(PumpAndFanConstants.NO_ROOM_THERMOSTAT_MULTIPLIER))
-					, 
+					,
 					constants.get(PumpAndFanConstants.CENTRAL_HEATING_PUMP_GAINS)));
 		}
 	}
@@ -305,10 +306,10 @@ public class CentralHeatingSystemImpl extends SpaceHeaterImpl implements ICentra
 	public double getResponsiveness(final IConstants constants, final EnergyCalculatorType energyCalculatorType, final ElectricityTariffType electricityTariffType) {
 		if (isBroken()) {
 			/*
-			 * This represents the case when the heat source is broken or missing, 
-			 * and we have to use assumed portable electric heaters instead. 
+			 * This represents the case when the heat source is broken or missing,
+			 * and we have to use assumed portable electric heaters instead.
 
-			 * This is included for completeness, but should never actually get called, 
+			 * This is included for completeness, but should never actually get called,
 			 * because the heating proportion for this system will be 0 if there is no heat source.
 			 */
 			return 1.0;
@@ -428,7 +429,7 @@ public class CentralHeatingSystemImpl extends SpaceHeaterImpl implements ICentra
 		return super.eIsSet(featureID);
 	}
 
-	
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -459,11 +460,11 @@ public class CentralHeatingSystemImpl extends SpaceHeaterImpl implements ICentra
 	}
 
 	@Override
-	public double getZoneTwoControlParameter(final IInternalParameters parameters) {
+	public Zone2ControlParameter getZoneTwoControlParameter(final IInternalParameters parameters) {
 		// SAP table 4e determines the zone 2 control parameter for various different kinds of control type.
-		
+
 		// this also depends on the heat source, so in our case we delegate to the heat source.
-		if (getHeatSource() == null) return 1;
+		if (getHeatSource() == null) return Zone2ControlParameter.Two;
 		return getHeatSource().getZoneTwoControlParameter(parameters, getControls(), getEmitterType());
 	}
 

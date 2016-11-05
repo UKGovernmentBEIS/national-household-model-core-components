@@ -29,9 +29,9 @@ import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
  *
  * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getHeatSource()
  * @model abstract="true"
- * @generated
+ * @generated NOT interfaces
  */
-public interface IHeatSource extends IFuelAndFlue, IOperationalCost, IHasInstallationYear {
+public interface IHeatSource extends IFuelAndFlue, IOperationalCost, IHasInstallationYear, IHasZone2ControlParameter {
 	/**
 	 * Returns the value of the '<em><b>Water Heater</b></em>' reference.
 	 * It is bidirectional and its opposite is '{@link uk.org.cse.nhm.hom.emf.technologies.IMainWaterHeater#getHeatSource <em>Heat Source</em>}'.
@@ -169,14 +169,6 @@ public interface IHeatSource extends IFuelAndFlue, IOperationalCost, IHasInstall
 	 * @generated
 	 */
 	double getContainedTankLosses(IInternalParameters parameters);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model required="true" parametersDataType="uk.org.cse.nhm.hom.emf.technologies.IInternalParameters" parametersRequired="true" controlsMany="true" controlsOrdered="false" emitterTypeRequired="true"
-	 * @generated
-	 */
-	double getZoneTwoControlParameter(IInternalParameters parameters, EList<HeatingSystemControlType> controls, EmitterType emitterType);
 
 	/**
 	 * <!-- begin-user-doc -->
