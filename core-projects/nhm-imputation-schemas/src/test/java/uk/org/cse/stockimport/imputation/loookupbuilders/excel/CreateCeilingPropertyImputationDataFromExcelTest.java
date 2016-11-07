@@ -61,7 +61,5 @@ public class CreateCeilingPropertyImputationDataFromExcelTest extends AbsImputat
 		assertThat("unkownValuesRoomInRoof u value [1][0]", unkownValuesRoomInRoof[1][0], equalTo(0.25));
 		assertThat("unkownValuesRoomInRoof u value [1][6]", unkownValuesRoomInRoof[1][6], equalTo(0.25));
 		assertThat("unkownValuesRoomInRoof u value [1][10]", unkownValuesRoomInRoof[1][10], equalTo(0.25));
-
-		assertThat("partyCeilingKValue", imputationSchema.getCeilingUValueTables().getPartyCeilingKValue(), equalTo(13.5));
 	}
 }

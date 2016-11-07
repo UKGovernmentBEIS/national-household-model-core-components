@@ -61,9 +61,6 @@ public class RdSAPCeilingUValues implements ICeilingUValueTables {
 				{0.25,	0.25,	0.25,	0.25,	0.25,	0.25,	0.25,	0.25,	0.25,	0.25,	0.25}
 		};
 
-		private final double partyCeilingKValue = 13.5;
-		private final double roofKValue = 9;
-
 	@Override
 	public TreeMap<Integer, Double> getInsulatedPitchedUValues() {
 		return insulatedPitchedUValues;
@@ -82,10 +79,5 @@ public class RdSAPCeilingUValues implements ICeilingUValueTables {
 	@Override
 	public double[][] getUnknownValuesByRoofTypeAndAgeBandWithRoomInRoof() {
 		return unknownValuesByRoofTypeAndAgeBandWithRoomInRoof;
-	}
-
-	@Override
-	public double getPartyCeilingKValue() {
-		return partyCeilingKValue;
 	}
 }

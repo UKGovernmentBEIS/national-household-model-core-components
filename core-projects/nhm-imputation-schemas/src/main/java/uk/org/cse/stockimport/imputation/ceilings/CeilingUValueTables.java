@@ -14,8 +14,6 @@ public class CeilingUValueTables implements ICeilingUValueTables {
 	final List<TreeMap<Integer,Double>>  unknownValuesByRoofTypeAndAgeBand = new ArrayList<>();
 	final List<TreeMap<Integer,Double>>  unknownValuesByRoofTypeAndAgeBandWithRoomInRoof = new ArrayList<>();
 
-	private double partyCeilingKValue;
-
 	public CeilingUValueTables(){
 		for(final RoofConstructionType roofConstructionType : RoofConstructionType.values()){
 			unknownValuesByRoofTypeAndAgeBand.add(new TreeMap<Integer, Double>());
@@ -63,11 +61,6 @@ public class CeilingUValueTables implements ICeilingUValueTables {
 		}
 
 		return unkownValues;
-	}
-
-	@Override
-	public double getPartyCeilingKValue() {
-		return partyCeilingKValue;
 	}
 
 	public void addInsulatedPitchedUValue(final Double insulationThickness, final Double uValue){
