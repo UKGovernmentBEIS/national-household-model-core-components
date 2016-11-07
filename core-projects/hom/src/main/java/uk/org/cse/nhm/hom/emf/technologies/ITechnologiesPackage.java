@@ -1125,13 +1125,22 @@ public interface ITechnologiesPackage extends EPackage {
 	int STORAGE_HEATER__TYPE = PRIMARY_SPACE_HEATER_FEATURE_COUNT + 3;
 
 	/**
+	 * The feature id for the '<em><b>Has Responsiveness Override</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STORAGE_HEATER__HAS_RESPONSIVENESS_OVERRIDE = PRIMARY_SPACE_HEATER_FEATURE_COUNT + 4;
+
+	/**
 	 * The number of structural features of the '<em>Storage Heater</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STORAGE_HEATER_FEATURE_COUNT = PRIMARY_SPACE_HEATER_FEATURE_COUNT + 4;
+	int STORAGE_HEATER_FEATURE_COUNT = PRIMARY_SPACE_HEATER_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Fuel</b></em>' attribute.
@@ -3038,6 +3047,17 @@ public interface ITechnologiesPackage extends EPackage {
 	EAttribute getStorageHeater_Type();
 
 	/**
+	 * Returns the meta object for the attribute '{@link uk.org.cse.nhm.hom.emf.technologies.IStorageHeater#isHasResponsivenessOverride <em>Has Responsiveness Override</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Has Responsiveness Override</em>'.
+	 * @see uk.org.cse.nhm.hom.emf.technologies.IStorageHeater#isHasResponsivenessOverride()
+	 * @see #getStorageHeater()
+	 * @generated
+	 */
+	EAttribute getStorageHeater_HasResponsivenessOverride();
+
+	/**
 	 * Returns the meta object for class '{@link uk.org.cse.nhm.hom.emf.technologies.ICommunityHeatSource <em>Community Heat Source</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4400,6 +4420,14 @@ public interface ITechnologiesPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute STORAGE_HEATER__TYPE = eINSTANCE.getStorageHeater_Type();
+
+		/**
+		 * The meta object literal for the '<em><b>Has Responsiveness Override</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STORAGE_HEATER__HAS_RESPONSIVENESS_OVERRIDE = eINSTANCE.getStorageHeater_HasResponsivenessOverride();
 
 		/**
 		 * The meta object literal for the '{@link uk.org.cse.nhm.hom.emf.technologies.impl.CommunityHeatSourceImpl <em>Community Heat Source</em>}' class.

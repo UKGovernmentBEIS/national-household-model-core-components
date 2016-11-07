@@ -1176,6 +1176,15 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getStorageHeater_HasResponsivenessOverride() {
+		return (EAttribute)storageHeaterEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getCommunityHeatSource() {
 		return communityHeatSourceEClass;
 	}
@@ -1901,6 +1910,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		createEAttribute(storageHeaterEClass, STORAGE_HEATER__RESPONSIVENESS_OVERRIDE);
 		createEAttribute(storageHeaterEClass, STORAGE_HEATER__CONTROL_TYPE);
 		createEAttribute(storageHeaterEClass, STORAGE_HEATER__TYPE);
+		createEAttribute(storageHeaterEClass, STORAGE_HEATER__HAS_RESPONSIVENESS_OVERRIDE);
 
 		communityHeatSourceEClass = createEClass(COMMUNITY_HEAT_SOURCE);
 		createEAttribute(communityHeatSourceEClass, COMMUNITY_HEAT_SOURCE__CHARGING_USAGE_BASED);
@@ -2251,9 +2261,10 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		initEAttribute(getCooker_GainsFactor(), ecorePackage.getEDouble(), "gainsFactor", null, 1, 1, ICooker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(storageHeaterEClass, IStorageHeater.class, "StorageHeater", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getStorageHeater_ResponsivenessOverride(), ecorePackage.getEDoubleObject(), "responsivenessOverride", null, 1, 1, IStorageHeater.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStorageHeater_ResponsivenessOverride(), ecorePackage.getEDouble(), "responsivenessOverride", null, 1, 1, IStorageHeater.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStorageHeater_ControlType(), this.getStorageHeaterControlType(), "controlType", null, 1, 1, IStorageHeater.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStorageHeater_Type(), this.getStorageHeaterType(), "type", null, 1, 1, IStorageHeater.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStorageHeater_HasResponsivenessOverride(), ecorePackage.getEBoolean(), "hasResponsivenessOverride", null, 1, 1, IStorageHeater.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(communityHeatSourceEClass, ICommunityHeatSource.class, "CommunityHeatSource", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCommunityHeatSource_ChargingUsageBased(), ecorePackage.getEBoolean(), "chargingUsageBased", null, 1, 1, ICommunityHeatSource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

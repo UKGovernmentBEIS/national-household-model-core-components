@@ -68,7 +68,7 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Double RESPONSIVENESS_OVERRIDE_EDEFAULT = null;
+	protected static final double RESPONSIVENESS_OVERRIDE_EDEFAULT = 0.0;
 
 	/**
 	 * The cached value of the '{@link #getResponsivenessOverride() <em>Responsiveness Override</em>}' attribute.
@@ -78,7 +78,7 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 	 * @generated
 	 * @ordered
 	 */
-	protected Double responsivenessOverride = RESPONSIVENESS_OVERRIDE_EDEFAULT;
+	protected double responsivenessOverride = RESPONSIVENESS_OVERRIDE_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getControlType() <em>Control Type</em>}' attribute.
@@ -175,6 +175,26 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 	protected static final int TYPE_EFLAG = 0x7 << TYPE_EFLAG_OFFSET;
 
 	/**
+	 * The default value of the '{@link #isHasResponsivenessOverride() <em>Has Responsiveness Override</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isHasResponsivenessOverride()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean HAS_RESPONSIVENESS_OVERRIDE_EDEFAULT = false;
+
+	/**
+	 * The flag representing the value of the '{@link #isHasResponsivenessOverride() <em>Has Responsiveness Override</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isHasResponsivenessOverride()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int HAS_RESPONSIVENESS_OVERRIDE_EFLAG = 1 << 5;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -209,8 +229,8 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 	 * @generated
 	 */
 	@Override
-	public void setAnnualOperationalCost(double newAnnualOperationalCost) {
-		double oldAnnualOperationalCost = annualOperationalCost;
+	public void setAnnualOperationalCost(final double newAnnualOperationalCost) {
+		final double oldAnnualOperationalCost = annualOperationalCost;
 		annualOperationalCost = newAnnualOperationalCost;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.STORAGE_HEATER__ANNUAL_OPERATIONAL_COST, oldAnnualOperationalCost, annualOperationalCost));
@@ -222,7 +242,7 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 	 * @generated
 	 */
 	@Override
-	public Double getResponsivenessOverride() {
+	public double getResponsivenessOverride() {
 		return responsivenessOverride;
 	}
 
@@ -232,8 +252,8 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 	 * @generated
 	 */
 	@Override
-	public void setResponsivenessOverride(Double newResponsivenessOverride) {
-		Double oldResponsivenessOverride = responsivenessOverride;
+	public void setResponsivenessOverride(final double newResponsivenessOverride) {
+		final double oldResponsivenessOverride = responsivenessOverride;
 		responsivenessOverride = newResponsivenessOverride;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.STORAGE_HEATER__RESPONSIVENESS_OVERRIDE, oldResponsivenessOverride, responsivenessOverride));
@@ -256,7 +276,7 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 	 */
 	@Override
 	public void setControlType(StorageHeaterControlType newControlType) {
-		StorageHeaterControlType oldControlType = CONTROL_TYPE_EFLAG_VALUES[(flags & CONTROL_TYPE_EFLAG) >>> CONTROL_TYPE_EFLAG_OFFSET];
+		final StorageHeaterControlType oldControlType = CONTROL_TYPE_EFLAG_VALUES[(flags & CONTROL_TYPE_EFLAG) >>> CONTROL_TYPE_EFLAG_OFFSET];
 		if (newControlType == null) newControlType = CONTROL_TYPE_EDEFAULT;
 		flags = flags & ~CONTROL_TYPE_EFLAG | newControlType.ordinal() << CONTROL_TYPE_EFLAG_OFFSET;
 		if (eNotificationRequired())
@@ -280,11 +300,34 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 	 */
 	@Override
 	public void setType(StorageHeaterType newType) {
-		StorageHeaterType oldType = TYPE_EFLAG_VALUES[(flags & TYPE_EFLAG) >>> TYPE_EFLAG_OFFSET];
+		final StorageHeaterType oldType = TYPE_EFLAG_VALUES[(flags & TYPE_EFLAG) >>> TYPE_EFLAG_OFFSET];
 		if (newType == null) newType = TYPE_EDEFAULT;
 		flags = flags & ~TYPE_EFLAG | newType.ordinal() << TYPE_EFLAG_OFFSET;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.STORAGE_HEATER__TYPE, oldType, newType));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public boolean isHasResponsivenessOverride() {
+		return (flags & HAS_RESPONSIVENESS_OVERRIDE_EFLAG) != 0;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setHasResponsivenessOverride(final boolean newHasResponsivenessOverride) {
+		final boolean oldHasResponsivenessOverride = (flags & HAS_RESPONSIVENESS_OVERRIDE_EFLAG) != 0;
+		if (newHasResponsivenessOverride) flags |= HAS_RESPONSIVENESS_OVERRIDE_EFLAG; else flags &= ~HAS_RESPONSIVENESS_OVERRIDE_EFLAG;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.STORAGE_HEATER__HAS_RESPONSIVENESS_OVERRIDE, oldHasResponsivenessOverride, newHasResponsivenessOverride));
 	}
 
 	/**
@@ -341,7 +384,7 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 		switch(calculatorType) {
 		case BREDEM2012:
 			// Use the override if it has been specified, otherwise fall through to the SAP behaviour.
-			if (getResponsivenessOverride() != null) {
+			if (isHasResponsivenessOverride()) {
 				return getResponsivenessOverride();
 			}
 		case SAP2012:
@@ -381,7 +424,7 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+	public Object eGet(final int featureID, final boolean resolve, final boolean coreType) {
 		switch (featureID) {
 			case ITechnologiesPackage.STORAGE_HEATER__ANNUAL_OPERATIONAL_COST:
 				return getAnnualOperationalCost();
@@ -391,6 +434,8 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 				return getControlType();
 			case ITechnologiesPackage.STORAGE_HEATER__TYPE:
 				return getType();
+			case ITechnologiesPackage.STORAGE_HEATER__HAS_RESPONSIVENESS_OVERRIDE:
+				return isHasResponsivenessOverride();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -401,7 +446,7 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue) {
+	public void eSet(final int featureID, final Object newValue) {
 		switch (featureID) {
 			case ITechnologiesPackage.STORAGE_HEATER__ANNUAL_OPERATIONAL_COST:
 				setAnnualOperationalCost((Double)newValue);
@@ -415,6 +460,9 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 			case ITechnologiesPackage.STORAGE_HEATER__TYPE:
 				setType((StorageHeaterType)newValue);
 				return;
+			case ITechnologiesPackage.STORAGE_HEATER__HAS_RESPONSIVENESS_OVERRIDE:
+				setHasResponsivenessOverride((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -425,7 +473,7 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
+	public void eUnset(final int featureID) {
 		switch (featureID) {
 			case ITechnologiesPackage.STORAGE_HEATER__ANNUAL_OPERATIONAL_COST:
 				setAnnualOperationalCost(ANNUAL_OPERATIONAL_COST_EDEFAULT);
@@ -439,6 +487,9 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 			case ITechnologiesPackage.STORAGE_HEATER__TYPE:
 				setType(TYPE_EDEFAULT);
 				return;
+			case ITechnologiesPackage.STORAGE_HEATER__HAS_RESPONSIVENESS_OVERRIDE:
+				setHasResponsivenessOverride(HAS_RESPONSIVENESS_OVERRIDE_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -449,16 +500,18 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
+	public boolean eIsSet(final int featureID) {
 		switch (featureID) {
 			case ITechnologiesPackage.STORAGE_HEATER__ANNUAL_OPERATIONAL_COST:
 				return annualOperationalCost != ANNUAL_OPERATIONAL_COST_EDEFAULT;
 			case ITechnologiesPackage.STORAGE_HEATER__RESPONSIVENESS_OVERRIDE:
-				return RESPONSIVENESS_OVERRIDE_EDEFAULT == null ? responsivenessOverride != null : !RESPONSIVENESS_OVERRIDE_EDEFAULT.equals(responsivenessOverride);
+				return responsivenessOverride != RESPONSIVENESS_OVERRIDE_EDEFAULT;
 			case ITechnologiesPackage.STORAGE_HEATER__CONTROL_TYPE:
 				return (flags & CONTROL_TYPE_EFLAG) != CONTROL_TYPE_EFLAG_DEFAULT;
 			case ITechnologiesPackage.STORAGE_HEATER__TYPE:
 				return (flags & TYPE_EFLAG) != TYPE_EFLAG_DEFAULT;
+			case ITechnologiesPackage.STORAGE_HEATER__HAS_RESPONSIVENESS_OVERRIDE:
+				return ((flags & HAS_RESPONSIVENESS_OVERRIDE_EFLAG) != 0) != HAS_RESPONSIVENESS_OVERRIDE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -469,7 +522,7 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 	 * @generated
 	 */
 	@Override
-	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+	public int eBaseStructuralFeatureID(final int derivedFeatureID, final Class<?> baseClass) {
 		if (baseClass == IVisitorAccepter.class) {
 			switch (derivedFeatureID) {
 				default: return -1;
@@ -490,7 +543,7 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 	 * @generated
 	 */
 	@Override
-	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+	public int eDerivedStructuralFeatureID(final int baseFeatureID, final Class<?> baseClass) {
 		if (baseClass == IVisitorAccepter.class) {
 			switch (baseFeatureID) {
 				default: return -1;
@@ -514,7 +567,7 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		final StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (annualOperationalCost: ");
 		result.append(annualOperationalCost);
 		result.append(", responsivenessOverride: ");
@@ -523,6 +576,8 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 		result.append(CONTROL_TYPE_EFLAG_VALUES[(flags & CONTROL_TYPE_EFLAG) >>> CONTROL_TYPE_EFLAG_OFFSET]);
 		result.append(", type: ");
 		result.append(TYPE_EFLAG_VALUES[(flags & TYPE_EFLAG) >>> TYPE_EFLAG_OFFSET]);
+		result.append(", hasResponsivenessOverride: ");
+		result.append((flags & HAS_RESPONSIVENESS_OVERRIDE_EFLAG) != 0);
 		result.append(')');
 		return result.toString();
 	}

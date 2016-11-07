@@ -361,10 +361,13 @@
       <details key="documentation" value="A storage heater is a kind of heating system which stores electricity in some kind of thermal store during the night time and emits the heat during the daytime."/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="responsivenessOverride"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDoubleObject"/>
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        transient="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="controlType" lowerBound="1"
         eType="#//StorageHeaterControlType"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//StorageHeaterType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hasResponsivenessOverride"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="StorageHeaterControlType">
     <eLiterals name="ManualChargeControl"/>

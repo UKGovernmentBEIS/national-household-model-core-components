@@ -19,6 +19,7 @@ package uk.org.cse.nhm.hom.emf.technologies;
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IStorageHeater#getResponsivenessOverride <em>Responsiveness Override</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IStorageHeater#getControlType <em>Control Type</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IStorageHeater#getType <em>Type</em>}</li>
+ *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IStorageHeater#isHasResponsivenessOverride <em>Has Responsiveness Override</em>}</li>
  * </ul>
  *
  * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getStorageHeater()
@@ -35,12 +36,12 @@ public interface IStorageHeater extends IPrimarySpaceHeater, IVisitorAccepter, I
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Responsiveness Override</em>' attribute.
-	 * @see #setResponsivenessOverride(Double)
+	 * @see #setResponsivenessOverride(double)
 	 * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getStorageHeater_ResponsivenessOverride()
-	 * @model required="true"
+	 * @model required="true" transient="true"
 	 * @generated
 	 */
-	Double getResponsivenessOverride();
+	double getResponsivenessOverride();
 
 	/**
 	 * Sets the value of the '{@link uk.org.cse.nhm.hom.emf.technologies.IStorageHeater#getResponsivenessOverride <em>Responsiveness Override</em>}' attribute.
@@ -50,7 +51,7 @@ public interface IStorageHeater extends IPrimarySpaceHeater, IVisitorAccepter, I
 	 * @see #getResponsivenessOverride()
 	 * @generated
 	 */
-	void setResponsivenessOverride(Double value);
+	void setResponsivenessOverride(double value);
 
 	/**
 	 * Returns the value of the '<em><b>Control Type</b></em>' attribute.
@@ -109,5 +110,31 @@ public interface IStorageHeater extends IPrimarySpaceHeater, IVisitorAccepter, I
 	 * @generated
 	 */
 	void setType(StorageHeaterType value);
+
+	/**
+	 * Returns the value of the '<em><b>Has Responsiveness Override</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Has Responsiveness Override</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Has Responsiveness Override</em>' attribute.
+	 * @see #setHasResponsivenessOverride(boolean)
+	 * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getStorageHeater_HasResponsivenessOverride()
+	 * @model required="true"
+	 * @generated
+	 */
+	boolean isHasResponsivenessOverride();
+
+	/**
+	 * Sets the value of the '{@link uk.org.cse.nhm.hom.emf.technologies.IStorageHeater#isHasResponsivenessOverride <em>Has Responsiveness Override</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Has Responsiveness Override</em>' attribute.
+	 * @see #isHasResponsivenessOverride()
+	 * @generated
+	 */
+	void setHasResponsivenessOverride(boolean value);
 
 } // IStorageHeater

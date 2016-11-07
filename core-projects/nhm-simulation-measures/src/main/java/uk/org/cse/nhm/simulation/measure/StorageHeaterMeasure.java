@@ -41,18 +41,18 @@ public class StorageHeaterMeasure extends AbstractHeatingMeasure {
 			final IWetHeatingMeasureFactory wetHeatingFactory,
 			final IDimension<ITechnologyModel> techs,
 			final ITechnologyOperations operations,
-            final IProfilingStack stack, 
+            final IProfilingStack stack,
 			@Assisted final StorageHeaterType type,
 			@Assisted final StorageHeaterControlType controlType,
 			@Assisted final ISizingFunction sizingFunction,
 			@Assisted("capex") final IComponentsFunction<Number> capitalCostFunction,
 			@Assisted("opex") final IComponentsFunction<Number> operationalCostFunction,
 			@Assisted("responsiveness") final Optional<IComponentsFunction<Number>> responsivenessFunction) {
-		super(time, 
+		super(time,
 				techs,
-				operations, 
+				operations,
 				wetHeatingFactory,
-				TechnologyType.storageHeater(), 
+				TechnologyType.storageHeater(),
 				sizingFunction,
               capitalCostFunction, operationalCostFunction, Undefined.<Number>get(stack, "Storage heaters should not install wet central heating"));
 		this.techs = techs;
@@ -84,40 +84,41 @@ public class StorageHeaterMeasure extends AbstractHeatingMeasure {
 		@Override
 		public boolean modify(final ITechnologyModel modifiable) {
 			final IStorageHeater storageHeater = ITechnologiesFactory.eINSTANCE.createStorageHeater();
-			
+
 			storageHeater.setControlType(controlType);
-			
+
 			if (responsiveness.isPresent()) {
+				storageHeater.setHasResponsivenessOverride(true);
 				storageHeater.setResponsivenessOverride(responsiveness.get());
 			}
 			storageHeater.setType(type);
 			storageHeater.setAnnualOperationalCost(opex);
-						
+
 			operations.replacePrimarySpaceHeater(modifiable, storageHeater);
-			
+
 			return true;
 		}
 	}
-	
+
 	@Override
 	protected boolean doApply(
-			final ISettableComponentsScope components, 
+			final ISettableComponentsScope components,
 			final ILets lets,
-			final double size, 
+			final double size,
 			final double capex, final double opex) throws NHMException {
 		final Optional<Double> responsiveness;
 		if (responsivenessFunction.isPresent()) {
 			responsiveness = Optional.of(
 					responsivenessFunction.get().compute(components, lets).doubleValue());
-			
+
 			if (responsiveness.get() < 0 || responsiveness.get() > 1) {
 				throw new RuntimeException("Responsiveness should be between 0 and 1, but was " + responsiveness.get());
 			}
 		} else {
 			responsiveness = Optional.absent();
 		}
-		components.modify(techs, 
-				new Modifier(operations, 
+		components.modify(techs,
+				new Modifier(operations,
 						type,
 						responsiveness,
 						controlType,
@@ -135,7 +136,7 @@ public class StorageHeaterMeasure extends AbstractHeatingMeasure {
 	protected Set<HeatingSystemControlType> getHeatingSystemControlTypes() {
 		return Collections.emptySet();
 	}
-	
+
 	@Override
 	protected boolean isCentralHeatingSystemRequired() {
 		return false;
