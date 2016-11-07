@@ -66,8 +66,8 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="adjusters" upperBound="-1"
         eType="#//Adjuster" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="shower" eType="#//showers/Shower"
-        containment="true" eOpposite="#//showers/Shower/technologyModel"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="shower" eType="#//Shower"
+        containment="true" eOpposite="#//Shower/technologyModel"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Appliance" eSuperTypes="#//Named #//VisitorAccepter">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="efficiency" lowerBound="1"
@@ -496,6 +496,13 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="Efficiency" instanceClassName="uk.org.cse.nhm.hom.emf.util.Efficiency"/>
   <eClassifiers xsi:type="ecore:EDataType" name="HeatProportions" instanceClassName="uk.org.cse.nhm.hom.IHeatProportions"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Shower" abstract="true" eSuperTypes="#//VisitorAccepter">
+    <eOperations name="solarAdjustment" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="technologyModel" eType="#//TechnologyModel"
+        eOpposite="#//TechnologyModel/shower"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MixerShower" eSuperTypes="#//Shower"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ElectricShower" eSuperTypes="#//Shower"/>
   <eSubpackages name="boilers" nsURI="http://www.cse.org.uk/nhm/schema/emf/technology/boilers/1/"
       nsPrefix="boilers">
     <eClassifiers xsi:type="ecore:EClass" name="Boiler" eSuperTypes="#//IndividualHeatSource #//VisitorAccepter #//FuelAndFlue">
@@ -559,15 +566,5 @@
       <eLiterals name="SAPDefault"/>
       <eLiterals name="ManufacturerDeclared" value="1"/>
     </eClassifiers>
-  </eSubpackages>
-  <eSubpackages name="showers" nsURI="http://www.cse.org.uk/nhm/schema/emf/technology/showers/1/"
-      nsPrefix="showers">
-    <eClassifiers xsi:type="ecore:EClass" name="Shower" abstract="true" eSuperTypes="#//VisitorAccepter">
-      <eOperations name="solarAdjustment" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="technologyModel" eType="#//TechnologyModel"
-          eOpposite="#//TechnologyModel/shower"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="MixerShower" eSuperTypes="#//showers/Shower"/>
-    <eClassifiers xsi:type="ecore:EClass" name="ElectricShower" eSuperTypes="#//showers/Shower"/>
   </eSubpackages>
 </ecore:EPackage>

@@ -1,6 +1,6 @@
 /**
  */
-package uk.org.cse.nhm.hom.emf.technologies.showers.impl;
+package uk.org.cse.nhm.hom.emf.technologies.impl;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.emf.ecore.EClass;
@@ -8,8 +8,8 @@ import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.hom.IHeatProportions;
-import uk.org.cse.nhm.hom.emf.technologies.showers.IElectricShower;
-import uk.org.cse.nhm.hom.emf.technologies.showers.IShowersPackage;
+import uk.org.cse.nhm.hom.emf.technologies.IElectricShower;
+import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -35,9 +35,10 @@ public class ElectricShowerImpl extends ShowerImpl implements IElectricShower {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return IShowersPackage.Literals.ELECTRIC_SHOWER;
+		return ITechnologiesPackage.Literals.ELECTRIC_SHOWER;
 	}
 
+	@Override
 	public double hotWaterVolumePerShower() {
 		return 0;
 	}
@@ -47,6 +48,7 @@ public class ElectricShowerImpl extends ShowerImpl implements IElectricShower {
 	 * <!-- end-user-doc -->
 	 * @generated no
 	 */
+	@Override
 	public double solarAdjustment() {
 		return 0.64;
 	}
@@ -56,10 +58,11 @@ public class ElectricShowerImpl extends ShowerImpl implements IElectricShower {
 	 * <!-- end-user-doc -->
 	 * @generated no
 	 */
+	@Override
 	public void accept(final IConstants constants, final IEnergyCalculatorParameters parameters, final IEnergyCalculatorVisitor visitor, final AtomicInteger heatingSystemCounter, final IHeatProportions heatProportions) {
 		// get number of showers
 		// make a special Sink
-		
+
 		switch (parameters.getCalculatorType()) {
 		case SAP2012:
 			break;

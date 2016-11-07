@@ -39,6 +39,7 @@ import uk.org.cse.nhm.hom.emf.technologies.IOperationalCost;
 import uk.org.cse.nhm.hom.emf.technologies.IPointOfUseWaterHeater;
 import uk.org.cse.nhm.hom.emf.technologies.IPrimarySpaceHeater;
 import uk.org.cse.nhm.hom.emf.technologies.IRoomHeater;
+import uk.org.cse.nhm.hom.emf.technologies.IShower;
 import uk.org.cse.nhm.hom.emf.technologies.ISolarPhotovoltaic;
 import uk.org.cse.nhm.hom.emf.technologies.ISpaceHeater;
 import uk.org.cse.nhm.hom.emf.technologies.IStorageHeater;
@@ -49,8 +50,6 @@ import uk.org.cse.nhm.hom.emf.technologies.IVisitorAccepter;
 import uk.org.cse.nhm.hom.emf.technologies.IWaterHeater;
 import uk.org.cse.nhm.hom.emf.technologies.StorageHeaterType;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.FlueType;
-import uk.org.cse.nhm.hom.emf.technologies.showers.IShower;
-import uk.org.cse.nhm.hom.emf.technologies.showers.IShowersPackage;
 import uk.org.cse.nhm.hom.emf.util.Efficiency;
 
 /**
@@ -672,9 +671,9 @@ public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnolo
 		if (newShower != shower) {
 			NotificationChain msgs = null;
 			if (shower != null)
-				msgs = ((InternalEObject)shower).eInverseRemove(this, IShowersPackage.SHOWER__TECHNOLOGY_MODEL, IShower.class, msgs);
+				msgs = ((InternalEObject)shower).eInverseRemove(this, ITechnologiesPackage.SHOWER__TECHNOLOGY_MODEL, IShower.class, msgs);
 			if (newShower != null)
-				msgs = ((InternalEObject)newShower).eInverseAdd(this, IShowersPackage.SHOWER__TECHNOLOGY_MODEL, IShower.class, msgs);
+				msgs = ((InternalEObject)newShower).eInverseAdd(this, ITechnologiesPackage.SHOWER__TECHNOLOGY_MODEL, IShower.class, msgs);
 			msgs = basicSetShower(newShower, msgs);
 			if (msgs != null) msgs.dispatch();
 		}

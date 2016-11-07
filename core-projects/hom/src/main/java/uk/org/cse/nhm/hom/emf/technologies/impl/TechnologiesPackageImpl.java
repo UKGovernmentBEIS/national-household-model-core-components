@@ -33,6 +33,7 @@ import uk.org.cse.nhm.hom.emf.technologies.ICentralWaterSystem;
 import uk.org.cse.nhm.hom.emf.technologies.ICommunityCHP;
 import uk.org.cse.nhm.hom.emf.technologies.ICommunityHeatSource;
 import uk.org.cse.nhm.hom.emf.technologies.ICooker;
+import uk.org.cse.nhm.hom.emf.technologies.IElectricShower;
 import uk.org.cse.nhm.hom.emf.technologies.IFuelAndFlue;
 import uk.org.cse.nhm.hom.emf.technologies.IHasInstallationYear;
 import uk.org.cse.nhm.hom.emf.technologies.IHeatPump;
@@ -43,11 +44,13 @@ import uk.org.cse.nhm.hom.emf.technologies.IImmersionHeater;
 import uk.org.cse.nhm.hom.emf.technologies.IIndividualHeatSource;
 import uk.org.cse.nhm.hom.emf.technologies.ILight;
 import uk.org.cse.nhm.hom.emf.technologies.IMainWaterHeater;
+import uk.org.cse.nhm.hom.emf.technologies.IMixerShower;
 import uk.org.cse.nhm.hom.emf.technologies.INamed;
 import uk.org.cse.nhm.hom.emf.technologies.IOperationalCost;
 import uk.org.cse.nhm.hom.emf.technologies.IPointOfUseWaterHeater;
 import uk.org.cse.nhm.hom.emf.technologies.IPrimarySpaceHeater;
 import uk.org.cse.nhm.hom.emf.technologies.IRoomHeater;
+import uk.org.cse.nhm.hom.emf.technologies.IShower;
 import uk.org.cse.nhm.hom.emf.technologies.ISolarPhotovoltaic;
 import uk.org.cse.nhm.hom.emf.technologies.ISolarWaterHeater;
 import uk.org.cse.nhm.hom.emf.technologies.ISpaceHeater;
@@ -65,8 +68,6 @@ import uk.org.cse.nhm.hom.emf.technologies.StorageHeaterControlType;
 import uk.org.cse.nhm.hom.emf.technologies.StorageHeaterType;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoilersPackage;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.impl.BoilersPackageImpl;
-import uk.org.cse.nhm.hom.emf.technologies.showers.IShowersPackage;
-import uk.org.cse.nhm.hom.emf.technologies.showers.impl.ShowersPackageImpl;
 import uk.org.cse.nhm.hom.emf.util.Efficiency;
 
 /**
@@ -326,6 +327,27 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass showerEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass mixerShowerEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass electricShowerEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EEnum fuelTypeEEnum = null;
 
 	/**
@@ -474,17 +496,14 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 
 		// Obtain or create and register interdependencies
 		BoilersPackageImpl theBoilersPackage = (BoilersPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(IBoilersPackage.eNS_URI) instanceof BoilersPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(IBoilersPackage.eNS_URI) : IBoilersPackage.eINSTANCE);
-		ShowersPackageImpl theShowersPackage = (ShowersPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(IShowersPackage.eNS_URI) instanceof ShowersPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(IShowersPackage.eNS_URI) : IShowersPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theTechnologiesPackage.createPackageContents();
 		theBoilersPackage.createPackageContents();
-		theShowersPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theTechnologiesPackage.initializePackageContents();
 		theBoilersPackage.initializePackageContents();
-		theShowersPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theTechnologiesPackage.freeze();
@@ -1598,6 +1617,42 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getShower() {
+		return showerEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getShower_TechnologyModel() {
+		return (EReference)showerEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getMixerShower() {
+		return mixerShowerEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getElectricShower() {
+		return electricShowerEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getFuelType() {
 		return fuelTypeEEnum;
 	}
@@ -1913,6 +1968,13 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		hasInstallationYearEClass = createEClass(HAS_INSTALLATION_YEAR);
 		createEAttribute(hasInstallationYearEClass, HAS_INSTALLATION_YEAR__INSTALLATION_YEAR);
 
+		showerEClass = createEClass(SHOWER);
+		createEReference(showerEClass, SHOWER__TECHNOLOGY_MODEL);
+
+		mixerShowerEClass = createEClass(MIXER_SHOWER);
+
+		electricShowerEClass = createEClass(ELECTRIC_SHOWER);
+
 		// Create enums
 		fuelTypeEEnum = createEEnum(FUEL_TYPE);
 		heatingSystemControlTypeEEnum = createEEnum(HEATING_SYSTEM_CONTROL_TYPE);
@@ -1958,11 +2020,9 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 
 		// Obtain other dependent packages
 		IBoilersPackage theBoilersPackage = (IBoilersPackage)EPackage.Registry.INSTANCE.getEPackage(IBoilersPackage.eNS_URI);
-		IShowersPackage theShowersPackage = (IShowersPackage)EPackage.Registry.INSTANCE.getEPackage(IShowersPackage.eNS_URI);
 
 		// Add subpackages
 		getESubpackages().add(theBoilersPackage);
-		getESubpackages().add(theShowersPackage);
 
 		// Create type parameters
 
@@ -2011,6 +2071,9 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		solarPhotovoltaicEClass.getESuperTypes().add(this.getVisitorAccepter());
 		adjusterEClass.getESuperTypes().add(this.getNamed());
 		adjusterEClass.getESuperTypes().add(this.getVisitorAccepter());
+		showerEClass.getESuperTypes().add(this.getVisitorAccepter());
+		mixerShowerEClass.getESuperTypes().add(this.getShower());
+		electricShowerEClass.getESuperTypes().add(this.getShower());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(technologyModelEClass, ITechnologyModel.class, "TechnologyModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -2025,7 +2088,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		initEReference(getTechnologyModel_CommunityHeatSource(), this.getCommunityHeatSource(), null, "communityHeatSource", null, 0, 1, ITechnologyModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTechnologyModel_SolarPhotovoltaic(), this.getSolarPhotovoltaic(), null, "solarPhotovoltaic", null, 0, 1, ITechnologyModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTechnologyModel_Adjusters(), this.getAdjuster(), null, "adjusters", null, 0, -1, ITechnologyModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTechnologyModel_Shower(), theShowersPackage.getShower(), theShowersPackage.getShower_TechnologyModel(), "shower", null, 0, 1, ITechnologyModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTechnologyModel_Shower(), this.getShower(), this.getShower_TechnologyModel(), "shower", null, 0, 1, ITechnologyModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(technologyModelEClass, ecorePackage.getEDouble(), "getTotalOperationalCost", 1, 1, IS_UNIQUE, IS_ORDERED);
 
@@ -2257,6 +2320,15 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 
 		initEClass(hasInstallationYearEClass, IHasInstallationYear.class, "HasInstallationYear", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getHasInstallationYear_InstallationYear(), ecorePackage.getEInt(), "installationYear", "0", 1, 1, IHasInstallationYear.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(showerEClass, IShower.class, "Shower", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getShower_TechnologyModel(), this.getTechnologyModel(), this.getTechnologyModel_Shower(), "technologyModel", null, 0, 1, IShower.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		addEOperation(showerEClass, ecorePackage.getEDouble(), "solarAdjustment", 1, 1, IS_UNIQUE, IS_ORDERED);
+
+		initEClass(mixerShowerEClass, IMixerShower.class, "MixerShower", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(electricShowerEClass, IElectricShower.class, "ElectricShower", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Initialize enums and add enum literals
 		initEEnum(fuelTypeEEnum, FuelType.class, "FuelType");

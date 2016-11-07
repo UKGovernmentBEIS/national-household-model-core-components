@@ -29,7 +29,7 @@ import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
  *
  * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getHeatSource()
  * @model abstract="true"
- * @generated NOT interfaces
+ * @generated NOT
  */
 public interface IHeatSource extends IFuelAndFlue, IOperationalCost, IHasInstallationYear, IHasZone2ControlParameter {
 	/**

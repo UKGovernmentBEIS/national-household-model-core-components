@@ -7,14 +7,14 @@ import org.eclipse.emf.common.util.EList;
 import uk.org.cse.nhm.hom.ICopyable;
 import uk.org.cse.nhm.hom.IHeatProportions;
 
-import uk.org.cse.nhm.hom.emf.technologies.showers.IShower;
+import uk.org.cse.nhm.hom.emf.technologies.IShower;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Technology Model</b></em>'.
- * 
+ *
  * WARNING: After regenerating, you have to add the ICopyable<ITechnologyModel> interface.
  * <!-- end-user-doc -->
  *
@@ -85,7 +85,7 @@ public interface ITechnologyModel extends IVisitorAccepter, ICopyable<ITechnolog
 	 * <!-- begin-model-doc -->
 	 * Contains the house's individual heat source. At the moment a house can only have one of these;
 	 * it is something like a boiler or a heat pump.
-	 * 
+	 *
 	 * This must be connected to a heating or DHW system to do anything.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Individual Heat Source</em>' containment reference.
@@ -316,7 +316,7 @@ public interface ITechnologyModel extends IVisitorAccepter, ICopyable<ITechnolog
 
 	/**
 	 * Returns the value of the '<em><b>Shower</b></em>' containment reference.
-	 * It is bidirectional and its opposite is '{@link uk.org.cse.nhm.hom.emf.technologies.showers.IShower#getTechnologyModel <em>Technology Model</em>}'.
+	 * It is bidirectional and its opposite is '{@link uk.org.cse.nhm.hom.emf.technologies.IShower#getTechnologyModel <em>Technology Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Shower</em>' containment reference isn't clear,
@@ -326,7 +326,7 @@ public interface ITechnologyModel extends IVisitorAccepter, ICopyable<ITechnolog
 	 * @return the value of the '<em>Shower</em>' containment reference.
 	 * @see #setShower(IShower)
 	 * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getTechnologyModel_Shower()
-	 * @see uk.org.cse.nhm.hom.emf.technologies.showers.IShower#getTechnologyModel
+	 * @see uk.org.cse.nhm.hom.emf.technologies.IShower#getTechnologyModel
 	 * @model opposite="technologyModel" containment="true"
 	 * @generated
 	 */
@@ -355,7 +355,7 @@ public interface ITechnologyModel extends IVisitorAccepter, ICopyable<ITechnolog
 	 * @generated
 	 */
 	double getTotalOperationalCost();
-	
+
 	/**
 	 * @generated NO
 	 */

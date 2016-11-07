@@ -238,6 +238,24 @@ public interface ITechnologiesFactory extends EFactory {
 	IHybridHeater createHybridHeater();
 
 	/**
+	 * Returns a new object of class '<em>Mixer Shower</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Mixer Shower</em>'.
+	 * @generated
+	 */
+	IMixerShower createMixerShower();
+
+	/**
+	 * Returns a new object of class '<em>Electric Shower</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Electric Shower</em>'.
+	 * @generated
+	 */
+	IElectricShower createElectricShower();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

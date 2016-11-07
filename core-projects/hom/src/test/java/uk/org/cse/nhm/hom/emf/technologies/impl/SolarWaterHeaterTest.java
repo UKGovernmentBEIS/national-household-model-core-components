@@ -18,11 +18,10 @@ import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.hom.constants.HeatingSystemConstants;
 import uk.org.cse.nhm.hom.emf.technologies.ICentralWaterSystem;
+import uk.org.cse.nhm.hom.emf.technologies.IShower;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
 import uk.org.cse.nhm.hom.emf.technologies.IWaterTank;
-import uk.org.cse.nhm.hom.emf.technologies.showers.IShower;
-import uk.org.cse.nhm.hom.emf.technologies.showers.IShowersFactory;
 
 public class SolarWaterHeaterTest {
 	private SolarWaterHeaterImpl swh;
@@ -36,7 +35,7 @@ public class SolarWaterHeaterTest {
 
 		techModel = ITechnologiesFactory.eINSTANCE.createTechnologyModel();
 		system = ITechnologiesFactory.eINSTANCE.createCentralWaterSystem();
-		shower = IShowersFactory.eINSTANCE.createMixerShower();
+		shower = ITechnologiesFactory.eINSTANCE.createMixerShower();
 		swh = (SolarWaterHeaterImpl)ITechnologiesFactory.eINSTANCE.createSolarWaterHeater();
 
 		techModel.setShower(shower);

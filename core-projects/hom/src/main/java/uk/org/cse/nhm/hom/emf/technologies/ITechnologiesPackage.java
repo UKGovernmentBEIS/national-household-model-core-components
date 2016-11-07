@@ -2012,6 +2012,90 @@ public interface ITechnologiesPackage extends EPackage {
 	int HAS_INSTALLATION_YEAR_FEATURE_COUNT = 1;
 
 	/**
+	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.impl.ShowerImpl <em>Shower</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.ShowerImpl
+	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getShower()
+	 * @generated
+	 */
+	int SHOWER = 35;
+
+	/**
+	 * The feature id for the '<em><b>Technology Model</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SHOWER__TECHNOLOGY_MODEL = VISITOR_ACCEPTER_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Shower</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SHOWER_FEATURE_COUNT = VISITOR_ACCEPTER_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.impl.MixerShowerImpl <em>Mixer Shower</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.MixerShowerImpl
+	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getMixerShower()
+	 * @generated
+	 */
+	int MIXER_SHOWER = 36;
+
+	/**
+	 * The feature id for the '<em><b>Technology Model</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MIXER_SHOWER__TECHNOLOGY_MODEL = SHOWER__TECHNOLOGY_MODEL;
+
+	/**
+	 * The number of structural features of the '<em>Mixer Shower</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MIXER_SHOWER_FEATURE_COUNT = SHOWER_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.impl.ElectricShowerImpl <em>Electric Shower</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.ElectricShowerImpl
+	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getElectricShower()
+	 * @generated
+	 */
+	int ELECTRIC_SHOWER = 37;
+
+	/**
+	 * The feature id for the '<em><b>Technology Model</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ELECTRIC_SHOWER__TECHNOLOGY_MODEL = SHOWER__TECHNOLOGY_MODEL;
+
+	/**
+	 * The number of structural features of the '<em>Electric Shower</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ELECTRIC_SHOWER_FEATURE_COUNT = SHOWER_FEATURE_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.FuelType <em>Fuel Type</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2019,7 +2103,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getFuelType()
 	 * @generated
 	 */
-	int FUEL_TYPE = 35;
+	int FUEL_TYPE = 38;
 
 
 	/**
@@ -2030,7 +2114,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getHeatingSystemControlType()
 	 * @generated
 	 */
-	int HEATING_SYSTEM_CONTROL_TYPE = 36;
+	int HEATING_SYSTEM_CONTROL_TYPE = 39;
 
 	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.EmitterType <em>Emitter Type</em>}' enum.
@@ -2040,7 +2124,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getEmitterType()
 	 * @generated
 	 */
-	int EMITTER_TYPE = 37;
+	int EMITTER_TYPE = 40;
 
 	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.StorageHeaterControlType <em>Storage Heater Control Type</em>}' enum.
@@ -2050,7 +2134,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getStorageHeaterControlType()
 	 * @generated
 	 */
-	int STORAGE_HEATER_CONTROL_TYPE = 38;
+	int STORAGE_HEATER_CONTROL_TYPE = 41;
 
 	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.StorageHeaterType <em>Storage Heater Type</em>}' enum.
@@ -2060,7 +2144,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getStorageHeaterType()
 	 * @generated
 	 */
-	int STORAGE_HEATER_TYPE = 39;
+	int STORAGE_HEATER_TYPE = 42;
 
 	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.HeatPumpSourceType <em>Heat Pump Source Type</em>}' enum.
@@ -2070,7 +2154,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getHeatPumpSourceType()
 	 * @generated
 	 */
-	int HEAT_PUMP_SOURCE_TYPE = 40;
+	int HEAT_PUMP_SOURCE_TYPE = 43;
 
 	/**
 	 * The meta object id for the '<em>IEnergy Calculator Visitor</em>' data type.
@@ -2080,7 +2164,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getIEnergyCalculatorVisitor()
 	 * @generated
 	 */
-	int IENERGY_CALCULATOR_VISITOR = 41;
+	int IENERGY_CALCULATOR_VISITOR = 44;
 
 	/**
 	 * The meta object id for the '<em>IInternal Parameters</em>' data type.
@@ -2090,7 +2174,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getIInternalParameters()
 	 * @generated
 	 */
-	int IINTERNAL_PARAMETERS = 42;
+	int IINTERNAL_PARAMETERS = 45;
 
 
 	/**
@@ -2101,7 +2185,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getIEnergyState()
 	 * @generated
 	 */
-	int IENERGY_STATE = 43;
+	int IENERGY_STATE = 46;
 
 
 	/**
@@ -2112,7 +2196,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getEnergyType()
 	 * @generated
 	 */
-	int ENERGY_TYPE = 44;
+	int ENERGY_TYPE = 47;
 
 
 	/**
@@ -2123,7 +2207,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getAtomicInteger()
 	 * @generated
 	 */
-	int ATOMIC_INTEGER = 45;
+	int ATOMIC_INTEGER = 48;
 
 
 	/**
@@ -2134,7 +2218,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getIConstants()
 	 * @generated
 	 */
-	int ICONSTANTS = 46;
+	int ICONSTANTS = 49;
 
 	/**
 	 * The meta object id for the '<em>IEnergy Calculator Parameters</em>' data type.
@@ -2144,7 +2228,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getIEnergyCalculatorParameters()
 	 * @generated
 	 */
-	int IENERGY_CALCULATOR_PARAMETERS = 47;
+	int IENERGY_CALCULATOR_PARAMETERS = 50;
 
 	/**
 	 * The meta object id for the '<em>Efficiency</em>' data type.
@@ -2154,7 +2238,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getEfficiency()
 	 * @generated
 	 */
-	int EFFICIENCY = 48;
+	int EFFICIENCY = 51;
 
 
 	/**
@@ -2165,7 +2249,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getHeatProportions()
 	 * @generated
 	 */
-	int HEAT_PROPORTIONS = 49;
+	int HEAT_PROPORTIONS = 52;
 
 
 	/**
@@ -3476,6 +3560,47 @@ public interface ITechnologiesPackage extends EPackage {
 	EAttribute getHasInstallationYear_InstallationYear();
 
 	/**
+	 * Returns the meta object for class '{@link uk.org.cse.nhm.hom.emf.technologies.IShower <em>Shower</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Shower</em>'.
+	 * @see uk.org.cse.nhm.hom.emf.technologies.IShower
+	 * @generated
+	 */
+	EClass getShower();
+
+	/**
+	 * Returns the meta object for the container reference '{@link uk.org.cse.nhm.hom.emf.technologies.IShower#getTechnologyModel <em>Technology Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Technology Model</em>'.
+	 * @see uk.org.cse.nhm.hom.emf.technologies.IShower#getTechnologyModel()
+	 * @see #getShower()
+	 * @generated
+	 */
+	EReference getShower_TechnologyModel();
+
+	/**
+	 * Returns the meta object for class '{@link uk.org.cse.nhm.hom.emf.technologies.IMixerShower <em>Mixer Shower</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Mixer Shower</em>'.
+	 * @see uk.org.cse.nhm.hom.emf.technologies.IMixerShower
+	 * @generated
+	 */
+	EClass getMixerShower();
+
+	/**
+	 * Returns the meta object for class '{@link uk.org.cse.nhm.hom.emf.technologies.IElectricShower <em>Electric Shower</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Electric Shower</em>'.
+	 * @see uk.org.cse.nhm.hom.emf.technologies.IElectricShower
+	 * @generated
+	 */
+	EClass getElectricShower();
+
+	/**
 	 * Returns the meta object for enum '{@link uk.org.cse.nhm.hom.emf.technologies.FuelType <em>Fuel Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4701,6 +4826,44 @@ public interface ITechnologiesPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute HAS_INSTALLATION_YEAR__INSTALLATION_YEAR = eINSTANCE.getHasInstallationYear_InstallationYear();
+
+		/**
+		 * The meta object literal for the '{@link uk.org.cse.nhm.hom.emf.technologies.impl.ShowerImpl <em>Shower</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see uk.org.cse.nhm.hom.emf.technologies.impl.ShowerImpl
+		 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getShower()
+		 * @generated
+		 */
+		EClass SHOWER = eINSTANCE.getShower();
+
+		/**
+		 * The meta object literal for the '<em><b>Technology Model</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SHOWER__TECHNOLOGY_MODEL = eINSTANCE.getShower_TechnologyModel();
+
+		/**
+		 * The meta object literal for the '{@link uk.org.cse.nhm.hom.emf.technologies.impl.MixerShowerImpl <em>Mixer Shower</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see uk.org.cse.nhm.hom.emf.technologies.impl.MixerShowerImpl
+		 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getMixerShower()
+		 * @generated
+		 */
+		EClass MIXER_SHOWER = eINSTANCE.getMixerShower();
+
+		/**
+		 * The meta object literal for the '{@link uk.org.cse.nhm.hom.emf.technologies.impl.ElectricShowerImpl <em>Electric Shower</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see uk.org.cse.nhm.hom.emf.technologies.impl.ElectricShowerImpl
+		 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getElectricShower()
+		 * @generated
+		 */
+		EClass ELECTRIC_SHOWER = eINSTANCE.getElectricShower();
 
 		/**
 		 * The meta object literal for the '{@link uk.org.cse.nhm.hom.emf.technologies.FuelType <em>Fuel Type</em>}' enum.

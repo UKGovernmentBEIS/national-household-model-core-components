@@ -1,6 +1,7 @@
 /**
  */
-package uk.org.cse.nhm.hom.emf.technologies.showers;
+package uk.org.cse.nhm.hom.emf.technologies;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -8,7 +9,7 @@ package uk.org.cse.nhm.hom.emf.technologies.showers;
  * <!-- end-user-doc -->
  *
  *
- * @see uk.org.cse.nhm.hom.emf.technologies.showers.IShowersPackage#getElectricShower()
+ * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getElectricShower()
  * @model
  * @generated
  */

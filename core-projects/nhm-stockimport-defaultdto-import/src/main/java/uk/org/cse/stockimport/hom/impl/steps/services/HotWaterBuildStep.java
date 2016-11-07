@@ -31,7 +31,6 @@ import uk.org.cse.nhm.hom.emf.technologies.IWaterTank;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.ICPSU;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.ICombiBoiler;
-import uk.org.cse.nhm.hom.emf.technologies.showers.IShowersFactory;
 import uk.org.cse.nhm.hom.emf.util.Efficiency;
 import uk.org.cse.stockimport.domain.IBasicDTO;
 import uk.org.cse.stockimport.domain.IHouseCaseDTO;
@@ -55,7 +54,6 @@ public class HotWaterBuildStep implements ISurveyCaseBuildStep {
 	/** @since 1.0*/
 	public static final String IDENTIFIER = HotWaterBuildStep.class.getCanonicalName();
 	protected static final ITechnologiesFactory T = ITechnologiesFactory.eINSTANCE;
-	protected static final IShowersFactory S = IShowersFactory.eINSTANCE;
 
 	private IHeatSourceBuilder heatSourceBuilder;
 
@@ -128,9 +126,9 @@ public class HotWaterBuildStep implements ISurveyCaseBuildStep {
 		}
 
 		if (dto.getHasElectricShower().isPresent() && dto.getHasElectricShower().get()) {
-			tech.setShower(S.createElectricShower());
+			tech.setShower(T.createElectricShower());
 		} else {
-			tech.setShower(S.createMixerShower());
+			tech.setShower(T.createMixerShower());
 		}
 	}
 

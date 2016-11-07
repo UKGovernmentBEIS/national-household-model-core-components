@@ -1,6 +1,6 @@
 /**
  */
-package uk.org.cse.nhm.hom.emf.technologies.showers.impl;
+package uk.org.cse.nhm.hom.emf.technologies.impl;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -18,14 +18,12 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
-import uk.org.cse.nhm.energycalculator.impl.demands.IBredemShower;
+
 import uk.org.cse.nhm.hom.IHeatProportions;
 
+import uk.org.cse.nhm.hom.emf.technologies.IShower;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
-
-import uk.org.cse.nhm.hom.emf.technologies.showers.IShower;
-import uk.org.cse.nhm.hom.emf.technologies.showers.IShowersPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -35,15 +33,15 @@ import uk.org.cse.nhm.hom.emf.technologies.showers.IShowersPackage;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.showers.impl.ShowerImpl#getTechnologyModel <em>Technology Model</em>}</li>
+ *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.ShowerImpl#getTechnologyModel <em>Technology Model</em>}</li>
  * </ul>
  *
- * @generated no (IBredemShower interface)
+ * @generated
  */
-public abstract class ShowerImpl extends MinimalEObjectImpl implements IShower, IBredemShower {
+public abstract class ShowerImpl extends MinimalEObjectImpl implements IShower {
 	private final double BREDEM_SHOWERS_BASE = 0.65;
 	private final double BREDEM_SHOWERS_OCCUPANCY_FACTOR = 0.45;
-	
+
 	/**
 	 * A set of bit flags representing the values of boolean attributes and whether unsettable features have been set.
 	 * <!-- begin-user-doc -->
@@ -69,7 +67,7 @@ public abstract class ShowerImpl extends MinimalEObjectImpl implements IShower, 
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return IShowersPackage.Literals.SHOWER;
+		return ITechnologiesPackage.Literals.SHOWER;
 	}
 
 	/**
@@ -77,8 +75,9 @@ public abstract class ShowerImpl extends MinimalEObjectImpl implements IShower, 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ITechnologyModel getTechnologyModel() {
-		if (eContainerFeatureID() != IShowersPackage.SHOWER__TECHNOLOGY_MODEL) return null;
+		if (eContainerFeatureID() != ITechnologiesPackage.SHOWER__TECHNOLOGY_MODEL) return null;
 		return (ITechnologyModel)eInternalContainer();
 	}
 
@@ -88,7 +87,7 @@ public abstract class ShowerImpl extends MinimalEObjectImpl implements IShower, 
 	 * @generated
 	 */
 	public NotificationChain basicSetTechnologyModel(ITechnologyModel newTechnologyModel, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newTechnologyModel, IShowersPackage.SHOWER__TECHNOLOGY_MODEL, msgs);
+		msgs = eBasicSetContainer((InternalEObject)newTechnologyModel, ITechnologiesPackage.SHOWER__TECHNOLOGY_MODEL, msgs);
 		return msgs;
 	}
 
@@ -97,8 +96,9 @@ public abstract class ShowerImpl extends MinimalEObjectImpl implements IShower, 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTechnologyModel(ITechnologyModel newTechnologyModel) {
-		if (newTechnologyModel != eInternalContainer() || (eContainerFeatureID() != IShowersPackage.SHOWER__TECHNOLOGY_MODEL && newTechnologyModel != null)) {
+		if (newTechnologyModel != eInternalContainer() || (eContainerFeatureID() != ITechnologiesPackage.SHOWER__TECHNOLOGY_MODEL && newTechnologyModel != null)) {
 			if (EcoreUtil.isAncestor(this, newTechnologyModel))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;
@@ -110,7 +110,7 @@ public abstract class ShowerImpl extends MinimalEObjectImpl implements IShower, 
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, IShowersPackage.SHOWER__TECHNOLOGY_MODEL, newTechnologyModel, newTechnologyModel));
+			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SHOWER__TECHNOLOGY_MODEL, newTechnologyModel, newTechnologyModel));
 	}
 
 	/**
@@ -118,6 +118,7 @@ public abstract class ShowerImpl extends MinimalEObjectImpl implements IShower, 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public double solarAdjustment() {
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
@@ -129,6 +130,7 @@ public abstract class ShowerImpl extends MinimalEObjectImpl implements IShower, 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void accept(final IConstants constants, final IEnergyCalculatorParameters parameters, final IEnergyCalculatorVisitor visitor, final AtomicInteger heatingSystemCounter, final IHeatProportions heatProportions) {
 		/*
 		 * Default accept() method does nothing
@@ -143,7 +145,7 @@ public abstract class ShowerImpl extends MinimalEObjectImpl implements IShower, 
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case IShowersPackage.SHOWER__TECHNOLOGY_MODEL:
+			case ITechnologiesPackage.SHOWER__TECHNOLOGY_MODEL:
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
 				return basicSetTechnologyModel((ITechnologyModel)otherEnd, msgs);
@@ -159,7 +161,7 @@ public abstract class ShowerImpl extends MinimalEObjectImpl implements IShower, 
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case IShowersPackage.SHOWER__TECHNOLOGY_MODEL:
+			case ITechnologiesPackage.SHOWER__TECHNOLOGY_MODEL:
 				return basicSetTechnologyModel(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -173,7 +175,7 @@ public abstract class ShowerImpl extends MinimalEObjectImpl implements IShower, 
 	@Override
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID()) {
-			case IShowersPackage.SHOWER__TECHNOLOGY_MODEL:
+			case ITechnologiesPackage.SHOWER__TECHNOLOGY_MODEL:
 				return eInternalContainer().eInverseRemove(this, ITechnologiesPackage.TECHNOLOGY_MODEL__SHOWER, ITechnologyModel.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
@@ -187,7 +189,7 @@ public abstract class ShowerImpl extends MinimalEObjectImpl implements IShower, 
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case IShowersPackage.SHOWER__TECHNOLOGY_MODEL:
+			case ITechnologiesPackage.SHOWER__TECHNOLOGY_MODEL:
 				return getTechnologyModel();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -201,7 +203,7 @@ public abstract class ShowerImpl extends MinimalEObjectImpl implements IShower, 
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case IShowersPackage.SHOWER__TECHNOLOGY_MODEL:
+			case ITechnologiesPackage.SHOWER__TECHNOLOGY_MODEL:
 				setTechnologyModel((ITechnologyModel)newValue);
 				return;
 		}
@@ -216,7 +218,7 @@ public abstract class ShowerImpl extends MinimalEObjectImpl implements IShower, 
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case IShowersPackage.SHOWER__TECHNOLOGY_MODEL:
+			case ITechnologiesPackage.SHOWER__TECHNOLOGY_MODEL:
 				setTechnologyModel((ITechnologyModel)null);
 				return;
 		}
@@ -231,14 +233,14 @@ public abstract class ShowerImpl extends MinimalEObjectImpl implements IShower, 
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case IShowersPackage.SHOWER__TECHNOLOGY_MODEL:
+			case ITechnologiesPackage.SHOWER__TECHNOLOGY_MODEL:
 				return getTechnologyModel() != null;
 		}
 		return super.eIsSet(featureID);
 	}
-	
+
 	@Override
-	public double numShowers(double occupancy) {
+	public double numShowers(final double occupancy) {
 		return BREDEM_SHOWERS_BASE + (BREDEM_SHOWERS_OCCUPANCY_FACTOR * occupancy);
 	}
 

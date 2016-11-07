@@ -18,6 +18,7 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyState;
 import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.hom.IHeatProportions;
+import uk.org.cse.nhm.hom.emf.technologies.*;
 import uk.org.cse.nhm.hom.emf.technologies.EmitterType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.HeatPumpSourceType;
@@ -120,6 +121,8 @@ public class TechnologiesFactoryImpl extends EFactoryImpl implements ITechnologi
 			case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC: return createSolarPhotovoltaic();
 			case ITechnologiesPackage.ADJUSTER: return createAdjuster();
 			case ITechnologiesPackage.HYBRID_HEATER: return createHybridHeater();
+			case ITechnologiesPackage.MIXER_SHOWER: return createMixerShower();
+			case ITechnologiesPackage.ELECTRIC_SHOWER: return createElectricShower();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -449,6 +452,26 @@ public class TechnologiesFactoryImpl extends EFactoryImpl implements ITechnologi
 	public IHybridHeater createHybridHeater() {
 		HybridHeaterImpl hybridHeater = new HybridHeaterImpl();
 		return hybridHeater;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public IMixerShower createMixerShower() {
+		MixerShowerImpl mixerShower = new MixerShowerImpl();
+		return mixerShower;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public IElectricShower createElectricShower() {
+		ElectricShowerImpl electricShower = new ElectricShowerImpl();
+		return electricShower;
 	}
 
 	/**

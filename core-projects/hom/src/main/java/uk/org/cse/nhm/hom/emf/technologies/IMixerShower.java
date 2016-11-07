@@ -1,6 +1,6 @@
 /**
  */
-package uk.org.cse.nhm.hom.emf.technologies.showers;
+package uk.org.cse.nhm.hom.emf.technologies;
 
 
 /**
@@ -9,7 +9,7 @@ package uk.org.cse.nhm.hom.emf.technologies.showers;
  * <!-- end-user-doc -->
  *
  *
- * @see uk.org.cse.nhm.hom.emf.technologies.showers.IShowersPackage#getMixerShower()
+ * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getMixerShower()
  * @model
  * @generated
  */
