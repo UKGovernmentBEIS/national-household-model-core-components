@@ -121,15 +121,19 @@ gradle :nhm-cli-tools:publish :nhm-impl-bundle:publish
 
 popd
 
-pushd nhm-documentation
+
 if [ ${steps["docs"]} == 1 ]; then
-    maven install
-    cd eclipse
-    maven deploy
+    pushd core-projects
+    gradle :nhm-language-documentation:publish :nhm-stock-documentation:publish
+    popd
+    pushd nhm-documentation
+    # TODO: we may want to build the PDF or web manual here
+    maven deploy -pl eclipse -am
+    popd
 else
     green "Skip documentation"
 fi
-popd
+
 
 if [ ${steps["tests"]} == 1 ]; then
     green "Running system tests"
@@ -192,7 +196,11 @@ green "Stopping p2 server [$SERVER]..."
 kill $SERVER
 
 if [ ! -z "$ERRORS" ]; then
-    red "$ERRORS"
+    red "various errors:"
+    for e in "$ERRORS"
+    do
+        red "   $e"
+    done
 else
     green "IDE built into nhm-ide/nhm-ide/cse.nhm.ide.build/target/products/"
 fi

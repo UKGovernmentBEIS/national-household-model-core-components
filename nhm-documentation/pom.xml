@@ -3,7 +3,7 @@
 
   <groupId>uk.org.cse.nhm.manual</groupId>
   <artifactId>parent</artifactId>
-  <version>6.4.0-SNAPSHOT</version>
+  <version>6.4.0</version>
 
   <packaging>pom</packaging>
 
@@ -17,13 +17,22 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     
-    <nhm.version>6.4.0-SNAPSHOT</nhm.version>
+    <nhm.version>6.4.0</nhm.version>
     <nhmversion>${nhm.version}</nhmversion>
-    <stockimport.version>6.4.0-SNAPSHOT</stockimport.version>
+    <stockimport.version>6.4.0</stockimport.version>
 
     <docbook.directory>${project.build.directory}/docbook/</docbook.directory>
     <pdf.directory>${project.build.directory}/pdf/</pdf.directory>
   </properties>
+
+  <repositories>
+    <repository>
+      <id>p2</id>
+      <name>Local P2</name>
+      <url>http://localhost:8080/maven/7b9c5ef4-16a1-4b8f-ae4e-83bb87337fdb/</url>
+      <layout>default</layout>
+    </repository>
+  </repositories>
 
   <build>
     <pluginManagement>
@@ -128,7 +137,20 @@
     </pluginManagement>
   </build>
 
-  <distributionManagement/>
+  <distributionManagement>
+    <repository>
+      <id>package-drone</id>
+      <name>package-drone</name>
+      <url>http://localhost:8080/maven/7b9c5ef4-16a1-4b8f-ae4e-83bb87337fdb/</url>
+    </repository>
+
+    <snapshotRepository>
+      <id>package-drone</id>
+      <name>package-drone</name>
+      <url>http://localhost:8080/maven/7b9c5ef4-16a1-4b8f-ae4e-83bb87337fdb/</url>
+    </snapshotRepository>
+  </distributionManagement>
+
   
   <dependencyManagement>
     <dependencies>

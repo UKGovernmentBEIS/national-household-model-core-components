@@ -58,6 +58,9 @@ ext.libs =
    dataUtil: "com.btaz.util:data-util:0.3.24"
 ]
 
+ext.mavenUser = project.hasProperty('mvnUser') ? project.mvnUser : 'deploy'
+ext.mavenPassword = project.hasProperty('mvnPassword') ? project.mvnPassword : 'da9fc69a5d93f07432ace3fc7015fffa4d4b032a88d267f88cb2dd5369d1b6af'
+
 // this uses the axion release plugin to construct a version from git
 scmVersion {
   // what to put on release tags to make them release tags
@@ -323,6 +326,17 @@ project(':nhm-language-documentation') {
   publishing { publications {
       mavenJava(MavenPublication) {
         from components.java
+
+        repositories {
+         maven {
+           credentials {
+            username mavenUser
+            password mavenPassword
+           }
+           url "http://localhost:8080/maven/7b9c5ef4-16a1-4b8f-ae4e-83bb87337fdb/"
+          }
+        }
+
         pom.withXml {
           def deps = asNode().get('dependencies')
           asNode().remove(deps)
@@ -400,7 +414,15 @@ project(':nhm-stock-documentation') {
     compile project(':nhm-core-api')
     compile libs.reflections
     compile project(':nhm-stockimport-defaultdto-import')
-    compile project(':nhm-stockimport-ehcs10-export')
+
+    compile(project(':nhm-stockimport-ehcs10-export'))
+
+    // unfortunately the sedbuk boiler matcher depends on
+    // objectweb ASM 4, which is not interface compatible with
+    // ASM 5. this gadget depends on ASM 5.
+    // If we specify asm 5 manually here, gradle does the sensible thing for us.
+
+    compile 'org.ow2.asm:asm:5.0'
   }
 
   task(generateReference, dependsOn:'classes', type:JavaExec) {
@@ -411,6 +433,9 @@ project(':nhm-stock-documentation') {
 
   task(generateVarUsage, dependsOn:'classes', type:JavaExec) {
     main = 'uk.org.cse.nhm.documentation.VariableUsageGenerator'
+
+    // this is not safe - we have the wrong version of ASM as usual.
+
     classpath = sourceSets.main.runtimeClasspath
     args 'src/main/resources/variableref.xml', 'src/main/standard-spss-stock.zip'
   }
@@ -424,6 +449,17 @@ project(':nhm-stock-documentation') {
   publishing { publications {
       mavenJava(MavenPublication) {
         from components.java
+
+        repositories {
+          maven {
+           credentials {
+            username mavenUser
+            password mavenPassword
+           }
+           url "http://localhost:8080/maven/7b9c5ef4-16a1-4b8f-ae4e-83bb87337fdb/"
+          }
+        }
+
         pom.withXml {
           def deps = asNode().get('dependencies')
         asNode().remove(deps)
