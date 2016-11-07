@@ -139,14 +139,21 @@ public class StoreyTest {
 
         // should visit:
         // four walls
-        verify(visitor, times(1)).visitWall(eq(WallConstructionType.Party_MetalFrame), eq(0d), eq(false), eq(10d * 10d), eq(2d), eq(0d), eq(Optional.of(ThermalMassLevel.MEDIUM)));
+        verify(visitor, times(1)).visitWall(eq(WallConstructionType.Party_MetalFrame), eq(0d), eq(false), eq(10d * 10d), eq(2d), eq(0d), eq(Optional.<ThermalMassLevel>absent()));
         verify(visitor, times(3)).visitWall(eq(WallConstructionType.Cavity), eq(0d), eq(false), eq(10d * 10d), eq(2d), eq(0d), eq(Optional.of(ThermalMassLevel.MEDIUM)));
 
         // floor
-        verify(visitor, times(1)).visitFloor(eq(FloorType.External), eq(true), eq(10d * 10d), eq(2d), eq(4d * 10d), eq(0d));
+        verify(visitor, times(1)).visitFloor(eq(FloorType.External), eq(true),
+        		eq(50d), // heat loss area below the dwelling (argument to s.accept)
+        		eq(2d), // u value for floor
+        		eq(3d * 10d), // external perimeter excluding the party wall
+        		eq(0d));
 
         // ceiling
-        verify(visitor, times(1)).visitCeiling(eq(RoofType.ExternalHeatLoss), eq(10d * 10d), eq(0d));
+        verify(visitor, times(1)).visitCeiling(
+        		eq(RoofType.ExternalHeatLoss),
+        		eq(50d), // heat loss area above the dwelling (argument to s.accept)
+        		eq(2d)); // u value for ceiling
     }
 
     @Test
