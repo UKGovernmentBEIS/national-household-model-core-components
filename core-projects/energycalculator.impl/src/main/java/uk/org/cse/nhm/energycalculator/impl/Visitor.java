@@ -75,7 +75,7 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 	private Double roofInsulationThickness;
 
 	private FloorConstructionType groundFloorConstructionType;
-	private double floorInsulationThickness;
+	private Double floorInsulationThickness;
 
 	public static Visitor create(final IConstants constants, final IEnergyCalculatorParameters parameters, final int buildYear, final Country country, final List<IEnergyTransducer> defaultTransducers) {
 		switch(parameters.getCalculatorType()) {
@@ -216,7 +216,7 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 	public void visitFloor(final FloorType type, final boolean isGroundFloor, final double area, final double exposedPerimeter, final double uValue, final double wallThickness) {
 		log.debug("VISIT {}, {}, {}, {}, {}", type, area, uValue, groundFloorConstructionType, floorInsulationThickness);
 
-		if (isGroundFloor && (roofConstructionType == null || roofInsulationThickness == null)) {
+		if (isGroundFloor && (groundFloorConstructionType == null || floorInsulationThickness == null)) {
 			throw new RuntimeException("setGroundFloorType must be called before calling visitFloor with isGroundFloor = true");
 		}
 

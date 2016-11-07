@@ -102,8 +102,8 @@ public class StructureModel implements ICopyable<StructureModel> {
 	*/
 	private double draughtStrippedProportion;
 
-	private FloorConstructionType groundFloorConstructionType;
-	private RoofConstructionType roofConstructionType;
+	private FloorConstructionType groundFloorConstructionType = FloorConstructionType.SuspendedTimberUnsealed;
+	private RoofConstructionType roofConstructionType = RoofConstructionType.PitchedSlateOrTiles;
 	private double floorInsulationThickness;
 	private double roofInsulationThickness;
     private BuiltFormType builtFormType;
@@ -303,6 +303,7 @@ public class StructureModel implements ICopyable<StructureModel> {
 		visitor.addFanInfiltration(getIntermittentFans());
 		visitor.addVentInfiltration(getPassiveVents());
 		visitor.addGroundFloorInfiltration(getGroundFloorConstructionType());
+		visitor.setFloorType(groundFloorConstructionType, floorInsulationThickness);
 		visitor.setRoofType(roofConstructionType, roofInsulationThickness);
 
 		final int storeyCount = storeys.size();
