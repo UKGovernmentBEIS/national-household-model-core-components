@@ -746,7 +746,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		}
 
 		final double[] backgroundTemperature = getBackgroundTemperatureFromHeatingSystems(v.heatingSystems,
-				v.proportions, heatLosses, adjustedParameters, state, demandTemperature, responsiveBackgroundTemperature,
+				v.proportions, heatLosses, adjustedParameters, state, responsiveBackgroundTemperature,
 				unresponsiveBackgroundTemperature);
 
 		if (log.isDebugEnabled())
@@ -917,7 +917,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 	 */
 	protected static double[] getBackgroundTemperatureFromHeatingSystems(final List<IHeatingSystem> heatingSystems,
 			final Map<IHeatingSystem, Double> proportions, final ISpecificHeatLosses heatLosses,
-			final IInternalParameters adjustedParameters, final IEnergyState state, final double[] demandTemperature,
+			final IInternalParameters adjustedParameters, final IEnergyState state,
 			final double[] responsiveBackgroundTemperature, final double[] unresponsiveBackgroundTemperature) {
 
 		IHeatingSystem main = null;

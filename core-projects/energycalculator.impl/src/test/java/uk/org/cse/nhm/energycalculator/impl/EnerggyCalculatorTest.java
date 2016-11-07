@@ -7,7 +7,6 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -83,22 +82,44 @@ public class EnerggyCalculatorTest {
 
 		final IEnergyCalculatorHouseCase houseCase = mock(IEnergyCalculatorHouseCase.class);
 		final IInternalParameters parameters = mock(IInternalParameters.class);
-		when(parameters.getCalculatorType()).thenReturn(EnergyCalculatorType.SAP2012);
+
 		final ISeasonalParameters climate = mock(ISeasonalParameters.class);
 		when(parameters.getClimate()).thenReturn(climate);
 		final IStructuralInfiltrationAccumulator infiltration = mock(IStructuralInfiltrationAccumulator.class);
 
 		final List<IVentilationSystem> ventilationSystems = new ArrayList<IVentilationSystem>();
 
-		when(houseCase.getBuildYear()).thenReturn(2005);
 		when(houseCase.getHouseVolume()).thenReturn(0d); // force ventilation loss = 0
 		when(houseCase.getFloorArea()).thenReturn(100d);
 
-		final ISpecificHeatLosses heatLosses = calc.calculateSpecificHeatLosses(houseCase, parameters, 0, 0, 25+50d,infiltration,
-				 ventilationSystems);
+		when(houseCase.getSiteExposure()).thenReturn(SiteExposureType.Average);
 
-		// specific heat loss should be (25 + 50) * TBP(2005) = 0.15/4.0
-		Assert.assertEquals((25 + 50) * 0.15 / 4.0, heatLosses.getSpecificHeatLoss(), 0.01);
+		testThermalBridingLosses(
+				calc, parameters, houseCase, infiltration, ventilationSystems, EnergyCalculatorType.SAP2012, 0.15
+				);
+
+		// A thermal bridging constant suitable for a dwelling built after 2006.
+		when(houseCase.getThermalBridgingCoefficient()).thenReturn(0.08);
+
+		testThermalBridingLosses(
+				calc, parameters, houseCase, infiltration, ventilationSystems, EnergyCalculatorType.BREDEM2012, 0.08
+				);
+	}
+
+	private void testThermalBridingLosses(final EnergyCalculatorCalculator calc, final IInternalParameters parameters, final IEnergyCalculatorHouseCase houseCase,
+			final IStructuralInfiltrationAccumulator infiltration, final List<IVentilationSystem> ventilationSystems,
+			final EnergyCalculatorType calculatorType, final double expected) {
+
+		when(parameters.getCalculatorType()).thenReturn(calculatorType);
+
+		final ISpecificHeatLosses heatLosses = calc.calculateSpecificHeatLosses(houseCase, parameters, 0, 0, 1d,infiltration, ventilationSystems);
+
+		Assert.assertEquals(
+				"specific heat loss should be (external area * thermal bridging parameter)",
+				1 * expected,
+				heatLosses.getSpecificHeatLoss(),
+				0.01
+			);
 	}
 
 	@Test
@@ -271,9 +292,11 @@ public class EnerggyCalculatorTest {
 		final ISpecificHeatLosses heatLosses = mock(ISpecificHeatLosses.class);
 		final IInternalParameters adjustedParameters = mock(IInternalParameters.class);
 		final IEnergyState state = mock(IEnergyState.class);
-		final double[] demandTemperature = new double[] {21, 21};
 		final double[] idealBackgroundTemperature = new double[] {10, 10};
 		final double[] worstCaseBackgroundTemperature = new double[] {15, 15};
+
+		when(system.getResponsiveness(null, null, null)).thenReturn(0.5d);
+
 		final double[] backgroundTemperatureFromHeatingSystems
 			= EnergyCalculatorCalculator.getBackgroundTemperatureFromHeatingSystems(
 				systems,
@@ -281,27 +304,36 @@ public class EnerggyCalculatorTest {
 				heatLosses,
 				adjustedParameters,
 				state,
-				demandTemperature,
 				idealBackgroundTemperature,
 				worstCaseBackgroundTemperature);
 
-		Assert.assertTrue(Arrays.equals(backgroundTemperatureFromHeatingSystems, new double[] {18, 18}));
+		Assert.assertArrayEquals(
+				"Background temperature with 0.5 reponsiveness should be the mean of the responsive and unresponsive temperatures.",
+				new double[] {12.5, 12.5},
+				backgroundTemperatureFromHeatingSystems,
+				0d
+			);
 	}
 
-	@Test(expected = RuntimeException.class)
-	public void cannotGetBackgroundTemperatureWithNoHeatingSystems() {
+	@Test
+	public void completelyResponsiveWithNoHeatingSystems() {
 		final List<IHeatingSystem> systems = ImmutableList.of();
 		final Map<IHeatingSystem, Double> proportions = ImmutableMap.of();
 		final ISpecificHeatLosses heatLosses = mock(ISpecificHeatLosses.class);
 		final IInternalParameters adjustedParameters = mock(IInternalParameters.class);
 		final IEnergyState state = mock(IEnergyState.class);
-		final double[] demandTemperature = new double[] { 21, 21 };
-		final double[] idealBackgroundTemperature = new double[] { 10, 10 };
-		final double[] worstCaseBackgroundTemperature = new double[] { 15, 15 };
+		final double[] responsiveBackgroundTemperature = new double[] { 10, 10 };
+		final double[] unResponsiveBackgroundTemperature = new double[] { 15, 15 };
 
-		EnergyCalculatorCalculator.getBackgroundTemperatureFromHeatingSystems(systems, proportions, heatLosses,
-				adjustedParameters, state, demandTemperature, idealBackgroundTemperature,
-				worstCaseBackgroundTemperature);
+		Assert.assertArrayEquals(
+				"Should get the responsive background temperature if there is no heating system.",
+				new double[]{10, 10},
+				EnergyCalculatorCalculator.getBackgroundTemperatureFromHeatingSystems(systems, proportions, heatLosses,
+						adjustedParameters, state, responsiveBackgroundTemperature,
+						unResponsiveBackgroundTemperature),
+				0d
+			);
+		;
 	}
 
 	@Test
