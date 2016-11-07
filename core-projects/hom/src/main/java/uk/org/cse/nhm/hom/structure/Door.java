@@ -13,8 +13,8 @@ import uk.org.cse.nhm.hom.components.fabric.types.DoorType;
 @AutoProperty
 public class Door implements IGlazedElement {
 	private DoorType doorType;
-	private Optional<Glazing> glazing;
-	
+	private Optional<Glazing> glazing = Optional.absent();
+
 	private double uValue;
 	private double area;
 
@@ -25,7 +25,26 @@ public class Door implements IGlazedElement {
 	public void setDoorType(final DoorType doorType) {
 		this.doorType = doorType;
 	}
-	
+
+	private void ensureGlazing() {
+		if (doorType == DoorType.Glazed) {
+			if (!glazing.isPresent()) {
+				glazing = Optional.of(new Glazing());
+			}
+
+		} else {
+			throw new UnsupportedOperationException("Tried to set a glazing property on an unglazed door.");
+		}
+	}
+
+	private void setGlazing(final Optional<Glazing> glazing) {
+		this.glazing = glazing;
+	}
+
+	private Optional<Glazing> getGlazing() {
+		return glazing;
+	}
+
 	public WindowInsulationType getWindowInsulationType() {
 		return WindowInsulationType.Air;
 	}
@@ -46,30 +65,23 @@ public class Door implements IGlazedElement {
 		this.area = area;
 	}
 
-	public Optional<Glazing> getGlazing() {
-		return glazing;
-	}
-
-	public void setGlazing(Optional<Glazing> glazing) {
-		this.glazing = glazing;
-	}
-
 	@Override
 	public String toString() {
 		return Pojomatic.toString(this);
 	}
-	
+
 	public Door copy() {
 		final Door other = new Door();
-		
+
 		other.setArea(getArea());
 		other.setDoorType(getDoorType());
 		other.setGlazing(getGlazing());
 		other.setuValue(getuValue());
-		
+
 		return other;
 	}
 
+	@Override
 	public GlazingType getGlazingType() {
 		if (glazing.isPresent()) {
 			return glazing.get().getGlazingType();
@@ -77,15 +89,14 @@ public class Door implements IGlazedElement {
 			throw new RuntimeException("Called getGlazingType on an unglazed door " + getDoorType());
 		}
 	}
-	
-	public void setGlazingType(GlazingType type) {
-		if (glazing.isPresent()) {
-			glazing.get().setGlazingType(type);
-		} else {
-			throw new RuntimeException("Called setGlazingType on an unglazed door " + getDoorType());
-		}
+
+	@Override
+	public void setGlazingType(final GlazingType type) {
+		ensureGlazing();
+		glazing.get().setGlazingType(type);
 	}
 
+	@Override
 	public double getLightTransmissionFactor() {
 		if (glazing.isPresent()) {
 			return glazing.get().getLightTransmissionFactor();
@@ -93,16 +104,14 @@ public class Door implements IGlazedElement {
 			throw new RuntimeException("Called getLightTransmissionFactor on an unglazed door " + getDoorType());
 		}
 	}
-	
-	public void setLightTransmissionFactor(double lightTransmissionFactor) {
-		if (glazing.isPresent()) {
-			glazing.get().setLightTransmissionFactor(lightTransmissionFactor);
-		} else {
-			throw new RuntimeException("Called setLightTransmissionFactor on an unglazed door " + getDoorType());
-		}
-		
+
+	@Override
+	public void setLightTransmissionFactor(final double lightTransmissionFactor) {
+		ensureGlazing();
+		glazing.get().setLightTransmissionFactor(lightTransmissionFactor);
 	}
 
+	@Override
 	public double getGainsTransmissionFactor() {
 		if (glazing.isPresent()) {
 			return glazing.get().getGainsTransmissionFactor();
@@ -110,16 +119,14 @@ public class Door implements IGlazedElement {
 			throw new RuntimeException("Called getGainsTransmissionFactor on an unglazed door " + getDoorType());
 		}
 	}
-	
-	public void setGainsTransmissionFactor(double gainsTransmissionFactor) {
-		if (glazing.isPresent()) {
-			glazing.get().setGainsTransmissionFactor(gainsTransmissionFactor);
-		} else {
-			throw new RuntimeException("Called setGainsTransmissionFactor on an unglazed door " + getDoorType());
-		}
-		
+
+	@Override
+	public void setGainsTransmissionFactor(final double gainsTransmissionFactor) {
+		ensureGlazing();
+		glazing.get().setGainsTransmissionFactor(gainsTransmissionFactor);
 	}
 
+	@Override
 	public FrameType getFrameType() {
 		if (glazing.isPresent()) {
 			return glazing.get().getFrameType();
@@ -127,15 +134,14 @@ public class Door implements IGlazedElement {
 			throw new RuntimeException("Called getFrameType on an unglazed door " + getDoorType());
 		}
 	}
-	
-	public void setFrameType(FrameType frameType) {
-		if (glazing.isPresent()) {
-			glazing.get().setFrameType(frameType);
-		} else {
-			throw new RuntimeException("Called setFrameType on an unglazed door " + getDoorType());
-		}
+
+	@Override
+	public void setFrameType(final FrameType frameType) {
+		ensureGlazing();
+		glazing.get().setFrameType(frameType);
 	}
 
+	@Override
 	public double getFrameFactor() {
 		if (glazing.isPresent()) {
 			return glazing.get().getFrameFactor();
@@ -144,14 +150,12 @@ public class Door implements IGlazedElement {
 		}
 	}
 
-	public void setFrameFactor(double frameFactor) {
-		if (glazing.isPresent()) {
-			glazing.get().setFrameFactor(frameFactor);
-		} else {
-			throw new RuntimeException("Called setFrameFactor on an unglazed door " + getDoorType());
-		}
+	@Override
+	public void setFrameFactor(final double frameFactor) {
+		ensureGlazing();
+		glazing.get().setFrameFactor(frameFactor);
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -167,14 +171,14 @@ public class Door implements IGlazedElement {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Door other = (Door) obj;
+		final Door other = (Door) obj;
 		if (Double.doubleToLongBits(area) != Double.doubleToLongBits(other.area))
 			return false;
 		if (doorType != other.doorType)
