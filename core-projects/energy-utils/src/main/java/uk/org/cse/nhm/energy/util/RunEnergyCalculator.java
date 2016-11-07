@@ -56,7 +56,7 @@ public class RunEnergyCalculator {
             final IEnergyCalculatorParameters parameters = new BredemExternalParameters(
             		ElectricityTariffType.FLAT_RATE,
             		21,
-            		Optional.absent(),
+            		Optional.<Double>absent(),
             		Optional.of(3.0),
             		in.getPeople().getNumberOfPeople()
         		);

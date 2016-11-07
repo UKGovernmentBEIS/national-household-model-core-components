@@ -222,7 +222,7 @@ public class TestCase1 {
 		final BredemExternalParameters parameters = new BredemExternalParameters(
 				ElectricityTariffType.FLAT_RATE,
 				21,
-				Optional.absent(),
+				Optional.<Double>absent(),
 				Optional.of(3.0),
 				2
 			);

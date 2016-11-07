@@ -40,8 +40,8 @@ public class ClimateParametersTest {
 				);
 
 
-		Assert.assertSame(schedule1, p.getHeatingSchedule(ZoneType.ZONE1, Optional.absent()));
-		Assert.assertSame(schedule2, p.getHeatingSchedule(ZoneType.ZONE2, Optional.absent()));
+		Assert.assertSame(schedule1, p.getHeatingSchedule(ZoneType.ZONE1, Optional.<Zone2ControlParameter>absent()));
+		Assert.assertSame(schedule2, p.getHeatingSchedule(ZoneType.ZONE2, Optional.<Zone2ControlParameter>absent()));
 
 		final BredemSeasonalParameters p2 = new BredemSeasonalParameters(
 				MonthType.January,0, 0,0,0, schedule1, Optional.<IHeatingSchedule>absent()

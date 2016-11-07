@@ -758,7 +758,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 			final int zi = zt.ordinal();
 			meanTemperature[zi] = adjustedParameters.getClimate().getHeatingSchedule(
 					zt,
-					zt == ZoneType.ZONE2 ? Optional.of(adjustedParameters.getZone2ControlParameter()) : Optional.absent()
+					zt == ZoneType.ZONE2 ? Optional.of(adjustedParameters.getZone2ControlParameter()) : Optional.<Zone2ControlParameter>absent()
 				).getMeanTemperature(
 					demandTemperature[zi],
 					backgroundTemperature[zi],

@@ -130,7 +130,7 @@ public class AnnualizedEnergyCalculator {
 		final BredemExternalParameters parameters = new BredemExternalParameters(
 				ElectricityTariffType.ECONOMY_7,
 				zoneOneDemandTemperature,
-				Optional.absent(),
+				Optional.<Double>absent(),
 				Optional.of(interzoneTemperatureDifference),
 				surveyCase.getPeople().getOccupancy()
 				);

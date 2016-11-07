@@ -189,7 +189,7 @@ public class BackupSpaceHeatersWorkWhenOtherThingsAreMissing {
 		final BredemExternalParameters ep = new BredemExternalParameters(
 				ElectricityTariffType.FLAT_RATE,
 				21,
-				Optional.absent(),
+				Optional.<Double>absent(),
 				Optional.of(3.0),
 				4
 			);
