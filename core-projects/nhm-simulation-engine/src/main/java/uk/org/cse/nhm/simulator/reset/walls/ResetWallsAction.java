@@ -29,7 +29,7 @@ public class ResetWallsAction extends AbstractNamed implements IComponentsAction
 		private final IComponentsFunction<Number> uValue;
 		private final IComponentsFunction<Number> infiltration;
 		private final IComponentsFunction<Number> thickness;
-		
+
 		private final IDimension<?> structureDimension;
 
 		public WallPropertyFunction(final IComponentsFunction<Number> uValue,
@@ -47,7 +47,7 @@ public class ResetWallsAction extends AbstractNamed implements IComponentsAction
 			final double[] result = new double[3];
 
 			final IWall wall = lets.get(CURRENT_WALL_LET_IDENTITY, IWall.class).get();
-			
+
 			if (wall.getWallConstructionType().getWallType() == WallType.External) {
 				if (uValue != null) result[0] = uValue.compute(scope, lets).doubleValue();
 				else result[0] = wall.getUValue();
@@ -60,7 +60,7 @@ public class ResetWallsAction extends AbstractNamed implements IComponentsAction
 				result[1] = wall.getAirChangeRate();
 				result[2] = wall.getThicknessWithoutInsulation();
 			}
-			
+
 			return result;
 		}
 
@@ -82,7 +82,6 @@ public class ResetWallsAction extends AbstractNamed implements IComponentsAction
 	@AssistedInject
 	public ResetWallsAction(final IDimension<StructureModel> structureDimension,
 							@Assisted("uvalues") final Optional<IComponentsFunction<Number>> uValue,
-							@Assisted("kvalues") final Optional<IComponentsFunction<Number>> kValue,
 							@Assisted("infiltration") final Optional<IComponentsFunction<Number>> infiltration,
 							@Assisted("thickness") final Optional<IComponentsFunction<Number>> thickness) {
 		this.structureDimension = structureDimension;
@@ -107,7 +106,7 @@ public class ResetWallsAction extends AbstractNamed implements IComponentsAction
 			public boolean modify(final StructureModel sm) {
 				for (final Storey storey : sm.getStoreys()) {
 					for (final IMutableWall wall : storey.getWalls()) {
-						final double[] results = allFunctionsTogether.compute(scope, 
+						final double[] results = allFunctionsTogether.compute(scope,
 								lets.withBinding(CURRENT_WALL_LET_IDENTITY, wall));
 
 						wall.setUValue(results[0]);
@@ -118,10 +117,10 @@ public class ResetWallsAction extends AbstractNamed implements IComponentsAction
 				return true;
 			}
 		});
-		
+
 		return true;
 	}
-	
+
 	@Override
 	public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
 		return true;
@@ -130,7 +129,7 @@ public class ResetWallsAction extends AbstractNamed implements IComponentsAction
 	public boolean isAlwaysSuitable() {
 		return true;
 	}
-	
+
 	@Override
 	public StateChangeSourceType getSourceType() {
 		return StateChangeSourceType.ACTION;
