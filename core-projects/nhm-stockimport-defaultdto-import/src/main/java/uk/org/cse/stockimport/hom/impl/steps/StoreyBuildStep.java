@@ -44,7 +44,7 @@ public class StoreyBuildStep implements ISurveyCaseBuildStep {
     /** @since 1.0*/
     public static final String IDENTIFIER = StoreyBuildStep.class.getCanonicalName();
     private static final double TEN = 10.00;
-    
+
     private final int floorPolygonScalingFactor = 100;
 
     private static final WallConstructionType DEFAULT_PARTYWALL = WallConstructionType.Party_Cavity;
@@ -86,7 +86,7 @@ public class StoreyBuildStep implements ISurveyCaseBuildStep {
 
     /**
      * 1. Assumes that {@link SurveyCase} is not null object, and has {@link BasicAttributes} set with an AACode
-     * 
+     *
      * @param model
      * @param dtoProvider
      * @see uk.org.cse.stockimport.hom.ISurveyCaseBuildStep#build(uk.org.cse.nhm.hom.SurveyCase,
@@ -111,7 +111,7 @@ public class StoreyBuildStep implements ISurveyCaseBuildStep {
             final double areaBefore = storey.getArea();
             buildAttachedWalls(storey.getWalls(), elevationDTOs);
 
-            
+
             if (Precision.equals(areaBefore, storey.getArea(), 0.01) == false) {
                 throw new RuntimeException("area altered {aacode:" + dto.getAacode() + ",storey:"
                         + dto.getLocationType() + ",areaBefore:" + areaBefore + ",areaAfter:" + storey.getArea()
@@ -121,7 +121,7 @@ public class StoreyBuildStep implements ISurveyCaseBuildStep {
             if (storey.getArea() <= 0) {
                 throw new RuntimeException(String.format("Area was zero for aacode:%s,storey", dto.getAacode(), dto.getLocationType()));
             }
-            
+
             structure.addStorey(storey);
         }
     }
@@ -129,14 +129,14 @@ public class StoreyBuildStep implements ISurveyCaseBuildStep {
     /**
      * <p>Takes the elevation for each wall, finds the current construction type set for that elevation and sets the
      * walls construction type to this.</p>
-     * 
+     *
      * @param walls
      * @param elevationDTOs
      * @since 0.0.1-SNAPSHOT
      */
     protected void buildExternalWallConstructionType(final Iterable<IMutableWall> walls, final List<IElevationDTO> elevationDTOs) {
         final Map<ElevationType, IElevationDTO> elevationDTOMap = new HashMap<ElevationType, IElevationDTO>();
-        
+
         for (final IElevationDTO elevation : elevationDTOs) {
             elevationDTOMap.put(elevation.getElevationType(), elevation);
         }
@@ -167,15 +167,15 @@ public class StoreyBuildStep implements ISurveyCaseBuildStep {
 		if (wall.getWallConstructionType().isAllowedInsulationType(type)) {
 			wall.setWallInsulationThicknessAndAddOrRemoveInsulation(type, insulationThickness);
 		} else {
-			LOGGER.warn("a {} wall has suggested insulation {}, which cannot go on that kind of wall", 
+			LOGGER.warn("a {} wall has suggested insulation {}, which cannot go on that kind of wall",
 						wall.getWallConstructionType(), type);
 		}
 	}
-	
+
 	/**
      * <p>Adjust attached wall lengths, currently sets Party wall/attached construction type to
      * {@link StoreyBuildStep#DEFAULT_PARTYWALL}.</p>
-     * 
+     *
      * @param walls
      * @param elevationDTOs
      * @since 0.0.1-SNAPSHOT
@@ -190,9 +190,13 @@ public class StoreyBuildStep implements ISurveyCaseBuildStep {
         IMutableWall wall;
         while (wallsItr.hasNext()) {
             wall = wallsItr.next();
-            
+
 			final double partyWallProportion = elevationMap.get(wall.getElevationType());
 			if (partyWallProportion > 0) {
+	            if (wall.getWallConstructionType() == null) {
+	            	throw new IllegalArgumentException("Wall has no construction type when splitting into party walls" + wall);
+	            }
+
 				if (LOGGER.isDebugEnabled()) {
 					LOGGER.debug("buildAttachedWalls(): creating party wall for elevation:{}", wall.getElevationType());
 				}
@@ -214,7 +218,7 @@ public class StoreyBuildStep implements ISurveyCaseBuildStep {
 					wall.setWallConstructionType(wall.getWallConstructionType().getPartyWallEquivalent());
 					for (final WallInsulationType wit : WallInsulationType.values()) {
 						if (wall.getWallInsulationThickness(wit) > 0) {
-							LOGGER.warn("a party wall was specified with insulation type {}; this insulation will be ignored", 
+							LOGGER.warn("a party wall was specified with insulation type {}; this insulation will be ignored",
 										wit);
 						}
 						wall.setWallInsulationThicknessAndAddOrRemoveInsulation(wit, 0);
