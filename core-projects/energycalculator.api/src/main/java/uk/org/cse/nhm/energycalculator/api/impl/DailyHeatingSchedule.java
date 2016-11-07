@@ -1,6 +1,7 @@
 package uk.org.cse.nhm.energycalculator.api.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 import uk.org.cse.nhm.energycalculator.api.IHeatingSchedule;
@@ -29,12 +30,15 @@ public class DailyHeatingSchedule implements IHeatingSchedule {
 		}
 
 		for (int i = 0; i<minutes.length; i+=2) {
+			if (minutes[i] > MINUTES_PER_DAY || minutes[i+1] > MINUTES_PER_DAY) {
+				throw new IllegalArgumentException("Attempted to set a daily heating schedule with times which were larger than the number of minutes in the day " + Arrays.toString(minutes));
+			}
 			addHeatingPeriod(minutes[i], minutes[i+1]);
 		}
 	}
 
-	public DailyHeatingSchedule(final int... hours) {
-		this(hoursToMinutes(hours));
+	public static DailyHeatingSchedule fromHours(final int... hours) {
+		return new DailyHeatingSchedule(hoursToMinutes(hours));
 	}
 
 	private static double[] hoursToMinutes(final int[] hours) {

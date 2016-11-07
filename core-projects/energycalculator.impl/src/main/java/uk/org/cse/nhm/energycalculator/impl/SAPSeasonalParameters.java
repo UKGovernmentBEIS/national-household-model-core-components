@@ -16,9 +16,11 @@ import uk.org.cse.nhm.energycalculator.api.types.ZoneType;
 
 public class SAPSeasonalParameters extends SeasonalParameters {
 
-	private static final IHeatingSchedule sevenAndEight = new DailyHeatingSchedule(7, 9, 16, 23);
-	private static final IHeatingSchedule zeroAndEight = new DailyHeatingSchedule(7, 23);
-	private static final IHeatingSchedule nineAndEight = new DailyHeatingSchedule(7, 9, 18, 23);
+	// These names come from SAP 2012 Table 9.
+	// I have no idea why they are called this.
+	private static final IHeatingSchedule sevenAndEight = DailyHeatingSchedule.fromHours(7, 9, 16, 23);
+	private static final IHeatingSchedule zeroAndEight = DailyHeatingSchedule.fromHours(7, 23);
+	private static final IHeatingSchedule nineAndEight = DailyHeatingSchedule.fromHours(7, 9, 18, 23);
 
 	private static final IHeatingSchedule weekdaySevenAndEightWeekendZeroAndEight = new WeeklyHeatingSchedule(sevenAndEight, zeroAndEight);
 

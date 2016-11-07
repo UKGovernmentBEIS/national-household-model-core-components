@@ -195,8 +195,8 @@ public class BackupSpaceHeatersWorkWhenOtherThingsAreMissing {
 			);
 
 		final WeeklyHeatingSchedule weeklyHeatingSchedule = new WeeklyHeatingSchedule(
-						new DailyHeatingSchedule(7 * 60, 8*60, 18 * 60, 23 * 60),
-						new DailyHeatingSchedule(7 * 60, 23 * 60)
+				DailyHeatingSchedule.fromHours(7, 8, 18, 23),
+				DailyHeatingSchedule.fromHours(7, 23)
 						);
 		final ISeasonalParameters climate = new
 				BredemSeasonalParameters(
