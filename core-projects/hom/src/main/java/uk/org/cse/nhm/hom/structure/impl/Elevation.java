@@ -19,7 +19,7 @@ import uk.org.cse.nhm.hom.structure.IElevation;
 /**
  * Represents an elevation, including information about its glazing types, doors and so on.
  * May need tidying up
- * 
+ *
  * @author hinton
  *
  */
@@ -32,7 +32,7 @@ public class Elevation implements IElevation {
 	/*
 	BEISDOC
 	NAME: Glazing angle
-	DESCRIPTION: The vertical tilt (where horizontal is 0) of a glazed element. 
+	DESCRIPTION: The vertical tilt (where horizontal is 0) of a glazed element.
 	TYPE: value
 	UNIT: Radians
 	SAP: (U3), S13
@@ -43,26 +43,26 @@ public class Elevation implements IElevation {
 	CODSIEB
 	*/
 	private final static double ANGLE_FROM_HORIZONTAL = Math.PI / 2;
-	
+
 	/**
 	 * This is the direction the elevation is facing.
 	 */
 	private double angleFromNorth;
-	
+
 	/**
 	 * Holds all the glazing details for this elevation
 	 */
 	private final List<Glazing> glazings = new ArrayList<Glazing>();
-	
+
 	/**
 	 * Holds all the doors in this elevation.
 	 */
 	private final List<Door> doors = new ArrayList<Door>();
-	
+
 	/*
 	BEISDOC
 	NAME: Elevation opening proportion
-	DESCRIPTION: The proportion of the elevation's area which is windows and doors. 
+	DESCRIPTION: The proportion of the elevation's area which is windows and doors.
 	TYPE: value
 	UNIT: Unitless proportion
 	STOCK: elevations.csv (tenthsopening)
@@ -70,7 +70,7 @@ public class Elevation implements IElevation {
 	CODSIEB
 	*/
 	private double openingProportion;
-	
+
 	/*
 	BEISDOC
 	NAME: Overshading
@@ -83,14 +83,14 @@ public class Elevation implements IElevation {
 	CODSIEB
 	*/
 	private final OvershadingType overshading = OvershadingType.AVERAGE;
-	
-	
+
+
 	public Elevation copy() {
 		final Elevation other = new Elevation();
-		
+
 		other.setAngleFromNorth(getAngleFromNorth());
 		other.setOpeningProportion(getOpeningProportion());
-		
+
 		for (final Glazing g : glazings) {
 			other.addGlazing(g.copy());
 		}
@@ -98,18 +98,18 @@ public class Elevation implements IElevation {
 		for (final Door d : doors) {
 			other.addDoor(d.copy());
 		}
-		
+
 		return other;
 	}
-	
+
 	public void addDoor(final Door door) {
 		doors.add(door);
 	}
-	
+
 	public void addGlazing(final Glazing g) {
 		glazings.add(g);
 	}
-	
+
 	public double getAngleFromNorth() {
 		return angleFromNorth;
 	}
@@ -117,7 +117,7 @@ public class Elevation implements IElevation {
 	public void setAngleFromNorth(final double angleFromNorth) {
 		this.angleFromNorth = angleFromNorth;
 	}
-	
+
 	/**
 	 * The total proportion of this elevation's area containing doors & windows
 	 * @return
@@ -136,12 +136,12 @@ public class Elevation implements IElevation {
 	@Override
 	public double visitGlazing(final IEnergyCalculatorVisitor visitor, final double wallArea, final double doorArea) {
 		double glazedArea = 0;
-		
+
 		for (final Glazing glazing : glazings) {
 			/*
 			BEISDOC
 			NAME: Glazing area
-			DESCRIPTION: The area of this type of glazing in this elevation 
+			DESCRIPTION: The area of this type of glazing in this elevation
 			TYPE: Formula
 			UNIT: m^2
 			SAP: sap
@@ -151,7 +151,7 @@ public class Elevation implements IElevation {
 			CODSIEB
 			*/
 			final double glazingArea = (wallArea * openingProportion - doorArea) * glazing.getGlazedProportion();
-			
+
 			/*
 			BEISDOC
 			NAME: Glazed element
@@ -169,7 +169,7 @@ public class Elevation implements IElevation {
 			CODSIEB
 			*/
 			visitor.visitWindow(glazingArea, glazing.getuValue(), glazing.getFrameType(), glazing.getGlazingType(), glazing.getInsulationType());
-			
+
 			visitor.visitTransparentElement(
 					glazing.getGlazingType(),
 					glazing.getInsulationType(),
@@ -178,16 +178,16 @@ public class Elevation implements IElevation {
 					glazingArea,
 					glazing.getFrameType(),
 					glazing.getFrameFactor(),
-					ANGLE_FROM_HORIZONTAL, 
-					angleFromNorth, 
+					ANGLE_FROM_HORIZONTAL,
+					angleFromNorth,
 					overshading);
-			
+
 			glazedArea += glazingArea;
 		}
-		
+
 		return glazedArea;
 	}
-	
+
 	/**
 	 * A utility interface for keeping track of doors that have already been visited in an elevation,
 	 * without adding state information to the elevation for that purpose
@@ -197,20 +197,20 @@ public class Elevation implements IElevation {
 	public interface IDoorVisitor {
 		/**
 		 *  Record that some area of a wall segment is available for doors, and return how much of that area will be taken up by doors.
-		 *  
+		 *
 		 *  Call this multiple times. The visitor will internally accumulate how much area is available to it.
-		 *  
-		 * @param area the available opening area on the wall segment 
+		 *
+		 * @param area the available opening area on the wall segment
 		 * @return
 		 */
 		public double offerPotentialDoorArea(final double area);
-		
+
 		/**
-		 * Call this last. It will add the doors, scaling them down as needed if they took up too much area. 
+		 * Call this last. It will add the doors, scaling them down as needed if they took up too much area.
 		 */
 		public void visitDoors(final IEnergyCalculatorVisitor visitor);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see uk.org.cse.nhm.hom.structure.IElevation#getDoorVisitor()
 	 */
@@ -219,7 +219,7 @@ public class Elevation implements IElevation {
 	public IDoorVisitor getDoorVisitor() {
 		return new CHMDoorVisitor();
 	}
-	
+
 	private class CHMDoorVisitor implements IDoorVisitor {
 		/*
 		BEISDOC
@@ -234,55 +234,55 @@ public class Elevation implements IElevation {
 		SET: action.reset-doors
 		STOCK: elevations.csv (doorframe, tenthsopening), imputation schema (doors)
 		ID: door-element
-		NOTES: Doors are distributed amongst walls based on the opening proportion for this elevation in the stock, as per the CHM method. 
-		NOTES: Some doors may be omitted if the total area of doors is greater than the area allowed by this openingProportion.  
+		NOTES: Doors are distributed amongst walls based on the opening proportion for this elevation in the stock, as per the CHM method.
+		NOTES: Some doors may be omitted if the total area of doors is greater than the area allowed by this openingProportion.
 		CODSIEB
 		*/
 		private double totalDoorArea = 0;
 		private double remainingDoorArea;
-		
+
 		public CHMDoorVisitor() {
 			for (final Door d : doors) {
 				totalDoorArea += d.getArea();
 			}
 			remainingDoorArea = totalDoorArea;
 		}
-		
+
 		@Override
-		public double offerPotentialDoorArea(double wallArea) {
+		public double offerPotentialDoorArea(final double wallArea) {
 			if (remainingDoorArea == 0) {
 				return 0;
 			}
-			
+
 			final double potentialDoorArea = wallArea * openingProportion;
 			final double actualDoorArea = Math.min(remainingDoorArea, potentialDoorArea);
-			
+
 			remainingDoorArea -= actualDoorArea;
-			
+
 			return actualDoorArea;
 		}
-		
+
 		@Override
 		public void visitDoors(final IEnergyCalculatorVisitor visitor) {
-			final double doorScaling = (totalDoorArea - remainingDoorArea) / totalDoorArea;
-			
-			for (Door d : doors) {
+			final double doorScaling = totalDoorArea == 0 ? 1 : (totalDoorArea - remainingDoorArea) / totalDoorArea;
+
+			for (final Door d : doors) {
 				visitor.visitDoor(
 					d.getArea() * doorScaling,
 					d.getuValue()
 				);
-				
+
 				if (d.getDoorType() == DoorType.Glazed) {
 					visitor.visitTransparentElement(
-							d.getGlazingType(), 
-							d.getWindowInsulationType(), 
-							d.getLightTransmissionFactor(), 
-							d.getGainsTransmissionFactor(), 
-							d.getArea() * doorScaling, 
-							d.getFrameType(), 
-							d.getFrameFactor(), 
-							ANGLE_FROM_HORIZONTAL, 
-							angleFromNorth, 
+							d.getGlazingType(),
+							d.getWindowInsulationType(),
+							d.getLightTransmissionFactor(),
+							d.getGainsTransmissionFactor(),
+							d.getArea() * doorScaling,
+							d.getFrameType(),
+							d.getFrameFactor(),
+							ANGLE_FROM_HORIZONTAL,
+							angleFromNorth,
 							overshading
 						);
 				}
@@ -298,11 +298,11 @@ public class Elevation implements IElevation {
 	public List<Glazing> getGlazings() {
 		return Collections.unmodifiableList(glazings);
 	}
-	
+
 	public List<Door> getDoors() {
 		return Collections.unmodifiableList(doors);
 	}
-	
+
 	@Override
 	public String toString() {
 		return Pojomatic.toString(this);
