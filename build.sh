@@ -117,7 +117,7 @@ else
     green "Skip API"
 fi
 
-gradle :nhm-cli-tools:publish :nhm-impl-bundle:publish
+gradle :nhm-impl-bundle:publish
 
 popd
 
@@ -169,7 +169,7 @@ if [ ${steps["release"]} == 1 ]; then
         maven 'org.apache.maven.plugins:maven-dependency-plugin:2.8:get' \
               '-U' \
               '-DremoteRepositories=http://localhost:8080/maven/7b9c5ef4-16a1-4b8f-ae4e-83bb87337fdb/'\
-              "-Dartifact=uk.org.cse.nhm:nhm-cli-tools:$1" \
+              "-Dartifact=uk.org.cse.nhm:nhm-impl-bundle:$1" \
               "-Ddest=tools.jar" 2>/dev/null >/dev/null
         if [ ! -f tools.jar ]; then
             red "unable to find CLI tools $1"
@@ -196,10 +196,10 @@ green "Stopping p2 server [$SERVER]..."
 kill $SERVER
 
 if [ ! -z "$ERRORS" ]; then
-    red "various errors:"
+    red "various errors:\n"
     for e in "$ERRORS"
     do
-        red "   $e"
+        red "   $e\n"
     done
 else
     green "IDE built into nhm-ide/nhm-ide/cse.nhm.ide.build/target/products/"

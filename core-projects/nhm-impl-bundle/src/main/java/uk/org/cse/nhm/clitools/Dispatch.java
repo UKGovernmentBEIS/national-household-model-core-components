@@ -8,6 +8,7 @@ import uk.org.cse.nhm.clitools.bundle.NationalHouseholdModel;
 
 import javax.swing.UIManager;
 
+/** The real main method */
 public class Dispatch {
     private static final String[] USAGE = {
         "Usage:",
@@ -62,13 +63,6 @@ public class Dispatch {
                 case "version":
                     System.out.println(NationalHouseholdModel.create().version());
                     return;
-                default:
-                    final Path p = Paths.get(args[0]);
-                    if (Files.exists(p) || Files.exists(p.getParent())) {
-                        GUI.open(p);
-                        return;
-                    }
-                    throw new IllegalArgumentException("");
                 }
 
             } catch (final IllegalArgumentException iae) {
@@ -76,16 +70,6 @@ public class Dispatch {
                 System.err.println(args[0] + " " + subUsage);
                 return;
             }
-        } else {
-            try {
-                System.out.println("Set L&F to " + UIManager.getSystemLookAndFeelClassName());
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            } catch (final Throwable th) {
-                th.printStackTrace();
-            }
-
-            GUI.main(args);
-            return;
         }
 
         for (final String l : USAGE) System.err.println(l);
