@@ -45,7 +45,7 @@ public class SAPUValues {
 
 		private static final List<ExternalWallRow> externalRows = new ArrayList<>();
 
-		{
+		static {
 			/**
 			 * SAP 2012 Tables S6, S7, S8
 			 * Rows of the same time must be added in order from least insulation to most insulation.
