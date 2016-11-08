@@ -23,7 +23,7 @@ function download_version {
     mvn 'org.apache.maven.plugins:maven-dependency-plugin:2.8:get' \
         '-U' \
         '-DremoteRepositories=http://localhost:8080/maven/7b9c5ef4-16a1-4b8f-ae4e-83bb87337fdb/'\
-        "-Dartifact=uk.org.cse.nhm:nhm-cli-tools:$1" \
+        "-Dartifact=uk.org.cse.nhm:nhm-impl-bundle:$1" \
         "-Ddest=$2" 2>&1 > /dev/null
     if [[ $? != 0 ]]
     then
