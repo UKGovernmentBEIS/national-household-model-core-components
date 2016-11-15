@@ -107,8 +107,7 @@ configure(subprojects -
             project(':nhm-stock-documentation') -
             project(':sedbuk-boiler-matching') -
             project(':nhm-bundle-api') -
-            project(':nhm-impl-bundle') -
-            project(':nhm-cli-tools')
+            project(':nhm-impl-bundle')
             )
 {
   publishing {

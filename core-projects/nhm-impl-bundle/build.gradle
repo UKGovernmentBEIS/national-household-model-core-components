@@ -2,6 +2,7 @@ plugins {
   id 'java'
   id 'maven-publish'
   id 'org.dm.bundle' version '0.8.6'
+  id 'com.palantir.git-version' version '0.5.2'
 }
 
 apply plugin: 'java'
@@ -10,8 +11,16 @@ apply plugin: 'org.dm.bundle'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+// It would be good to get this from version control instead
+// of from the current time. However, we want the version control
+// stamp to be lexically greater than any earlier version!
+
+// I don't know whether there is a good reason
+// not to simply use this for the overall version?
+
 ext.buildtype = version.endsWith("-SNAPSHOT") ? "D" : "R"
-ext.buildVersion = version.replace("-SNAPSHOT", "") + "." + buildtype + System.currentTimeMillis()
+ext.gitV = project.gitVersion()
+ext.buildVersion = version.replace("-SNAPSHOT", "") + "." + buildtype + gitV.replace(".", "_")
 
 ext.mavenUser = project.hasProperty('mvnUser') ? project.mvnUser : 'deploy'
 ext.mavenPassword = project.hasProperty('mvnPassword') ? project.mvnPassword : 'da9fc69a5d93f07432ace3fc7015fffa4d4b032a88d267f88cb2dd5369d1b6af'
@@ -63,6 +72,9 @@ bundle {
     [
      'Export-Package': '',
      'Bundle-Version': buildVersion,
+     // apparently, according to OSGI Core 3.9.3 (https://osgi.org/download/r4v43/osgi.core-4.3.0.pdf)
+     // Import-Package directives are searched before the contents of the bundle
+     // which means we can embed the API in this bundle as well and it might work??
      'Import-Package': 'org.osgi.framework,org.eclipse.core.runtime,org.osgi.service.component,uk.org.cse.nhm.bundle.api;version="[2.0, 3.0)"',
      'Bundle-Name': 'NHM Model Implementation',
      'Bundle-SymbolicName': 'uk.org.cse.nhm.bundle.impl',
@@ -71,7 +83,10 @@ bundle {
      'Bundle-ActivationPolicy': 'lazy',
      'Service-Component': 'OSGi-INF/service.xml',
      'Private-Package': '!org.osgi.*,!uk.org.cse.nhm.bundle.api.*,!org.eclipse.core.*,!org.eclipse.equinox.*,*;-split-package:=merge-last',
-     'Include-Resource': resourcesFrom(configurations.embed)
+     // this ends up inserting a lot of rubbish into the manifest, but also
+     // causing all the jars to get flattened in, which we want.
+     'Include-Resource': resourcesFrom(configurations.embed),
+     'Main-Class': 'uk.org.cse.nhm.clitools.Dispatch'
     ]
 }
 

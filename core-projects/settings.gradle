@@ -28,6 +28,5 @@ include 'energycalculator.api',
     'spss-reader',
     'nhm-stock-documentation',
     'sedbuk-boiler-matching',
-    'nhm-cli-tools',
     'nhm-bundle-api',
     'nhm-impl-bundle'
