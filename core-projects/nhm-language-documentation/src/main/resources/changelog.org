@@ -21,6 +21,66 @@ If you want to cross-reference to a language element, you need to use the unique
    - *Bugs removed* will list any known errors that were found to affect the previous version which have been corrected in this version
 
 ** Released versions
+*** Version 6.5.0
+This version of the NHM has been updated to support SAP 2012 (closely, with the scenario author prevented from putting in their own override values) and BREDEM 2012 (more loosely).
+
+This changelog primarily covers scenario language changes. For a more in-depth discussion of the energy calculator update, see TODO.
+
+**** New Features
+
+***** BREDEM Specific Configuration
+
+The following three actions allow you to change some BREDEM-specific features of a house. They have no effect in SAP 2012 mode.
+
+=ref.action.set-site-exposure= puts a house in an exposure category. This maps to a multiplier to its infiltration rate.
+
+=ref.action.set-interzone-specific-heat-transfer= sets the rate of heat transfer from the main living area of the house to the rest of the house.
+
+=ref.action.reduced-internal-gains= enables reduced internal gains for that house. This is supposed to apply to modern houses.
+
+=ref.action.set-thermal-bridging-factor= is multiplied by the external area of the ddwelling to calculate the thermal bridging heat loss rate.
+
+***** Switch Energy Calculator Modes
+
+The =ref.scenario= element now has an /energy-calculator:/ property. This can take the values /SAP2012/ or /BREDEM2012/, and determines which rules will apply for this scenario.
+
+There is a new counterfactual action =ref.energy-calculator=, which allows you to temporarily look at a house in a different energy calculator mode.
+
+**** Removed Features
+
+***** Occupancy 
+Deleted the =sap.occupancy= action. SAP occupancy is now automatically used when the energy calculator is in SAP 2012 mode.
+
+***** Solar PV
+
+We have removed /roof-coverage/ and /efficiency/ from =ref.measure.solar-photovoltaic=, and replaced them with /size/, which is the peak power rating of the installation measured in kW.
+
+***** Responsiveness
+
+The =scale.responsiveness= action has been removed. With hindsight, it was a bad feature, and we do not believe it has ever been used.
+
+Removed the /of:/ property from =ref.house.heating-responsiveness=, since only the responsiveness of the primary space heating system is always relevant.
+
+***** Thermal Mass
+
+The NHM now uses a simplified method for calculating the thermal mass of a dwelling.
+
+=wall.k-value= has been removed.
+
+=ref.action.reset-floors=, =ref.action.reset-walls= and =ref.action.reset-roofs= have had their /k-value/ and /party-k-value/ properties removed.
+
+**** Semantic Features
+
+A number of actions in the NHM are designed for tweaking values from SAP tables. In SAP 2012 mode, they will no longer have any effect:
+
+ + =ref.action.reset-floors=
+ + =ref.action.reset-roofs=
+ + =ref.action.reset-doors=
+ + =ref.action.reset-glazing=
+ + =ref.action.reset-walls=
+ + =ref.action.set-heating-schedule=
+ + =ref.action.set-heating-temperatures=
+
 *** Version 6.4.0
 **** Bugs fixed
 ***** Flags and reports work on def-action
