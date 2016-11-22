@@ -1,0 +1,781 @@
+#+STARTUP: content
+#+BEGIN_COMMENT
+This is the specification for the SAP/BREDEM 2012 energy calculator updated, written as an org-mode document, so that it is not frustrating to edit. However, we must also produce a docbook version, for the rest of the toolchain to consume.
+
+If you edit this file in emacs, whenever you save the file it will run pandoc to update the XML version. This is handled by the Local Variables: section in another comment block at the end of the file. Emacs will ask if you are happy applying that local variable when you start it up.
+
+The build process will not do this for you right now, unfortunately, and you need to have pandoc installed.
+
+This section is not included in the export because it is in a comment block.
+#+END_COMMENT
+
+* SAP/BREDEM 2012 Update Specification
+  :PROPERTIES:
+  :CATEGORY: sap2012
+  :END:
+
+  These are the changes which were needed to refit the NHM energy calculator into a more correct SAP 2012 / BREDEM 2012 implementation (given the limitations of the survey data).
+
+  The relevant source documents are:
+   + [[http://www.bre.co.uk/filelibrary/SAP/2012/SAP-2012_9-92.pdf][SAP 2012]]
+   + [[http://www.bre.co.uk/filelibrary/bredem/BREDEM-2012-specification.pdf][BREDEM 2012]]
+
+** Add Scenario Elements To Set Energy Calculator
+   First set up your scenario as follows:
+   #+BEGIN_SRC nhm
+   (scenario
+    ;; This will be the default value anyway, but is shown here for illustration.
+    energy-calculator: BREDEM2012)
+   #+END_SRC
+
+   Use a hypothetical action to evaluate some function with an alternative calculator for a house within the same scenario:
+   #+BEGIN_SRC nhm
+   (under
+    (energy-calculator SAP2012)
+    evaluate: (house.energy-use))
+   #+END_SRC
+
+   The reason this is a hypothetical action, is so that you can't accidentally have some houses on one energy calculation and some on the other.
+
+** Glazing Bug
+
+   There was a bug in the stock import where it was confusing percentages with proportions. This could occur if you set the double glazing proportion (percentagedoubleglazed in elevations.csv) to 99% or 1%.
+
+   I've checked some stocks, and I don't believe this bug has ever actually been triggered.
+
+   (This is why percentages should never be stored in actual data, and should be a presentation choice instead.)
+
+** Carbon Factors
+
+   Carbon factors default to 0.
+
+   Counterfactual.carbon defaults to SAP 2012 values from Table 12.
+
+** Energy Cost Deflator
+
+   Updated the energy cost deflator to use SAP 2012 numbers (Table 12, worksheet step 256).
+
+** Energy Content of Water
+
+   Updated HotWaterConstants09.ENERGY_PER_VOLUME to SAP/BREDEM 2012 values.
+
+   It's not clear why this has changed such a tiny amount from SAP 2009 (from 4.19 to 4.18). The real value (from reality) is 4.184. Possibly they have changed their rounding strategy.
+
+** Heat Pump Split Rate
+
+   SAP 2009 used whether or not the heat pump had an auxiliary for the split-rate (proportion of electricity which is on-peak/off-peak) when providing space heating. This has been removed from SAP 2012.
+
+   I have removed it from the NHM.
+
+** Responsiveness Adjustments
+
+   Responsiveness adjustments to background temperature are now only taken from the main space heating system. Previously the NHM was taking a weighted average over all space heating systems based on the proportion of heat demand that they met.
+
+   SAP does have something like this weighted average mechanism, but only for /main/ space heating systems, and we only ever have one of those in the NHM.
+
+   The actual algorithm now is that whatever generates the most space heat determines the responsiveness adjustments. This should always be the main space heating system.
+
+** Pump and Fan Running Time
+
+   Pumps and fans in the NHM previously only ran for the part of the year while the space heating was on (with the constants involved adjusted to compensate).
+
+   This meant that, if your heating ran for less time because of the degree days calculation (see BREDEM section 8), then the pumps and fans would also use less energy.
+
+   We've removed this ability, since neither SAP nor BREDEM mention it.
+
+** Cooking
+
+   This is based on BREDEM 2012 1M, 1N and 1O. Cooker types are in BREDEM /Table 5: Cooking type coefficients/.
+
+   BREDEM 2012 1P and 1Q, relating to range cookers, are unused. We have no information about range cookers.
+
+   In the stock import, dwellings are assigned a cooker as follows:
+   1. If they use mains gas for either their space or water heating, then they will get an electric oven and gas hob (corresponds to "Normal size cooker: electric / gas").
+   2. Otherwise, they will get an electric oven and electric hob (corresponds to "Normal size cooker: electric").
+
+   There is no way to modify a dwelling's cooker in a scenario.
+
+   In both energy calculator modes, we will calculate cooking energy using the BREDEM 2012 method (since SAP does not define a method for this).
+
+   In SAP 2012 mode, the gains from cooking will be based on the cooking line in SAP /Table 5: Internal Heat Gains/. This means that in SAP 2012 mode, gains due to cooking /will not depend/ on energy demand from cooking.
+
+   Note that the =house.fuel-cost-index= element used to get the SAP score does't include cooking energy use in either energy calculator mode.
+
+** Solar Thermal Values from Stock
+
+   Changed the defaults on measure.solar-dhw to be the same as the defaults in the stock.
+
+   These come from the Cambridge Housing Model.
+
+** Primary Pipework Losses
+
+   Primary pipework losses have changed since SAP 2009, and needed redoing from scratch.
+
+   It is the same for both SAP 2012 and BREDEM 2012 calculators:
+   + SAP worksheet (59), Table 3 and Table H4
+   + BREDEM 2.2.D, Tables 10, 11 and 12
+
+   Since we have no information about the /water heating separately timed/ property in the hours per day primary hot lookup. We assume this is false (more pessimistic assumption).
+
+   Implementation:
+   1. Do not apply to combi-boilers, CPSUs, point-of-use hot water, immersion heaters, or solar water heaters.
+   2. Compute fraction pipework insulated (or use 1.0 for community heating)
+   3. Compute hours-per-day primary pipework hot based on month and heating controls (or use 3 for community heating).
+   4. Compute solar adjustment factor based on month and whether solar water heating is present.
+   5. Compute the loss.
+
+** Community Charging Adjustments
+
+   Adjustements which only apply in SAP mode.
+
+   If there is a community heating system, its energy consumption is modified based on charging type and heating controls according to SAP Table 4c.
+
+   In the stock import, you can set this using /communitychargingusagebased/ in /space-heating.csv/. On /measure.district-heating/, you can set this using /charging-usage-based/. In both cases, it defaults to false.
+
+** def-adjustment
+
+   =def-adjustment= is a scenario element which allows BEIS to implement arbitrary new energy-saving appliances.
+
+   It is not part of either SAP or BREDEM specifications.
+
+   Its effects have been disabled in SAP 2012 mode.
+
+** context.calibration
+
+   =context.calibration= is a scenario element which allows BEIS to recalibrate the energy calculator to evaluate an arbitrary function for each fuel.
+
+   It is not part of either the SAP or BREDEM specifications.
+
+   Its effects have been disabled in SAP 2012 mode.
+
+** Energy Calculator Constants
+
+   =context.energy-constants= is a scenario element which allows BEIS to redefined constants inside the energy calculator.
+
+   It is not part of either the SAP or BREDEM specifications.
+
+   Its effects have been disabled in SAP 2012 mode.
+
+** Site Exposure
+
+   This is the number from Table 21 in BREDEM 2012, which is applied as a multiplier to the air change rate due to fabric and deliberate ventilation in part 3E.
+
+   It is locked to 1 (no effect) for the SAP 2012 calculator.
+
+   The default exposure for a house will be /average/ (multiplier of 1).
+
+   We have not implemented a way to put this value in through the stock import.
+
+   You can set it on a house in a scenario using =action.set-site-exposure=.
+
+** Boiler Efficiency Adjustments
+
+   This is in SAP 2012 Table 4c (3), and applies in both energy calculators.
+
+   These adjustments apply only to /gas/ and /oil/ boilers (following BRE's advice). We have assumed this means all types of gas boilers (including LPG).
+
+   There is a 5% efficiency reduction for boilers which are lacking either /thermostatic control of room temperature/, or /boiler interlock/.
+
+   /Boiler interlock/ is defined as having thermostatic control of *both* the room temperature *and* the hot water cylinder (if one is present).
+
+   This applies to space heating only for combi boilers and CPSUs.
+
+   It applies to both space heating and water heating for other kinds of boiler.
+
+** Heat Pump Efficiency Adjustments
+
+   In SAP 2009 these are in Table 4c (4). In SAP 2012 there is no mention of them.
+
+   We have removed them from the NHM.
+
+** Interzone Specific Heat Transfer
+
+   This is computed in BREDEM 2012 3J.
+
+   In the NHM, it defaults to 0.
+
+   It has no effect in the SAP 2012 calculator.
+
+   In the BREDEM 2012, it moves the unheated Zone 2 temperature towards the Zone 1 demand temperature.
+
+   You cannot set it in the stock import.
+
+   In a scenario, you can set it on a dwelling using =action.set-interzone-specific-heat-transfer=.
+
+** Appliances Base Energy
+
+   This is different between SAP and BREDEM, although the formula is otherwise the same.
+
+** Thermal Bridging Coefficient
+
+   We are using the simplified thermal bridge calculation, because we do not have enough information about the house to justify using the more complicated "add up all the elements in a table" method (we would likely be missing many of the elements, and so might under-estimate).
+
+   This is described in the SAP 2012 worksheet step (36), and in BREDEM 2012 at Step 3A.b.
+
+   The area of the house is multiplied by a /Thermal bridge factor/. In SAP 2012 mode, this factor is always fixed to 0.15. In BREDEM 2012 mode, it defaults to 0.15.
+
+   We have not included a way to change the /thermal bridge factor/ for a dwelling in the stock. You can change it on a dwelling inside a scenario using ==.
+
+   /Footnote vii/ in BREDEM 2012 describes how to set this effectively:
+
+   #+BEGIN_QUOTE
+   The value of y reflects the level of attention paid to limiting thermal bridge losses. 0.15 would be suitable for
+   most homes built before 2002, when little attention was paid to thermal bridging. For a dwelling complying
+   with the 2002 building regulations for England and Wales, or a similar standard, use 0.11. For a dwelling built
+   after 2006 a suitable value would be 0.08.
+   #+END_QUOTE
+
+   Note that there is a minor error with the specification of units in BREDEM 2012. The units for the /thermal bridge factor/ (should be W/m^2K) and the /thermal bridging loss/ (should be W/K) are reversed.
+
+** Degree Days vs Heating Months
+
+   BREDEM 2012 specifies (see 8F, 8G, 8H) a degree-days based mechanism for working out a /heating-on factor/, which is the fraction of a month the heating is on for. This is what the NHM previously implemented, and so we have left it unchanged for the BREDEM 2012 energy calculator mode.
+
+   You can influence the /heating-on factor/ for a house using =action.set-heating-temperatures=. This has the properties /threshold-external-temperature/ and /desired-heating-months/. The latter is actually a convenience method for automatically setting the former.
+
+   In the SAP 2012 calculator mode, there is no heating-on factor. Instead, the heating is on for the whole of January to May, and then October to December (inclusive). This cannot be controlled from the scenario.
+
+** Reduced Internal Gain
+
+   Reduced internal gains is from SAP 2012, in column B of Table 5. The table mentions that is applies to the DFEE, TDEE, DER and TER for new dwellings, and nothing else.
+
+   They never have any effect when the energy calculator is in SAP 2012 mode.
+
+   While reduced internal gains are not defined in BREDEM 2012, we have implemented them in the energy calculator in BREDEM 2012 mode since its gains calculations are quite similar.
+
+   All houses constructed in the stock do not have reduced internal gains. You can enable it on a house in a scenario using =action.reduced-internal-gains=.
+
+   It has the following effects:
+   + Metabolic gains reduced from 60W per person to 50W per person
+   + Lighting gains multiplied by 0.4
+   + Appliance gains multiplied by 0.67
+   + Cooking gains due to base load scaled by 23 / 35, and gains per person scaled by 5 / 7
+
+   It has no effect on the energy consumption of any of these, only their gains output.
+
+** Responsiveness
+
+   Removed =scale.responsiveness=, as it was a poorly designed action, and does not fit well with the new lookup table approach.
+
+   Removed the /of:/ property from =house.heating-responsiveness=, since only the responsiveness of the primary space heating system is always relevant.
+
+   SAP 2012 defines responsiveness of heating systems in Tables 4a and 4d. BREDEM explicitly defers to SAP for responsiveness (see BREDEM 2012 Appendix B).
+
+   Corrected the responsiveness values in the NHM to match that lookup for both energy calculator modes.
+
+   It is possible to set the responsiveness on =measure.storage-heating=. This is to allow for the modelling of improved modern storage heating. In SAP 2012 mode, this value is ignored.
+
+   | System                          | Fuel            |               Responsiveness |
+   |---------------------------------+-----------------+------------------------------|
+   | None (assumed portable heaters) | Electric        |                            1 |
+   | CPSU                            | *               |                            1 |
+   | Combi Boiler                    | *               |                         0.75 |
+   | Other Boiler                    | Coal or Biomass |                  0.75 or 0.5 |
+   | Other Boiler                    | Not Solid       |                     Table 4d |
+   | Heat pump                       | *               |                     Table 4d |
+   | Warm Air heat pump              | *               |                            1 |
+   | Community                       | *               |                            1 |
+   | Storage heaters                 | *               |   0 to 0.8 depending on type |
+   | Warm Air                        | Electric        |                         0.75 |
+   | Warm Air                        | Not Electric    |                            1 |
+   | Room Heater                     | Coal or Biomass | 0.75 or 0.5 (never relevant) |
+   | Room Heater                     | Not Solid       |           1 (never relevant) |
+
+** Solar PV
+
+   Solar PV is now specified as per Appendix M of SAP 2012, and step 10A or BREDEM 2012 (these are identical). This is the formula =0.8 * peak power * solar flux * overshading factor=.
+
+   It is assumed to be south facing with a 30 degree tilt and average overshading.
+
+   We have removed /roof-coverage/ and /efficiency/ from =measure.solar-photovoltaic=, and replaced them with /size/, which is the peak power rating of the installation measured in kW.
+
+   The NHM no longer knows how much roof area the solar panels need. There are therefore no longer any suitability criteria relating to roof area, and the scenario author should consider writing their sizing function in terms of the size of the roof.
+
+   In SAP 2012 mode, the /own-use-proportion/, which determines how much electricity is used in the home and how much is exported, is locked to 0.5. In BREDEM 2012 mode the calculation will use the value specified in =measure.solar-photovoltaic=. In either mode, the dwelling will never use more electricity than it has demand for.
+
+   Generated electricity which is used in the dwelling is now divided between peak and off-peak based on the split rate for generation from Table 12a.
+** Storage Combi Storage Losses
+   :PROPERTIES:
+   :Effort:   1
+   :END:
+
+   In SAP 2012, /4.2 Storage Loss/ states the following:
+
+   #+BEGIN_QUOTE
+   For combi boilers the storage loss factor is zero if the efficiency is taken from Table 4b. The loss is to be
+   included for a storage combination boiler if its efficiency is the manufacturer’s declared value or is obtained
+   from the Product Characteristics Database, using the data in Tables 2, 2a and 2b (its insulation thickness
+   and volume are also to be provided by the manufacturer or obtained from the database).
+   #+END_QUOTE
+
+   Based on this, we have added a property /EfficiencySource/ to boilers. This has the following values:
+   + /ManufacturerDeclared/ (storage loss is computed)
+   + /SAPDefault/ (storage loss is 0)
+
+   When you install a boiler measure, the efficiency source is always set to /ManufacturerDeclared/.
+
+   In the stock import, this value is set to TODO
+
+   This applies in both energy calculator modes.
+** Thermal Mass
+
+   SAP 2012 implements two thermal mass computations:
+   + In worksheet (34), summing up the thermal mass over all the elements of the house.
+   + In Table 1f, a simple lookup with low, medium and high values.
+
+   On the advice of BRE, we have changed the NHM to use the Table 1f method, with the following table used to classify walls according to whether their thermal mass should be low, medium or high. We then select the level with the largest wall area.
+
+   | Wall Type   | Internal/External Insulation | Thermal Mass Level |
+   |--------------------+------------------------------+--------------------|
+   | Stone/Solid        | Uninsulated                  | High               |
+   | Stone/Solid        | Insulated                    | Low                |
+   | Timber             | Any                          | Low                |
+   | Other              | Any                          | Medium             |
+
+   | BRE-Specified Wall Type | NHM Wall Type                           |
+   |-------------------------+-----------------------------------------|
+   | Stone/Solid             | SolidBrick/GraniteOrWhinstone/Sandstone |
+   | TImber                  | TimberFrame                             |
+   | Other                   | Cob/Cavity/SystemBuild/MetalFrame       |
+
+   Internal and Party walls are not included in this calculation. Not are roofs or floors.
+
+   /k-values/ (thermal mass for fabric elements) have been removed from the imputation schema.
+
+   The scenario language element =wall.k-value= has been removed.
+
+   =action.reset-floors=, =action.reset-walls= and =action.reset-roofs= have had their /k-value/ and /party-k-value/ properties removed.
+
+** Occupancy
+
+   Deleted the =sap.occupancy= action.
+
+   In SAP 2012 mode, the energy calculator will always use the SAP assumed occupancy (worksheet step (42)).
+
+** Glazing
+
+   In SAP 2012 mode, the frame factors, gains transmittance and light transmittance for glazed surfaces are now always looked up from the relevant SAP tables.
+
+   In BREDEM 2012 mode, they may be set using the imputation schema, =action.reset-glazing= or =measure.install-glazing=.
+
+   None of these values has changed from SAP 2009.
+
+*** Door Glazing
+
+    In both SAP 2012 and BREDEM 2012, glazed doors are used for providing /lighting/ and /solar gains/.
+
+    You can control the number and type of doors in the stock import file /elevations.csv/. The size of each doors is decided by the imputation schema.
+
+    Doors are double glazed is the proportion of double glazing in the dwelling is > 0.5, and single glazed otherwise. (This method was chosen since a large number of dwellings have only 1 door, in which case it is a good approximation.)
+
+    Door glazing is air insulated (as with window glazing).
+
+    =measure.install-glazing= does not affect glazed doors, only windows.
+
+    SAP also has a concept of semi-glazed doors, which affect lighting but not solar gains. We do not have any information about these in the surveys, and so do not include them.
+** Infiltration
+
+   Infiltration is largely the same in both BREDEM 2012 and SAP 2012 (with the exception of windows and doors in BREDEM, see below).
+
+*** Intermittent Fans
+
+    The number of intermittent fans is set in /ventilation.csv/.
+
+    It cannot be set in a scenario.
+
+    This field previously had no effect, but now adds the correct amount of infiltration to the dwelling.
+
+*** Passive Vents
+
+    The number of passive vents is set in /ventilation.csv/.
+
+    It cannot be set in a scenario.
+
+    This field previously had no effect, but now adds the correct amount of infiltration to the dwelling.
+
+*** BackBoiler Flues and Chimneys
+
+    Found a bug where flues and chimneys on BackBoilers were being previously counted twice. This no longer happens.
+
+*** Walls
+
+    BREDEM 2012 has a larger wall infiltration table with more kinds of wall than SAP 2012.
+
+    Additionally, SAP specifies that you should use the value which applies to the largest area of wall, while BREDEM uses an area-wieghting method to average the values.
+
+    The NHM uses the SAP method.
+
+    The NHM provides ways to set the infiltration for a particular segment of wall in the stock import (imputation schema) and using =action.reset-walls=. In SAP 2012 mode, these are overridden with the SAP values.
+
+    (I missed this during the earlier specification phase, so you may want to give some extra thought to it.)
+
+*** Floors
+
+    Floor infiltration is defined in both SAP 2012 and BREDEM 2012 as:
+    + 0.1 for sealed suspended floors
+    + 0.2 for unsealed suspended floors
+    + 0 for other kinds of floor (solid floor)
+
+    Previously in the NHM, it was possible to set infiltration for every floor in the building. This does not make sense in either SAP or BREDEM 2012.
+
+    Floor infiltration now only applies to the ground floor, and the ability to set it on each floor been removed from =action.reset-floors=.
+
+    All properties with suspended floors older than or equal to SAP age band E are considered to be unsealed in the stock (as per RDSap Table S5).
+
+*** Windows and Doors
+
+    SAP 2012 calculates window and door infiltration in worksheet steps (14) and (15) based on the proportion of windows and doors which are draught stripped.
+
+    BREDEM 2012 does this in step 3D, which refers to Table 19. This does the following:
+    1. Divides windows and doors into categories based on whether or not they are draught proofed, and how well they fit.
+    2. Assigns an air change rate to each category.
+    3. Takes an area weighted mean over the categories.
+
+    We do not have the information required to implement the BREDEM algorithm, so we use the SAP 2012 implementation for both energy calculator modes.
+
+    The draught stripped proportion may be set in the stock using the field /windowsanddoorsdraughtstrippedproportion/ in /ventilation.csv/.
+
+    It may be set in a scenario using =measure.install-draught-proofing=.
+
+    (A previous version of this specification incorrectly stated that the current NHM implementation was the BREDEM implementation. This was not true.)
+** Hot Water Demand
+
+   The model implements the SAP hot water demand from the worksheet step (43) in SAP 2012 mode.
+
+   It implements the BREDEM 2012 hot water demand 2.1A to 2.1F in BREDEM 2012 mode.
+
+*** Showers
+
+    In stock import, there is now a field /showertype/ in
+    /water-heating.csv/. This value is based (as per BRE recommendation)
+    on whether or not there is a second water heating system present in
+    the dwelling:
+    + Second system present -> electric shower
+    + Not present -> mixer shower
+
+    There is no way to change the shower type of a dwelling within
+    a scenario.
+
+**** Showers in BREDEM 2012
+
+     In BREDEM mode, if a mixer shower is present, it will increase the hot
+     water demand. There are two types of mixer shower in BREDEM (combi and
+     non-combi). Which type is used to determine hot water demand will
+     depend on whether or not the dwelling has a combi boiler. See BREDEM
+     Table 6.
+
+     In BREDEM mode, if an electric shower is present, it will consume some
+     electricity. This electricity demand will be recorded under the /water
+     heating/ service type (the other possibly suitable service type would
+     be /appliances/, but water heating seems more appropriate). See BREDEM
+     section 2.3.
+
+     BREDEM doesn't tell us anything about the ratio of peak and off-peak electricity. We have used the default peak/off-peak split from SAP for this ratio.
+
+**** Showers in SAP 2012
+
+     In SAP 2012 mode, the shower only affects the solar hot water use
+     adjustment factor. This, in turn, affects the utilisation factor for
+     solar hot water. See SAP 2012 (H7a) and Table H3.
+
+     | Shower   | Adjustment |
+     |----------+------------|
+     | Electric |       1.29 |
+     | Mixer    |       0.64 |
+     | None     |       1.09 |
+** House Facing
+
+   This is extra request EXS-193, which we decided would be a useful part of this update.
+
+   In the stock import, /elevations.csv/ now has an /anglefromnorth/ field (specified in radians).
+** Solar Flux Calculation
+
+   The solar flux calculation has been updated to SAP 2012 equation (U3). This effects natural light, solar gains, solar water heating and solar PV.
+
+   This is the same as BREDEM 2012 Steps 2.4.1B, C and D and Table 15.
+
+** Demand Temperatures
+
+*** SAP Mode
+
+   See SAP 2012 Table 9.
+
+   In SAP mode, the zone 1 demand temperature is always 21.
+
+   The zone 2 demand temperature is calculated from the heat loss parameter with an /interzone temperature difference/ of 3 and an /zone 2 heating proportion/ of 1.0. Using these parameters, the BREDEM 2012 temperature calculation is identical to the SAP 2012 calculation.
+
+   None of the options in =action.set-heating-temperatures= have any effect in SAP mode.
+
+*** BREDEM Mode
+
+   In BREDEM mode, the zone 1 demand temperature may be overridden, e.g. =action.set-heating-temperatures living-area-temperature: 21=.
+
+   There are two options for the zone 2 demand temperature in BREDEM mode:
+    + If it has been set directly (e.g. =action.set-heating-temperatures rest-of-dwelling-temperature: 18=). In this case, the /interzone temperature difference/ and the /zone 2 heating proportion/ have no effect.
+    + Otherwise, it will be computed using the formula from BREDEM 2012 7A to 7E.
+
+**** Zone 2 Heating Proportion
+
+     This is part of the BREDEM 2012 mean internal temperature calculation. In particular it is used to compute the zone 2 demand temperature, by mixing between the zone 2 temperature selected by control and the zone zone 2 unheated temperature. See equation 7E.
+
+     It is not present in SAP, and has no effect in the SAP 2012 calculator (it is treated as having a value of 1.0 in SAP).
+
+     It is present on the dwelling as a property which can be set using =action.set-heating-temperatures rest-of-dwelling-heated-proportion: 1.0=. It cannot be set in the stock import, and defaults to 1.0 (100% of zone 2heated) for new dwellings.
+
+** Heating Schedule
+
+   In SAP 2012 mode, will always use the heating schedule from Table 9.
+
+   This includes using the heating control type (Table 4e /Control/ column) to lookup the zone 2 schedule.
+
+   In BREDEM 2012 mode, zone 1 and zone 2 will always use the same schedule, which you can set using =action.set-heating-schedule=.
+
+*** Zone 2 Heating Schedule
+
+    In SAP 2012 mode, zone 2 has a separate heating schedule. This depends on the zone 2 control parameter, which is calculated from the type of heating controls present. See SAP 2012 Tables 9 and 4e (/Control/ column).
+
+    In BREDEM 2012 mode, there is no way to set a zone 2 heating schedule. Both zones will have the same schedule.
+
+** Weather
+
+   Updated default weather to match average UK weather from SAP 2012.
+
+   There are 4 weather tables in SAP (these are the same as BREDEM Appendix A):
+   + /Table U1: Mean external temperature/
+   + /Table U2: Wind speed/
+   + /Table U3: Solar Radiation/
+   + /Table U4 Representative Latitude and height above mean sea level/
+
+   (Note that the height above sea level is never actually used in the SAP worksheet.)
+
+   SAP 2012 specifies that you should use region-specific weather when calculating energy use, fuel costs and emissions, but average UK weather when calculating the /Energy Cost Rating/ (SAP score) or the /Environment Impact Rating/.
+
+   Since the energy calculator in the NHM doesn't know which of those you are trying to calculate, we've chosen the following compromise:
+   + In SAP 2012 mode, we will always use the UK average weather, regardless of any other values the user has specified in the scenario.
+   + In BREDEM 2012 mode, we will use the user specified weather for the region the dwelling is in.
+
+** U-Values
+
+ In BREDEM 2012 mode, u-values are determined in the stock based on the imputation schema.
+
+ They may be altered in a scenario using the various =action.reset-thing= actions, or by installing some insulation (which will convert the u-value into a resistance, add it to the resistance of the new insulation, and then convert the result back into a u-value).
+
+ In SAP 2012 mode, u-values are always looked up from the SAP tables.
+
+*** Wall Thickness
+
+    Wall thickness in SAP 2012 is used to determine the u-value of the ground floor, and a minimum u-value for stone walls.
+
+    Previously, the SAP scenario included an override to wall thickness based on Table S3. However, I have removed this as it would override the known extra thickness of the wall due to insulation installed.
+
+    The imputation schema still contains the thickness values from Table S3, with a couple of amendments:
+     + SAP 2009 contained extra rows for insulated walls. We have kept these.
+     + MetalFrame thickness is taken from the CHM.
+
+*** SAP Window U-Values
+
+    This is SAP 2012 Table 6e and RdSAP Table S14. Of these, we use Table 6e, because the model contains information about frame type and insulation.
+
+    (These tables agree on the values for single and secondary glazing, but Table 6e has more rows for double and triple glazing.)
+
+    We have no information about any of footnotes 1 (roof windows), 2 (metal frame gap) or 3 (semi-glazed doors), so we ignore them.
+
+    We always use the most pessimistic value for the /glazing gap/ (6mm) and /En value/, as we have no information about these.
+
+    We do apply the curtains adjustment from section 3.2.
+
+    Windows installed via the stock all have /air insulation/, and are a mixture of single and double-glazed based /percentagedoubleglazed/ in /elevations.csv/.
+
+*** SAP Roof U-Values
+
+    We use Table S9 (based on insulation thickness) for /PitchedSlateOrTiles/ and /Thatched/ roofs. We assume that the insulation thickness in the stock refers to joist insulation.
+
+    We use Table S10 for /Flat/ roofs, which looks up based on the age band.
+
+    Party ceilings always have a u-value of 0.
+
+*** SAP Wall U-Values
+
+    These are based on Tables S6, S7 and S8.
+
+    We do not apply the extra resistance for dry-lining in S5.1.2, because we do not have any information about it.
+
+    We do not have any knowledge about whether or not insulation recorded in the stock is /as originally built/. We therefore ignore the /*/ footnote in Tables S6, S7 and S8.
+
+**** Internal Walls
+
+     Internal walls always have a u-value of 0.
+
+**** Party Walls
+
+    In SAP 2012, party walls are assigned u-values according to Table 3.6 and S8B. This simulated the movement of air within a cavity wall.
+
+    In SAP 2012 mode, these u-values will be used. We have assumed that /Metal Frame/ and /Cob/ party walls count as not cavity for this purpose.
+
+    In BREDEM mode, you may put a u-value on party walls using =action.reset-walls=. Party wall u-values default to 0 in the stock import.
+
+*** SAP Door U-Values
+
+    This is based on Table S15A.
+
+    We assume that all doors in the stock lead to the outside. We have no information about heated or unheated corridors or stairwells.
+
+*** SAP Floor U-Values
+
+    All floors in a dwelling in the NHM are assumed to have the same floor insulation thickness. This, along with the construction type of the ground floor, are determined during the stock import based on the /floors/ section of the imputation schema (original values from SAP 2012 Table S11).
+
+    The insulation level for the floors may also be set in a scenario with =measure.floor-insulation=.
+
+    (In practice, only the ground floor and floors from overhanging storeys will have a heat-loss area, and we do not think there are many overhanging storeys in the stock.)
+
+    (The construction type of floors other than the ground floor is not relevant, so we do not store it.)
+
+    When calculating the u-value in SAP 2012 mode, we use:
+     + 0 for party floors.
+     + The formula from S5.5 if it is a ground floor.
+     + Table S12 otherwise.
+
+#+BEGIN_COMMENT
+This tells emacs to run pandoc on save. This comment needs to be near the end of the file, as emacs only looks for buffer specific variables near the end.
+
+The command which gets run is this:
+
+(shell-command "pandoc -f org -t docbook sap-2012-spec.org --chapters | sed 's! id=\"\"!!g' | sed 's!<chapter>!<chapter xmlns=\"http://docbook.org/ns/docbook\">!g' | sed 's!<literal>\\(ref\\..\\+\\)</literal>!<xref linkend=\"\\1\"/>!g'")
+
+It has some escapes in it because it is a lisp string getting passed to the shell.
+
+Written out and unescaped it is
+
+pandoc -f org -t docbook sap-2012-spec.org --chapters |                    convert this file to docbook with pandoc
+    sed 's!id=""!!g' |                                                     remove id="" from the thing - pandoc makes this and it upsets maven docbook
+    sed 's!<chapter.*>!<chapter xmlns="http://docbook.org/ns/docbook">!g'  add the docbook namespace to the top-level chapter - pandoc does not put this in
+
+In the local variables line below we have eval:, which is a special local variable that runs some emacs lisp.
+The lisp we are running adds the lisp above onto the after-save-hook, which is a list of functions to call after saving.
+
+Local Variables:
+eval: (add-hook 'after-save-hook (lambda () (shell-command "pandoc -f org -t docbook sap-2012-spec.org --chapters | sed 's! id=\"\"!!g' | sed 's!<chapter.*>!<chapter xmlns=\"http://docbook.org/ns/docbook\">!g' > sap-2012-spec.xml")) nil t)
+End:
+#+END_COMMENT
+
+** Deferred or Cancelled Items
+
+ Things which we're not implementing as part of this project, but may warrant further thought.
+
+*** Space Cooling
+
+    The NHM doesn't currently implement space cooling.
+
+*** Electric CSPU Storage Loss
+
+    The cylinder loss factor for an electric CPSU should always be 0.022 kWh/litre/day.
+
+    This is not implemented in the NHM.
+
+*** Overshading
+
+    We originally wanted to make overshading configurable in the scenario.
+
+    We decided to abandon this when we realized that a dwelling has 9 separate overshading properties: 1 for each point of an 8-pointed compass, and 1 for solar PV / solar hot water.
+*** Electricity Tariff Type
+
+    Electricity tariffs are hardcoded to Economy 7 in the NHM.
+
+    This affects electricity split rates, and also has a small effect on the responsiveness of storage heaters.
+*** Ventilation Types
+
+    See SAP worksheet step 24. Of the possible options, the NHM only implements /natural ventilation/ (24d).
+*** Door Area
+
+    Doors in SAP are 1.85 m^2 in area.
+
+    I have not enforced in SAP 2012 mode, and I have also removed it from the sap-physics scenario.
+
+    The reason for this is that some dwellings in the survey have too many doors (e.g. 50 doors on a tiny house). This is handled by a stock import step from the Cambridge Household Model stock import method, which shrinks all the doors if they take up too much area.
+
+    For the future, I would suggest:
+     + Remove the ability to set the size of doors from the imputation schema and from =action.reset-doors=, since it is an unhelpful level of detail.
+     + Replace the door-shrinking step with some kind of door-throwing-away step.
+*** Regions
+
+ The NHM uses government office regions, because that is what the EHS provides.
+
+ SAP weather tables U1 to U4 use some other region classification.
+
+ We map these regions as follows (based on the Cambridge Houseing Model method):
+
+ #+BEGIN_SRC python
+   ehs_to_sap_region_mapping = {
+       ## Taken from SpssHouseCaseReader.java#governmentOfficeRegionToSAPRegion
+       "NorthWest": "WestPennines",
+       "NorthEast": "Borders Scotland / Borders England",
+       "YorkshireAndTheHumber": "North East England",
+       "WestMidlands": "Midlands",
+       "EastEngland": "East Anglia",
+       "EastMidlands": "East Pennines",
+       "SouthWest": "Severn Wales / Severn England",
+       "SouthEast": "South East England",
+       "London": "Thames",
+       "Wales": "Wales",
+       "WesternScotland": "West Scotland",
+       "EasternScotland": "East Scotland",
+       "NorthernScotland": "North East Scotland",
+       "NothernIreland": "Nothern Ireland"
+   }
+ #+END_SRC
+*** Imputation Schema
+
+    The imputation schema is a place for BEIS's evidence about the real values for various aspects of building physics.
+
+    I believe it was originally populated from the intermediate unpublished BREDEM spec.
+
+    We have not modified it as part of this work, because we do not know what changes BEIS have made to their copy and whether we would need to merge them in.
+
+    This means there are a few things which might be worth considering here:
+     + k-values in the imputation schema no longer have any effect
+     + Age band L is not interpreted (these dwellings will use the values for band K).
+     + Some Scotland-specific values are missing
+     + The imputation schema's only effect in SAP 2012 mode is to determine wall thicknesses.
+
+    If, in the future, BEIS commissions the work which will allow them to define their own energy calculators, it is likely that the imputation schema can be removed entirely.
+
+*** Multiple Main Space Heating Systems
+
+    The NHM only allows for a single main space heating system to be defined.
+
+*** Room Heaters as Main Space Heating
+
+    SAP allows for multiple room heaters to be treated as a single main space heating system.
+
+    The NHM always treats room heaters as secondary space heating, and only allows one to be present in a dwelling.
+
+*** Community Electricity Used For Heating Distribution
+
+    In SAP 2012, 1% of the total energy demand of the community heating system added again as electricity demand. This is the electricity for pumping water around the system.
+
+    This is not implemented in the NHM.
+
+*** Appendix N Heat Pumps
+
+    SAP 2012 Appendix N specifies a more complex model of heat pumps.
+
+    The NHM does not implement this. The information to do so does not exist.
+
+*** Environmental Impact Rating
+
+    The NHM does not implement the SAP environmental impact rating calculation (SAP 2012 worksheet 274 and Section 14).
+
+    It is easy to implement using the scenario language, or to calculate off-model.
+
+*** Missing Technologies
+
+    The following technologies are not implemented in the NHM:
+    + Micro CHP
+    + Community CHP
+    + Waste heat recovery
+    + Mechanical ventilation
+    + Micro hydro
+    + Wind turbines
+    + Heat pump warm air system
+    + Exhaust air heat pumps
+    + Underfloor heating  (and alternatives to radiators in general)
