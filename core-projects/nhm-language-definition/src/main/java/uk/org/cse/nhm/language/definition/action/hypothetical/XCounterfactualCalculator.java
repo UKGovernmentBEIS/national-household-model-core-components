@@ -11,16 +11,16 @@ import uk.org.cse.nhm.language.definition.enums.XEnergyCalculatorType;
 @Doc("Temporarily use a different energy calculator for this dwelling.")
 @Bind("counterfactual.energy-calculator")
 public class XCounterfactualCalculator extends XCounterfactualAction {
-	
-	private XEnergyCalculatorType calculatorType;
-	
+
+	private XEnergyCalculatorType calculatorType = XEnergyCalculatorType.SAP2012;
+
 	@Prop(XScenario.P.CALCULATOR_TYPE)
 	@BindPositionalArgument(value = 0)
 	public XEnergyCalculatorType getCalculatorType() {
 		return calculatorType;
 	}
-	
-	public void setCalculatorType(XEnergyCalculatorType type) {
+
+	public void setCalculatorType(final XEnergyCalculatorType type) {
 		this.calculatorType = type;
 	}
 }
