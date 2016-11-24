@@ -18,13 +18,13 @@ public class GetPredominantWallType extends StructureFunction<WallConstructionTy
 	}
 
 	@Override
-	public WallConstructionType compute(IComponentsScope scope, ILets lets) {
+	public WallConstructionType compute(final IComponentsScope scope, final ILets lets) {
 		final StructureModel structure = getStructure(scope);
-		
+
 		final double[] accumulators = new double[WallConstructionType.values().length];
-		double maximum = Double.NEGATIVE_INFINITY;
+		final double maximum = Double.NEGATIVE_INFINITY;
 		WallConstructionType maxType = null;
-		
+
 		for (final Storey storey : structure.getStoreys()) {
 			for (final IWall wall : storey.getImmutableWalls()) {
 				final WallConstructionType constructionTypeOfThisWall = wall.getWallConstructionType();
@@ -37,7 +37,11 @@ public class GetPredominantWallType extends StructureFunction<WallConstructionTy
 				}
 			}
 		}
-		
+
+		if (maxType == null) {
+			throw new IllegalStateException("Dwelling has no predominant wallt type. This probably means it has no external walls. " + scope.getDwellingID());
+		}
+
 		return maxType;
 	}
 }
