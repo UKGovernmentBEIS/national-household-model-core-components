@@ -5,7 +5,7 @@ result$occupancy <- result$occupancy..Before
 
 ## This is quite high, because it includes both floating point error and a kWh/y conversion.
 ## Year length of 365.25 is used, but the numbers which come out of the NHM will vary depending on whether it is a leap year.
-EPSILON = 1
+EPSILON <- 1
 
 ## Expected energy use based on BREDEM 2012 Table 5
 ### "Normal size cooker: electric"

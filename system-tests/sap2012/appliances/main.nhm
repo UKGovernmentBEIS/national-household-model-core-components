@@ -1,27 +1,18 @@
-(batch
-    inputs: (table
-                [$calculator $constant                                                  $demand]
-                [SAP2012     ApplianceConstants09_APPLIANCE_DEMAND_COEFFICENT_SAP      23.705225]
-                [SAP2012     ApplianceConstants09_APPLIANCE_DEMAND_COEFFICENT_SAP      50]
-                [BREDEM2012  ApplianceConstants09_APPLIANCE_DEMAND_COEFFICIENT_BREDEM   21.081451]
-                [BREDEM2012  ApplianceConstants09_APPLIANCE_DEMAND_COEFFICIENT_BREDEM   50]
-                )
-    
-    scenario: (scenario
-                  start-date: 2016
-                  end-date: 2016
-		  stock-id: ../../EHS2012.json.gz
-                  energy-calculator: $calculator
-                  
-                  (context.energy-constants
-                      (constant
-                          $constant
-                          $demand)) 
-                  
-                  (on.dates
-                      [(scenario-start)]
-                      
-                      (aggregate
-                          name: energy
-                          
-                          (aggregate.mean (house.energy-use by-service: Appliances))))))
+(scenario
+ start-date: 2016
+ end-date: 2016
+ stock-id: ../../stock.json
+ energy-calculator: SAP2012
+
+ (def-report appliance-energy
+   (column name: occupancy value: (house.number-of-occupants))
+   (column name: floor-area value: (house.total-floor-area))
+   (column name: sap value: (house.energy-use by-service: Appliances))
+   (column name: bredem value: (under
+				(counterfactual.energy-calculator BREDEM2012)
+				evaluate: (house.energy-use by-service: Appliances))))
+
+ (on.construction
+  (apply
+   to: (affected-houses)
+   (send-to-report appliance-energy))))
