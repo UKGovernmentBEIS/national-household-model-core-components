@@ -1,7 +1,7 @@
 (scenario
  start-date: 2016
  end-date: 2016
- stock-id:   ../../EHS2012.json.gz
+ stock-id:   ../../stock.json
 
  ;; For some houses with boilers, set their efficiency in various ways (including by installing a new boiler).
  ;; Use house.efficiency to report on them, so that we can see if the changes worked as expected.
@@ -17,7 +17,7 @@
  (def-action change-efficiency (action.change-efficiency winter-efficiency: 95% summer-efficiency: 80% direction: Set update-flags: got-explicit-efficiency))
  (def-action change-winter-efficiency (action.change-efficiency winter-efficiency: 50% direction: Set update-flags: got-winter-efficiency))
  (def-action change-summer-efficiency-relative (action.change-efficiency summer-efficiency: -20% direction: Set update-flags: got-summer-efficiency-relative))
- 
+
  (on.dates
   (scenario-start)
 
