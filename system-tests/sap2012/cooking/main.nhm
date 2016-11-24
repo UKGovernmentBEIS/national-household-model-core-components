@@ -1,7 +1,7 @@
 (scenario
  start-date: 2015
  end-date: 2015
- stock-id: ../../EHS2012.json.gz
+ stock-id: ../../stock.json
 
  (def-report cooking
    (column
@@ -12,7 +12,7 @@
     name: elec
     value: (+
 	    (house.energy-use by-service: Cooking by-fuel: PeakElectricity)
-	    (house.energy-use by-service: Cooking by-fuel: OffPeakElectricity))
+	    (house.energy-use by-service: Cooking by-fuel: OffPeakElectricity)))
 
    (column
     name: occupancy
