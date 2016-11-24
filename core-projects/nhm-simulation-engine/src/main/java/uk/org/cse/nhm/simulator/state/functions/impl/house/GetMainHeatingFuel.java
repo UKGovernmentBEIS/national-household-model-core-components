@@ -12,17 +12,17 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 
 public class GetMainHeatingFuel extends MainHeatingFuelFunction<XFuelType> {
 	@Inject
-	public GetMainHeatingFuel(ITechnologyOperations operations, IDimension<ITechnologyModel> bad) {
+	public GetMainHeatingFuel(final ITechnologyOperations operations, final IDimension<ITechnologyModel> bad) {
 		super(operations, bad);
 	}
 
 	@Override
-	public XFuelType compute(IComponentsScope scope, ILets lets) {
-		
+	public XFuelType compute(final IComponentsScope scope, final ILets lets) {
+
 		final FuelType mainHeatingFuel = getMainHeatingFuel(scope);
-		
-		if (mainHeatingFuel == null) return null;
-		
+
+		if (mainHeatingFuel == null) throw new RuntimeException("Main heating fuel should never be null.");
+
 		switch (mainHeatingFuel) {
 		case BIOMASS_PELLETS: return XFuelType.BiomassPellets;
 		case BIOMASS_WOOD: return XFuelType.BiomassWood;

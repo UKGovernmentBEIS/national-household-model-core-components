@@ -9,7 +9,7 @@ import uk.org.cse.nhm.language.definition.function.bool.house.XMainHeatingFuelIs
 
 import com.larkery.jasb.bind.Bind;
 
-@Doc("The main heating fuel of the house")
+@Doc("The main heating fuel of the house. If there are no suitable heaters, portable electric heaters will be assumed.")
 @Bind("house.heating-fuel")
 @ReturnsEnum(XFuelType.class)
 @SeeAlso(XMainHeatingFuelIs.class)
