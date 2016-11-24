@@ -22,7 +22,7 @@ public class GetPredominantWallType extends StructureFunction<WallConstructionTy
 		final StructureModel structure = getStructure(scope);
 
 		final double[] accumulators = new double[WallConstructionType.values().length];
-		final double maximum = Double.NEGATIVE_INFINITY;
+		double maximum = Double.NEGATIVE_INFINITY;
 		WallConstructionType maxType = null;
 
 		for (final Storey storey : structure.getStoreys()) {
@@ -30,9 +30,10 @@ public class GetPredominantWallType extends StructureFunction<WallConstructionTy
 				final WallConstructionType constructionTypeOfThisWall = wall.getWallConstructionType();
 				if (constructionTypeOfThisWall.getWallType() == WallType.External) {
 					final int ord = constructionTypeOfThisWall.ordinal();
-					accumulators[constructionTypeOfThisWall.ordinal()] += wall.getArea();
+					accumulators[ord] += wall.getArea();
 					if (accumulators[ord] > maximum) {
 						maxType = constructionTypeOfThisWall;
+						maximum = accumulators[ord];
 					}
 				}
 			}
