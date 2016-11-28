@@ -1,6 +1,6 @@
 (scenario
- start-date: 2016
- end-date: 2016
+ start-date: 2015
+ end-date: 2015
  stock-id: ../../stock.json
  energy-calculator: SAP2012
 
@@ -8,6 +8,10 @@
    (column name: occupancy value: (house.number-of-occupants))
    (column name: floor-area value: (house.total-floor-area))
    (column name: sap value: (house.energy-use by-service: Appliances))
+   (column name: sap-gas value: (house.energy-use by-service: Appliances by-fuel: MainsGas))
+   (column name: sap-elec value: (house.energy-use by-service: Appliances by-fuel: Electricity))
+   (column name: sap-peak value: (house.energy-use by-service: Appliances by-fuel: PeakElectricity))
+   (column name: sap-offpeak value: (house.energy-use by-service: Appliances by-fuel: OffPeakElectricity))
    (column name: bredem value: (under
 				(counterfactual.energy-calculator BREDEM2012)
 				evaluate: (house.energy-use by-service: Appliances))))
