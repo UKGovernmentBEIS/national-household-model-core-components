@@ -1,7 +1,7 @@
 (scenario
  start-date: 2013
  end-date: 2013
- stock-id: ../../stock.json.gz
+ stock-id: ../../stock.json
 
  ;; We explore what happens when you install some solar PV, and how exported electricity works.
 
