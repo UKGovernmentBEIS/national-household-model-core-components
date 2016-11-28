@@ -21,7 +21,7 @@ import com.larkery.jasb.bind.BindNamedArgument;
 	"Electricity generated is calculated according to SAP 2012 formula (M1).",
 })
 @Unsuitability({
-	"dwelling is a flat", 
+	"dwelling is a flat",
 	"dwelling has an existing solar photovoltaic system"
 	})
 public class XSolarPhotovoltaicMeasure extends XMeasure {
@@ -30,11 +30,11 @@ public class XSolarPhotovoltaicMeasure extends XMeasure {
 		public static final String capex = "capex";
 		public static final String ownUseProportion = "ownUseProportion";
 	}
-	
+
 	private XSizingFunction sizing;
 	private XNumber capex;
 	private XNumber ownUseProportion = defaultOwnUseProportion();
-	
+
 	private static XNumber defaultOwnUseProportion() {
 		final XNumberConstant result = new XNumberConstant();
 		result.setValue(0.5);
@@ -48,11 +48,11 @@ public class XSolarPhotovoltaicMeasure extends XMeasure {
 	public XSizingFunction getSizing() {
 		return sizing;
 	}
-	
+
 	public void setSizing(final XSizingFunction sizing) {
 		this.sizing = sizing;
 	}
-	
+
 	@NotNull(message = "measure.solar-photovoltaic must specify a capex")
 	@Prop(P.capex)
 	@Doc({
@@ -74,6 +74,7 @@ public class XSolarPhotovoltaicMeasure extends XMeasure {
 		"This fraction of the generated amount will be taken from the electricity import requirement",
 		"from the grid.",
 		"Any remaining generation will be exported to the grid, potentially at a different price.",
+		"If this proportion is high enough to cause either peak or offpeak electricity demand to become negative, some extra electricity will be exported instead.",
 		"Setting this has no effect in SAP 2012 mode, when it will always be 0.5."
 	})
 	public XNumber getOwnUseProportion() {
