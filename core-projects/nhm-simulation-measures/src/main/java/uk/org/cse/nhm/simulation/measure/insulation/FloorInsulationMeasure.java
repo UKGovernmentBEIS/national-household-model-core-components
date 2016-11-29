@@ -40,14 +40,14 @@ public class FloorInsulationMeasure extends InsulationMeasure {
 		this.structureDimension = structureDimension;
 		this.isSolidFloor = isSolidFloor;
 	}
-	
+
 	@Override
 	public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
 		final StructureModel sm = scope.get(structureDimension);
 
 		return (sm.getGroundFloorConstructionType() == FloorConstructionType.Solid) == isSolidFloor;
 	}
-	
+
 	@Override
 	public boolean isAlwaysSuitable() {
 		return false;
@@ -56,10 +56,11 @@ public class FloorInsulationMeasure extends InsulationMeasure {
 	private void addCapitalCosts(final ISettableComponentsScope scope, final ILets lets) {
 		final AreaAccumulator acc = new AreaAccumulator(EnumSet.of(AreaType.ExternalFloor));
 		scope.get(structureDimension).accept(acc);
-		
+
 		addCapitalCosts(scope, lets, acc.getTotalArea());
 	}
-	
+
+
 	@Override
    	public boolean apply(final ISettableComponentsScope scope, final ILets lets) {
 		if (isSuitable(scope, lets)) {
@@ -72,7 +73,7 @@ public class FloorInsulationMeasure extends InsulationMeasure {
 									 for (final Storey storey : sm.getStoreys()) {
 										 storey.setFloorUValue(uvalue);
 									 }
-								 
+
 									 sm.setFloorInsulationThickness(thickness);
 
 									 return true;
@@ -80,18 +81,18 @@ public class FloorInsulationMeasure extends InsulationMeasure {
 							 });
 				addCapitalCosts(scope, lets);
 			} else if (this.resistance.isPresent()) {
-				final double resistance = this.resistance.get().compute(scope, lets).doubleValue();
+				final double resistance = this.resistance.get().compute(scope, lets).doubleValue() * thickness;
 				scope.modify(structureDimension,
 							 new IBranch.IModifier<StructureModel>() {
 								 @Override
 								 public boolean modify(final StructureModel sm) {
 									 for (final Storey storey : sm.getStoreys()) {
-										 final double newUValue = 
-											 1/(resistance + 
+										 final double newUValue =
+											 1/(resistance +
 												(1/storey.getFloorUValue()));
 										 storey.setFloorUValue(newUValue);
 									 }
-									 
+
 									 sm.setFloorInsulationThickness(thickness);
 
 									 return true;
