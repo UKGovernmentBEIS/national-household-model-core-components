@@ -409,17 +409,31 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 	 *
 	 * In the table we see the term "boiler interlock".
 	 */
-	protected boolean shouldApplyInterlockPenalty() {
-		if (getFuel().isGas() || getFuel() == FuelType.OIL) {
-			final boolean spaceControl = getSpaceHeater() == null || getSpaceHeater().isThermostaticallyControlled();
-			final boolean waterControl = getWaterHeater() == null || getWaterHeater().getSystem() == null ||
-					getWaterHeater().getSystem().getStore() == null || getWaterHeater().getSystem().getStore().isThermostatFitted();
+    protected boolean shouldApplyInterlockPenalty() {
+        final boolean hasSpaceHeater =
+            getSpaceHeater() != null;
 
-			return !spaceControl || !waterControl;
+        final boolean hasWaterHeaterWithStore =
+            getWaterHeater() != null &&
+            getWaterHeater().getSystem() != null &&
+            getWaterHeater().getSystem().getStore() != null;
 
-		} else {
-			return false;
-		}
+        final boolean isGasOrOilFuelled =
+            getFuel().isGas() || getFuel() == FuelType.OIL;
+
+        if (isGasOrOilFuelled && (hasSpaceHeater || hasWaterHeaterWithStore)) {
+            if (hasSpaceHeater &&
+                !getSpaceHeater().isThermostaticallyControlled()) {
+                return true;
+            }
+
+            if (hasWaterHeaterWithStore &&
+                !getWaterHeater().getSystem().getStore().isThermostatFitted()) {
+                return true;
+            }
+        }
+
+        return false;
 	}
 
 	protected double getSeasonalEfficiency(final double qWater, final double qSpace) {
