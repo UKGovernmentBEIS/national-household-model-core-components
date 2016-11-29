@@ -317,7 +317,7 @@ public class StorageCombiBoilerImpl extends CombiBoilerImpl implements IStorageC
 	public double getContainedTankLosses(final IInternalParameters parameters) {
 		if (getStore() == null) return 0;
 
-		if (getEfficiencySource() == EfficiencySourceType.MANUFACTURER_DECLARED) {
+        if (getEfficiencySource() == EfficiencySourceType.SAP_DEFAULT) {
 			// See SAP 2012 section 4.2 Storage loss
 			return 0;
 		}
