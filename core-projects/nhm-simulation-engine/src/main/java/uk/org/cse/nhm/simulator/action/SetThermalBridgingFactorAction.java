@@ -60,7 +60,10 @@ public class SetThermalBridgingFactorAction extends AbstractNamed implements ICo
 		private final double thermalBridgingFactor;
 
 		Modifier(final double thermalBridgingFactor) {
-			this.thermalBridgingFactor = thermalBridgingFactor;
+            if (thermalBridgingFactor < 0) {
+                throw new IllegalArgumentException(String.format("Illegal thermal briding factor %g - should not be a negative number", thermalBridgingFactor));
+            }
+            this.thermalBridgingFactor = thermalBridgingFactor;
 		}
 		
 		@Override
