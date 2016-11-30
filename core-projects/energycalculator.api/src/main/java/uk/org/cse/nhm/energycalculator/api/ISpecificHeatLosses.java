@@ -41,7 +41,9 @@ public interface ISpecificHeatLosses {
 	/**
 	 * @return the heat loss attributable to thermal bridging.
 	 */
-	public double getThermalBridgeEffect();
+    public double getThermalBridgeEffect();
+
+    public double getFabricLoss();
 
     /**
      * @return the air change rate, including the effect of ventilation systems

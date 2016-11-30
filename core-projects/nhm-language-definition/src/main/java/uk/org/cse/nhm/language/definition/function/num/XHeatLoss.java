@@ -4,6 +4,8 @@ import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.SeeAlso;
 
 import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindPositionalArgument;
+import uk.org.cse.nhm.language.adapt.impl.Prop;
 
 @Doc({
 	"Get the specific heat loss computed by the energy calculator for this house.",
@@ -18,5 +20,27 @@ import com.larkery.jasb.bind.Bind;
 @Bind("house.heat-loss")
 @SeeAlso(XPeakHeatDemand.class)
 public class XHeatLoss extends XHouseNumber {
-	
+    public static final class P {
+        public static final String TYPE = "TYPE";
+    }
+    public enum XHeatLossType {
+        Total,
+        Fabric,
+        Ventilation,
+        ThermalBridging
+    }
+
+    private XHeatLossType type = XHeatLossType.Total;
+
+    @Prop(P.TYPE)
+    @Doc({"Specifies which contributory term to the overall heat loss should be produced."})
+    @BindPositionalArgument(0)
+    public XHeatLossType getType() {
+        return type;
+    }
+
+    public void setType(XHeatLossType type) {
+        this.type = type;
+    }
+
 }

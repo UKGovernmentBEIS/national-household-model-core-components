@@ -19,7 +19,10 @@ public interface IPowerTable {
 	float getSecondaryHeatDemand();
 	float getHotWaterDemand();
 	
-	float getSpecificHeatLoss();
+    float getSpecificHeatLoss();
+    float getFabricHeatLoss();
+    float getVentilationHeatLoss();
+    float getThermalBridgingHeatLoss();
 
 	float getPowerByFuel(final FuelType ft);
 	

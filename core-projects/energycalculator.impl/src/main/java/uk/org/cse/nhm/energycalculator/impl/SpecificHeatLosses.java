@@ -8,62 +8,54 @@ import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
 
 @AutoProperty
 public class SpecificHeatLosses implements ISpecificHeatLosses {
-	public final double specificHeatLoss;
+    public final double fabricLoss;
 	public final double interzoneHeatLoss;
 	public final double floorArea;
 	public final double thermalMass;
 	public final double ventilationLoss;
 	public final double thermalBridgeEffect;
-	public final double heatLossParameter;
-	public final double thermalMassParameter;
     public final double airChangeRate;
 
-	public SpecificHeatLosses(final double specificHeatLoss, final double interzoneHeatLoss, final double thermalMass, final double floorArea, final double ventilationLoss, final double thermalBridgeEffect, final double airChangeRate) {
-		this.specificHeatLoss = specificHeatLoss;
+    public SpecificHeatLosses(final double fabricLoss, final double interzoneHeatLoss, final double thermalMass, final double floorArea, final double ventilationLoss, final double thermalBridgeEffect, final double airChangeRate) {
+        this.fabricLoss = fabricLoss;
 		this.interzoneHeatLoss = interzoneHeatLoss;
 		this.floorArea = floorArea;
 		this.thermalMass = thermalMass;
 		this.ventilationLoss = ventilationLoss;
-		this.thermalBridgeEffect = thermalBridgeEffect;
-		
-		/*
-		BEISDOC
-		NAME: Heat loss parameter
-		DESCRIPTION: The heat loss per degree of the dwelling divided by the floor area
-		TYPE: formula
-		UNIT: W/m^2/℃
-		SAP: (40)
-		BREDEM: 3I
-		DEPS: specific-heat-loss,dwelling-floor-area
-		GET: 
-		SET: 
-		ID: heat-loss-parameter
-		CODSIEB
-		*/
-		this.heatLossParameter = this.specificHeatLoss / this.floorArea;
-		
-		/*
-		BEISDOC
-		NAME: Thermal mass parameter
-		DESCRIPTION: Thermal mass divided by area of the dwelling
-		TYPE: formula
-		UNIT: kJ/℃/m^2
-		SAP: (35), Table 1f
-		BREDEM: 4A
-		DEPS: thermal-mass,dwelling-floor-area
-		GET:
-		SET: 
-		ID: thermal-mass-parameter
-		CODSIEB
-		*/
-		this.thermalMassParameter = this.thermalMass / this.floorArea;
-		
+        this.thermalBridgeEffect = thermalBridgeEffect;
         this.airChangeRate = airChangeRate;
 	}
 
 	@Override
-	public double getSpecificHeatLoss() {
-		return specificHeatLoss;
+    public double getSpecificHeatLoss() {
+        /*
+        BEISDOC
+        NAME: Total fabric heat loss
+        DESCRIPTION: Fabric heat loss added to thermal bridging
+        TYPE: formula
+        UNIT: W/℃
+        SAP: (37)
+        BREDEM: 3H
+        DEPS: fabric-heat-loss,thermal-bridging-heat-loss
+        ID: total-fabric-heat-loss
+        CODSIEB
+        */
+
+        /*
+        BEISDOC
+        NAME: Specific Heat Loss
+        DESCRIPTION: The rate at which the dwelling loses heat per degree of temperature difference with the outside. The ventilation heat loss added to the total fabric heat loss.
+        TYPE: Formula
+        UNIT: W/℃
+        SAP: (39)
+        BREDEM: 3H
+        DEPS: ventilation-heat-loss,total-fabric-heat-loss
+        GET: house.heat-loss
+        ID: specific-heat-loss
+        CODSIEB
+        */
+
+        return fabricLoss + ventilationLoss + thermalBridgeEffect;
 	}
 
 	@Override
@@ -73,19 +65,52 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
 
 	@Override
 	@Property
-	public double getHeatLossParameter() {
-		return heatLossParameter;
-	}
+    public double getHeatLossParameter() {
+        /*
+        BEISDOC
+        NAME: Heat loss parameter
+        DESCRIPTION: The heat loss per degree of the dwelling divided by the floor area
+        TYPE: formula
+        UNIT: W/m^2/℃
+        SAP: (40)
+        BREDEM: 3I
+        DEPS: specific-heat-loss,dwelling-floor-area
+        GET:
+        SET:
+        ID: heat-loss-parameter
+        CODSIEB
+        */
+        return getSpecificHeatLoss() / floorArea;
+    }
+
+    @Override
+    public double getFabricLoss() {
+        return fabricLoss;
+    }
 
 	@Override
 	public double getThermalMass() {
-		return thermalMass;
+        return thermalMass;
 	}
 
 	@Override
 	@Property
-	public double getThermalMassParameter() {
-		return thermalMassParameter;
+    public double getThermalMassParameter() {
+        /*
+        BEISDOC
+        NAME: Thermal mass parameter
+        DESCRIPTION: Thermal mass divided by area of the dwelling
+        TYPE: formula
+        UNIT: kJ/℃/m^2
+        SAP: (35), Table 1f
+        BREDEM: 4A
+        DEPS: thermal-mass,dwelling-floor-area
+        GET:
+        SET:
+        ID: thermal-mass-parameter
+        CODSIEB
+        */
+        return thermalMass / floorArea;
 	}
 	
 	@Override

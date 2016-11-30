@@ -59,7 +59,22 @@ public class EmissionsTest {
 		@Override
 		public float getSpecificHeatLoss() {
 			return 0;
-		}
+        }
+
+        @Override
+        public float getFabricHeatLoss() {
+            return 0;
+        }
+
+        @Override
+        public float getVentilationHeatLoss() {
+            return 0;
+        }
+
+        @Override
+        public float getThermalBridgingHeatLoss() {
+            return 0;
+        }
 
         @Override
         public float getAirChangeRate() {

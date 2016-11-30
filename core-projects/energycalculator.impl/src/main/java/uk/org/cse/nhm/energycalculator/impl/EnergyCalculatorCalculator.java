@@ -201,10 +201,9 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 	 *             the floorplan. Here we are using the CHM's method.
 	 */
 	public SpecificHeatLosses calculateSpecificHeatLosses(final IEnergyCalculatorHouseCase houseCase,
-			final IInternalParameters parameters, final double totalSpecificHeatLoss, final double totalThermalMass,
+            final IInternalParameters parameters, final double fabricLosses, final double totalThermalMass,
 			final double totalExternalArea, final IStructuralInfiltrationAccumulator infiltration,
 			final List<IVentilationSystem> ventilationSystems) {
-		double H1 = totalSpecificHeatLoss;
 
 		log.debug("Total thermal mass: {}", totalThermalMass);
 
@@ -297,39 +296,14 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		final double ventilationLosses = VENTILATION_HEAT_LOSS_COEFFICIENT * houseAirChangeRate
 				* houseCase.getHouseVolume();
 
-		/*
-		BEISDOC
-		NAME: Total fabric heat loss
-		DESCRIPTION: Fabric heat loss added to thermal bridging
-		TYPE: formula
-		UNIT: W/℃
-		SAP: (37)
-		BREDEM: 3H
-		DEPS: fabric-heat-loss,thermal-bridging-heat-loss
-		ID: total-fabric-heat-loss
-		CODSIEB
-		*/
-		H1 += thermalBridgeEffect;
-
-		/*
-		BEISDOC
-		NAME: Specific Heat Loss
-		DESCRIPTION: The rate at which the dwelling loses heat per degree of temperature difference with the outside. The ventilation heat loss added to the total fabric heat loss.
-		TYPE: Formula
-		UNIT: W/℃
-		SAP: (39)
-		BREDEM: 3H
-		DEPS: ventilation-heat-loss,total-fabric-heat-loss
-		GET: house.heat-loss
-		ID: specific-heat-loss
-		CODSIEB
-		*/
-		H1 += ventilationLosses;
-
-		final double H3 = getInterzoneSpecificHeatLoss(parameters.getCalculatorType(), houseCase);
-
-		return new SpecificHeatLosses(H1, H3, totalThermalMass, houseCase.getFloorArea(), ventilationLosses,
-				thermalBridgeEffect, climateAdjustedAirChangeRate);
+        final double H3 = getInterzoneSpecificHeatLoss(parameters.getCalculatorType(), houseCase);
+        return new SpecificHeatLosses(fabricLosses,
+                                      H3,
+                                      totalThermalMass,
+                                      houseCase.getFloorArea(),
+                                      ventilationLosses,
+                                      thermalBridgeEffect,
+                                      climateAdjustedAirChangeRate);
 	}
 
 	protected double getThermalBridgeEffect(final IEnergyCalculatorHouseCase houseCase, final IInternalParameters parameters,
@@ -507,7 +481,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		final double Td2 = parameters.getZoneTwoDemandTemperature();
 		final double Text = parameters.getClimate().getExternalTemperature();
 
-		final double specificHeatLoss = heatLosses.specificHeatLoss;
+        final double specificHeatLoss = heatLosses.getSpecificHeatLoss();
 		final double H = specificHeatLoss;
 		final double H3 = heatLosses.interzoneHeatLoss;
 
@@ -1008,7 +982,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 	}
 
 	private final double getTimeConstant(final SpecificHeatLosses heatLosses) {
-		/*
+        /*
 		BEISDOC
 		NAME: Time constant
 		DESCRIPTION: A number which represents how quickly the dwelling's temperature changes.
@@ -1020,9 +994,9 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		ID: time-constant
 		CODSIEB
 		*/
-		return div(heatLosses.thermalMassParameter,
-				(TIME_CONSTANT_HEAT_LOSS_PARAMETER_MULTIPLIER * heatLosses.heatLossParameter), "time constant");
-	}
+        return div(heatLosses.getThermalMassParameter(),
+                   (TIME_CONSTANT_HEAT_LOSS_PARAMETER_MULTIPLIER * heatLosses.getHeatLossParameter()), "time constant");
+    }
 
 	/**
 	 * Run all the transducers until we get to the gain to loss ratio adjuster
