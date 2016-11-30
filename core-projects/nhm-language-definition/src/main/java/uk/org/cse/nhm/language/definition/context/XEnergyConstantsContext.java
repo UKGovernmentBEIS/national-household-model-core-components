@@ -135,8 +135,6 @@ public class XEnergyConstantsContext extends XContextParameter {
 		 LightingConstants09_OVERSHADING_ACCESS_FACTORS(4),
 		@Doc("In the lighting monthly adjustment equation a + b * cos( 2 pi * (month - c) / 12, these are a, b, and c - default is 1.000, 0.500, 0.200 ")
 		 LightingConstants09_ADJUSTMENT_FACTOR_TERMS(3),
-		@Doc("Primary pipework losses for community heating system - default is 41.068 ")
-		 CommunityHeatingConstants_PRIMARY_PIPEWORK_LOSSES(1),
 		@Doc("Demand temperature adjustment for 2301, 2302 - default is 0.300 ")
 		 CommunityHeatingConstants_DEMAND_TEMPERATURE_ADJUSTMENT(1),
 		@Doc("The space energy multiplier in SAP table 4c(3) for system codes 2301, 2302 - default is 1.100 ")

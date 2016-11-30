@@ -523,7 +523,7 @@ public abstract class HeatSourceImpl extends MinimalEObjectImpl implements IHeat
 	 * @generated
 	 */
 	@Override
-	public double generateHotWaterAndPrimaryGains(IInternalParameters parameters, IEnergyState state, IWaterTank store, boolean storeIsPrimary, double primaryCorrectionFactor, double distributionLossFactor, double proportion) {
+	public double generateHotWaterAndPrimaryGains(IInternalParameters parameters, IEnergyState state, IWaterTank store, boolean storeIsPrimary, double primaryPipeworkLosses, double distributionLossFactor, double proportion) {
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
 		throw new UnsupportedOperationException();
