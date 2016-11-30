@@ -188,7 +188,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 	 *
 	 * @param houseCase
 	 * @param parameters
-	 * @param totalSpecificHeatLoss
+	 * @param totalFabricHeatLoss
 	 * @param totalThermalMass
 	 * @param totalExternalArea
 	 * @param infiltration
@@ -678,7 +678,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 	private IEnergyCalculationResult evaluate(final IEnergyCalculatorHouseCase houseCase, final IInternalParameters parameters,
 			final Visitor v) {
 		final SpecificHeatLosses heatLosses = calculateSpecificHeatLosses(houseCase, parameters,
-				v.totalSpecificHeatLoss, v.getTotalThermalMass(), v.totalExternalArea, v.infiltration, v.ventilationSystems);
+				v.totalFabricHeatLoss, v.getTotalThermalMass(), v.totalExternalArea, v.infiltration, v.ventilationSystems);
 
 		// apply demand temperature adjustment, and compute zone 2 temp etc.
 		final IInternalParameters adjustedParameters = adjustParameters(parameters, heatLosses, v.heatingSystems);
