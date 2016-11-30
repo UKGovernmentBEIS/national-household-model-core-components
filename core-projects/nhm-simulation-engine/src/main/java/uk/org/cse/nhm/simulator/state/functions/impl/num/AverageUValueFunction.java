@@ -254,7 +254,7 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 					overrideU = uValue;
 					break;
 				case SAP2012:
-					overrideU = SAPUValues.Floors.get(type, isGroundFloor, area, exposedPerimeter, groundFloorConstructionType, insulationThickness, wallThickness, ageBand, country);
+					overrideU = SAPUValues.Floors.get(type, isGroundFloor, area, exposedPerimeter, wallThickness, groundFloorConstructionType, insulationThickness, ageBand, country);
 					break;
 				default:
 					throw new UnsupportedOperationException("Unknown energy calculator type when computing average u value for floors " + calculatorType);

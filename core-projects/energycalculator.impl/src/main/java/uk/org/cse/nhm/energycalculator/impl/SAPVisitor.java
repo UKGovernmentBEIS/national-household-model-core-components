@@ -36,12 +36,17 @@ public class SAPVisitor extends Visitor {
 		this.country = country;
 	}
 
+	private static final double _check(final double d) {
+		assert !(Double.isNaN(d) || Double.isInfinite(d)) : "SAP table returned NaN or infinite";
+		return d;
+	}
+
 	@Override
 	protected double overrideAirChangeRate(final WallConstructionType wallType, final double airChangeRate) {
 		if (wallType == WallConstructionType.TimberFrame || wallType == WallConstructionType.MetalFrame) {
-			return steelOrTimberFrameInfiltration;
+			return _check(steelOrTimberFrameInfiltration);
 		} else {
-			return otherWallInfiltration;
+			return _check(otherWallInfiltration);
 		}
 	}
 
@@ -64,10 +69,10 @@ public class SAPVisitor extends Visitor {
 		*/
 		switch(frameType) {
 		case Metal:
-			return 0.8;
+			return _check(0.8);
 		case uPVC:
 		case Wood:
-			return 0.7;
+			return _check(0.7);
 		default:
 			throw new IllegalArgumentException("Unknown frame type while computing frame factor " + frameType);
 		}
@@ -93,12 +98,12 @@ public class SAPVisitor extends Visitor {
 		*/
 		switch (glazingType) {
 		case Single:
-			return 0.9;
+			return _check(0.9);
 		case Secondary:
 		case Double:
-			return 0.8;
+			return _check(0.8);
 		case Triple:
-			return 0.7;
+			return _check(0.7);
 		default:
 			throw new IllegalArgumentException("Unknown glazing type while computing light transmittance factor " + glazingType);
 		}
@@ -124,17 +129,17 @@ public class SAPVisitor extends Visitor {
 		*/
 		switch (glazingType) {
 		case Single:
-			return 0.85;
+			return _check(0.85);
 		case Secondary:
-			return 0.76;
+			return _check(0.76);
 		case Double:
 			switch (insulationType) {
 			case Air:
-				return 0.76;
+				return _check(0.76);
 			case LowEHardCoat:
-				return 0.72;
+				return _check(0.72);
 			case LowESoftCoat:
-				return 0.63;
+				return _check(0.63);
 			default:
 				throw new IllegalArgumentException("Unknown window insulation type while computing solar gains tranmissivity " + insulationType);
 			}
@@ -142,11 +147,11 @@ public class SAPVisitor extends Visitor {
 		case Triple:
 			switch (insulationType) {
 			case Air:
-				return 0.68;
+				return _check(0.68);
 			case LowEHardCoat:
-				return 0.64;
+				return _check(0.64);
 			case LowESoftCoat:
-				return 0.57;
+				return _check(0.57);
 			default:
 				throw new IllegalArgumentException("Unknown window insulation type while computing solar gains tranmissivity " + insulationType);
 			}
@@ -158,45 +163,45 @@ public class SAPVisitor extends Visitor {
 
 	@Override
 	protected double overrideWallUValue(final double uValue, final WallConstructionType constructionType, final double externalOrInternalInsulationThickness, final boolean hasCavityInsulation, final double thickness) {
-		return SAPUValues.Walls.get(
+		return _check(SAPUValues.Walls.get(
 				country,
 				constructionType,
 				externalOrInternalInsulationThickness,
 				hasCavityInsulation,
 				ageBand,
 				thickness
-			);
+			));
 	}
 
 	@Override
 	protected double overrideDoorUValue(final double uValue) {
-		return SAPUValues.Doors.getOutside(ageBand, country);
+		return _check(SAPUValues.Doors.getOutside(ageBand, country));
 	}
 
 	@Override
 	protected double overrideRoofUValue(final double uValue, final RoofType type, final RoofConstructionType constructionType,
 			final double insulationThickness) {
-		return SAPUValues.Roofs.get(type, constructionType, insulationThickness, country, ageBand);
+		return _check(SAPUValues.Roofs.get(type, constructionType, insulationThickness, country, ageBand));
 	}
 
 	@Override
 	protected double overrideWindowUValue(final double uValue, final FrameType frameType, final GlazingType glazingType,
 			final WindowInsulationType insulationType) {
-		return SAPUValues.Windows.get(frameType, glazingType, insulationType);
+		return _check(SAPUValues.Windows.get(frameType, glazingType, insulationType));
 	}
 
 	@Override
 	protected double overrideFloorUValue(
-			final double uValue,
 			final FloorType type,
 			final boolean isGroundFloor,
 			final double area,
+			final double uValue,
 			final double exposedPerimeter,
+			final double wallThickness,
 			final FloorConstructionType groundFloorConstructionType,
-			final double groundFloorInsulationThickness,
-			final double wallThickness
+			final double groundFloorInsulationThickness
 			) {
 
-		return SAPUValues.Floors.get(type, isGroundFloor, area, exposedPerimeter, groundFloorConstructionType, groundFloorInsulationThickness, wallThickness, ageBand, country);
+		return _check(SAPUValues.Floors.get(type, isGroundFloor, area, exposedPerimeter, wallThickness, groundFloorConstructionType, groundFloorInsulationThickness, ageBand, country));
 	}
 }

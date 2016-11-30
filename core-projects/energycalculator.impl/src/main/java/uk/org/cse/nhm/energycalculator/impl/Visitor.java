@@ -217,7 +217,7 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 	}
 
 	@Override
-	public void visitFloor(final FloorType type, final boolean isGroundFloor, final double area, final double exposedPerimeter, final double uValue, final double wallThickness) {
+	public void visitFloor(final FloorType type, final boolean isGroundFloor, final double area, final double uValue, final double exposedPerimeter, final double wallThickness) {
 		log.debug("VISIT {}, {}, {}, {}, {}", type, area, uValue, groundFloorConstructionType, floorInsulationThickness);
 
 		if (isGroundFloor && (groundFloorConstructionType == null || floorInsulationThickness == null)) {
@@ -228,27 +228,28 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 				type.getAreaType(),
 				area,
 				overrideFloorUValue(
-						uValue,
 						type,
 						isGroundFloor,
 						area,
+						uValue,
 						exposedPerimeter,
+						wallThickness,
 						groundFloorConstructionType,
-						floorInsulationThickness,
-						wallThickness));
+						floorInsulationThickness));
 	}
 
 	protected abstract double overrideFloorUValue(
-			final double uValue,
 			final FloorType type,
 			final boolean isGroundFloor,
 			final double area,
+			final double uValue,
 			final double exposedPerimeter,
+			final double wallThickness,
 			final FloorConstructionType groundFloorConstructionType,
-			final double groundFloorInsulationThickness,
-			final double wallThickness);
+			final double groundFloorInsulationThickness);
 
 	public void visitArea(final AreaType type, final double area, final double uValue) {
+		assert !(Double.isNaN(uValue) || Double.isInfinite(uValue)) : "Infinite or NaN u-value";
 		if (type.isExternal()) {
 			totalExternalArea += area;
 		}

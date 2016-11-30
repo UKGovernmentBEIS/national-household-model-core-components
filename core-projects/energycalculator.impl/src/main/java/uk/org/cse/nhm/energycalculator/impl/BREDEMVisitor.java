@@ -65,9 +65,9 @@ public class BREDEMVisitor extends Visitor {
 	}
 
 	@Override
-	protected double overrideFloorUValue(final double uValue, final FloorType type, final boolean isGroundFloor, final double area,
-			final double exposedPerimeter, final FloorConstructionType groundFloorConstructionType,
-			final double groundFloorInsulationThickness, final double wallThickness) {
+	protected double overrideFloorUValue(final FloorType type, final boolean isGroundFloor, final double area, final double uValue,
+			final double exposedPerimeter, final double wallThickness,
+			final FloorConstructionType groundFloorConstructionType, final double groundFloorInsulationThickness) {
 		return uValue;
 	}
 }
