@@ -32,6 +32,7 @@ import uk.org.cse.nhm.language.definition.function.num.XEfficiencyMeasurement;
 import uk.org.cse.nhm.language.definition.function.num.XFloorInsulationThickness;
 import uk.org.cse.nhm.language.definition.function.num.XGlobalAccountBalance;
 import uk.org.cse.nhm.language.definition.function.num.XHeatLoad;
+import uk.org.cse.nhm.language.definition.function.num.XHeatLoss;
 import uk.org.cse.nhm.language.definition.function.num.XHeatingEfficiency;
 import uk.org.cse.nhm.language.definition.function.num.XHouseBalance;
 import uk.org.cse.nhm.language.definition.function.num.XHouseWeight;
@@ -78,6 +79,7 @@ import uk.org.cse.nhm.simulator.state.functions.impl.num.FuelCostFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.GeometricDiscount;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.GlobalAccountBalanceFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.HeatLoadFunction;
+import uk.org.cse.nhm.simulator.state.functions.impl.num.HeatLossFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.HeatingEfficiencyFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.HeatingResponsivenessFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.HouseBalanceFunction;
@@ -93,8 +95,8 @@ import uk.org.cse.nhm.simulator.state.functions.impl.num.MeanInternalTemperature
 import uk.org.cse.nhm.simulator.state.functions.impl.num.MeterReadingFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.NetPresentValueFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.PeakHeatLoadFunction;
-import uk.org.cse.nhm.simulator.state.functions.impl.num.Polynomial;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.Polynomial.PolynomialTerm;
+import uk.org.cse.nhm.simulator.state.functions.impl.num.Polynomial;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.PredictObligationsFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.PredictSum;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.PriorFunction;
@@ -102,14 +104,14 @@ import uk.org.cse.nhm.simulator.state.functions.impl.num.RegisterGetFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.SapScoreFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.SimYearFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.SizingResultFunction;
-import uk.org.cse.nhm.simulator.state.functions.impl.num.SteppedFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.SteppedFunction.Direction;
+import uk.org.cse.nhm.simulator.state.functions.impl.num.SteppedFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.SumOfTransactionsFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.random.GaussianRandomFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.random.TriangularRandomFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.random.UniformRandomFunction;
-import uk.org.cse.nhm.simulator.state.functions.impl.num.steppedcharge.SteppedPricingFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.steppedcharge.SteppedPricingFunction.Range;
+import uk.org.cse.nhm.simulator.state.functions.impl.num.steppedcharge.SteppedPricingFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.var.GetRegister;
 
 public interface IObjectFunctionFactory {
@@ -127,7 +129,9 @@ public interface IObjectFunctionFactory {
 			final Direction direction,
 			final IComponentsFunction<Number> delegate,
 			final List<Double> steps);
-	
+
+    public HeatLossFunction createHeatLossFunction(@Assisted XHeatLoss.XHeatLossType type);
+
 	public PeakHeatLoadFunction createPeakHeatLoadFunction(
 			@Assisted("internal") final double internalTemperature,
 			@Assisted("external") final double externalTemperature, 

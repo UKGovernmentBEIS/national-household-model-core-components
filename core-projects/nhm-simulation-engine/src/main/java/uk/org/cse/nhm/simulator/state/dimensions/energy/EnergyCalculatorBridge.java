@@ -40,6 +40,7 @@ import uk.org.cse.nhm.simulator.state.dimensions.FuelServiceTable;
 import uk.org.cse.nhm.simulator.state.dimensions.behaviour.IHeatingBehaviour;
 import uk.org.cse.nhm.simulator.state.dimensions.weather.IWeather;
 import uk.org.cse.nhm.types.MonthType;
+import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
 
 /**
  * Glue that runs a energy calculator from within the simulator.
@@ -66,7 +67,7 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 
         private final FuelServiceTable table;
 
-		private final float specificHeatLoss;
+        private final float specificHeatLoss, fabricHeatLoss, ventilationHeatLoss, thermalBridgingHeatLoss;
         private final float airChangeRate;
 		private final float meanInternalTemperature;
         private final float[][] heatLoad = new float[MonthType.values().length][2];
@@ -76,6 +77,10 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 
         Result(final IEnergyCalculationResult[] months) {
             float specificHeatLoss = 0;
+            float fabricHeatLoss = 0;
+            float ventilationHeatLoss = 0;
+            float thermalBridgingHeatLoss = 0;
+
             float airChangeRate = 0;
             float meanInternalTemperature = 0;
             
@@ -117,8 +122,13 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
                     }
                 }
             
-
-                specificHeatLoss += result.getHeatLosses().getSpecificHeatLoss() * m.getStandardDays();
+                {
+                    final ISpecificHeatLosses losses = result.getHeatLosses();
+                    specificHeatLoss        += losses.getSpecificHeatLoss()    * m.getStandardDays();
+                    fabricHeatLoss          += losses.getFabricLoss()          * m.getStandardDays();
+                    ventilationHeatLoss     += losses.getVentilationLoss()     * m.getStandardDays();
+                    thermalBridgingHeatLoss += losses.getThermalBridgeEffect() * m.getStandardDays();
+                }
 
                 meanInternalTemperature += 
                     m.getStandardDays() * 
@@ -131,7 +141,11 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
                 heatLoad[m.ordinal()][1] = (float) (convert * result.getEnergyState().getTotalDemand(EnergyType.DemandsHOT_WATER));
             }
 
-            this.specificHeatLoss = specificHeatLoss;
+            this.specificHeatLoss        = specificHeatLoss        / 365f;
+            this.fabricHeatLoss          = fabricHeatLoss          / 365f;
+            this.ventilationHeatLoss     = ventilationHeatLoss     / 365f;
+            this.thermalBridgingHeatLoss = thermalBridgingHeatLoss / 365f;
+
             this.airChangeRate = airChangeRate;
             this.meanInternalTemperature = meanInternalTemperature;
             
@@ -163,8 +177,23 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 		
 		@Override
 		public float getSpecificHeatLoss() {
-			return specificHeatLoss / 365f;
+            return specificHeatLoss;
 		}
+
+        @Override
+        public float getFabricHeatLoss() {
+            return fabricHeatLoss;
+        }
+
+        @Override
+        public float getVentilationHeatLoss() {
+            return ventilationHeatLoss;
+        }
+
+        @Override
+        public float getThermalBridgingHeatLoss() {
+            return thermalBridgingHeatLoss;
+        }
 
 		@Override
 		public float getAirChangeRate() {

@@ -8,31 +8,27 @@ import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
 
 @AutoProperty
 public class SpecificHeatLosses implements ISpecificHeatLosses {
-	public final double specificHeatLoss;
+    public final double fabricLoss;
 	public final double interzoneHeatLoss;
 	public final double floorArea;
 	public final double thermalMass;
 	public final double ventilationLoss;
 	public final double thermalBridgeEffect;
-	public final double heatLossParameter;
-	public final double thermalMassParameter;
     public final double airChangeRate;
 
-	public SpecificHeatLosses(final double specificHeatLoss, final double interzoneHeatLoss, final double thermalMass, final double floorArea, final double ventilationLoss, final double thermalBridgeEffect, final double airChangeRate) {
-		this.specificHeatLoss = specificHeatLoss;
+    public SpecificHeatLosses(final double fabricLoss, final double interzoneHeatLoss, final double thermalMass, final double floorArea, final double ventilationLoss, final double thermalBridgeEffect, final double airChangeRate) {
+        this.fabricLoss = fabricLoss;
 		this.interzoneHeatLoss = interzoneHeatLoss;
 		this.floorArea = floorArea;
 		this.thermalMass = thermalMass;
 		this.ventilationLoss = ventilationLoss;
 		this.thermalBridgeEffect = thermalBridgeEffect;
-		this.heatLossParameter = this.specificHeatLoss / this.floorArea;
-		this.thermalMassParameter = this.thermalMass / this.floorArea;
         this.airChangeRate = airChangeRate;
 	}
 
 	@Override
 	public double getSpecificHeatLoss() {
-		return specificHeatLoss;
+        return fabricLoss + ventilationLoss + thermalBridgeEffect;
 	}
 
 	@Override
@@ -43,18 +39,23 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
 	@Override
 	@Property
 	public double getHeatLossParameter() {
-		return heatLossParameter;
-	}
+        return getSpecificHeatLoss() / floorArea;
+    }
+
+    @Override
+    public double getFabricLoss() {
+        return fabricLoss;
+    }
 
 	@Override
 	public double getThermalMass() {
-		return thermalMass;
+        return thermalMass;
 	}
 
 	@Override
 	@Property
 	public double getThermalMassParameter() {
-		return thermalMassParameter;
+        return thermalMass / floorArea;
 	}
 	
 	@Override

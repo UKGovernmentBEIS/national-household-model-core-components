@@ -175,9 +175,11 @@ public class NumberFunctionAdapter extends ReflectingAdapter {
 	}
 	
 	@Adapt(XHeatLoss.class)
-	public IComponentsFunction<? extends Number> buildHeatLoss() {
-		return factory.createPeakHeatLoadFunction(1, 0, 1);
-	}
+    public IComponentsFunction<? extends Number> buildHeatLoss(
+        @Prop(XHeatLoss.P.TYPE) final XHeatLoss.XHeatLossType type
+        ) {
+        return factory.createHeatLossFunction(type);
+    }
 	
 	@Adapt(XStepwiseFunction.class)
 	public IComponentsFunction<Number> buildStepwiseFunction(

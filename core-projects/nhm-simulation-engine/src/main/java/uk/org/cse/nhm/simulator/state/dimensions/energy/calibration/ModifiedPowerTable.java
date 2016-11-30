@@ -44,7 +44,22 @@ public class ModifiedPowerTable implements IPowerTable {
 	public float getSpecificHeatLoss() {
 		return delegate.getSpecificHeatLoss();
 	}
-	
+
+    @Override
+    public float getFabricHeatLoss() {
+        return delegate.getFabricHeatLoss();
+    }
+
+    @Override
+    public float getVentilationHeatLoss() {
+        return delegate.getVentilationHeatLoss();
+    }
+
+    @Override
+    public float getThermalBridgingHeatLoss() {
+        return delegate.getThermalBridgingHeatLoss();
+    }
+
 	@Override
 	public float getMeanInternalTemperature() {
 		return delegate.getMeanInternalTemperature();

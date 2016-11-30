@@ -195,10 +195,9 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 	 *             the floorplan. Here we are using the CHM's method.
 	 */
 	public SpecificHeatLosses calculateSpecificHeatLosses(final IEnergyCalculatorHouseCase houseCase,
-			final IInternalParameters parameters, final double totalSpecificHeatLoss, final double totalThermalMass,
+            final IInternalParameters parameters, final double fabricLosses, final double totalThermalMass,
 			final double totalExternalArea, final IStructuralInfiltrationAccumulator infiltration,
 			final List<IVentilationSystem> ventilationSystems) {
-		double H1 = totalSpecificHeatLoss;
 
 		/**
 		 * Interzone specific heat loss
@@ -245,12 +244,15 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		final double ventilationLosses = VENTILATION_HEAT_LOSS_COEFFICIENT * houseAirChangeRate
 				* houseCase.getHouseVolume();
 
-		H1 += thermalBridgeEffect;
-		H1 += ventilationLosses;
-		H3 = houseCase.getInterzoneSpecificHeatLoss();
+        H3 = houseCase.getInterzoneSpecificHeatLoss();
 
-		return new SpecificHeatLosses(H1, H3, totalThermalMass, houseCase.getFloorArea(), ventilationLosses,
-				thermalBridgeEffect, climateAdjustedAirChangeRate);
+        return new SpecificHeatLosses(fabricLosses,
+                                      H3,
+                                      totalThermalMass,
+                                      houseCase.getFloorArea(),
+                                      ventilationLosses,
+                                      thermalBridgeEffect,
+                                      climateAdjustedAirChangeRate);
 	}
 
 	/**
@@ -322,7 +324,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 		final double Td2 = parameters.getZoneTwoDemandTemperature();
 		final double Text = parameters.getClimate().getExternalTemperature();
 
-		final double specificHeatLoss = heatLosses.specificHeatLoss;
+        final double specificHeatLoss = heatLosses.getSpecificHeatLoss();
 		final double H = specificHeatLoss;
 		final double H3 = heatLosses.interzoneHeatLoss;
 
@@ -641,8 +643,8 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 	}
 
 	private final double getTimeConstant(final SpecificHeatLosses heatLosses) {
-		return div(heatLosses.thermalMassParameter,
-				(TIME_CONSTANT_HEAT_LOSS_PARAMETER_MULTIPLIER * heatLosses.heatLossParameter), "time constant");
+        return div(heatLosses.getThermalMassParameter(),
+                   (TIME_CONSTANT_HEAT_LOSS_PARAMETER_MULTIPLIER * heatLosses.getHeatLossParameter()), "time constant");
 	}
 
 	/**

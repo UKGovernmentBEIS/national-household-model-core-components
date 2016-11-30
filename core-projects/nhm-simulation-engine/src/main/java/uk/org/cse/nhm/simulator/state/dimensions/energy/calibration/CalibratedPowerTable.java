@@ -43,7 +43,22 @@ public class CalibratedPowerTable implements IPowerTable {
 	@Override
 	public float getSpecificHeatLoss() {
 		return uncal.getSpecificHeatLoss();
-	}
+    }
+
+    @Override
+    public float getFabricHeatLoss() {
+        return uncal.getFabricHeatLoss();
+    }
+
+    @Override
+    public float getVentilationHeatLoss() {
+        return uncal.getVentilationHeatLoss();
+    }
+
+    @Override
+    public float getThermalBridgingHeatLoss() {
+        return uncal.getThermalBridgingHeatLoss();
+    }
 	
 	@Override
 	public float getMeanInternalTemperature() {
