@@ -119,7 +119,7 @@ public class HotWaterDemand09 implements IEnergyTransducer {
 			ID: sap-water-volume
 			CODSIEB
 			*/
-			return (CONSTANT + PERSON * parameters.getNumberOfOccupants());
+            return CONSTANT + (PERSON * parameters.getNumberOfOccupants());
 		case BREDEM2012:
 			/*
 			BEISDOC
@@ -133,12 +133,25 @@ public class HotWaterDemand09 implements IEnergyTransducer {
 			CODSIEB
 			*/
 			
-			final boolean showerExists = shower != null;
-			final double numShowers = showerExists ? shower.numShowers(parameters.getNumberOfOccupants()) : 0; 
-			final double showerVolume = numShowers * (showerExists ? shower.hotWaterVolumePerShower() : 0);
-			final double numBaths = (showerExists ? BREDEM_BATHS_BASE : BREDEM_BATHS_BASE_NO_SHOWER) + ((showerExists ? BREDEM_BATHS_OCCUPANCY_FACTOR : BREDEM_BATHS_OCCUPANCY_FACTOR_NO_SHOWER) * parameters.getNumberOfOccupants());
-			final double bathVolume = numBaths * BREDEM_BATH_VOLUME;
-			final double otherVolume = BREDEM_OTHER_BASE + (BREDEM_OTHER_OCCUPANCY_FACTOR * parameters.getNumberOfOccupants());
+            double totalVolume = 0;
+            final double numBaths;
+
+            if (shower != null) {
+                final double numShowers = shower.numShowers(parameters.getNumberOfOccupants());
+                final double showerVolume = numShowers * shower.hotWaterVolumePerShower();
+                totalVolume += showerVolume;
+
+                numBaths = BREDEM_BATHS_BASE +
+                    (BREDEM_BATHS_OCCUPANCY_FACTOR * parameters.getNumberOfOccupants());
+            } else {
+                numBaths = BREDEM_BATHS_BASE_NO_SHOWER +
+                    (BREDEM_BATHS_OCCUPANCY_FACTOR_NO_SHOWER * parameters.getNumberOfOccupants());
+            }
+
+            final double bathVolume = numBaths * BREDEM_BATH_VOLUME;
+
+            final double otherVolume = BREDEM_OTHER_BASE +
+                (BREDEM_OTHER_OCCUPANCY_FACTOR * parameters.getNumberOfOccupants());
 			
 			return showerVolume + bathVolume + otherVolume; 
 

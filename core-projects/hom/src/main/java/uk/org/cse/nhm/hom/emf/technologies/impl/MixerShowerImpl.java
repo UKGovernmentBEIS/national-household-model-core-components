@@ -13,7 +13,7 @@ import uk.org.cse.nhm.hom.emf.technologies.IHeatSource;
 import uk.org.cse.nhm.hom.emf.technologies.IMixerShower;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.ICombiBoiler;
-import uk.org.cse.nhm.hom.emf.technologies.impl.MainWaterHeaterImpl;
+import uk.org.cse.nhm.hom.emf.technologies.IMainWaterHeater;
 
 /**
  * <!-- begin-user-doc -->
@@ -49,8 +49,8 @@ public class MixerShowerImpl extends ShowerImpl implements IMixerShower {
 		if (waterSystem != null) {
 			final ICentralWaterHeater waterHeater = waterSystem.getPrimaryWaterHeater();
 
-			if (waterHeater != null && waterHeater instanceof MainWaterHeaterImpl) {
-				final IHeatSource heatSource = ((MainWaterHeaterImpl)waterHeater).getHeatSource();
+            if (waterHeater != null && waterHeater instanceof IMainWaterHeater) {
+                final IHeatSource heatSource = ((IMainWaterHeater)waterHeater).getHeatSource();
 
 				if (heatSource != null && heatSource instanceof ICombiBoiler) {
 					return 44.4;
