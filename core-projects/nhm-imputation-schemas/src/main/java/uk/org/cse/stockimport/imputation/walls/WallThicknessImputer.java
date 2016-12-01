@@ -102,26 +102,26 @@ public class WallThicknessImputer implements IWallThicknessImputer {
 
 	private static final SAPAgeBandValue.Band bigScotlandStoneAdjustment = Band.B;
 
-	private double scotlandAdjustment(final double uValue, final Country country, final WallConstructionType constructionType, final Band ageBand) {
+    private double scotlandAdjustment(final double thicknessMM, final Country country, final WallConstructionType constructionType, final Band ageBand) {
 		if (country == Country.Scotland) {
 			switch(constructionType) {
 			case GraniteOrWhinstone:
 			case Sandstone:
 				// Footnote 1
 				if (ageBand.after(bigScotlandStoneAdjustment)) {
-					return uValue + 100;
+                    return thicknessMM + 100;
 				} else {
-					return uValue + 200;
+                    return thicknessMM + 200;
 				}
 
 			case Cavity:
 				// Footnote 2
-				return uValue + 50;
+                return thicknessMM + 50;
 			default:
-				return uValue;
+                return thicknessMM;
 			}
 		} else {
-			return uValue;
+            return thicknessMM;
 		}
 	}
 
