@@ -99,6 +99,22 @@
             calculator mode.
           </para>
         </sect4>
+        <sect4>
+          <title>Heat Loss Intermediate Calculations</title>
+          <para>
+            =ref.house.heat-loss= has now has an optional (unnamed)
+            parameter which allows you to look at specific heat-loss due
+            to <emphasis>ThermalBridging</emphasis>,
+            <emphasis>Infiltration</emphasis> or
+            <emphasis>Fabric</emphasis>.
+          </para>
+          <para>
+            If you do not specify this parameter, the behaviour will be
+            unchanged from previous releases. You will get the total
+            specific heat loss, which is the three terms above added
+            together.
+          </para>
+        </sect4>
       </sect3>
       <sect3>
         <title>Removed Features</title>
@@ -153,7 +169,7 @@
         </sect4>
       </sect3>
       <sect3>
-        <title>Semantic Features</title>
+        <title>Semantic Changes</title>
         <para>
           A number of actions in the NHM are designed for tweaking
           values from SAP tables. In SAP 2012 mode, they will no longer

@@ -46,6 +46,12 @@ The =ref.scenario= element now has an /energy-calculator:/ property. This can ta
 
 There is a new counterfactual action =ref.energy-calculator=, which allows you to temporarily look at a house in a different energy calculator mode.
 
+***** Heat Loss Intermediate Calculations
+
+=ref.house.heat-loss= has now has an optional (unnamed) parameter which allows you to look at specific heat-loss due to /ThermalBridging/, /Infiltration/ or /Fabric/.
+
+If you do not specify this parameter, the behaviour will be unchanged from previous releases. You will get the total specific heat loss, which is the three terms above added together.
+
 **** Removed Features
 
 ***** Occupancy
@@ -69,7 +75,7 @@ The NHM now uses a simplified method for calculating the thermal mass of a dwell
 
 =ref.action.reset-floors=, =ref.action.reset-walls= and =ref.action.reset-roofs= have had their /k-value/ and /party-k-value/ properties removed.
 
-**** Semantic Features
+**** Semantic Changes
 
 A number of actions in the NHM are designed for tweaking values from SAP tables. In SAP 2012 mode, they will no longer have any effect:
 
