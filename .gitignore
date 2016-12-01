@@ -44,3 +44,7 @@ system-tests/**/*.csv
 system-tests/**/*.pdf
 system-tests/**/*.svg
 system-tests/**/*.png
+
+core-projects/GPATH
+core-projects/GRTAGS
+core-projects/GTAGS
