@@ -41,7 +41,7 @@ import uk.org.cse.nhm.hom.emf.technologies.IWaterTank;
  */
 public class ImmersionHeaterImpl extends CentralWaterHeaterImpl implements IImmersionHeater {
 	private static final Logger log = LoggerFactory.getLogger(ImmersionHeaterImpl.class);
-	
+
 	/**
 	 * The default value of the '{@link #isDualCoil() <em>Dual Coil</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -97,8 +97,8 @@ public class ImmersionHeaterImpl extends CentralWaterHeaterImpl implements IImme
 	 * @generated
 	 */
 	@Override
-	public void setDualCoil(boolean newDualCoil) {
-		boolean oldDualCoil = (flags & DUAL_COIL_EFLAG) != 0;
+	public void setDualCoil(final boolean newDualCoil) {
+		final boolean oldDualCoil = (flags & DUAL_COIL_EFLAG) != 0;
 		if (newDualCoil) flags |= DUAL_COIL_EFLAG; else flags &= ~DUAL_COIL_EFLAG;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.IMMERSION_HEATER__DUAL_COIL, oldDualCoil, newDualCoil));
@@ -110,7 +110,7 @@ public class ImmersionHeaterImpl extends CentralWaterHeaterImpl implements IImme
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+	public Object eGet(final int featureID, final boolean resolve, final boolean coreType) {
 		switch (featureID) {
 			case ITechnologiesPackage.IMMERSION_HEATER__DUAL_COIL:
 				return isDualCoil();
@@ -124,7 +124,7 @@ public class ImmersionHeaterImpl extends CentralWaterHeaterImpl implements IImme
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue) {
+	public void eSet(final int featureID, final Object newValue) {
 		switch (featureID) {
 			case ITechnologiesPackage.IMMERSION_HEATER__DUAL_COIL:
 				setDualCoil((Boolean)newValue);
@@ -139,7 +139,7 @@ public class ImmersionHeaterImpl extends CentralWaterHeaterImpl implements IImme
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
+	public void eUnset(final int featureID) {
 		switch (featureID) {
 			case ITechnologiesPackage.IMMERSION_HEATER__DUAL_COIL:
 				setDualCoil(DUAL_COIL_EDEFAULT);
@@ -154,7 +154,7 @@ public class ImmersionHeaterImpl extends CentralWaterHeaterImpl implements IImme
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
+	public boolean eIsSet(final int featureID) {
 		switch (featureID) {
 			case ITechnologiesPackage.IMMERSION_HEATER__DUAL_COIL:
 				return ((flags & DUAL_COIL_EFLAG) != 0) != DUAL_COIL_EDEFAULT;
@@ -171,7 +171,7 @@ public class ImmersionHeaterImpl extends CentralWaterHeaterImpl implements IImme
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		final StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (dualCoil: ");
 		result.append((flags & DUAL_COIL_EFLAG) != 0);
 		result.append(')');
@@ -181,21 +181,21 @@ public class ImmersionHeaterImpl extends CentralWaterHeaterImpl implements IImme
 	@Override
 	public double generateHotWaterAndPrimaryGains(final IInternalParameters parameters,
 			final IEnergyState state, final IWaterTank store, final boolean storeIsPrimary,
-			final double primaryCorrectionFactor, final double distributionLossFactor,
+			final double primaryPipeworkLosses, final double distributionLossFactor,
 			final double systemProportion) {
 		if (store == null) {
 			log.warn("Immersion heater used in system with no shared tank");
 			return 0;
 		}
-		
+
 		final double demand = systemProportion * state.getUnsatisfiedDemand(EnergyType.DemandsHOT_WATER);
-		
+
 		final double highRateFraction = getHighRateFraction(parameters, store.getVolume());
-		
+
 		state.increaseElectricityDemand(highRateFraction, demand);
-		
+
 		state.increaseSupply(EnergyType.DemandsHOT_WATER, demand);
-		
+
 		return demand;
 	}
 
@@ -207,22 +207,22 @@ public class ImmersionHeaterImpl extends CentralWaterHeaterImpl implements IImme
 			log.warn("Immersion heater used in system with no shared tank");
 			return;
 		}
-		
+
 		final double highRateFraction = getHighRateFraction(parameters, store.getVolume());
 		state.increaseElectricityDemand(highRateFraction, systemLosses);
 		state.increaseSupply(EnergyType.GainsHOT_WATER_SYSTEM_GAINS, systemLosses);
 	}
-	
+
 	private double clamp(final double value) {
 		if (value < 0) return 0;
 		if (value > 1) return 1;
 		return value;
 	}
-	
+
 	private double getHighRateFraction(final IInternalParameters parameters, final double tankVolume) {
 		final double numberOfPeople = parameters.getNumberOfOccupants();
 		if (parameters.getTarrifType() == ElectricityTariffType.FLAT_RATE) return 1;
-		
+
 		final IConstants c = parameters.getConstants();
 		final ElectricityTariffType tt = parameters.getTarrifType();
 		/*

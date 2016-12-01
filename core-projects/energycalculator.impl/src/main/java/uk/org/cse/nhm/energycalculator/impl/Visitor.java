@@ -41,7 +41,7 @@ import uk.org.cse.nhm.energycalculator.impl.gains.SolarGainsSource;
  * 	<li>Collecting all the {@link IEnergyTransducer}s into {@link #transducers}, and adding a {@link SolarGainsSource}, {@link GainLoadRatioAdjuster}, and {@link LightingDemand09}</li>
  * 	<li>Collecting all the {@link IHeatingSystem}s into {@link #heatingSystems}</li>
  *  <li>Collecting all the {@link IVentilationSystem}s into {@link #ventilationSystems}</li>
- *  <li>Accumulating the specific heat loss, external area and thermal mass into {@link #totalSpecificHeatLoss}, {@link #totalExternalArea}, and {@link #totalThermalMass}</li>
+ *  <li>Accumulating the specific heat loss, external area and thermal mass into {@link #totalFabricHeatLoss}, {@link #totalExternalArea}, and {@link #totalThermalMass}</li>
  *  <li>Passing ventilation information to {@link #infiltration}, the {@link IStructuralInfiltrationAccumulator}</li>
  *  <li>Passing lighting information from the visitor to {@link #lightingDemand} and {@link #solarGains}</li>
  * </ol>
@@ -61,7 +61,7 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 
 	public final double[][] areasByType = new double[2][AreaType.values().length];
 
-	public double totalSpecificHeatLoss, totalExternalArea;
+	public double totalFabricHeatLoss, totalExternalArea;
 
 	public double[] thermalMassAreas = new double[ThermalMassLevel.values().length];
 
@@ -144,10 +144,16 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 			thermalMassAreas[thermalMassLevel.get().ordinal()] += area;
 		}
 
-		visitExternalArea(areaType, area);
-		areasByType[0][areaType.ordinal()] += area;
-
-		areasByType[1][areaType.ordinal()] += area * overrideWallUValue(uValue, constructionType, externalOrExternalInsulationThickness, hasCavityInsulation, thickness);
+		visitArea(
+				areaType,
+				area,
+				overrideWallUValue(
+						uValue,
+						constructionType,
+						externalOrExternalInsulationThickness,
+						hasCavityInsulation,
+						thickness
+					));
 	}
 
 	abstract protected double overrideWallUValue(final double uValue, final WallConstructionType constructionType, final double externalOrInternalInsulationThickness, final boolean hasCavityInsulation, final double thickness);
@@ -156,10 +162,7 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 	public void visitDoor(final double area, final double uValue) {
 		log.debug("VISIT Door, {}, {}", area, uValue);
 
-		visitExternalArea(AreaType.Door, area);
-
-		areasByType[0][AreaType.Door.ordinal()] += area;
-		areasByType[1][AreaType.Door.ordinal()] += area * overrideDoorUValue(uValue);
+		visitArea(AreaType.Door, area, overrideDoorUValue(uValue));
 	}
 
 	protected abstract double overrideDoorUValue(double uValue);
@@ -178,10 +181,10 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 			throw new RuntimeException("setRoofType must be called before visitCeiling");
 		}
 
-		visitExternalArea(type.getAreaType(), area);
-
-		areasByType[0][type.ordinal()] += area;
-		areasByType[1][type.ordinal()] += area * overrideRoofUValue(uValue, type, roofConstructionType, roofInsulationThickness);
+		visitArea(
+				type.getAreaType(),
+				area,
+				overrideRoofUValue(uValue, type, roofConstructionType, roofInsulationThickness));
 	}
 
 	protected abstract double overrideRoofUValue(double uValue, RoofType type, RoofConstructionType constructionType,
@@ -197,10 +200,11 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 			) {
 		log.debug("VISIT Window, {}, {}, {}, {}, {}", area, uValue, frameType, glazingType, insulationType);
 
-		visitExternalArea(AreaType.Glazing, area);
-
-		areasByType[0][AreaType.Glazing.ordinal()] += area;
-		areasByType[1][AreaType.Glazing.ordinal()] += area * overrideWindowUValue(uValue, frameType, glazingType, insulationType);
+		visitArea(
+				AreaType.Glazing,
+				area,
+				overrideWindowUValue(uValue, frameType, glazingType, insulationType)
+			);
 	}
 
 	protected abstract double overrideWindowUValue(final double uValue, final FrameType frameType, final GlazingType glazingType,
@@ -213,33 +217,48 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 	}
 
 	@Override
-	public void visitFloor(final FloorType type, final boolean isGroundFloor, final double area, final double exposedPerimeter, final double uValue, final double wallThickness) {
+	public void visitFloor(final FloorType type, final boolean isGroundFloor, final double area, final double uValue, final double exposedPerimeter, final double wallThickness) {
 		log.debug("VISIT {}, {}, {}, {}, {}", type, area, uValue, groundFloorConstructionType, floorInsulationThickness);
 
 		if (isGroundFloor && (groundFloorConstructionType == null || floorInsulationThickness == null)) {
 			throw new RuntimeException("setGroundFloorType must be called before calling visitFloor with isGroundFloor = true");
 		}
 
-		visitExternalArea(type.getAreaType(), area);
-
-		areasByType[0][type.ordinal()] += area;
-		areasByType[1][type.ordinal()] += area * overrideFloorUValue(uValue, type, isGroundFloor, area, exposedPerimeter, groundFloorConstructionType, floorInsulationThickness, wallThickness);
+		visitArea(
+				type.getAreaType(),
+				area,
+				overrideFloorUValue(
+						type,
+						isGroundFloor,
+						area,
+						uValue,
+						exposedPerimeter,
+						wallThickness,
+						groundFloorConstructionType,
+						floorInsulationThickness));
 	}
 
 	protected abstract double overrideFloorUValue(
-			final double uValue,
 			final FloorType type,
 			final boolean isGroundFloor,
 			final double area,
+			final double uValue,
 			final double exposedPerimeter,
+			final double wallThickness,
 			final FloorConstructionType groundFloorConstructionType,
-			final double groundFloorInsulationThickness,
-			final double wallThickness);
+			final double groundFloorInsulationThickness);
 
-	public void visitExternalArea(final AreaType type, final double area) {
+	public void visitArea(final AreaType type, final double area, final double uValue) {
+		assert !(Double.isNaN(uValue) || Double.isInfinite(uValue)) : "Infinite or NaN u-value";
 		if (type.isExternal()) {
 			totalExternalArea += area;
 		}
+
+		final double fabricLoss = area * uValue;
+
+		totalFabricHeatLoss += fabricLoss;
+		areasByType[0][type.ordinal()] += area;
+		areasByType[1][type.ordinal()] += fabricLoss;
 	}
 
 	@Override
@@ -352,7 +371,7 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 
 	@Override
 	public String toString() {
-		return this.getClass().getSimpleName() + " [totalSpecificHeatLoss=" + totalSpecificHeatLoss + ", totalExternalArea=" + totalExternalArea + ", totalThermalMass="
+		return this.getClass().getSimpleName() + " [totalSpecificHeatLoss=" + totalFabricHeatLoss + ", totalExternalArea=" + totalExternalArea + ", totalThermalMass="
 				+ getTotalThermalMass() + "]";
 	}
 }

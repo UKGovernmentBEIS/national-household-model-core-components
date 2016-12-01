@@ -2142,7 +2142,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		addEParameter(op, this.getIEnergyState(), "state", 1, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getWaterTank(), "store", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEBoolean(), "storeIsPrimary", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEDouble(), "primaryCorrectionFactor", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEDouble(), "primaryPipeworkLosses", 1, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEDouble(), "distributionLossFactor", 1, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEDouble(), "proportion", 1, 1, IS_UNIQUE, IS_ORDERED);
 

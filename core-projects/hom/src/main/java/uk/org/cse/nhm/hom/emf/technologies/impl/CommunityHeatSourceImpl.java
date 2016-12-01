@@ -120,8 +120,8 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 	 * @generated
 	 */
 	@Override
-	public void setChargingUsageBased(boolean newChargingUsageBased) {
-		boolean oldChargingUsageBased = (flags & CHARGING_USAGE_BASED_EFLAG) != 0;
+	public void setChargingUsageBased(final boolean newChargingUsageBased) {
+		final boolean oldChargingUsageBased = (flags & CHARGING_USAGE_BASED_EFLAG) != 0;
 		if (newChargingUsageBased) flags |= CHARGING_USAGE_BASED_EFLAG; else flags &= ~CHARGING_USAGE_BASED_EFLAG;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.COMMUNITY_HEAT_SOURCE__CHARGING_USAGE_BASED, oldChargingUsageBased, newChargingUsageBased));
@@ -142,8 +142,8 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 	 * @generated
 	 */
 	@Override
-	public void setHeatEfficiency(Efficiency newHeatEfficiency) {
-		Efficiency oldHeatEfficiency = heatEfficiency;
+	public void setHeatEfficiency(final Efficiency newHeatEfficiency) {
+		final Efficiency oldHeatEfficiency = heatEfficiency;
 		heatEfficiency = newHeatEfficiency;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.COMMUNITY_HEAT_SOURCE__HEAT_EFFICIENCY, oldHeatEfficiency, heatEfficiency));
@@ -154,7 +154,7 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+	public Object eGet(final int featureID, final boolean resolve, final boolean coreType) {
 		switch (featureID) {
 			case ITechnologiesPackage.COMMUNITY_HEAT_SOURCE__CHARGING_USAGE_BASED:
 				return isChargingUsageBased();
@@ -169,7 +169,7 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue) {
+	public void eSet(final int featureID, final Object newValue) {
 		switch (featureID) {
 			case ITechnologiesPackage.COMMUNITY_HEAT_SOURCE__CHARGING_USAGE_BASED:
 				setChargingUsageBased((Boolean)newValue);
@@ -186,7 +186,7 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
+	public void eUnset(final int featureID) {
 		switch (featureID) {
 			case ITechnologiesPackage.COMMUNITY_HEAT_SOURCE__CHARGING_USAGE_BASED:
 				setChargingUsageBased(CHARGING_USAGE_BASED_EDEFAULT);
@@ -203,7 +203,7 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
+	public boolean eIsSet(final int featureID) {
 		switch (featureID) {
 			case ITechnologiesPackage.COMMUNITY_HEAT_SOURCE__CHARGING_USAGE_BASED:
 				return ((flags & CHARGING_USAGE_BASED_EFLAG) != 0) != CHARGING_USAGE_BASED_EDEFAULT;
@@ -391,10 +391,8 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 
 	@Override
 	public double generateHotWaterAndPrimaryGains(final IInternalParameters parameters, final IEnergyState state, final IWaterTank store, final boolean storeIsPrimary,
-			final double primaryCorrectionFactor, final double distributionLossFactor, final double proportion) {
+			final double primaryPipeworkLosses, final double distributionLossFactor, final double proportion) {
 		final IConstants constants = parameters.getConstants();
-
-		final double primaryPipeworkLosses = constants.get(CommunityHeatingConstants.PRIMARY_PIPEWORK_LOSSES) * primaryCorrectionFactor;
 
 		final double demandSatisfied = state.getBoundedTotalDemand(EnergyType.DemandsHOT_WATER, proportion);
 

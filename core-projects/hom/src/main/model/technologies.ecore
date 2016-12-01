@@ -145,7 +145,7 @@
       <eParameters name="state" lowerBound="1" eType="#//IEnergyState"/>
       <eParameters name="store" eType="#//WaterTank"/>
       <eParameters name="storeIsPrimary" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-      <eParameters name="primaryCorrectionFactor" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eParameters name="primaryPipeworkLosses" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
       <eParameters name="distributionLossFactor" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
       <eParameters name="proportion" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
     </eOperations>
