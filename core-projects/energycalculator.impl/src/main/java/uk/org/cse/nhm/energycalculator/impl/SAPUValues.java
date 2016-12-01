@@ -48,7 +48,7 @@ public class SAPUValues {
 
 		private static final Set<WallConstructionType> StoneAndSolid = ImmutableSet.of(GraniteOrWhinstone, Sandstone, SolidBrick);
 
-		private static final List<ExternalWallRow> externalRows = new ArrayList<>();
+        private static final Map<WallConstructionType, List<ExternalWallRow>> externalRows = new EnumMap<>(WallConstructionType.class);
 
 		static {
 			/**
@@ -174,8 +174,7 @@ public class SAPUValues {
 			public int hashCode() {
 				final int prime = 31;
 				int result = 1;
-				result = prime * result + ((constructionTypes == null) ? 0 : constructionTypes.hashCode());
-				result = prime * result + ((countries == null) ? 0 : countries.hashCode());
+                result = prime * result + ((countries == null) ? 0 : countries.hashCode());
 				result = prime * result + ((filledCavity == null) ? 0 : filledCavity.hashCode());
 				long temp;
 				temp = Double.doubleToLongBits(minimumInsulation);
@@ -192,12 +191,7 @@ public class SAPUValues {
 					return false;
 				if (getClass() != obj.getClass())
 					return false;
-				final ExternalWallRow other = (ExternalWallRow) obj;
-				if (constructionTypes == null) {
-					if (other.constructionTypes != null)
-						return false;
-				} else if (!constructionTypes.equals(other.constructionTypes))
-					return false;
+                final ExternalWallRow other = (ExternalWallRow) obj;
 				if (countries == null) {
 					if (other.countries != null)
 						return false;
@@ -215,34 +209,31 @@ public class SAPUValues {
 				return true;
 			}
 
-			private final Set<WallConstructionType> constructionTypes;
-			private final Set<Country> countries;
-			private final double minimumInsulation;
-			private final Optional<Boolean> filledCavity;
+            private final Set<Country> countries;
+            private final double minimumInsulation;
+            private final Optional<Boolean> filledCavity;
 			private final double[] uValues;
 
-			ExternalWallRow(final Set<WallConstructionType> constructionTypes, final Set<Country> countries, final double minimumInsulation, final Optional<Boolean> filledCavity, final double[] uValues) {
+            ExternalWallRow(final Set<Country> countries, final double minimumInsulation, final Optional<Boolean> filledCavity, final double[] uValues) {
 				if (uValues.length != SAPAgeBandValue.Band.values().length) {
-					throw new IllegalArgumentException("Wrong number of u-values in wall lookup row " + constructionTypes + " " + countries + " " + minimumInsulation + " " + filledCavity + " " + uValues);
+                    throw new IllegalArgumentException("Wrong number of u-values in wall lookup row " + " " + countries + " " + minimumInsulation + " " + filledCavity + " " + uValues);
 				}
 
-				this.constructionTypes = constructionTypes;
-				this.countries = countries;
+                this.countries = countries;
 				this.minimumInsulation = minimumInsulation;
 				this.filledCavity = filledCavity;
 				this.uValues = uValues;
 			}
 
-			public boolean test(final WallConstructionType constructionType, final Country country, final double internalOrExternalInsulation, final boolean cavityInsulationPresent) {
-				return constructionTypes.contains(constructionType) &&
-						countries.contains(country) &&
+            public boolean test(final Country country, final double internalOrExternalInsulation, final boolean cavityInsulationPresent) {
+                return 	countries.contains(country) &&
 						internalOrExternalInsulation >= this.minimumInsulation &&
 						cavityInsulationMatch(cavityInsulationPresent);
 			}
 
 			private boolean cavityInsulationMatch(final boolean cavityInsulationPresent) {
 				if (this.filledCavity.isPresent()) {
-					return this.filledCavity.get() == cavityInsulationPresent;
+                    return this.filledCavity.get().equals(cavityInsulationPresent);
 				} else {
 					return true;
 				}
@@ -266,9 +257,13 @@ public class SAPUValues {
 			extRow(constructionTypes, ImmutableSet.of(country), minimumInsulation, filledCavity, uValues);
 		}
 
-		private static void extRow(final Set<WallConstructionType> constructionTypes, final Set<Country> countries, final double minimumInsulation, final Optional<Boolean> filledCavity, final double[] uValues) {
-			externalRows.add(new ExternalWallRow(constructionTypes, countries, minimumInsulation, filledCavity, uValues));
-		}
+        private static void extRow(final Set<WallConstructionType> constructionTypes, final Set<Country> countries, final double minimumInsulation, final Optional<Boolean> filledCavity, final double[] uValues) {
+            final ExternalWallRow row = new ExternalWallRow(countries, minimumInsulation, filledCavity, uValues);
+            for (final WallConstructionType type : constructionTypes) {
+                if (!externalRows.containsKey(type)) externalRows.put(type, new ArrayList<>());
+                externalRows.get(type).add(row);
+            }
+        }
 
 		private static final SAPAgeBandValue.Band highestStoneThicknessAdjustment = SAPAgeBandValue.Band.E;
 
@@ -326,14 +321,14 @@ public class SAPUValues {
 		}
 
 		private static double lookupExternalUValue(
-				final Country country,
-				final WallConstructionType constructionType,
+                final WallConstructionType constructionType,
+                final Country country,
 				final double externalOrInternalInsulationThickness,
 				final boolean hasCavityInsulation,
 				final Band ageBand
 				) {
-			for (final ExternalWallRow row : externalRows) {
-				if (row.test(constructionType, country, externalOrInternalInsulationThickness, hasCavityInsulation)) {
+            for (final ExternalWallRow row : externalRows.get(constructionType)) {
+                if (row.test(country, externalOrInternalInsulationThickness, hasCavityInsulation)) {
 					return row.get(ageBand);
 				}
 			}
@@ -345,7 +340,7 @@ public class SAPUValues {
 			switch (constructionType.getWallType()) {
 				case External:
 					return _check(applyStoneThicknessAdjustment(
-							lookupExternalUValue(country, constructionType, externalOrInternalInsulationThickness, hasCavityInsulation, band),
+                            lookupExternalUValue(constructionType, country, externalOrInternalInsulationThickness, hasCavityInsulation, band),
 							constructionType,
 							externalOrInternalInsulationThickness,
 							thickness,
@@ -425,12 +420,12 @@ public class SAPUValues {
 	 * We ignore footnote 1.
 	 */
 	public static class Floors {
-		private static final double[] insulationLevels = new double[]{0, 50, 100, 150};
+        private static final double[] insulationLevels = new double[]{0,    50,   100,  150};
 
-		private static final double[] KtoLFloorU = new double[]{0.22, 0.22, 0.22, 0.22};
-		private static final double[] JFloorU = new double[]{0.25, 0.25, 0.25, 0.22};
-		private static final double[] HtoIFloorU = new double[]{0.51, 0.50, 0.30, 0.22};
-		private static final double[] AtoGFloorU = new double[]{1.20, 0.50, 0.30, 0.22};
+        private static final double[] KtoLFloorU       = new double[]{0.22, 0.22, 0.22, 0.22};
+        private static final double[] JFloorU          = new double[]{0.25, 0.25, 0.25, 0.22};
+        private static final double[] HtoIFloorU       = new double[]{0.51, 0.50, 0.30, 0.22};
+        private static final double[] AtoGFloorU       = new double[]{1.20, 0.50, 0.30, 0.22};
 
 		private static double scotlandFootnote2 = 0.18;
 
@@ -500,12 +495,16 @@ public class SAPUValues {
 	/**
 	 * Roof u-value lookup based on Tables S9 (for PitchedSlateOrTiles or Thatched) and S10 (for Flat).
 	 */
-	public static class Roofs {
-		private static final double[] S9Levels = new double[]{0, 12, 25, 50, 75, 100, 150, 200, 250, 270, 300, 350, 400};
-		private static final double[] S9Slate = new double[]{2.30, 1.50, 1.00, 0.68, 0.50, 0.40, 0.30, 0.21, 0.17, 0.16, 0.14, 0.12, 0.11};
-		private static final double[] S9Thatched = new double[]{0.35, 0.32, 0.30, 0.25, 0.22, 0.20, 0.17, 0.14, 0.12, 0.12, 0.11, 0.10, 0.09};
+    public static class Roofs {
+        private static final double[] S9Levels   = new double[]{0,    12,   25,   50,   75,   100,  150,  200,  250,  270,  300,  350,  400};
+        private static final double[] S9Slate    = new double[]{2.30, 1.50, 1.00, 0.68, 0.50, 0.40, 0.30, 0.21, 0.17, 0.16, 0.14, 0.12, 0.11};
+        private static final double[] S9Thatched = new double[]{0.35, 0.32, 0.30, 0.25, 0.22, 0.20, 0.17, 0.14, 0.12, 0.12, 0.11, 0.10, 0.09};
 
-		private static final double[] S10Flat = new double[]{2.30, 2.30, 2.30, 2.30, 1.50, 0.68, 0.40, 0.35, 0.35, 0.25, 0.25, 0.18};
+        // by age band:
+        private static final double[] S10Flat    = new double[]{2.30, 2.30, 2.30, 2.30, 1.50, 0.68, 0.40, 0.35, 0.35, 0.25, 0.25, 0.18};
+        // Table S10 footnote (a)
+        private static final UNINSULATED_FLAT_ROOF = 2.30;
+
 		private static final Band S10ScottishFootnote2Band = Band.K;
 		private static final double S10ScottishFootnote2 = 0.2;
 
@@ -525,8 +524,10 @@ public class SAPUValues {
 				s9Lookup = S9Thatched;
 				break;
 
-			case Flat:
-				if (country == Country.Scotland && ageBand == S10ScottishFootnote2Band) {
+            case Flat:
+                if (insulationThickness == 0) {
+                    return UNINSULATED_FLAT_ROOF;
+                } else if (country == Country.Scotland && ageBand == S10ScottishFootnote2Band) {
 					return S10ScottishFootnote2;
 				} else {
 					return S10Flat[ageBand.ordinal()];
