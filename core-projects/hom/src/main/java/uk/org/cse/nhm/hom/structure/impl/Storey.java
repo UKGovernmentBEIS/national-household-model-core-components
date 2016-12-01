@@ -450,7 +450,7 @@ public class Storey implements IStorey {
 				 *  Confirmed that area of openings (windows and doors) should be netted off here.
 				 *  See SAP{ 2012 step (11).
 				 */
-				visitor.addWallInfiltration(basicArea, segment.getWallConstructionType(), segment.getAirChangeRate());
+                visitor.addWallInfiltration(wallArea, segment.getWallConstructionType(), segment.getAirChangeRate());
 
 				/*
 				BEISDOC
