@@ -267,10 +267,7 @@ public class TestCase1 {
 
 		Assert.assertEquals(gasForCooking, totalGas, 0d);
 
-		Assert.assertEquals(38626d, state.getHeatLosses().getThermalMass(), 0d);
-		Assert.assertEquals(275.9d, state.getHeatLosses().getThermalMassParameter(), 0d);
-
-		Assert.assertEquals(308.46, state.getEnergyState().getUnsatisfiedDemand(EnergyType.DemandsHEAT), 0.05);
+        Assert.assertEquals(308.46, state.getEnergyState().getUnsatisfiedDemand(EnergyType.DemandsHEAT), 0.05);
 
 		final IEnergyState es = state.getEnergyState();
 		if (es instanceof GraphvizEnergyState) {

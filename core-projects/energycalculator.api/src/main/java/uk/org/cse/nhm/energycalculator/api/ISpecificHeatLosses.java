@@ -22,12 +22,7 @@ public interface ISpecificHeatLosses {
 	 * @return the heat loss parameter, which is heat loss normalized by floor area
 	 */
 	public double getHeatLossParameter();
-	
-	/**
-	 * @return the total estimated thermal mass for the house
-	 */
-	public double getThermalMass();
-	
+
 	/**
 	 * @return the TMP, which is thermal mass normalized by floor area
 	 */

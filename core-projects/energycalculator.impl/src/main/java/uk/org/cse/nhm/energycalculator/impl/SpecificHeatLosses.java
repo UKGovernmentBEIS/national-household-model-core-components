@@ -11,16 +11,22 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
     public final double fabricLoss;
 	public final double interzoneHeatLoss;
 	public final double floorArea;
-	public final double thermalMass;
+    public final double thermalMassParameter;
 	public final double ventilationLoss;
 	public final double thermalBridgeEffect;
     public final double airChangeRate;
 
-    public SpecificHeatLosses(final double fabricLoss, final double interzoneHeatLoss, final double thermalMass, final double floorArea, final double ventilationLoss, final double thermalBridgeEffect, final double airChangeRate) {
+    public SpecificHeatLosses(final double fabricLoss,
+                              final double interzoneHeatLoss,
+                              final double thermalMassParameter,
+                              final double floorArea,
+                              final double ventilationLoss,
+                              final double thermalBridgeEffect,
+                              final double airChangeRate) {
         this.fabricLoss = fabricLoss;
 		this.interzoneHeatLoss = interzoneHeatLoss;
 		this.floorArea = floorArea;
-		this.thermalMass = thermalMass;
+        this.thermalMassParameter = thermalMassParameter;
 		this.ventilationLoss = ventilationLoss;
         this.thermalBridgeEffect = thermalBridgeEffect;
         this.airChangeRate = airChangeRate;
@@ -89,11 +95,6 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
     }
 
 	@Override
-	public double getThermalMass() {
-        return thermalMass;
-	}
-
-	@Override
 	@Property
     public double getThermalMassParameter() {
         /*
@@ -110,7 +111,7 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
         ID: thermal-mass-parameter
         CODSIEB
         */
-        return thermalMass / floorArea;
+        return thermalMassParameter;
 	}
 	
 	@Override

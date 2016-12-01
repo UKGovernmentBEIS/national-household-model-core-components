@@ -325,9 +325,7 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 	protected abstract double overrideVisibleLightTransmittivity(final GlazingType glazingType, final double visibleLightTransmittivity);
 	protected abstract double overrideSolarGainTransmissivity(final GlazingType glazingType, final WindowInsulationType insulationType, final double solarGainTransmissivity);
 
-
-	@Override
-	public double getTotalThermalMass() {
+    public double getBestThermalMassParameter() {
 		/*
 		BEISDOC
 		NAME: Thermal Mass

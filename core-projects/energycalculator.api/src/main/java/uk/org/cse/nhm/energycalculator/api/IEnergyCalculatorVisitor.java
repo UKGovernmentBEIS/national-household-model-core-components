@@ -203,7 +203,5 @@ public interface IEnergyCalculatorVisitor {
 			final double uValue,
 			final double exposedPerimeter,
 			final double wallThickness
-		);
-
-	public double getTotalThermalMass();
+        );
 }

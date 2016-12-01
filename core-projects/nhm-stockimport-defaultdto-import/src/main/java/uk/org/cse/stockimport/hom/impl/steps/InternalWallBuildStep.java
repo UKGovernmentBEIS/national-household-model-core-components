@@ -94,13 +94,7 @@ public class InternalWallBuildStep implements ISurveyCaseBuildStep {
 		@Override
 		public void addChimneyInfiltration() {
 			// Noop
-		}
-
-		@Override
-		public double getTotalThermalMass() {
-			// Noop
-			return 0;
-		}
+        }
 
 		@Override
 		public void visitTransparentElement(final GlazingType glazingType, final WindowInsulationType insulationType,

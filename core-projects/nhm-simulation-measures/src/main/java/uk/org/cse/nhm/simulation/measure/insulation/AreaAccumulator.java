@@ -88,9 +88,6 @@ public class AreaAccumulator implements IEnergyCalculatorVisitor {
 	}
 
 	@Override
-	public double getTotalThermalMass() { return 0; }
-
-	@Override
 	public void visitTransparentElement(final GlazingType glazingType, final WindowInsulationType insulationType,
 			final double visibleLightTransmittivity, final double solarGainTransmissivity, final double area, final FrameType frameType,
 			final double frameFactor, final double horizontalOrientation, final double verticalOrientation, final OvershadingType overshading) {
