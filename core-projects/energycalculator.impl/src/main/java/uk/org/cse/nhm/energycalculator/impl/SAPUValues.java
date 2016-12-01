@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.Map;
+import java.util.EnumMap;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
@@ -503,7 +505,7 @@ public class SAPUValues {
         // by age band:
         private static final double[] S10Flat    = new double[]{2.30, 2.30, 2.30, 2.30, 1.50, 0.68, 0.40, 0.35, 0.35, 0.25, 0.25, 0.18};
         // Table S10 footnote (a)
-        private static final UNINSULATED_FLAT_ROOF = 2.30;
+        private static final double UNINSULATED_FLAT_ROOF = 2.30;
 
 		private static final Band S10ScottishFootnote2Band = Band.K;
 		private static final double S10ScottishFootnote2 = 0.2;

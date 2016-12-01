@@ -372,6 +372,6 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 	@Override
 	public String toString() {
 		return this.getClass().getSimpleName() + " [totalSpecificHeatLoss=" + totalFabricHeatLoss + ", totalExternalArea=" + totalExternalArea + ", totalThermalMass="
-				+ getTotalThermalMass() + "]";
+				+ getBestThermalMassParameter() + "]";
 	}
 }
