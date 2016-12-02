@@ -31,6 +31,11 @@ org.eclipse.packagedrone.server-0.12.2/configuration/*.log
 core-projects/nhm-stock-documentation/src/main/resources/stockref.xml
 core-projects/nhm-stock-documentation/src/main/resources/variableref.xml
 
+## Ecore Model Stuff
+core-projects/hom/build.properties
+core-projects/hom/plugin.properties
+core-projects/hom/plugin.xml
+
 # release folder
 /releases/
 
