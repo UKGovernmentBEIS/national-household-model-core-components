@@ -119,14 +119,6 @@
       <sect3>
         <title>Removed Features</title>
         <sect4>
-          <title>Occupancy</title>
-          <para>
-            Deleted the <literal>sap.occupancy</literal> action. SAP
-            occupancy is now automatically used when the energy
-            calculator is in SAP 2012 mode.
-          </para>
-        </sect4>
-        <sect4>
           <title>Solar PV</title>
           <para>
             We have removed <emphasis>roof-coverage</emphasis> and

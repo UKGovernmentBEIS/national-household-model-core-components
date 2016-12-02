@@ -5,6 +5,23 @@
     calculator into a more correct SAP 2012 / BREDEM 2012 implementation
     (given the limitations of the survey data).
   </para>
+  <para>
+    The relevant source documents are:
+  </para>
+  <itemizedlist spacing="compact">
+    <listitem>
+      <para>
+        <ulink url="http://www.bre.co.uk/filelibrary/SAP/2012/SAP-2012_9-92.pdf">SAP
+        2012</ulink>
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        <ulink url="http://www.bre.co.uk/filelibrary/bredem/BREDEM-2012-specification.pdf">BREDEM
+        2012</ulink>
+      </para>
+    </listitem>
+  </itemizedlist>
   <sect1>
     <title>Add Scenario Elements To Set Energy Calculator</title>
     <para>
@@ -952,9 +969,6 @@
   <sect1>
     <title>Occupancy</title>
     <para>
-      Deleted the <literal>sap.occupancy</literal> action.
-    </para>
-    <para>
       In SAP 2012 mode, the energy calculator will always use the SAP
       assumed occupancy (worksheet step (42)).
     </para>
@@ -1881,7 +1895,7 @@
       <para>
         The following technologies are not implemented in the NHM:
       </para>
-      <itemizedlist spacing="compact">
+      <itemizedlist>
         <listitem>
           <para>
             Micro CHP
@@ -1926,6 +1940,11 @@
           <para>
             Underfloor heating (and alternatives to radiators in
             general)
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            COMMENT PANDOC
           </para>
         </listitem>
       </itemizedlist>

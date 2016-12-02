@@ -54,9 +54,6 @@ If you do not specify this parameter, the behaviour will be unchanged from previ
 
 **** Removed Features
 
-***** Occupancy
-Deleted the =sap.occupancy= action. SAP occupancy is now automatically used when the energy calculator is in SAP 2012 mode.
-
 ***** Solar PV
 
 We have removed /roof-coverage/ and /efficiency/ from =ref.measure.solar-photovoltaic=, and replaced them with /size/, which is the peak power rating of the installation measured in kW.

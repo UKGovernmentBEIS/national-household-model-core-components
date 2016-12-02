@@ -48,6 +48,7 @@ import uk.org.cse.nhm.language.definition.action.hypothetical.XCounterfactualCal
 import uk.org.cse.nhm.language.definition.action.hypothetical.XCounterfactualCarbon;
 import uk.org.cse.nhm.language.definition.action.hypothetical.XCounterfactualWeather;
 import uk.org.cse.nhm.language.definition.action.hypothetical.XDecalibrateEnergyAction;
+import uk.org.cse.nhm.language.definition.action.hypothetical.XSapOccupancyAction;
 import uk.org.cse.nhm.language.definition.fuel.XChangeTariffsAction;
 import uk.org.cse.nhm.language.definition.sequence.XActionDeclaration;
 import uk.org.cse.nhm.language.definition.sequence.XFunctionDeclaration;
@@ -254,6 +255,11 @@ public class ActionAdapter extends ReflectingAdapter {
 	public IComponentsAction buildCounterFactualEnergyCalculatorAction(final XCounterfactualCalculator calculator) {
 		return measureFactory.createEnergyCalculatorAction(
 				MapEnum.energyCalc(calculator.getCalculatorType()));
+	}
+
+	@Adapt(XSapOccupancyAction.class)
+	public IComponentsAction buildSapOccupancyAction() {
+		return measureFactory.createSapOccupancy();
 	}
 
 	@Adapt(XDecalibrateEnergyAction.class)

@@ -43,6 +43,7 @@ import uk.org.cse.nhm.simulator.action.fuels.extracharges.ExtraChargeAction;
 import uk.org.cse.nhm.simulator.action.fuels.extracharges.RemoveChargeAction;
 import uk.org.cse.nhm.simulator.action.hypothetical.EnergyCalculatorAction;
 import uk.org.cse.nhm.simulator.action.hypothetical.HypotheticalSetAction;
+import uk.org.cse.nhm.simulator.action.hypothetical.SapOccupancyAction;
 import uk.org.cse.nhm.simulator.action.hypothetical.UseUncalibratedEnergyAction;
 import uk.org.cse.nhm.simulator.scope.IComponentsAction;
 import uk.org.cse.nhm.simulator.scope.ISettableComponentsScope.IPicker;
@@ -110,6 +111,8 @@ public interface IActionFactory {
 			@Assisted final ICarbonFactors factors
 			);
 	
+	public SapOccupancyAction createSapOccupancy();
+
 	public ChoiceAction createChoice(
 			@Assisted final IPicker selector,
 			@Assisted final List<IComponentsAction> alternatives);

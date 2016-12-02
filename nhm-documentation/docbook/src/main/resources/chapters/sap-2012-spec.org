@@ -348,8 +348,6 @@ This section is not included in the export because it is in a comment block.
 
 ** Occupancy
 
-   Deleted the =sap.occupancy= action.
-
    In SAP 2012 mode, the energy calculator will always use the SAP assumed occupancy (worksheet step (42)).
 
 ** Glazing
@@ -635,29 +633,6 @@ This section is not included in the export because it is in a comment block.
      + The formula from S5.5 if it is a ground floor.
      + Table S12 otherwise.
 
-#+BEGIN_COMMENT
-This tells emacs to run pandoc on save. This comment needs to be near the end of the file, as emacs only looks for buffer specific variables near the end.
-
-The command which gets run is this:
-
-(shell-command "pandoc -f org -t docbook sap-2012-spec.org --chapters | sed 's! id=\"\"!!g' | sed 's!<chapter>!<chapter xmlns=\"http://docbook.org/ns/docbook\">!g' | sed 's!<literal>\\(ref\\..\\+\\)</literal>!<xref linkend=\"\\1\"/>!g'")
-
-It has some escapes in it because it is a lisp string getting passed to the shell.
-
-Written out and unescaped it is
-
-pandoc -f org -t docbook sap-2012-spec.org --chapters |                    convert this file to docbook with pandoc
-    sed 's!id=""!!g' |                                                     remove id="" from the thing - pandoc makes this and it upsets maven docbook
-    sed 's!<chapter.*>!<chapter xmlns="http://docbook.org/ns/docbook">!g'  add the docbook namespace to the top-level chapter - pandoc does not put this in
-
-In the local variables line below we have eval:, which is a special local variable that runs some emacs lisp.
-The lisp we are running adds the lisp above onto the after-save-hook, which is a list of functions to call after saving.
-
-Local Variables:
-eval: (add-hook 'after-save-hook (lambda () (shell-command "pandoc -f org -t docbook sap-2012-spec.org --chapters | sed 's! id=\"\"!!g' | sed 's!<chapter.*>!<chapter xmlns=\"http://docbook.org/ns/docbook\">!g' > sap-2012-spec.xml")) nil t)
-End:
-#+END_COMMENT
-
 ** Deferred or Cancelled Items
 
  Things which we're not implementing as part of this project, but may warrant further thought.
@@ -779,3 +754,27 @@ End:
     + Heat pump warm air system
     + Exhaust air heat pumps
     + Underfloor heating  (and alternatives to radiators in general)
+
+* COMMENT PANDOC
+#+BEGIN_COMMENT
+This tells emacs to run pandoc on save. This comment needs to be near the end of the file, as emacs only looks for buffer specific variables near the end.
+
+The command which gets run is this:
+
+(shell-command "pandoc -f org -t docbook sap-2012-spec.org --chapters | sed 's! id=\"\"!!g' | sed 's!<chapter>!<chapter xmlns=\"http://docbook.org/ns/docbook\">!g' | sed 's!<literal>\\(ref\\..\\+\\)</literal>!<xref linkend=\"\\1\"/>!g'")
+
+It has some escapes in it because it is a lisp string getting passed to the shell.
+
+Written out and unescaped it is
+
+pandoc -f org -t docbook sap-2012-spec.org --chapters |                    convert this file to docbook with pandoc
+    sed 's!id=""!!g' |                                                     remove id="" from the thing - pandoc makes this and it upsets maven docbook
+    sed 's!<chapter.*>!<chapter xmlns="http://docbook.org/ns/docbook">!g'  add the docbook namespace to the top-level chapter - pandoc does not put this in
+
+In the local variables line below we have eval:, which is a special local variable that runs some emacs lisp.
+The lisp we are running adds the lisp above onto the after-save-hook, which is a list of functions to call after saving.
+
+Local Variables:
+eval: (add-hook 'after-save-hook (lambda () (shell-command "pandoc -f org -t docbook sap-2012-spec.org --chapters | sed 's! id=\"\"!!g' | sed 's!<chapter.*>!<chapter xmlns=\"http://docbook.org/ns/docbook\">!g' > sap-2012-spec.xml")) nil t)
+End:
+#+END_COMMENT
