@@ -70,6 +70,10 @@ class GainLoadRatioAdjuster implements IEnergyTransducer {
 	public void generate(final IEnergyCalculatorHouseCase house, final IInternalParameters parameters, final ISpecificHeatLosses losses, final IEnergyState state) {
 		final double totalGains = state.getExcessSupply(EnergyType.GainsUSEFUL_GAINS);
 
+		// now we use up these gains, so that we don't use them anywhere else
+		// this box turns them into heat, using the "heating on factor"
+		state.increaseDemand(EnergyType.GainsUSEFUL_GAINS, totalGains);
+
 		/*
 		BEISDOC
 		NAME: Total Useful Gains
@@ -84,7 +88,7 @@ class GainLoadRatioAdjuster implements IEnergyTransducer {
 		*/
 		final double revisedGains = totalGains * revisedGUF;
 
-		final double heatingOnFactor = parameters.getClimate().getHeatingOnFactor(parameters, losses, revisedGains, demandTemperature);
+		final double fractionOfMonthThatIsHeated = parameters.getClimate().getHeatingOnFactor(parameters, losses, revisedGains, demandTemperature);
 
 		/*
 		BEISDOC
@@ -98,7 +102,16 @@ class GainLoadRatioAdjuster implements IEnergyTransducer {
 		ID: heat-loss-at-mean-internal-temperature
 		CODSIEB
 		*/
-		final double heatLossRate = (areaWeightedMeanTemperature - externalTemperature) * losses.getSpecificHeatLoss();
+		final double heatLossRate =
+				(areaWeightedMeanTemperature - externalTemperature) * losses.getSpecificHeatLoss();
+
+		// TODO this may not be correct in BREDEM; it appears to say that the "Fraction of month that is heated"
+		// modulates only between using all the gains, and using just the utilisation-factored gains.
+		// It sounds odd because it's a double-utilisation factor (or a utilisation double-factor?).
+		// the name sounds like a factor to determine the proportion of the month that the heating is on
+		// but here the base demand is not multiplied by the fraction at all.
+
+		final double heatDemandSatisfiedByGains = (1 - fractionOfMonthThatIsHeated + (fractionOfMonthThatIsHeated * revisedGUF)) * totalGains;
 
 		/*
 		BEISDOC
@@ -112,19 +125,17 @@ class GainLoadRatioAdjuster implements IEnergyTransducer {
 		ID: heat-demand
 		CODSIEB
 		*/
-		final double heatDemand = heatingOnFactor * heatLossRate;
+		final double totalHeatDemandAfterGains = Math.max(0, heatLossRate - heatDemandSatisfiedByGains);
 
-		if (log.isDebugEnabled()) {
-			log.debug("{} total gains, {} useful gains, {} heat on factor, {} demand, {} external temp", totalGains, revisedGains, heatingOnFactor, heatDemand,
-					externalTemperature);
-		}
+		// the net effect of these two lines is zero
+		state.increaseDemand(EnergyType.DemandsHEAT, heatDemandSatisfiedByGains);
+		state.increaseSupply(EnergyType.DemandsHEAT, heatDemandSatisfiedByGains);
 
-		// this slightly convoluted increase in demand is intended so that other
-		// parts of the calculation can use HEAT by INTERNALS
-		// to find out the actual useful gains after adjustment.
-		state.increaseDemand(EnergyType.DemandsHEAT, (heatDemand - revisedGains * heatingOnFactor) + revisedGains);
-		state.increaseDemand(EnergyType.GainsUSEFUL_GAINS, totalGains);
-		state.increaseSupply(EnergyType.DemandsHEAT, revisedGains);
+		// this is the actual amount of heat left to be provided after this
+		// function has finished
+		state.increaseDemand(EnergyType.DemandsHEAT, totalHeatDemandAfterGains);
+
+		// this is just information for elsewhere.
 		state.increaseSupply(EnergyType.HackMEAN_INTERNAL_TEMPERATURE, areaWeightedMeanTemperature);
 	}
 
