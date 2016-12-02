@@ -35,7 +35,6 @@ import uk.org.cse.nhm.language.definition.action.XHeatingScheduleAction;
 import uk.org.cse.nhm.language.definition.action.XHeatingScheduleAction.XHeatingDays;
 import uk.org.cse.nhm.language.definition.action.XHeatingScheduleAction.XHeatingDays.HeatingInterval;
 import uk.org.cse.nhm.language.definition.action.XHeatingTemperaturesAction;
-import uk.org.cse.nhm.language.definition.action.XHeatingTemperaturesAction.XMonth;
 import uk.org.cse.nhm.language.definition.action.XOrderedAction;
 import uk.org.cse.nhm.language.definition.action.XReducedInternalGainsAction;
 import uk.org.cse.nhm.language.definition.action.XRepeatAction;
@@ -97,29 +96,17 @@ public class ActionAdapter extends ReflectingAdapter {
 	 @Adapt(XHeatingTemperaturesAction.class)
 	 public IComponentsAction buildHeatingTemperatureAction(
 			 @Prop(XHeatingTemperaturesAction.P.livingAreaTemperature) final Optional<IComponentsFunction<Number>> livingAreaTemperature,
-			 @Prop(XHeatingTemperaturesAction.P.thresholdExternalTemperature) final Optional<IComponentsFunction<Number>> thresholdTemperature,
 			 @Prop(XHeatingTemperaturesAction.P.temperatureDifference) final Optional<IComponentsFunction<Number>> deltaTemperature,
 			 @Prop(XHeatingTemperaturesAction.P.restofDwellingTemperature) final Optional<IComponentsFunction<Number>> restTemperature,
-			 @Prop(XHeatingTemperaturesAction.P.restOfDwellingHeatedProportion) final Optional<IComponentsFunction<Number>> restHeatedProportion,
-			 @Prop(XHeatingTemperaturesAction.P.desiredHeatingMonths) final List<XMonth> heatingMonths) {
-
-		 final boolean[] months;
-		 if (heatingMonths.isEmpty()) {
-			 months = null;
-		 } else {
-			 months = new boolean[12];
-			 for (final XMonth m : heatingMonths) {
-				 months[m.ordinal()] = true;
-			 }
-		 }
+			 @Prop(XHeatingTemperaturesAction.P.restOfDwellingHeatedProportion) final Optional<IComponentsFunction<Number>> restHeatedProportion
+					 ) {
 
 		 return measureFactory.createTemperaturesAction(
 				 livingAreaTemperature,
-				 thresholdTemperature,
 				 deltaTemperature,
 				 restTemperature,
-				 restHeatedProportion,
-				 Optional.fromNullable(months));
+				 restHeatedProportion
+				 );
 	 }
 
 	 @Adapt(XSetLivingAreaFractionAction.class)

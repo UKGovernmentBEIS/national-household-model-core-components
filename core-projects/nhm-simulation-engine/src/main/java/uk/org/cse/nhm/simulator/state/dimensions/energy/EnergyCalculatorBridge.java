@@ -26,7 +26,6 @@ import uk.org.cse.nhm.energycalculator.api.IHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.ISeasonalParameters;
 import uk.org.cse.nhm.energycalculator.api.IWeather;
 import uk.org.cse.nhm.energycalculator.api.impl.BredemExternalParameters;
-import uk.org.cse.nhm.energycalculator.api.impl.DailyHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.impl.SAPExternalParameters;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
@@ -55,7 +54,6 @@ import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
 public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 	private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(EnergyCalculatorBridge.class);
 
-	private static final IHeatingSchedule OFF_SCHEDULE = new DailyHeatingSchedule();
 	public static final String CACHE_SIZE = "CACHE_SIZE";
 
 	//TODO get tariff type from somewhere
@@ -473,9 +471,6 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 									break;
 								case BREDEM2012:
 									final double externalTemperature = key.weather.getExternalTemperature(m);
-									final double heatingThresholdTemperature = key.heatingBehaviour.getHeatingOnThreshold();
-
-									final boolean heatingShouldBeOn = externalTemperature < heatingThresholdTemperature;
 
 									climate[m.ordinal()] = new BredemSeasonalParameters(
 											m,
@@ -483,9 +478,7 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 											key.weather.getWindSpeed(m),
 											key.weather.getHorizontalSolarFlux(m),
 											key.getLatitudeRadians(),
-
-											heatingShouldBeOn ? key.heatingBehaviour.getHeatingSchedule() : OFF_SCHEDULE,
-
+											key.heatingBehaviour.getHeatingSchedule(),
 											Optional.<IHeatingSchedule>absent()
 											);
 								break;

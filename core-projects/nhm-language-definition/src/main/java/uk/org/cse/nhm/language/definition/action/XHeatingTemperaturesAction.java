@@ -1,8 +1,5 @@
 package uk.org.cse.nhm.language.definition.action;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.function.num.XNumber;
 
@@ -21,18 +18,14 @@ import com.larkery.jasb.bind.BindNamedArgument;
 public class XHeatingTemperaturesAction extends XFlaggedDwellingAction {
 	public static final class P {
 		public static final String livingAreaTemperature = "livingAreaTemperature";
-		public static final String thresholdExternalTemperature = "thresholdExternalTemperature";
 		public static final String temperatureDifference = "temperatureDifference";
 		public static final String restofDwellingTemperature = "restOfDwellingTemperature";
 		public static final String restOfDwellingHeatedProportion = "restOfDwellingHeatedProportion";
-		public static final String desiredHeatingMonths = "desiredHeatingMonths";
 	}
 	private XNumber livingAreaTemperature = null;
-	private XNumber thresholdExternalTemperature = null;
 	private XNumber temperatureDifference = null;
 	private XNumber restOfDwellingTemperature = null;
 	private XNumber restOfDwellingHeatedProportion = null;
-	private List<XMonth> desiredHeatingMonths = new ArrayList<>();
 
 	public enum XMonth {
 		January,
@@ -56,19 +49,6 @@ public class XHeatingTemperaturesAction extends XFlaggedDwellingAction {
 	}
 	public void setLivingAreaTemperature(final XNumber livingAreaTemperature) {
 		this.livingAreaTemperature = livingAreaTemperature;
-	}
-
-	@BindNamedArgument("threshold-external-temperature")
-	@Doc({
-		"If specified, this action will set the outside temperature threshold for heating to come on to this value (in celsius).",
-		"The house will only be heated when the outside temperature is less than or equal to this value.",
-		"In SAP 2012 mode, this will have no effect. SAP instead defines the summer months to be the months in which heating is off."
-	})
-	public XNumber getThresholdExternalTemperature() {
-		return thresholdExternalTemperature;
-	}
-	public void setThresholdExternalTemperature(final XNumber thresholdExternalTemperature) {
-		this.thresholdExternalTemperature = thresholdExternalTemperature;
 	}
 
 	@BindNamedArgument("temperature-difference")
@@ -111,17 +91,5 @@ public class XHeatingTemperaturesAction extends XFlaggedDwellingAction {
 	}
 	public void setRestOfDwellingHeatedProportion(final XNumber restOfDwellingHeatedProportion) {
 		this.restOfDwellingHeatedProportion = restOfDwellingHeatedProportion;
-	}
-
-	@BindNamedArgument("desired-heating-months")
-	@Doc({
-		"If at least one month is specified, and threshold external temperature is not specified, this will attempt to set the highest possible threshold temperature such that the heating is off for all the other months.",
-		"Has no effect if the energy calculator is set to SAP 2012 mode."
-	})
-	public List<XMonth> getDesiredHeatingMonths() {
-		return desiredHeatingMonths;
-	}
-	public void setDesiredHeatingMonths(final List<XMonth> desiredHeatingMonths) {
-		this.desiredHeatingMonths = desiredHeatingMonths;
 	}
 }

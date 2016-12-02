@@ -18,7 +18,6 @@ public class HeatingBehaviour implements IHeatingBehaviour {
 						DailyHeatingSchedule.fromHours(7, 8, 18, 23),
 						DailyHeatingSchedule.fromHours(7, 23)
 				),
-				11.9d,
 				19d,
 				3d,
 				true,
@@ -28,12 +27,10 @@ public class HeatingBehaviour implements IHeatingBehaviour {
 	private IHeatingSchedule heatingSchedule;
 	private double livingAreaDemandTemperature;
 	private double secondAreaDemandTemperatureOrDifference;
-	private double heatingOnThreshold;
 	private boolean secondTemperatureIsDifference;
 	private EnergyCalculatorType calculatorType;
 
 	public HeatingBehaviour(final IHeatingSchedule heatingSchedule,
-			final double heatingOnThreshold,
 			final double livingAreaDemandTemperature,
 			final double secondTemperature,
 			final boolean secondTemperatureIsDifference,
@@ -42,7 +39,6 @@ public class HeatingBehaviour implements IHeatingBehaviour {
 		this.livingAreaDemandTemperature = livingAreaDemandTemperature;
 		this.secondAreaDemandTemperatureOrDifference = secondTemperature;
 		this.secondTemperatureIsDifference = secondTemperatureIsDifference;
-		this.heatingOnThreshold = heatingOnThreshold;
 		this.calculatorType = calculatorType;
 	}
 
@@ -98,18 +94,8 @@ public class HeatingBehaviour implements IHeatingBehaviour {
 
 	@Override
 	public IHeatingBehaviour withLivingAreaDemandTemperature(final double newLivingAreaTemp) {
-		return new HeatingBehaviour(getHeatingSchedule(), heatingOnThreshold, newLivingAreaTemp,
+		return new HeatingBehaviour(getHeatingSchedule(), newLivingAreaTemp,
 				secondAreaDemandTemperatureOrDifference, secondTemperatureIsDifference, calculatorType);
-	}
-
-	@Override
-	public double getHeatingOnThreshold() {
-		return heatingOnThreshold;
-	}
-
-	@Override
-	public void setHeatingOnThreshold(final double heatingOnThreshold) {
-		this.heatingOnThreshold = heatingOnThreshold;
 	}
 
 	@Override
@@ -126,7 +112,6 @@ public class HeatingBehaviour implements IHeatingBehaviour {
 	public IHeatingBehaviour withEnergyCalculatorType(final EnergyCalculatorType newCalculatorType) {
 		return new HeatingBehaviour(
 				heatingSchedule,
-				heatingOnThreshold,
 				livingAreaDemandTemperature,
 				secondAreaDemandTemperatureOrDifference,
 				secondTemperatureIsDifference,
@@ -144,8 +129,6 @@ public class HeatingBehaviour implements IHeatingBehaviour {
 		int result = 1;
 		result = prime * result + ((calculatorType == null) ? 0 : calculatorType.hashCode());
 		long temp;
-		temp = Double.doubleToLongBits(heatingOnThreshold);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((heatingSchedule == null) ? 0 : heatingSchedule.hashCode());
 		temp = Double.doubleToLongBits(livingAreaDemandTemperature);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -166,8 +149,6 @@ public class HeatingBehaviour implements IHeatingBehaviour {
 		final HeatingBehaviour other = (HeatingBehaviour) obj;
 		if (calculatorType != other.calculatorType)
 			return false;
-		if (Double.doubleToLongBits(heatingOnThreshold) != Double.doubleToLongBits(other.heatingOnThreshold))
-			return false;
 		if (heatingSchedule == null) {
 			if (other.heatingSchedule != null)
 				return false;
@@ -186,6 +167,6 @@ public class HeatingBehaviour implements IHeatingBehaviour {
 
 	@Override
 	public IHeatingBehaviour copy() {
-		return new HeatingBehaviour(heatingSchedule, heatingOnThreshold, livingAreaDemandTemperature, secondAreaDemandTemperatureOrDifference, secondTemperatureIsDifference, calculatorType);
+		return new HeatingBehaviour(heatingSchedule, livingAreaDemandTemperature, secondAreaDemandTemperatureOrDifference, secondTemperatureIsDifference, calculatorType);
 	}
 }

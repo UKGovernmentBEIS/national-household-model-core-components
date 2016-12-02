@@ -196,7 +196,6 @@ public class EnerggyCalculatorTest {
 				infiltration, ventilationSystems);
 
 		Assert.assertEquals(10d, heatLosses.getSpecificHeatLoss(), 0.01);
-		Assert.assertEquals(20d, heatLosses.getThermalMass(), 0.01);
 	}
 
 	@Test

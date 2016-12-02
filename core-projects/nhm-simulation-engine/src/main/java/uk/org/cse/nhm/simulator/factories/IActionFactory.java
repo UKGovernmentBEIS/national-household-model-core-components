@@ -70,20 +70,19 @@ public interface IActionFactory {
 
 	public TemperaturesAction createTemperaturesAction(
 			@Assisted("livingArea") final Optional<IComponentsFunction<Number>> livingAreaTemperature,
-			@Assisted("threshold") final Optional<IComponentsFunction<Number>> thresholdTemperature,
 			@Assisted("delta") final Optional<IComponentsFunction<Number>> deltaTemperature,
 			@Assisted("rest") final Optional<IComponentsFunction<Number>> restTemperature,
-			@Assisted("restHeatedProportion") final Optional<IComponentsFunction<Number>> restHeatedProportion,
-			@Assisted final Optional<boolean[]> heatingMonths);
-	
+			@Assisted("restHeatedProportion") final Optional<IComponentsFunction<Number>> restHeatedProportion
+			);
+
 	public HeatingScheduleAction createHeatingScheduleAction(final IHeatingSchedule iHeatingSchedule);
-	
+
 	public SetLivingAreaFractionAction createLivingAreaFractionAction(final double fraction);
-	
+
 	public SetSiteExposureAction createSiteExposureAction(
 			@Assisted("siteExposure") SiteExposureType siteExposure
 			);
-	
+
 	public SetInterzoneSpecificHeatTransferAction createInterzoneSpecificHeatTransferAction(
 			@Assisted("interzoneSpecificHeatTransfer") IComponentsFunction<Number> interzoneSpecificHeatTransfer
 			);
@@ -102,15 +101,15 @@ public interface IActionFactory {
 		@Assisted("update") final List<Glob> updateFlags,
 		@Assisted final List<IUnifiedReport> reports,
 		@Assisted final IStateAction delegate);
-	
+
 	public HypotheticalSetAction<IWeather> createSetWeather(
 			@Assisted final IWeather weather
 			);
-	
+
 	public HypotheticalSetAction<ICarbonFactors> createSetCarbon(
 			@Assisted final ICarbonFactors factors
 			);
-	
+
 	public SapOccupancyAction createSapOccupancy();
 
 	public ChoiceAction createChoice(
@@ -145,18 +144,18 @@ public interface IActionFactory {
 			@Assisted final List<IPicker> delegates);
 
 	public SometimesAction createSometimesAction(
-			@Assisted final IComponentsFunction<Number> chance, 
+			@Assisted final IComponentsFunction<Number> chance,
 			@Assisted final IComponentsAction delegate);
 
 	public UseUncalibratedEnergyAction createDecalibrationAction();
 
 	public CaseAction createCaseAction(
-			@Assisted final List<Case> cases, 
+			@Assisted final List<Case> cases,
 			@Assisted final IComponentsAction defaultAction
 			);
-	
+
 	public SequenceAction createSequenceAction(final List<IComponentsAction> delegates, @Assisted("all") final boolean allMode, @Assisted("hide") final Set<String> immutableSet);
-	
+
 	public ChangeValue.Setter createValueSetter(@Assisted final List<Variable> variables,
                                                 @Assisted final List<IComponentsFunction<Number>> values,
                                                 @Assisted final List<IComponentsAction> hypotheses);
@@ -164,11 +163,11 @@ public interface IActionFactory {
 	public ChangeValue.Increaser createValueIncreaser(@Assisted final List<Variable> variables,
                                                         @Assisted final List<IComponentsFunction<Number>> values,
                                                         @Assisted final List<IComponentsAction> hypotheses);
-    
+
 	public ChangeValue.Decreaser createValueDecreaser(@Assisted final List<Variable> variables,
                                                         @Assisted final List<IComponentsFunction<Number>> values,
                                                         @Assisted final List<IComponentsAction> hypotheses);
-    
+
 	public SnapshotAction createSnapshotAction(final String name,
 			final List<IComponentsAction> changes);
 
@@ -176,22 +175,22 @@ public interface IActionFactory {
 			@Assisted("while") final Optional<IComponentsFunction<Boolean>> whilst,
 			@Assisted final IComponentsAction delegate,
 			@Assisted("until") final Optional<IComponentsFunction<Boolean>> until);
-	
+
 	public OrderedPackageAction createOrderedPackageAction(
 			@Assisted final IComponentsFunction<Number> objective,
-			@Assisted final boolean ascending, 
+			@Assisted final boolean ascending,
 			@Assisted final List<IComponentsAction> actions
 			);
-	
+
 	public OrderedChoiceAction createOrderedChoiceAction(
 			@Assisted final IComponentsFunction<Number> objective,
-			@Assisted final boolean ascending, 
+			@Assisted final boolean ascending,
 			@Assisted final List<IComponentsAction> actions
 			);
 
     public ConsumeAction createConsumeAction(Variable variable, IComponentsFunction<Number> amount);
     public FailUnless createFailUnless(IComponentsFunction<Boolean> amount);
-    
+
     public EnergyCalculatorAction createEnergyCalculatorAction(
     		@Assisted final EnergyCalculatorType calculatorType);
 
