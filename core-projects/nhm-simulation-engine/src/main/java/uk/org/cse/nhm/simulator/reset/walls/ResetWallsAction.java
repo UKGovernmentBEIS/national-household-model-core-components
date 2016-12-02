@@ -53,7 +53,7 @@ public class ResetWallsAction extends AbstractNamed implements IComponentsAction
 				else result[0] = wall.getUValue();
 				if (infiltration != null) result[2] = infiltration.compute(scope, lets).doubleValue();
 				else result[1] = wall.getAirChangeRate();
-				if (thickness != null) result[3] = thickness.compute(scope, lets).doubleValue();
+				if (thickness != null) result[2] = thickness.compute(scope, lets).doubleValue();
 				else result[2] = wall.getThicknessWithoutInsulation();
 			} else {
 				result[0] = wall.getUValue();
