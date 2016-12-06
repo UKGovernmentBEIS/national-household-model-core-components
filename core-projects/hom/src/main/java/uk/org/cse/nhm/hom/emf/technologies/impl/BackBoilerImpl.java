@@ -5,6 +5,7 @@ package uk.org.cse.nhm.hom.emf.technologies.impl;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -12,6 +13,8 @@ import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.hom.IHeatProportions;
+import uk.org.cse.nhm.hom.emf.technologies.EmitterType;
+import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
 import uk.org.cse.nhm.hom.emf.technologies.IBackBoiler;
 import uk.org.cse.nhm.hom.emf.technologies.IRoomHeater;
 import uk.org.cse.nhm.hom.emf.technologies.ISpaceHeater;
@@ -24,7 +27,7 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
  *
  * This is a room heater which is also a back boiler - It employs EMF multiple inheritance, which means that some code from {@link RoomHeaterImpl} has been
  * duplicated, unfortunately.
- * 
+ *
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
@@ -101,6 +104,7 @@ public class BackBoilerImpl extends BoilerImpl implements IBackBoiler {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Efficiency getEfficiency() {
 		return efficiency;
 	}
@@ -110,8 +114,9 @@ public class BackBoilerImpl extends BoilerImpl implements IBackBoiler {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setEfficiency(Efficiency newEfficiency) {
-		Efficiency oldEfficiency = efficiency;
+	@Override
+	public void setEfficiency(final Efficiency newEfficiency) {
+		final Efficiency oldEfficiency = efficiency;
 		efficiency = newEfficiency;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.BACK_BOILER__EFFICIENCY, oldEfficiency, efficiency));
@@ -122,6 +127,7 @@ public class BackBoilerImpl extends BoilerImpl implements IBackBoiler {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isThermostatFitted() {
 		return (flags & THERMOSTAT_FITTED_EFLAG) != 0;
 	}
@@ -131,8 +137,9 @@ public class BackBoilerImpl extends BoilerImpl implements IBackBoiler {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setThermostatFitted(boolean newThermostatFitted) {
-		boolean oldThermostatFitted = (flags & THERMOSTAT_FITTED_EFLAG) != 0;
+	@Override
+	public void setThermostatFitted(final boolean newThermostatFitted) {
+		final boolean oldThermostatFitted = (flags & THERMOSTAT_FITTED_EFLAG) != 0;
 		if (newThermostatFitted) flags |= THERMOSTAT_FITTED_EFLAG; else flags &= ~THERMOSTAT_FITTED_EFLAG;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.BACK_BOILER__THERMOSTAT_FITTED, oldThermostatFitted, newThermostatFitted));
@@ -143,6 +150,7 @@ public class BackBoilerImpl extends BoilerImpl implements IBackBoiler {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isBroken() {
 		return false;
 	}
@@ -153,7 +161,7 @@ public class BackBoilerImpl extends BoilerImpl implements IBackBoiler {
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+	public Object eGet(final int featureID, final boolean resolve, final boolean coreType) {
 		switch (featureID) {
 			case ITechnologiesPackage.BACK_BOILER__EFFICIENCY:
 				return getEfficiency();
@@ -169,7 +177,7 @@ public class BackBoilerImpl extends BoilerImpl implements IBackBoiler {
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue) {
+	public void eSet(final int featureID, final Object newValue) {
 		switch (featureID) {
 			case ITechnologiesPackage.BACK_BOILER__EFFICIENCY:
 				setEfficiency((Efficiency)newValue);
@@ -187,7 +195,7 @@ public class BackBoilerImpl extends BoilerImpl implements IBackBoiler {
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
+	public void eUnset(final int featureID) {
 		switch (featureID) {
 			case ITechnologiesPackage.BACK_BOILER__EFFICIENCY:
 				setEfficiency(EFFICIENCY_EDEFAULT);
@@ -205,7 +213,7 @@ public class BackBoilerImpl extends BoilerImpl implements IBackBoiler {
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
+	public boolean eIsSet(final int featureID) {
 		switch (featureID) {
 			case ITechnologiesPackage.BACK_BOILER__EFFICIENCY:
 				return EFFICIENCY_EDEFAULT == null ? efficiency != null : !EFFICIENCY_EDEFAULT.equals(efficiency);
@@ -221,7 +229,7 @@ public class BackBoilerImpl extends BoilerImpl implements IBackBoiler {
 	 * @generated
 	 */
 	@Override
-	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+	public int eBaseStructuralFeatureID(final int derivedFeatureID, final Class<?> baseClass) {
 		if (baseClass == ISpaceHeater.class) {
 			switch (derivedFeatureID) {
 				default: return -1;
@@ -243,7 +251,7 @@ public class BackBoilerImpl extends BoilerImpl implements IBackBoiler {
 	 * @generated
 	 */
 	@Override
-	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+	public int eDerivedStructuralFeatureID(final int baseFeatureID, final Class<?> baseClass) {
 		if (baseClass == ISpaceHeater.class) {
 			switch (baseFeatureID) {
 				default: return -1;
@@ -268,16 +276,24 @@ public class BackBoilerImpl extends BoilerImpl implements IBackBoiler {
 	public String toString() {
 		return super.toString();
 	}
-	
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * Do boiler's accept and {@link RoomHeaterImpl#accept(IRoomHeater, IEnergyCalculatorParameters, IEnergyCalculatorVisitor, AtomicInteger, double, double)}
 	 * <!-- end-user-doc -->
 	 * @generated not
 	 */
-	public void accept(IConstants constants, final IEnergyCalculatorParameters parameters, final IEnergyCalculatorVisitor visitor, final AtomicInteger heatingSystemCounter, IHeatProportions heatProportions) {
+	@Override
+	public void accept(final IConstants constants, final IEnergyCalculatorParameters parameters, final IEnergyCalculatorVisitor visitor, final AtomicInteger heatingSystemCounter, final IHeatProportions heatProportions) {
 		super.accept(constants, parameters, visitor, heatingSystemCounter, heatProportions);
 		RoomHeaterImpl.accept(this,constants, parameters, visitor, heatingSystemCounter, heatProportions, true);
+	}
+
+	@Override
+	public double getResponsiveness(final IConstants parameters, final EList<HeatingSystemControlType> controls,
+			final EmitterType emitter) {
+		// Codes 156, 158 in Table 4a of SAP 2012
+		return 0.5;
 	}
 
 } //BackBoilerImpl

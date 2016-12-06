@@ -241,8 +241,8 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 	 * @generated
 	 */
 	@Override
-	public void setSummerEfficiency(Efficiency newSummerEfficiency) {
-		Efficiency oldSummerEfficiency = summerEfficiency;
+	public void setSummerEfficiency(final Efficiency newSummerEfficiency) {
+		final Efficiency oldSummerEfficiency = summerEfficiency;
 		summerEfficiency = newSummerEfficiency;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, IBoilersPackage.BOILER__SUMMER_EFFICIENCY, oldSummerEfficiency, summerEfficiency));
@@ -265,8 +265,8 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 	 * @generated
 	 */
 	@Override
-	public void setWinterEfficiency(Efficiency newWinterEfficiency) {
-		Efficiency oldWinterEfficiency = winterEfficiency;
+	public void setWinterEfficiency(final Efficiency newWinterEfficiency) {
+		final Efficiency oldWinterEfficiency = winterEfficiency;
 		winterEfficiency = newWinterEfficiency;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, IBoilersPackage.BOILER__WINTER_EFFICIENCY, oldWinterEfficiency, winterEfficiency));
@@ -288,8 +288,8 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 	 * @generated
 	 */
 	@Override
-	public void setCondensing(boolean newCondensing) {
-		boolean oldCondensing = (flags & CONDENSING_EFLAG) != 0;
+	public void setCondensing(final boolean newCondensing) {
+		final boolean oldCondensing = (flags & CONDENSING_EFLAG) != 0;
 		if (newCondensing) flags |= CONDENSING_EFLAG; else flags &= ~CONDENSING_EFLAG;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, IBoilersPackage.BOILER__CONDENSING, oldCondensing, newCondensing));
@@ -312,8 +312,8 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 	 * @generated
 	 */
 	@Override
-	public void setWeatherCompensated(boolean newWeatherCompensated) {
-		boolean oldWeatherCompensated = (flags & WEATHER_COMPENSATED_EFLAG) != 0;
+	public void setWeatherCompensated(final boolean newWeatherCompensated) {
+		final boolean oldWeatherCompensated = (flags & WEATHER_COMPENSATED_EFLAG) != 0;
 		if (newWeatherCompensated) flags |= WEATHER_COMPENSATED_EFLAG; else flags &= ~WEATHER_COMPENSATED_EFLAG;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, IBoilersPackage.BOILER__WEATHER_COMPENSATED, oldWeatherCompensated, newWeatherCompensated));
@@ -335,8 +335,8 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 	 * @generated
 	 */
 	@Override
-	public void setPumpInHeatedSpace(boolean newPumpInHeatedSpace) {
-		boolean oldPumpInHeatedSpace = (flags & PUMP_IN_HEATED_SPACE_EFLAG) != 0;
+	public void setPumpInHeatedSpace(final boolean newPumpInHeatedSpace) {
+		final boolean oldPumpInHeatedSpace = (flags & PUMP_IN_HEATED_SPACE_EFLAG) != 0;
 		if (newPumpInHeatedSpace) flags |= PUMP_IN_HEATED_SPACE_EFLAG; else flags &= ~PUMP_IN_HEATED_SPACE_EFLAG;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, IBoilersPackage.BOILER__PUMP_IN_HEATED_SPACE, oldPumpInHeatedSpace, newPumpInHeatedSpace));
@@ -359,7 +359,7 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 	 */
 	@Override
 	public void setEfficiencySource(EfficiencySourceType newEfficiencySource) {
-		EfficiencySourceType oldEfficiencySource = EFFICIENCY_SOURCE_EFLAG_VALUES[(flags & EFFICIENCY_SOURCE_EFLAG) >>> EFFICIENCY_SOURCE_EFLAG_OFFSET];
+		final EfficiencySourceType oldEfficiencySource = EFFICIENCY_SOURCE_EFLAG_VALUES[(flags & EFFICIENCY_SOURCE_EFLAG) >>> EFFICIENCY_SOURCE_EFLAG_OFFSET];
 		if (newEfficiencySource == null) newEfficiencySource = EFFICIENCY_SOURCE_EDEFAULT;
 		flags = flags & ~EFFICIENCY_SOURCE_EFLAG | newEfficiencySource.ordinal() << EFFICIENCY_SOURCE_EFLAG_OFFSET;
 		if (eNotificationRequired())
@@ -746,7 +746,7 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+	public Object eGet(final int featureID, final boolean resolve, final boolean coreType) {
 		switch (featureID) {
 			case IBoilersPackage.BOILER__SUMMER_EFFICIENCY:
 				return getSummerEfficiency();
@@ -770,7 +770,7 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue) {
+	public void eSet(final int featureID, final Object newValue) {
 		switch (featureID) {
 			case IBoilersPackage.BOILER__SUMMER_EFFICIENCY:
 				setSummerEfficiency((Efficiency)newValue);
@@ -800,7 +800,7 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
+	public void eUnset(final int featureID) {
 		switch (featureID) {
 			case IBoilersPackage.BOILER__SUMMER_EFFICIENCY:
 				setSummerEfficiency(SUMMER_EFFICIENCY_EDEFAULT);
@@ -830,7 +830,7 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
+	public boolean eIsSet(final int featureID) {
 		switch (featureID) {
 			case IBoilersPackage.BOILER__SUMMER_EFFICIENCY:
 				return SUMMER_EFFICIENCY_EDEFAULT == null ? summerEfficiency != null : !SUMMER_EFFICIENCY_EDEFAULT.equals(summerEfficiency);
@@ -936,25 +936,24 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 		*/
 
 		switch (getFuel()) {
-		case ELECTRICITY:
-			// Note that dry core electric boilers are treated as combi boilers, which override this method.
+
+		// Gas and Oil, and electricity except for electric storage combi boilers
+		// See also StorageCombiBoilerImpl
 		case BOTTLED_LPG:
 		case BULK_LPG:
 		case MAINS_GAS:
 		case OIL:
-			// a lookup from a table.
+		case ELECTRICITY:
+			// We know nothing about dry core electric boilers, so we assume this is direct-acting.
 			return super.getSAPTable4dResponsiveness(parameters, controls, emitter);
+
+		// Solid Fuel
 		case BIOMASS_PELLETS:
 		case BIOMASS_WOOD:
 		case BIOMASS_WOODCHIP:
 		case HOUSE_COAL:
-			if (emitter == EmitterType.RADIATORS) {
-				// Open fire with back boiler to radiators OR closed roomheater with boiler to radiators
-				return 0.5;
-			} else {
-				return 0.75;
-			}
-
+			// See also BackBoilerImpl
+			return 0.75;
 		default:
 			throw new UnsupportedOperationException("Unknown fuel type for boiler when calculating responsiveness " + getFuel());
 		}
