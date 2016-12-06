@@ -34,7 +34,8 @@ public enum RegionType {
 	Wales("Wales", 52.5, Country.Wales),
     NorthernIreland("Northern Ireland", 54.6, Country.NorthernIreland);
 
-	public static double UK_AVERAGE_LATITUDE = 35.5;
+	private static double UK_AVERAGE_LATITUDE_DEGS = 35.5;
+	public static double UK_AVERAGE_LATITUDE_RADIANS = UK_AVERAGE_LATITUDE_DEGS * Math.PI / 180;
 
     private final String friendlyName;
     private final double latitude, latrads;

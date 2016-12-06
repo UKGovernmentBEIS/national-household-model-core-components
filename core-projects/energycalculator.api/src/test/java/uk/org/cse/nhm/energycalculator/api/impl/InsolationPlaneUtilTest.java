@@ -20,6 +20,39 @@ public class InsolationPlaneUtilTest {
     }
 
     @Test
+    public void westEqualsEast() {
+    	Assert.assertEquals(
+			InsolationPlaneUtil.getSolarFluxMultiplier(0, 0, 0, Math.PI * 0.5),
+			InsolationPlaneUtil.getSolarFluxMultiplier(0, 0, 0, Math.PI * 1.5),
+			0.001
+		);
+    }
+
+    @Test
+    public void southWestEqualsSouthEast() {
+    	Assert.assertEquals(
+    			InsolationPlaneUtil.getSolarFluxMultiplier(0, 0, 0, Math.PI * 0.75),
+    			InsolationPlaneUtil.getSolarFluxMultiplier(0, 0, 0, Math.PI * 1.25),
+    			0.001
+    		);
+    }
+
+    @Test
+    public void continuity() {
+    	Double previous = null;
+    	for (int i = 0; i < 360; i++) {
+
+    		final double current = InsolationPlaneUtil.getSolarFluxMultiplier(18.8, 35.5, Math.PI / 2, Math.PI * i / 180d);
+
+    		if (previous != null) {
+    			Assert.assertEquals("Previous should be quite similar to current.", previous, current, 0.1);
+    		}
+
+    		previous = current;
+    	}
+    }
+
+    @Test
     public void fluxMultiplierCalculatedByHand() {
         // doing the steps by hand for a real place:
         // say we take South West, with a representative latitude of 50.5 degrees

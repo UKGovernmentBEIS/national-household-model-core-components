@@ -40,7 +40,7 @@ public class SAPSeasonalParameters extends SeasonalParameters {
 
 	@Override
 	public double getSolarFlux(final double angleFromHorizontal, final double angleFromNorth) {
-		return Weather.SAP12.getHorizontalSolarFlux(month) * InsolationPlaneUtil.getSolarFluxMultiplier(getSolarDeclination(), RegionType.UK_AVERAGE_LATITUDE, angleFromHorizontal, angleFromNorth);
+		return Weather.SAP12.getHorizontalSolarFlux(month) * InsolationPlaneUtil.getSolarFluxMultiplier(getSolarDeclination(), RegionType.UK_AVERAGE_LATITUDE_RADIANS, angleFromHorizontal, angleFromNorth);
 	}
 
 	@Override

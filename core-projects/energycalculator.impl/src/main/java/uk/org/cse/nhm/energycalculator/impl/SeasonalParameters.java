@@ -4,6 +4,18 @@ import uk.org.cse.nhm.energycalculator.api.ISeasonalParameters;
 import uk.org.cse.nhm.energycalculator.api.types.MonthType;
 
 public abstract class SeasonalParameters implements ISeasonalParameters {
+	/*
+	BEISDOC
+	NAME: Declination
+	DESCRIPTION: The declination of the sun
+	TYPE: value
+	UNIT: Radians
+	SAP: Table U3 (bottom half)
+	BREDEM: Table 16
+	CONVERSION: From degress to radians
+	ID: solar-declination
+	CODSIEB
+	*/
 	public static final double[] DECLINATION = {
 			-0.36128316, -0.22340214,
 				-0.03141593, 0.17104227, 0.3281219, 0.40317106, 0.3700098,
