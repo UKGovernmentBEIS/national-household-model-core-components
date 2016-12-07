@@ -21,8 +21,10 @@ public class SAPSeasonalParameters extends SeasonalParameters {
 	private static final IHeatingSchedule sevenAndEight = DailyHeatingSchedule.fromHours(7, 9, 16, 23);
 	private static final IHeatingSchedule zeroAndEight = DailyHeatingSchedule.fromHours(7, 23);
 	private static final IHeatingSchedule nineAndEight = DailyHeatingSchedule.fromHours(7, 9, 18, 23);
+	private static final IHeatingSchedule off = DailyHeatingSchedule.fromHours();
 
-	private static final IHeatingSchedule weekdaySevenAndEightWeekendZeroAndEight = new WeeklyHeatingSchedule(sevenAndEight, zeroAndEight);
+	private static final IHeatingSchedule weekdaySevenAndEightWeekendZeroAndEight = new WeeklyHeatingSchedule(
+			sevenAndEight, zeroAndEight);
 
 	public SAPSeasonalParameters(final MonthType month) {
 		super(month);
@@ -40,30 +42,40 @@ public class SAPSeasonalParameters extends SeasonalParameters {
 
 	@Override
 	public double getSolarFlux(final double angleFromHorizontal, final double angleFromNorth) {
-		return Weather.SAP12.getHorizontalSolarFlux(month) * InsolationPlaneUtil.getSolarFluxMultiplier(getSolarDeclination(), RegionType.UK_AVERAGE_LATITUDE_RADIANS, angleFromHorizontal, angleFromNorth);
+		return Weather.SAP12.getHorizontalSolarFlux(month) * InsolationPlaneUtil.getSolarFluxMultiplier(
+				getSolarDeclination(), RegionType.UK_AVERAGE_LATITUDE_RADIANS, angleFromHorizontal, angleFromNorth);
 	}
 
 	@Override
-	public IHeatingSchedule getHeatingSchedule(final ZoneType zone, final Optional<Zone2ControlParameter> zone2ControlParameter) {
-		switch(zone) {
-		case ZONE1:
-			return weekdaySevenAndEightWeekendZeroAndEight;
-		case ZONE2:
-			if (zone2ControlParameter.isPresent()) {
-				switch (zone2ControlParameter.get()) {
-				case One:
-				case Two:
-					return weekdaySevenAndEightWeekendZeroAndEight;
-				case Three:
-					return nineAndEight;
-				default:
-					throw new IllegalArgumentException("Unknown zone 2 control parameter (see SAP 2012 Table 9 and Table 4e) " + zone2ControlParameter.get());
+	public IHeatingSchedule getHeatingSchedule(final ZoneType zone,
+			final Optional<Zone2ControlParameter> zone2ControlParameter) {
+		if (isHeatingOn()) {
+			switch (zone) {
+			case ZONE1:
+				return weekdaySevenAndEightWeekendZeroAndEight;
+			case ZONE2:
+				if (zone2ControlParameter.isPresent()) {
+					switch (zone2ControlParameter.get()) {
+					case One:
+					case Two:
+						return weekdaySevenAndEightWeekendZeroAndEight;
+					case Three:
+						return nineAndEight;
+					default:
+						throw new IllegalArgumentException(
+								"Unknown zone 2 control parameter (see SAP 2012 Table 9 and Table 4e) "
+										+ zone2ControlParameter.get());
+					}
+				} else {
+					throw new IllegalArgumentException(
+							"Must specify the zone 2 control parameter when looking up the zone 2 heating schedule in SAP 2012 mode.");
 				}
-			} else {
-				throw new IllegalArgumentException("Must specify the zone 2 control parameter when looking up the zone 2 heating schedule in SAP 2012 mode.");
+			default:
+				throw new IllegalArgumentException(
+						"Unknown heating zone while calculating SAP heating schedule " + zone);
 			}
-		default:
-			throw new IllegalArgumentException("Unknown heating zone while calculating SAP heating schedule " + zone);
+		} else {
+			return off;
 		}
 	}
 
@@ -79,18 +91,14 @@ public class SAPSeasonalParameters extends SeasonalParameters {
 	}
 
 	@Override
-	public double getHeatingOnFactor(final IInternalParameters parameters, final ISpecificHeatLosses losses, final double revisedGains,
-			final double[] demandTemperature) {
+	public double getHeatingOnFactor(final IInternalParameters parameters, final ISpecificHeatLosses losses,
+			final double revisedGains, final double[] demandTemperature) {
 		/*
-		BEISDOC
-		NAME: SAP Heating on Factor
-		DESCRIPTION: 1 if this is a heating month (October to May), otherwise 0.
-		TYPE: formula
-		UNIT: Dimensionless
-		SAP: (98 - exclusion of columns which should not be filled in)
-		ID: sap-heating-on-factor
-		CODSIEB
-		*/
+		 * BEISDOC NAME: SAP Heating on Factor DESCRIPTION: 1 if this is a
+		 * heating month (October to May), otherwise 0. TYPE: formula UNIT:
+		 * Dimensionless SAP: (98 - exclusion of columns which should not be
+		 * filled in) ID: sap-heating-on-factor CODSIEB
+		 */
 		return isHeatingOn() ? 1 : 0;
 	}
 }
