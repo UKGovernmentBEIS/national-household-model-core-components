@@ -135,9 +135,12 @@ public class DailyHeatingSchedule implements IHeatingSchedule {
 				// in this case there's enough time to relax all the way back to zero
 				auc += triangle;
 			} else {
-				// here we have to scale off the end of the relaxing triangle; by similar
-				// triangles we can just subtract the relevant proportion
-				auc += triangle - (triangle * (cutoffTime - offTime) / cutoffTime);
+				final double alpha = (cutoffTime - offTime) / cutoffTime;
+
+				// We subtract a smaller triangle which represents the time that
+				// the house was not cooling down for, because the heating came
+				// on again.
+				auc += triangle * (1 - (alpha * alpha));
 			}
 		}
 

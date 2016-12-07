@@ -58,4 +58,73 @@ public class DailyHeatingScheduleTest {
 		Assert.assertTrue(on5to10.isHeatingOn());
 		Assert.assertFalse(off.isHeatingOn());
 	}
+
+	@Test
+	public void zero() {
+		Assert.assertEquals(
+				0d,
+				DailyHeatingSchedule.fromHours(0, 1).getMeanTemperature(0, 0, 0) * 24,
+				0
+			);
+	}
+
+	@Test
+	public void unitSquare() {
+		Assert.assertEquals(
+				1d,
+				eval(0, 0, 1),
+				0
+			);
+	}
+
+	@Test
+	public void unitTriangle() {
+		Assert.assertEquals(
+				"What does not go up, cannot come down?",
+				0,
+				eval(2, 0, 0),
+				0
+			);
+	}
+
+	@Test
+	public void unitTrianglePlusUnitSquare() {
+		Assert.assertEquals(
+				2d,
+				eval(2, 0, 1),
+				0
+			);
+	}
+
+	@Test
+	public void twoUnitsSquare() {
+		Assert.assertEquals(
+				2d,
+				eval(0, 0, 1, 3, 4),
+				0
+			);
+	}
+
+	@Test
+	public void squareThenTriangleThenSquareThenTriangle() {
+		Assert.assertEquals(
+				4d,
+				eval(2, 0, 1, 3, 4),
+				0
+			);
+	}
+
+	@Test
+	public void cutoffTriangle() {
+		Assert.assertEquals(
+				// Two units, one full triangle, one triangle with half of it chopped off (=3/4 area)
+				3.75,
+				eval(2, 0, 1, 2, 3),
+				0
+			);
+	}
+
+	private double eval(final int coolingHours, final int...hours) {
+		return DailyHeatingSchedule.fromHours(hours).getMeanTemperature(1, 0, coolingHours * 60) * 24;
+	}
 }
