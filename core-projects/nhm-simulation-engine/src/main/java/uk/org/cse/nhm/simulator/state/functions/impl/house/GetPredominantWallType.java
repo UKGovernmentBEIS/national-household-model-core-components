@@ -2,19 +2,26 @@ package uk.org.cse.nhm.simulator.state.functions.impl.house;
 
 import javax.inject.Inject;
 
+import com.google.common.collect.ImmutableMap;
+
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WallType;
 import uk.org.cse.nhm.hom.structure.IWall;
 import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.hom.structure.impl.Storey;
+import uk.org.cse.nhm.ipc.api.tasks.report.ILogEntryHandler;
+import uk.org.cse.nhm.logging.logentry.errors.WarningLogEntry;
 import uk.org.cse.nhm.simulator.let.ILets;
 import uk.org.cse.nhm.simulator.scope.IComponentsScope;
 import uk.org.cse.nhm.simulator.state.IDimension;
 
 public class GetPredominantWallType extends StructureFunction<WallConstructionType> {
+	private final ILogEntryHandler log;
+
 	@Inject
-	public GetPredominantWallType(final IDimension<StructureModel> structure) {
+	public GetPredominantWallType(final IDimension<StructureModel> structure, final ILogEntryHandler log) {
 		super(structure);
+		this.log = log;
 	}
 
 	@Override
@@ -40,7 +47,9 @@ public class GetPredominantWallType extends StructureFunction<WallConstructionTy
 		}
 
 		if (maxType == null) {
-			throw new IllegalStateException("Dwelling has no predominant wallt type. This probably means it has no external walls. " + scope.getDwellingID());
+			log.acceptLogEntry(new WarningLogEntry("Dwelling has no external walls. Predominant wall type will be Internal.",
+					ImmutableMap.of("dwelling-id", String.valueOf(scope.getDwellingID()))));
+			return WallConstructionType.Internal_Any;
 		}
 
 		return maxType;
