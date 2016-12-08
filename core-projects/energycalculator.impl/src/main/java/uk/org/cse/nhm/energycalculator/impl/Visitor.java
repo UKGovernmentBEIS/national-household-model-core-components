@@ -300,7 +300,13 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 
 	@Override
 	public void addWallInfiltration(final double wallArea, final WallConstructionType wallType, final double airChangeRate) {
-		infiltration.addWallInfiltration(wallArea, airChangeRate);
+		infiltration.addWallInfiltration(
+				wallArea,
+				overrideAirChangeRate(
+						wallType,
+						airChangeRate
+				)
+		);
 	}
 
 	protected abstract double overrideAirChangeRate(final WallConstructionType wallType, final double airChangeRate);
