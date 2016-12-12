@@ -308,20 +308,6 @@ public class StructureModel implements ICopyable<StructureModel> {
 
 		final int storeyCount = storeys.size();
 
-		/*
-		BEISDOC
-		NAME: Internal wall element
-		DESCRIPTION: The area, u-value and k-value for a section of internal wall
-		TYPE: formula
-		UNIT: area m^2, u-value W/m^2/℃, k-value kJ/m^2/℃
-		SAP: (32c)
-		BREDEM: 3B
-		SET: action.reset-walls
-		STOCK: Based on CHM - internal wall area is the same as facade area.
-		ID: internal-wall-element
-		NOTES: Internal walls always have a u-value of 0.
-		CODSIEB
-		*/
 		visitor.visitWall(
 				WallConstructionType.Internal_Any,
 				0,

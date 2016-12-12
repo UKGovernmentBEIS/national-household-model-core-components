@@ -251,7 +251,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         UNIT: ach/h
         SAP: (21,22b)
         BREDEM: 3E
-        DEPS: wind-factor,shelter-factor,total-infiltrationsite-exposure-factor
+        DEPS: wind-factor,shelter-factor,total-infiltration,site-exposure-factor
         ID: adjusted-infiltration
         CODSIEB
         */
@@ -288,8 +288,6 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         SAP: (38)
         BREDEM: 3G
         DEPS: ventilation-heat-loss-coefficient,natural-infiltration,dwelling-volume
-        GET:
-        SET:
         ID: ventilation-heat-loss
         CODSIEB
         */
@@ -917,7 +915,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         UNIT: Unknown
         SAP: Table 4a, 4d
         BREDEM: Defers to SAP
-        DEPS: room-heater-responsiveness, storage-heater-responsiveness,wet-system-responsiveness
+        DEPS: room-heater-responsiveness, storage-heater-responsiveness,wet-system-responsiveness,boiler-responsiveness
         ID: responsiveness
         CODSIEB
         */

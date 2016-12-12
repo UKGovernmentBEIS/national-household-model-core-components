@@ -779,7 +779,7 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 		UNIT: Dimensionless
 		SAP: (H8)
 		BREDEM: 2.4.2C
-		DEPS: solar-energy-available,distribution-loss-factor,water-heating-power,solar-hot-water-use-adjustment-factor
+		DEPS: solar-energy-available,distribution-loss-factor,water-heating-power,solar-hot-water-use-adjustment
 		ID: solar-to-load-ratio
 		CODSIEB
 		*/

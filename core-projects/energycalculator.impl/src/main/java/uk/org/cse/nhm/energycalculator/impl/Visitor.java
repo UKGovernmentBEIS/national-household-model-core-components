@@ -61,6 +61,18 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 
 	public final double[][] areasByType = new double[2][AreaType.values().length];
 
+	/*
+	BEISDOC
+	NAME: Fabric Heat Loss
+	DESCRIPTION: The u-value multiplied by the area for heat-loss areas.
+	TYPE: formula
+	UNIT: W/℃
+	SAP: (33)
+	BREDEM: 3B
+	DEPS: window-heat-loss,floor-heat-loss,ceiling-heat-loss,wall-heat-loss,door-heat-loss
+	ID: fabric-heat-loss
+	CODSIEB
+	*/
 	public double totalFabricHeatLoss, totalExternalArea;
 
 	public double[] thermalMassAreas = new double[ThermalMassLevel.values().length];
@@ -138,6 +150,23 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 
 		log.debug("VISIT Wall, {}, {}, {}, {}, {}", constructionType, area, uValue, thermalMassLevel);
 
+		/*
+		BEISDOC
+		NAME: Wall Heat Loss
+		DESCRIPTION: The area multiplied by the u-value for a section of wall.
+		TYPE: formula
+		UNIT: area m^2 * u-value W/m^2/℃ = W/℃
+		SAP: (29a,32b,32c)
+		BREDEM: 3B
+		DEPS:
+		GET: house.u-value
+		SET: action.reset-walls
+		STOCK: storeys.csv (polygon shape), elevations.csv(tenthspartywall), imputation schemas (walls)
+		NOTES: In SAP 2012 mode, the u-value of the wall will be overridden by one of tables S6, S7 or S8.
+		ID: wall-heat-loss
+		CODSIEB
+		*/
+
 		final AreaType areaType = constructionType.getWallType().getAreaType();
 
 		if (thermalMassLevel.isPresent()) {
@@ -162,6 +191,23 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 	public void visitDoor(final double area, final double uValue) {
 		log.debug("VISIT Door, {}, {}", area, uValue);
 
+		/*
+		BEISDOC
+		NAME: Door Heat loss
+		DESCRIPTION: The area multiplied by the u-value for a door.
+		TYPE: formula
+		UNIT: area m^2 * u-value W/m^2/℃ = W/℃
+		SAP: (26)
+		BREDEM: 3B
+		DEPS:
+		GET: house.u-value
+		SET: action.reset-doors
+		STOCK: elevations.csv (doorframe, tenthsopening), imputation schema (doors)
+		ID: door-heat-loss
+		NOTES: Doors are distributed amongst walls based on the opening proportion for this elevation in the stock, as per the CHM method.
+		NOTES: Some doors may be omitted if the total area of doors is greater than the area allowed by the openingProportion.
+		CODSIEB
+		*/
 		visitArea(AreaType.Door, area, overrideDoorUValue(uValue));
 	}
 
@@ -176,6 +222,23 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 	@Override
 	public void visitCeiling(final RoofType type, final double area, final double uValue) {
 		log.debug("VISIT {}, {}, {}, {}, {}", type, area, uValue, roofConstructionType, roofInsulationThickness);
+
+		/*
+		BEISDOC
+		NAME: Ceiling Heat loss
+		DESCRIPTION: The area multiplied by the u-value for a heat-loss ceiling
+		TYPE: formula
+		UNIT: area m^2 * u-value W/m^2/℃ = W/℃
+		SAP: (30,32b)
+		BREDEM: 3B
+		DEPS:
+		GET: house.u-value
+		SET: action.reset-roofs
+		STOCK: roofs.csv (all fields), imputation schema (roofs)
+		ID: ceiling-heat-loss
+		NOTES: Party ceiling's u-value is always 0.
+		CODSIEB
+		*/
 
 		if (roofConstructionType == null || roofInsulationThickness == null) {
 			throw new RuntimeException("setRoofType must be called before visitCeiling");
@@ -200,6 +263,22 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 			) {
 		log.debug("VISIT Window, {}, {}, {}, {}, {}", area, uValue, frameType, glazingType, insulationType);
 
+		/*
+		BEISDOC
+		NAME: Window Heat Loss
+		DESCRIPTION: The area and u-value for a glazed area.
+		TYPE: formula
+		UNIT: area m^2 * u-value W/m^2/℃ = W/℃
+		SAP: (27,27a)
+		BREDEM: 3B
+		DEPS: glazing-area
+		GET: house.u-value
+		SET: measure.install-glazing,action.reset-glazing
+		STOCK: elevations.csv (glazed doors, percentagedoubleglazed, singleglazedwindowframe), imputation schema (windows, doors)
+		ID: window-heat-loss
+		NOTES: When setting the u-value, ensure to include the curtain correction factor.
+		CODSIEB
+		*/
 		visitArea(
 				AreaType.Glazing,
 				area,
@@ -219,6 +298,23 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 	@Override
 	public void visitFloor(final FloorType type, final boolean isGroundFloor, final double area, final double uValue, final double exposedPerimeter, final double wallThickness) {
 		log.debug("VISIT {}, {}, {}, {}, {}", type, area, uValue, groundFloorConstructionType, floorInsulationThickness);
+
+		/*
+		BEISDOC
+		NAME: Floor Heat Loss
+		DESCRIPTION: The area multiplied by the u-value for a section of floor which contributes to heat loss.
+		TYPE: formula
+		UNIT: area m^2 * u-value W/m^2/℃ = W/℃
+		SAP: 28b, 32a
+		BREDEM: 3B
+		DEPS:
+		GET: house.u-value
+		SET: action.reset-floors,action.set-floor-insulation
+		STOCK: cases.csv (grndfloortype), storeys.csv (shape of polygons), imputation schema (floors)
+		ID: floor-heat-loss
+		NOTES: Party floor's u-value is always 0.
+		CODSIEB
+		*/
 
 		if (isGroundFloor && (groundFloorConstructionType == null || floorInsulationThickness == null)) {
 			throw new RuntimeException("setGroundFloorType must be called before calling visitFloor with isGroundFloor = true");
@@ -326,7 +422,33 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 			) {
 
 		final double usefulArea = overrideFrameFactor(frameType, frameFactor) * area;
+
+		/*
+		BEISDOC
+		NAME: Visible light effective transmission area
+		DESCRIPTION: The effective visible light transmission area
+		TYPE: formula
+		UNIT: m2
+		SAP: (74-82)
+		BREDEM: 5A
+		DEPS: light-transmittance-factor,frame-factor
+		ID: visible-light-effective-transmission-area
+		CODSIEB
+		*/
 		final double totalVisibleLightTransmittivity = overrideVisibleLightTransmittivity(glazingType, visibleLightTransmittivity) * usefulArea;
+
+		/*
+		BEISDOC
+		NAME: Solar gains effective transmission area
+		DESCRIPTION: The effective solar gains transmission area
+		TYPE: formula
+		UNIT: m2
+		SAP: (74-82)
+		BREDEM: 5A
+		DEPS: solar-gain-transmissivity,frame-factor
+		ID: solar-gains-effective-transmission-area
+		CODSIEB
+		*/
 		final double totalSolarGainTransmissivity = overrideSolarGainTransmissivity(glazingType, insulationType, solarGainTransmissivity) * usefulArea;
 
 		solarGains.addTransparentElement(

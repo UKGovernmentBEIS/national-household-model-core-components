@@ -20,8 +20,8 @@ import uk.org.cse.nhm.energycalculator.constants.EnergyCalculatorConstants;
 /**
  * The energy transducer which provides solar gains; it sees {@link IFabricElement}s through {@link #addTransparentElement(IFabricElement)},
  * and accumulates their solar gains; then when {@link #generate(IEnergyState, IEnergyCalculatorParameters, ISpecificHeatLosses)} is invoked the
- * the accumulated gains are provided into the energy state.  
- * 
+ * the accumulated gains are provided into the energy state.
+ *
  * @author hinton
  *
  */
@@ -36,7 +36,7 @@ public class SolarGainsSource implements IEnergyTransducer {
 	private static class Plane {
 		public final double angleFromHorizontal;
 		public final double angleFromNorth;
-		
+
 		public Plane(final double angleFromHorizontal, final double angleFromNorth) {
 			this.angleFromHorizontal = angleFromHorizontal;
 			this.angleFromNorth = angleFromNorth;
@@ -74,7 +74,7 @@ public class SolarGainsSource implements IEnergyTransducer {
 	}
 
 	final Map<Plane, Double> totalFluxOnPlanes = new HashMap<Plane, Double>();
-	
+
 	/**
 	 * @param constants the constants for this EnergyCalc impl.
 	 * @param gainsType the gains to produce
@@ -90,7 +90,7 @@ public class SolarGainsSource implements IEnergyTransducer {
 		OVERSHADING_FACTOR = constants.get(EnergyCalculatorConstants.SOLAR_GAINS_OVERSHADING, double[].class);
 		REFLECTION_FACTOR = constants.get(EnergyCalculatorConstants.SOLAR_GAINS_REFLECTION_FACTOR);
 	}
-	
+
 	public void addTransparentElement(final double visibleLightTransmittivity,
 			final double solarGainTransmissivity,
 			final double angleFromHorizontal,
@@ -113,7 +113,7 @@ public class SolarGainsSource implements IEnergyTransducer {
 				REFLECTION_FACTOR;
 		if (t > 0) {
 			final Plane p = new Plane(angleFromHorizontal, angleFromNorth);
-			
+
 			if (totalFluxOnPlanes.containsKey(p)) {
 				totalFluxOnPlanes.put(p, t + totalFluxOnPlanes.get(p));
 			} else {
@@ -121,7 +121,7 @@ public class SolarGainsSource implements IEnergyTransducer {
 			}
 		}
 	}
-	
+
 	@Override
 	public ServiceType getServiceType() {
 		return ServiceType.SOLAR_GAINS;
@@ -142,14 +142,14 @@ public class SolarGainsSource implements IEnergyTransducer {
 		CODSIEB
 		*/
 		double solarGain = 0;
-		
+
 		final ISeasonalParameters climate = parameters.getClimate();
-		
+
 		for (final Map.Entry<Plane, Double> e : totalFluxOnPlanes.entrySet()) {
 			final double flux = climate.getSolarFlux(e.getKey().angleFromHorizontal, e.getKey().angleFromNorth);
 			solarGain += e.getValue() * flux;
 		}
-		
+
 		state.increaseSupply(gainsType, solarGain);
 	}
 
@@ -157,12 +157,12 @@ public class SolarGainsSource implements IEnergyTransducer {
 	public int getPriority() {
 		return 0;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "The Sun";
 	}
-	
+
 	@Override
 	public TransducerPhaseType getPhase() {
 		return TransducerPhaseType.BeforeEverything;

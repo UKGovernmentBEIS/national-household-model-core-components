@@ -239,44 +239,12 @@ public class Storey implements IStorey {
 				// present heat loss areas above and below
 		final double area = getArea();
 		if (area > areaBelow) {
-			/*
-			BEISDOC
-			NAME: Floor element
-			DESCRIPTION: The area and u-value for a section of floor which contributes to heat loss.
-			TYPE: formula
-			UNIT: area m^2, u-value W/m^2/℃, k-value kJ/m^2/℃
-			SAP: 28b, 32a
-			BREDEM: 3B
-			DEPS:
-			GET: house.u-value
-			SET: action.reset-floors,action.set-floor-insulation
-			STOCK: cases.csv (grndfloortype), storeys.csv (shape of polygons), imputation schema (floors)
-			ID: floor-element
-			NOTES: Part floor's u-value is always 0.
-			CODSIEB
-			*/
 			final double heatLossAreaBelow = area - areaBelow;
 			visitor.visitFloor(FloorType.External, floorLocationType == FloorLocationType.GROUND, heatLossAreaBelow, floorUValue, getExposedPerimeter(), getAverageWallThicknessWithInsulation());
 			visitor.visitFloor(FloorType.Party, floorLocationType == FloorLocationType.GROUND, areaBelow, 0, getExposedPerimeter(), getAverageWallThicknessWithInsulation());
 		}
 
 		if (area > areaAbove) {
-			/*
-			BEISDOC
-			NAME: Ceiling element
-			DESCRIPTION: The area, u-value and k-value for a section of ceiling which contributes to heat loss
-			TYPE: formula
-			UNIT: area m^2, u-value W/m^2/℃, k-value kJ/m^2/℃
-			SAP: (30,32b)
-			BREDEM: 3B
-			DEPS:
-			GET: house.u-value
-			SET: action.reset-roofs
-			STOCK: roofs.csv (all fields), imputation schema (roofs)
-			ID: ceiling-element
-			NOTES: Party ceiling's u-value is always 0.
-			CODSIEB
-			*/
 			// there is a heat loss area pointing upwards, whose area is area - areaAbove
 			final double heatLossAreaAbove = area - areaAbove;
 			visitor.visitCeiling(RoofType.ExternalHeatLoss, heatLossAreaAbove, ceilingUValue);
@@ -391,21 +359,6 @@ public class Storey implements IStorey {
 			final double wallArea;
 
 			if (segment.isPartyWall()) {
-				/*
-				BEISDOC
-				NAME: Party wall element
-				DESCRIPTION: The area, u-value, and thermal mass for a section of party wall.
-				TYPE: formula
-				UNIT: area m^2, u-value W/m^2/℃, k-value kJ/m^2/℃
-				SAP: (32)
-				BREDEM: 3B
-				GET: house.u-value
-				SET: action.reset-walls
-				STOCK: elevations.csv (tenthspartywall), imputation schema (walls)
-				NOTES: In SAP 2012 mode, the u-value of the wall will be overridden by one of tables S6, S7 or S8.
-				ID: party-wall-element
-				CODSIEB
-				*/
 				// party walls cannot contain windows or doors, and they have no infiltration effects
 				// so we just skip over all that stuff here
 				wallArea = basicArea;
@@ -452,21 +405,6 @@ public class Storey implements IStorey {
 				 */
                 visitor.addWallInfiltration(wallArea, segment.getWallConstructionType(), segment.getAirChangeRate());
 
-				/*
-				BEISDOC
-				NAME: External wall element
-				DESCRIPTION: The area, u-value and k-value for a section of external wall.
-				TYPE: formula
-				UNIT: area m^2, u-value W/m^2/℃, k-value kJ/m^2/℃
-				SAP: (29a)
-				BREDEM: 3B
-				DEPS:
-				GET: house.u-value
-				SET: action.reset-walls
-				STOCK: storeys.csv (polygon shape), imputation schemas (walls)
-				ID: external-wall-element
-				CODSIEB
-				*/
 				visitor.visitWall(
 						segment.getWallConstructionType(),
 						segment.getWallInsulationThickness(WallInsulationType.InternalOrExternal),

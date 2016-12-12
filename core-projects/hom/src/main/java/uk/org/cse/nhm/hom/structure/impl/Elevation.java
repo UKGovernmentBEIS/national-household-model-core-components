@@ -141,33 +141,17 @@ public class Elevation implements IElevation {
 			/*
 			BEISDOC
 			NAME: Glazing area
-			DESCRIPTION: The area of this type of glazing in this elevation
+			DESCRIPTION: The area of a particular type of glazing in an elevation
 			TYPE: Formula
 			UNIT: m^2
 			SAP: sap
 			BREDEM: bredem
-			DEPS: elevation-glazed-proportion, opening-proportion, wall-element, door-element
+			DEPS: elevation-glazed-proportion, opening-proportion
 			ID: glazing-area
 			CODSIEB
 			*/
 			final double glazingArea = (wallArea * openingProportion - doorArea) * glazing.getGlazedProportion();
 
-			/*
-			BEISDOC
-			NAME: Glazed element
-			DESCRIPTION: The area, u-value and k-value for a glazed area.
-			TYPE: formula
-			UNIT: area m^2, u-value W/m^2/℃, k-value kJ/m^2/℃
-			SAP: (27,27a)
-			BREDEM: 3B
-			DEPS: glazing-area
-			GET: house.u-value
-			SET: measure.install-glazing,action.reset-glazing
-			STOCK: elevations.csv (glazed doors, percentagedoubleglazed, singleglazedwindowframe), imputation schema (windows, doors)
-			ID: glazed-element
-			NOTES: Glazing's k-value (thermal mass) is always 0. When setting the u-value, ensure to include the curtain correction factor.
-			CODSIEB
-			*/
 			visitor.visitWindow(glazingArea, glazing.getuValue(), glazing.getFrameType(), glazing.getGlazingType(), glazing.getInsulationType());
 
 			visitor.visitTransparentElement(
@@ -221,23 +205,6 @@ public class Elevation implements IElevation {
 	}
 
 	private class CHMDoorVisitor implements IDoorVisitor {
-		/*
-		BEISDOC
-		NAME: Door element
-		DESCRIPTION: The area, u-value and k-value for a door.
-		TYPE: formula
-		UNIT: area m^2, u-value W/m^2/℃, k-value kJ/m^2/℃
-		SAP: (26)
-		BREDEM: 3B
-		DEPS:
-		GET: house.u-value
-		SET: action.reset-doors
-		STOCK: elevations.csv (doorframe, tenthsopening), imputation schema (doors)
-		ID: door-element
-		NOTES: Doors are distributed amongst walls based on the opening proportion for this elevation in the stock, as per the CHM method.
-		NOTES: Some doors may be omitted if the total area of doors is greater than the area allowed by this openingProportion.
-		CODSIEB
-		*/
 		private double totalDoorArea = 0;
 		private double remainingDoorArea;
 
