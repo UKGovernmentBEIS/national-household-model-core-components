@@ -3,9 +3,9 @@ package uk.org.cse.nhm.hom.structure;
 import org.pojomatic.Pojomatic;
 import org.pojomatic.annotations.AutoProperty;
 
-import uk.org.cse.nhm.hom.components.fabric.types.FrameType;
-import uk.org.cse.nhm.hom.components.fabric.types.GlazingType;
-import uk.org.cse.nhm.hom.components.fabric.types.WindowInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.FrameType;
+import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 
 /**
  * Describes glazing as a proportion of an elevation that is glazed in a certain way. 
@@ -13,7 +13,7 @@ import uk.org.cse.nhm.hom.components.fabric.types.WindowInsulationType;
  *
  */
 @AutoProperty
-public class Glazing {
+public class Glazing implements IGlazedElement {
 	/**
 	 * The u-value of this glazing
 	 */
@@ -26,6 +26,16 @@ public class Glazing {
 	 * The gains transmission factor, excluding area
 	 */
 	private double gainsTransmissionFactor;
+	
+	/*
+	BEISDOC
+	NAME: Elevation glazed proportion
+	DESCRIPTION: The proportion of the elevation which is glazed with this kind of glazing 
+	TYPE: value
+	UNIT: Unitless proportion
+	ID: elevation-glazed-proportion
+	CODSIEB
+	*/
 	/**
 	 * The proportion of the elevation which is glazed
 	 */
@@ -36,11 +46,41 @@ public class Glazing {
 	 */
 	private double frameFactor;
 
+	/*
+	BEISDOC
+	NAME: Glazing type
+	DESCRIPTION: Whether the glazing is single, double, triple or secondary
+	TYPE: value
+	UNIT: Category
+	SAP: Input to Table 6b
+	BREDEM: Input to Table 1, Table 24  
+	SET: measure.install-glazing
+	GET: house.double-glazed-proportion
+	STOCK: elevations.csv (percentagedoubleglazed)
+	NOTES: The stock importer produces a mixture of double glazed and some single glazed dwellings.
+	ID: glazing-type
+	CODSIEB
+	*/
 	/**
 	 * The type of this glazing.
 	 */
 	private GlazingType glazingType;
+	
+	
+	/*
+	BEISDOC
+	NAME: Frame type
+	DESCRIPTION: The type of frame for a glazed element.
+	TYPE: value
+	UNIT: Category
+	SAP: Input to Table 6c
+	BREDEM: Input to Table 2
+	STOCK: elevations.csv (singleglazedwindowframe, doubleglazedwindowframe)
+	ID: frame-type
+	CODSIEB
+	*/
 	private FrameType frameType;
+	
 	private WindowInsulationType insulationType;
 	
     public Glazing(){

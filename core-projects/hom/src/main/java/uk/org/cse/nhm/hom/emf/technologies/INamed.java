@@ -11,10 +11,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.INamed#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getNamed()
  * @model interface="true" abstract="true"

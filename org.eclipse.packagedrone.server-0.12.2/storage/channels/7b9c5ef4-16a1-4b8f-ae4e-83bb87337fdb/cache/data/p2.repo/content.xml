@@ -2,9 +2,9 @@
 <?metadataRepository version='1.1.0'?>
 <repository name='Package Drone Channel: 7b9c5ef4-16a1-4b8f-ae4e-83bb87337fdb' type='org.eclipse.equinox.internal.p2.metadata.repository.LocalMetadataRepository' version='1'>
   <properties size='1'>
-    <property name='p2.timestamp' value='1477311852758'/>
+    <property name='p2.timestamp' value='1479210977569'/>
   </properties>
-  <units size='5'>
+  <units size='8'>
 <unit id="uk.org.cse.nhm.bundle-api" singleton="false" version="2.0.0">
   <update id="uk.org.cse.nhm.bundle-api" range="[0.0.0,2.0.0)" severity="0"/>
   <properties size="1">
@@ -34,6 +34,39 @@ Bundle-Version: 2.0.0
   </touchpointData>
   <licenses size="0"/>
 </unit>
+<unit id="uk.org.cse.nhm.bundle.impl" singleton="false" version="6.5.0.D6_5_0">
+  <update id="uk.org.cse.nhm.bundle.impl" range="[0.0.0,6.5.0.D6_5_0)" severity="0"/>
+  <properties size="1">
+    <property name="org.eclipse.equinox.p2.name" value="NHM Model Implementation"/>
+  </properties>
+  <provides size="3">
+    <provided name="uk.org.cse.nhm.bundle.impl" namespace="osgi.bundle" version="6.5.0.D6_5_0"/>
+    <provided name="uk.org.cse.nhm.bundle.impl" namespace="org.eclipse.equinox.p2.iu" version="6.5.0.D6_5_0"/>
+    <provided name="bundle" namespace="org.eclipse.equinox.p2.eclipse.type" version="1.0.0"/>
+  </provides>
+  <requires size="6">
+    <required name="org.osgi.framework" namespace="java.package" range="[1.8.0,2.0.0)"/>
+    <required name="org.eclipse.core.runtime" namespace="java.package" range="[3.4.0,4.0.0)"/>
+    <required name="org.osgi.service.component" namespace="java.package" range="[1.2.0,2.0.0)"/>
+    <required name="uk.org.cse.nhm.bundle.api" namespace="java.package" range="[2.0.0,3.0.0)"/>
+    <required name="com.google.guava" namespace="osgi.bundle" range="0.0.0"/>
+    <required name="org.apache.xerces" namespace="osgi.bundle" range="0.0.0"/>
+  </requires>
+  <artifacts size="1">
+    <artifact classifier="osgi.bundle" id="uk.org.cse.nhm.bundle.impl" version="6.5.0.D6_5_0"/>
+  </artifacts>
+  <touchpoint id="org.eclipse.equinox.p2.osgi" version="1.0.0"/>
+  <touchpointData size="1">
+    <instructions size="1">
+      <instruction key="manifest">Manifest-Version: 1.0
+Bundle-SymbolicName: uk.org.cse.nhm.bundle.impl
+Bundle-Version: 6.5.0.D6_5_0
+
+</instruction>
+    </instructions>
+  </touchpointData>
+  <licenses size="0"/>
+</unit>
 <unit id="uk.org.cse.nhm.bundle-api" singleton="false" version="1.4.1">
   <update id="uk.org.cse.nhm.bundle-api" range="[0.0.0,1.4.1)" severity="0"/>
   <properties size="1">
@@ -57,39 +90,6 @@ Bundle-Version: 2.0.0
       <instruction key="manifest">Manifest-Version: 1.0
 Bundle-SymbolicName: uk.org.cse.nhm.bundle-api
 Bundle-Version: 1.4.1
-
-</instruction>
-    </instructions>
-  </touchpointData>
-  <licenses size="0"/>
-</unit>
-<unit id="uk.org.cse.nhm.bundle.impl" singleton="false" version="6.3.0.R1468401119547">
-  <update id="uk.org.cse.nhm.bundle.impl" range="[0.0.0,6.3.0.R1468401119547)" severity="0"/>
-  <properties size="1">
-    <property name="org.eclipse.equinox.p2.name" value="NHM Model Implementation"/>
-  </properties>
-  <provides size="3">
-    <provided name="uk.org.cse.nhm.bundle.impl" namespace="osgi.bundle" version="6.3.0.R1468401119547"/>
-    <provided name="uk.org.cse.nhm.bundle.impl" namespace="org.eclipse.equinox.p2.iu" version="6.3.0.R1468401119547"/>
-    <provided name="bundle" namespace="org.eclipse.equinox.p2.eclipse.type" version="1.0.0"/>
-  </provides>
-  <requires size="6">
-    <required name="org.osgi.framework" namespace="java.package" range="[1.8.0,2.0.0)"/>
-    <required name="org.eclipse.core.runtime" namespace="java.package" range="[3.4.0,4.0.0)"/>
-    <required name="uk.org.cse.nhm.bundle.api" namespace="java.package" range="[2.0.0,3.0.0)"/>
-    <required name="org.osgi.service.component" namespace="java.package" range="[1.2.0,2.0.0)"/>
-    <required name="com.google.guava" namespace="osgi.bundle" range="0.0.0"/>
-    <required name="org.apache.xerces" namespace="osgi.bundle" range="0.0.0"/>
-  </requires>
-  <artifacts size="1">
-    <artifact classifier="osgi.bundle" id="uk.org.cse.nhm.bundle.impl" version="6.3.0.R1468401119547"/>
-  </artifacts>
-  <touchpoint id="org.eclipse.equinox.p2.osgi" version="1.0.0"/>
-  <touchpointData size="1">
-    <instructions size="1">
-      <instruction key="manifest">Manifest-Version: 1.0
-Bundle-SymbolicName: uk.org.cse.nhm.bundle.impl
-Bundle-Version: 6.3.0.R1468401119547
 
 </instruction>
     </instructions>
@@ -129,6 +129,72 @@ Bundle-Version: 6.2.3.R1468402678073
   </touchpointData>
   <licenses size="0"/>
 </unit>
+<unit id="uk.org.cse.nhm.bundle.impl" singleton="false" version="6.3.2.R1470131476186">
+  <update id="uk.org.cse.nhm.bundle.impl" range="[0.0.0,6.3.2.R1470131476186)" severity="0"/>
+  <properties size="1">
+    <property name="org.eclipse.equinox.p2.name" value="NHM Model Implementation"/>
+  </properties>
+  <provides size="3">
+    <provided name="uk.org.cse.nhm.bundle.impl" namespace="osgi.bundle" version="6.3.2.R1470131476186"/>
+    <provided name="uk.org.cse.nhm.bundle.impl" namespace="org.eclipse.equinox.p2.iu" version="6.3.2.R1470131476186"/>
+    <provided name="bundle" namespace="org.eclipse.equinox.p2.eclipse.type" version="1.0.0"/>
+  </provides>
+  <requires size="6">
+    <required name="org.osgi.framework" namespace="java.package" range="[1.8.0,2.0.0)"/>
+    <required name="org.eclipse.core.runtime" namespace="java.package" range="[3.4.0,4.0.0)"/>
+    <required name="uk.org.cse.nhm.bundle.api" namespace="java.package" range="[2.0.0,3.0.0)"/>
+    <required name="org.osgi.service.component" namespace="java.package" range="[1.2.0,2.0.0)"/>
+    <required name="com.google.guava" namespace="osgi.bundle" range="0.0.0"/>
+    <required name="org.apache.xerces" namespace="osgi.bundle" range="0.0.0"/>
+  </requires>
+  <artifacts size="1">
+    <artifact classifier="osgi.bundle" id="uk.org.cse.nhm.bundle.impl" version="6.3.2.R1470131476186"/>
+  </artifacts>
+  <touchpoint id="org.eclipse.equinox.p2.osgi" version="1.0.0"/>
+  <touchpointData size="1">
+    <instructions size="1">
+      <instruction key="manifest">Manifest-Version: 1.0
+Bundle-SymbolicName: uk.org.cse.nhm.bundle.impl
+Bundle-Version: 6.3.2.R1470131476186
+
+</instruction>
+    </instructions>
+  </touchpointData>
+  <licenses size="0"/>
+</unit>
+<unit id="uk.org.cse.nhm.bundle.impl" singleton="false" version="6.3.0.R1468401119547">
+  <update id="uk.org.cse.nhm.bundle.impl" range="[0.0.0,6.3.0.R1468401119547)" severity="0"/>
+  <properties size="1">
+    <property name="org.eclipse.equinox.p2.name" value="NHM Model Implementation"/>
+  </properties>
+  <provides size="3">
+    <provided name="uk.org.cse.nhm.bundle.impl" namespace="osgi.bundle" version="6.3.0.R1468401119547"/>
+    <provided name="uk.org.cse.nhm.bundle.impl" namespace="org.eclipse.equinox.p2.iu" version="6.3.0.R1468401119547"/>
+    <provided name="bundle" namespace="org.eclipse.equinox.p2.eclipse.type" version="1.0.0"/>
+  </provides>
+  <requires size="6">
+    <required name="org.osgi.framework" namespace="java.package" range="[1.8.0,2.0.0)"/>
+    <required name="org.eclipse.core.runtime" namespace="java.package" range="[3.4.0,4.0.0)"/>
+    <required name="uk.org.cse.nhm.bundle.api" namespace="java.package" range="[2.0.0,3.0.0)"/>
+    <required name="org.osgi.service.component" namespace="java.package" range="[1.2.0,2.0.0)"/>
+    <required name="com.google.guava" namespace="osgi.bundle" range="0.0.0"/>
+    <required name="org.apache.xerces" namespace="osgi.bundle" range="0.0.0"/>
+  </requires>
+  <artifacts size="1">
+    <artifact classifier="osgi.bundle" id="uk.org.cse.nhm.bundle.impl" version="6.3.0.R1468401119547"/>
+  </artifacts>
+  <touchpoint id="org.eclipse.equinox.p2.osgi" version="1.0.0"/>
+  <touchpointData size="1">
+    <instructions size="1">
+      <instruction key="manifest">Manifest-Version: 1.0
+Bundle-SymbolicName: uk.org.cse.nhm.bundle.impl
+Bundle-Version: 6.3.0.R1468401119547
+
+</instruction>
+    </instructions>
+  </touchpointData>
+  <licenses size="0"/>
+</unit>
 <unit id="uk.org.cse.nhm.bundle.impl" singleton="false" version="6.3.1.R1468401046071">
   <update id="uk.org.cse.nhm.bundle.impl" range="[0.0.0,6.3.1.R1468401046071)" severity="0"/>
   <properties size="1">
@@ -156,6 +222,39 @@ Bundle-Version: 6.2.3.R1468402678073
       <instruction key="manifest">Manifest-Version: 1.0
 Bundle-SymbolicName: uk.org.cse.nhm.bundle.impl
 Bundle-Version: 6.3.1.R1468401046071
+
+</instruction>
+    </instructions>
+  </touchpointData>
+  <licenses size="0"/>
+</unit>
+<unit id="uk.org.cse.nhm.bundle.impl" singleton="false" version="6.4.0.R6_4_0">
+  <update id="uk.org.cse.nhm.bundle.impl" range="[0.0.0,6.4.0.R6_4_0)" severity="0"/>
+  <properties size="1">
+    <property name="org.eclipse.equinox.p2.name" value="NHM Model Implementation"/>
+  </properties>
+  <provides size="3">
+    <provided name="uk.org.cse.nhm.bundle.impl" namespace="osgi.bundle" version="6.4.0.R6_4_0"/>
+    <provided name="uk.org.cse.nhm.bundle.impl" namespace="org.eclipse.equinox.p2.iu" version="6.4.0.R6_4_0"/>
+    <provided name="bundle" namespace="org.eclipse.equinox.p2.eclipse.type" version="1.0.0"/>
+  </provides>
+  <requires size="6">
+    <required name="org.osgi.framework" namespace="java.package" range="[1.8.0,2.0.0)"/>
+    <required name="org.eclipse.core.runtime" namespace="java.package" range="[3.4.0,4.0.0)"/>
+    <required name="org.osgi.service.component" namespace="java.package" range="[1.2.0,2.0.0)"/>
+    <required name="uk.org.cse.nhm.bundle.api" namespace="java.package" range="[2.0.0,3.0.0)"/>
+    <required name="com.google.guava" namespace="osgi.bundle" range="0.0.0"/>
+    <required name="org.apache.xerces" namespace="osgi.bundle" range="0.0.0"/>
+  </requires>
+  <artifacts size="1">
+    <artifact classifier="osgi.bundle" id="uk.org.cse.nhm.bundle.impl" version="6.4.0.R6_4_0"/>
+  </artifacts>
+  <touchpoint id="org.eclipse.equinox.p2.osgi" version="1.0.0"/>
+  <touchpointData size="1">
+    <instructions size="1">
+      <instruction key="manifest">Manifest-Version: 1.0
+Bundle-SymbolicName: uk.org.cse.nhm.bundle.impl
+Bundle-Version: 6.4.0.R6_4_0
 
 </instruction>
     </instructions>

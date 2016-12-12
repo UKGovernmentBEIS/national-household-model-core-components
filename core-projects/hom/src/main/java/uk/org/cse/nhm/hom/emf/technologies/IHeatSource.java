@@ -21,17 +21,17 @@ import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IHeatSource#getWaterHeater <em>Water Heater</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IHeatSource#getSpaceHeater <em>Space Heater</em>}</li>
  * </ul>
- * </p>
  *
  * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getHeatSource()
  * @model abstract="true"
- * @generated
+ * @generated NOT
  */
-public interface IHeatSource extends IFuelAndFlue, IOperationalCost, IHasOverrideResponsiveness, IHasInstallationYear {
+public interface IHeatSource extends IFuelAndFlue, IOperationalCost, IHasInstallationYear, IHasZone2ControlParameter {
 	/**
 	 * Returns the value of the '<em><b>Water Heater</b></em>' reference.
 	 * It is bidirectional and its opposite is '{@link uk.org.cse.nhm.hom.emf.technologies.IMainWaterHeater#getHeatSource <em>Heat Source</em>}'.
@@ -173,9 +173,9 @@ public interface IHeatSource extends IFuelAndFlue, IOperationalCost, IHasOverrid
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @model required="true" parametersDataType="uk.org.cse.nhm.hom.emf.technologies.IInternalParameters" parametersRequired="true" controlsMany="true" controlsOrdered="false" emitterTypeRequired="true"
+	 * @model kind="operation" required="true"
 	 * @generated
 	 */
-	double getZoneTwoControlParameter(IInternalParameters parameters, EList<HeatingSystemControlType> controls, EmitterType emitterType);
+	boolean isCommunityHeating();
 
 } // IHeatSource

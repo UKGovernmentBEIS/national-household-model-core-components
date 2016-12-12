@@ -43,7 +43,7 @@ public class LightingDemandTest {
 	public void testWithTransparentElements() {		
 		final LightingDemand09 ld = new LightingDemand09(DefaultConstants.INSTANCE);
 				
-		ld.addTransparentElement(10d, 0, 0, 0, OvershadingType.NONE);
+		ld.addTransparentElement(10d, 0, 0, 0, OvershadingType.NONE_OR_LITTLE);
 		
 		final IEnergyCalculatorHouseCase hc = mock(IEnergyCalculatorHouseCase.class);
 		

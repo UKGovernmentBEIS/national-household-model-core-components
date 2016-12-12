@@ -15,6 +15,7 @@ import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 
 import uk.org.cse.commons.names.Name;
+import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.language.adapt.IAdapterInterceptor;
 import uk.org.cse.nhm.language.adapt.IConverter;
 import uk.org.cse.nhm.language.adapt.impl.Adapt;
@@ -23,12 +24,14 @@ import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.adapt.impl.PutScope;
 import uk.org.cse.nhm.language.adapt.impl.ReflectingAdapter;
 import uk.org.cse.nhm.language.builder.exposure.IExposureFactory;
+import uk.org.cse.nhm.language.builder.function.MapEnum;
 import uk.org.cse.nhm.language.definition.XCase;
 import uk.org.cse.nhm.language.definition.XCaseOtherwise;
 import uk.org.cse.nhm.language.definition.XCaseWhen;
 import uk.org.cse.nhm.language.definition.XPolicy;
 import uk.org.cse.nhm.language.definition.XScenario;
 import uk.org.cse.nhm.language.definition.XTarget;
+import uk.org.cse.nhm.language.definition.enums.XEnergyCalculatorType;
 import uk.org.cse.nhm.simulator.SimulatorConfigurationConstants;
 import uk.org.cse.nhm.simulator.factories.IGroupFactory;
 import uk.org.cse.nhm.simulator.groups.IDwellingGroup;
@@ -100,11 +103,16 @@ public class TopLevelAdapter extends ReflectingAdapter {
 			@PutScope(SimulatorConfigurationConstants.END_DATE) @Prop(XScenario.P.END_DATE) final DateTime endDate,
 			@PutScope(SimulatorConfigurationConstants.GRANULARITY) @Prop(XScenario.P.GRANULARITY) final int quantum,
             @PutScope(SimulatorConfigurationConstants.SURVEY_WEIGHT_FUNCTION) @Prop(XScenario.P.SURVEY_WEIGHTING) final IComponentsFunction<Number> surveyWeightFunction,
+            @Prop(XScenario.P.CALCULATOR_TYPE) final XEnergyCalculatorType calculatorType,
 			@Prop(XScenario.P.CONTENTS) final List<Initializable> context) {
 
 		simulationScope.seed(
                 Key.get(new TypeLiteral<IComponentsFunction<Number>>() {}, SimulatorConfigurationConstants.SurveyWeightFunction),
 				surveyWeightFunction);
+		
+		simulationScope.seed(
+				Key.get(EnergyCalculatorType.class, SimulatorConfigurationConstants.EnergyCalculatorType), 
+				MapEnum.energyCalc(calculatorType));
 		
 		if (quantum == 0)
 			throw new ArithmeticException(

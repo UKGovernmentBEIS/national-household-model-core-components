@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import uk.org.cse.nhm.hom.emf.technologies.boilers.*;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.FlueType;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoilersFactory;
@@ -81,6 +82,8 @@ public class BoilersFactoryImpl extends EFactoryImpl implements IBoilersFactory 
 		switch (eDataType.getClassifierID()) {
 			case IBoilersPackage.FLUE_TYPE:
 				return createFlueTypeFromString(eDataType, initialValue);
+			case IBoilersPackage.EFFICIENCY_SOURCE_TYPE:
+				return createEfficiencySourceTypeFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -96,6 +99,8 @@ public class BoilersFactoryImpl extends EFactoryImpl implements IBoilersFactory 
 		switch (eDataType.getClassifierID()) {
 			case IBoilersPackage.FLUE_TYPE:
 				return convertFlueTypeToString(eDataType, instanceValue);
+			case IBoilersPackage.EFFICIENCY_SOURCE_TYPE:
+				return convertEfficiencySourceTypeToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -168,6 +173,26 @@ public class BoilersFactoryImpl extends EFactoryImpl implements IBoilersFactory 
 	 * @generated
 	 */
 	public String convertFlueTypeToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EfficiencySourceType createEfficiencySourceTypeFromString(EDataType eDataType, String initialValue) {
+		EfficiencySourceType result = EfficiencySourceType.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertEfficiencySourceTypeToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 

@@ -7,13 +7,13 @@ import org.junit.Test;
 
 import com.google.common.collect.ImmutableMap;
 
+import uk.org.cse.nhm.energycalculator.api.IWeather;
+import uk.org.cse.nhm.energycalculator.api.types.MonthType;
 import uk.org.cse.nhm.simulator.integration.tests.guice.IFunctionAssertion;
 import uk.org.cse.nhm.simulator.integration.tests.guice.IntegrationTestOutput;
 import uk.org.cse.nhm.simulator.let.ILets;
 import uk.org.cse.nhm.simulator.scope.IComponentsScope;
 import uk.org.cse.nhm.simulator.scope.IHypotheticalComponentsScope;
-import uk.org.cse.nhm.simulator.state.dimensions.weather.IWeather;
-import uk.org.cse.nhm.types.MonthType;
 
 public class CounterfactualActionsIntegrationTest extends SimulatorIntegrationTest {
 	@Test

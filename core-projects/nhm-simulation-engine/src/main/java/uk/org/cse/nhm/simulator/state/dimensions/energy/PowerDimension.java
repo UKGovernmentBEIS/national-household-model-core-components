@@ -1,7 +1,10 @@
 package uk.org.cse.nhm.simulator.state.dimensions.energy;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
+import uk.org.cse.nhm.energycalculator.api.IWeather;
+import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.hom.BasicCaseAttributes;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
 import uk.org.cse.nhm.hom.people.People;
@@ -13,7 +16,6 @@ import uk.org.cse.nhm.simulator.state.IState;
 import uk.org.cse.nhm.simulator.state.dimensions.DimensionCounter;
 import uk.org.cse.nhm.simulator.state.dimensions.behaviour.IHeatingBehaviour;
 import uk.org.cse.nhm.simulator.state.dimensions.impl.DerivedDimensionWithCache;
-import uk.org.cse.nhm.simulator.state.dimensions.weather.IWeather;
 import uk.org.cse.nhm.simulator.state.impl.IInternalDimension;
 
 /**
@@ -28,9 +30,10 @@ public class PowerDimension extends DerivedDimensionWithCache<IPowerTable> {
 	private final IDimension<People> people;
 	private final IDimension<ITechnologyModel> technology;
 	private final IDimension<StructureModel> structure;
-	private final IEnergyCalculatorBridge bridge;
 	private final IDimension<BasicCaseAttributes> attributes;
 	private final IDimension<IHeatingBehaviour> heatingBehaviour;
+	private final IEnergyCalculatorBridge bridge;
+	private final IEnergyCalculatorBridge defaultConstantsBridge;
 	
 	@Inject
 	public PowerDimension(
@@ -42,8 +45,9 @@ public class PowerDimension extends DerivedDimensionWithCache<IPowerTable> {
 			final IDimension<StructureModel> structure,
 			final IDimension<BasicCaseAttributes> attributes,
 			final IDimension<IHeatingBehaviour> heatingBehaviour,
-			final IEnergyCalculatorBridge bridge) {
-		this(dc.next(), state, weather, people, technology, structure, attributes, heatingBehaviour, bridge, null, IInternalDimension.DEFAULT_CAPACITY);
+			final IEnergyCalculatorBridge bridge,
+			@Named("defaultConstantsBridge") final IEnergyCalculatorBridge defaultConstantsBridge) {
+		this(dc.next(), state, weather, people, technology, structure, attributes, heatingBehaviour, bridge, defaultConstantsBridge, null, IInternalDimension.DEFAULT_CAPACITY);
 	}
 
 	private PowerDimension(
@@ -53,7 +57,8 @@ public class PowerDimension extends DerivedDimensionWithCache<IPowerTable> {
 			final IDimension<StructureModel> structure,
 			final IDimension<BasicCaseAttributes> attributes,
 			final IDimension<IHeatingBehaviour> heatingBehaviour,
-			final IEnergyCalculatorBridge bridge, 
+			final IEnergyCalculatorBridge bridge,
+			final IEnergyCalculatorBridge defaultConstantsBridge,
 			final PowerDimension energyDimension,
 			final int capacity) {
 		super(index, energyDimension, capacity);
@@ -64,19 +69,25 @@ public class PowerDimension extends DerivedDimensionWithCache<IPowerTable> {
 		this.technology = technology;
 		this.structure = structure;
 		this.attributes = attributes;
-		this.bridge = bridge;
 		this.heatingBehaviour = heatingBehaviour;
+		this.bridge = bridge;
+		this.defaultConstantsBridge = defaultConstantsBridge;
 	}
 
 	@Override
 	protected IPowerTable doGet(final IDwelling instance) {
-		return bridge.evaluate(
+		IHeatingBehaviour behaviour = state.get(heatingBehaviour, instance);
+		
+		IEnergyCalculatorBridge chosenBridge = behaviour.getEnergyCalculatorType() == EnergyCalculatorType.SAP2012 ? defaultConstantsBridge : bridge;
+		
+		return chosenBridge.evaluate(
 				state.get(weather, instance), 
 				state.get(structure, instance), 
 				state.get(technology, instance), 
 				state.get(attributes, instance), 
 				state.get(people, instance),
-				state.get(heatingBehaviour, instance));
+				behaviour
+				);
 	}
 	
 	@Override
@@ -91,7 +102,7 @@ public class PowerDimension extends DerivedDimensionWithCache<IPowerTable> {
 	
 	@Override
 	public IInternalDimension<IPowerTable> branch(final IBranch forkingState, final int capacity) {
-		return new PowerDimension(index, forkingState, weather, people, technology, structure, attributes,heatingBehaviour, bridge, this, capacity);
+		return new PowerDimension(index, forkingState, weather, people, technology, structure, attributes,heatingBehaviour, bridge, defaultConstantsBridge, this, capacity);
 	}
 	
 	@Override

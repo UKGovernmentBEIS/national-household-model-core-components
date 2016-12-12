@@ -96,15 +96,6 @@ public interface IBoilersPackage extends EPackage {
 	int BOILER__ANNUAL_OPERATIONAL_COST = ITechnologiesPackage.INDIVIDUAL_HEAT_SOURCE__ANNUAL_OPERATIONAL_COST;
 
 	/**
-	 * The feature id for the '<em><b>Override Responsiveness</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BOILER__OVERRIDE_RESPONSIVENESS = ITechnologiesPackage.INDIVIDUAL_HEAT_SOURCE__OVERRIDE_RESPONSIVENESS;
-
-	/**
 	 * The feature id for the '<em><b>Installation Year</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -168,22 +159,22 @@ public interface IBoilersPackage extends EPackage {
 	int BOILER__WEATHER_COMPENSATED = ITechnologiesPackage.INDIVIDUAL_HEAT_SOURCE_FEATURE_COUNT + 3;
 
 	/**
-	 * The feature id for the '<em><b>Basic Responsiveness</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BOILER__BASIC_RESPONSIVENESS = ITechnologiesPackage.INDIVIDUAL_HEAT_SOURCE_FEATURE_COUNT + 4;
-
-	/**
 	 * The feature id for the '<em><b>Pump In Heated Space</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BOILER__PUMP_IN_HEATED_SPACE = ITechnologiesPackage.INDIVIDUAL_HEAT_SOURCE_FEATURE_COUNT + 5;
+	int BOILER__PUMP_IN_HEATED_SPACE = ITechnologiesPackage.INDIVIDUAL_HEAT_SOURCE_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Efficiency Source</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOILER__EFFICIENCY_SOURCE = ITechnologiesPackage.INDIVIDUAL_HEAT_SOURCE_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of structural features of the '<em>Boiler</em>' class.
@@ -230,15 +221,6 @@ public interface IBoilersPackage extends EPackage {
 	 * @ordered
 	 */
 	int CPSU__ANNUAL_OPERATIONAL_COST = BOILER__ANNUAL_OPERATIONAL_COST;
-
-	/**
-	 * The feature id for the '<em><b>Override Responsiveness</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CPSU__OVERRIDE_RESPONSIVENESS = BOILER__OVERRIDE_RESPONSIVENESS;
 
 	/**
 	 * The feature id for the '<em><b>Installation Year</b></em>' attribute.
@@ -304,15 +286,6 @@ public interface IBoilersPackage extends EPackage {
 	int CPSU__WEATHER_COMPENSATED = BOILER__WEATHER_COMPENSATED;
 
 	/**
-	 * The feature id for the '<em><b>Basic Responsiveness</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CPSU__BASIC_RESPONSIVENESS = BOILER__BASIC_RESPONSIVENESS;
-
-	/**
 	 * The feature id for the '<em><b>Pump In Heated Space</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -320,6 +293,15 @@ public interface IBoilersPackage extends EPackage {
 	 * @ordered
 	 */
 	int CPSU__PUMP_IN_HEATED_SPACE = BOILER__PUMP_IN_HEATED_SPACE;
+
+	/**
+	 * The feature id for the '<em><b>Efficiency Source</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CPSU__EFFICIENCY_SOURCE = BOILER__EFFICIENCY_SOURCE;
 
 	/**
 	 * The feature id for the '<em><b>Store</b></em>' containment reference.
@@ -414,15 +396,6 @@ public interface IBoilersPackage extends EPackage {
 	int COMBI_BOILER__ANNUAL_OPERATIONAL_COST = BOILER__ANNUAL_OPERATIONAL_COST;
 
 	/**
-	 * The feature id for the '<em><b>Override Responsiveness</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMBI_BOILER__OVERRIDE_RESPONSIVENESS = BOILER__OVERRIDE_RESPONSIVENESS;
-
-	/**
 	 * The feature id for the '<em><b>Installation Year</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -486,15 +459,6 @@ public interface IBoilersPackage extends EPackage {
 	int COMBI_BOILER__WEATHER_COMPENSATED = BOILER__WEATHER_COMPENSATED;
 
 	/**
-	 * The feature id for the '<em><b>Basic Responsiveness</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMBI_BOILER__BASIC_RESPONSIVENESS = BOILER__BASIC_RESPONSIVENESS;
-
-	/**
 	 * The feature id for the '<em><b>Pump In Heated Space</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -502,6 +466,15 @@ public interface IBoilersPackage extends EPackage {
 	 * @ordered
 	 */
 	int COMBI_BOILER__PUMP_IN_HEATED_SPACE = BOILER__PUMP_IN_HEATED_SPACE;
+
+	/**
+	 * The feature id for the '<em><b>Efficiency Source</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMBI_BOILER__EFFICIENCY_SOURCE = BOILER__EFFICIENCY_SOURCE;
 
 	/**
 	 * The number of structural features of the '<em>Combi Boiler</em>' class.
@@ -548,15 +521,6 @@ public interface IBoilersPackage extends EPackage {
 	 * @ordered
 	 */
 	int STORAGE_COMBI_BOILER__ANNUAL_OPERATIONAL_COST = COMBI_BOILER__ANNUAL_OPERATIONAL_COST;
-
-	/**
-	 * The feature id for the '<em><b>Override Responsiveness</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STORAGE_COMBI_BOILER__OVERRIDE_RESPONSIVENESS = COMBI_BOILER__OVERRIDE_RESPONSIVENESS;
 
 	/**
 	 * The feature id for the '<em><b>Installation Year</b></em>' attribute.
@@ -622,15 +586,6 @@ public interface IBoilersPackage extends EPackage {
 	int STORAGE_COMBI_BOILER__WEATHER_COMPENSATED = COMBI_BOILER__WEATHER_COMPENSATED;
 
 	/**
-	 * The feature id for the '<em><b>Basic Responsiveness</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STORAGE_COMBI_BOILER__BASIC_RESPONSIVENESS = COMBI_BOILER__BASIC_RESPONSIVENESS;
-
-	/**
 	 * The feature id for the '<em><b>Pump In Heated Space</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -638,6 +593,15 @@ public interface IBoilersPackage extends EPackage {
 	 * @ordered
 	 */
 	int STORAGE_COMBI_BOILER__PUMP_IN_HEATED_SPACE = COMBI_BOILER__PUMP_IN_HEATED_SPACE;
+
+	/**
+	 * The feature id for the '<em><b>Efficiency Source</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STORAGE_COMBI_BOILER__EFFICIENCY_SOURCE = COMBI_BOILER__EFFICIENCY_SOURCE;
 
 	/**
 	 * The feature id for the '<em><b>Store</b></em>' containment reference.
@@ -704,15 +668,6 @@ public interface IBoilersPackage extends EPackage {
 	int INSTANTANEOUS_COMBI_BOILER__ANNUAL_OPERATIONAL_COST = COMBI_BOILER__ANNUAL_OPERATIONAL_COST;
 
 	/**
-	 * The feature id for the '<em><b>Override Responsiveness</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INSTANTANEOUS_COMBI_BOILER__OVERRIDE_RESPONSIVENESS = COMBI_BOILER__OVERRIDE_RESPONSIVENESS;
-
-	/**
 	 * The feature id for the '<em><b>Installation Year</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -776,15 +731,6 @@ public interface IBoilersPackage extends EPackage {
 	int INSTANTANEOUS_COMBI_BOILER__WEATHER_COMPENSATED = COMBI_BOILER__WEATHER_COMPENSATED;
 
 	/**
-	 * The feature id for the '<em><b>Basic Responsiveness</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INSTANTANEOUS_COMBI_BOILER__BASIC_RESPONSIVENESS = COMBI_BOILER__BASIC_RESPONSIVENESS;
-
-	/**
 	 * The feature id for the '<em><b>Pump In Heated Space</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -792,6 +738,15 @@ public interface IBoilersPackage extends EPackage {
 	 * @ordered
 	 */
 	int INSTANTANEOUS_COMBI_BOILER__PUMP_IN_HEATED_SPACE = COMBI_BOILER__PUMP_IN_HEATED_SPACE;
+
+	/**
+	 * The feature id for the '<em><b>Efficiency Source</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INSTANTANEOUS_COMBI_BOILER__EFFICIENCY_SOURCE = COMBI_BOILER__EFFICIENCY_SOURCE;
 
 	/**
 	 * The feature id for the '<em><b>Keep Hot Facility</b></em>' containment reference.
@@ -820,6 +775,16 @@ public interface IBoilersPackage extends EPackage {
 	 * @generated
 	 */
 	int FLUE_TYPE = 6;
+
+	/**
+	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.boilers.EfficiencySourceType <em>Efficiency Source Type</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see uk.org.cse.nhm.hom.emf.technologies.boilers.EfficiencySourceType
+	 * @see uk.org.cse.nhm.hom.emf.technologies.boilers.impl.BoilersPackageImpl#getEfficiencySourceType()
+	 * @generated
+	 */
+	int EFFICIENCY_SOURCE_TYPE = 7;
 
 	/**
 	 * Returns the meta object for class '{@link uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler <em>Boiler</em>}'.
@@ -876,17 +841,6 @@ public interface IBoilersPackage extends EPackage {
 	EAttribute getBoiler_WeatherCompensated();
 
 	/**
-	 * Returns the meta object for the attribute '{@link uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler#getBasicResponsiveness <em>Basic Responsiveness</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Basic Responsiveness</em>'.
-	 * @see uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler#getBasicResponsiveness()
-	 * @see #getBoiler()
-	 * @generated
-	 */
-	EAttribute getBoiler_BasicResponsiveness();
-
-	/**
 	 * Returns the meta object for the attribute '{@link uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler#isPumpInHeatedSpace <em>Pump In Heated Space</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -896,6 +850,17 @@ public interface IBoilersPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getBoiler_PumpInHeatedSpace();
+
+	/**
+	 * Returns the meta object for the attribute '{@link uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler#getEfficiencySource <em>Efficiency Source</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Efficiency Source</em>'.
+	 * @see uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler#getEfficiencySource()
+	 * @see #getBoiler()
+	 * @generated
+	 */
+	EAttribute getBoiler_EfficiencySource();
 
 	/**
 	 * Returns the meta object for class '{@link uk.org.cse.nhm.hom.emf.technologies.boilers.ICPSU <em>CPSU</em>}'.
@@ -1002,6 +967,16 @@ public interface IBoilersPackage extends EPackage {
 	EEnum getFlueType();
 
 	/**
+	 * Returns the meta object for enum '{@link uk.org.cse.nhm.hom.emf.technologies.boilers.EfficiencySourceType <em>Efficiency Source Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Efficiency Source Type</em>'.
+	 * @see uk.org.cse.nhm.hom.emf.technologies.boilers.EfficiencySourceType
+	 * @generated
+	 */
+	EEnum getEfficiencySourceType();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1066,20 +1041,20 @@ public interface IBoilersPackage extends EPackage {
 		EAttribute BOILER__WEATHER_COMPENSATED = eINSTANCE.getBoiler_WeatherCompensated();
 
 		/**
-		 * The meta object literal for the '<em><b>Basic Responsiveness</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute BOILER__BASIC_RESPONSIVENESS = eINSTANCE.getBoiler_BasicResponsiveness();
-
-		/**
 		 * The meta object literal for the '<em><b>Pump In Heated Space</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EAttribute BOILER__PUMP_IN_HEATED_SPACE = eINSTANCE.getBoiler_PumpInHeatedSpace();
+
+		/**
+		 * The meta object literal for the '<em><b>Efficiency Source</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute BOILER__EFFICIENCY_SOURCE = eINSTANCE.getBoiler_EfficiencySource();
 
 		/**
 		 * The meta object literal for the '{@link uk.org.cse.nhm.hom.emf.technologies.boilers.impl.CPSUImpl <em>CPSU</em>}' class.
@@ -1172,6 +1147,16 @@ public interface IBoilersPackage extends EPackage {
 		 * @generated
 		 */
 		EEnum FLUE_TYPE = eINSTANCE.getFlueType();
+
+		/**
+		 * The meta object literal for the '{@link uk.org.cse.nhm.hom.emf.technologies.boilers.EfficiencySourceType <em>Efficiency Source Type</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see uk.org.cse.nhm.hom.emf.technologies.boilers.EfficiencySourceType
+		 * @see uk.org.cse.nhm.hom.emf.technologies.boilers.impl.BoilersPackageImpl#getEfficiencySourceType()
+		 * @generated
+		 */
+		EEnum EFFICIENCY_SOURCE_TYPE = eINSTANCE.getEfficiencySourceType();
 
 	}
 

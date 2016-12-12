@@ -15,10 +15,10 @@ import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.boilers.IKeepHotFacility#isTimeClock <em>Time Clock</em>}</li>
  * </ul>
- * </p>
  *
  * @see uk.org.cse.nhm.hom.emf.technologies.boilers.IBoilersPackage#getKeepHotFacility()
  * @model

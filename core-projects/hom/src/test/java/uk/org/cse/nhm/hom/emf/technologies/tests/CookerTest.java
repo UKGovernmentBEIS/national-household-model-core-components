@@ -22,9 +22,13 @@ import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
 import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
 import uk.org.cse.nhm.energycalculator.api.impl.ClassEnergyState;
 import uk.org.cse.nhm.energycalculator.api.impl.DefaultConstants;
+import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
+import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
+import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.ICooker;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;
+import uk.org.cse.nhm.hom.emf.technologies.impl.CookerImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -33,7 +37,7 @@ import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;
  * <p>
  * The following operations are tested:
  * <ul>
- *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IVisitorAccepter#accept(IConstants, IEnergyCalculatorParameters, uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor, java.util.concurrent.atomic.AtomicInteger, double, double) <em>Accept</em>}</li>
+ *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IVisitorAccepter#accept(uk.org.cse.nhm.energycalculator.api.IConstants, uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters, uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor, java.util.concurrent.atomic.AtomicInteger, uk.org.cse.nhm.hom.IHeatProportions) <em>Accept</em>}</li>
  * </ul>
  * </p>
  * @generated
@@ -53,7 +57,7 @@ public class CookerTest extends TestCase {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		TestRunner.run(CookerTest.class);
 	}
 
@@ -63,7 +67,7 @@ public class CookerTest extends TestCase {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public CookerTest(String name) {
+	public CookerTest(final String name) {
 		super(name);
 	}
 
@@ -73,7 +77,7 @@ public class CookerTest extends TestCase {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void setFixture(ICooker fixture) {
+	protected void setFixture(final ICooker fixture) {
 		this.fixture = fixture;
 	}
 
@@ -110,11 +114,22 @@ public class CookerTest extends TestCase {
 	}
 
 	/**
+	 * Tests the '{@link uk.org.cse.nhm.hom.emf.technologies.IVisitorAccepter#accept(uk.org.cse.nhm.energycalculator.api.IConstants, uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters, uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor, java.util.concurrent.atomic.AtomicInteger, uk.org.cse.nhm.hom.IHeatProportions) <em>Accept</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see uk.org.cse.nhm.hom.emf.technologies.IVisitorAccepter#accept(uk.org.cse.nhm.energycalculator.api.IConstants, uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters, uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor, java.util.concurrent.atomic.AtomicInteger, uk.org.cse.nhm.hom.IHeatProportions)
+	 * @generated NOT
+	 */
+	public void testAccept__IConstants_IEnergyCalculatorParameters_IEnergyCalculatorVisitor_AtomicInteger_IHeatProportions() {
+		// Noop - I don't understand these EMF generated tests.
+	}
+
+	/**
 	 * Tests the '{@link uk.org.cse.nhm.hom.emf.technologies.IVisitorAccepter#accept(IConstants, IEnergyCalculatorParameters, uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor, java.util.concurrent.atomic.AtomicInteger, double, double) <em>Accept</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see uk.org.cse.nhm.hom.emf.technologies.IVisitorAccepter#accept(IConstants, IEnergyCalculatorParameters, uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor, java.util.concurrent.atomic.AtomicInteger, double, double)
-	 * @generated no
+	 * @generated NOT
 	 */
 	public void testAccept__IInternalParameters_IEnergyCalculatorVisitor_AtomicInteger() {
 		checkGasHob();
@@ -126,81 +141,74 @@ public class CookerTest extends TestCase {
 	}
 
 	private void checkElectricHobAndGasOven() {
-		
+
 	}
 
 	private void checkElectricHob() {
-		
+
 	}
 
 	private void checkElectricHobAndOven() {
-		
+
 	}
 
 	private void checkGasHobAndOven() {
-		
+
 	}
 
 	private void checkGasOven() {
-		
+
 	}
 
 	private void checkGasHob() {
 		final ICooker cooker = createCooker(true);
-		cooker.setHob(true);
-		
+		cooker.setHobBaseLoad(ICooker.GAS_HOB_BASE_LOAD);
+		cooker.setHobFuelType(FuelType.MAINS_GAS);
+
 		final CookerResult evaluate = evaluate(cooker);
-		
-		
 	}
 
 	private CookerResult evaluate(final ICooker cooker) {
 		final IEnergyCalculatorVisitor visitor = mock(IEnergyCalculatorVisitor.class);
 		final IInternalParameters parameters = mock(IInternalParameters.class);
 		final IEnergyCalculatorHouseCase hc = mock(IEnergyCalculatorHouseCase.class);
+
 		when(hc.getFloorArea()).thenReturn(50d);
 		when(parameters.getNumberOfOccupants()).thenReturn(3d);
-		
+		when(parameters.getConstants()).thenReturn(DefaultConstants.INSTANCE);
+		when(parameters.getTarrifType()).thenReturn(ElectricityTariffType.FLAT_RATE);
+		when(parameters.getCalculatorType()).thenReturn(EnergyCalculatorType.BREDEM2012);
+
 		cooker.accept(DefaultConstants.INSTANCE, parameters, visitor, new AtomicInteger(), null);
-		
+
 		final ArgumentCaptor<IEnergyTransducer> captor = ArgumentCaptor.forClass(IEnergyTransducer.class);
 		verify(visitor).visitEnergyTransducer(captor.capture());
-		
+
 		final IEnergyTransducer value = captor.getValue();
-		
+
 		final IEnergyState state = new ClassEnergyState();
-		
+
 		value.generate(hc, parameters, mock(ISpecificHeatLosses.class), state);
-		
-		
-		return new CookerResult(state.getTotalDemand(EnergyType.FuelGAS), 
+
+
+		return new CookerResult(state.getTotalDemand(EnergyType.FuelGAS),
 				state.getTotalDemand(EnergyType.FuelPEAK_ELECTRICITY),
 				state.getTotalSupply(EnergyType.GainsCOOKING_GAINS));
 	}
-	
+
 	private class CookerResult {
 		public final double gas;
 		public final double electricity;
 		public final double gains;
-		
-		public CookerResult(double gas, double electricity, double gains) {
+
+		public CookerResult(final double gas, final double electricity, final double gains) {
 			this.gas = gas;
 			this.electricity = electricity;
 			this.gains = gains;
 		}
 	}
-	
-	private ICooker createCooker(boolean isGas) {
-		final ICooker c = ITechnologiesFactory.eINSTANCE.createCooker();
-		if (isGas) {
-			c.setBaseLoad(ICooker.GAS_BASE_LOAD);
-			c.setOccupancyFactor(ICooker.GAS_OCCUPANCY_FACTOR);
-			c.setGainsFactor(ICooker.GAS_GAINS_FACTOR);
-		} else {
-			c.setBaseLoad(ICooker.ELECTRIC_BASE_LOAD);
-			c.setOccupancyFactor(ICooker.ELECTRIC_OCCUPANCY_FACTOR);
-			c.setGainsFactor(ICooker.ELECTRIC_GAINS_FACTOR);
-		}
-		return c;
+
+	private ICooker createCooker(final boolean isGas) {
+		return isGas ? CookerImpl.createMixed() : CookerImpl.createElectric();
 	}
 } //CookerTest

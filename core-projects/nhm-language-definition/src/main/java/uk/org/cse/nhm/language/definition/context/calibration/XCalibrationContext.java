@@ -23,7 +23,8 @@ import com.larkery.jasb.bind.BindRemainingArguments;
 			"used to compute the energy result for that fuel for each house.",
 			"For your convenience, you can reuse the standard energy calculator",
 			"by using house.energy-use within the definition here (so you do not have",
-			"to write your own energy calculator out by hand)."
+			"to write your own energy calculator out by hand).",
+			"Has no effect if the energy calculator is in SAP 2012 mode.",
 		}
 	)
 @SeeAlso(XEnergyUse.class)

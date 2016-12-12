@@ -17,7 +17,7 @@ import uk.org.cse.nhm.ehcs10.physical.InteriorEntry;
 import uk.org.cse.nhm.ehcs10.physical.impl.ChimneyEntryImpl;
 import uk.org.cse.nhm.ehcs10.physical.impl.InteriorEntryImpl;
 import uk.org.cse.nhm.ehcs10.physical.impl.ServicesEntryImpl;
-import uk.org.cse.nhm.hom.types.SAPAgeBandValue;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
 import uk.org.cse.nhm.hom.types.VentilationSystem;
 import uk.org.cse.stockimport.domain.IHouseCaseDTO;
 import uk.org.cse.stockimport.domain.IVentilationDTO;

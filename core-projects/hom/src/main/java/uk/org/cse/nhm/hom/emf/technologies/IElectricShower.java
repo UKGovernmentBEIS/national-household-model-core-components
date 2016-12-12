@@ -13,5 +13,5 @@ package uk.org.cse.nhm.hom.emf.technologies;
  * @model
  * @generated
  */
-public interface IElectricShower extends IWaterHeater, IVisitorAccepter {
+public interface IElectricShower extends IShower {
 } // IElectricShower

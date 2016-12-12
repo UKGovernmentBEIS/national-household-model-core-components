@@ -42,6 +42,7 @@ public class DistrictHeatingMeasure extends AbstractHeatingMeasure {
 					HeatingSystemControlType.PROGRAMMER,
 			HeatingSystemControlType.THERMOSTATIC_RADIATOR_VALVE });
 	private final ITechnologyOperations operations;
+	private final boolean chargingUsageBased;
 	
 	@Inject
 	public DistrictHeatingMeasure(
@@ -59,7 +60,8 @@ public class DistrictHeatingMeasure extends AbstractHeatingMeasure {
 			@Assisted("wetHeating") final IComponentsFunction<Number> wetHeatingCostFunction,
 			@Assisted("volume") final IComponentsFunction<Number> cylinderVolume,
 			@Assisted("insulation") final double cylinderInsulation, 
-			@Assisted("efficiency") final IComponentsFunction<Number> efficiency) {
+			@Assisted("efficiency") final IComponentsFunction<Number> efficiency,
+			@Assisted("chargingUsageBased") final boolean chargingUsageBased) {
 		super(	time, 
 				technologies,
 				operations, 
@@ -73,6 +75,7 @@ public class DistrictHeatingMeasure extends AbstractHeatingMeasure {
 		this.efficiency = efficiency;
 		this.technologies = technologies;
 		this.structure = structure;
+		this.chargingUsageBased = chargingUsageBased;
 	}
 
 	private class Modifier implements IModifier<ITechnologyModel> {
@@ -95,6 +98,7 @@ public class DistrictHeatingMeasure extends AbstractHeatingMeasure {
 			heating.setFuel(FuelType.MAINS_GAS);
 			heating.setHeatEfficiency(Efficiency.fromDouble(efficiency));
 			heating.setAnnualOperationalCost(opex);
+			heating.setChargingUsageBased(chargingUsageBased);
 
 			operations.installHeatSource(newCase,
                                          heating,

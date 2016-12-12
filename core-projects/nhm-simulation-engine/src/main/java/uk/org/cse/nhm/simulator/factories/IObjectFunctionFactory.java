@@ -12,14 +12,14 @@ import com.google.common.base.Predicate;
 import com.google.inject.assistedinject.Assisted;
 
 import uk.org.cse.commons.Glob;
+import uk.org.cse.nhm.energycalculator.api.IWeather;
 import uk.org.cse.nhm.energycalculator.api.types.AreaType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.language.adapt.impl.Adapt;
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.action.XForesightLevel;
-import uk.org.cse.nhm.language.definition.action.scaling.heating.XHeatingSystem;
-import uk.org.cse.nhm.language.definition.action.scaling.heating.XSpaceHeatingSystem;
+import uk.org.cse.nhm.language.definition.enums.XHeatingSystem;
 import uk.org.cse.nhm.language.definition.fuel.XRangeCharge;
 import uk.org.cse.nhm.language.definition.fuel.XSteppedPricing;
 import uk.org.cse.nhm.language.definition.function.house.XMatchingFlags;
@@ -58,7 +58,6 @@ import uk.org.cse.nhm.simulator.measure.Units;
 import uk.org.cse.nhm.simulator.measure.sizing.impl.SizingFunction;
 import uk.org.cse.nhm.simulator.sequence.ISequenceSpecialAction;
 import uk.org.cse.nhm.simulator.sequence.SequenceFunction;
-import uk.org.cse.nhm.simulator.state.dimensions.weather.IWeather;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.ConditionComponentsFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.TimeSeriesComponentsFunction;
@@ -263,9 +262,7 @@ public interface IObjectFunctionFactory {
 			@Prop(XHeatingEfficiency.P.measurement) @Assisted final XEfficiencyMeasurement measurement);
 
 	@Adapt(XSpaceHeatingResponsiveness.class)
-	public HeatingResponsivenessFunction createHeatingResponsiveness(
-			@Prop(XSpaceHeatingResponsiveness.P.of)
-			@Assisted final XSpaceHeatingSystem of);
+	public HeatingResponsivenessFunction createHeatingResponsiveness();
 
 	@Adapt(XGaussian.class)
 	public GaussianRandomFunction createGaussian(

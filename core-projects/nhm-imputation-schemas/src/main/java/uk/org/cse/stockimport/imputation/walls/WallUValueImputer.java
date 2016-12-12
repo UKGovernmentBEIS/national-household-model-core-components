@@ -5,29 +5,29 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallInsulationType;
-import uk.org.cse.nhm.hom.types.RegionType;
-import uk.org.cse.nhm.hom.types.SAPAgeBandValue;
-import uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
 
 /**
  * An RD-Sap wall property imputer. Currently only works for england.
- * 
+ *
  * @author hinton
  * @since 1.0
  */
 public class WallUValueImputer implements IWallUValueImputer {
 	private static final Logger log = LoggerFactory.getLogger(WallUValueImputer.class);
-	
+
 	// the following tables are the rows from SAP table S6, in roughly the same order.
-	
+
 	/**
 	 * This is the "tail-end" of the first row of table S6, where the values are constants rather than equations,
 	 * starting at SAP age band E
 	 */
 	private double[] uninsulatedGranite;
-	
+
 	/**
 	 * @param constructionType
 	 * @param ageBandValue
@@ -36,7 +36,7 @@ public class WallUValueImputer implements IWallUValueImputer {
 	 * @param filledCavity - applicable only if it's a cavity
 	 * @since 3.0
 	 */
-	public void addWallUValue(final WallConstructionType constructionType, final Band ageBandValue, 
+	public void addWallUValue(final WallConstructionType constructionType, final Band ageBandValue,
 			final double insulationThickness, final double uValue, final boolean filledCavity){
 		switch (constructionType) {
 		case Sandstone:
@@ -74,10 +74,10 @@ public class WallUValueImputer implements IWallUValueImputer {
 			break;
 		}
 	}
-	
+
 	protected int insulationRow(final double insulationThickness){
 		int row = 0;
-		
+
 		if (insulationThickness > 49){
 			row = 1;
 			if (insulationThickness > 99){
@@ -87,7 +87,7 @@ public class WallUValueImputer implements IWallUValueImputer {
 				}
 			}
 		}
-		
+
 		return row;
 	}
 
@@ -96,13 +96,13 @@ public class WallUValueImputer implements IWallUValueImputer {
 	 * starting at SAP age band E
 	 */
 	private double[] uninsulatedSandstone;
-	
+
 	/**
 	 * U values for solid brick walls with 0, 50, 100, and 150mm of insulation
 	 */
 	private double[][] solidBrickInsulated;
-	
-	
+
+
 	/**
 	 * U values for cob with 0, 50, 100, and 150mm of insulation.
 	 */
@@ -117,19 +117,19 @@ public class WallUValueImputer implements IWallUValueImputer {
      * @assumption Using 0.65 for U-values of early insulated + unfilled cavities, as per CHM. CHM note is that this is at DECC's request.
 	 */
 	private double[][] unfilledCavityInsulated;
-	
+
 	/**
 	 * U values for filled cavity walls with 0, 50, 100 or 150 mm of insulation
      *
      * @assumption Using 0.65 for U-values of early insulated + filled cavities, as per CHM. CHM note is that this is at DECC's request.
 	 */
 	private double[][] filledCavityInsulated;
-	
+
 	/**
 	 * U values for timber frame with 0 or > 0 mm of insulation
 	 */
 	private double[][] timberFrameInsulated;
-	
+
 	/**
 	 * U values for system build walls with 0, 50mm, 100mm, and 150mm of insulation
 	 */
@@ -139,7 +139,7 @@ public class WallUValueImputer implements IWallUValueImputer {
 	 * The constant 0.002 in RDSAP equation S5.1.1 U = 3.0 - 0.002 * wall thickness in mm
 	 */
 	private double sandstoneCoefficient;
-	
+
 	/**
 	 * The constant 3 in RDSAP equation S5.1.1 U = 3.0 - 0.002 * wall thickness in mm
 	 */
@@ -162,27 +162,27 @@ public class WallUValueImputer implements IWallUValueImputer {
 	private final double[][] metalFrameInsulated = new double[][] {
 			{2.20, 2.20, 2.20, 0.86, 0.86, 0.53, 0.53, 0.53, 0.45, 0.35, 0.30}
 	};
-	
+
 	public WallUValueImputer(){
 		this(true);
 	}
-	
+
 	public WallUValueImputer(final boolean useRdSapDefaults){
 		if(useRdSapDefaults){
-			uninsulatedGranite = new double[] 
+			uninsulatedGranite = new double[]
 					{1.70, 1.00, 0.60, 0.60, 0.45, 0.35, 0.30};
 
 			uninsulatedSandstone = new double[]
 					{1.70, 1.00, 0.60, 0.60, 0.45, 0.35, 0.30};
-			
+
 			solidBrickInsulated = new double[][] {
 					{2.10, 2.10, 2.10, 2.10, 1.70, 1.00, 0.60, 0.60, 0.45, 0.35, 0.30},
 					{0.60, 0.60, 0.60, 0.60, 0.55, 0.45, 0.35, 0.35, 0.30, 0.25, 0.21},
 					{0.35, 0.35, 0.35, 0.35, 0.35, 0.32, 0.24, 0.24, 0.21, 0.19, 0.17},
 					{0.25, 0.25, 0.25, 0.25, 0.25, 0.21, 0.18, 0.18, 0.17, 0.15, 0.14}
 			};
-			
-			
+
+
 			cobInsulated = new double[][] {
 					{0.80, 0.80, 0.80, 0.80, 0.80, 0.80, 0.60, 0.60, 0.45, 0.35, 0.30},
 					{0.40, 0.40, 0.40, 0.40, 0.40, 0.40, 0.35, 0.35, 0.30, 0.25, 0.21},
@@ -194,19 +194,19 @@ public class WallUValueImputer implements IWallUValueImputer {
 					{2.10, 1.60, 1.60, 1.60, 1.60, 1.00, 0.60, 0.60, 0.45, 0.35, 0.30},
 					{0.65, 0.65, 0.65, 0.65, 0.65, 0.65, 0.35, 0.35, 0.45, 0.35, 0.30}
 			};
-			
+
 			filledCavityInsulated = new double[][] {
 					{0.65, 0.65, 0.65, 0.65, 0.65, 0.65, 0.35, 0.35, 0.45, 0.35, 0.30},
 					{0.31, 0.31, 0.31, 0.31, 0.31, 0.27, 0.25, 0.25, 0.25, 0.25, 0.25},
 					{0.22, 0.22, 0.22, 0.22, 0.22, 0.20, 0.19, 0.19, 0.19, 0.19, 0.19},
 					{0.17, 0.17, 0.17, 0.17, 0.17, 0.16, 0.15, 0.15, 0.15, 0.15, 0.15}
 			};
-			
+
 			timberFrameInsulated = new double[][] {
 					{2.50, 1.90, 1.90, 1.00, 0.80, 0.45, 0.40, 0.40, 0.40, 0.35, 0.30},
 					{0.60, 0.55, 0.55, 0.40, 0.40, 0.40, 0.40, 0.40, 0.40, 0.35, 0.30}
 			};
-			
+
 			systemBuildInsulated = new double[][] {
 					{2.00, 2.00, 2.00, 2.00, 1.70, 1.00, 0.60, 0.60, 0.45, 0.35, 0.30},
 					{0.60, 0.60, 0.60, 0.60, 0.55, 0.45, 0.35, 0.35, 0.30, 0.25, 0.21},
@@ -229,20 +229,20 @@ public class WallUValueImputer implements IWallUValueImputer {
 			systemBuildInsulated = new double[4][11];
 		}
 	}
-	
+
 	/* (non-Javadoc)
-	 * @see uk.org.cse.stockimport.imputation.rdsap.walls.IWallUValueImputer#getUValue(uk.org.cse.nhm.hom.types.SAPAgeBandValue, uk.org.cse.nhm.hom.types.RegionType, uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType, java.util.Map, double)
+	 * @see uk.org.cse.stockimport.imputation.rdsap.walls.IWallUValueImputer#getUValue(uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue, uk.org.cse.nhm.energycalculator.api.types.RegionType, uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType, java.util.Map, double)
 	 */
 	@Override
 	public double getUValue(
 			final SAPAgeBandValue.Band ageBand,
-			final RegionType region,
-			final WallConstructionType constructionType, 
-			final Map<WallInsulationType, Double> insulationThicknesses, 
+			final Country country,
+			final WallConstructionType constructionType,
+			final Map<WallInsulationType, Double> insulationThicknesses,
 			final double wallThickness) {
-		log.debug("getUValue({}, {}, {}, {}, {})", new Object[] {ageBand, region, constructionType, insulationThicknesses, wallThickness});
+		log.debug("getUValue({}, {}, {}, {}, {})", new Object[] {ageBand, country, constructionType, insulationThicknesses, wallThickness});
 		final double result;
-		
+
 		if (constructionType == null) {
 			log.error("U value requested with null wall construction type");
 			result = 0;
@@ -250,7 +250,7 @@ public class WallUValueImputer implements IWallUValueImputer {
 			switch (constructionType.getWallType()) {
 			case External:
 				// get sap age bands, and do interpolation
-				result = getExternalWallUValue(ageBand, region, constructionType, insulationThicknesses, wallThickness);
+				result = getExternalWallUValue(ageBand, country, constructionType, insulationThicknesses, wallThickness);
 				break;
 			case Internal:
 				log.warn("U value requested for internal wall, which could be a mistake");
@@ -265,7 +265,7 @@ public class WallUValueImputer implements IWallUValueImputer {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * This implements the top two rows of Table S6, which have equations in them.
 	 * @param construction
@@ -304,7 +304,7 @@ public class WallUValueImputer implements IWallUValueImputer {
 				return 0;
 			}
 		}
-		
+
 	}
 
 	/**
@@ -317,23 +317,23 @@ public class WallUValueImputer implements IWallUValueImputer {
 	 * @param wallThickness
 	 * @return
 	 */
-	private double getExternalWallUValue(final SAPAgeBandValue.Band sapAgeBand, final RegionType region,
-			final WallConstructionType constructionType, 
+	private double getExternalWallUValue(final SAPAgeBandValue.Band sapAgeBand, final Country country,
+			final WallConstructionType constructionType,
 			final Map<WallInsulationType, Double> insulationThicknesses,
 			final double wallThickness) {
 		log.debug("getExternalWallUValue({}, {}, {}, {}, {})",
-				new Object[] {sapAgeBand, region, constructionType, insulationThicknesses, wallThickness});
+				new Object[] {sapAgeBand, country, constructionType, insulationThicknesses, wallThickness});
 		final double result;
-		
-		final double nonCavityThickness = insulationThicknesses.get(WallInsulationType.External) + 
+
+		final double nonCavityThickness = insulationThicknesses.get(WallInsulationType.External) +
 				insulationThicknesses.get(WallInsulationType.Internal);
-		
+
 		final double[][] lookup;
-		
+
 		if (constructionType != WallConstructionType.Cavity && insulationThicknesses.get(WallInsulationType.FilledCavity) > 0) {
 			log.warn("Wall insulation and construction types are not compatible: {} vs {}", constructionType, insulationThicknesses);
 		}
-		
+
 		switch (constructionType) {
 		case GraniteOrWhinstone:
 		case Sandstone:
@@ -344,7 +344,7 @@ public class WallUValueImputer implements IWallUValueImputer {
 				// the values for insulated stone are the same as for insulated solid brick.
 				lookup = solidBrickInsulated;
 			}
-			break;			
+			break;
 		case SolidBrick:
 			lookup = solidBrickInsulated;
 			break;
@@ -373,7 +373,7 @@ public class WallUValueImputer implements IWallUValueImputer {
 			log.error("Tried to calculate external wall u value for non-external wall construction type {}", constructionType);
 			return 0;
 		}
-		
+
 
 		if (nonCavityThickness == 0) {
 			result = lookup[0][sapAgeBand.ordinal()];
@@ -386,7 +386,7 @@ public class WallUValueImputer implements IWallUValueImputer {
 				result = lookup[rounded][sapAgeBand.ordinal()];
 			}
 		}
-		
+
 		return result;
 	}
 

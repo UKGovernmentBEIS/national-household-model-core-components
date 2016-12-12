@@ -26,6 +26,7 @@ import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
 import uk.org.cse.nhm.hom.emf.technologies.IVisitorAccepter;
 import uk.org.cse.nhm.hom.emf.technologies.IWaterTank;
 import uk.org.cse.nhm.hom.emf.technologies.impl.util.Pump;
+import uk.org.cse.nhm.hom.emf.technologies.IShower;
 
 /**
  * <!-- begin-user-doc -->
@@ -49,6 +50,8 @@ import uk.org.cse.nhm.hom.emf.technologies.impl.util.Pump;
  * @generated
  */
 public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISolarWaterHeater {
+	private final double SAP_BATH_ONLY_HOT_WATER_USE_ADJUSTMENT = 1.09;
+
 	/**
 	 * The default value of the '{@link #getAnnualOperationalCost() <em>Annual Operational Cost</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -70,7 +73,7 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	protected double annualOperationalCost = ANNUAL_OPERATIONAL_COST_EDEFAULT;
 
 	private static final Logger log = LoggerFactory.getLogger(SolarWaterHeaterImpl.class);
-	
+
 	/**
 	 * The default value of the '{@link #getPitch() <em>Pitch</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -155,6 +158,17 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	/**
 	 * The cached value of the '{@link #getZeroLossEfficiency() <em>Zero Loss Efficiency</em>}' attribute.
 	 * <!-- begin-user-doc -->
+	BEISDOC
+	NAME: Zero Loss Efficiency
+	DESCRIPTION:
+	TYPE: value
+	UNIT: Dimensionless
+	SAP: (H2)
+	BREDEM: User input
+	SET: measure.solar-dhw
+	STOCK: Set to 4 based on Cambridge Household Model assumptions
+	ID: zero-loss-efficiency
+	CODSIEB
 	 * <!-- end-user-doc -->
 	 * @see #getZeroLossEfficiency()
 	 * @generated
@@ -169,10 +183,22 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 * @ordered
 	 */
+
 	protected static final double LINEAR_HEAT_LOSS_COEFFICIENT_EDEFAULT = 0.0;
 	/**
 	 * The cached value of the '{@link #getLinearHeatLossCoefficient() <em>Linear Heat Loss Coefficient</em>}' attribute.
 	 * <!-- begin-user-doc -->
+	BEISDOC
+	NAME: Linear Heat Loss Coefficient
+	DESCRIPTION:
+	TYPE: value
+	UNIT: Dimensionless
+	SAP: (H3b)
+	BREDEM: User input
+	SET: measure.solar-dhw
+	STOCK: Set to 0.8 based on Cambridge Household Model assumptions
+	ID: linear-heat-loss-coefficient
+	CODSIEB
 	 * <!-- end-user-doc -->
 	 * @see #getLinearHeatLossCoefficient()
 	 * @generated
@@ -254,8 +280,8 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public void setAnnualOperationalCost(double newAnnualOperationalCost) {
-		double oldAnnualOperationalCost = annualOperationalCost;
+	public void setAnnualOperationalCost(final double newAnnualOperationalCost) {
+		final double oldAnnualOperationalCost = annualOperationalCost;
 		annualOperationalCost = newAnnualOperationalCost;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_WATER_HEATER__ANNUAL_OPERATIONAL_COST, oldAnnualOperationalCost, annualOperationalCost));
@@ -277,8 +303,8 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public void setPitch(double newPitch) {
-		double oldPitch = pitch;
+	public void setPitch(final double newPitch) {
+		final double oldPitch = pitch;
 		pitch = newPitch;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_WATER_HEATER__PITCH, oldPitch, pitch));
@@ -300,8 +326,8 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public void setOrientation(double newOrientation) {
-		double oldOrientation = orientation;
+	public void setOrientation(final double newOrientation) {
+		final double oldOrientation = orientation;
 		orientation = newOrientation;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_WATER_HEATER__ORIENTATION, oldOrientation, orientation));
@@ -323,8 +349,8 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public void setArea(double newArea) {
-		double oldArea = area;
+	public void setArea(final double newArea) {
+		final double oldArea = area;
 		area = newArea;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_WATER_HEATER__AREA, oldArea, area));
@@ -346,8 +372,8 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public void setUsefulAreaRatio(double newUsefulAreaRatio) {
-		double oldUsefulAreaRatio = usefulAreaRatio;
+	public void setUsefulAreaRatio(final double newUsefulAreaRatio) {
+		final double oldUsefulAreaRatio = usefulAreaRatio;
 		usefulAreaRatio = newUsefulAreaRatio;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_WATER_HEATER__USEFUL_AREA_RATIO, oldUsefulAreaRatio, usefulAreaRatio));
@@ -369,8 +395,8 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public void setZeroLossEfficiency(double newZeroLossEfficiency) {
-		double oldZeroLossEfficiency = zeroLossEfficiency;
+	public void setZeroLossEfficiency(final double newZeroLossEfficiency) {
+		final double oldZeroLossEfficiency = zeroLossEfficiency;
 		zeroLossEfficiency = newZeroLossEfficiency;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_WATER_HEATER__ZERO_LOSS_EFFICIENCY, oldZeroLossEfficiency, zeroLossEfficiency));
@@ -392,8 +418,8 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public void setLinearHeatLossCoefficient(double newLinearHeatLossCoefficient) {
-		double oldLinearHeatLossCoefficient = linearHeatLossCoefficient;
+	public void setLinearHeatLossCoefficient(final double newLinearHeatLossCoefficient) {
+		final double oldLinearHeatLossCoefficient = linearHeatLossCoefficient;
 		linearHeatLossCoefficient = newLinearHeatLossCoefficient;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_WATER_HEATER__LINEAR_HEAT_LOSS_COEFFICIENT, oldLinearHeatLossCoefficient, linearHeatLossCoefficient));
@@ -415,8 +441,8 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public void setPreHeatTankVolume(double newPreHeatTankVolume) {
-		double oldPreHeatTankVolume = preHeatTankVolume;
+	public void setPreHeatTankVolume(final double newPreHeatTankVolume) {
+		final double oldPreHeatTankVolume = preHeatTankVolume;
 		preHeatTankVolume = newPreHeatTankVolume;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_WATER_HEATER__PRE_HEAT_TANK_VOLUME, oldPreHeatTankVolume, preHeatTankVolume));
@@ -438,8 +464,8 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public void setPumpPhotovolatic(boolean newPumpPhotovolatic) {
-		boolean oldPumpPhotovolatic = (flags & PUMP_PHOTOVOLATIC_EFLAG) != 0;
+	public void setPumpPhotovolatic(final boolean newPumpPhotovolatic) {
+		final boolean oldPumpPhotovolatic = (flags & PUMP_PHOTOVOLATIC_EFLAG) != 0;
 		if (newPumpPhotovolatic) flags |= PUMP_PHOTOVOLATIC_EFLAG; else flags &= ~PUMP_PHOTOVOLATIC_EFLAG;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_WATER_HEATER__PUMP_PHOTOVOLATIC, oldPumpPhotovolatic, newPumpPhotovolatic));
@@ -464,7 +490,7 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+	public Object eGet(final int featureID, final boolean resolve, final boolean coreType) {
 		switch (featureID) {
 			case ITechnologiesPackage.SOLAR_WATER_HEATER__ANNUAL_OPERATIONAL_COST:
 				return getAnnualOperationalCost();
@@ -494,7 +520,7 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue) {
+	public void eSet(final int featureID, final Object newValue) {
 		switch (featureID) {
 			case ITechnologiesPackage.SOLAR_WATER_HEATER__ANNUAL_OPERATIONAL_COST:
 				setAnnualOperationalCost((Double)newValue);
@@ -533,7 +559,7 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
+	public void eUnset(final int featureID) {
 		switch (featureID) {
 			case ITechnologiesPackage.SOLAR_WATER_HEATER__ANNUAL_OPERATIONAL_COST:
 				setAnnualOperationalCost(ANNUAL_OPERATIONAL_COST_EDEFAULT);
@@ -572,7 +598,7 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
+	public boolean eIsSet(final int featureID) {
 		switch (featureID) {
 			case ITechnologiesPackage.SOLAR_WATER_HEATER__ANNUAL_OPERATIONAL_COST:
 				return annualOperationalCost != ANNUAL_OPERATIONAL_COST_EDEFAULT;
@@ -602,7 +628,7 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+	public int eBaseStructuralFeatureID(final int derivedFeatureID, final Class<?> baseClass) {
 		if (baseClass == IVisitorAccepter.class) {
 			switch (derivedFeatureID) {
 				default: return -1;
@@ -623,7 +649,7 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+	public int eDerivedStructuralFeatureID(final int baseFeatureID, final Class<?> baseClass) {
 		if (baseClass == IVisitorAccepter.class) {
 			switch (baseFeatureID) {
 				default: return -1;
@@ -647,7 +673,7 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		final StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (annualOperationalCost: ");
 		result.append(annualOperationalCost);
 		result.append(", pitch: ");
@@ -676,28 +702,52 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	}
 
 	protected double getCollectorPerformanceFactor(final IConstants constants) {
+		/*
+		BEISDOC
+		NAME: Collector Performance Ratio
+		DESCRIPTION: Linear heat loss coefficient divided by zero loss efficiency
+		TYPE: formula
+		UNIT: ???
+		SAP: (H4)
+		BREDEM: 2.4.2B
+		DEPS: linear-heat-loss-coefficient,zero-loss-efficiency
+		ID: collector-performance-ratio
+		CODSIEB
+		*/
 		final double hlcOverE = linearHeatLossCoefficient / zeroLossEfficiency;
-		
-		final double[] terms = 
+
+		/*
+		BEISDOC
+		NAME: Collector Performance Factor
+		DESCRIPTION:
+		TYPE: formula
+		UNIT: ???
+		SAP: (H10)
+		BREDEM: 2.4.2B
+		DEPS: collector-performance-ratio,collector-performance-ratio-threshold,collector-performance-factor-lower-terms,collector-performance-factor-higher-terms
+		ID: collector-performance-factor
+		CODSIEB
+		*/
+		final double[] terms =
 				hlcOverE < constants.get(SolarConstants.HLC_OVER_E_THRESHOLD) ?
-						constants.get(SolarConstants.LOW_HLC_EXPANSION, double[].class) : 
+						constants.get(SolarConstants.LOW_HLC_EXPANSION, double[].class) :
 							constants.get(SolarConstants.HIGH_HLC_EXPANSION, double[].class);
-		
+
 		return terms[0] + terms[1] * hlcOverE + terms[2] * hlcOverE * hlcOverE;
 	}
-	
+
 	@Override
 	public double generateHotWaterAndPrimaryGains(final IInternalParameters parameters,
 			final IEnergyState state, final IWaterTank store, final boolean storeIsPrimary,
-			final double primaryCorrectionFactor, final double distributionLossFactor,
+			final double primaryPipeworkLosses, final double distributionLossFactor,
 			final double systemProportion) {
 		final IConstants constants = parameters.getConstants();
 		final double solarRadiation = parameters.getClimate().getSolarFlux(getPitch(), getOrientation());
-		
+
 		final OvershadingType overshading = OvershadingType.AVERAGE;
 		final double overshadingFactor = constants.get(SolarConstants.OVERSHADING_FACTOR, double[].class)
 				[overshading.ordinal()];
-		
+
 		final double performanceFactor = getCollectorPerformanceFactor(constants);
 		// TODO this is incorrect if the central heating system doesn't end up generating all the hot water demand
 		final double remainingHotWaterDemand =  state.getUnsatisfiedDemand(EnergyType.DemandsHOT_WATER);
@@ -705,37 +755,111 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 			log.debug("No hot water demand remaining");
 			return 0;
 		}
-		
+
+		/*
+		BEISDOC
+		NAME: Solar Energy Available
+		DESCRIPTION:
+		TYPE: formula
+		UNIT: W
+		SAP: (H7)
+		BREDEM: 2.4.2C (expression in parentheses)
+		DEPS: solar-thermal-collector-area,solar-overshading-factor,effective-solar-flux,zero-loss-efficiency
+		ID: solar-energy-available
+		CODSIEB
+		*/
 		final double solarEnergyAvailable = area * solarRadiation * overshadingFactor * zeroLossEfficiency;
-		
-		final double loadRatio = solarEnergyAvailable / (remainingHotWaterDemand * (1 + distributionLossFactor));
-		
+
+
+		/*
+		BEISDOC
+		NAME: Solar to Load Ratio
+		DESCRIPTION: The ratio of available solar energy to hot water demand, with some wrangling for distribution losses.
+		TYPE: formula
+		UNIT: Dimensionless
+		SAP: (H8)
+		BREDEM: 2.4.2C
+		DEPS: solar-energy-available,distribution-loss-factor,water-heating-power,solar-hot-water-use-adjustment-factor
+		ID: solar-to-load-ratio
+		CODSIEB
+		*/
+		final double loadRatio = solarEnergyAvailable * getHotWaterUseAdjustmentFactor(parameters) / (remainingHotWaterDemand * (1 + distributionLossFactor));
+
 		log.debug("load ratio {} = {} m2 * {} * {} * {} / {}", loadRatio, area, zeroLossEfficiency, solarRadiation, overshadingFactor, remainingHotWaterDemand);
-		
+
+		/*
+		BEISDOC
+		NAME: Solar Utilisation Factor
+		DESCRIPTION: Utilisation factor for solar hot water.
+		TYPE: formula
+		UNIT: Dimensionless
+		SAP: (H9)
+		BREDEM: 2.4.2D
+		DEPS: solar-utilisation-factor-thermostat-factor,solar-to-load-ratio
+		ID: solar-utilisation-factor
+		CODSIEB
+		*/
 		final double utilisationFactor;
 		if (store != null && !store.isThermostatFitted()) {
 			utilisationFactor = (1 - Math.exp(-1 / loadRatio)) * constants.get(SolarConstants.UTILISATION_FACTOR_THERMOSTAT_FACTOR);
 		} else {
 			utilisationFactor = 1 - Math.exp(-1 / loadRatio);
 		}
-		
+
 		//		IF(AND(SolarLoad>0,DHWCylinderstat=1),
 		//         (1-EXP(-1/SolarLoad))*0.9,
 		//         IF(AND(SolarLoad>0,DHWCylinderstat=2),1-EXP(-1/SolarLoad),0))
-		
+
 		// this only models twin-coil combined cylinder store
 		// perhaps I should do something with the tank to allow for this stuff.
 		// basically the two options are:
 		// pre-heat tank
 		// twin-coil cylinder
-		
+
+		/*
+		BEISDOC
+		NAME: Solar Store Effective Volume
+		DESCRIPTION: The effective volume of a solar store
+		TYPE: formula
+		UNIT: Litres
+		SAP: (H13)
+		BREDEM: User input, 2.4.2 (footnote)
+		DEPS: solar-dedicated-store-volume,solar-system-store-volume
+		ID: solar-store-effective-volume
+		CODSIEB
+		*/
 		// issue here is that BREDEM does not appear to model losses from a combi preheat tank,
-		// so it can't be the tank in the hot water system. 
+		// so it can't be the tank in the hot water system.
 		final double effectiveSolarVolume;
 		if (store == null) {
+			/*
+			BEISDOC
+			NAME: Separate Solar Store Volume
+			DESCRIPTION: The volume of a hot water store incorporated into a solar heating system.
+			TYPE: value
+			UNIT: Litres
+			SAP: (H11, H13)
+			BREDEM: User input, 2.4.2 (footnote)
+			STOCK: water-heating.csv (solarstorevolume if either solarstoreincylinder is 'true' or cylindervolume is not present or equal to 0)
+			ID: solar-dedicated-store-volume
+			CODSIEB
+			*/
 			effectiveSolarVolume = getPreHeatTankVolume();
 			log.debug("Hot water tank is null - effective solar volume = {}", effectiveSolarVolume);
 		} else {
+			/*
+			BEISDOC
+			NAME: Solar System Store Volume
+			DESCRIPTION: For a hot water cylinder which is part of a central hot water system, what volume of it is used for solar hot water.
+			TYPE: formula
+			UNIT: Litres
+			SAP: (H12, H13)
+			BREDEM: User input, 2.4.2 (footnote)
+			DEPS: cylinder-volume,solar-cylinder-remainder
+			STOCK: water-heating.csv (solarstorevolume)
+			ID: solar-system-store-volume
+			CODSIEB
+			*/
 			final double ssv = store.getSolarStorageVolume();
 			final double cylinderRemainder = constants.get(SolarConstants.CYLINDER_REMAINDER_FACTOR);
 			if (ssv == 0) {
@@ -753,23 +877,48 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 				}
 			}
 		}
-		
+
 		final double minVolumeFactor = constants.get(SolarConstants.MINIMUM_VOLUME_FACTOR);
-		
+
+		// Solar water heating happens first, so this should always be equal to the actual volume of hot water demanded.
 		final double remainingVolume = state.getTotalDemand(EnergyType.DemandsHOT_WATER_VOLUME) * remainingHotWaterDemand / state.getTotalDemand(EnergyType.DemandsHOT_WATER);
-		
+
+		/*
+		BEISDOC
+		NAME: Solar Storage Volume Factor
+		DESCRIPTION:
+		TYPE: formula
+		UNIT: Dimensionless
+		SAP: (H15, H16)
+		BREDEM: 2.4.2E
+		DEPS: solar-store-effective-volume,water-volume,solar-min-volume-factor,solar-volume-factor-coefficient
+		ID: solar-storage-volume-factor
+		CODSIEB
+		*/
 		final double solarStorageVolumeFactor =
-				Math.max(0, Math.min(minVolumeFactor, 
-						minVolumeFactor + 
-						constants.get(SolarConstants.VOLUME_FACTOR_COEFFICIENT) * 
+				Math.max(0, Math.min(minVolumeFactor,
+						minVolumeFactor +
+						constants.get(SolarConstants.VOLUME_FACTOR_COEFFICIENT) *
 						Math.log(effectiveSolarVolume / remainingVolume)));
-		
-		final double demandSatisfied = 
+
+		/*
+		BEISDOC
+		NAME: Solar Hot Water Output
+		DESCRIPTION: The amount of hot water demand satisfied by a solar water heater.
+		TYPE: formula
+		UNIT: W
+		SAP: (64,H17)
+		BREDEM: 2.4.2G
+		DEPS: solar-energy-available,solar-utilisation-factor,collector-performance-factor,solar-storage-volume-factor
+		ID: solar-hot-water-output
+		CODSIEB
+		*/
+		final double demandSatisfied =
 				solarEnergyAvailable *
-				utilisationFactor * 
+				utilisationFactor *
 				performanceFactor *
 				solarStorageVolumeFactor;
-		
+
 		if (log.isDebugEnabled()) {
 			log.debug("effective solar volume = {}", effectiveSolarVolume);
 			log.debug("utilisation factor = {}", utilisationFactor);
@@ -777,11 +926,38 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 			log.debug("storage volume factor = {}", solarStorageVolumeFactor);
 			log.debug("solar generation = {}", demandSatisfied);
 		}
-		
+
 		state.increaseDemand(EnergyType.FuelPHOTONS, solarRadiation * area * overshadingFactor);
 		state.increaseSupply(EnergyType.DemandsHOT_WATER, demandSatisfied);
-		
+
 		return demandSatisfied;
+	}
+
+	private double getHotWaterUseAdjustmentFactor(final IInternalParameters parameters) {
+		/*
+		BEISDOC
+		NAME: Solar Hot Water Use Adjustment
+		DESCRIPTION: An adjustment to the solar-to-load ratio based on which kinds of showers are present in the dwelling.
+		TYPE: formula
+		UNIT: Dimensionless
+		SAP: (H7a), Table H3
+		NOTES: Only has an effect in SAP 2012 mode.
+		ID: solar-hot-water-use-adjustment
+		CODSIEB
+		*/
+		switch(parameters.getCalculatorType()) {
+		case BREDEM2012:
+			return 1.0;
+		case SAP2012:
+			final IShower shower = getSystem().getTechnologyModel().getShower();
+			if (shower == null) {
+				return SAP_BATH_ONLY_HOT_WATER_USE_ADJUSTMENT;
+			} else {
+				return shower.solarAdjustment();
+			}
+		default:
+			throw new UnsupportedOperationException("Unknown energy calculator type when calculating solar hot water use adjustment " + parameters.getCalculatorType());
+		}
 	}
 
 	@Override
@@ -789,5 +965,15 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 			final IEnergyState state, final IWaterTank store, final boolean storeIsPrimary,
 			final double systemLosses) {
 		// do nothing intentionally.
+	}
+
+	@Override
+	public boolean causesPipeworkLosses() {
+		return false;
+	}
+
+	@Override
+	public boolean isCommunityHeating() {
+		return false;
 	}
 } //SolarWaterHeaterImpl

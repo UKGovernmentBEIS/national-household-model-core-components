@@ -18,6 +18,7 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
 import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
 import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
 import uk.org.cse.nhm.energycalculator.api.impl.DefaultConstants;
+import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
@@ -95,6 +96,7 @@ public class CommunityHeatSourceTest extends HeatSourceTest {
 		final IEnergyCalculatorVisitor visitor = mock(IEnergyCalculatorVisitor.class);
 		final IInternalParameters params = mock(IInternalParameters.class);
 		when(params.getConstants()).thenReturn(DefaultConstants.INSTANCE);
+		when(params.getCalculatorType()).thenReturn(EnergyCalculatorType.SAP2012);
 		
 		hs.acceptFromHeating(DefaultConstants.INSTANCE, params, visitor, 0.5, 10);
 		
@@ -144,6 +146,7 @@ public class CommunityHeatSourceTest extends HeatSourceTest {
 		
 		final IInternalParameters parameters = mock(IInternalParameters.class);
 		when(parameters.getConstants()).thenReturn(DefaultConstants.INSTANCE);
+		when(parameters.getCalculatorType()).thenReturn(EnergyCalculatorType.SAP2012);
 		
 		final IEnergyState state = mock(IEnergyState.class);
 		

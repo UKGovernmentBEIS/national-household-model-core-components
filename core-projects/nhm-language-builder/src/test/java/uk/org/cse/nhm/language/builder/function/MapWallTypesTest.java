@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import com.google.common.base.Predicate;
 
-import uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.language.definition.enums.XWallConstructionTypeRule;
 
 public class MapWallTypesTest {

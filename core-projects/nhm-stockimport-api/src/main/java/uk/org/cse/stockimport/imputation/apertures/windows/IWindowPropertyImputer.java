@@ -1,9 +1,9 @@
 package uk.org.cse.stockimport.imputation.apertures.windows;
 
-import uk.org.cse.nhm.hom.components.fabric.types.FrameType;
-import uk.org.cse.nhm.hom.components.fabric.types.GlazingType;
-import uk.org.cse.nhm.hom.components.fabric.types.WindowInsulationType;
-import uk.org.cse.nhm.hom.types.SAPAgeBandValue;
+import uk.org.cse.nhm.energycalculator.api.types.FrameType;
+import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
 
 /**
  * Thing for determining properties of windows, according to SAP and RDSAP rules.

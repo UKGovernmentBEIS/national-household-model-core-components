@@ -1,7 +1,7 @@
 package uk.org.cse.stockimport.imputation.ceilings;
 
-import uk.org.cse.nhm.hom.components.fabric.types.RoofConstructionType;
-import uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band;
+import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
 
 /**
  * Impute u, k values etc. for ceilings (inc. roofs)
@@ -29,16 +29,4 @@ public interface ICeilingPropertyImputer {
 	 */
 	public double getRoofUValue(final Band ageBand, final RoofConstructionType constructionType, final boolean roomInRoof);
 
-	/**
-	 * @return the k value for all party ceilings.
-	 * @since 1.0
-	 */
-	public double getPartyCeilingKValue();
-	
-	/**
-	 * @param constructionType
-	 * @return the k-value for a roof constructed in the given manner.
-	 * @since 1.0
-	 */
-	public double getRoofKValue(final RoofConstructionType constructionType);
 }

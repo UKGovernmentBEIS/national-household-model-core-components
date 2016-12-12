@@ -10,7 +10,7 @@ import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
 
 import uk.org.cse.nhm.NHMException;
-import uk.org.cse.nhm.hom.types.RegionType;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.simulator.integration.tests.guice.IntegrationTestOutput;
 import uk.org.cse.nhm.simulator.state.IDwelling;
 import uk.org.cse.nhm.simulator.state.IGlobals;

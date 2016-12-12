@@ -13,13 +13,14 @@ import com.larkery.jasb.bind.BindPositionalArgument;
 @Bind("context.weather")
 @Doc({
 	"A context parameter which defines the weather conditions for the simulation.",
+	"This has no effect in SAP 2012 mode, in which case UK average weather according to SAP will always be used."
 })
 @Category(CategoryType.WEATHER)
 public class XWeatherContext extends XContextParameter {
 	public static final class P {
 		public static final String weather = "weather";
 	}
-	
+
 	private XWeather weather;
 
 	@BindPositionalArgument(0)

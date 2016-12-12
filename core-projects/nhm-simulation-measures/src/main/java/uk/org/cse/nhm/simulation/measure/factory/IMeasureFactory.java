@@ -6,19 +6,18 @@ import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.inject.assistedinject.Assisted;
 
-import uk.org.cse.nhm.hom.components.fabric.types.FrameType;
-import uk.org.cse.nhm.hom.components.fabric.types.GlazingType;
-import uk.org.cse.nhm.hom.components.fabric.types.RoofConstructionType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallInsulationType;
-import uk.org.cse.nhm.hom.components.fabric.types.WindowInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.FrameType;
+import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
 import uk.org.cse.nhm.hom.emf.technologies.IAdjuster;
 import uk.org.cse.nhm.hom.emf.technologies.StorageHeaterControlType;
 import uk.org.cse.nhm.hom.emf.technologies.StorageHeaterType;
 import uk.org.cse.nhm.hom.structure.IWall;
-import uk.org.cse.nhm.language.definition.action.scaling.heating.XSpaceHeatingSystem;
 import uk.org.cse.nhm.language.definition.enums.XChangeDirection;
 import uk.org.cse.nhm.simulation.measure.HeatingControlMeasure;
 import uk.org.cse.nhm.simulation.measure.StorageHeaterMeasure;
@@ -48,7 +47,6 @@ import uk.org.cse.nhm.simulation.measure.otherspaceheating.WarmAirMeasure;
 import uk.org.cse.nhm.simulation.measure.renewables.SolarHotWaterMeasure;
 import uk.org.cse.nhm.simulation.measure.renewables.SolarPhotovoltaicMeasure;
 import uk.org.cse.nhm.simulation.measure.roomheaters.RoomHeaterMeasure;
-import uk.org.cse.nhm.simulation.measure.scaling.ResponsivenessScalingAction;
 import uk.org.cse.nhm.simulation.measure.structure.AlterWallHeatLossMeasure;
 import uk.org.cse.nhm.simulation.measure.structure.ModifyWallConstructionTypeMeasure;
 import uk.org.cse.nhm.simulator.measure.sizing.ISizingFunction;
@@ -157,7 +155,8 @@ public interface IMeasureFactory {
             @Assisted("wetHeating") final IComponentsFunction<Number> wetHeatingCostFunction,
             @Assisted("insulation") final double cylinderInsulation,
             @Assisted("volume") final IComponentsFunction<Number> cylinderVolume,
-            @Assisted("efficiency") final IComponentsFunction<Number> efficiency);
+            @Assisted("efficiency") final IComponentsFunction<Number> efficiency,
+            @Assisted("chargingUsageBased") final boolean chargingUsageBased);
 
     public BreakBoilerMeasure createBreakBoilerMeasure();
 
@@ -212,10 +211,6 @@ public interface IMeasureFactory {
                     @Assisted final boolean isSolidFloor
             );
 
-    public ResponsivenessScalingAction createResponsivenessScalingAction(
-            @Assisted final Set<XSpaceHeatingSystem> systems,
-            @Assisted final IComponentsFunction<Number> scaling);
-
     public AddOrRemoveLoftAction createAddOrRemoveLoftAction(final boolean addLoft);
 
     public LowEnergyLightingMeasure createLowEnergyLightingMeasure(
@@ -224,8 +219,7 @@ public interface IMeasureFactory {
             @Assisted final IComponentsFunction<Number> capex);
 
     public SolarPhotovoltaicMeasure createSolarPhotovoltaicMeasure(
-            @Assisted("efficiency") final IComponentsFunction<Number> efficiency,
-            @Assisted("roofCoverage") final IComponentsFunction<Number> roofCoverage,
+    		@Assisted("sizing") final ISizingFunction sizing,
             @Assisted("capex") final IComponentsFunction<Number> capex, 
             @Assisted("ownUse") final IComponentsFunction<Number> ownUse);
 

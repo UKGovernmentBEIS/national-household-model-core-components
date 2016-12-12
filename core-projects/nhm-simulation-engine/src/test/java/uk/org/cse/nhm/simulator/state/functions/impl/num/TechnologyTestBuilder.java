@@ -22,6 +22,8 @@ import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
 import uk.org.cse.nhm.hom.emf.technologies.IWarmAirCirculator;
 import uk.org.cse.nhm.hom.emf.technologies.IWarmAirSystem;
 import uk.org.cse.nhm.hom.emf.technologies.IWaterHeater;
+import uk.org.cse.nhm.hom.emf.technologies.StorageHeaterControlType;
+import uk.org.cse.nhm.hom.emf.technologies.StorageHeaterType;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoilersFactory;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.impl.BoilersFactoryImpl;
@@ -30,7 +32,7 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
 import uk.org.cse.nhm.hom.emf.util.impl.TechnologyOperations;
 
 public class TechnologyTestBuilder {
-	
+
 	private final ITechnologiesFactory factory;
 	private final ITechnologyModel model;
 	private final TechnologyOperations operations;
@@ -42,23 +44,23 @@ public class TechnologyTestBuilder {
 		operations = new TechnologyOperations();
 		model = factory.createTechnologyModel();
 	}
-	
+
 	public TechnologyTestBuilder addCentralWaterHeating(final CentralWaterHeater type) {
 		return addCentralWaterHeating(type, Optional.<Double>absent());
 	}
-	
+
 	public TechnologyTestBuilder addCentralWaterHeating(final CentralWaterHeater type, final double efficiency) {
 		return addCentralWaterHeating(type, Optional.of(efficiency));
 	}
-	
+
 	private TechnologyTestBuilder addCentralWaterHeating(final CentralWaterHeater type, final Optional<Double> maybeEfficiency) {
 		final ICentralWaterSystem centralHotWater = factory.createCentralWaterSystem();
 		centralHotWater.setPrimaryWaterHeater(createCentralWaterHeater(type, maybeEfficiency));
 		model.setCentralWaterSystem(centralHotWater);
-		
+
 		return this;
 	}
-	
+
 	private ICentralWaterHeater createCentralWaterHeater(final CentralWaterHeater type, final Optional<Double> maybeEfficiency) {
 		switch(type) {
 		case Immersion:
@@ -81,27 +83,25 @@ public class TechnologyTestBuilder {
 	public void addWaterHeating(final WaterHeater type) {
 		addWaterHeating(type, Optional.<Double>absent());
 	}
-	
+
 	public void addWaterHeating(final WaterHeater type, final double efficiency) {
 		addWaterHeating(type, Optional.of(efficiency));
 	}
-	
+
 	private void addWaterHeating(final WaterHeater type, final Optional<Double> maybeEfficiency) {
 		final IWaterHeater waterHeater = createWaterHeater(type, maybeEfficiency);
-		
+
 		if (type.isPrimary()) {
 			model.setCentralWaterSystem((ICentralWaterSystem) waterHeater);
 		} else {
 			model.setSecondaryWaterHeater(waterHeater);
 		}
 	}
-	
+
 	private IWaterHeater createWaterHeater(final WaterHeater type, final Optional<Double> maybeEfficiency) {
 		switch (type) {
 		case CentralHotWater:
 			return factory.createCentralWaterSystem();
-		case ElectricShower:
-			return factory.createElectricShower();
 		case PointOfUse:
 			final IPointOfUseWaterHeater pointOfUse = factory.createPointOfUseWaterHeater();
 			if (maybeEfficiency.isPresent()) {
@@ -114,52 +114,63 @@ public class TechnologyTestBuilder {
 	}
 
 	public TechnologyTestBuilder addSpaceHeating(final SpaceHeater type) {
-		return addSpaceHeating(type, Optional.<FuelType>absent(), Optional.<Double>absent());
+		return addSpaceHeating(type, Optional.<FuelType>absent());
 	}
-	
-	public TechnologyTestBuilder addSpaceHeating(final SpaceHeater type, final double responsiveness) {
-		return addSpaceHeating(type, Optional.<FuelType>absent(), Optional.of(responsiveness));
+
+	public TechnologyTestBuilder addStorageHeating(final StorageHeaterType type, final StorageHeaterControlType control) {
+		return addStorageHeating(type, control, Optional.<Double>absent());
 	}
-	
+
+	public TechnologyTestBuilder addStorageHeating(final StorageHeaterType type, final StorageHeaterControlType control, final double responsiveness) {
+		return addStorageHeating(type, control, Optional.of(responsiveness));
+	}
+
+	public TechnologyTestBuilder addStorageHeating(final StorageHeaterType type, final StorageHeaterControlType control, final Optional<Double> responsiveness) {
+		model.setPrimarySpaceHeater(
+				createStorageHeater(type, control, responsiveness));
+
+		return this;
+	}
+
 	public TechnologyTestBuilder addSpaceHeating(final SpaceHeater type, final FuelType fuel) {
-		return addSpaceHeating(type, Optional.of(fuel), Optional.<Double>absent());
+		return addSpaceHeating(type, Optional.of(fuel));
 	}
-	
-	private TechnologyTestBuilder addSpaceHeating(final SpaceHeater type, final Optional<FuelType> maybeFuel, final Optional<Double> maybeResponsiveness) {
-		final ISpaceHeater spaceHeater = createSpaceHeater(type, maybeFuel, maybeResponsiveness);
-		
+
+	private TechnologyTestBuilder addSpaceHeating(final SpaceHeater type, final Optional<FuelType> maybeFuel) {
+		final ISpaceHeater spaceHeater = createSpaceHeater(type, maybeFuel);
+
 		if (type.isPrimary()) {
 			model.setPrimarySpaceHeater((IPrimarySpaceHeater) spaceHeater);
 		} else {
 			model.setSecondarySpaceHeater((IRoomHeater) spaceHeater);
 		}
-		
+
 		return this;
 	}
-	
+
 	public TechnologyTestBuilder addHeatSource(final HeatSource type) {
 		return addHeatSource(type, Optional.<FuelType>absent(), EmitterType.RADIATORS, Optional.<Double>absent());
 	}
-	
+
 	public TechnologyTestBuilder addHeatSource(final HeatSource type, final double efficiency) {
 		return addHeatSource(type, Optional.<FuelType>absent(), EmitterType.RADIATORS, Optional.of(efficiency));
 	}
-	
+
 	public TechnologyTestBuilder addHeatSource(final HeatSource type, final FuelType fuel) {
 		return addHeatSource(type, Optional.of(fuel), EmitterType.RADIATORS, Optional.<Double>absent());
 	}
-	
+
 	public TechnologyTestBuilder addHeatSource(final HeatSource type, final EmitterType emitters) {
 		return addHeatSource(type, Optional.<FuelType>absent(), emitters, Optional.<Double>absent());
 	}
-	
+
 	public TechnologyTestBuilder addHeatSource(final HeatSource type, final FuelType fuel, final EmitterType emitters) {
 		return addHeatSource(type, Optional.of(fuel), emitters, Optional.<Double>absent());
 	}
-	
+
 	private TechnologyTestBuilder addHeatSource(final HeatSource type, final Optional<FuelType> fuel, final EmitterType emitters, final Optional<Double> maybeEfficiency) {
 		operations.installHeatSource(model, createHeatSource(type, maybeEfficiency), true, true, emitters, new HashSet<HeatingSystemControlType>(), 0.0, 0.0);
-		
+
 		return this;
 	}
 
@@ -193,7 +204,7 @@ public class TechnologyTestBuilder {
 			throw new IllegalArgumentException("Unknown heatsource " + type);
 		}
 	}
-	
+
 	private ICommunityHeatSource createComunity(final HeatSource type) {
 		switch (type) {
 		case Community:
@@ -204,7 +215,7 @@ public class TechnologyTestBuilder {
 			throw new IllegalArgumentException("Not a community heat source " + type);
 		}
 	}
-	
+
 	private IBoiler createBoiler(final HeatSource type) {
 		switch(type) {
 		case BackBoiler:
@@ -222,9 +233,22 @@ public class TechnologyTestBuilder {
 		}
 	}
 
-	private ISpaceHeater createSpaceHeater(final SpaceHeater type, final Optional<FuelType> maybeFuel, final Optional<Double> maybeResponsiveness) {
+	private IStorageHeater createStorageHeater(final StorageHeaterType type, final StorageHeaterControlType control, final Optional<Double> responsiveness) {
+		final IStorageHeater heater = factory.createStorageHeater();
+
+		heater.setType(type);
+		heater.setControlType(control);
+		if (responsiveness.isPresent()) {
+			heater.setHasResponsivenessOverride(true);
+			heater.setResponsivenessOverride(responsiveness.get());
+		}
+
+		return heater;
+	}
+
+	private ISpaceHeater createSpaceHeater(final SpaceHeater type, final Optional<FuelType> maybeFuel) {
 		switch (type) {
-		
+
 		case CentralHeating:
 			return factory.createCentralHeatingSystem();
 		case RoomHeater:
@@ -232,16 +256,9 @@ public class TechnologyTestBuilder {
 			if (maybeFuel.isPresent()) {
 				roomHeater.setFuel(maybeFuel.get());
 			}
-			if (maybeResponsiveness.isPresent()) {
-				roomHeater.setResponsiveness(maybeResponsiveness.get());
-			}
 			return roomHeater;
 		case StorageHeater:
-			final IStorageHeater storageHeater = factory.createStorageHeater();
-			if (maybeResponsiveness.isPresent()) {
-				storageHeater.setResponsiveness(maybeResponsiveness.get());
-			}
-			return storageHeater;
+			throw new UnsupportedOperationException("Use createStorageHeater instead.");
 		case WarmAir:
 			final IWarmAirSystem warmAirSystem = factory.createWarmAirSystem();
 			if (maybeFuel.isPresent()) {
@@ -252,12 +269,12 @@ public class TechnologyTestBuilder {
 			throw new IllegalArgumentException("Unknown space heater type " + type);
 		}
 	}
-	
+
 	public ITechnologyModel build() {
 		return model;
 	}
-	
-	
+
+
 	public enum HeatSource {
 		Community,
 		CommunityCHP,
@@ -268,34 +285,34 @@ public class TechnologyTestBuilder {
 		CPSU,
 		HeatPump;
 	}
-	
+
 	enum Type {
 		Primary,
 		Secondary;
 	}
-	
+
 	public enum SpaceHeater {
 		CentralHeating(Type.Primary),
 		RoomHeater(Type.Secondary),
 		StorageHeater(Type.Primary),
 		WarmAir(Type.Primary);
-		
+
 		private final Type p;
-		
+
 		SpaceHeater(final Type p) {
 			this.p = p;
 		}
-		
+
 		public boolean isPrimary() {
 			return p == Type.Primary;
 		}
 	}
-	
+
 	public enum WaterHeater {
 		CentralHotWater(Type.Primary),
 		ElectricShower(Type.Secondary),
 		PointOfUse(Type.Secondary);
-		
+
 		private final Type p;
 
 		public boolean isPrimary() {
@@ -306,7 +323,7 @@ public class TechnologyTestBuilder {
 			this.p = p;
 		}
 	}
-	
+
 	public enum CentralWaterHeater {
 		Immersion,
 		Solar,

@@ -21,9 +21,11 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyState;
 import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
 import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
 import uk.org.cse.nhm.energycalculator.api.impl.EnergyTransducer;
+import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.TransducerPhaseType;
+import uk.org.cse.nhm.energycalculator.api.types.Zone2ControlParameter;
 import uk.org.cse.nhm.hom.constants.CommunityHeatingConstants;
 import uk.org.cse.nhm.hom.emf.technologies.EmitterType;
 import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
@@ -38,11 +40,11 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
  * <em><b>Community Heat Source</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.CommunityHeatSourceImpl#isChargingUsageBased <em>Charging Usage Based</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.CommunityHeatSourceImpl#getHeatEfficiency <em>Heat Efficiency</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -66,7 +68,7 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int CHARGING_USAGE_BASED_EFLAG = 1 << 9;
+	protected static final int CHARGING_USAGE_BASED_EFLAG = 1 << 8;
 
 	/**
 	 * The default value of the '{@link #getHeatEfficiency() <em>Heat Efficiency</em>}' attribute.
@@ -118,8 +120,8 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 	 * @generated
 	 */
 	@Override
-	public void setChargingUsageBased(boolean newChargingUsageBased) {
-		boolean oldChargingUsageBased = (flags & CHARGING_USAGE_BASED_EFLAG) != 0;
+	public void setChargingUsageBased(final boolean newChargingUsageBased) {
+		final boolean oldChargingUsageBased = (flags & CHARGING_USAGE_BASED_EFLAG) != 0;
 		if (newChargingUsageBased) flags |= CHARGING_USAGE_BASED_EFLAG; else flags &= ~CHARGING_USAGE_BASED_EFLAG;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.COMMUNITY_HEAT_SOURCE__CHARGING_USAGE_BASED, oldChargingUsageBased, newChargingUsageBased));
@@ -139,8 +141,9 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setHeatEfficiency(Efficiency newHeatEfficiency) {
-		Efficiency oldHeatEfficiency = heatEfficiency;
+	@Override
+	public void setHeatEfficiency(final Efficiency newHeatEfficiency) {
+		final Efficiency oldHeatEfficiency = heatEfficiency;
 		heatEfficiency = newHeatEfficiency;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.COMMUNITY_HEAT_SOURCE__HEAT_EFFICIENCY, oldHeatEfficiency, heatEfficiency));
@@ -151,7 +154,7 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+	public Object eGet(final int featureID, final boolean resolve, final boolean coreType) {
 		switch (featureID) {
 			case ITechnologiesPackage.COMMUNITY_HEAT_SOURCE__CHARGING_USAGE_BASED:
 				return isChargingUsageBased();
@@ -166,7 +169,7 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue) {
+	public void eSet(final int featureID, final Object newValue) {
 		switch (featureID) {
 			case ITechnologiesPackage.COMMUNITY_HEAT_SOURCE__CHARGING_USAGE_BASED:
 				setChargingUsageBased((Boolean)newValue);
@@ -183,7 +186,7 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
+	public void eUnset(final int featureID) {
 		switch (featureID) {
 			case ITechnologiesPackage.COMMUNITY_HEAT_SOURCE__CHARGING_USAGE_BASED:
 				setChargingUsageBased(CHARGING_USAGE_BASED_EDEFAULT);
@@ -200,7 +203,7 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
+	public boolean eIsSet(final int featureID) {
 		switch (featureID) {
 			case ITechnologiesPackage.COMMUNITY_HEAT_SOURCE__CHARGING_USAGE_BASED:
 				return ((flags & CHARGING_USAGE_BASED_EFLAG) != 0) != CHARGING_USAGE_BASED_EDEFAULT;
@@ -212,7 +215,7 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated no
 	 */
 	@Override
@@ -224,15 +227,30 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 	}
 
 	protected void satisfySpaceDemand(final IConstants constants, final IEnergyState state, final double amount,
-			final boolean systemIsThermostaticallyControlled, final Collection<HeatingSystemControlType> controls) {
+			final boolean systemIsThermostaticallyControlled, final Collection<HeatingSystemControlType> controls, final EnergyCalculatorType calculatorType) {
 		state.increaseSupply(EnergyType.DemandsHEAT, amount);
 
 		/**
-		 * This is the factor taken from SAP 2009 Table 4c (3)
+		 * This is the factor taken from SAP 2012 Table 4c (3)
 		 */
 		final double controlFactor;
 
-		if (!isChargingUsageBased()) {
+		if (calculatorType != EnergyCalculatorType.SAP2012) {
+			controlFactor = 1;
+		}
+		else if (isChargingUsageBased()) {
+			// it seems like the discriminating factor here is whether there are
+			// TRVs in the space heater.
+			if (controls.contains(HeatingSystemControlType.THERMOSTATIC_RADIATOR_VALVE)) {
+				// 2310, 2306
+				controlFactor = constants.get(CommunityHeatingConstants.LOW_SPACE_USAGE_MULTIPLIER);
+				log.debug("Control factor for usage-based thermostatic systems : {}", controlFactor);
+			} else {
+				// 2308, 2309
+				controlFactor = constants.get(CommunityHeatingConstants.MEDIUM_SPACE_USAGE_MULTIPLER);
+				log.debug("Control factor usage based non-thermostatic systems : {}", controlFactor);
+			}
+		} else {
 			if (systemIsThermostaticallyControlled) {
 				// Codes from table in this branch:
 				// 2303, 2304, 2307, 2305
@@ -244,18 +262,6 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 				controlFactor = constants.get(CommunityHeatingConstants.HIGH_SPACE_USAGE_MULTIPLER);
 				log.debug("Control factor for non-thermostatically controlled flat rate : {}", controlFactor);
 			}
-		} else {
-			// 2308, 2309, 2310, 2306
-			// it seems like the discriminating factor here is whether there are
-			// TRVs in the space heater.
-			if (controls.contains(HeatingSystemControlType.THERMOSTATIC_RADIATOR_VALVE)) {
-				// 2310, 2306
-				controlFactor = constants.get(CommunityHeatingConstants.LOW_SPACE_USAGE_MULTIPLIER);
-				log.debug("Control factor for usage-based thermostatic systems : {}", controlFactor);
-			} else {
-				controlFactor = constants.get(CommunityHeatingConstants.MEDIUM_SPACE_USAGE_MULTIPLER);
-				log.debug("Control factor usage based non-thermostatic systems : {}", controlFactor);
-			}
 		}
 
 		/**
@@ -264,6 +270,17 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 		 */
 		final double distributionLossFactor = constants.get(CommunityHeatingConstants.DEFAULT_DISTRIBUTION_LOSS_FACTOR);
 
+		/*
+		BEISDOC
+		NAME: Community space heat fuel energy demand
+		DESCRIPTION: The total fuel demanded for community space heating, including the distribution loss factor and the adjustmentments from Table 4c.
+		TYPE: formula
+		UNIT: W
+		SAP: (211)
+		DEPS: community-distribution-loss-factor,community-space-heating-energy-multipliers,space-heating-fraction,heat-demand
+		ID: community-space-heating-fuel-energy-demand
+		CODSIEB
+		*/
 		final double communityHeatDemand = amount * controlFactor * distributionLossFactor;
 
 		state.increaseDemand(EnergyType.FuelCOMMUNITY_HEAT, communityHeatDemand);
@@ -271,20 +288,26 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 		consumeSystemFuel(constants, state, communityHeatDemand);
 	}
 
-	protected void satisfyHotWaterDemand(final IConstants constants, final IEnergyState state, final double hw, final double gains) {
+	protected void satisfyHotWaterDemand(final IConstants constants, final IEnergyState state, final double hw, final double gains, final EnergyCalculatorType calculatorType) {
 		state.increaseSupply(EnergyType.DemandsHOT_WATER, hw);
 		state.increaseSupply(EnergyType.GainsHOT_WATER_SYSTEM_GAINS, gains);
 
 		final double amount = hw + gains;
 
 		/**
-		 * Control factor from SAP table 4c(3)
+		 * Control factor from SAP 2012 table 4c(3)
 		 */
 		final double controlFactor;
-		if (isChargingUsageBased()) {
-			controlFactor = constants.get(CommunityHeatingConstants.LOW_WATER_USAGE_MULTIPLIER);
+
+		if (calculatorType == EnergyCalculatorType.SAP2012) {
+			if (isChargingUsageBased()) {
+				controlFactor = constants.get(CommunityHeatingConstants.LOW_WATER_USAGE_MULTIPLIER);
+			} else {
+				controlFactor = constants.get(CommunityHeatingConstants.HIGH_WATER_USAGE_MULTIPLIER);
+			}
 		} else {
-			controlFactor = constants.get(CommunityHeatingConstants.HIGH_WATER_USAGE_MULTIPLIER);
+			// Hot water usage adjustments only apply to the SAP calculator.
+			controlFactor = 1;
 		}
 
 		final double distributionLossFactor = constants.get(CommunityHeatingConstants.DEFAULT_DISTRIBUTION_LOSS_FACTOR);
@@ -302,7 +325,7 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 	 * Called to do whatever is required to record the amount of source-fuel
 	 * used by the community heat source in generating the heat that the user
 	 * will pay for.
-	 * 
+	 *
 	 * @param state
 	 *            the state to add some community fuel usage to (and/or
 	 *            electricity generated, in CHP)
@@ -335,24 +358,19 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 			public void generate(final IEnergyCalculatorHouseCase house, final IInternalParameters parameters, final ISpecificHeatLosses losses, final IEnergyState state) {
 				final double gen = state.getBoundedTotalHeatDemand(proportion);
 
-				satisfySpaceDemand(parameters.getConstants(), state, gen, isThermostaticallyControlled, controls);
+				satisfySpaceDemand(parameters.getConstants(), state, gen, isThermostaticallyControlled, controls, parameters.getCalculatorType());
 			}
 
 			@Override
 			public String toString() {
 				return "Community Heat Source";
 			}
-			
+
 			@Override
 			public TransducerPhaseType getPhase() {
 				return TransducerPhaseType.Heat;
 			}
 		});
-	}
-
-	@Override
-	public double getResponsivenessImpl(final IConstants parameters, final EList<HeatingSystemControlType> controls, final EmitterType emitterType) {
-		return 1;
 	}
 
 	@Override
@@ -373,23 +391,21 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 
 	@Override
 	public double generateHotWaterAndPrimaryGains(final IInternalParameters parameters, final IEnergyState state, final IWaterTank store, final boolean storeIsPrimary,
-			final double primaryCorrectionFactor, final double distributionLossFactor, final double proportion) {
+			final double primaryPipeworkLosses, final double distributionLossFactor, final double proportion) {
 		final IConstants constants = parameters.getConstants();
-
-		final double primaryPipeworkLosses = constants.get(CommunityHeatingConstants.PRIMARY_PIPEWORK_LOSSES) * primaryCorrectionFactor;
 
 		final double demandSatisfied = state.getBoundedTotalDemand(EnergyType.DemandsHOT_WATER, proportion);
 
 		log.debug("{} pp losses, {} demand satisied", primaryPipeworkLosses, demandSatisfied);
 
-		satisfyHotWaterDemand(constants, state, demandSatisfied, primaryPipeworkLosses);
+		satisfyHotWaterDemand(constants, state, demandSatisfied, primaryPipeworkLosses, parameters.getCalculatorType());
 
 		return demandSatisfied;
 	}
 
 	@Override
 	public void generateHotWaterSystemGains(final IInternalParameters parameters, final IEnergyState state, final IWaterTank store, final boolean storeIsPrimary, final double systemLosses) {
-		satisfyHotWaterDemand(parameters.getConstants(), state, 0, systemLosses);
+		satisfyHotWaterDemand(parameters.getConstants(), state, 0, systemLosses, parameters.getCalculatorType());
 	}
 
 	static IWaterTank SPURIOUS_TANK;
@@ -428,13 +444,24 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 	}
 
 	@Override
-	public double getZoneTwoControlParameter(final IInternalParameters parameters, final EList<HeatingSystemControlType> controls, final EmitterType emitterType) {
-		if (!isChargingUsageBased() && !controls.contains(HeatingSystemControlType.THERMOSTATIC_RADIATOR_VALVE)) {
-			// flat rate charging and no TRVs means control type = 1, otherwise
-			// control type = 3
-			return 0;
+	public Zone2ControlParameter getZoneTwoControlParameter(final IInternalParameters parameters, final EList<HeatingSystemControlType> controls, final EmitterType emitterType) {
+		final boolean hasTRVs = controls.contains(HeatingSystemControlType.THERMOSTATIC_RADIATOR_VALVE);
+
+		if (isChargingUsageBased()) {
+			return hasTRVs ? Zone2ControlParameter.Three : Zone2ControlParameter.Two;
 		} else {
-			return 1;
+			return hasTRVs ? Zone2ControlParameter.Two : Zone2ControlParameter.One;
 		}
+	}
+
+	@Override
+	public boolean isCommunityHeating() {
+		return true;
+	}
+
+	@Override
+	public double getResponsiveness(final IConstants parameters, final EList<HeatingSystemControlType> controls,
+			final EmitterType emitterType) {
+		return 1;
 	}
 } // CommunityHeatSourceImpl

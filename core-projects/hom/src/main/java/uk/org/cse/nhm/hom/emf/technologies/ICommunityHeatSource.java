@@ -12,11 +12,11 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ICommunityHeatSource#isChargingUsageBased <em>Charging Usage Based</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ICommunityHeatSource#getHeatEfficiency <em>Heat Efficiency</em>}</li>
  * </ul>
- * </p>
  *
  * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getCommunityHeatSource()
  * @model

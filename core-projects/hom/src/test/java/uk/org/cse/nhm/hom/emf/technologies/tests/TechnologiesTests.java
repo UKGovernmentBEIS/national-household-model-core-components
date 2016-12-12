@@ -39,7 +39,6 @@ public class TechnologiesTests extends TestSuite {
 		suite.addTestSuite(SolarWaterHeaterTest.class);
 		suite.addTestSuite(ImmersionHeaterTest.class);
 		suite.addTestSuite(CookerTest.class);
-		suite.addTestSuite(ElectricShowerTest.class);
 		suite.addTestSuite(StorageHeaterTest.class);
 		suite.addTestSuite(CommunityHeatSourceTest.class);
 		suite.addTestSuite(CommunityCHPTest.class);

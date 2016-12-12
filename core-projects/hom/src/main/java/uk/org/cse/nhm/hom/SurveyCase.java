@@ -12,6 +12,8 @@ import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorHouseCase;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
+import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
 import uk.org.cse.nhm.hom.people.People;
 import uk.org.cse.nhm.hom.structure.StructureModel;
@@ -130,6 +132,11 @@ public class SurveyCase implements IEnergyCalculatorHouseCase {
 	public int getNumberOfShelteredSides() {
 		return structure.getNumberOfShelteredSides();
 	}
+	
+	@Override
+	public SiteExposureType getSiteExposure() {
+		return basicAttributes.getSiteExposure();
+	}
 
     /**
      * Return the financialAttributes.
@@ -177,5 +184,29 @@ public class SurveyCase implements IEnergyCalculatorHouseCase {
     */
 	public void setAdditionalProperties(final Map<String, String> additionalProperties) {
 		this.additionalProperties = additionalProperties;
+	}
+
+	/**
+	 * @since 6.4.0
+	 */
+	@Override
+	public double getThermalBridgingCoefficient() {
+		return structure.getThermalBridgingCoefficient();
+	}
+
+	/**
+	 * @since 6.4.0
+	 */
+	@Override
+	public boolean hasReducedInternalGains() {
+		return structure.hasReducedInternalGains();
+	}
+
+	/**
+	 * @since 6.4.0
+	 */
+	@Override
+	public Country getCountry() {
+		return basicAttributes.getRegionType().getCountry();
 	}
 }

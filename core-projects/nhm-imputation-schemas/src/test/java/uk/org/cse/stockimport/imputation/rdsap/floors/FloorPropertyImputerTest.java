@@ -5,10 +5,10 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import uk.org.cse.nhm.hom.components.fabric.types.FloorConstructionType;
-import uk.org.cse.nhm.hom.types.RegionType;
-import uk.org.cse.nhm.hom.types.SAPAgeBandValue;
-import uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band;
+import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
 import uk.org.cse.stockimport.imputation.floors.FloorPropertyImputer;
 import uk.org.cse.stockimport.imputation.floors.RdSAPFloorPropertyTables;
 
@@ -26,12 +26,12 @@ public class FloorPropertyImputerTest {
 		// these are just some test cases picked from the CHM spreadsheet
 
 		Assert.assertEquals(0.56, i.getGroundFloorUValue(
-				FloorConstructionType.SuspendedTimber, 250, 0, 26.09, 70.93),
+				FloorConstructionType.SuspendedTimberUnsealed, 250, 0, 26.09, 70.93),
 				0.05);
 		Assert.assertEquals(0.64, i.getGroundFloorUValue(
-				FloorConstructionType.SuspendedTimber, 100, 0, 100, 200), 0.05);
+				FloorConstructionType.SuspendedTimberUnsealed, 100, 0, 100, 200), 0.05);
 		Assert.assertEquals(0.64, i.getGroundFloorUValue(
-				FloorConstructionType.SuspendedTimber, 100, 100, 100, 200),
+				FloorConstructionType.SuspendedTimberUnsealed, 100, 100, 100, 200),
 				0.05);
 	}
 
@@ -83,42 +83,12 @@ public class FloorPropertyImputerTest {
 	}
 
 	@Test
-	public void testExposedFloorKValue() {
-		Assert.assertEquals(20d, i.getExposedFloorKValue(false));
-		Assert.assertEquals(20d, i.getExposedFloorKValue(true));
-	}
-
-	@Test
-	public void testFloorConstructionType() {
-		for (final SAPAgeBandValue.Band value : SAPAgeBandValue.Band.values()) {
-			final FloorConstructionType fct = i.getFloorConstructionType(value);
-		
-			Assert.assertEquals(
-					(value == SAPAgeBandValue.Band.A || value == SAPAgeBandValue.Band.B) ?
-							FloorConstructionType.SuspendedTimber : FloorConstructionType.Solid,
-							fct);
-		}
-	}
-	
-	@Test
-	public void testPartyFloorKValue() {
-		Assert.assertEquals(35d, i.getPartyFloorKValue());
-	}
-	
-	@Test
-	public void testFloorInfiltration() {
-		Assert.assertEquals(0.0, i.getFloorInfiltration(SAPAgeBandValue.Band.A, FloorConstructionType.Solid));
-		Assert.assertEquals(0.2, i.getFloorInfiltration(SAPAgeBandValue.Band.E, FloorConstructionType.SuspendedTimber));
-		Assert.assertEquals(0.1, i.getFloorInfiltration(SAPAgeBandValue.Band.F, FloorConstructionType.SuspendedTimber));
-	}
-	
-	@Test
 	public void testInsulationThickness() {
-		Assert.assertEquals(100d, i.getFloorInsulationThickness(SAPAgeBandValue.Band.K, RegionType.London, FloorConstructionType.Solid));
-		Assert.assertEquals(75d, i.getFloorInsulationThickness(SAPAgeBandValue.Band.J, RegionType.London, FloorConstructionType.Solid));
-		Assert.assertEquals(25d, i.getFloorInsulationThickness(SAPAgeBandValue.Band.I, RegionType.London, FloorConstructionType.Solid));
+		Assert.assertEquals(100d, i.getFloorInsulationThickness(SAPAgeBandValue.Band.K, Country.England, FloorConstructionType.Solid));
+		Assert.assertEquals(75d, i.getFloorInsulationThickness(SAPAgeBandValue.Band.J, Country.England, FloorConstructionType.Solid));
+		Assert.assertEquals(25d, i.getFloorInsulationThickness(SAPAgeBandValue.Band.I, Country.England, FloorConstructionType.Solid));
 		for (final SAPAgeBandValue.Band value : SAPAgeBandValue.Band.values()) {
-			Assert.assertEquals(0d, i.getFloorInsulationThickness(value, RegionType.London, FloorConstructionType.Solid));
+			Assert.assertEquals(0d, i.getFloorInsulationThickness(value, Country.England, FloorConstructionType.Solid));
 			if (value == Band.H) return;
 		}
 	}

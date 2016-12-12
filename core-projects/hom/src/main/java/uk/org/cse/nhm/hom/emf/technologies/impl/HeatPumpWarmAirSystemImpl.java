@@ -6,6 +6,9 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import uk.org.cse.nhm.energycalculator.api.IConstants;
+import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
+import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.hom.constants.SplitRateConstants;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.HeatPumpSourceType;
@@ -18,11 +21,11 @@ import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.HeatPumpWarmAirSystemImpl#getSourceType <em>Source Type</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.HeatPumpWarmAirSystemImpl#isAuxiliaryPresent <em>Auxiliary Present</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -44,7 +47,7 @@ public class HeatPumpWarmAirSystemImpl extends WarmAirSystemImpl implements IHea
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int SOURCE_TYPE_EFLAG_OFFSET = 5;
+	protected static final int SOURCE_TYPE_EFLAG_OFFSET = 4;
 
 	/**
 	 * The flags representing the default value of the '{@link #getSourceType() <em>Source Type</em>}' attribute.
@@ -92,7 +95,7 @@ public class HeatPumpWarmAirSystemImpl extends WarmAirSystemImpl implements IHea
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int AUXILIARY_PRESENT_EFLAG = 1 << 6;
+	protected static final int AUXILIARY_PRESENT_EFLAG = 1 << 5;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -250,7 +253,7 @@ public class HeatPumpWarmAirSystemImpl extends WarmAirSystemImpl implements IHea
 	 * Electric warm air systems have reduced responsiveness, but electric heat pump warm air systems don't
 	 */
 	@Override
-	public double getResponsiveness() {
+	public double getResponsiveness(IConstants constants, EnergyCalculatorType calculatorType, final ElectricityTariffType electricityTariffType) {
 		return 1;
 	}
 	
@@ -263,11 +266,7 @@ public class HeatPumpWarmAirSystemImpl extends WarmAirSystemImpl implements IHea
 			if (getSourceType() == HeatPumpSourceType.AIR) {
 				return SplitRateConstants.AIR_SOURCE_SPACE_HEAT;
 			} else if (getSourceType() == HeatPumpSourceType.GROUND) {
-				if (isAuxiliaryPresent()) {
-					return SplitRateConstants.GROUND_SOURCE_SPACE_HEAT_WITH_ON_PEAK_AUXILIARY;
-				} else {
-					return SplitRateConstants.GROUND_SOURCE_SPACE_HEAT_NO_AUXILIARY;
-				}
+				return SplitRateConstants.GROUND_SOURCE_SPACE_HEAT;
 			} else {
 				return super.getSplitRateConstants();
 			}

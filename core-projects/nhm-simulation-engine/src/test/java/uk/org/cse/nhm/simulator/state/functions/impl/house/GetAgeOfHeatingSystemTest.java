@@ -4,12 +4,13 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import uk.org.cse.nhm.energycalculator.api.types.RegionType;
+import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
 import uk.org.cse.nhm.hom.BasicCaseAttributes;
 import uk.org.cse.nhm.hom.emf.technologies.ICentralHeatingSystem;
 import uk.org.cse.nhm.hom.emf.technologies.IHeatSource;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
 import uk.org.cse.nhm.hom.types.MorphologyType;
-import uk.org.cse.nhm.hom.types.RegionType;
 import uk.org.cse.nhm.hom.types.TenureType;
 import uk.org.cse.nhm.ipc.api.tasks.report.ILogEntryHandler;
 import uk.org.cse.nhm.simulator.scope.IComponentsScope;
@@ -36,7 +37,8 @@ public class GetAgeOfHeatingSystemTest extends Mockito {
                                               RegionType.London,
                                               MorphologyType.Urban,
                                               TenureType.OwnerOccupied,
-                                              1990
+                                              1990,
+                                              SiteExposureType.Average
                                               ));
 		
 		double age = function.getHeatSourceAge(techModel,

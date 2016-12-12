@@ -1,9 +1,6 @@
 package uk.org.cse.stockimport.imputation.floors;
 
-import java.util.Map;
-
-import uk.org.cse.nhm.hom.components.fabric.types.FloorConstructionType;
-import uk.org.cse.nhm.hom.types.SAPAgeBandValue;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
 
 /**
  * @author richardt
@@ -20,11 +17,6 @@ public interface IFloorPropertyTables {
 	 * @return the LastAgeBand where suspend timber floors were used
 	 */
 	SAPAgeBandValue.Band getLastAgeBandForSuspendedTimber();
-	
-	Map<FloorConstructionType, Double> getGroundFloorKValues();
-	double getInsulatedExposedFloorKValue();
-	double getUninsulatedExposedFloorKValue();
-	double getPartyFloorKValue();
 	
 	/* U-value */
 	double getRsi(); 

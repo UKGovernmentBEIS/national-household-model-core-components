@@ -13,12 +13,12 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IPointOfUseWaterHeater#getFuelType <em>Fuel Type</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IPointOfUseWaterHeater#isMultipoint <em>Multipoint</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IPointOfUseWaterHeater#getEfficiency <em>Efficiency</em>}</li>
  * </ul>
- * </p>
  *
  * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getPointOfUseWaterHeater()
  * @model

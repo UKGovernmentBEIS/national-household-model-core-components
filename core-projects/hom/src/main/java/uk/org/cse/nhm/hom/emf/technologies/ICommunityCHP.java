@@ -12,10 +12,10 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ICommunityCHP#getElectricalEfficiency <em>Electrical Efficiency</em>}</li>
  * </ul>
- * </p>
  *
  * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getCommunityCHP()
  * @model

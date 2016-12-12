@@ -38,18 +38,6 @@ public interface IStorey {
 	public void setFloorUValue(double floorUValue);
 
 	/**
-	 * @return the k-value for the floor of this storey - tihs is used along with the area of unheated space below
-	 * 	to determine the thermal mass of the outward facing bits of this storey.
-	 */
-	public double getFloorKValue();
-
-	/**
-	 * see {@link #getFloorKValue()}
-	 * @param floorKValue
-	 */
-	public void setFloorKValue(double floorKValue);
-
-	/**
 	 * Analogous to {@link #getFloorUValue()}, but for the ceiling.
 	 * @return
 	 */
@@ -60,18 +48,6 @@ public interface IStorey {
 	 * @param ceilingUValue
 	 */
 	public void setCeilingUValue(double ceilingUValue);
-
-	/**
-	 * Analogous to {@link #getFloorKValue()}, but for the ceiling
-	 * @return
-	 */
-	public double getCeilingKValue();
-
-	/**
-	 * See {@link #getCeilingKValue()}
-	 * @param ceilingKValue
-	 */
-	public void setCeilingKValue(double ceilingKValue);
 
 	/**
 	 * @return the product of the area of this storey with its height.
@@ -104,13 +80,4 @@ public interface IStorey {
 	 *         ends with the segment from the last point to the first.
 	 */
 	public Iterable<IMutableWall> getWalls();
-
-	void setPartyCeilingKValue(double partyCeilingKValue);
-
-	double getPartyCeilingKValue();
-
-	void setPartyFloorKValue(double partyFloorKValue);
-
-	double getPartyFloorKValue();
-
 }

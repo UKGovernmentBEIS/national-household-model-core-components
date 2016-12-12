@@ -39,6 +39,22 @@ public interface ICentralWaterHeater extends EObject {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @model required="true"
+	 * @generated
+	 */
+	boolean causesPipeworkLosses();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation" required="true"
+	 * @generated
+	 */
+	boolean isCommunityHeating();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @model kind="operation" required="true"
 	 * @generated
 	 */
@@ -47,10 +63,10 @@ public interface ICentralWaterHeater extends EObject {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @model required="true" parametersDataType="uk.org.cse.nhm.hom.emf.technologies.IInternalParameters" parametersRequired="true" stateDataType="uk.org.cse.nhm.hom.emf.technologies.IEnergyState" stateRequired="true" storeIsPrimaryRequired="true" primaryCorrectionFactorRequired="true" distributionLossFactorRequired="true" systemProportionRequired="true"
+	 * @model required="true" parametersDataType="uk.org.cse.nhm.hom.emf.technologies.IInternalParameters" parametersRequired="true" stateDataType="uk.org.cse.nhm.hom.emf.technologies.IEnergyState" stateRequired="true" storeIsPrimaryRequired="true" primaryLossesRequired="true" distributionLossFactorRequired="true" systemProportionRequired="true"
 	 * @generated
 	 */
-	double generateHotWaterAndPrimaryGains(IInternalParameters parameters, IEnergyState state, IWaterTank store, boolean storeIsPrimary, double primaryCorrectionFactor, double distributionLossFactor, double systemProportion);
+	double generateHotWaterAndPrimaryGains(IInternalParameters parameters, IEnergyState state, IWaterTank store, boolean storeIsPrimary, double primaryLosses, double distributionLossFactor, double systemProportion);
 
 	/**
 	 * <!-- begin-user-doc -->

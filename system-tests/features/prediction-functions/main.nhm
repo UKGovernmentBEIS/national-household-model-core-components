@@ -1,9 +1,9 @@
-(scenario stock-id: ../../EHS2012.json.gz
+(scenario stock-id: ../../stock.json
           start-date: 2012
           end-date: 2013
           quantum: 4000
           weighting:round
-          
+
           (def bill-all on:house)
           (def bill-carbon on:house)
           (def bill-tariffs on:house)
@@ -11,16 +11,16 @@
           (def geom on:house)
           (def emissions on:house)
           (def now on:house)
-          
+
           (def-function timeseries
                         (function.time-series
                             initial:0
                             (on 01/01/2012 1)
                             (on 01/01/2013 2)))
-          
+
           (context.calibration
               (replace fuels:MainsGas 1))
-          
+
           (context.tariffs
               defaults:[
                         (tariff
@@ -30,7 +30,7 @@
                                     (* house.meter-reading timeseries))
                                 (charge
                                     (* 3 house.emissions))))])
-          
+
           (context.carbon-factors
               (group
                   fuels:MainsGas
@@ -55,7 +55,7 @@
                   carbon-factor:0
                   )
               )
-          
+
           (on.dates name:check-assertions
                     scenario-start
                     (apply
@@ -76,28 +76,28 @@
                                         ]
                                )
                         )
-                    
+
                     (assert
                         name:bill-is-12
                         over:all-houses
                         capture: [now bill-all bill-none bill-tariffs bill-carbon geom emissions]
                         (= bill-all 12))
-                    
+
                     (assert
                         name:bill-none-is-8
                         over:all-houses
                         (= bill-none 8))
-                    
+
                     (assert
                         name:bill-tariffs-is-9
                         over:all-houses
                         (= bill-tariffs 9))
-                    
+
                     (assert
                         name:bill-carbon-is-11
                         over:all-houses
                         (= bill-carbon 11))
-                    
+
                     (assert
                         name:geometric
                         over:all-houses

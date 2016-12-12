@@ -10,12 +10,12 @@ import javax.inject.Inject;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 
+import uk.org.cse.nhm.energycalculator.api.types.FrameType;
+import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 import uk.org.cse.nhm.hom.components.fabric.types.DoorType;
-import uk.org.cse.nhm.hom.components.fabric.types.FrameType;
-import uk.org.cse.nhm.hom.components.fabric.types.GlazingType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallInsulationType;
-import uk.org.cse.nhm.hom.components.fabric.types.WindowInsulationType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.language.adapt.IAdapterInterceptor;
 import uk.org.cse.nhm.language.adapt.IConverter;
@@ -42,7 +42,6 @@ import uk.org.cse.nhm.language.definition.action.reset.XTechnologyType.XTechnolo
 import uk.org.cse.nhm.language.definition.action.reset.XWallConstruction;
 import uk.org.cse.nhm.language.definition.action.reset.XWallInfiltration;
 import uk.org.cse.nhm.language.definition.action.reset.XWallInsulationThickness;
-import uk.org.cse.nhm.language.definition.action.reset.XWallKValue;
 import uk.org.cse.nhm.language.definition.action.reset.XWallUValue;
 import uk.org.cse.nhm.simulator.reset.IResetFactory;
 import uk.org.cse.nhm.simulator.scope.IComponentsAction;
@@ -65,13 +64,11 @@ public class ResetActionsAdapter extends ReflectingAdapter {
 	@Adapt(XResetWalls.class)
 	public IComponentsAction buildResetWalls(
 			@Prop(XResetWalls.P.uvalue) final Optional<IComponentsFunction<Number>> uLookup,
-			@Prop(XResetWalls.P.kvalue) final Optional<IComponentsFunction<Number>> kLookup,
 			@Prop(XResetWalls.P.infiltration) final Optional<IComponentsFunction<Number>> infiltration,
 			@Prop(XResetWalls.P.thickness) final Optional<IComponentsFunction<Number>> thickness
 			) {
 		return factory.createResetWallsAction(
 				uLookup, 
-				kLookup, 
 				infiltration, 
 				thickness);
 	}
@@ -105,11 +102,6 @@ public class ResetActionsAdapter extends ReflectingAdapter {
 	@Adapt(XWallUValue.class)
 	public IComponentsFunction<? extends Number> buildWallUValue() {
 		return factory.createWallUValueFunction();
-	}
-	
-	@Adapt(XWallKValue.class)
-	public IComponentsFunction<? extends Number> buildWallKValue() {
-		return factory.createWallKValueFunction();
 	}
 	
 	/* Windows */
@@ -162,17 +154,9 @@ public class ResetActionsAdapter extends ReflectingAdapter {
 	
 	@Adapt(XResetFloors.class)
 	public IComponentsAction buildResetFloors(
-			@Prop(XResetFloors.P.uValue) final Optional<IComponentsFunction<Number>> uValue,
-			@Prop(XResetFloors.P.kValue) final Optional<IComponentsFunction<Number>> kValue,
-			@Prop(XResetFloors.P.infiltration) final Optional<IComponentsFunction<Number>> infiltration,
-			@Prop(XResetFloors.P.partyKValue) final Optional<IComponentsFunction<Number>> partyKValue
+			@Prop(XResetFloors.P.uValue) final Optional<IComponentsFunction<Number>> uValue
 			) {
-		return factory.createResetFloorsAction(
-				uValue,
-				kValue,
-				infiltration,
-				partyKValue
-				);
+		return factory.createResetFloorsAction(uValue);
 	}
 	
 	@Adapt(XComputeFloorUValue.class)
@@ -200,15 +184,9 @@ public class ResetActionsAdapter extends ReflectingAdapter {
 	
 	@Adapt(XResetRoofs.class)
 	public IComponentsAction buildResetRoofAction(
-			@Prop(XResetRoofs.P.uValue) final Optional<IComponentsFunction<Number>> uValue,
-			@Prop(XResetRoofs.P.kValue) final Optional<IComponentsFunction<Number>> kValue,
-			@Prop(XResetRoofs.P.partyKValue) final Optional<IComponentsFunction<Number>> partyKValue
+			@Prop(XResetRoofs.P.uValue) final Optional<IComponentsFunction<Number>> uValue
 			) {
-		return factory.createResetRoofsAction(
-				uValue,
-				kValue,
-				partyKValue
-				);
+		return factory.createResetRoofsAction(uValue);
 	}
 	
 	/* Miscellaneous */

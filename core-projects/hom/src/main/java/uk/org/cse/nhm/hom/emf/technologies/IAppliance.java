@@ -10,10 +10,10 @@ package uk.org.cse.nhm.hom.emf.technologies;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IAppliance#getEfficiency <em>Efficiency</em>}</li>
  * </ul>
- * </p>
  *
  * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getAppliance()
  * @model

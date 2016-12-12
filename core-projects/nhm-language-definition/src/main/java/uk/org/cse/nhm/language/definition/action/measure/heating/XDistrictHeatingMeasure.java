@@ -18,11 +18,13 @@ public class XDistrictHeatingMeasure extends XWetHeatingMeasure {
 		public static final String cylinderVolume = "cylinderVolume";
 		public static final String cylinderInsulationThickness = "cylinderInsulationThickness";
 		public static final String efficiency = "efficiency";
+		public static final String chargingUsageBased = "chargingUsageBased";
 	}
 	
 	private XNumber cylinderVolume = XNumberConstant.create(110);
 	private double cylinderInsulationThickness = 50;
 	private XNumber efficiency = XNumberConstant.create(0.8);
+	private boolean chargingUsageBased = false;
 	
 	
     @BindNamedArgument("cylinder-volume")
@@ -55,5 +57,16 @@ public class XDistrictHeatingMeasure extends XWetHeatingMeasure {
 	}
 	public void setEfficiency(final XNumber efficiency) {
 		this.efficiency = efficiency;
+	}
+	
+	@BindNamedArgument("charging-usage-based")
+	@Prop(P.chargingUsageBased)
+	@Doc("Whether or not this charge will be based on fuel usage. This adjusts the energy use when using the energy calculator in SAP mode (see SAP 2012 Table 4c). Note that this field does not know anything about tariffs.")
+	public boolean isChargingUsageBased() {
+		return this.chargingUsageBased;
+	}
+	
+	public void setChargingUsageBased(final boolean chargingUsageBased) {
+		this.chargingUsageBased = chargingUsageBased;
 	}
 }

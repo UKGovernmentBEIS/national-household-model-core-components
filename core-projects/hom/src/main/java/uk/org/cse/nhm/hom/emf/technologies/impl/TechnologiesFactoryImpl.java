@@ -18,6 +18,7 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyState;
 import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.hom.IHeatProportions;
+import uk.org.cse.nhm.hom.emf.technologies.*;
 import uk.org.cse.nhm.hom.emf.technologies.EmitterType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.HeatPumpSourceType;
@@ -30,7 +31,6 @@ import uk.org.cse.nhm.hom.emf.technologies.ICentralWaterSystem;
 import uk.org.cse.nhm.hom.emf.technologies.ICommunityCHP;
 import uk.org.cse.nhm.hom.emf.technologies.ICommunityHeatSource;
 import uk.org.cse.nhm.hom.emf.technologies.ICooker;
-import uk.org.cse.nhm.hom.emf.technologies.IElectricShower;
 import uk.org.cse.nhm.hom.emf.technologies.IHeatPump;
 import uk.org.cse.nhm.hom.emf.technologies.IHeatPumpWarmAirSystem;
 import uk.org.cse.nhm.hom.emf.technologies.IHybridHeater;
@@ -107,7 +107,6 @@ public class TechnologiesFactoryImpl extends EFactoryImpl implements ITechnologi
 			case ITechnologiesPackage.SOLAR_WATER_HEATER: return createSolarWaterHeater();
 			case ITechnologiesPackage.IMMERSION_HEATER: return createImmersionHeater();
 			case ITechnologiesPackage.COOKER: return createCooker();
-			case ITechnologiesPackage.ELECTRIC_SHOWER: return createElectricShower();
 			case ITechnologiesPackage.STORAGE_HEATER: return createStorageHeater();
 			case ITechnologiesPackage.COMMUNITY_HEAT_SOURCE: return createCommunityHeatSource();
 			case ITechnologiesPackage.COMMUNITY_CHP: return createCommunityCHP();
@@ -122,6 +121,8 @@ public class TechnologiesFactoryImpl extends EFactoryImpl implements ITechnologi
 			case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC: return createSolarPhotovoltaic();
 			case ITechnologiesPackage.ADJUSTER: return createAdjuster();
 			case ITechnologiesPackage.HYBRID_HEATER: return createHybridHeater();
+			case ITechnologiesPackage.MIXER_SHOWER: return createMixerShower();
+			case ITechnologiesPackage.ELECTRIC_SHOWER: return createElectricShower();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -147,7 +148,7 @@ public class TechnologiesFactoryImpl extends EFactoryImpl implements ITechnologi
 				return createStorageHeaterTypeFromString(eDataType, initialValue);
 			case ITechnologiesPackage.HEAT_PUMP_SOURCE_TYPE:
 				return createHeatPumpSourceTypeFromString(eDataType, initialValue);
-			case ITechnologiesPackage.IENERGY_CALC_VISITOR:
+			case ITechnologiesPackage.IENERGY_CALCULATOR_VISITOR:
 				return createIEnergyCalculatorVisitorFromString(eDataType, initialValue);
 			case ITechnologiesPackage.IINTERNAL_PARAMETERS:
 				return createIInternalParametersFromString(eDataType, initialValue);
@@ -159,7 +160,7 @@ public class TechnologiesFactoryImpl extends EFactoryImpl implements ITechnologi
 				return createAtomicIntegerFromString(eDataType, initialValue);
 			case ITechnologiesPackage.ICONSTANTS:
 				return createIConstantsFromString(eDataType, initialValue);
-			case ITechnologiesPackage.IENERGY_CALC__PARAMETERS:
+			case ITechnologiesPackage.IENERGY_CALCULATOR_PARAMETERS:
 				return createIEnergyCalculatorParametersFromString(eDataType, initialValue);
 			case ITechnologiesPackage.EFFICIENCY:
 				return createEfficiencyFromString(eDataType, initialValue);
@@ -190,7 +191,7 @@ public class TechnologiesFactoryImpl extends EFactoryImpl implements ITechnologi
 				return convertStorageHeaterTypeToString(eDataType, instanceValue);
 			case ITechnologiesPackage.HEAT_PUMP_SOURCE_TYPE:
 				return convertHeatPumpSourceTypeToString(eDataType, instanceValue);
-			case ITechnologiesPackage.IENERGY_CALC_VISITOR:
+			case ITechnologiesPackage.IENERGY_CALCULATOR_VISITOR:
 				return convertIEnergyCalculatorVisitorToString(eDataType, instanceValue);
 			case ITechnologiesPackage.IINTERNAL_PARAMETERS:
 				return convertIInternalParametersToString(eDataType, instanceValue);
@@ -202,7 +203,7 @@ public class TechnologiesFactoryImpl extends EFactoryImpl implements ITechnologi
 				return convertAtomicIntegerToString(eDataType, instanceValue);
 			case ITechnologiesPackage.ICONSTANTS:
 				return convertIConstantsToString(eDataType, instanceValue);
-			case ITechnologiesPackage.IENERGY_CALC__PARAMETERS:
+			case ITechnologiesPackage.IENERGY_CALCULATOR_PARAMETERS:
 				return convertIEnergyCalculatorParametersToString(eDataType, instanceValue);
 			case ITechnologiesPackage.EFFICIENCY:
 				return convertEfficiencyToString(eDataType, instanceValue);
@@ -311,16 +312,6 @@ public class TechnologiesFactoryImpl extends EFactoryImpl implements ITechnologi
 	public ICooker createCooker() {
 		CookerImpl cooker = new CookerImpl();
 		return cooker;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public IElectricShower createElectricShower() {
-		ElectricShowerImpl electricShower = new ElectricShowerImpl();
-		return electricShower;
 	}
 
 	/**
@@ -461,6 +452,26 @@ public class TechnologiesFactoryImpl extends EFactoryImpl implements ITechnologi
 	public IHybridHeater createHybridHeater() {
 		HybridHeaterImpl hybridHeater = new HybridHeaterImpl();
 		return hybridHeater;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public IMixerShower createMixerShower() {
+		MixerShowerImpl mixerShower = new MixerShowerImpl();
+		return mixerShower;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public IElectricShower createElectricShower() {
+		ElectricShowerImpl electricShower = new ElectricShowerImpl();
+		return electricShower;
 	}
 
 	/**

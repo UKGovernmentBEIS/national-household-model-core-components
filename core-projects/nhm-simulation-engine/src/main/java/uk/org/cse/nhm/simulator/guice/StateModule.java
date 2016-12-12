@@ -16,7 +16,9 @@ import uk.org.cse.hom.housepropertystore.HouseProperties;
 import uk.org.cse.hom.housepropertystore.IHouseProperties;
 import uk.org.cse.hom.money.FinancialAttributes;
 import uk.org.cse.nhm.energycalculator.api.IConstants;
+import uk.org.cse.nhm.energycalculator.api.IWeather;
 import uk.org.cse.nhm.energycalculator.api.impl.DefaultConstants;
+import uk.org.cse.nhm.energycalculator.api.impl.Weather;
 import uk.org.cse.nhm.hom.BasicCaseAttributes;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
 import uk.org.cse.nhm.hom.people.People;
@@ -34,7 +36,6 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.IState;
 import uk.org.cse.nhm.simulator.state.components.IFlags;
 import uk.org.cse.nhm.simulator.state.components.impl.Flags;
-import uk.org.cse.nhm.simulator.state.components.impl.Weather;
 import uk.org.cse.nhm.simulator.state.dimensions.DimensionCounter;
 import uk.org.cse.nhm.simulator.state.dimensions.IFunctionDimension;
 import uk.org.cse.nhm.simulator.state.dimensions.behaviour.DefaultHeatingBehaviourProvider;
@@ -60,7 +61,6 @@ import uk.org.cse.nhm.simulator.state.dimensions.impl.FunctionDimension;
 import uk.org.cse.nhm.simulator.state.dimensions.time.ITime;
 import uk.org.cse.nhm.simulator.state.dimensions.time.ITimeDimension;
 import uk.org.cse.nhm.simulator.state.dimensions.time.RealTimeDimension;
-import uk.org.cse.nhm.simulator.state.dimensions.weather.IWeather;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.ConstantComponentsFunction;
 import uk.org.cse.nhm.simulator.state.impl.CanonicalState;
@@ -239,8 +239,8 @@ public class StateModule extends AbstractModule  {
 							bind(String.class).toInstance("Carbon Factors");
 							
 							bind(new TypeLiteral<IComponentsFunction<ICarbonFactors>>() {}).toInstance(ConstantComponentsFunction.of(
-									Name.of("SAP Carbon"),
-									CarbonFactors.SAP09));
+																		Name.of("SAP Carbon"),
+																		(ICarbonFactors)new CarbonFactors()));
 							
 							final TypeLiteral<FunctionDimension<ICarbonFactors>> implementationType = new TypeLiteral<FunctionDimension<ICarbonFactors>>() {};
 							final TypeLiteral<IFunctionDimension<ICarbonFactors>> fDimType = new TypeLiteral<IFunctionDimension<ICarbonFactors>>() {};
@@ -285,11 +285,19 @@ public class StateModule extends AbstractModule  {
         //bind(IEnergyCalculator.class).to(EnergyCalculator.class).in(SimulationScope);
 
 		// this should allow us to share an energy calculator bridge /between runs/
+    	bind(EnergyCalculatorBridgeProvider.class).in(Scopes.SINGLETON);
+    	
 		bind(IEnergyCalculatorBridge.class)
-			.toProvider(EnergyCalculatorBridgeProvider.class)
-			.in(Scopes.SINGLETON);
+			.toProvider(EnergyCalculatorBridgeProvider.class);
 
         bind(IConstants.class).toProvider(Providers.of(DefaultConstants.INSTANCE)).in(SimulationScope);
+        
+        // The energy calculator bridge which uses the default constant gets tied to this name.
+        bind(IEnergyCalculatorBridge.class)
+        	.annotatedWith(Names.named("defaultConstantsBridge"))
+        	.toProvider(EnergyCalculatorBridgeProvider.WithDefaultConstants.class)
+        	.in(Scopes.SINGLETON);
+        	
         
         // and these are a couple of parts of the simulation which should be automatically created
         // that just do some maintenance.

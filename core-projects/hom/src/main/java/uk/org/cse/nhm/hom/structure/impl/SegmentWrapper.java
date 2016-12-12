@@ -5,9 +5,12 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Optional;
+
+import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
 import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallInsulationType;
 import uk.org.cse.nhm.hom.structure.IMutableWall;
 import uk.org.cse.nhm.hom.util.PhysicsUtil;
 
@@ -89,11 +92,6 @@ class SegmentWrapper implements IMutableWall {
     }
 
     @Override
-	public double getKValue() {
-        return endpoint.getKValue();
-    }
-
-    @Override
 	public WallConstructionType getWallConstructionType() {
         return endpoint.getWallConstructionType();
     }
@@ -108,10 +106,6 @@ class SegmentWrapper implements IMutableWall {
         endpoint.setUValue(u);
     }
 
-    @Override
-	public void setKValue(final double k) {
-        endpoint.setKValue(k);
-    }
 
     @Override
     public void split(final double proportion) {
@@ -167,10 +161,21 @@ class SegmentWrapper implements IMutableWall {
 			final double thickness) {
 		endpoint.setWallInsulationThickness(type, thickness);
 	}
-	
+
 	@Override
 	public double getWallInsulationThickness(final WallInsulationType type) {
 		return endpoint.getWallInsulationThickness(type);
+	}
+
+	@Override
+	public double getWallInsulationThickness(Set<WallInsulationType> types) {
+		double accum = 0;
+
+		for (WallInsulationType t : types) {
+			accum += getWallInsulationThickness(t);
+		}
+
+		return accum;
 	}
 
 	@Override
@@ -178,5 +183,48 @@ class SegmentWrapper implements IMutableWall {
 		endpoint.setWallInsulationThickness(type, thickness + endpoint.getWallInsulationThickness(type));
 		
 		endpoint.setUValue(PhysicsUtil.addRValueToUValue(endpoint.getUValue(), thickness * rValue));
+	}
+
+	@Override
+	public Optional<ThermalMassLevel> getThermalMassLevel() {
+		/*
+		BEISDOC
+		NAME: Wall Thermal Mass Category
+		DESCRIPTION: Lookup the thermal mass level of the wall based on its construction type and whether it has insulation.
+		TYPE: lookup
+		UNIT: Thermal Mass Level
+		DEPS: thermal-mass-level
+		NOTES: Specified by BRE.
+		ID: wall-thermal-mass-category
+		CODSIEB
+		*/
+
+		switch (getWallConstructionType().getWallType()) {
+		case Internal:
+		case Party:
+			return Optional.absent();
+
+		case External:
+			switch(getWallConstructionType()) {
+			case SolidBrick:
+			case GraniteOrWhinstone:
+			case Sandstone:
+				return Optional.of(
+						(internalOrExternalInsulationThickness() > 0) ? ThermalMassLevel.LOW : ThermalMassLevel.HIGH);
+
+			case TimberFrame:
+				return Optional.of(ThermalMassLevel.LOW);
+
+			default:
+				return Optional.of(ThermalMassLevel.MEDIUM);
+			}
+		default:
+			throw new IllegalArgumentException("Unknown wall type " + getWallConstructionType().getWallType());
+		}
+	}
+
+	@Override
+	public boolean hasWallInsulation(WallInsulationType type) {
+		return endpoint.getWallInsulationTypes().contains(type);
 	}
 }

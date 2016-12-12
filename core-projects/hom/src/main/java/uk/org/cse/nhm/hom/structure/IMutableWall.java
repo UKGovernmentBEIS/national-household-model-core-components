@@ -1,7 +1,7 @@
 package uk.org.cse.nhm.hom.structure;
 
-import uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
 
 /**
  * Adds mutator methods to {@link IWall}
@@ -17,10 +17,7 @@ public interface IMutableWall extends IWall {
 	 * @param u the new u-value for this wall
 	 */
 	public void setUValue(final double u);
-	/**
-	 * @param k the new k-value for this wall
-	 */
-	public void setKValue(final double k);
+
 	public void setAirChangeRate(final double airChangeRate);
 	/**
 	 * Splits this wall into two parts, according to the proportion.  For example, if you invoke

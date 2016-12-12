@@ -18,7 +18,6 @@ import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
 import uk.org.cse.nhm.hom.emf.technologies.IWarmAirCirculator;
 import uk.org.cse.nhm.hom.emf.technologies.IWarmAirSystem;
 import uk.org.cse.nhm.hom.emf.technologies.IWaterTank;
-import uk.org.cse.nhm.hom.emf.technologies.impl.util.HotWaterUtilities;
 
 /**
  * <!-- begin-user-doc -->
@@ -26,10 +25,10 @@ import uk.org.cse.nhm.hom.emf.technologies.impl.util.HotWaterUtilities;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.WarmAirCirculatorImpl#getWarmAirSystem <em>Warm Air System</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -223,7 +222,7 @@ public class WarmAirCirculatorImpl extends CentralWaterHeaterImpl implements IWa
 	@Override
 	public double generateHotWaterAndPrimaryGains(final IInternalParameters parameters,
 			final IEnergyState state, final IWaterTank store, final boolean storeIsPrimary,
-			final double primaryCorrectionFactor, final double distributionLossFactor,
+			final double primaryLosses, final double distributionLossFactor,
 			final double systemProportion) {
 		
 		if (getWarmAirSystem().getFuelType() == FuelType.ELECTRICITY) {
@@ -233,26 +232,16 @@ public class WarmAirCirculatorImpl extends CentralWaterHeaterImpl implements IWa
 		
 		final double demandToSatisfy = state.getBoundedTotalDemand(EnergyType.DemandsHOT_WATER, systemProportion);
 		
-		final double primaryCircuitLosses = getPrimaryPipeworkLosses(parameters, 
-				!(store == null) && store.isThermostatFitted()
-				, primaryCorrectionFactor);
-		
 		state.increaseSupply(EnergyType.DemandsHOT_WATER, demandToSatisfy);
-		state.increaseSupply(EnergyType.GainsHOT_WATER_SYSTEM_GAINS, primaryCircuitLosses);
+		state.increaseSupply(EnergyType.GainsHOT_WATER_SYSTEM_GAINS, primaryLosses);
 		
 		state.increaseDemand(getWarmAirSystem().getFuelType().getEnergyType(), 
-				(demandToSatisfy + primaryCircuitLosses)
+				(demandToSatisfy + primaryLosses)
 				/ getWarmAirSystem().getEfficiency().value);
 		
 		return demandToSatisfy;
 	}
 	
-	protected double getPrimaryPipeworkLosses(final IInternalParameters parameters,
-			final boolean tankPresentAndThermostatic, final double primaryCorrectionFactor) {
-		final boolean primaryPipeworkIsInsulated = getSystem().isPrimaryPipeworkInsulated();
-		return HotWaterUtilities.getPrimaryPipeworkLosses(parameters, primaryPipeworkIsInsulated, tankPresentAndThermostatic, primaryCorrectionFactor);
-	}
-
 	@Override
 	public void generateSystemGains(final IInternalParameters parameters,
 			final IEnergyState state, final IWaterTank store, final boolean storeIsPrimary,
@@ -266,5 +255,15 @@ public class WarmAirCirculatorImpl extends CentralWaterHeaterImpl implements IWa
 		state.increaseSupply(EnergyType.GainsHOT_WATER_SYSTEM_GAINS, systemLosses);
 		state.increaseDemand(getWarmAirSystem().getFuelType().getEnergyType(), 
 				systemLosses / getWarmAirSystem().getEfficiency().value);		
+	}
+
+	@Override
+	public boolean causesPipeworkLosses() {
+		return true;
+	}
+
+	@Override
+	public boolean isCommunityHeating() {
+		return false;
 	}
 } //WarmAirCirculatorImpl

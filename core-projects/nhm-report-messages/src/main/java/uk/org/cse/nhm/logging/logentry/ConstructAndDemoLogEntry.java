@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableMap;
 
-import uk.org.cse.nhm.hom.types.RegionType;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 
 /**
  * DemolitionLog.

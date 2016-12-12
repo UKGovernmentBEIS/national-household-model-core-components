@@ -3,16 +3,13 @@
 package uk.org.cse.nhm.hom.emf.technologies.impl;
 
 import java.util.concurrent.atomic.AtomicInteger;
-
 import org.eclipse.emf.ecore.EClass;
-
 import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.hom.IHeatProportions;
 import uk.org.cse.nhm.hom.emf.technologies.IElectricShower;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
-import uk.org.cse.nhm.hom.emf.technologies.impl.util.ShowerTransducer;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,7 +18,7 @@ import uk.org.cse.nhm.hom.emf.technologies.impl.util.ShowerTransducer;
  *
  * @generated
  */
-public class ElectricShowerImpl extends WaterHeaterImpl implements IElectricShower {
+public class ElectricShowerImpl extends ShowerImpl implements IElectricShower {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -41,14 +38,40 @@ public class ElectricShowerImpl extends WaterHeaterImpl implements IElectricShow
 		return ITechnologiesPackage.Literals.ELECTRIC_SHOWER;
 	}
 
+	@Override
+	public double hotWaterVolumePerShower() {
+		return 0;
+	}
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated no
 	 */
-	public void accept(IConstants constants, IEnergyCalculatorParameters parameters, IEnergyCalculatorVisitor visitor, AtomicInteger heatingSystemCounter, IHeatProportions heatProportions) {
-		// TODO extract magic number into constants table.
-		visitor.visitEnergyTransducer(new ShowerTransducer(ShowerTransducer.DEFAULT_POWER));
+	@Override
+	public double solarAdjustment() {
+		return 0.64;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated no
+	 */
+	@Override
+	public void accept(final IConstants constants, final IEnergyCalculatorParameters parameters, final IEnergyCalculatorVisitor visitor, final AtomicInteger heatingSystemCounter, final IHeatProportions heatProportions) {
+		// get number of showers
+		// make a special Sink
+
+		switch (parameters.getCalculatorType()) {
+		case SAP2012:
+			break;
+		case BREDEM2012:
+			visitor.visitEnergyTransducer(new ElectricShowerTransducer(numShowers(parameters.getNumberOfOccupants())));
+			break;
+		default:
+			throw new UnsupportedOperationException("Unknown energy calculator type when visiting electric shower " + parameters.getCalculatorType());
+		}
 	}
 
 } //ElectricShowerImpl

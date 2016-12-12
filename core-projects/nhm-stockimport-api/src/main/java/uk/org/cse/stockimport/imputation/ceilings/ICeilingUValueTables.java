@@ -7,7 +7,4 @@ public interface ICeilingUValueTables {
 	TreeMap<Integer, Double> getInsulatedThatchedUValues();
 	double[][] getUnknownValuesByRoofTypeAndAgeBand();
 	double[][] getUnknownValuesByRoofTypeAndAgeBandWithRoomInRoof();
-	
-	double getPartyCeilingKValue();
-	double getRoofKValue();
 }

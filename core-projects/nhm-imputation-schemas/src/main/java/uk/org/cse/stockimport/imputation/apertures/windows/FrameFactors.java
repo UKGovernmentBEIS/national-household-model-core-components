@@ -3,7 +3,7 @@ package uk.org.cse.stockimport.imputation.apertures.windows;
 import java.util.EnumMap;
 import java.util.Map;
 
-import uk.org.cse.nhm.hom.components.fabric.types.FrameType;
+import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -22,7 +22,7 @@ public class FrameFactors implements IWindowFrameFactor {
 	}
 	
 	/* (non-Javadoc)
-	 * @see uk.org.cse.stockimport.imputation.apertures.windows.IWindowFrameFactor#getFrameFactor(uk.org.cse.nhm.hom.components.fabric.types.FrameType)
+	 * @see uk.org.cse.stockimport.imputation.apertures.windows.IWindowFrameFactor#getFrameFactor(uk.org.cse.nhm.energycalculator.api.types.FrameType)
 	 */
     @Override
 	public double getFrameFactor(final FrameType frameType) {
@@ -30,7 +30,7 @@ public class FrameFactors implements IWindowFrameFactor {
 	}
     
     /* (non-Javadoc)
-	 * @see uk.org.cse.stockimport.imputation.apertures.windows.IWindowFrameFactor#setFrameFactor(uk.org.cse.nhm.hom.components.fabric.types.FrameType, java.lang.Double)
+	 * @see uk.org.cse.stockimport.imputation.apertures.windows.IWindowFrameFactor#setFrameFactor(uk.org.cse.nhm.energycalculator.api.types.FrameType, java.lang.Double)
 	 */
     @Override
 	public void setFrameFactor(final FrameType frameType, final Double factor){

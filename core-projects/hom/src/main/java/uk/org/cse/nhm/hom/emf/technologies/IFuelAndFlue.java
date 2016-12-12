@@ -13,11 +13,11 @@ import uk.org.cse.nhm.hom.emf.technologies.boilers.FlueType;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IFuelAndFlue#getFuel <em>Fuel</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IFuelAndFlue#getFlueType <em>Flue Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getFuelAndFlue()
  * @model interface="true" abstract="true"

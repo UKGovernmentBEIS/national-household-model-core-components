@@ -17,17 +17,6 @@ import uk.org.cse.stockimport.domain.services.SecondaryHeatingSystemType;
  * @since 1.0
  */
 public class SecondaryHeatingSystemBuilder implements ISecondaryHeatingSystemBuilder {
-	private final Map<SecondaryHeatingSystemType, Double> responsiveness = 
-			ImmutableMap.<SecondaryHeatingSystemType, Double>builder()
-				.put(SecondaryHeatingSystemType.ELECTRIC_ROOM_HEATERS, 1d)
-				.put(SecondaryHeatingSystemType.GAS_COAL_EFFECT_FIRE, 1d)
-				.put(SecondaryHeatingSystemType.GAS_FIRE, 1d)
-//				.put(SecondaryHeatingSystemType.GAS_FIRE_FLUELESS, 1d)
-				.put(SecondaryHeatingSystemType.GAS_FIRE_OPEN_FLUE, 1d)
-				.put(SecondaryHeatingSystemType.LPG_HEATER, 1d)
-				.put(SecondaryHeatingSystemType.OPEN_FIRE, 1d)
-			.build();
-	
 	private final Map<SecondaryHeatingSystemType, Double> efficiency = 
 			ImmutableMap.<SecondaryHeatingSystemType, Double>builder()
 				.put(SecondaryHeatingSystemType.ELECTRIC_ROOM_HEATERS, 1d)
@@ -48,7 +37,7 @@ public class SecondaryHeatingSystemBuilder implements ISecondaryHeatingSystemBui
 		case GAS_FIRE_OPEN_FLUE:
 		case LPG_HEATER:
 		case OPEN_FIRE:
-			return createRoomHeater(type, responsiveness.get(type), efficiency.get(type));
+			return createRoomHeater(type, efficiency.get(type));
 		default:
 		case NOT_KNOWN:
 		case NO_SECONDARY_SYSTEM:
@@ -56,11 +45,10 @@ public class SecondaryHeatingSystemBuilder implements ISecondaryHeatingSystemBui
 		}
 	}
 
-	private static IRoomHeater createRoomHeater(final SecondaryHeatingSystemType type, final double responsiveness, final double efficiency) {
+	private static IRoomHeater createRoomHeater(final SecondaryHeatingSystemType type, final double efficiency) {
 		final IRoomHeater roomHeater = ITechnologiesFactory.eINSTANCE.createRoomHeater();
 		
 		roomHeater.setEfficiency(Efficiency.fromDouble(efficiency));
-		roomHeater.setResponsiveness(responsiveness);
 		roomHeater.setFuel(type.getFuelType());
 		roomHeater.setFlueType(type.getFlueType());
 		roomHeater.setThermostatFitted(false);

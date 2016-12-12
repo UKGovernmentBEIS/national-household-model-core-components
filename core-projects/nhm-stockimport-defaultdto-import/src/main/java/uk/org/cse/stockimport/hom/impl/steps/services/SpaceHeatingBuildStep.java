@@ -1,13 +1,11 @@
 package uk.org.cse.stockimport.hom.impl.steps.services;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
 import uk.org.cse.nhm.hom.SurveyCase;
@@ -51,28 +49,6 @@ public class SpaceHeatingBuildStep implements ISurveyCaseBuildStep {
 	private IRoomHeaterBuilder roomHeaterBuilder;
 	private IWarmAirSystemBuilder warmAirBuilder;
 	private ISecondaryHeatingSystemBuilder secondaryBuilder;
-	
-	/**
-	 * This is a representation of SAP table 11, as understood by the CHM spreadsheet
-	 */
-	private final Map<SpaceHeatingSystemType, Double> secondaryHeatingProportion = 
-			ImmutableMap.<SpaceHeatingSystemType, Double>builder()
-				.put(SpaceHeatingSystemType.STANDARD, 0.1)
-				.put(SpaceHeatingSystemType.COMBI, 0.1)
-				.put(SpaceHeatingSystemType.STORAGE_COMBI, 0.1)
-				.put(SpaceHeatingSystemType.BACK_BOILER, 0.1)
-				.put(SpaceHeatingSystemType.BACK_BOILER_NO_CENTRAL_HEATING, 0.1)
-				.put(SpaceHeatingSystemType.STORAGE_HEATER, 0.1) // unless main heating heater flue type is something else.
-				.put(SpaceHeatingSystemType.ROOM_HEATER, 0.2)
-				.put(SpaceHeatingSystemType.WARM_AIR, 0.1)
-				.put(SpaceHeatingSystemType.COMMUNITY_HEATING_WITH_CHP, 0.1)
-				.put(SpaceHeatingSystemType.COMMUNITY_HEATING_WITHOUT_CHP, 0.1)
-				.put(SpaceHeatingSystemType.GROUND_SOURCE_HEAT_PUMP, 0.1)
-				.put(SpaceHeatingSystemType.AIR_SOURCE_HEAT_PUMP, 0.1)
-				.put(SpaceHeatingSystemType.CPSU, 0.1)
-				.put(SpaceHeatingSystemType.MISSING, 1.0)
-			.build();
-	
 	
 	@Override
 	public String getIdentifier() {
@@ -281,7 +257,6 @@ public class SpaceHeatingBuildStep implements ISurveyCaseBuildStep {
 							secondaryHeater.getFuel()});
 			} else {
 				roomHeater.setEfficiency(secondaryHeater.getEfficiency());
-				roomHeater.setResponsiveness(secondaryHeater.getResponsiveness());
 			}
 		} else if (secondaryHeater != null) {
 			tech.setSecondarySpaceHeater(secondaryHeater);

@@ -5,14 +5,16 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
 import uk.org.cse.nhm.energycalculator.api.ISeasonalParameters;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
+import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
+import uk.org.cse.nhm.energycalculator.api.types.Zone2ControlParameter;
 
 public class InternalParameters implements IInternalParameters {
 	private final IEnergyCalculatorParameters externalParameters;
-	
+
 	private final IConstants constants;
 	private final ISeasonalParameters climate;
-	
+
 	public InternalParameters(final IEnergyCalculatorParameters externalParameters, final IConstants constants, final ISeasonalParameters climate) {
 		this.externalParameters = externalParameters;
 		this.constants = constants;
@@ -23,7 +25,7 @@ public class InternalParameters implements IInternalParameters {
 	public double getTemperatureAdjustment() {
 		return 0;
 	}
-	
+
 	@Override
 	public ISeasonalParameters getClimate() {
 		return climate;
@@ -53,7 +55,7 @@ public class InternalParameters implements IInternalParameters {
 	public double getNumberOfOccupants() {
 		return externalParameters.getNumberOfOccupants();
 	}
-	
+
 	@Override
 	public ElectricityTariffType getTarrifType() {
 		return externalParameters.getTarrifType();
@@ -63,9 +65,19 @@ public class InternalParameters implements IInternalParameters {
 	public IConstants getConstants() {
 		return constants;
 	}
-	
+
 	@Override
 	public EnergyType getInternalEnergyType(final Object object) {
 		return externalParameters.getInternalEnergyType(object);
+	}
+
+	@Override
+	public EnergyCalculatorType getCalculatorType() {
+		return externalParameters.getCalculatorType();
+	}
+
+	@Override
+	public Zone2ControlParameter getZone2ControlParameter() {
+		throw new UnsupportedOperationException("You need to get an AdjustedParameters to find out the zone 2 control parameter");
 	}
 }

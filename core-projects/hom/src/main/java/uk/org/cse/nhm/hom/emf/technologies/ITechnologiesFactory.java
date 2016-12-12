@@ -112,15 +112,6 @@ public interface ITechnologiesFactory extends EFactory {
 	ICooker createCooker();
 
 	/**
-	 * Returns a new object of class '<em>Electric Shower</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Electric Shower</em>'.
-	 * @generated
-	 */
-	IElectricShower createElectricShower();
-
-	/**
 	 * Returns a new object of class '<em>Storage Heater</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -245,6 +236,24 @@ public interface ITechnologiesFactory extends EFactory {
 	 * @generated
 	 */
 	IHybridHeater createHybridHeater();
+
+	/**
+	 * Returns a new object of class '<em>Mixer Shower</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Mixer Shower</em>'.
+	 * @generated
+	 */
+	IMixerShower createMixerShower();
+
+	/**
+	 * Returns a new object of class '<em>Electric Shower</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Electric Shower</em>'.
+	 * @generated
+	 */
+	IElectricShower createElectricShower();
 
 	/**
 	 * Returns the package supported by this factory.

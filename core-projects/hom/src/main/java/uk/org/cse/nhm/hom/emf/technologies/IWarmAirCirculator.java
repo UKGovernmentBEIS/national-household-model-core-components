@@ -10,10 +10,10 @@ package uk.org.cse.nhm.hom.emf.technologies;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IWarmAirCirculator#getWarmAirSystem <em>Warm Air System</em>}</li>
  * </ul>
- * </p>
  *
  * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getWarmAirCirculator()
  * @model

@@ -26,9 +26,6 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 public class ResetFloorsAction extends AbstractNamed implements IComponentsAction {
 	private final IDimension<StructureModel> structureDimension;
 	private final IComponentsFunction<Number> uValue;
-	private final IComponentsFunction<Number> kValue;
-	private final IComponentsFunction<Number> partykValue;
-	private final IComponentsFunction<Number> infiltration;
 	private final FloorPropertyFunction floorProperties;
 	/**
 	 * A lookup key in the ley bindings which refers to the storey in consideration.
@@ -45,17 +42,12 @@ public class ResetFloorsAction extends AbstractNamed implements IComponentsActio
 	 * @author hinton
 	 *
 	 */
-	class FloorPropertyFunction extends AbstractNamed implements IComponentsFunction<double[]> {
+	class FloorPropertyFunction extends AbstractNamed implements IComponentsFunction<Number> {
 		@Override
-		public double[] compute(final IComponentsScope scope, final ILets lets) {
+		public Number compute(final IComponentsScope scope, final ILets lets) {
 			final Storey s = lets.get(STOREY_SCOPE_KEY, Storey.class).get();
 			
-			return new double[] {
-					uValue == null ? s.getFloorUValue():uValue.compute(scope, lets).doubleValue(),
-					kValue == null ? s.getFloorKValue():kValue.compute(scope, lets).doubleValue(),
-					infiltration == null ? s.getFloorAirChangeRate():infiltration.compute(scope, lets).doubleValue(),
-					partykValue == null ? s.getPartyFloorKValue() : partykValue.compute(scope, lets).doubleValue()
-			};
+			return uValue == null ? s.getFloorUValue():uValue.compute(scope, lets).doubleValue();
 		}
 
 		@Override
@@ -72,16 +64,10 @@ public class ResetFloorsAction extends AbstractNamed implements IComponentsActio
 	@AssistedInject
 	public ResetFloorsAction(
 			final IDimension<StructureModel> structureDimension,
-			@Assisted("uValue") final Optional<IComponentsFunction<Number>> uValue,
-			@Assisted("kValue") final Optional<IComponentsFunction<Number>> kValue,
-			@Assisted("infiltration") final Optional<IComponentsFunction<Number>> infiltration,
-			@Assisted("partyKValue") final Optional<IComponentsFunction<Number>> partyKValue
+			@Assisted("uValue") final Optional<IComponentsFunction<Number>> uValue
 			) {
 		this.structureDimension = structureDimension;
 		this.uValue = uValue.orNull();
-		this.kValue = kValue.orNull();
-		this.infiltration = infiltration.orNull();
-		this.partykValue = partyKValue.orNull();
 		this.floorProperties = new FloorPropertyFunction();
 	}	
 	
@@ -97,16 +83,13 @@ public class ResetFloorsAction extends AbstractNamed implements IComponentsActio
 			public boolean modify(final StructureModel modifiable) {
 				double areaBelow = 0;
 				for (final Storey storey : modifiable.getStoreys()) {
-					final double[] result = 
+					final double result = 
 							floorProperties.compute(scope, lets.withBindings(
 								ImmutableMap.of(
 										STOREY_SCOPE_KEY, storey, 
-										STOREY_GROUND_AREA_KEY, areaBelow)));
+										STOREY_GROUND_AREA_KEY, areaBelow))).doubleValue();
 					
-					storey.setFloorUValue(result[0]);
-					storey.setFloorKValue(result[1]);
-					storey.setFloorAirChangeRate(result[2]);
-					storey.setPartyFloorKValue(result[3]);
+					storey.setFloorUValue(result);
 					
 					areaBelow = storey.getArea();
 				}

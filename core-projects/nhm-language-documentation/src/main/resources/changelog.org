@@ -1,6 +1,6 @@
 #+STARTUP: content
 #+BEGIN_COMMENT
-This is the language changelog written up as an org-mode document, so that it is not frustrating to edit. However, we must also produce a docbook version, for the rest of the toolchain to consume. 
+This is the language changelog written up as an org-mode document, so that it is not frustrating to edit. However, we must also produce a docbook version, for the rest of the toolchain to consume.
 
 If you edit this file in emacs, whenever you save the file it will run pandoc to update the XML version. This is handled by the Local Variables: section in another comment block at the end of the file. Emacs will ask if you are happy applying that local variable when you start it up.
 
@@ -14,13 +14,76 @@ If you want to cross-reference to a language element, you need to use the unique
 ** Reading the Changelog
 
    This is the changelog for the National Household Model's Scenario Language. Each section covers the major changes introduced in a particular version of the NHM. The changes are usually under these headings:
-   
+
    - *Semantic changes* are changes that may affect the meaning of existing scenarios, so if you run an old scenario its results may change
    - *New features* are new commands or arguments to existing commands which enable the model to do new things
    - *Obsolete features* are features which may be removed in a future version of the model, because they are superseded
    - *Bugs removed* will list any known errors that were found to affect the previous version which have been corrected in this version
 
 ** Released versions
+*** Version 6.5.0
+This version of the NHM has been updated to support SAP 2012 (closely, with the scenario author prevented from putting in their own override values) and BREDEM 2012 (more loosely).
+
+This changelog primarily covers scenario language changes. For a more in-depth discussion of the energy calculator update, see ref.sap-2012-spec.
+
+**** New Features
+
+***** BREDEM Specific Configuration
+
+The following three actions allow you to change some BREDEM-specific features of a house. They have no effect in SAP 2012 mode.
+
+=ref.action.set-site-exposure= puts a house in an exposure category. This maps to a multiplier to its infiltration rate.
+
+=ref.action.set-interzone-specific-heat-transfer= sets the rate of heat transfer from the main living area of the house to the rest of the house.
+
+=ref.action.reduced-internal-gains= enables reduced internal gains for that house. This is supposed to apply to modern houses.
+
+=ref.action.set-thermal-bridging-factor= is multiplied by the external area of the ddwelling to calculate the thermal bridging heat loss rate.
+
+***** Switch Energy Calculator Modes
+
+The =ref.scenario= element now has an /energy-calculator:/ property. This can take the values /SAP2012/ or /BREDEM2012/, and determines which rules will apply for this scenario.
+
+There is a new counterfactual action =ref.energy-calculator=, which allows you to temporarily look at a house in a different energy calculator mode.
+
+***** Heat Loss Intermediate Calculations
+
+=ref.house.heat-loss= has now has an optional (unnamed) parameter which allows you to look at specific heat-loss due to /ThermalBridging/, /Infiltration/ or /Fabric/.
+
+If you do not specify this parameter, the behaviour will be unchanged from previous releases. You will get the total specific heat loss, which is the three terms above added together.
+
+**** Removed Features
+
+***** Solar PV
+
+We have removed /roof-coverage/ and /efficiency/ from =ref.measure.solar-photovoltaic=, and replaced them with /size/, which is the peak power rating of the installation measured in kW.
+
+***** Responsiveness
+
+The =scale.responsiveness= action has been removed. With hindsight, it was a bad feature, and we do not believe it has ever been used.
+
+Removed the /of:/ property from =ref.house.heating-responsiveness=, since only the responsiveness of the primary space heating system is always relevant.
+
+***** Thermal Mass
+
+The NHM now uses a simplified method for calculating the thermal mass of a dwelling.
+
+=wall.k-value= has been removed.
+
+=ref.action.reset-floors=, =ref.action.reset-walls= and =ref.action.reset-roofs= have had their /k-value/ and /party-k-value/ properties removed.
+
+**** Semantic Changes
+
+A number of actions in the NHM are designed for tweaking values from SAP tables. In SAP 2012 mode, they will no longer have any effect:
+
+ + =ref.action.reset-floors=
+ + =ref.action.reset-roofs=
+ + =ref.action.reset-doors=
+ + =ref.action.reset-glazing=
+ + =ref.action.reset-walls=
+ + =ref.action.set-heating-schedule=
+ + =ref.action.set-heating-temperatures=
+
 *** Version 6.4.0
 **** Bugs fixed
 ***** Flags and reports work on def-action
@@ -71,7 +134,7 @@ Added a note to the manual to explain when this number is and is not likely to b
 **** Bugs Fixed
 ***** Space heating systems used the total hot water fraction
       Space heating systems were incorrectly calculating their share of the space heating output by comparing their space heating fraction to the total hot water fraction (summed over all sources of hot water). This bug has now been fixed.
-      
+
 **** Obsolete Features
 ***** Point-of-use-hot-water
       =ref.measure.point-of-use-hot-water= is now obsolete. This measure was used as a backup water heater when a dwelling's boiler was broken. This backup behaviour now happens automatically as specified by SAP, so the measure is no longer useful.
@@ -88,7 +151,7 @@ Note that, for heat-pumps, we use the /Heat pump, data from Table 4a/ entry of T
 
 ***** Removed concept of water heating fraction
       SAP 2009 does not have a concept of a water heating fraction. All the hot water should be produced by the primary system if present, or the secondary system if the primary is missing, or by assumed electric heaters if no water heaters at all are present. This is now correctly implemented.
-      
+
 ***** Automatic behaviour when breaking the boiler
       =ref.measure.break-boiler= no longer includes the properties /room-heater/ and /water-heater/. Portable electric heaters will now automatically be used as backups for missing heating systems as specified by SAP 2009.
 
@@ -99,7 +162,7 @@ Note that, for heat-pumps, we use the /Heat pump, data from Table 4a/ entry of T
       =scale.efficiency= has been removed from the language. We decided that it was redundant - you can easily create a template which does the same with other language pieces. Additionally, its behaviour was confusing when applied to homes with boilers, as they have two efficiency numbers (winter and summer).
 
 ***** Explicit winter and summer efficiency for boilers
-      =ref.measure.standard-boiler= and =ref.measure.combi-boiler= no longer have a /efficiency/ property. This has been replace with two properties /winter-efficiency/ and /summer-efficiency/. These may be set as a proportion. 
+      =ref.measure.standard-boiler= and =ref.measure.combi-boiler= no longer have a /efficiency/ property. This has been replace with two properties /winter-efficiency/ and /summer-efficiency/. These may be set as a proportion.
 
       There is an additional option for /summer-efficiency/: it may be specified as 0 or a negative number. In this case, our actual summer efficiency will be that much lower than /winter-efficiency/ value.
 
@@ -115,11 +178,11 @@ Note that, for heat-pumps, we use the /Heat pump, data from Table 4a/ entry of T
       /winter-efficiency/ is also used as the main efficiency for other types of heaters than boilers (and as COP for heat pumps).
 
       /summer-efficiency/ is ignored for heaters which are not boilers.
-      
+
 ***** house.heating-efficiency changes
       =ref.house.heating-efficiency= now has an additional property /measurement/.
 
-      This can take one of three values: /Winter/, /Summer/ and /InSitu/. 
+      This can take one of three values: /Winter/, /Summer/ and /InSitu/.
 
       Winter and Summer return the relevant seasonal efficiencies for boilers, and are identical to the previous behaviour of house.heating-efficiency for other kinds of heat sources.
 
@@ -153,7 +216,7 @@ Note that, for heat-pumps, we use the /Heat pump, data from Table 4a/ entry of T
       A mistake in the DTO importing code caused the draught stripped proportion field to be ignored, leaving dwellings in the stock with a draught stripped proportion of 0 (the default if unspecified).
       This bug has been fixed, but will only affect newly imported stocks.
 *** Version 6.2.0 [Not published]
-    
+
     This version was not published, and only exists for technical reasons of little interest.
 
 **** New features
@@ -217,7 +280,7 @@ Note that, for heat-pumps, we use the /Heat pump, data from Table 4a/ entry of T
 
       This change was made in response to some confusion caused in a scenario developed by the CCC.
 ***** Restricted precision in efficiencies
-      The precision with which efficiencies are represented has been restricted to 0.1% across the model. 
+      The precision with which efficiencies are represented has been restricted to 0.1% across the model.
 
       This change was needed to improve memory efficiency so as to make some complex scenarios developed for the RHI feasible to run.
 ***** Reduced precision for energy use and carbon emissions
@@ -248,7 +311,7 @@ Note that, for heat-pumps, we use the /Heat pump, data from Table 4a/ entry of T
 
       This was added to support modelling the RHI, and the CCC's analysis of the fifth carbon budget.
 ***** Defining supply chains with the =ref.consume= command
-      As a convenience for representing supply chains, or other constrained resources the =consume= command has been added. 
+      As a convenience for representing supply chains, or other constrained resources the =consume= command has been added.
 
       It is an action which either takes some amount off a variable representing a limited quantity, or fails if there is not enough left for that to be possible. Used within a =do= command, it prevents the command from exhausting the limited resource.
 
@@ -285,7 +348,7 @@ Note that, for heat-pumps, we use the /Heat pump, data from Table 4a/ entry of T
       #+BEGIN_SRC
         (def-report my-report
           (cut name:by-morphology MORPHOLOGY FORM)
-          
+
           (column name:ENERGY value: house.energy-use aggregates: [mean min max])
           (column name:MORPHOLOGY value: house.morphology)
           (column name:FORM value: house.built-form))
@@ -372,7 +435,7 @@ Note that, for heat-pumps, we use the /Heat pump, data from Table 4a/ entry of T
       This is intended to be useful for specifying pricing or sizing functions derived from real data, and was done for modelling the RHI.
 ***** Improvement of =finance.with-loan=
       =ref.finance.with-loan= has been improved so that the =term:=, =rate:= and =tilt:= arguments can all be specified using run-time functions rather than fixed constants.
-      
+
       These changes were required for modelling the RHI.
 ***** Change to definition of NPV
       =ref.npv= has been redefined so that the =discount:= argument is used to discount future costs according to a annual geometric progression whose multiplier is 1/(1+rate). Previously, the discount argument discounted costs according to an annual geometric progression with a multiplier of (1-rate).
@@ -460,10 +523,10 @@ Note that, for heat-pumps, we use the /Heat pump, data from Table 4a/ entry of T
    These are features which have been requested for future versions.
 *** Commands to create houses from archetypes
     At the moment houses can be copied with =ref.action.construct= or destroyed with =ref.action.demolish=. These commands are of limited use because:
-    
+
     - They can only create copies of existing houses
     - They cannot reweight the copies
-       
+
     In a future version, the stock will be extended to allow storage of /archetypal/ houses, with zero weight, which represent buildings that might be constructed in the future. New language commands will allow you to construct new houses within simulation by creating them from the archetypes in the stock. This will allow you to define expectations for new build, without having to find analogous existing houses and copy them.
 #+BEGIN_COMMENT
 This tells emacs to run pandoc on save. This comment needs to be near the end of the file, as emacs only looks for buffer specific variables near the end.
@@ -498,4 +561,3 @@ Local Variables:
 eval: (add-hook 'after-save-hook (lambda () (shell-command "pandoc -f org -t docbook changelog.org --chapters | sed 's! id=\"\"!!g' | sed 's!<chapter.*>!<chapter xmlns=\"http://docbook.org/ns/docbook\">!g' | sed 's!<literal>\\(ref\\..\\+\\)</literal>!<xref linkend=\"\\1\"/>!g' > changelog.xml")) nil t)
 End:
 #+END_COMMENT
-

@@ -13,7 +13,7 @@ import com.google.common.collect.Iterables;
 
 import uk.org.cse.commons.scopes.IScope;
 import uk.org.cse.nhm.NHMException;
-import uk.org.cse.nhm.hom.types.RegionType;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.ipc.api.tasks.report.ILogEntryHandler;
 import uk.org.cse.nhm.ipc.api.tasks.sim.ISimulationLogEntry;
 import uk.org.cse.nhm.language.builder.action.measure.wetheating.WetHeatingMeasure;

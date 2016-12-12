@@ -1,6 +1,5 @@
 package uk.org.cse.nhm.hom.structure;
 
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -13,11 +12,15 @@ import java.util.EnumMap;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.google.common.base.Optional;
+
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
-import uk.org.cse.nhm.energycalculator.api.types.AreaType;
+import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
+import uk.org.cse.nhm.energycalculator.api.types.FloorType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofType;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
 import uk.org.cse.nhm.hom.components.fabric.types.FloorLocationType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType;
 import uk.org.cse.nhm.hom.structure.impl.Elevation.IDoorVisitor;
 import uk.org.cse.nhm.hom.structure.impl.Storey;
 
@@ -133,10 +136,24 @@ public class StoreyTest {
 
         s.accept(visitor, els, null, 50, 50);
 
-        // should visit the four walls
-        verify(visitor, times(4)).visitFabricElement(any(AreaType.class), eq(100d), eq(2d), eq(0d));
-        // then the top and bottom of the room
-        verify(visitor, times(2)).visitFabricElement(any(AreaType.class), eq(50d), eq(2d), eq(0d));
+
+        // should visit:
+        // four walls
+        verify(visitor, times(1)).visitWall(eq(WallConstructionType.Party_MetalFrame), eq(0d), eq(false), eq(10d * 10d), eq(2d), eq(0d), eq(Optional.<ThermalMassLevel>absent()));
+        verify(visitor, times(3)).visitWall(eq(WallConstructionType.Cavity), eq(0d), eq(false), eq(10d * 10d), eq(2d), eq(0d), eq(Optional.of(ThermalMassLevel.MEDIUM)));
+
+        // floor
+        verify(visitor, times(1)).visitFloor(eq(FloorType.External), eq(true),
+        		eq(50d), // heat loss area below the dwelling (argument to s.accept)
+        		eq(2d), // u value for floor
+        		eq(3d * 10d), // external perimeter excluding the party wall
+        		eq(0d));
+
+        // ceiling
+        verify(visitor, times(1)).visitCeiling(
+        		eq(RoofType.ExternalHeatLoss),
+        		eq(50d), // heat loss area above the dwelling (argument to s.accept)
+        		eq(2d)); // u value for ceiling
     }
 
     @Test
@@ -186,7 +203,7 @@ public class StoreyTest {
                 new int[] { 0, 0, 10, 10 },
                 4);
 
-        final Storey s = new Storey(); 
+        final Storey s = new Storey();
         s.setPerimeter(p);
         Assert.assertEquals(40d, s.getPerimeter(), 0d);
     }
@@ -197,19 +214,7 @@ public class StoreyTest {
         s.setFloorLocationType(FloorLocationType.GROUND);
         Assert.assertEquals(FloorLocationType.GROUND, s.getFloorLocationType());
 
-        s.setFloorKValue(1024);
-        Assert.assertEquals(1024d, s.getFloorKValue(), 0d);
-
         s.setFloorUValue(99);
         Assert.assertEquals(99d, s.getFloorUValue(), 0d);
-
-        s.setCeilingKValue(1234);
-        Assert.assertEquals(1234d, s.getCeilingKValue(), 0d);
-
-        s.setPartyCeilingKValue(585);
-        Assert.assertEquals(585d, s.getPartyCeilingKValue(), 0d);
-
-        s.setPartyFloorKValue(66);
-        Assert.assertEquals(66d, s.getPartyFloorKValue(), 0d);
     }
 }

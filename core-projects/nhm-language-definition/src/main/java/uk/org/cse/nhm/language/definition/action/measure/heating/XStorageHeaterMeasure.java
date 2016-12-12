@@ -46,10 +46,15 @@ public class XStorageHeaterMeasure extends XHeatingMeasure {
 	}
 	
 	@Doc({
-		"Optionally, you can provide a function here to override the SAP responsiveness lookup.",
+		"Responsiveness is determined by SAP 2012, table 4a (Category 7).",
+		"Optionally, you can provide a function here to override the responsiveness lookup.",
+		
 		"The responsiveness is a proportion which is used in determining the mean temperature",
 		"in a house. A responsiveness of zero causes a higher mean temperature, which increases",
-		"energy use."
+		"energy use.",
+		
+		"Overriding the responsiveness will have no effect in SAP 2012 mode."
+		
 	})
 	@BindNamedArgument
 	@Prop(P.responsiveness)

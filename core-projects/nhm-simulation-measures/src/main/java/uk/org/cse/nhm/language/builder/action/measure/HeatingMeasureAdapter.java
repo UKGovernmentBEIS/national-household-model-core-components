@@ -5,7 +5,6 @@ import java.util.Set;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableSet;
 import com.google.inject.Inject;
 
 import uk.org.cse.commons.names.Name;
@@ -35,10 +34,7 @@ import uk.org.cse.nhm.language.definition.action.measure.heating.XStorageHeaterM
 import uk.org.cse.nhm.language.definition.action.measure.heating.XStorageHeaterMeasure.XStorageHeaterType;
 import uk.org.cse.nhm.language.definition.action.measure.heating.XWarmAirMeasure;
 import uk.org.cse.nhm.language.definition.action.measure.heating.XWetHeatingMeasure;
-import uk.org.cse.nhm.language.definition.action.scaling.XScalingMeasure;
-import uk.org.cse.nhm.language.definition.action.scaling.heating.XHeatingResponsivenessScaling;
-import uk.org.cse.nhm.language.definition.action.scaling.heating.XHeatingSystem;
-import uk.org.cse.nhm.language.definition.action.scaling.heating.XSpaceHeatingSystem;
+import uk.org.cse.nhm.language.definition.enums.XHeatingSystem;
 import uk.org.cse.nhm.language.definition.enums.XChangeDirection;
 import uk.org.cse.nhm.language.definition.enums.XFuelType;
 import uk.org.cse.nhm.language.definition.function.num.XEfficiencyMeasurement;
@@ -189,7 +185,8 @@ public class HeatingMeasureAdapter extends ReflectingAdapter {
             @Prop(XWetHeatingMeasure.P.WET_HEATING_CAPEX) final Optional<IComponentsFunction<Number>> whCapexFunction,
             @Prop(XDistrictHeatingMeasure.P.cylinderInsulationThickness) final double insulation,
             @Prop(XDistrictHeatingMeasure.P.cylinderVolume) final IComponentsFunction<Number> volume,
-            @Prop(XDistrictHeatingMeasure.P.efficiency) final IComponentsFunction<Number> efficiency
+            @Prop(XDistrictHeatingMeasure.P.efficiency) final IComponentsFunction<Number> efficiency,
+            @Prop(XDistrictHeatingMeasure.P.chargingUsageBased) final boolean chargingUsageBased
             ) {
         return factory.createDistrictHeatingMeasure(wrap.sizing (identifier, sizingFunction),
                                                     wrap.capex(identifier, capexFunction),
@@ -197,7 +194,8 @@ public class HeatingMeasureAdapter extends ReflectingAdapter {
                                                     wrap.systemCapex(identifier, whCapexFunction),
                                                     insulation,
                                                     wrap.tank(identifier, volume),
-                                                    wrap.efficiency(identifier, efficiency)
+                                                    wrap.efficiency(identifier, efficiency),
+                                                    chargingUsageBased
                                                     );
     }
 
@@ -328,13 +326,6 @@ public class HeatingMeasureAdapter extends ReflectingAdapter {
         return factory.createHeatingControlMeasure(internalType,
                                                    wrap.capex(identifier, capex)
                                                    );
-    }
-
-    @Adapt(XHeatingResponsivenessScaling.class)
-    public IComponentsAction buildResponsivenessScalingAction(
-            @Prop(XScalingMeasure.P.of) final List<XSpaceHeatingSystem> systems,
-            @Prop(XScalingMeasure.P.scaling) final IComponentsFunction<Number> scaling) {
-        return factory.createResponsivenessScalingAction(ImmutableSet.copyOf(systems), scaling);
     }
 
     @Adapt(XHotWaterTankThermostat.class)

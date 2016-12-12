@@ -14,6 +14,8 @@ import uk.org.cse.nhm.hom.emf.technologies.IHeatSource;
 import uk.org.cse.nhm.hom.emf.technologies.IMainWaterHeater;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
 import uk.org.cse.nhm.hom.emf.technologies.IWaterTank;
+import uk.org.cse.nhm.hom.emf.technologies.boilers.ICPSU;
+import uk.org.cse.nhm.hom.emf.technologies.boilers.ICombiBoiler;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,10 +23,10 @@ import uk.org.cse.nhm.hom.emf.technologies.IWaterTank;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.MainWaterHeaterImpl#getHeatSource <em>Heat Source</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -66,7 +68,7 @@ public class MainWaterHeaterImpl extends CentralWaterHeaterImpl implements IMain
 	@Override
 	public IHeatSource getHeatSource() {
 		if (heatSource != null && heatSource.eIsProxy()) {
-			InternalEObject oldHeatSource = (InternalEObject)heatSource;
+			final InternalEObject oldHeatSource = (InternalEObject)heatSource;
 			heatSource = (IHeatSource)eResolveProxy(oldHeatSource);
 			if (heatSource != oldHeatSource) {
 				if (eNotificationRequired())
@@ -90,11 +92,11 @@ public class MainWaterHeaterImpl extends CentralWaterHeaterImpl implements IMain
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetHeatSource(IHeatSource newHeatSource, NotificationChain msgs) {
-		IHeatSource oldHeatSource = heatSource;
+	public NotificationChain basicSetHeatSource(final IHeatSource newHeatSource, NotificationChain msgs) {
+		final IHeatSource oldHeatSource = heatSource;
 		heatSource = newHeatSource;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.MAIN_WATER_HEATER__HEAT_SOURCE, oldHeatSource, newHeatSource);
+			final ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.MAIN_WATER_HEATER__HEAT_SOURCE, oldHeatSource, newHeatSource);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
@@ -106,7 +108,7 @@ public class MainWaterHeaterImpl extends CentralWaterHeaterImpl implements IMain
 	 * @generated
 	 */
 	@Override
-	public void setHeatSource(IHeatSource newHeatSource) {
+	public void setHeatSource(final IHeatSource newHeatSource) {
 		if (newHeatSource != heatSource) {
 			NotificationChain msgs = null;
 			if (heatSource != null)
@@ -126,7 +128,7 @@ public class MainWaterHeaterImpl extends CentralWaterHeaterImpl implements IMain
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseAdd(final InternalEObject otherEnd, final int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case ITechnologiesPackage.MAIN_WATER_HEATER__HEAT_SOURCE:
 				if (heatSource != null)
@@ -142,7 +144,7 @@ public class MainWaterHeaterImpl extends CentralWaterHeaterImpl implements IMain
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(final InternalEObject otherEnd, final int featureID, final NotificationChain msgs) {
 		switch (featureID) {
 			case ITechnologiesPackage.MAIN_WATER_HEATER__HEAT_SOURCE:
 				return basicSetHeatSource(null, msgs);
@@ -156,7 +158,7 @@ public class MainWaterHeaterImpl extends CentralWaterHeaterImpl implements IMain
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+	public Object eGet(final int featureID, final boolean resolve, final boolean coreType) {
 		switch (featureID) {
 			case ITechnologiesPackage.MAIN_WATER_HEATER__HEAT_SOURCE:
 				if (resolve) return getHeatSource();
@@ -171,7 +173,7 @@ public class MainWaterHeaterImpl extends CentralWaterHeaterImpl implements IMain
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue) {
+	public void eSet(final int featureID, final Object newValue) {
 		switch (featureID) {
 			case ITechnologiesPackage.MAIN_WATER_HEATER__HEAT_SOURCE:
 				setHeatSource((IHeatSource)newValue);
@@ -186,7 +188,7 @@ public class MainWaterHeaterImpl extends CentralWaterHeaterImpl implements IMain
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
+	public void eUnset(final int featureID) {
 		switch (featureID) {
 			case ITechnologiesPackage.MAIN_WATER_HEATER__HEAT_SOURCE:
 				setHeatSource((IHeatSource)null);
@@ -201,7 +203,7 @@ public class MainWaterHeaterImpl extends CentralWaterHeaterImpl implements IMain
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
+	public boolean eIsSet(final int featureID) {
 		switch (featureID) {
 			case ITechnologiesPackage.MAIN_WATER_HEATER__HEAT_SOURCE:
 				return heatSource != null;
@@ -212,9 +214,9 @@ public class MainWaterHeaterImpl extends CentralWaterHeaterImpl implements IMain
 	@Override
 	public double generateHotWaterAndPrimaryGains(final IInternalParameters parameters,
 			final IEnergyState state, final IWaterTank store, final boolean storeIsPrimary,
-			final double primaryCorrectionFactor, final double distributionLossFactor, final double proportion) {
+			final double primaryPipeworkLosses, final double distributionLossFactor, final double proportion) {
 		if (getHeatSource() != null) {
-			return getHeatSource().generateHotWaterAndPrimaryGains(parameters, state, store, storeIsPrimary, primaryCorrectionFactor, distributionLossFactor, proportion);
+			return getHeatSource().generateHotWaterAndPrimaryGains(parameters, state, store, storeIsPrimary, primaryPipeworkLosses, distributionLossFactor, proportion);
 		} else {
 			return 0;
 		}
@@ -227,5 +229,19 @@ public class MainWaterHeaterImpl extends CentralWaterHeaterImpl implements IMain
 		if (getHeatSource() != null) {
 			getHeatSource().generateHotWaterSystemGains(parameters, state, store, storeIsPrimary, systemLosses);
 		}
+	}
+
+	@Override
+	public boolean causesPipeworkLosses() {
+		if (getHeatSource() instanceof ICombiBoiler || getHeatSource() instanceof ICPSU) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	@Override
+	public boolean isCommunityHeating() {
+		return getHeatSource() != null && getHeatSource().isCommunityHeating();
 	}
 } //MainWaterHeaterImpl

@@ -12,8 +12,7 @@ public class SpecificHeatLossesTest {
 		
 		Assert.assertEquals(25d, shl.getSpecificHeatLoss(), 0.01);
 		Assert.assertEquals(35d, shl.getInterzoneHeatLoss(), 0.01);
-		Assert.assertEquals(45d, shl.getThermalMass(), 0.01);
-		Assert.assertEquals(25d / 55d, shl.getHeatLossParameter(), 0.01);
+        Assert.assertEquals(25d / 55d, shl.getHeatLossParameter(), 0.01);
 		Assert.assertEquals(45d / 55d, shl.getThermalMassParameter(), 0.01);
         Assert.assertEquals(12d, shl.getAirChangeRate(), 0.01);
 	}

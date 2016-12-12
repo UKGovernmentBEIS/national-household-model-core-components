@@ -17,83 +17,78 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyState;
 import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
 import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
 import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
+import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
+import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.TransducerPhaseType;
 import uk.org.cse.nhm.hom.IHeatProportions;
+import uk.org.cse.nhm.hom.constants.SolarConstants;
+import uk.org.cse.nhm.hom.constants.SplitRateConstants;
 import uk.org.cse.nhm.hom.emf.technologies.ISolarPhotovoltaic;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
-import uk.org.cse.nhm.hom.emf.util.Efficiency;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Solar Photovoltaic</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '
+ * <em><b>Solar Photovoltaic</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.SolarPhotovoltaicImpl#getArea <em>Area</em>}</li>
- *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.SolarPhotovoltaicImpl#getEfficiency <em>Efficiency</em>}</li>
+ *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.SolarPhotovoltaicImpl#getPeakPower <em>Peak Power</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.SolarPhotovoltaicImpl#getOwnUseProportion <em>Own Use Proportion</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarPhotovoltaic {
+	/*
+	 * BEISDOC 
+	 * NAME: Solar Generation Factor 
+	 * DESCRIPTION: The number '0.8' which is used to adjust the cheese. 
+	 * TYPE: value UNIT: m^2 / W SAP: (M1) 
+	 * BREDEM: 10A 
+	 * CONVERSION: From m^2/kW in SAP to m^2/W in the NHM, divide by 1000.
+	 * ID: solar-generation-factor 
+	 * CODSIEB
+	 */
+	private final double solarGenerationFactor = 0.8 / 1000;
+
+	private final double sapOwnUseProportion = 0.5;
+
+	private final OvershadingType overshading = OvershadingType.AVERAGE;
+
 	/**
 	 * A set of bit flags representing the values of boolean attributes and whether unsettable features have been set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	protected int flags = 0;
 
 	/**
-	 * The default value of the '{@link #getArea() <em>Area</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getArea()
+	 * The default value of the '{@link #getPeakPower() <em>Peak Power</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see #getPeakPower()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final double AREA_EDEFAULT = 0.0;
+	protected static final double PEAK_POWER_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getArea() <em>Area</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getArea()
+	 * The cached value of the '{@link #getPeakPower() <em>Peak Power</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see #getPeakPower()
 	 * @generated
 	 * @ordered
 	 */
-	protected double area = AREA_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getEfficiency() <em>Efficiency</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getEfficiency()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final Efficiency EFFICIENCY_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getEfficiency() <em>Efficiency</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getEfficiency()
-	 * @generated
-	 * @ordered
-	 */
-	protected Efficiency efficiency = EFFICIENCY_EDEFAULT;
+	protected double peakPower = PEAK_POWER_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getOwnUseProportion() <em>Own Use Proportion</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * @see #getOwnUseProportion()
 	 * @generated
 	 * @ordered
@@ -102,8 +97,13 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 
 	/**
 	 * The cached value of the '{@link #getOwnUseProportion() <em>Own Use Proportion</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> BEISDOC
+	 * NAME: PV Own Use Proportion DESCRIPTION: The proportion of generated
+	 * solar PV electricity which is used in the home instead of exported. TYPE:
+	 * value UNIT: Dimensionless SAP: Appendix M (M1 section 3) SET:
+	 * measure.solar-photovoltaic NOTES: In SAP 2012 mode, this will always be
+	 * 0.5, regardless of which value was put in by measure.solar-photovoltaic.
+	 * ID: pv-own-use-proportion CODSIEB <!-- end-user-doc -->
 	 * @see #getOwnUseProportion()
 	 * @generated
 	 * @ordered
@@ -111,8 +111,7 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 	protected double ownUseProportion = OWN_USE_PROPORTION_EDEFAULT;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected SolarPhotovoltaicImpl() {
@@ -120,8 +119,7 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -130,53 +128,26 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public double getArea() {
-		return area;
+	public double getPeakPower() {
+		return peakPower;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public void setArea(double newArea) {
-		double oldArea = area;
-		area = newArea;
+	public void setPeakPower(double newPeakPower) {
+		double oldPeakPower = peakPower;
+		peakPower = newPeakPower;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__AREA, oldArea, area));
+			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__PEAK_POWER, oldPeakPower, peakPower));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Efficiency getEfficiency() {
-		return efficiency;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setEfficiency(Efficiency newEfficiency) {
-		Efficiency oldEfficiency = efficiency;
-		efficiency = newEfficiency;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__EFFICIENCY, oldEfficiency, efficiency));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -185,8 +156,7 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -198,61 +168,137 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated no
 	 */
 	@Override
-	public void accept(final IConstants constants, final IEnergyCalculatorParameters parameters, final IEnergyCalculatorVisitor visitor, final AtomicInteger heatingSystemCounter, final IHeatProportions heatProportions) {
+	public void accept(final IConstants constants, final IEnergyCalculatorParameters parameters,
+			final IEnergyCalculatorVisitor visitor, final AtomicInteger heatingSystemCounter,
+			final IHeatProportions heatProportions) {
 		visitor.visitEnergyTransducer(new IEnergyTransducer() {
-			
+
 			@Override
 			public ServiceType getServiceType() {
 				return ServiceType.GENERATION;
 			}
-			
+
 			@Override
 			public int getPriority() {
 				return 0;
 			}
-			
+
 			@Override
 			public TransducerPhaseType getPhase() {
 				return TransducerPhaseType.AfterEverything;
 			}
-			
+
 			@Override
-			public void generate(final IEnergyCalculatorHouseCase house,
-					final IInternalParameters parameters, final ISpecificHeatLosses losses,
-					final IEnergyState state) {
-				
-				final double electricityDemand = state.getUnsatisfiedDemand(EnergyType.FuelPEAK_ELECTRICITY);
-				
-				final double incidentRaditionPerUnitArea = parameters.getClimate().getSolarFlux(Math.PI / 6, Math.PI);
-				final double photons = area * incidentRaditionPerUnitArea;
-				final double generation = photons * efficiency.value;
-				
-				final double usefulElectricity = Math.max(0, Math.min(electricityDemand, generation * getOwnUseProportion()));
-				
-				state.increaseSupply(EnergyType.FuelPEAK_ELECTRICITY, usefulElectricity);
+			public void generate(final IEnergyCalculatorHouseCase house, final IInternalParameters parameters,
+					final ISpecificHeatLosses losses, final IEnergyState state) {
+
+				final double incidentRaditionPerUnitArea = parameters.getClimate().getSolarFlux(
+						// 30 degrees of tilt
+						Math.PI / 6,
+						// South facing
+						Math.PI);
+
+				final double overshadingFactor = constants.get(SolarConstants.OVERSHADING_FACTOR,
+						double[].class)[overshading.ordinal()];
+
+				/*
+				 * BEISDOC 
+				 * NAME: Solar PV Generated Electricity 
+				 * DESCRIPTION: The electricity generated by solar panels. 
+				 * TYPE: formula 
+				 * UNIT: W
+				 * SAP: (233), (M1) 
+				 * BREDEM: 10A 
+				 * DEPS: effective-solar-flux,solar-overshading-factor,solar-generation-factor 
+				 * GET: house.energy-use 
+				 * CONVERSION: No conversion is required. We have already converted all of the inputs to Watts by this point. 
+				 * ID: pv-electricity-generated
+				 * CODSIEB
+				 */
+				final double generation = solarGenerationFactor * getPeakPower() * incidentRaditionPerUnitArea
+						* overshadingFactor;
+
+				final double usefulElectricity = useElectricityInDwelling(
+						state,
+						generation, 
+						parameters.getCalculatorType() == EnergyCalculatorType.SAP2012 ? sapOwnUseProportion : getOwnUseProportion(),
+						parameters.getConstants().get(SplitRateConstants.DEFAULT_FRACTIONS, double[].class)
+								[parameters.getTarrifType().ordinal()]
+					);
+
+				/*
+				 * BEISDOC 
+				 * NAME: PV Exported Electricity 
+				 * DESCRIPTION: The amount of electricity exported from Solar Panels 
+				 * TYPE: formula 
+				 * UNIT: W 
+				 * SAP: (233) 
+				 * DEPS: pv-electricity-generated,pv-own-use-proportion 
+				 * ID: pv-exported-electricity 
+				 * CODSIEB
+				 */
 				state.increaseSupply(EnergyType.GenerationExportedElectricity, generation - usefulElectricity);
-				state.increaseDemand(EnergyType.FuelPHOTONS, photons);
+				state.increaseDemand(EnergyType.FuelPHOTONS, generation);
+			}
+
+			private double useElectricityInDwelling(
+					final IEnergyState state, 
+					final double generation, 
+					final double ownUseProportion,
+					final double highRateFraction) {
+				
+				/*
+				 * BEISDOC 
+				 * NAME: Used Generated Electricity 
+				 * DESCRIPTION: The electricity which is used in the home instead of exported.
+				 * TYPE: formula 
+				 * UNIT: W 
+				 * SAP: Appendix M (M1 section 3) 
+				 * DEPS: pv-electricity-generated,pv-own-use-proportion,default-split-rate
+				 * NOTES: The dwelling will not use more electricity than it has demand for.
+				 * ID: pv-useful-electricity 
+				 * CODSIEB
+				 */
+				
+				final double peakElectricityDemand = state.getUnsatisfiedDemand(EnergyType.FuelPEAK_ELECTRICITY);
+				final double offpeakElectricityDemand = state.getUnsatisfiedDemand(EnergyType.FuelOFFPEAK_ELECTRICITY);
+				
+				final double ownUseAmount = generation * ownUseProportion;
+				
+				final double peakSupply = Math.max(
+						0,
+						Math.min(
+								peakElectricityDemand,
+								ownUseAmount * highRateFraction));
+				
+				final double offpeakSupply = Math.max(
+						0,
+						Math.min(
+								offpeakElectricityDemand,
+								ownUseAmount * (1 - highRateFraction)));
+				
+				state.increaseSupply(EnergyType.FuelPEAK_ELECTRICITY, peakSupply);
+				state.increaseSupply(EnergyType.FuelOFFPEAK_ELECTRICITY, offpeakSupply);
+				
+				return peakSupply + offpeakSupply;
 			}
 		});
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__AREA:
-				return getArea();
-			case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__EFFICIENCY:
-				return getEfficiency();
+			case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__PEAK_POWER:
+				return getPeakPower();
 			case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__OWN_USE_PROPORTION:
 				return getOwnUseProportion();
 		}
@@ -260,18 +306,14 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__AREA:
-				setArea((Double)newValue);
-				return;
-			case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__EFFICIENCY:
-				setEfficiency((Efficiency)newValue);
+			case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__PEAK_POWER:
+				setPeakPower((Double)newValue);
 				return;
 			case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__OWN_USE_PROPORTION:
 				setOwnUseProportion((Double)newValue);
@@ -281,18 +323,14 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__AREA:
-				setArea(AREA_EDEFAULT);
-				return;
-			case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__EFFICIENCY:
-				setEfficiency(EFFICIENCY_EDEFAULT);
+			case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__PEAK_POWER:
+				setPeakPower(PEAK_POWER_EDEFAULT);
 				return;
 			case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__OWN_USE_PROPORTION:
 				setOwnUseProportion(OWN_USE_PROPORTION_EDEFAULT);
@@ -302,17 +340,14 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__AREA:
-				return area != AREA_EDEFAULT;
-			case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__EFFICIENCY:
-				return EFFICIENCY_EDEFAULT == null ? efficiency != null : !EFFICIENCY_EDEFAULT.equals(efficiency);
+			case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__PEAK_POWER:
+				return peakPower != PEAK_POWER_EDEFAULT;
 			case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__OWN_USE_PROPORTION:
 				return ownUseProportion != OWN_USE_PROPORTION_EDEFAULT;
 		}
@@ -320,8 +355,7 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -329,14 +363,12 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (area: ");
-		result.append(area);
-		result.append(", efficiency: ");
-		result.append(efficiency);
+		result.append(" (peakPower: ");
+		result.append(peakPower);
 		result.append(", ownUseProportion: ");
 		result.append(ownUseProportion);
 		result.append(')');
 		return result.toString();
 	}
 
-} //SolarPhotovoltaicImpl
+} // SolarPhotovoltaicImpl

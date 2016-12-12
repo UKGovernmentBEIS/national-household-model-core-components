@@ -1,7 +1,7 @@
 (scenario
  start-date: 2015
  end-date:   2015
- stock-id:   ../../EHS2012.json.gz
+ stock-id:   ../../stock.json
  quantum:    1000000
 
  (def-action the-measure

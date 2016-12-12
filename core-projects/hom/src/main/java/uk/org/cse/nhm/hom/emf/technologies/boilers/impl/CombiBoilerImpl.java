@@ -40,7 +40,18 @@ public abstract class CombiBoilerImpl extends BoilerImpl implements ICombiBoiler
 	 * of interlock, we override the method from the basic boiler here.
 	 */
 	@Override
-	protected double getWaterHeatingEfficiency(IConstants constants, double qWater, double qSpace) {
+	protected double getWaterHeatingEfficiency(final IConstants constants, final double qWater, final double qSpace) {
+		/*
+		BEISDOC
+		NAME: Combi Boiler Water Heating Efficiency
+		DESCRIPTION: Because in SAP table 4c (efficiency adjustments) combi water efficiency is not affected by presence of interlock, we override the method from the basic boiler here.
+		TYPE: formula
+		UNIT: Dimensionless
+		SAP: (206), Table 4c
+		ID: combi-boiler-hot-water-efficiency
+		CODSIEB
+		*/
+
 		return getSeasonalEfficiency(qWater, qSpace);
 	}
 } //CombiBoilerImpl

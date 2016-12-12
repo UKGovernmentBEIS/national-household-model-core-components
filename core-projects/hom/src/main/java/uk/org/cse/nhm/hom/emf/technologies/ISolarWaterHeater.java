@@ -11,6 +11,7 @@ package uk.org.cse.nhm.hom.emf.technologies;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ISolarWaterHeater#getPitch <em>Pitch</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ISolarWaterHeater#getOrientation <em>Orientation</em>}</li>
@@ -21,7 +22,6 @@ package uk.org.cse.nhm.hom.emf.technologies;
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ISolarWaterHeater#getPreHeatTankVolume <em>Pre Heat Tank Volume</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ISolarWaterHeater#isPumpPhotovolatic <em>Pump Photovolatic</em>}</li>
  * </ul>
- * </p>
  *
  * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getSolarWaterHeater()
  * @model

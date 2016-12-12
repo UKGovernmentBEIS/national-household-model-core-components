@@ -10,10 +10,10 @@ import org.junit.Test;
 import com.google.common.collect.Iterables;
 
 import uk.org.cse.nhm.NHMException;
+import uk.org.cse.nhm.energycalculator.api.IWeather;
+import uk.org.cse.nhm.energycalculator.api.types.MonthType;
 import uk.org.cse.nhm.language.definition.XScenario;
 import uk.org.cse.nhm.simulator.state.IState;
-import uk.org.cse.nhm.simulator.state.dimensions.weather.IWeather;
-import uk.org.cse.nhm.types.MonthType;
 
 public class WeatherIntegrationTests extends SimulatorIntegrationTest {
 	/**

@@ -13,12 +13,12 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IHybridHeater#getFuel <em>Fuel</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IHybridHeater#getEfficiency <em>Efficiency</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IHybridHeater#getFraction <em>Fraction</em>}</li>
  * </ul>
- * </p>
  *
  * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getHybridHeater()
  * @model

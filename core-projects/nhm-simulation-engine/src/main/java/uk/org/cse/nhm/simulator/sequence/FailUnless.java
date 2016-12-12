@@ -6,12 +6,9 @@ import uk.org.cse.nhm.simulator.let.ILets;
 import uk.org.cse.nhm.simulator.scope.IComponentsAction;
 import uk.org.cse.nhm.simulator.scope.IComponentsScope;
 import uk.org.cse.nhm.simulator.scope.ISettableComponentsScope;
-import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
-import uk.org.cse.nhm.simulator.state.components.IFlags;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
-import com.google.common.base.Optional;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 

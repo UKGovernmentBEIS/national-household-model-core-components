@@ -14,6 +14,7 @@ import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
 import uk.org.cse.nhm.hom.emf.technologies.IWaterTank;
+import uk.org.cse.nhm.hom.emf.technologies.boilers.EfficiencySourceType;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoilersFactory;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.ICombiBoiler;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IStorageCombiBoiler;
@@ -116,6 +117,7 @@ public class CombiBoilerMeasure extends AbstractBoilerMeasure {
 			heating.setFlueType(getFlueType());
 			heating.setCondensing(isCondensing());
 			heating.setAnnualOperationalCost(opex);
+			heating.setEfficiencySource(EfficiencySourceType.MANUFACTURER_DECLARED);
 			
 			operations.installHeatSource(newCase, heating, true, true, EmitterType.RADIATORS, getHeatingSystemControlTypes(), 0, 0);
 

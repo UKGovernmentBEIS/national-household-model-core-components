@@ -15,7 +15,7 @@ import org.mockito.stubbing.Answer;
 
 import uk.org.cse.nhm.NHMException;
 import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
 import uk.org.cse.nhm.hom.emf.technologies.impl.TechnologyModelImpl;
 import uk.org.cse.nhm.hom.structure.IMutableWall;
@@ -126,7 +126,7 @@ public class ModifyWallConstructionTypeMeasureTest {
 	public void testSuitability() throws NHMException {
 		final ModifyWallConstructionTypeMeasure m = this.measure;
 
-		IMutableWall wall2 = makeAWall(WallConstructionType.Internal_DenseBlockDensePlaster);
+		IMutableWall wall2 = makeAWall(WallConstructionType.Internal_Any);
 
 		ISettableComponentsScope houseIncludingWall2 = buildHouseIncludingWall(wall2);
 

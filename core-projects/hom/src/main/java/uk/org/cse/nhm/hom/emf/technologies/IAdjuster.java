@@ -11,12 +11,12 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IAdjuster#getFuelTypes <em>Fuel Types</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IAdjuster#getDeltas <em>Deltas</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IAdjuster#getGains <em>Gains</em>}</li>
  * </ul>
- * </p>
  *
  * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getAdjuster()
  * @model

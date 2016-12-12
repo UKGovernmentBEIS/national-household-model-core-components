@@ -6,8 +6,8 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.org.cse.nhm.hom.components.fabric.types.GlazingType;
-import uk.org.cse.nhm.hom.components.fabric.types.WindowInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -66,7 +66,7 @@ public class TransmittanceFactors implements ITransmittanceFactors {
 	}
 	
 	/* (non-Javadoc)
-	 * @see uk.org.cse.stockimport.imputation.apertures.windows.ITransmittanceFactors#getGainsTransmittance(uk.org.cse.nhm.hom.components.fabric.types.GlazingType, uk.org.cse.nhm.hom.components.fabric.types.WindowInsulationType)
+	 * @see uk.org.cse.stockimport.imputation.apertures.windows.ITransmittanceFactors#getGainsTransmittance(uk.org.cse.nhm.energycalculator.api.types.GlazingType, uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType)
 	 */
     @Override
 	public double getGainsTransmittance(final GlazingType glazingType, final WindowInsulationType insulation) {
@@ -86,7 +86,7 @@ public class TransmittanceFactors implements ITransmittanceFactors {
 	}
 	
     /* (non-Javadoc)
-	 * @see uk.org.cse.stockimport.imputation.apertures.windows.ITransmittanceFactors#getLightTransmittance(uk.org.cse.nhm.hom.components.fabric.types.GlazingType, uk.org.cse.nhm.hom.components.fabric.types.WindowInsulationType)
+	 * @see uk.org.cse.stockimport.imputation.apertures.windows.ITransmittanceFactors#getLightTransmittance(uk.org.cse.nhm.energycalculator.api.types.GlazingType, uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType)
 	 */
     @Override
 	public double getLightTransmittance(final GlazingType glazingType, final WindowInsulationType insulation) {

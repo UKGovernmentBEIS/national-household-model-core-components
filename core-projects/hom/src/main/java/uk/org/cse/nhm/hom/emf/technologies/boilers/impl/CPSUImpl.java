@@ -35,11 +35,11 @@ import uk.org.cse.nhm.hom.emf.technologies.boilers.ICPSU;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.boilers.impl.CPSUImpl#getStore <em>Store</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.boilers.impl.CPSUImpl#getStoreTemperature <em>Store Temperature</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -315,15 +315,6 @@ public class CPSUImpl extends BoilerImpl implements ICPSU {
 		return getFuel() == FuelType.ELECTRICITY || super.isIntermediatePowerRequired();
 	}
 
-	/**
-	 * As we all know, SAP 2009 table 3 declares that CPSUs have no primary pipework losses.
-	 */
-	@Override
-	protected double getPrimaryPipeworkLosses(final IInternalParameters parameters,
-			final boolean tankPresentAndThermostatic, final double primaryCorrectionFactor) {
-		return 0;
-	}
-
 	protected double getDegreeDays(final double temperature, final double outsideTemperature) {
 		final double deltaT = temperature - outsideTemperature;
 		if (deltaT == 0) {
@@ -365,6 +356,19 @@ public class CPSUImpl extends BoilerImpl implements ICPSU {
 	@Override
 	public double getStorageTemperatureFactor(final IInternalParameters parameters,
 			final IWaterTank store, final boolean storeInPrimaryCircuit) {
+		/*
+		BEISDOC
+		NAME: CPSU Storage Temperature Factor
+		DESCRIPTION: The storage temperature factor for a CPSU.
+		TYPE: formula
+		UNIT: Dimensionless
+		SAP: (53), Table 2b
+		BREDEM: 2.2B.c, Table 9
+		DEPS: cpsu-electric-storage-temperature-factor,cpsu-gas-storage-temperature-factor
+		NOTES: Does not implement footnotes (c) or (d), due to lack of data.
+		ID: cpsu-storage-temperature-factor
+		CODSIEB
+		*/
 		if (store != getStore()) {
 			log.error("CPSU should not be used with an external storage tank!");
 		}
@@ -395,6 +399,16 @@ public class CPSUImpl extends BoilerImpl implements ICPSU {
 	 */
 	@Override
 	protected double getWaterHeatingEfficiency(final IConstants constants, final double qWater, final double qSpace) {
+		/*
+		BEISDOC
+		NAME: CPSU Water Heating Efficiency
+		DESCRIPTION: Because in SAP table 4c (efficiency adjustments) CPSU water efficiency is not affected by presence of interlock, we override the method from the basic boiler here.
+		TYPE: formula
+		UNIT: Dimensionless
+		SAP: (206), Table 4c
+		ID: cpsu-boiler-hot-water-efficiency
+		CODSIEB
+		*/
 		return getSeasonalEfficiency(qWater, qSpace);
 	}
 
@@ -413,12 +427,8 @@ public class CPSUImpl extends BoilerImpl implements ICPSU {
 	 * Electric CPSU and storage boilers have a fixed responsiveness, for no reason.
 	 */
 	@Override
-	public double getResponsivenessImpl(final IConstants parameters,
+	public double getResponsiveness(final IConstants parameters,
 			final EList<HeatingSystemControlType> controls, final EmitterType emitter) {
-		if (getFuel() == FuelType.ELECTRICITY) {
-			return getBasicResponsiveness();			
-		} else {
-			return super.getSAPTable4dResponsiveness(parameters, controls, emitter);
-		}
+		return 1;
 	}
 } //CPSUImpl

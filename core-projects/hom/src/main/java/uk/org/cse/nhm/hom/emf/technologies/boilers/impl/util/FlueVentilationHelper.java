@@ -2,7 +2,6 @@ package uk.org.cse.nhm.hom.emf.technologies.boilers.impl.util;
 
 import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
-import uk.org.cse.nhm.hom.constants.VentilationConstants;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.FlueType;
 
 /**
@@ -14,8 +13,9 @@ import uk.org.cse.nhm.hom.emf.technologies.boilers.FlueType;
 public class FlueVentilationHelper {
 	public static void addInfiltration(final IEnergyCalculatorVisitor visitor, final FlueType flueType, final IConstants constants) {
 		if (flueType == FlueType.OPEN_FLUE)
-			visitor.addVentInfiltration(constants.get(VentilationConstants.OPEN_FLUE_VENTILATION_RATE));
+			visitor.addFlueInfiltration();
+		
 		else if (flueType == FlueType.CHIMNEY)
-			visitor.addVentInfiltration(constants.get(VentilationConstants.CHIMNEY_VENTILATION_RATE));
+			visitor.addChimneyInfiltration();
 	}
 }

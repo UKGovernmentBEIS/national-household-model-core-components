@@ -11,8 +11,8 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 import uk.org.cse.nhm.NHMException;
+import uk.org.cse.nhm.energycalculator.api.types.WallType;
 import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallType;
 import uk.org.cse.nhm.hom.structure.Door;
 import uk.org.cse.nhm.hom.structure.IWall;
 import uk.org.cse.nhm.hom.structure.StructureModel;

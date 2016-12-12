@@ -10,14 +10,24 @@ import uk.org.cse.nhm.simulator.state.IDwelling;
 import uk.org.cse.nhm.simulator.state.IHypotheticalBranch;
 
 public class HypotheticalBranchState extends BranchState implements IHypotheticalBranch {
-	private final Set<IDimension<?>> replacedDimensions = new HashSet<>();
-	
+	private final Set<IDimension<?>> replacedDimensions;
+
 	HypotheticalBranchState(final BranchState branchState) {
-		super(branchState, 1);
+		this(branchState, new HashSet<IDimension<?>>());
 	}
-	
+
+	HypotheticalBranchState(final BranchState branchState, final Set<IDimension<?>> replacedDimensions) {
+		super(branchState, 1);
+		this.replacedDimensions = replacedDimensions;
+	}
+
 	HypotheticalBranchState(final CanonicalState canonicalState) {
+		this(canonicalState, new HashSet<IDimension<?>>());
+	}
+
+	HypotheticalBranchState(final CanonicalState canonicalState, final Set<IDimension<?>> replacedDimensions) {
 		super(canonicalState, 1);
+		this.replacedDimensions = replacedDimensions;
 	}
 
 	/**
@@ -33,7 +43,7 @@ public class HypotheticalBranchState extends BranchState implements IHypothetica
 		branchedDimensions[dimension.index()] = replacement;
 		replacedDimensions.add(dimension);
 	}
-	
+
 	@Override
 	public boolean isHypothetical() {
 		return true;
@@ -47,6 +57,11 @@ public class HypotheticalBranchState extends BranchState implements IHypothetica
 		return hypotheticalBranch();
 	}
 
+	@Override
+	public IHypotheticalBranch hypotheticalBranch() {
+		return new HypotheticalBranchState(this, replacedDimensions);
+	}
+
 	/*
 	 * Only hypotheses may be merged into a hypothesis
 	 */
@@ -58,7 +73,7 @@ public class HypotheticalBranchState extends BranchState implements IHypothetica
 	private boolean isDimensionReplaced(final IDimension<?> dimension) {
 		return replacedDimensions.contains(dimension);
 	}
-	
+
 	/*
 	 * This needs overriding in case the other branch has had one of its dimensions replaced.
 	 */
@@ -72,6 +87,6 @@ public class HypotheticalBranchState extends BranchState implements IHypothetica
 			replaceDimension(dimension, replacementInOther.branch(this, 1));
 		} else {
 			super.copyState(dimension, state, affected);
-		}		
+		}
 	}
 }

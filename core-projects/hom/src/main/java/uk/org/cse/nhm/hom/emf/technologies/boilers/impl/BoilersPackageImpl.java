@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
+import uk.org.cse.nhm.hom.emf.technologies.boilers.EfficiencySourceType;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.FlueType;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoilersFactory;
@@ -77,6 +78,13 @@ public class BoilersPackageImpl extends EPackageImpl implements IBoilersPackage 
 	 * @generated
 	 */
 	private EEnum flueTypeEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum efficiencySourceTypeEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -194,7 +202,7 @@ public class BoilersPackageImpl extends EPackageImpl implements IBoilersPackage 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getBoiler_BasicResponsiveness() {
+	public EAttribute getBoiler_PumpInHeatedSpace() {
 		return (EAttribute)boilerEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -203,7 +211,7 @@ public class BoilersPackageImpl extends EPackageImpl implements IBoilersPackage 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getBoiler_PumpInHeatedSpace() {
+	public EAttribute getBoiler_EfficiencySource() {
 		return (EAttribute)boilerEClass.getEStructuralFeatures().get(5);
 	}
 
@@ -302,6 +310,15 @@ public class BoilersPackageImpl extends EPackageImpl implements IBoilersPackage 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EEnum getEfficiencySourceType() {
+		return efficiencySourceTypeEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public IBoilersFactory getBoilersFactory() {
 		return (IBoilersFactory)getEFactoryInstance();
 	}
@@ -330,8 +347,8 @@ public class BoilersPackageImpl extends EPackageImpl implements IBoilersPackage 
 		createEAttribute(boilerEClass, BOILER__WINTER_EFFICIENCY);
 		createEAttribute(boilerEClass, BOILER__CONDENSING);
 		createEAttribute(boilerEClass, BOILER__WEATHER_COMPENSATED);
-		createEAttribute(boilerEClass, BOILER__BASIC_RESPONSIVENESS);
 		createEAttribute(boilerEClass, BOILER__PUMP_IN_HEATED_SPACE);
+		createEAttribute(boilerEClass, BOILER__EFFICIENCY_SOURCE);
 
 		cpsuEClass = createEClass(CPSU);
 		createEAttribute(cpsuEClass, CPSU__STORE_TEMPERATURE);
@@ -349,6 +366,7 @@ public class BoilersPackageImpl extends EPackageImpl implements IBoilersPackage 
 
 		// Create enums
 		flueTypeEEnum = createEEnum(FLUE_TYPE);
+		efficiencySourceTypeEEnum = createEEnum(EFFICIENCY_SOURCE_TYPE);
 	}
 
 	/**
@@ -398,8 +416,8 @@ public class BoilersPackageImpl extends EPackageImpl implements IBoilersPackage 
 		initEAttribute(getBoiler_WinterEfficiency(), theTechnologiesPackage.getEfficiency(), "winterEfficiency", null, 1, 1, IBoiler.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getBoiler_Condensing(), ecorePackage.getEBoolean(), "condensing", null, 1, 1, IBoiler.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getBoiler_WeatherCompensated(), ecorePackage.getEBoolean(), "weatherCompensated", null, 1, 1, IBoiler.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getBoiler_BasicResponsiveness(), ecorePackage.getEDouble(), "basicResponsiveness", "1", 1, 1, IBoiler.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getBoiler_PumpInHeatedSpace(), ecorePackage.getEBoolean(), "pumpInHeatedSpace", null, 1, 1, IBoiler.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getBoiler_EfficiencySource(), this.getEfficiencySourceType(), "efficiencySource", null, 1, 1, IBoiler.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(cpsuEClass, ICPSU.class, "CPSU", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCPSU_StoreTemperature(), ecorePackage.getEDouble(), "storeTemperature", null, 1, 1, ICPSU.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -426,6 +444,10 @@ public class BoilersPackageImpl extends EPackageImpl implements IBoilersPackage 
 		addEEnumLiteral(flueTypeEEnum, FlueType.BALANCED_FLUE);
 		addEEnumLiteral(flueTypeEEnum, FlueType.FAN_ASSISTED_BALANCED_FLUE);
 		addEEnumLiteral(flueTypeEEnum, FlueType.NOT_APPLICABLE);
+
+		initEEnum(efficiencySourceTypeEEnum, EfficiencySourceType.class, "EfficiencySourceType");
+		addEEnumLiteral(efficiencySourceTypeEEnum, EfficiencySourceType.SAP_DEFAULT);
+		addEEnumLiteral(efficiencySourceTypeEEnum, EfficiencySourceType.MANUFACTURER_DECLARED);
 	}
 
 } //BoilersPackageImpl

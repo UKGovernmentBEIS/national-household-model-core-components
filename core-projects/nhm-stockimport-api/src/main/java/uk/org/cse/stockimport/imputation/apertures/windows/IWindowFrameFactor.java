@@ -1,6 +1,6 @@
 package uk.org.cse.stockimport.imputation.apertures.windows;
 
-import uk.org.cse.nhm.hom.components.fabric.types.FrameType;
+import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 
 public interface IWindowFrameFactor {
 

@@ -16,16 +16,26 @@ public interface IStructuralInfiltrationAccumulator {
 	/**
 	 * Ventilation infiltration rates are just added up
 	 */
-	public abstract void addVentInfiltration(double infiltrationRate);
+	public abstract void addVentInfiltration(int vents);
+	
+	/**
+	 * Infiltration caused by a single open flue.
+	 */
+	public abstract void addFlueInfiltration();
+	
+	/**
+	 * Infiltration caused by a single chimney;
+	 */
+	public abstract void addChimneyInfiltration();
 
 	/**
 	 * Floor infiltration rates are just added up
 	 */
-	public abstract void addFloorInfiltration(double floorArea, double airChangeRate);
+	public abstract void addFloorInfiltration(double airChangeRate);
 
 	/**
 	 * Fan infiltration rates are summed as well
 	 */
-	public abstract void addFanInfiltration(double infiltrationRate);
+	public abstract void addFanInfiltration(int fans);
 
 }

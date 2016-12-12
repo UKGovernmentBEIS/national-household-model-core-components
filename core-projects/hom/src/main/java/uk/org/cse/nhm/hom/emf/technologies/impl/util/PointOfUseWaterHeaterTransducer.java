@@ -52,6 +52,18 @@ public class PointOfUseWaterHeaterTransducer extends EnergyTransducer {
 		state.increaseSupply(EnergyType.GainsHOT_WATER_USAGE_GAINS, toSatisfy); // this gets multiplied down in the gains transducer
 		final IConstants constants = parameters.getConstants();
 		
+		/*
+		BEISDOC
+		NAME: Point-of-use Distribution Losses
+		DESCRIPTION: Point of use distribution losses are applied it if it multipoint.
+		TYPE: formula
+		UNIT: W
+		SAP: (46)
+		BREDEM: 2.2A
+		DEPS: distribution-loss-factor,usage-adjusted-water-volume,is-main-weater-heating
+		ID: point-of-use-distribution-loss
+		CODSIEB
+		*/
 		final double distributionLossFactor = 
 				multipoint ? constants.get(HeatingSystemConstants.CENTRAL_HEATING_DISTRIBUTION_LOSSES) : 0.0;
 		
@@ -61,6 +73,18 @@ public class PointOfUseWaterHeaterTransducer extends EnergyTransducer {
 		
 		state.increaseSupply(EnergyType.GainsHOT_WATER_SYSTEM_GAINS, distributionLosses);
 		
+		/*
+		BEISDOC
+		NAME: Point-of-use Fuel Energy Demand 
+		DESCRIPTION: The amount of fuel consumed by a point-of-use water heater. 
+		TYPE: formula
+		UNIT: W
+		SAP: (64,217,219)
+		BREDEM: 2.2A-2.2D
+		DEPS: is-main-weater-heating,usage-adjusted-water-volume,point-of-use-distribution-losses
+		ID: point-of-use-fuel-energy-demand
+		CODSIEB
+		*/
 		if (fuelType == FuelType.ELECTRICITY) {
 			state.increaseElectricityDemand(constants.get(SplitRateConstants.DEFAULT_FRACTIONS, parameters.getTarrifType()), 
 					requiredEnergy);

@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import com.google.common.base.Optional;
 
-import uk.org.cse.nhm.hom.components.fabric.types.FrameType;
+import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.hom.structure.Glazing;
 import uk.org.cse.nhm.hom.structure.impl.Elevation;
 import uk.org.cse.stockimport.domain.geometry.IElevationDTO;

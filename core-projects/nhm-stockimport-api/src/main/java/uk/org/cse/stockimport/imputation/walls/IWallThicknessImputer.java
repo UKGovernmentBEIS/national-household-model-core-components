@@ -2,10 +2,10 @@ package uk.org.cse.stockimport.imputation.walls;
 
 import java.util.Set;
 
-import uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallInsulationType;
-import uk.org.cse.nhm.hom.types.RegionType;
-import uk.org.cse.nhm.hom.types.SAPAgeBandValue.Band;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
 
 public interface IWallThicknessImputer {
 
@@ -13,7 +13,7 @@ public interface IWallThicknessImputer {
 	 * @since 1.0
 	 */
 	public abstract double getWallThickness(Band ageBand,
-			RegionType region, WallConstructionType construction,
+			Country country, WallConstructionType construction,
 			Set<WallInsulationType> insulations);
 
 }

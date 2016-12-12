@@ -9,7 +9,7 @@ import org.junit.Test;
 import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
 
-import uk.org.cse.nhm.hom.components.fabric.types.WallInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
 import uk.org.cse.nhm.simulator.integration.tests.guice.IntegrationTestOutput;
 import uk.org.cse.nhm.simulator.measure.ITechnologyInstallationDetails;
 import uk.org.cse.nhm.simulator.measure.TechnologyType;

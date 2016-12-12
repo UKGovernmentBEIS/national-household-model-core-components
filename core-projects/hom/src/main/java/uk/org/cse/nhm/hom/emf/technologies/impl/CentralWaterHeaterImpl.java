@@ -59,6 +59,20 @@ public abstract class CentralWaterHeaterImpl extends MinimalEObjectImpl implemen
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated not
+	 */
+	abstract public boolean causesPipeworkLosses();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public abstract boolean isCommunityHeating();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated no default is false.
 	 */
 	public boolean isSolar() {
@@ -70,7 +84,7 @@ public abstract class CentralWaterHeaterImpl extends MinimalEObjectImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public double generateHotWaterAndPrimaryGains(IInternalParameters parameters, IEnergyState state, IWaterTank store, boolean storeIsPrimary, double primaryCorrectionFactor, double distributionLossFactor, double systemProportion) {
+	public double generateHotWaterAndPrimaryGains(IInternalParameters parameters, IEnergyState state, IWaterTank store, boolean storeIsPrimary, double primaryLosses, double distributionLossFactor, double systemProportion) {
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
 		throw new UnsupportedOperationException();

@@ -5,8 +5,8 @@ import com.google.common.collect.Table;
 
 import uk.org.cse.nhm.hom.components.fabric.types.DoorType;
 import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
-import uk.org.cse.nhm.hom.components.fabric.types.FrameType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.FrameType;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.stockimport.domain.IBasicDTO;
 import uk.org.cse.stockimport.domain.schema.Constraint;
 import uk.org.cse.stockimport.domain.schema.Constraint.Type;
@@ -43,6 +43,7 @@ public interface IElevationDTO extends IBasicDTO {
 	public static final String NUM_METAL_GLAZED_DOOR = "doorFrame:Metal,doorType:Glazed";
 	public static final String NUM_UPVC_SOLID_DOOR = "doorFrame:uPVC,doorType:Solid";
 	public static final String NUM_UPVC_GLAZED_DOOR = "doorFrame:uPVC,doorType:Glazed";
+	public static final String ANGLE_FROM_NORTH_FIELD = "angleFromNorth";
 	
 	@DTOField(ELEVATIONTYPE_FIELD)
 	public ElevationType getElevationType(); 
@@ -95,4 +96,14 @@ public interface IElevationDTO extends IBasicDTO {
 	public int getNumberOfDoors(final FrameType ft, final DoorType dt);
 	public void setNumberOfDoors(final FrameType frameType, final int numOfDoors);
 	public void addDoors(final FrameType frameType, final int count);
+    /**
+     * TODO.
+     * 
+     * @return
+     */
+	@DTOField(value = ANGLE_FROM_NORTH_FIELD,
+	        constraint=@Constraint(value=Type.OPTIONAL,missing="null"),
+	        description="The angle from north that this elevation is facing.")
+    public Optional<Double> getAngleFromNorth();
+    public void setAngleFromNorth(final Optional<Double> angleFromNorth);
 }

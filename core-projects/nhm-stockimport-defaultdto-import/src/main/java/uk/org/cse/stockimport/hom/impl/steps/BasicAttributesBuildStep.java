@@ -3,6 +3,7 @@ package uk.org.cse.stockimport.hom.impl.steps;
 import java.util.Collections;
 import java.util.Set;
 
+import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
 import uk.org.cse.nhm.hom.BasicCaseAttributes;
 import uk.org.cse.nhm.hom.SurveyCase;
 import uk.org.cse.stockimport.domain.IBasicDTO;
@@ -40,7 +41,8 @@ public class BasicAttributesBuildStep implements ISurveyCaseBuildStep {
 				dto.getRegionType(),
 				dto.getMorphologyType(),
 				dto.getTenureType(),
-				dto.getBuildYear());
+				dto.getBuildYear(),
+				SiteExposureType.Average);
 		
 		model.setBasicAttributes(attributes);
 	}

@@ -1,7 +1,7 @@
 (scenario
  start-date: 2016
  end-date: 2016
- stock-id:   ../../EHS2012.json.gz
+ stock-id:   ../../stock.json
  weight-by: 1
 
   (def-report report

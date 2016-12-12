@@ -3,8 +3,9 @@ package uk.org.cse.nhm.hom;
 import org.pojomatic.Pojomatic;
 import org.pojomatic.annotations.AutoProperty;
 
+import uk.org.cse.nhm.energycalculator.api.types.RegionType;
+import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
 import uk.org.cse.nhm.hom.types.MorphologyType;
-import uk.org.cse.nhm.hom.types.RegionType;
 import uk.org.cse.nhm.hom.types.TenureType;
 
 /**
@@ -23,12 +24,12 @@ public class BasicCaseAttributes implements ICopyable<BasicCaseAttributes> {
 	private int buildYear;
 	private TenureType tenureType;
 	private MorphologyType morphologyType;
+	private SiteExposureType siteExposure = SiteExposureType.Average;
 
     /**
      * Default Constructor.
      */
     public BasicCaseAttributes() {
-
     }
 
 	public BasicCaseAttributes(
@@ -38,7 +39,8 @@ public class BasicCaseAttributes implements ICopyable<BasicCaseAttributes> {
 			final RegionType regionType,
 			final MorphologyType morphologyType,
 			final TenureType tenureType,
-			final int buildYear) {
+			final int buildYear,
+			final SiteExposureType siteExposure) {
 		
 		this.aacode = aacode;
 		this.dwellingCaseWeight = dwellingCaseWeight;
@@ -46,9 +48,8 @@ public class BasicCaseAttributes implements ICopyable<BasicCaseAttributes> {
 		this.regionType = regionType;
 		this.tenureType = tenureType;
 		this.morphologyType = morphologyType;
-		
-		
 		this.buildYear = buildYear;
+		this.siteExposure = siteExposure;
 	}
 
 	public String getAacode() {
@@ -82,6 +83,14 @@ public class BasicCaseAttributes implements ICopyable<BasicCaseAttributes> {
 	public void setMorphologyType(final MorphologyType morphologyType) {
 		this.morphologyType = morphologyType;
 	}
+	
+	public SiteExposureType getSiteExposure() {
+		return siteExposure;
+	}
+	
+	public void setSiteExposure(final SiteExposureType siteExposure) {
+		this.siteExposure = siteExposure;
+	}
 
 	@Override
 	public String toString() {
@@ -90,7 +99,7 @@ public class BasicCaseAttributes implements ICopyable<BasicCaseAttributes> {
 
 	@Override
 	/**
-	 * hashCode generated using Eclipse source menu, includes all fields.
+	 * hashcode generated using Eclipse source menu, includes all fields.
 	 */
 	public int hashCode() {
 		final int prime = 31;
@@ -104,6 +113,7 @@ public class BasicCaseAttributes implements ICopyable<BasicCaseAttributes> {
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((morphologyType == null) ? 0 : morphologyType.hashCode());
 		result = prime * result + ((regionType == null) ? 0 : regionType.hashCode());
+		result = prime * result + ((siteExposure == null) ? 0 : siteExposure.hashCode());
 		result = prime * result + ((tenureType == null) ? 0 : tenureType.hashCode());
 		return result;
 	}
@@ -135,6 +145,8 @@ public class BasicCaseAttributes implements ICopyable<BasicCaseAttributes> {
 			return false;
 		if (regionType != other.regionType)
 			return false;
+		if (siteExposure != other.siteExposure)
+			return false;
 		if (tenureType != other.tenureType)
 			return false;
 		return true;
@@ -142,6 +154,6 @@ public class BasicCaseAttributes implements ICopyable<BasicCaseAttributes> {
 
 	@Override
 	public BasicCaseAttributes copy() {
-		return new BasicCaseAttributes(aacode, dwellingCaseWeight, householdCaseWeight, regionType, morphologyType, tenureType, buildYear);
+		return new BasicCaseAttributes(aacode, dwellingCaseWeight, householdCaseWeight, regionType, morphologyType, tenureType, buildYear, siteExposure);
 	}
 }

@@ -5,15 +5,15 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import uk.org.cse.nhm.hom.components.fabric.types.FloorConstructionType;
 import uk.org.cse.nhm.hom.types.BuiltFormType;
 import uk.org.cse.nhm.hom.types.MorphologyType;
-import uk.org.cse.nhm.hom.types.RegionType;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.hom.types.TenureType;
 import uk.org.cse.nhm.stockimport.simple.dto.MappableDTOReader;
 import uk.org.cse.stockimport.domain.IBasicDTO;
 import uk.org.cse.stockimport.domain.IHouseCaseDTO;
 import uk.org.cse.stockimport.domain.impl.HouseCaseDTO;
+import uk.org.cse.stockimport.domain.types.DTOFloorConstructionType;
 
 public class HouseCaseMapperTest extends AbsMapperTest {
 	
@@ -27,7 +27,7 @@ public class HouseCaseMapperTest extends AbsMapperTest {
 	
 	final BuiltFormType builtFormType = BuiltFormType.Bungalow;
 	final boolean hasDraftLoby = true;
-	final FloorConstructionType floorConstructionType = FloorConstructionType.SuspendedTimber;
+	final DTOFloorConstructionType floorConstructionType = DTOFloorConstructionType.SuspendedTimber;
 	final boolean partlyOwnsRoof = true;
 	
 	final boolean hasAccessToOutsideSpace = true;
@@ -120,7 +120,7 @@ public class HouseCaseMapperTest extends AbsMapperTest {
 	}
 	
 	public static final void testConstrustructionData(final IHouseCaseDTO houseCaseDTO, 
-			final BuiltFormType builtFormType, final boolean hasDraftLobby, final FloorConstructionType grndFloorConstructionType){
+			final BuiltFormType builtFormType, final boolean hasDraftLobby, final DTOFloorConstructionType grndFloorConstructionType){
 		assertEquals("built form type", builtFormType, houseCaseDTO.getBuiltFormType());
 		assertEquals("draft lobby", hasDraftLobby,houseCaseDTO.isHasDraftLoby());
 		assertEquals("grnd floor type", grndFloorConstructionType,houseCaseDTO.getFloorConstructionType());

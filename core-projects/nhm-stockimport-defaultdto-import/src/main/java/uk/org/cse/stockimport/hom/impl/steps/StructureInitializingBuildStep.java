@@ -8,14 +8,18 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Optional;
 
+import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
 import uk.org.cse.nhm.hom.SurveyCase;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
 import uk.org.cse.nhm.hom.structure.StructureModel;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
 import uk.org.cse.stockimport.domain.IBasicDTO;
 import uk.org.cse.stockimport.domain.IHouseCaseDTO;
 import uk.org.cse.stockimport.domain.IVentilationDTO;
 import uk.org.cse.stockimport.domain.impl.HouseCaseDTO;
+import uk.org.cse.stockimport.domain.types.DTOFloorConstructionType;
 import uk.org.cse.stockimport.hom.ISurveyCaseBuildStep;
 import uk.org.cse.stockimport.imputation.house.IHousePropertyImputer;
 import uk.org.cse.stockimport.repository.IHouseCaseSources;
@@ -35,6 +39,11 @@ public class StructureInitializingBuildStep implements ISurveyCaseBuildStep {
 	private static final Logger log = LoggerFactory.getLogger(StructureInitializingBuildStep.class);
 
 	private static final double DEFAULT_DRAUGHT_STRIPPED_PROPORTION = 0;
+	
+	/**
+	 * The latest SAP age band in which you are assumed to have an unsealed floor, if you have a suspended timber floor.
+	 */
+	private final SAPAgeBandValue.Band lastAgeBandForUnsealed = SAPAgeBandValue.Band.E;
 	
     private IHousePropertyImputer housePropertyImputer;
 
@@ -68,7 +77,13 @@ public class StructureInitializingBuildStep implements ISurveyCaseBuildStep {
         final IHouseCaseDTO dto = dtoProvider.requireOne(HouseCaseDTO.class);
 
         final StructureModel structure = new StructureModel(dto.getBuiltFormType());
-        structure.setGroundFloorConstructionType(dto.getFloorConstructionType());
+        structure.setGroundFloorConstructionType(
+        		convertGroundFloorType(
+        			dto.getFloorConstructionType(),
+        			dto.getBuildYear(),
+        			dto.getRegionType()
+        		)
+    		);
         structure.setLivingAreaProportionOfFloorArea(getLivingAreaFaction(dto));
         structure.setHasDraughtLobby(dto.isHasDraftLoby());
         
@@ -83,6 +98,9 @@ public class StructureInitializingBuildStep implements ISurveyCaseBuildStep {
         structure.setOwnsPartOfRoof(dto.isOwnsPartOfRoof());
 
         structure.setMainFloorLevel(dto.getMainFloorLevel());
+        structure.setZoneTwoHeatedProportion(1);
+        structure.setThermalBridigingCoefficient(0.15);
+        structure.setReducedInternalGains(false);
         
         final Optional<IVentilationDTO> ventilation = dtoProvider.getOne(IVentilationDTO.class);
         if (ventilation.isPresent()) {
@@ -112,5 +130,20 @@ public class StructureInitializingBuildStep implements ISurveyCaseBuildStep {
         }
 
         return this.housePropertyImputer.getLivingAreaFraction(dto.getNumOfHabitalRooms());
+    }
+
+    /**
+     * Categorizes SuspendedTimber floors as sealed or unsealed based on the SAP age band of the dwelling. 
+     * 
+     * @param dtoFloorType
+     * @param regionType 
+     */
+    protected FloorConstructionType convertGroundFloorType(
+    		final DTOFloorConstructionType dtoFloorType, 
+    		final int buildYear, 
+    		final RegionType region
+		) {
+    	SAPAgeBandValue band = SAPAgeBandValue.fromYear(buildYear, region);
+    	return band.getName().after(lastAgeBandForUnsealed) ? FloorConstructionType.SuspendedTimberSealed : FloorConstructionType.SuspendedTimberUnsealed;
     }
 }

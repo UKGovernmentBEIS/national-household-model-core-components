@@ -11,7 +11,10 @@ import com.larkery.jasb.bind.Bind;
 import com.larkery.jasb.bind.BindNamedArgument;
 
 @Bind("action.reset-glazing")
-@Doc("A special action which updates the condition of each window in a house in turn.")
+@Doc({
+	"A special action which updates the condition of each window in a house in turn.",
+	"When the energy calculator is in SAP 2012 mode, these values will be ignored and the relevant SAP tables will be used instead."
+})
 @Category(CategoryType.RESETACTIONS)
 public class XResetGlazing extends XFlaggedDwellingAction {
 	public static final class P {

@@ -3,6 +3,20 @@ package uk.org.cse.nhm.energycalculator.api;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 
+/*
+BEISDOC
+NAME: Total fuel energy demand
+DESCRIPTION: The amount of fuel supplied to the house for all uses. 
+TYPE: table
+UNIT: W
+SAP: (231, 238)
+DEPS: lighting-energy-demand,all-space-heating-fuel-energy-demand,central-direct-hot-water-fuel-demand,central-system-hot-water-fuel-demand,point-of-use-fuel-energy-demand,pv-useful-electricity,pv-exported-electricity,warm-air-fan-electricity,central-heating-pump-power,oil-boiler-pump-power,gas-boiler-pump-power,combi-losses-instant-keep-hot,solar-water-pump-power,appliance-adjusted-demand,cooking-demand,electricity-demand
+GET: house.energy-use
+NOTES: Appliances and cooking are included here because they are made available to the NHM for reporting. However, they aren't included in the final SAP ratings.
+CONVERSION: When getting this using house.energy-use, it will be converted into kWh.  
+ID: total-fuel-energy-demand
+CODSIEB
+*/
 /**
  * Tracks the state of an in-progress energy calculation
  * @author hinton
@@ -81,6 +95,17 @@ public interface IEnergyState {
 	 */
 	public double getTotalDemand(final EnergyType energyType);
 	
+	/*
+	BEISDOC
+	NAME: Electricity Demand
+	DESCRIPTION: Whenever we use electricity in the NHM, we record it using this function which also requires you to pass the high rate fraction. This will split the electricity into separate high-rate and low-rate electricity types. 
+	TYPE: interface
+	UNIT: W
+	SAP: (243, 244, other parts of table 10a) 
+	DEPS: ashp-split-rate,default-split-rate,direct-electric-split-rate,electric-boiler-split-rate,gas-heat-pump-pump-power,gshp-split-rate,heat-pump-water-with-immersion-split-rate,heat-pump-water-without-immersion-split-rate,immersion-split-rate,integrated-storage-split-rate
+	ID: electricity-demand
+	CODSIEB
+	*/
 	/**
 	 * convenience for using electricity
 	 * @param highRateFraction

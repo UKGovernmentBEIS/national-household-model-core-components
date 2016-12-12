@@ -33,7 +33,7 @@ public class WarmAirCirculatorTest extends CentralWaterHeaterTest {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		TestRunner.run(WarmAirCirculatorTest.class);
 	}
 
@@ -43,7 +43,7 @@ public class WarmAirCirculatorTest extends CentralWaterHeaterTest {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public WarmAirCirculatorTest(String name) {
+	public WarmAirCirculatorTest(final String name) {
 		super(name);
 	}
 
@@ -79,36 +79,37 @@ public class WarmAirCirculatorTest extends CentralWaterHeaterTest {
 	protected void tearDown() throws Exception {
 		setFixture(null);
 	}
-	
+
 	@Test
 	public void testHotWaterGeneration() {
 		final IWarmAirCirculator c = getFixture();
 		final IWarmAirSystem warmAir = ITechnologiesFactory.eINSTANCE.createWarmAirSystem();
-		
+
 		warmAir.setFuelType(FuelType.MAINS_GAS);
 		warmAir.setEfficiency(Efficiency.fromDouble(0.9));
-		
+
 		final ICentralWaterSystem central = ITechnologiesFactory.eINSTANCE.createCentralWaterSystem();
-		
+
 		central.setPrimaryWaterHeater(c);
 		c.setWarmAirSystem(warmAir);
-		
+
 		final IInternalParameters parameters = mock(IInternalParameters.class);
 		when(parameters.getConstants()).thenReturn(DefaultConstants.INSTANCE);
 		final IEnergyState state = mock(IEnergyState.class);
 		when(state.getBoundedTotalDemand(EnergyType.DemandsHOT_WATER, 1d)).thenReturn(100d);
-		
+
 		c.generateHotWaterAndPrimaryGains(parameters,
-				state, 
-				null, 
-				true, 
-				1, 
-				1, 
+				state,
+				null,
+				true,
+				1,
+				1,
 				1);
-		
-		verify(state).increaseDemand(EnergyType.FuelGAS, (100d + 139.1) / 0.9d);
+
+		// 100 W hot water demand, 1 Watt primary pipework losses, 90% efficiency
+		verify(state).increaseDemand(EnergyType.FuelGAS, (100d + 1) / 0.9d);
 		verify(state).increaseSupply(EnergyType.DemandsHOT_WATER, 100d);
-		verify(state).increaseSupply(EnergyType.GainsHOT_WATER_SYSTEM_GAINS, 139.1);
+		verify(state).increaseSupply(EnergyType.GainsHOT_WATER_SYSTEM_GAINS, 1);
 	}
 
 } //WarmAirCirculatorTest

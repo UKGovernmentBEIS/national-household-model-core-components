@@ -17,6 +17,7 @@ import com.google.inject.matcher.Matchers;
 import com.google.inject.multibindings.Multibinder;
 import com.google.inject.name.Named;
 
+import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.ipc.api.scenario.IStockService;
 import uk.org.cse.nhm.ipc.api.tasks.report.ILogEntryHandler;
 import uk.org.cse.nhm.language.adapt.IAdapter;
@@ -151,6 +152,8 @@ public class BuilderModule extends AbstractModule {
 				
 				addEmptyBinding(Key.get(new TypeLiteral<Function<Double, List<Double>>>() {}, SimulatorConfigurationConstants.Weighting));
                 addEmptyBinding(Key.get(new TypeLiteral<IComponentsFunction<Number>>() {}, SimulatorConfigurationConstants.SurveyWeightFunction));
+                
+                addEmptyBinding(Key.get(EnergyCalculatorType.class, SimulatorConfigurationConstants.EnergyCalculatorType));
 				
 				bind(IStockService.class).toProvider(new Provider<IStockService>() {
 

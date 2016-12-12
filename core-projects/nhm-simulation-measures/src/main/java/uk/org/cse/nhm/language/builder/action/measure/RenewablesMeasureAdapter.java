@@ -12,6 +12,7 @@ import uk.org.cse.nhm.language.adapt.impl.ReflectingAdapter;
 import uk.org.cse.nhm.language.definition.action.measure.renewable.XSolarHotWaterMeasure;
 import uk.org.cse.nhm.language.definition.action.measure.renewable.XSolarPhotovoltaicMeasure;
 import uk.org.cse.nhm.simulation.measure.factory.IMeasureFactory;
+import uk.org.cse.nhm.simulator.measure.sizing.ISizingFunction;
 import uk.org.cse.nhm.simulator.scope.IComponentsAction;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
@@ -41,11 +42,10 @@ public class RenewablesMeasureAdapter extends ReflectingAdapter {
 	
 	@Adapt(XSolarPhotovoltaicMeasure.class)
 	public IComponentsAction buildSolarPhotovoltaicMeasure(
-			@Prop(XSolarPhotovoltaicMeasure.P.efficiency) final IComponentsFunction<Number> efficiency,
-			@Prop(XSolarPhotovoltaicMeasure.P.roofCoverage) final IComponentsFunction<Number> roofCoverage,
+			@Prop(XSolarPhotovoltaicMeasure.P.sizing) final ISizingFunction sizingFunction,
 			@Prop(XSolarPhotovoltaicMeasure.P.capex) final IComponentsFunction<Number> capex,
 			@Prop(XSolarPhotovoltaicMeasure.P.ownUseProportion) final IComponentsFunction<Number> ownUse
 			) {
-		return factory.createSolarPhotovoltaicMeasure(efficiency, roofCoverage, capex, ownUse);
+		return factory.createSolarPhotovoltaicMeasure(sizingFunction, capex, ownUse);
 	}
 }

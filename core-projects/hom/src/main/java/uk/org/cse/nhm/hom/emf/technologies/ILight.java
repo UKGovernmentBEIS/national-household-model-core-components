@@ -14,18 +14,44 @@ package uk.org.cse.nhm.hom.emf.technologies;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ILight#getEfficiency <em>Efficiency</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ILight#getProportion <em>Proportion</em>}</li>
  * </ul>
- * </p>
  *
  * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getLight()
  * @model
  * @generated
  */
 public interface ILight extends INamed, IVisitorAccepter {
+	/*
+	BEISDOC
+	NAME: Incandescent Energy Consumption
+	DESCRIPTION: The number of watts of electricity an incandescent bulb must consume to emit a watt of light.
+	TYPE: value
+	UNIT: Dimensionless
+	SAP: (L1)
+	BREDEM: 1B
+	CONVERSION: From kWh/year to W (1000 / (365.25 * 24))
+	ID: incandescent-energy-consumption
+	CODSIEB
+	*/
 	public static final double INCANDESCENT_EFFICIENCY = 6.8139; // watts
+	
+	/*
+	BEISDOC
+	NAME: CFL Energy Consumption
+	DESCRIPTION: The number of watts of electricity a CFL bulb must consume to emit a watt of light.
+	TYPE: value
+	UNIT: Dimensionless
+	SAP: (L2)
+	BREDEM: 1C
+	DEPS: incandescent-energy-consumption
+	NOTES: Worked out that this was half the incandescent efficiency by working backwards through the formula. 
+	ID: cfl-energy-consumption
+	CODSIEB
+	*/
 	public static final double CFL_EFFICIENCY = INCANDESCENT_EFFICIENCY / 2.0;
 	
 	/**

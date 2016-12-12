@@ -42,7 +42,7 @@ public class HeatPumpWarmAirSystemTest extends WarmAirSystemTest {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		TestRunner.run(HeatPumpWarmAirSystemTest.class);
 	}
 
@@ -52,7 +52,7 @@ public class HeatPumpWarmAirSystemTest extends WarmAirSystemTest {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public HeatPumpWarmAirSystemTest(String name) {
+	public HeatPumpWarmAirSystemTest(final String name) {
 		super(name);
 	}
 
@@ -95,38 +95,38 @@ public class HeatPumpWarmAirSystemTest extends WarmAirSystemTest {
 		final IInternalParameters parameters = mock(IInternalParameters.class);
 		when(parameters.getConstants()).thenReturn(DefaultConstants.INSTANCE);
 		when(parameters.getTarrifType()).thenReturn(ElectricityTariffType.ECONOMY_7);
-		
+
 		final IEnergyCalculatorHouseCase house = mock(IEnergyCalculatorHouseCase.class);
-		
+
 		was.setFuelType(FuelType.ELECTRICITY);
 		was.setSourceType(HeatPumpSourceType.AIR);
-		
+
 		checkHighRateFraction(was, house, parameters, 0.9);
-		
+
 		was.setAuxiliaryPresent(true);
-		
+
 		checkHighRateFraction(was, house, parameters, 0.9);
-	
+
 		was.setSourceType(HeatPumpSourceType.GROUND);
-		
-		checkHighRateFraction(was, house, parameters, 0.8);
+
+		checkHighRateFraction(was, house, parameters, 0.7);
 	}
 
-	private void checkHighRateFraction(final IHeatPumpWarmAirSystem target, IEnergyCalculatorHouseCase house, IInternalParameters parameters, final double fraction) {
+	private void checkHighRateFraction(final IHeatPumpWarmAirSystem target, final IEnergyCalculatorHouseCase house, final IInternalParameters parameters, final double fraction) {
 		final ArgumentCaptor<IEnergyTransducer> tc = ArgumentCaptor.forClass(IEnergyTransducer.class);
 		final IEnergyCalculatorVisitor visitor = mock(IEnergyCalculatorVisitor.class);
 		final IEnergyState state = mock(IEnergyState.class);
-		
+
 		target.accept(DefaultConstants.INSTANCE, parameters, visitor, new AtomicInteger(), DummyHeatProportions.instance);
-		
+
 		verify(visitor, atLeastOnce()).visitEnergyTransducer(tc.capture());
-		
+
 		for (final IEnergyTransducer value : tc.getAllValues()) {
 			if (value instanceof WarmAirFans) continue;
 			value.generate(house, parameters, null, state);
 		}
-		
+
 		verify(state).increaseElectricityDemand(eq(fraction), anyDouble());
 	}
-	
+
 } //HeatPumpWarmAirSystemTest

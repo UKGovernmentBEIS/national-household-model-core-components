@@ -18,6 +18,7 @@
    </license>
 
    <requires>
+     <import plugin="uk.org.cse.nhm.bundle.impl" version="6.5.0" match="equivalent"/>
      <import plugin="uk.org.cse.nhm.bundle.impl" version="6.4.0" match="equivalent"/>
      <import plugin="uk.org.cse.nhm.bundle.impl" version="6.3.2" match="equivalent"/>
      <import plugin="uk.org.cse.nhm.bundle.impl" version="6.3.0" match="equivalent"/>

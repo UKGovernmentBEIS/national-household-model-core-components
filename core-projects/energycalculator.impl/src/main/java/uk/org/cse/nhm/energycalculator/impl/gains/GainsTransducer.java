@@ -35,7 +35,21 @@ public class GainsTransducer implements IEnergyTransducer {
 		final double lightingGains = state.getTotalSupply(EnergyType.GainsLIGHTING_GAINS);
 		final double applianceGains = state.getTotalSupply(EnergyType.GainsAPPLIANCE_GAINS);
 		final double cookingGains = state.getTotalSupply(EnergyType.GainsCOOKING_GAINS);
+		
+		/*
+		BEISDOC
+		NAME: Pump and fan gains
+		DESCRIPTION: The total internal heat gains from pumps and fans.
+		TYPE: formula
+		UNIT: W
+		SAP: (70), Table 5a
+		BREDEM: 6G, Table 26
+		DEPS: warm-air-fan-electricity,central-heating-pump-gains,oil-boiler-pump-gains
+		ID: pump-and-fan-gains
+		CODSIEB
+		*/
 		final double pumpGains = state.getTotalSupply(EnergyType.GainsPUMP_AND_FAN_GAINS);
+		
 		final double hotWaterGains = state.getTotalSupply(EnergyType.GainsHOT_WATER_USAGE_GAINS);
 		final double hotWaterGains2 = state.getTotalSupply(EnergyType.GainsHOT_WATER_SYSTEM_GAINS);
 		final double solarGains = state.getTotalSupply(EnergyType.GainsSOLAR_GAINS);
@@ -49,6 +63,18 @@ public class GainsTransducer implements IEnergyTransducer {
 		state.increaseDemand(EnergyType.GainsHOT_WATER_SYSTEM_GAINS, hotWaterGains2);
 		state.increaseDemand(EnergyType.GainsSOLAR_GAINS, solarGains);
 		
+		/*
+		BEISDOC
+		NAME: Useful Gains
+		DESCRIPTION: Adds up all the gains we found, multiplying them by utilisation factors as necessary.
+		TYPE: formula
+		UNIT: W
+		SAP: (73, 84)
+		BREDEM: 6J, 6K
+		DEPS: monthly-solar-gains,metabolic-gains,lighting-gains-utilisation,lighting-energy-demand,appliance-adjusted-demand,cooking-gains,pump-and-fan-gains,hot-water-usage-gains,hot-water-system-gains
+		ID: useful-gains
+		CODSIEB
+		*/
 		final double usefulGains = 
 				solarGains + 
 				metabolicGains + 
@@ -56,7 +82,34 @@ public class GainsTransducer implements IEnergyTransducer {
 				applianceGains +
 				cookingGains + 
 				pumpGains + 
+				
+				/*
+				BEISDOC
+				NAME: Hot Water Usage Gains
+				DESCRIPTION: Hot water gains due to energy content of hot water used, and combi losses.
+				TYPE: formula
+				UNIT: W
+				SAP: (65)
+				BREDEM: 6I
+				DEPS: combi-losses,water-heating-power,hot-water-direct-gains-usefulness
+				NOTES: Combi losses are included here because they model 'rejected' water, which came out of the tap at the wrong temperature.
+				ID: hot-water-usage-gains
+				CODSIEB
+				*/
 				HOT_WATER_USE_USEFULNESS * hotWaterGains + 
+				
+				/*
+				BEISDOC
+				NAME: Hot Water System Gains
+				DESCRIPTION: Hot water gains due to pipework, distribution and storage losses.
+				TYPE: formula
+				UNIT: W
+				SAP: (65)
+				BREDEM: 6I
+				DEPS: central-hot-water-distribution-losses,point-of-use-distribution-losses,distribution-losses,water-storage-loss,hot-water-system-gains-usefulness
+				ID: hot-water-system-gains
+				CODSIEB
+				*/
 				HOT_WATER_PIPEWORK_USEFULNESS * hotWaterGains2;
 		
 		state.increaseSupply(EnergyType.GainsUSEFUL_GAINS, usefulGains);

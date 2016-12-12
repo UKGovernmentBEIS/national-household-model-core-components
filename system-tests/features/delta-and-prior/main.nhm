@@ -2,7 +2,7 @@
 (scenario
  start-date:2014
  end-date:2014
- stock-id:../../EHS2012.json.gz
+ stock-id:../../stock.json
 
  ;; testing simple behaviour with under.
 

@@ -184,11 +184,6 @@ public class HeatPumpTest extends HeatSourceTest {
 		verify(state).increaseSupply(EnergyType.DemandsHEAT, 100d);
 		
 		double efficiency = 2;
-		if (warmAirFanCoil == EmitterType.WARM_AIR_FAN_COIL) {
-			efficiency *= 0.85;
-		} else if (warmAirFanCoil == EmitterType.RADIATORS) {
-			efficiency *= 0.7;
-		}
 		
 		verify(state).increaseDemand(primary, 75d / efficiency);
 		
@@ -206,11 +201,6 @@ public class HeatPumpTest extends HeatSourceTest {
 		verify(state).increaseSupply(EnergyType.DemandsHEAT, 100d);
 		
 		double efficiency = 2;
-		if (warmAirFanCoil == EmitterType.WARM_AIR_FAN_COIL) {
-			efficiency *= 0.85;
-		} else if (warmAirFanCoil == EmitterType.RADIATORS) {
-			efficiency *= 0.7;
-		}
 		
 		verify(state).increaseDemand(mainsGas, 100d / efficiency);
 	}

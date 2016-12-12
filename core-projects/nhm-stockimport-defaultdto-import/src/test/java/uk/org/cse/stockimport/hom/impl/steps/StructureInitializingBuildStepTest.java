@@ -14,6 +14,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import com.google.common.base.Optional;
 
 import junit.framework.Assert;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.hom.SurveyCase;
 import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.hom.types.BuiltFormType;
@@ -87,7 +88,7 @@ public class StructureInitializingBuildStepTest extends Mockito {
 
         assertEquals(expectedLivingAreaFaction, step.getLivingAreaFaction(dto), 0.00);
     }
-    
+
     @Test
     public void testDraftLobyIsSet() throws Exception {
         final SurveyCase surveyCase = new SurveyCase();
@@ -96,6 +97,8 @@ public class StructureInitializingBuildStepTest extends Mockito {
         when(dto.getBuiltFormType()).thenReturn(BuiltFormType.PurposeBuiltHighRiseFlat);
         when(dtoProvider.getOne(IVentilationDTO.class)).thenReturn(Optional.<IVentilationDTO>absent());
         when(dto.isHasDraftLoby()).thenReturn(true);
+        when(dto.getBuildYear()).thenReturn(2008);
+        when(dto.getRegionType()).thenReturn(RegionType.EastOfEngland);
 
         step.build(surveyCase, dtoProvider);
 

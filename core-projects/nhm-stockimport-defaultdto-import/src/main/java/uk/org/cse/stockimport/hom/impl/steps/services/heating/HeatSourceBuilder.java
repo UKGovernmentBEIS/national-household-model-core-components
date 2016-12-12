@@ -2,12 +2,8 @@ package uk.org.cse.stockimport.hom.impl.steps.services.heating;
 
 import static uk.org.cse.stockimport.util.OptionalUtil.get;
 
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.common.collect.ImmutableMap;
 
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.HeatPumpSourceType;
@@ -17,6 +13,7 @@ import uk.org.cse.nhm.hom.emf.technologies.IHeatPump;
 import uk.org.cse.nhm.hom.emf.technologies.IHeatSource;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;
 import uk.org.cse.nhm.hom.emf.technologies.IWaterTank;
+import uk.org.cse.nhm.hom.emf.technologies.boilers.EfficiencySourceType;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.FlueType;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoilersFactory;
@@ -57,35 +54,6 @@ public class HeatSourceBuilder implements IHeatSourceBuilder {
 	private static final boolean DEFAULT_USAGE_BASED = false;
 	
 	/**
-	 * Lookup table for responsiveness, as defined by the CHM spreadsheet.
-	 */
-	private final Map<SpaceHeatingSystemType, Map<FuelType, Double>> responsiveness = ImmutableMap.<SpaceHeatingSystemType, Map<FuelType, Double>>builder()
-			.put(SpaceHeatingSystemType.STANDARD, ImmutableMap.of(
-				FuelType.MAINS_GAS, 1d,
-				FuelType.OIL, 1d,
-				FuelType.HOUSE_COAL, 0.75d,
-				FuelType.ELECTRICITY, 0.75d,
-				FuelType.BIOMASS_PELLETS, 0.75d))
-			.put(SpaceHeatingSystemType.WARM_AIR, ImmutableMap.of(
-				FuelType.MAINS_GAS, 1d,
-				FuelType.ELECTRICITY, 0.75d))
-			.build();
-	
-	private final Map<SpaceHeatingSystemType, Double> defaultResponsiveness =
-			ImmutableMap.<SpaceHeatingSystemType, Double>builder()
-			.put(SpaceHeatingSystemType.STANDARD, 1d)
-			.put(SpaceHeatingSystemType.COMBI, 1d)
-			.put(SpaceHeatingSystemType.STORAGE_COMBI, 1d)
-			.put(SpaceHeatingSystemType.BACK_BOILER,  1d)
-			.put(SpaceHeatingSystemType.BACK_BOILER_NO_CENTRAL_HEATING, 1d)
-			.put(SpaceHeatingSystemType.ROOM_HEATER, 1d)
-			.put(SpaceHeatingSystemType.COMMUNITY_HEATING_WITH_CHP, 1d)
-			.put(SpaceHeatingSystemType.COMMUNITY_HEATING_WITHOUT_CHP, 1d)
-			.put(SpaceHeatingSystemType.GROUND_SOURCE_HEAT_PUMP, 1d)
-			.put(SpaceHeatingSystemType.AIR_SOURCE_HEAT_PUMP, 1d)
-			.put(SpaceHeatingSystemType.CPSU, 1d)
-			.build();
-	/**
 	 * This is where the actual logic lives. I have made it static because it's stateless, aside from responsiveness
 	 * lookups.
 	 * 
@@ -103,7 +71,7 @@ public class HeatSourceBuilder implements IHeatSourceBuilder {
 	 * @param responsiveness
 	 * @return
 	 */
-	private static IBoiler createBoiler(final FuelType fuelType, final IHeatingDTO dto, final double responsiveness, final BoilerType boilerType,
+	private static IBoiler createBoiler(final FuelType fuelType, final IHeatingDTO dto, final BoilerType boilerType,
 			final double storageVolume, final double solarStorageVolume, double storeInsulationThickness, final boolean condensing) {
 		final IBoiler boiler;
 		
@@ -160,22 +128,12 @@ public class HeatSourceBuilder implements IHeatSourceBuilder {
 			boiler.setPumpInHeatedSpace(false);
 			boiler.setWeatherCompensated(false);
 			boiler.setCondensing(condensing);
-			boiler.setBasicResponsiveness(responsiveness);
+			boiler.setEfficiencySource(dto.getPcdbMatch().or(false) ?
+			        EfficiencySourceType.MANUFACTURER_DECLARED :
+			        EfficiencySourceType.SAP_DEFAULT);
 		}
 		
 		return boiler;
-	}
-	
-	protected double getResponsiveness(final SpaceHeatingSystemType type, final FuelType fuel) {
-		log.debug("Get responsiveness for {} with {}", type, fuel);
-		if (responsiveness.containsKey(type)) {
-			final Map<FuelType, Double> map = responsiveness.get(type);
-			if (map.containsKey(fuel)) {
-				return map.get(fuel);
-			}
-		}
-		
-		return defaultResponsiveness.get(type);
 	}
 	
 	@Override
@@ -183,7 +141,7 @@ public class HeatSourceBuilder implements IHeatSourceBuilder {
 		final IHeatSource result;
 		switch (dto.getSpaceHeatingSystemType().getBasicType()) {
 		case BOILER:
-			result = createBoiler(dto.getMainHeatingFuel(), dto, getResponsiveness(dto.getSpaceHeatingSystemType(), dto.getMainHeatingFuel()),
+			result = createBoiler(dto.getMainHeatingFuel(), dto,
 					dto.getSpaceHeatingSystemType().getBoilerType(),
 					dto.getStorageCombiCylinderVolume().or(0d),
 					dto.getStorageCombiSolarVolume().or(0d),
@@ -257,7 +215,7 @@ public class HeatSourceBuilder implements IHeatSourceBuilder {
 		
 		switch (dto.getWaterHeatingSystemType().or(WaterHeatingSystemType.STANDARD_BOILER)) {
 		case STANDARD_BOILER:
-			heatSource = createBoiler(dto, getResponsiveness(SpaceHeatingSystemType.STANDARD, FuelType.MAINS_GAS), BoilerType.REGULAR);
+			heatSource = createBoiler(dto, BoilerType.REGULAR);
 			break;
 		case COMMUNITY_CHP:
 			heatSource =createCommunityHeatSource(get(dto.getMainHeatingFuel(), "water heating fuel"), dto, true);
@@ -284,7 +242,7 @@ public class HeatSourceBuilder implements IHeatSourceBuilder {
 		return heatSource;
 	}
 
-	private static IHeatSource createBoiler(final IWaterHeatingDTO dto, final double responsiveness, final BoilerType regular) {
-		return createBoiler(get(dto.getMainHeatingFuel(), "water heating fuel"), dto, responsiveness, regular, 0, 0, 0, false);
+	private static IHeatSource createBoiler(final IWaterHeatingDTO dto, final BoilerType regular) {
+		return createBoiler(get(dto.getMainHeatingFuel(), "water heating fuel"), dto, regular, 0, 0, 0, false);
 	}
 }

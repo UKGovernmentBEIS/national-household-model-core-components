@@ -5,7 +5,7 @@ import java.util.Set;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
-import uk.org.cse.nhm.hom.components.fabric.types.WallInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
 import uk.org.cse.nhm.hom.structure.IWall;
 import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.ipc.api.tasks.report.ILogEntryHandler;

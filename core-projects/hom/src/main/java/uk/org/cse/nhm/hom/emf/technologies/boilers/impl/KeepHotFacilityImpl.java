@@ -19,10 +19,10 @@ import uk.org.cse.nhm.hom.emf.technologies.boilers.IKeepHotFacility;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.boilers.impl.KeepHotFacilityImpl#isTimeClock <em>Time Clock</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -175,6 +175,19 @@ public class KeepHotFacilityImpl extends MinimalEObjectImpl implements IKeepHotF
 	 */
 	@Override
 	public double getAdditionalUsageLosses(final IInternalParameters parameters, final IEnergyState state) {
+		/*
+		BEISDOC
+		NAME: Keep-hot instant combi losses
+		DESCRIPTION: Extra losses which only apply to combi boilers - instantaneous version with keep hot facility
+		TYPE: formula
+		UNIT: W
+		SAP: Table 3a
+		BREDEM: Table 13
+		DEPS: instantaneous-keep-hot-factor,instantaneous-keep-hot-timeclock-factor
+		ID: combi-losses-instant-keep-hot
+		NOTES: Does not implement special behaviour for electrically powered keep-hot facility.
+		CODSIEB
+		*/
 		if (isTimeClock()) {
 			return parameters.getConstants().get(HeatingSystemConstants.INSTANTANEOUS_COMBI_FACTOR_KHF_WITH_TIMECLOCK);
 		} else {

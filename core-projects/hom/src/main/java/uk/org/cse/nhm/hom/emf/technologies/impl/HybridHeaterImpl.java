@@ -22,12 +22,12 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.HybridHeaterImpl#getFuel <em>Fuel</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.HybridHeaterImpl#getEfficiency <em>Efficiency</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.HybridHeaterImpl#getFraction <em>Fraction</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

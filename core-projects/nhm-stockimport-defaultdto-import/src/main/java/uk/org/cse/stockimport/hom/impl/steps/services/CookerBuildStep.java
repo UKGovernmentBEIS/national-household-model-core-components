@@ -10,7 +10,7 @@ import com.google.common.collect.ImmutableSet;
 import uk.org.cse.nhm.hom.SurveyCase;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.ICooker;
-import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;
+import uk.org.cse.nhm.hom.emf.technologies.impl.CookerImpl;
 import uk.org.cse.stockimport.domain.IBasicDTO;
 import uk.org.cse.stockimport.domain.services.ISpaceHeatingDTO;
 import uk.org.cse.stockimport.domain.services.IWaterHeatingDTO;
@@ -45,28 +45,18 @@ public class CookerBuildStep implements ISurveyCaseBuildStep {
 				(space.isPresent() && space.get().getMainHeatingFuel() == FuelType.MAINS_GAS) ||
 				(water.isPresent() && water.get().getMainHeatingFuel().or(FuelType.BIOMASS_PELLETS) == FuelType.MAINS_GAS);
 		
-		final ICooker electricOven = ITechnologiesFactory.eINSTANCE.createCooker();
-		electricOven.setFuelType(FuelType.ELECTRICITY);
-		electricOven.setBaseLoad(ICooker.ELECTRIC_BASE_LOAD);
-		electricOven.setOccupancyFactor(ICooker.ELECTRIC_OCCUPANCY_FACTOR);
-		electricOven.setOven(true);
-		
+		final ICooker cooker; 
+
 		if (hasGas) {
 			log.debug("{} installing gas hob and electric oven", dtoProvider.getAacode());
-			final ICooker hob = ITechnologiesFactory.eINSTANCE.createCooker();
-			hob.setHob(true);
-			hob.setFuelType(FuelType.MAINS_GAS);
+			cooker = CookerImpl.createMixed();
 			
-			hob.setBaseLoad(ICooker.GAS_BASE_LOAD);
-			hob.setOccupancyFactor(ICooker.GAS_OCCUPANCY_FACTOR);
-			hob.setGainsFactor(ICooker.GAS_GAINS_FACTOR);
-			model.getTechnologies().getCookers().add(hob);
 		} else {
 			log.debug("{} installing electric hob and electric oven", dtoProvider.getAacode());
-			electricOven.setHob(true);
+			cooker = CookerImpl.createElectric();
 		}
 		
-		model.getTechnologies().getCookers().add(electricOven);
+		model.getTechnologies().getCookers().add(cooker);
 	}
 
 }

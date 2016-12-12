@@ -25,7 +25,7 @@ import com.google.common.collect.ImmutableMap;
 import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
-import uk.org.cse.nhm.hom.ICopyable;
+import uk.org.cse.nhm.energycalculator.impl.demands.HotWaterDemand09;
 import uk.org.cse.nhm.hom.IHeatProportions;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.IAdjuster;
@@ -39,6 +39,7 @@ import uk.org.cse.nhm.hom.emf.technologies.IOperationalCost;
 import uk.org.cse.nhm.hom.emf.technologies.IPointOfUseWaterHeater;
 import uk.org.cse.nhm.hom.emf.technologies.IPrimarySpaceHeater;
 import uk.org.cse.nhm.hom.emf.technologies.IRoomHeater;
+import uk.org.cse.nhm.hom.emf.technologies.IShower;
 import uk.org.cse.nhm.hom.emf.technologies.ISolarPhotovoltaic;
 import uk.org.cse.nhm.hom.emf.technologies.ISpaceHeater;
 import uk.org.cse.nhm.hom.emf.technologies.IStorageHeater;
@@ -57,6 +58,7 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.TechnologyModelImpl#getAppliances <em>Appliances</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.TechnologyModelImpl#getLights <em>Lights</em>}</li>
@@ -67,12 +69,14 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.TechnologyModelImpl#getCentralWaterSystem <em>Central Water System</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.TechnologyModelImpl#getSecondaryWaterHeater <em>Secondary Water Heater</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.TechnologyModelImpl#getCommunityHeatSource <em>Community Heat Source</em>}</li>
+ *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.TechnologyModelImpl#getSolarPhotovoltaic <em>Solar Photovoltaic</em>}</li>
+ *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.TechnologyModelImpl#getAdjusters <em>Adjusters</em>}</li>
+ *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.TechnologyModelImpl#getShower <em>Shower</em>}</li>
  * </ul>
- * </p>
  *
- * @generated no
+ * @generated
  */
-public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnologyModel, ICopyable<ITechnologyModel> {
+public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnologyModel {
 	/**
 	 * <!-- begin-user-doc -->
 	 * This corresponds to heating system 693 "Portable Electric Heaters" and 699 "Electric heaters (assumed)" in SAP tables 4a to 4c.
@@ -96,7 +100,6 @@ public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnolo
 	static {
 		assumedElectricSpaceHeater.setFuel(FuelType.ELECTRICITY);
 		assumedElectricWaterHeater.setEfficiency(Efficiency.fromDouble(1.0));
-		assumedElectricSpaceHeater.setResponsiveness(1.0);
 		assumedElectricSpaceHeater.setFlueType(FlueType.NOT_APPLICABLE);
 		assumedElectricSpaceHeater.setThermostatFitted(true);
 		
@@ -224,6 +227,16 @@ public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnolo
 	 * @ordered
 	 */
 	protected EList<IAdjuster> adjusters;
+
+	/**
+	 * The cached value of the '{@link #getShower() <em>Shower</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getShower()
+	 * @generated
+	 * @ordered
+	 */
+	protected IShower shower;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -474,9 +487,9 @@ public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnolo
 		if (newCentralWaterSystem != centralWaterSystem) {
 			NotificationChain msgs = null;
 			if (centralWaterSystem != null)
-				msgs = ((InternalEObject)centralWaterSystem).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ITechnologiesPackage.TECHNOLOGY_MODEL__CENTRAL_WATER_SYSTEM, null, msgs);
+				msgs = ((InternalEObject)centralWaterSystem).eInverseRemove(this, ITechnologiesPackage.CENTRAL_WATER_SYSTEM__TECHNOLOGY_MODEL, ICentralWaterSystem.class, msgs);
 			if (newCentralWaterSystem != null)
-				msgs = ((InternalEObject)newCentralWaterSystem).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ITechnologiesPackage.TECHNOLOGY_MODEL__CENTRAL_WATER_SYSTEM, null, msgs);
+				msgs = ((InternalEObject)newCentralWaterSystem).eInverseAdd(this, ITechnologiesPackage.CENTRAL_WATER_SYSTEM__TECHNOLOGY_MODEL, ICentralWaterSystem.class, msgs);
 			msgs = basicSetCentralWaterSystem(newCentralWaterSystem, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
@@ -625,6 +638,49 @@ public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnolo
 		return adjusters;
 	}
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public IShower getShower() {
+		return shower;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetShower(IShower newShower, NotificationChain msgs) {
+		IShower oldShower = shower;
+		shower = newShower;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.TECHNOLOGY_MODEL__SHOWER, oldShower, newShower);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setShower(IShower newShower) {
+		if (newShower != shower) {
+			NotificationChain msgs = null;
+			if (shower != null)
+				msgs = ((InternalEObject)shower).eInverseRemove(this, ITechnologiesPackage.SHOWER__TECHNOLOGY_MODEL, IShower.class, msgs);
+			if (newShower != null)
+				msgs = ((InternalEObject)newShower).eInverseAdd(this, ITechnologiesPackage.SHOWER__TECHNOLOGY_MODEL, IShower.class, msgs);
+			msgs = basicSetShower(newShower, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.TECHNOLOGY_MODEL__SHOWER, newShower, newShower));
+	}
+
 	private transient Double operationalCostCache = null;
 	
 	/**
@@ -699,6 +755,8 @@ public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnolo
 	 * @generated NO
 	 */
 	public void accept(IConstants constants, IEnergyCalculatorParameters parameters, IEnergyCalculatorVisitor visitor, final AtomicInteger counter, IHeatProportions heatProportions) {
+		visitor.visitEnergyTransducer(new HotWaterDemand09(constants, getShower()));
+		
 		TreeIterator<EObject> eAllContents = this.eAllContents();
 		
 		heatProportions = getHeatProportions();
@@ -717,6 +775,26 @@ public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnolo
 		if (heatProportions.providesHotWater(assumedElectricWaterHeater)) {
 			assumedElectricWaterHeater.accept(constants, parameters, visitor, counter, heatProportions);
 		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case ITechnologiesPackage.TECHNOLOGY_MODEL__CENTRAL_WATER_SYSTEM:
+				if (centralWaterSystem != null)
+					msgs = ((InternalEObject)centralWaterSystem).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ITechnologiesPackage.TECHNOLOGY_MODEL__CENTRAL_WATER_SYSTEM, null, msgs);
+				return basicSetCentralWaterSystem((ICentralWaterSystem)otherEnd, msgs);
+			case ITechnologiesPackage.TECHNOLOGY_MODEL__SHOWER:
+				if (shower != null)
+					msgs = ((InternalEObject)shower).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ITechnologiesPackage.TECHNOLOGY_MODEL__SHOWER, null, msgs);
+				return basicSetShower((IShower)otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -749,6 +827,8 @@ public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnolo
 				return basicSetSolarPhotovoltaic(null, msgs);
 			case ITechnologiesPackage.TECHNOLOGY_MODEL__ADJUSTERS:
 				return ((InternalEList<?>)getAdjusters()).basicRemove(otherEnd, msgs);
+			case ITechnologiesPackage.TECHNOLOGY_MODEL__SHOWER:
+				return basicSetShower(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -783,6 +863,8 @@ public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnolo
 				return getSolarPhotovoltaic();
 			case ITechnologiesPackage.TECHNOLOGY_MODEL__ADJUSTERS:
 				return getAdjusters();
+			case ITechnologiesPackage.TECHNOLOGY_MODEL__SHOWER:
+				return getShower();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -833,6 +915,9 @@ public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnolo
 				getAdjusters().clear();
 				getAdjusters().addAll((Collection<? extends IAdjuster>)newValue);
 				return;
+			case ITechnologiesPackage.TECHNOLOGY_MODEL__SHOWER:
+				setShower((IShower)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -878,6 +963,9 @@ public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnolo
 			case ITechnologiesPackage.TECHNOLOGY_MODEL__ADJUSTERS:
 				getAdjusters().clear();
 				return;
+			case ITechnologiesPackage.TECHNOLOGY_MODEL__SHOWER:
+				setShower((IShower)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -912,6 +1000,8 @@ public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnolo
 				return solarPhotovoltaic != null;
 			case ITechnologiesPackage.TECHNOLOGY_MODEL__ADJUSTERS:
 				return adjusters != null && !adjusters.isEmpty();
+			case ITechnologiesPackage.TECHNOLOGY_MODEL__SHOWER:
+				return shower != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -934,6 +1024,18 @@ public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnolo
 		boolean secondaryHeaterExists = getSecondarySpaceHeater() != null && !getSecondarySpaceHeater().isBroken();
 		boolean includeSecondaryHeater = secondaryHeaterExists || primaryHeaterExists && alwaysIncludeSecondaryHeater(getPrimarySpaceHeater());
 		
+		/*
+		BEISDOC
+		NAME: Space Heating Fraction
+		DESCRIPTION: The fraction of heat demand which will be met by each heating system.
+		TYPE: algorithm/lookup
+		UNIT: Dimensionless
+		SAP: (201,202,204), Table 11, Appendix A
+		BREDEM: User input (frsys1,frsys2,...)
+		NOTES: Does not implement SAP Table N9 secondary fraction for heat pumps.
+		ID: space-heating-fraction
+		CODSIEB
+		*/
 		if (primaryHeaterExists) {
 			if (includeSecondaryHeater) {
 				ISpaceHeater secondaryHeater = secondaryHeaterExists ? getSecondarySpaceHeater() : assumedElectricSpaceHeater; 
@@ -960,6 +1062,20 @@ public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnolo
 			}
 		}
 		
+		/*
+		BEISDOC
+		NAME: Is Main Water Heater
+		DESCRIPTION: Only the main water heating system contributes hot water.
+		TYPE: formula
+		UNIT: True/False
+		SAP: (217)
+		NOTES: SAP allows for two main water heating systems. We do not support this.
+		NOTES: We do allow for secondary water heating systems, but they will only supply hot water if a main water heating system is not present or is not functioning.
+		NOTES: BREDEM computes a fraction based on volume or water heated and temperature rise. We do not implement this as we do not have the information.
+		NOTES: Solar water heating is dealt with separately.
+		ID: is-main-weater-heating
+		CODSIEB
+		*/
 		// Water
 		// Solar thermal happens first - we don't deal with that here.
 		// Other systems are either used completely or not at all.

@@ -2,14 +2,14 @@ package uk.org.cse.stockimport.domain;
 
 import com.google.common.base.Optional;
 
-import uk.org.cse.nhm.hom.components.fabric.types.FloorConstructionType;
 import uk.org.cse.nhm.hom.types.BuiltFormType;
 import uk.org.cse.nhm.hom.types.MorphologyType;
-import uk.org.cse.nhm.hom.types.RegionType;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.hom.types.TenureType;
 import uk.org.cse.stockimport.domain.schema.Constraint;
 import uk.org.cse.stockimport.domain.schema.DTO;
 import uk.org.cse.stockimport.domain.schema.DTOField;
+import uk.org.cse.stockimport.domain.types.DTOFloorConstructionType;
 
 /**
  * IHouseCaseDTO.
@@ -87,10 +87,10 @@ public interface IHouseCaseDTO extends IBasicDTO {
 	public void setChildOccupants(final Optional<Integer> childOccupants);
 
 	@DTOField(GRND_FLOOR_TYPE)
-	public FloorConstructionType getFloorConstructionType();
+	public DTOFloorConstructionType getFloorConstructionType();
 
 	public void setFloorConstructionType(
-			final FloorConstructionType floorConstructionType);
+			final DTOFloorConstructionType floorConstructionType);
 
 	@DTOField(LIVING_AREA_FACTION)
 	public double getLivingAreaFaction();

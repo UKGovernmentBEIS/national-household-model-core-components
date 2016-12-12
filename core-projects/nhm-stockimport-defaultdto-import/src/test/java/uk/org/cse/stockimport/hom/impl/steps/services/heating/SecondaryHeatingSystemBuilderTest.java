@@ -32,7 +32,6 @@ public class SecondaryHeatingSystemBuilderTest {
 		Assert.assertEquals(FuelType.ELECTRICITY, rh.getFuel());
 		Assert.assertEquals(Efficiency.fromDouble(1d), rh.getEfficiency());
 		Assert.assertEquals(FlueType.NOT_APPLICABLE, rh.getFlueType());
-		Assert.assertEquals(1d, rh.getResponsiveness());
 	}
 	
 	@Test
@@ -48,7 +47,6 @@ public class SecondaryHeatingSystemBuilderTest {
 		Assert.assertEquals(FuelType.BOTTLED_LPG, rh.getFuel());
 		Assert.assertEquals(Efficiency.fromDouble(0.58), rh.getEfficiency());
 		Assert.assertEquals(FlueType.NOT_APPLICABLE, rh.getFlueType());
-		Assert.assertEquals(1d, rh.getResponsiveness());
 	}
 	
 	@Test
@@ -64,7 +62,6 @@ public class SecondaryHeatingSystemBuilderTest {
 		Assert.assertEquals(FuelType.MAINS_GAS, rh.getFuel());
 		Assert.assertEquals(Efficiency.fromDouble(0.58), rh.getEfficiency());
 		Assert.assertEquals(FlueType.BALANCED_FLUE, rh.getFlueType());
-		Assert.assertEquals(1d, rh.getResponsiveness());
 	}
 	
 	@Test
@@ -80,7 +77,6 @@ public class SecondaryHeatingSystemBuilderTest {
 		Assert.assertEquals(FuelType.MAINS_GAS, rh.getFuel());
 		Assert.assertEquals(Efficiency.fromDouble(0.4), rh.getEfficiency());
 		Assert.assertEquals(FlueType.BALANCED_FLUE, rh.getFlueType());
-		Assert.assertEquals(1d, rh.getResponsiveness());
 	}
 	
 	@Test
@@ -96,6 +92,5 @@ public class SecondaryHeatingSystemBuilderTest {
 		Assert.assertEquals(FuelType.MAINS_GAS, rh.getFuel());
 		Assert.assertEquals(Efficiency.fromDouble(0.45), rh.getEfficiency());
 		Assert.assertEquals(FlueType.CHIMNEY, rh.getFlueType());
-		Assert.assertEquals(1d, rh.getResponsiveness());
 	}
 }

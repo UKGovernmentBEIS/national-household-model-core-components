@@ -43,7 +43,7 @@ import uk.org.cse.stockimport.repository.IHouseCaseSources;
 
 /**
  * Construct hot water systems from {@link IWaterHeatingDTO}
- * 
+ *
  * @author hinton
  * @since 1.0
  */
@@ -54,9 +54,9 @@ public class HotWaterBuildStep implements ISurveyCaseBuildStep {
 	/** @since 1.0*/
 	public static final String IDENTIFIER = HotWaterBuildStep.class.getCanonicalName();
 	protected static final ITechnologiesFactory T = ITechnologiesFactory.eINSTANCE;
-	
+
 	private IHeatSourceBuilder heatSourceBuilder;
-	
+
 	@Override
 	public String getIdentifier() {
 		return IDENTIFIER;
@@ -66,7 +66,7 @@ public class HotWaterBuildStep implements ISurveyCaseBuildStep {
 	public Set<String> getDependencies() {
 		return ImmutableSet.of(SpaceHeatingBuildStep.IDENTIFIER);
 	}
-	
+
 	/**
      * @since 1.0
      */
@@ -91,28 +91,28 @@ public class HotWaterBuildStep implements ISurveyCaseBuildStep {
 	private void build(final SurveyCase model, final IHouseCaseSources<IBasicDTO> dtoProvider, final IWaterHeatingDTO dto, final IHouseCaseDTO house) {
 		Preconditions.checkNotNull(dto, "Water heating DTO null for %s", dtoProvider.getAacode());
 		Preconditions.checkNotNull(house, "House case DTO null for %s", dtoProvider.getAacode());
-		
+
 		final ITechnologyModel tech = model.getTechnologies();
 		final ICentralWaterHeater newHeater;
-		
+
 		log.debug("Build hot water for {}", dtoProvider.getAacode());
-		
+
 		if (dto.isWithCentralHeating() || shouldAttachToMainHeating(dto.getWaterHeatingSystemType().orNull(), tech)) {
 			newHeater = connectToMain(tech);
 		} else {
 			newHeater = null;
 			installNewWaterHeater(model.getBasicAttributes().getBuildYear(), tech, dto, heatSourceBuilder);
 		}
-		
+
 		if (newHeater != null) {
 			log.debug("Attaching new central water heater to central hot water system");
 			attachCentralWaterHeater(tech, newHeater);
 		}
-		
+
 		installWaterTank(dto, tech);
-		
+
 		installImmersionHeater(dto, tech);
-		
+
 		final ICentralWaterSystem central = getCentralWaterSystem(tech, false);
 		if (central != null) {
 			ensureHeatingIfCentralHotWater(central, tech, dtoProvider);
@@ -120,9 +120,15 @@ public class HotWaterBuildStep implements ISurveyCaseBuildStep {
 			central.setPrimaryPipeworkInsulated(getPipeWorkInsulation(house));
 			setWaterTankDetailsFromDTO(central.getStore(), dto);
 		}
-		
+
 		if (dto.isSolarHotWaterPresent()) {
 			installSolarHotWater(dto, tech);
+		}
+
+		if (dto.getHasElectricShower().isPresent() && dto.getHasElectricShower().get()) {
+			tech.setShower(T.createElectricShower());
+		} else {
+			tech.setShower(T.createMixerShower());
 		}
 	}
 
@@ -131,7 +137,7 @@ public class HotWaterBuildStep implements ISurveyCaseBuildStep {
 	 * one of the following kinds of heating in order: 1. Existing primary 2.
 	 * Existing immersion heater 3. Connect up space heating as primary 4.
 	 * Install fallback immersion heater
-	 * 
+	 *
 	 * @param central
 	 * @param tech
 	 * @param dtoProvider
@@ -159,10 +165,10 @@ public class HotWaterBuildStep implements ISurveyCaseBuildStep {
 	/**
 	 * Makes sure that heating systems which require tanks get a default tank
 	 * installed if it is missing.
-	 * 
+	 *
 	 * Additionally, heating systems which cannot have tanks will have the tank
 	 * removed if it is present.
-	 * 
+	 *
 	 * @param central
 	 * @param T
 	 */
@@ -186,11 +192,11 @@ public class HotWaterBuildStep implements ISurveyCaseBuildStep {
 	/**
 	 * The conversion document specifies that primary pipework is insulated if
 	 * the house was built after 1995.
-	 * 
+	 *
 	 * @assumption The CAR conversion document specifies that a 'post 1995' dwelling should default to having insulated pipework.
 	 *             This is unclear as construction dates are specified as
 	 *             ranges. We are using the actual construction date, so this ambiguity should not affect us..
-	 * 
+	 *
 	 * @param house
 	 * @return Whether the primary pipework should be insulated for this house.
 	 * @since 1.0
@@ -205,10 +211,10 @@ public class HotWaterBuildStep implements ISurveyCaseBuildStep {
 
 	private void installSolarHotWater(final IWaterHeatingDTO dto, final ITechnologyModel tech) {
 		final double solarStoreVolume = dto.getSolarStoreVolume();
-		
+
 		final ICentralWaterSystem centralWaterSystem = getCentralWaterSystemOrCreate(tech);
-		
-		
+
+
 		final ISolarWaterHeater swh = T.createSolarWaterHeater();
 		if (dto.isSolarStoreInCylinder() == false || centralWaterSystem.getStore() == null) {
 			swh.setPreHeatTankVolume(solarStoreVolume);
@@ -224,10 +230,10 @@ public class HotWaterBuildStep implements ISurveyCaseBuildStep {
 		// pitch and orientation
 		swh.setPitch(30d * Math.PI/180d);
 		swh.setOrientation(Math.PI/2);
-		
+
 		centralWaterSystem.setSolarWaterHeater(swh);
 	}
-	
+
 	private void installImmersionHeater(final IWaterHeatingDTO dto, final ITechnologyModel tech) {
 		if (dto.getImmersionHeaterType().isPresent()) {
 			installImmersionHeater(dto.getAacode(), tech, dto.getImmersionHeaterType().get().equals(ImmersionHeaterType.DUAL_COIL));
@@ -251,7 +257,7 @@ public class HotWaterBuildStep implements ISurveyCaseBuildStep {
 		}
 		store.setImmersionHeater(immersionHeater);
 	}
-	
+
 	protected static void setWaterTankDetailsFromDTO(final IWaterTank tank, final IWaterHeatingDTO dto) {
 		if (tank != null) {
 			tank.setVolume(dto.getCylinderVolume().or(DEFAULT_CYLINDER_VOLUME));
@@ -280,21 +286,21 @@ public class HotWaterBuildStep implements ISurveyCaseBuildStep {
             }
         }
     }
-	
+
 	/**
 	 * This is a utility method to test whether we should attach to an existing heat source.
-	 * 
+	 *
 	 * This should happen if either (a) the DTO says we should or (b) it would be ridiculous not to
-	 * 
+	 *
 	 * @param dto
 	 * @param tech
 	 * @return
 	 */
 	protected static boolean shouldAttachToMainHeating(final WaterHeatingSystemType type,final ITechnologyModel tech) {
 		if (type == null) return false;
-		
+
 		final boolean result;
-		
+
 		switch_statement:
 		switch (type) {
 		case MULTIPOINT:
@@ -302,7 +308,7 @@ public class HotWaterBuildStep implements ISurveyCaseBuildStep {
 			result = false;
 			break;
 		case WARM_AIR:
-			if (tech.getPrimarySpaceHeater() instanceof IWarmAirSystem && 
+			if (tech.getPrimarySpaceHeater() instanceof IWarmAirSystem &&
 					((IWarmAirSystem) tech.getPrimarySpaceHeater()).getFuelType() != FuelType.ELECTRICITY) {
 				result = true;
 			} else {
@@ -341,11 +347,11 @@ public class HotWaterBuildStep implements ISurveyCaseBuildStep {
 			result = false;
 			break;
 		}
-		
+
 		if (result == true) {
 			log.warn("DTO says not to attach to main heating, but main heating and DHW type are the same, so am attaching to main heating anyway");
 		}
-		
+
 		return result;
 	}
 
@@ -353,7 +359,7 @@ public class HotWaterBuildStep implements ISurveyCaseBuildStep {
 	 * Install a brand new water heater and possibly associated heat source in accordance with the DTO
 	 * @param tech
 	 * @param dto
-	 * @param heatSourceBuilder 
+	 * @param heatSourceBuilder
 	 */
 	protected static void installNewWaterHeater(final int constructionYear, final ITechnologyModel tech, final IWaterHeatingDTO dto, final IHeatSourceBuilder heatSourceBuilder) {
 		final ICentralWaterHeater newCentralWaterHeater;
@@ -368,12 +374,12 @@ public class HotWaterBuildStep implements ISurveyCaseBuildStep {
 				heater.setMultipoint(systemType == WaterHeatingSystemType.MULTIPOINT);
 				heater.setEfficiency(Efficiency.fromDouble(dto.getBasicEfficiency()));
 				heater.setFuelType(get(dto.getMainHeatingFuel(), "water heating fuel"));
-	
+
 				tech.setSecondaryWaterHeater(heater);
-				
+
 				newCentralWaterHeater = null;
 				break;
-							
+
 			case STANDARD_BOILER:
 			case COMMUNITY:
 			case COMMUNITY_CHP:
@@ -389,14 +395,14 @@ public class HotWaterBuildStep implements ISurveyCaseBuildStep {
 				newCentralWaterHeater = mwh;
 				mwh.setHeatSource(source);
 				break;
-				
+
 			case BACK_BOILER:
 			case WARM_AIR:
 			default:
 				log.warn("DHW System Type {} cannot be a standalone system", dto.getWaterHeatingSystemType());
 				newCentralWaterHeater = null;
 			}
-			
+
 			if (newCentralWaterHeater != null) {
 				attachCentralWaterHeater(tech, newCentralWaterHeater);
 			}
@@ -405,21 +411,21 @@ public class HotWaterBuildStep implements ISurveyCaseBuildStep {
 
 	protected static void attachCentralWaterHeater(final ITechnologyModel tech, final ICentralWaterHeater newHeater) {
 		final ICentralWaterSystem system = getCentralWaterSystemOrCreate(tech);
-		
+
 		if (system.getPrimaryWaterHeater() != null) {
 			system.setSecondaryWaterHeater(newHeater);
 		} else {
 			system.setPrimaryWaterHeater(newHeater);
-		}		
+		}
 	}
 
 	protected static ICentralWaterSystem getCentralWaterSystemOrCreate(final ITechnologyModel tech) {
 		return getCentralWaterSystem(tech, true);
 	}
-	
+
 	/**
 	 * Locate or create a central hot water system
-	 * 
+	 *
 	 * @param tech
 	 * @return
 	 */
@@ -439,12 +445,12 @@ public class HotWaterBuildStep implements ISurveyCaseBuildStep {
 	/**
 	 * Connect a central water heating system to the main heating system, where possible
 	 * @param tech
-	 * @param waterHeatingSystemType 
+	 * @param waterHeatingSystemType
 	 * @return
 	 */
 	protected static ICentralWaterHeater connectToMain(final ITechnologyModel tech) {
 		ICentralWaterHeater heater = null;
-		
+
 		heater = connectToMainHeatSource(tech, IHeatSource.class);
 		if (heater == null) {
 			heater = connectToWarmAir(tech);
@@ -474,16 +480,16 @@ public class HotWaterBuildStep implements ISurveyCaseBuildStep {
 	protected static ICentralWaterHeater connectToWarmAir(final ITechnologyModel tech) {
 		if (tech.getPrimarySpaceHeater() instanceof IWarmAirSystem) {
 			final IWarmAirSystem primarySpaceHeater = (IWarmAirSystem) tech.getPrimarySpaceHeater();
-			
+
 			if (primarySpaceHeater.getFuelType() == FuelType.ELECTRICITY) {
 				log.warn("Cannot connect to warm air system - electric warm air systems cannot provide hot water");
 				return null;
 			}
-			
+
 			final IWarmAirCirculator circulator = T.createWarmAirCirculator();
-			
+
 			circulator.setWarmAirSystem(primarySpaceHeater);
-			
+
 			return circulator;
 		} else {
 			log.warn("Cannot connect to warm air system - can't find one");
@@ -503,7 +509,7 @@ public class HotWaterBuildStep implements ISurveyCaseBuildStep {
 				selectedHeatSource = (IHeatSource) tech.getSecondarySpaceHeater();
 			}
 		}
-		
+
 		if (selectedHeatSource == null) {
 			log.warn("Cannot find heat source of class {}, looking for something else", heatSourceClass);
 			if (tech.getIndividualHeatSource() != null) {
@@ -514,7 +520,7 @@ public class HotWaterBuildStep implements ISurveyCaseBuildStep {
 				selectedHeatSource = (IHeatSource) tech.getSecondarySpaceHeater();
 			}
 		}
-		
+
 		if (selectedHeatSource == null) {
 			log.warn("Cannot connect to main heat source - can't find one");
 			return null;
@@ -524,13 +530,13 @@ public class HotWaterBuildStep implements ISurveyCaseBuildStep {
 			return result;
 		}
 	}
-	
+
 	private static Class<?>[] tanklessBoilers = new Class<?>[] { ICombiBoiler.class, ICPSU.class };
 
 	/**
 	 * Return true if the heating type cannot have a tank. This is !mustHaveTank, unless the DHW is from a
 	 * community heat source.
-	 * 
+	 *
 	 * @param central
 	 * @return
 	 * @since 1.0
@@ -546,7 +552,7 @@ public class HotWaterBuildStep implements ISurveyCaseBuildStep {
 
 	/**
 	 * Returns true if the heating type must have a tank
-	 * 
+	 *
 	 * @param central
 	 * @return
 	 * @since 1.0

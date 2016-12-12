@@ -79,6 +79,20 @@ public class LightingBuildStep implements ISurveyCaseBuildStep {
         	lowEnergyLightsFraction = ZERO;
         }
 
+        /*
+		BEISDOC
+		NAME: Lighting energy demand
+		DESCRIPTION: Light objects consume Watts of electricity and output Watts of light
+		TYPE: Technology model object containing efficiency and proportion
+		UNIT: Dimensionless efficiency, Dimensionless proportion
+		SAP: (232, L1, L2)
+		BREDEM: 1B, 1C
+		DEPS: cfl-energy-consumption,incandescent-energy-consumption,adjusted-light-demand
+		SET: measure.low-energy-lighting
+		STOCK: lighting.csv (fraction)
+		ID: lighting-energy-demand
+		CODSIEB
+		*/
         if (lowEnergyLightsFraction > ZERO) {
             ILight light = ITechnologiesFactory.eINSTANCE.createLight();
             light.setEfficiency(ILight.CFL_EFFICIENCY);

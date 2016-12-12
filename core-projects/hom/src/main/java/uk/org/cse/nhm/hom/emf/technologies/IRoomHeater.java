@@ -22,44 +22,17 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
- *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IRoomHeater#getResponsiveness <em>Responsiveness</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IRoomHeater#getEfficiency <em>Efficiency</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IRoomHeater#isThermostatFitted <em>Thermostat Fitted</em>}</li>
  * </ul>
- * </p>
  *
  * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getRoomHeater()
  * @model
  * @generated
  */
 public interface IRoomHeater extends ISpaceHeater, IVisitorAccepter, IFuelAndFlue {
-	/**
-	 * Returns the value of the '<em><b>Responsiveness</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Responsiveness</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Responsiveness</em>' attribute.
-	 * @see #setResponsiveness(double)
-	 * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getRoomHeater_Responsiveness()
-	 * @model required="true"
-	 * @generated
-	 */
-	double getResponsiveness();
-
-	/**
-	 * Sets the value of the '{@link uk.org.cse.nhm.hom.emf.technologies.IRoomHeater#getResponsiveness <em>Responsiveness</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Responsiveness</em>' attribute.
-	 * @see #getResponsiveness()
-	 * @generated
-	 */
-	void setResponsiveness(double value);
-
 	/**
 	 * Returns the value of the '<em><b>Efficiency</b></em>' attribute.
 	 * <!-- begin-user-doc -->

@@ -10,15 +10,15 @@ import org.junit.Test;
 import junit.framework.Assert;
 import uk.org.cse.nhm.hom.SurveyCase;
 import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
-import uk.org.cse.nhm.hom.components.fabric.types.FloorConstructionType;
-import uk.org.cse.nhm.hom.components.fabric.types.RoofConstructionType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.hom.structure.IMutableWall;
 import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.hom.structure.impl.Elevation;
 import uk.org.cse.nhm.hom.structure.impl.Storey;
 import uk.org.cse.nhm.hom.types.BuiltFormType;
-import uk.org.cse.nhm.hom.types.RegionType;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.stockimport.domain.IBasicDTO;
 import uk.org.cse.stockimport.domain.impl.HouseCaseDTO;
 import uk.org.cse.stockimport.repository.IHouseCaseSources;
@@ -59,7 +59,6 @@ public class MainImputationStepTest {
 		
 		for (final IMutableWall wall : s.getWalls()) {
 			Assert.assertEquals(2.1, wall.getUValue());
-			Assert.assertEquals(135.0, wall.getKValue());
 			Assert.assertEquals(0.35, wall.getAirChangeRate());
 		}
 		

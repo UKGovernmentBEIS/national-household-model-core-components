@@ -14,12 +14,13 @@ package uk.org.cse.nhm.hom.emf.technologies;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
- *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IStorageHeater#getResponsiveness <em>Responsiveness</em>}</li>
+ *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IStorageHeater#getResponsivenessOverride <em>Responsiveness Override</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IStorageHeater#getControlType <em>Control Type</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IStorageHeater#getType <em>Type</em>}</li>
+ *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IStorageHeater#isHasResponsivenessOverride <em>Has Responsiveness Override</em>}</li>
  * </ul>
- * </p>
  *
  * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getStorageHeater()
  * @model
@@ -27,30 +28,30 @@ package uk.org.cse.nhm.hom.emf.technologies;
  */
 public interface IStorageHeater extends IPrimarySpaceHeater, IVisitorAccepter, IOperationalCost {
 	/**
-	 * Returns the value of the '<em><b>Responsiveness</b></em>' attribute.
+	 * Returns the value of the '<em><b>Responsiveness Override</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Responsiveness</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Responsiveness Override</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Responsiveness</em>' attribute.
-	 * @see #setResponsiveness(double)
-	 * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getStorageHeater_Responsiveness()
-	 * @model required="true"
+	 * @return the value of the '<em>Responsiveness Override</em>' attribute.
+	 * @see #setResponsivenessOverride(double)
+	 * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getStorageHeater_ResponsivenessOverride()
+	 * @model required="true" transient="true"
 	 * @generated
 	 */
-	double getResponsiveness();
+	double getResponsivenessOverride();
 
 	/**
-	 * Sets the value of the '{@link uk.org.cse.nhm.hom.emf.technologies.IStorageHeater#getResponsiveness <em>Responsiveness</em>}' attribute.
+	 * Sets the value of the '{@link uk.org.cse.nhm.hom.emf.technologies.IStorageHeater#getResponsivenessOverride <em>Responsiveness Override</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Responsiveness</em>' attribute.
-	 * @see #getResponsiveness()
+	 * @param value the new value of the '<em>Responsiveness Override</em>' attribute.
+	 * @see #getResponsivenessOverride()
 	 * @generated
 	 */
-	void setResponsiveness(double value);
+	void setResponsivenessOverride(double value);
 
 	/**
 	 * Returns the value of the '<em><b>Control Type</b></em>' attribute.
@@ -109,5 +110,31 @@ public interface IStorageHeater extends IPrimarySpaceHeater, IVisitorAccepter, I
 	 * @generated
 	 */
 	void setType(StorageHeaterType value);
+
+	/**
+	 * Returns the value of the '<em><b>Has Responsiveness Override</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Has Responsiveness Override</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Has Responsiveness Override</em>' attribute.
+	 * @see #setHasResponsivenessOverride(boolean)
+	 * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getStorageHeater_HasResponsivenessOverride()
+	 * @model required="true"
+	 * @generated
+	 */
+	boolean isHasResponsivenessOverride();
+
+	/**
+	 * Sets the value of the '{@link uk.org.cse.nhm.hom.emf.technologies.IStorageHeater#isHasResponsivenessOverride <em>Has Responsiveness Override</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Has Responsiveness Override</em>' attribute.
+	 * @see #isHasResponsivenessOverride()
+	 * @generated
+	 */
+	void setHasResponsivenessOverride(boolean value);
 
 } // IStorageHeater

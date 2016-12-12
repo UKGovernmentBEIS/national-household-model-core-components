@@ -16,8 +16,9 @@ import junit.framework.Assert;
 import uk.org.cse.nhm.hom.SurveyCase;
 import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
 import uk.org.cse.nhm.hom.components.fabric.types.FloorLocationType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType;
-import uk.org.cse.nhm.hom.components.fabric.types.WallInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.WallType;
 import uk.org.cse.nhm.hom.structure.IMutableWall;
 import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.hom.structure.impl.Storey;
@@ -66,16 +67,16 @@ public class StoreyBuildStepTest extends Mockito {
 
         final List<IElevationDTO> elevations = new ArrayList<IElevationDTO>();
         final IElevationDTO frontElevation = new ElevationDTO();
-        
+
         frontElevation.setElevationType(ElevationType.FRONT);
         frontElevation.setTenthsAttached(5);
         frontElevation.setTenthsOpening(5);
         frontElevation.setTenthsPartyWall(0);
-        
+
         elevations.add(frontElevation);
 
         final IElevationDTO backElevation = new ElevationDTO();
-        
+
         backElevation.setElevationType(ElevationType.BACK);
         backElevation.setTenthsAttached(5);
         backElevation.setTenthsOpening(5);
@@ -87,16 +88,16 @@ public class StoreyBuildStepTest extends Mockito {
         rightElevation.setTenthsAttached(5);
         rightElevation.setTenthsOpening(5);
         rightElevation.setTenthsPartyWall(0);
-        
+
         elevations.add(rightElevation);
 
         final IElevationDTO leftElevation = new ElevationDTO();
-        
+
         leftElevation.setElevationType(ElevationType.LEFT);
         leftElevation.setTenthsAttached(5);
         leftElevation.setTenthsOpening(5);
         leftElevation.setTenthsPartyWall(0);
-        
+
         elevations.add(leftElevation);
 
         when(model.getStructure()).thenReturn(structureModel);
@@ -112,7 +113,7 @@ public class StoreyBuildStepTest extends Mockito {
         verify(basement).getLocationType();
         verify(basement).getPolygon();
     }
-    
+
     /*
      * Previously we were relying on the default-null behaviour of the mock to carry information
      * so this method is just to replace the default nulls with default absent.
@@ -122,12 +123,12 @@ public class StoreyBuildStepTest extends Mockito {
     	when(dto.getInternalInsulation()).thenReturn(Optional.<Boolean>absent());
     	when(dto.getExternalInsulation()).thenReturn(Optional.<Boolean>absent());
     }
-    
+
     @Test
     public void testInsulationIsAppliedToWallForElevation() throws Exception {
     	final Storey storey = new Storey();
         storey.setPerimeter(FloorPoylgonBuilder.createFloorPolygon(9.8, 6.3, 0.00, 0.00, __MISSING).toSillyPolygon());
-        
+
         final Iterable<IMutableWall> walls = storey.getWalls();
         final List<IElevationDTO> elevationDTOs = new ArrayList<IElevationDTO>();
 
@@ -155,7 +156,7 @@ public class StoreyBuildStepTest extends Mockito {
         final IElevationDTO right = mock(IElevationDTO.class, "right");
         whenInsulation(right);
         when(right.getElevationType()).thenReturn(ElevationType.RIGHT);
-        
+
 		when(right.getExternalWallConstructionType()).thenReturn(Optional.of(WallConstructionType.Cavity));
         elevationDTOs.add(right);
 
@@ -186,8 +187,7 @@ public class StoreyBuildStepTest extends Mockito {
     public void testCorrectAreaAttachedIsAssignedToWallForElevation() throws Exception {
         final Storey storey = new Storey();
         storey.setPerimeter(FloorPoylgonBuilder.createFloorPolygon(9.8, 6.3, 0.00, 0.00, __MISSING).toSillyPolygon());
-        
-        final Iterable<IMutableWall> walls = storey.getWalls();
+
         final List<IElevationDTO> elevationDTOs = new ArrayList<IElevationDTO>();
 
         final IElevationDTO front = mock(IElevationDTO.class, "front");
@@ -207,12 +207,17 @@ public class StoreyBuildStepTest extends Mockito {
         when(right.getElevationType()).thenReturn(ElevationType.RIGHT);
         elevationDTOs.add(right);
 
-        step.buildAttachedWalls(walls, elevationDTOs);
+        for (final IMutableWall wall : storey.getWalls()) {
+        	// Walls need to have a type for them to be split.
+        	wall.setWallConstructionType(WallConstructionType.Cavity);
+        }
+
+        step.buildAttachedWalls(storey.getWalls(), elevationDTOs);
 
         int numPartyWalls = 0;
         for (final IMutableWall wall : storey.getWalls()) {
             if (wall.getWallConstructionType() != null &&
-                    wall.getWallConstructionType().equals(StoreyBuildStep.DEF_PARTYWALL)) {
+                    wall.getWallConstructionType().getWallType() == WallType.Party) {
                 Assert.assertEquals("Incorrect party wall length", 3.15d * FloorPoylgonBuilder.SCALING_FACTOR,
                         wall.getLength());
                 numPartyWalls++;

@@ -191,8 +191,19 @@ public class AdjusterImpl extends MinimalEObjectImpl implements IAdjuster {
 	@Override
 	public void accept(final IConstants constants, final IEnergyCalculatorParameters parameters, final IEnergyCalculatorVisitor visitor,
 			final AtomicInteger heatingSystemCounter, IHeatProportions heatProportions) {
+		
+		switch(parameters.getCalculatorType()) {
+		case BREDEM2012:
+			visitor.visitEnergyTransducer(new AdjustingTransducer(getFuelTypes(), getDeltas(), getGains()));
+			break;
+		case SAP2012:
+			// SAP 2012 does not permit energy calculator adjustments
+			break;
+		default:
+			throw new UnsupportedOperationException("Unknown energy calculator type " + parameters.getCalculatorType());
+		}
 
-		visitor.visitEnergyTransducer(new AdjustingTransducer(getFuelTypes(), getDeltas(), getGains()));
+		
 	}
 
 	/**

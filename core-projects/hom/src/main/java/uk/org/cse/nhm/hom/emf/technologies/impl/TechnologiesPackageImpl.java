@@ -36,7 +36,6 @@ import uk.org.cse.nhm.hom.emf.technologies.ICooker;
 import uk.org.cse.nhm.hom.emf.technologies.IElectricShower;
 import uk.org.cse.nhm.hom.emf.technologies.IFuelAndFlue;
 import uk.org.cse.nhm.hom.emf.technologies.IHasInstallationYear;
-import uk.org.cse.nhm.hom.emf.technologies.IHasOverrideResponsiveness;
 import uk.org.cse.nhm.hom.emf.technologies.IHeatPump;
 import uk.org.cse.nhm.hom.emf.technologies.IHeatPumpWarmAirSystem;
 import uk.org.cse.nhm.hom.emf.technologies.IHeatSource;
@@ -45,11 +44,13 @@ import uk.org.cse.nhm.hom.emf.technologies.IImmersionHeater;
 import uk.org.cse.nhm.hom.emf.technologies.IIndividualHeatSource;
 import uk.org.cse.nhm.hom.emf.technologies.ILight;
 import uk.org.cse.nhm.hom.emf.technologies.IMainWaterHeater;
+import uk.org.cse.nhm.hom.emf.technologies.IMixerShower;
 import uk.org.cse.nhm.hom.emf.technologies.INamed;
 import uk.org.cse.nhm.hom.emf.technologies.IOperationalCost;
 import uk.org.cse.nhm.hom.emf.technologies.IPointOfUseWaterHeater;
 import uk.org.cse.nhm.hom.emf.technologies.IPrimarySpaceHeater;
 import uk.org.cse.nhm.hom.emf.technologies.IRoomHeater;
+import uk.org.cse.nhm.hom.emf.technologies.IShower;
 import uk.org.cse.nhm.hom.emf.technologies.ISolarPhotovoltaic;
 import uk.org.cse.nhm.hom.emf.technologies.ISolarWaterHeater;
 import uk.org.cse.nhm.hom.emf.technologies.ISpaceHeater;
@@ -200,13 +201,6 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass electricShowerEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	private EClass storageHeaterEClass = null;
 
 	/**
@@ -305,13 +299,6 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass hasOverrideResponsivenessEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	private EClass solarPhotovoltaicEClass = null;
 
 	/**
@@ -334,6 +321,27 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * @generated
 	 */
 	private EClass hasInstallationYearEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass showerEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass mixerShowerEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass electricShowerEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -382,7 +390,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EDataType IEnergyCalculatorVisitorEDataType = null;
+	private EDataType iEnergyCalculatorVisitorEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -424,7 +432,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EDataType IEnergyCalculatorParametersEDataType = null;
+	private EDataType iEnergyCalculatorParametersEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -619,6 +627,15 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getTechnologyModel_Shower() {
+		return (EReference)technologyModelEClass.getEStructuralFeatures().get(11);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getAppliance() {
 		return applianceEClass;
 	}
@@ -783,6 +800,15 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 */
 	public EReference getCentralWaterSystem_SecondaryWaterHeater() {
 		return (EReference)centralWaterSystemEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getCentralWaterSystem_TechnologyModel() {
+		return (EReference)centralWaterSystemEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -1051,7 +1077,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCooker_Hob() {
+	public EAttribute getCooker_HobBaseLoad() {
 		return (EAttribute)cookerEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1060,7 +1086,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCooker_Oven() {
+	public EAttribute getCooker_HobOccupancyFactor() {
 		return (EAttribute)cookerEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -1069,7 +1095,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCooker_FuelType() {
+	public EAttribute getCooker_HobFuelType() {
 		return (EAttribute)cookerEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -1078,7 +1104,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCooker_BaseLoad() {
+	public EAttribute getCooker_OvenBaseLoad() {
 		return (EAttribute)cookerEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -1087,7 +1113,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCooker_OccupancyFactor() {
+	public EAttribute getCooker_OvenOccupancyFactor() {
 		return (EAttribute)cookerEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -1096,7 +1122,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCooker_GainsFactor() {
+	public EAttribute getCooker_OvenFuelType() {
 		return (EAttribute)cookerEClass.getEStructuralFeatures().get(5);
 	}
 
@@ -1105,8 +1131,8 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getElectricShower() {
-		return electricShowerEClass;
+	public EAttribute getCooker_GainsFactor() {
+		return (EAttribute)cookerEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -1123,7 +1149,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getStorageHeater_Responsiveness() {
+	public EAttribute getStorageHeater_ResponsivenessOverride() {
 		return (EAttribute)storageHeaterEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1143,6 +1169,15 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 */
 	public EAttribute getStorageHeater_Type() {
 		return (EAttribute)storageHeaterEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getStorageHeater_HasResponsivenessOverride() {
+		return (EAttribute)storageHeaterEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -1204,7 +1239,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getRoomHeater_Responsiveness() {
+	public EAttribute getRoomHeater_Efficiency() {
 		return (EAttribute)roomHeaterEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1213,17 +1248,8 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getRoomHeater_Efficiency() {
-		return (EAttribute)roomHeaterEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getRoomHeater_ThermostatFitted() {
-		return (EAttribute)roomHeaterEClass.getEStructuralFeatures().get(2);
+		return (EAttribute)roomHeaterEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1483,24 +1509,6 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getHasOverrideResponsiveness() {
-		return hasOverrideResponsivenessEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getHasOverrideResponsiveness_OverrideResponsiveness() {
-		return (EAttribute)hasOverrideResponsivenessEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getSolarPhotovoltaic() {
 		return solarPhotovoltaicEClass;
 	}
@@ -1510,7 +1518,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSolarPhotovoltaic_Area() {
+	public EAttribute getSolarPhotovoltaic_PeakPower() {
 		return (EAttribute)solarPhotovoltaicEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1519,17 +1527,8 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSolarPhotovoltaic_Efficiency() {
-		return (EAttribute)solarPhotovoltaicEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getSolarPhotovoltaic_OwnUseProportion() {
-		return (EAttribute)solarPhotovoltaicEClass.getEStructuralFeatures().get(2);
+		return (EAttribute)solarPhotovoltaicEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1627,6 +1626,42 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getShower() {
+		return showerEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getShower_TechnologyModel() {
+		return (EReference)showerEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getMixerShower() {
+		return mixerShowerEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getElectricShower() {
+		return electricShowerEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getFuelType() {
 		return fuelTypeEEnum;
 	}
@@ -1681,8 +1716,8 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EDataType getEnergyCalcVisitor() {
-		return IEnergyCalculatorVisitorEDataType;
+	public EDataType getIEnergyCalculatorVisitor() {
+		return iEnergyCalculatorVisitorEDataType;
 	}
 
 	/**
@@ -1735,8 +1770,8 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EDataType getIEnergyCalcParameters() {
-		return IEnergyCalculatorParametersEDataType;
+	public EDataType getIEnergyCalculatorParameters() {
+		return iEnergyCalculatorParametersEDataType;
 	}
 
 	/**
@@ -1797,6 +1832,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		createEReference(technologyModelEClass, TECHNOLOGY_MODEL__COMMUNITY_HEAT_SOURCE);
 		createEReference(technologyModelEClass, TECHNOLOGY_MODEL__SOLAR_PHOTOVOLTAIC);
 		createEReference(technologyModelEClass, TECHNOLOGY_MODEL__ADJUSTERS);
+		createEReference(technologyModelEClass, TECHNOLOGY_MODEL__SHOWER);
 
 		applianceEClass = createEClass(APPLIANCE);
 		createEAttribute(applianceEClass, APPLIANCE__EFFICIENCY);
@@ -1823,6 +1859,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		createEReference(centralWaterSystemEClass, CENTRAL_WATER_SYSTEM__SOLAR_WATER_HEATER);
 		createEReference(centralWaterSystemEClass, CENTRAL_WATER_SYSTEM__PRIMARY_WATER_HEATER);
 		createEReference(centralWaterSystemEClass, CENTRAL_WATER_SYSTEM__SECONDARY_WATER_HEATER);
+		createEReference(centralWaterSystemEClass, CENTRAL_WATER_SYSTEM__TECHNOLOGY_MODEL);
 
 		centralHeatingSystemEClass = createEClass(CENTRAL_HEATING_SYSTEM);
 		createEReference(centralHeatingSystemEClass, CENTRAL_HEATING_SYSTEM__HEAT_SOURCE);
@@ -1861,19 +1898,19 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		createEAttribute(immersionHeaterEClass, IMMERSION_HEATER__DUAL_COIL);
 
 		cookerEClass = createEClass(COOKER);
-		createEAttribute(cookerEClass, COOKER__HOB);
-		createEAttribute(cookerEClass, COOKER__OVEN);
-		createEAttribute(cookerEClass, COOKER__FUEL_TYPE);
-		createEAttribute(cookerEClass, COOKER__BASE_LOAD);
-		createEAttribute(cookerEClass, COOKER__OCCUPANCY_FACTOR);
+		createEAttribute(cookerEClass, COOKER__HOB_BASE_LOAD);
+		createEAttribute(cookerEClass, COOKER__HOB_OCCUPANCY_FACTOR);
+		createEAttribute(cookerEClass, COOKER__HOB_FUEL_TYPE);
+		createEAttribute(cookerEClass, COOKER__OVEN_BASE_LOAD);
+		createEAttribute(cookerEClass, COOKER__OVEN_OCCUPANCY_FACTOR);
+		createEAttribute(cookerEClass, COOKER__OVEN_FUEL_TYPE);
 		createEAttribute(cookerEClass, COOKER__GAINS_FACTOR);
 
-		electricShowerEClass = createEClass(ELECTRIC_SHOWER);
-
 		storageHeaterEClass = createEClass(STORAGE_HEATER);
-		createEAttribute(storageHeaterEClass, STORAGE_HEATER__RESPONSIVENESS);
+		createEAttribute(storageHeaterEClass, STORAGE_HEATER__RESPONSIVENESS_OVERRIDE);
 		createEAttribute(storageHeaterEClass, STORAGE_HEATER__CONTROL_TYPE);
 		createEAttribute(storageHeaterEClass, STORAGE_HEATER__TYPE);
+		createEAttribute(storageHeaterEClass, STORAGE_HEATER__HAS_RESPONSIVENESS_OVERRIDE);
 
 		communityHeatSourceEClass = createEClass(COMMUNITY_HEAT_SOURCE);
 		createEAttribute(communityHeatSourceEClass, COMMUNITY_HEAT_SOURCE__CHARGING_USAGE_BASED);
@@ -1883,7 +1920,6 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		createEAttribute(communityCHPEClass, COMMUNITY_CHP__ELECTRICAL_EFFICIENCY);
 
 		roomHeaterEClass = createEClass(ROOM_HEATER);
-		createEAttribute(roomHeaterEClass, ROOM_HEATER__RESPONSIVENESS);
 		createEAttribute(roomHeaterEClass, ROOM_HEATER__EFFICIENCY);
 		createEAttribute(roomHeaterEClass, ROOM_HEATER__THERMOSTAT_FITTED);
 
@@ -1925,12 +1961,8 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		operationalCostEClass = createEClass(OPERATIONAL_COST);
 		createEAttribute(operationalCostEClass, OPERATIONAL_COST__ANNUAL_OPERATIONAL_COST);
 
-		hasOverrideResponsivenessEClass = createEClass(HAS_OVERRIDE_RESPONSIVENESS);
-		createEAttribute(hasOverrideResponsivenessEClass, HAS_OVERRIDE_RESPONSIVENESS__OVERRIDE_RESPONSIVENESS);
-
 		solarPhotovoltaicEClass = createEClass(SOLAR_PHOTOVOLTAIC);
-		createEAttribute(solarPhotovoltaicEClass, SOLAR_PHOTOVOLTAIC__AREA);
-		createEAttribute(solarPhotovoltaicEClass, SOLAR_PHOTOVOLTAIC__EFFICIENCY);
+		createEAttribute(solarPhotovoltaicEClass, SOLAR_PHOTOVOLTAIC__PEAK_POWER);
 		createEAttribute(solarPhotovoltaicEClass, SOLAR_PHOTOVOLTAIC__OWN_USE_PROPORTION);
 
 		adjusterEClass = createEClass(ADJUSTER);
@@ -1946,6 +1978,13 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		hasInstallationYearEClass = createEClass(HAS_INSTALLATION_YEAR);
 		createEAttribute(hasInstallationYearEClass, HAS_INSTALLATION_YEAR__INSTALLATION_YEAR);
 
+		showerEClass = createEClass(SHOWER);
+		createEReference(showerEClass, SHOWER__TECHNOLOGY_MODEL);
+
+		mixerShowerEClass = createEClass(MIXER_SHOWER);
+
+		electricShowerEClass = createEClass(ELECTRIC_SHOWER);
+
 		// Create enums
 		fuelTypeEEnum = createEEnum(FUEL_TYPE);
 		heatingSystemControlTypeEEnum = createEEnum(HEATING_SYSTEM_CONTROL_TYPE);
@@ -1955,13 +1994,13 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		heatPumpSourceTypeEEnum = createEEnum(HEAT_PUMP_SOURCE_TYPE);
 
 		// Create data types
-		IEnergyCalculatorVisitorEDataType = createEDataType(IENERGY_CALC_VISITOR);
+		iEnergyCalculatorVisitorEDataType = createEDataType(IENERGY_CALCULATOR_VISITOR);
 		iInternalParametersEDataType = createEDataType(IINTERNAL_PARAMETERS);
 		iEnergyStateEDataType = createEDataType(IENERGY_STATE);
 		energyTypeEDataType = createEDataType(ENERGY_TYPE);
 		atomicIntegerEDataType = createEDataType(ATOMIC_INTEGER);
 		iConstantsEDataType = createEDataType(ICONSTANTS);
-		IEnergyCalculatorParametersEDataType = createEDataType(IENERGY_CALC__PARAMETERS);
+		iEnergyCalculatorParametersEDataType = createEDataType(IENERGY_CALCULATOR_PARAMETERS);
 		efficiencyEDataType = createEDataType(EFFICIENCY);
 		heatProportionsEDataType = createEDataType(HEAT_PROPORTIONS);
 	}
@@ -2007,7 +2046,6 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		lightEClass.getESuperTypes().add(this.getVisitorAccepter());
 		heatSourceEClass.getESuperTypes().add(this.getFuelAndFlue());
 		heatSourceEClass.getESuperTypes().add(this.getOperationalCost());
-		heatSourceEClass.getESuperTypes().add(this.getHasOverrideResponsiveness());
 		heatSourceEClass.getESuperTypes().add(this.getHasInstallationYear());
 		centralWaterSystemEClass.getESuperTypes().add(this.getWaterHeater());
 		centralWaterSystemEClass.getESuperTypes().add(this.getVisitorAccepter());
@@ -2020,8 +2058,6 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		solarWaterHeaterEClass.getESuperTypes().add(this.getOperationalCost());
 		immersionHeaterEClass.getESuperTypes().add(this.getCentralWaterHeater());
 		cookerEClass.getESuperTypes().add(this.getVisitorAccepter());
-		electricShowerEClass.getESuperTypes().add(this.getWaterHeater());
-		electricShowerEClass.getESuperTypes().add(this.getVisitorAccepter());
 		storageHeaterEClass.getESuperTypes().add(this.getPrimarySpaceHeater());
 		storageHeaterEClass.getESuperTypes().add(this.getVisitorAccepter());
 		storageHeaterEClass.getESuperTypes().add(this.getOperationalCost());
@@ -2034,7 +2070,6 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		heatPumpEClass.getESuperTypes().add(this.getVisitorAccepter());
 		warmAirSystemEClass.getESuperTypes().add(this.getPrimarySpaceHeater());
 		warmAirSystemEClass.getESuperTypes().add(this.getVisitorAccepter());
-		warmAirSystemEClass.getESuperTypes().add(this.getHasOverrideResponsiveness());
 		pointOfUseWaterHeaterEClass.getESuperTypes().add(this.getWaterHeater());
 		pointOfUseWaterHeaterEClass.getESuperTypes().add(this.getVisitorAccepter());
 		heatPumpWarmAirSystemEClass.getESuperTypes().add(this.getWarmAirSystem());
@@ -2046,6 +2081,9 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		solarPhotovoltaicEClass.getESuperTypes().add(this.getVisitorAccepter());
 		adjusterEClass.getESuperTypes().add(this.getNamed());
 		adjusterEClass.getESuperTypes().add(this.getVisitorAccepter());
+		showerEClass.getESuperTypes().add(this.getVisitorAccepter());
+		mixerShowerEClass.getESuperTypes().add(this.getShower());
+		electricShowerEClass.getESuperTypes().add(this.getShower());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(technologyModelEClass, ITechnologyModel.class, "TechnologyModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -2055,11 +2093,12 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		initEReference(getTechnologyModel_Cookers(), this.getCooker(), null, "cookers", null, 0, -1, ITechnologyModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTechnologyModel_PrimarySpaceHeater(), this.getPrimarySpaceHeater(), null, "primarySpaceHeater", null, 0, 1, ITechnologyModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTechnologyModel_SecondarySpaceHeater(), this.getRoomHeater(), null, "secondarySpaceHeater", null, 0, 1, ITechnologyModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTechnologyModel_CentralWaterSystem(), this.getCentralWaterSystem(), null, "centralWaterSystem", null, 0, 1, ITechnologyModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTechnologyModel_CentralWaterSystem(), this.getCentralWaterSystem(), this.getCentralWaterSystem_TechnologyModel(), "centralWaterSystem", null, 0, 1, ITechnologyModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTechnologyModel_SecondaryWaterHeater(), this.getWaterHeater(), null, "secondaryWaterHeater", null, 0, 1, ITechnologyModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTechnologyModel_CommunityHeatSource(), this.getCommunityHeatSource(), null, "communityHeatSource", null, 0, 1, ITechnologyModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTechnologyModel_SolarPhotovoltaic(), this.getSolarPhotovoltaic(), null, "solarPhotovoltaic", null, 0, 1, ITechnologyModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTechnologyModel_Adjusters(), this.getAdjuster(), null, "adjusters", null, 0, -1, ITechnologyModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTechnologyModel_Shower(), this.getShower(), this.getShower_TechnologyModel(), "shower", null, 0, 1, ITechnologyModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(technologyModelEClass, ecorePackage.getEDouble(), "getTotalOperationalCost", 1, 1, IS_UNIQUE, IS_ORDERED);
 
@@ -2084,8 +2123,8 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 
 		EOperation op = addEOperation(heatSourceEClass, null, "acceptFromHeating", 1, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getIConstants(), "constants", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getIEnergyCalcParameters(), "parameters", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getEnergyCalcVisitor(), "visitor", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getIEnergyCalculatorParameters(), "parameters", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getIEnergyCalculatorVisitor(), "visitor", 1, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEDouble(), "proportion", 1, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEInt(), "priority", 1, 1, IS_UNIQUE, IS_ORDERED);
 
@@ -2103,7 +2142,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		addEParameter(op, this.getIEnergyState(), "state", 1, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getWaterTank(), "store", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEBoolean(), "storeIsPrimary", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEDouble(), "primaryCorrectionFactor", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEDouble(), "primaryPipeworkLosses", 1, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEDouble(), "distributionLossFactor", 1, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEDouble(), "proportion", 1, 1, IS_UNIQUE, IS_ORDERED);
 
@@ -2122,10 +2161,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		op = addEOperation(heatSourceEClass, ecorePackage.getEDouble(), "getContainedTankLosses", 1, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getIInternalParameters(), "parameters", 1, 1, IS_UNIQUE, IS_ORDERED);
 
-		op = addEOperation(heatSourceEClass, ecorePackage.getEDouble(), "getZoneTwoControlParameter", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getIInternalParameters(), "parameters", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getHeatingSystemControlType(), "controls", 0, -1, IS_UNIQUE, !IS_ORDERED);
-		addEParameter(op, this.getEmitterType(), "emitterType", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEOperation(heatSourceEClass, ecorePackage.getEBoolean(), "isCommunityHeating", 1, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(namedEClass, INamed.class, "Named", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getNamed_Name(), ecorePackage.getEString(), "name", null, 1, 1, INamed.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2137,6 +2173,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		initEReference(getCentralWaterSystem_SolarWaterHeater(), this.getSolarWaterHeater(), null, "solarWaterHeater", null, 0, 1, ICentralWaterSystem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCentralWaterSystem_PrimaryWaterHeater(), this.getCentralWaterHeater(), null, "primaryWaterHeater", null, 1, 1, ICentralWaterSystem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCentralWaterSystem_SecondaryWaterHeater(), this.getCentralWaterHeater(), null, "secondaryWaterHeater", null, 0, 1, ICentralWaterSystem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCentralWaterSystem_TechnologyModel(), this.getTechnologyModel(), this.getTechnologyModel_CentralWaterSystem(), "technologyModel", null, 0, 1, ICentralWaterSystem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(centralWaterSystemEClass, ecorePackage.getEBoolean(), "isBroken", 1, 1, IS_UNIQUE, IS_ORDERED);
 
@@ -2158,7 +2195,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		addEParameter(op, this.getIEnergyState(), "state", 1, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getWaterTank(), "store", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEBoolean(), "storeIsPrimary", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEDouble(), "primaryCorrectionFactor", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEDouble(), "primaryLosses", 1, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEDouble(), "distributionLossFactor", 1, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEDouble(), "systemProportion", 1, 1, IS_UNIQUE, IS_ORDERED);
 
@@ -2170,6 +2207,10 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		addEParameter(op, ecorePackage.getEDouble(), "systemLosses", 1, 1, IS_UNIQUE, IS_ORDERED);
 
 		addEOperation(centralWaterHeaterEClass, this.getCentralWaterSystem(), "getSystem", 1, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(centralWaterHeaterEClass, ecorePackage.getEBoolean(), "causesPipeworkLosses", 1, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(centralWaterHeaterEClass, ecorePackage.getEBoolean(), "isCommunityHeating", 1, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(mainWaterHeaterEClass, IMainWaterHeater.class, "MainWaterHeater", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMainWaterHeater_HeatSource(), this.getHeatSource(), this.getHeatSource_WaterHeater(), "heatSource", null, 1, 1, IMainWaterHeater.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2189,8 +2230,8 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 
 		op = addEOperation(visitorAccepterEClass, null, "accept", 1, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getIConstants(), "constants", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getIEnergyCalcParameters(), "parameters", 1, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getEnergyCalcVisitor(), "visitor", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getIEnergyCalculatorParameters(), "parameters", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getIEnergyCalculatorVisitor(), "visitor", 1, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getAtomicInteger(), "heatingSystemCounter", 1, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getHeatProportions(), "heatProportions", 0, 1, IS_UNIQUE, IS_ORDERED);
 
@@ -2211,19 +2252,19 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		initEAttribute(getImmersionHeater_DualCoil(), ecorePackage.getEBoolean(), "dualCoil", null, 1, 1, IImmersionHeater.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(cookerEClass, ICooker.class, "Cooker", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getCooker_Hob(), ecorePackage.getEBoolean(), "hob", null, 1, 1, ICooker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCooker_Oven(), ecorePackage.getEBoolean(), "oven", null, 1, 1, ICooker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCooker_FuelType(), this.getFuelType(), "fuelType", null, 1, 1, ICooker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCooker_BaseLoad(), ecorePackage.getEDouble(), "baseLoad", null, 1, 1, ICooker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCooker_OccupancyFactor(), ecorePackage.getEDouble(), "occupancyFactor", null, 1, 1, ICooker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCooker_HobBaseLoad(), ecorePackage.getEDouble(), "hobBaseLoad", null, 1, 1, ICooker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCooker_HobOccupancyFactor(), ecorePackage.getEDouble(), "hobOccupancyFactor", null, 1, 1, ICooker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCooker_HobFuelType(), this.getFuelType(), "hobFuelType", null, 1, 1, ICooker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCooker_OvenBaseLoad(), ecorePackage.getEDouble(), "ovenBaseLoad", null, 1, 1, ICooker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCooker_OvenOccupancyFactor(), ecorePackage.getEDouble(), "ovenOccupancyFactor", null, 1, 1, ICooker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCooker_OvenFuelType(), this.getFuelType(), "ovenFuelType", null, 1, 1, ICooker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCooker_GainsFactor(), ecorePackage.getEDouble(), "gainsFactor", null, 1, 1, ICooker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(electricShowerEClass, IElectricShower.class, "ElectricShower", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
 		initEClass(storageHeaterEClass, IStorageHeater.class, "StorageHeater", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getStorageHeater_Responsiveness(), ecorePackage.getEDouble(), "responsiveness", null, 1, 1, IStorageHeater.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStorageHeater_ResponsivenessOverride(), ecorePackage.getEDouble(), "responsivenessOverride", null, 1, 1, IStorageHeater.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStorageHeater_ControlType(), this.getStorageHeaterControlType(), "controlType", null, 1, 1, IStorageHeater.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStorageHeater_Type(), this.getStorageHeaterType(), "type", null, 1, 1, IStorageHeater.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStorageHeater_HasResponsivenessOverride(), ecorePackage.getEBoolean(), "hasResponsivenessOverride", null, 1, 1, IStorageHeater.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(communityHeatSourceEClass, ICommunityHeatSource.class, "CommunityHeatSource", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCommunityHeatSource_ChargingUsageBased(), ecorePackage.getEBoolean(), "chargingUsageBased", null, 1, 1, ICommunityHeatSource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2233,7 +2274,6 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		initEAttribute(getCommunityCHP_ElectricalEfficiency(), this.getEfficiency(), "electricalEfficiency", null, 1, 1, ICommunityCHP.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(roomHeaterEClass, IRoomHeater.class, "RoomHeater", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getRoomHeater_Responsiveness(), ecorePackage.getEDouble(), "responsiveness", null, 1, 1, IRoomHeater.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRoomHeater_Efficiency(), this.getEfficiency(), "efficiency", null, 1, 1, IRoomHeater.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRoomHeater_ThermostatFitted(), ecorePackage.getEBoolean(), "thermostatFitted", null, 1, 1, IRoomHeater.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -2264,9 +2304,6 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 
 		initEClass(primarySpaceHeaterEClass, IPrimarySpaceHeater.class, "PrimarySpaceHeater", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		op = addEOperation(primarySpaceHeaterEClass, ecorePackage.getEDouble(), "getDerivedResponsiveness", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getIConstants(), "constants", 0, 1, IS_UNIQUE, IS_ORDERED);
-
 		initEClass(backBoilerEClass, IBackBoiler.class, "BackBoiler", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(fuelAndFlueEClass, IFuelAndFlue.class, "FuelAndFlue", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -2278,12 +2315,8 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		initEClass(operationalCostEClass, IOperationalCost.class, "OperationalCost", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getOperationalCost_AnnualOperationalCost(), ecorePackage.getEDouble(), "annualOperationalCost", null, 1, 1, IOperationalCost.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(hasOverrideResponsivenessEClass, IHasOverrideResponsiveness.class, "HasOverrideResponsiveness", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getHasOverrideResponsiveness_OverrideResponsiveness(), ecorePackage.getEDouble(), "overrideResponsiveness", null, 0, 1, IHasOverrideResponsiveness.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
 		initEClass(solarPhotovoltaicEClass, ISolarPhotovoltaic.class, "SolarPhotovoltaic", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getSolarPhotovoltaic_Area(), ecorePackage.getEDouble(), "area", null, 1, 1, ISolarPhotovoltaic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSolarPhotovoltaic_Efficiency(), this.getEfficiency(), "efficiency", null, 1, 1, ISolarPhotovoltaic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSolarPhotovoltaic_PeakPower(), ecorePackage.getEDouble(), "peakPower", null, 1, 1, ISolarPhotovoltaic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSolarPhotovoltaic_OwnUseProportion(), ecorePackage.getEDouble(), "ownUseProportion", null, 1, 1, ISolarPhotovoltaic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(adjusterEClass, IAdjuster.class, "Adjuster", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -2298,6 +2331,15 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 
 		initEClass(hasInstallationYearEClass, IHasInstallationYear.class, "HasInstallationYear", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getHasInstallationYear_InstallationYear(), ecorePackage.getEInt(), "installationYear", "0", 1, 1, IHasInstallationYear.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(showerEClass, IShower.class, "Shower", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getShower_TechnologyModel(), this.getTechnologyModel(), this.getTechnologyModel_Shower(), "technologyModel", null, 0, 1, IShower.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		addEOperation(showerEClass, ecorePackage.getEDouble(), "solarAdjustment", 1, 1, IS_UNIQUE, IS_ORDERED);
+
+		initEClass(mixerShowerEClass, IMixerShower.class, "MixerShower", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(electricShowerEClass, IElectricShower.class, "ElectricShower", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Initialize enums and add enum literals
 		initEEnum(fuelTypeEEnum, FuelType.class, "FuelType");
@@ -2352,13 +2394,13 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		addEEnumLiteral(heatPumpSourceTypeEEnum, HeatPumpSourceType.AIR);
 
 		// Initialize data types
-		initEDataType(IEnergyCalculatorVisitorEDataType, IEnergyCalculatorVisitor.class, "IEnergyCalculatorVisitor", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(iEnergyCalculatorVisitorEDataType, IEnergyCalculatorVisitor.class, "IEnergyCalculatorVisitor", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(iInternalParametersEDataType, IInternalParameters.class, "IInternalParameters", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(iEnergyStateEDataType, IEnergyState.class, "IEnergyState", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(energyTypeEDataType, EnergyType.class, "EnergyType", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(atomicIntegerEDataType, AtomicInteger.class, "AtomicInteger", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(iConstantsEDataType, IConstants.class, "IConstants", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
-		initEDataType(IEnergyCalculatorParametersEDataType, IEnergyCalculatorParameters.class, "IEnergyCalculatorParameters", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(iEnergyCalculatorParametersEDataType, IEnergyCalculatorParameters.class, "IEnergyCalculatorParameters", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(efficiencyEDataType, Efficiency.class, "Efficiency", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(heatProportionsEDataType, IHeatProportions.class, "HeatProportions", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
