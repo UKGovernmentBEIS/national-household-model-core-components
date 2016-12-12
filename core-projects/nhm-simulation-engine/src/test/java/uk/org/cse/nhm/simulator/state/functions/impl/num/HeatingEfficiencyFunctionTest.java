@@ -137,7 +137,7 @@ public class HeatingEfficiencyFunctionTest {
 	}
 
 	private void test(final XHeatingSystem type, final double expected) {
-		final HeatingEfficiencyFunction fun = new HeatingEfficiencyFunction(type, XEfficiencyMeasurement.Winter, null, dimension);
+		final HeatingEfficiencyFunction fun = new HeatingEfficiencyFunction(type, XEfficiencyMeasurement.Winter, null, null, dimension, null);
 		when(scope.get(dimension)).thenReturn(builder.build());
 		Assert.assertEquals("efficiency for " + type + " should be " + expected, expected, fun.compute(scope, ILets.EMPTY), NO_ERROR);
 	}
