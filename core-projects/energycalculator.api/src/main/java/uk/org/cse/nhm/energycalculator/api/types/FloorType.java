@@ -1,8 +1,8 @@
 package uk.org.cse.nhm.energycalculator.api.types;
 
 public enum FloorType {
-	External(AreaType.PartyFloor),
-	Party(AreaType.ExternalFloor);
+	External(AreaType.ExternalFloor),
+	Party(AreaType.PartyFloor);
 
 	private final AreaType areaType;
 
