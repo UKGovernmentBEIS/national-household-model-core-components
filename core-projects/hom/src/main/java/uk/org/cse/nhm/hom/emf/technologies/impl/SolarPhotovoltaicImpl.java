@@ -43,14 +43,14 @@ import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
  */
 public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarPhotovoltaic {
 	/*
-	 * BEISDOC
-	 * NAME: Solar Generation Factor
-	 * DESCRIPTION: The number '0.8' which is used to adjust the cheese.
-	 * TYPE: value UNIT: m^2 / W SAP: (M1)
-	 * BREDEM: 10A
-	 * CONVERSION: From m^2/kW in SAP to m^2/W in the NHM, divide by 1000.
-	 * ID: solar-generation-factor
-	 * CODSIEB
+	 BEISDOC
+	 NAME: Solar Generation Factor
+	 DESCRIPTION: The number '0.8' which is used to adjust the cheese.
+	 TYPE: value UNIT: m^2 / W SAP: (M1)
+	 BREDEM: 10A
+	 CONVERSION: From m^2/kW in SAP to m^2/W in the NHM, divide by 1000.
+	 ID: solar-generation-factor
+	 CODSIEB
 	 */
 	private final double solarGenerationFactor = 0.8 / 1000;
 
@@ -95,15 +95,21 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 	 */
 	protected static final double OWN_USE_PROPORTION_EDEFAULT = 0.0;
 
+	/*
+	 BEISDOC
+	 NAME: PV Own Use Proportion
+	 DESCRIPTION: The proportion of generated solar PV electricity which is used in the home instead of exported.
+	 TYPE: value
+	 UNIT: Dimensionless
+	 SAP: Appendix M (M1 section 3)
+	 SET: measure.solar-photovoltaic
+	 NOTES: In SAP 2012 mode, this will always be 0.5, regardless of which value was put in by measure.solar-photovoltaic.
+	 ID: pv-own-use-proportion
+	 CODSIEB
+	 */
 	/**
 	 * The cached value of the '{@link #getOwnUseProportion() <em>Own Use Proportion</em>}' attribute.
-	 * <!-- begin-user-doc --> BEISDOC
-	 * NAME: PV Own Use Proportion DESCRIPTION: The proportion of generated
-	 * solar PV electricity which is used in the home instead of exported. TYPE:
-	 * value UNIT: Dimensionless SAP: Appendix M (M1 section 3) SET:
-	 * measure.solar-photovoltaic NOTES: In SAP 2012 mode, this will always be
-	 * 0.5, regardless of which value was put in by measure.solar-photovoltaic.
-	 * ID: pv-own-use-proportion CODSIEB <!-- end-user-doc -->
+	 * <!-- begin-user-doc --><!-- end-user-doc -->
 	 * @see #getOwnUseProportion()
 	 * @generated
 	 * @ordered
