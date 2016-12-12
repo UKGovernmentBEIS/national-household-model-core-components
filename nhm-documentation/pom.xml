@@ -17,9 +17,9 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     
-    <nhm.version>6.5.0-SNAPSHOT</nhm.version>
+    <nhm.version>6.5.0</nhm.version>
     <nhmversion>${nhm.version}</nhmversion>
-    <stockimport.version>6.5.0-SNAPSHOT</stockimport.version>
+    <stockimport.version>6.5.0</stockimport.version>
 
     <docbook.directory>${project.build.directory}/docbook/</docbook.directory>
     <pdf.directory>${project.build.directory}/pdf/</pdf.directory>
