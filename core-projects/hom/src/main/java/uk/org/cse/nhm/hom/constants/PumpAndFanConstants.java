@@ -5,7 +5,7 @@ import uk.org.cse.nhm.energycalculator.api.IConstant;
 
 @ConstantDescription("Constants controlling the power and gains of various pumps and fans.")
 public enum PumpAndFanConstants implements IConstant {
-	
+
 	/*
 	BEISDOC
 	NAME: Central heating pump base power
@@ -21,7 +21,7 @@ public enum PumpAndFanConstants implements IConstant {
 	*/
 	@ConstantDescription("The wattage of the central heating circulation pump - this is from SAP table 4f, converted into watts and assigned over the 9 heating months equally")
 	CENTRAL_HEATING_PUMP_WATTAGE(13.69),
-	
+
 	/*
 	BEISDOC
 	NAME: Central heating pump gains
@@ -31,17 +31,17 @@ public enum PumpAndFanConstants implements IConstant {
 	SAP: Table 5a
 	BREDEM: Table 26
 	SET: context.energy-constants
-	NOTES: TODO implement 2013 and later lower gains
+	NOTES: TODO implement 2013 and later lower gains for central heat pump
 	ID: central-heating-pump-gains
 	CODSIEB
 	*/
 	@ConstantDescription("The gains of the central heating circulation pump - this is from SAP table 5a")
 	CENTRAL_HEATING_PUMP_GAINS(10),
-	
+
 	/*
 	BEISDOC
 	NAME: Oil boiler pump base power
-	DESCRIPTION: The base wattage of a oil boiler fuel pump 
+	DESCRIPTION: The base wattage of a oil boiler fuel pump
 	TYPE: value
 	UNIT: W
 	SAP: Table 4f
@@ -53,7 +53,7 @@ public enum PumpAndFanConstants implements IConstant {
 	*/
 	@ConstantDescription("The wattage of oil boiler fuel pump - from SAP table 4f, converted into watts and distributed over the 9 heating months")
 	OIL_FUEL_PUMP_WATTAGE(11.41),
-	
+
 	/*
 	BEISDOC
 	NAME: Oil boiler pump gains
@@ -68,7 +68,7 @@ public enum PumpAndFanConstants implements IConstant {
 	*/
 	@ConstantDescription("The gains from oil boiler fuel pump - from SAP table 5a")
 	OIL_FUEL_PUMP_GAINS(10),
-	
+
 	/*
 	BEISDOC
 	NAME: Gas boiler pump power
@@ -84,7 +84,7 @@ public enum PumpAndFanConstants implements IConstant {
 	*/
 	@ConstantDescription("The wattage of gas boiler or gas heat pump flue fan - from SAP table 4f, converted into watts and distributed over the year")
 	GAS_BOILER_FLUE_FAN_WATTAGE(5.1336),
-	
+
 	/*
 	BEISDOC
 	NAME: Gas heat pump pump power
@@ -100,7 +100,7 @@ public enum PumpAndFanConstants implements IConstant {
 	*/
 	@ConstantDescription("The wattage of gas heat pump flue fan - from SAP table 4f, converted into watts and distributed over the year")
 	GAS_HEAT_PUMP_FLUE_FAN_WATTAGE(5.1336),
-	
+
 	/*
 	BEISDOC
 	NAME: Pump no thermostat multiplier
@@ -116,7 +116,7 @@ public enum PumpAndFanConstants implements IConstant {
 	*/
 	@ConstantDescription("The multiplier for room thermostat being missing, applied to central heating and oil boiler pump power requirement, from SAP table 4f note (a)")
 	NO_ROOM_THERMOSTAT_MULTIPLIER(1.3),
-	
+
 	/*
 	BEISDOC
 	NAME: Warm Air System Volume Multiplier
@@ -133,15 +133,15 @@ public enum PumpAndFanConstants implements IConstant {
 	@ConstantDescription("The volume multiplier for a warm air system's circulating fan")
 	WARM_AIR_SYSTEM_VOLUME_MULTIPLIER(0.06)
 	;
-	
+
 	private final double[] values;
-	
+
 	PumpAndFanConstants(final double... values) {
 		this.values = values;
 	}
-	
+
 	@Override
-	public <T> T getValue(Class<T> clazz) {
+	public <T> T getValue(final Class<T> clazz) {
 		if (clazz.isAssignableFrom(double[].class)) {
 			if (values == null) throw new RuntimeException(this + " cannot be read as a double[]");
 			return clazz.cast(values);

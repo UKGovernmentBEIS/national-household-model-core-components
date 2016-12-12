@@ -11,25 +11,25 @@ import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler;
 
 /**
  * Helper methods for things which can be connected to an {@link ICentralWaterSystem} - because there are a few things
- * like this which have common logic ({@link IHeatPump}, {@link IWarmAirCirculator} and {@link IBoiler}, for example) but 
+ * like this which have common logic ({@link IHeatPump}, {@link IWarmAirCirculator} and {@link IBoiler}, for example) but
  * should not share inheritance, I have moved some methods to here.
- * 
+ *
  * @author hinton
  *
  */
 public class HotWaterUtilities {
 	/**
 	 * Get the standard storage temperature factors for hot water tanks; this is defined by SAP 2009 table 2b
-	 * 
+	 *
 	 * This doesn't cover special cases from that table like combis (the combi implementation does that).
-	 * 
+	 *
 	 * @param parameters
 	 * @param store
 	 * @param storeInPrimaryCircuit
 	 * @return
 	 */
-	public static final double getStorageTemperatureFactor(IInternalParameters parameters,
-			IWaterTank store, boolean storeInPrimaryCircuit, boolean systemIsSeparatelyTimeControlled) {
+	public static final double getStorageTemperatureFactor(final IInternalParameters parameters,
+			final IWaterTank store, final boolean storeInPrimaryCircuit, final boolean systemIsSeparatelyTimeControlled) {
 		/*
 		BEISDOC
 		NAME: Storage Temperature Factor
@@ -39,7 +39,6 @@ public class HotWaterUtilities {
 		SAP: (53), Table 2b
 		BREDEM: 2.2B.C, Table 9
 		DEPS: basic-temperature-factor,temperature-factor-no-thermostat-multiplier,temperature-factor-separate-timer-multiplier
-		NOTES: TODO Handle case when store in primary circuit 
 		ID: storage-temperature-factor
 		CODSIEB
 		*/
@@ -48,15 +47,15 @@ public class HotWaterUtilities {
 			return 1; //TODO don't return 1 - this is probably a hot water only thermal store
 		} else {
 			double factor = constants.get(CylinderConstants.TEMPERATURE_FACTOR_BASIC);
-			
+
 			if (store.isThermostatFitted() == false) {
 				factor *= constants.get(CylinderConstants.TEMPERATURE_FACTOR_NO_THERMOSTAT_MULTIPLIER);
 			}
-			
+
 			if (systemIsSeparatelyTimeControlled) {
 				factor *= constants.get(CylinderConstants.TEMPERATURE_FACTOR_SEPARATE_HW_TIMER);
 			}
-			
+
 			return factor;
 		}
 	}
