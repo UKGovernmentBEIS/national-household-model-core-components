@@ -44,7 +44,7 @@ public class StructuralInfiltrationAccumulator implements IStructuralInfiltratio
 	STOCK: ventilation.csv
 	NOTES: The values in the stock for chimneys are ignored. The counts of chimneys and open flues are derived from the heating system instead.
 	NOTES: Flueless gas fires are not implemented in the NHM. 
-	ID: deliberate-infilration
+	ID: deliberate-infiltration
 	CODSIEB
 	*/
 	/**

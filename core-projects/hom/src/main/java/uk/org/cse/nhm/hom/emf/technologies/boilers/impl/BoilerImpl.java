@@ -931,7 +931,7 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 		UNIT: Unknown
 		SAP: Table 4a (category 2)
 		BREDEM: Defers to SAP.
-		ID: boiler-reponsiveness
+		ID: boiler-responsiveness
 		CODSIEB
 		*/
 
