@@ -115,6 +115,9 @@ public class MainImputationStep implements ISurveyCaseBuildStep {
 						wallConstructionType, wall.getWallInsulationTypes());
 
 				wall.setUValue(uValue);
+				wall.setThicknessWithExistingInsulation(
+						walls.getWallThickness(ageBand.getName(), country, wallConstructionType, wall.getWallInsulationTypes())
+						);
 				wall.setAirChangeRate(walls.getAirChangeRate(wallConstructionType));
 			}
 
