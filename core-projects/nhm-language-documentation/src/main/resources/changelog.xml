@@ -42,6 +42,30 @@
   <sect1>
     <title>Released versions</title>
     <sect2>
+      <title>Version 6.5.1</title>
+      <sect3>
+        <title>New Features</title>
+        <sect4>
+          <title>Roof Area Function</title>
+          <para>
+            Added <xref linkend="ref.house.roof-area"/> to allow you to
+            look at the roof area of a dwelling. This is useful when
+            installing a solar PV measure.
+          </para>
+        </sect4>
+      </sect3>
+      <sect3>
+        <title>Bugs Fixed</title>
+        <sect4>
+          <title>Wall Thickness</title>
+          <para>
+            Wall thickness was not getting set in the stock import. This
+            resulted in incorrect u-values for old solid-wall buildings.
+          </para>
+        </sect4>
+      </sect3>
+    </sect2>
+    <sect2>
       <title>Version 6.5.0</title>
       <para>
         This version of the NHM has been updated to support SAP 2012

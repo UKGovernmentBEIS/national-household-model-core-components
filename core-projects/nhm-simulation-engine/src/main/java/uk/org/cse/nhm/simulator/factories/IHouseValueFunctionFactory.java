@@ -20,6 +20,7 @@ import uk.org.cse.nhm.language.definition.function.house.XNumberOfBedrooms;
 import uk.org.cse.nhm.language.definition.function.house.XNumberOfOccupants;
 import uk.org.cse.nhm.language.definition.function.house.XPredominantWallType;
 import uk.org.cse.nhm.language.definition.function.house.XRegion;
+import uk.org.cse.nhm.language.definition.function.house.XRoofArea;
 import uk.org.cse.nhm.language.definition.function.house.XRoofConstructionType;
 import uk.org.cse.nhm.language.definition.function.house.XSAPAgeBand;
 import uk.org.cse.nhm.language.definition.function.house.XSurveyCode;
@@ -48,6 +49,7 @@ import uk.org.cse.nhm.simulator.state.functions.impl.house.GetTenure;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.GetTotalFloorArea;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.GetVolume;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.OldGetMainHeatingFuel;
+import uk.org.cse.nhm.simulator.state.functions.impl.house.RoofAreaFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.SurveyCodeFunction;
 
 public interface IHouseValueFunctionFactory {
@@ -118,4 +120,9 @@ public interface IHouseValueFunctionFactory {
     public GetProportionOfDoubleGlazedWindows getProportionOfDoubleGlazedWindows();
 	public GetInsolation getGetInsolation(@Assisted("orientation") final double orientation,
                                           @Assisted("inclination") final double inclination);
+
+	@Adapt(XRoofArea.class)
+	public RoofAreaFunction createRoofAreaFunction(
+			@Prop(XRoofArea.P.pitchCorrection)
+			@Assisted boolean pitchCorrection);
 }

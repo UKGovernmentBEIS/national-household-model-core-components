@@ -1,0 +1,16 @@
+(scenario
+ start-date: 2016
+ end-date: 2016
+ stock-id: ../../stock.json
+ quantum: 10000
+
+ (def-report roofs
+   (column name: area value: (house.roof-area))
+   (column name: area-pitch-corrected value: (house.roof-area pitch-correction: true))
+   (column name: built-form value: (house.built-form))
+   (column name: type value: (house.roof-construction-type)))
+
+ (on.construction
+  (apply
+   to: (affected-houses)
+   (send-to-report roofs))))
