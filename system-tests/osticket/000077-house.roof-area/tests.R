@@ -8,7 +8,7 @@ roofs <- load.probe("roofs");
 ## 3. other dwellings with pitched roofs have lower corrected roof area
 
 is.flat <- roofs$built.form..Before. %in% c("ConvertedFlat", "PurposeBuiltLowRiseFlat", "PurposeBuiltHighRiseFlat")
-is.pitched <- roofs$type..Before. == "PitchedSlateOrTiles"
+is.pitched <- roofs$type..Before. == "PitchedSlateOrTiles" | roofs$type..Before. == "Thatched"
 no.roof <- roofs$area..Before. == 0
 
 ## 1. Flats have no roof area

@@ -22,6 +22,7 @@ import com.larkery.jasb.bind.BindNamedArgument;
 })
 @Unsuitability({
 	"dwelling is a flat",
+	"dwelling has a thatched roof",
 	"dwelling has an existing solar photovoltaic system"
 	})
 public class XSolarPhotovoltaicMeasure extends XMeasure {

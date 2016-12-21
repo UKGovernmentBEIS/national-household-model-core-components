@@ -5,6 +5,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 import uk.org.cse.nhm.NHMException;
+import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
 import uk.org.cse.nhm.hom.emf.technologies.ISolarPhotovoltaic;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
@@ -55,12 +56,12 @@ public class SolarPhotovoltaicMeasure extends AbstractMeasure {
 	@Override
 	public boolean apply(final ISettableComponentsScope scope, final ILets lets) throws NHMException {
 		final ISizingResult peakPower = sizing.computeSize(scope, lets, Units.KILOWATTS);
-		
+
 		final double ownUseProportion = clampProportion(ownUse.compute(scope, lets).doubleValue(),
 				scope.getDwellingID());
-		
+
 		scope.modify(techDimension, new Modifier(peakPower, ownUseProportion, techFactory));
-		
+
 		scope.addNote(peakPower);
 
 		final double cost = capex.compute(scope, lets).doubleValue();
@@ -72,11 +73,11 @@ public class SolarPhotovoltaicMeasure extends AbstractMeasure {
 						TechnologyType.solaPhotovoltaic(),
 						peakPower.getSize(),
 						peakPower.getUnits(),
-						cost, 
+						cost,
 						0
 					)
 				);
-		
+
 		return true;
 	}
 
@@ -124,7 +125,7 @@ public class SolarPhotovoltaicMeasure extends AbstractMeasure {
 		case EndTerrace:
 		case Detached:
 		case Bungalow:
-			return tech.getSolarPhotovoltaic() == null;
+			return tech.getSolarPhotovoltaic() == null && structureModel.getRoofConstructionType() != RoofConstructionType.Thatched;
 		default:
 			throw new UnsupportedOperationException("Unknown built form type when calculating solar PV suitability "
 					+ structureModel.getBuiltFormType());
@@ -148,18 +149,18 @@ public class SolarPhotovoltaicMeasure extends AbstractMeasure {
 		private final ITechnologiesFactory techFactory;
 
 		public Modifier(
-				final ISizingResult peakPower, 
-				final double ownUseProportion, 
+				final ISizingResult peakPower,
+				final double ownUseProportion,
 				final ITechnologiesFactory techFactory
 				) {
-			
+
 			this.peakPower = peakPower;
 			this.ownUseProportion = ownUseProportion;
 			this.techFactory = techFactory;
 		}
 
 		@Override
-		public boolean modify(ITechnologyModel tech) {
+		public boolean modify(final ITechnologyModel tech) {
 			final ISolarPhotovoltaic pv = techFactory.createSolarPhotovoltaic();
 			// Convert from kW to W
 			pv.setPeakPower(peakPower.getSize() * 1000);

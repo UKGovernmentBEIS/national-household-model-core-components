@@ -44,29 +44,15 @@ public class RoofAreaFunctionTest {
 	public void pitchCorrection() {
 		when(structure.getRoofConstructionType()).thenReturn(RoofConstructionType.Flat);
 
-		Assert.assertEquals(
-				"Flat",
-				1d,
-				new RoofAreaFunction(structureDim, true).compute(scope, lets),
-				0d
-			);
+		for (final RoofConstructionType roofType : RoofConstructionType.values()) {
+			when(structure.getRoofConstructionType()).thenReturn(roofType);
 
-		when(structure.getRoofConstructionType()).thenReturn(RoofConstructionType.Thatched);
-
-		Assert.assertEquals(
-				"Thatched",
-				1d,
-				new RoofAreaFunction(structureDim, true).compute(scope, lets),
-				0d
-			);
-
-		when(structure.getRoofConstructionType()).thenReturn(RoofConstructionType.PitchedSlateOrTiles);
-
-		Assert.assertEquals(
-				"Pitched",
-				1.22,
-				new RoofAreaFunction(structureDim, true).compute(scope, lets),
-				0.1d
-			);
+			Assert.assertEquals(
+					roofType.toString(),
+					roofType.isPitched() ? 1.22d : 1d,
+					new RoofAreaFunction(structureDim, true).compute(scope, lets),
+					0.01d
+				);
+		}
 	}
 }

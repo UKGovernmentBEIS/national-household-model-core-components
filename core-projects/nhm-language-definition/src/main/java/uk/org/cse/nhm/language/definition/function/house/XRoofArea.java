@@ -19,7 +19,7 @@ public class XRoofArea extends XHouseNumber {
 	@Prop(P.pitchCorrection)
 	@BindNamedArgument("pitch-correction")
 	@Doc({
-			"If this is set to true, the reported roof area for will be increased for dwellings with PitchedSlateOrTiles roofs.",
+			"If this is set to true, the reported roof area for will be increased for dwellings with PitchedSlateOrTiles or Thatched roofs.",
 			"This is done by dividing the roof area by cos(35°).",
 			"Useful for calculating the potential roof area for photovoltaics: see SAP 2012 section S11.1."
 		})
