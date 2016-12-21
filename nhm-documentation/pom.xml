@@ -3,7 +3,7 @@
 
   <groupId>uk.org.cse.nhm.manual</groupId>
   <artifactId>parent</artifactId>
-  <version>6.5.2</version>
+  <version>6.5.3</version>
 
   <packaging>pom</packaging>
 
@@ -17,9 +17,9 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     
-    <nhm.version>6.5.2</nhm.version>
+    <nhm.version>6.5.3</nhm.version>
     <nhmversion>${nhm.version}</nhmversion>
-    <stockimport.version>6.5.2</stockimport.version>
+    <stockimport.version>6.5.3</stockimport.version>
 
     <docbook.directory>${project.build.directory}/docbook/</docbook.directory>
     <pdf.directory>${project.build.directory}/pdf/</pdf.directory>
