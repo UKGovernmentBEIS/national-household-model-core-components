@@ -2,14 +2,14 @@
 <?metadataRepository version='1.1.0'?>
 <repository name='Package Drone Channel: 7b9c5ef4-16a1-4b8f-ae4e-83bb87337fdb' type='org.eclipse.equinox.p2.artifact.repository.simpleRepository' version='1'>
   <properties size='1'>
-    <property name='p2.timestamp' value='1482162239641'/>
+    <property name='p2.timestamp' value='1482312134179'/>
   </properties>
   <mappings size='3'>
     <rule filter='(&amp; (classifier=osgi.bundle))' output='${repoUrl}/plugins/${id}/${version}/${id}_${version}.jar' />
     <rule filter='(&amp; (classifier=binary))' output='${repoUrl}/binary/${id}/${version}/${id}_${version}' />
     <rule filter='(&amp; (classifier=org.eclipse.update.feature))' output='${repoUrl}/features/${id}/${version}/${id}_${version}.jar' />
   </mappings>
-  <artifacts size='10'>
+  <artifacts size='11'>
 <artifact classifier="osgi.bundle" id="uk.org.cse.nhm.bundle.impl" version="6.5.1.R6_5_1">
   <properties size="4">
     <property name="download.size" value="33968280"/>
@@ -64,6 +64,14 @@
     <property name="artifact.size" value="33828787"/>
     <property name="drone.artifact.id" value="e5130cd2-c53f-4ac5-9c75-8a565d904aa1"/>
     <property name="download.md5" value="86fd596808093461c178c9418057c202"/>
+  </properties>
+</artifact>
+<artifact classifier="osgi.bundle" id="uk.org.cse.nhm.bundle.impl" version="6.5.2.R6_5_1-5-g6045b7a_dirty">
+  <properties size="4">
+    <property name="download.size" value="33971141"/>
+    <property name="artifact.size" value="33971141"/>
+    <property name="drone.artifact.id" value="3e1324f2-7156-4ad1-8f0a-ed9275eab37d"/>
+    <property name="download.md5" value="8517248bce4dbccb1f800bb5d8a0bce3"/>
   </properties>
 </artifact>
 <artifact classifier="osgi.bundle" id="uk.org.cse.nhm.bundle.impl" version="6.4.0.R6_4_0">
