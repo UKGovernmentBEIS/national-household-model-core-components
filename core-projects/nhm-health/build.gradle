@@ -34,7 +34,7 @@ repositories {
 task execute(type:JavaExec) {
      main = 'uk.ac.ucl.hideem.Main'
      classpath = sourceSets.main.runtimeClasspath
-     args = ['people_ian.csv', 'houses_ian.csv',
+     args = ['people.csv', 'houses.csv',
       	     // output files
              new File(project.buildDir, 'exposures.csv'),
 	     new File(project.buildDir, 'qalys.csv'),

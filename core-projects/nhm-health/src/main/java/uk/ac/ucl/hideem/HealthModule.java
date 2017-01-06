@@ -184,7 +184,8 @@ public class HealthModule implements IHealthModule {
 	            for(final IExposure.OccupancyType occupancy : IExposure.OccupancyType.values()){
 	            	//get the coefs for new ventilation case
 	            	final double[] coefsVent1 = exposure1.getCoefs(occupancy);
-
+	            	
+	            	//Have to read coeficients from ventialtion type one in as they are different
 	            	exposure2.modify(coefsVent1,
 	                				t1, t2,
 	                                p1, p2,
@@ -481,7 +482,7 @@ public class HealthModule implements IHealthModule {
     	final double timeFunct = 1/Math.pow(2.5,year);
     	
     	final double qalys = impact*timeFunct;
-    	final double cases = Constants.PREV_CMD*(riskChangeTime-1)*timeFunct*0.25;
+    	final double cases = (age >= 16) ? Constants.PREV_CMD*(riskChangeTime-1)*timeFunct*0.25 : 0;
     	
     	final double vals[] = {cases, qalys};
     	
@@ -503,7 +504,7 @@ public class HealthModule implements IHealthModule {
     	}
     	
     	final double qalys = impact*timeFunct;
-    	final double cases = Constants.PREV_COPD*(riskChangeTime-1)*timeFunct*0.25;
+    	final double cases = (age >= 45) ? Constants.PREV_COPD*(riskChangeTime-1)*timeFunct*0.25 : 0;
     	
     	final double vals[] = {cases, qalys};
     	
@@ -524,15 +525,15 @@ public class HealthModule implements IHealthModule {
 		switch (athsmaType) {
 		case asthma1:
 			impact = (age <= 15) ? ((1 - Constants.WEIGHT_ASTHMA1) * Constants.PREV_ASTHMA1)*(1 - riskChangeTime) : 0;
-			cases = Constants.PREV_ASTHMA1*(riskChangeTime-1);
+			cases = (age <= 15) ? Constants.PREV_ASTHMA1*(riskChangeTime-1) : 0;
 			break;
 		case asthma2:
 			impact = (age <= 15) ? ((1 - Constants.WEIGHT_ASTHMA2) * Constants.PREV_ASTHMA2)*(1 - riskChangeTime) : 0;
-			cases = Constants.PREV_ASTHMA2*(riskChangeTime-1);
+			cases = (age <= 15) ? Constants.PREV_ASTHMA2*(riskChangeTime-1) : 0;
 			break;
 		case asthma3:
 			impact = (age <= 15) ? ((1 - Constants.WEIGHT_ASTHMA3) * Constants.PREV_ASTHMA3)*(1 - riskChangeTime) : 0;
-			cases = Constants.PREV_ASTHMA3*(riskChangeTime-1);
+			cases = (age <= 15) ? Constants.PREV_ASTHMA3*(riskChangeTime-1) : 0;
 			break;
 		}
     	
