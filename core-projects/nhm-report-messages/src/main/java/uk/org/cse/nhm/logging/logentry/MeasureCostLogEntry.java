@@ -1,6 +1,5 @@
 package uk.org.cse.nhm.logging.logentry;
 
-import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.apache.commons.math3.util.FastMath;
 import org.joda.time.DateTime;
 import org.pojomatic.Pojomatic;
@@ -12,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Measure cost report log
- * 
+ *
  * @author tomw
  */
 @AutoProperty
@@ -23,7 +22,7 @@ public class MeasureCostLogEntry extends AbstractDatedLogEntry {
 	private final Stats opex;
 	private final Stats capex;
 	private final Stats sizeInstalled;
-	private final long count;
+	private final double count;
 	private final String units;
 
 	@AutoProperty
@@ -33,9 +32,6 @@ public class MeasureCostLogEntry extends AbstractDatedLogEntry {
 
 		/** The sample variance */
 		private final double variance;
-
-		/** The number of observations in the sample */
-		private final long n;
 
 		/** The maximum value */
 		private final double max;
@@ -48,7 +44,7 @@ public class MeasureCostLogEntry extends AbstractDatedLogEntry {
 
 		/**
 		 * Constructor
-		 * 
+		 *
 		 * @param mean
 		 *            the sample mean
 		 * @param variance
@@ -65,12 +61,11 @@ public class MeasureCostLogEntry extends AbstractDatedLogEntry {
 		@JsonCreator
 		public Stats(@JsonProperty("mean") final double mean,
 				@JsonProperty("variance") final double variance,
-				@JsonProperty("n") final long n, @JsonProperty("max") final double max,
+				@JsonProperty("max") final double max,
 				@JsonProperty("min") final double min, @JsonProperty("sum") final double sum) {
 			super();
 			this.mean = mean;
 			this.variance = variance;
-			this.n = n;
 			this.max = max;
 			this.min = min;
 			this.sum = sum;
@@ -98,13 +93,6 @@ public class MeasureCostLogEntry extends AbstractDatedLogEntry {
 		}
 
 		/**
-		 * @return Returns the number of values.
-		 */
-		public long getN() {
-			return n;
-		}
-
-		/**
 		 * @return Returns the sum.
 		 */
 		public double getSum() {
@@ -126,16 +114,6 @@ public class MeasureCostLogEntry extends AbstractDatedLogEntry {
 			return variance;
 		}
 
-		public static Stats fromCommons(final SummaryStatistics summaryStatistics) {
-			return new Stats(
-					summaryStatistics.getMean(),
-					summaryStatistics.getVariance(), 
-					summaryStatistics.getN(), 
-					summaryStatistics.getMax(),
-					summaryStatistics.getMin(), 
-					summaryStatistics.getSum());
-		}
-		
 		@Override
 		public String toString() {
 			return Pojomatic.toString(this);
@@ -159,7 +137,7 @@ public class MeasureCostLogEntry extends AbstractDatedLogEntry {
 			@JsonProperty("opex") final Stats opex,
 			@JsonProperty("capex") final Stats capex,
 			@JsonProperty("sizeInstalled") final Stats sizeInstalled,
-			@JsonProperty("count") final long count, 
+			@JsonProperty("count") final double count,
 			@JsonProperty("date") final DateTime date,
 			@JsonProperty("units") final String units) {
 		super(date);
@@ -184,7 +162,7 @@ public class MeasureCostLogEntry extends AbstractDatedLogEntry {
 		return units;
 	}
 
-	public long getCount() {
+	public double getCount() {
 		return count;
 	}
 
