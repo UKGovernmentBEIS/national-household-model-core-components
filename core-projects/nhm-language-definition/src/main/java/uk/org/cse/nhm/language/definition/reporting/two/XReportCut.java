@@ -35,7 +35,7 @@ public class XReportCut extends XReportPart implements ISelfValidating {
 	}
 
 	@Doc({"These should be the name:s of columns in the report; the summary outputs of the report will be broken down by their distinct combinations.",
-		"You can also cut by the special columns 'selected', 'sent-from', and 'outcome', which determine whether the state of the house was chosen to become the truth, where in the scenario the house has been sent from",
+		"You can also cut by the special columns 'selected' and 'sent-from', which determine whether the state of the house was chosen to become the truth, where in the scenario the house has been sent from",
 		"and whether the house was sent to the report by an action before it succeeded, after it succeeded, or before it failed."
 	})
 	@BindRemainingArguments
