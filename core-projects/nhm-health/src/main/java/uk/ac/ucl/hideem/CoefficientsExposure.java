@@ -29,6 +29,14 @@ public class CoefficientsExposure implements IExposure {
 		}
 		return acc;
 	}
+    
+    public double dueToPermeability(final OccupancyType occupancy, final double p, final double[] coefsV1) {
+		double acc = 0;
+		for (int i = 0; i<coefsV1.length; i++) {
+			acc += coefsV1[i] * Math.pow(p, i);
+		}
+		return acc;
+	}
 	
     public static CoefficientsExposure readExposure(final String[] row) {
         return new CoefficientsExposure(
@@ -58,9 +66,15 @@ public class CoefficientsExposure implements IExposure {
             );
 	}
 	
-
+    
+    public double[] getCoefs(final OccupancyType occupancy){
+    	return this.coefs[occupancy.ordinal()];
+    }
+    
     @Override
     public void modify(
+    		
+    	final double[] coefsV1,
         // effect of change
         final double t1,
         final double t2,
@@ -69,7 +83,7 @@ public class CoefficientsExposure implements IExposure {
 
         final double e1,
         final double e2,
-
+        
         // details
         final boolean smoker,
         final int mainFloorLevel,
@@ -86,16 +100,16 @@ public class CoefficientsExposure implements IExposure {
         case Mould:
         case VPX:
             // the dataset conatins only lines for VPX, so this is OK.
-            setVPXSitAndMould(t1, t2, p1, p2, occupancy, result);
+            setVPXSitAndMould(coefsV1, t1, t2, p1, p2, occupancy, result);
             break;
         case Radon:
-            setRadonExposure(p1, p2, builtFormType, region, mainFloorLevel, occupancy, result);
+            setRadonExposure(coefsV1, p1, p2, builtFormType, region, mainFloorLevel, occupancy, result);
             break;
         case ETS:
             //Find out if there is a smoker in the house
 
             if (smoker == true){
-                result.setExposures(type, occupancy, dueToPermeability(occupancy, p1), dueToPermeability(occupancy, p2));
+                result.setExposures(type, occupancy, dueToPermeability(occupancy, p1, coefsV1), dueToPermeability(occupancy, p2));
             } else {
                 result.setExposures(type, occupancy, 0, 0);
             }
@@ -105,7 +119,7 @@ public class CoefficientsExposure implements IExposure {
             throw new UnsupportedOperationException("SIT 2 Day Max Exposure is supposed to be computed by OverheatingExposure class.");
 
         default:
-            result.setExposures(type, occupancy, dueToPermeability(occupancy, p1), dueToPermeability(occupancy, p2));
+            result.setExposures(type, occupancy, dueToPermeability(occupancy, p1, coefsV1), dueToPermeability(occupancy, p2));
             break;
         }
 
@@ -116,6 +130,7 @@ public class CoefficientsExposure implements IExposure {
     }
 
     private void setVPXSitAndMould(
+    	final double[] coefsV1,
         final double baseAverageSIT,
         final double modifiedAverageSIT,
 
@@ -125,7 +140,7 @@ public class CoefficientsExposure implements IExposure {
         final OccupancyType occupancy,
         final HealthOutcome result) {
 
-        final double baseVPX = dueToPermeability(occupancy, p1);
+        final double baseVPX = dueToPermeability(occupancy, p1, coefsV1);
         final double modifiedVPX = dueToPermeability(occupancy, p2);
 
         //set VPX
@@ -144,12 +159,13 @@ public class CoefficientsExposure implements IExposure {
     }
 
     private void setRadonExposure(
+    	final double[] coefsV1,
         final double p1, final double p2,
         final BuiltForm.Type form, final BuiltForm.Region region, final int mainFloorLevel,
         final OccupancyType occupancy,
         final HealthOutcome result) {
 
-        final double baseExposure = dueToPermeability(occupancy, p1);
+        final double baseExposure = dueToPermeability(occupancy, p1, coefsV1);
         final double modifiedExposure = dueToPermeability(occupancy, p2);
 
         final double floorFactor;
@@ -174,13 +190,13 @@ public class CoefficientsExposure implements IExposure {
                             modifiedExposure * exposureFactor);
     }
 
-    //Info on Mou ld calcs can be found in: http://www.iso.org/iso/catalogue_detail.htm?csnumber=51615
+    //Info on Mould calcs can be found in: http://www.iso.org/iso/catalogue_detail.htm?csnumber=51615
     private double calcMould(final double averageSIT, final double vpx) {
         //initialisation
         double mould = 0, srh=0, svp=0;
 
 
-        //Calculate SVP
+        //Calculate SVP (saturated vapor pressure)
         if(averageSIT >0) {
             svp = 610.78*Math.exp((17.269*averageSIT)/(237.3+averageSIT));
         }
@@ -198,17 +214,16 @@ public class CoefficientsExposure implements IExposure {
         }
 
 
-        //Calculate Mould
+        //Calculate Mould using warm front?
         if(srh<=45){
             mould = -1.741582244 +(0.697690596*Math.pow(srh,1))+(-0.023600847*Math.pow(srh,2))+(0.000278933*Math.pow(srh,3));
         }
         else if(srh>45 && srh <200){
             mould = 4.687377282 +(-1.161195895*Math.pow(srh,1))+(0.037245523*Math.pow(srh,2)) +(-0.000223222*Math.pow(srh,3));
         }
-        else{  //Maybe Ian made a mistake here?
+        else{  
             mould = 23.42903107 +(-1.46645682*Math.pow(srh,1))+(0.027203495*Math.pow(srh,2))+(-7.89893e-05*Math.pow(srh,3));
         }
-
 
         return mould;
     }

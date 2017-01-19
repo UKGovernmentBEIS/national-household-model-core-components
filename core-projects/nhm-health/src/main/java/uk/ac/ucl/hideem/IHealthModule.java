@@ -44,8 +44,10 @@ public interface IHealthModule {
         BuiltForm.Region region,
         int mainFloorLevel, // fdfmainn (for flats)
         // finkxtwk and finbxtwk
-        boolean hasWorkingExtractorFans, // per finwhatever
-        boolean hasTrickleVents,         // this is cooked up elsewhere
+        final boolean hadWorkingExtractorFans, // per finwhatever
+        final boolean hadTrickleVents,         // this is cooked up elsewhere
+        final boolean hasWorkingExtractorFans, // per finwhatever
+        final boolean hasTrickleVents,         // this is cooked up elsewhere
 
         boolean hadDoubleGlazing,
         boolean hasDoubleGlazing,

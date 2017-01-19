@@ -144,9 +144,11 @@ public class HealthModule implements IHealthModule {
         final BuiltForm.Region region,
         final int mainFloorLevel,
 
+        final boolean hadWorkingExtractorFans, // per finwhatever
+        final boolean hadTrickleVents,         // this is cooked up elsewhere
         final boolean hasWorkingExtractorFans, // per finwhatever
         final boolean hasTrickleVents,         // this is cooked up elsewhere
-
+        
         final boolean wasDoubleGlazed,
         final boolean isDoubleGlazed,
 
@@ -156,7 +158,8 @@ public class HealthModule implements IHealthModule {
         
         //perform the matching between NHM built form and ventilation and Hideem
         final IExposure.ExposureBuiltForm matchedBuiltForm = mapBuiltForm(form, floorArea, mainFloorLevel);
-        final IExposure.VentilationType matchedVentilation = mapVentilation(hasWorkingExtractorFans, hasTrickleVents);
+        final IExposure.VentilationType matchedVentilation = mapVentilation(hadWorkingExtractorFans, hadTrickleVents);
+        final IExposure.VentilationType matchedVentilation2 = mapVentilation(hasWorkingExtractorFans, hasTrickleVents);
               
         //Get the correct exposures coefficients and calculate base and modified exposures for each individual
 
@@ -167,29 +170,51 @@ public class HealthModule implements IHealthModule {
                 break;
             }
         }
+        
+        final Iterator<IExposure> it1 = exposures.get(matchedBuiltForm, matchedVentilation).iterator();
+        final Iterator<IExposure> it2 = exposures.get(matchedBuiltForm, matchedVentilation2).iterator();
 
-        for (final IExposure exposure : exposures.get(matchedBuiltForm, matchedVentilation)) {
-            for(final IExposure.OccupancyType occupancy : IExposure.OccupancyType.values()){
-                exposure.modify(t1, t2,
-                                p1, p2,
-
-                                h1, h2,
-
-                                smoker,
-                                mainFloorLevel,
-                                form,
-                                region,
-                                isDoubleGlazed,
-
-                                occupancy,
-                                result);
+        while (it1.hasNext() && it2.hasNext()) {
+            
+        //}
+        	try {
+            	IExposure exposure1 = it1.next();
+            	IExposure exposure2 = it2.next();
+            	
+	            for(final IExposure.OccupancyType occupancy : IExposure.OccupancyType.values()){
+	            	//get the coefs for new ventilation case
+	            	final double[] coefsVent1 = exposure1.getCoefs(occupancy);
+	            	
+	            	//Have to read coeficients from ventialtion type one in as they are different
+	            	exposure2.modify(coefsVent1,
+	                				t1, t2,
+	                                p1, p2,
+	
+	                                h1, h2,
+	                                
+	                                smoker,
+	                                mainFloorLevel,
+	                                form,
+	                                region,
+	                                isDoubleGlazed,
+	
+	                                occupancy,
+	                                result);
+	            } 
+                
             }
+        	catch (final Exception ex) {
+                // problem?
+        	}
         }
 
         for (final IExposure.OccupancyType occupancy : IExposure.OccupancyType.values()){
             // apply the overheating exposure. It applies for all ventilations and built forms
             // so we just need to bash it out here.
-            overheating.modify(t1, t2,
+        	final double[] coefsVent1 = overheating.getCoefs(occupancy);
+        	
+            overheating.modify(coefsVent1,
+            				   t1, t2,
                                p1, p2,
 
                                h1, h2,
@@ -296,7 +321,13 @@ public class HealthModule implements IHealthModule {
                             cost = Constants.INCIDENCE(disease, personAgeInYear, person.sex) * (deaths) * Constants.COST_PER_CASE(disease); // TODO is this correct?
                             break;
                         }
-
+                        
+                        //Added to output qalys
+                        result.setQaly(disease, mortalityChange);
+                        result.setMorbQaly(disease, morbidityQalys);
+                        result.setCost(disease, cost);
+                        
+                        
                         // TODO what API here? do we want person specific info?
 
                         result.addEffects(disease, year, person, mortalityChange, morbidityQalys, cost);
@@ -451,7 +482,7 @@ public class HealthModule implements IHealthModule {
     	final double timeFunct = 1/Math.pow(2.5,year);
     	
     	final double qalys = impact*timeFunct;
-    	final double cases = Constants.PREV_CMD*(riskChangeTime-1)*timeFunct*0.25;
+    	final double cases = (age >= 16) ? Constants.PREV_CMD*(riskChangeTime-1)*timeFunct*0.25 : 0;
     	
     	final double vals[] = {cases, qalys};
     	
@@ -473,7 +504,7 @@ public class HealthModule implements IHealthModule {
     	}
     	
     	final double qalys = impact*timeFunct;
-    	final double cases = Constants.PREV_COPD*(riskChangeTime-1)*timeFunct*0.25;
+    	final double cases = (age >= 45) ? Constants.PREV_COPD*(riskChangeTime-1)*timeFunct*0.25 : 0;
     	
     	final double vals[] = {cases, qalys};
     	
@@ -494,15 +525,15 @@ public class HealthModule implements IHealthModule {
 		switch (athsmaType) {
 		case asthma1:
 			impact = (age <= 15) ? ((1 - Constants.WEIGHT_ASTHMA1) * Constants.PREV_ASTHMA1)*(1 - riskChangeTime) : 0;
-			cases = Constants.PREV_ASTHMA1*(riskChangeTime-1);
+			cases = (age <= 15) ? Constants.PREV_ASTHMA1*(riskChangeTime-1) : 0;
 			break;
 		case asthma2:
 			impact = (age <= 15) ? ((1 - Constants.WEIGHT_ASTHMA2) * Constants.PREV_ASTHMA2)*(1 - riskChangeTime) : 0;
-			cases = Constants.PREV_ASTHMA2*(riskChangeTime-1);
+			cases = (age <= 15) ? Constants.PREV_ASTHMA2*(riskChangeTime-1) : 0;
 			break;
 		case asthma3:
 			impact = (age <= 15) ? ((1 - Constants.WEIGHT_ASTHMA3) * Constants.PREV_ASTHMA3)*(1 - riskChangeTime) : 0;
-			cases = Constants.PREV_ASTHMA3*(riskChangeTime-1);
+			cases = (age <= 15) ? Constants.PREV_ASTHMA3*(riskChangeTime-1) : 0;
 			break;
 		}
     	
