@@ -6,7 +6,13 @@ import java.util.List;
 
 /**
  * FloorLocationType, as specified in CARS conversion document.
- * 
+ *
+ * For flats, this refers to the location of the floor within the whole building.
+ * For example: a top-floor flat with 3 floors would have two higher floors and one top floor.
+ * (We don't have any information about the total number of floors in a building, but this shouldn't matter.)
+ *
+ * For other buildings it refers to the location of the floor within the dwelling.
+ *
  * @author richardt
  * @version $Id: FloorLocationType.java 94 2010-09-30 15:39:21Z richardt
  * @since 0.0.1-SNAPSHOT
@@ -29,7 +35,7 @@ public enum FloorLocationType {
 
     /**
      * Return the level.
-     * 
+     *
      * @return the level
      */
     public int getLevel() {
@@ -38,7 +44,7 @@ public enum FloorLocationType {
 
     /**
      * TODO.
-     * 
+     *
      * @param currentLevel
      * @return
      * @since 0.0.1-SNAPSHOT

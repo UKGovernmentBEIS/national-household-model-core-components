@@ -6,11 +6,14 @@ import org.junit.Test;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
 import uk.org.cse.commons.names.Name;
 import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
+import uk.org.cse.nhm.hom.components.fabric.types.FloorLocationType;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
 import uk.org.cse.nhm.hom.structure.StructureModel;
+import uk.org.cse.nhm.hom.structure.impl.Storey;
 import uk.org.cse.nhm.hom.types.BuiltFormType;
 import uk.org.cse.nhm.ipc.api.tasks.report.ILogEntryHandler;
 import uk.org.cse.nhm.simulator.let.ILets;
@@ -55,27 +58,33 @@ public class SolarPhotovoltaicMeasureTest {
 
 		for (final BuiltFormType builtForm : BuiltFormType.values()) {
 			for (final RoofConstructionType roofType : RoofConstructionType.values()) {
-				setupStructure(builtForm, roofType);
-				setupTech(false);
+				for (final FloorLocationType floorType : FloorLocationType.values()) {
+					setupStructure(builtForm, roofType,floorType);
+					setupTech(false);
 
-				final boolean expectedUnsuitable = builtForm.isFlat() || roofType == RoofConstructionType.Thatched;
+					final boolean expectedUnsuitable = (builtForm.isFlat() && floorType != FloorLocationType.TOP_FLOOR) || roofType == RoofConstructionType.Thatched;
 
-				if (expectedUnsuitable) {
-					Assert.assertEquals(builtForm + " " + roofType + " no existing PV", false, pv.isSuitable(scope, lets));
+					if (expectedUnsuitable) {
+						Assert.assertEquals(builtForm + " " + roofType + " " + floorType + " no existing PV", false, pv.isSuitable(scope, lets));
 
-				} else {
-					Assert.assertEquals(builtForm + " " + roofType + " no existing PV", true, pv.isSuitable(scope, lets));
+					} else {
+						Assert.assertEquals(builtForm + " " + roofType + " " + floorType + " no existing PV", true, pv.isSuitable(scope, lets));
 
-					setupTech(true);
-					Assert.assertEquals(builtForm + " " + roofType + " existing PV", false, pv.isSuitable(scope, lets));
+						setupTech(true);
+						Assert.assertEquals(builtForm + " " + roofType + " " + floorType + " existing PV", false, pv.isSuitable(scope, lets));
+					}
 				}
 			}
 		}
 	}
 
-	private void setupStructure(final BuiltFormType builtForm, final RoofConstructionType roofType) {
+	private void setupStructure(final BuiltFormType builtForm, final RoofConstructionType roofType, final FloorLocationType floorLocation) {
 		final StructureModel structure = new StructureModel(builtForm);
 		structure.setRoofConstructionType(roofType);
+
+		final Storey storey = new Storey();
+		storey.setFloorLocationType(floorLocation);
+		structure.addStorey(storey);
 		when(scope.get(structureDim)).thenReturn(structure);
 	}
 

@@ -17,8 +17,8 @@ import com.larkery.jasb.bind.BindNamedArgument;
 		}
 	)
 @Unsuitability({
-	"dwelling has no remaining exposed roof area", 
-	"dwelling is a flat", 
+	"dwelling has no remaining exposed roof area",
+	"dwelling is a mid or ground-floor flat (top floor flats may have solar)",
 	"dwelling has an existing solar water heater"
 	})
 @Bind("measure.solar-dhw")
@@ -30,7 +30,7 @@ public class XSolarHotWaterMeasure extends XMeasure {
 		public static final String lhlc = "linearHeatLossCoefficient";
         public static final String zle = "zeroLossEfficiency";
 	}
-	
+
 	private XNumber area = XNumberConstant.create(3d);
 	private XNumber cost = XNumberConstant.create(0d);
 	private XNumber cylinderVolume = XNumberConstant.create(50d);
@@ -43,8 +43,8 @@ public class XSolarHotWaterMeasure extends XMeasure {
     public XNumber getLinearHeatLossCoefficient() {
         return linearHeatLossCoefficient;
     }
-    
-    public void setLinearHeatLossCoefficient(XNumber linearHeatLossCoefficient) {
+
+    public void setLinearHeatLossCoefficient(final XNumber linearHeatLossCoefficient) {
         this.linearHeatLossCoefficient = linearHeatLossCoefficient;
     }
 
@@ -54,12 +54,12 @@ public class XSolarHotWaterMeasure extends XMeasure {
     public XNumber getZeroLossEfficiency() {
         return zeroLossEfficiency;
     }
-    
-    public void setZeroLossEfficiency(XNumber zeroLossEfficiency) {
+
+    public void setZeroLossEfficiency(final XNumber zeroLossEfficiency) {
         this.zeroLossEfficiency = zeroLossEfficiency;
     }
 
-    
+
     @BindNamedArgument
 	@Doc("The area in square meters of the solar collector; this will be present in the evaluation of the cost function as size.m2")
 	@Prop(P.area)
@@ -69,7 +69,7 @@ public class XSolarHotWaterMeasure extends XMeasure {
 	public void setArea(final XNumber area) {
 		this.area = area;
 	}
-	
+
     @BindNamedArgument
 	@Doc("The cost of installing this panel")
 	@Prop(P.cost)
@@ -88,7 +88,7 @@ public class XSolarHotWaterMeasure extends XMeasure {
 	public void setCapex(final XNumber cost) {
 		this.cost = cost;
 	}
-	
+
 	@Doc("The volume of solar water cylinder to install, in liters")
 	@BindNamedArgument("cylinder-volume")
 	@Prop(P.cylinderVolume)

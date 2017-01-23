@@ -385,8 +385,14 @@ public class StructureModel implements ICopyable<StructureModel> {
 
 	public double getExternalFloorArea() {
 		if (builtFormType.isFlat()) {
-			//TODO some flats may have exposed roofs or floors
-			return 0d;
+			final Storey bottom = getBottomStorey();
+
+			// Flats only have an external floor area if they are a ground floor or basement flat.
+			if (bottom.getFloorLocationType() == FloorLocationType.BASEMENT) {
+				return bottom.getArea();
+			} else {
+				return 0d;
+			}
 		} else {
 			double d = 0;
 			for (final Storey s : getStoreys()) {
@@ -405,8 +411,14 @@ public class StructureModel implements ICopyable<StructureModel> {
 	 */
 	public double getExternalRoofArea() {
 		if (builtFormType.isFlat()) {
-			//TODO some flats may have exposed roofs or floors
-			return 0d;
+			final Storey top = getTopStorey();
+
+			// Flats only have an external roof area if they are a top floor flat.
+			if (top.getFloorLocationType() == FloorLocationType.TOP_FLOOR) {
+				return top.getArea();
+			} else {
+				return 0d;
+			}
 		} else {
 			// the external roof area by the method above is the maximum floor area.
 			double result = 0d;
@@ -715,6 +727,36 @@ public class StructureModel implements ICopyable<StructureModel> {
 
 	public void setPassiveVents(final int passiveVents) {
 		this.passiveVents = passiveVents;
+	}
+
+	public boolean hasExternalRoof() {
+		if (builtFormType.isFlat()) {
+			return getTopStorey().getFloorLocationType() == FloorLocationType.TOP_FLOOR;
+		} else {
+			return true;
+		}
+	}
+
+	public boolean hasExternalFloor() {
+		if (builtFormType.isFlat()) {
+			 return getBottomStorey().getFloorLocationType().isInContactWithGround();
+		} else {
+			return true;
+		}
+	}
+
+	public Storey getTopStorey() {
+		if (storeys.size() == 0) {
+			throw new IllegalStateException("This structure model has no storeys.");
+		}
+		return storeys.get(storeys.size() - 1);
+	}
+
+	public Storey getBottomStorey() {
+		if (storeys.size() == 0) {
+			throw new IllegalStateException("This structure model has no storeys.");
+		}
+		return storeys.get(0);
 	}
 
 	@Override

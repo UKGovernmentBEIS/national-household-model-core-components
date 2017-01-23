@@ -21,7 +21,7 @@ import com.larkery.jasb.bind.BindNamedArgument;
 	"Electricity generated is calculated according to SAP 2012 formula (M1).",
 })
 @Unsuitability({
-	"dwelling is a flat",
+	"dwelling is a mid or ground-floor flat (top floor flats may have solar)",
 	"dwelling has a thatched roof",
 	"dwelling has an existing solar photovoltaic system"
 	})

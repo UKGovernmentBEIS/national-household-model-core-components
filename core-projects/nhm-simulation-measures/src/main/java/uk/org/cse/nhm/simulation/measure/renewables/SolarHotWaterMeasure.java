@@ -29,7 +29,7 @@ import uk.org.cse.nhm.simulator.transactions.Payment;
 
 /**
  * The measure which will install solar water heating. Current assumptions:
- * 
+ *
  * <ol>
  * <li>Suitability is defined to be
  * <ol>
@@ -50,7 +50,7 @@ import uk.org.cse.nhm.simulator.transactions.Payment;
  * </ol>
  * </li>
  * </ol>
- * 
+ *
  * @author hinton
  *
  */
@@ -58,7 +58,7 @@ public class SolarHotWaterMeasure extends AbstractMeasure {
 	private static final Logger log = LoggerFactory.getLogger(SolarHotWaterMeasure.class);
 	private static final double DEFAULT_PITCH = 30d * Math.PI/180d;
 	private static final double DEFAULT_ORIENTATION = Math.PI/2;
-	
+
 	private final IComponentsFunction<Number> lhlc;
     private final IComponentsFunction<Number> zle;
     private final IComponentsFunction<Number> installedArea;
@@ -71,7 +71,7 @@ public class SolarHotWaterMeasure extends AbstractMeasure {
 	public SolarHotWaterMeasure(
 			final IDimension<ITechnologyModel> technologies,
             final IDimension<StructureModel> structure,
-			@Assisted("area")   final IComponentsFunction<Number> installedArea, 
+			@Assisted("area")   final IComponentsFunction<Number> installedArea,
 			@Assisted("cost")   final IComponentsFunction<Number> installationCost,
 			@Assisted("volume") final IComponentsFunction<Number> cylinderVolume,
             @Assisted("lhlc")   final IComponentsFunction<Number> lhlc,
@@ -85,7 +85,7 @@ public class SolarHotWaterMeasure extends AbstractMeasure {
         this.lhlc = lhlc;
         this.zle = zle;
 	}
-	
+
     static class Modifier implements IModifier<ITechnologyModel> {
         final double area, lhlc, zle, cylinderVolume;
 
@@ -95,7 +95,7 @@ public class SolarHotWaterMeasure extends AbstractMeasure {
             this.zle = zle;
             this.cylinderVolume = cylinderVolume;
         }
-        
+
         @Override
         public boolean modify(final ITechnologyModel newTechnologies) {
             final ICentralWaterSystem centralHotWaterSystem = newTechnologies.getCentralWaterSystem();
@@ -110,30 +110,30 @@ public class SolarHotWaterMeasure extends AbstractMeasure {
             solar.setZeroLossEfficiency(zle);
             solar.setPreHeatTankVolume(cylinderVolume);
             centralHotWaterSystem.setSolarWaterHeater(solar);
-            
+
             return true;
         }
     }
-    
+
 	@Override
 	public boolean apply(final ISettableComponentsScope components, final ILets lets) throws NHMException {
 		if (!isSuitable(components, lets)) {
 			return false;
 		}
-        
+
 		final ITechnologyModel technologyModel = components.get(technologies);
-		
+
 		if (technologyModel.getCentralWaterSystem() != null) {
             final double area = this.installedArea.compute(components, lets).doubleValue();
             components.addNote(SizingResult.suitable(area, Units.SQUARE_METRES));
-            
+
             final double installationCost = this.installationCost.compute(components, lets).doubleValue();
             final double tankVolume = this.cylinderVolume.compute(components, lets).doubleValue();
             final double lhlc = this.lhlc.compute(components, lets).doubleValue();
             final double zle = this.zle.compute(components, lets).doubleValue();
-            
+
 			components.modify(technologies, new Modifier(area, lhlc, zle, tankVolume));
-			
+
 			components.addNote(new TechnologyInstallationDetails(this, TechnologyType.solarHotWater(), area, Units.SQUARE_METRES, installationCost, 0));
 			components.addTransaction(Payment.capexToMarket(installationCost));
 			return true;
@@ -147,7 +147,7 @@ public class SolarHotWaterMeasure extends AbstractMeasure {
 	public boolean isAlwaysSuitable() {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isSuitable(final IComponentsScope components, final ILets lets) {
 		final ITechnologyModel technologyModel = components.get(technologies);
@@ -155,15 +155,15 @@ public class SolarHotWaterMeasure extends AbstractMeasure {
 
 		if (technologyModel.getCentralWaterSystem() != null
             && technologyModel.getCentralWaterSystem().getSolarWaterHeater() == null
-            && !structureModel.getBuiltFormType().isFlat()) {
-            double roofArea = structureModel.getExternalRoofArea();
+            && structureModel.hasExternalRoof()) {
+            final double roofArea = structureModel.getExternalRoofArea();
 
 			return roofArea >= installedArea.compute(components, lets).doubleValue();
 		} else {
 			return false;
 		}
 	}
-	
+
 	@Override
 	public StateChangeSourceType getSourceType() {
 		return StateChangeSourceType.ACTION;

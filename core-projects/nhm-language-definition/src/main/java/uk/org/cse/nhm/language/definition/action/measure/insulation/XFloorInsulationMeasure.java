@@ -13,7 +13,7 @@ import com.larkery.jasb.bind.BindNamedArgument;
 	{
 		"Houses whose floors do not match the floor type specified",
 			"Houses with floor insulation",
-			"Flats"
+			"Mid or top-floor flats (ground and basement flats allowed)"
 	})
 public class XFloorInsulationMeasure extends XInsulationMeasure {
 	public static final class P  {
@@ -36,7 +36,7 @@ public class XFloorInsulationMeasure extends XInsulationMeasure {
 		return type;
 	}
 
-	public void setType(XFloorType type) {
+	public void setType(final XFloorType type) {
 		this.type = type;
 	}
 }

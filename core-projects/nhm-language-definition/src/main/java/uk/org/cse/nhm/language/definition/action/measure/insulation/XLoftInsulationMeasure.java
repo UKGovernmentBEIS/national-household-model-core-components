@@ -16,25 +16,26 @@ import com.larkery.jasb.bind.BindNamedArgument;
 })
 @Unsuitability({
 		"there is no roof area",
+		"this is a basement, ground-floor or mid-floor flat",
 		"the roof construction type is thatched or flat",
 		"this is a topup AND the thickness of any existing loft insulation is greater than the topup thickness",
 		"this is not a topup AND there is any existing loft insulation",
-		"the property has a loft"})
+		"the property has no loft"})
 public class XLoftInsulationMeasure extends XInsulationMeasure {
 	public static final class P {
-		public static final String topUp = "topUp";		
+		public static final String topUp = "topUp";
 	}
-	
-	private boolean topUp = true;	
-	
-	
+
+	private boolean topUp = true;
+
+
 	@BindNamedArgument("top-up")
 	@Prop(P.topUp)
 	@Doc("If true, then existing insulation will be topped-up to the desired thickness. Otherwise, only uninsulated lofts will be eligible.")
 	public boolean isTopUp() {
 		return topUp;
 	}
-	public void setTopUp(boolean topUp) {
+	public void setTopUp(final boolean topUp) {
 		this.topUp = topUp;
 	}
 }

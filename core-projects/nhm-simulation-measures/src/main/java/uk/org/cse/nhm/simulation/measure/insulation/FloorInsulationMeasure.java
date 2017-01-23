@@ -45,7 +45,8 @@ public class FloorInsulationMeasure extends InsulationMeasure {
 	public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
 		final StructureModel sm = scope.get(structureDimension);
 
-		return (sm.getGroundFloorConstructionType() == FloorConstructionType.Solid) == isSolidFloor;
+		return sm.hasExternalFloor() &&
+				(sm.getGroundFloorConstructionType() == FloorConstructionType.Solid) == isSolidFloor;
 	}
 
 	@Override

@@ -115,20 +115,10 @@ public class SolarPhotovoltaicMeasure extends AbstractMeasure {
 		final StructureModel structureModel = scope.get(structureDimension);
 		final ITechnologyModel tech = scope.get(techDimension);
 
-		switch (structureModel.getBuiltFormType()) {
-		case ConvertedFlat:
-		case PurposeBuiltHighRiseFlat:
-		case PurposeBuiltLowRiseFlat:
-			return false;
-		case SemiDetached:
-		case MidTerrace:
-		case EndTerrace:
-		case Detached:
-		case Bungalow:
+		if (structureModel.hasExternalRoof()) {
 			return tech.getSolarPhotovoltaic() == null && structureModel.getRoofConstructionType() != RoofConstructionType.Thatched;
-		default:
-			throw new UnsupportedOperationException("Unknown built form type when calculating solar PV suitability "
-					+ structureModel.getBuiltFormType());
+		} else {
+			return false;
 		}
 	}
 
