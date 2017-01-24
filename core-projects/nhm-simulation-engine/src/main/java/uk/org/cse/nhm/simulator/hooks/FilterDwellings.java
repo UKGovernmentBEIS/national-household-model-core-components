@@ -14,40 +14,29 @@ import uk.org.cse.nhm.simulator.state.IState;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class FilterDwellings extends AbstractNamed implements IDwellingSet {
-	private final IComponentsFunction<Boolean> filter;
-	private final IDwellingSet source;
+    private final IComponentsFunction<Boolean> filter;
+    private final IDwellingSet source;
     
-	@AssistedInject
-	public FilterDwellings(
-			@Assisted final IComponentsFunction<Boolean> filter,
-			@Assisted final IDwellingSet source) {
-		super();
-		this.filter = filter;
-		this.source = source;
-	}
+    @AssistedInject
+    public FilterDwellings(
+                           @Assisted final IComponentsFunction<Boolean> filter,
+                           @Assisted final IDwellingSet source) {
+        super();
+        this.filter = filter;
+        this.source = source;
+    }
 
-	@Override
-	public Set<IDwelling> get(final IState state, ILets lets) {
-		final Set<IDwelling> ds = source.get(state, lets);
+    @Override
+    public Set<IDwelling> get(final IState state, ILets lets) {
+        final Set<IDwelling> ds = source.get(state, lets);
         
-        if (ds instanceof LinkedHashSet) {
-            // reduce downwards
-            final Iterator<IDwelling> it = ds.iterator();
-            while (it.hasNext()) {
-                if (!filter.compute(state.detachedScope(it.next()), ILets.EMPTY)) {
-                    it.remove();
-                }
+        final Set<IDwelling> result = new LinkedHashSet<IDwelling>(ds.size() / 2);
+        for (final IDwelling d : ds) {
+            if (filter.compute(state.detachedScope(d), ILets.EMPTY)) {
+                result.add(d);
             }
-            return ds;
-        } else {
-            // filter upwards
-            final Set<IDwelling> result = new LinkedHashSet<IDwelling>(ds.size() / 2);
-            for (final IDwelling d : ds) {
-                if (filter.compute(state.detachedScope(d), ILets.EMPTY)) {
-                    result.add(d);
-                }
-            }
-            return result;
         }
-	}
+
+        return result;
+    }
 }
