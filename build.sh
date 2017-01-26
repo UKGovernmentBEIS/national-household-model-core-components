@@ -10,6 +10,7 @@ steps["docs"]=1
 steps["tests"]=1
 steps["ide"]=1
 steps["release"]=0
+steps["changelog"]=0
 
 doc["clean"]="clean before build"
 doc["api"]="attempt to publish the API bundle"
@@ -17,6 +18,7 @@ doc["docs"]="build the manual (slow!)"
 doc["tests"]="run the whole system tests"
 doc["ide"]="build the IDE"
 doc["release"]="get the IDE and CLI tools and put them in a zip file"
+doc["changelog"]="something to force you to say you've updated the changelog"
 
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -85,10 +87,16 @@ gradle () {
     fi
 }
 
+
+if [ ${steps["release"]} == 1 ] && [ ${steps["changelog"]} != 1 ]; then
+    red "Have you updated the changelog? if so you need --do changelog to tell me"
+    exit 123
+fi
+
 nc -zv localhost 8080
 if [ $? -eq 0 ]; then
     red "Some other process is using port 8080"
-    red "Use sudo netstat -n -p | head to find it"
+    red "Use sudo netstat -n -p | grep 8080 to find it"
     exit 1
 fi
 
