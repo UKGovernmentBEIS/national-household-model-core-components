@@ -556,7 +556,9 @@ public class LanguageReferenceGenerator {
 				cleanName(element.getName()), 
 				key,
 				Optional.of(cleanName(element.getName())));
-		
+
+                writer.addIndexTerm(element.getName());
+
 		if (element.getJavaType().isAnnotationPresent(Obsolete.class)) {
 			writer.startFormalParagraph("Obsolete. This element will be removed in a future version of the NHM.");
 			

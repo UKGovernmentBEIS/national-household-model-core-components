@@ -330,5 +330,13 @@ public class DocbookWriter {
 	
 	public void endPart() {
 		gat();
-	}
+        }
+
+        public void addIndexTerm(String term) {
+            tag("indexterm");
+            tag("primary");
+            writeRaw(term);
+            gat();
+            gat();
+        }
 }
