@@ -19,7 +19,7 @@ public abstract class XHook extends XScenarioElement {
 		public static final String actions = "actions";
 	}
 	
-	@Doc("A sequence of actions which will be performed in order on the given dates")
+        @Doc("A sequence of actions which will be performed in the order they are written here, on the given dates")
 	@Prop(P.actions)
 	@BindRemainingArguments
 	public List<XHookAction> getActions() {

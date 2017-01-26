@@ -29,11 +29,11 @@ import com.larkery.jasb.bind.BindRemainingArguments;
 		{
 			"The scenario is the top element, which contains all the definitions for the model.",
 			"",
-			"A scenario is composed of a sequence of contextual parameters, which define the global conditions and outputs for the run",
-			"and a sequence of policies, which define what actions to take on the housing stock during the run, and when.",
-			"",
-			"The scenario element also has some attributes which define simple constants that are used throughout the simulation."
-		}
+                        "Scenarios accept some keyword arguments which set some simple parameters that affect the entire simulation,",
+                        "like the start and end date of the run,",
+                        "and a series of unnamed arguments which define more complex parameters like tariffs and carbon factors,",
+                        "declare user-defined variables, and instruct the model what changes to make to the stock and what to report on."
+                }
 	)
 @Category(CategoryType.MAIN)
 public class XScenario extends XElement implements IHouseContext {
@@ -262,7 +262,7 @@ public class XScenario extends XElement implements IHouseContext {
 	}
 
 	@Prop(P.CONTENTS)
-	@Doc("The context parameters and policies defining this scenario")
+        @Doc("The remaining arguments declare variables, define complex parameters like tariffs, and specify what the model should simulate and when (c.f. on.dates).")
 	@BindRemainingArguments
 	public List<IScenarioElement<?>> getContents() {
 		return contents;
