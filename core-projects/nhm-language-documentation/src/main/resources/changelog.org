@@ -21,6 +21,31 @@ If you want to cross-reference to a language element, you need to use the unique
    - *Bugs removed* will list any known errors that were found to affect the previous version which have been corrected in this version
 
 ** Released versions
+*** Version 6.5.4
+**** New Features
+***** Heat loss roofs and ground floors for flats
+If a flat has a storey which is the top floor of its building, then it has a heat loss roof.
+Similarly, its bottom storey is the bottom floor of its building (in the EHS, it is either the basement or ground floor), it will have a heat loss floor.
+
+The measure suitability for =ref.measure.loft-insulation=, =ref.measure.solar-dhw= and =ref.measure.solar-photovoltaic= now admits flats if and only if they have a heat loss roof.
+The measure suitability for =ref.measure.floor-insulation= now admits flats if and only if they have a heat loss floor.
+**** Bugs Fixed
+***** Bug in =ref.affected-houses=
+The =affected-houses= command would not work correctly if used as the source group for a =filter= in more than one place within a single use of the =on.construction= command.
+
+Each =filter= applied would have a cumulative effect on the contents of the next use of =affected-houses=.
+**** Improvements
+The manual embedded in the desktop application has had additional indexing information added to it, which improves the specificity of searches for model commands.
+
+In addition, by reading the manual for the help facility, we have learned that enclosing search queries in double quotes ="like this"= searches for the literal occurrence of the text in quotes, rather than the occurrence of all the separate words typed in.
+
+Taken together these changes mean that when searching for model commands like =house.energy-use=, entering ="house.energy-use"= into the help will produce much better specificity of results.
+*** Version 6.5.3
+We don't know where this version number went.
+*** Version 6.5.2
+**** New Features
+***** Inclusion of a test for wall thickness
+Per support ticket number 83
 *** Version 6.5.1
 **** New Features
 ***** Roof Area Function
