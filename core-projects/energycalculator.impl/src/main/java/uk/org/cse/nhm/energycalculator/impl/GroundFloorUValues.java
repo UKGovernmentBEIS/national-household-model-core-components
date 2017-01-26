@@ -26,6 +26,16 @@ public class GroundFloorUValues {
 			final FloorConstructionType constructionType,
 			final double insulationThickness
 			) {
+		if (exposedPerimeter == 0) {
+			// The algorithm specified in SAP 2012 has a division by 0 in this case.
+			// We have worked through it, and believe it tends to 0.
+
+			// Obviously, in real world terms, this is nonsense.
+
+			// If you have dwellings with no external perimeter, you should fix your stock.
+			return 0;
+		}
+
 		// convert wall thickness into M
 		final double wallThicknessM = wallThickness / 1000;
 

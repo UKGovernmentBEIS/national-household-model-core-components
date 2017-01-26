@@ -345,8 +345,19 @@ public class StructureModel implements ICopyable<StructureModel> {
 				final Storey here = storeys.get(i);
 
 				if (builtFormType.isFlat()) {
-					//TODO some flats may have exposed roofs or floors
-					areaAbove = areaBelow = here.getArea();
+					// Flats are different. Only the top and bottom floors count,
+					// and only if we believe there are no other flats above or below them.
+					if (i == 0 && here.getFloorLocationType().isInContactWithGround()) {
+						areaBelow = 0;
+					} else {
+						areaBelow = here.getArea();
+					}
+
+					if (i == storeyCount - 1 && here.getFloorLocationType() == FloorLocationType.TOP_FLOOR) {
+						areaAbove = 0;
+					} else {
+						areaAbove = here.getArea();
+					}
 				} else {
 					if (i + 1 == storeyCount) {
 						areaAbove = 0; // this is the top floor, we are done
