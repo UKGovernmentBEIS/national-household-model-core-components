@@ -91,8 +91,20 @@ if [ ${steps["release"]} == 1 ] ; then
     popd
 
     if [[ "$VER" =~ "SNAPSHOT" ]]; then
-        red "The version $VER is a SNAPSHOT version; you need to do some git tags and maven releases to sort it out."
-        red "The release command helpfully does not actually do this for you."
+        red "The version $VER is a SNAPSHOT version"
+        green "  Gradle versions are set by the axion-release-plugin"
+        green "    https://github.com/allegro/axion-release-plugin"
+        green "  The version for nhm-documentation is in the pom.xml files"
+        green "  The IDE version is just a timestamp"
+        green "  --------"
+        green "  To update the gradle versions, you need to tag the repo"
+        green "  Don't forget to push the tag to the remote when you are done"
+        green "  The tag should be like v-x.y.z"
+        green "  --------"
+        green "  To update the pom for nhm-documentation, you can use"
+        green "  mvn versions:set -DnewVersion=x.y.z in the nhm-documentation folder"
+        green "  This needs to be in the same commit that has the version tag,"
+        green "  so do this first and commit it."
     fi
 
     if ! grep -q "$VER" "core-projects/nhm-language-documentation/src/main/resources/changelog.org"; then
