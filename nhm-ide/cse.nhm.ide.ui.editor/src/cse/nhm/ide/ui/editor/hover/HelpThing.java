@@ -20,5 +20,8 @@ public abstract class HelpThing {
 	public abstract String type();
 	public Optional<ILocation<IPath>> location() {
 		return Optional.absent();
-	}
+        }
+        public boolean help() {
+                return false;
+        }
 }

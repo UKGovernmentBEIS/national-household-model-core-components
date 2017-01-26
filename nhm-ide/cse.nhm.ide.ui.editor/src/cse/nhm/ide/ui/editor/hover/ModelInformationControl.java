@@ -65,7 +65,7 @@ class ModelInformationControl extends AbstractInformationControl implements IInf
 			if (text != null)
 				text.setText(thing.description());
 			if (typeLabel != null) {
-				typeLabel.setText(formatType(thing.type(), thing.location()));
+                                typeLabel.setText(formatType(thing));
 			}
 			if (cursorLabel != null)
 				cursorLabel.setText(String.valueOf(thing.cursor()));
@@ -79,12 +79,16 @@ class ModelInformationControl extends AbstractInformationControl implements IInf
 		}
 	}
 	
-	static String formatType(final String text, final Optional<ILocation<IPath>> where) {
-		if (where.isPresent()) {
-			return (String.format("%s defined at <A>%s</A>", text, where.get()));
-		} else {
-			return (text);
-		}
+        static String formatType(final HelpThing helpThing) {
+            final String text = helpThing.type();
+            final Optional<ILocation<IPath>> where = helpThing.location();
+            if (where.isPresent()) {
+                return (String.format("%s defined at <A>%s</A>", text, where.get()));
+            } else if (helpThing.help()) {
+                return String.format("<A>%s</A>", text);
+            } else {
+                return (text);
+            }
 	}
 	/**
 	 * @wbp.parser.entryPoint
@@ -113,7 +117,8 @@ class ModelInformationControl extends AbstractInformationControl implements IInf
 		typeLabel.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				// jump to a marker thing.
+                                // jump to a marker thing.
+                            if (thing.location().isPresent()) {
 				final ILocation<IPath> loc = thing.location().get();
 				final IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(loc.path());
 				IMarker marker;
@@ -125,7 +130,20 @@ class ModelInformationControl extends AbstractInformationControl implements IInf
 					marker.delete();
 					ModelInformationControl.this.dispose();
 				} catch (CoreException e1) {
-				}
+                                }
+                            } else if (thing.help()) {
+                                final Optional<String> arg = thing.cursor().argument().name();
+                                final String search =
+                                    arg.isPresent()?
+                                    String.format("\"%s\" \"%s\"",
+                                                  thing.cursor().command(),
+                                                  arg.get()) :
+                                    String.format("\"%s\"", thing.cursor().command());
+                                PlatformUI.
+                                    getWorkbench().
+                                    getHelpSystem().
+                                    search(search);
+                            }
 			}
 
 			@Override
