@@ -161,6 +161,8 @@ if [ ${steps["ide"]} == 1 ]; then
 
     maven clean package
 
+    green "product is in nhm-ide/cse.nhm.ide.build/target/products/*.zip"
+
     popd
 fi
 
