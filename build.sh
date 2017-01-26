@@ -10,7 +10,6 @@ steps["docs"]=1
 steps["tests"]=1
 steps["ide"]=1
 steps["release"]=0
-steps["changelog"]=0
 
 doc["clean"]="clean before build"
 doc["api"]="attempt to publish the API bundle"
@@ -18,7 +17,6 @@ doc["docs"]="build the manual (slow!)"
 doc["tests"]="run the whole system tests"
 doc["ide"]="build the IDE"
 doc["release"]="get the IDE and CLI tools and put them in a zip file"
-doc["changelog"]="something to force you to say you've updated the changelog"
 
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -87,9 +85,29 @@ gradle () {
     fi
 }
 
+if [ ${steps["release"]} == 1 ] ; then
+    pushd core-projects
+    VER=$(gradle cV | grep -oP "(?<=Project version: ).+")
+    popd
 
-if [ ${steps["release"]} == 1 ] && [ ${steps["changelog"]} != 1 ]; then
-    red "Have you updated the changelog? if so you need --do changelog to tell me"
+    if [[ "$VER" =~ "SNAPSHOT" ]]; then
+        red "The version $VER is a SNAPSHOT version; you need to do some git tags and maven releases to sort it out."
+        red "The release command helpfully does not actually do this for you."
+    fi
+
+    if ! grep -q "$VER" "core-projects/nhm-language-documentation/src/main/resources/changelog.org"; then
+        red "The version $VER is not mentioned in the changelog (core-projects/nhm-language-documentation/src/main/resources/changelog.org)"
+    fi
+
+    read -r -p "Do you wish to proceed with $VER? [y/N] " response
+    case "$response" in
+        [yY])
+            ;;
+        *)
+            red "Stopping release here"
+            exit 1
+            ;;
+    esac
     exit 123
 fi
 
