@@ -30,6 +30,10 @@ Similarly, its bottom storey is the bottom floor of its building (in the EHS, it
 The measure suitability for =ref.measure.loft-insulation=, =ref.measure.solar-dhw= and =ref.measure.solar-photovoltaic= now admits flats if and only if they have a heat loss roof.
 The measure suitability for =ref.measure.floor-insulation= now admits flats if and only if they have a heat loss floor.
 **** Bugs Fixed
+***** Stock import of solid floors
+
+Version 6.5.0 introduced a bug where Solid floors were being reclassified as SuspendedTimber. This is now fixed.
+
 ***** Bug in =ref.affected-houses=
 The =affected-houses= command would not work correctly if used as the source group for a =filter= in more than one place within a single use of the =on.construction= command.
 

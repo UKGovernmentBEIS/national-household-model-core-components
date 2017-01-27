@@ -26,25 +26,25 @@ import uk.org.cse.stockimport.repository.IHouseCaseSources;
 
 /**
  * Initializes the {@link StructureModel} and the {@link ITechnologyModel} in a {@link SurveyCase}.
- * 
+ *
  * Doesn't do any inference or anything like that.
- * 
+ *
  * @author hinton
  * @since 1.0
  */
 public class StructureInitializingBuildStep implements ISurveyCaseBuildStep {
 	/** @since 1.0 */
     public static final String IDENTIFIER = StructureInitializingBuildStep.class.getCanonicalName();
-	
+
 	private static final Logger log = LoggerFactory.getLogger(StructureInitializingBuildStep.class);
 
 	private static final double DEFAULT_DRAUGHT_STRIPPED_PROPORTION = 0;
-	
+
 	/**
 	 * The latest SAP age band in which you are assumed to have an unsealed floor, if you have a suspended timber floor.
 	 */
 	private final SAPAgeBandValue.Band lastAgeBandForUnsealed = SAPAgeBandValue.Band.E;
-	
+
     private IHousePropertyImputer housePropertyImputer;
 
     /**
@@ -86,12 +86,12 @@ public class StructureInitializingBuildStep implements ISurveyCaseBuildStep {
     		);
         structure.setLivingAreaProportionOfFloorArea(getLivingAreaFaction(dto));
         structure.setHasDraughtLobby(dto.isHasDraftLoby());
-        
+
         structure.setFrontPlotDepth(dto.getFrontPlotDepth());
         structure.setFrontPlotWidth(dto.getFrontPlotWidth());
         structure.setBackPlotDepth(dto.getBackPlotDepth());
         structure.setBackPlotWidth(dto.getBackPlotWidth());
-        
+
         structure.setOnGasGrid(dto.isOnGasGrid());
         structure.setNumberOfBedrooms(dto.getNumberOfBedrooms());
         structure.setHasAccessToOutsideSpace(dto.isHasAccessToOutsideSpace());
@@ -101,7 +101,7 @@ public class StructureInitializingBuildStep implements ISurveyCaseBuildStep {
         structure.setZoneTwoHeatedProportion(1);
         structure.setThermalBridigingCoefficient(0.15);
         structure.setReducedInternalGains(false);
-        
+
         final Optional<IVentilationDTO> ventilation = dtoProvider.getOne(IVentilationDTO.class);
         if (ventilation.isPresent()) {
         	structure.setDraughtStrippedProportion(ventilation.get().getWindowsAndDoorsDraughtStrippedProportion());
@@ -109,7 +109,7 @@ public class StructureInitializingBuildStep implements ISurveyCaseBuildStep {
         	log.warn("{} Could not find ventilation DTO", dtoProvider.getAacode());
         	structure.setDraughtStrippedProportion(DEFAULT_DRAUGHT_STRIPPED_PROPORTION);
         }
-        
+
 		model.setStructure(structure);
 
 		final ITechnologyModel tech = ITechnologiesFactory.eINSTANCE.createTechnologyModel();
@@ -119,7 +119,7 @@ public class StructureInitializingBuildStep implements ISurveyCaseBuildStep {
     /**
      * 1. If living area faction returned from DTO is not null, returns this value otherwise, uses number of rooms and a
      * lookup to get living area faction.
-     * 
+     *
      * @param dto
      * @return
      * @since 0.0.1-SNAPSHOT
@@ -133,17 +133,24 @@ public class StructureInitializingBuildStep implements ISurveyCaseBuildStep {
     }
 
     /**
-     * Categorizes SuspendedTimber floors as sealed or unsealed based on the SAP age band of the dwelling. 
-     * 
+     * Categorizes SuspendedTimber floors as sealed or unsealed based on the SAP age band of the dwelling.
+     *
      * @param dtoFloorType
-     * @param regionType 
+     * @param regionType
      */
     protected FloorConstructionType convertGroundFloorType(
-    		final DTOFloorConstructionType dtoFloorType, 
-    		final int buildYear, 
+    		final DTOFloorConstructionType dtoFloorType,
+    		final int buildYear,
     		final RegionType region
 		) {
-    	SAPAgeBandValue band = SAPAgeBandValue.fromYear(buildYear, region);
-    	return band.getName().after(lastAgeBandForUnsealed) ? FloorConstructionType.SuspendedTimberSealed : FloorConstructionType.SuspendedTimberUnsealed;
+    	switch (dtoFloorType) {
+    	case Solid:
+    		return FloorConstructionType.Solid;
+    	case SuspendedTimber:
+    		final SAPAgeBandValue band = SAPAgeBandValue.fromYear(buildYear, region);
+        	return band.getName().after(lastAgeBandForUnsealed) ? FloorConstructionType.SuspendedTimberSealed : FloorConstructionType.SuspendedTimberUnsealed;
+    	default:
+    		throw new IllegalArgumentException("Unknown floor construction type " + dtoFloorType);
+    	}
     }
 }
