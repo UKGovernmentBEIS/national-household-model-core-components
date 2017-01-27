@@ -30,6 +30,16 @@ Similarly, its bottom storey is the bottom floor of its building (in the EHS, it
 The measure suitability for =ref.measure.loft-insulation=, =ref.measure.solar-dhw= and =ref.measure.solar-photovoltaic= now admits flats if and only if they have a heat loss roof.
 The measure suitability for =ref.measure.floor-insulation= now admits flats if and only if they have a heat loss floor.
 **** Bugs Fixed
+***** U-value calculation for suspended timber ground floors
+
+This has changed from SAP 2009 to SAP 2012. It seems likely that the SAP 2009 version was a mistake.
+
+In SAP 2009: set Rf to 0.2, then compute =Rf + 0.2=.
+
+In SAP 2012: compute Rf based on floor insulation thickness, then compute =Rf + 0.2=.
+
+We now implement the SAP 2012 version.
+
 ***** Stock import of solid floors
 
 Version 6.5.0 introduced a bug where Solid floors were being reclassified as SuspendedTimber. This is now fixed.

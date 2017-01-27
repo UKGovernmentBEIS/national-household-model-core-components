@@ -69,6 +69,25 @@
       <sect3>
         <title>Bugs Fixed</title>
         <sect4>
+          <title>U-value calculation for suspended timber ground
+          floors</title>
+          <para>
+            This has changed from SAP 2009 to SAP 2012. It seems likely
+            that the SAP 2009 version was a mistake.
+          </para>
+          <para>
+            In SAP 2009: set Rf to 0.2, then compute
+            <literal>Rf + 0.2</literal>.
+          </para>
+          <para>
+            In SAP 2012: compute Rf based on floor insulation thickness,
+            then compute <literal>Rf + 0.2</literal>.
+          </para>
+          <para>
+            We now implement the SAP 2012 version.
+          </para>
+        </sect4>
+        <sect4>
           <title>Stock import of solid floors</title>
           <para>
             Version 6.5.0 introduced a bug where Solid floors were being
