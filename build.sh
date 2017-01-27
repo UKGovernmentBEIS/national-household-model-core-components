@@ -1,6 +1,17 @@
 #!/usr/bin/env bash
 GRADLE="./gradlew"
 
+# check dependencies
+
+check_path () {
+    which "$1" >/dev/null || { echo "missing $1 on PATH"; exit 1; }
+}
+
+check_path xmlstarlet
+check_path git
+check_path mvn
+check_path java
+
 declare -A steps
 declare -A doc
 
@@ -9,6 +20,7 @@ steps["api"]=0
 steps["docs"]=1
 steps["tests"]=1
 steps["ide"]=1
+steps["package"]=0
 steps["release"]=0
 
 doc["clean"]="clean before build"
@@ -16,7 +28,8 @@ doc["api"]="attempt to publish the API bundle"
 doc["docs"]="build the manual (slow!)"
 doc["tests"]="run the whole system tests"
 doc["ide"]="build the IDE"
-doc["release"]="get the IDE and CLI tools and put them in a zip file"
+doc["package"]="get the IDE and CLI tools and put them in a zip file"
+doc["release"]="do the steps required for a release (tagging, setting versions, etc.)"
 
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -33,7 +46,7 @@ while [[ $# -gt 0 ]]; do
             GRADLE="$1"
             ;;
         *)
-            echo "usage: ./build.sh [--[skip|do] <clean|api|docs|tests|ide>] [--gradle-command <cmd>]"
+            echo "usage: ./build.sh [--[skip|do] <clean|api|docs|tests|ide|package|release>] [--gradle-command <cmd>]"
             echo "with current arguments:"
             for i in "${!steps[@]}"
             do
@@ -85,42 +98,13 @@ gradle () {
     fi
 }
 
+ask () {
+    read -r -p "$1? [y/N]" response
+    [[ "$response" =~ "^y|Y" ]]
+}
+
 if [ ${steps["release"]} == 1 ] ; then
-    pushd core-projects
-    VER=$(gradle cV | grep -oP "(?<=Project version: ).+")
-    popd
-
-    if [[ "$VER" =~ "SNAPSHOT" ]]; then
-        red "The version $VER is a SNAPSHOT version"
-        green "  Gradle versions are set by the axion-release-plugin"
-        green "    https://github.com/allegro/axion-release-plugin"
-        green "  The version for nhm-documentation is in the pom.xml files"
-        green "  The IDE version is just a timestamp"
-        green "  --------"
-        green "  To update the gradle versions, you need to tag the repo"
-        green "  Don't forget to push the tag to the remote when you are done"
-        green "  The tag should be like v-x.y.z"
-        green "  --------"
-        green "  To update the pom for nhm-documentation, you can use"
-        green "  mvn versions:set -DnewVersion=x.y.z in the nhm-documentation folder"
-        green "  This needs to be in the same commit that has the version tag,"
-        green "  so do this first and commit it."
-    fi
-
-    if ! grep -q "$VER" "core-projects/nhm-language-documentation/src/main/resources/changelog.org"; then
-        red "The version $VER is not mentioned in the changelog (core-projects/nhm-language-documentation/src/main/resources/changelog.org)"
-    fi
-
-    read -r -p "Do you wish to proceed with $VER? [y/N] " response
-    case "$response" in
-        [yY])
-            ;;
-        *)
-            red "Stopping release here"
-            exit 1
-            ;;
-    esac
-    exit 123
+    source ./release.sh
 fi
 
 nc -zv localhost 8080
@@ -196,10 +180,10 @@ if [ ${steps["ide"]} == 1 ]; then
     popd
 fi
 
-if [ ${steps["release"]} == 1 ]; then
+if [ ${steps["package"]} == 1 ]; then
     # make a release of it all
     release=$(date -Idate)
-    green "Release: $release"
+    green "Package: $release"
     rdir="releases/$release"
     rm -f "${rdir}.zip"
     rm -rf "$rdir"
