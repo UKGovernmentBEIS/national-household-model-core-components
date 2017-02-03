@@ -315,7 +315,7 @@ public class SAPUValues {
 
 		    // Cavity Masonry unfilled/filled
 			case Party_Cavity:
-		    	return hasCavityInsulation ? 0.2 : 0.5;
+		    	return hasCavityInsulation ? 0.0 : 0.5;
 
 		    default:
 		    	throw new IllegalArgumentException("Unknown part wall construction type " + constructionType);
