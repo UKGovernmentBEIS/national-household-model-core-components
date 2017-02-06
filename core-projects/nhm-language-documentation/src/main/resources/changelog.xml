@@ -95,18 +95,29 @@
           </para>
         </sect4>
         <sect4>
+          <title>Infiltrations when resetting walls.</title>
+          <para>
+            The <emphasis>infiltrations</emphasis> property in
+            <xref linkend="ref.action.reset-walls"/> has been broken
+            since v6.5.0. It was setting air change rate to 0.
+          </para>
+          <para>
+            This is now working correctly again.
+          </para>
+        </sect4>
+        <sect4>
           <title>Bug in <xref linkend="ref.affected-houses"/></title>
           <para>
-            The <literal>affected-houses</literal> command would not
+            The <xref linkend="ref.affected-houses"/> command would not
             work correctly if used as the source group for a
-            <literal>filter</literal> in more than one place within a
-            single use of the <literal>on.construction</literal>
+            <xref linkend="ref.filter"/> in more than one place within
+            a single use of the <literal>on.construction</literal>
             command.
           </para>
           <para>
-            Each <literal>filter</literal> applied would have a
+            Each <xref linkend="ref.filter"/> applied would have a
             cumulative effect on the contents of the next use of
-            <literal>affected-houses</literal>.
+            <xref linkend="ref.affected-houses"/>.
           </para>
         </sect4>
       </sect3>
