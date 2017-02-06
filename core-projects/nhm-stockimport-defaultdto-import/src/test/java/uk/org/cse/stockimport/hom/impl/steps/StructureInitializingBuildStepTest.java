@@ -21,6 +21,7 @@ import uk.org.cse.nhm.hom.types.BuiltFormType;
 import uk.org.cse.stockimport.domain.IBasicDTO;
 import uk.org.cse.stockimport.domain.IVentilationDTO;
 import uk.org.cse.stockimport.domain.impl.HouseCaseDTO;
+import uk.org.cse.stockimport.domain.types.DTOFloorConstructionType;
 import uk.org.cse.stockimport.imputation.house.IHousePropertyImputer;
 import uk.org.cse.stockimport.repository.IHouseCaseSources;
 
@@ -99,6 +100,7 @@ public class StructureInitializingBuildStepTest extends Mockito {
         when(dto.isHasDraftLoby()).thenReturn(true);
         when(dto.getBuildYear()).thenReturn(2008);
         when(dto.getRegionType()).thenReturn(RegionType.EastOfEngland);
+        when(dto.getFloorConstructionType()).thenReturn(DTOFloorConstructionType.Solid);
 
         step.build(surveyCase, dtoProvider);
 

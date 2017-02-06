@@ -90,40 +90,40 @@ public class CommunityHeatSourceTest extends HeatSourceTest {
 	@Override
 	public void testAcceptFromHeating__IInternalParameters_IEnergyCalculatorVisitor_double_int() {
 		final ICommunityHeatSource hs = getFixture();
-		
+
 		configureForHeat();
-		
+
 		final IEnergyCalculatorVisitor visitor = mock(IEnergyCalculatorVisitor.class);
 		final IInternalParameters params = mock(IInternalParameters.class);
 		when(params.getConstants()).thenReturn(DefaultConstants.INSTANCE);
 		when(params.getCalculatorType()).thenReturn(EnergyCalculatorType.SAP2012);
-		
+
 		hs.acceptFromHeating(DefaultConstants.INSTANCE, params, visitor, 0.5, 10);
-		
+
 		final ArgumentCaptor<IEnergyTransducer> ac = ArgumentCaptor.forClass(IEnergyTransducer.class);
-		
+
 		verify(visitor).visitEnergyTransducer(ac.capture());
-		
+
 		final IEnergyTransducer t = ac.getValue();
-		
+
 		Assert.assertEquals(10, t.getPriority());
-		
+
 		final IEnergyState es = mock(IEnergyState.class);
-		
+
 		when(es.getBoundedTotalHeatDemand(0.5)).thenReturn(100d);
-		
+
 		t.generate(mock(IEnergyCalculatorHouseCase.class), params, mock(ISpecificHeatLosses.class), es);
-		
-		
+
+
 		testHeatingState(es);
 	}
-	
+
 	protected void configureForHeat() {
 		final ICommunityHeatSource hs = getFixture();
 		hs.setFuel(FuelType.MAINS_GAS);
 		hs.setChargingUsageBased(false);
 		hs.setHeatEfficiency(Efficiency.fromDouble(0.5));
-		
+
 		final CentralHeatingSystemImpl heatingSystem = mock(CentralHeatingSystemImpl.class);
 		when(heatingSystem.getControls()).thenReturn(ECollections.<HeatingSystemControlType>emptyEList());
 		hs.setSpaceHeater(heatingSystem);
@@ -131,32 +131,32 @@ public class CommunityHeatSourceTest extends HeatSourceTest {
 
 	protected void testHeatingState(final IEnergyState es) {
 		verify(es).increaseSupply(EnergyType.DemandsHEAT, 100d);
-		
+
 		// control factor but not efficiency?
 		verify(es).increaseDemand(EnergyType.FuelCOMMUNITY_HEAT, 100 * 1.1 * 1.1);
-		
+
 		verify(es).increaseDemand(EnergyType.CommunityGAS, 2 * 100 * 1.1 * 1.1);
 	}
 
 	@Override
 	public void testGenerateHotWater__IInternalParameters_IEnergyState_IWaterTank_boolean_double_double_double() {
 		final ICommunityHeatSource hs = getFixture();
-		
+
 		configureForHotWater();
-		
+
 		final IInternalParameters parameters = mock(IInternalParameters.class);
 		when(parameters.getConstants()).thenReturn(DefaultConstants.INSTANCE);
 		when(parameters.getCalculatorType()).thenReturn(EnergyCalculatorType.SAP2012);
-		
+
 		final IEnergyState state = mock(IEnergyState.class);
-		
+
 		when(state.getBoundedTotalDemand(EnergyType.DemandsHOT_WATER, 0.8)).thenReturn(234d);
-		
+
 		hs.generateHotWaterAndPrimaryGains(parameters, state, null, false, 0.6, 1, 0.8);
-		
+
 		testHotWaterState(state);
 	}
-	
+
 	protected void configureForHotWater() {
 		final ICommunityHeatSource hs = getFixture();
 		hs.setFuel(FuelType.MAINS_GAS);
@@ -165,9 +165,10 @@ public class CommunityHeatSourceTest extends HeatSourceTest {
 
 	protected void testHotWaterState(final IEnergyState state) {
 		verify(state).increaseSupply(EnergyType.DemandsHOT_WATER, 234d);
-		verify(state).increaseSupply(EnergyType.GainsHOT_WATER_SYSTEM_GAINS, 0.6 * 41.0683);
-		
-		verify(state).increaseDemand(EnergyType.FuelCOMMUNITY_HEAT, (234 + 0.6*41.0683) * 1.1 * 1.05);
-		verify(state).increaseDemand(EnergyType.CommunityGAS, 2 * (234 + 0.6*41.0683) * 1.1 * 1.05);
+		// Gains are now passed in directly - it is no longer the water sytstem's job to generate them.
+		verify(state).increaseSupply(EnergyType.GainsHOT_WATER_SYSTEM_GAINS, 0.6);
+
+		verify(state).increaseDemand(EnergyType.FuelCOMMUNITY_HEAT, (234 + 0.6) * 1.1 * 1.05);
+		verify(state).increaseDemand(EnergyType.CommunityGAS, 2 * (234 + 0.6) * 1.1 * 1.05);
 	}
 } //CommunityHeatSourceTest

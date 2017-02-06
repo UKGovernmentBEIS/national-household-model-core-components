@@ -25,8 +25,8 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
                               final double airChangeRate) {
         this.fabricLoss = fabricLoss;
 		this.interzoneHeatLoss = interzoneHeatLoss;
-		this.floorArea = floorArea;
         this.thermalMassParameter = thermalMassParameter;
+        this.floorArea = floorArea;
 		this.ventilationLoss = ventilationLoss;
         this.thermalBridgeEffect = thermalBridgeEffect;
         this.airChangeRate = airChangeRate;
@@ -113,17 +113,17 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
         */
         return thermalMassParameter;
 	}
-	
+
 	@Override
 	public String toString() {
 		return Pojomatic.toString(this);
 	}
-	
+
 	@Override
 	public double getVentilationLoss() {
 		return ventilationLoss;
 	}
-	
+
 	@Override
 	public double getThermalBridgeEffect() {
 		return thermalBridgeEffect;
