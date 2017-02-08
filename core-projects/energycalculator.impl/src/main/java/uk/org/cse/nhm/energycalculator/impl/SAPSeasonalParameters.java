@@ -102,6 +102,6 @@ public class SAPSeasonalParameters extends SeasonalParameters {
 		 ID: sap-heating-on-factor
 		 CODSIEB
 		 */
-		return isHeatingOn() ? 1 : 0;
+		return 1;
 	}
 }
