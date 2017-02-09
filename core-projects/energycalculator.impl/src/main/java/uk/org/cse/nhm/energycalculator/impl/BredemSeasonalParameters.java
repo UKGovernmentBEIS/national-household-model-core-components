@@ -18,8 +18,15 @@ public class BredemSeasonalParameters extends SeasonalParameters {
 	private final IHeatingSchedule zoneOneHeatingSchedule;
 	private final Optional<IHeatingSchedule> zoneTwoSchedule;
 
-	public BredemSeasonalParameters(final MonthType month, final double externalTemperature,
-			final double siteWindSpeed, final double horizontalSolarFlux, final double latitude, final IHeatingSchedule heatingSchedule, final Optional<IHeatingSchedule> zoneTwoSchedule) {
+	public BredemSeasonalParameters(
+			final MonthType month,
+			final double externalTemperature,
+			final double siteWindSpeed,
+			final double horizontalSolarFlux,
+			final double latitude,
+			final IHeatingSchedule heatingSchedule,
+			final Optional<IHeatingSchedule> zoneTwoSchedule
+			) {
 		super(month);
 
 		this.externalTemperature = externalTemperature;

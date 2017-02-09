@@ -21,6 +21,15 @@ If you want to cross-reference to a language element, you need to use the unique
    - *Bugs removed* will list any known errors that were found to affect the previous version which have been corrected in this version
 
 ** Released versions
+*** Version 6.5.5
+**** New Features
+
+Put back the /desired-heat-months/ property on =ref.action.set-heating-temperatures=.
+
+This was removed in the SAP 2012 update.
+
+This property has different behaviour to before. It now explcitly sets which months the heating will be on for. It has no effect in SAP2012 mode.
+
 *** Version 6.5.4
 **** New Features
 ***** Heat loss roofs and ground floors for flats

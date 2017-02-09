@@ -21,7 +21,6 @@ public class SAPSeasonalParameters extends SeasonalParameters {
 	private static final IHeatingSchedule sevenAndEight = DailyHeatingSchedule.fromHours(7, 9, 16, 23);
 	private static final IHeatingSchedule zeroAndEight = DailyHeatingSchedule.fromHours(7, 23);
 	private static final IHeatingSchedule nineAndEight = DailyHeatingSchedule.fromHours(7, 9, 18, 23);
-	private static final IHeatingSchedule off = DailyHeatingSchedule.fromHours();
 
 	private static final IHeatingSchedule weekdaySevenAndEightWeekendZeroAndEight = new WeeklyHeatingSchedule(
 			sevenAndEight, zeroAndEight);
@@ -75,7 +74,7 @@ public class SAPSeasonalParameters extends SeasonalParameters {
 						"Unknown heating zone while calculating SAP heating schedule " + zone);
 			}
 		} else {
-			return off;
+			return DailyHeatingSchedule.OFF;
 		}
 	}
 

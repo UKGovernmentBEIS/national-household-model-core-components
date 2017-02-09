@@ -15,6 +15,8 @@ import uk.org.cse.nhm.energycalculator.api.IHeatingSchedule;
  * @since 1.0.0
  */
 public class DailyHeatingSchedule implements IHeatingSchedule {
+	public static final IHeatingSchedule OFF = DailyHeatingSchedule.fromHours();
+
 	private static final double MINUTES_PER_DAY = 24 * 60;
 	private final ArrayList<Time> times = new ArrayList<Time>();
 

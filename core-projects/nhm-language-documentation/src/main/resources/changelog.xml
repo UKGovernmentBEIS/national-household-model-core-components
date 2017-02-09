@@ -42,6 +42,24 @@
   <sect1>
     <title>Released versions</title>
     <sect2>
+      <title>Version 6.5.5</title>
+      <sect3>
+        <title>New Features</title>
+        <para>
+          Put back the <emphasis>desired-heat-months</emphasis> property
+          on <xref linkend="ref.action.set-heating-temperatures"/>.
+        </para>
+        <para>
+          This was removed in the SAP 2012 update.
+        </para>
+        <para>
+          This property has different behaviour to before. It now
+          explcitly sets which months the heating will be on for. It has
+          no effect in SAP2012 mode.
+        </para>
+      </sect3>
+    </sect2>
+    <sect2>
       <title>Version 6.5.4</title>
       <sect3>
         <title>New Features</title>

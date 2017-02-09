@@ -9,6 +9,8 @@ import javax.inject.Inject;
 import org.joda.time.Period;
 
 import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSet.Builder;
 
 import uk.org.cse.commons.names.ISettableIdentified;
 import uk.org.cse.commons.names.Name;
@@ -17,6 +19,7 @@ import uk.org.cse.nhm.energycalculator.api.IHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.IWeather;
 import uk.org.cse.nhm.energycalculator.api.impl.DailyHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.impl.SevenDayHeatingSchedule;
+import uk.org.cse.nhm.energycalculator.api.types.MonthType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.language.adapt.IAdapterInterceptor;
 import uk.org.cse.nhm.language.adapt.IConverter;
@@ -35,6 +38,7 @@ import uk.org.cse.nhm.language.definition.action.XHeatingScheduleAction;
 import uk.org.cse.nhm.language.definition.action.XHeatingScheduleAction.XHeatingDays;
 import uk.org.cse.nhm.language.definition.action.XHeatingScheduleAction.XHeatingDays.HeatingInterval;
 import uk.org.cse.nhm.language.definition.action.XHeatingTemperaturesAction;
+import uk.org.cse.nhm.language.definition.action.XHeatingTemperaturesAction.XMonth;
 import uk.org.cse.nhm.language.definition.action.XOrderedAction;
 import uk.org.cse.nhm.language.definition.action.XReducedInternalGainsAction;
 import uk.org.cse.nhm.language.definition.action.XRepeatAction;
@@ -98,14 +102,28 @@ public class ActionAdapter extends ReflectingAdapter {
 			 @Prop(XHeatingTemperaturesAction.P.livingAreaTemperature) final Optional<IComponentsFunction<Number>> livingAreaTemperature,
 			 @Prop(XHeatingTemperaturesAction.P.temperatureDifference) final Optional<IComponentsFunction<Number>> deltaTemperature,
 			 @Prop(XHeatingTemperaturesAction.P.restofDwellingTemperature) final Optional<IComponentsFunction<Number>> restTemperature,
-			 @Prop(XHeatingTemperaturesAction.P.restOfDwellingHeatedProportion) final Optional<IComponentsFunction<Number>> restHeatedProportion
+			 @Prop(XHeatingTemperaturesAction.P.restOfDwellingHeatedProportion) final Optional<IComponentsFunction<Number>> restHeatedProportion,
+			 @Prop(XHeatingTemperaturesAction.P.desiredHeatingMonths) final List<XMonth> heatingMonths
 					 ) {
+
+		 final Set<MonthType> months;
+		 if (heatingMonths.isEmpty()) {
+			 months = null;
+		 } else {
+
+			 final Builder<MonthType> builder = ImmutableSet.<MonthType>builder();
+			 for (final XMonth m : heatingMonths) {
+				 builder.add(MapEnum.month(m));
+			 }
+			 months = builder.build();
+		 }
 
 		 return measureFactory.createTemperaturesAction(
 				 livingAreaTemperature,
 				 deltaTemperature,
 				 restTemperature,
-				 restHeatedProportion
+				 restHeatedProportion,
+				 Optional.fromNullable(months)
 				 );
 	 }
 

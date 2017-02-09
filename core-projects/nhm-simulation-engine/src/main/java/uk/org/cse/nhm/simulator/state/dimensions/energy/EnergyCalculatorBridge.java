@@ -26,6 +26,7 @@ import uk.org.cse.nhm.energycalculator.api.IHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.ISeasonalParameters;
 import uk.org.cse.nhm.energycalculator.api.IWeather;
 import uk.org.cse.nhm.energycalculator.api.impl.BredemExternalParameters;
+import uk.org.cse.nhm.energycalculator.api.impl.DailyHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.impl.SAPExternalParameters;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
@@ -478,7 +479,11 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 											key.weather.getWindSpeed(m),
 											key.weather.getHorizontalSolarFlux(m),
 											key.getLatitudeRadians(),
-											key.heatingBehaviour.getHeatingSchedule(),
+
+											key.heatingBehaviour.getHeatingMonths().contains(m) ?
+													key.heatingBehaviour.getHeatingSchedule() :
+														DailyHeatingSchedule.OFF,
+
 											Optional.<IHeatingSchedule>absent()
 											);
 								break;

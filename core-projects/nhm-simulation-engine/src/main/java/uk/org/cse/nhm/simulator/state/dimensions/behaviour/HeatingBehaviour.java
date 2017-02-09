@@ -1,17 +1,32 @@
 package uk.org.cse.nhm.simulator.state.dimensions.behaviour;
 
+import java.util.Set;
+
 import org.pojomatic.Pojomatic;
 import org.pojomatic.annotations.AutoProperty;
 
 import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableSet;
 
 import uk.org.cse.nhm.energycalculator.api.IHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.impl.DailyHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.impl.WeeklyHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
+import uk.org.cse.nhm.energycalculator.api.types.MonthType;
 
 @AutoProperty
 public class HeatingBehaviour implements IHeatingBehaviour {
+	public static final Set<MonthType> DEFAULT_HEATING_MONTHS = ImmutableSet.of(
+			MonthType.January,
+			MonthType.February,
+			MonthType.March,
+			MonthType.April,
+			MonthType.May,
+			MonthType.October,
+			MonthType.November,
+			MonthType.December
+			);
+
 	public static final IHeatingBehaviour DEFAULT_BEHAVIOUR =
 			new HeatingBehaviour(
 				new WeeklyHeatingSchedule(
@@ -21,6 +36,7 @@ public class HeatingBehaviour implements IHeatingBehaviour {
 				19d,
 				3d,
 				true,
+				DEFAULT_HEATING_MONTHS,
 				EnergyCalculatorType.BREDEM2012
 			);
 
@@ -28,17 +44,20 @@ public class HeatingBehaviour implements IHeatingBehaviour {
 	private double livingAreaDemandTemperature;
 	private double secondAreaDemandTemperatureOrDifference;
 	private boolean secondTemperatureIsDifference;
+	private Set<MonthType> heatingMonths;
 	private EnergyCalculatorType calculatorType;
 
 	public HeatingBehaviour(final IHeatingSchedule heatingSchedule,
 			final double livingAreaDemandTemperature,
 			final double secondTemperature,
 			final boolean secondTemperatureIsDifference,
+			final Set<MonthType> heatingMonths,
 			final EnergyCalculatorType calculatorType) {
 		this.heatingSchedule = heatingSchedule;
 		this.livingAreaDemandTemperature = livingAreaDemandTemperature;
 		this.secondAreaDemandTemperatureOrDifference = secondTemperature;
 		this.secondTemperatureIsDifference = secondTemperatureIsDifference;
+		this.heatingMonths = heatingMonths;
 		this.calculatorType = calculatorType;
 	}
 
@@ -93,9 +112,19 @@ public class HeatingBehaviour implements IHeatingBehaviour {
 	}
 
 	@Override
+	public Set<MonthType> getHeatingMonths() {
+		return heatingMonths;
+	}
+
+	@Override
+	public void setHeatingMonths(final Set<MonthType> heatingMonths) {
+		this.heatingMonths = heatingMonths;
+	}
+
+	@Override
 	public IHeatingBehaviour withLivingAreaDemandTemperature(final double newLivingAreaTemp) {
 		return new HeatingBehaviour(getHeatingSchedule(), newLivingAreaTemp,
-				secondAreaDemandTemperatureOrDifference, secondTemperatureIsDifference, calculatorType);
+				secondAreaDemandTemperatureOrDifference, secondTemperatureIsDifference, heatingMonths, calculatorType);
 	}
 
 	@Override
@@ -115,6 +144,7 @@ public class HeatingBehaviour implements IHeatingBehaviour {
 				livingAreaDemandTemperature,
 				secondAreaDemandTemperatureOrDifference,
 				secondTemperatureIsDifference,
+				heatingMonths,
 				newCalculatorType);
 	}
 
@@ -128,8 +158,9 @@ public class HeatingBehaviour implements IHeatingBehaviour {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((calculatorType == null) ? 0 : calculatorType.hashCode());
-		long temp;
+		result = prime * result + ((heatingMonths == null) ? 0 : heatingMonths.hashCode());
 		result = prime * result + ((heatingSchedule == null) ? 0 : heatingSchedule.hashCode());
+		long temp;
 		temp = Double.doubleToLongBits(livingAreaDemandTemperature);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(secondAreaDemandTemperatureOrDifference);
@@ -149,6 +180,11 @@ public class HeatingBehaviour implements IHeatingBehaviour {
 		final HeatingBehaviour other = (HeatingBehaviour) obj;
 		if (calculatorType != other.calculatorType)
 			return false;
+		if (heatingMonths == null) {
+			if (other.heatingMonths != null)
+				return false;
+		} else if (!heatingMonths.equals(other.heatingMonths))
+			return false;
 		if (heatingSchedule == null) {
 			if (other.heatingSchedule != null)
 				return false;
@@ -167,6 +203,6 @@ public class HeatingBehaviour implements IHeatingBehaviour {
 
 	@Override
 	public IHeatingBehaviour copy() {
-		return new HeatingBehaviour(heatingSchedule, livingAreaDemandTemperature, secondAreaDemandTemperatureOrDifference, secondTemperatureIsDifference, calculatorType);
+		return new HeatingBehaviour(heatingSchedule, livingAreaDemandTemperature, secondAreaDemandTemperatureOrDifference, secondTemperatureIsDifference, heatingMonths, calculatorType);
 	}
 }
