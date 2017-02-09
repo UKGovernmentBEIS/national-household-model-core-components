@@ -1,9 +1,12 @@
 package uk.org.cse.nhm.simulator.state.dimensions.behaviour;
 
+import java.util.Set;
+
 import com.google.common.base.Optional;
 
 import uk.org.cse.nhm.energycalculator.api.IHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
+import uk.org.cse.nhm.energycalculator.api.types.MonthType;
 import uk.org.cse.nhm.hom.ICopyable;
 
 /**
@@ -78,6 +81,15 @@ public interface IHeatingBehaviour extends ICopyable<IHeatingBehaviour> {
 	 * Construct a new heating behaviour like this one but with the given temperature.
 	 */
 	public IHeatingBehaviour withEnergyCalculatorType(EnergyCalculatorType energyCalculatorType);
+
+	/**
+	 * Has no effect in SAP 2012 mode.
+	 *
+	 * @param heatingMonths the months during which the heating will be on
+	 */
+	public void setHeatingMonths(Set<MonthType> heatingMonths);
+
+	public Set<MonthType> getHeatingMonths();
 
 	@Override
 	public int hashCode();

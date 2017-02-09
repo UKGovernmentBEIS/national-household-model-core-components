@@ -3,6 +3,9 @@ package uk.org.cse.nhm.language.definition.action;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.function.num.XNumber;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.larkery.jasb.bind.Bind;
 import com.larkery.jasb.bind.BindNamedArgument;
 
@@ -10,7 +13,7 @@ import com.larkery.jasb.bind.BindNamedArgument;
 @Doc(
 	value = {
 		"This action sets the various heating temperature controls for houses to which it is applied.",
-		"There are four possible attributes which can be specified - for those which are left unspecified,",
+		"For attributes which are left unspecified,",
 		"no change will be made to the corresponding aspect of the house's temperature settings.",
 		"These settings have no effect if the energy calculator is in SAP 2012 mode."
 		})
@@ -21,11 +24,13 @@ public class XHeatingTemperaturesAction extends XFlaggedDwellingAction {
 		public static final String temperatureDifference = "temperatureDifference";
 		public static final String restofDwellingTemperature = "restOfDwellingTemperature";
 		public static final String restOfDwellingHeatedProportion = "restOfDwellingHeatedProportion";
+		public static final String desiredHeatingMonths = "desiredHeatingMonths";
 	}
 	private XNumber livingAreaTemperature = null;
 	private XNumber temperatureDifference = null;
 	private XNumber restOfDwellingTemperature = null;
 	private XNumber restOfDwellingHeatedProportion = null;
+	private List<XMonth> desiredHeatingMonths = new ArrayList<>();
 
 	public enum XMonth {
 		January,
@@ -91,5 +96,18 @@ public class XHeatingTemperaturesAction extends XFlaggedDwellingAction {
 	}
 	public void setRestOfDwellingHeatedProportion(final XNumber restOfDwellingHeatedProportion) {
 		this.restOfDwellingHeatedProportion = restOfDwellingHeatedProportion;
+	}
+
+	@BindNamedArgument("desired-heating-months")
+	@Doc({
+		"If at least one month is specified, this will enable the heating during the specified months.",
+		"Has no effect in SAP 2012 mode."
+
+	})
+	public List<XMonth> getDesiredHeatingMonths() {
+		return desiredHeatingMonths;
+	}
+	public void setDesiredHeatingMonths(final List<XMonth> desiredHeatingMonths) {
+		this.desiredHeatingMonths = desiredHeatingMonths;
 	}
 }

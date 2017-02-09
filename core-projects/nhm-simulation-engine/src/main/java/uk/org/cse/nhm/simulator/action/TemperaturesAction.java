@@ -1,9 +1,12 @@
 package uk.org.cse.nhm.simulator.action;
 
+import java.util.Set;
+
 import com.google.common.base.Optional;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
+import uk.org.cse.nhm.energycalculator.api.types.MonthType;
 import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.simulator.let.ILets;
 import uk.org.cse.nhm.simulator.scope.ISettableComponentsScope;
@@ -18,6 +21,7 @@ public class TemperaturesAction extends AbstractHeatingAction {
 	private final Optional<IComponentsFunction<Number>> restHeatedProportion;
 	private final boolean secondaryTemperatureIsDifference;
 	private final IDimension<StructureModel> structureDimension;
+	private final Optional<Set<MonthType>> desiredHeatingMonths;
 
 
 	@AssistedInject
@@ -27,7 +31,8 @@ public class TemperaturesAction extends AbstractHeatingAction {
 			@Assisted("livingArea") final Optional<IComponentsFunction<Number>> livingAreaTemperature,
 			@Assisted("delta") final Optional<IComponentsFunction<Number>> deltaTemperature,
 			@Assisted("rest") final Optional<IComponentsFunction<Number>> restTemperature,
-			@Assisted("restHeatedProportion") final Optional<IComponentsFunction<Number>> restHeatedProportion
+			@Assisted("restHeatedProportion") final Optional<IComponentsFunction<Number>> restHeatedProportion,
+			@Assisted final Optional<Set<MonthType>> desiredHeatingMonths
 			) {
 		super(dimension);
 		this.structureDimension = structureDimension;
@@ -43,6 +48,7 @@ public class TemperaturesAction extends AbstractHeatingAction {
 			secondaryTemperatureIsDifference = false;
 			secondaryTemperature = Optional.absent();
 		}
+		this.desiredHeatingMonths = desiredHeatingMonths;
 	}
 
 	@Override
@@ -65,6 +71,13 @@ public class TemperaturesAction extends AbstractHeatingAction {
 						current.setSecondAreaDemandTemperature(secondaryTemperature.get().compute(scope, lets).doubleValue());
 					}
 				}
+
+				if (desiredHeatingMonths.isPresent()) {
+					result = true;
+					current.setHeatingMonths(desiredHeatingMonths.get());
+					result = true;
+				}
+
 				return result;
 			}});
 

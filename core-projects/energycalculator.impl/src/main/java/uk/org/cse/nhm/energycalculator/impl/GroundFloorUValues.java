@@ -9,7 +9,7 @@ public class GroundFloorUValues {
 	private double Rsi = 0.17; // square meter kelvin per watt
 	private double Rse = 0.04; // square meter kelvin per watt
 	private double soilThermalConductivity = 1.5;// watts / meter kelvin
-	private double deckThermalResistance = 0.2; // square meter kelvin per
+	private double deckBaseThermalResistance = 0.2; // square meter kelvin per
 												// watt
 	private double openingsPerMeterOfExposedPerimeter = 0.003; // meters
 	private double heightAboveGroundLevel = 0.3; // meters
@@ -41,13 +41,13 @@ public class GroundFloorUValues {
 
 		final double B = 2 * floorArea / exposedPerimeter;
 
+		final double floorInsulationResistance = 0.001
+				* insulationThickness / floorInsulationConductivity;
+
 		switch (constructionType) {
 		case Solid:
-			final double surfaceThermalResistance = 0.001
-					* insulationThickness / floorInsulationConductivity;
-
 			final double dt = wallThicknessM + (soilThermalConductivity
-					* (Rsi + surfaceThermalResistance + Rse));
+					* (Rsi + floorInsulationResistance + Rse));
 
 			if (dt < B) {
 				return 2 * soilThermalConductivity * log((PI * B / dt) + 1)
@@ -66,7 +66,7 @@ public class GroundFloorUValues {
 					+ (1450 * openingsPerMeterOfExposedPerimeter
 							* averageWindSpeedAt10m * windShieldingFactor / B);
 
-			return 1 / ((2 * Rsi) + deckThermalResistance + 0.2 + (1 / (Ug + Ux)));
+			return 1 / ((2 * Rsi) + (deckBaseThermalResistance + floorInsulationResistance) + (1 / (Ug + Ux)));
 		default:
 			return 0;
 		}
@@ -87,8 +87,8 @@ public class GroundFloorUValues {
 		return this;
 	}
 
-	public GroundFloorUValues setDeckThermalResistance(final double deckThermalResistance) {
-		this.deckThermalResistance = deckThermalResistance;
+	public GroundFloorUValues setDeckThermalResistance(final double deckBaseThermalResistance) {
+		this.deckBaseThermalResistance = deckBaseThermalResistance;
 		return this;
 	}
 

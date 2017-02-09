@@ -84,16 +84,16 @@ public class CommunityCHPTest extends CommunityHeatSourceTest {
 		final ICommunityCHP chp = getFixture();
 		chp.setElectricalEfficiency(Efficiency.fromDouble(0.25));
 	}
-	
+
 	@Override
 	protected void testHeatingState(final IEnergyState es) {
 		super.testHeatingState(es);
 		verify(es).increaseSupply(EnergyType.CommunityELECTRICITY, 2  * 100 * 1.1 * 1.1 / 4);
 	}
-	
+
 	@Override
 	protected void testHotWaterState(final IEnergyState state) {
 		super.testHotWaterState(state);
-		verify(state).increaseSupply(EnergyType.CommunityELECTRICITY, 2 * (234 + 0.6*41.0683) * 1.1 * 1.05 / 4);
+		verify(state).increaseSupply(EnergyType.CommunityELECTRICITY, 2 * (234 + 0.6) * 1.1 * 1.05 / 4);
 	}
 } //CommunityCHPTest

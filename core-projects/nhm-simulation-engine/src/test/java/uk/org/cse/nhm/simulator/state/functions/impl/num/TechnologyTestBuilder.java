@@ -169,7 +169,11 @@ public class TechnologyTestBuilder {
 	}
 
 	private TechnologyTestBuilder addHeatSource(final HeatSource type, final Optional<FuelType> fuel, final EmitterType emitters, final Optional<Double> maybeEfficiency) {
-		operations.installHeatSource(model, createHeatSource(type, maybeEfficiency), true, true, emitters, new HashSet<HeatingSystemControlType>(), 0.0, 0.0);
+		final IHeatSource heatSource = createHeatSource(type, maybeEfficiency);
+		if (fuel.isPresent()) {
+			heatSource.setFuel(fuel.get());
+		}
+		operations.installHeatSource(model, heatSource, true, true, emitters, new HashSet<HeatingSystemControlType>(), 0.0, 0.0);
 
 		return this;
 	}

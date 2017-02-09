@@ -31,7 +31,7 @@ This section is not included in the export because it is in a comment block.
    Use a hypothetical action to evaluate some function with an alternative calculator for a house within the same scenario:
    #+BEGIN_SRC nhm
    (under
-    (energy-calculator SAP2012)
+    (counterfactual.energy-calculator SAP2012)
     evaluate: (house.energy-use))
    #+END_SRC
 
@@ -229,11 +229,15 @@ This section is not included in the export because it is in a comment block.
 
 ** Degree Days vs Heating Months
 
-   BREDEM 2012 specifies (see 8F, 8G, 8H) a degree-days based mechanism for working out a /heating-on factor/, which is the fraction of a month the heating is on for. This is what the NHM previously implemented, and so we have left it unchanged for the BREDEM 2012 energy calculator mode.
+   BREDEM 2012 specifies (see 8F, 8G, 8H) a degree-days based mechanism for working out a value called /fraction of month heating is enabled/.
 
-   You can influence the /heating-on factor/ for a house using =action.set-heating-temperatures=. This has the properties /threshold-external-temperature/ and /desired-heating-months/. The latter is actually a convenience method for automatically setting the former.
+   This is a somewhat misleading property name: it actually controls what proportion of /gains/ is reduced by the /gains utilisation factor/, and what proportion is used as is.
 
-   In the SAP 2012 calculator mode, there is no heating-on factor. Instead, the heating is on for the whole of January to May, and then October to December (inclusive). This cannot be controlled from the scenario.
+   In SAP 2012 there is no corresponding property, so this fraction is always set to 1 in SAP 2012 mode.
+
+   We control when the heating is actually on using the /desired-heating-months/ property on =action.set-heating-temperatures=. This property defaults to the SAP heating months (January to May, and then October to December (inclusive)). In SAP 2012 mode, you cannot change the heating-months, and this property will be ignored.
+
+   There is an open question with BRE about whether there is an error in the BREDEM 2012 specification here.
 
 ** Reduced Internal Gain
 

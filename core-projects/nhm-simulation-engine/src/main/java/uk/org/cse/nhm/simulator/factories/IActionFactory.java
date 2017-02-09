@@ -12,6 +12,7 @@ import uk.org.cse.commons.Glob;
 import uk.org.cse.nhm.energycalculator.api.IHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.IWeather;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
+import uk.org.cse.nhm.energycalculator.api.types.MonthType;
 import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
 import uk.org.cse.nhm.simulator.action.CaseAction;
 import uk.org.cse.nhm.simulator.action.CaseAction.Case;
@@ -72,7 +73,8 @@ public interface IActionFactory {
 			@Assisted("livingArea") final Optional<IComponentsFunction<Number>> livingAreaTemperature,
 			@Assisted("delta") final Optional<IComponentsFunction<Number>> deltaTemperature,
 			@Assisted("rest") final Optional<IComponentsFunction<Number>> restTemperature,
-			@Assisted("restHeatedProportion") final Optional<IComponentsFunction<Number>> restHeatedProportion
+			@Assisted("restHeatedProportion") final Optional<IComponentsFunction<Number>> restHeatedProportion,
+			@Assisted final Optional<Set<MonthType>> heatingMonths
 			);
 
 	public HeatingScheduleAction createHeatingScheduleAction(final IHeatingSchedule iHeatingSchedule);

@@ -9,6 +9,7 @@ import com.google.common.collect.ImmutableMap;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
+import uk.org.cse.nhm.energycalculator.api.types.MonthType;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
 import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
@@ -31,6 +32,7 @@ import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.types.BuiltFormType;
 import uk.org.cse.nhm.hom.types.MorphologyType;
 import uk.org.cse.nhm.hom.types.TenureType;
+import uk.org.cse.nhm.language.definition.action.XHeatingTemperaturesAction.XMonth;
 import uk.org.cse.nhm.language.definition.action.XSetSiteExposureAction;
 import uk.org.cse.nhm.language.definition.action.measure.insulation.XWallInsulationMeasure.XWallInsulationType;
 import uk.org.cse.nhm.language.definition.context.XEnergyConstantsContext.XEnergyConstantType;
@@ -51,6 +53,10 @@ public class MapEnum {
 	}
 	private static <E extends Enum<E>, Q extends Enum<Q>> E mapName(final Class<E> ec, final Q name) {
 		return Enum.valueOf(ec, name.name());
+	}
+
+	public static final MonthType month(final XMonth month) {
+		return mapName(MonthType.class, month);
 	}
 
 	public static final SiteExposureType siteExposure(final XSetSiteExposureAction.XSiteExposureType siteExposure) {

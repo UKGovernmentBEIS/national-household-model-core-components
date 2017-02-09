@@ -56,48 +56,48 @@ public class HeatingResponsivenessFunctionTest {
 		behaviour = mock(IHeatingBehaviour.class);
 		builder = new TechnologyTestBuilder();
 		constants = DefaultConstants.INSTANCE;
-		
+
 		when(scope.get(techDimension)).thenReturn(builder.build());
 		when(scope.get(behaviourDimension)).thenReturn(behaviour);
 		when(behaviour.getEnergyCalculatorType()).thenReturn(EnergyCalculatorType.SAP2012);
 	}
-	
+
 	@Test
 	public void noHeating() {
 		test(1.0);
 	}
-	
+
 	@Test
 	public void unconnectedCentralHeating() {
 		builder.addSpaceHeating(CentralHeating);
 		test(1.0);
 	}
-	
+
 	@Test
 	public void backBoiler() {
 		builder.addHeatSource(BackBoiler);
-		test(1.0);
+		test(0.5);
 	}
-	
+
 	private final Map<EmitterType, Double> sapTable4d = ImmutableMap.of(
 			EmitterType.RADIATORS, 1.0,
 			EmitterType.UNDERFLOOR_TIMBER, 1.0,
 			EmitterType.UNDERFLOOR_SCREED, 0.75,
 			EmitterType.UNDERFLOOR_CONCRETE, 0.25,
 			EmitterType.WARM_AIR_FAN_COIL, 1.0);
-	
+
 	private void testSAPTable4d(final HeatSource source) {
 		for (final Entry<EmitterType, Double> e : sapTable4d.entrySet()) {
 			builder.addHeatSource(source, FuelType.MAINS_GAS, e.getKey());
 			test(e.getValue());
 		}
 	}
-	
+
 	@Test
 	public void boiler() {
 		builder.addHeatSource(Boiler, FuelType.HOUSE_COAL);
-		test(1.0);
-		
+		test(0.75);
+
 		testSAPTable4d(Boiler);
 	}
 
@@ -106,19 +106,19 @@ public class HeatingResponsivenessFunctionTest {
 		builder.addHeatSource(InstantaneousCombiBoiler, FuelType.HOUSE_COAL);
 		test(0.75);
 	}
-	
+
 	@Test
 	public void storageCombiBoiler() {
 		builder.addHeatSource(StorageCombiBoiler, FuelType.ELECTRICITY);
 		test(0.75);
 	}
-	
+
 	@Test
 	public void cpsu() {
 		builder.addHeatSource(CPSU, FuelType.ELECTRICITY);
 		test(1.0);
 	}
-	
+
 	@Test
 	public void heatPump() {
 		for (final Entry<EmitterType, Double> e : sapTable4d.entrySet()) {
@@ -126,48 +126,48 @@ public class HeatingResponsivenessFunctionTest {
 			test(e.getValue());
 		}
 	}
-	
+
 	@Test
 	public void communityHeatSource() {
 		builder.addHeatSource(Community);
 		test(1.0);
 	}
-	
+
 	@Test
 	public void communityCHP() {
 		builder.addHeatSource(CommunityCHP);
 		test(1.0);
 	}
-	
+
 	@Test
 	public void warmAir() {
 		builder.addSpaceHeating(WarmAir, FuelType.ELECTRICITY);
 		test(0.75);
-		
+
 		builder.addSpaceHeating(WarmAir);
 		test(1.0);
 	}
-	
+
 	@Test
 	public void storageHeaters() {
 		// Overriding the responsiveness works under BREDEM
 		when(behaviour.getEnergyCalculatorType()).thenReturn(EnergyCalculatorType.BREDEM2012);
 		builder.addStorageHeating(StorageHeaterType.OLD_LARGE_VOLUME, StorageHeaterControlType.MANUAL_CHARGE_CONTROL, 1.0);
 		test(1.0);
-		
+
 		// Always falls back to default responsiveness under SAP
 		when(behaviour.getEnergyCalculatorType()).thenReturn(EnergyCalculatorType.SAP2012);
 		builder.addStorageHeating(StorageHeaterType.OLD_LARGE_VOLUME, StorageHeaterControlType.MANUAL_CHARGE_CONTROL, 1.0);
 		test(0.0);
-		
+
 		testStorage(StorageHeaterType.OLD_LARGE_VOLUME, 0, 0);
 		testStorage(StorageHeaterType.CONVECTOR, 0.2, 0.4);
 		testStorage(StorageHeaterType.SLIMLINE, 0.2, 0.4);
 		testStorage(StorageHeaterType.FAN, 0.4, 0.6);
 		testStorage(StorageHeaterType.INTEGRATED_DIRECT_ACTING, 0.6, 0.6);
 	}
-	
-	private void testStorage(StorageHeaterType type, double expected, double celectExpected) {
+
+	private void testStorage(final StorageHeaterType type, final double expected, final double celectExpected) {
 		builder.addStorageHeating(type, StorageHeaterControlType.MANUAL_CHARGE_CONTROL);
 		test(expected);
 		builder.addStorageHeating(type, StorageHeaterControlType.AUTOMATIC_CHARGE_CONTROL);
@@ -175,13 +175,13 @@ public class HeatingResponsivenessFunctionTest {
 		builder.addStorageHeating(type, StorageHeaterControlType.CELECT_CHARGE_CONTROL);
 		test(celectExpected);
 	}
-	
+
 	@Test
 	public void roomHeater() {
 		builder.addSpaceHeating(RoomHeater);
 		test(1.0);
 	}
-	
+
 	private void test(final double expected) {
 		final HeatingResponsivenessFunction fun = new HeatingResponsivenessFunction(constants, techDimension, behaviourDimension);
 		when(scope.get(techDimension)).thenReturn(builder.build());

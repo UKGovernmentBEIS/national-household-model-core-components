@@ -51,7 +51,7 @@ public class ResetWallsAction extends AbstractNamed implements IComponentsAction
 			if (wall.getWallConstructionType().getWallType() == WallType.External) {
 				if (uValue != null) result[0] = uValue.compute(scope, lets).doubleValue();
 				else result[0] = wall.getUValue();
-				if (infiltration != null) result[2] = infiltration.compute(scope, lets).doubleValue();
+				if (infiltration != null) result[1] = infiltration.compute(scope, lets).doubleValue();
 				else result[1] = wall.getAirChangeRate();
 				if (thickness != null) result[2] = thickness.compute(scope, lets).doubleValue();
 				else result[2] = wall.getThicknessWithoutInsulation();

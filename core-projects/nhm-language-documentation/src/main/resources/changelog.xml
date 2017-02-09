@@ -1,6 +1,6 @@
 <chapter xmlns="http://docbook.org/ns/docbook">
   <title>Scenario Language Changelog</title>
-  <sect1 id="reading-the-changelog">
+  <sect1>
     <title>Reading the Changelog</title>
     <para>
       This is the changelog for the National Household Model's Scenario
@@ -39,13 +39,31 @@
       </listitem>
     </itemizedlist>
   </sect1>
-  <sect1 id="released-versions">
+  <sect1>
     <title>Released versions</title>
-    <sect2 id="version-6.5.4">
-      <title>Version 6.5.4</title>
-      <sect3 id="new-features">
+    <sect2>
+      <title>Version 6.5.5</title>
+      <sect3>
         <title>New Features</title>
-        <sect4 id="heat-loss-roofs-and-ground-floors-for-flats">
+        <para>
+          Put back the <emphasis>desired-heat-months</emphasis> property
+          on <xref linkend="ref.action.set-heating-temperatures"/>.
+        </para>
+        <para>
+          This was removed in the SAP 2012 update.
+        </para>
+        <para>
+          This property has different behaviour to before. It now
+          explcitly sets which months the heating will be on for. It has
+          no effect in SAP2012 mode.
+        </para>
+      </sect3>
+    </sect2>
+    <sect2>
+      <title>Version 6.5.4</title>
+      <sect3>
+        <title>New Features</title>
+        <sect4>
           <title>Heat loss roofs and ground floors for flats</title>
           <para>
             If a flat has a storey which is the top floor of its
@@ -66,25 +84,62 @@
           </para>
         </sect4>
       </sect3>
-      <sect3 id="bugs-fixed">
+      <sect3>
         <title>Bugs Fixed</title>
-        <sect4 id="bug-in-ref.affected-houses">
+        <sect4>
+          <title>U-value calculation for suspended timber ground
+          floors</title>
+          <para>
+            This has changed from SAP 2009 to SAP 2012. It seems likely
+            that the SAP 2009 version was a mistake.
+          </para>
+          <para>
+            In SAP 2009: set Rf to 0.2, then compute
+            <literal>Rf + 0.2</literal>.
+          </para>
+          <para>
+            In SAP 2012: compute Rf based on floor insulation thickness,
+            then compute <literal>Rf + 0.2</literal>.
+          </para>
+          <para>
+            We now implement the SAP 2012 version.
+          </para>
+        </sect4>
+        <sect4>
+          <title>Stock import of solid floors</title>
+          <para>
+            Version 6.5.0 introduced a bug where Solid floors were being
+            reclassified as SuspendedTimber. This is now fixed.
+          </para>
+        </sect4>
+        <sect4>
+          <title>Infiltrations when resetting walls.</title>
+          <para>
+            The <emphasis>infiltrations</emphasis> property in
+            <xref linkend="ref.action.reset-walls"/> has been broken
+            since v6.5.0. It was setting air change rate to 0.
+          </para>
+          <para>
+            This is now working correctly again.
+          </para>
+        </sect4>
+        <sect4>
           <title>Bug in <xref linkend="ref.affected-houses"/></title>
           <para>
-            The <literal>affected-houses</literal> command would not
+            The <xref linkend="ref.affected-houses"/> command would not
             work correctly if used as the source group for a
-            <literal>filter</literal> in more than one place within a
-            single use of the <literal>on.construction</literal>
+            <xref linkend="ref.filter"/> in more than one place within
+            a single use of the <literal>on.construction</literal>
             command.
           </para>
           <para>
-            Each <literal>filter</literal> applied would have a
+            Each <xref linkend="ref.filter"/> applied would have a
             cumulative effect on the contents of the next use of
-            <literal>affected-houses</literal>.
+            <xref linkend="ref.affected-houses"/>.
           </para>
         </sect4>
       </sect3>
-      <sect3 id="improvements">
+      <sect3>
         <title>Improvements</title>
         <para>
           The manual embedded in the desktop application has had
@@ -106,17 +161,17 @@
         </para>
       </sect3>
     </sect2>
-    <sect2 id="version-6.5.3">
+    <sect2>
       <title>Version 6.5.3</title>
       <para>
         We don't know where this version number went.
       </para>
     </sect2>
-    <sect2 id="version-6.5.2">
+    <sect2>
       <title>Version 6.5.2</title>
-      <sect3 id="new-features-1">
+      <sect3>
         <title>New Features</title>
-        <sect4 id="inclusion-of-a-test-for-wall-thickness">
+        <sect4>
           <title>Inclusion of a test for wall thickness</title>
           <para>
             Per support ticket number 83
@@ -124,11 +179,11 @@
         </sect4>
       </sect3>
     </sect2>
-    <sect2 id="version-6.5.1">
+    <sect2>
       <title>Version 6.5.1</title>
-      <sect3 id="new-features-2">
+      <sect3>
         <title>New Features</title>
-        <sect4 id="roof-area-function">
+        <sect4>
           <title>Roof Area Function</title>
           <para>
             Added <xref linkend="ref.house.roof-area"/> to allow you to
@@ -137,9 +192,9 @@
           </para>
         </sect4>
       </sect3>
-      <sect3 id="bugs-fixed-1">
+      <sect3>
         <title>Bugs Fixed</title>
-        <sect4 id="wall-thickness">
+        <sect4>
           <title>Wall Thickness</title>
           <para>
             Wall thickness was not getting set in the stock import. This
@@ -148,7 +203,7 @@
         </sect4>
       </sect3>
     </sect2>
-    <sect2 id="version-6.5.0">
+    <sect2>
       <title>Version 6.5.0</title>
       <para>
         This version of the NHM has been updated to support SAP 2012
@@ -160,9 +215,9 @@
         more in-depth discussion of the energy calculator update, see
         ref.sap-2012-spec.
       </para>
-      <sect3 id="new-features-3">
+      <sect3>
         <title>New Features</title>
-        <sect4 id="bredem-specific-configuration">
+        <sect4>
           <title>BREDEM Specific Configuration</title>
           <para>
             The following three actions allow you to change some
@@ -170,27 +225,27 @@
             SAP 2012 mode.
           </para>
           <para>
-            <xref linkend="ref.action.set-site-exposure"/> puts a house
-            in an exposure category. This maps to a multiplier to its
-            infiltration rate.
+            =ref.action.set-site-exposure= puts a house in an exposure
+            category. This maps to a multiplier to its infiltration
+            rate.
           </para>
           <para>
-            <xref linkend="ref.action.set-interzone-specific-heat-transfer"/>
-            sets the rate of heat transfer from the main living area of
-            the house to the rest of the house.
+            =ref.action.set-interzone-specific-heat-transfer= sets the
+            rate of heat transfer from the main living area of the house
+            to the rest of the house.
           </para>
           <para>
-            <xref linkend="ref.action.reduced-internal-gains"/> enables
-            reduced internal gains for that house. This is supposed to
-            apply to modern houses.
+            =ref.action.reduced-internal-gains= enables reduced internal
+            gains for that house. This is supposed to apply to modern
+            houses.
           </para>
           <para>
-            <xref linkend="ref.action.set-thermal-bridging-factor"/> is
-            multiplied by the external area of the ddwelling to
-            calculate the thermal bridging heat loss rate.
+            =ref.action.set-thermal-bridging-factor= is multiplied by
+            the external area of the ddwelling to calculate the thermal
+            bridging heat loss rate.
           </para>
         </sect4>
-        <sect4 id="switch-energy-calculator-modes">
+        <sect4>
           <title>Switch Energy Calculator Modes</title>
           <para>
             The <xref linkend="ref.scenario"/> element now has an
@@ -206,13 +261,12 @@
             calculator mode.
           </para>
         </sect4>
-        <sect4 id="heat-loss-intermediate-calculations">
+        <sect4>
           <title>Heat Loss Intermediate Calculations</title>
           <para>
-            <xref linkend="ref.house.heat-loss"/> has now has an
-            optional (unnamed) parameter which allows you to look at
-            specific heat-loss due to
-            <emphasis>ThermalBridging</emphasis>,
+            =ref.house.heat-loss= has now has an optional (unnamed)
+            parameter which allows you to look at specific heat-loss due
+            to <emphasis>ThermalBridging</emphasis>,
             <emphasis>Infiltration</emphasis> or
             <emphasis>Fabric</emphasis>.
           </para>
@@ -224,9 +278,9 @@
           </para>
         </sect4>
       </sect3>
-      <sect3 id="removed-features">
+      <sect3>
         <title>Removed Features</title>
-        <sect4 id="solar-pv">
+        <sect4>
           <title>Solar PV</title>
           <para>
             We have removed <emphasis>roof-coverage</emphasis> and
@@ -236,7 +290,7 @@
             peak power rating of the installation measured in kW.
           </para>
         </sect4>
-        <sect4 id="responsiveness">
+        <sect4>
           <title>Responsiveness</title>
           <para>
             The <literal>scale.responsiveness</literal> action has been
@@ -250,17 +304,17 @@
             is always relevant.
           </para>
         </sect4>
-        <sect4 id="thermal-mass">
+        <sect4>
           <title>Thermal Mass</title>
           <para>
             The NHM now uses a simplified method for calculating the
             thermal mass of a dwelling.
           </para>
           <para>
-            <literal>wall.k-value</literal> has been removed.
+            =wall.k-value= has been removed.
           </para>
           <para>
-            <xref linkend="ref.action.reset-floors"/>,
+            =ref.action.reset-floors=,
             <xref linkend="ref.action.reset-walls"/> and
             <xref linkend="ref.action.reset-roofs"/> have had their
             <emphasis>k-value</emphasis> and
@@ -268,7 +322,7 @@
           </para>
         </sect4>
       </sect3>
-      <sect3 id="semantic-changes">
+      <sect3>
         <title>Semantic Changes</title>
         <para>
           A number of actions in the NHM are designed for tweaking
@@ -314,11 +368,11 @@
         </itemizedlist>
       </sect3>
     </sect2>
-    <sect2 id="version-6.4.0">
+    <sect2>
       <title>Version 6.4.0</title>
-      <sect3 id="bugs-fixed-2">
+      <sect3>
         <title>Bugs fixed</title>
-        <sect4 id="flags-and-reports-work-on-def-action">
+        <sect4>
           <title>Flags and reports work on def-action</title>
           <para>
             If an action was used at the top level of a
@@ -330,7 +384,7 @@
             flags, or perform reporting.
           </para>
         </sect4>
-        <sect4 id="mistake-with-hypotheses">
+        <sect4>
           <title>Mistake with hypotheses</title>
           <para>
             In certain fairly rare conditions, the
@@ -340,7 +394,7 @@
             has been remedied.
           </para>
         </sect4>
-        <sect4 id="improvements-to-the-manual">
+        <sect4>
           <title>Improvements to the manual</title>
           <itemizedlist spacing="compact">
             <listitem>
@@ -359,9 +413,9 @@
           </itemizedlist>
         </sect4>
       </sect3>
-      <sect3 id="new-features-4">
+      <sect3>
         <title>New features</title>
-        <sect4 id="multiple-stocks">
+        <sect4>
           <title>Multiple stocks</title>
           <para>
             You can now specify multiple stocks in a scenario by
@@ -374,7 +428,7 @@
             work with stocks for multiple countries.
           </para>
         </sect4>
-        <sect4 id="automatic-use-of-filter">
+        <sect4>
           <title>Automatic use of <literal>filter</literal></title>
           <para>
             It is now possible to write logical tests in any place where
@@ -388,7 +442,7 @@
             have to write it out in full.
           </para>
         </sect4>
-        <sect4 id="addition-of-fail-unless">
+        <sect4>
           <title>Addition of <literal>fail-unless</literal></title>
           <para>
             The <xref linkend="ref.fail-unless"/> command has been
@@ -397,11 +451,11 @@
         </sect4>
       </sect3>
     </sect2>
-    <sect2 id="version-6.3.2">
+    <sect2>
       <title>Version 6.3.2</title>
-      <sect3 id="bugs-fixed-3">
+      <sect3>
         <title>Bugs fixed</title>
-        <sect4 id="batch-reports-work-properly-in-the-desktop-application">
+        <sect4>
           <title>Batch reports work properly in the desktop
           application</title>
           <para>
@@ -412,11 +466,11 @@
         </sect4>
       </sect3>
     </sect2>
-    <sect2 id="version-6.3.1">
+    <sect2>
       <title>Version 6.3.1</title>
-      <sect3 id="bugs-fixed-4">
+      <sect3>
         <title>Bugs Fixed</title>
-        <sect4 id="summer-boiler-efficiencies">
+        <sect4>
           <title>Summer Boiler Efficiencies</title>
           <para>
             Changed the default summer boiler efficiency to -10% (10%
@@ -429,9 +483,9 @@
           </para>
         </sect4>
       </sect3>
-      <sect3 id="new-features-5">
+      <sect3>
         <title>New Features</title>
-        <sect4 id="choose-how-to-weight-your-stock.">
+        <sect4>
           <title>Choose how to weight your stock.</title>
           <para>
             <xref linkend="ref.scenario"/> now has a field
@@ -452,9 +506,9 @@
           </para>
         </sect4>
       </sect3>
-      <sect3 id="semantic-changes-1">
+      <sect3>
         <title>Semantic Changes</title>
-        <sect4 id="stock-weights-are-now-decimals">
+        <sect4>
           <title>Stock weights are now decimals</title>
           <para>
             Previously, you could input the dwelling case weight and
@@ -467,15 +521,15 @@
         </sect4>
       </sect3>
     </sect2>
-    <sect2 id="version-6.3.0">
+    <sect2>
       <title>Version 6.3.0</title>
       <para>
         These are fixes relating to
         <ulink url="https://cseresearch.atlassian.net/browse/EXS-108">EXS-108</ulink>.
       </para>
-      <sect3 id="bugs-fixed-5">
+      <sect3>
         <title>Bugs Fixed</title>
-        <sect4 id="space-heating-systems-used-the-total-hot-water-fraction">
+        <sect4>
           <title>Space heating systems used the total hot water
           fraction</title>
           <para>
@@ -486,9 +540,9 @@
           </para>
         </sect4>
       </sect3>
-      <sect3 id="obsolete-features">
+      <sect3>
         <title>Obsolete Features</title>
-        <sect4 id="point-of-use-hot-water">
+        <sect4>
           <title>Point-of-use-hot-water</title>
           <para>
             <xref linkend="ref.measure.point-of-use-hot-water"/> is now
@@ -499,9 +553,9 @@
           </para>
         </sect4>
       </sect3>
-      <sect3 id="semantic-changes-2">
+      <sect3>
         <title>Semantic Changes</title>
-        <sect4 id="space-heating-fraction-is-now-derived">
+        <sect4>
           <title>Space heating fraction is now derived</title>
           <para>
             The space heating fractions are now derived according to SAP
@@ -547,7 +601,7 @@
             Appendix N.
           </para>
         </sect4>
-        <sect4 id="removed-concept-of-water-heating-fraction">
+        <sect4>
           <title>Removed concept of water heating fraction</title>
           <para>
             SAP 2009 does not have a concept of a water heating
@@ -558,7 +612,7 @@
             implemented.
           </para>
         </sect4>
-        <sect4 id="automatic-behaviour-when-breaking-the-boiler">
+        <sect4>
           <title>Automatic behaviour when breaking the boiler</title>
           <para>
             <xref linkend="ref.measure.break-boiler"/> no longer
@@ -568,7 +622,7 @@
             heating systems as specified by SAP 2009.
           </para>
         </sect4>
-        <sect4 id="removed-backup-property-from-room-heaters">
+        <sect4>
           <title>Removed backup property from room heaters</title>
           <para>
             <xref linkend="ref.measure.room-heater"/> no longer has a
@@ -579,7 +633,7 @@
             remove it.
           </para>
         </sect4>
-        <sect4 id="removed-scale.efficiency">
+        <sect4>
           <title>Removed scale.efficiency</title>
           <para>
             <literal>scale.efficiency</literal> has been removed from
@@ -590,7 +644,7 @@
             efficiency numbers (winter and summer).
           </para>
         </sect4>
-        <sect4 id="explicit-winter-and-summer-efficiency-for-boilers">
+        <sect4>
           <title>Explicit winter and summer efficiency for
           boilers</title>
           <para>
@@ -623,7 +677,7 @@
             dataset.
           </para>
         </sect4>
-        <sect4 id="renamed-measure.change-boiler-efficiency">
+        <sect4>
           <title>Renamed measure.change-boiler-efficiency</title>
           <para>
             <literal>measure.change-boiler-efficiency</literal> has been
@@ -648,7 +702,7 @@
             heaters which are not boilers.
           </para>
         </sect4>
-        <sect4 id="house.heating-efficiency-changes">
+        <sect4>
           <title>house.heating-efficiency changes</title>
           <para>
             <xref linkend="ref.house.heating-efficiency"/> now has an
@@ -673,11 +727,11 @@
         </sect4>
       </sect3>
     </sect2>
-    <sect2 id="version-6.2.2-8th-october-2015">
+    <sect2>
       <title>Version 6.2.2 [8th October 2015]</title>
-      <sect3 id="bugs-fixed-6">
+      <sect3>
         <title>Bugs Fixed</title>
-        <sect4 id="house.all-walls-matched-all-houses">
+        <sect4>
           <title>house.all-walls matched all houses</title>
           <para>
             A mistake in the code for
@@ -685,7 +739,7 @@
             in all cases. This bug has now been removed.
           </para>
         </sect4>
-        <sect4 id="house.sum-transactions-case-sensitivity">
+        <sect4>
           <title>house.sum-transactions case-sensitivity</title>
           <para>
             The <xref linkend="ref.house.sum-transactions"/> function
@@ -703,7 +757,7 @@
             case-insensitive).
           </para>
         </sect4>
-        <sect4 id="transaction-tags-reference-includes-capex">
+        <sect4>
           <title>Transaction tags reference includes capex</title>
           <para>
             The automatically generated list of all default transaction
@@ -712,9 +766,9 @@
           </para>
         </sect4>
       </sect3>
-      <sect3 id="new-features-6">
+      <sect3>
         <title>New features</title>
-        <sect4 id="improvement-to-select.weighted">
+        <sect4>
           <title>Improvement to
           <literal>select.weighted</literal></title>
           <para>
@@ -725,7 +779,7 @@
             <literal>weight:</literal> keyword.
           </para>
         </sect4>
-        <sect4 id="easier-date-specification">
+        <sect4>
           <title>Easier date specification</title>
           <para>
             As many of the dates written in scenarios are annual, you
@@ -743,7 +797,7 @@
             <literal>2014..2020</literal>.
           </para>
         </sect4>
-        <sect4 id="improvement-to-ref.house.sum-transactions-ref.net-cost-ref.predict-obligations-and-other-transaction-related-functions">
+        <sect4>
           <title>Improvement to
           <xref linkend="ref.house.sum-transactions"/>,
           <xref linkend="ref.net-cost"/>,
@@ -758,9 +812,9 @@
           </para>
         </sect4>
       </sect3>
-      <sect3 id="semantic-changes-3">
+      <sect3>
         <title>Semantic changes</title>
-        <sect4 id="changes-to-built-in-tags">
+        <sect4>
           <title>Changes to built-in tags</title>
           <para>
             In previous versions, all built-in transaction tags started
@@ -774,11 +828,11 @@
         </sect4>
       </sect3>
     </sect2>
-    <sect2 id="version-6.2.1-not-published">
+    <sect2>
       <title>Version 6.2.1 [Not published]</title>
-      <sect3 id="bugs-fixed-7">
+      <sect3>
         <title>Bugs Fixed</title>
-        <sect4 id="stock-import-not-using-draught-stripped-proportion">
+        <sect4>
           <title>Stock import not using draught stripped
           proportion</title>
           <para>
@@ -791,15 +845,15 @@
         </sect4>
       </sect3>
     </sect2>
-    <sect2 id="version-6.2.0-not-published">
+    <sect2>
       <title>Version 6.2.0 [Not published]</title>
       <para>
         This version was not published, and only exists for technical
         reasons of little interest.
       </para>
-      <sect3 id="new-features-7">
+      <sect3>
         <title>New features</title>
-        <sect4 id="more-useful-handling-of-electricity-as-a-fuel">
+        <sect4>
           <title>More useful handling of <literal>Electricity</literal>
           as a fuel</title>
           <para>
@@ -835,9 +889,9 @@
           </para>
         </sect4>
       </sect3>
-      <sect3 id="semantic-changes-4">
+      <sect3>
         <title>Semantic changes</title>
-        <sect4 id="change-to-electricity-handling-in-ref.house.fuel-cost-ref.house.energy-use-and-ref.house.emissions">
+        <sect4>
           <title>Change to <literal>Electricity</literal> handling in
           <xref linkend="ref.house.fuel-cost"/>,
           <xref linkend="ref.house.energy-use"/> and
@@ -857,11 +911,11 @@
         </sect4>
       </sect3>
     </sect2>
-    <sect2 id="version-6.1.0-30th-july-2015">
+    <sect2>
       <title>Version 6.1.0 [30th July 2015]</title>
-      <sect3 id="new-features-8">
+      <sect3>
         <title>New Features</title>
-        <sect4 id="addition-of-ref.house.flags-and-extension-of-flag-matching">
+        <sect4>
           <title>Addition of <xref linkend="ref.house.flags"/> and
           extension of flag matching</title>
           <para>
@@ -887,7 +941,7 @@
             related element for more details.
           </para>
         </sect4>
-        <sect4 id="addition-of-ref.house.has-solar-photovoltaic">
+        <sect4>
           <title>Addition of
           <xref linkend="ref.house.has-solar-photovoltaic"/></title>
           <para>
@@ -897,7 +951,7 @@
             request from DECC central modelling.
           </para>
         </sect4>
-        <sect4 id="improved-performance-for-loans">
+        <sect4>
           <title>Improved performance for loans</title>
           <para>
             The model's performance when simulating many loans should
@@ -907,7 +961,7 @@
             loans.
           </para>
         </sect4>
-        <sect4 id="change-to-the-handling-of-build-year-in-stocks">
+        <sect4>
           <title>Change to the handling of build year in stocks</title>
           <para>
             In response to JIRA request EXS-43 the way dwellings are
@@ -922,7 +976,7 @@
             dwellings are constructed.
           </para>
         </sect4>
-        <sect4 id="amendment-to-ref.summarize">
+        <sect4>
           <title>Amendment to <xref linkend="ref.summarize"/></title>
           <para>
             The <xref linkend="ref.summarize"/> command now allows the
@@ -934,9 +988,9 @@
           </para>
         </sect4>
       </sect3>
-      <sect3 id="semantic-changes-5">
+      <sect3>
         <title>Semantic changes</title>
-        <sect4 id="change-to-the-handling-of-build-year-in-stocks-1">
+        <sect4>
           <title>Change to the handling of build year in stocks</title>
           <para>
             Because cases from the stock now only appear in the
@@ -950,9 +1004,9 @@
           </para>
         </sect4>
       </sect3>
-      <sect3 id="bugs-fixed-8">
+      <sect3>
         <title>Bugs fixed</title>
-        <sect4 id="error-in-repeat-removed">
+        <sect4>
           <title>Error in <literal>repeat</literal> removed</title>
           <para>
             In previous versions the <xref linkend="ref.repeat"/>
@@ -966,11 +1020,11 @@
         </sect4>
       </sect3>
     </sect2>
-    <sect2 id="version-6.0.0-8th-june-2015">
+    <sect2>
       <title>Version 6.0.0 [8th June 2015]</title>
-      <sect3 id="semantic-changes-6">
+      <sect3>
         <title>Semantic changes</title>
-        <sect4 id="change-to-random-number-generation">
+        <sect4>
           <title>Change to random number generation</title>
           <para>
             Unfortunately the mechanism introduced to support repeatable
@@ -989,7 +1043,7 @@
             scenarios.
           </para>
         </sect4>
-        <sect4 id="stricter-validation-of-ref.lookup-and-lookup-table">
+        <sect4>
           <title>Stricter validation of <xref linkend="ref.lookup"/>
           and <literal>lookup-table</literal></title>
           <para>
@@ -1010,7 +1064,7 @@
             scenario.
           </para>
         </sect4>
-        <sect4 id="stricter-validation-of-ref.is">
+        <sect4>
           <title>Stricter validation of
           <xref linkend="ref.is"/></title>
           <para>
@@ -1027,7 +1081,7 @@
             development of RHI scenarios caused by its lack.
           </para>
         </sect4>
-        <sect4 id="defaults-in-ref.context.carbon-factors">
+        <sect4>
           <title>Defaults in
           <xref linkend="ref.context.carbon-factors"/></title>
           <para>
@@ -1038,9 +1092,9 @@
             would be entirely replaced. For example, writing
           </para>
           <programlisting language="commonlisp">
-(context.carbon-factors
- (group fuels:PeakElectricity
-        carbon-factor: 0.5))
+  (context.carbon-factors
+   (group fuels:PeakElectricity
+          carbon-factor: 0.5))
 </programlisting>
           <para>
             would set the <literal>PeakElectricity</literal> factor to
@@ -1054,7 +1108,7 @@
             a scenario developed by the CCC.
           </para>
         </sect4>
-        <sect4 id="restricted-precision-in-efficiencies">
+        <sect4>
           <title>Restricted precision in efficiencies</title>
           <para>
             The precision with which efficiencies are represented has
@@ -1066,7 +1120,7 @@
             to run.
           </para>
         </sect4>
-        <sect4 id="reduced-precision-for-energy-use-and-carbon-emissions">
+        <sect4>
           <title>Reduced precision for energy use and carbon
           emissions</title>
           <para>
@@ -1087,9 +1141,9 @@
           </para>
         </sect4>
       </sect3>
-      <sect3 id="new-features-9">
+      <sect3>
         <title>New features</title>
-        <sect4 id="hybrid-heat-pumps-and-gas-heat-pumps">
+        <sect4>
           <title>Hybrid Heat Pumps and Gas Heat Pumps</title>
           <para>
             The model's representation of heat pumps has been changed to
@@ -1175,7 +1229,7 @@
             These changes were added to aid modelling the RHI.
           </para>
         </sect4>
-        <sect4 id="opimisation-with-the-ref.in-order-element">
+        <sect4>
           <title>Opimisation with the <xref linkend="ref.in-order"/>
           element</title>
           <para>
@@ -1192,7 +1246,7 @@
             analysis of the fifth carbon budget.
           </para>
         </sect4>
-        <sect4 id="defining-supply-chains-with-the-ref.consume-command">
+        <sect4>
           <title>Defining supply chains with the
           <xref linkend="ref.consume"/> command</title>
           <para>
@@ -1212,7 +1266,7 @@
             analysis of the fifth carbon budget.
           </para>
         </sect4>
-        <sect4 id="computing-expected-future-values-like-present-cost-with-ref.future-value-ref.exponential-discount-and-ref.house.annual-cost">
+        <sect4>
           <title>Computing expected future values (like present cost)
           with <xref linkend="ref.future-value"/>,
           <xref linkend="ref.exponential-discount"/> and
@@ -1258,13 +1312,13 @@
             the calculation should or should not be predictable.
           </para>
         </sect4>
-        <sect4 id="predicting-annual-costs-with-ref.house.annual-cost">
+        <sect4>
           <title>Predicting annual costs with
           <xref linkend="ref.house.annual-cost"/></title>
           <para>
           </para>
         </sect4>
-        <sect4 id="newly-named-ref.capital-cost-and-ref.net-cost">
+        <sect4>
           <title>Newly named <xref linkend="ref.capital-cost"/> and
           <xref linkend="ref.net-cost"/></title>
           <para>
@@ -1276,7 +1330,7 @@
             Their documentation has also been improved.
           </para>
         </sect4>
-        <sect4 id="unified-reports-with-ref.def-report">
+        <sect4>
           <title>Unified reports with
           <xref linkend="ref.def-report"/></title>
           <para>
@@ -1292,12 +1346,12 @@
             model to report on a house. For example
           </para>
           <programlisting>
-(def-report my-report
-  (cut name:by-morphology MORPHOLOGY FORM)
+  (def-report my-report
+    (cut name:by-morphology MORPHOLOGY FORM)
 
-  (column name:ENERGY value: house.energy-use aggregates: [mean min max])
-  (column name:MORPHOLOGY value: house.morphology)
-  (column name:FORM value: house.built-form))
+    (column name:ENERGY value: house.energy-use aggregates: [mean min max])
+    (column name:MORPHOLOGY value: house.morphology)
+    (column name:FORM value: house.built-form))
 </programlisting>
           <para>
             Defines three outputs:
@@ -1330,8 +1384,8 @@
             To use the report, you can then write
           </para>
           <programlisting>
-(on.dates (regularly)
-          (apply (send-to-report my-report)))
+  (on.dates (regularly)
+            (apply (send-to-report my-report)))
 </programlisting>
           <para>
             This will update the disaggregated and aggregated outputs
@@ -1343,7 +1397,7 @@
             write:
           </para>
           <programlisting>
-(measure.wall-insulation type:cavity ... report: my-report)
+  (measure.wall-insulation type:cavity ... report: my-report)
 </programlisting>
           <para>
             This will log into the report before and after any house has
@@ -1387,7 +1441,7 @@
             such a command.
           </para>
         </sect4>
-        <sect4 id="consistent-heating-fuel-with-ref.house.heating-fuel">
+        <sect4>
           <title>Consistent heating fuel with
           <xref linkend="ref.house.heating-fuel"/></title>
           <para>
@@ -1405,7 +1459,7 @@
             mistakes in the development of RHI scenarios.
           </para>
         </sect4>
-        <sect4 id="addition-of-ref.round-function">
+        <sect4>
           <title>Addition of <xref linkend="ref.round"/>
           function</title>
           <para>
@@ -1416,7 +1470,7 @@
             without having ridiculous degrees of spurious precision.
           </para>
         </sect4>
-        <sect4 id="increased-memory-efficiency">
+        <sect4>
           <title>Increased memory efficiency</title>
           <para>
             To support modelling some RHI scenarios, various bits of the
@@ -1428,9 +1482,9 @@
           </para>
         </sect4>
       </sect3>
-      <sect3 id="obsolete-features-1">
+      <sect3>
         <title>Obsolete features</title>
-        <sect4 id="categorical-function-ref.house.main-heating-fuel">
+        <sect4>
           <title>Categorical function
           <xref linkend="ref.house.main-heating-fuel"/></title>
           <para>
@@ -1441,7 +1495,7 @@
             be phased out.
           </para>
         </sect4>
-        <sect4 id="renaming-of-ref.cost.sum-and-ref.cost.capex">
+        <sect4>
           <title>Renaming of <xref linkend="ref.cost.sum"/> and
           <xref linkend="ref.cost.capex"/></title>
           <para>
@@ -1459,9 +1513,9 @@
           </para>
         </sect4>
       </sect3>
-      <sect3 id="bugs-removed">
+      <sect3>
         <title>Bugs removed</title>
-        <sect4 id="delayed-actions-are-no-longer-scheduled-if-they-are-in-a-hypothesis-which-does-not-succeed">
+        <sect4>
           <title>Delayed actions are no longer scheduled if they are in
           a hypothesis which does not succeed</title>
           <para>
@@ -1471,11 +1525,11 @@
             For example, writing
           </para>
           <programlisting>
-(under
- (action.delayed
-  action: (measure.wall-insulation)
-  delay: &quot;0 seconds&quot;)
- evaluate:1)
+  (under
+   (action.delayed
+    action: (measure.wall-insulation)
+    delay: &quot;0 seconds&quot;)
+   evaluate:1)
 </programlisting>
           <para>
             Would cause the house to get wall insulation, even though
@@ -1485,9 +1539,9 @@
         </sect4>
       </sect3>
     </sect2>
-    <sect2 id="version-5.1.4-march-2015">
+    <sect2>
       <title>Version 5.1.4 [March 2015]</title>
-      <sect3 id="semantic-changes-7">
+      <sect3>
         <title>Semantic Changes</title>
         <itemizedlist spacing="compact">
           <listitem>
@@ -1512,9 +1566,9 @@
           </listitem>
         </itemizedlist>
       </sect3>
-      <sect3 id="new-features-10">
+      <sect3>
         <title>New Features</title>
-        <sect4 id="addition-of-ref.scheduling.repeat">
+        <sect4>
           <title>Addition of
           <xref linkend="ref.scheduling.repeat"/></title>
           <para>
@@ -1535,7 +1589,7 @@
             taken up.
           </para>
         </sect4>
-        <sect4 id="stricter-validation-of-insulation-measures">
+        <sect4>
           <title>Stricter validation of insulation measures</title>
           <para>
             All the insulation measures have been modified so that they
@@ -1556,9 +1610,9 @@
           </para>
         </sect4>
       </sect3>
-      <sect3 id="bugs-removed-1">
+      <sect3>
         <title>Bugs removed</title>
-        <sect4 id="mistake-in-ref.decrease">
+        <sect4>
           <title>Mistake in <xref linkend="ref.decrease"/></title>
           <para>
             In previous versions, the implementation of decrease was
@@ -1569,11 +1623,11 @@
         </sect4>
       </sect3>
     </sect2>
-    <sect2 id="version-5.1.3">
+    <sect2>
       <title>Version 5.1.3</title>
-      <sect3 id="language-changes">
+      <sect3>
         <title>Language Changes</title>
-        <sect4 id="improvement-of-interpolate">
+        <sect4>
           <title>Improvement of <literal>interpolate</literal></title>
           <para>
             The <xref linkend="ref.interpolate"/> function has been
@@ -1591,7 +1645,7 @@
             modelling the RHI.
           </para>
         </sect4>
-        <sect4 id="improvement-of-finance.with-loan">
+        <sect4>
           <title>Improvement of
           <literal>finance.with-loan</literal></title>
           <para>
@@ -1605,7 +1659,7 @@
             These changes were required for modelling the RHI.
           </para>
         </sect4>
-        <sect4 id="change-to-definition-of-npv">
+        <sect4>
           <title>Change to definition of NPV</title>
           <para>
             <xref linkend="ref.npv"/> has been redefined so that the
@@ -1626,18 +1680,18 @@
         </sect4>
       </sect3>
     </sect2>
-    <sect2 id="version-5.1.2">
+    <sect2>
       <title>Version 5.1.2</title>
       <para>
         This version number was skipped for reasons to boring to
         describe.
       </para>
     </sect2>
-    <sect2 id="version-5.1.1">
+    <sect2>
       <title>Version 5.1.1</title>
-      <sect3 id="language-changes-1">
+      <sect3>
         <title>Language Changes</title>
-        <sect4 id="sequencing-of-probe-outputs">
+        <sect4>
           <title>Sequencing of probe outputs</title>
           <para>
             Probe elements behaviour has been changed so that report
@@ -1650,7 +1704,7 @@
             the report.
           </para>
         </sect4>
-        <sect4 id="improvement-of-solar-pv-model">
+        <sect4>
           <title>Improvement of solar PV model</title>
           <para>
             The solar photovoltaic model now distinguishes between
@@ -1662,7 +1716,7 @@
             electricity.
           </para>
         </sect4>
-        <sect4 id="improvement-of-ref.action.remove-fuel-charge">
+        <sect4>
           <title>Improvement of
           <xref linkend="ref.action.remove-fuel-charge"/></title>
           <para>
@@ -1676,7 +1730,7 @@
             score.
           </para>
         </sect4>
-        <sect4 id="addition-of-random-number-state-to-sequence-report">
+        <sect4>
           <title>Addition of random number state to sequence
           report</title>
           <para>
@@ -1687,7 +1741,7 @@
             diverged.
           </para>
         </sect4>
-        <sect4 id="improvements-to-include-and-module">
+        <sect4>
           <title>Improvements to include and ~module</title>
           <para>
             To help with the creation of reusable modules, a new include
@@ -1709,14 +1763,14 @@
             following
           </para>
           <programlisting language="commonlisp">
-(~module M
-      (template T [] /my-identifier))
+    (~module M
+          (template T [] /my-identifier))
 </programlisting>
           <para>
             is equivalent to
           </para>
           <programlisting language="commonlisp">
-(template M/T [] M/my-identifier)
+    (template M/T [] M/my-identifier)
 </programlisting>
           <para>
             This special handling also applies to names starting with
@@ -1725,7 +1779,7 @@
             after the punctuation.
           </para>
         </sect4>
-        <sect4 id="in-scenario-assertions-added">
+        <sect4>
           <title>In-scenario assertions added</title>
           <para>
             To make it easier to check scenarios are working as
@@ -1739,7 +1793,7 @@
             they fail.
           </para>
         </sect4>
-        <sect4 id="house.insolation-element-added">
+        <sect4>
           <title>house.insolation element added</title>
           <para>
             <xref linkend="ref.house.insolation"/> is a new element
@@ -1752,7 +1806,7 @@
             implement the MCS methodology for sizing solar thermal.
           </para>
         </sect4>
-        <sect4 id="house.air-change-rate-added">
+        <sect4>
           <title>house.air-change-rate added</title>
           <para>
             <xref linkend="ref.house.air-change-rate"/> is a new
@@ -1760,14 +1814,14 @@
             prediction of the air change rate within a house.
           </para>
         </sect4>
-        <sect4 id="house.volume-added">
+        <sect4>
           <title>house.volume added</title>
           <para>
             <xref linkend="ref.house.volume"/> is a new element which
             provides the volume of a house in cubic metres.
           </para>
         </sect4>
-        <sect4 id="house.heat-load-added">
+        <sect4>
           <title>house.heat-load added</title>
           <para>
             <xref linkend="ref.house.heat-load"/> is a new element
@@ -1775,7 +1829,7 @@
             to support modelling the RHI.
           </para>
         </sect4>
-        <sect4 id="simpler-referencing">
+        <sect4>
           <title>Simpler referencing</title>
           <para>
             In previous versions of the NHM, references to previously
@@ -1786,7 +1840,7 @@
             still supported.
           </para>
         </sect4>
-        <sect4 id="improved-error-messages">
+        <sect4>
           <title>Improved error messages</title>
           <para>
             The error messages associated with some common scenario
@@ -1794,7 +1848,7 @@
             the error.
           </para>
         </sect4>
-        <sect4 id="bounds-checking-on-values-calculated-at-runtime">
+        <sect4>
           <title>Bounds checking on values calculated at runtime</title>
           <para>
             Most values which are computed at runtime are now
@@ -1806,7 +1860,7 @@
             will be clamped to zero.
           </para>
         </sect4>
-        <sect4 id="profiling-information">
+        <sect4>
           <title>Profiling information</title>
           <para>
             The top-level scenario element now has an argument
@@ -1817,7 +1871,7 @@
             to run.
           </para>
         </sect4>
-        <sect4 id="multiple-value-set-with-counterfactuals">
+        <sect4>
           <title>Multiple-value set, with counterfactuals</title>
           <para>
             The <literal>set</literal> action can now set multiple
@@ -1829,16 +1883,16 @@
             assumptions:
           </para>
           <programlisting language="commonlisp">
-(set
-      [mains-gas electricity]
-      [(house.energy-use by-fuel:mainsgas) (house.energy-use by-fuel:peakelectricity)]
-      under:(my-assumptions-template))
+    (set
+          [mains-gas electricity]
+          [(house.energy-use by-fuel:mainsgas) (house.energy-use by-fuel:peakelectricity)]
+          under:(my-assumptions-template))
 </programlisting>
         </sect4>
       </sect3>
-      <sect3 id="bugs-fixed-9">
+      <sect3>
         <title>Bugs Fixed</title>
-        <sect4 id="uninsulated-lofts-imported-correctly">
+        <sect4>
           <title>Uninsulated lofts imported correctly</title>
           <para>
             An oversight in the stock import code which meant that only
@@ -1850,7 +1904,7 @@
             dwellings suitable for loft insulation in most stocks.
           </para>
         </sect4>
-        <sect4 id="non-determinism-eliminated">
+        <sect4>
           <title>Non-determinism eliminated</title>
           <para>
             A programming error which produced a very occasional
@@ -1858,7 +1912,7 @@
             total repeatability of pseudorandom model behaviour.
           </para>
         </sect4>
-        <sect4 id="validation-faults-corrected">
+        <sect4>
           <title>Validation faults corrected</title>
           <para>
             A fault in <literal>set</literal> which broke the validator
@@ -1870,7 +1924,7 @@
             informative.
           </para>
         </sect4>
-        <sect4 id="energy-calculation-ventilation-effects-corrected">
+        <sect4>
           <title>Energy calculation ventilation effects
           corrected</title>
           <para>
@@ -1896,7 +1950,7 @@
         </sect4>
       </sect3>
     </sect2>
-    <sect2 id="previous-versions">
+    <sect2>
       <title>Previous versions</title>
       <para>
         This changelog ends here; there are changelogs for previous
@@ -1905,12 +1959,12 @@
       </para>
     </sect2>
   </sect1>
-  <sect1 id="future-features">
+  <sect1>
     <title>Future features</title>
     <para>
       These are features which have been requested for future versions.
     </para>
-    <sect2 id="commands-to-create-houses-from-archetypes">
+    <sect2>
       <title>Commands to create houses from archetypes</title>
       <para>
         At the moment houses can be copied with
