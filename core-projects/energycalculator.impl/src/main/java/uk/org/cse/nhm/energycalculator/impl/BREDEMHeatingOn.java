@@ -44,11 +44,13 @@ public class BREDEMHeatingOn {
 		/*
 		BEISDOC
 		NAME: BREDEM Heating on Factor
-		DESCRIPTION: The fraction of the month which is heated. Calculated by subtracting the number of degree days at threshold -0.5 from those at threshold +0.5.
+		DESCRIPTION: The fraction of gains which should be multiplied by the gains utilisation factor (the remaining gains are used unmodified). Calculated by subtracting the number of degree days at threshold -0.5 from those at threshold +0.5.
 		TYPE: formula
 		UNIT: Dimensionless
 		BREDEM: 8H
 		DEPS: threshold-degree-days
+		NOTES: Despite the name, this value does not directly affect whether or not the heating is on.
+		NOTES: Also known as the fraction of month heated.
 		ID: bredem-heating-on-factor
 		CODSIEB
 		*/

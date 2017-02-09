@@ -92,16 +92,6 @@ public class SAPSeasonalParameters extends SeasonalParameters {
 	@Override
 	public double getHeatingOnFactor(final IInternalParameters parameters, final ISpecificHeatLosses losses,
 			final double revisedGains, final double[] demandTemperature) {
-		/*
-		 BEISDOC
-		 NAME: SAP Heating on Factor
-		 DESCRIPTION: 1 if this is a heating month (October to May), otherwise 0.
-		 TYPE: formula
-		 UNIT: Dimensionless
-		 SAP: (98 - exclusion of columns which should not be filled in)
-		 ID: sap-heating-on-factor
-		 CODSIEB
-		 */
 		return 1;
 	}
 }

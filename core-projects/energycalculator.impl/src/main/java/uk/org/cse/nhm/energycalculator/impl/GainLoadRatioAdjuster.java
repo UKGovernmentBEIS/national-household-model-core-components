@@ -116,12 +116,12 @@ class GainLoadRatioAdjuster implements IEnergyTransducer {
 		/*
 		BEISDOC
 		NAME: Heat Demand
-		DESCRIPTION: The heat demand for the month, after the heating on factor is accounted for.
+		DESCRIPTION: The heat demand for the month
 		TYPE: formula
 		UNIT: W
 		SAP: (98)
 		BREDEM: 8I
-		DEPS: sap-heating-on-factor,bredem-heating-on-factor,heat-loss-at-mean-internal-temperature
+		DEPS: bredem-heating-on-factor,heat-loss-at-mean-internal-temperature
 		ID: heat-demand
 		CODSIEB
 		*/
