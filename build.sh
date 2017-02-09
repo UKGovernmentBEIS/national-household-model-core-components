@@ -100,7 +100,7 @@ gradle () {
 
 ask () {
     read -r -p "$1? [y/N]" response
-    [[ "$response" =~ "^y|Y" ]]
+    [[ "$response" =~ ^y|Y ]]
 }
 
 if [ ${steps["release"]} == 1 ] ; then
@@ -155,7 +155,7 @@ if [ ${steps["docs"]} == 1 ]; then
     popd
 else
     green "Skip documentation"
-    
+
 fi
 
 
