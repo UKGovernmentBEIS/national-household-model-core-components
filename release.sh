@@ -37,7 +37,8 @@ add_model_dependency_to_ide () {
                    -i //NewImport -t attr -n version -v "$1" \
                    -i //NewImport -t attr -n match -v equivalent \
                    -r //NewImport -v import\
-                   feature.xml
+                   feature.xml > feature.xml.updated
+        mv feature.xml.updated feature.xml
     fi
     popd
 }
@@ -78,7 +79,7 @@ if [[ "$VER" =~ $RE ]]; then
     green "Going to next version"
     set_documentation_version "${NEXTVER}-SNAPSHOT"
     add_model_dependency_to_ide "${NEXTVER}"
-    do_commit "Starting work on ${NEXTVER}" "v-${NEWVER}-alpha"
+    do_commit "Starting work on ${NEXTVER}" "v-${NEXTVER}-alpha"
 
     ask "Push these changes" || exit 1
 
