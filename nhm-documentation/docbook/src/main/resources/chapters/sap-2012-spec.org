@@ -31,7 +31,7 @@ This section is not included in the export because it is in a comment block.
    Use a hypothetical action to evaluate some function with an alternative calculator for a house within the same scenario:
    #+BEGIN_SRC nhm
    (under
-    (energy-calculator SAP2012)
+    (counterfactual.energy-calculator SAP2012)
     evaluate: (house.energy-use))
    #+END_SRC
 

@@ -38,7 +38,7 @@
     </para>
     <programlisting>
 (under
- (energy-calculator SAP2012)
+ (counterfactual.energy-calculator SAP2012)
  evaluate: (house.energy-use))
 </programlisting>
     <para>
