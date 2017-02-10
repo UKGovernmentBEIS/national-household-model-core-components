@@ -22,6 +22,8 @@ set_documentation_version () {
     # although obviously we have to start java and all that.
     maven versions:set -DnewVersion="$1"
 
+    rm -f */pom.xml.versionsBackup pom.xml.versionsBackup
+
     popd
 }
 
@@ -37,7 +39,8 @@ add_model_dependency_to_ide () {
                    -i //NewImport -t attr -n version -v "$1" \
                    -i //NewImport -t attr -n match -v equivalent \
                    -r //NewImport -v import\
-                   feature.xml
+                   feature.xml > feature.xml.updated
+        mv feature.xml.updated feature.xml
     fi
     popd
 }
@@ -53,11 +56,19 @@ if [[ "$VER" =~ $RE ]]; then
     NOT_SNAPSHOT="${BASH_REMATCH[1]}"
 
     read -r -p "Version for release [${NOT_SNAPSHOT}]: " NEWVER
-    read -r -p "Subsequent version (omit snapshot): " NEXTVER
+    NEWVER="${NEWVER:-${NOT_SNAPSHOT}}"
+    MAJOR_VERSION=$(echo $NEWVER | cut -d. -f1,2)
+    MINOR_VERSION=$(echo $NEWVER | cut -d. -f3)
+    MINOR_VERSION=$(( MINOR_VERSION + 1 ))
+    SUGGESTED_NEXTVER=${MAJOR_VERSION}.${MINOR_VERSION}
+
+    read -r -p "Subsequent version (omit snapshot) [$SUGGESTED_NEXTVER]: " NEXTVER
+
+    NEXTVER="${NEXTVER:-${SUGGESTED_NEXTVER}}"
 
     [[ -z $NEXTVER ]] && { red "You need to give a next version"; exit 1; }
 
-    NEWVER="${NEWVER:-${NOT_SNAPSHOT}}"
+
     green "Updating to version ${NEWVER}"
 
     if ! grep -q "${NEWVER}" \
@@ -78,7 +89,7 @@ if [[ "$VER" =~ $RE ]]; then
     green "Going to next version"
     set_documentation_version "${NEXTVER}-SNAPSHOT"
     add_model_dependency_to_ide "${NEXTVER}"
-    do_commit "Starting work on ${NEXTVER}" "v-${NEWVER}-alpha"
+    do_commit "Starting work on ${NEXTVER}" "v-${NEXTVER}-alpha"
 
     ask "Push these changes" || exit 1
 

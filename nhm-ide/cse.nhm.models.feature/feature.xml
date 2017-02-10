@@ -1,32 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feature
-      id="cse.nhm.models.feature"
-      label="NHM Model Versions"
-      version="1.0.0.qualifier"
-      provider-name="CSE">
-
-   <description url="http://www.example.com/description">
+<feature id="cse.nhm.models.feature" label="NHM Model Versions" version="1.0.0.qualifier" provider-name="CSE">
+  <description url="http://www.example.com/description">
      Depends on the implementation bundles for the NHM and its manual. Installing this feature will allow the NHM user interface to run scenarios, validate, and provide help.
    </description>
-
-   <copyright url="http://www.example.com/copyright">
+  <copyright url="http://www.example.com/copyright">
      Copyright (C) DECC 2015
    </copyright>
-
-   <license url="http://www.example.com/license">
+  <license url="http://www.example.com/license">
      The license for the NHM core code belongs here.
    </license>
-
-   <requires>
-     <import plugin="uk.org.cse.nhm.bundle.impl" version="6.5.4" match="equivalent"/>     
-     <import plugin="uk.org.cse.nhm.bundle.impl" version="6.5.3" match="equivalent"/>
-     <import plugin="uk.org.cse.nhm.bundle.impl" version="6.5.2" match="equivalent"/>
-     <import plugin="uk.org.cse.nhm.bundle.impl" version="6.5.1" match="equivalent"/>
-     <import plugin="uk.org.cse.nhm.bundle.impl" version="6.5.0" match="equivalent"/>
-     <import plugin="uk.org.cse.nhm.bundle.impl" version="6.4.0" match="equivalent"/>
-     <import plugin="uk.org.cse.nhm.bundle.impl" version="6.3.2" match="equivalent"/>
-     <import plugin="uk.org.cse.nhm.bundle.impl" version="6.3.0" match="equivalent"/>
-     <import plugin="uk.org.cse.nhm.manual" version="0.0.0" match="greaterOrEqual" />
-   </requires>
-
+  <requires>
+    <import plugin="uk.org.cse.nhm.bundle.impl" version="6.5.4" match="equivalent"/>
+    <import plugin="uk.org.cse.nhm.bundle.impl" version="6.5.3" match="equivalent"/>
+    <import plugin="uk.org.cse.nhm.bundle.impl" version="6.5.2" match="equivalent"/>
+    <import plugin="uk.org.cse.nhm.bundle.impl" version="6.5.1" match="equivalent"/>
+    <import plugin="uk.org.cse.nhm.bundle.impl" version="6.5.0" match="equivalent"/>
+    <import plugin="uk.org.cse.nhm.bundle.impl" version="6.4.0" match="equivalent"/>
+    <import plugin="uk.org.cse.nhm.bundle.impl" version="6.3.2" match="equivalent"/>
+    <import plugin="uk.org.cse.nhm.bundle.impl" version="6.3.0" match="equivalent"/>
+    <import plugin="uk.org.cse.nhm.manual" version="0.0.0" match="greaterOrEqual"/>
+    <import plugin="uk.org.cse.nhm.bundle.impl" version="6.5.5" match="equivalent"/>
+    <import plugin="uk.org.cse.nhm.bundle.impl" version="6.5.6" match="equivalent"/>
+  </requires>
 </feature>
