@@ -29,7 +29,8 @@ class MultipartHelper implements AutoCloseable {
 		this.connection.setRequestProperty(CONTENT_TYPE,
                 "multipart/form-data; boundary=" + boundary);
 		this.stream = connection.getOutputStream();
-		this.writer = new PrintWriter(new OutputStreamWriter(stream), true);
+		this.writer = new PrintWriter(new OutputStreamWriter(stream, StandardCharsets.UTF_8),
+                                              true);
 	}
 	
 	void addBoundary() {
@@ -54,7 +55,9 @@ class MultipartHelper implements AutoCloseable {
 	
 	public void addField(final String name, final String value) {
 		addBoundary();
-		addHeader(CONTENT_DISPOSITION, "form-data", "name", name);
+		addHeader(CONTENT_DISPOSITION, "form-data",
+                          "name", name,
+                          CONTENT_TYPE, "text/plain; charset=utf-8");
 		writer.append(CRLF);
 		writer.append(value);
 		writer.append(CRLF);
