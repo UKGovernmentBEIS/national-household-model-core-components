@@ -1,3 +1,6 @@
+#+LaTeX_HEADER: \usepackage{parskip}
+#+LaTeX_HEADER: \usepackage{fullpage}
+
 #+STARTUP: content
 #+BEGIN_COMMENT
 This is the specification for the SAP/BREDEM 2012 energy calculator updated, written as an org-mode document, so that it is not frustrating to edit. However, we must also produce a docbook version, for the rest of the toolchain to consume.
@@ -204,7 +207,7 @@ This section is not included in the export because it is in a comment block.
 
 ** Appliances Base Energy
 
-   This is different between SAP and BREDEM, although the formula is otherwise the same.
+   This is a multiplier to the appliances formula. It is 23.705225 W in SAP and 21.081451 W BREDEM. The formula is otherwise the same.
 
 ** Thermal Bridging Coefficient
 
@@ -225,7 +228,7 @@ This section is not included in the export because it is in a comment block.
    after 2006 a suitable value would be 0.08.
    #+END_QUOTE
 
-   Note that there is a minor error with the specification of units in BREDEM 2012. The units for the /thermal bridge factor/ (should be W/m^2K) and the /thermal bridging loss/ (should be W/K) are reversed.
+   Note that there is a minor error with the specification of units in BREDEM 2012. The units for the /thermal bridge factor/ (should be W/m^2/K) and the /thermal bridging loss/ (should be W/K) are reversed.
 
 ** Degree Days vs Heating Months
 
@@ -261,13 +264,13 @@ This section is not included in the export because it is in a comment block.
 
    Removed =scale.responsiveness=, as it was a poorly designed action, and does not fit well with the new lookup table approach.
 
-   Removed the /of:/ property from =house.heating-responsiveness=, since only the responsiveness of the primary space heating system is always relevant.
+   Removed the /of:/ property from =house.heating-responsiveness=, since only the responsiveness of the primary space heating system has an effect.
 
    SAP 2012 defines responsiveness of heating systems in Tables 4a and 4d. BREDEM explicitly defers to SAP for responsiveness (see BREDEM 2012 Appendix B).
 
    Corrected the responsiveness values in the NHM to match that lookup for both energy calculator modes.
 
-   It is possible to set the responsiveness on =measure.storage-heating=. This is to allow for the modelling of improved modern storage heating. In SAP 2012 mode, this value is ignored.
+   It is possible to set the responsiveness on =measure.storage-heating=. This is to allow for the modelling of improved modern storage heating. In SAP 2012 mode, any changes to storage heating responsiveness made in the scenario are ignored.
 
    | System                          | Fuel            |               Responsiveness |
    |---------------------------------+-----------------+------------------------------|
@@ -318,9 +321,12 @@ This section is not included in the export because it is in a comment block.
 
    When you install a boiler measure, the efficiency source is always set to /ManufacturerDeclared/.
 
-   In the stock import, this value is set to TODO
+   In the stock import, this value is set based on /pcdbmatch/ from
+   /space-heating.csv/. This means that it will be /ManufacturerDeclared/ if we
+   found a match for it in the PCDB.
 
    This applies in both energy calculator modes.
+
 ** Thermal Mass
 
    SAP 2012 implements two thermal mass computations:
@@ -342,7 +348,7 @@ This section is not included in the export because it is in a comment block.
    | TImber                  | TimberFrame                             |
    | Other                   | Cob/Cavity/SystemBuild/MetalFrame       |
 
-   Internal and Party walls are not included in this calculation. Not are roofs or floors.
+   Internal and Party walls are not included in this calculation. Nor are roofs or floors.
 
    /k-values/ (thermal mass for fabric elements) have been removed from the imputation schema.
 
@@ -368,7 +374,7 @@ This section is not included in the export because it is in a comment block.
 
     You can control the number and type of doors in the stock import file /elevations.csv/. The size of each doors is decided by the imputation schema.
 
-    Doors are double glazed is the proportion of double glazing in the dwelling is > 0.5, and single glazed otherwise. (This method was chosen since a large number of dwellings have only 1 door, in which case it is a good approximation.)
+    Doors are double glazed if the proportion of double glazing in the dwelling is > 0.5, and single glazed otherwise. (This method was chosen since a large number of dwellings have only 1 door, in which case it is a good approximation.)
 
     Door glazing is air insulated (as with window glazing).
 
@@ -408,8 +414,6 @@ This section is not included in the export because it is in a comment block.
     The NHM uses the SAP method.
 
     The NHM provides ways to set the infiltration for a particular segment of wall in the stock import (imputation schema) and using =action.reset-walls=. In SAP 2012 mode, these are overridden with the SAP values.
-
-    (I missed this during the earlier specification phase, so you may want to give some extra thought to it.)
 
 *** Floors
 
@@ -490,6 +494,9 @@ This section is not included in the export because it is in a comment block.
    This is extra request EXS-193, which we decided would be a useful part of this update.
 
    In the stock import, /elevations.csv/ now has an /anglefromnorth/ field (specified in radians).
+
+   There was also a bug in the previous version of the NHM which made all dwellings face /North-East/, so dwellings are now getting more sunlight on average.
+
 ** Solar Flux Calculation
 
    The solar flux calculation has been updated to SAP 2012 equation (U3). This effects natural light, solar gains, solar water heating and solar PV.
@@ -528,9 +535,7 @@ This section is not included in the export because it is in a comment block.
 
    In SAP 2012 mode, will always use the heating schedule from Table 9.
 
-   This includes using the heating control type (Table 4e /Control/ column) to lookup the zone 2 schedule.
-
-   In BREDEM 2012 mode, zone 1 and zone 2 will always use the same schedule, which you can set using =action.set-heating-schedule=.
+   In BREDEM 2012 mode, can set heating schedules using =action.set-heating-schedule=.
 
 *** Zone 2 Heating Schedule
 
@@ -546,15 +551,15 @@ This section is not included in the export because it is in a comment block.
    + /Table U1: Mean external temperature/
    + /Table U2: Wind speed/
    + /Table U3: Solar Radiation/
-   + /Table U4 Representative Latitude and height above mean sea level/
+   + /Table U4: Representative Latitude and height above mean sea level/
 
    (Note that the height above sea level is never actually used in the SAP worksheet.)
 
    SAP 2012 specifies that you should use region-specific weather when calculating energy use, fuel costs and emissions, but average UK weather when calculating the /Energy Cost Rating/ (SAP score) or the /Environment Impact Rating/.
 
-   Since the energy calculator in the NHM doesn't know which of those you are trying to calculate, we've chosen the following compromise:
-   + In SAP 2012 mode, we will always use the UK average weather, regardless of any other values the user has specified in the scenario.
-   + In BREDEM 2012 mode, we will use the user specified weather for the region the dwelling is in.
+   The energy calculator in the NHM doesn't know whether or not you are using the energy consumption to compute a SAP score, so we've chosen to always use the UK average weather (and ignore user-specified weather) when you are in SAP 2012 mode.
+
+   In BREDEM 2012 mode, the user-specified weather will always be used.
 
 ** U-Values
 
@@ -582,7 +587,7 @@ This section is not included in the export because it is in a comment block.
 
     We have no information about any of footnotes 1 (roof windows), 2 (metal frame gap) or 3 (semi-glazed doors), so we ignore them.
 
-    We always use the most pessimistic value for the /glazing gap/ (6mm) and /En value/, as we have no information about these.
+    We always use the most pessimistic value for the /glazing gap/ (6mm) and /εn value/, as we have no information about these.
 
     We do apply the curtains adjustment from section 3.2.
 
@@ -610,9 +615,9 @@ This section is not included in the export because it is in a comment block.
 
 **** Party Walls
 
-    In SAP 2012, party walls are assigned u-values according to Table 3.6 and S8B. This simulated the movement of air within a cavity wall.
+    In SAP 2012, party walls with unfilled cavities have a u-value of 0.5. This is based on Tables 3.6 and S8B. It simulates the movement of air within a cavity wall.
 
-    In SAP 2012 mode, these u-values will be used. We have assumed that /Metal Frame/ and /Cob/ party walls count as not cavity for this purpose.
+    We have assumed that /Metal Frame/ and /Cob/ party walls count as not cavity for this purpose.
 
     In BREDEM mode, you may put a u-value on party walls using =action.reset-walls=. Party wall u-values default to 0 in the stock import.
 
