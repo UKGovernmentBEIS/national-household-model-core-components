@@ -3,6 +3,7 @@ package uk.ac.ucl.hideem;
 public class OverheatingExposure implements IExposure {
     @Override
     public void modify(
+    	final double[] coefsVent1,
         // effect of change
         final double t1,
         final double t2,
@@ -11,7 +12,7 @@ public class OverheatingExposure implements IExposure {
 
         final double e1,
         final double e2,
-
+        
         // details
         final boolean smoker,
         final int mainFloorLevel,
@@ -36,7 +37,12 @@ public class OverheatingExposure implements IExposure {
                                       Disease.Type.overheating.relativeRisk(result, occupancy, region, ageBand));
         }
     }
-
+    
+  //array of values for different exposure occupancies (not needed for this)
+    public double[] getCoefs(final OccupancyType occupancy){
+    	return new double[]{0, 0, 0, 0, 0};
+    }
+    
     private double getSIT2DayMax(
             final double heatLoss,
             final boolean isDoubleGlazed,

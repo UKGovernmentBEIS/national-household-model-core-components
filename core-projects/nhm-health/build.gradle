@@ -36,10 +36,10 @@ task execute(type:JavaExec) {
      classpath = sourceSets.main.runtimeClasspath
      args = ['people.csv', 'houses.csv',
       	     // output files
-             new File(project.buildDir, 'rebate_exposures.csv'),
-	     new File(project.buildDir, 'rebate_qalys.csv'),
-	     new File(project.buildDir, 'rebate_morbqalys.csv'),
-	     new File(project.buildDir, 'rebate_costs.csv')
+             new File(project.buildDir, 'exposures.csv'),
+	     new File(project.buildDir, 'qalys.csv'),
+	     new File(project.buildDir, 'morbqalys.csv'),
+	     new File(project.buildDir, 'costs.csv')
 	     ]
 }
 
