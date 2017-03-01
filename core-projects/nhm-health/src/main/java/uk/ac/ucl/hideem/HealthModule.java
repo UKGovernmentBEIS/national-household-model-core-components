@@ -157,7 +157,7 @@ public class HealthModule implements IHealthModule {
         final int horizon = result.horizon();
         
         //perform the matching between NHM built form and ventilation and Hideem
-        final IExposure.ExposureBuiltForm matchedBuiltForm = mapBuiltForm(form, floorArea, mainFloorLevel);
+        final IExposure.ExposureBuiltForm matchedBuiltForm = mapBuiltForm(form, floorArea);
         final IExposure.VentilationType matchedVentilation = mapVentilation(hadWorkingExtractorFans, hadTrickleVents);
         final IExposure.VentilationType matchedVentilation2 = mapVentilation(hasWorkingExtractorFans, hasTrickleVents);
               
@@ -196,6 +196,7 @@ public class HealthModule implements IHealthModule {
 	                                mainFloorLevel,
 	                                form,
 	                                region,
+	                                wasDoubleGlazed,
 	                                isDoubleGlazed,
 	
 	                                occupancy,
@@ -223,6 +224,7 @@ public class HealthModule implements IHealthModule {
                                mainFloorLevel,
                                form,
                                region,
+                               wasDoubleGlazed,
                                isDoubleGlazed,
 
                                occupancy,
@@ -366,14 +368,9 @@ public class HealthModule implements IHealthModule {
     
     //Methods to map the input built form and ventilation of NHM to that in Hideem.
     //Not sure if this should be here or elsewhere but works for now
-    private IExposure.ExposureBuiltForm mapBuiltForm(final BuiltForm.Type form, final double floorArea, final int mainFloorLevel) {
+    private IExposure.ExposureBuiltForm mapBuiltForm(final BuiltForm.Type form, final double floorArea) {
 	    //initialisation
         IExposure.ExposureBuiltForm matchedBuiltForm = null;
-	    //Will have to put lots of if statements in here somewhere...
-	    //Get the dwelling type in exposures
-	    //mainFloorLevel==1 is <=ground floor 
-	    //mainFloorLevel==2 is 1st floor
-	    //mainFloorLevel==3 is >1st floor
 	    
 	    switch (form) {
 	    case ConvertedFlat:

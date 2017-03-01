@@ -104,7 +104,8 @@ public interface IExposure {
         final int mainFloorLevel,
         final BuiltForm.Type builtFormType,
         final BuiltForm.Region region,
-        final boolean isDoubleGlazed,
+        boolean hadDoubleGlazing,
+        boolean hasDoubleGlazing,
 
         // occupancy, outcome to modify
         final OccupancyType occupancy,
