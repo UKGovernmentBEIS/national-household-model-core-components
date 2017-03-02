@@ -18,7 +18,7 @@ import com.google.common.collect.Table;
 
 public class HealthModuleTest {
 	//Sensitivity of exposures to retrofits and built forms
-/*	@Test
+	@Test
 	public void sensitivityPermeabilityOnExposures() {
         final IHealthModule hm = new HealthModule();
         
@@ -151,7 +151,7 @@ public class HealthModuleTest {
 	@Test
 	public void sensitivityRegionOnExposures() {
 		
-		//Onlt Radon and SIT2DayMax should be different
+		//Only Radon and SIT2DayMax should be different
         final IHealthModule hm = new HealthModule();
 
         final StringBuffer sb = new StringBuffer();
@@ -185,8 +185,7 @@ public class HealthModuleTest {
         
         System.out.println(sb);
     }	
-	
-	
+
 	@Test
 	public void sensitivityVentillationTypeOnExposures() {
         final IHealthModule hm = new HealthModule();
@@ -277,21 +276,11 @@ public class HealthModuleTest {
         sb.append("\n");
 
         System.out.println(sb);
-    }*/	
+    }	
 	
-/*	//Test Sensitivity of RRs to exposures
+	//Test Sensitivity of RRs to exposures
 	@Test
-	public void sensitivityRROnExposures() {
-		
-		//These are needed to make an instance of a HealthOutcome
-		final IHealthModule hm = new HealthModule();
-		final HealthOutcome effect = hm.effectOf(
-                CumulativeHealthOutcome.factory(1),
-                    18d, 18d, 
-                    20d, 20d,
-                    10d, 10d,
-                    BuiltForm.Type.SemiDetached, 100d, BuiltForm.Region.London, 1, true, true, true, true, true, true,
-                    ImmutableList.of(new Person(40, Sex.MALE, true, 2)));
+	public void sensitivityExposuresOnRRs() {
                 
         final double defaultVal = 20;
         final double minVal = 0;
@@ -300,10 +289,21 @@ public class HealthModuleTest {
         final StringBuffer sb = new StringBuffer();
         
         for (final IExposure.Type e : IExposure.Type.values()) {
+        	
+        	//These are needed to make an instance of a HealthOutcome
+    		final IHealthModule hm = new HealthModule();
+    		final HealthOutcome effect = hm.effectOf(
+                    CumulativeHealthOutcome.factory(1),
+                        18d, 18d, 
+                        20d, 20d,
+                        10d, 10d,
+                        BuiltForm.Type.SemiDetached, 100d, BuiltForm.Region.London, 1, true, true, true, true, true, true,
+                        ImmutableList.of(new Person(40, Sex.MALE, true, 1)));
+        	
         	sb.append(String.format("%s-RR response:\n",e));
             sb.append("Delta Exposure");
             for (final Disease.Type d : Disease.Type.values()) {
-            	sb.append(String.format("\t%s QALYs", d));
+            	sb.append(String.format("\t%s RR", d));
             }
             sb.append("\n");
 
@@ -315,8 +315,10 @@ public class HealthModuleTest {
                 sb.append(effect.deltaExposure(e, IExposure.OccupancyType.H45_45_10));
 
                 for (final Disease.Type d : Disease.Type.values()) {
-                	final double riskChangeTime = d.relativeRisk(effect, IExposure.OccupancyType.H45_45_10);
-                	
+                	double riskChangeTime = d.relativeRisk(effect, IExposure.OccupancyType.H45_45_10);
+                	if (d == Disease.Type.overheating) {
+                		riskChangeTime = effect.overheatingRisk(OverheatingAgeBands.forAge(40));
+                	}
                 	
                 	sb.append(String.format("\t%f", riskChangeTime));
                 }
@@ -326,12 +328,11 @@ public class HealthModuleTest {
             }        	
         	
         }
-        
         System.out.println(sb);
         
-    }*/
+    }
 	
-/*	//Test Sensitivity of QALYs to permeability
+	//Test Sensitivity of QALYs to permeability
 	//Would have liked to have done directly for each exposure but the calculateQalys method is private and the coefficients are to difficult to read in
 	@Test
 	public void sensitivityPermeabilityOnQalys() {
@@ -561,64 +562,138 @@ public class HealthModuleTest {
         }
         
         System.out.println(sb);
-    }*/
+    }
 	
 	//Person tests
 	@Test
-	public void personAgeTest() {
+	public void personAgeTestTemp() {
         final IHealthModule hm = new HealthModule();
 
         final double minVal = 0;
-        final double maxVal = 150;
+        final double maxVal = 100;
         
         final StringBuffer sb = new StringBuffer();
-        sb.append("Age-QALY response:\n");
-        sb.append("Age\tMale QALYs\tFemale QALYs");
+        sb.append("Age-Cost response:\n");
+        sb.append("Age\tMale Costs\tFemale Costs");
         sb.append("\n");
         
-        for (int i = 0; i<20; i++) {
-            int testVal = (int) Math.round(minVal + i * (maxVal-minVal) / 20);
+        double maleCostTotal = 0;
+        double femaleCostTotal = 0;
+        
+        for (int i = 0; i<10; i++) {
+            int testVal = (int) Math.round(minVal + i * (maxVal-minVal) / 10);
             
             final CumulativeHealthOutcome effect = hm.effectOf(
                     CumulativeHealthOutcome.factory(10),
-                        18d, 20d, 
-                        25d, 20d,
+                        18d, 19d, 
+                        20d, 20d,
                         10d, 10d,
                         BuiltForm.Type.SemiDetached, 100d, BuiltForm.Region.London, 1, true, true, true, true, true, true,
                         ImmutableList.of(new Person( testVal, Sex.MALE, false, 2)));
 
             sb.append(String.format("%03d\t",testVal));
-            double sumMaleQalys = 0;
+            double sumMaleCosts = 0;
             for (final Disease.Type d : Disease.Type.values()) {
             	if (Double.isNaN(effect.qaly(d)) != true){
-            		sumMaleQalys += effect.qaly(d);
+            		sumMaleCosts += effect.cost(d);
             	}
             	
             }
-            sb.append(String.format("\t%f", sumMaleQalys));
+            sb.append(String.format("\t%f", sumMaleCosts));
             
             final CumulativeHealthOutcome effectFemale = hm.effectOf(
                     CumulativeHealthOutcome.factory(10),
-                        18d, 20d, 
-                        25d, 20d,
+                        18d, 19d, 
+                        20d, 20d,
                         10d, 10d,
                         BuiltForm.Type.SemiDetached, 100d, BuiltForm.Region.London, 1, true, true, true, true, true, true,
                         ImmutableList.of(new Person( testVal, Sex.FEMALE, false, 2)));
 
-            double sumFemaleQalys = 0;
+            double sumFemaleCosts = 0;
             for (final Disease.Type d : Disease.Type.values()) {
             	if (Double.isNaN(effectFemale.qaly(d)) != true){
-            		sumFemaleQalys += effectFemale.qaly(d);	
+            		sumFemaleCosts += effectFemale.cost(d);	
             	}
             }
             
-            sb.append(String.format("\t%f", sumFemaleQalys));
-            sb.append("\n");
-           	            
+            maleCostTotal += sumMaleCosts;
+            femaleCostTotal += sumFemaleCosts;
+            
+            sb.append(String.format("\t%f", sumFemaleCosts));
+            sb.append("\n");   	            
         }
-        
         System.out.println(sb);
+        
+        //System.out.println(maleCostTotal);
+        //System.out.println(femaleCostTotal);
+        
+        Assert.assertEquals("1 degree increase should save £2.32 for 10 males aged 0-90 over 10 years", -2.32, maleCostTotal, 0.05);
+        Assert.assertEquals("1 degree increase should save £1.81 for 10 females aged 0-90 over 10 years", -1.81, femaleCostTotal, 0.05);
     }
+	
+	@Test
+	public void personAgeTestPerm() {
+        final IHealthModule hm = new HealthModule();
+
+        final double minVal = 0;
+        final double maxVal = 100;
+        
+        final StringBuffer sb = new StringBuffer();
+        sb.append("Age-Cost response:\n");
+        sb.append("Age\tMale Costs\tFemale Costs");
+        sb.append("\n");
+        
+        double maleCostTotal = 0;
+        double femaleCostTotal = 0;
+        
+        for (int i = 0; i<10; i++) {
+            int testVal = (int) Math.round(minVal + i * (maxVal-minVal) / 10);
+            
+            final CumulativeHealthOutcome effect = hm.effectOf(
+                    CumulativeHealthOutcome.factory(10),
+                        18d, 18d, 
+                        20d, 15d,
+                        10d, 10d,
+                        BuiltForm.Type.SemiDetached, 100d, BuiltForm.Region.London, 1, true, true, true, true, true, true,
+                        ImmutableList.of(new Person( testVal, Sex.MALE, false, 2)));
+
+            sb.append(String.format("%03d\t",testVal));
+            double sumMaleCosts = 0;
+            for (final Disease.Type d : Disease.Type.values()) {
+            	if (Double.isNaN(effect.qaly(d)) != true){
+            		sumMaleCosts += effect.cost(d);
+            	}
+            	
+            }
+            sb.append(String.format("\t%f", sumMaleCosts));
+            
+            final CumulativeHealthOutcome effectFemale = hm.effectOf(
+                    CumulativeHealthOutcome.factory(10),
+                        18d, 18d, 
+                        20d, 15d,
+                        10d, 10d,
+                        BuiltForm.Type.SemiDetached, 100d, BuiltForm.Region.London, 1, true, true, true, true, true, true,
+                        ImmutableList.of(new Person( testVal, Sex.FEMALE, false, 2)));
+
+            double sumFemaleCosts = 0;
+            for (final Disease.Type d : Disease.Type.values()) {
+            	if (Double.isNaN(effectFemale.qaly(d)) != true){
+            		sumFemaleCosts += effectFemale.cost(d);	
+            	}
+            }
+            
+            maleCostTotal += sumMaleCosts;
+            femaleCostTotal += sumFemaleCosts;
+            
+            sb.append(String.format("\t%f", sumFemaleCosts));
+            sb.append("\n");   	            
+        }
+        System.out.println(sb);
+        
+        Assert.assertEquals("5 m3/m2/s reduction in permeability should save £1.29 for 10 males aged 0-90 over 10 years", -1.29, maleCostTotal, 0.05);
+        Assert.assertEquals("5 m3/m2/s reduction in permeability should save £1.02 for 10 females aged 0-90 over 10 years", -1.02, femaleCostTotal, 0.05);
+    }
+	
 	
 	//Tom's tests	
 /*    @Test
