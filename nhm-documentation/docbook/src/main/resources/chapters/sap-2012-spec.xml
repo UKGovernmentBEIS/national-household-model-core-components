@@ -409,8 +409,8 @@
   <sect1>
     <title>Appliances Base Energy</title>
     <para>
-      This is different between SAP and BREDEM, although the formula is
-      otherwise the same.
+      This is a multiplier to the appliances formula. It is 23.705225 W
+      in SAP and 21.081451 W BREDEM. The formula is otherwise the same.
     </para>
   </sect1>
   <sect1>
@@ -454,9 +454,9 @@
     <para>
       Note that there is a minor error with the specification of units
       in BREDEM 2012. The units for the <emphasis>thermal bridge
-      factor</emphasis> (should be W/m<superscript>2K</superscript>) and
-      the <emphasis>thermal bridging loss</emphasis> (should be W/K) are
-      reversed.
+      factor</emphasis> (should be W/m<superscript>2</superscript>/K)
+      and the <emphasis>thermal bridging loss</emphasis> (should be W/K)
+      are reversed.
     </para>
   </sect1>
   <sect1>
@@ -551,8 +551,7 @@
     <para>
       Removed the <emphasis>of:</emphasis> property from
       <literal>house.heating-responsiveness</literal>, since only the
-      responsiveness of the primary space heating system is always
-      relevant.
+      responsiveness of the primary space heating system has an effect.
     </para>
     <para>
       SAP 2012 defines responsiveness of heating systems in Tables 4a
@@ -567,7 +566,8 @@
       It is possible to set the responsiveness on
       <literal>measure.storage-heating</literal>. This is to allow for
       the modelling of improved modern storage heating. In SAP 2012
-      mode, this value is ignored.
+      mode, any changes to storage heating responsiveness made in the
+      scenario are ignored.
     </para>
     <informaltable>
       <tgroup cols="3">
@@ -813,7 +813,11 @@
       set to <emphasis>ManufacturerDeclared</emphasis>.
     </para>
     <para>
-      In the stock import, this value is set to TODO
+      In the stock import, this value is set based on
+      <emphasis>pcdbmatch</emphasis> from
+      <emphasis>space-heating.csv</emphasis>. This means that it will be
+      <emphasis>ManufacturerDeclared</emphasis> if we found a match for
+      it in the PCDB.
     </para>
     <para>
       This applies in both energy calculator modes.
@@ -952,7 +956,7 @@
       </tgroup>
     </informaltable>
     <para>
-      Internal and Party walls are not included in this calculation. Not
+      Internal and Party walls are not included in this calculation. Nor
       are roofs or floors.
     </para>
     <para>
@@ -1006,7 +1010,7 @@
         is decided by the imputation schema.
       </para>
       <para>
-        Doors are double glazed is the proportion of double glazing in
+        Doors are double glazed if the proportion of double glazing in
         the dwelling is &gt; 0.5, and single glazed otherwise. (This
         method was chosen since a large number of dwellings have only 1
         door, in which case it is a good approximation.)
@@ -1085,10 +1089,6 @@
         segment of wall in the stock import (imputation schema) and
         using <literal>action.reset-walls</literal>. In SAP 2012 mode,
         these are overridden with the SAP values.
-      </para>
-      <para>
-        (I missed this during the earlier specification phase, so you
-        may want to give some extra thought to it.)
       </para>
     </sect2>
     <sect2>
@@ -1302,6 +1302,11 @@
       an <emphasis>anglefromnorth</emphasis> field (specified in
       radians).
     </para>
+    <para>
+      There was also a bug in the previous version of the NHM which made
+      all dwellings face <emphasis>North-East</emphasis>, so dwellings
+      are now getting more sunlight on average.
+    </para>
   </sect1>
   <sect1>
     <title>Solar Flux Calculation</title>
@@ -1397,13 +1402,7 @@
       9.
     </para>
     <para>
-      This includes using the heating control type (Table 4e
-      <emphasis>Control</emphasis> column) to lookup the zone 2
-      schedule.
-    </para>
-    <para>
-      In BREDEM 2012 mode, zone 1 and zone 2 will always use the same
-      schedule, which you can set using
+      In BREDEM 2012 mode, can set heating schedules using
       <literal>action.set-heating-schedule</literal>.
     </para>
     <sect2>
@@ -1447,7 +1446,7 @@
       </listitem>
       <listitem>
         <para>
-          <emphasis>Table U4 Representative Latitude and height above
+          <emphasis>Table U4: Representative Latitude and height above
           mean sea level</emphasis>
         </para>
       </listitem>
@@ -1464,25 +1463,15 @@
       Rating</emphasis>.
     </para>
     <para>
-      Since the energy calculator in the NHM doesn't know which of those
-      you are trying to calculate, we've chosen the following
-      compromise:
+      The energy calculator in the NHM doesn't know whether or not you
+      are using the energy consumption to compute a SAP score, so we've
+      chosen to always use the UK average weather (and ignore
+      user-specified weather) when you are in SAP 2012 mode.
     </para>
-    <itemizedlist spacing="compact">
-      <listitem>
-        <para>
-          In SAP 2012 mode, we will always use the UK average weather,
-          regardless of any other values the user has specified in the
-          scenario.
-        </para>
-      </listitem>
-      <listitem>
-        <para>
-          In BREDEM 2012 mode, we will use the user specified weather
-          for the region the dwelling is in.
-        </para>
-      </listitem>
-    </itemizedlist>
+    <para>
+      In BREDEM 2012 mode, the user-specified weather will always be
+      used.
+    </para>
   </sect1>
   <sect1>
     <title>U-Values</title>
@@ -1549,7 +1538,7 @@
       </para>
       <para>
         We always use the most pessimistic value for the
-        <emphasis>glazing gap</emphasis> (6mm) and <emphasis>En
+        <emphasis>glazing gap</emphasis> (6mm) and <emphasis>εn
         value</emphasis>, as we have no information about these.
       </para>
       <para>
@@ -1602,13 +1591,12 @@
       <sect3>
         <title>Party Walls</title>
         <para>
-          In SAP 2012, party walls are assigned u-values according to
-          Table 3.6 and S8B. This simulated the movement of air within a
-          cavity wall.
+          In SAP 2012, party walls with unfilled cavities have a u-value
+          of 0.5. This is based on Tables 3.6 and S8B. It simulates the
+          movement of air within a cavity wall.
         </para>
         <para>
-          In SAP 2012 mode, these u-values will be used. We have assumed
-          that <emphasis>Metal Frame</emphasis> and
+          We have assumed that <emphasis>Metal Frame</emphasis> and
           <emphasis>Cob</emphasis> party walls count as not cavity for
           this purpose.
         </para>
