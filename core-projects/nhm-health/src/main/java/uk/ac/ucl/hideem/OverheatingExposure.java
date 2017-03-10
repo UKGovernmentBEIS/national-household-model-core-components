@@ -18,7 +18,8 @@ public class OverheatingExposure implements IExposure {
         final int mainFloorLevel,
         final BuiltForm.Type builtFormType,
         final BuiltForm.Region region,
-        final boolean isDoubleGlazed,
+        boolean wasDoubleGlazed,
+        boolean isDoubleGlazed,
 
         // occupancy, outcome to modify
         final OccupancyType occupancy,
@@ -26,7 +27,7 @@ public class OverheatingExposure implements IExposure {
         // The data does not contain any rows for this type of exposure, we just add it as a constant for all built forms and so on.
         // Overheating Temp isn't dependent exposure coefs so out of loop
 
-        final double initialSITMax = getSIT2DayMax(e1, isDoubleGlazed, region);
+        final double initialSITMax = getSIT2DayMax(e1, wasDoubleGlazed, region);
         final double finalSITMax   = getSIT2DayMax(e2, isDoubleGlazed, region);
 
         result.setExposures(Type.SIT2DayMax, occupancy, initialSITMax, finalSITMax);

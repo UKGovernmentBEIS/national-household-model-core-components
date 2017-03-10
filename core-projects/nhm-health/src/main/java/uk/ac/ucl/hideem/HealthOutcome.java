@@ -2,8 +2,6 @@ package uk.ac.ucl.hideem;
 
 import uk.ac.ucl.hideem.IExposure.*;
 
-//TODO: Should fix this to get proper out comes again by occupant
-
 public abstract class HealthOutcome {
     protected final int horizon;
 

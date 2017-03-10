@@ -89,7 +89,8 @@ public class CoefficientsExposure implements IExposure {
         final int mainFloorLevel,
         final BuiltForm.Type builtFormType,
         final BuiltForm.Region region,
-        final boolean isDoubleGlazed,
+        final boolean wasDoubleGlazing,
+        final boolean isDoubleGlazing,
 
         // occupancy, outcome to modify
         final OccupancyType occupancy,
@@ -162,9 +163,14 @@ public class CoefficientsExposure implements IExposure {
     	final double[] coefsV1,
         final double p1, final double p2,
         final BuiltForm.Type form, final BuiltForm.Region region, final int mainFloorLevel,
+        //mainFloorLevel only used here
+        //mainFloorLevel==1 is <=ground floor 
+	    //mainFloorLevel==2 is 1st floor
+	    //mainFloorLevel>=3 is >1st floor
+        
         final OccupancyType occupancy,
         final HealthOutcome result) {
-
+    	
         final double baseExposure = dueToPermeability(occupancy, p1, coefsV1);
         final double modifiedExposure = dueToPermeability(occupancy, p2);
 
@@ -174,7 +180,7 @@ public class CoefficientsExposure implements IExposure {
             (form == BuiltForm.Type.PurposeBuiltFlatHighRise)) {
             if (mainFloorLevel == 2) {
                 floorFactor = 0.5;
-            } else if (mainFloorLevel == 3) {
+            } else if (mainFloorLevel >= 3) {
                 floorFactor = 0;
             } else {
                 floorFactor = 1;
