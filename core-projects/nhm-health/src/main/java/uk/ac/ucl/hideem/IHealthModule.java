@@ -1,8 +1,11 @@
 package uk.ac.ucl.hideem;
 
+import java.util.List;
+
 import com.google.common.base.Supplier;
 
-import java.util.List;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType;
+import uk.org.cse.nhm.hom.types.BuiltFormType;
 
 public interface IHealthModule {
     /**
@@ -39,9 +42,9 @@ public interface IHealthModule {
         double h1, double h2,
 
         // case number constituents
-        BuiltForm.Type form,
+        BuiltFormType form,
         double floorArea,
-        BuiltForm.Region region,
+        RegionType region,
         int mainFloorLevel, // fdfmainn (for flats)
         // finkxtwk and finbxtwk
         final boolean hadWorkingExtractorFans, // per finwhatever
@@ -53,7 +56,7 @@ public interface IHealthModule {
         boolean hasDoubleGlazing,
         // who
         List<Person> people);
-    
+
     public double getInternalTemperature(double specificHeat,
                                          double efficiency);
 

@@ -490,6 +490,7 @@ project(':nhm-health') {
 
   dependencies {
     compile project(':energycalculator.api')
+    compile project(':hom')
     compile libs.commonsIO
     compile libs.commonsMath3
     compile libs.slf4j

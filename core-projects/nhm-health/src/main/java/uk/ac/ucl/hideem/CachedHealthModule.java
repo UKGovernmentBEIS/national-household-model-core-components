@@ -8,6 +8,10 @@ import java.util.concurrent.ExecutionException;
 import com.google.common.base.Supplier;
 
 import com.google.common.cache.LoadingCache;
+
+import uk.org.cse.nhm.energycalculator.api.types.RegionType;
+import uk.org.cse.nhm.hom.types.BuiltFormType;
+
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 
@@ -23,9 +27,9 @@ public class CachedHealthModule implements IHealthModule {
         public final double p2;
         public final double h1;
         public final double h2;
-        public final BuiltForm.Type form;
+        public final BuiltFormType form;
         public final double floorArea;
-        public final BuiltForm.Region region;
+        public final RegionType region;
         public final int mainFloorLevel;
         public final boolean hadWorkingExtractorFans; // per finwhatever
         public final boolean hadTrickleVents;         // this is cooked up elsewhere
@@ -42,9 +46,9 @@ public class CachedHealthModule implements IHealthModule {
                  final double p2,
                  final double h1,
                  final double h2,
-                 final BuiltForm.Type form,
+                 final BuiltFormType form,
                  final double floorArea,
-                 final BuiltForm.Region region,
+                 final RegionType region,
                  final int mainFloorLevel,
                  final boolean hadWorkingExtractorFans, // per finwhatever
                  final boolean hadTrickleVents,         // this is cooked up elsewhere
@@ -80,7 +84,8 @@ public class CachedHealthModule implements IHealthModule {
         .maximumSize(5000)
         .expireAfterAccess(10, TimeUnit.MINUTES)
         .build(new CacheLoader<K, HealthOutcome>() {
-                public HealthOutcome load(final K key) {
+                @Override
+				public HealthOutcome load(final K key) {
                     return delegate.effectOf(key.supplier,
                                              key.t1, key.t2,
                                              key.p1, key.p2,
@@ -110,22 +115,22 @@ public class CachedHealthModule implements IHealthModule {
     }
 
     @Override
-    public <T extends HealthOutcome> T effectOf(Supplier<T> supplier,
-                                                double t1, double t2,
-                                                double p1, double p2,
-                                                double h1, double h2,
+    public <T extends HealthOutcome> T effectOf(final Supplier<T> supplier,
+                                                final double t1, final double t2,
+                                                final double p1, final double p2,
+                                                final double h1, final double h2,
 
-                                                BuiltForm.Type form,
-                                                double floorArea,
-                                                BuiltForm.Region region,
-                                                int mainFloorLevel,
-                                                boolean hadWorkingExtractorFans,
-                                                boolean hadTrickleVents,
-                                                boolean hasWorkingExtractorFans,
-                                                boolean hasTrickleVents,
-                                                boolean hasDoubleGlazing,
-                                                boolean hadDoubleGlazing,
-                                                List<Person> people) {
+                                                final BuiltFormType form,
+                                                final double floorArea,
+                                                final RegionType region,
+                                                final int mainFloorLevel,
+                                                final boolean hadWorkingExtractorFans,
+                                                final boolean hadTrickleVents,
+                                                final boolean hasWorkingExtractorFans,
+                                                final boolean hasTrickleVents,
+                                                final boolean hasDoubleGlazing,
+                                                final boolean hadDoubleGlazing,
+                                                final List<Person> people) {
         try {
             return (T) outcome.get(new K(supplier,
                                          t1, t2, p1, p2, h1, h2,
@@ -140,13 +145,13 @@ public class CachedHealthModule implements IHealthModule {
     }
 
     @Override
-    public double getInternalTemperature(double specificHeat,
-                                         double efficiency) {
+    public double getInternalTemperature(final double specificHeat,
+                                         final double efficiency) {
         return delegate.getInternalTemperature(specificHeat, efficiency);
     }
 
     @Override
-    public double getRebateDeltaTemperature(double baseTemperature, double rebate) {
+    public double getRebateDeltaTemperature(final double baseTemperature, final double rebate) {
         return delegate.getRebateDeltaTemperature(baseTemperature, rebate);
     }
 }

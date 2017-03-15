@@ -2,10 +2,9 @@ package uk.ac.ucl.hideem;
 
 import uk.ac.ucl.hideem.Constants.RiskConstant;
 import uk.ac.ucl.hideem.Person.Sex;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.ac.ucl.hideem.IExposure.OccupancyType;
 import uk.ac.ucl.hideem.IExposure.OverheatingAgeBands;
-
-import uk.ac.ucl.hideem.BuiltForm.Region;
 
 /**
  * Everything HIDEEM needs to know about diseases.
@@ -14,33 +13,33 @@ import uk.ac.ucl.hideem.BuiltForm.Region;
 public class Disease {
 	public enum Type {
 		cerebrovascular(
-				RiskConstant.OUTPM_CP, 
-				RiskConstant.INPM_CP, 
+				RiskConstant.OUTPM_CP,
+				RiskConstant.INPM_CP,
 				RiskConstant.ETS_CA),   //CA
 	    cardiopulmonary(
-	    		RiskConstant.OUTPM_CP, 
+	    		RiskConstant.OUTPM_CP,
 	    		RiskConstant.INPM_CP),	//CP
 	    lungcancer(
-	    		RiskConstant.OUTPM_LC, 
-	    		RiskConstant.INPM_LC, 
+	    		RiskConstant.OUTPM_LC,
+	    		RiskConstant.INPM_LC,
 	    		RiskConstant.RADON_LC),			//LC
 	    myocardialinfarction(
-	    		RiskConstant.OUTPM_CP, 
-	    		RiskConstant.INPM_CP, 
+	    		RiskConstant.OUTPM_CP,
+	    		RiskConstant.INPM_CP,
 	    		RiskConstant.ETS_MI),	//MI (Heart Attack)
 	    wincerebrovascular(
-	    		RiskConstant.OUTPM_CP, 
-	    		RiskConstant.INPM_CP, 
-	    		RiskConstant.SIT_CV, 
+	    		RiskConstant.OUTPM_CP,
+	    		RiskConstant.INPM_CP,
+	    		RiskConstant.SIT_CV,
 	    		RiskConstant.ETS_CA),	//WinCA
 	    wincardiovascular(
 	    		RiskConstant.OUTPM_CP,
-	    		RiskConstant.INPM_CP, 
+	    		RiskConstant.INPM_CP,
 	    		RiskConstant.SIT_CV),	//WinCV
 	    winmyocardialinfarction(
-	    		RiskConstant.OUTPM_CP, 
-	    		RiskConstant.INPM_CP, 
-	    		RiskConstant.SIT_CV, 
+	    		RiskConstant.OUTPM_CP,
+	    		RiskConstant.INPM_CP,
+	    		RiskConstant.SIT_CV,
 	    		RiskConstant.ETS_MI),
 	    copd(
 	    		RiskConstant.SIT_COPD),			//WinCOPD
@@ -52,13 +51,13 @@ public class Disease {
 	    overheating(
 	    		RiskConstant.SIT2DayMax_OVERHEAT)
 	    ;
-		
+
 		private final RiskConstant[] risks;
-		
+
 		private Type(final RiskConstant... risks) {
 			this.risks = risks;
 		}
-		
+
 		public double relativeRisk(final HealthOutcome result, final OccupancyType occupancy) {
 			double acc = 1;
 			for (final RiskConstant c : risks) {
@@ -72,29 +71,29 @@ public class Disease {
 				default:
 					acc *= c.riskDueTo(result, occupancy);
 					break;
-				}	
+				}
 			}
 			return acc;
 		}
-		
-        public double relativeRisk(final HealthOutcome result, final OccupancyType occupancy, final Region region, final OverheatingAgeBands ageBand) {
+
+        public double relativeRisk(final HealthOutcome result, final OccupancyType occupancy, final RegionType region, final OverheatingAgeBands ageBand) {
 			//Only for overheating risk
 			final double risk = RiskConstant.SIT2DayMax_OVERHEAT.riskDueToOverheating(result, occupancy, region, ageBand);
-			
+
 			return risk;
 		}
-		
-		
+
+
 	}
-	
+
 	public final int age;
     public final Sex sex;
 	public final double mortality;
 	public final double hazard;
 	public final double allHazard;
 	public final double morbidity;
-	
-	
+
+
 	public Disease(final int age, final Sex sex, final double mortality, final double hazard, final double otherHazard, final double morbidity) {
 		this.age = age;
 		this.sex = sex;
@@ -103,12 +102,12 @@ public class Disease {
 		this.allHazard = otherHazard;
 		this.morbidity = morbidity;
 	}
-	
+
 	public static Disease readDisease(final String age, final String sex, final String mortality, final double allMortality, final String pop, final String morbidityRatio) {
 
 	     return new Disease(
 					Integer.parseInt(age),
-					Person.Sex.valueOf(sex),			
+					Person.Sex.valueOf(sex),
 					Double.parseDouble(mortality),
 					Double.parseDouble(mortality)/Double.parseDouble(pop),
 					allMortality/Double.parseDouble(pop),

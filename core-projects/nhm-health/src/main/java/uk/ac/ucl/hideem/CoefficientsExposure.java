@@ -1,5 +1,8 @@
 package uk.ac.ucl.hideem;
 
+import uk.org.cse.nhm.energycalculator.api.types.RegionType;
+import uk.org.cse.nhm.hom.types.BuiltFormType;
+
 public class CoefficientsExposure implements IExposure {
     public final ExposureBuiltForm builtForm;
     public final VentilationType ventType;
@@ -7,7 +10,7 @@ public class CoefficientsExposure implements IExposure {
 
     //array of values for different exposure occupancies
 	public double[][] coefs = new double[4][5];
-	
+
     public CoefficientsExposure(final IExposure.Type type, final ExposureBuiltForm builtForm, final VentilationType ventType, final double b4, final double b3, final double b2,
                     final double b1, final double b0, final double c4, final double c3, final double c2, final double c1, final double c0, final double d4,
                     final double d3, final double d2, final double d1, final double d0, final double e4, final double e3, final double e2, final double e1,
@@ -29,7 +32,7 @@ public class CoefficientsExposure implements IExposure {
 		}
 		return acc;
 	}
-    
+
     public double dueToPermeability(final OccupancyType occupancy, final double p, final double[] coefsV1) {
 		double acc = 0;
 		for (int i = 0; i<coefsV1.length; i++) {
@@ -37,7 +40,7 @@ public class CoefficientsExposure implements IExposure {
 		}
 		return acc;
 	}
-	
+
     public static CoefficientsExposure readExposure(final String[] row) {
         return new CoefficientsExposure(
             Enum.valueOf(Type.class, row[0]),
@@ -65,15 +68,16 @@ public class CoefficientsExposure implements IExposure {
             Double.parseDouble(row[22])
             );
 	}
-	
-    
-    public double[] getCoefs(final OccupancyType occupancy){
+
+
+    @Override
+	public double[] getCoefs(final OccupancyType occupancy){
     	return this.coefs[occupancy.ordinal()];
     }
-    
+
     @Override
     public void modify(
-    		
+
     	final double[] coefsV1,
         // effect of change
         final double t1,
@@ -83,12 +87,12 @@ public class CoefficientsExposure implements IExposure {
 
         final double e1,
         final double e2,
-        
+
         // details
         final boolean smoker,
         final int mainFloorLevel,
-        final BuiltForm.Type builtFormType,
-        final BuiltForm.Region region,
+        final BuiltFormType builtFormType,
+        final RegionType region,
         final boolean wasDoubleGlazing,
         final boolean isDoubleGlazing,
 
@@ -162,22 +166,22 @@ public class CoefficientsExposure implements IExposure {
     private void setRadonExposure(
     	final double[] coefsV1,
         final double p1, final double p2,
-        final BuiltForm.Type form, final BuiltForm.Region region, final int mainFloorLevel,
+        final BuiltFormType form, final RegionType region, final int mainFloorLevel,
         //mainFloorLevel only used here
-        //mainFloorLevel==1 is <=ground floor 
+        //mainFloorLevel==1 is <=ground floor
 	    //mainFloorLevel==2 is 1st floor
 	    //mainFloorLevel>=3 is >1st floor
-        
+
         final OccupancyType occupancy,
         final HealthOutcome result) {
-    	
+
         final double baseExposure = dueToPermeability(occupancy, p1, coefsV1);
         final double modifiedExposure = dueToPermeability(occupancy, p2);
 
         final double floorFactor;
-        if ((form == BuiltForm.Type.ConvertedFlat) ||
-            (form == BuiltForm.Type.PurposeBuiltFlatLowRise) ||
-            (form == BuiltForm.Type.PurposeBuiltFlatHighRise)) {
+        if ((form == BuiltFormType.ConvertedFlat) ||
+            (form == BuiltFormType.PurposeBuiltLowRiseFlat) ||
+            (form == BuiltFormType.PurposeBuiltHighRiseFlat)) {
             if (mainFloorLevel == 2) {
                 floorFactor = 0.5;
             } else if (mainFloorLevel >= 3) {
@@ -227,7 +231,7 @@ public class CoefficientsExposure implements IExposure {
         else if(srh>45 && srh <200){
             mould = 4.687377282 +(-1.161195895*Math.pow(srh,1))+(0.037245523*Math.pow(srh,2)) +(-0.000223222*Math.pow(srh,3));
         }
-        else{  
+        else{
             mould = 23.42903107 +(-1.46645682*Math.pow(srh,1))+(0.027203495*Math.pow(srh,2))+(-7.89893e-05*Math.pow(srh,3));
         }
 

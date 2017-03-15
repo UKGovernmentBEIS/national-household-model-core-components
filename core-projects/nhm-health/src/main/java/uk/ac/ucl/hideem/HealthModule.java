@@ -18,6 +18,8 @@ import org.slf4j.LoggerFactory;
 import uk.ac.ucl.hideem.IExposure.ExposureBuiltForm;
 import uk.ac.ucl.hideem.IExposure.OccupancyType;
 import uk.ac.ucl.hideem.IExposure.OverheatingAgeBands;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType;
+import uk.org.cse.nhm.hom.types.BuiltFormType;
 
 import com.google.common.base.Supplier;
 
@@ -52,7 +54,7 @@ public class HealthModule implements IHealthModule {
 
         try (final CSV.Reader reader = CSV.trimmedReader(bufferedReaderForResource("NHM_exposure_coefs.csv"))) {
            String[] row = reader.read(); // throw away header line, because we know what it is
-           
+
            while ((row = reader.read()) != null) {
                final CoefficientsExposure e = CoefficientsExposure.readExposure(row);
 
@@ -65,10 +67,10 @@ public class HealthModule implements IHealthModule {
         } catch (final IOException ex) {
                     // problem?
         }
-        
+
         //Read the health coefficients from the csv file
         log.debug("Reading health coefficients from: src/main/resources/uk/ac/ucl/hideem/NHM_mortality_data.csv");
-        
+
         //Not yet sure how to get as a resource?
         for (final Map<String, String> row : CSV.mapReader(bufferedReaderForResource("NHM_mortality_data.csv"))) {
             // each row maps to several diseases, so we must break them out
@@ -92,7 +94,7 @@ public class HealthModule implements IHealthModule {
 				}
 			}
 		}
-		
+
         //Need to have coefs for CMD and Asthma so the diseases can be calculated later. The values aren't important (not gender/age specific)
         putDummyDisease(Disease.Type.commonmentaldisorder, healthCoefficients);
         putDummyDisease(Disease.Type.copd,                 healthCoefficients);
@@ -139,28 +141,28 @@ public class HealthModule implements IHealthModule {
         final double h1,
         final double h2,
 
-        final BuiltForm.Type form,
+        final BuiltFormType form,
         final double floorArea,
-        final BuiltForm.Region region,
+        final RegionType region,
         final int mainFloorLevel,
 
         final boolean hadWorkingExtractorFans, // per finwhatever
         final boolean hadTrickleVents,         // this is cooked up elsewhere
         final boolean hasWorkingExtractorFans, // per finwhatever
         final boolean hasTrickleVents,         // this is cooked up elsewhere
-        
+
         final boolean wasDoubleGlazed,
         final boolean isDoubleGlazed,
 
         final List<Person> people) {
         final T result = factory.get();
         final int horizon = result.horizon();
-        
+
         //perform the matching between NHM built form and ventilation and Hideem
         final IExposure.ExposureBuiltForm matchedBuiltForm = mapBuiltForm(form, floorArea);
         final IExposure.VentilationType matchedVentilation = mapVentilation(hadWorkingExtractorFans, hadTrickleVents);
         final IExposure.VentilationType matchedVentilation2 = mapVentilation(hasWorkingExtractorFans, hasTrickleVents);
-              
+
         //Get the correct exposures coefficients and calculate base and modified exposures for each individual
 
         boolean smoker = false;
@@ -170,39 +172,39 @@ public class HealthModule implements IHealthModule {
                 break;
             }
         }
-        
+
         final Iterator<IExposure> it1 = exposures.get(matchedBuiltForm, matchedVentilation).iterator();
         final Iterator<IExposure> it2 = exposures.get(matchedBuiltForm, matchedVentilation2).iterator();
 
         while (it1.hasNext() && it2.hasNext()) {
-            
+
         //}
         	try {
-            	IExposure exposure1 = it1.next();
-            	IExposure exposure2 = it2.next();
-            	
+            	final IExposure exposure1 = it1.next();
+            	final IExposure exposure2 = it2.next();
+
 	            for(final IExposure.OccupancyType occupancy : IExposure.OccupancyType.values()){
 	            	//get the coefs for new ventilation case
 	            	final double[] coefsVent1 = exposure1.getCoefs(occupancy);
-	            	
+
 	            	//Have to read coeficients from ventialtion type one in as they are different
 	            	exposure2.modify(coefsVent1,
 	                				t1, t2,
 	                                p1, p2,
-	
+
 	                                h1, h2,
-	                                
+
 	                                smoker,
 	                                mainFloorLevel,
 	                                form,
 	                                region,
 	                                wasDoubleGlazed,
 	                                isDoubleGlazed,
-	
+
 	                                occupancy,
 	                                result);
-	            } 
-                
+	            }
+
             }
         	catch (final Exception ex) {
                 // problem?
@@ -213,7 +215,7 @@ public class HealthModule implements IHealthModule {
             // apply the overheating exposure. It applies for all ventilations and built forms
             // so we just need to bash it out here.
         	final double[] coefsVent1 = overheating.getCoefs(occupancy);
-        	
+
             overheating.modify(coefsVent1,
             				   t1, t2,
                                p1, p2,
@@ -323,13 +325,13 @@ public class HealthModule implements IHealthModule {
                             cost = Constants.INCIDENCE(disease, personAgeInYear, person.sex) * (deaths) * Constants.COST_PER_CASE(disease); // TODO is this correct?
                             break;
                         }
-                        
+
                         //Added to output qalys
                         result.setQaly(disease, mortalityChange);
                         result.setMorbQaly(disease, morbidityQalys);
                         result.setCost(disease, cost);
-                        
-                        
+
+
                         // TODO what API here? do we want person specific info?
 
                         result.addEffects(disease, year, person, mortalityChange, morbidityQalys, cost);
@@ -348,46 +350,46 @@ public class HealthModule implements IHealthModule {
 
     //Temperature Calculations using Hamilton relation
     private static double calcSIT(final double eValue){
-		final double livingRoomSIT=(Constants.LR_SIT_CONSTS[4] + (Constants.LR_SIT_CONSTS[3]*Math.pow(eValue,1)) + (Constants.LR_SIT_CONSTS[2]*Math.pow(eValue,2)) 
+		final double livingRoomSIT=(Constants.LR_SIT_CONSTS[4] + (Constants.LR_SIT_CONSTS[3]*Math.pow(eValue,1)) + (Constants.LR_SIT_CONSTS[2]*Math.pow(eValue,2))
 				+ (Constants.LR_SIT_CONSTS[1]*Math.pow(eValue,3)) + (Constants.LR_SIT_CONSTS[0]*Math.pow(eValue,4)));
 		final double bedRoomSIT=(Constants.BR_SIT_CONSTS[4] + (Constants.BR_SIT_CONSTS[3]*Math.pow(eValue,1)) + (Constants.BR_SIT_CONSTS[2]*Math.pow(eValue,2))
 				+ (Constants.BR_SIT_CONSTS[1]*Math.pow(eValue,3))  + (Constants.BR_SIT_CONSTS[0]*Math.pow(eValue,4)));
 		final double averageSIT=((livingRoomSIT+bedRoomSIT)/2);
-		
+
 		return averageSIT;
-    }  
-    
+    }
+
     @Override
     public double getInternalTemperature(final double specificHeat,
                                          double efficiency) {
     	if (efficiency <= 0) efficiency = 1;
     	final double eValue = specificHeat / efficiency;
-    	
+
     	return calcSIT(eValue);
     }
-    
+
     //Methods to map the input built form and ventilation of NHM to that in Hideem.
     //Not sure if this should be here or elsewhere but works for now
-    private IExposure.ExposureBuiltForm mapBuiltForm(final BuiltForm.Type form, final double floorArea) {
+    private IExposure.ExposureBuiltForm mapBuiltForm(final BuiltFormType form, final double floorArea) {
 	    //initialisation
         IExposure.ExposureBuiltForm matchedBuiltForm = null;
-	    
+
 	    switch (form) {
 	    case ConvertedFlat:
-	    case PurposeBuiltFlatLowRise:
+	    case PurposeBuiltLowRiseFlat:
 	    	if (floorArea > 50) {
 	    		matchedBuiltForm = ExposureBuiltForm.Flat1;
 	    	} else {
 	    		matchedBuiltForm = ExposureBuiltForm.Flat2;
 	    	}
 	    	break;
-	    case PurposeBuiltFlatHighRise:
+	    case PurposeBuiltHighRiseFlat:
 	    	matchedBuiltForm = ExposureBuiltForm.Flat3;
 	    	break;
 		case Bungalow:
 			matchedBuiltForm = ExposureBuiltForm.House5;
 			break;
-		case EndTerrace:			
+		case EndTerrace:
 			matchedBuiltForm = ExposureBuiltForm.House1;
 			break;
 		case MidTerrace:
@@ -404,9 +406,9 @@ public class HealthModule implements IHealthModule {
 		default:
 			matchedBuiltForm = ExposureBuiltForm.House7;
 			break;
-	    
+
 	    }
-	    
+
 	    return matchedBuiltForm;
     }
     //Match ventilation
@@ -426,7 +428,7 @@ public class HealthModule implements IHealthModule {
 	    else{
             matchedVentilation = IExposure.VentilationType.TE;
 	    }
-    
+
     	return matchedVentilation;
     }
 
@@ -435,7 +437,7 @@ public class HealthModule implements IHealthModule {
     	//Calculations based on Miller, Life table for quantitative impact assessment, 2003
     	double base = coefficients.allHazard;
 		double impact = base - coefficients.hazard;
-    	
+
         if (disease == Disease.Type.overheating) {
 			//For overheating age dependence is in the RR and there are no mortality stats so we just use total pop (deaths/pop)
 			base = Constants.TOT_BASE;
@@ -457,57 +459,57 @@ public class HealthModule implements IHealthModule {
 
         final double deaths = impactStartPop - impactEndPop;
 		final double lifeYears = impactStartPop - 0.5*deaths;
-		
+
         final double baseDeaths = baseStartPop - baseEndPop;
 		final double baselifeYears = baseStartPop - 0.5*baseDeaths;
-		
+
 		//doing change in the number of deaths instead
 		final double deltaDeaths = deaths-baseDeaths;
 		final double deltaQalys = lifeYears-baselifeYears;
 
         return new double[] {deltaDeaths, deltaQalys, impactEndPop, baseEndPop};
     }
-    
+
     private double[] calculateCMDQaly(final double riskChangeTime, final int age, final int year) {
     	double impact = 0;
-    	
+
     	if (age >= 16) {
     		//0.25 factor for winter months only
     		impact = (1 - riskChangeTime)*(1-Constants.WEIGHT_CMD)*0.25*Constants.PREV_CMD;
-    	} 
+    	}
 
     	final double timeFunct = 1/Math.pow(2.5,year);
-    	
+
     	final double qalys = impact*timeFunct;
     	final double cases = (age >= 16) ? Constants.PREV_CMD*(riskChangeTime-1)*timeFunct*0.25 : 0;
-    	
+
     	final double vals[] = {cases, qalys};
-    	
+
     	return vals;
     }
 
     private double[] calculateCOPDQaly(final double riskChangeTime, final int age, final int year) {
     	double impact = 0;
-    	
+
     	if (age >= 45) {
     		impact = (1 - riskChangeTime)*(1-Constants.WEIGHT_COPD)*0.25*Constants.PREV_COPD;
-    	} 
-    	
+    	}
+
     	//reduces to 50% then 25%
     	double timeFunct = 1/Math.pow(2,year);
-    	//Constant 25% there after    	
+    	//Constant 25% there after
     	if (year >= 3) {
     		timeFunct = 1/Math.pow(2,2);
     	}
-    	
+
     	final double qalys = impact*timeFunct;
     	final double cases = (age >= 45) ? Constants.PREV_COPD*(riskChangeTime-1)*timeFunct*0.25 : 0;
-    	
+
     	final double vals[] = {cases, qalys};
-    	
+
     	return vals;
     }
-    
+
     /**
      * @param riskChangeTime
      * @param age
@@ -518,7 +520,7 @@ public class HealthModule implements IHealthModule {
 	private double[] calculateAsthmaQaly(final Disease.Type athsmaType, final double riskChangeTime, final int age, final int year) {
     	double impact = 0;
     	double cases = 0;
-    	
+
 		switch (athsmaType) {
 		case asthma1:
 			impact = (age <= 15) ? ((1 - Constants.WEIGHT_ASTHMA1) * Constants.PREV_ASTHMA1)*(1 - riskChangeTime) : 0;
@@ -533,13 +535,13 @@ public class HealthModule implements IHealthModule {
 			cases = (age <= 15) ? Constants.PREV_ASTHMA3*(riskChangeTime-1) : 0;
 			break;
 		}
-    	
+
     	final double timeFunct = 1/Math.pow(1.3,year);
-    	    	
+
     	final double vals[] = {cases * timeFunct, impact * timeFunct};
-    	
+
     	return vals;
-    			
+
     }
 
     private static final int CTC_COUNT = 500;
@@ -588,7 +590,7 @@ public class HealthModule implements IHealthModule {
      * an equilibrium, but that is too hard to do today.
      */
     @Override
-    public double getRebateDeltaTemperature(double baseTemperature, double rebate) {
+    public double getRebateDeltaTemperature(final double baseTemperature, final double rebate) {
         // the curve is descending (cost goes up, temperature goes down)
         // however, to make this bit faster, I have stored temperature in reverse order.
         // this means both arrays are amenable to the fast binary search

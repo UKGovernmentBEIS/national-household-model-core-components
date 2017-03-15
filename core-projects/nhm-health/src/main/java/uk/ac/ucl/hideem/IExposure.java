@@ -1,5 +1,8 @@
 package uk.ac.ucl.hideem;
 
+import uk.org.cse.nhm.energycalculator.api.types.RegionType;
+import uk.org.cse.nhm.hom.types.BuiltFormType;
+
 /**
  * Everything HIDEEM needs to know about exposures.
  */
@@ -83,13 +86,13 @@ public interface IExposure {
         }
 
     }
-    
+
     //array of values for different exposure occupancies
     public double[] getCoefs(final OccupancyType occupancy);
-    
+
     public void modify(
     	//
-    	final double[] coefsV1,	
+    	final double[] coefsV1,
         // effect of change
         final double t1,
         final double t2,
@@ -98,12 +101,12 @@ public interface IExposure {
 
         final double e1,
         final double e2,
-        
+
         // details
         final boolean smoker,
         final int mainFloorLevel,
-        final BuiltForm.Type builtFormType,
-        final BuiltForm.Region region,
+        final BuiltFormType builtFormType,
+        final RegionType region,
         boolean hadDoubleGlazing,
         boolean hasDoubleGlazing,
 
