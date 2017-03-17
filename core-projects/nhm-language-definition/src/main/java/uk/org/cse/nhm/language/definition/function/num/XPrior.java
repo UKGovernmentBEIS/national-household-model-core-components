@@ -25,7 +25,7 @@ public class XPrior extends XHouseNumber {
 	public static class P {
         public static final String DELEGATE = "delegate";
 	}
-	
+
 	private XNumber delegate;
 
     @Prop(P.DELEGATE)
@@ -35,8 +35,14 @@ public class XPrior extends XHouseNumber {
 	public XNumber getDelegate() {
 		return delegate;
 	}
-	
+
 	public void setDelegate(final XNumber delegate) {
 		this.delegate = delegate;
+    }
+
+    public static XNumber valueOf(final XNumber thing) {
+        final XPrior result = new XPrior();
+        result.setDelegate(thing);
+        return result;
     }
 }
