@@ -49,7 +49,7 @@ public class XFuelCost extends XHouseNumber implements ICalibratedEnergyFunction
               "IN PARTICULAR, the standard SAP tariffs include standing charges for some fuels (see SAP table 12).",
               "As a result, summing several marginal fuel bills will DOUBLE COUNT the standing charge.", "",
               "Any tariff in which the overall unit price is a function of the number of units used",
-              ",of which rising-block tariffs and tariffs with a standing charge are prominent examples,"
+              ",of which rising-block tariffs and tariffs with a standing charge are prominent examples,",
               "will have the property that",
               "(house.fuel-cost exclude-services:[a]) + (house.fuel-cost exclude-services:[b c d e])",
               "may not equal (house.fuel-cost), where a,b,c,d,e are all the services, for brevity."
