@@ -16,7 +16,7 @@ import uk.org.cse.nhm.hom.util.PhysicsUtil;
 
 /**
  * Utility class which wraps a {@link SegmentData} together with a height and a start point, to give an IMutableWall.
- * 
+ *
  * @author hinton
  */
 class SegmentWrapper implements IMutableWall {
@@ -40,27 +40,27 @@ class SegmentWrapper implements IMutableWall {
 	public double getAirChangeRate() {
         return endpoint.getAirChangeRate();
     }
-    
+
     @Override
     public double getThicknessWithInsulation() {
     	return endpoint.getBasicThickness() +
     			internalOrExternalInsulationThickness();
     }
-    
+
     private double internalOrExternalInsulationThickness() {
 		return endpoint.getWallInsulationThickness(WallInsulationType.Internal) +
 				endpoint.getWallInsulationThickness(WallInsulationType.External);
     }
-    
+
     @Override
     public double getThicknessWithoutInsulation() {
     	return endpoint.getBasicThickness();
     }
-    
+
     @Override
     public void setThicknessWithExistingInsulation(final double newThickness) {
     	endpoint.setBasicThickness(
-    			Math.max(0, 
+    			Math.max(0,
     					newThickness - internalOrExternalInsulationThickness()
     					));
     }
@@ -69,7 +69,7 @@ class SegmentWrapper implements IMutableWall {
 	public ElevationType getElevationType() {
     	final double changeInX = endpoint.getX() - fromX;
     	final double changeInY = endpoint.getY() - fromY;
-    	
+
     	if (changeInX > 0) return ElevationType.LEFT;
     	else if (changeInX < 0) return ElevationType.RIGHT;
     	else if (changeInY > 0) return ElevationType.BACK;
@@ -124,8 +124,8 @@ class SegmentWrapper implements IMutableWall {
 
         insert.setX(x);
         insert.setY(y);
-       
-        
+
+
         // update our coordinates
 //        endpoint.setX(x);
 //        endpoint.setY(y);
@@ -181,7 +181,7 @@ class SegmentWrapper implements IMutableWall {
 	@Override
 	public void addInsulation(final WallInsulationType type, final double thickness, final double rValue) {
 		endpoint.setWallInsulationThickness(type, thickness + endpoint.getWallInsulationThickness(type));
-		
+
 		endpoint.setUValue(PhysicsUtil.addRValueToUValue(endpoint.getUValue(), thickness * rValue));
 	}
 
@@ -193,6 +193,8 @@ class SegmentWrapper implements IMutableWall {
 		DESCRIPTION: Lookup the thermal mass level of the wall based on its construction type and whether it has insulation.
 		TYPE: lookup
 		UNIT: Thermal Mass Level
+                SAP_COMPLIANT: Yes, approved BRE lookup
+                BREDEM_COMPLIANT: Yes, approved BRE lookup
 		DEPS: thermal-mass-level
 		NOTES: Specified by BRE.
 		ID: wall-thermal-mass-category

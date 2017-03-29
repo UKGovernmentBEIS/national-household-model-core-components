@@ -21,7 +21,9 @@ public class Weather implements IWeather {
 			TYPE: table
 			UNIT: ℃
 			SAP: (22), Table U1 (UK average)
+                        SAP_COMPLIANT: SAP mode only
 			BREDEM: Table A2 (UK Average)
+                        BREDEM_COMPLIANT: N/A - user defined
 			SET: context.weather,counterfactual.weather
 			ID: external-temperature
 			CODSIEB
@@ -34,7 +36,9 @@ public class Weather implements IWeather {
 			TYPE: table
 			UNIT: W/m^2
 			SAP: (22), Table U3 (UK average)
+                        SAP_COMPLIANT: SAP mode only
 			BREDEM: Table A1 (UK Average)
+                        BREDEM_COMPLIANT: N/A - user defined
 			SET: context.weather,counterfactual.weather
 			ID: insolation
 			CODSIEB
@@ -47,7 +51,9 @@ public class Weather implements IWeather {
 			TYPE: table
 			UNIT: m/s
 			SAP: (22), Table U2 (UK average)
+                        SAP_COMPLIANT: SAP mode only
 			BREDEM: Table A3 (UK Average)
+                        BREDEM_COMPLIANT: N/A - user defined
 			SET: context.weather,counterfactual.weather
 			ID: wind-speed
 			CODSIEB

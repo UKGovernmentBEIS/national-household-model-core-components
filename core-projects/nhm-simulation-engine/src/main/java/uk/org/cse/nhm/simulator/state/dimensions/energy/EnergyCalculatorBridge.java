@@ -319,7 +319,9 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 			DESCRIPTION: The fraction of Zone 2 which is heated. This should be a number between 0 and 1. A dwelling with central heating usually has the value 1.
 			TYPE: value
 			UNIT: Dimensionless
+                        SAP_COMPLIANT: SAP mode only
 			BREDEM: Section 7 fz2htd Input
+                        BREDEM_COMPLIANT: Yes
 			NOTES: Always 100% in SAP 2012 mode.
 			ID: zone-2-heated-proportion
 			CODSIEB

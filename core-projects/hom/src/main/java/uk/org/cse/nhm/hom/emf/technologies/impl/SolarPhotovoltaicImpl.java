@@ -46,8 +46,11 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 	 BEISDOC
 	 NAME: Solar Generation Factor
 	 DESCRIPTION: The number '0.8' which is used to adjust the cheese.
-	 TYPE: value UNIT: m^2 / W SAP: (M1)
+	 TYPE: value UNIT: m^2 / W
+         SAP: (M1)
+         SAP_COMPLIENT: Yes
 	 BREDEM: 10A
+         BREDEM_COMPLIANT: Yes
 	 CONVERSION: From m^2/kW in SAP to m^2/W in the NHM, divide by 1000.
 	 ID: solar-generation-factor
 	 CODSIEB

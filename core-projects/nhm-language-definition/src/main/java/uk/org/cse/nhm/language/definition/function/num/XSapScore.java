@@ -23,10 +23,12 @@ public class XSapScore extends XHouseNumber implements ICalibratedEnergyFunction
 	/*
 	BEISDOC
 	NAME: Energy Cost Deflator
-	DESCRIPTION: The default value for the energy cost deflator 
+	DESCRIPTION: The default value for the energy cost deflator
 	TYPE: value
 	UNIT: ???
 	SAP: (256), Table 12 (beneath the table)
+        SAP_COMPLIANT: Yes
+        BREDEM_COMPLIANT: N/A - out of scope
 	SET: house.fuel-cost-index
 	NOTES: This can be overridden by the scenario author, in which case it will not give a "true" SAP score.
 	ID: energy-cost-deflator
@@ -34,7 +36,7 @@ public class XSapScore extends XHouseNumber implements ICalibratedEnergyFunction
 	*/
 	private double deflator = 0.42;
 
-	
+
 	@BindNamedArgument
 	@Doc("The energy cost deflator; this is defined in SAP 2009 version 9.90 (March 2010) Table 12, but could change in future SAP versions.")
 	@Prop(P.deflator)

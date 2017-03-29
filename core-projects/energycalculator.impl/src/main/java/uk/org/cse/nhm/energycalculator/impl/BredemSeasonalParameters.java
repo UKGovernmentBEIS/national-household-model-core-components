@@ -56,7 +56,9 @@ public class BredemSeasonalParameters extends SeasonalParameters {
 		TYPE: formula
 		UNIT: W
 		SAP: (U1)
+                SAP_COMPLIANT: Yes
 		BREDEM: 2.4.1G
+                BREDEM_COMPLIANT: Yes
 		DEPS: insolation,solar-flux-adjustment
 		ID: effective-solar-flux
 		CODSIEB

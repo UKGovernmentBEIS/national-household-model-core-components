@@ -8,7 +8,7 @@ import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 
 /**
- * Describes glazing as a proportion of an elevation that is glazed in a certain way. 
+ * Describes glazing as a proportion of an elevation that is glazed in a certain way.
  * @author hinton
  *
  */
@@ -26,13 +26,15 @@ public class Glazing implements IGlazedElement {
 	 * The gains transmission factor, excluding area
 	 */
 	private double gainsTransmissionFactor;
-	
+
 	/*
 	BEISDOC
 	NAME: Elevation glazed proportion
-	DESCRIPTION: The proportion of the elevation which is glazed with this kind of glazing 
+	DESCRIPTION: The proportion of the elevation which is glazed with this kind of glazing
 	TYPE: value
 	UNIT: Unitless proportion
+        SAP_COMPLIANT: N/A - value from stock
+        BREDEM_COMPLIANT: N/A - value from stock
 	ID: elevation-glazed-proportion
 	CODSIEB
 	*/
@@ -40,7 +42,7 @@ public class Glazing implements IGlazedElement {
 	 * The proportion of the elevation which is glazed
 	 */
 	private double glazedProportion;
-	
+
 	/**
 	 * The proportion of the glazed area which is the windows' frames
 	 */
@@ -53,7 +55,9 @@ public class Glazing implements IGlazedElement {
 	TYPE: value
 	UNIT: Category
 	SAP: Input to Table 6b
-	BREDEM: Input to Table 1, Table 24  
+	BREDEM: Input to Table 1, Table 24
+        SAP_COMPLIANT: N/A - value from stock
+        BREDEM_COMPLIANT: N/A - value from stock
 	SET: measure.install-glazing
 	GET: house.double-glazed-proportion
 	STOCK: elevations.csv (percentagedoubleglazed)
@@ -65,8 +69,8 @@ public class Glazing implements IGlazedElement {
 	 * The type of this glazing.
 	 */
 	private GlazingType glazingType;
-	
-	
+
+
 	/*
 	BEISDOC
 	NAME: Frame type
@@ -75,21 +79,23 @@ public class Glazing implements IGlazedElement {
 	UNIT: Category
 	SAP: Input to Table 6c
 	BREDEM: Input to Table 2
+        SAP_COMPLIANT: N/A - value from stock
+        BREDEM_COMPLIANT: N/A - value from stock
 	STOCK: elevations.csv (singleglazedwindowframe, doubleglazedwindowframe)
 	ID: frame-type
 	CODSIEB
 	*/
 	private FrameType frameType;
-	
+
 	private WindowInsulationType insulationType;
-	
+
     public Glazing(){
         super();
 	}
 
 	public Glazing copy() {
 		final Glazing other = new Glazing();
-		
+
 		other.setUValue(getuValue());
 		other.setFrameFactor(getFrameFactor());
 		other.setLightTransmissionFactor(getLightTransmissionFactor());
@@ -99,10 +105,10 @@ public class Glazing implements IGlazedElement {
 		other.setInsulationType(getInsulationType());
 		other.setGlazingType(getGlazingType());
 		other.setFrameType(getFrameType());
-		
+
 		return other;
 	}
-    
+
     /**
      * Default Constructor, sets {@link WindowInsulationType} to {@link WindowInsulationType#Air}
      */

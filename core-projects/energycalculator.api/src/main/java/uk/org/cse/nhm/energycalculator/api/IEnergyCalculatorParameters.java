@@ -45,7 +45,9 @@ public interface IEnergyCalculatorParameters {
 	TYPE: formula
 	UNIT: people
 	SAP: (42), Table 1b
+        SAP_COMPLIANT: SAP mode only
 	BREDEM: 1A
+        BREDEM_COMPLIANT: N/A - value from stock
 	DEPS: sap-occupancy
 	GET: house.number-of-occupants
 	STOCK: people.csv (number of rows)

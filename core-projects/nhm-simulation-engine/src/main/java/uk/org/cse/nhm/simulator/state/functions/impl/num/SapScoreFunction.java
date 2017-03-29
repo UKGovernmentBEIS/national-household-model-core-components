@@ -27,6 +27,8 @@ public class SapScoreFunction extends FuelCostFunction {
 	TYPE: value
 	UNIT: m^2
 	SAP: Section 13 (equation 9)
+        SAP_COMPLIANT: Yes
+        BREDEM_COMPLIANT: N/A - out of scope
 	ID: floor-area-offset
 	CODSIEB
 	*/
@@ -43,7 +45,9 @@ public class SapScoreFunction extends FuelCostFunction {
 	DESCRIPTION: The ECF score under which we will use the alternative Energy Cost Rating formula.
 	TYPE: value
 	UNIT: ???
-	SAP: Section 13 (equation 9) 
+	SAP: Section 13 (equation 9)
+        SAP_COMPLIANT: Yes
+        BREDEM_COMPLIANT: N/A - out of scope
 	ID: ecf-threshold
 	CODSIEB
 	*/
@@ -61,13 +65,15 @@ public class SapScoreFunction extends FuelCostFunction {
 	TYPE: value
 	UNIT: ???
 	SAP: Section 13 (equation 10)
+        SAP_COMPLIANT: Yes
+        BREDEM_COMPLIANT: N/A - out of scope
 	ID: high-ecf-multiplier
 	CODSIEB
 	*/
     /*
      * @section energy cost rating
      * @item multiplier of log term for large ECF
-     * @reference SAP9.92 p35 equation (10)
+     * @reference SAP2012 9.92 Section 13 equation (10)
      */
     private static final double HIGH_ECF_MULTIPLIER = 121d;
 
@@ -78,6 +84,8 @@ public class SapScoreFunction extends FuelCostFunction {
 	TYPE: value
 	UNIT: ???
 	SAP: Section 13 (equation 10)
+        SAP_COMPLIANT: Yes
+        BREDEM_COMPLIANT: N/A - out of scope
 	ID: high-ecf-first-term
 	CODSIEB
     */
@@ -95,6 +103,8 @@ public class SapScoreFunction extends FuelCostFunction {
 	TYPE: value
 	UNIT: ???
 	SAP: Section 13 (equation 11)
+        SAP_COMPLIANT: Yes
+        BREDEM_COMPLIANT: N/A - out of scope
 	ID: low-ecf-first-term
 	CODSIEB
     */
@@ -112,6 +122,8 @@ public class SapScoreFunction extends FuelCostFunction {
 	TYPE: value
 	UNIT: ???
 	SAP: Section 13 (equation 11)
+        SAP_COMPLAINT: Yes
+        BREDEM_COMPLIANT: N/A - out of scope
 	ID: low-ecf-multiplier
 	CODSIEB
     /*
@@ -174,6 +186,8 @@ public class SapScoreFunction extends FuelCostFunction {
 		TYPE: formula
 		UNIT: ???
 		SAP: (257), Section 13 (equation 9)
+                SAP_COMPLIANT: Yes
+                BREDEM_COMPLIANT: N/A - out of scope
 		DEPS: energy-cost-deflator,floor-area-offset,dwelling-floor-area,fuel-cost
 		NOTES: The fuel cost used excludes the per-unit cost of energy for appliances and cooking.
 		ID: ecf
@@ -195,6 +209,8 @@ public class SapScoreFunction extends FuelCostFunction {
 		TYPE: formula
 		UNIT: ???
 		SAP: (258), Section 13 (Equations 10 and 11)
+                SAP_COMPLIANT: Yes
+                BREDEM_COMPLIANT: N/A - out of scope
 		DEPS: ecf,ecf-threshold,high-ecf-first-term,high-ecf-multiplier,low-ecf-first-term,low-ecf-multiplier
 		GET: house.fuel-cost-index
 		NOTES: We don't implement the SAP band function in the NHM. To find the SAP band for a dwelling, take this number and perform the lookup in Table 14.

@@ -277,6 +277,8 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 		TYPE: formula
 		UNIT: W
 		SAP: (211)
+                SAP_COMPLIANT: Yes
+                BREDEM_COMPLIANT: N/A - out of scope
 		DEPS: community-distribution-loss-factor,community-space-heating-energy-multipliers,space-heating-fraction,heat-demand
 		ID: community-space-heating-fuel-energy-demand
 		CODSIEB

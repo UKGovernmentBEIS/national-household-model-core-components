@@ -21,7 +21,7 @@ public class GainsTransducer implements IEnergyTransducer {
 		HOT_WATER_USE_USEFULNESS = constants.get(GainsConstants.HOT_WATER_DIRECT_GAINS);
 		HOT_WATER_PIPEWORK_USEFULNESS = constants.get(GainsConstants.HOT_WATER_SYSTEM_GAINS);
 	}
-	
+
 	@Override
 	public ServiceType getServiceType() {
 		return ServiceType.INTERNALS;
@@ -35,7 +35,7 @@ public class GainsTransducer implements IEnergyTransducer {
 		final double lightingGains = state.getTotalSupply(EnergyType.GainsLIGHTING_GAINS);
 		final double applianceGains = state.getTotalSupply(EnergyType.GainsAPPLIANCE_GAINS);
 		final double cookingGains = state.getTotalSupply(EnergyType.GainsCOOKING_GAINS);
-		
+
 		/*
 		BEISDOC
 		NAME: Pump and fan gains
@@ -43,17 +43,19 @@ public class GainsTransducer implements IEnergyTransducer {
 		TYPE: formula
 		UNIT: W
 		SAP: (70), Table 5a
+                SAP_COMPLIANT: Yes
 		BREDEM: 6G, Table 26
+                BREDEM_COMPLIANT: Yes
 		DEPS: warm-air-fan-electricity,central-heating-pump-gains,oil-boiler-pump-gains
 		ID: pump-and-fan-gains
 		CODSIEB
 		*/
 		final double pumpGains = state.getTotalSupply(EnergyType.GainsPUMP_AND_FAN_GAINS);
-		
+
 		final double hotWaterGains = state.getTotalSupply(EnergyType.GainsHOT_WATER_USAGE_GAINS);
 		final double hotWaterGains2 = state.getTotalSupply(EnergyType.GainsHOT_WATER_SYSTEM_GAINS);
 		final double solarGains = state.getTotalSupply(EnergyType.GainsSOLAR_GAINS);
-		
+
 		state.increaseDemand(EnergyType.GainsMETABOLIC_GAINS, metabolicGains);
 		state.increaseDemand(EnergyType.GainsLIGHTING_GAINS, lightingGains);
 		state.increaseDemand(EnergyType.GainsAPPLIANCE_GAINS, applianceGains);
@@ -62,7 +64,7 @@ public class GainsTransducer implements IEnergyTransducer {
 		state.increaseDemand(EnergyType.GainsHOT_WATER_USAGE_GAINS, hotWaterGains);
 		state.increaseDemand(EnergyType.GainsHOT_WATER_SYSTEM_GAINS, hotWaterGains2);
 		state.increaseDemand(EnergyType.GainsSOLAR_GAINS, solarGains);
-		
+
 		/*
 		BEISDOC
 		NAME: Useful Gains
@@ -70,19 +72,21 @@ public class GainsTransducer implements IEnergyTransducer {
 		TYPE: formula
 		UNIT: W
 		SAP: (73, 84)
+                SAP_COMPLIANT: Yes
 		BREDEM: 6J, 6K
+                BREDEM_COMPLIANT: Yes
 		DEPS: monthly-solar-gains,metabolic-gains,lighting-gains-utilisation,lighting-energy-demand,appliance-adjusted-demand,cooking-gains,pump-and-fan-gains,hot-water-usage-gains,hot-water-system-gains
 		ID: useful-gains
 		CODSIEB
 		*/
-		final double usefulGains = 
-				solarGains + 
-				metabolicGains + 
+		final double usefulGains =
+				solarGains +
+				metabolicGains +
 				LIGHTING_GAIN_USEFULNESS * lightingGains +
 				applianceGains +
-				cookingGains + 
-				pumpGains + 
-				
+				cookingGains +
+				pumpGains +
+
 				/*
 				BEISDOC
 				NAME: Hot Water Usage Gains
@@ -90,14 +94,16 @@ public class GainsTransducer implements IEnergyTransducer {
 				TYPE: formula
 				UNIT: W
 				SAP: (65)
+                                SAP_COMPLIANT: Yes
 				BREDEM: 6I
+                                BREDEM_COMPLIANT: Yes
 				DEPS: combi-losses,water-heating-power,hot-water-direct-gains-usefulness
 				NOTES: Combi losses are included here because they model 'rejected' water, which came out of the tap at the wrong temperature.
 				ID: hot-water-usage-gains
 				CODSIEB
 				*/
-				HOT_WATER_USE_USEFULNESS * hotWaterGains + 
-				
+				HOT_WATER_USE_USEFULNESS * hotWaterGains +
+
 				/*
 				BEISDOC
 				NAME: Hot Water System Gains
@@ -105,13 +111,15 @@ public class GainsTransducer implements IEnergyTransducer {
 				TYPE: formula
 				UNIT: W
 				SAP: (65)
+                                SAP_COMPLIANT: Yes
 				BREDEM: 6I
+                                BREDEM_COMPLIANT: Yes
 				DEPS: central-hot-water-distribution-losses,point-of-use-distribution-losses,distribution-losses,water-storage-loss,hot-water-system-gains-usefulness
 				ID: hot-water-system-gains
 				CODSIEB
 				*/
 				HOT_WATER_PIPEWORK_USEFULNESS * hotWaterGains2;
-		
+
 		state.increaseSupply(EnergyType.GainsUSEFUL_GAINS, usefulGains);
 	}
 
@@ -119,12 +127,12 @@ public class GainsTransducer implements IEnergyTransducer {
 	public TransducerPhaseType getPhase() {
 		return TransducerPhaseType.Gains;
 	}
-	
+
 	@Override
 	public int getPriority() {
 		return 0;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Gains (internals)";

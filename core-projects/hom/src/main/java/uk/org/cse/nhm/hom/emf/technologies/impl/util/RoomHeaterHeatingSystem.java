@@ -55,7 +55,9 @@ public class RoomHeaterHeatingSystem implements IHeatingSystem {
 		TYPE: type
 		UNIT: unit
 		SAP: Table 4a (Category 10)
+                SAP_COMPLIANT: Yes
 		BREDEM: Defers to SAP
+                BREDEM_COMPLIANT: N/A - out of scope
 		NOTES: This will never actually get used, since we only care about the responsiveness of *primary* space heating systems.
 		NOTES: We don't have any way to identify a solid-fuel stove here, so we always use the lower responsiveness when the room heater uses solid fuel.
 		ID: room-heater-responsiveness

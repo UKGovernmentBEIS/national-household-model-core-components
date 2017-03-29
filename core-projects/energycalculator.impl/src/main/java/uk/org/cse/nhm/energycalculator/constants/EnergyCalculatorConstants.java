@@ -12,9 +12,9 @@ public enum EnergyCalculatorConstants implements IConstant {
 	TYPE: value
 	UNIT: W.hr/℃/M^3
 	SAP: (38)
+        SAP_COMPLIANT: Yes
 	BREDEM: 3G
-	DEPS:
-	GET:
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-calculator-constants
 	ID: ventilation-heat-loss-coefficient
 	CODSIEB
@@ -32,9 +32,9 @@ public enum EnergyCalculatorConstants implements IConstant {
 	TYPE: constant
 	UNIT: ach/h
 	SAP: (13)
+        SAP_COMPLIANT: Yes
 	BREDEM: Table 19
-	DEPS:
-	GET:
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-calculator-constants
 	ID: draught-lobby-constant
 	CODSIEB
@@ -49,7 +49,9 @@ public enum EnergyCalculatorConstants implements IConstant {
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: (22a)
+        SAP_COMPLIANT: Yes
 	BREDEM: 3E
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	ID: wind-factor-divisor
 	CODSIEB
@@ -64,7 +66,9 @@ public enum EnergyCalculatorConstants implements IConstant {
 	TYPE: value
 	UNIT: ℃
 	SAP: Table 9b
+        SAP_COMPLIANT: Yes
 	BREDEM: 7L, 7T
+        BREDEM_CCOMPLIANT: Yes
 	SET: context.energy-constants
 	ID: unresponsive-temperature-reduction
 	CODSIEB
@@ -79,7 +83,9 @@ public enum EnergyCalculatorConstants implements IConstant {
 	TYPE: value
 	UNIT: W/person
 	SAP: (66), Table 5
+        SAP_COMPLIANT: Yes
 	BREDEM: 6A
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	ID: metabolic-gains-per-person
 	CODSIEB
@@ -94,7 +100,11 @@ public enum EnergyCalculatorConstants implements IConstant {
 	TYPE: value
 	UNIT: W/person
 	SAP: Table 5
+        SAP_COMPLIANT: N/A - reduced gains does not apply in SAP mode
+        BREDEM_COMPLIANT: No, see note
 	SET: context.energy-constants
+        NOTES: Reduced internal gains do not apply under SAP mode.
+        NOTES: The BREDEM 2012 document does not apply reduced internal gains. However, in BREDEM 2012 mode, we allow the user to set dwellings as having a form of reduced internal gains based on Table 5 of the SAP 2012 document.
 	ID: metabolic-gains-per-person
 	CODSIEB
 	*/
@@ -108,7 +118,9 @@ public enum EnergyCalculatorConstants implements IConstant {
 	TYPE: value
 	UNIT: W/person
 	SAP: (71), Table 5 (losses row)
+        SAP_COMPLIANT: Yes
 	BREDEM: 6F
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	ID: evaporation-loss-per-person
 	CODSIEB
@@ -123,7 +135,9 @@ public enum EnergyCalculatorConstants implements IConstant {
 	TYPE: 5 values (one for each overshading type)
 	UNIT: Dimensionless
 	SAP: Table 6d (winter solar access factor column)
+        SAP_COMPLIANT: Yes, but no data
 	BREDEM: Table 23
+        BREDEM_COMPLIANT: Yes, but no data
 	SET: context.energy-constants
 	DEPS: overshading
 	NOTES: Only the middle overshading factor is ever used.
@@ -140,7 +154,9 @@ public enum EnergyCalculatorConstants implements IConstant {
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: (74-82)
+        SAP_COMPLIANT: Yes
 	BREDEM: 5A
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	ID: solar-reflection
 	CODSIEB
@@ -155,7 +171,9 @@ public enum EnergyCalculatorConstants implements IConstant {
 	TYPE: value
 	UNIT: W/m^2/℃
 	SAP: Table 9 (note at bottom of table)
+        SAP_COMPLIANT: Yes
 	BREDEM: 7A,7B
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	ID: reference-heat-loss-parameter
 	CODSIEB
@@ -170,7 +188,9 @@ public enum EnergyCalculatorConstants implements IConstant {
 	TYPE: value
 	UNIT: hours/W/m^2/℃
 	SAP: Table 9a
+        SAP_COMPLIANT: Yes
 	BREDEM: 7F
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	ID: time-constant-heat-loss-parameter-multiplier
 	CODSIEB
@@ -185,7 +205,9 @@ public enum EnergyCalculatorConstants implements IConstant {
 	TYPE: value
 	UNIT: Hours
 	SAP: Table 9b
+        SAP_COMPLIANT: Yes
 	BREDEM: 7F
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	ID: mimimum-cooling-time
 	CODSIEB
@@ -200,7 +222,9 @@ public enum EnergyCalculatorConstants implements IConstant {
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: Table 9b
+        SAP_COMPLIANT: Yes
 	BREDEM: 7F
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	ID: cooling-time-time-constant-multiplier
 	CODSIEB
@@ -215,7 +239,9 @@ public enum EnergyCalculatorConstants implements IConstant {
 	TYPE: value
 	UNIT: Hours
 	SAP: Table 9a
+        SAP_COMPLIANT: Yes
 	BREDEM: 7G
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	ID: utilisation-factor-time-constant-divisor
 	CODSIEB
@@ -229,7 +255,9 @@ public enum EnergyCalculatorConstants implements IConstant {
 	DESCRIPTION: Threshold degree days value, used for determining heating on factor
 	TYPE: value
 	UNIT: 1 / Degree Days
+        SAP_COMPLIANT: N/A - not used
 	BREDEM: 8F, 8G
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	NOTES: This is the 1/5 which the degree days are set to if the upper and lower threshold temperatures are equal.
 	NOTES: It is also the multiple of 5 inside the exponential, when they are not equal.
@@ -245,7 +273,9 @@ public enum EnergyCalculatorConstants implements IConstant {
 	DESCRIPTION: The amount below the demand temperature the threshold temperature is for gains utilisation factor calculation
 	TYPE: value
 	UNIT: ℃
+        SAP_COMPLIANT: N/A - not used
 	BREDEM: 8D
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	CONVERSION: This number is increased by 0.5 compared to BREDEM, because we skip out the +0.5 and convert the -0.5 into -1 later on in the calculation.
 	ID: gains-utilisation-factor-threshold-difference
@@ -261,8 +291,9 @@ public enum EnergyCalculatorConstants implements IConstant {
 	TYPE: value
 	UNIT: ach/h
 	SAP: (15)
-	DEPS:
-	GET:
+        SAP_COMPLIANT: Yes
+        BREDEM: Table 19 (Well-fitting, not draft sealed)
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	ID: window-infiltration-constant
 	CODSIEB
@@ -277,8 +308,8 @@ public enum EnergyCalculatorConstants implements IConstant {
 	TYPE: value
 	UNIT: ach/h
 	SAP: (15)
-	DEPS:
-	GET:
+        SAP_COMPLIANT: Yes
+        BREDEM_COMPLIANT: No
 	SET: context.energy-constants
 	ID: draught-stripped-factor-constant
 	CODSIEB
@@ -293,9 +324,9 @@ public enum EnergyCalculatorConstants implements IConstant {
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: (20)
+        SAP_COMPLIANT: Yes
 	BREDEM: Table 22
-	DEPS:
-	GET:
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	ID: sheltered-sides-exposure-factor
 	CODSIEB
@@ -309,7 +340,9 @@ public enum EnergyCalculatorConstants implements IConstant {
 	DESCRIPTION: The values for the site exposure factor.
 	TYPE: value
 	UNIT: Dimensionless
+        SAP_COMPLIANT: N/A - not used
 	BREDEM: Table 21
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	ID: site-exposure-factor-lookup
 	CODSIEB

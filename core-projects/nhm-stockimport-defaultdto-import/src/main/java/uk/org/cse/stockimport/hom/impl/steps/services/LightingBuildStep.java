@@ -21,7 +21,7 @@ import uk.org.cse.stockimport.repository.IHouseCaseSources;
 
 /**
  * LightingBuilderStep.
- * 
+ *
  * @author richardt
  * @version $Id: LightingBuilderStep.java 94 2010-09-30 15:39:21Z richardt
  * @since 0.0.1-SNAPSHOT
@@ -31,10 +31,10 @@ public class LightingBuildStep implements ISurveyCaseBuildStep {
     /** @since 1.0 */
     public static final String IDENTIFIER = LightingBuildStep.class.getCanonicalName();
 
-    /** Name given to installed efficient lights 
+    /** Name given to installed efficient lights
      *  @since 1.0*/
     public static final String EFFICIENT_LIGHT = "efficient";
-    /** Name given to installed incandescent lights 
+    /** Name given to installed incandescent lights
      *  @since 1.0*/
     public static final String STDLIGHT_LIGHT = "incandescent";
     /** @since 1.0*/
@@ -86,7 +86,9 @@ public class LightingBuildStep implements ISurveyCaseBuildStep {
 		TYPE: Technology model object containing efficiency and proportion
 		UNIT: Dimensionless efficiency, Dimensionless proportion
 		SAP: (232, L1, L2)
+                SAP_COMPLIANT: Yes
 		BREDEM: 1B, 1C
+                BREDEM_COMPLIANT: Yes
 		DEPS: cfl-energy-consumption,incandescent-energy-consumption,adjusted-light-demand
 		SET: measure.low-energy-lighting
 		STOCK: lighting.csv (fraction)

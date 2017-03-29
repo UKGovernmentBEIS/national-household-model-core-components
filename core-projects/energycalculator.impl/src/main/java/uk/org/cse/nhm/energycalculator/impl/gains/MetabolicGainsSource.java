@@ -13,7 +13,7 @@ import uk.org.cse.nhm.energycalculator.constants.EnergyCalculatorConstants;
 
 /**
  * A gizmo which provides metabolic gains.)
- * 
+ *
  * @author hinton
  *
  */
@@ -25,7 +25,7 @@ public class MetabolicGainsSource implements IEnergyTransducer {
 		METABOLIC_GAINS_PER_PERSON = constants.get(EnergyCalculatorConstants.METABOLIC_GAINS_PER_PERSON);
 		REDUCED_METABOLIC_GAINS_PER_PERSON = constants.get(EnergyCalculatorConstants.REDUCED_METABOLIC_GAINS_PER_PERSON);
 	}
-	
+
 	@Override
 	public ServiceType getServiceType() {
 		return ServiceType.METABOLIC_GAINS;
@@ -40,13 +40,15 @@ public class MetabolicGainsSource implements IEnergyTransducer {
 		TYPE: formula
 		UNIT: W
 		SAP: (66), Table 5
+                SAP_COMPLIANT: Yes
 		BREDEM: 6F
+                BREDEM_COMPLIANT: Yes
 		DEPS: metabolic-gains-per-person,reduced-metabolic-gains-per-person,occupancy,reduced-internal-gains
 		ID: metabolic-gains
 		CODSIEB
 		*/
 		final double metabolicGains = parameters.getNumberOfOccupants() * (house.hasReducedInternalGains() ? REDUCED_METABOLIC_GAINS_PER_PERSON: METABOLIC_GAINS_PER_PERSON);
-		
+
 		state.increaseSupply(EnergyType.GainsMETABOLIC_GAINS, metabolicGains);
 	}
 
@@ -54,12 +56,12 @@ public class MetabolicGainsSource implements IEnergyTransducer {
 	public int getPriority() {
 		return 0;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Metabolism";
 	}
-	
+
 	@Override
 	public TransducerPhaseType getPhase() {
 		return TransducerPhaseType.BeforeEverything;

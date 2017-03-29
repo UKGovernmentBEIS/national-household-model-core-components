@@ -37,7 +37,9 @@ public class HotWaterUtilities {
 		TYPE: formula
 		UNIT: Dimensionless
 		SAP: (53), Table 2b
+                SAP_COMPLIANT: Yes
 		BREDEM: 2.2B.C, Table 9
+                BREDEM_COMPLIANT: Yes
 		DEPS: basic-temperature-factor,temperature-factor-no-thermostat-multiplier,temperature-factor-separate-timer-multiplier
 		ID: storage-temperature-factor
 		CODSIEB

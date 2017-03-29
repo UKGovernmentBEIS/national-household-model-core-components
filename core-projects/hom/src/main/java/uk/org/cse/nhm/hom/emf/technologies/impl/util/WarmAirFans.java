@@ -28,15 +28,17 @@ public class WarmAirFans extends EnergyTransducer {
 		TYPE: formula
 		UNIT: W
 		SAP: Table 5a (warm air heating system fans)
+                SAP_COMPLIANT: Yes
 		BREDEM: Table4, Table 26 (warm air heating system fans)
+                BREDEM_COMPLIANT: Yes
 		DEPS: warm-air-system-volume-multiplier
 		ID: warm-air-fan-electricity
 		CODSIEB
 		*/
 		final double power = parameters.getConstants().get(PumpAndFanConstants.WARM_AIR_SYSTEM_VOLUME_MULTIPLIER) *
 				house.getHouseVolume();
-		
-		state.increaseElectricityDemand(parameters.getConstants().get(SplitRateConstants.DEFAULT_FRACTIONS, parameters.getTarrifType()), 
+
+		state.increaseElectricityDemand(parameters.getConstants().get(SplitRateConstants.DEFAULT_FRACTIONS, parameters.getTarrifType()),
 				power);
 		state.increaseSupply(EnergyType.GainsPUMP_AND_FAN_GAINS, power);
 	}
@@ -45,7 +47,7 @@ public class WarmAirFans extends EnergyTransducer {
 	public String toString() {
 		return "Warm Air Fans";
 	}
-	
+
 	@Override
 	public TransducerPhaseType getPhase() {
 		return TransducerPhaseType.BeforeGains;

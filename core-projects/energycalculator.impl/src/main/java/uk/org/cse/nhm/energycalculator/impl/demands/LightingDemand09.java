@@ -82,7 +82,9 @@ public class LightingDemand09 extends Sink {
 		TYPE: formula
 		UNIT: Watts
 		SAP: (L1)
+                SAP_COMPLIANT: Yes
 		BREDEM: 1B
+                BREDEM_COMPLIANT: Yes
 		DEPS: light-demand-exponent,occupancy,dwelling-floor-area
 		NOTES: In SAP and BREDEM, this is immediately multiplied by the energy demand per light demand. We leave that step until later, since we prefer to work on one energy type at a time.
 		ID: base-light-demand
@@ -99,7 +101,9 @@ public class LightingDemand09 extends Sink {
 		TYPE: formula
 		UNIT: Dimensionless
 		SAP: (L3,L4)
+                SAP_COMPLIANT: Yes
 		BREDEM: 1E
+                BREDEM_COMPLIANT: Yes
 		DEPS: daylight-parameter-maximum,glazed-light-gains,dwelling-floor-area,daylight-adjustment-coefficients
 		ID: daylight-adjustment
 		CODSIEB
@@ -134,7 +138,9 @@ public class LightingDemand09 extends Sink {
 		TYPE: formula
 		UNIT: Watts
 		SAP: (L3,L4,L7,L8)
+                SAP_COMPLIANT: Yes
 		BREDEM: 1F,1G,1H
+                BREDEM_COMPLIANT: Yes
 		DEPS: base-light-demand,daylight-adjustment,light-month-adjustment
 		NOTES: Energy demand per lighting demand still not included at this point.
 		ID: adjusted-light-demand
@@ -158,7 +164,9 @@ public class LightingDemand09 extends Sink {
 		TYPE: formula
 		UNIT: Watts
 		SAP: (L5)
+                SAP_COMPLIANT: Yes
 		BREDEM: 1D
+                BREDEM_COMPLIANT: Yes
 		DEPS: light-overshading-factor,visible-light-effective-transmission-area
 		ID: glazed-light-gains
 		CODSIEB

@@ -21,21 +21,21 @@ class CarbonFactorFunction extends AbstractNamed implements IComponentsFunction<
 	final Multimap<IComponentsFunction<Number>, FuelType> mm = HashMultimap.create();
 	final Set<IDimension<?>> deps;
 	final Set<DateTime> changeDates;
-	
+
 	CarbonFactorFunction(final Multimap<IComponentsFunction<Number>, FuelType> mm) {
 		this.mm.putAll(mm);
 		final ImmutableSet.Builder<IDimension<?>> dims = ImmutableSet.builder();
 		final ImmutableSet.Builder<DateTime> dates = ImmutableSet.builder();
-		
+
 		for (final IComponentsFunction<Number> cf : mm.keySet()) {
 			dims.addAll(cf.getDependencies());
 			dates.addAll(cf.getChangeDates());
 		}
-		
+
 		this.deps = dims.build();
 		this.changeDates = dates.build();
 	}
-	
+
 	@Override
 	public ICarbonFactors compute(final IComponentsScope scope, final ILets lets) {
 		/*
@@ -45,6 +45,8 @@ class CarbonFactorFunction extends AbstractNamed implements IComponentsFunction<
 		TYPE: Lookup table
 		UNIT: Fuel Type (categorical) -> Function (no arguments, return value is quantity of carbon / kWh fuel)
 		SAP: Table 12, Section 12a (Emission factor column)
+                SAP_COMPLIANT: No, user defined
+                BREDEM_COMPLIANT: N/A - out of scope
 		SET: context.carbon-factors,counterfactual.carbon
 		NOTES: 0 will be used for fuels for which no carbon factor has been specified.
 		NOTES: The default values for counterfactual.carbon are the SAP 2012 carbon factors.
@@ -54,7 +56,7 @@ class CarbonFactorFunction extends AbstractNamed implements IComponentsFunction<
 		CarbonFactors cf = new CarbonFactors();
 		for (final IComponentsFunction<Number> f : mm.keySet()) {
 			final Double value = f.compute(scope, lets).doubleValue();
-			
+
 			if (value != null) {
 				for (final FuelType ft : mm.get(f)) {
 					cf.setCarbonFactor(ft, value);

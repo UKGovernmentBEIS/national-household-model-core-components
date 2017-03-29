@@ -463,7 +463,9 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 		TYPE: formula
 		UNIT: W
 		SAP: (206, 211)
+                SAP_COMPLIANT: Yes
 		BREDEM: 8J,8K
+                BREDEM_COMPLIANT: Yes
 		DEPS: space-heating-fraction,heat-demand
 		NOTES: This code constructs a 'heat transducer', which is an object in the energy calculator which models converting fuel into heat.
 		ID: heat-pump-fuel-energy-demand

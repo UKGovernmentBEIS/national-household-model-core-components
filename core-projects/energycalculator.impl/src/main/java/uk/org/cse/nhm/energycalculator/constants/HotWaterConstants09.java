@@ -5,7 +5,7 @@ import uk.org.cse.nhm.energycalculator.api.IConstant;
 
 @ConstantDescription("Constants controlling the hot water demand and hot water energy content.")
 public enum HotWaterConstants09 implements IConstant {
-	
+
 	/*
 	BEISDOC
 	NAME: Base Hot Water Demand
@@ -13,13 +13,15 @@ public enum HotWaterConstants09 implements IConstant {
 	TYPE: value
 	UNIT: litres
 	SAP: (43)
+        SAP_COMPLIANT: SAP mode only
+        BREDEM_COMPLIANT: N/A - uses a different code path
 	SET: context.energy-constants
 	ID: base-hot-water-demand
 	CODSIEB
 	*/
 	@ConstantDescription("The volume of hot water used independent of the number of people in the house (liters)")
 	BASE_VOLUME(36.0),
-	
+
 	/*
 	BEISDOC
 	NAME: Per Person Hot Water Demand
@@ -27,14 +29,16 @@ public enum HotWaterConstants09 implements IConstant {
 	TYPE: value
 	UNIT: litres/person
 	SAP: (43)
+        SAP_COMPLIANT: SAP mode only
+        BREDEM_COMPLIANT: N/A - uses a different code path
 	SET: context.energy-constants
 	ID: person-hot-water-demand
 	CODSIEB
 	*/
 	@ConstantDescription("The volume of additional hot water use per person (liters per person)")
 	PERSON_DEPENDENT_VOLUME(25.0),
-	
-	
+
+
 	/*
 	BEISDOC
 	NAME: Energy per unit hot water
@@ -42,7 +46,9 @@ public enum HotWaterConstants09 implements IConstant {
 	TYPE: value
 	UNIT: W/l/℃
 	SAP: (45,46)
+        SAP_COMPLIANT: Yes
 	BREDEM: 2.1H, 2.2A
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	CONVERSION: kJ/day to Watts (J/s) multiply through by (1000 / (24 * 60 * 60))
 	NOTES: This value excludes the distribution losses (which SAP and BREDEM treat as part of demand). It is therefore 85% of the SAP or BREDEM value.
@@ -55,16 +61,16 @@ public enum HotWaterConstants09 implements IConstant {
 	//        kJ/(l . kelvin)      l		d		k
 	// = kJ days / 3600 ---> kWh
 	// however, in our energy calculator the days live elsewhere and everything is in watts
-	// so we want just 4.18* volume/day * delta T 
+	// so we want just 4.18* volume/day * delta T
 	// which is kJ / (l . kelvin) * l/day * kelvin
 	// which is kJ/day
 	// 4.18 kJ/day = 0.048495 etc watts
 	// then we multiply by 0.85 because 0.15 * that is distribution losses
 	// so 0.85 * that is not distribution losses (i.e. actual demand)
-	
+
 	@ConstantDescription("The energy in watts per unit volume of water degree temperature rise (watts)")
 	ENERGY_PER_VOLUME(0.04849537037 * 0.85),
-	
+
 	/*
 	BEISDOC
 	NAME: Hot water usage factor
@@ -72,16 +78,16 @@ public enum HotWaterConstants09 implements IConstant {
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: Table 1c
+        SAP_COMPLIANT: Yes
 	BREDEM: Table 7
-	DEPS: 
-	GET:
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	ID: monthly-water-usage-factor
 	CODSIEB
 	*/
 	@ConstantDescription("The hot water usage factor, by month of the year - this is used to scale the demand for hot water")
 	USAGE_FACTOR(1.10, 1.06, 1.02, 0.98,	0.94, 0.90, 0.90, 0.94, 0.98, 1.02, 1.06, 1.10),
-	
+
 	/*
 	BEISDOC
 	NAME: Hot water temperature factor
@@ -89,7 +95,9 @@ public enum HotWaterConstants09 implements IConstant {
 	TYPE: value
 	UNIT: ℃
 	SAP: Table 1d
+        SAP_COMPLIANT: Yes
 	BREDEM: Table 8
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	ID: monthly-water-temperature-factor
 	CODSIEB
@@ -99,11 +107,11 @@ public enum HotWaterConstants09 implements IConstant {
 	;
 
 	private final double[] values;
-	
+
 	HotWaterConstants09(final double... values) {
 		this.values = values;
 	}
-	
+
 	@Override
 	public <T> T getValue(final Class<T> clazz) {
 		if (clazz.isAssignableFrom(double[].class)) {

@@ -98,7 +98,9 @@ public class DailyHeatingSchedule implements IHeatingSchedule {
 		TYPE: formula
 		UNIT: Dimensionless
 		SAP: Table 9b
+                SAP_COMPLIANT: Yes
 		BREDEM: 7M,7U
+                BREDEM_COMPLIANT: Yes
 		DEPS: heating-schedule,cooling-time
 		NOTES: SAP and BREDEM multiply in (demand temperature - background temperature) here, while we do it later for computational efficiency.
 		NOTES: We've also rearranged the formula here for the same reasons. The end result is the same calculation.
@@ -153,7 +155,9 @@ public class DailyHeatingSchedule implements IHeatingSchedule {
 		TYPE: formula
 		UNIT: ℃
 		SAP: Table 9c (Steps 4 and 6)
+                SAP_COMPLIANT: Yes
 		BREDEM: 7N,7O,7V,7W
+                BREDEM_COMPLIANT: Yes
 		DEPS: background-temperatures,zone-1-demand-temperature,zone-2-demand-temperature,temperature-increase-for-heated-period
 		NOTES: SAP and BREDEM do this in reverse, subtracting a temperature reduction from the demand temperature. This is an equivalent calculation.
 		ID: weekday-and-weekend-mean-temperatures
