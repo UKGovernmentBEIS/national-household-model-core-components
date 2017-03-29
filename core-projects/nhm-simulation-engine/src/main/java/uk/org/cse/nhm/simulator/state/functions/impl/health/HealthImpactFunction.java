@@ -10,18 +10,19 @@ import javax.inject.Inject;
 
 import org.joda.time.DateTime;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import com.google.inject.assistedinject.Assisted;
+
 import uk.ac.ucl.hideem.CumulativeHealthOutcome;
 import uk.ac.ucl.hideem.Disease;
-import uk.ac.ucl.hideem.HealthOutcome;
 import uk.ac.ucl.hideem.IHealthModule;
 import uk.ac.ucl.hideem.Person;
 import uk.ac.ucl.hideem.Person.Sex;
-import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.hom.BasicCaseAttributes;
 import uk.org.cse.nhm.hom.people.People;
-import uk.org.cse.nhm.hom.structure.Glazing;
 import uk.org.cse.nhm.hom.structure.StructureModel;
-import uk.org.cse.nhm.hom.structure.impl.Elevation;
 import uk.org.cse.nhm.hom.types.BuiltFormType;
 import uk.org.cse.nhm.hom.types.SexType;
 import uk.org.cse.nhm.language.definition.function.health.XHealthImpactFunction.XDisease;
@@ -31,11 +32,6 @@ import uk.org.cse.nhm.simulator.let.ILets;
 import uk.org.cse.nhm.simulator.scope.IComponentsScope;
 import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
-
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
-import com.google.inject.assistedinject.Assisted;
 
 public class HealthImpactFunction extends AbstractNamed implements IComponentsFunction<Number> {
 	private static final Map<XDisease, Set<Disease.Type>> DISEASES =
@@ -62,7 +58,7 @@ public class HealthImpactFunction extends AbstractNamed implements IComponentsFu
 
 	private final IComponentsFunction<Number> h1, h2, p1, p2, t1, t2, g1, g2;
 	private final IComponentsFunction<Number> horizon, offset;
-    private final IComponentsFunction<Boolean> fans, vents;
+    private final IComponentsFunction<Boolean> hadFans, hadVents, fans, vents;
 	private final Set<XDisease> diseases;
 	private final XImpact impact;
 
@@ -87,8 +83,12 @@ public class HealthImpactFunction extends AbstractNamed implements IComponentsFu
 
 			@Assisted("horizon") final IComponentsFunction<Number> horizon,
 			@Assisted("offset")  final IComponentsFunction<Number> offset,
-            @Assisted("fans")    final IComponentsFunction<Boolean> fans,
-            @Assisted("vents")   final IComponentsFunction<Boolean> vents,
+			
+			@Assisted("had-vents") final IComponentsFunction<Boolean> hadVents,
+			@Assisted("had-fans") final IComponentsFunction<Boolean> hadFans,
+
+			@Assisted("has-fans") final IComponentsFunction<Boolean> fans,
+			@Assisted("has-vents") final IComponentsFunction<Boolean> vents,
 
             @Assisted("g1") 	 final IComponentsFunction<Number> g1,
             @Assisted("g2")	     final IComponentsFunction<Number> g2,
@@ -119,6 +119,8 @@ public class HealthImpactFunction extends AbstractNamed implements IComponentsFu
 		this.diseases = EnumSet.copyOf(diseases);
 		this.impact = impact;
 
+		this.hadFans = hadFans;
+		this.hadVents = hadVents;
         this.fans = fans;
         this.vents = vents;
 	}
@@ -134,9 +136,12 @@ public class HealthImpactFunction extends AbstractNamed implements IComponentsFu
 
 		final int mainFloorLevel = structureModel.getMainFloorLevel();
 
+		final boolean hadWorkingExtractors = this.hadFans.compute(scope, lets);
+		final boolean hadTrickleVents = this.hadVents.compute(scope, lets);
+		
 		final boolean hasWorkingExtractors = this.fans.compute(scope, lets);
 		final boolean hasTrickleVents = this.vents.compute(scope, lets);
-
+		
         final double _h1 = h1.compute(scope, lets).doubleValue();
         final double _h2 = h2.compute(scope, lets).doubleValue();
 

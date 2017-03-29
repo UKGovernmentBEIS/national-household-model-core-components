@@ -171,11 +171,16 @@ public interface IHouseValueFunctionFactory {
         @Assisted("horizon") final IComponentsFunction<Number> horizon,
         @Prop(XHealthImpactFunction.P.fromYear)
         @Assisted("offset")  final IComponentsFunction<Number> offset,
-
+        
+        @Prop(XHealthImpactFunction.P.hadTrickleVents)
+        @Assisted("had-vents")   final IComponentsFunction<Boolean> hadVents,
+        @Prop(XHealthImpactFunction.P.hadExtractFans)
+        @Assisted("had-fans")   final IComponentsFunction<Boolean> hadFans,
+        
         @Prop(XHealthImpactFunction.P.hasTrickleVents)
-        @Assisted("vents")   final IComponentsFunction<Boolean> vents,
+        @Assisted("has-vents")   final IComponentsFunction<Boolean> vents,
         @Prop(XHealthImpactFunction.P.hasExtractFans)
-        @Assisted("fans")   final IComponentsFunction<Boolean> fans,
+        @Assisted("has-fans")   final IComponentsFunction<Boolean> fans,
 
         @Prop(XHealthImpactFunction.P.diseases)
         @Assisted			 final List<XDisease> diseases,

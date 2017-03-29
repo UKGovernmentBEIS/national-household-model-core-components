@@ -86,7 +86,7 @@ public class Main
 			            }
 
 			            //TODO: This is wrongly matched up NHM matching
-			            final RegionType region = RegionType.values()[nhmRegionNo];
+			            final RegionType region = getRegionTypefromGorEHSNumber(nhmRegionNo);
 
                         final HealthOutcome outcome = module.effectOf(
                             CumulativeHealthOutcome.factory(Integer.parseInt(row.get("horizon"))),
@@ -121,5 +121,9 @@ public class Main
                         // this doesn't work any more because I broke it.
                     }
         		};
+    }
+    
+    private static RegionType getRegionTypefromGorEHSNumber(int nhmRegionNo){
+    	return RegionType.values()[nhmRegionNo];
     }
 }
