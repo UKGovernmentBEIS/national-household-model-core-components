@@ -17,6 +17,8 @@ public enum ResponsivenessAdjustments implements IConstant {
 	TYPE: value
 	UNIT: Unknown
 	SAP: Table 4d
+        SAP_COMPLIANT: Yes
+        BREDEM_COMPLIANT: N/A - out of scope
 	SET: context.energy-constants
 	ID: wet-system-responsiveness
 	CODSIEB
@@ -27,13 +29,13 @@ public enum ResponsivenessAdjustments implements IConstant {
 	@ConstantDescription("Wet system responsivness by emitter type (rads, underfloor timber, underfloor screed, underfloor concrete, fan convectors)")
 	WET_SYSTEM_RESPONSIVENESS(1, 1, 0.75, 0.25, 1)
 	;
-	
+
 	private final double[] values;
-	
+
 	ResponsivenessAdjustments(final double... values) {
 		this.values = values;
 	}
-	
+
 	@Override
 	public <T> T getValue(Class<T> clazz) {
 		if (clazz.isAssignableFrom(double[].class)) {

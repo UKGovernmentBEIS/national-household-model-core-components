@@ -15,6 +15,8 @@ public enum CommunityHeatingConstants implements IConstant {
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: (305), Table 4c(3)
+        SAP_COMPLIANT: Yes
+        BREDEM_COMPLIANT: No
 	SET: context.energy.constants
 	ID: community-space-heating-energy-multipliers
 	CODSIEB
@@ -35,6 +37,8 @@ public enum CommunityHeatingConstants implements IConstant {
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: (305a), Table 4c(3)
+        SAP_COMPLIANT: Yes
+        BREDEM_COMPLIANT: No
 	SET: context.energy.constants
 	ID: community-water-heating-energy-multipliers
 	CODSIEB
@@ -52,6 +56,8 @@ public enum CommunityHeatingConstants implements IConstant {
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: (306), Appendix C (C3.1, final sentence), Table 12c
+        SAP_COMPLIANT: No, see notes
+        BREDEM_COMPLIANT: No
 	SET: context.energy-constants
 	NOTES: We don't have the information to perform the lookup in Table 12c.
 	NOTES: Adjusted to match CHM.

@@ -13,7 +13,9 @@ public enum PumpAndFanConstants implements IConstant {
 	TYPE: constant
 	UNIT: W
 	SAP: Table 4f
+        SAP_COMPLIANT: Yes
 	BREDEM: Table 4
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	CONVERSION: From kWh/year to W (1000 / (365.25 * 24))
 	ID: central-heating-pump-base-power
@@ -29,9 +31,11 @@ public enum PumpAndFanConstants implements IConstant {
 	TYPE: value
 	UNIT: W
 	SAP: Table 5a
+        SAP_COMPLAINT: No, see note
 	BREDEM: Table 26
+        BREDEM_COMPLIANT: No, see note
 	SET: context.energy-constants
-	NOTES: TODO implement 2013 and later lower gains for central heat pump
+	NOTES: We don't have the information needed to identify 2013 and later central heating systems, which have lower gains for their pump.
 	ID: central-heating-pump-gains
 	CODSIEB
 	*/
@@ -45,7 +49,9 @@ public enum PumpAndFanConstants implements IConstant {
 	TYPE: value
 	UNIT: W
 	SAP: Table 4f
+        SAP_COMPLIANT: Yes
 	BREDEM: Table 4
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	CONVERSION: From kWh/year to W (1000 / (365.25 * 24))
 	ID: oil-boiler-pump-base-power
@@ -61,7 +67,9 @@ public enum PumpAndFanConstants implements IConstant {
 	TYPE: value
 	UNIT: W
 	SAP: Table 5a
+        SAP_COMPLIANT: Yes
 	BREDEM: Table 26
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	ID: oil-boiler-pump-gains
 	CODSIEB
@@ -76,7 +84,9 @@ public enum PumpAndFanConstants implements IConstant {
 	TYPE: value
 	UNIT: W
 	SAP: Table 4f
+        SAP_COMPLIANT: Yes
 	BREDEM: Table 4
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	CONVERSION: From kWh/year to W (1000 / (365.25 * 24))
 	ID: gas-boiler-pump-power
@@ -92,7 +102,9 @@ public enum PumpAndFanConstants implements IConstant {
 	TYPE: value
 	UNIT: W
 	SAP: Table 4f
+        SAP_COMPLIANT: Yes
 	BREDEM: Table 4
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	CONVERSION: From kWh/year to W (1000 / (365.25 * 24))
 	ID: gas-heat-pump-pump-power
@@ -108,7 +120,9 @@ public enum PumpAndFanConstants implements IConstant {
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: Table 4f
+        SAP_COMPLIANT: Yes
 	BREDEM: Table 4
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	NOTES: Derived by dividing the no room thermostat row by the with room thermostat row
 	ID: pump-no-thermostat-modifier
@@ -124,7 +138,9 @@ public enum PumpAndFanConstants implements IConstant {
 	TYPE: value
 	UNIT: W
 	SAP: Table 5a (warm air heating system fans)
+        SAP_COMPLIANT: Yes
 	BREDEM: Table 4, Table 26 (warm air heating system fans)
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	NOTES: Specific ventilation fan power (SFP) assumed to be 1.5.
 	ID: warm-air-system-volume-multiplier

@@ -18,7 +18,9 @@ public enum CylinderConstants implements IConstant {
 	TYPE: value
 	UNIT: W
 	SAP: Table 2 footnote 1
+        SAP_COMPLIANT: Yes
 	BREDEM: 2.2B.a
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	NOTES: Scaled by (1000/24) to convert from kWh/day to W.
 	ID: cylinder-loss-constant
@@ -29,12 +31,14 @@ public enum CylinderConstants implements IConstant {
 
 	/*
 	BEISDOC
-	NAME: Cylinder loss loose jacket terms 
+	NAME: Cylinder loss loose jacket terms
 	DESCRIPTION: The remaining two numeric terms of the cylinder loss factor formula for mineral wool jacket insulation.
 	TYPE: value
 	UNIT: ???
 	SAP: Table 2 footnote 1
+        SAP_COMPLIANT: Yes
 	BREDEM: 2.2B.a
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	NOTES: The first term must be scaled by (1000/24) to convert from kWh/day to W.
 	ID: cylinder-loss-loose-jacket-terms
@@ -50,7 +54,9 @@ public enum CylinderConstants implements IConstant {
 	TYPE: value
 	UNIT: ???
 	SAP: Table 2 footnote 1
+        SAP_COMPLIANT: Yes
 	BREDEM: 2.2B.a
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	NOTES: The first term must be scaled by (1000/24) to convert from kWh/day to W.
 	ID: cylinder-loss-factory-foam-terms
@@ -66,7 +72,9 @@ public enum CylinderConstants implements IConstant {
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: (52), Table 2a footnote 2
+        SAP_COMPLIANT: Yes
 	BREDEM: 2.2B.b
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	ID: volume-factor-terms
 	CODSIEB
@@ -81,7 +89,9 @@ public enum CylinderConstants implements IConstant {
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: Table 2b
+        SAP_COMPLIANT: Yes
 	BREDEM: Table 9
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	ID: basic-temperature-factor
 	CODSIEB
@@ -96,7 +106,9 @@ public enum CylinderConstants implements IConstant {
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: Table 2b (footnote a)
+        SAP_COMPLIANT: Yes
 	BREDEM: Table 9 (footnote a)
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	ID: temperature-factor-no-thermostat-multiplier
 	CODSIEB
@@ -111,7 +123,9 @@ public enum CylinderConstants implements IConstant {
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: Table 2b (footnote b)
+        SAP_COMPLAINT: Yes
 	BREDEM: Table 9 (footnote b)
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	ID: temperature-factor-separate-timer-multiplier
 	CODSIEB
@@ -121,12 +135,14 @@ public enum CylinderConstants implements IConstant {
 
 	/*
 	BEISDOC
-	NAME: Storage Combi Primary Store Temperature Factor 
+	NAME: Storage Combi Primary Store Temperature Factor
 	DESCRIPTION: The storage temperature factor terms for a combi with store in primary circuit.
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: Table 2b (storage combi primary store)
+        SAP_COMPLIANT: Yes
 	BREDEM: Table 9 (storage combi primary store)
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants.
 	ID: temperature-factor-storage-combi-primary-store-terms
 	CODSIEB
@@ -136,12 +152,14 @@ public enum CylinderConstants implements IConstant {
 
 	/*
 	BEISDOC
-	NAME: Storage Combi Secondary Store Temperature Factor 
+	NAME: Storage Combi Secondary Store Temperature Factor
 	DESCRIPTION: The storage temperature factor terms for a combi with store in secondary circuit.
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: Table 2b (storage secondary store)
+        SAP_COMPLIANT: Yes
 	BREDEM: Table 9 (storage combi secondary store)
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants.
 	ID: temperature-factor-storage-combi-secondary-store-terms
 	CODSIEB
@@ -152,11 +170,13 @@ public enum CylinderConstants implements IConstant {
 	/*
 	BEISDOC
 	NAME: Gas CPSU Storage Temperature Factor
-	DESCRIPTION: The STF for a gas CPSU 
+	DESCRIPTION: The STF for a gas CPSU
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: Table 2b
+        SAP_COMPLIANT: Yes
 	BREDEM: Table 9
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	ID: cpsu-gas-storage-temperature-factor
 	CODSIEB
@@ -167,11 +187,13 @@ public enum CylinderConstants implements IConstant {
 	/*
 	BEISDOC
 	NAME: Electric CPSU Storage Temperature Factor
-	DESCRIPTION: The STF for an electric CPSU 
+	DESCRIPTION: The STF for an electric CPSU
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: Table 2b
+        SAP_COMPLIANT: Yes
 	BREDEM: Table 9
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	ID: cpsu-electric-storage-temperature-factor
 	CODSIEB

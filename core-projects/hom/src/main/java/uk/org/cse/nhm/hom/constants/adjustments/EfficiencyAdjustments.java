@@ -12,18 +12,20 @@ import uk.org.cse.nhm.energycalculator.api.IConstant;
 public enum EfficiencyAdjustments implements IConstant {
 	/*
 	BEISDOC
-	NAME: 
+	NAME:
 	DESCRIPTION: Efficiency adjustment for condensing boiler with underfloor heating (gas vs oil/lpg)
 	TYPE: type
 	UNIT: unit
 	SAP: Table 4c (temperature limited to 35℃ row).
+        SAP_COMPLIANT: Yes, with limitations
+        BREDEM_COMPLIANT: No
 	SET: context.energy-constants
 	ID: condensing-underfloor-adjustment
 	CODSIEB
 	*/
 	@ConstantDescription("Efficiency adjustment for condensing boiler with underfloor heating (gas vs oil/lpg)")
 	CONDENSING_UNDERFLOOR_HEATING(3/100.0, 2/100.0),
-	
+
 	/*
 	BEISDOC
 	NAME: Condensing weather compensation
@@ -31,6 +33,8 @@ public enum EfficiencyAdjustments implements IConstant {
 	TYPE: value
 	UNIT: Dimenionless
 	SAP: Table 4c
+        SAP_COMPLIANT: Unknown, see note
+        BREDEM_COMPLIANT: No
 	SET: context.energy-constants
 	NOTES: TODO SAP specifies this as "from database". I'm not sure where the numbers we have now came from.
 	ID: condensing-weather-compensation
@@ -38,7 +42,7 @@ public enum EfficiencyAdjustments implements IConstant {
 	*/
 	@ConstantDescription("Efficiency adjustment for condensing boiler with weather or enhanced load compensator")
 	CONDENSING_ADVANCED_COMPENSATOR(3/100.0, 1.5/100.0),
-	
+
 	/*
 	BEISDOC
 	NAME: Boiler Without Interlock
@@ -46,6 +50,8 @@ public enum EfficiencyAdjustments implements IConstant {
 	TYPE: value
 	UNIT: Dimenionless
 	SAP: Table 4c
+        SAP_COMPLIANT: Yes
+        BREDEM_COMPLIANT: No
 	SET: context.energy-constants
 	NOTES: Boiler interlock is defined as having both room temperature thermostatically controlled and a cylinder thermostat (assuming there is a cylinder present).
 	ID: boiler-without-interlock
@@ -54,13 +60,13 @@ public enum EfficiencyAdjustments implements IConstant {
 	@ConstantDescription("Efficiency adjustment for regular and combi boilers when there is no interlock or thermostat (combi boilers apply only to space heat efficiency)")
 	BOILER_WITHOUT_INTERLOCK(-5/100.0)
 	;
-	
+
 	private final double[] values;
-	
+
 	EfficiencyAdjustments(final double... values) {
 		this.values = values;
 	}
-	
+
 	@Override
 	public <T> T getValue(Class<T> clazz) {
 		if (clazz.isAssignableFrom(double[].class)) {

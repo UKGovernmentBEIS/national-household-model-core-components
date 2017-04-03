@@ -32,13 +32,16 @@ public interface ILight extends INamed, IVisitorAccepter {
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: (L1)
+        SAP_COMPLIANT: Yes
 	BREDEM: 1B
+        BREDEM_COMPLIANT: Yes
 	CONVERSION: From kWh/year to W (1000 / (365.25 * 24))
+        NOTES: Derived from SAP formulas.
 	ID: incandescent-energy-consumption
 	CODSIEB
 	*/
 	public static final double INCANDESCENT_EFFICIENCY = 6.8139; // watts
-	
+
 	/*
 	BEISDOC
 	NAME: CFL Energy Consumption
@@ -46,14 +49,16 @@ public interface ILight extends INamed, IVisitorAccepter {
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: (L2)
+        SAP_COMPLIANT: Yes
 	BREDEM: 1C
+        BREDEM_COMPLIANT: Yes
 	DEPS: incandescent-energy-consumption
-	NOTES: Worked out that this was half the incandescent efficiency by working backwards through the formula. 
+	NOTES: Worked out that this was half the incandescent efficiency by working backwards through the formula.
 	ID: cfl-energy-consumption
 	CODSIEB
 	*/
 	public static final double CFL_EFFICIENCY = INCANDESCENT_EFFICIENCY / 2.0;
-	
+
 	/**
 	 * Returns the value of the '<em><b>Efficiency</b></em>' attribute.
 	 * <!-- begin-user-doc -->

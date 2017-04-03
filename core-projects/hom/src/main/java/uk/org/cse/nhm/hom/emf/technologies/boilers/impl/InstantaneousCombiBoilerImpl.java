@@ -185,7 +185,9 @@ public class InstantaneousCombiBoilerImpl extends CombiBoilerImpl implements IIn
 		TYPE: formula
 		UNIT: W
 		SAP: Table 3a
+                SAP_COMPLIANT: Yes
 		BREDEM: Table 13
+                BREDEM_COMPLIANT: Yes
 		DEPS: combi-losses-instant-keep-hot,instantaneous-factor,combi-loss-water-usage-limit
 		ID: combi-losses-instant
 		CODSIEB
@@ -193,7 +195,7 @@ public class InstantaneousCombiBoilerImpl extends CombiBoilerImpl implements IIn
 		final IKeepHotFacility facility = getKeepHotFacility();
 		if (facility == null) {
 			//SAP table 3a, instantaneous combi without anything
-			final double fu = 
+			final double fu =
 					Math.min(1.0d,
 							state.getTotalDemand(EnergyType.DemandsHOT_WATER_VOLUME)
 							/
