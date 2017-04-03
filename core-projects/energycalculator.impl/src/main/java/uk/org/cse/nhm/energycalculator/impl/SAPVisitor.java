@@ -92,7 +92,7 @@ public class SAPVisitor extends Visitor {
 		SAP: Table 6b (light transmittance column)
                 SAP_COMPLIANT: SAP mode only
 		BREDEM: Table 1
-                BREDEM_COMPLAINT: N/A - value from stock
+                BREDEM_COMPLIANT: N/A - value from stock
 		DEPS: glazing-type
 		SET: action.reset-glazing, measure.install-glazing
 		STOCK: Imputation schema (windows)
@@ -125,7 +125,7 @@ public class SAPVisitor extends Visitor {
 		SAP: Table 6b (solar energy column)
                 SAP_COMPLIANT: SAP mode only
 		BREDEM: Table 24
-                BREDEM_COMPLAINT: N/A - value from stock
+                BREDEM_COMPLIANT: N/A - value from stock
 		DEPS: glazing-type,glazing-insulation-type
 		SET: action.reset-glazing, measure.install-glazing
 		STOCK: Imputation schema (windows)

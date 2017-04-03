@@ -465,7 +465,7 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 		DEPS: boiler-without-interlock,condensing-underfloor-adjustment,condensing-weather-compensation
 		NOTES: The adjustments here apply to both the SAP and BREDEM energy calculations.
 		SAP: (206,208), Table 4c, PCDB
-                SAP_COMPLAINT: Yes
+                SAP_COMPLIANT: Yes
                 BREDEM_COMPLIANT: N/A - out of scope
 		ID: boiler-efficiency
 		CODSIEB

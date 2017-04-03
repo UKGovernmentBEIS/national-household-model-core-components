@@ -122,7 +122,7 @@ public class SapScoreFunction extends FuelCostFunction {
 	TYPE: value
 	UNIT: ???
 	SAP: Section 13 (equation 11)
-        SAP_COMPLAINT: Yes
+        SAP_COMPLIANT: Yes
         BREDEM_COMPLIANT: N/A - out of scope
 	ID: low-ecf-multiplier
 	CODSIEB

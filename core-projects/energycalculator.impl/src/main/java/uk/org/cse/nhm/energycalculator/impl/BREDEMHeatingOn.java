@@ -51,7 +51,7 @@ public class BREDEMHeatingOn {
 		DESCRIPTION: The fraction of gains which should be multiplied by the gains utilisation factor (the remaining gains are used unmodified). Calculated by subtracting the number of degree days at threshold -0.5 from those at threshold +0.5.
 		TYPE: formula
 		UNIT: Dimensionless
-                SAP_COMPLAINT: N/A - not used
+                SAP_COMPLIANT: N/A - not used
 		BREDEM: 8H
                 BREDEM_COMPLIANT: Yes
 		DEPS: threshold-degree-days

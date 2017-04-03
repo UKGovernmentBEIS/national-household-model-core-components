@@ -72,7 +72,7 @@ public class HotWaterDemand09 implements IEnergyTransducer {
 	  TYPE: type
 	  UNIT: litres
 	  SAP: (44)
-          SAP_COMPLAINT: Yes
+          SAP_COMPLIANT: Yes
 	  BREDEM: 2.1G
           BREDEM_COMPLIANT: Yes
 	  DEPS: sap-water-volume,bredem-water-volume,monthly-water-usage-factor

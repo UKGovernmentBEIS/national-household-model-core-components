@@ -451,7 +451,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         SAP: Table 9a (computation of Nu)
         SAP_COMPLIANT: Yes
         BREDEM: 7J,7S
-        BREDEM_COMPLAINT: Yes
+        BREDEM_COMPLIANT: Yes
         DEPS: utilisation-factor-exponent,gain-to-loss-ratio
         ID: gains-utilisation-factor
         NOTES: This calculation step repeated twice - once for each Zone.

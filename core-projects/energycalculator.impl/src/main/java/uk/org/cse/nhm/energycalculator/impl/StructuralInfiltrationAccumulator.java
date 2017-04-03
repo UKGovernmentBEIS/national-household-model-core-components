@@ -127,7 +127,7 @@ public class StructuralInfiltrationAccumulator implements IStructuralInfiltratio
 		SAP: (15)
                 SAP_COMPLIANT: Yes
 		BREDEM: Table 19
-                BREDEM_COMPLAINT: No
+                BREDEM_COMPLIANT: No
 		DEPS: window-infiltration-constant,draught-stripped-factor-constant,draught-stripped-proportion
 		STOCK: ventilation.csv (windowsanddoorsdraughtstrippedproportion)
 		ID: window-infiltration

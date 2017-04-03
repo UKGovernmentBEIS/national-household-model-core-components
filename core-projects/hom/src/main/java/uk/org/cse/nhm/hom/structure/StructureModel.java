@@ -78,7 +78,7 @@ public class StructureModel implements ICopyable<StructureModel> {
 	DESCRIPTION: description
 	TYPE: value
 	UNIT: W/℃
-        SAP_COMPLAINT: SAP mode only
+        SAP_COMPLIANT: SAP mode only
 	BREDEM: 3J
         BREDEM_COMPLIANT: N/A - value from stock
 	NOTES: Interzone specific heat loss is always treated as 0 in SAP 2012 mode.

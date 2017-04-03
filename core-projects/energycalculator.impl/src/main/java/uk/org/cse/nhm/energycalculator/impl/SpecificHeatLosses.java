@@ -43,7 +43,7 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
         SAP: (37)
         SAP_COMPLIANT: Yes
         BREDEM: 3H
-        BREDEM_COMPLAINT: Yes
+        BREDEM_COMPLIANT: Yes
         DEPS: fabric-heat-loss,thermal-bridging-heat-loss
         ID: total-fabric-heat-loss
         CODSIEB
@@ -85,7 +85,7 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
         SAP: (40)
         SAP_COMPLIANT: Yes
         BREDEM: 3I
-        BREDEM_COMPLAINT: Yes
+        BREDEM_COMPLIANT: Yes
         DEPS: specific-heat-loss,dwelling-floor-area
         GET:
         SET:

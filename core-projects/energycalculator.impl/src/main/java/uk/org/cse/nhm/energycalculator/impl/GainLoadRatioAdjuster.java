@@ -83,7 +83,7 @@ class GainLoadRatioAdjuster implements IEnergyTransducer {
 		SAP: (95)
                 SAP_COMPLIANT: Yes
 		BREDEM: 8I
-                BREDEM_COMPLAINT: Yes
+                BREDEM_COMPLIANT: Yes
 		DEPS: gains-utilisation-factor-revised,total-gains
 		ID: total-useful-gains
 		CODSIEB

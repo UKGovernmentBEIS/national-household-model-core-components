@@ -123,7 +123,7 @@ public enum CylinderConstants implements IConstant {
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: Table 2b (footnote b)
-        SAP_COMPLAINT: Yes
+        SAP_COMPLIANT: Yes
 	BREDEM: Table 9 (footnote b)
         BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants

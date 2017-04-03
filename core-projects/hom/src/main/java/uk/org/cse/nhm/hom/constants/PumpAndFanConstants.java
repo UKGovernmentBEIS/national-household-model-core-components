@@ -31,7 +31,7 @@ public enum PumpAndFanConstants implements IConstant {
 	TYPE: value
 	UNIT: W
 	SAP: Table 5a
-        SAP_COMPLAINT: No, see note
+        SAP_COMPLIANT: No, see note
 	BREDEM: Table 26
         BREDEM_COMPLIANT: No, see note
 	SET: context.energy-constants
