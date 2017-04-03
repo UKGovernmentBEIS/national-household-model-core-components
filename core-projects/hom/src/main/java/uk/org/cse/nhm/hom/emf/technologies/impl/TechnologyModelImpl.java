@@ -1071,7 +1071,7 @@ public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnolo
 		TYPE: formula
 		UNIT: True/False
 		SAP: (217)
-                SAP_COMPLIANT: Yes, with restrictions, see note
+                SAP_COMPLIANT: Yes, with limitations, see note
                 BREDEM_COMPLIANT: No, see note
 		NOTES: SAP allows for two main water heating systems. We do not support this.
 		NOTES: We do allow for secondary water heating systems, but they will only supply hot water if a main water heating system is not present or is not functioning.

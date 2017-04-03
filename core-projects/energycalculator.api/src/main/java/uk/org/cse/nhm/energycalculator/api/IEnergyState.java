@@ -105,7 +105,7 @@ public interface IEnergyState {
 	UNIT: W
 	SAP: (243, 244, other parts of table 10a)
         SAP_COMPLIANT: Yes
-        BREDEM_COMPLIANT: NA - out of scope
+        BREDEM_COMPLIANT: N/A - out of scope
 	DEPS: ashp-split-rate,default-split-rate,direct-electric-split-rate,electric-boiler-split-rate,gas-heat-pump-pump-power,gshp-split-rate,heat-pump-water-with-immersion-split-rate,heat-pump-water-without-immersion-split-rate,immersion-split-rate,integrated-storage-split-rate
 	ID: electricity-demand
 	CODSIEB

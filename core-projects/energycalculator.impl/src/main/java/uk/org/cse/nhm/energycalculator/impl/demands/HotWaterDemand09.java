@@ -118,7 +118,7 @@ public class HotWaterDemand09 implements IEnergyTransducer {
 	      TYPE: formula
 	      UNIT: litres
 	      SAP: (43)
-              SAP_COMPLIANT: No - see note
+              SAP_COMPLIANT: No, see note
 	      DEPS: base-hot-water-demand,person-hot-water-demand,occupancy
               BREDEM_COMPLIANT: N/A - not used
 	      NOTES: We omit the 5% reduction in hot water usage for dwellings with hot water targets. We have no information about this.

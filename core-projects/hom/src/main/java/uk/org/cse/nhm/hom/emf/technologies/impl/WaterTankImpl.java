@@ -570,9 +570,9 @@ public class WaterTankImpl extends MinimalEObjectImpl implements IWaterTank {
 		TYPE: formula
 		UNIT: W/litre
 		SAP: (51), Table 2
-                SAP_COMPLIANT: No, see note about CPSUs
+                SAP_COMPLIANT: No, see note
 		BREDEM: 2.2B.a
-                BREDEM_COMPLIANT: No, see note about CPSUs
+                BREDEM_COMPLIANT: No, see note
 		DEPS: cylinder-loss-constant,cylinder-loss-loose-jacket-terms,cylinder-loss-factory-foam-terms,cylinder-insulation-type
 		NOTES: Both SAP and BREDEM specify that CPSU cylinder loss factor should always be 0.022. This is not implemented in the NHM.
 		CONVERSION: In SAP and BREDEM this is in kWh/litre/day. In the NHM it is scaled to W/litre.

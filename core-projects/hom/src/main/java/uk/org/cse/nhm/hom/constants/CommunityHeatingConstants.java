@@ -56,7 +56,7 @@ public enum CommunityHeatingConstants implements IConstant {
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: (306), Appendix C (C3.1, final sentence), Table 12c
-        SAP_COMPLIANT: No, see notes
+        SAP_COMPLIANT: No, see note
         BREDEM_COMPLIANT: No
 	SET: context.energy-constants
 	NOTES: We don't have the information to perform the lookup in Table 12c.

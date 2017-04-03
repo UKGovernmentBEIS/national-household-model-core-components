@@ -1193,7 +1193,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         SAP: Table 9 (Temperature H2 column)
         SAP_COMPLIANT: Yes
         BREDEM: 7C
-        BREDEM_COMPLIANT: No - see note
+        BREDEM_COMPLIANT: No, see note
         DEPS: controlled-zone-2-demand-temperature,uncontrolled-zone-2-demand-temperature,zone-2-control-parameter
         NOTES: While this looks like the BREDEM algorithm, it actually behaves according to SAP rather than BREDEM.
         NOTES: If the zone 2 control parameter is 0, we get row 1 of the SAP table. If it is 1, we get rows 2 and 3 (which are the same).

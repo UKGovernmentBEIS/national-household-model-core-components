@@ -224,7 +224,7 @@ public class StructuralInfiltrationAccumulator implements IStructuralInfiltratio
 		SAP: (11)
                 SAP_COMPLIANT: Yes
 		BREDEM: Table 19
-                BREDEM_COMPLIANT: No - see note
+                BREDEM_COMPLIANT: No, see note
 		DEPS: external-wall-area
 		NOTES: TODO Bredem specifies that this should be an area-weighted average.
 		CODSIEB
