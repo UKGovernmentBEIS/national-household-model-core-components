@@ -46,7 +46,7 @@ public class Appliances09 implements IEnergyTransducer {
 
 	@Override
 	public void generate(
-			final IEnergyCalculatorHouseCas\e house,
+			final IEnergyCalculatorHouseCase house,
 			final IInternalParameters parameters,
 			final ISpecificHeatLosses losses,
 			final IEnergyState state) {
@@ -99,7 +99,7 @@ public class Appliances09 implements IEnergyTransducer {
 					);
 	}
 
-	private double getApplianceDemandCoefficient(IInternalParameters parameters) {
+	private double getApplianceDemandCoefficient(final IInternalParameters parameters) {
 		switch(parameters.getCalculatorType()) {
 		case SAP2012:
 			return APPLIANCE_DEMAND_COEFFICIENT_SAP;
