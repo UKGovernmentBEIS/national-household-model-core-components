@@ -409,7 +409,7 @@ public class CPSUImpl extends BoilerImpl implements ICPSU {
 		UNIT: Dimensionless
 		SAP: (206), Table 4c
                 SAP_COMPLIANT: Yes
-                BREDEM_COPMLIANT: Yes
+                BREDEM_COMPLIANT: Yes
 		ID: cpsu-boiler-hot-water-efficiency
 		CODSIEB
 		*/

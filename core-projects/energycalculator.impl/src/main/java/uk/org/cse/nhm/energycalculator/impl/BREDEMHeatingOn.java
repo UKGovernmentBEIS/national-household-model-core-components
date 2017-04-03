@@ -19,7 +19,7 @@ public class BREDEMHeatingOn {
 		UNIT: ℃
                 SAP_COMPLIANT: N/A - not used
 		BREDEM: 8D
-                BRDEM_COMPLIANT: Yes
+                BREDEM_COMPLIANT: Yes
 		DEPS: zone-1-demand-temperature,gains-utilisation-factor-threshold-difference
 		ID: threshold-temperature
 		CODSIEB

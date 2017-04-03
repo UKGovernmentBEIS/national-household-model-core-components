@@ -68,7 +68,7 @@ public enum EnergyCalculatorConstants implements IConstant {
 	SAP: Table 9b
         SAP_COMPLIANT: Yes
 	BREDEM: 7L, 7T
-        BREDEM_CCOMPLIANT: Yes
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	ID: unresponsive-temperature-reduction
 	CODSIEB

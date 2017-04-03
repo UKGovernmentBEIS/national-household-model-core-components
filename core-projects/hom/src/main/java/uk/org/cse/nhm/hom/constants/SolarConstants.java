@@ -149,7 +149,7 @@ public enum SolarConstants implements IConstant {
 	SAP: Table 4f
         SAP_COMPLIANT: Yes
 	BREDEM: Table 4
-        BREDEM_Compliant: Yes
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	CONVERSION: From kWh/year to W (1000 / (365.25 * 24))
 	ID: solar-water-pump-power

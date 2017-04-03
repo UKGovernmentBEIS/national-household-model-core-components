@@ -153,8 +153,8 @@ public class StructureModel implements ICopyable<StructureModel> {
     Type: value
     Unit: true/false
     SAP: Table 5
-    SAP_COMPLIENT: N/A - not used
-    BREDEM_COMPLIENT: No, see note
+    SAP_COMPLIANT: N/A - not used
+    BREDEM_COMPLIANT: No, see note
     SET: action.reduced-internal-gains
     NOTES: Never applies in SAP 2012 mode.
     NOTES: While reduced internal gains are not defined in BREDEM 2012, we allow users to put dwellings onto the reduced internal gains described in the SAP 2012 document when the NHM is run in BREDEM mode.
@@ -170,9 +170,9 @@ public class StructureModel implements ICopyable<StructureModel> {
 	DESCRIPTION: This is multiplied by the external area of the dwelling to produce the thermal bridging loss per degree of temperature difference.
 	TYPE: value
 	UNIT: W/℃/m^2
-        SAP_COMPLIANT: SAP mode only
+    SAP_COMPLIANT: SAP mode only
 	BREDEM: 3A.b, see footnote vii
-        BREDEM_COMPLIANT: N/A - user defined
+    BREDEM_COMPLIANT: N/A - user defined
 	SET: action.set-thermal-bridging-factor
 	ID: thermal-bridging-coefficient
 	CODSIEB

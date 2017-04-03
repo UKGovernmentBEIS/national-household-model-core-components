@@ -121,7 +121,9 @@ public class LightingDemand09 extends Sink {
 		TYPE: formula
 		UNIT: Dimensionless
 		SAP: (L7)
+		SAP_COMPLIANT: Yes
 		BREDEM: 1G
+		BREDEM_COMPLIANT: Yes
 		DEPS: light-month-adjustment-coefficients
 		ID: light-month-adjustment
 		CODSIEB

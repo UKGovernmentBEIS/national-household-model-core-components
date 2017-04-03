@@ -164,9 +164,9 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: (H2)
-        SAP_COMPLIANT: No, user defined
+    SAP_COMPLIANT: No, user defined
 	BREDEM: User input
-        BREDEM_COMPLIANT : N/A - user defined
+    BREDEM_COMPLIANT : N/A - user defined
 	SET: measure.solar-dhw
 	STOCK: Set to 4 based on Cambridge Household Model assumptions
 	ID: zero-loss-efficiency
@@ -731,7 +731,7 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 		SAP: (H10)
                 SAP_COMPLIANT: Yes
 		BREDEM: 2.4.2B
-                bREDEM_COMPLIANT: Yes
+                BREDEM_COMPLIANT: Yes
 		DEPS: collector-performance-ratio,collector-performance-ratio-threshold,collector-performance-factor-lower-terms,collector-performance-factor-higher-terms
 		ID: collector-performance-factor
 		CODSIEB
