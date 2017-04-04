@@ -1,0 +1,42 @@
+(scenario
+ start-date: 01/01/2015
+ end-date: 01/01/2015
+ stock-id: ../../stock.json
+ ;; We want one dwelling per survey case.
+ quantum: 999999
+
+ (def-report
+   energy
+   (column
+    name: aacode
+    value: (house.survey-code))
+
+   (column
+    name: temp
+    value: (house.mean-internal-temperature))
+
+   (column
+    name: water-heating
+    value: (house.energy-use by-service: WaterHeating))
+
+   (column
+    name: space-heating
+    value: (house.energy-use by-service: SpaceHeating))
+
+   (column
+    name: fuel
+    value: (house.heating-fuel))
+
+   (column
+    name: heater
+    value: (house.main-heating-system-type))
+
+   (column
+    name: energy
+    value: (house.energy-use)))
+
+ (on.dates
+  [(scenario-start)]
+
+  (apply
+   (send-to-report #energy))))

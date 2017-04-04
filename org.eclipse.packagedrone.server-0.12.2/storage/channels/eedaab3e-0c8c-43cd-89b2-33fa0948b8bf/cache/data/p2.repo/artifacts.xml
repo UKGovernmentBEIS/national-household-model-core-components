@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?metadataRepository version='1.1.0'?>
+<repository name='Package Drone Channel: eedaab3e-0c8c-43cd-89b2-33fa0948b8bf' type='org.eclipse.equinox.p2.artifact.repository.simpleRepository' version='1'>
+  <properties size='1'>
+    <property name='p2.timestamp' value='1476276163852'/>
+  </properties>
+  <mappings size='3'>
+    <rule filter='(&amp; (classifier=osgi.bundle))' output='${repoUrl}/plugins/${id}/${version}/${id}_${version}.jar' />
+    <rule filter='(&amp; (classifier=binary))' output='${repoUrl}/binary/${id}/${version}/${id}_${version}' />
+    <rule filter='(&amp; (classifier=org.eclipse.update.feature))' output='${repoUrl}/features/${id}/${version}/${id}_${version}.jar' />
+  </mappings>
+  <artifacts size='1'>
+<artifact classifier="osgi.bundle" id="uk.org.cse.nhm.bundle.impl" version="6.4.0.D1476276141533">
+  <properties size="4">
+    <property name="download.size" value="33865635"/>
+    <property name="artifact.size" value="33865635"/>
+    <property name="drone.artifact.id" value="bebe92c1-f65c-4380-b942-401d11299b7c"/>
+    <property name="download.md5" value="0f78f066c70fc9012af2950a714834dc"/>
+  </properties>
+</artifact>
+  </artifacts>
+</repository>

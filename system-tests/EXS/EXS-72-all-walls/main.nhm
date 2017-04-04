@@ -1,0 +1,24 @@
+(scenario
+ start-date: 2015
+ end-date:   2015
+ stock-id:   ../../stock.json
+ quantum:    1000000
+
+ (on.dates
+  (scenario-start)
+
+  (aggregate
+   name: counts
+
+   over: [(house.all-walls has-construction: AnyCavity)]
+
+   (aggregate.count name:count)
+
+   (aggregate.where
+    name: all-walls-unins-cav
+    (house.all-walls has-cavity-insulation: false))
+
+   (aggregate.where
+    name: any-walls-unins-cav
+	 (none (house.any-wall has-cavity-insulation: true)))
+   )))

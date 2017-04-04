@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: NHM Local Scenario Runner
+Bundle-SymbolicName: cse.nhm.ide.runner.local;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: cse.nhm.ide.runner.local.LocalRunnerPlugin
+Bundle-Vendor: CSE
+Require-Bundle: org.eclipse.core.runtime
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-ActivationPolicy: lazy
+Import-Package: com.eclipsesource.json;version="0.9.4",
+ com.google.common.base;version="15.0.0",
+ com.google.common.collect;version="15.0.0",
+ com.google.common.hash;version="15.0.0",
+ com.google.common.io;version="15.0.0",
+ cse.nhm.ide.runner.api,
+ cse.nhm.ide.ui,
+ cse.nhm.ide.ui.builder,
+ org.eclipse.core.resources,
+ org.eclipse.ui.statushandlers,
+ uk.org.cse.nhm.bundle.api;version="2.0.0"
+Service-Component: OSGI-INF/localrunner.xml

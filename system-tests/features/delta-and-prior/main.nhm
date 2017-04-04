@@ -1,0 +1,64 @@
+;; tests for delta and prior value calculations
+(scenario
+ start-date:2014
+ end-date:2014
+ stock-id:../../stock.json
+
+ ;; testing simple behaviour with under.
+
+ (def x on:house default:4)
+
+ (on.dates
+   scenario-start
+  (assert
+   over: all-houses
+   (= (under (set x 10) evaluate: (original x))
+      4))
+  (assert
+   over: all-houses
+   (= (under (set x 10) evaluate: (rise-in x))
+      6))
+  (assert
+   over: all-houses
+   (= (under (set x 1) evaluate: (fall-in x))
+      3)))
+
+ ;; produce some report outputs to check with R
+
+ (on.dates
+  scenario-start
+  ;; store original emissions
+  (apply (set x house.emissions)))
+
+ (on.dates
+  scenario-start
+  (apply (measure.wall-insulation type:cavity u-value: 0 thickness: 50 update-flags:got)
+         ;; this probe should be getting 'original' wrt apply
+         (probe name:delta-ins
+                capture: [
+                (+ #x name:stored-original)
+                (house.emissions name:current)
+                (original house.emissions name:original)
+                (rise-in house.emissions name:rise)
+                (fall-in house.emissions name:fall)
+                (house.flags name:flags)
+                ])))
+
+ (on.dates
+  scenario-start
+  (apply
+   (do (set x 1)
+       (do
+           (set x 2)
+           (do (set x 4)
+               (probe name:delta-xs
+                      capture:
+                      [
+                      (+ #x name:current) ; = 4
+                      (original #x name:prior) ; = 2
+                      (original (original #x) name:prior-prior) ; = 1
+                      (rise-in #x name:rise)                    ; = 2
+                      (rise-in (original #x) name: original-rise) ; = 1
+                      ]
+                      )))))
+))

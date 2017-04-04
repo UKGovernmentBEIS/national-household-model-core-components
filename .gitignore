@@ -1,0 +1,55 @@
+.gradle
+*/*/build/
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Cache of project
+.gradletasknamecache
+
+# Stuff from p2 drone server
+org.eclipse.packagedrone.server-0.12.2/configuration/*.log
+
+
+# Core projects
+/core-projects/**/bin/**
+
+# Eclipse build folders
+**/target/
+/nhm-ide/workspace/
+## **/bin/**
+
+# Eclipse files
+**/.project
+**/.settings
+**/.classpath
+
+## Stock documentation generated files
+core-projects/nhm-stock-documentation/src/main/resources/stockref.xml
+core-projects/nhm-stock-documentation/src/main/resources/variableref.xml
+
+## Ecore Model Stuff
+core-projects/hom/build.properties
+core-projects/hom/plugin.properties
+core-projects/hom/plugin.xml
+
+# release folder
+/releases/
+
+# system tests
+system-tests/**/*-log.txt
+system-tests/.versions
+system-tests/failed-tests
+system-tests/**/*output.zip
+system-tests/**/*.Rhistory
+system-tests/**/*.csv
+system-tests/**/*.pdf
+system-tests/**/*.svg
+system-tests/**/*.png
+
+core-projects/GPATH
+core-projects/GRTAGS
+core-projects/GTAGS

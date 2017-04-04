@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.eclipse.packagedrone.product.server"
+      label="Package Drone Server Product"
+      version="0.12.2.20160503-0958"
+      provider-name="IBH SYSTEMS GmbH"
+      plugin="org.eclipse.packagedrone">
+
+   <description>
+      Eclipse Package Drone Server Product
+   </description>
+
+   <copyright>
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <includes
+         id="org.eclipse.packagedrone.external"
+         version="1.0.0.20151218-0948"/>
+
+   <includes
+         id="org.eclipse.packagedrone.product.server.root"
+         version="1.0.0.20151209-0838"/>
+
+   <includes
+         id="org.eclipse.packagedrone.runtime"
+         version="1.0.0.20151126-0948"/>
+
+   <includes
+         id="org.eclipse.packagedrone.utils"
+         version="1.0.0.20160211-1555"/>
+
+   <includes
+         id="org.eclipse.packagedrone.web"
+         version="1.0.0.20160126-1420"/>
+
+   <plugin
+         id="org.eclipse.packagedrone"
+         download-size="4"
+         install-size="4"
+         version="0.12.2.20160503-0958"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.job"
+         download-size="11"
+         install-size="16"
+         version="1.0.0.20151126-0948"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.job.apm"
+         download-size="23"
+         install-size="49"
+         version="1.0.0.20151126-0948"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.job.web"
+         download-size="11"
+         install-size="17"
+         version="1.0.0.20151202-1340"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.mail"
+         download-size="9"
+         install-size="12"
+         version="1.0.0.20151104-1838"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.mail.web"
+         download-size="13"
+         install-size="25"
+         version="1.0.0.20160120-1218"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo"
+         download-size="31"
+         install-size="52"
+         version="1.0.0.20151215-1559"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.adapter.deb"
+         download-size="50"
+         install-size="90"
+         version="1.0.0.20160224-1314"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.adapter.deb.web"
+         download-size="11"
+         install-size="21"
+         version="1.0.0.20160114-1130"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.adapter.maven"
+         download-size="67"
+         install-size="131"
+         version="1.0.0.20151215-1156"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.adapter.maven.web"
+         download-size="9"
+         install-size="17"
+         version="1.0.0.20151208-0955"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.adapter.npm"
+         download-size="15"
+         install-size="25"
+         version="1.0.0.20151208-0955"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.adapter.p2"
+         download-size="50"
+         install-size="97"
+         version="1.0.0.20160114-1130"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.adapter.p2.web"
+         download-size="16"
+         install-size="32"
+         version="1.0.0.20151215-1156"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.adapter.r5"
+         download-size="24"
+         install-size="46"
+         version="1.0.0.20160211-1536"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.adapter.r5.web"
+         download-size="5"
+         install-size="6"
+         version="1.0.0.20151215-1156"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.adapter.rpm"
+         download-size="44"
+         install-size="85"
+         version="1.0.0.20151218-1744"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.adapter.rpm.web"
+         download-size="12"
+         install-size="21"
+         version="1.0.0.20151218-1737"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.adapter.unzip"
+         download-size="14"
+         install-size="31"
+         version="1.0.0.20151208-0955"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.api"
+         download-size="9"
+         install-size="13"
+         version="2.0.0.20160114-1555"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.aspect"
+         download-size="31"
+         install-size="53"
+         version="1.0.0.20160126-1421"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.aspect.cleanup"
+         download-size="20"
+         install-size="34"
+         version="1.0.0.20160115-1230"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.aspect.cleanup.web"
+         download-size="13"
+         install-size="30"
+         version="1.0.0.20160115-1230"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.aspect.common"
+         download-size="73"
+         install-size="140"
+         version="1.0.0.20160115-1050"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.aspect.mvnosgi"
+         download-size="10"
+         install-size="13"
+         version="1.0.0.20160125-1653"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.aspect.mvnosgi.web"
+         download-size="9"
+         install-size="14"
+         version="1.0.0.20151208-0955"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.aspect.upgrade"
+         download-size="14"
+         install-size="24"
+         version="1.0.0.20151215-1156"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.channel"
+         download-size="48"
+         install-size="98"
+         version="1.0.0.20160211-1555"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.channel.apm"
+         download-size="84"
+         install-size="206"
+         version="1.0.0.20151217-1000"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.channel.impl"
+         download-size="61"
+         install-size="151"
+         version="1.0.0.20160203-1334"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.channel.web"
+         download-size="111"
+         install-size="256"
+         version="1.0.0.20160203-1209"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.channel.web.description"
+         download-size="8"
+         install-size="12"
+         version="1.0.0.20151208-0955"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.generator"
+         download-size="8"
+         install-size="12"
+         version="1.0.0.20151126-0948"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.generator.p2"
+         download-size="36"
+         install-size="76"
+         version="1.0.0.20160114-1147"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.importer"
+         download-size="27"
+         install-size="53"
+         version="1.0.0.20151104-1838"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.importer.aether"
+         download-size="46"
+         install-size="99"
+         version="1.0.0.20151218-1041"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.importer.http"
+         download-size="8"
+         install-size="11"
+         version="1.0.0.20151126-0948"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.importer.http.web"
+         download-size="13"
+         install-size="22"
+         version="1.0.0.20160308-0816"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.manage.core"
+         download-size="6"
+         install-size="8"
+         version="1.0.0.20151104-1838"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.manage.core.apm"
+         download-size="10"
+         install-size="17"
+         version="1.0.0.20151104-1838"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.manage.core.web"
+         download-size="11"
+         install-size="19"
+         version="1.0.0.20160120-1218"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.manage.setup.web"
+         download-size="16"
+         install-size="27"
+         version="1.0.0.20151126-0948"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.manage.system"
+         download-size="16"
+         install-size="25"
+         version="1.0.0.20151104-1838"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.manage.system.web"
+         download-size="19"
+         install-size="38"
+         version="1.0.0.20151202-1352"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.manage.todo"
+         download-size="14"
+         install-size="22"
+         version="1.0.0.20151104-1838"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.manage.todo.web"
+         download-size="7"
+         install-size="10"
+         version="1.0.0.20160120-1218"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.manage.usage"
+         download-size="13"
+         install-size="21"
+         version="1.0.0.20151208-0955"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.osgi.web"
+         download-size="19"
+         install-size="47"
+         version="1.0.0.20151208-0955"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.signing"
+         download-size="3"
+         install-size="3"
+         version="1.0.0.20151218-1737"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.signing.pgp"
+         download-size="29"
+         install-size="53"
+         version="1.0.0.20160224-1251"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.signing.pgp.web"
+         download-size="21"
+         install-size="40"
+         version="1.0.0.20151218-1606"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.utils.osgi"
+         download-size="36"
+         install-size="70"
+         version="1.0.0.20151216-1053"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.web.analytics"
+         download-size="11"
+         install-size="15"
+         version="1.0.0.20151126-0948"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.web.googlebot"
+         download-size="6"
+         install-size="6"
+         version="1.0.0.20151104-1838"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.xml"
+         download-size="4"
+         install-size="4"
+         version="1.0.0.20151126-0948"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.sec"
+         download-size="10"
+         install-size="16"
+         version="1.0.0.20151209-0831"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.sec.service"
+         download-size="6"
+         install-size="6"
+         version="1.0.0.20151126-0948"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.sec.service.admin"
+         download-size="7"
+         install-size="10"
+         version="1.0.0.20151104-1838"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.sec.service.apm"
+         download-size="22"
+         install-size="46"
+         version="1.0.0.20151104-1838"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.sec.service.common"
+         download-size="13"
+         install-size="17"
+         version="1.0.0.20151126-0948"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.sec.service.core"
+         download-size="5"
+         install-size="5"
+         version="1.0.0.20151104-1838"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.sec.web"
+         download-size="24"
+         install-size="40"
+         version="1.0.0.20151126-0948"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.sec.web.ui"
+         download-size="43"
+         install-size="84"
+         version="1.0.0.20160114-1603"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.storage.apm"
+         download-size="23"
+         install-size="43"
+         version="1.0.0.20151217-1000"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.storage.apm.config"
+         download-size="7"
+         install-size="9"
+         version="1.0.0.20151104-1838"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.web.sitemap"
+         download-size="12"
+         install-size="16"
+         version="1.0.0.20151126-0948"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.web"
+         download-size="10"
+         install-size="18"
+         version="1.0.0.20151215-1156"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.web.sitemap.servlet"
+         download-size="13"
+         install-size="22"
+         version="1.0.0.20151203-1043"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.signing.web"
+         download-size="5"
+         install-size="6"
+         version="1.0.0.20160115-1005"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.packagedrone.repo.web.ci"
+         download-size="6"
+         install-size="9"
+         version="1.0.0.20160120-1218"
+         unpack="false"/>
+
+</feature>

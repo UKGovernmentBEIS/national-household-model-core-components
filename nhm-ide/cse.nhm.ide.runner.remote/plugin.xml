@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="cse.nhm.ide.ui.preferences"
+            class="cse.nhm.ide.runner.remote.RemoteRunnerPreferencesPage"
+            id="cse.nhm.ide.runner.remote.RemoteRunnerPreferencesPage"
+            name="NHM back-end servers">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="cse.nhm.ide.runner.remote.PreferenceInitializer">
+      </initializer>
+   </extension>
+</plugin>

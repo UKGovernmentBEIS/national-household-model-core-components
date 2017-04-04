@@ -1,0 +1,16 @@
+(scenario
+    start-date:2015
+    end-date:2015
+    stock-id: ../../stock.json
+
+    (def x on:house default:0)
+    (on.dates scenario-start
+       (apply
+          (do (set #x 1)
+              (fail-unless (= 0 #x)))
+          (do (set #x 4)
+              (fail-unless (= 4 #x))))
+       (assert over: all-houses
+               (= #x 4))
+    )
+)

@@ -1,0 +1,46 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: org.eclipse.packagedrone.repo.generator.p2
+Archiver-Version: Plexus Archiver
+Built-By: jens
+Require-Bundle: org.eclipse.packagedrone.web.forms;bundle-version="1.0
+ .0",org.eclipse.packagedrone.repo.channel.web;bundle-version="0.0.7",
+ org.jboss.spec.javax.servlet.jstl.jboss-jstl-api_1.2_spec;bundle-vers
+ ion="1.1.2"
+Bundle-ManifestVersion: 2
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Eclipse-SourceReferences: scm:git:ssh://github.com/ctron/package-drone
+ ;path="bundles/org.eclipse.packagedrone.repo.generator.p2";commitId=3
+ 2c38335101041887c3789db9ba976486ff98250
+Bundle-Vendor: Jens Reimann
+Import-Package: com.google.gson;version="2.3.1",javax.el;version="3.0.
+ 0",javax.servlet;version="3.1.0",javax.servlet.http;version="3.1.0",j
+ avax.servlet.jsp;version="2.2.0",javax.servlet.jsp.tagext;version="2.
+ 2.0",javax.validation;version="1.1.0.Final",javax.validation.constrai
+ nts;version="1.1.0",javax.validation.metadata;version="1.1.0",org.ecl
+ ipse.jdt.annotation,org.eclipse.packagedrone.repo;version="1.0.0",org
+ .eclipse.packagedrone.repo.aspect.common.osgi;version="1.0.0",org.ecl
+ ipse.packagedrone.repo.aspect.listener;version="1.0.0",org.eclipse.pa
+ ckagedrone.repo.channel;version="1.0.0",org.eclipse.packagedrone.repo
+ .channel.provider;version="1.0.0",org.eclipse.packagedrone.repo.event
+ ;version="1.0.0",org.eclipse.packagedrone.repo.generator;version="1.0
+ .0",org.eclipse.packagedrone.repo.utils;version="1.0.0",org.eclipse.p
+ ackagedrone.repo.utils.osgi.bundle;version="1.0.0",org.eclipse.packag
+ edrone.repo.utils.osgi.feature;version="1.0.0",org.eclipse.packagedro
+ ne.repo.web.utils;version="1.0.0",org.eclipse.packagedrone.sec;versio
+ n="1.0.0",org.eclipse.packagedrone.utils.io;version="1.0.0",org.eclip
+ se.packagedrone.utils.validation.constraints;version="1.0.0",org.ecli
+ pse.packagedrone.web;version="1.0.0",org.eclipse.packagedrone.web.com
+ mon;version="1.0.0",org.eclipse.packagedrone.web.controller.binding;v
+ ersion="1.0.0",org.eclipse.packagedrone.web.controller.form;version="
+ 1.0.0",org.eclipse.scada.utils.str;version="0.2.0",org.hibernate.vali
+ dator.constraints;version="5.1.3",org.osgi.framework;version="1.8.0",
+ org.slf4j;version="1.7.2"
+Service-Component: OSGI-INF/featureGen.xml,OSGI-INF/categoryGen.xml,OS
+ GI-INF/categoryXmlGen.xml,OSGI-INF/controller.xml
+Bundle-Name: P2 Artifact Generator
+Bundle-Version: 1.0.0.20160114-1147
+Created-By: Apache Maven 3.3.9
+Build-Jdk: 1.8.0_72
+Eclipse-BundleShape: dir
+

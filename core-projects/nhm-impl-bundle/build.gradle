@@ -1,0 +1,177 @@
+plugins {
+  id 'java'
+  id 'maven-publish'
+  id 'org.dm.bundle' version '0.8.6'
+  id 'com.palantir.git-version' version '0.5.2'
+}
+
+apply plugin: 'java'
+apply plugin: 'org.dm.bundle'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+// It would be good to get this from version control instead
+// of from the current time. However, we want the version control
+// stamp to be lexically greater than any earlier version!
+
+// I don't know whether there is a good reason
+// not to simply use this for the overall version?
+
+ext.buildtype = version.endsWith("-SNAPSHOT") ? "D" : "R"
+ext.gitV = project.gitVersion()
+ext.buildVersion = version.replace("-SNAPSHOT", "") + "." + buildtype + gitV.replace(".", "_")
+
+ext.mavenUser = project.hasProperty('mvnUser') ? project.mvnUser : 'deploy'
+ext.mavenPassword = project.hasProperty('mvnPassword') ? project.mvnPassword : 'da9fc69a5d93f07432ace3fc7015fffa4d4b032a88d267f88cb2dd5369d1b6af'
+
+ext.nhm =
+  [
+    project(":nhm-batch"),
+    project(":nhm-simulator"),
+    project(":nhm-reportengine"),
+    project(":nhm-stockimport-simple"),
+    project(":nhm-stock-io")
+  ]
+
+group = 'uk.org.cse.nhm'
+
+// define a new type of dependency, 'embed'
+// this is automatically transitive on the dependencies
+// of the embedded deps.
+configurations {
+  embed
+  
+  compile {
+    extendsFrom embed
+  }
+}
+
+// access the list of embedded dependencies, with @s on their paths
+// joined by comma, which is the format bnd likes for Include-Resources
+def resourcesFrom(config) {
+  return (config.collect {it -> '@' + it.path}).join(',')
+}
+
+dependencies {
+  compile 'org.osgi:org.osgi.core:6.0.0'
+  compile 'org.osgi:org.osgi.compendium:5.0.0'
+  compile "org.eclipse.equinox:org.eclipse.equinox.common:3.6.0"
+  compile project(':nhm-bundle-api')
+  embed nhm
+}
+
+repositories {
+  mavenCentral()
+  mavenLocal()
+  maven { url "http://localhost:8080/maven/7b9c5ef4-16a1-4b8f-ae4e-83bb87337fdb/" }
+}
+
+bundle {
+  instructions <<
+    [
+     'Export-Package': '',
+     'Bundle-Version': buildVersion,
+     // apparently, according to OSGI Core 3.9.3 (https://osgi.org/download/r4v43/osgi.core-4.3.0.pdf)
+     // Import-Package directives are searched before the contents of the bundle
+     // which means we can embed the API in this bundle as well and it might work??
+     'Import-Package': 'org.osgi.framework,org.eclipse.core.runtime,org.osgi.service.component,uk.org.cse.nhm.bundle.api;version="[2.0, 3.0)"',
+     'Bundle-Name': 'NHM Model Implementation',
+     'Bundle-SymbolicName': 'uk.org.cse.nhm.bundle.impl',
+     'Bundle-Activator': 'uk.org.cse.nhm.clitools.bundle.Activator',
+     'Require-Bundle': 'com.google.guava,org.apache.xerces',
+     'Bundle-ActivationPolicy': 'lazy',
+     'Service-Component': 'OSGi-INF/service.xml',
+     'Private-Package': '!org.osgi.*,!uk.org.cse.nhm.bundle.api.*,!org.eclipse.core.*,!org.eclipse.equinox.*,*;-split-package:=merge-last',
+     // this ends up inserting a lot of rubbish into the manifest, but also
+     // causing all the jars to get flattened in, which we want.
+     'Include-Resource': resourcesFrom(configurations.embed),
+     'Main-Class': 'uk.org.cse.nhm.clitools.Dispatch'
+    ]
+}
+
+
+// the combined jar file will end up containing various files we do not want, so
+// the following code filters these files out after the jar has been created
+
+ext.badFiles = [
+    ~'^/META-INF/ECLIPSE_\\.RSA$', // if we have a signature, that is bad
+
+    ~'.+\\.sav$', // at the moment we have some sav files in the result. bad.
+    ~'.+\\.spv$', // this is related in some way.
+
+    // this is something to do with poi which we shouldn't really need. I think it's the shapes for things you can draw in office.
+    ~'^/org/apache/poi/xslf/usermodel/presetShapeDefinitions\\.xml$'
+  ]
+
+import java.util.*;
+import java.net.URI;
+import java.nio.file.Path;
+import java.nio.file.*;
+import java.nio.file.StandardCopyOption;
+
+def removeFromZip (file, things) {
+  FileSystems
+  .newFileSystem(URI.create("jar:file:${file}"), ["create": "false"])
+  .withCloseable {
+    def jar = it
+    def remove = []
+    def v = [ visitFile:
+        {f, a ->
+            things.each { if (it.matcher(f.toString()).matches()) remove << f }
+            FileVisitResult.CONTINUE} ] as SimpleFileVisitor<Path>
+    try {
+      jar.rootDirectories.each {
+          Files.walkFileTree(it, v)
+      }
+
+      println ">> Deleting files from zip"
+      remove.each{ println it
+                   Files.delete(it) }
+      } catch (e) {
+      logger.error("Removing ${it} from ${file}: ${e.message}")
+    }
+  }
+}
+
+jar << { removeFromZip(jar.archivePath, badFiles) }
+
+// this is needed to get the build number w/timestamp into the resulting jar
+// in a way the CLI tools can access (a properties file on the classpath)
+
+processResources {
+    filesMatching('**/nhm-impl-bundle.properties') {
+        filter {
+           it.replace('@buildnumber@', project.ext.buildVersion)
+        }
+    }
+}
+
+// finally we produce a maven output
+// the POM needs changing as it naively depends on the dependencies above
+// but actually we have embedded some of them into the jar.
+
+publishing {
+  publications {
+    mavenJava(MavenPublication) {
+      from components.java
+
+      pom.withXml {
+         asNode().dependencies.dependency.each {
+              if (it.groupId.text() == 'uk.org.cse.nhm' &&
+                  it.artifactId.text() != 'bundle-api') {
+                 // all the NHM dependencies are getting embedded
+                 // so we remove them from the POM.
+                 it.parent().remove(it)
+              }
+         }
+      }
+
+      repositories {
+        maven {
+          credentials {
+            username mavenUser
+            password mavenPassword
+          }
+          url "http://localhost:8080/maven/7b9c5ef4-16a1-4b8f-ae4e-83bb87337fdb/"
+        }}}}}

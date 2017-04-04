@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="NHM IDE" uid="cse.nhm.ide.application" id="cse.nhm.ide.product.nhmide" application="org.eclipse.ui.ide.workbench" version="1.0.0.qualifier" useFeatures="true" includeLaunchers="true">
+
+   <aboutInfo>
+      <image path="/cse.nhm.ide.product/icons/icon-128x128.gif"/>
+      <text>
+         The National Household Model is a simulation model for domestic housing created by CSE, the Centre for Sustainable Energy, on behalf of DECC.
+      </text>
+   </aboutInfo>
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <programArgs>-perspective cse.nhm.ide.ui.scenarioPerspective
+      </programArgs>
+      <vmArgs>-Xmx4G
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
+   </launcherArgs>
+
+   <windowImages i16="/cse.nhm.ide.product/icons/Home.png" i32="/cse.nhm.ide.product/icons/icon-32x32.gif" i48="/cse.nhm.ide.product/icons/icon-48x48.gif" i64="/cse.nhm.ide.product/icons/icon-64x64.gif" i128="/cse.nhm.ide.product/icons/icon-128x128.gif" i256="/cse.nhm.ide.product/icons/icon-256x256.gif"/>
+
+   <splash
+      location="cse.nhm.ide.product"
+      startupProgressRect="0,310,500,20"
+      startupMessageRect="0,290,500,20"
+      startupForegroundColor="FFFFFF" />
+   <launcher name="National Household Model">
+      <linux icon="icons/3-Gray-Home-icon.xpm"/>
+      <macosx icon="icons/Awicons-Vista-Artistic-3-Gray-Home.icns"/>
+      <solaris/>
+      <win useIco="false">
+         <ico path="icons/windows-icon.ico"/>
+         <bmp
+            winSmallHigh="icons/bmp/16-32.bmp"
+            winSmallLow="icons/bmp/16-8.bmp"
+            winMediumHigh="icons/bmp/32-32.bmp"
+            winMediumLow="icons/bmp/32-8.bmp"
+            winLargeHigh="icons/bmp/48-32.bmp"
+            winLargeLow="icons/bmp/48-8.bmp"
+            winExtraLargeHigh="icons/bmp/256-32.bmp"/>
+      </win>
+   </launcher>
+
+   <vm>
+   </vm>
+
+   <plugins>
+      <plugin id="org.eclipse.core.runtime"/>
+   </plugins>
+
+   <features>
+      <feature id="cse.nhm.ide.feature" version="1.0.0.qualifier" installMode="root"/>
+      <feature id="cse.nhm.models.feature" version="1.0.0.qualifier" installMode="root"/>
+      <feature id="org.eclipse.ecf.filetransfer.httpclient4.feature"/>
+      <feature id="org.eclipse.ecf.filetransfer.feature"/>
+      <feature id="org.eclipse.equinox.p2.core.feature"/>
+      <feature id="org.eclipse.ecf.core.ssl.feature"/>
+      <feature id="org.eclipse.rcp"/>
+      <feature id="org.eclipse.ecf.core.feature"/>
+      <feature id="org.eclipse.help"/>
+      <feature id="org.eclipse.emf.ecore"/>
+      <feature id="org.eclipse.ecf.filetransfer.httpclient4.ssl.feature"/>
+      <feature id="org.eclipse.emf.common"/>
+      <feature id="org.eclipse.equinox.p2.rcp.feature"/>
+      <feature id="org.eclipse.equinox.p2.user.ui"/>
+      <feature id="org.eclipse.equinox.p2.extras.feature"/>
+      <feature id="org.eclipse.ecf.filetransfer.ssl.feature"/>
+      <feature id="org.eclipse.e4.rcp"/>
+      <feature id="org.eclipse.egit"/>
+   </features>
+
+   <configurations>
+      <plugin id="cse.nhm.ide.runner.remote" autoStart="true" startLevel="5" />
+      <plugin id="cse.nhm.ide.ui" autoStart="true" startLevel="5" />
+      <plugin id="cse.nhm.ide.ui.editor" autoStart="true" startLevel="5" />
+      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="4" />
+      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.p2.reconciler.dropins" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
+      <property name="org.eclipse.update.install.features" value="true" />
+      <property name="org.eclipse.update.reconcile" value="false" />
+   </configurations>
+
+   <repositories>
+      <repository location="http://www.deccnhm.org.uk/p2/" enabled="true" />
+   </repositories>
+
+</product>

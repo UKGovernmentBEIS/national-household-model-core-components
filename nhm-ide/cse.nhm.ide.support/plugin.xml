@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            name="Scenario Support Request Editor"
+            extensions="ssr"
+            icon="icons/sample.gif"
+            class="cse.nhm.ide.support.editors.SupportRequestEditor"
+            id="cse.nhm.ide.support.editors.SupportRequestEditor">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            name="Support Requests"
+            id="cse.nhm.ide.support">
+      </category>
+      <wizard
+            name="Support Request"
+            icon="icons/sample.gif"
+            category="cse.nhm.ide.support"
+            class="cse.nhm.ide.support.wizards.NewSupportRequestWizard"
+            id="cse.nhm.ide.support.wizards.NewSupportRequestWizard">
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:help?before=group.assist">
+         <command
+               commandId="cse.nhm.ide.support.supportRequestCommand"
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="cse.nhm.ide.support.SupportRequestCommandHandler"
+            description="Create a new scenario support request"
+            id="cse.nhm.ide.support.supportRequestCommand"
+            name="New Support Request">
+      </command>
+   </extension>
+
+</plugin>

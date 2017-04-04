@@ -1,0 +1,81 @@
+<section xmlns="http://docbook.org/ns/docbook" id="efficiency" xreflabel="Efficiency">
+  <title>Heating Efficiencies</title>
+  <para>
+    Heat sources (for both water and spacing heating) in SAP are
+    described by their <emphasis>efficiency</emphasis>. This represents
+    how effective they are at converting fuel into heat, and is a number
+    between 0 and 1 (usually expressed as a percentage between 0% and
+    100%).
+  </para>
+  <para>
+    To find out how much fuel was used by a heat source, take the amount
+    of heat it will generate (in units of energy kWH) and divide it by
+    the efficiency. This will give you the fuel consumption (also in
+    units of energy kWH). The fuel consumption is therefore always
+    higher than the amount of heat produced, reflecting any losses
+    (usually from incomplete combustion of the fuel or heat lost as
+    vapour).
+  </para>
+  <section>
+    <title>Electric Heaters</title>
+    <para>
+      Electric resistive heaters are a kind of heat source where heat is
+      made by driving electric current through a wire. They are assumed
+      to have no losses - their efficiency is always 100%. The losses
+      for electricity happened during the generation step, and may be
+      considered accounted for in the higher price for electricity
+      compared to most other fuels.
+    </para>
+    <para>
+      This category includes all electric heaters except for heat pumps.
+    </para>
+  </section>
+  <section>
+    <title>Heat Pumps</title>
+    <para>
+      Heat pumps are a type of heater which do not primarily generate
+      heat themselves (although the losses from their pumping system do
+      contribute to heating), but instead relocate it from the
+      environment. They do not have an efficiency, but instead have a
+      number called <emphasis>Coefficient of Performance</emphasis>
+      (COP). COP is analogous to efficiency in most ways, but is allowed
+      to be greater than 100%.
+    </para>
+  </section>
+  <section>
+    <title>Boilers</title>
+    <para>
+      Boilers in SAP do not have a single efficiency number, but instead
+      have seasonal winter and summer efficiencies. The winter
+      efficiency is always higher, reflecting the changing effectiveness
+      of the boiler under constant vs intermittent use.
+    </para>
+    <para>
+      In SAP, space heating by a boiler uses the winter efficiency
+      (heating is not generally required in summer).
+    </para>
+    <para>
+      Water heating by a boiler uses a harmonic mean of the winter and
+      summer efficiencies, weighted by the heat demands for space and
+      water heating respectively.
+    </para>
+    <para>
+      The summer efficiency of boilers is, by default, 1% lower than the
+      winter efficiency. This number is based on a linear regression
+      against the boiler
+      <ulink url="http://www.ncm-pcdb.org.uk/sap/">Product
+      Characeristics Database (PCDB)</ulink>, which showed that almost
+      all boilers follow this pattern.
+    </para>
+  </section>
+  <section>
+    <title>Other Corrections</title>
+    <para>
+      In addition to the above, SAP specifies a large number of
+      situational adjustments to efficiency. If you want to know more
+      about these, it is best to read the
+      <ulink url="http://www.bre.co.uk/filelibrary/SAP/2009/SAP-2009_9-90.pdf">SAP
+      2009 specification</ulink>.
+    </para>
+  </section>
+</section>

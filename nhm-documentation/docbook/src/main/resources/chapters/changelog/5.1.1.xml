@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section xmlns="http://docbook.org/ns/docbook" xmlns:xl="http://www.w3.org/1999/xlink">
+  <title>5.1.1</title>
+
+  <section>
+    <title>Language Changes</title>
+    <section>
+      <title>Sequencing of probe outputs</title>
+      <para>
+        Probe elements behaviour has been changed so that report columns are produced in the same
+        order as the <code>capture:</code> argument lists them. Previously they were produced in
+        alphabetical order. In a related change, the documentation for probes has been updated to
+        point out that the <code>name:</code> argument for any probed value can be used to determine
+        the column heading in the report.
+      </para>
+    </section>
+
+    <section>
+      <title>Improvement of solar PV model</title>
+      <para>
+        The solar photovoltaic model now distinguishes between energy used within the dwelling and
+        energy exported to the grid. Scenarios can set the maximum proportion of generation which
+        can be used within the dwelling, and a new fuel type has been introduced to allow the price
+        for exported electricity to differ from the price of consumed electricity.
+      </para>
+    </section>
+
+    <section>
+      <title>Improvement of <xref linkend="ref.action.remove-fuel-charge" /></title>
+      <para>
+        <xref linkend="ref.action.remove-fuel-charge" /> can now be used to remove
+        <emphasis>all</emphasis> additional charges included in a dwelling's tariff, without having
+        to know which charges may have been added. This is useful in performing a calculation within
+        an <xref linkend="ref.under" /> function in which you want to be sure that a certain set
+        of tariffs are being used, such as when calculating a SAP score.
+      </para>
+    </section>
+
+    <section>
+      <title>Addition of random number state to sequence report</title>
+      <para>
+        The sequence report now has an additional column which gives the random number generator's
+        internal state after each event is processed. This is only useful for determining at what
+        point the random behaviour in two different runs has diverged.
+      </para>
+    </section>
+
+	<section>
+	  <title>Improvements to include and ~module</title>
+	  <para>
+		To help with the creation of reusable modules, a new include elemnt has been
+		added, <code>include-modules</code>, which <emphasis>only</emphasis> includes
+		modules or other <code>include-modules</code> statements in the top level of the
+		referenced scenario. In addition to this, it is now legal to define a module
+		twice; only the first definition has any effect.
+	  </para>
+	  <para>
+		The upshot of this is that if you have modules which depend on each other, you no
+		longer need to make sure you only include each of these dependencies once.
+	  </para>
+      <para>
+        In addition, local names within a module can now be written directly by prefacing
+        them with a slash; for example, the following
+      </para>
+      <programlisting language="lisp"><![CDATA[(~module M
+      (template T [] /my-identifier))]]></programlisting>
+      <para>
+        is equivalent to
+      </para>
+      <programlisting language="lisp"><![CDATA[(template M/T [] M/my-identifier)]]></programlisting>
+      <para>
+        This special handling also applies to names starting with <code>#/</code> or
+        <code>!/</code>, in which cases the module name is inserted before the slash, but
+        after the punctuation.
+      </para>
+
+	</section>
+
+    <section>
+      <title>In-scenario assertions added</title>
+      <para>
+        To make it easier to check scenarios are working as intended, the <xref
+        linkend="ref.assert" /> element has been added to the language. This can be used
+        within any of the scheduling elements (like <xref linkend="ref.on.dates"/>), to
+        test that a given condition holds at a certain point in the scenario, either for
+        every house in a particular set, or for the simulation as a whole. Assertions can be
+        configured to produce a warning, or to stop the simulation from running if they
+        fail.
+      </para>
+    </section>
+
+    <section>
+      <title>house.insolation element added</title>
+      <para>
+        <xref linkend="ref.house.insolation" /> is a new element which lets you
+        determine the average amount of insolation on an inclined plane under current
+        weather conditions for the house, in kWh/year.
+      </para>
+    </section>
+
+    <section>
+      <title>house.air-change-rate added</title>
+      <para>
+        <xref linkend="ref.house.air-change-rate" /> is a new element which lets you
+        access the energy calculator's prediction of the air change rate within a house.
+      </para>
+    </section>
+
+    <section>
+      <title>house.volume added</title>
+      <para>
+        <xref linkend="ref.house.volume" /> is a new element which provides the volume
+        of a house in cubic metres.
+      </para>
+    </section>
+
+    <section>
+      <title>house.heat-load added</title>
+      <para>
+        <xref linkend="ref.house.heat-load" /> is a new element which provides the
+        mean heat load in a house.
+      </para>
+    </section>
+    
+    <section>
+      <title>Simpler referencing</title>
+      <para>
+        In previous versions of the NHM, references to previously defined variables,
+        actions, tests and so on had to be preceded with a <code>#</code> symbol. It is
+        now possible simply to use the name, without a <code>#</code> symbol, although the
+        old syntax is still supported.
+      </para>
+    </section>
+
+    <section>
+      <title>Improved error messages</title>
+      <para>
+        The error messages associated with some common scenario mistakes have been
+        improved, to better signal the nature of the error.
+      </para>
+    </section>
+
+    <section>
+      <title>Bounds checking on values calculated at runtime</title>
+      <para>
+        Most values which are computed at runtime are now bounds-checked, and warnings
+        will be generated if they are not sensible. Checked values include heating system
+        efficiencies, sizes, capex, opex, and hot water tank sizes; for example, if a
+        measure's pricing function produces a negative price, a warning will be generated
+        and the price will be clamped to zero.
+      </para>
+    </section>
+
+    <section>
+      <title>Profiling information</title>
+      <para>
+        The top-level scenario element now has an argument <code>profile-depth:</code>
+        which can be used to profile the running of your scenarios; if it is set to a
+        positive number, an additional report will be generated showing how long different
+        parts of the scenario are taking to run.
+      </para>
+    </section>
+
+    <section>
+      <title>Multiple-value set, with counterfactuals</title>
+      <para>
+        The <code>set</code> action can now set multiple values at once, and can impose a
+        counterfactual condition for computing those values. This makes it a more
+        efficient alternative to repeated use of the <code>under</code> function, for
+        example in the case where disaggregated fuel use is required under some complex
+        set of counterfactual assumptions:
+      </para>
+      <programlisting language="lisp"><![CDATA[(set
+      [mains-gas electricity]
+      [(house.energy-use by-fuel:mainsgas) (house.energy-use by-fuel:peakelectricity)]
+      under:(my-assumptions-template))]]></programlisting>
+    </section>
+  </section>
+  
+  <section>
+    <title>Bugs Fixed</title>
+
+    <section>
+      <title>Uninsulated lofts imported correctly</title>
+      <para>
+        An oversight in the stock import code which meant that only dwellings with some
+        loft insulation were considered to have a loft has been corrected; the EHS
+        variable <code>FLITYPES</code> in the <code>services</code> file is now used to
+        determine the presence of a loft. This increases the number of dwellings suitable
+        for loft insulation in most stocks.
+      </para>
+    </section>
+    
+    <section>
+      <title>Non-determinism eliminated</title>
+      <para>
+        A programming error which produced a very occasional non-determinism between runs
+        has been eliminated, ensuring total repeatability of pseudorandom model behaviour.
+      </para>
+    </section>
+    
+    <section>
+      <title>Validation faults corrected</title>
+      <para>
+	    A fault in <code>set</code> which broke the validator when the first argument (the
+	    variable to set) could not be resolved has been corrected.
+      </para>
+      <para>
+        Various other validation errors have been made more informative.
+      </para>
+    </section>
+
+    <section>
+      <title>Energy calculation ventilation effects corrected</title>
+
+      <para>
+        A fault in the energy calculator has been corrected. Previously, the SAP
+        adjustment which increases household ventilation in low-ventilation buildings was
+        applied <emphasis>before</emphasis> the SAP adjustment which takes account of
+        local wind speed when calculating the air change rate for a house. This caused a
+        small excess increase in air change rate for those houses in which the structural
+        air change rate was below 1, but the effect of local exposure would have raised it
+        above one. The adjustments are now applied in the correct order (exposure effects
+        first, occupants' adjustment second).
+      </para>
+      <para>
+        The effect of the correction is small; under SAP 2012 assumptions, for the EHS
+        2012 stock, the mean energy use has decreased from 22772.73 kWh/year to 22753.2
+        kWh/year. The maximum has been reduced from 323656 to 323616, and the minimum from
+        3206 to 3162
+      </para>
+    </section>
+  </section>
+</section>

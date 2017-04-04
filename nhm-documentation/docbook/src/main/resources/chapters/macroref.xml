@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<part xmlns="http://docbook.org/ns/docbook"
+	  xmlns:xi="http://www.w3.org/2001/XInclude"
+	  version="5.0">
+  <title>
+	Macro Reference
+  </title>
+  <chapter>
+	<title>Introduction</title>
+	<para>
+	  This section of the manual documents all the inbuilt macros in the
+	  NHM language. Macros are words which look like language elements,
+	  but are actually shorthands which can be thought of as generating
+	  complex text forms from simpler ones. You have have encountered
+	  macro expansion facilities in other languages like lisp macros, or
+	  C++ templates.
+	</para>
+  </chapter>
+  <chapter id="templating" xreflabel="Templating">
+	<title>Templating</title>
+	<para>
+	  Although the NHM does not support the definition of arbitrary
+	  macros, to save you from repeating yourself too much, it does
+	  support <emphasis>templating</emphasis> within scenarios. A
+	  template gives a rule for generating a formulaic
+	  &quot;chunk&quot; of scenario by filling in the blanks in an
+	  incomplete definition.
+	</para>
+	<para>
+	  For example, consider the following template:
+	</para>
+	<example>
+	  <title>A simple template</title>
+	  <para>
+		First let's look at a template definition; this (with
+		caveats) defines a square function which doesn't exist in
+		the language at the moment.
+	  </para>
+	  <programlisting language="lisp">(template ; the template keyword indicates we are writing a template
+      square ; this is the name our new template will have
+	  [@x] ; next there is a list of the placeholders in the template. 
+	  ; To avoid confusion, these are always prefixed with @
+	  (* @x @x) ; finally we have the template's content - in this a list with head
+	  ; *, whose tail consists of two copies of placeholder @x
+	  )
+	  </programlisting>
+	  <para>
+		As written, this template does not have any effect until
+		it is invoked elsewhere in the scenario - it just defines
+		<code>square</code>. Let's see how to invoke the template:
+	  </para>
+	  <programlisting language="lisp">(square x:9)</programlisting>
+	  <para>
+		This simple invocation will be replaced with the template
+		body, filling in 9 for the template argument x:
+	  </para>
+	  <programlisting language="lisp">(* 9 9)</programlisting>
+	  <para>
+		It is important to understand that defining a template is
+		not quite the same as adding a new function to the
+		language. Templates are filled in as a first-step before
+		the scenario is processed any further, so their effect is
+		<emphasis>exactly</emphasis> as if you had written out the
+		expanded form yourself by hand. They cannot produce any
+		behaviour which is not already possible using existing
+		elements.
+	  </para>
+	  <para>
+		The template placeholder list can contain slightly more
+		structure - writing <code>[[@x 1]]</code> defines a default 
+		value of 1 for the placeholder @x (if it is omitted from the
+		the template arguments). Writing <code>[[@x]]</code> defines
+		a placeholder @x which can be omitted, and will just be left
+		out of the template body if it is not needed.
+	  </para>
+	</example>
+	<example>
+		<title>Numbered arguments</title>
+		<para>
+			Templates also support numbered arguments.
+			These are useful for making simple templates shorter to use.
+		</para>
+		
+	  	<programlisting language="lisp">
+	  		(template swap [@1 @2] 	; The numbered arguments are still preceded by @. 
+	  								; They must be written in ascending order from @1.
+	  			@2 					; We can, however, use these arguments in any order inside the body of the template.
+	  			@1
+	  		)
+	  	</programlisting>
+	  	
+	  	<para>
+	  		When using defined a template which was defined with numbered arguments, we do not have to refer to the arguments by name.
+	  		Instead, we write them out in the correct order.
+	  	</para>
+	  	
+	  	<programlisting language="lisp">(swap "first" "second")</programlisting>
+	  	
+	  	<para>
+	  		This example will be replaced with the template body.
+	  	</para>
+	  	
+	  	<programlisting language="lisp">"second" "first"</programlisting>
+	</example>
+	
+	<example>
+		<title>The rest argument</title>
+		
+		<para>
+			We can use the @rest argument to refer to an umlimited number of unnamed arguments.
+		</para>
+		
+		<programlisting language="lisp">
+			(template move-first-to-end
+				[@1 ; This template will expect at least one unnamed argument which will be bound to @1.
+				@rest] ; All subsequent unnamed arguments will be bound to @rest.  
+				@rest
+				@1
+				)
+		</programlisting>
+		
+		<para>
+			We then invoke this template with at least one argument as follows.
+		</para>
+		
+		<programlisting language="lisp">
+			(move-first-to-end a b c)
+		</programlisting>
+		
+		<para>
+			This expands to the following template body.
+		</para>
+		
+		<programlisting language="lisp">
+			b c a
+		</programlisting>
+		
+		<para>
+			We could also call it with more arguments.
+		</para>
+		
+		<programlisting language="lisp">
+			(move-first-to-end a b c d e f g h)
+		</programlisting>
+		
+		<para>
+			This expands in the same fashion.
+		</para>
+		
+		<programlisting language="lisp">
+			b c d e f g h a
+		</programlisting>
+	</example>
+        <example>
+          <title>Giving arguments descriptive names</title>
+          <para>
+            To make your templates easier to read, you can give the arguments an internal name which
+            is different from the external name. In this example, the first numbered argument is
+            given the internal name "function", which is then usable inside the template:
+          </para>
+          <programlisting language="lisp">
+            (template my-template [@1:function]
+               (do-something-with @function)
+            )
+          </programlisting>
+        </example>
+  </chapter>
+
+
+  <chapter>
+  	<title>Modularising templates</title>
+  	
+  	<para>
+  		Creating templates that are reusable can require some thought; no two templates in a scenario may have the same name,
+  		and variables that are used within a template must be defined somewhere. To make defining a set of related templates easier
+  		the NHM has the <code>~module</code> macro, which renames any templates contained inside it, the <code>~local</code> macro
+  		which produces module-specific variable names, and the <code>~unique</code> macro which can generate a globally unique name
+  	</para>
+  	
+  	<para>
+  		Writing a module is simple; for example, if you write
+  	</para>
+  	
+  	<programlisting language="lisp">
+  	(~module my-module
+  	
+  		(template my-template [] stuff)
+  		(template my-other-template [] (my-template))
+  	)
+  	</programlisting>
+  	
+  	<para>
+  		This is equivalent to writing
+  	</para>
+  	
+  	<programlisting language="lisp">
+  	; each template has been rewritten to have its name prefixed with my-module/
+  	(template my-module/my-template [] stuff)
+  	
+  	; wherever a template in the module has used another template in the same module,
+  	; the template usage is renamed - here the use of my-template has been corrected
+  	(template my-module/my-other-template [] (my-module/my-template))
+  	</programlisting>
+  	
+  	<para>
+  		The <code>~local</code> macro can only be used inside <code>~module</code>; it rewrites the names of variables,
+  		so you can write <code>(def (~local my-variable) on:House)</code> inside a module, which will expand to
+  		<code>(def my-module/my-variable on:House)</code>. Similarly, to use the variable you can write <code>(~local #my-variable)</code>,
+  		which will expand to <code>#my-module/my-variable</code> in the final output.
+  	</para>
+  </chapter>
+
+  <chapter>
+	<title>no-include</title>
+	<para>
+		The special no-include macro is intended to allow you to write sections in a scenario which will be removed when it is included.
+		For example, writing:
+	</para>
+	
+	<programlisting language="lisp">a b c (no-include 1 2 3) d e f</programlisting>
+	
+	<para>
+		Will expand as follows when run directly:
+	</para>
+	
+	<programlisting language="lisp">a b c 1 2 3 d e f</programlisting>
+	
+	<para>
+		And will cut out the no-include piece entirely if it is used as an include:
+	</para>
+	
+	<programlisting language="lisp">a b c d e f</programlisting>
+  </chapter>
+</part>

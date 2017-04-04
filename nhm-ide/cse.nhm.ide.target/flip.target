@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.8"?><target name="Running Platform" sequenceNumber="71">
+<locations>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.dltk.core.feature.group" version="5.3.0.201509040407"/>
+<unit id="org.eclipse.rcp.source.feature.group" version="4.5.1.v20150904-0015"/>
+<unit id="org.eclipse.rcp.feature.group" version="4.5.1.v20150904-0015"/>
+<unit id="org.eclipse.egit.source.feature.group" version="4.0.3.201509231615-r"/>
+<unit id="org.eclipse.egit.feature.group" version="4.0.3.201509231615-r"/>
+<repository location="http://download.eclipse.org/releases/mars"/>
+</location>
+<location path="${project_loc}/bundles/" type="Directory"/>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.e4.core.tools.feature.source.feature.group" version="4.5.0.v20150818-0640"/>
+<repository location="http://download.eclipse.org/releases/mars"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="nhm.feature.group" version="0.0.0"/>
+<repository location="http://p2.research.cse.org.uk/p2/FF196B38-B2D8-4AA0-9AE9-2D4939A5FF35/"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.nebula.widgets.nattable.extension.glazedlists.source.feature.feature.group" version="1.3.0.201503261201"/>
+<unit id="org.eclipse.nebula.widgets.nattable.core.source.feature.feature.group" version="1.3.0.201503261201"/>
+<unit id="org.eclipse.nebula.widgets.nattable.extension.glazedlists.feature.feature.group" version="1.3.0.201503261201"/>
+<unit id="org.eclipse.nebula.widgets.nattable.core.feature.feature.group" version="1.3.0.201503261201"/>
+<repository location="http://download.eclipse.org/nattable/releases/1.3.0/repository/"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="ca.odell.glazedlists" version="1.9.0.v201303080712"/>
+<unit id="ca.odell.glazedlists.source" version="1.9.0.v201303080712"/>
+<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20151221205849/repository"/>
+</location>
+</locations>
+<environment>
+<os>linux</os>
+<ws>gtk</ws>
+<arch>x86_64</arch>
+<nl>en_GB</nl>
+</environment>
+<launcherArgs>
+<vmArgs>-Dosgi.requiredJavaVersion=1.7 -XX:MaxPermSize=256m -Xms40m -Xmx2G</vmArgs>
+</launcherArgs>
+</target>

@@ -1,0 +1,45 @@
+(scenario
+ start-date: 2013
+ end-date: 2013
+ stock-id: ../../stock.json
+
+ ;; We explore what happens when you install some solar PV, and how exported electricity works.
+
+ ;; In this test, all houses pay 1000 - (1 * units exported electricity) for fuel
+ ;; Only exported electricity effects carbon.
+
+ (def-report energy
+   (column name: sap-rating value: (house.fuel-cost-index))
+   (column name: emissions value: (house.emissions))
+   (column name: energy value: (house.energy-use))
+   (column
+    name: energy-without-photons
+    value: (-
+	    (house.energy-use)
+	    (house.energy-use by-fuel: Photons)))
+   (column name: exported-electricity value: (house.energy-use by-fuel: ExportedElectricity))
+   (column name: peak-solar value: (house.energy-use by-fuel: PeakElectricity by-service: Generation))
+   (column name: off-peak-solar value: (house.energy-use by-fuel: OffPeakElectricity by-service: Generation))
+   (column name: fuel-cost value: (house.fuel-cost)))
+
+ (context.carbon-factors
+  (group
+   fuels: ExportedElectricity
+   carbon-factor: 1))
+
+ (context.tariffs
+  defaults: (tariff.simple
+	     (function.simple-pricing
+	      fuel: ExportedElectricity
+	      standing-charge: 1000
+	      unit-price: -1)))
+
+ (on.dates
+  [(scenario-start)]
+
+  (apply
+   (measure.solar-photovoltaic
+    report: energy
+    capex: 0
+    size: (size 1)
+    own-use-proportion: 0.5))))

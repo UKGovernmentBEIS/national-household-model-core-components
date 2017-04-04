@@ -1,0 +1,956 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<part xmlns="http://docbook.org/ns/docbook"
+      xmlns:xi="http://www.w3.org/2001/XInclude" 
+      version="5.0"> 
+  <title>Stock Import</title> 
+  <chapter> 
+    <title>Overview</title>
+
+    <para> 
+      The National Household Model (NHM) has been written to model the affects of energy policies
+      and measures when applied to households.  Households within the NHM are represented within
+      Java (the programming language the NHM is written in) as objects known as survey cases; these
+      cases encapsulate information such as the number of double glazed windows, number of adult
+      occupants and heating systems. The detailed information within the survey case is then exposed
+      to other functions such as energy calculation or the application of measures within a
+      simulation via pre-defined programming interfaces.  
+    </para>
+
+    <para> 
+      The Survey Case must be populated with real data in order for it to be useful to the functions
+      within the NHM. The construction and storage of the data that will be used to populate these
+      models is carried out by a series of functions within a Java application known as the Stock
+      Import Engine (SIE), the SIE currently exposes two functions for populating survey case
+      objects, both of the use functions accept a collection of files held within a ZIP file these
+      are referred to as an Import Package , the import package contains the data for one or many
+      Survey cases to be created, the collection once imported is known as a Housing Stock.
+    </para>
+
+    <para> 
+      The first function imports data from a series of SPSS files within the English Housing Stock,
+      the files in this series are collectively referred to as the EHCS File Import Package (2010),
+      the data contained in these files is converted into the second import package format. This
+      functionality may be useful if the stock is updated with a new English Housing Survey.
+    </para>
+
+    <para> 
+      The second import package format referred to as the Default Import Package (DIP) enables data
+      for creating survey cases to be expressed in a series of CSV files, this method is the
+      recommended approach from importing new housing stocks into the NHM and the only one supported
+      by the NHM team.
+    </para>
+
+    <para> 
+      It is envisaged that the stock will be updated at the most once a year, in line with the
+      release of new housing surveys, and the level of testing and effort in error handling and
+      validation reflects the assumed infrequency of use. It is expected that users will use the
+      default import process more frequently to add additional property characteristics to the
+      existing stock, a simple process as long as the DIP from an existing stock is used and
+      modified. For more detail on this process please see Appendix B – Modification of addional
+      properties of a housing stock.
+    </para>
+  </chapter>
+
+  <chapter> 
+    <title>Import Packages</title>
+
+    <para> 
+      All import packages used by the SIE are expected to be in the form of a ZIP file within which
+      three types of files reside, a <emphasis>metadata</emphasis> file, an imputation schema and
+      one or more import items. The import item files may be very large in size which is why the ZIP
+      compressed file format has been used to package the files together which in turn is passed to
+      the import process. Compressing file data within a ZIP file is a particularly effective method
+      when files contain a great deal of duplicated data.
+    </para>
+    
+    <para>
+      The metadata file must be present in all import packages, and must be named
+      <code>metadata.csv</code>. It contains a set of key-value pairs which provide information
+      about the stock. These key-value pairs are stored in a comma separated format, where the first
+      column contains the keys and the second the values.
+
+      You may store whatever keys and values you like in the metadata file, and these will be
+      visible within the web frontend on the page for the stock once it is imported.
+    </para>
+    
+    <para> 
+      Every metadata file <emphasis>must</emphasis> contain the special key <code>type</code>, which
+      is used to tell the SIE what kind of data is to be imported. At the moment, two types of
+      import package are supported - you can import a stock from the EHS 2010 SPSS files, which must
+      have type <code>spss</code>, or from the standard DTO format, which should have type
+      <code>dto</code>. These two import types are described next.
+    </para>
+
+    <section> 
+      <title>EHS 2010 Import Package</title>
+
+      <para> 
+        The current SPSS import file package was developed to create a housing stock directly from
+        the English House Condition Survey (2011) in SPSS file format, the import works in two
+        phases the first reads in data from the SPSS files and creates data objects from these files
+        which are then stored in temporary repository, steps within the EHCS Imputation Phase then
+        reference data from the SPSS repository to create the Import Items that match the format of
+        the CSV files contained in the Default Import Package. From this point on the files follow
+        the same process as those of the Default Import File Package.  
+      </para> 
+
+      <para>
+        Along with <code>metadata.csv</code>, an SPSS import package must include the following SPSS
+        files from the EHS, exactly as named here.
+        <itemizedlist>
+          <listitem>
+            <para><code>derived/dimensions_09plus10.sav</code></para>
+          </listitem>
+          <listitem>
+            <para><code>derived/general_09plus10.sav</code></para>
+          </listitem>
+          <listitem>
+            <para><code>derived/interview_09plus10.sav</code></para>
+          </listitem>
+          <listitem>
+            <para><code>derived/physical_09plus10.sav</code></para>
+          </listitem>
+          <listitem>
+            <para><code>fuel_poverty/fuel_poverty_dataset_2010.sav</code></para>
+          </listitem>
+          <listitem>
+            <para><code>interview/people.sav</code></para>
+          </listitem>
+          <listitem>
+            <para><code>physical/doors.sav</code></para>
+          </listitem>
+          <listitem>
+            <para><code>physical/elevate.sav</code></para>
+          </listitem>
+          <listitem>
+            <para><code>physical/firstimp_physical.sav</code></para>
+          </listitem>
+          <listitem>
+            <para><code>physical/flatdets.sav</code></para>
+          </listitem>
+          <listitem>
+            <para><code>physical/interior.sav</code></para>
+          </listitem>
+          <listitem>
+            <para><code>physical/introoms.sav</code></para>
+          </listitem>
+          <listitem>
+            <para><code>physical/services.sav</code></para>
+          </listitem>
+          <listitem>
+            <para><code>physical/shape.sav</code></para>
+          </listitem>
+          <listitem>
+            <para><code>physical/around.sav</code></para>
+          </listitem>
+        </itemizedlist>
+        Additional SPSS files will be converted into additional properties if they have one row per
+        <code>aacode</code>.
+      </para>
+      
+      <para> 
+        As much as possible the conversion of data from the SPSS files available within the EHCS
+        matches the methodology outline in the CHM Conversion document.
+      </para>
+      <section> 
+        <title>EHCS Imputation Phase</title>
+
+	<para>
+          In this phase the raw values held within the SPSS files are used to create the more
+          structured import items needed for the default import file stage. The imputation or
+          conversion of values from SPSS to import item format follows where appropriate and is
+          carried out in a series of steps, these steps are detailed below, where differences
+          exist to the conversion methodology developed by Cambridge Architectural Research for
+          their Household model this will be noted.
+        </para>
+	
+	<section> 
+          <title>House Case Property Step</title>
+
+          <para>
+	    Here all variable listed within the SPSS files of the import package and stores this as
+	    additional properties against the house case. This are written out as strings no type
+	    information is held.
+	  </para> 
+        </section>
+	
+	<section>
+          <title>Occupant Details Step</title>
+
+          <para>
+            Using the SPSS objects generated from <code>fuel_poverty_dataset_2010.sav</code> and
+            <code>Interview_09Plus10Entry</code> an Occupant Details Import Item is created.
+          </para>
+          <para>
+            Where an interview entry cannot be found for the interview file an import log message is
+            generated noting this.  For the most part values are taken directly from the original
+            source file and set on the import item however the following areas of logic also occur:
+            <orderedlist>
+              <listitem>
+                <para>
+                  To determine the HRP (House Hold Reference Person), the entries within people.sav
+                  for the survey case are iterated over until the value
+                  <code>people.personIdentifier</code> equals <code>people.personNumberOfHrp</code>
+                  when this condition is true the specific people entry is used to return HRP data
+                  on hours normally worked for that person.
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  Date moved in is set by taking the date of the survey and subtracting
+                  <code>Interview_09Plus10Entry.lengthOfResidenceInYears</code>.
+                </para>
+              </listitem>
+            </orderedlist>
+          </para>
+        </section>
+	
+	<section>
+          <title>Elevation Step</title>
+
+          <para>
+            Creates an Elevation Import Item, using date from <code>physical_09Plus10</code>,
+            <code>elevate</code>, <code>flatdetsentry</code> and <code>doorsentry</code>.
+          </para>
+          <para>
+            Areas to note within this class are:
+            <orderedlist>
+              <listitem>
+                <para>
+                  A survey case is determined to be a house if
+                  <code>physical_09Plus10. DWTYPE8X</code> is equal to Detached House,
+                  Medium_LargeTerracedHouse, Semi_DetachedHouse, SmallTerracedHouse or a Bungalow.
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  Users CARS methodology to determines tenths attached, opening and party wall
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  Wall construction for each elevation, uses
+                  <code>elevate.[elevation]_CavityInsulation</code> and
+                  <code>elevate.[elevation]_ExternalInsulation</code> to determine whether
+                  insulation is present , wall construction is set to
+                  <code>physical_09Plus10. PredominantTypeOfWallStructure</code>. No internal wall
+                  insulation is set.
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  The number of doors of a given type are added using
+                  <code>doors.typeOfDoor</code> and <code>doors.[elevation]_Number</code>
+                </para>
+                <listitem>
+                </listitem>
+                <para>
+                  Uses CARs methodology to set the percentage of windows in an elevation which are
+                  single or double glazed, uses
+                  <code>physical_09Plus10. PredominantTypeOfWindow</code> to the frame type of all
+                  windows.
+                </para>
+              </listitem>
+            </orderedlist>
+          </para>
+        </section>
+	
+	<section>
+          <title>Hot Water Step</title>
+          <para>
+            Please see the Conversion Comparison Document, which details the methods and differences
+            between the NHM and CHM conversion methodology.
+          </para>
+        </section>
+	
+	<section>
+          <title>House Case Step</title>
+          
+          <para>
+            Sets the details of a house case within the House Case Import Item, areas to note within this class are:
+          </para>
+          <para>
+            <orderedlist>
+              <listitem>
+                <para>
+                  EHS Government regions are converted to SAP region types, assumptions made are
+                  detailed in the NHM assumptions log.
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  Tenure type is mapped as per CAR conversion document.
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  Morphology is mapped from <code>general . Rurality_Morphology_COA</code> to NHM morphology
+                  types, where no sensible mapping can take place a default of urban is set and a
+                  warning is associated to the import log for this survey case
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  Build year is set rather than using EHS age bands using
+                  <code>firstimp. ActualDateOfConstruction</code>, assumptions made here are detailed in the
+                  assumptions log
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  Ground floor construction type using CAR methodology
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  Front and back plot areas are set using values from <code>around</code>
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  The number of bedrooms are determined by reviewing <code>interior.doesBedroomExist</code> and
+                  the 7 further <code>interior.extraRoom[num]_DoesRoomExist</code> values available to count
+                  the number of bedrooms. A check is then made against the value
+                  <code>interview.TotalofBedroomsHouseHoldActualyHas</code> if the values differ then a warning
+                  is written to the import log.
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  Has access to outside space is determined by using <code>around.typeOfPlot</code>, if the
+                  type if PrivatePlot or SharedPlotOnly and the area of front or back plot is
+                  greater than zero then this is true, otherwise false.
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  Determines owns part of roof by using <code>interview.TypeOfOwnership</code> if this value is
+                  one of FreeholderOfHouse, LeaseholderOwningFHCollectively,
+                  LeaseholderOwningFHOfWholeBldg, Commonholder_PropertyBuiltAsCH_ or
+                  Commonholder_PropertyConvertedToCH_ then returns true, otherwise this is false.
+                </para>
+              </listitem>
+            </orderedlist>
+          </para>
+        </section>
+	
+	<section>
+          <title>Low Energy Lighting Step</title>
+          <para>
+            Iterates through each room type, uses a weighting for that room to calculate the
+            percentage of lighting in the survey case the room would provide. Then if the room has
+            low energy lighting this room is used to append the fraction lighting within the house
+            that is low energy. Value used from the SPSS files is
+            <code>introoms.heatingServicesFlourescentLowEnergyLighting</code>
+          </para>
+        </section>
+	
+	<section>
+          <title>Storey Step</title>
+          <para>
+            Please see the Conversion Comparison Document, which details the methods and differences
+            between the NHM and CHM conversion methodology.
+          </para>
+        </section>
+	
+	<section>
+          <title>Roof Step</title>
+
+          <para>
+            This step constructs a Roofs Import Item for a survey case, the following values are
+            set:
+          </para>
+          <para>
+            <orderedlist>
+              <listitem>
+                <para>
+                  Loft insulation thickness is calculated from <code>services.loft_ApproxThickness</code> if a
+                  value exists.
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  Roof construction type is set but using
+                  <code>physical_09Plus10.predominantTypeOfRoofCovering</code>, if the covering is Thatched
+                  then the roof construction type is set to this, otherwise if
+                  <code>physical_09Plus10.predominantTypeOfRoofStrucutre</code> is Flat then the roof structure
+                  is set to Flat, the fall back is to set a roof construction type of
+                  PitchedSlateOrTiles.
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  Structure and Covering types are direct mappings from
+                  <code>physical_09Plus10.predominantTypeOfRoofCovering</code> and
+                  <code>physical_09Plus10.predominantTypeOfRoofStrucutre</code>
+                </para>
+              </listitem>
+            </orderedlist>
+          </para>
+        </section>
+	
+	<section>
+          <title>Space Heating Step</title>
+
+          <para>
+            Please see the Conversion Comparison Document, which details the methods and differences
+            between the NHM and CHM conversion methodology.
+          </para>
+        </section>
+	
+	<section>
+          <title>Ventilation Step</title>
+
+          <para>
+            This step constructs a Ventilation Import Item, the following values are set:
+          </para>
+          <para>
+            <orderedlist>
+              <listitem>
+                <para>
+                  A count of the number of chimneys in a property is generated by summing the values
+                  from <code>chimneyEntry.FrontNumber</code> and <code>chimneyEntry.BackNumber</code>
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  To determine whether one of the chimneys is actually a flue for the heating system
+                  we use the Secondary Heating System type from the already generated Space Heating
+                  Import Item, if the system type is GAS_FIRE, GAS_FIRE_OPEN_FLUE or
+                  GAS_COAL_EFFECT_FIRE then we assume one of the chimneys is actually a flue.
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  The values for secondary heating chimneys, other chimneys and passive vents are
+                  always set to 0.
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  Calculates the number of ventilation fans based on the SAP age-band, and number of
+                  habitable rooms, SAP age-bands A – E are always 0, F-G are 1, H-K is calculated
+                  using the number of habitable rooms where less than 2 rooms is 1, greater than 2
+                  and less than 5 is 2, greater than 5 and less than 8 is three, greater than 8 is
+                  4.
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  Ventilation systems are always set to Natural.
+                </para>
+              </listitem>
+            </orderedlist>
+          </para>
+        </section>
+	
+        <section>
+          <title>Additional Properties</title>
+          <para>
+            It is important to note here, that unlike the additional properties process detailed for
+            the Default File Import Package where the additional properties to be added need to be
+            defined, this is not the case with the SPSS import package.
+          </para>
+          <para>
+            Addition house properties relate directly to properties accessible via the scenario
+            language see <code>house.static-property-is</code> in the scenario reference
+            document. Currently these properties are selected by determining which files and
+            variables are currently used by the import from SPSS files, and all of these values are
+            then added to the additional properties for the Survey Case.
+          </para>
+        </section>
+
+	<para> 
+          Once all of these steps are complete, the resulting DTOs are imported according to the
+          method for a <xref linkend="default-import-package" />.
+        </para> 
+      </section>
+      
+    </section>
+
+    <section> 
+      <title>Default Import Package</title> 
+
+      <section>
+        <title>Overview of the Default Import Package</title>
+        <para>
+          The default import package was created to provide a common method for importing the data
+          used to create survey cases. The intention is that files within the import package can
+          then be created from scripted processes such as an export from databases or data analysis
+          tools thus allowing many different data sources to be used to create Survey cases in the
+          NHM. This for instance could mean that if format and fields within the EHCS alter
+          significantly from previous versions third-parties could create scripts to convert this
+          data into then NHM Default Import Package format, the SIE could then create survey case
+          objects from these without the need for modifying java code or configuration of the SIE.
+        </para>
+        <para>
+          Import item data files within the default import package are expected to be in CSV (Comma
+          Delimited File) format and each item should have the number of columns, column names and
+          expected data format in each row.
+        </para>
+      </section>
+
+      <section>
+        <title>additional-properties.csv</title>
+
+        <para>
+          This file is used to add so called additional properties to a house case, these are
+          properties that are not directly part of the house case model but are available to
+          statements within the scenario language, see <code>house.static-property-is</code> in the
+          scenario reference document.  This data sheet is in wide format, where the first column is
+          the <code>aacode</code> and the following columns are the names for the property value
+          you’d like to apply. Note every property must have a value.  This file may be left with
+          just column titles if no properties need to be added to the stock.
+        </para>
+        
+      </section>
+
+      <xi:include href="../generated/stockref.xml" />
+
+      <section>
+        <title>Survey Case Creation from DTO</title>
+        <para>
+          In this phase the DTO objects created from either the SPSS or DIP package import phases
+          are used to construct the basic structure and other properties of a house case. After this
+          phase a basic house case is create, however important details such as u and k value,
+          insulation thicknesses and infiltration rates are not calculated for the house case, this
+          happens in the Survey Case Imputation Phase.  Within this phase a number of steps are
+          carried out, these steps are detailed below.
+        </para>
+
+        <section>
+          <title>Basic Attributes Build Step</title>
+          <para>
+            Carries out a direct mapping of values from the House Case Import Item onto a survey
+            case, values mapped are aacode, dwelling case weight, household case weight, region
+            type, morphology type, tenure type and build year.
+          </para>
+        </section>
+
+        <section>
+          <title>Additional House Case Property Step</title>
+          <para>
+            Direct mapping from additional properties onto the survey case.
+          </para>
+        </section>
+
+        <section>
+          <title>Structure Initializing Step</title>
+          <para>
+            Builds the initial structure of a house case, from House Case Import Item uses values to
+            set built form type, ground floor construction type, living area proportion, presence of
+            draft lobby, front plot depth, front plot width, back plot width, back plot depth,
+            property is on gas grid, number of bedrooms, has access to outside space and own part of
+            roof.
+          </para>
+          <para>
+            Selects the draft stripped proportion from the Ventilation Import Item to set the
+            draft-stripped proportion of windows in a house. If this value is zero then the value is
+            set to 0.
+          </para>
+        </section>
+
+        <section>
+          <title>Storey Builder Step</title>
+          <para>
+            Utilises information from Storey Import Item and Elevation Import Item to construct the
+            storeys within a survey case.  For each storey entry related to a survey case, values
+            such as floor location, storey height, the length and number of walls, the external
+            construction type and attached walls are created on a property.
+          </para>
+          <para>
+            Attached or party walls are assigned using the value tenths attached for an elevation,
+            this value is then used to create the correct proportion of party wall area for that
+            elevation. All attached walls are given a wall construction type of
+            Party_DensePlasterBothSidesDenseBlocksCavity.
+          </para>
+          <para>
+            Please note the following in respect to insulation of walls within a survey case.  If
+            within the elevation import item a given insulation type is set o true then insulation
+            is only installed if the specific wall type construction type allows it, if insulation
+            is allowed insulation thickness is set to a default value of 50mm. Only the following
+            wall construction types can be insulated in some way.
+            <orderedlist>
+              <listitem>
+                <para><code>Cavity</code> – Can have External, Internal and Filled Cavity insulation</para>
+              </listitem>
+              <listitem>
+                <para><code>TimberFrame</code> – Can have External, Internal and Filled Cavity insulation</para>
+              </listitem>
+              <listitem>
+                <para><code>SystemBuild</code>  – Can have External, Internal and Filled Cavity insulation</para>
+              </listitem>
+              <listitem>
+                <para><code>MetalFrame</code> –  Can have External, Internal and Filled Cavity insulation</para>
+              </listitem>
+              <listitem>
+                <para><code>GraniteOrWhinstone</code> – Can have Internal and External Insulation</para>
+              </listitem>
+              <listitem>
+                <para><code>Sandstone</code> – Can have Internal and External Insulation</para>
+              </listitem>
+              <listitem>
+                <para><code>SolidBrick</code> – Can have Internal and External Insulation</para>
+              </listitem>
+              <listitem>
+                <para><code>Cob</code>  – Can have Internal and External Insulation</para>
+              </listitem>
+            </orderedlist>
+          </para>
+        </section>
+
+        <section>
+          <title>Elevation Build Step</title>
+          <para>
+            This step iterates through all 4 elevations for a house case, setting the angle from
+            north as a default value of east/west and the percentage area of the elevation to
+            dedicate to openings. Also builds the doors and glazings within each elevation using
+            details from Elevation Import Items for the survey case.
+          </para>
+          <para>
+            All doors are given an area of 1.85 square meters.
+          </para>
+          <para>
+            Sheltered sides are defined as sides that are more than 50% attached.
+          </para>
+        </section>
+
+
+        <section>
+          <title>Roof Build Step</title>
+          <para>
+            The roof building step sets, roof construction type and insulation thickness from values
+            in Roof Import Item. At present neither structure type or covering are currently used on
+            the survey case.
+          </para>
+        </section>
+
+        <section>
+          <title>Door Wrangling Step</title>
+          <para>
+            See the CHM 2010 methodology for aligning area of doors in a given elevation.
+          </para>
+        </section>
+
+        <section>
+          <title>Lighting Build Step</title>
+          <para>
+            Sets the fractions of lighting within a house that are low energy, efficiencies for low
+            energy lighting are set to 3.40695, incandescent efficiencies are set to 6.8139.
+          </para>
+        </section>
+
+        <section>
+          <title>Cooker Build Step</title>
+          <para>
+            The measure determines whether the survey case uses Mains Gas by looking at whether the
+            main heating fuel for gas or water is Mains Gas, if either is true then a gas oven hob
+            is installed otherwise an electric hob is installed.
+            <para>
+            </para>
+            Additionally an electric oven is always installed.
+          </para>
+        </section>
+
+        <section>
+          <title>Internal Wall Build Step</title>
+          <para>
+            Computes the area of internal walls in the building, per the CHM methodology.
+          </para>
+        </section>
+
+        <section>
+          <title>Financial Attributes Step</title>
+          <para>
+            Uses <code>ChiefIncomeEarnersWage</code> and <code>HouseHoldIncomeBeforeTax</code>
+            directly from Occupant Details Import Item and sets them as financial attributes on the
+            house case.
+          </para>
+        </section>
+
+
+        <section>
+          <title>People Step</title>
+          <para>
+            Uses <code>dateMovedIn</code>, <code>hasDisabledOrSickOccupant</code>,
+            <code>hasOccupantOnBenefits</code>,”workingHours” directly from Occupant Details Import
+            Item and <code>noAdultOccupants</code>, <code>noChildOccupants</code> from the House
+            Case Import Item and sets them as financial attributes on the house case.
+          </para>
+        </section>
+
+
+        <section>
+          <title>Import Log Step</title>
+          <para>
+            Takes information directly from the Import Log Import Item and sets them on the survey
+            case.
+          </para>
+        </section>
+
+        
+        <section>
+          <title>Space Heating Build Step</title>
+          <para>
+            If a space heating system type exists in Space Heating Import Item for a given survey
+            case then creates the heating system within a house.  Important points to note:
+            <orderedlist>
+              <listitem>
+                <para>
+                  When setting community heat that has a fuel type of Mains_Gas the <code>is on gas
+                  grid</code> property of a house case is only set to true if the house has morphology
+                  of TownAndFringe or Urban, otherwise it is set to BIOMASS_WOOD.
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  If no primary and secondary heating system is defined then no heating system will
+                  be installed in the house, reporting on heating fuel for the house will then not
+                  be possible.
+                </para>
+              </listitem>
+            </orderedlist>
+          </para>
+        </section>
+
+        <section>
+          <title>Survey Case Imputation Phase</title>
+          <para>
+            The imputation phase is responsible for setting values on a survey case that are
+            required for energy calculation for instance the u and k-values for a wall or insulation
+            thickness. The imputation is carried out by looking at some categorical values a survey
+            case and using look-up tables from an imputation schema find appropriate values to set
+            on the survey case. The look-up values are defined in the imputation-schema file present
+            in all import packages.
+          </para>
+          <para>
+            In the descriptions below tables or sections within the imputation schema are referenced
+            as follows <code>[Tab Name].[Section or Table Name]</code>.  The Imputation class is
+            carried out in the following smaller steps.
+          </para>
+
+          <section>
+            <title>Ceiling/Roof Imputation</title>
+            <para>
+              This imputation step is responsible for setting the following attributes for each
+              storey in a house case.
+              <orderedlist>
+                <listitem>
+                  <para>
+                    K-Value for a party ceiling, looks up the value from the imputation schema
+                    <code>roofs. partyCeilingKValue</code>
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    K-Value for ceiling, looks up the k-value from the imputation schema
+                    <code>roofs.roofKValue</code>
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    Sets the ceiling U-Value, if the Roof construction type
+                  </para>
+                  <orderedlist>
+                    <listitem>
+                      <para>
+                        If the roof type is FLAT and the storey is not a <code>room in roof</code>
+                        then look up the u-value from <code>roofs.U Values for roofs with an unknown
+                        insulation thickness</code> using the SAP Age Band of the property and the
+                        roof construction type.
+                      </para>
+                    </listitem>
+                    <listitem>
+                      <para>
+                        If roof construction type is know will use this to a get a u-value from the
+                        imputation schema tables of <code>roofs.U Values for insulated Pitched
+                        Roofs</code> and <code>roofs.U Values for insulated Thatched Roofs</code>
+                        using the current insulation thickness as the look-up value.
+                      </para>
+                      <para>
+                        N.B if the insulation value is above that of those in the table the u-value
+                        against the highest insulation thickness is returned.
+                      </para>
+                    </listitem>
+                  </orderedlist>
+                </listitem>
+              </orderedlist>
+            </para>
+          </section>
+
+          <section>
+            <title>Floor Imputation</title>
+            <para>
+              This imputation step is responsible for setting the following attributes for each storey in a house case.
+
+              <orderedlist>
+                <listitem>
+                  <para>U-Value for the floor
+                  <orderedlist>
+                    <listitem>
+                      <para>If the floor is either ground or basement then uses RDSAP 2009 rules to determine the u-value of a given floor. The values used to determine this are found in the <code>floors</code> tab in the imputation schema uses.
+                      <orderedlist>
+	                <listitem>
+                          <para>Floor construction type</para>
+                        </listitem>
+	                <listitem>
+                          <para>Thickness value of the thickest wall</para>
+                        </listitem>
+	                <listitem>
+                          <para>Floor insulation thickness</para>
+                        </listitem>
+	                <listitem>
+                          <para>Exposed perimeter</para>
+                        </listitem>
+	                <listitem>
+                          <para>Area  of contact with the ground (floor area – the area of  a lower floor)</para>
+                        </listitem>
+                      </orderedlist>
+                      </para>
+                    </listitem>
+                    <listitem>
+                      <para>Otherwise treats the floor as an exposed floor with a given insulation thickness from <code>floors. englandInsulationBySapAgeBand</code></para>
+                    </listitem>
+                  </orderedlist>
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>K-Value for the floor
+                  <orderedlist>
+                    <listitem>
+                      <para>If the floor is either ground or basement then looks up the value from <code>floors. Floor Type (Ground)</code> using the floor construction type.</para>
+                    </listitem>
+                    <listitem>
+                      <para>Otherwise if floor is insulated uses <code>floors. InsulatedExposedFloorKValue</code> otherwise <code>floors. UninsulatedExposedFloorKValue</code></para>
+                    </listitem>
+                  </orderedlist>
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>Sets the floor air-change rate
+                  <orderedlist>
+                    <listitem>
+                      <para>If floor is in contract with the ground, then  if the floor is solid return 0, otherwise if SAP age band is E set value to 0.1 otherwise 0.2</para>
+                    </listitem>
+                    <listitem>
+                      <para>If floor is not in contact with the ground then infiltration is zero</para>
+                    </listitem>
+                  </orderedlist>
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>Sets the party floor k-value to <code>floors. K-Values for Floor Types (Not Ground). PartyFloorKValue</code></para>
+                </listitem>
+              </orderedlist>
+
+            </para>
+          </section>
+
+
+          <section>
+            <title>Door Imputation</title>
+            <para>
+              <orderedlist>
+                <listitem><para>Returns the standard door area for doors by door type
+                <code>doors.Default door area (m2) - As per CHM</code></para></listitem>
+                <listitem><para>Sets the door u-value using the age-band of the property and the
+                door type <code>doors.U-Value for Age Band</code></para></listitem>
+              </orderedlist>
+            </para>
+          </section>
+
+
+          <section>
+            <title>Window Imputation</title>
+            <para>
+              For each window in the survey case the following is carried out:
+              
+              <orderedlist>
+
+                <listitem>
+                  <para>Sets a frame factor using the frame type of the window to look up a value
+                  from <code>windows.FrameFactors</code></para>
+                </listitem>
+                <listitem>
+                  <para>Sets the gains transmittance factor by looking up values from
+                  <code>windows.Transmittance Factors</code>, if the glazing type is unknown
+                  returns 0 and logs an error in the import log for this survey case.</para>
+                </listitem>
+                <listitem>
+                  <para>Sets the light transmittance factor using <code>windows. Double Glazing
+                  Light Transmittance</code>, if the glazing type is unknown returns 0 and logs an
+                  error in the import log for this survey case.</para>
+                </listitem>
+                <listitem>
+                  <para>Sets the u-value, set’s default values for the following if they are not
+                  set , Frame Type = uPVC Glazing Type = Single, Insulation Type = Air.  The looks
+                  up the u-value from ” windows.U-Values”, finally adds takes into account the
+                  factor of curtains on the window, looking up the curtain factor from
+                  <code>windows.r-values.curtainEffectFactor</code>. Equation used (1/((1/uValue)
+                  + curtainEffectFactor))</para>
+                </listitem>
+
+              </orderedlist>
+
+            </para>
+          </section>
+
+
+
+        </section>
+
+
+      </section>
+    </section> 
+  </chapter>
+
+  <chapter>
+    <title>Detailed variable usage in the SPSS import phase</title>
+
+    <xi:include href="../generated/variableref.xml" />
+  </chapter>
+
+  <chapter>
+    <title>Modification of additional properties of a housing stock</title>
+
+    <para>
+      If you wish to add or modify only the additional properties for an existing housing stock this
+      can be accomplished by modifying the content of a Default Import Package (DIP).  DIP files may
+      be obtained from within the NHM application by visiting the Browse Stock page.  On this page a
+      list of imported housing stocks are presented along with buttons that allow errors, warnings
+      and the source files for imported housing stocks to be downloaded. To download the DIP (source
+      file) for a specific stock you will need to click the link (the stock name), and then click
+      Download Zip to get the original source.
+    </para>
+    <para>
+      Once un-zipped (applications such as winzip or winrar may be used) the additional house case
+      properties file (<code>houseCaseProperties.csv</code>) should be edited.
+    </para>
+    <para>
+      The file is in format is a wide table, where the first column should always be the <code>aacode</code>
+      and following columns are the names for the property value you’d like to apply to each survey
+      case, there is currently no validation on the column (property names) chosen although we
+      advice not using special characters or spaces.  Please note every property must have a value,
+      to represent a null value you can use any String value, however for consistency with other DTO
+      files it is advisable to use <code>NULL</code>.
+    </para>
+    <para>
+      Instructions on how additional properties may be accessed within simulation can be found by
+      reading the documentation on the element <code>house.static-property-is</code> in the scenario language
+      reference. When using this element in a simulation the simulator attempts to convert a
+      property value into a decimal number if the criteria used to match a property against should
+      be either above, below or equal to a given decimal number. In all other cases a simple string
+      comparison will occur.
+    </para>
+    <para>
+      If you wish to remove all additional properties for a given house the file should have one
+      column heading <code>aacode</code> but no data and no further column headings.
+    </para>
+    <para>
+      Uploading of the revised housing stock can be accomplished via the Browse Stock page page;
+      fatal errors generated during the import will be shown on this page during the import. If the
+      stock imports successfully any warnings and errors for the specific stock can be viewed via
+      the Browse Stock page.
+    </para>
+  </chapter>
+</part>

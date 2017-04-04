@@ -1,0 +1,573 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="technologies" nsURI="http://www.cse.org.uk/nhm/schema/emf/technologies/1/"
+    nsPrefix="tech">
+  <eClassifiers xsi:type="ecore:EClass" name="TechnologyModel" eSuperTypes="#//VisitorAccepter">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="The technology model is the container for all of the technologies in a house.&#xA;It can accept an IEnergyCalculatorVisitor, and also has a method {#getTotalOperationalCost()}&#xA;for summing the operational cost of all the cost-bearing objects contained within it."/>
+    </eAnnotations>
+    <eOperations name="getTotalOperationalCost" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="if (operationalCostCache == null) {&#xA;&#x9;final TreeIterator&lt;EObject> children = eAllContents();&#xA;&#x9;double accumulator = 0;&#xA;&#x9;while (children.hasNext()) {&#xA;&#x9;&#x9;final EObject child = children.next();&#xA;&#x9;&#x9;if (child instanceof IOperationalCost) {&#xA;&#x9;&#x9;&#x9;accumulator += ((IOperationalCost)child).getAnnualOperationalCost();&#xA;&#x9;&#x9;}&#xA;&#x9;}&#xA;&#x9;operationalCostCache = accumulator;&#xA;&#x9;eAdapters().add(cacheEraser);&#xA;}&#xA;&#x9;&#x9;&#xA;return operationalCostCache;"/>
+        <details key="documentation" value="Returns sum of {@link IOperationalCost#getAnnualOperationalCost()} for all contained objects which implement&#xA;{@link IOperationalCost}"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="appliances" upperBound="-1"
+        eType="#//Appliance" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lights" upperBound="-1"
+        eType="#//Light" containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Contains all of the lights in the house."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="individualHeatSource" eType="#//IndividualHeatSource"
+        containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Contains the house's individual heat source. At the moment a house can only have one of these;&#xA;it is something like a boiler or a heat pump.&#xA;&#xA;This must be connected to a heating or DHW system to do anything."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cookers" upperBound="-1"
+        eType="#//Cooker" containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Contains all the cookers in the house"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="primarySpaceHeater" eType="#//PrimarySpaceHeater"
+        containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="This is the main space heating system in the house"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="secondarySpaceHeater" eType="#//RoomHeater"
+        containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="An optional secondary space heater which may supply some heat"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="centralWaterSystem" eType="#//CentralWaterSystem"
+        containment="true" eOpposite="#//CentralWaterSystem/technologyModel">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="If the house has central DHW, it is presumed to have one DHW system which will be here"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="secondaryWaterHeater" eType="#//WaterHeater"
+        containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="A non-central DHW system, like a point-of-use water heater"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="communityHeatSource" eType="#//CommunityHeatSource"
+        containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Represents the connection (if any) to a community heating scheme"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="solarPhotovoltaic" eType="#//SolarPhotovoltaic"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="adjusters" upperBound="-1"
+        eType="#//Adjuster" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="shower" eType="#//Shower"
+        containment="true" eOpposite="#//Shower/technologyModel"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Appliance" eSuperTypes="#//Named #//VisitorAccepter">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="efficiency" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Light" eSuperTypes="#//Named #//VisitorAccepter">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Lights are things in a house which satisfy the lighting demand produced by the algorithm"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="efficiency" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="proportion" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The fraction of total light demand that this light will emit"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SpaceHeater" abstract="true">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A space heater is anything which can meet some of the heat demand in the house, so either a central heating system or a direct heater like a fireplace or electric heater."/>
+    </eAnnotations>
+    <eOperations name="isBroken" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return false;"/>
+        <details key="documentation" value="Returns true if the proportion should be ignored"/>
+      </eAnnotations>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WaterHeater" abstract="true">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A WaterHeater is anything which meets the need for hot water in the house, for example a central DHW system, or a point-of-use heater."/>
+    </eAnnotations>
+    <eOperations name="isBroken" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return false;"/>
+        <details key="documentation" value="Returns true if the proportion should be ignored"/>
+      </eAnnotations>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HeatSource" abstract="true" eSuperTypes="#//FuelAndFlue #//OperationalCost #//HasInstallationYear">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A heat source is a device (like a boiler, or community heating heat exchanger) which can provide heat to wet heating and hot water systems. On its own, the device does nothing - it needs to be connected to a central heating system and/or a central hot water system to work."/>
+    </eAnnotations>
+    <eOperations name="acceptFromHeating" lowerBound="1">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="This method will be invoked by the central heating system, if this heat source is&#xA;connected to the central heating system. The heat source should use it to provide a heat&#xA;transducer to the visitor."/>
+      </eAnnotations>
+      <eParameters name="constants" lowerBound="1" eType="#//IConstants"/>
+      <eParameters name="parameters" lowerBound="1" eType="#//IEnergyCalculatorParameters"/>
+      <eParameters name="visitor" lowerBound="1" eType="#//IEnergyCalculatorVisitor"/>
+      <eParameters name="proportion" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eParameters name="priority" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eOperations name="getResponsiveness" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The responsiveness value returned from this method is used by a connected heating system&#xA;to determine the background temperature in the house"/>
+      </eAnnotations>
+      <eParameters name="parameters" lowerBound="1" eType="#//IConstants"/>
+      <eParameters name="controls" ordered="false" upperBound="-1" eType="#//HeatingSystemControlType"/>
+      <eParameters name="emitterType" lowerBound="1" eType="#//EmitterType"/>
+    </eOperations>
+    <eOperations name="getDemandTemperatureAdjustment" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="A connected central heating system will use this method to adjust the house's demand temperature"/>
+      </eAnnotations>
+      <eParameters name="parameters" lowerBound="1" eType="#//IInternalParameters"/>
+      <eParameters name="controlTypes" ordered="false" upperBound="-1" eType="#//HeatingSystemControlType"/>
+    </eOperations>
+    <eOperations name="generateHotWaterAndPrimaryGains" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="If connected to a central hot water system, the central hot water system will invoke&#xA;this method to ask the heat source to provide a certain proportion of the hot water&#xA;demand."/>
+      </eAnnotations>
+      <eParameters name="parameters" lowerBound="1" eType="#//IInternalParameters"/>
+      <eParameters name="state" lowerBound="1" eType="#//IEnergyState"/>
+      <eParameters name="store" eType="#//WaterTank"/>
+      <eParameters name="storeIsPrimary" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eParameters name="primaryPipeworkLosses" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eParameters name="distributionLossFactor" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eParameters name="proportion" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eOperations>
+    <eOperations name="generateHotWaterSystemGains" lowerBound="1">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="If connected to central hot water, this method will be invoked by the central hot water system&#xA;to account for the distribution losses in that system; distribution losses are allocated to&#xA;water heaters &lt;em>pro rata&lt;/em> the amount of hot water generated"/>
+      </eAnnotations>
+      <eParameters name="parameters" lowerBound="1" eType="#//IInternalParameters"/>
+      <eParameters name="state" lowerBound="1" eType="#//IEnergyState"/>
+      <eParameters name="store" eType="#//WaterTank"/>
+      <eParameters name="storeIsPrimary" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eParameters name="systemLosses" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eOperations>
+    <eOperations name="getStorageTemperatureFactor" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
+      <eParameters name="parameters" lowerBound="1" eType="#//IInternalParameters"/>
+      <eParameters name="store" lowerBound="1" eType="#//WaterTank"/>
+      <eParameters name="storeInPrimaryCircuit" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eOperations>
+    <eOperations name="getContainedTankLosses" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Some heat sources contain a storage tank of some kind (like CPSUs) - the hot water system&#xA;will invoke this method to get the tank losses associated with this tank."/>
+      </eAnnotations>
+      <eParameters name="parameters" lowerBound="1" eType="#//IInternalParameters"/>
+    </eOperations>
+    <eOperations name="isCommunityHeating" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="waterHeater" eType="#//MainWaterHeater"
+        eOpposite="#//MainWaterHeater/heatSource"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="spaceHeater" eType="#//CentralHeatingSystem"
+        eOpposite="#//CentralHeatingSystem/heatSource"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Named" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CentralWaterSystem" eSuperTypes="#//WaterHeater #//VisitorAccepter #//StoreContainer">
+    <eOperations name="isBroken" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return getPrimaryWaterHeater() == null &amp;&amp; getSecondaryWaterHeater() == null &amp;&amp; &#xA;&#x9;&#x9;&#x9;&#x9;(getStore() == null || getStore().getImmersionHeater() == null);"/>
+        <details key="documentation" value="Returns true if the proportion should be ignored"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="storeInPrimaryCircuit"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="primaryPipeworkInsulated"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="separatelyTimeControlled"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="solarWaterHeater" eType="#//SolarWaterHeater"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="primaryWaterHeater" lowerBound="1"
+        eType="#//CentralWaterHeater" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="secondaryWaterHeater" eType="#//CentralWaterHeater"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="technologyModel" eType="#//TechnologyModel"
+        eOpposite="#//TechnologyModel/centralWaterSystem"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CentralHeatingSystem" eSuperTypes="#//PrimarySpaceHeater #//VisitorAccepter">
+    <eOperations name="isThermostaticallyControlled" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="isBroken" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return getHeatSource() == null;"/>
+        <details key="documentation" value="Returns true if the proportion should be ignored"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="heatSource" lowerBound="1"
+        eType="#//HeatSource" eOpposite="#//HeatSource/spaceHeater"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="controls" ordered="false"
+        upperBound="-1" eType="#//HeatingSystemControlType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="emitterType" lowerBound="1"
+        eType="#//EmitterType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CentralWaterHeater" abstract="true">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A central water heater is something which can provide heat into a central water system. For example, this would be an immersion heater in the hot water tank,a solar system, or a connection to a heat source like a boiler."/>
+    </eAnnotations>
+    <eOperations name="isSolar" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="generateHotWaterAndPrimaryGains" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
+      <eParameters name="parameters" lowerBound="1" eType="#//IInternalParameters"/>
+      <eParameters name="state" lowerBound="1" eType="#//IEnergyState"/>
+      <eParameters name="store" eType="#//WaterTank"/>
+      <eParameters name="storeIsPrimary" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eParameters name="primaryLosses" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eParameters name="distributionLossFactor" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eParameters name="systemProportion" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eOperations>
+    <eOperations name="generateSystemGains" lowerBound="1">
+      <eParameters name="parameters" lowerBound="1" eType="#//IInternalParameters"/>
+      <eParameters name="state" lowerBound="1" eType="#//IEnergyState"/>
+      <eParameters name="store" eType="#//WaterTank"/>
+      <eParameters name="storeIsPrimary" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eParameters name="systemLosses" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eOperations>
+    <eOperations name="getSystem" lowerBound="1" eType="#//CentralWaterSystem">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return (ICentralWaterSystem) eContainer();"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="causesPipeworkLosses" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="isCommunityHeating" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MainWaterHeater" eSuperTypes="#//CentralWaterHeater">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="heatSource" lowerBound="1"
+        eType="#//HeatSource" eOpposite="#//HeatSource/waterHeater"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="FuelType">
+    <eLiterals name="MainsGas" literal="MAINS_GAS"/>
+    <eLiterals name="BulkLPG" value="1" literal="BULK_LPG"/>
+    <eLiterals name="BottledLPG" value="2" literal="BOTTLED_LPG"/>
+    <eLiterals name="Electricity" value="3" literal="ELECTRICITY"/>
+    <eLiterals name="Oil" value="4" literal="OIL"/>
+    <eLiterals name="BiomassPellets" value="5" literal="BIOMASS_PELLETS"/>
+    <eLiterals name="BiomassWoodchip" value="6" literal="BIOMASS_WOODCHIP"/>
+    <eLiterals name="BiomassWood" value="7" literal="BIOMASS_WOOD"/>
+    <eLiterals name="Photons" value="8" literal="PHOTONS"/>
+    <eLiterals name="HouseCoal" value="9" literal="HOUSE_COAL"/>
+    <eLiterals name="CommunityHeat" value="10" literal="COMMUNITY_HEAT"/>
+    <eLiterals name="PeakElectricity" value="11" literal="PEAK_ELECTRICITY"/>
+    <eLiterals name="OffPeakElectricity" value="12" literal="OFF_PEAK_ELECTRICITY"/>
+    <eLiterals name="ExportedElectricity" value="13" literal="EXPORTED_ELECTRICITY"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WaterTank">
+    <eOperations name="getStandingLosses" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
+      <eParameters name="parameters" lowerBound="1" eType="#//IInternalParameters"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="insulation" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="factoryInsulation" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="volume" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="thermostatFitted" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="solarStorageVolume" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="immersionHeater" eType="#//ImmersionHeater"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VisitorAccepter" abstract="true" interface="true">
+    <eOperations name="accept" lowerBound="1">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="/*&#xA; * Default accept() method does nothing&#xA; */"/>
+      </eAnnotations>
+      <eParameters name="constants" lowerBound="1" eType="#//IConstants"/>
+      <eParameters name="parameters" lowerBound="1" eType="#//IEnergyCalculatorParameters"/>
+      <eParameters name="visitor" lowerBound="1" eType="#//IEnergyCalculatorVisitor"/>
+      <eParameters name="heatingSystemCounter" lowerBound="1" eType="#//AtomicInteger"/>
+      <eParameters name="heatProportions" eType="#//HeatProportions"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="IEnergyCalculatorVisitor" instanceClassName="uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="IInternalParameters" instanceClassName="uk.org.cse.nhm.energycalculator.api.IInternalParameters"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="HeatingSystemControlType">
+    <eLiterals name="Programmer"/>
+    <eLiterals name="RoomThermostat" value="1"/>
+    <eLiterals name="ThermostaticRadiatorValve" value="2"/>
+    <eLiterals name="TimeTemperatureZoneControl" value="3"/>
+    <eLiterals name="ApplianceThermostat" value="4"/>
+    <eLiterals name="Bypass" value="5"/>
+    <eLiterals name="FlowSwitch" value="6"/>
+    <eLiterals name="BoilerEnergyManager" value="7"/>
+    <eLiterals name="BoilerInterlock" value="8"/>
+    <eLiterals name="DelayedStartThermostat" value="9"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="IEnergyState" instanceClassName="uk.org.cse.nhm.energycalculator.api.IEnergyState"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="EnergyType" instanceClassName="uk.org.cse.nhm.energycalculator.api.types.EnergyType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SolarWaterHeater" eSuperTypes="#//CentralWaterHeater #//VisitorAccepter #//OperationalCost">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pitch" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="orientation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="area" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="usefulAreaRatio" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="zeroLossEfficiency" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="linearHeatLossCoefficient"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="preHeatTankVolume" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pumpPhotovolatic" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StoreContainer" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="store" eType="#//WaterTank"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImmersionHeater" eSuperTypes="#//CentralWaterHeater">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dualCoil" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Cooker" eSuperTypes="#//VisitorAccepter">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hobBaseLoad" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hobOccupancyFactor" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hobFuelType" lowerBound="1"
+        eType="#//FuelType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ovenBaseLoad" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ovenOccupancyFactor" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ovenFuelType" lowerBound="1"
+        eType="#//FuelType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="gainsFactor" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="EmitterType">
+    <eLiterals name="Radiators"/>
+    <eLiterals name="UnderfloorTimber" value="1"/>
+    <eLiterals name="UnderfloorScreed" value="2"/>
+    <eLiterals name="UnderfloorConcrete" value="3"/>
+    <eLiterals name="WarmAirFanCoil" value="4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StorageHeater" eSuperTypes="#//PrimarySpaceHeater #//VisitorAccepter #//OperationalCost">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A storage heater is a kind of heating system which stores electricity in some kind of thermal store during the night time and emits the heat during the daytime."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="responsivenessOverride"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="controlType" lowerBound="1"
+        eType="#//StorageHeaterControlType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//StorageHeaterType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hasResponsivenessOverride"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="StorageHeaterControlType">
+    <eLiterals name="ManualChargeControl"/>
+    <eLiterals name="AutomaticChargeControl" value="1"/>
+    <eLiterals name="CelectChargeControl" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="StorageHeaterType">
+    <eLiterals name="OldLargeVolume"/>
+    <eLiterals name="Slimline" value="1"/>
+    <eLiterals name="Convector" value="2"/>
+    <eLiterals name="Fan" value="3"/>
+    <eLiterals name="IntegratedDirectActing" value="4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CommunityHeatSource" eSuperTypes="#//HeatSource">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="chargingUsageBased" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="heatEfficiency" lowerBound="1"
+        eType="#//Efficiency"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CommunityCHP" eSuperTypes="#//CommunityHeatSource">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="electricalEfficiency" lowerBound="1"
+        eType="#//Efficiency"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="AtomicInteger" instanceClassName="java.util.concurrent.atomic.AtomicInteger"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RoomHeater" eSuperTypes="#//SpaceHeater #//VisitorAccepter #//FuelAndFlue">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A room heater is a direct room heating system; some room heaters&#xA;may also have a &quot;back boiler&quot; (the backBoiler reference), which can be&#xA;connected to a central heating system or a domestic hot water system&#xA;to produce some additional heating or hot water.&#xA;&#xA;Typically this would look something like one of those old gas fireplaces,&#xA;placed in a chimney."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="efficiency" lowerBound="1"
+        eType="#//Efficiency">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="This is the efficiency of the room heater as a space heater; back boilers will contain a boiler,&#xA;which  may have a separate efficiency number on them."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="thermostatFitted" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HeatPump" eSuperTypes="#//IndividualHeatSource #//VisitorAccepter">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sourceType" lowerBound="1"
+        eType="#//HeatPumpSourceType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="coefficientOfPerformance"
+        lowerBound="1" eType="#//Efficiency"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="weatherCompensated" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="auxiliaryPresent" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hybrid" eType="#//HybridHeater"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WarmAirSystem" eSuperTypes="#//PrimarySpaceHeater #//VisitorAccepter">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Warm air systems are things which directly heat air and then blow it around&#xA;through ducts (as opposed to central heating systems, which use hot water&#xA;to transport the heat to a radiator)."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fuelType" lowerBound="1"
+        eType="#//FuelType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="efficiency" lowerBound="1"
+        eType="#//Efficiency"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="circulator" eType="#//WarmAirCirculator"
+        eOpposite="#//WarmAirCirculator/warmAirSystem"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="controls" ordered="false"
+        upperBound="-1" eType="#//HeatingSystemControlType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PointOfUseWaterHeater" eSuperTypes="#//WaterHeater #//VisitorAccepter">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fuelType" lowerBound="1"
+        eType="#//FuelType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="multipoint" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="efficiency" lowerBound="1"
+        eType="#//Efficiency"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HeatPumpWarmAirSystem" eSuperTypes="#//WarmAirSystem">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="This warm air system is distinct from the plain HeatPump model object,&#xA;because the HeatPump represents a to-water system, which can be plumbed&#xA;in to central hot water or central heat, whereas this is describing a to-air heat&#xA;pump which is quite different."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sourceType" lowerBound="1"
+        eType="#//HeatPumpSourceType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="auxiliaryPresent" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="HeatPumpSourceType">
+    <eLiterals name="Ground"/>
+    <eLiterals name="Air" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WarmAirCirculator" eSuperTypes="#//CentralWaterHeater">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="warmAirSystem" lowerBound="1"
+        eType="#//WarmAirSystem" eOpposite="#//WarmAirSystem/circulator"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PrimarySpaceHeater" abstract="true"
+      interface="true" eSuperTypes="#//SpaceHeater"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BackBoiler" eSuperTypes="#//boilers/Boiler #//RoomHeater"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FuelAndFlue" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fuel" lowerBound="1" eType="#//FuelType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="flueType" lowerBound="1"
+        eType="#//boilers/FlueType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IndividualHeatSource" abstract="true"
+      interface="true" eSuperTypes="#//HeatSource"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OperationalCost">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="annualOperationalCost"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="IConstants" instanceClassName="uk.org.cse.nhm.energycalculator.api.IConstants"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="IEnergyCalculatorParameters" instanceClassName="uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SolarPhotovoltaic" eSuperTypes="#//VisitorAccepter">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="peakPower" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ownUseProportion" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Adjuster" eSuperTypes="#//Named #//VisitorAccepter">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fuelTypes" upperBound="-1"
+        eType="#//FuelType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="deltas" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="gains" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HybridHeater">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fuel" lowerBound="1" eType="#//FuelType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="efficiency" lowerBound="1"
+        eType="#//Efficiency"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fraction" unique="false"
+        lowerBound="12" upperBound="12" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HasInstallationYear" abstract="true"
+      interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="installationYear" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"
+        unsettable="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Efficiency" instanceClassName="uk.org.cse.nhm.hom.emf.util.Efficiency"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="HeatProportions" instanceClassName="uk.org.cse.nhm.hom.IHeatProportions"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Shower" abstract="true" eSuperTypes="#//VisitorAccepter">
+    <eOperations name="solarAdjustment" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="technologyModel" eType="#//TechnologyModel"
+        eOpposite="#//TechnologyModel/shower"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MixerShower" eSuperTypes="#//Shower"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ElectricShower" eSuperTypes="#//Shower"/>
+  <eSubpackages name="boilers" nsURI="http://www.cse.org.uk/nhm/schema/emf/technology/boilers/1/"
+      nsPrefix="boilers">
+    <eClassifiers xsi:type="ecore:EClass" name="Boiler" eSuperTypes="#//IndividualHeatSource #//VisitorAccepter #//FuelAndFlue">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Represents a &quot;standard&quot; boiler (i.e. not a combi or a CPSU).&#xA;&#xA;The implementation class contains some slightly tangled logic, to avoid having to use multiple inheritance or&#xA;re-creation of logic (due to cross-cutting concerns). The main tangles are:&#xA;&#xA; - having summer &amp; winter efficiency, when some boilers have a single efficiency value&#xA; - having fuel type, which allows for electric systems that usually work slightly differently, and where efficiency is not relevant&#xA; - having pump in heated space, which only makes sense for oil as a fuel type&#xA; - having condensing, which is only relevant for gas &amp; oil combusion&#xA; - having weather compensation, which is only relevant for condensing boilers.&#xA;&#xA;Although these are a bit messy, it is easier than having Boiler, ElectricBoiler, GasBoiler, ElectricCPSU, ElectricCombi, ElectricStorageCombi, GasStorageCombi and so on and so on."/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="summerEfficiency" lowerBound="1"
+          eType="#//Efficiency"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="winterEfficiency" lowerBound="1"
+          eType="#//Efficiency"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="condensing" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="Only relevant for gas or oil fuels. Affects whether weatherCompensated matters"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="weatherCompensated" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="Only relevant for condensing boilers - if there is a weather compensator, this affects the efficiency according to table 4c"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="pumpInHeatedSpace" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="If fuel == oil, this determines whether the oil circulating pump produces internal heat gains"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="efficiencySource" lowerBound="1"
+          eType="#//boilers/EfficiencySourceType"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CPSU" eSuperTypes="#//boilers/Boiler #//StoreContainer">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="storeTemperature" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="KeepHotFacility">
+      <eOperations name="getAdditionalUsageLosses" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
+        <eParameters name="parameters" lowerBound="1" eType="#//IInternalParameters"/>
+        <eParameters name="state" lowerBound="1" eType="#//IEnergyState"/>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="timeClock" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="StorageCombiBoiler" eSuperTypes="#//boilers/CombiBoiler #//StoreContainer">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="storeInPrimaryCircuit"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="InstantaneousCombiBoiler" eSuperTypes="#//boilers/CombiBoiler">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="keepHotFacility" eType="#//boilers/KeepHotFacility"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="FlueType">
+      <eLiterals name="Chimney"/>
+      <eLiterals name="OpenFlue" value="1"/>
+      <eLiterals name="BalancedFlue" value="2"/>
+      <eLiterals name="FanAssistedBalancedFlue" value="3"/>
+      <eLiterals name="NotApplicable" value="4"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CombiBoiler" abstract="true" eSuperTypes="#//boilers/Boiler"/>
+    <eClassifiers xsi:type="ecore:EEnum" name="EfficiencySourceType">
+      <eLiterals name="SAPDefault"/>
+      <eLiterals name="ManufacturerDeclared" value="1"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

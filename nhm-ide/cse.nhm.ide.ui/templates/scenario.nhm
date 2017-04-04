@@ -1,0 +1,11 @@
+(scenario
+	start-date: 01/01/2014
+	end-date:   01/01/2020
+	stock-id:   stock-name-here
+	
+	(on.dates
+		[(scenario-start) (scenario-end)]
+		
+		(aggregate name:count-of-houses
+			(aggregate.count name:count)))
+)

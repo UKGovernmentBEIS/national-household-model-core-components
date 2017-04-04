@@ -1,0 +1,1 @@
+Holds the scripts for creating documentation readable as a PDF, HTML or within the Standalone IDE's help.

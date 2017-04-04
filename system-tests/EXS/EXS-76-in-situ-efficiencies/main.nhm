@@ -1,0 +1,28 @@
+(scenario
+ start-date: 2016
+ end-date: 2016
+ stock-id:   ../../stock.json
+ quantum: 100000
+
+ (def-report
+   report
+
+   (column name: aacode value: (house.survey-code))
+   (column name: occupancy value: (house.number-of-occupants))
+   (column name: type value: (house.main-heating-system-type))
+   (column name: water-demand value: (house.heat-load space-heat: false hot-water-heat: true))
+
+
+   (column name: space1-label value: (house.heating-efficiency of: PrimarySpaceHeating measurement: Winter))
+   (column name: space2-label value: (house.heating-efficiency of: SecondarySpaceHeating measurement: Winter))
+   (column name: water1-label value: (house.heating-efficiency of: CentralHotWater measurement: Winter))
+   (column name: water2-label value: (house.heating-efficiency of: AuxiliaryHotWater measurement: Winter))
+   (column name: space1 value: (house.heating-efficiency of: PrimarySpaceHeating measurement: InSitu))
+   (column name: space2 value: (house.heating-efficiency of: SecondarySpaceHeating measurement: InSitu))
+   (column name: water1 value: (house.heating-efficiency of: CentralHotWater measurement: InSitu))
+   (column name: water2 value: (house.heating-efficiency of: AuxiliaryHotWater measurement: InSitu)))
+
+ (on.dates
+  (scenario-start)
+  (apply
+   (action.do-nothing report: #report))))

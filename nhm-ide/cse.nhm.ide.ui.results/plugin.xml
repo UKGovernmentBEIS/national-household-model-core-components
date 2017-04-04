@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.core.filesystem.filesystems">
+      <filesystem
+            scheme="zip">
+         <run
+               class="cse.nhm.ide.ui.results.efs.ZipFileSystem">
+         </run>
+      </filesystem>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.navigator.navigatorContent">
+      <navigatorContent
+            contentProvider="cse.nhm.ide.ui.results.nav.ZipContentProvider"
+            id="cse.nhm.ide.ui.results.zipnavcontent"
+            labelProvider="cse.nhm.ide.ui.results.nav.ZipLabelProvider"
+            name="Zip Content"
+            providesSaveables="false">
+         <triggerPoints>
+            <and>
+               <instanceof value="org.eclipse.core.resources.IFile">
+               </instanceof>
+               <test
+                     forcePluginActivation="true"
+                     property="org.eclipse.core.resources.extension"
+                     value="zip">
+               </test>
+            </and>
+         </triggerPoints>
+         <possibleChildren>
+	         <or>
+		         <instanceof value="org.eclipse.core.filesystem.IFileStore">
+		         </instanceof>
+	         </or>
+         </possibleChildren>
+         <actionProvider
+               class="cse.nhm.ide.ui.results.nav.ZipActionProvider">
+         </actionProvider>
+      </navigatorContent>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.viewer">
+      <viewerContentBinding
+            viewerId="org.eclipse.ui.navigator.ProjectExplorer">
+         <includes>
+            <contentExtension
+                  pattern="cse.nhm.ide.ui.results.zipnavcontent">
+            </contentExtension>
+         </includes>
+      </viewerContentBinding>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="cse.nhm.ide.ui.results.tab.TabFileEditor"
+            default="false"
+            extensions="tab,tsv"
+            id="cse.nhm.ide.ui.results.tabeditor"
+            name="Tab File Viewer">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu?after=additions">
+         <command
+               commandId="cse.nhm.ide.ui.results.unzip"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <iterate
+                        ifEmpty="false">
+                     <or>
+                        <instanceof
+                              value="cse.nhm.ide.ui.results.efs.ZipFileStore">
+                        </instanceof>
+                        <and>
+                           <instanceof
+                                 value="org.eclipse.core.resources.IFile">
+                           </instanceof>
+                           <test
+                                 property="org.eclipse.core.resources.extension"
+                                 value="zip">
+                           </test>
+                        </and>
+                     </or>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            categoryId="cse.nhm.ide.ui.nhmNature.category"
+            defaultHandler="cse.nhm.ide.ui.results.nav.UnzipCommandHandler"
+            description="Extract the selected item from a zip file"
+            id="cse.nhm.ide.ui.results.unzip"
+            name="Extract from zip">
+      </command>
+   </extension>
+</plugin>

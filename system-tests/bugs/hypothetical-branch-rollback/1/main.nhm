@@ -1,0 +1,21 @@
+;; this is to check the behaviour fixed in
+;; nhm-simulation-logic/892741cbee86b6eff3107f86827d2f730317f3ca
+
+(scenario
+    start-date: 2015
+    end-date:   2015
+    stock-id:   ../../../stock.json
+    quantum:    1000000
+
+    (def x on:house default:0)
+
+    (on.dates (scenario-start)
+       (assert
+            over: all-houses
+            (= (under
+                (do (set #x 100)
+                    (action.case (when (> #x 50)
+                                       (action.fail))))
+                evaluate: #x
+                )
+               0))))

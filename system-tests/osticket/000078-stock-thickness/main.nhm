@@ -1,0 +1,12 @@
+;; Scenario only exists to trick the system tests into running our R.
+(scenario
+ start-date: 2016
+ end-date: 2016
+ stock-id: ../../stock.json
+
+ (def-report noop)
+
+ (on.construction
+  (apply
+   to: (affected-houses)
+   (send-to-report noop))))

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <version>1.0.0-SNAPSHOT</version>
+  <groupId>cse.nhm.ide</groupId>
+  <artifactId>parent</artifactId>
+  <packaging>pom</packaging>
+  <name>NHM IDE PARENT</name>
+
+  <properties>
+    <tycho-version>0.24.0</tycho-version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <stupid-root-dir-hack>${session.executionRootDirectory}</stupid-root-dir-hack>
+  </properties>
+  
+  <repositories>
+    <repository>
+      <id>mars</id>
+      <url>http://download.eclipse.org/releases/mars/</url>
+      <layout>p2</layout>
+    </repository>
+    <repository>
+      <id>nattable</id>
+      <url>http://download.eclipse.org/nattable/releases/1.1.1/repository/</url>
+	  <layout>p2</layout>
+    </repository>
+    <repository>
+      <id>orbit</id>
+      <url>http://download.eclipse.org/tools/orbit/downloads/drops/R20150124073747/repository/</url>
+	  <layout>p2</layout>
+    </repository>
+    <repository>
+      <id>package-drone</id>
+      <url>http://localhost:8080/p2/7b9c5ef4-16a1-4b8f-ae4e-83bb87337fdb/</url>
+      <layout>p2</layout>
+    </repository>
+    <repository>
+      <id>startexplorer</id>
+      <url>https://basti1302.github.com/startexplorer/update/</url>
+      <layout>p2</layout>
+    </repository>
+  </repositories>
+
+  <modules>
+    <module>cse.nhm.ide.ui</module>
+    <module>cse.nhm.ide.support</module>
+    <module>cse.nhm.ide.ui.editor</module>
+    <module>cse.nhm.ide.ui.results</module>
+    <module>cse.nhm.ide.feature</module>
+    <module>cse.nhm.ide.product</module>
+    <module>cse.nhm.ide.stock.ui</module>
+    <module>cse.nhm.models.feature</module>
+    <module>cse.nhm.jre.win64.feature</module>
+    <module>cse.nhm.ide.runner.api</module>
+    <module>cse.nhm.ide.runner.ui</module>
+    <module>cse.nhm.ide.runner.local</module>
+    <module>cse.nhm.ide.runner.remote</module>
+    <module>cse.nhm.ide.build</module>
+  </modules>
+
+  <build>
+	<plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>properties-maven-plugin</artifactId>
+        <version>1.0.0</version>
+        <executions>
+          <execution>
+            <phase>initialize</phase>
+            <goals>
+              <goal>read-project-properties</goal>
+            </goals>
+            <configuration>
+              <files>
+<file>${stupid-root-dir-hack}/nhm-ide-signing-keys/signing-password.properties</file>
+              </files>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jarsigner-plugin</artifactId>
+        <version>1.4</version>
+        <configuration>
+          <!-- these are provided by the submodule -->
+          <keystore>${session.executionRootDirectory}/nhm-ide-signing-keys/nhm-ide.keystore</keystore>
+          <storepass>${signing-keystore-password}</storepass>
+          <keypass>password</keypass>
+          <alias>nhm</alias>
+        </configuration>  
+        <executions>  
+          <execution>  
+            <id>sign</id>  
+            <goals>  
+              <goal>sign</goal>  
+            </goals>  
+          </execution>  
+        </executions>  
+      </plugin> 
+
+	  <plugin>
+		<groupId>org.eclipse.tycho</groupId>
+		<artifactId>target-platform-configuration</artifactId>
+		<version>${tycho-version}</version>
+		<configuration>
+		  <pomDependencies>consider</pomDependencies>
+		  <environments>
+			<environment>
+			  <os>win32</os>
+			  <ws>win32</ws>
+			  <arch>x86_64</arch>
+			</environment>
+            <environment>
+              <os>linux</os>
+              <ws>gtk</ws>
+              <arch>x86_64</arch>
+            </environment>
+            <environment>
+              <os>linux</os>
+              <ws>gtk</ws>
+              <arch>x86</arch>
+            </environment>
+			<environment>
+			  <os>macosx</os>
+			  <ws>cocoa</ws>
+			  <arch>x86_64</arch>
+			</environment>
+          </environments>
+          <!-- <filters> -->
+          <!--   <filter> -->
+          <!--     <type>p2-installable-unit</type> -->
+          <!--     <id>org.eclipse.jdt.core</id> -->
+          <!--     <restrictTo> -->
+          <!--       <version>3.11.1.v20150902-1521</version> -->
+          <!--     </restrictTo> -->
+          <!--   </filter> -->
+          <!-- </filters> -->
+        </configuration>
+	  </plugin>
+	  <plugin>
+		<groupId>org.eclipse.tycho</groupId>
+		<artifactId>tycho-maven-plugin</artifactId>
+		<version>${tycho-version}</version>
+		<extensions>true</extensions>
+	  </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>2.8.2</version>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+	</plugins>
+  </build>
+  
+  <dependencies>
+  	<dependency>
+  		<groupId>com.eclipsesource.minimal-json</groupId>
+  		<artifactId>minimal-json</artifactId>
+  		<version>0.9.4</version>
+  	</dependency>
+  </dependencies>
+</project>

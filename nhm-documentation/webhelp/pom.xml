@@ -1,0 +1,86 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>uk.org.cse.nhm.manual</groupId>
+    <artifactId>parent</artifactId>
+    <version>6.5.5</version>
+    <relativePath>..</relativePath>
+  </parent>
+  
+  <artifactId>webhelp</artifactId>
+  <packaging>war</packaging>
+  <name>Servlet</name>
+  
+  <properties>
+    <documentation.dir>${project.build.directory}/generated-sources/documentation</documentation.dir>
+  </properties>
+  
+  <dependencies>
+    <!-- depends on the docbook sources -->
+    <dependency>
+      <groupId>uk.org.cse.nhm.manual</groupId>
+      <artifactId>docbook</artifactId>
+      <version>${project.version}</version>
+      <type>jar</type>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>uk.org.cse.nhm.manual</groupId>
+      <artifactId>pdf</artifactId>
+      <version>${project.version}</version>
+      <type>jar</type>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+  
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-dependency-plugin</artifactId>
+      </plugin>
+      
+      <plugin>
+	    <groupId>org.apache.maven.plugins</groupId>
+	    <artifactId>maven-war-plugin</artifactId>
+	    <configuration>
+	      <webResources>
+	        <resource>
+	          <directory>${documentation.dir}</directory>
+	        </resource>
+            <resource>
+              <directory>${pdf.directory}</directory>
+              <includes>
+                <include>*.pdf</include>
+              </includes>
+            </resource>
+	      </webResources>
+	    </configuration>
+      </plugin>
+      
+      <plugin>
+        <!-- this is meant to be handled by the parent but for some reason it gets upset -->
+        <groupId>com.agilejava.docbkx</groupId>
+	    <artifactId>docbkx-maven-plugin</artifactId>
+	    <version>2.0.15</version>
+	      
+        <executions>
+          <execution>
+	        <id>webhelp</id>
+	        <phase>generate-resources</phase>
+	        <goals>
+	          <goal>generate-webhelp</goal>
+	        </goals>
+	        <configuration>
+	          <htmlCustomization>${basedir}/src/stylesheet/docbook.xsl</htmlCustomization>
+	          <chunkSectionDepth>3</chunkSectionDepth>
+	          <webhelpIndexerLanguage>en</webhelpIndexerLanguage>
+	          <webhelpIncludeSearchTab>1</webhelpIncludeSearchTab>
+              <targetDirectory>${documentation.dir}</targetDirectory>
+	        </configuration>
+	      </execution> 
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

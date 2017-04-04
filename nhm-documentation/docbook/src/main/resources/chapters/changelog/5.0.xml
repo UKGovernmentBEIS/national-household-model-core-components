@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section xmlns="http://docbook.org/ns/docbook" xmlns:xl="http://www.w3.org/1999/xlink">
+	<title>5.0</title>
+	
+	<section>
+		<title>Number Comparisons</title>
+		
+		<para>Added the following logical tests on numbers: <xref linkend="ref.less"/> <xref linkend="ref.gt"/> <xref linkend="ref.lesseq"/> <xref linkend="ref.gteq"/> </para>
+	</section>
+	
+	<section>
+		<title>Medians, Quartiles and Percentiles</title>
+		
+		<para>
+			Added the element <xref linkend="ref.aggregate.n-tile" /> to allow calculating medians, quartiles etc.
+		</para>
+	</section>
+	
+	<section>
+		<title>Scheduled Events</title>
+		
+		<para>
+			We added <xref linkend="ref.on-dates" /> to schedule events which did not happen on particular houses or groups.
+			At the moment this is primarily useful for setting global variables at particular points in time (for example, recalculating the fuel poverty threshold each year).
+		</para>
+		
+		<para>
+			We added <xref linkend="ref.on.change" />, <xref linkend="ref.on.flag" /> and <xref linkend="ref.affected-houses" />
+			to trigger events or reporting when the simulation state changes. This generalises the previous hard-to-use group-entry based exposure  
+		</para>
+		
+		<para>
+			We added an element <xref linkend="ref.summarize" /> to allow you to work out a number from a group of houses inside a scheduled event.
+		</para>
+		
+		
+		<para>
+			We added an element <xref linkend="ref.apply" />, which lets you apply an action to a set of houses within a scheduled event; this will
+			eventually replace (policy) and (target).
+		</para>
+		
+		<para>
+			We added an element <xref linkend="ref.aggregate" />, which lets you compute and report on aggregate functions within a scheduled event.
+			This will eventually replace (report.aggregate).
+		</para>
+		
+		<para>
+			In the future, we intend to provide other kinds of hooks which trigger on things other than time, along with more things to do inside them.
+			We believe this mechanism will prove to be more flexible than the current target element. 
+		</para>
+	</section>
+	
+	<section>
+		<title>Changes to Variables</title>
+	
+		<para>See <xref linkend="variables" />.</para>
+	
+		<section>
+			<title>Added variable declarations</title>
+
+			<para>
+				In an effort to reduce subtle errors caused by typing mistakes, we have added variable declarations: <xref linkend="ref.def" /> and <xref linkend="ref.def-snapshot" />.
+				These must be defined exactly once for each variable in your scenario, and are then referred to using <xref linkend="cross-references" /> inside set and get statements.
+				We have also added the concept of Simulation scoped variables, which are not attached to a particular house.
+			</para>
+		</section>
+		
+		<section>
+			<title>Simplified setting variables</title>
+			
+			<para>
+				We found that many people were having difficulty with let, yield and registers, so we have drastically reworked how setting variables works.
+				Our aim here was to reduce the number of rules that people have to remember. We also tried to replace nested with sequences, because that makes the order in which things happen obvious. 
+			</para>
+			
+			<para>
+				We replaced let, yield and registers with the  <xref linkend="ref.scheduling.set" />, <xref linkend="ref.increase" /> and <xref linkend="ref.decrease"/> actions, along with a <xref linkend="ref.take-snapshot" /> for snapshots.
+				We introduced a sequencing element <xref linkend="ref.actioncombinations.do" />.
+			</para>
+			
+		</section>
+	</section>
+	
+	<section>
+		<title>Technologies and Defaults</title>
+		
+		<para>
+			We have removed the <code>context.technologies</code> element and all the technologies.
+			The reasoning behind this is that cross-referencing and templates have made it unnecessary, and it is preferable to write all the details about your measures in one place.
+		</para>
+		
+		<para>
+			We have introduced the element <xref linkend="ref.action.reset-opex" /> to allow a modeller to setup opex values (the initial state of houses is to not have any opex).
+		</para>
+		
+		<para>
+			Removed <code>(report.technology-counts)</code> as this no longer makes sense without technologies.
+		</para>
+	</section>
+	
+	<section>
+		<title>Solar Photovoltaic</title>
+	
+		<para>
+			Added the measure <xref linkend="ref.measure.solar-photovoltaic" />. 
+			This will install solar panels in a house, decreasing demand for electricity and increasing demand for photons.
+		</para>
+	</section>
+	
+	<section>
+		<title>Exposed more functions</title>
+		
+		<para>
+			Added the extra number functions <xref linkend="ref.house.static-number" />, <xref linkend="ref.sim.quantum" /> and <xref linkend="ref.sim.year" />.
+		</para>
+		
+		<para>
+			Added the extra categorical function <xref linkend="ref.house.static-property" />. This is particularly useful for dividing up reports.
+		</para>
+		
+	</section>
+	
+	<section>
+		<title>Template Arguments</title>
+
+		<para>
+			See <xref linkend="templating" />
+		</para>
+
+		<para>
+			Templates may now be invoked with unnamed parameters. 
+			These are then used in the template with the numbered parameters @1 @2 @3 and so on.
+			We have also added the @rest parameter which captures an unlimited number of unnamed arguments.
+		</para>
+	</section>
+	
+	<section>
+		<title>No include macro</title>
+		
+		<para>
+			Added the no-include macro, see: <xref linkend="no-include" />.
+		</para>
+	</section>
+	
+	<section>
+		<title>Reporting Changes</title>
+		
+		<para>
+			The change causes column in the dwellings report was causing it to take up a very large amount of diskspace, and was almost entirely duplicate information.
+			We have therefore removed the causes column from <xref linkend="ref.report.dwellings" />, and added a new report, <xref linkend="ref.report.sequence" />. 
+		</para>
+	</section>
+	
+	<section>
+		<title>Removed supply-chain</title>
+		
+		<para>
+			Actions on dwellings previously had a supply-chain attribute that allowed the scenario author to put a limit on the number of installations of a measure.
+			This has now been removed, since the introduction of simulation-scoped variables provides the same functionality in a more flexible form.			
+		</para>
+		
+		<para>
+			We've also removed the <code>(context.supply-chain) element</code>.
+		</para>
+		
+		<para>
+			The following template shows a one way to mimic the supply-chain functionality using variables:
+		</para>
+		
+		<programlisting language="lisp"><![CDATA[
+			(template supply-chain [@chain @1]
+				(do
+					(action.case
+						(when
+							(>= @chain 0)
+							(action.do-nothing)
+						default: (do
+							@1
+							(decrease @chain 1))))))
+		]]></programlisting>
+	</section>
+	
+	<section>
+		<title>Transfers between accounts</title>
+		<para>
+			Use the element <xref linkend="ref.pay" /> to move money between global accounts. These transactions will appear inside transaction reports.
+		</para>
+		
+		<para>
+			We've also modified <xref linkend="ref.report.transactions" /> to multiply through dwelling transactions by the quantum.
+		</para>
+		
+		<para>
+			Lastly, transactions for the value of 0 will no longer appear in the transactions report.
+			This provides some speed improvments in some cases, for example if you are running a scenario without maintenance costs.
+		</para>
+	</section>
+	
+	<section>
+		<title>Added infix grammar</title>
+		
+		<para>
+			In response to user feedback about polish notation (prefix) grammar being difficult to use, we have added a facility to write using
+			infix grammar instead. Infix expressions should be contained within braces (<code>{}</code>); they are syntactically isomorphic to
+			the prefix forms, but may be easier to read. For example, <code>{(1 + 2) * 3}</code> is equivalent to writing <code>(* (+ 1 2) 3)</code>.
+			Named terms can be written as C-style function invocations, for example <code>(house.energy-use by-fuel:MainsGas)</code> is equivalent to
+			<code>{house.energy-use(by-fuel:MainsGas)}</code>.
+		</para>
+		
+		<para>
+			The braces are not recursive, so there is no way to write a polish expression within an infix expression. Additionally, to avoid
+			ambiguity around hyphenated words and the subtraction operator, or user-defined terms with * in their names and other operators, 
+			you must still surround operators in the infix expression with spaces. For example, <code>{1 + 2}</code> is equivalent to <code>(+ 1 2)</code>, 
+			whereas <code>{1+2}</code> is equivalent to <code>"1+2"</code>. 
+		</para>
+		
+		<para>
+			Additionally, and again to avoid ambiguity, where in polish notation you need only use spaces to delimit lists, commas are required
+			in infix notation, so <code>[1 2 3 4]</code> in polish is written as <code>{[1, 2, 3, 4]}</code> in infix, or
+			polish <code>(do (action1) (action2))</code> becomes infix <code>{do(action1(), action2())}</code>.
+		</para>
+		
+		<para>
+			We mostly envisage prefix notation will be useful for writing small arithmetic or logical expressions, and that most scenarios will 
+			remain in polish notation for their important structure.
+		</para>
+	</section>
+	
+	<section>
+		<title>Minor language cleanup</title>
+		
+		<para>
+			Changed the <xref linkend="ref.batch.choice" /> element which is used to specify the options for a discrete distribution inside a batch.
+			Moved it into the right category of the manual. Made its 'value' argument positional instead of named for brevity. 
+		</para>
+		
+		<para>
+			<xref linkend="ref.size" /> now has a single positional argument instead of the named argument 'value'. Again, this is for brevity.
+		</para>
+	</section>
+	
+	<section>
+		<title>Logarithms</title>
+		<para>
+			Added <xref linkend="ref.log" /> for taking logarithms.
+		</para>
+	</section>
+	
+	<section>
+		<title>Correction to house.fuel-cost and house.fuel-cost-index (SAP scores)</title>
+		<para>
+			<xref linkend="ref.house.fuel-cost" /> erroneously retained a <code>by-service:</code> argument, which has not worked since the introduction
+			of complex tariffs to the model (it is not possible to specify costs by service in a meaningful way when using a tariff with rates that are not linear).
+			
+			An additional argument, <code>exclude-appliances:</code> has been added as a special case, to exclude the consumption due to appliances from fuel cost calculation,
+			and so the <emphasis>marginal</emphasis> cost of appliances on the fuel bill.
+			
+			In relation to this, <xref linkend="ref.house.fuel-cost-index" /> erroneously included the consumption of appliances when calculating the fuel cost index (SAP score).
+			It now excludes the cost of appliances from the SAP score, which will typically increase the score by around 25 points.  
+		</para>
+	</section>
+	
+	<section>
+		<title>Energy calculator adjustments</title>
+		<para>
+			<xref linkend="ref.def-adjustment" />,  <xref linkend="ref.measure.add-adjustment" />, 
+			<xref linkend="ref.measure.remove-adjustment" />, and  <xref linkend="ref.measure.remove-adjustments" /> 
+			have all been added, which allow user-specified adjustments to energy consumed by appliances within the energy
+			calculator. They are intended for modelling the effect of appliance efficiency changes, by allowing
+			the amount of different fuels and the effect of internal gains to be modified. 
+		</para>
+	</section>
+</section>

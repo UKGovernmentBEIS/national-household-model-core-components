@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+  <extension
+      point="org.eclipse.ui.editors">
+    <editor
+        class="cse.nhm.ide.ui.editor.ScenarioEditor"
+        default="false"
+        extensions="nhm"
+        id="cse.nhm.ide.ui.scenarioEditor"
+        name="Scenario Editor">
+    </editor>
+  </extension>
+  
+  <extension
+      point="org.eclipse.ui.themes">
+    <themeElementCategory id="cse.nhm.ide.ui.theme.category" label="NHM Scenarios" />
+    <colorDefinition
+          categoryId="cse.nhm.ide.ui.theme.category"
+          id="cse.nhm.ide.ui.theme.comment"
+          isEditable="true"
+          label="Comments"
+          value="COLOR_DARK_GREEN"/>
+    <colorDefinition
+          categoryId="cse.nhm.ide.ui.theme.category"
+          id="cse.nhm.ide.ui.theme.string"
+          isEditable="true"
+          label="Strings"
+          value="COLOR_DARK_YELLOW"/>
+    <colorDefinition
+          categoryId="cse.nhm.ide.ui.theme.category"
+          id="cse.nhm.ide.ui.theme.key"
+          isEditable="true"
+          label="Keyword"
+          value="COLOR_DARK_CYAN"/>
+    <colorDefinition
+          categoryId="cse.nhm.ide.ui.theme.category"
+          id="cse.nhm.ide.ui.theme.builtin"
+          isEditable="true"
+          label="Built-in command"
+          value="COLOR_DARK_BLUE"/>
+    <colorDefinition
+          categoryId="cse.nhm.ide.ui.theme.category"
+          id="cse.nhm.ide.ui.theme.custom"
+          isEditable="true"
+          label="User-defined variable, action, test, function"
+          value="128,0,128"/>
+    <colorDefinition
+          categoryId="cse.nhm.ide.ui.theme.category"
+          id="cse.nhm.ide.ui.theme.macro"
+          isEditable="true"
+          label="Macro command or template"
+          value="139,105,20"/>
+    <colorDefinition
+          categoryId="cse.nhm.ide.ui.theme.category"
+          id="cse.nhm.ide.ui.theme.paren"
+          isEditable="true"
+          label="Brackets and parentheses"
+          value="30,144,255"/>
+    <colorDefinition
+          categoryId="cse.nhm.ide.ui.theme.category"
+          id="cse.nhm.ide.ui.theme.placeholder"
+          isEditable="true"
+          label="Template placeholders"
+          value="255,165,0">
+    </colorDefinition>
+  </extension>
+  
+  <extension point="org.eclipse.ui.contexts">
+    <context id="cse.nhm.ide.ui.editor.context" name="In scenario editor">
+    </context>
+  </extension>
+  
+  <extension
+      point="org.eclipse.ui.bindings">
+    
+  	<key
+        commandId="cse.nhm.ide.ui.jumptodefinition"
+        contextId="cse.nhm.ide.ui.editor.context"
+        schemeId="cse.nhm.ide.ui.editor.scheme"
+        sequence="M1+SHIFT+T">
+    </key>
+    
+	<key
+	    commandId="cse.nhm.ide.ui.quickOutlineCommand"
+	    contextId="cse.nhm.ide.ui.editor.context"
+	    schemeId="cse.nhm.ide.ui.editor.scheme"
+	    sequence="M1+O">
+	</key>
+    <key
+        commandId="cse.nhm.ide.ui.editor.indent"
+        contextId="cse.nhm.ide.ui.editor.context"
+        schemeId="cse.nhm.ide.ui.editor.scheme"
+        sequence="M1+M2+F">
+    </key>
+    <key
+        commandId="cse.nhm.ide.ui.editor.slurp"
+        contextId="cse.nhm.ide.ui.editor.context"
+        schemeId="cse.nhm.ide.ui.editor.scheme"
+        sequence="CTRL+[">
+    </key>
+    <key
+        commandId="cse.nhm.ide.ui.editor.barf"
+        contextId="cse.nhm.ide.ui.editor.context"
+        schemeId="cse.nhm.ide.ui.editor.scheme"
+        sequence="CTRL+]">
+    </key>
+    <key
+          commandId="cse.nhm.ide.ui.editor.tabulate"
+          contextId="cse.nhm.ide.ui.editor.context"
+          schemeId="cse.nhm.ide.ui.editor.scheme"
+          sequence="M1+T">
+    </key>
+    <key
+          commandId="cse.nhm.ide.ui.editor.nav.right"
+          contextId="cse.nhm.ide.ui.editor.context"
+          schemeId="cse.nhm.ide.ui.editor.scheme"
+          sequence="M3+ARROW_RIGHT">
+    </key>
+    <key
+          commandId="cse.nhm.ide.ui.editor.nav.left"
+          contextId="cse.nhm.ide.ui.editor.context"
+          schemeId="cse.nhm.ide.ui.editor.scheme"
+          sequence="M3+ARROW_LEFT">
+    </key>
+    <key
+          commandId="cse.nhm.ide.ui.editor.nav.up"
+          contextId="cse.nhm.ide.ui.editor.context"
+          schemeId="cse.nhm.ide.ui.editor.scheme"
+          sequence="M3+ARROW_UP">
+    </key>
+    <scheme
+          description="Key bindings to use for editing and running NHM scenarios"
+          id="cse.nhm.ide.ui.editor.scheme"
+          name="NHM Key Bindings"
+          parentId="org.eclipse.ui.defaultAcceleratorConfiguration">
+    </scheme>
+    <key
+          commandId="cse.nhm.ide.ui.editor.nav.down"
+          contextId="cse.nhm.ide.ui.editor.context"
+          schemeId="cse.nhm.ide.ui.editor.scheme"
+          sequence="M3+ARROW_DOWN">
+    </key>
+    <key
+          commandId="org.eclipse.ui.help.dynamicHelp"
+          contextId="org.eclipse.ui.contexts.window"
+          schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+          sequence="F1">
+    </key>
+  </extension>
+  
+  <extension
+      point="org.eclipse.ui.commands">
+    <command
+        categoryId="cse.nhm.ide.ui.nhmNature.category"
+        defaultHandler="cse.nhm.ide.ui.editor.outline.QuickOutlineHandler"
+        description="Quickly navigate to elements in the current scenario"
+        id="cse.nhm.ide.ui.quickOutlineCommand"
+        name="Quick Outline">
+    </command>
+    <command
+        categoryId="cse.nhm.ide.ui.nhmNature.category"
+        defaultHandler="cse.nhm.ide.ui.editor.structure.JumpToThingHandler"
+        description="Find the source line for a user-defined term"
+        id="cse.nhm.ide.ui.jumptodefinition"
+        name="Jump to Definition">
+    </command>
+    
+    
+    <command
+        categoryId="cse.nhm.ide.ui.nhmNature.category"
+        defaultHandler="cse.nhm.ide.ui.editor.structure.IndentScenarioHandler"
+        description="Re-indents the selected scenario text so that each increase in level increases the indentation."
+        id="cse.nhm.ide.ui.editor.indent"
+        name="Format scenario code">
+    </command>
+    <command
+        categoryId="cse.nhm.ide.ui.nhmNature.category"
+        defaultHandler="cse.nhm.ide.ui.editor.structure.SlurpCommandHandler"
+        description="Expands the s-expression under the cursor by moving its closing bracket to encapsulate the next s-expression"
+        id="cse.nhm.ide.ui.editor.slurp"
+        name="Grow current expression">
+    </command>
+    <command
+        categoryId="cse.nhm.ide.ui.nhmNature.category"
+        defaultHandler="cse.nhm.ide.ui.editor.structure.BarfCommandHandler"
+        description="Reduces the s-expression at the cursor by ejecting the last thing in it into the parent expression"
+        id="cse.nhm.ide.ui.editor.barf"
+        name="Shrink current expression">
+    </command>
+    <command
+          categoryId="cse.nhm.ide.ui.nhmNature.category"
+          defaultHandler="cse.nhm.ide.ui.editor.structure.TabulateScenarioHandler"
+          description="Lays out the selected text as a table"
+          id="cse.nhm.ide.ui.editor.tabulate"
+          name="Tabulate">
+    </command>
+    <command
+          categoryId="cse.nhm.ide.ui.nhmNature.category"
+          defaultHandler="cse.nhm.ide.ui.editor.structure.NavigateCommandHandler$Right"
+          id="cse.nhm.ide.ui.editor.nav.right"
+          name="Go to next element">
+    </command>
+    <command
+          categoryId="cse.nhm.ide.ui.nhmNature.category"
+          defaultHandler="cse.nhm.ide.ui.editor.structure.NavigateCommandHandler$Left"
+          id="cse.nhm.ide.ui.editor.nav.left"
+          name="Go to previous element">
+    </command>
+    <command
+          categoryId="cse.nhm.ide.ui.nhmNature.category"
+          defaultHandler="cse.nhm.ide.ui.editor.structure.NavigateCommandHandler$Up"
+          id="cse.nhm.ide.ui.editor.nav.up"
+          name="Go to containing element">
+    </command>
+    <command
+          categoryId="cse.nhm.ide.ui.nhmNature.category"
+          defaultHandler="cse.nhm.ide.ui.editor.structure.NavigateCommandHandler$Down"
+          id="cse.nhm.ide.ui.editor.nav.down"
+          name="Go to next child element">
+    </command>
+  </extension>
+  
+  <extension
+      point="org.eclipse.ui.menus">
+    <menuContribution
+        allPopups="false"
+        class="cse.nhm.ide.ui.editor.JumpToMarkerContributionFactory"
+        locationURI="popup:#AbstractTextEditorRulerContext?after=additions">
+      <dynamic
+          class="cse.nhm.ide.ui.editor.JumpToMarkerContributionFactory$Contribution"
+          id="cse.nhm.ide.ui.markerJumpContribution">
+      </dynamic>
+    </menuContribution>
+    
+    <menuContribution
+        allPopups="false"
+        locationURI="menu:navigate?after=additions">
+      <command
+          commandId="cse.nhm.ide.ui.jumptodefinition"
+          style="push">
+      </command>
+    </menuContribution>
+    
+    
+    <menuContribution
+        allPopups="false"
+        locationURI="menu:edit?after=additions">
+      <command
+          commandId="cse.nhm.ide.ui.editor.indent"
+          style="push">
+        <visibleWhen
+            checkEnabled="false">
+          <with
+              variable="activeContexts">
+            <iterate
+                ifEmpty="false"
+                operator="or">
+              <equals
+                  value="cse.nhm.ide.ui.editor.context">
+              </equals>
+            </iterate>
+          </with>
+        </visibleWhen>
+      </command>
+    </menuContribution>
+    <menuContribution
+        allPopups="false"
+        locationURI="menu:edit?after=additions">
+      <command
+          commandId="cse.nhm.ide.ui.editor.barf"
+          style="push">
+        <visibleWhen
+            checkEnabled="false">
+          <with
+              variable="activeContexts">
+            <iterate
+                ifEmpty="false"
+                operator="or">
+              <equals
+                  value="cse.nhm.ide.ui.editor.context">
+              </equals>
+            </iterate>
+          </with>
+        </visibleWhen>
+      </command>
+    </menuContribution>
+    <menuContribution
+        allPopups="false"
+        locationURI="menu:edit?after=additions">
+      <command
+          commandId="cse.nhm.ide.ui.editor.slurp"
+          style="push">
+        <visibleWhen
+            checkEnabled="false">
+          <with
+              variable="activeContexts">
+            <iterate
+                ifEmpty="false"
+                operator="or">
+              <equals
+                  value="cse.nhm.ide.ui.editor.context">
+              </equals>
+            </iterate>
+          </with>
+        </visibleWhen>
+      </command>
+    </menuContribution>
+    <menuContribution
+          allPopups="false"
+          locationURI="menu:edit?after=additions">
+       <command
+             commandId="cse.nhm.ide.ui.editor.tabulate"
+             style="push">
+          <visibleWhen
+                checkEnabled="false">
+             <with
+                   variable="activeContexts">
+                <iterate
+                      ifEmpty="false"
+                      operator="or">
+                   <equals
+                         value="cse.nhm.ide.ui.editor.context">
+                   </equals>
+                </iterate>
+             </with>
+          </visibleWhen>
+       </command>
+    </menuContribution>
+    <menuContribution
+          allPopups="false"
+          locationURI="menu:navigate?after=additions">
+       <command
+             commandId="cse.nhm.ide.ui.editor.nav.up"
+             style="push">
+          <visibleWhen
+                checkEnabled="false">
+             <reference
+                   definitionId="cse.nhm.ide.ui.expressions.inEditor">
+             </reference>
+          </visibleWhen>
+       </command>
+       <command
+             commandId="cse.nhm.ide.ui.editor.nav.down"
+             style="push">
+          <visibleWhen
+                checkEnabled="false">
+             <reference
+                   definitionId="cse.nhm.ide.ui.expressions.inEditor">
+             </reference>
+          </visibleWhen>
+       </command>
+       <command
+             commandId="cse.nhm.ide.ui.editor.nav.right"
+             style="push">
+          <visibleWhen
+                checkEnabled="false">
+             <reference
+                   definitionId="cse.nhm.ide.ui.expressions.inEditor">
+             </reference>
+          </visibleWhen>
+       </command>
+       <command
+             commandId="cse.nhm.ide.ui.editor.nav.left"
+             style="push">
+          <visibleWhen
+                checkEnabled="false">
+             <reference
+                   definitionId="cse.nhm.ide.ui.expressions.inEditor">
+             </reference>
+          </visibleWhen>
+       </command>
+    </menuContribution>
+  </extension>
+  <extension
+        point="org.eclipse.ui.preferencePages">
+     <page
+           category="cse.nhm.ide.ui.preferences"
+           class="cse.nhm.ide.ui.editor.preferences.ScenarioEditorPreferences"
+           id="cse.nhm.ide.ui.editor.preferences.ScenarioEditorPreferences"
+           name="Scenario Editor">
+     </page>
+     <page
+           category="cse.nhm.ide.ui.preferences"
+           class="cse.nhm.ide.ui.editor.snippet.SnippetPreferences"
+           id="cse.nhm.ide.ui.editor.snippets"
+           name="Scenario Snippets">
+     </page>
+  </extension>
+  <extension
+        point="org.eclipse.core.runtime.preferences">
+     <initializer
+           class="cse.nhm.ide.ui.editor.preferences.PreferenceInitializer">
+     </initializer>
+  </extension>
+  <extension
+        id="cse.nhm.ide.ui.editor.parenmarker"
+        name="Unbalanced parentheses"
+        point="org.eclipse.core.resources.markers">
+     <super
+           type="org.eclipse.core.resources.problemmarker">
+     </super>
+     <persistent
+           value="true">
+     </persistent>
+     <super
+           type="org.eclipse.core.resources.textmarker">
+     </super>
+  </extension>
+  <extension
+        point="org.eclipse.help.contexts">
+     <contexts
+           file="help/scenarioEditorContext.xml"
+           plugin="cse.nhm.ide.ui.editor">
+     </contexts>
+  </extension>
+  <extension
+        point="org.eclipse.ui.editors.templates">
+     <contextType
+           class="cse.nhm.ide.ui.editor.snippet.ScenarioContextType"
+           id="cse.nhm.ide.ui.editor.scenarioContext"
+           name="In a scenario">
+     </contextType>
+     <template
+           autoinsert="true"
+           contextTypeId="cse.nhm.ide.ui.editor.scenarioContext"
+           description="Insert a new NHM template"
+           id="cse.nhm.ide.ui.editor.templates.template"
+           name="template">
+        <pattern>
+           (template ${name} [${args}]${cursor})
+        </pattern>
+     </template>
+     <template
+           autoinsert="true"
+           contextTypeId="cse.nhm.ide.ui.editor.scenarioContext"
+           description="Insert a new NHM module definition"
+           id="cse.nhm.ide.ui.editor.templates.module"
+           name="~module">
+        <pattern>
+           (~module ${name}
+    (template init [] ${cursor}))
+        </pattern>
+     </template>
+  </extension>
+</plugin>

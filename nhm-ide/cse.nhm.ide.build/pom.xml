@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>cse.nhm.ide.build</artifactId>
+  <packaging>eclipse-repository</packaging>
+  <name>NHM Product Build</name>
+
+  <parent>
+	<version>1.0.0-SNAPSHOT</version>
+	<groupId>cse.nhm.ide</groupId>
+	<artifactId>parent</artifactId>
+	<relativePath>../</relativePath>
+  </parent>
+
+  <build>
+	<plugins>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-p2-repository-plugin</artifactId>
+        <version>${tycho-version}</version>
+        <configuration>
+          <includeAllDependencies>true</includeAllDependencies>
+        </configuration>
+      </plugin>
+      
+	  <plugin>
+		<groupId>org.eclipse.tycho</groupId>
+		<artifactId>tycho-p2-director-plugin</artifactId>
+		<version>${tycho-version}</version>
+		<executions>
+		  <execution>
+			<id>materialize-products</id>
+			<goals>
+			  <goal>materialize-products</goal>
+              <goal>archive-products</goal>
+			</goals>
+		  </execution>
+		</executions>
+	  </plugin>
+
+	  <plugin>
+		<groupId>org.eclipse.tycho</groupId>
+		<artifactId>target-platform-configuration</artifactId>
+		<version>${tycho-version}</version>
+		
+		<configuration>
+          <!-- <filters> -->
+          <!--   <filter> -->
+          <!--     <type>eclipse-plugin</type> -->
+          <!--     <id>org.eclipse.ui.externaltools</id> -->
+          <!--     <removeAll /> -->
+          <!--   </filter> -->
+			
+          <!--   <filter> -->
+          <!--     <type>eclipse-plugin</type> -->
+          <!--     <id>org.eclipse.core.externaltools</id> -->
+          <!--     <removeAll /> -->
+          <!--   </filter> -->
+			
+          <!--   <filter> -->
+          <!--     <type>eclipse-plugin</type> -->
+          <!--     <id>org.eclipse.debug.ui</id> -->
+          <!--     <removeAll /> -->
+          <!--   </filter> -->
+			
+          <!--   <filter> -->
+          <!--     <type>eclipse-plugin</type> -->
+          <!--     <id>org.eclipse.debug.core</id> -->
+          <!--     <removeAll /> -->
+          <!--   </filter> -->
+          <!-- </filters> -->
+		</configuration>
+	  </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.7</version>
+        <executions>
+          <execution>
+            <id>server-copy</id>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <phase>deploy</phase>
+            <configuration>
+              <target>
+                <echo message="Deploy P2"/>
+                <!-- need to fix keyfile, also this is a bit pants -->
+                <scp trust="yes"
+                     keyfile="${user.home}/.ssh/decc-azure"
+                     port="22222"
+                     todir="nhm@deccnhm.org.uk:/var/www/p2">
+                  <fileset dir="${basedir}/target/repository" />
+                </scp>
+                <scp trust="yes"
+                     keyfile="${user.home}/.ssh/decc-azure"
+                     port="22222"
+                     todir="nhm@deccnhm.org.uk:/var/www/stal">
+                  <fileset dir="${basedir}/target/products" includes="*.zip" />
+                </scp>
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.ant</groupId>
+            <artifactId>ant-jsch</artifactId>
+            <version>1.8.2</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+	</plugins>
+  </build>
+</project>

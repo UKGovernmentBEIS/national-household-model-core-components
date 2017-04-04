@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section xmlns="http://docbook.org/ns/docbook" xmlns:xl="http://www.w3.org/1999/xlink">
+	<title>4.3</title>
+	
+	<section>
+		<title>Reset Actions</title>
+		<para>
+			To allow the imputation schema to be expressed explicitly in a scenario, we have added some actions which
+			reset the thermal properties of walls, glazing, doors, floors and roofs. These actions use user-defined functions
+			to compute the new thermal properties, but compute the function for each wall, door and do on in turn.
+		</para>
+		
+		<para>
+			To complement these, we have added some special functions which allow access to information about the <emphasis>current</emphasis>
+			wall, door, and so on, which are only usable within the associated reset actions
+		</para>
+		
+		
+		<itemizedlist>
+			<title>Reset Actions</title>
+			<listitem><xref linkend="ref.action.reset-doors" />          </listitem>
+			<listitem><xref linkend="ref.action.reset-floors" />         </listitem>
+			<listitem><xref linkend="ref.action.reset-glazing" />        </listitem>
+			<listitem><xref linkend="ref.action.reset-roofs" />          </listitem>
+			<listitem><xref linkend="ref.action.reset-walls" /> </listitem>
+		</itemizedlist>
+		
+		
+		<itemizedlist>
+			<title>Special Functions</title>
+			<listitem> <xref linkend="ref.floor.sap-ground-floor-u-value" /> </listitem>
+			<listitem> <xref linkend="ref.floor.is-on-ground" />             </listitem>
+			<listitem> <xref linkend="ref.door.type" />                      </listitem>
+			<listitem> <xref linkend="ref.glazing.frame-type" />             </listitem>
+			<listitem> <xref linkend="ref.glazing.insulation-type" />        </listitem>
+			<listitem> <xref linkend="ref.glazing.type" />                   </listitem>
+			<listitem> <xref linkend="ref.wall.construction" />              </listitem>
+			<listitem> <xref linkend="ref.wall.infiltration" />              </listitem>
+			<listitem> <xref linkend="ref.wall.insulation-thickness" />      </listitem>
+			<listitem> <xref linkend="ref.wall.k-value" />                   </listitem>
+			<listitem> <xref linkend="ref.wall.u-value" />                   </listitem>
+		</itemizedlist>
+	</section>
+	
+	<section>
+		<title>Random Number Functions</title>
+		
+		<para>
+			Added random number functions which may be used in the scenario. These are intended for use with the new scaling actions to allow 'fuzzing' of the housing stock.
+			That is, to introduce some randomness in an attempt to account for real life variation and measurement error.
+		</para>
+		
+		<itemizedlist>
+			<listitem><xref linkend="ref.random.gaussian" /></listitem>
+			<listitem><xref linkend="ref.random.uniform" /></listitem>
+			<listitem><xref linkend="ref.random.triangular" /></listitem>
+		</itemizedlist>
+	</section>
+	
+	<section>
+		<title>Scaling Actions</title>
+		
+		<para>
+			We have introduced a number of scaling actions. These increase or decrease some house value by a proportion. This proportion is specified as a number function, so it may vary on a per-house basis.
+			These actions are intended to be used at the beginning of a scenario to correct systematic errors in the stock, or to explore 'what-if' scenarios.			
+		</para>
+		
+		<para>
+			To go with these actions, we have introduced some number functions which expose the value they change. 
+			These are mainly intended for use in probes and reports to allow the results of the scaling actions to be seen, but may be used anywhere that a function would be used normally.
+			An action to scale u-values was also considered, but has not been added since the same effect may be achieved for u-values using the impuation elements.
+		</para>
+		
+		<itemizedlist>
+			<listitem><xref linkend="ref.scale.efficiency" /> may affect one or more of the various space heating and hot water systems.</listitem>
+			<listitem><xref linkend="ref.house.heating-efficiency" /></listitem>
+			<listitem><xref linkend="ref.scale.responsiveness" /> may affect either primary or secondary space heating or both.</listitem>
+			<listitem><xref linkend="ref.house.heating-responsiveness" /></listitem>
+		</itemizedlist>
+	</section>
+	
+	<section>
+		<title>Lookup Tables</title>
+			
+		<para>
+			We have added a function <xref linkend="ref.lookup" /> for expressing arbitrary n-dimensional 
+			lookup tables, whose indices can be computed from arbitrary language elements.
+		</para>
+	</section>
+	
+	<section>
+		<title>Extra House Functions</title>
+		
+		<para>We have added the following house functions.</para>
+		
+		<itemizedlist>
+			<listitem><xref linkend="ref.house.sap-age-band" /></listitem>
+			<listitem><xref linkend="ref.house.roof-construction-type" /></listitem>
+			<listitem><xref linkend="ref.house.floor-construction-type" /></listitem>
+			<listitem><xref linkend="ref.house.floor-insulation-thickness" /></listitem>
+			<listitem><xref linkend="ref.house.household-income"/></listitem>
+			<listitem><xref linkend="ref.house.number-of-occupants"/></listitem>
+			<listitem><xref linkend="ref.house.number-of-bedrooms"/></listitem>
+		</itemizedlist>
+	</section>
+	
+	<section>
+		<title>Stock Report Now Optional</title>
+		
+		<para>
+			Previously, we were including a JSON file containing the entire housing stock in the report zip produced for a scenario.
+			This is now disabled by default, but may be turned on again by including the <xref linkend="ref.report.housing-stock" /> element in your scenario.			
+		</para>
+	</section>
+</section>

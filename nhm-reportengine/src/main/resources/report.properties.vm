@@ -1,3 +1,0 @@
-#foreach($key in $entries.keySet())
-$key=$entries.get($key)
-#end

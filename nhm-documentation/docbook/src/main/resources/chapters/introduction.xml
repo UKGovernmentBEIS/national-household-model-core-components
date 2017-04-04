@@ -1,0 +1,1369 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<part xmlns="http://docbook.org/ns/docbook"
+	  xmlns:xi="http://www.w3.org/2001/XInclude"
+	  version="5.0">
+  <title>Introduction</title>
+  <chapter>
+	<title>About this document</title>
+	<section>
+	  <title>Overview</title>
+	  <formalpara>
+		<title>Intent</title> 
+
+		This document is a reference document for the National Housing
+		Model (NHM) scenario definition language. It is intended for use
+		by scenario authors, testers and anyone who needs to read or
+		write scenarios.
+	  </formalpara>
+	  
+	  <para>
+		The document is formed of three major parts; the first gives a
+		very brief introduction to extensible markup language, the
+		family of languages containing the NHM's scenario language. The
+		second is an introduction to the overall structure of and the
+		important concepts in the NHM scenario language. Finally there
+		is a comprehensive hyperlinked reference detailing all the of
+		the language elements currently defined in terms of their
+		parameters, what they can contain, and where they can be
+		contained.
+	  </para>
+
+	  <formalpara>
+		<title>Suggested uses of the document</title>
+		<itemizedlist>
+		  <listitem>
+			Read the introductory section to understand the high-level
+			concepts
+		  </listitem>
+		  <listitem>
+			Lookup an unfamiliar element.
+		  </listitem>
+		  <listitem>
+			Search for an element which does what you need.
+		  </listitem>
+		  <listitem>
+			Examine an element to determine which arguments it expects
+			and what values they can take.
+		  </listitem>
+		  <listitem>
+		  	Review the example scenarios that can be found via the search section in the application.
+		  	It is possible to search for specific content within scenarios by using 
+		  	[contains:"replace with search term"].
+		  </listitem>
+		</itemizedlist>
+	  </formalpara>	
+	</section>
+
+	<section id="nhm-language">
+	  <title>The NHM Language</title>
+
+	  <para>
+		NHM scenarios are expressed using a domain-specific language,
+		whose grammar is closely related to a representation of
+		structured data known as the
+		<emphasis>s-expression</emphasis>. s-expressions are usually
+		associated with languages derived from LISP, and have a very
+		simple grammar which allows for concise expression of a wide
+		range of forms.
+	  </para>
+	  <section>
+		<title>Atoms and Lists</title>
+		<para>
+		  An s-expression is either an <emphasis>atom</emphasis> or a
+		  <emphasis>list</emphasis>. 
+		</para>
+		<para>
+		  Atoms are the irreducible parts from which expressions are
+		  constructed; an atom is a single bit of text, like the number
+		  <code>35353</code>, or the word <code>lemons</code>.
+		</para>
+		<para>
+		  To represent structural information, atoms and expressions are
+		  composed together into lists. A list is a sequence of
+		  expressions contained within parentheses (<code>(</code> and
+		  <code>)</code>). Elements of a list are separated by
+		  <emphasis>whitespace</emphasis>; spaces, tabs, or
+		  newlines. Whitespace has no meaning apart from separating
+		  members of a list. For example, the expression <code>(1 2
+		  3)</code> describes a list containing the three atoms,
+		  <code>1</code> <code>2</code> and <code>3</code>.
+		</para>
+		<para>
+		  By convention, lists are divided into their
+		  <emphasis>head</emphasis>, which is the first member of the
+		  list, and their <emphasis>tail</emphasis> which is the
+		  remainder. <emphasis>Functions</emphasis> are typically
+		  expressed as a list, whose head names the function and whose
+		  tail contains the function's
+		  <emphasis>arguments</emphasis>. For example, the expression
+		  <code>(+ 1 2 3)</code> indicates the application of a
+		  function called <code>+</code> to the arguments
+		  <code>1</code>, <code>2</code> and <code>3</code>. Putting
+		  the name of the function at the start of the invocation is
+		  often called <emphasis>prefix</emphasis> notation.
+		</para>
+
+		<para>
+		  Because whitespace separates atoms in a list, to write an
+		  atom whose text contains a space the atom needs to be
+		  <emphasis>quoted</emphasis>. For example, 
+		  <code>&quot;an atom with spaces&quot;</code> will be understood 
+		  as a single atom, rather than a sequence of four atoms.
+		</para>
+	  </section>
+	  
+	  <section>
+		<title>Hierarchy and structure</title>
+
+		<para>
+		  The fact that lists can contain <emphasis>other
+		  lists</emphasis> is what allows s-expressions to capture
+		  arbitrary structure. For example, a sum product between two
+		  vectors a,b,c and x,y,z can be written as 
+		  <code>(+ (* a x) (* b y) (* c z))</code>.
+		</para>
+
+		<para>
+		  In the NHM, each language term has an associated
+		  expression; for example there are various logical tests
+		  provided to select houses on which to act, like
+		  <code>house.region-is</code> and
+		  <code>house.built-form-is</code>.
+		</para>
+
+		<para>
+		  To use a language term, it needs to be
+		  <emphasis>invoked</emphasis>, by writing it as the head of a
+		  list; for example, the group of all houses can be invoked as
+		  <code>(group.all)</code> (the parentheses are
+		  required). Most language terms also require some arguments;
+		  for example, to test whether a house's region is London you
+		  can write <code>(house.region-is London)</code>. We have
+		  used the argument <code>London</code> to control the
+		  behaviour of <code>house.region-is</code>.
+		</para>
+
+		<para>
+		  The argument <code>London</code> above is related to its
+		  <emphasis>position</emphasis>; some language terms also have
+		  <emphasis>named</emphasis> arguments. These arguments are
+		  split into two parts - a <emphasis>name</emphasis>, which
+		  always ends with a colon, and its
+		  <emphasis>value</emphasis>. The name and argument are
+		  associated by being next to each other in the argument
+		  list. For example <code>house.age-is</code> has the named
+		  arguments <code>exactly</code>, <code>above</code> and
+		  <code>below</code>. By writing something like
+		  <code>(house.age-is above: 10 below: 20)</code> we have
+		  invoked <code>house.age-is</code> with an argument named
+		  <code>above</code> having value <code>10</code> and an
+		  argument <code>below</code> having value <code>20</code>.
+		  The order of named arguments is not important, but all named
+		  arguments used must be written before any positional
+		  arguments.
+		</para>
+
+		<para>
+		  Some arguments can take several values - to avoid ambiguity
+		  and ease reading, when you are providing multiple values for
+		  an argument the list of values should be enclosed in
+		  brackets ([]) rather than parentheses (()). For example, you
+		  might invoke <code>function.steps</code> as
+		  <programlisting language="lisp">(function.steps
+    steps: [1000 2000 3000]
+	value: (house.energy-use))</programlisting>
+	      because <code>function.steps</code> expects multiple numbers
+	      for its <code>steps</code> argument. The <code>value</code>
+	      argument is another invocation, as it uses parentheses. For
+	      <code>steps</code>, the square brackets distinguish between
+	      the plain list containing 1000 2000 and 3000 and an
+	      invocation of a function called 1000 with two arguments. In
+	      this case the ambiguity is not very large, but with lists of
+	      text values or functions it can be more significant.
+		</para>
+	  </section>
+
+	  <section>
+		<title>Comments</title>
+		<para>
+		  If you want to write some text into a scenario for human
+		  consumption without affecting its meaning for the simulator,
+		  you can write a comment. Any text which follows a semicolon
+		  up to the end of the line is a comment, and is treated the
+		  same as whitespace by the NHM (i.e. ignored).
+		</para>
+	  </section>
+
+	  <section id="cross-references" xreflabel="Cross References">
+		<title>Cross-references</title>
+
+		<para>
+		  Templates, explained later in <xref linkend="templating" />,
+		  are useful to avoid repeating yourself, but each time you
+		  use a template it is as though you have written something
+		  out again. Some scenario language terms, like group
+		  definitions, cause a unique thing to come into existence in
+		  the simulation, and reusing the definition will not result
+		  in the same thing. In this situation you can use
+		  <emphasis>cross-references</emphasis> to refer to a
+		  particular entity from another place.
+		</para>
+		<para>
+		  To make this (admittedly somewhat abstract) concern a bit
+		  clearer, let's consider an example. You may wish to return
+		  to this once you have read the next chapter, if it does not
+		  make sense on first reading.
+		</para>
+		<example>
+          <title>Using cross-references to refer to a predefined measure</title>
+		  <para>
+            The following scenario language defines a new variable called my-variable
+		  </para>
+          <programlisting language="lisp">(def my-variable)</programlisting>
+          <para>
+            Now in a calculation, we may wish to set the variable or
+            use the value of the variable. To do this we need to refer
+            to its definition, so:
+          </para>
+          <programlisting language="lisp">(set #my-variable 100) ; set the variable
+(measure.standard-boiler capex: (* #my-variable 13)) ; install a boiler whose cost is the variable * 13.
+</programlisting>
+		</example>
+	  </section>
+	</section>
+  </chapter>
+  <chapter>
+	<title>Introduction to the NHM</title>
+	<section id="introduction-to-nhm-scenarios">
+	  <title>Introduction to NHM Scenarios</title>
+	  <para>
+		The NHM uses a formal scenario language to characterise a set
+		of interacting policies. This section explains the intended
+		meaning of most of the basic concepts in this language.
+		Elements in red are hyperlinks to the formal descriptions used
+		later in the document, so you can click on them for more
+		detailed information.
+	  </para>
+	  <section id="how-the-simulation-works">
+		<title>How the Simulation Works</title>
+		<para>
+		  The NHM models the domestic housing sector using a representation
+		  of the state of the world. The housing stock is represented using
+		  quanta of a fixed size <emphasis>q</emphasis>, where each quantum
+		  corresponds to <emphasis>q</emphasis> houses from the real world.
+		  For example, if <emphasis>q</emphasis> is 10 then the 25 million
+		  houses in the EHS will be represented by 2.5 million simulation
+		  elements. For the sake of brevity in this document I will refer to
+		  a simulation element as an instance from now on.
+		</para>
+		<para>
+		  Because the EHS is a weighted representative survey, there are in
+		  fact only around sixteen thousand distinct survey entries, each
+		  having an associated weight which states how many real houses the
+		  survey entry represents. With a quantum of <emphasis>q</emphasis>,
+		  an entry of weight <emphasis>w</emphasis> becomes
+		  <emphasis>w</emphasis> / <emphasis>q</emphasis> instances in the
+		  simulation.
+		</para>
+		<para>
+		  Each instance has various kinds of information associated to it.
+		  Firstly there is information derived from the survey; structural
+		  information pertaining to the construction of the house, a
+		  description of the technologies installed in the house, some
+		  sociodemographic information about the house’s occupants, and so
+		  on. Secondly there are additional bits of information which
+		  represent external conditions or other non-survey-derived factors
+		  that change over time, like the weather conditions, prices, or
+		  behavioural characteristics which affect the household’s energy
+		  consumption. Finally there are derived bits of information, which
+		  are functions of the first two categories; the canonical examples
+		  for this would be the energy consumption, fuel bill, emissions and
+		  so on. The first two kinds of information are mutable, in the
+		  sense that they can by changed by a scenario, whereas derived
+		  information is immutable, in the sense that it is determined
+		  completely by the mutable information.
+		</para>
+	  </section>
+	  <section id="behind-the-scenes">
+		<title>Behind the Scenes</title>
+		<para>
+		  Although we intend that the implementation details of the
+		  simulation should be independent of the scenario language (so that
+		  the end user need not be aware of how the system works unless it
+		  is unavoidable, allowing for the mechanism by which it operates to
+		  be improved and replaced transparently), it may be instructive to
+		  have an idea of how it currently works.
+		</para>
+		<para>
+		  The simulator uses a discrete event model to represent the passage
+		  of time. Those parts of the scenario which have a temporal aspect
+		  post events to a queue; each event has associated with it a
+		  simulation time, which gives the point in simulated history at
+		  which the event should occur. Prior to the start of the
+		  simulation, all of these parts have opportunities to post the
+		  initial events which begin the simulation.
+		</para>
+		<para>
+		  The simulator takes events off the queue in chronological order,
+		  and presents them to those parts of the system which concern them;
+		  these parts then take actions on the basis of the events
+		  presented, including modifying the simulation state and posting
+		  new events to the queue, to be raised at some future date.
+		</para>
+		<para>
+		  When the state is to be modified, the modification first
+		  takes place <emphasis>hypothetically</emphasis>, in a
+		  lightweight read-through layer on top of the current
+		  state. This allows for the speculative evaluation of
+		  alternatives for things like the <xref
+		  linkend="Choices--choice" /> element, without any of
+		  the child elements having to &quot;know&quot; that they are
+		  being selected between. Once a hypothetical future state has
+		  been chosen, the true state is updated to reflect the
+		  hypothesis, and interested parts of the simulation are
+		  notified of the change, details are logged for reporting,
+		  and so on.
+		</para>
+	  </section>
+	  <section id="composition-and-reuse">
+		<title>Composition and Reuse</title>
+		<para>
+		  At several points in this introductory section we have reused
+		  language elements in different contexts, and demonstrated how
+		  complicated groups, actions and so on can be constructed by the
+		  composition of suitable building blocks. This principle of reuse
+		  runs through the design of the language, and the underlying
+		  software, so that each language element has spaces of a certain
+		  <quote>shape</quote> where it can allow any element that can fit
+		  that <quote>shape</quote> to be connected up.
+		</para>
+		<para>
+		  As a consequence of this design, the language and simulation are
+		  highly extensible - for example by dividing min-NPV into minimum
+		  and NPV it becomes possible to implement and register a new
+		  component X that has the same &quot;shape&quot; as NPV and then to
+		  define an action which minimises X without further effort.
+		</para>
+	  </section>
+	  <section id="time-and-the-scenario-tree">
+		<title>Time and the Scenario Tree</title>
+		<para>
+		  The function of the simulator is to forecast the passage of time,
+		  by modifying aspects of the state using some rules. These rules
+		  are defined in scenarios, using a formal language which tells the
+		  simulator what changes to make to instances’ mutable attributes.
+		</para>
+		<para>
+		  Scenarios are composed of a hierarchy, or tree of elements, each
+		  defining some part of a rule to be applied as time passes in the
+		  simulator - the typical hierarchy looks something like this
+		  (plural items can be <emphasis>repeated</emphasis> at their level,
+		  so there may be several policies all adjacent to one another, each
+		  defining several targets, for example):
+		</para>
+		<itemizedlist>
+		  <listitem>
+			<para>
+			  Scenario
+			</para>
+			<itemizedlist>
+			  <listitem>
+				<para>
+				  Context Parameters
+				</para>
+			  </listitem>
+			  <listitem>
+				<para>
+				  Scheduling rules
+				</para>
+				<itemizedlist>
+				  <listitem>
+					<para>
+					  Operations to schedule
+					</para>
+					<itemizedlist>
+					  <listitem>
+						<para>
+						  Sampling rules
+						</para>
+					  </listitem>
+					  <listitem>
+						<para>
+						  Reporting rules
+						</para>
+					  </listitem>
+					  <listitem>
+						<para>
+						  Actions
+						</para>
+					  </listitem>
+					</itemizedlist>
+				  </listitem>
+				</itemizedlist>
+			  </listitem>
+			</itemizedlist>
+		  </listitem>
+		</itemizedlist>
+		<para>
+		  Each of the terms here represents a class or family of things, so
+		  there are many elements in the language all of which construct
+		  groups, for example.
+		</para>
+		<para>
+		  Here is a quick list of descriptions for the impatient; after that
+		  there is a more detailed explanation of what each of these terms
+		  means, with some examples, and links to the indices for each type
+		  of term.
+		</para>
+		<variablelist>
+		  <varlistentry>
+			<term>
+			  Scenario
+			</term>
+			<listitem>
+			  <para>
+				Collects together all the information about a question or
+				exploration you want to do with the NHM.
+			  </para>
+			</listitem>
+		  </varlistentry>
+		  <varlistentry>
+			<term>
+			  Context Parameters
+			</term>
+			<listitem>
+			  <para>
+				Define some global information in the scenario, which is not
+				really related to a policy; an example would be the weather
+				information used for energy calculations.
+			  </para>
+			</listitem>
+		  </varlistentry>
+		  <varlistentry>
+			<term>
+			  Scheduling rules
+			</term>
+			<listitem>
+			  <para>
+                Define the dates when things should happen, or when to do things in
+                response to other things.
+			  </para>
+			</listitem>
+		  </varlistentry>
+		  <varlistentry>
+			<term>
+			  Action
+			</term>
+			<listitem>
+			  <para>
+				An action takes a house, and may modify it in some way.
+				Complicated actions like choices may be defined by composing
+				together other actions.
+			  </para>
+			</listitem>
+		  </varlistentry>
+		</variablelist>
+	  </section>
+	  <section id="scenario">
+		<title>Scenario</title>
+		<para>
+		  The <xref linkend="ref.scenario" /> element is the root
+		  of the tree, containing all the details for a simulation
+		  run, and determines a few basic control parameters for the
+		  simulation like the quantum <emphasis>q</emphasis>, a start and end 
+		  date for the run and the housing stock to use for a scenario. 
+		  As a scenario, this would look something like:
+		</para>
+		<para>
+		</para>
+		<programlisting language="lisp">(scenario
+	stock-id: stock_1 
+    quantum:10
+	start-date:01/01/2012
+	end-date:01/01/2050
+		  
+	; context parameters ...
+
+	; policies...
+	)</programlisting>
+		<para>
+		  The policies, targets and contextual information for the scenario
+		  are <emphasis>within</emphasis> the scenario logically, so they
+		  must be written <emphasis>between</emphasis> its start and end
+		  tags.
+		</para>
+	  </section>
+	  <section id="context">
+		<title>Context</title>
+		<para>
+		  The contextual part of the scenario defines some of the
+		  second set of mutable instance attributes, in particular
+		  weather conditions taxes, and fuel prices. For example, here
+		  is a stanza setting up some of the <xref
+		  linkend="ref.context.weather" /> for a scenario; it
+		  contains several elements.
+		</para>
+		<para>
+		</para>
+		<programlisting language="lisp">(context.weather
+    (weather
+	    test: (house.region-is London)
+		january: (month temperature:1.5 wind:5.0 insolation:25.0)
+		february: (month temperature:3.5 wind:6.0 insolation:50)
+		; and so on for the remaining months))</programlisting>
+		<para>
+		  Other context parameters set fuel properties, tariffs, and
+		  technology defaults; visit the <xref
+		  linkend="ref.scenario" /> element for a complete list.
+		</para>
+	  </section>
+          <section>
+            <title>Scheduling</title>
+            <para>
+              Apart from context parameters the main things in a scenario will be rules for
+              scheduling events; there are three language terms for scheduling events, <xref
+              linkend="ref.on.dates" />, <xref linkend="ref.on.change" />, and <xref
+              linkend="ref.on.flag" />. <xref linkend="ref.on.dates" /> is the most
+              straightforward. It takes any number of parameters, the first being a list which
+              contains the dates on which to schedule things, and the remainder being things to do
+              on those dates. For example:
+            </para>
+            <programlisting language="lisp">
+              (on.dates
+                (regularly)
+
+                (aggregate name:counts (aggregate.count)))
+            </programlisting>
+            <para>
+              schedules an annual report which will count all of the houses that exist.
+            </para>
+          </section>
+          <section>
+            <title>Things that can be scheduled</title>
+
+            <para>
+              In the example above we used <xref linkend="ref.aggregate" /> to schedule a
+              report. The <xref linkend="cat--Main" /> section contains all of the things which can
+              be scheduled, but <xref linkend="ref.aggregate" /> and <xref
+              linkend="ref.apply" /> are the two most useful; the first reports on aggregations,
+              and the second lets you either modify houses or report on disaggregated values.
+            </para>
+          </section>
+	  <sect3 id="actions">
+	    <title>Actions</title>
+	    <para>
+	      Actions are things which change the simulation’s state, by
+	      modifying some aspects of some instances. The most basic actions
+	      will typically apply a measure to an instance, like insulating a
+	      wall or installing a new technology. Other actions might modify
+	      behavioural attributes associated with an instance, like the
+	      thermostat temperature. A simple example could look like:
+	    </para>
+	    <programlisting language="lisp">(measure.wall-insulation thickness:50 resistance:0.1 type:Cavity)</programlisting>
+	    <para>
+	      which would alter a house so that any uninsulated cavity
+	      walls have their u-value adjusted with the given r-value,
+	      and are marked as filled with 50mm of cavity
+	      insulation. The costing of this would take default values
+	      from elsewhere in the scenario; details on how this works
+	      are specified in the full language document. A full list
+	      of measures is in <xref linkend="cat--Measures" />.
+	    </para>
+	    <para>
+	      As well as measures, there are actions which compose other
+	      actions together to create more complicated behaviour, in the
+	      same way as groups can be defined in terms of other groups. For
+	      example, say the desired change was to do whichever of several
+	      options minimises a cost function like NPV, we could write:
+	    </para>
+	    <programlisting language="lisp">(choice
+	; specify the objective - minimize npv
+    select: (select.minimum (npv))
+	; now list the alternatives
+	(action-a)
+	(action-b)
+	(action-c)
+	(do-nothing))</programlisting>
+		  <para>
+			Which would do whichever of the three actions, and the &quot;null
+			hypothesis&quot; of doing nothing minimized the NPV function on the
+			various outcomes; see <xref linkend="ref.actioncombinations.choice" />, <xref linkend="ref.actioncombinations.do" />, and
+			<xref linkend="ref.action.any-of" />, for some other actions which can be
+			used to compose other actions.
+		  </para>
+		  <para>
+			There are a few other classes of interesting action; two
+			special actions to create new houses and destroy existing
+			ones, <xref linkend="ref.action.construct" /> and <xref
+			linkend="ref.action.demolish" />, and actions like
+			<xref linkend="ref.house.flag" /> which can be used to
+			put or clear a marker on selected houses, to identify them
+			for specialized reporting, exclude them from a group,
+			adjust their costs, and so on.
+		  </para>
+		  <para>
+			For a list of all of the actions available in a scenario,
+			see <xref linkend="cat--Actions" /> and <xref
+			linkend="cat--Measures" />.
+		  </para>
+		</sect3>
+	  </section>
+
+
+	<section>
+	  <title>Money</title>
+	  
+	  <para>
+		Money is an important part of most policies, and so the NHM
+		has a fairly detailed representation of money which tracks its
+		flow between policies, households, energy companies and so
+		forth. The two basic concepts which the NHM uses to represent
+		money are <emphasis>transactions</emphasis> and
+		<emphasis>obligations</emphasis>.
+	  </para>
+
+	  <section>
+		<title>Transactions</title>
+		
+		<para>
+		  The NHM considers money in terms of transactions between
+		  entities; a transaction just details a flow of money from
+		  one entity to another which happens at an instant in
+		  time. An entity is a dwelling, or a named bin of money,
+		  perhaps associated with a policy, or perhaps something like
+		  the market.
+		</para>
+
+		<para>
+		  Transactions are be grouped together and related to the
+		  scenario language which caused them to happen; a little more
+		  on this will be made clear later.
+		</para>
+
+		<para>
+		  Each transaction represents the passing of money from one
+		  entity to another, for a known reason at a particular point
+		  in time. During the simulation, transactions are be
+		  generated as measures are purchased, subsidies are provided
+		  and so on. At the end of the simulation, the entire history
+		  of transactions can be aggregated to answer questions about
+		  who paid what to whom.
+		</para>
+
+		<para>
+		  Every transaction also has associated with it a set of
+		  <emphasis>transaction tags</emphasis>. These are just
+		  plain-text keywords which can be used to aggregate different
+		  tags together for reporting purposes. For example, a loan
+		  would add the tags <literal>:principal</literal> and
+		  <literal>:loan</literal> to the transaction of the principal
+		  to the household, and would put
+		  <literal>:repayment</literal> and <literal>:loan</literal>
+		  on each repayment. Most transaction generating elements will
+		  also allow you to specify arbitrary extra tags for your own
+		  needs. An index of default tags is provided in <xref
+          linkend="ch--Tags" />
+		</para>
+
+		<itemizedlist>
+		  <title>A transaction could represent</title>
+		  <listitem>Purchase of a measure</listitem>
+		  <listitem>Purchase of labour to fit a measure</listitem>
+		  <listitem>Cost of a survey</listitem>
+		  <listitem>Provision of a subsidy to a dwelling</listitem>
+		  <listitem>Payment of a feed in tariff in a particular year</listitem>
+		  <listitem>Payment of an operational cost</listitem>
+		  <listitem>Payment of some taxes</listitem>
+		  <listitem>Purchase of a package of measures</listitem>
+		  <listitem>Receipt of the principal of a loan</listitem>
+		  <listitem>A loan repayment</listitem>
+		</itemizedlist>
+	  </section>
+
+	  <section>
+		<title>Obligations</title>
+		
+		<para>As well as transactions, the NHM will need to represent
+		obligations; an obligation represents a commitment to future
+		transactions.</para>
+		
+		<para>For example, a loan generates several transactions -
+		first there is a payment of the principal from the creditor to
+		the borrower, and then a sequence of repayments over time from
+		the borrower back to the creditor.</para>
+		
+		<itemizedlist>
+		  <title>Other things that can be considered as obligations</title>
+		  <listitem>Operational costs for equipment</listitem>
+		  <listitem>Feed-in tariffs</listitem>
+		  <listitem>Carbon taxes</listitem>
+		  <listitem>Fuel bills</listitem>
+		</itemizedlist>
+	  </section>
+
+	  <para>
+		With these basics in place, we can consider how the NHM treats
+		common financial aspects you will need to use in your
+		scenarios.
+	  </para>
+
+	  <section>
+		<title>Subsidy &amp; Loans</title>
+		
+        <para>
+          You can pay for something using a subsidy using <xref
+          linkend="ref.finance.with-subsidy" />.
+        </para>
+
+		<para>The NHM also understands a single type of loan at the
+        moment; a fixed-rate fixed-repayment loan. This can be
+        associated with a house using the <xref
+        linkend="ref.finance.with-loan" /> element to enclose
+		another action.
+		</para>
+	  </section>
+
+	  <section>
+		<title>Tariffs</title>
+
+		<para><emphasis>Tariffs</emphasis> determine the amount that
+		households pay for using the various fuels that they
+		consume. Every household has an obligation associated with it,
+		to pay its fuel bill once a year at the year's end. That
+		obligation uses the house's associated tariffs to determine
+		the transactions that result from paying the bill.</para>
+
+		<para>
+		  Each tariff defines a set of <emphasis>charges</emphasis>
+		  which are due for particular fuels. A charge defines a
+		  transaction between the householder and a third party; for
+		  example, a typical tariff might specify three charges for
+		  each fuel, a standing charge, a per-unit cost, and a final
+		  taxation charge. The standing charge is just a constant
+		  which is paid to the energy company, the per-unit cost
+		  depends on the house's meter reading which again is paid to
+		  the energy company, and the tax is a third cost which is a
+		  function of the other two paid to HMRC.
+
+		  This structure allows the fuel bill to be broken
+		  arbitrarily; it would also be possible to express the base
+		  price of fuels and the energy companies' profits as separate
+		  charges.
+		</para>
+		<para>
+		  See <xref linkend="ref.tariff" /> for examples of how
+		  this can be defined
+		</para>
+	  </section>
+
+	  <section>
+		<title>Capital &amp; Operational Costs</title>
+
+		<para>
+		  Whenever a measure is installed in a house, a capital cost
+		  will be incurred by the house and transmitted to the market
+		  for that measure; the capital cost is typically determined
+		  by a capital cost rule on the technology or measure element.
+		</para>
+
+		<para>
+		  Heating measures also have an associated operational cost or
+		  <emphasis>opex</emphasis>, which is computed at the time of
+		  their installation using the opex rule. Every house has an
+		  obligation to pay the maintenance costs associated with all
+		  its technologies once per year; this is represented by a
+		  single maintenance transaction for any opex-having devices.
+		</para>
+	  </section>
+
+	  <section>
+		<title>Taxation &amp; Inflation</title>
+
+		<para>
+		  Both of these are complex issues, which would be very hard
+		  to handle in a flexible but automatic manner. Instead, we
+		  have taken the decision not to build inflation or taxation
+		  into the NHM's understanding of money, but to leave it to
+		  the end user. As such, all NHM transactions are in
+		  un-inflated terms (relative changes in pricing are of course
+		  possible), and all taxation must be explicitly written by
+		  sending transactions to HMRC at appropriate points in the
+		  scenario. Some examples of how you could write tax in
+		  different situations follow:
+		</para>
+
+		<section>
+		  <title>Tax on purchases</title>
+
+		  <example>
+			<title>Adding fixed-rate VAT to the purchase of a boiler</title>
+			<para>
+			  Here we just purchase a boiler, and then multiply <xref
+			  linkend="ref.cost.capex" /> by a fixed rate to work out
+			  the amount of tax paid.
+			</para>
+
+			<programlisting language="lisp">(measure.with-cost 
+	; the cost is called tax
+	name:tax
+
+	; the cost amount is 20% of the capex
+    cost:(* 20% (cost.capex))
+
+	; finally the first non-named argument is the standard boiler measure
+	(measure.standard-boiler efficiency:90%))</programlisting>
+		  </example>
+
+		  <example>
+			<title>Adding variable-rate VAT to the purchase of a boiler</title>
+
+			<para>
+			  This is just like the preceding example, except we use a
+			  more complex function to determine the amount of tax
+			  paid. This function gives a tax rate of 20 percent up to
+			  2030, and 10 percent from then on.
+			</para>
+			
+			<programlisting language="lisp">(measure.with-cost name:tax
+    cost:(function.case default:10% (when (sim.year-is below:2030) 20%))
+
+	(measure.standard-boiler efficiency:90%))</programlisting>
+		  </example>
+
+		  <example>
+			<title>Adding VAT to the purchase of a boiler, after a subsidy</title>
+
+			<para>
+			  In this example, a subsidy is provided before tax, which
+			  covers 50 percent of the cost of a boiler. Once the
+			  subsidy has been paid, we find the remaining cost using
+			  <xref linkend="ref.cost.sum" /> and tax that.
+			</para>
+
+			<programlisting language="lisp">(measure.with-cost
+    name:tax
+    cost: (* 20% (cost.sum))
+
+	(measure.with-subsidy
+	    name:subisdy
+		subsidy: (0.5 * (cost.capex))
+
+		(measure.standard-boiler efficiency:90%)))</programlisting>
+		  </example>
+
+		  <example>
+			<title>Adding VAT to the purchase of a boiler, before a subsidy</title>
+
+			<para>
+			  This is analogous to the previous example, but where the
+			  subsidy is defined to be 50 percent of the cost of the
+			  boiler after tax has been paid.
+			</para>
+
+			<programlisting language="lisp">(measure.with-subsidy
+    name:subsidy
+	subsidy:(* 0.5 (cost.sum))
+	
+	(measure.with-cost 
+	    name:tax
+		cost: (* 20% (cost.capex))
+		
+		(measure.standard-boiler efficiency:90%)))</programlisting>
+		  </example>
+
+		  <example>
+			<title>Adding VAT to the purchase of a boiler, after a loan
+			which covers some of the cost</title>
+
+			<para>
+			  Here we consider an example where the householder is able
+			  to take out a loan, which will cover half of the taxable
+			  value of the purchase. They are only required to pay tax
+			  on the remainder. To achieve the converse behaviour, we
+			  could move the loan around the tax, analogously to the
+			  previous example.
+			</para>
+
+			<programlisting language="lisp">(measure.with-cost
+    name:tax
+	cost:(* 0.5 (cost.sum))
+	
+	(finance.with-loan term:10 rate:5%
+	    principal:(* 0.5 (cost.capex))
+		
+		(measure.standard-boiler efficiency:90%)))</programlisting>
+		  </example>
+
+		  <para>
+  			Although this may seem cumbersome, the alternatives all
+  			involve behaviour that is more automatic but ultimately
+  			either insufficiently flexible or very difficult to
+  			follow. Hopefully the examples above show how many
+  			variations in tax structure there could be, and how
+  			difficult it would be to handle these automatically.
+		  </para>
+		</section>
+		<section>
+		  <title>Tax on fuels</title>
+		  
+		  <para>
+			Apart from tax on purchase of measures, you will also need
+			to consider tax on fuel bills. As already mentioned, fuel
+			tax is defined as a part of a household's tariff for that
+			fuel. Examples for this are given in <xref
+			linkend="ref.tariff" />.
+		  </para>
+		</section>
+	  </section>
+	  
+	  <section>
+		<title>Money &amp; Behaviour</title>
+
+		<para>
+		  Money and behaviour are closely linked, and in many policies
+		  adjustments to a household's financial environment are the
+		  &quot;levers&quot; through which the policy's authors wish
+		  to effect behaviour change.
+		</para>
+		<para>
+		  In some approaches to modelling behaviour, it is popular to
+		  conflate these changes to the financial environment with
+		  <emphasis>monetised</emphasis> representations of other
+		  factors. For example, peoples' aversion to doing annoying
+		  things might be financialised by an experiment in which
+		  people are offered money to do the annoying things, and the
+		  minimum payment required is taken to have revealed some
+		  aspect of the person's internal model which is assumed to be
+		  denominated in currency.
+		</para>
+		<para>
+		  Although the NHM's behaviour models will support such
+		  representations, they will not be handled using the money
+		  subsystem unless the behavioural terms actually represent a
+		  flow of money between two identifiable parties; consequently
+		  <emphasis>hidden</emphasis> costs might be represented as
+		  money, whereas <emphasis>hassle</emphasis> costs would be
+		  considered an additional term for the behavioural model
+		  which should not be included in a dwelling's transaction
+		  history (after all, there is no benefiting party when one
+		  experiences hassle).
+		</para>
+	  </section>
+
+      <section>
+		<title>Reporting on Money</title>
+
+		<para>
+		  There are two reports which provide information about the
+		  movement of money within the simulation: <xref
+		  linkend="ref.report.global-accounts" />, which generates
+		  a table listing all of the transactions between any
+		  dwellings and parties like policies, energy companies and so
+		  on, and <xref linkend="ref.report.transactions" />, which
+		  generates a (optionally filtered) table detailing all the
+		  transactions for a defined group of houses.
+		</para>
+		<para>
+		  Using these two tables you can trace any aspect of the flow
+		  of money in the simulation, as they provide all the
+		  information that the simulator has produced regarding it.
+		</para>
+	  </section>
+	  
+	</section>
+
+	<section id="reporting-analysis">
+	  <title>Reporting &amp; Analysis</title>
+	  <para>
+		Specifying and evaluating a scenario is all very well, but to be any
+		use the NHM must produce some informative
+		<emphasis>output</emphasis> for you. To this end, the NHM produces a
+		bundle of reports, which you can download or explore directly
+		through the application. Every run will produce a set of standard
+		reports, which give some insight into the behaviour of the
+		simulation, but may require some post-processing to extract useful
+		summary information. These reports are currently all tabular
+		information, stored in tab-separated text (TSV) files.
+	  </para>
+	  <para>
+		It is also possible to specify additional reports for the
+		simulator to compute during the run, by adding scenario
+		elements from <xref linkend="cat--Reports" />. Some help is
+		directly available from the report bundle itself, which
+		contains descriptions of most of the tables generated. An
+		overview of the most important standard reports, and the
+		user-defined reporting mechanisms follows here as well:
+	  </para>
+	  <section id="standard-reports">
+		<title>Standard Reports</title>
+		<para>
+		  All the standard reports are tables; some of these tables give
+		  information about the individual simulation instances’ experiences
+		  during the simulation (dwelling reports), and are related by
+		  various keys, whereas others are standard tables of interest
+		  (aggregations, below).
+		</para>
+		<sect3 id="dwelling-reports">
+		  <title>Dwelling Reports</title>
+		  <para>
+			These reports describe the condition of individual dwellings;
+			every one has a <literal>dwelling-id</literal> column, which
+			gives a unique global identifying number for an instance which
+			will only pertain to that instance for the lifespan of the
+			simulation. They are change logs, so each row also has a
+			<literal>date</literal> column which gives the date on which a
+			change has happened to the particular instance; when ordered by
+			date, the information in each row pertains to that instance over
+			simulated time until the next row with the same
+			<literal>dwelling-id</literal>. Since these reports can contain
+			millions of rows, spreadsheet programs may not be well-suited to
+			processing them; they also have a relational structure which is
+			best operated on with a relational database.
+		  </para>
+		  <variablelist>
+			<varlistentry>
+			  <term>
+				dwelling/costs.tsv
+			  </term>
+			  <listitem>
+				<para>
+				  Gives the annual fuel costs for each dwelling, broken down
+				  by fuel and service - this is a <emphasis>rate</emphasis>
+				  of payment in £/year, <emphasis>not</emphasis> the amount
+				  paid in the given year. To get the amount paid this table
+				  needs integrating.
+				</para>
+			  </listitem>
+			</varlistentry>
+			<varlistentry>
+			  <term>
+				dwelling/emissions.tsv
+			  </term>
+			  <listitem>
+				<para>
+				  Gives the annual emissions for each dwelling, analogously
+				  to the costs table.
+				</para>
+			  </listitem>
+			</varlistentry>
+			<varlistentry>
+			  <term>
+				dwelling/energy.tsv
+			  </term>
+			  <listitem>
+				<para>
+				  Gives the annual energy consumption for each dwelling, in
+				  kWh/year. Also analogous to costs and emissions.
+				</para>
+			  </listitem>
+			</varlistentry>
+			<varlistentry>
+			  <term>
+				dwelling/installationLog.tsv
+			  </term>
+			  <listitem>
+				<para>
+				  Gives a log of technologies installed in each instance,
+				  with sizing and cost information.
+				</para>
+			  </listitem>
+			</varlistentry>
+			<varlistentry>
+			  <term>
+				dwelling/structure.tsv
+			  </term>
+			  <listitem>
+				<para>
+				  This table has a little complexity - it is
+				  normalized into
+				  dwelling/housing-stock-attributes.tsv, through the
+				  attributes-id field. This normalisation table
+				  contains various bits of information describing the
+				  condition of an instance, so to get the condition of
+				  an instance over time you must join structure and
+				  housing stock attributes on the attributes-id field
+				  in each. If this description is unclear, <xref
+				  linkend="appendix--databases" /> explains how to use
+				  a relational database in a little more detail.
+				</para>
+			  </listitem>
+			</varlistentry>
+			<varlistentry>
+			  <term>
+				dwelling/housing-stock-attributes.tsv
+			  </term>
+			  <listitem>
+				<para>
+				  This is just the normalisation mentioned above - it isn’t
+				  useful apart from dwelling/structure.tsv.
+				</para>
+			  </listitem>
+			</varlistentry>
+		  </variablelist>
+		  <para>
+			All of these reports can be analysed on their own
+			(although the structure and attributes tables are only
+			useful together), but if information is required about,
+			say, energy use broken down by household a user-defined
+			report or a relatively complex query would be
+			necessary. See <xref linkend="appendix--databases" /> for
+			more on this.
+		  </para>
+		</sect3>
+		<sect3 id="aggregations">
+		  <title>Aggregations</title>
+		  <para>
+			These reports are standard aggregations, which contain some
+			information about the overall housing stock:
+		  </para>
+		  <variablelist>
+			<varlistentry>
+			  <term>
+				aggregates/national-power.tsv
+			  </term>
+			  <listitem>
+				<para>
+				  Gives the overall power consumption in kWh/year for the
+				  whole simulation. Each row describes a period of time in
+				  which the consumption rate did not change.
+				</para>
+			  </listitem>
+			</varlistentry>
+			<varlistentry>
+			  <term>
+				aggregates/demolition.tsv
+			  </term>
+			  <listitem>
+				<para>
+				  Gives the count of houses in each region of the simulation
+				  over time.
+				</para>
+			  </listitem>
+			</varlistentry>
+			<varlistentry>
+			  <term>
+				aggregates/technology-distribution.tsv
+			  </term>
+			  <listitem>
+				<para>
+				  Gives the count of houses with different technologies
+				  installed over time.
+				</para>
+			  </listitem>
+			</varlistentry>
+			<varlistentry>
+			  <term>
+                aggregates/measureCosts.tsv
+			  </term>
+			  <listitem>
+				<para>
+				  Gives a summary of the costs and sizes of various
+				  different measures installed in the simulation.
+				</para>
+			  </listitem>
+			</varlistentry>
+		  </variablelist>
+		  <para>
+			These aggregates will typically be quite small, and so can often
+			be opened in a simple spreadsheet program without difficulty. Of
+			course, if you define an aggregation or a policy which produce a
+			lot of information, you may need to use a relational database
+			instead.
+		  </para>
+		</sect3>
+	  </section>
+	  <section id="user-defined-reports">
+		<title>User-defined Reports</title>
+		<para>
+		  Using the elements from <xref linkend="cat--Reports" />, you
+		  can specify other kinds of report which can be configured to
+		  meet particular needs.
+		</para>
+		<sect3 id="time-series-information">
+		  <title>Time-series Information</title>
+		  <para>
+			The <xref linkend="ref.report.aggregate" /> element
+			lets you define aggregations which will be evaluated
+			within the simulation. These aggregations have two parts:
+		  </para>
+		  <itemizedlist>
+			<listitem>
+			  <para>
+				A list of subsets of the housing stock, on which to compute
+				the aggregate. There are several devices for defining these
+				subsets:
+			  </para>
+			  <itemizedlist>
+				<listitem>
+				  <para>
+					<xref linkend="ef.division.by-combination" />
+					will create subsets from the cross-product of any
+					number of house properties; for example you could
+					use this with and to get aggregates broken down by
+					all regions and morphology types.
+				  </para>
+				</listitem>
+				<listitem>
+				  <para>
+					<xref linkend="ref.division.by-group" />
+					allows you to define groups using the standard group
+					elements above; using would let you refer to groups used
+					in particular targets elsewhere in the scenario, or you
+					could define some new groups here for whatever purpose.
+				  </para>
+				</listitem>
+				<listitem>
+				  <para>
+					<xref linkend="ref.division.by-case" />
+					creates subsets from a cascading sequence of boolean
+					tests.
+				  </para>
+				</listitem>
+			  </itemizedlist>
+			</listitem>
+			<listitem>
+			  <para>
+				A list of aggregate functions to compute for each
+				subset defined above, which can be <xref
+				linkend="ref.aggregate.count" /> to record the size
+				of a group over time, <xref
+				linkend="ref.aggregate.sum" /> to sum a value over
+				all the houses in a group, or <xref
+				linkend="ref.aggregate.mean" /> to take the
+				arithmetic mean of a value over all houses in the
+				group.
+			  </para>
+			</listitem>
+		  </itemizedlist>
+		  <para>
+			If you have included an aggregate report in your scenario, the
+			generated report bundle will contain an interactive chart viewer
+			which will plot the timeseries, and a tabular version of the
+			data behind it which you can use in external programs.
+		  </para>
+		  <para>
+			Like the standard aggregate reports, time series reports rarely
+			have a lot of points and so are often amenable to analysis in a
+			spreadsheet.
+		  </para>
+		</sect3>
+		<sect3 id="group-membership">
+		  <title>Group Membership</title>
+		  <para>
+			To keep track of which dwellings are in a group, you can
+			use the <xref linkend="ref.report.dwellings" />
+			element; this will produce a table in which each row gives
+			the ID of a dwelling entering, leaving or remaining in a group, the
+			direction of change, the date of change, the cause of the
+			change, and a list of user-specified values from the
+			house.
+		  </para>
+		</sect3>
+		<sect3 id="group-transitions">
+		  <title>Group Transitions</title>
+		  <para>
+			The group transition report (<xref
+			linkend="ref.report.group-transitions" />) defines a
+			set of non-intersecting groups using a cascading sequence
+			of boolean tests, and emits a Sankey-type diagram which
+			shows the the flows of dwellings between these
+			non-intersecting groups. Each flow is annotated with the
+			target which caused the change. This could be used, for
+			example, to see which targets are moving instances from
+			one condition to another. Because the diagram requires
+			some structured data to display it, it does not have a
+			convenient tabular representation usable in a spreadsheet
+			or database.
+		  </para>
+		</sect3>
+	  </section>
+	  <section id="probes">
+		<title>Probes</title>
+		<para>
+		  These reports only produce information about things which actually
+		  happen in the simulation, using the information which is available
+		  once the simulator has operated on some houses. It is also
+		  possible to capture information <emphasis>within</emphasis> the
+		  execution of the simulation by using <emphasis>probes</emphasis>.
+		</para>
+		<para>
+		  A probe is a special scenario element which
+		  <emphasis>encloses</emphasis> another element you are
+		  interested in and records some additional information for
+		  you when the enclosed element is used. There are two kinds
+		  of probe, <xref linkend="ref.function.probe" /> which
+		  encloses any numeric function, and <xref
+		  linkend="ref.probe" /> which encloses any action.
+		</para>
+		<para>
+		  These two devices are especially useful for the following
+		  circumstances:
+		</para>
+		<itemizedlist>
+		  <listitem>
+			<para>
+			  Observing the evaluation of <emphasis>hypotheses</emphasis> in
+			  a choice, to understand why a particular option is not being
+			  selected as often as one might expect, for example
+			</para>
+		  </listitem>
+		  <listitem>
+			<para>
+			  Investigating the effect that a particular measure has
+			</para>
+		  </listitem>
+		  <listitem>
+			<para>
+			  Determining when a measure is unsuitable for some houses
+			</para>
+		  </listitem>
+		</itemizedlist>
+		<para>
+		  The examples associated with the elements should explain the use
+		  of probes in some more detail.
+		</para>
+	  </section>
+	  <section id="captured-inputs">
+		<title>Captured Inputs</title>
+		<para>
+		  Along with the reports, the output zip file also contains the
+		  inputs required to rerun the scenario from scratch. This serves
+		  two purposes: firstly, it allows you to be certain about the
+		  scenario associated with a particular report, even if that report
+		  has been exported from the NHM and is living in a filesystem
+		  somewhere apart from its original scenario. Secondly, in the event
+		  that a scenario exposes a fault in the NHM, it is very useful to
+		  have the exact inputs which caused the fault for later analysis.
+		</para>
+		<para>
+		  At the moment, the inputs captured are:
+		</para>
+		<itemizedlist>
+		  <listitem>
+			<para>
+			  The scenario input, including all included scenarios;
+			  these will be exported into a set of
+			  <literal>.s</literal> files whose names match the
+			  scenario names from the NHM.
+			</para>
+		  </listitem>
+		  <listitem>
+			<para>
+			  The state of the stock at the start of the run; this is
+			  exported into a single <literal>stock.json</literal> file.
+			  Each line of this file corresponds to one of the survey cases
+			  the simulation loaded at start-up, expressed in a structured
+			  form. This file is likely to be most beneficial for the second
+			  purpose described above.
+			</para>
+		  </listitem>
+		</itemizedlist>
+	  </section>
+	</section>
+	
+	<xi:include href="batch.xml" />
+	<xi:include href="include.xml" />
+	<xi:include href="variables.xml" />
+	<xi:include href="efficiency.xml" />
+  </chapter>
+</part>

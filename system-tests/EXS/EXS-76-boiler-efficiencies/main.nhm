@@ -1,0 +1,48 @@
+(scenario
+ start-date: 2016
+ end-date: 2016
+ stock-id:   ../../stock.json
+
+ ;; For some houses with boilers, set their efficiency in various ways (including by installing a new boiler).
+ ;; Use house.efficiency to report on them, so that we can see if the changes worked as expected.
+
+ (def-report
+   report
+
+   (column name: flags value: (house.flags))
+   (column name: winter value: (winter))
+   (column name: summer value: (summer)))
+
+ (def-action install-boiler (measure.standard-boiler fuel: MainsGas winter-efficiency: 90% summer-efficiency: 85% update-flags: got-boiler))
+ (def-action change-efficiency (action.change-efficiency winter-efficiency: 95% summer-efficiency: 80% direction: Set update-flags: got-explicit-efficiency))
+ (def-action change-winter-efficiency (action.change-efficiency winter-efficiency: 50% direction: Set update-flags: got-winter-efficiency))
+ (def-action change-summer-efficiency-relative (action.change-efficiency summer-efficiency: -20% direction: Set update-flags: got-summer-efficiency-relative))
+
+ (on.dates
+  (scenario-start)
+
+  (test #install-boiler)
+  (test #change-efficiency)
+  (test #change-winter-efficiency)
+  (test #change-summer-efficiency-relative)))
+
+(template test [@1:action]
+	  (apply
+	   to: (can-change-efficiency)
+	   (do
+	    report: #report
+	    update-flags: used
+	    @action)))
+
+(template can-change-efficiency []
+	  (sample 1000
+		  (filter
+		   (all
+		    (house.has-boiler)
+		    (house.flags-match !used)))))
+
+(template summer []
+	  (house.heating-efficiency of: PrimarySpaceHeating measurement: Summer))
+
+(template winter []
+	  (house.heating-efficiency of: PrimarySpaceHeating measurement: Winter))
