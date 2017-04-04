@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>uk.org.cse.nhm.manual</groupId>
   <artifactId>parent</artifactId>
-  <version>6.5.6</version>
+  <version>6.5.6-SNAPSHOT</version>
   <packaging>pom</packaging>
   <!--
       This maven project and its submodules make the documentation.
@@ -13,9 +13,9 @@
   -->
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <nhm.version>6.5.6</nhm.version>
+    <nhm.version>6.5.6-SNAPSHOT</nhm.version>
     <nhmversion>${nhm.version}</nhmversion>
-    <stockimport.version>6.5.6</stockimport.version>
+    <stockimport.version>6.5.6-SNAPSHOT</stockimport.version>
     <docbook.directory>${project.build.directory}/docbook/</docbook.directory>
     <pdf.directory>${project.build.directory}/pdf/</pdf.directory>
   </properties>
