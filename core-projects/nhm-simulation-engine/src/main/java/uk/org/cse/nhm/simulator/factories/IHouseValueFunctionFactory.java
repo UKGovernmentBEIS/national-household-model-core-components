@@ -11,6 +11,7 @@ import uk.org.cse.nhm.language.definition.function.house.XBuildYear2;
 import uk.org.cse.nhm.language.definition.function.house.XBuiltForm;
 import uk.org.cse.nhm.language.definition.function.house.XFloorConstructionType;
 import uk.org.cse.nhm.language.definition.function.house.XGetProportionOfDoubleGlazedWindows;
+import uk.org.cse.nhm.language.definition.function.house.XHouseLightingProportion;
 import uk.org.cse.nhm.language.definition.function.house.XHouseholdIncome;
 import uk.org.cse.nhm.language.definition.function.house.XMainHeatingFuel;
 import uk.org.cse.nhm.language.definition.function.house.XMainHeatingFuel2;
@@ -27,10 +28,12 @@ import uk.org.cse.nhm.language.definition.function.house.XSurveyCode;
 import uk.org.cse.nhm.language.definition.function.house.XTenure;
 import uk.org.cse.nhm.language.definition.function.house.XTotalFloorArea;
 import uk.org.cse.nhm.language.definition.function.house.XVolume;
+import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.GetAgeOfHeatingSystem;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.GetBuildYear;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.GetBuiltForm;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.GetFloorConstructionType;
+import uk.org.cse.nhm.simulator.state.functions.impl.house.GetHouseLightingProportion;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.GetHouseholdIncome;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.GetInsolation;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.GetMainHeatingFuel;
@@ -118,6 +121,7 @@ public interface IHouseValueFunctionFactory {
 
 	@Adapt(XGetProportionOfDoubleGlazedWindows.class)
     public GetProportionOfDoubleGlazedWindows getProportionOfDoubleGlazedWindows();
+	
 	public GetInsolation getGetInsolation(@Assisted("orientation") final double orientation,
                                           @Assisted("inclination") final double inclination);
 
@@ -125,4 +129,9 @@ public interface IHouseValueFunctionFactory {
 	public RoofAreaFunction createRoofAreaFunction(
 			@Prop(XRoofArea.P.pitchCorrection)
 			@Assisted boolean pitchCorrection);
+	
+	@Adapt(XHouseLightingProportion.class)
+	public GetHouseLightingProportion getGetHouseLightingProportion(
+			@Assisted("maxEfficiency") @Prop(XHouseLightingProportion.P.maxEfficiency) final IComponentsFunction<Number> maxEfficiency,
+			@Assisted("minEfficiency") @Prop(XHouseLightingProportion.P.minEfficiency) final IComponentsFunction<Number> minEfficiency);
 }

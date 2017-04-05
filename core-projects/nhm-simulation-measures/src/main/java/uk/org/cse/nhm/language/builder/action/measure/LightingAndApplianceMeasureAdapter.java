@@ -5,6 +5,8 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
+import com.google.inject.assistedinject.Assisted;
+
 import uk.org.cse.commons.names.Name;
 import uk.org.cse.nhm.hom.emf.technologies.IAdjuster;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;
@@ -19,8 +21,10 @@ import uk.org.cse.nhm.language.definition.action.measure.adjust.XAdjustment;
 import uk.org.cse.nhm.language.definition.action.measure.adjust.XClearAdjustmentsAction;
 import uk.org.cse.nhm.language.definition.action.measure.adjust.XRemoveAdjustmentAction;
 import uk.org.cse.nhm.language.definition.action.measure.lighting.XLightingMeasure;
+import uk.org.cse.nhm.language.definition.action.measure.lighting.XLightingProportionsMeasure;
 import uk.org.cse.nhm.language.definition.enums.XFuelType;
 import uk.org.cse.nhm.simulation.measure.factory.IMeasureFactory;
+import uk.org.cse.nhm.simulation.measure.lighting.LightingProportionMeasure;
 import uk.org.cse.nhm.simulator.main.Initializable;
 import uk.org.cse.nhm.simulator.scope.IComponentsAction;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
@@ -43,6 +47,19 @@ public class LightingAndApplianceMeasureAdapter extends ReflectingAdapter {
 		
 		return factory.createLowEnergyLightingMeasure(threshold, proportion, capex);
 	}
+	
+	@Adapt(XLightingProportionsMeasure.class)
+    public LightingProportionMeasure createLightingProportionMeasure(
+    		@Assisted("proportionOfCfl") @Prop(XLightingProportionsMeasure.P.proportionOfCfl) final IComponentsFunction<Number> proportionOfCfl,
+			@Assisted("proportionOfIcandescent") @Prop(XLightingProportionsMeasure.P.proportionOfIcandescent) final IComponentsFunction<Number> proportionOfIcandescent,
+			@Assisted("propotionOfHAL") @Prop(XLightingProportionsMeasure.P.proportionOfHAL) final IComponentsFunction<Number> propotionOfHAL,
+			@Assisted("proportionOfLED") @Prop(XLightingProportionsMeasure.P.proportionOfLED) final IComponentsFunction<Number> proportionOfLED
+    		){
+				
+		return factory.createLightingProportionMeasure(proportionOfCfl, proportionOfIcandescent, propotionOfHAL, proportionOfLED);
+	}
+	
+	
 	
 	@Adapt(XAddAdjustmentAction.class)
 	public IComponentsAction buildAddAdjustmentAction(

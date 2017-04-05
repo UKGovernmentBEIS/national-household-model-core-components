@@ -18,6 +18,9 @@ import uk.org.cse.nhm.hom.emf.technologies.IAdjuster;
 import uk.org.cse.nhm.hom.emf.technologies.StorageHeaterControlType;
 import uk.org.cse.nhm.hom.emf.technologies.StorageHeaterType;
 import uk.org.cse.nhm.hom.structure.IWall;
+import uk.org.cse.nhm.language.adapt.impl.Adapt;
+import uk.org.cse.nhm.language.adapt.impl.Prop;
+import uk.org.cse.nhm.language.definition.action.measure.lighting.XLightingProportionsMeasure;
 import uk.org.cse.nhm.language.definition.enums.XChangeDirection;
 import uk.org.cse.nhm.simulation.measure.HeatingControlMeasure;
 import uk.org.cse.nhm.simulation.measure.StorageHeaterMeasure;
@@ -42,6 +45,7 @@ import uk.org.cse.nhm.simulation.measure.insulation.ModifyRoofInsulationMeasure;
 import uk.org.cse.nhm.simulation.measure.insulation.ModifyWallInsulationMeasure;
 import uk.org.cse.nhm.simulation.measure.insulation.RoofInsulationMeasure;
 import uk.org.cse.nhm.simulation.measure.insulation.WallInsulationMeasure;
+import uk.org.cse.nhm.simulation.measure.lighting.LightingProportionMeasure;
 import uk.org.cse.nhm.simulation.measure.lighting.LowEnergyLightingMeasure;
 import uk.org.cse.nhm.simulation.measure.otherspaceheating.WarmAirMeasure;
 import uk.org.cse.nhm.simulation.measure.renewables.SolarHotWaterMeasure;
@@ -241,4 +245,11 @@ public interface IMeasureFactory {
             @Assisted("capex") final IComponentsFunction<Number> capitalCostFunction,
             @Assisted("opex") final IComponentsFunction<Number> operationalCostFunction,
             @Assisted("efficiency") final IComponentsFunction<Number> efficiency);
+    
+    public LightingProportionMeasure createLightingProportionMeasure(
+    		@Assisted("proportionOfCfl") @Prop(XLightingProportionsMeasure.P.proportionOfCfl) final IComponentsFunction<Number> proportionOfCfl,
+			@Assisted("proportionOfIcandescent") @Prop(XLightingProportionsMeasure.P.proportionOfIcandescent) final IComponentsFunction<Number> proportionOfIcandescent,
+			@Assisted("propotionOfHAL") @Prop(XLightingProportionsMeasure.P.proportionOfHAL) final IComponentsFunction<Number> propotionOfHAL,
+			@Assisted("proportionOfLED") @Prop(XLightingProportionsMeasure.P.proportionOfLED) final IComponentsFunction<Number> proportionOfLED
+    		);
 }

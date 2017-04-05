@@ -1,5 +1,6 @@
 package uk.org.cse.nhm.simulator.integration.tests;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -7,7 +8,10 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.net.URI;
 import java.nio.file.Files;
+import java.nio.file.OpenOption;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -113,6 +117,7 @@ public class SimulatorIntegrationTest {
             public OutputStream createReportFile(final String name,
                     final Optional<IReportDescriptor> descriptor) {
                 try {
+                	//TODO: Eh?
                     return Files.newOutputStream(Paths.get("/home/hinton/scratch/stock.json"));
                 } catch (final IOException e) {
                     e.printStackTrace();
@@ -186,13 +191,18 @@ public class SimulatorIntegrationTest {
             final Injector inj = Guice.createInjector(
                     new StandardJacksonModule()
                     );
-
-            final ZipInputStream zip = new ZipInputStream(
-                    SimulatorIntegrationTest.class.getResourceAsStream("/stock.zip"));
-
+            
+            Path toZip = Paths.get("src","test","resources", "stock.zip");
+            Assert.assertTrue(toZip.toFile().exists());
+            
+            final ZipInputStream zip = new ZipInputStream(Files.newInputStream(
+            		toZip, 
+            		StandardOpenOption.READ));
+            
             ZipEntry entry;
             do {
                 entry = zip.getNextEntry();
+                entry.getName();
             } while ((entry != null) && !entry.getName().equals("stock.json"));
 
             dataService = new CliStockService(inj.getInstance(ObjectMapper.class),
