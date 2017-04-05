@@ -3,7 +3,6 @@ package uk.org.cse.nhm.simulator.state.functions.impl.house;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
 import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.simulator.let.ILets;
 import uk.org.cse.nhm.simulator.scope.IComponentsScope;
@@ -28,7 +27,8 @@ public class RoofAreaFunctionTest {
 		scope = mock(IComponentsScope.class);
 
 		when(scope.get(structureDim)).thenReturn(structure);
-		when(structure.getExternalRoofArea()).thenReturn(1d);
+		when(structure.getExternalRoofArea(false)).thenReturn(1d);
+		when(structure.getExternalRoofArea(true)).thenReturn(1d / Math.cos(Math.PI * 2 * 35 / 360));
 	}
 
 	@Test
@@ -38,21 +38,5 @@ public class RoofAreaFunctionTest {
 				new RoofAreaFunction(structureDim, false).compute(scope, lets),
 				0d
 			);
-	}
-
-	@Test
-	public void pitchCorrection() {
-		when(structure.getRoofConstructionType()).thenReturn(RoofConstructionType.Flat);
-
-		for (final RoofConstructionType roofType : RoofConstructionType.values()) {
-			when(structure.getRoofConstructionType()).thenReturn(roofType);
-
-			Assert.assertEquals(
-					roofType.toString(),
-					roofType.isPitched() ? 1.22d : 1d,
-					new RoofAreaFunction(structureDim, true).compute(scope, lets),
-					0.01d
-				);
-		}
 	}
 }

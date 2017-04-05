@@ -41,19 +41,21 @@ public class StructureModelTest {
 			structure.addStorey(size4);
 
 			Assert.assertEquals(
-				"Single storey unit square " + type,
-				type.isFlat() ? 0d : 4d,
-				structure.getExternalRoofArea(),
-				0
+				"Single storey unit square " + type + " rooftype " + structure.getRoofConstructionType(),
+				type.isFlat() ? 0d :
+					structure.getRoofConstructionType().isPitched() ? 4.883d : 4d,
+				structure.getExternalRoofArea(true),
+				0.01
 			);
 
 			structure.addStorey(size1);
 
 			Assert.assertEquals(
-				"Two storey, upper storey 'contained' by lower " + type,
-				type.isFlat() ? 0d : 4d,
-				structure.getExternalRoofArea(),
-				0
+				"Two storey, upper storey 'contained' by lower " + type + " rooftype " + structure.getRoofConstructionType(),
+				type.isFlat() ? 0d :
+					structure.getRoofConstructionType().isPitched() ? 4.883d : 4d,
+				structure.getExternalRoofArea(true),
+				0.01
 			);
 		}
 	}

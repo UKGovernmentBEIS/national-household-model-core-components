@@ -57,6 +57,16 @@ public class StructureModel implements ICopyable<StructureModel> {
 	private final List<Storey> storeys = new ArrayList<Storey>();
 
 	/*
+	 *  The roof area from the surveys is cross-section area.
+	 *
+	 *  For pitched roofs, we need to do some trigonometry to get the real area.
+	 *
+	 *  We assume pitched roofs have a 35 degree angle based on SAP 2012 S11.1 b
+	 *  This conflicts with SAP 2012 S3.8. Yuck.
+	 */
+	private static final double pitchCorrectionFactor = Math.cos(Math.toRadians(35));
+
+	/*
 	BEISDOC
 	NAME: Living Area Proportion
 	DESCRIPTION: The size of the living area of the house, divided by the total floor area of the house.
@@ -385,7 +395,7 @@ public class StructureModel implements ICopyable<StructureModel> {
 	}
 
 	public double getEnvelopeArea() {
-		final double roof = getExternalRoofArea();
+		final double roof = getExternalRoofArea(true);
 		final double floor = getExternalFloorArea();
 		double wall = 0;
 		for (final Storey s : storeys) {
@@ -420,13 +430,17 @@ public class StructureModel implements ICopyable<StructureModel> {
 	 * @since 1.3.4
 	 * @return
 	 */
-	public double getExternalRoofArea() {
+	public double getExternalRoofArea(final boolean includePitchCorrection) {
+
+
+		final double uncorrectedArea;
+
 		if (builtFormType.isFlat()) {
 			final Storey top = getTopStorey();
 
 			// Flats only have an external roof area if they are a top floor flat.
 			if (top.getFloorLocationType() == FloorLocationType.TOP_FLOOR) {
-				return top.getArea();
+				uncorrectedArea = top.getArea();
 			} else {
 				return 0d;
 			}
@@ -436,7 +450,13 @@ public class StructureModel implements ICopyable<StructureModel> {
 			for (final Storey s : getStoreys()) {
 				result = Math.max(result, s.getArea());
 			}
-			return result;
+			uncorrectedArea = result;
+		}
+
+		if (includePitchCorrection && getRoofConstructionType().isPitched()) {
+			return uncorrectedArea / pitchCorrectionFactor;
+		} else {
+			return uncorrectedArea;
 		}
 	}
 

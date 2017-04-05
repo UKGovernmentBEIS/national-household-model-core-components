@@ -156,7 +156,7 @@ public class SolarHotWaterMeasure extends AbstractMeasure {
 		if (technologyModel.getCentralWaterSystem() != null
             && technologyModel.getCentralWaterSystem().getSolarWaterHeater() == null
             && structureModel.hasExternalRoof()) {
-            final double roofArea = structureModel.getExternalRoofArea();
+            final double roofArea = structureModel.getExternalRoofArea(true);
 
 			return roofArea >= installedArea.compute(components, lets).doubleValue();
 		} else {

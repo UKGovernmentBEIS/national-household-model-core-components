@@ -124,7 +124,7 @@ public class RoofInsulationMeasure extends InsulationMeasure {
 				components.modify(structureDimension, new ResistanceModifier(resistanceFunction.compute(components, lets).doubleValue(), insulationThickness));
 			}
 
-			final double area = components.get(structureDimension).getExternalRoofArea();
+			final double area = components.get(structureDimension).getExternalRoofArea(false);
 
 			addCapitalCosts(components, lets, area);
 
@@ -142,10 +142,10 @@ public class RoofInsulationMeasure extends InsulationMeasure {
 				sm.hasExternalRoof()) {
 			if (topup) {
 				return sm.getRoofInsulationThickness() < insulationThickness
-						&& sm.getExternalRoofArea() > 0;
+						&& sm.getExternalRoofArea(false) > 0;
 			} else {
 				return sm.getRoofInsulationThickness() == 0
-						&& sm.getExternalRoofArea() > 0;
+						&& sm.getExternalRoofArea(false) > 0;
 			}
 		} else {
 			return false;

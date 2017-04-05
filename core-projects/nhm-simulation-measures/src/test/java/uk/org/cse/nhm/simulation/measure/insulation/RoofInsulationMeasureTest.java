@@ -61,7 +61,7 @@ public class RoofInsulationMeasureTest {
 
 	private StructureModel mockStructure(final double externalRoofArea, final RoofConstructionType constructionType, final boolean hasExternalRoof, final double existingInsulation) {
 		final StructureModel sm = mock(StructureModel.class);
-		when(sm.getExternalRoofArea()).thenReturn(externalRoofArea);
+		when(sm.getExternalRoofArea(false)).thenReturn(externalRoofArea);
 		when(sm.getRoofConstructionType()).thenReturn(constructionType);
 		when(sm.getRoofInsulationThickness()).thenReturn(existingInsulation);
 		when(sm.getHasLoft()).thenReturn(true);
