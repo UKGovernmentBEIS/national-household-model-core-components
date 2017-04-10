@@ -24,6 +24,8 @@ public interface IHeatingSystem {
 	TYPE: value
 	UNIT: 0 or 1
 	SAP: Table 4e (Control)
+        SAP_COMPLIANT: Yes
+        BREDEM_COMPLIANT: No
 	NOTES: BREDEM instead uses Zone 2 Control Fraction, which we do not implement because of lack of information.
 	CONVERSION: Type 1 maps to 0, while Types 2 and 3 map to 1
 	ID: zone-2-control-parameter

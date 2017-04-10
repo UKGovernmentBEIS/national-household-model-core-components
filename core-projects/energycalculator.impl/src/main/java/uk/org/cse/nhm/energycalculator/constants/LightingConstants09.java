@@ -7,12 +7,12 @@ import uk.org.cse.nhm.energycalculator.impl.demands.LightingDemand09;
 
 /**
  * Constants controlling CHM lighting demand, used by {@link LightingDemand09}
- * 
+ *
  * @author hinton
  */
 @ConstantDescription("Constants controlling CHM-style lighting demand")
 public enum LightingConstants09 implements IConstant {
-	
+
 	/*
 	BEISDOC
 	NAME: Light demand exponent
@@ -20,7 +20,9 @@ public enum LightingConstants09 implements IConstant {
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: (L1)
+        SAP_COMPLIANT: Yes
 	BREDEM: 1B
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	ID: light-demand-exponent
 	CODSIEB
@@ -35,14 +37,16 @@ public enum LightingConstants09 implements IConstant {
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: (L4)
+        SAP_COMPLIANT: Yes
 	BREDEM: 1E (second line)
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	ID: daylight-parameter-maximum
 	CODSIEB
 	*/
 	@ConstantDescription("The maximum value for the daylight saving coefficient")
 	DAYLIGHT_PARAMETER_MAXIMUM(0.095),
-	
+
 	/*
 	BEISDOC
 	NAME: Daylight parameter coefficients
@@ -50,7 +54,9 @@ public enum LightingConstants09 implements IConstant {
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: (L3)
+        SAP_COMPLIANT: Yes
 	BREDEM: 1E (first line)
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	ID: daylight-adjustment-coefficients
 	CODSIEB
@@ -72,16 +78,18 @@ public enum LightingConstants09 implements IConstant {
 	 */
 	@ConstantDescription("The daylight saving coefficient, if below the threshold, is computed as Ax^2 + Bx + C; this is A")
 	DAYLIGHT_PARAMETER_2_COEFFICIENT(52.2),
-	
-	
+
+
 	/*
 	BEISDOC
 	NAME: Light access factor
 	DESCRIPTION: A constant multiplier due to overshading which reduces light gains.
-	TYPE: 5 values (one for each overshading type)
+	TYPE: 4 values (one for each overshading type)
 	UNIT: Dimensionless
 	SAP: Table 6d (light access factor column)
+    SAP_COMPLIANT: Yes, but no data
 	BREDEM: Table 3
+    BREDEM_COMPLIANT: Yes, but no data
 	SET: context.energy-constants
 	NOTES: Only the middle light access factor is ever used.
 	ID: light-overshading-factor
@@ -94,7 +102,7 @@ public enum LightingConstants09 implements IConstant {
 	 */
 	@ConstantDescription("This is the mean loss factor for overshading (an array)")
 	OVERSHADING_ACCESS_FACTORS(new double[] {1.0, 0.83, 0.67, 0.50}),
-	
+
 	/*
 	BEISDOC
 	NAME: Light monthly adjustment coefficients
@@ -102,7 +110,9 @@ public enum LightingConstants09 implements IConstant {
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: (L7)
+        SAP_COMPLIANT: Yes
 	BREDEM: 1G
+        BREDEM_COMPLIANT: Yes
 	SET: context.energy-constants
 	ID: light-month-adjustment-coefficients
 	CODSIEB
@@ -110,22 +120,22 @@ public enum LightingConstants09 implements IConstant {
 	@ConstantDescription("In the lighting monthly adjustment equation a + b * cos( 2 pi * (month - c) / 12, these are a, b, and c")
 	ADJUSTMENT_FACTOR_TERMS(1, 0.5, 0.2)
 	;
-	
+
 	private final Double defaultValue;
 	private final double[] values;
-	
+
 	private LightingConstants09(final double value) {
 		defaultValue = value;
 		values = null;
 	}
-	
+
 	private LightingConstants09(final double... values) {
 		defaultValue = null;
 		this.values = values;
 	}
 
 	@Override
-	public <T> T getValue(Class<T> clazz) {
+	public <T> T getValue(final Class<T> clazz) {
 		if (Double.class.isAssignableFrom(clazz)) {
 			return clazz.cast((Double) defaultValue);
 		} else if (double[].class.isAssignableFrom(clazz)) {

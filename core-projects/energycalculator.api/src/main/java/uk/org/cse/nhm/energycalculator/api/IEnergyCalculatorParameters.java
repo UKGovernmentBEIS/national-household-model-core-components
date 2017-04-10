@@ -11,6 +11,20 @@ import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
  *
  */
 public interface IEnergyCalculatorParameters {
+	/*
+	BEISDOC
+	NAME: Zone 1 demand temperature
+	DESCRIPTION: The zone 1 demand temperature
+	TYPE: value
+	UNIT: ℃
+	SAP: Table 9
+    SAP_COMPLIANT: SAP mode only
+    BREDEM: 7 input Td1
+    BREDEM_COMPLIANT: N/A - user defined
+    DEPS: sap-zone-1-demand-temperature,bredem-zone-1-demand-temperature
+	ID: zone-1-demand-temperature
+	CODSIEB
+	*/
 	/**
 	 * @return the (possibly adjusted) demand temperature in zone one
 	 */
@@ -26,6 +40,20 @@ public interface IEnergyCalculatorParameters {
 	 */
 	double getZoneTwoDemandTemperature();
 
+	/*
+	BEISDOC
+	NAME: Interzone temperature difference
+	DESCRIPTION: The difference in demand temperature between the living area and the rest of the dwelling.
+	TYPE: value
+	UNIT: ℃
+	SAP: Table 9
+    SAP_COMPLIANT: SAP mode only
+    BREDEM: 7 input Tdt
+    BREDEM_COMPLIANT: N/A - user defined
+    DEPS: sap-interzone-temperature-difference,bredem-interzone-temperature-difference
+	ID: interzone-temperature-difference
+	CODSIEB
+	*/
 	/**
 	 * @return the temperature difference between the zones, if the demand temperature for zone two is not specified.
 	 */
@@ -45,7 +73,9 @@ public interface IEnergyCalculatorParameters {
 	TYPE: formula
 	UNIT: people
 	SAP: (42), Table 1b
+        SAP_COMPLIANT: SAP mode only
 	BREDEM: 1A
+        BREDEM_COMPLIANT: N/A - value from stock
 	DEPS: sap-occupancy
 	GET: house.number-of-occupants
 	STOCK: people.csv (number of rows)

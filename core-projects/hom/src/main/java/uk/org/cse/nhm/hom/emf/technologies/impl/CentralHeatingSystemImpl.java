@@ -283,7 +283,9 @@ public class CentralHeatingSystemImpl extends SpaceHeaterImpl implements ICentra
 					TYPE: formula
 					UNIT: W
 					SAP: Table 4f
+                                        SAP_COMPLIANT: Yes
 					BREDEM: Table 4
+                                        BREDEM_COMPLIANT: Yes
 					DEPS: central-heating-pump-base-power,pump-no-thermostat-modifier
 					ID: central-heating-pump-power
 					CODSIEB

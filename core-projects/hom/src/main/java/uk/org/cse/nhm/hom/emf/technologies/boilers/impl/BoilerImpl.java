@@ -385,7 +385,9 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 		TYPE: formula
 		UNIT: Dimensionless
 		SAP: Section 9.2.1 (8), Table 4c
+                SAP_COMPLIANT: Yes
 		BREDEM: Appendix B2
+                BREDEM_COMPLIANT: N/A - out of scope
 		DEPS: combi-boiler-hot-water-efficiency,cpsu-boiler-hot-water-efficiency,boiler-without-interlock
 		ID: boiler-water-heating-efficiency
 		CODSIEB
@@ -463,6 +465,8 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 		DEPS: boiler-without-interlock,condensing-underfloor-adjustment,condensing-weather-compensation
 		NOTES: The adjustments here apply to both the SAP and BREDEM energy calculations.
 		SAP: (206,208), Table 4c, PCDB
+                SAP_COMPLIANT: Yes
+                BREDEM_COMPLIANT: N/A - out of scope
 		ID: boiler-efficiency
 		CODSIEB
 		*/
@@ -712,7 +716,9 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 					TYPE: formula
 					UNIT: W
 					SAP: Table 4f
+                                        SAP_COMPLIANT: Yes
 					BREDEM: Table 4
+                                        BREDEM_COMPLIANT: Yes
 					DEPS: oil-boiler-pump-base-power,pump-no-thermostat-modifier
 					ID: oil-boiler-pump-power
 					CODSIEB
@@ -879,7 +885,9 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 		TYPE: formula
 		UNIT: W
 		SAP: (208,201)
+                SAP_COMPLIANT: Yes
 		BREDEM: 8J,8K
+                BREDEM_COMPLIANT: Yes
 		DEPS: boiler-efficiency,heat-demand,space-heating-fraction
 		NOTES: This code constructs a 'heat transducer', which is an object in the energy calculator which models converting fuel into heat.
 		ID: boiler-fuel-energy-demand
@@ -930,7 +938,9 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 		TYPE: lookup
 		UNIT: Unknown
 		SAP: Table 4a (category 2)
+                SAP_COMPLIANT: Yes
 		BREDEM: Defers to SAP.
+                BREDEM_COMPLIANT: N/A - out of scope
 		ID: boiler-responsiveness
 		CODSIEB
 		*/
@@ -1011,7 +1021,9 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 		TYPE: formula
 		UNIT: W
 		SAP: (61), Table 3a
+                SAP_COMPLIANT: Yes
 		BREDEM: Table 13
+                BREDEM_COMPLIANT: Yes
 		DEPS: combi-losses-instant,combi-losses-storage
 		ID: combi-losses
 		CODSIEB

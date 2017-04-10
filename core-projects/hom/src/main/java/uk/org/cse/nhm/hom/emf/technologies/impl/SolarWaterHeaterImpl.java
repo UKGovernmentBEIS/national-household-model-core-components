@@ -164,7 +164,9 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: (H2)
+    SAP_COMPLIANT: No, user defined
 	BREDEM: User input
+    BREDEM_COMPLIANT: N/A - user defined
 	SET: measure.solar-dhw
 	STOCK: Set to 4 based on Cambridge Household Model assumptions
 	ID: zero-loss-efficiency
@@ -194,7 +196,9 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: (H3b)
+        SAP_COMPLIANT: No, user defined
 	BREDEM: User input
+        BREDEM_COMPLIANT: N/A - user defined
 	SET: measure.solar-dhw
 	STOCK: Set to 0.8 based on Cambridge Household Model assumptions
 	ID: linear-heat-loss-coefficient
@@ -709,7 +713,9 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 		TYPE: formula
 		UNIT: ???
 		SAP: (H4)
+                SAP_COMPLIANT: Yes
 		BREDEM: 2.4.2B
+                BREDEM_COMPLIANT: Yes
 		DEPS: linear-heat-loss-coefficient,zero-loss-efficiency
 		ID: collector-performance-ratio
 		CODSIEB
@@ -723,7 +729,9 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 		TYPE: formula
 		UNIT: ???
 		SAP: (H10)
+                SAP_COMPLIANT: Yes
 		BREDEM: 2.4.2B
+                BREDEM_COMPLIANT: Yes
 		DEPS: collector-performance-ratio,collector-performance-ratio-threshold,collector-performance-factor-lower-terms,collector-performance-factor-higher-terms
 		ID: collector-performance-factor
 		CODSIEB
@@ -763,7 +771,9 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 		TYPE: formula
 		UNIT: W
 		SAP: (H7)
+                SAP_COMPLIANT: Yes
 		BREDEM: 2.4.2C (expression in parentheses)
+                BREDEM_COMPLIANT: Yes
 		DEPS: solar-thermal-collector-area,solar-overshading-factor,effective-solar-flux,zero-loss-efficiency
 		ID: solar-energy-available
 		CODSIEB
@@ -778,7 +788,9 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 		TYPE: formula
 		UNIT: Dimensionless
 		SAP: (H8)
+                SAP_COMPLIANT: Yes
 		BREDEM: 2.4.2C
+                BREDEM_COMPLIANT: Yes
 		DEPS: solar-energy-available,distribution-loss-factor,water-heating-power,solar-hot-water-use-adjustment
 		ID: solar-to-load-ratio
 		CODSIEB
@@ -794,7 +806,9 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 		TYPE: formula
 		UNIT: Dimensionless
 		SAP: (H9)
+                SAP_COMPLIANT: Yes
 		BREDEM: 2.4.2D
+                BREDEM_COMPLIANT: Yes
 		DEPS: solar-utilisation-factor-thermostat-factor,solar-to-load-ratio
 		ID: solar-utilisation-factor
 		CODSIEB
@@ -823,7 +837,9 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 		TYPE: formula
 		UNIT: Litres
 		SAP: (H13)
+                SAP_COMPLIANT: Yes
 		BREDEM: User input, 2.4.2 (footnote)
+                BREDEM_COMPLIANT: Yes
 		DEPS: solar-dedicated-store-volume,solar-system-store-volume
 		ID: solar-store-effective-volume
 		CODSIEB
@@ -839,7 +855,9 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 			TYPE: value
 			UNIT: Litres
 			SAP: (H11, H13)
+                        SAP_COMPLIANT: Yes
 			BREDEM: User input, 2.4.2 (footnote)
+                        BREDEM_COMPLIANT: Yes
 			STOCK: water-heating.csv (solarstorevolume if either solarstoreincylinder is 'true' or cylindervolume is not present or equal to 0)
 			ID: solar-dedicated-store-volume
 			CODSIEB
@@ -854,7 +872,9 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 			TYPE: formula
 			UNIT: Litres
 			SAP: (H12, H13)
+                        SAP_COMPLIANT: Yes
 			BREDEM: User input, 2.4.2 (footnote)
+                        BREDEM_COMPLIANT: Yes
 			DEPS: cylinder-volume,solar-cylinder-remainder
 			STOCK: water-heating.csv (solarstorevolume)
 			ID: solar-system-store-volume
@@ -890,7 +910,9 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 		TYPE: formula
 		UNIT: Dimensionless
 		SAP: (H15, H16)
+                SAP_COMPLIANT: Yes
 		BREDEM: 2.4.2E
+                BREDEM_COMPLIANT: Yes
 		DEPS: solar-store-effective-volume,water-volume,solar-min-volume-factor,solar-volume-factor-coefficient
 		ID: solar-storage-volume-factor
 		CODSIEB
@@ -908,7 +930,9 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 		TYPE: formula
 		UNIT: W
 		SAP: (64,H17)
+                SAP_COMPLIANT: Yes
 		BREDEM: 2.4.2G
+                BREDEM_COMPLIANT: Yes
 		DEPS: solar-energy-available,solar-utilisation-factor,collector-performance-factor,solar-storage-volume-factor
 		ID: solar-hot-water-output
 		CODSIEB
@@ -940,7 +964,9 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 		DESCRIPTION: An adjustment to the solar-to-load ratio based on which kinds of showers are present in the dwelling.
 		TYPE: formula
 		UNIT: Dimensionless
+                BREDEM_COMPLIANT: BREDEM mode only
 		SAP: (H7a), Table H3
+                SAP_COMPLIANT: SAP mode only
 		NOTES: Only has an effect in SAP 2012 mode.
 		ID: solar-hot-water-use-adjustment
 		CODSIEB

@@ -13,7 +13,7 @@ import uk.org.cse.nhm.energycalculator.constants.EnergyCalculatorConstants;
 
 /**
  * A gizmo which provides metabolic gains.
- * 
+ *
  * @author hinton
  *
  */
@@ -23,7 +23,7 @@ public class EvaporativeGainsSource implements IEnergyTransducer {
 	public EvaporativeGainsSource(final IConstants constants) {
 		EVAPORATION_GAINS_PER_PERSON = constants.get(EnergyCalculatorConstants.EVAPORATION_GAINS_PER_PERSON);
 	}
-	
+
 	@Override
 	public ServiceType getServiceType() {
 		return ServiceType.INTERNALS;
@@ -38,13 +38,15 @@ public class EvaporativeGainsSource implements IEnergyTransducer {
 		TYPE: formula
 		UNIT: W
 		SAP: (71), Table 5
+                SAP_COMPLIANT: Yes
 		BREDEM: 6F
+                BREDEM_COMPLIANT: Yes
 		DEPS: evaporation-loss-per-person,occupancy
 		ID: evaporation-loss
 		CODSIEB
 		*/
 		final double evaporationGains = EVAPORATION_GAINS_PER_PERSON * parameters.getNumberOfOccupants();
-		
+
 		state.increaseDemand(EnergyType.GainsUSEFUL_GAINS, evaporationGains);
 	}
 
@@ -52,12 +54,12 @@ public class EvaporativeGainsSource implements IEnergyTransducer {
 	public int getPriority() {
 		return 0;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Evaporation";
 	}
-	
+
 	@Override
 	public TransducerPhaseType getPhase() {
 		return TransducerPhaseType.Gains;

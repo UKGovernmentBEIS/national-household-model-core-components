@@ -21,10 +21,9 @@ If you want to cross-reference to a language element, you need to use the unique
    - *Bugs removed* will list any known errors that were found to affect the previous version which have been corrected in this version
 
 ** Released versions
-*** Version 6.5.6
+*** Version 7.0.0
 **** New Features
 ***** Health modelling
-
 The health impact calculations from UCL and LSHTM's HIDEEM model have been integrated into the NHM.
 
 The =ref.health-impact-of= function allows you to compute the health impact in terms of morbidity QALYS, mortality QALYS, or avoided NHS costs which result from a given change in internal temperature or fabric permeability as a result of a measure being applied.

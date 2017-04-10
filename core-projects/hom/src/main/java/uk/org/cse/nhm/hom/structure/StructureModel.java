@@ -63,7 +63,9 @@ public class StructureModel implements ICopyable<StructureModel> {
 	TYPE: value
 	UNIT: dimensionless
 	SAP: (91)
+        SAP_COMPLIANT: N/A - value from stock
 	BREDEM: Input A1
+        BREDEM_COMPLIANT: N/A - value from stock
 	STOCK: basic.csv (livingareafaction)
 	ID: living-area-proportion
 	CODSIEB
@@ -76,7 +78,9 @@ public class StructureModel implements ICopyable<StructureModel> {
 	DESCRIPTION: description
 	TYPE: value
 	UNIT: W/℃
+        SAP_COMPLIANT: SAP mode only
 	BREDEM: 3J
+        BREDEM_COMPLIANT: N/A - value from stock
 	NOTES: Interzone specific heat loss is always treated as 0 in SAP 2012 mode.
 	ID: interzone-specific-heat-loss
 	CODSIEB
@@ -93,7 +97,9 @@ public class StructureModel implements ICopyable<StructureModel> {
 	TYPE: value
 	UNIT: dimensionless
 	SAP: (14)
+        SAP_COMPLIANT: N/A - value from stock
 	BREDEM: 3D, Table 19
+        BREDEM_COMPLIANT: N/A - value from stock
 	SET: measure.install-draught-proofing
 	STOCK: ventilation.csv (windowsanddoorsdraughtstrippedproportion)
 	NOTES: We do not have the information required to implement the BREDEM 2012 algorithm, so we use the SAP 2012 algorithm in both energy calculator modes.
@@ -122,10 +128,9 @@ public class StructureModel implements ICopyable<StructureModel> {
 	TYPE: value
 	UNIT: Count of elevations
 	SAP: (19)
+        SAP_COMPLIANT: N/A - value from stock
 	BREDEM: Table 22
-	DEPS:
-	GET:
-	SET:
+        BREDEM_COMPLIANT: N/A - value from stock
 	STOCK: elevations.csv (if tenthsattached > 5, elevation is considered sheltered)
 	ID: num-sheltered-sides
 	CODSIEB
@@ -148,8 +153,11 @@ public class StructureModel implements ICopyable<StructureModel> {
     Type: value
     Unit: true/false
     SAP: Table 5
+    SAP_COMPLIANT: N/A - not used
+    BREDEM_COMPLIANT: No, see note
     SET: action.reduced-internal-gains
     NOTES: Never applies in SAP 2012 mode.
+    NOTES: While reduced internal gains are not defined in BREDEM 2012, we allow users to put dwellings onto the reduced internal gains described in the SAP 2012 document when the NHM is run in BREDEM mode.
     ID: reduced-internal-gains
     CODSIEB
     */
@@ -162,7 +170,9 @@ public class StructureModel implements ICopyable<StructureModel> {
 	DESCRIPTION: This is multiplied by the external area of the dwelling to produce the thermal bridging loss per degree of temperature difference.
 	TYPE: value
 	UNIT: W/℃/m^2
+    SAP_COMPLIANT: SAP mode only
 	BREDEM: 3A.b, see footnote vii
+    BREDEM_COMPLIANT: N/A - user defined
 	SET: action.set-thermal-bridging-factor
 	ID: thermal-bridging-coefficient
 	CODSIEB
@@ -449,10 +459,11 @@ public class StructureModel implements ICopyable<StructureModel> {
 		TYPE: formula
 		UNIT: m3
 		SAP: (5)
+                SAP_COMPLIANT: Yes
 		BREDEM: Input variable VT
+                BREDEM_COMPLIANT: Yes
 		DEPS: storey-volume
 		GET: house.volume
-		SET:
 		CODSIEB
 		*/
 
@@ -472,10 +483,11 @@ public class StructureModel implements ICopyable<StructureModel> {
 		TYPE: formula
 		UNIT: m2
 		SAP: (4)
+                SAP_COMPLIANT: Yes
 		BREDEM: Input variable TFA
+                BREDEM_COMPLIANT: Yes
 		DEPS: storey-floor-area
 		GET: house.total-floor-area
-		SET:
 		CODSIEB
 		*/
 

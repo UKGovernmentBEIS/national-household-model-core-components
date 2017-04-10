@@ -12,41 +12,47 @@ public enum SplitRateConstants implements IConstant {
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: Table 12a (row for 'All other, and locally generated electricity')
+        SAP_COMPLIANT: Yes
+        BREDEM_COMPLIANT: N/A - out of scope
 	SET: context.energy-constants
 	ID: default-split-rate
 	CODSIEB
 	*/
 	@ConstantDescription("The high rate fraction for all default appliances (from SAP 2012 table 12a)")
 	DEFAULT_FRACTIONS(0.9, 0.8),
-	
+
 	/*
 	BEISDOC
-	NAME: Direct Electric Space Heater Split Rate 
+	NAME: Direct Electric Space Heater Split Rate
 	DESCRIPTION: The high rate fraction for a direct electric space heater
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: Table 12a (row for 'Other direct-acting electric heating')
+        SAP_COMPLIANT: Yes
+        BREDEM_COMPLIANT: N/A - out of scope
 	SET: context.energy-constants
 	ID: direct-electric-split-rate
 	CODSIEB
 	*/
 	@ConstantDescription("The high rate fraction for a direct electric space heater (SAP 2012 table 12a)")
 	DIRECT_ELECTRIC_FRACTIONS(1, 0.5),
-	
+
 	/*
 	BEISDOC
-	NAME: Electrict Boiler Split Rate 
+	NAME: Electrict Boiler Split Rate
 	DESCRIPTION: The high rate fraction for all default appliances
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: Table 12a (row for 'Direct acting electric boiler')
+        SAP_COMPLIANT: Yes
+        BREDEM_COMPLIANT: N/A - out of scope
 	SET: context.energy-constants
 	ID: electric-boiler-split-rate
 	CODSIEB
 	*/
 	@ConstantDescription("The high rate fraction for an electric boiler (SAP 2012 12a)")
 	ELECTRIC_BOILER_FRACTIONS(0.9, 0.5),
-	
+
 	/*
 	BEISDOC
 	NAME: Dual-coil Immersion split-rate terms
@@ -54,6 +60,8 @@ public enum SplitRateConstants implements IConstant {
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: Table 13 (footnote 2)
+        SAP_COMPLIANT: Yes
+        BREDEM_COMPLIANT: N/A - out of scope
 	SET: context.energy-constants
 	ID: dual-coil-immersion-split-rate-terms
 	CODSIEB
@@ -64,7 +72,7 @@ public enum SplitRateConstants implements IConstant {
 	DUAL_IMMERSION_TERM2(0.024, 0.036),
 	DUAL_IMMERSION_TERM3(14, 14),
 	DUAL_IMMERSION_TERM4(0.07, 0.105),
-	
+
 	/*
 	BEISDOC
 	NAME: Single-coil Immersion split-rate terms
@@ -72,6 +80,8 @@ public enum SplitRateConstants implements IConstant {
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: Table 13 (footnote 2)
+        SAP_COMPLIANT: Yes
+        BREDEM_COMPLIANT: N/A - out of scope
 	SET: context.energy-constants
 	ID: single-coil-immersion-split-rate-terms
 	CODSIEB
@@ -82,8 +92,8 @@ public enum SplitRateConstants implements IConstant {
 	SINGLE_IMMERSION_TERM2(762.0, 762.0),
 	SINGLE_IMMERSION_TERM3(1.0, 1.5),
 	SINGLE_IMMERSION_TERM4(80, 80),
-	SINGLE_IMMERSION_TERM5(10, 10), 
-	
+	SINGLE_IMMERSION_TERM5(10, 10),
+
 	/*
 	BEISDOC
 	NAME: Integrated Storage Heater Split Rate
@@ -91,6 +101,8 @@ public enum SplitRateConstants implements IConstant {
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: Table 12a (integrated systems)
+        SAP_COMPLIANT: Yes
+        BREDEM_COMPLIANT: N/A - out of scope
 	SET: context.energy-constants
 	ID: integrated-storage-split-rate
 	CODSIEB
@@ -105,27 +117,31 @@ public enum SplitRateConstants implements IConstant {
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: Table 12a (Ground/water source heat pump, not calculated by Appendix N)
+        SAP_COMPLIANT: Yes
+        BREDEM_COMPLIANT: N/A - out of scope
 	SET: context.energy-constants
-	ID: gshp-split-rate 
+	ID: gshp-split-rate
 	CODSIEB
 	*/
 	@ConstantDescription("The high rate fraction for a space-heating ground source heat pump")
 	GROUND_SOURCE_SPACE_HEAT(0.7, 0.6),
-	
+
 	/*
 	BEISDOC
 	NAME: Air Source Space Heating Split Rate
 	DESCRIPTION: The high rate fraction for a space-heating air source heat pump
 	TYPE: value
 	UNIT: Dimensionless
-	SAP: Table 12a (Air source heat pump, not calcualted by Appendix N)
+	SAP: Table 12a (Air source heat pump, not calculated by Appendix N)
+        SAP_COMPLIANT: Yes
+        BREDEM_COMPLIANT: N/A - out of scope
 	SET: context.energy-constants
-	ID: ashp-split-rate 
+	ID: ashp-split-rate
 	CODSIEB
 	*/
 	@ConstantDescription("The high rate fraction for a space-heating air source heat pump")
-	AIR_SOURCE_SPACE_HEAT(0.9, 0.6), 
-	
+	AIR_SOURCE_SPACE_HEAT(0.9, 0.6),
+
 	/*
 	BEISDOC
 	NAME: Heat Pump Water Heating With Immersion Split Rate
@@ -133,13 +149,15 @@ public enum SplitRateConstants implements IConstant {
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: Table 12a (both 'water heating with off-peak immersion' rows)
+        SAP_COMPLIANT: Yes
+        BREDEM_COMPLIANT: N/A - out of scope
 	SET: context.energy-constants
 	ID: heat-pump-water-with-immersion-split-rate
 	CODSIEB
 	*/
 	@ConstantDescription("The high rate fraction for a heat pump providing DHW with an off-peak immersion heater")
 	HEAT_PUMP_DHW_WITH_IMMERSION_HEATER(0.17, 0.17),
-	
+
 	/*
 	BEISDOC
 	NAME: Heat Pump Water Heating Without Immersion Split Rate
@@ -147,21 +165,23 @@ public enum SplitRateConstants implements IConstant {
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: Table 12a (both 'water heating without immersion' rows)
+        SAP_COMPLIANT: Yes
+        BREDEM_COMPLIANT: N/A - out of scope
 	SET: context.energy-constants
 	ID: heat-pump-water-without-immersion-split-rate
 	CODSIEB
 	*/
 	@ConstantDescription("The high rate fraction for a heat pump providing DHW without an off-peak immersion heater")
 	HEAT_PUMP_DHW_WITHOUT_IMMERSION_HEATER(0.7, 0.7);
-	
+
 	;
-	
+
 	private final double[] values;
-	
+
 	SplitRateConstants(final double economySeven, final double economyTen) {
 		this.values = new double[] {1, economySeven, economyTen};
 	}
-	
+
 	@Override
 	public <T> T getValue(Class<T> clazz) {
 		if (clazz.isAssignableFrom(double[].class)) {

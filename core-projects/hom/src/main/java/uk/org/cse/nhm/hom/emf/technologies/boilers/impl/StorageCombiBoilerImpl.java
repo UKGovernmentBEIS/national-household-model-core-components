@@ -291,7 +291,9 @@ public class StorageCombiBoilerImpl extends CombiBoilerImpl implements IStorageC
 		TYPE: formula
 		UNIT: W
 		SAP: Table 3a
+                SAP_COMPLIANT: Yes
 		BREDEM: Table 13
+                BREDEM_COMPLIANT: Yes
 		DEPS: storage-combi-volume-threshold,storage-combi-storage-loss-factor,combi-loss-water-usage-limit
 		ID: combi-losses-storage
 		CODSIEB
@@ -347,7 +349,9 @@ public class StorageCombiBoilerImpl extends CombiBoilerImpl implements IStorageC
 		TYPE: formula
 		UNIT: W
 		SAP: (51-55)
+                SAP_COMPLIANT: Yes
 		BREDEM: 2.2B
+                BREDEM_COMPLIANT: Yes
 		DEPS: temperature-factor-storage-combi-primary-store-terms,temperature-factor-storage-combi-secondary-store-terms
 		ID: storage-combi-storage-temperature-factor
 		CODSIEB

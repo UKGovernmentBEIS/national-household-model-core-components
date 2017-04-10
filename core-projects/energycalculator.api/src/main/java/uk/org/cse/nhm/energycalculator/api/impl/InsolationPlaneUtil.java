@@ -10,7 +10,7 @@ public class InsolationPlaneUtil {
         final double sin1 = Math.sin(angleFromHorizontal/2);
 		final double sin2 = Math.pow(sin1, 2);
 		final double sin3 = Math.pow(sin1, 3);
-		
+
 		/*
 		BEISDOC
 		NAME: Solar orientation parameters
@@ -18,7 +18,9 @@ public class InsolationPlaneUtil {
 		TYPE: formula
 		UNIT: Dimensionless
 		SAP: (U3)
+                SAP_COMPLIANT: Yes
 		BREDEM: 2.4.1B, 2.4.1C, 2.4.1D
+                BREDEM_COMPLIANT: Yes
 		DEPS: solar-flux-constants, angle-from-north,glazing-angle
 		ID: solar-orientation-parameters
 		CODSIEB
@@ -34,27 +36,31 @@ public class InsolationPlaneUtil {
 		TYPE: formula
 		UNIT: Dimensionless
 		SAP: (U2)
+                SAP_COMPLIANT: Yes
 		BREDEM: 2.4.1E
+                BREDEM_COMPLIANT: Yes
 		DEPS: solar-declination, latitude
 		ID: solar-height-factor
 		CODSIEB
 		*/
 		final double cosSun = Math.cos(latitude - solarDeclination);
-		
+
 		/*
 		BEISDOC
 		NAME: Solar flux adjustment
-		DESCRIPTION: The combined solar flux adjustment caused by the height of the sun, latitude, and orientation 
+		DESCRIPTION: The combined solar flux adjustment caused by the height of the sun, latitude, and orientation
 		TYPE: formula
 		UNIT: Dimensionless
 		SAP: (U2)
+                SAP_COMPLIANT: Yes
 		BREDEM: 2.4.1F
+                BREDEM_COMPLIANT: Yes
 		DEPS: solar-height-factor, solar-orientation-parameters
 		ID: solar-flux-adjustment
 		CODSIEB
 		*/
 		final double R = A * Math.pow(cosSun, 2) + B * cosSun + C;
-		
+
 		return R;
 	}
 
@@ -112,7 +118,7 @@ public class InsolationPlaneUtil {
 
         return result;
     }
-	
+
 	/*
 	BEISDOC
 	NAME: Constants for calculation of solar flux
@@ -120,7 +126,9 @@ public class InsolationPlaneUtil {
 	TYPE: table
 	UNIT: Dimensionless
 	SAP: Table U5
+        SAP_COMPLIANT: Yes
 	BREDEM: Table 15
+        BREDEM_COMPLIANT: Yes
 	ID: solar-flux-constants
 	CODSIEB
 	*/
@@ -150,5 +158,3 @@ public class InsolationPlaneUtil {
     };
 
 }
-
-

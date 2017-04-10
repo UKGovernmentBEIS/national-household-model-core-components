@@ -15,7 +15,10 @@ public enum RegionType {
 	TYPE: value
 	UNIT: degrees
 	SAP: Table U4
+        SAP_COMPLIANT: SAP mode only
 	BREDEM: Table A1 (latitude)
+        BREDEM_COMPLIANT: Yes
+        NOTES: In SAP 2012 mode, we use the UK average latitude for all dwellings.
 	ID: latitude
 	CODSIEB
 	*/

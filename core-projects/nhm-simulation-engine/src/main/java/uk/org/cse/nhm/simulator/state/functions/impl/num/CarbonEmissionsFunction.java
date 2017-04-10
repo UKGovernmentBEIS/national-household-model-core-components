@@ -25,7 +25,7 @@ public class CarbonEmissionsFunction extends AbstractNamed implements IComponent
 	private final IDimension<IEmissions> costs;
 	private final Optional<FuelType> fuelType;
 	private final Optional<List<ServiceType>> serviceType;
-	
+
 	@Inject
 	public CarbonEmissionsFunction(
 			final IDimension<IEmissions> costs,
@@ -45,8 +45,10 @@ public class CarbonEmissionsFunction extends AbstractNamed implements IComponent
 		NAME: Emissions
 		DESCRIPTION: The CO2 equivalent emissions produced by the dwelling.
 		TYPE: formula
-		UNIT: Unit of carbon (unit is the same as that for carbon factors without the denominator) 
+		UNIT: Unit of carbon (unit is the same as that for carbon factors without the denominator)
 		SAP: (272)
+                SAP_COMPLIANT: No - user defined
+                BREDEM_COMPLIANT: N/A - out of scope
 		DEPS: total-fuel-energy-demand,carbon-factors
 		GET: house.emissions
 		ID: carbon-emissions
@@ -54,7 +56,7 @@ public class CarbonEmissionsFunction extends AbstractNamed implements IComponent
 		*/
 
 		final IEmissions calc = scope.get(costs);
-		
+
 		if (fuelType.isPresent()) {
             final FuelType ft = fuelType.get();
             if (ft == FuelType.ELECTRICITY) {
@@ -70,7 +72,7 @@ public class CarbonEmissionsFunction extends AbstractNamed implements IComponent
                             calc.getAnnualEmissions(FuelType.PEAK_ELECTRICITY, st) +
                             calc.getAnnualEmissions(FuelType.OFF_PEAK_ELECTRICITY, st);
                     }
-				
+
                     return acc;
                 }
             } else {
@@ -78,14 +80,14 @@ public class CarbonEmissionsFunction extends AbstractNamed implements IComponent
                     return (double) calc.getAnnualEmissions(fuelType.get(), serviceType.get());
                 } else {
                     double acc = 0;
-                    
+
                     for (final ServiceType st : ServiceType.values()) {
                         acc += calc.getAnnualEmissions(ft, st);
                     }
-				
+
                     return acc;
                 }
-            }			
+            }
 		} else if (serviceType.isPresent()) {
 			double acc = 0;
 			final List<ServiceType> st = serviceType.get();

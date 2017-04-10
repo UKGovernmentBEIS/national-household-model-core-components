@@ -34,8 +34,8 @@ public class FuelCostFunction extends AbstractNamed implements IComponentsFuncti
 	private final IDimension<IEnergyMeter> meterDimension;
 	private final IDimension<IPowerTable> powerDimension;
 	private final Set<ServiceType> excludedServices;
-	
-	
+
+
 	@Inject
 	public FuelCostFunction(
 			final Set<IDimension<?>> allDimensions,
@@ -59,25 +59,27 @@ public class FuelCostFunction extends AbstractNamed implements IComponentsFuncti
                                   final ILets lets,
                                   final FuelType fuelType) {
         final ITariff tariff = tariffs.getTariff(fuelType);
-			
+
         tariff.apply(fuelType, hypothesis);
-			
+
         for (final IExtraCharge charge : tariffs.getExtraCharges(fuelType)) {
             charge.apply(hypothesis, lets);
         }
     }
-    
+
     /*
 	BEISDOC
 	NAME: Fuel cost
-	DESCRIPTION: The cost of each type of fuel consumed by the dwelling, computed using the tariffs written by the scenario author. A unit of fuel is a kWh here.  
+	DESCRIPTION: The cost of each type of fuel consumed by the dwelling, computed using the tariffs written by the scenario author. A unit of fuel is a kWh here.
 	TYPE: scenario-element
 	UNIT: £
 	SAP: Table 12, Section 10a
+        SAP_COMPLIANT: No - user defined
+        BREDEM_COMPLIANT: N/A - out of scope
 	DEPS: total-fuel-energy-demand
 	GET: house.fuel-cost
 	NOTES: Not part of the energy calculator.
-	NOTES: To use SAP Table 12 fuel prices, you must specify them as a tariff in your NHM scenario.  
+	NOTES: To use SAP Table 12 fuel prices, you must specify them as a tariff in your NHM scenario.
 	ID: fuel-cost
 	CODSIEB
 	*/
@@ -85,17 +87,17 @@ public class FuelCostFunction extends AbstractNamed implements IComponentsFuncti
 	public Double compute(final IComponentsScope scope, final ILets lets) {
 		final ITariffs tariffs = scope.get(this.tariffs);
 		final IHypotheticalComponentsScope hypothesis = scope.createHypothesis();
-		
+
 		final IPowerTable power;
-		
+
 		if (excludedServices.isEmpty()) {
 			power = scope.get(powerDimension);
 		} else {
 			power = ModifiedPowerTable.excludingEnergyServices(scope.get(powerDimension), excludedServices);
 		}
-		
+
 		hypothesis.imagine(meterDimension, PretendEnergyMeter.of(power));
-		
+
 		if (fuelType.isPresent()) {
             final FuelType ft = fuelType.get();
             if (ft == FuelType.ELECTRICITY) {
@@ -104,16 +106,16 @@ public class FuelCostFunction extends AbstractNamed implements IComponentsFuncti
             } else {
                 runTariff(tariffs, hypothesis, lets, ft);
             }
-			
+
 			double sum = 0;
 			for (final IPayment p : hypothesis.getAllNotes(IPayment.class)) {
 				sum += p.getAmount();
 			}
-            
+
 			return sum;
 		} else {
 			tariffs.computeCharges(hypothesis, lets);
-			
+
 			double sum = 0;
 			for (final IPayment p : hypothesis.getAllNotes(IPayment.class)) {
 				sum += p.getAmount();

@@ -59,7 +59,9 @@ public class SAPVisitor extends Visitor {
 		TYPE: Lookup
 		UNIT: Dimensionless
 		SAP: Table 6c
+                SAP_COMPLIANT: SAP mode only
 		BREDEM: Table 2
+                BREDEM_COMPLIANT: N/A - value from stock
 		DEPS: frame-type
 		SET: action.reset-glazing, measure.install-glazing
 		STOCK: Imputation schema (windows)
@@ -83,12 +85,14 @@ public class SAPVisitor extends Visitor {
 			final double visibleLightTransmittivity) {
 		/*
 		BEISDOC
-		NAME: Soalr Light Transmittivity
+		NAME: Solar Light Transmittivity
 		DESCRIPTION: Visible light transmittance factor of the glazing at normal incidence
 		TYPE: Lookup
 		UNIT: Dimensionless
 		SAP: Table 6b (light transmittance column)
+                SAP_COMPLIANT: SAP mode only
 		BREDEM: Table 1
+                BREDEM_COMPLIANT: N/A - value from stock
 		DEPS: glazing-type
 		SET: action.reset-glazing, measure.install-glazing
 		STOCK: Imputation schema (windows)
@@ -119,7 +123,9 @@ public class SAPVisitor extends Visitor {
 		TYPE: Lookup
 		UNIT: Dimensionless
 		SAP: Table 6b (solar energy column)
+                SAP_COMPLIANT: SAP mode only
 		BREDEM: Table 24
+                BREDEM_COMPLIANT: N/A - value from stock
 		DEPS: glazing-type,glazing-insulation-type
 		SET: action.reset-glazing, measure.install-glazing
 		STOCK: Imputation schema (windows)

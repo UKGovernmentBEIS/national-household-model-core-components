@@ -26,80 +26,98 @@ package uk.org.cse.nhm.hom.emf.technologies;
  * @generated
  */
 public interface ICooker extends IVisitorAccepter {
-	
+
 	/*
 	BEISDOC
 	NAME: Gas hob base load
 	DESCRIPTION: The base amount of power consumed by a gas cooking hob.
 	TYPE: value
 	UNIT: W
+        SAP_COMPLIANT: N/A - out of scope
 	BREDEM: Table 5 ("Normal size cooker: electric / gas" EC2A)
+        BREDEM_COMPLIANT: Yes
 	CONVERSION: From kWh/year to W (1000 / (365.25 * 24))
+        NOTES: SAP 2012 does not define cooking energy use, only cooking emissions.
 	ID: gas-hob-base-load
 	CODSIEB
 	*/
 	final double GAS_HOB_BASE_LOAD = 27.49;
-	
+
 	/*
 	BEISDOC
 	NAME: Gas hob occupancy factor
 	DESCRIPTION: The amount of extra power consumed by a gas cooking hob per occupant of the dwelling
 	TYPE: value
 	UNIT: W / person
+        SAP_COMPLIANT: N/A - out of scope
 	BREDEM: Table 5 ("Normal size cooker: electric / gas" EC2B)
-	CONVERSION: From kWh/year to W (1000 / (365.25 * 24)) 
+        BREDEM_COMPLIANT: Yes
+	CONVERSION: From kWh/year to W (1000 / (365.25 * 24))
+        NOTES: SAP 2012 does not define cooking energy use, only cooking emissions.
 	ID: gas-hob-occupancy-factor
 	CODSIEB
 	*/
 	final double GAS_HOB_OCCUPANCY_FACTOR = 5.48;
-	
+
 	/*
 	BEISDOC
 	NAME: Electric hob base load
 	DESCRIPTION: The base amount of power consumed by an electric cooking hob.
 	TYPE: value
 	UNIT: W
+        SAP_COMPLIANT: N/A - out of scope
 	BREDEM: Table 5 (Subtract "Normal size cooker: electric / gas" from "Normal size cooker: electric" for column EC1A)
-	CONVERSION: From kWh/year to W (1000 / (365.25 * 24)) 
+        BREDEM_COMPLIANT: Yes
+	CONVERSION: From kWh/year to W (1000 / (365.25 * 24))
+        NOTES: SAP 2012 does not define cooking energy use, only cooking emissions.
 	ID: electric-hob-base-load
 	CODSIEB
 	*/
 	final double ELECTRIC_HOB_BASE_LOAD = 15.63;
-	
+
 	/*
 	BEISDOC
 	NAME: Electric hob occupancy factor
 	DESCRIPTION: The amount of extra power consumed by an electric cooking hob per occupant of the dwelling.
 	TYPE: value
 	UNIT: W / person
+        SAP_COMPLIANT: N/A - out of scope
 	BREDEM: Table 5 (Subtract "Normal size cooker: electric / gas" from "Normal size cooker: electric" for column EC1B)
-	CONVERSION: From kWh/year to W (1000 / (365.25 * 24)) 
+        BREDEM_COMPLIANT: Yes
+	CONVERSION: From kWh/year to W (1000 / (365.25 * 24))
+        NOTES: SAP 2012 does not define cooking energy use, only cooking emissions.
 	ID: electric-hob-occupancy-factor
 	CODSIEB
 	*/
 	final double ELECTRIC_HOB_OCCUPANCY_FACTOR = 3.08;
-	
+
 	/*
 	BEISDOC
 	NAME: Electric oven base load
 	DESCRIPTION: The base amount of power consumed by an electric oven.
 	TYPE: value
 	UNIT: W
+        SAP_COMPLIANT: N/A - out of scope
 	BREDEM: Table 5 ("Normal size cooker: electric / gas" EC1A)
+        BREDEM_COMPLIANT: Yes
 	CONVERSION: From kWh/year to W (1000 / (365.25 * 24))
+        NOTES: SAP 2012 does not define cooking energy use, only cooking emissions.
 	ID: electric-oven-base-load
 	CODSIEB
 	*/
 	final double ELECTRIC_OVEN_BASE_LOAD = 15.74;
-	
+
 	/*
 	BEISDOC
 	NAME: Electric oven occupancy factor
 	DESCRIPTION: The amount of extra power consumed by an electric oven per occupant of the dwelling.
 	TYPE: value
 	UNIT: W / person
+        SAP_COMPLIANT: N/A - out of scope
 	BREDEM: Table 5 ("Normal size cooker: electric / gas" EC1B)
+        BREDEM_COMPLIANT: Yes
 	CONVERSION: From kWh/year to W (1000 / (365.25 * 24))
+        NOTES: SAP 2012 does not define cooking energy use, only cooking emissions.
 	ID: electric-oven-occupancy-factor
 	CODSIEB
 	*/
@@ -111,24 +129,28 @@ public interface ICooker extends IVisitorAccepter {
 	DESCRIPTION: The amount of heat gains emitted per Joule of electricity consumed by a dedicated electric oven and hob.
 	TYPE: value
 	UNIT: Dimensionless
+        SAP_COMPLIANT: N/A - not used
 	BREDEM: Table 25
+        BREDEM_COMPLIANT: Yes
 	ID: electric-cooking-gains-factor
 	CODSIEB
 	*/
 	final double ELECTRIC_GAINS_FACTOR = 0.9;
-	
+
 	/*
 	BEISDOC
 	NAME: Gas and Electric cooking gains factor
 	DESCRIPTION: The amount of heat gains emitted per Joule of gas consumed by a combined electric oven and gas hob.
 	TYPE: value
 	UNIT: Dimensionless
+        SAP_COMPLIANT: N/A - not used
 	BREDEM: Table 25
+        BREDEM_COMPLIANT: Yes
 	ID: gas-and-electric-cooking-gains-factor
 	CODSIEB
 	*/
 	final double GAS_AND_ELECTRIC_GAINS_FACTOR = 0.825;
-	
+
 	/*
 	BEISDOC
 	NAME: SAP Base Cooking Gains
@@ -136,11 +158,13 @@ public interface ICooker extends IVisitorAccepter {
 	TYPE: value
 	UNIT: W
 	SAP: Table 5
+        SAP_COMPLIANT: Yes
+        BREDEM_COMPLIANT: N/A - not used
 	ID: sap-base-cooking-gains
 	CODSIEB
 	*/
 	final double SAP_BASE_GAINS = 35;
-	
+
 	/*
 	BEISDOC
 	NAME: SAP Gains Occupancy Factor
@@ -148,11 +172,13 @@ public interface ICooker extends IVisitorAccepter {
 	TYPE: value
 	UNIT: W / person
 	SAP: Table 5
+        SAP_COMPLIANT: Yes
+        BREDEM_COMPLIANT: N/A - not used
 	ID: sap-cooking-gains-occupancy-factor
 	CODSIEB
 	*/
 	final double SAP_GAINS_OCCUPANCY_FACTOR = 7;
-	
+
 	/**
 	 * Returns the value of the '<em><b>Hob Base Load</b></em>' attribute.
 	 * <!-- begin-user-doc -->

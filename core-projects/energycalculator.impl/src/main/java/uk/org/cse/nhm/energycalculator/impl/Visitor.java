@@ -68,7 +68,9 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 	TYPE: formula
 	UNIT: W/℃
 	SAP: (33)
+        SAP_COMPLIANT: Yes
 	BREDEM: 3B
+        BREDEM_COMPLIANT: Yes
 	DEPS: window-heat-loss,floor-heat-loss,ceiling-heat-loss,wall-heat-loss,door-heat-loss
 	ID: fabric-heat-loss
 	CODSIEB
@@ -157,7 +159,9 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 		TYPE: formula
 		UNIT: area m^2 * u-value W/m^2/℃ = W/℃
 		SAP: (29a,32b,32c)
+                SAP_COMPLIANT: Yes
 		BREDEM: 3B
+                BREDEM_COMPLIANT: Yes
 		DEPS:
 		GET: house.u-value
 		SET: action.reset-walls
@@ -198,7 +202,9 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 		TYPE: formula
 		UNIT: area m^2 * u-value W/m^2/℃ = W/℃
 		SAP: (26)
+                SAP_COMPLIANT: Yes
 		BREDEM: 3B
+                BREDEM_COMPLIANT: Yes
 		DEPS:
 		GET: house.u-value
 		SET: action.reset-doors
@@ -230,7 +236,9 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 		TYPE: formula
 		UNIT: area m^2 * u-value W/m^2/℃ = W/℃
 		SAP: (30,32b)
+                SAP_COMPLIANT: Yes
 		BREDEM: 3B
+                BREDEM_COMPLIANT: Yes
 		DEPS:
 		GET: house.u-value
 		SET: action.reset-roofs
@@ -270,7 +278,9 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 		TYPE: formula
 		UNIT: area m^2 * u-value W/m^2/℃ = W/℃
 		SAP: (27,27a)
+                SAP_COMPLIANT: Yes
 		BREDEM: 3B
+                BREDEM_COMPLIANT: Yes
 		DEPS: glazing-area
 		GET: house.u-value
 		SET: measure.install-glazing,action.reset-glazing
@@ -306,7 +316,9 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 		TYPE: formula
 		UNIT: area m^2 * u-value W/m^2/℃ = W/℃
 		SAP: 28b, 32a
+                SAP_COMPLIANT: Yes
 		BREDEM: 3B
+                BREDEM_COMPLIANT: Yes
 		DEPS:
 		GET: house.u-value
 		SET: action.reset-floors,action.set-floor-insulation
@@ -430,7 +442,9 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 		TYPE: formula
 		UNIT: m2
 		SAP: (74-82)
+                SAP_COMPLIANT: Yes
 		BREDEM: 5A
+                BREDEM_COMPLIANT: Yes
 		DEPS: light-transmittance-factor,frame-factor
 		ID: visible-light-effective-transmission-area
 		CODSIEB
@@ -444,7 +458,9 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 		TYPE: formula
 		UNIT: m2
 		SAP: (74-82)
+                SAP_COMPLIANT: Yes
 		BREDEM: 5A
+                BREDEM_COMPLIANT: Yes
 		DEPS: solar-gain-transmissivity,frame-factor
 		ID: solar-gains-effective-transmission-area
 		CODSIEB
@@ -480,7 +496,9 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 		TYPE: lookup
 		UNIT: kJ/m^2.℃
 		SAP: Table 1f
+                SAP_COMPLIANT: Yes
 		BREDEM: 4A
+                BREDEM_COMPLIANT: Yes
 		DEPS: thermal-mass-level,wall-thermal-mass-category
 		ID: thermal-mass
 		CODSIEB

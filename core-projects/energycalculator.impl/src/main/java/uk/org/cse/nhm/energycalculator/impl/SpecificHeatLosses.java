@@ -41,7 +41,9 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
         TYPE: formula
         UNIT: W/℃
         SAP: (37)
+        SAP_COMPLIANT: Yes
         BREDEM: 3H
+        BREDEM_COMPLIANT: Yes
         DEPS: fabric-heat-loss,thermal-bridging-heat-loss
         ID: total-fabric-heat-loss
         CODSIEB
@@ -54,7 +56,9 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
         TYPE: Formula
         UNIT: W/℃
         SAP: (39)
+        SAP_COMPLIANT: Yes
         BREDEM: 3H
+        BREDEM_COMPLIANT: Yes
         DEPS: ventilation-heat-loss,total-fabric-heat-loss
         GET: house.heat-loss
         ID: specific-heat-loss
@@ -79,7 +83,9 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
         TYPE: formula
         UNIT: W/m^2/℃
         SAP: (40)
+        SAP_COMPLIANT: Yes
         BREDEM: 3I
+        BREDEM_COMPLIANT: Yes
         DEPS: specific-heat-loss,dwelling-floor-area
         GET:
         SET:
@@ -104,7 +110,9 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
         TYPE: formula
         UNIT: kJ/℃/m^2
         SAP: (35), Table 1f
+        SAP_COMPLIANT: Yes
         BREDEM: 4A
+        BREDEM_COMPLIANT: Yes
         DEPS: thermal-mass,dwelling-floor-area
         GET:
         SET:

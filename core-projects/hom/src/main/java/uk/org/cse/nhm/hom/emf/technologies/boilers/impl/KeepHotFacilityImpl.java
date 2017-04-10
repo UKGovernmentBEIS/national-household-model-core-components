@@ -182,7 +182,9 @@ public class KeepHotFacilityImpl extends MinimalEObjectImpl implements IKeepHotF
 		TYPE: formula
 		UNIT: W
 		SAP: Table 3a
+                SAP_COMPLIANT: Yes
 		BREDEM: Table 13
+                BREDEM_COMPLIANT: Yes
 		DEPS: instantaneous-keep-hot-factor,instantaneous-keep-hot-timeclock-factor
 		ID: combi-losses-instant-keep-hot
 		NOTES: Does not implement special behaviour for electrically powered keep-hot facility.

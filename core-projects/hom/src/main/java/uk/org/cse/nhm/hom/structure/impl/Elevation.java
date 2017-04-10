@@ -36,7 +36,9 @@ public class Elevation implements IElevation {
 	TYPE: value
 	UNIT: Radians
 	SAP: (U3), S13
+        SAP_COMPLIANT: No, see note
 	BREDEM: 2.4.1A
+        BREDEM_COMPLIANT: Yes
 	NOTES: Glazed elements are assumed to be vertical in SAP.
 	NOTES: There is an exception to this for roof windows where tilt is known to be less than 70 degrees. This exception is not implemented in the NHM because there is no information about roof window tilt.
 	ID: glazing-angle
@@ -65,6 +67,8 @@ public class Elevation implements IElevation {
 	DESCRIPTION: The proportion of the elevation's area which is windows and doors.
 	TYPE: value
 	UNIT: Unitless proportion
+        SAP_COMPLIANT: N/A - value from stock
+        BREDEM_COMPLIANT: N/A - value from stock
 	STOCK: elevations.csv (tenthsopening)
 	ID: opening-proportion
 	CODSIEB
@@ -77,7 +81,9 @@ public class Elevation implements IElevation {
 	DESCRIPTION: The overshading level for an elevation.
 	TYPE: value
 	SAP: Input to Table 6d, Table H2
+        SAP_COMPLIANT: N/A - no data
 	BREDEM: Input to Table 18
+        BREDEM_COMPLIANT: N/A - no data
 	NOTES: Overshading is always assumed to be average in the NHM.
 	ID: overshading
 	CODSIEB
@@ -144,8 +150,8 @@ public class Elevation implements IElevation {
 			DESCRIPTION: The area of a particular type of glazing in an elevation
 			TYPE: Formula
 			UNIT: m^2
-			SAP: sap
-			BREDEM: bredem
+                        SAP_COMPLIANT: Yes
+                        BREDEM_COMPLIANT: Yes
 			DEPS: elevation-glazed-proportion, opening-proportion
 			ID: glazing-area
 			CODSIEB

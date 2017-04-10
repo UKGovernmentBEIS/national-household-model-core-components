@@ -294,7 +294,9 @@ public class WarmAirSystemImpl extends SpaceHeaterImpl implements IWarmAirSystem
 		TYPE: formula
 		UNIT: W
 		SAP: (211)
+                SAP_COMPLIANT: Yes
 		BREDEM: 8J,8K
+                BREDEM_COMPLIANT: Yes
 		DEPS: heat-demand,space-heating-fraction
 		NOTES: This code constructs a 'heat transducer', which is an object in the energy calculator which models converting fuel into heat.
 		ID: warm-air-system-fuel-energy-demand

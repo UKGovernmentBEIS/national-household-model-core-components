@@ -232,6 +232,8 @@ public class ImmersionHeaterImpl extends CentralWaterHeaterImpl implements IImme
 		TYPE: formula
 		UNIT: Dimensionless
 		SAP: Table 13 (footnote 2)
+                SAP_COMPLIANT: Yes
+                BREDEM_COMPLIANT: N/A - out of scope
 		DEPS: single-coil-immersion-split-rate-terms,dual-coil-immersion-split-rate-terms,occupancy,cylinder-volume,
 		ID: immersion-split-rate
 		CODSIEB

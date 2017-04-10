@@ -25,7 +25,9 @@ public class HumanVentilationSystem implements IVentilationSystem {
 		TYPE: formula
 		UNIT: ach/h
 		SAP: (24d)
+                SAP_COMPLIANT: Yes
 		BREDEM: 3F
+                BREDEM_COMPLIANT: Yes
 		DEPS: adjusted-infiltration
 		ID: natural-infiltration
 		CODSIEB

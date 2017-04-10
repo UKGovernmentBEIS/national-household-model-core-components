@@ -46,8 +46,11 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 	 BEISDOC
 	 NAME: Solar Generation Factor
 	 DESCRIPTION: The number '0.8' which is used to adjust the cheese.
-	 TYPE: value UNIT: m^2 / W SAP: (M1)
+	 TYPE: value UNIT: m^2 / W
+         SAP: (M1)
+         SAP_COMPLIANT: Yes
 	 BREDEM: 10A
+         BREDEM_COMPLIANT: Yes
 	 CONVERSION: From m^2/kW in SAP to m^2/W in the NHM, divide by 1000.
 	 ID: solar-generation-factor
 	 CODSIEB
@@ -102,6 +105,8 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 	 TYPE: value
 	 UNIT: Dimensionless
 	 SAP: Appendix M (M1 section 3)
+         SAP_COMPLIANT: SAP mode only
+         BREDEM_COMPLIANT: N/A - out of scope
 	 SET: measure.solar-photovoltaic
 	 NOTES: In SAP 2012 mode, this will always be 0.5, regardless of which value was put in by measure.solar-photovoltaic.
 	 ID: pv-own-use-proportion
@@ -221,7 +226,9 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 				 TYPE: formula
 				 UNIT: W
 				 SAP: (233), (M1)
+                                 SAP_COMPLIANT: Yes
 				 BREDEM: 10A
+                                 BREDEM_COMPLIANT: Yes
 				 DEPS: effective-solar-flux,solar-overshading-factor,solar-generation-factor
 				 GET: house.energy-use
 				 CONVERSION: No conversion is required. We have already converted all of the inputs to Watts by this point.
@@ -246,6 +253,8 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 				 TYPE: formula
 				 UNIT: W
 				 SAP: (233)
+                                 SAP_COMPLIANT: Yes
+                                 BREDEM_COMPLIANT: N/A - out of scope
 				 DEPS: pv-electricity-generated,pv-own-use-proportion
 				 ID: pv-exported-electricity
 				 CODSIEB
@@ -267,6 +276,8 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 				 TYPE: formula
 				 UNIT: W
 				 SAP: Appendix M (M1 section 3)
+                                 SAP_COMPLIANT: Yes
+                                 BREDEM_COMPLIANT: N/A - out of scope
 				 DEPS: pv-electricity-generated,pv-own-use-proportion,default-split-rate
 				 NOTES: The dwelling will not use more electricity than it has demand for.
 				 ID: pv-useful-electricity

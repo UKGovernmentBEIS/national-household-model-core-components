@@ -48,6 +48,8 @@ public abstract class CombiBoilerImpl extends BoilerImpl implements ICombiBoiler
 		TYPE: formula
 		UNIT: Dimensionless
 		SAP: (206), Table 4c
+                SAP_COMPLIANT: Yes
+                BREDEM_COMPLIANT: N/A - out of scope
 		ID: combi-boiler-hot-water-efficiency
 		CODSIEB
 		*/
