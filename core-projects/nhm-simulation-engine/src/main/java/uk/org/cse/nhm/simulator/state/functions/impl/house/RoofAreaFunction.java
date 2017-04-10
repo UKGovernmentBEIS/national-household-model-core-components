@@ -10,6 +10,9 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 
 public class RoofAreaFunction extends StructureFunction<Double> {
 
+	private static final double pitchCorrectionFactor = Math.cos(
+			Math.toRadians(35));
+
 	private final boolean pitchCorrection;
 
 	@AssistedInject
@@ -25,7 +28,12 @@ public class RoofAreaFunction extends StructureFunction<Double> {
 	@Override
 	public Double compute(final IComponentsScope scope, final ILets lets) {
 		final StructureModel structure = getStructure(scope);
-		return structure.getExternalRoofArea(pitchCorrection);
+
+		if (pitchCorrection && structure.getRoofConstructionType().isPitched()) {
+			return structure.getExternalRoofArea() / pitchCorrectionFactor;
+		} else {
+			return structure.getExternalRoofArea();
+		}
 	}
 
 }
