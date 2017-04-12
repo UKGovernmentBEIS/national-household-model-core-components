@@ -1,7 +1,10 @@
 package uk.ac.ucl.hideem;
 import uk.ac.ucl.hideem.IExposure.*;
 
+import static org.junit.Assert.*;
+
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import uk.ac.ucl.hideem.Person.Sex;
@@ -687,6 +690,37 @@ public class HealthModuleTest {
 
         Assert.assertEquals("5 m3/m2/s reduction in permeability should save £1.29 for 10 males aged 0-90 over 10 years", -1.29, maleCostTotal, 0.05);
         Assert.assertEquals("5 m3/m2/s reduction in permeability should save £1.02 for 10 females aged 0-90 over 10 years", -1.02, femaleCostTotal, 0.05);
+    }
+	
+	@Ignore("Seems like all the other tests ignore the NaN's so maybe we should too? Have asked UCL - Rich")
+	@Test
+    public void cseDemonstrateNanOutcomeReturn() throws Exception {
+	    final IHealthModule hm = new HealthModule();
+	    
+	    final CumulativeHealthOutcome effect = hm.effectOf(CumulativeHealthOutcome.factory(1), 
+	            18d, 18d, 
+	            20d, 19d, 
+	            10d, 10d, 
+	            BuiltFormType.SemiDetached, 
+	            100d, 
+	            RegionType.London, 
+	            1, 
+	            true, 
+	            true, 
+	            true, 
+	            true, 
+	            true, 
+	            true, 
+	            ImmutableList.of(new Person(40, Sex.MALE, true)));
+	    
+	    
+	    double result = 0;
+	    for (final Disease.Type d : Disease.Type.values()) {
+            result += effect.mortality(d, 0);
+        }
+	    	    
+	    assertFalse("Result is NaN",Double.isNaN(result));
+	    System.out.println(result);
     }
 
 

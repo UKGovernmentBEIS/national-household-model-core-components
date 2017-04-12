@@ -272,4 +272,21 @@ public class XHealthImpactFunction extends XHouseNumber {
 		this.diseases = diseases;
 	}
 
+    /**
+     * Set the hadExtractFans.
+     *
+     * @param hadExtractFans the hadExtractFans 
+     */
+    public void setHadExtractFans(XBoolean hadExtractFans) {
+        this.hadExtractFans = hadExtractFans;
+    }
+
+    /**
+     * Set the hadTrickleVents.
+     *
+     * @param hadTrickleVents the hadTrickleVents 
+     */
+    public void setHadTrickleVents(XBoolean hadTrickleVents) {
+        this.hadTrickleVents = hadTrickleVents;
+    }
 }
