@@ -10,6 +10,7 @@ import javax.inject.Inject;
 
 import org.joda.time.DateTime;
 
+import com.fasterxml.jackson.databind.deser.Deserializers;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -202,14 +203,14 @@ public class HealthImpactFunction extends AbstractNamed implements IComponentsFu
 				for (int i = offset; i<horizon; i++) {
 					switch (impact) {
 					case Cost:
-						acc += outcome.cost(d, i);
+					    acc += getCost(outcome,d,i);
 						break;
 					case Morbidity:
-						acc += outcome.morbidity(d, i);
-						break;
+					    acc += getCost(outcome,d,i);
+                        break;
 					case Mortality:
-						acc += outcome.mortality(d, i);
-						break;
+					    acc += getCost(outcome,d,i);
+                        break;
 					}
 				}
 			}
@@ -217,6 +218,19 @@ public class HealthImpactFunction extends AbstractNamed implements IComponentsFu
 		return acc;
 	}
 
+	/**
+	 * Return cost from outcome, if the value is NaN then return 0 instead.
+	 * 
+	 * @param outcome
+	 * @param d
+	 * @param year
+	 * @return
+	 */
+	protected double getCost(final CumulativeHealthOutcome outcome, final Disease.Type disease, int year){
+	    double cost =  outcome.cost(disease, year);
+	    return Double.isNaN(cost) ? 0 : cost;
+	}
+		
 	@Override
 	public Set<IDimension<?>> getDependencies() {
 		// parts of the house that are important for health impact

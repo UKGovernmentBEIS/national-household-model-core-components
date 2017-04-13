@@ -17,9 +17,7 @@ public class HideemUseTest extends SimulatorIntegrationTest {
 
     @Test
     public void canUseFunctionInAScenario() throws Exception {
-        final IntegrationTestOutput output = super.runSimulation(super.fewerHouseCases(dataService, 0.05),
-                loadScenario("hideem/hideem.s"), true, Collections.<Class<?>> emptySet());
-
-        
+        final IntegrationTestOutput output = super.runSimulation(restrictHouseCases(dataService, "J0182106"),
+                loadScenario("hideem/hideem.s"), true, Collections.<Class<?>> emptySet()); 
     }
 }

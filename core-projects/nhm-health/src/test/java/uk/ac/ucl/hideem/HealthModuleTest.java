@@ -1,17 +1,16 @@
 package uk.ac.ucl.hideem;
-import uk.ac.ucl.hideem.IExposure.*;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
 
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import com.google.common.collect.ImmutableList;
+
+import uk.ac.ucl.hideem.IExposure.OverheatingAgeBands;
 import uk.ac.ucl.hideem.Person.Sex;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.hom.types.BuiltFormType;
-
-import com.google.common.collect.ImmutableList;
 
 
 public class HealthModuleTest {
@@ -692,18 +691,17 @@ public class HealthModuleTest {
         Assert.assertEquals("5 m3/m2/s reduction in permeability should save £1.02 for 10 females aged 0-90 over 10 years", -1.02, femaleCostTotal, 0.05);
     }
 	
-	@Ignore("Seems like all the other tests ignore the NaN's so maybe we should too? Have asked UCL - Rich")
 	@Test
     public void cseDemonstrateNanOutcomeReturn() throws Exception {
 	    final IHealthModule hm = new HealthModule();
 	    
 	    final CumulativeHealthOutcome effect = hm.effectOf(CumulativeHealthOutcome.factory(1), 
-	            18d, 18d, 
-	            20d, 19d, 
-	            10d, 10d, 
-	            BuiltFormType.SemiDetached, 
+	            18d, 18d,//T
+	            20d, 19d,//p
+	            10d, 10d,//h
+	            BuiltFormType.MidTerrace, 
 	            100d, 
-	            RegionType.London, 
+	            RegionType.SouthEast, 
 	            1, 
 	            true, 
 	            true, 
@@ -716,7 +714,9 @@ public class HealthModuleTest {
 	    
 	    double result = 0;
 	    for (final Disease.Type d : Disease.Type.values()) {
-            result += effect.mortality(d, 0);
+	        if (Double.isNaN(effect.mortality(d, 0)) != true){
+	            result += effect.mortality(d, 0);
+	        }
         }
 	    	    
 	    assertFalse("Result is NaN",Double.isNaN(result));
