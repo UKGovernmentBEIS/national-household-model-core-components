@@ -8,6 +8,7 @@ import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.language.adapt.impl.Adapt;
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.function.health.XHealthImpactFunction;
+import uk.org.cse.nhm.language.definition.function.health.XPermeabilityFunction;
 import uk.org.cse.nhm.language.definition.function.health.XHealthImpactFunction.XDisease;
 import uk.org.cse.nhm.language.definition.function.health.XHealthImpactFunction.XImpact;
 import uk.org.cse.nhm.language.definition.function.health.XSITFunction;
@@ -37,6 +38,7 @@ import uk.org.cse.nhm.language.definition.function.house.XTotalFloorArea;
 import uk.org.cse.nhm.language.definition.function.house.XVolume;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.health.HealthImpactFunction;
+import uk.org.cse.nhm.simulator.state.functions.impl.health.PermeabilityFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.health.SITFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.health.SITRebateFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.GetAgeOfHeatingSystem;
@@ -144,6 +146,9 @@ public interface IHouseValueFunctionFactory {
 
 	@Adapt(XSurfaceArea.class)
 	public GetSurfaceArea getGetSurfaceArea();
+	
+	@Adapt(XPermeabilityFunction.class)
+	public PermeabilityFunction getPermeabilityFunction();
 
     @Adapt(XHealthImpactFunction.class)
 	public HealthImpactFunction createHealthImpactFunction(
