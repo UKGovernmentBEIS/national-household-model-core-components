@@ -261,6 +261,18 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 
 			}
 		}
+
+        /**
+         * @param name
+         * @param proportion
+         * @param efficiency
+         * @param splitRate
+         * @see uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor#visitLight(java.lang.String, double, double, double[])
+         */
+        @Override
+        public void visitLight(String name, double proportion, double efficiency, double[] splitRate) {
+            // NoOp
+        }
 	}
 
 	@Override

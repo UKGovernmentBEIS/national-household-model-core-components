@@ -204,4 +204,14 @@ public interface IEnergyCalculatorVisitor {
 			final double exposedPerimeter,
 			final double wallThickness
         );
+
+    /**
+     * TODO.
+     * 
+     * @param name
+     * @param proportion
+     * @param efficiency
+     * @param splitRate 
+     */
+    void visitLight(String name, double proportion, double efficiency, double[] splitRate);
 }

@@ -1,4 +1,4 @@
-package uk.org.cse.nhm.hom.emf.technologies.impl.util;
+package uk.org.cse.nhm.energycalculator.api.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

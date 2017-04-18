@@ -79,7 +79,7 @@ public class SAPVisitor extends Visitor {
 			throw new IllegalArgumentException("Unknown frame type while computing frame factor " + frameType);
 		}
 	}
-
+	
 	@Override
 	protected double overrideVisibleLightTransmittivity(final GlazingType glazingType,
 			final double visibleLightTransmittivity) {
