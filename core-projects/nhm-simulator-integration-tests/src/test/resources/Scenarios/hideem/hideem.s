@@ -3,7 +3,7 @@
           start-date: 01/01/2012
           quantum: 400
           
- (def-report report
+    (def-report report
                 (column name: aacode value: (house.survey-code))
                 (column name: floor-area value: (house.total-floor-area))
                 (column name: health-impact-mortality value: (health-impact-of
@@ -31,8 +31,7 @@
                                            double-glazed-before: 0.8
                                            double-glazed-after: 0.8
                                            )))
-    
-    
+        
     (on.dates
         (scenario-start)
         (apply
@@ -42,6 +41,11 @@
                         (house.region-is SouthEast)
                         )
                     (all-houses))
-            (action.do-nothing
-                report: report)))
+            (measure.wall-insulation
+                report: report 
+                suitable-construction: Any 
+                suitable-insulation: Any 
+                type: External 
+                thickness: 100 
+                capex: 0)))
     )
