@@ -12,7 +12,8 @@ import uk.org.cse.nhm.language.definition.function.num.XNumber;
 @Doc({
 	"Replace all lighting with lighting types in the given proportion.",
 	"Proportions for the different type sof lightingshould sum to 1.",
-	"Efficiencies are defined in Lumens Per Watt (lpw)..."})
+	"Efficiencies are defined in Lumens Per Watt (lpw).",
+	"When using SAP2012 calculator efficiences better than 11.2 lpw will be clamped to 20.4417 lpw (SAP CFL)"})
 public class XLightingProportionsMeasure extends XMeasure {
 	public static final class P {
 		public static final String proportionOfCfl = "proportion-cfl";
@@ -47,7 +48,7 @@ public class XLightingProportionsMeasure extends XMeasure {
 		return propotionOfHAL;
 	}
 	
-	@BindNamedArgument("proportion-lef")
+	@BindNamedArgument("proportion-led")
 	@Prop(P.proportionOfLED)
 	@Doc("The proportion of LED with an efficiency of 67 lpw*")
 	public XNumber getProportionOfLED() {

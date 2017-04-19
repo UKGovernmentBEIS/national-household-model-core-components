@@ -9,7 +9,6 @@ import uk.org.cse.nhm.NHMException;
 import uk.org.cse.nhm.hom.emf.technologies.ILight;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
-import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.simulation.measure.AbstractMeasure;
 import uk.org.cse.nhm.simulator.let.ILets;
 import uk.org.cse.nhm.simulator.scope.IComponentsScope;
@@ -25,7 +24,6 @@ public class LightingProportionMeasure extends AbstractMeasure {
 	private final IComponentsFunction<Number> propotionOfHAL;
 	private final IComponentsFunction<Number> proportionOfLED;
 	private final IDimension<ITechnologyModel> techDimension;
-	private final IDimension<StructureModel> structureDimension;
 	
 	@AssistedInject
 	public LightingProportionMeasure(
@@ -33,15 +31,13 @@ public class LightingProportionMeasure extends AbstractMeasure {
 			@Assisted("proportionOfIcandescent") final IComponentsFunction<Number> proportionOfIcandescent,
 			@Assisted("propotionOfHAL") final IComponentsFunction<Number> propotionOfHAL,
 			@Assisted("proportionOfLED") final IComponentsFunction<Number> proportionOfLED,
-			final IDimension<ITechnologyModel> techDimension,
-			final IDimension<StructureModel> structureDimension
+			final IDimension<ITechnologyModel> techDimension
 			) {
 		this.proportionOfCfl = proportionOfCfl;
 		this.proportionOfIcandescent = proportionOfIcandescent;
 		this.propotionOfHAL = propotionOfHAL;
 		this.proportionOfLED = proportionOfLED;
 		this.techDimension = techDimension;
-		this.structureDimension = structureDimension;
 	}
 	
 	protected final ILight createLight(double efficiency, double proportion){
@@ -54,8 +50,6 @@ public class LightingProportionMeasure extends AbstractMeasure {
 		
 	@Override
 	public boolean apply(ISettableComponentsScope scope, ILets lets) throws NHMException {
-		final double floorArea = scope.get(structureDimension).getFloorArea();
-		
 		if (!isSuitable(scope, lets)) {
 			return false;
 		}
@@ -69,7 +63,7 @@ public class LightingProportionMeasure extends AbstractMeasure {
 				
 				//Add new lights in given proportion
 				lights.add(createLight(ILight.INCANDESCENT_EFFICIENCY, proportionOfIcandescent.compute(scope, lets).doubleValue()));
-				lights.add(createLight(ILight.CFL_EFFICIENCY, proportionOfCfl.compute(scope, lets).doubleValue()));
+				lights.add(createLight(ILight.BRE_CFL_EFFICIENCY, proportionOfCfl.compute(scope, lets).doubleValue()));
 				lights.add(createLight(ILight.HAL_EFFICIENCY, propotionOfHAL.compute(scope, lets).doubleValue()));
 				lights.add(createLight(ILight.LED_EFFICIENCY, proportionOfLED.compute(scope, lets).doubleValue()));
 				

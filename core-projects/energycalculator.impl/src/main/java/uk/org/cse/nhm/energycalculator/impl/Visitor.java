@@ -14,6 +14,7 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
 import uk.org.cse.nhm.energycalculator.api.IHeatingSystem;
 import uk.org.cse.nhm.energycalculator.api.IVentilationSystem;
 import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
+import uk.org.cse.nhm.energycalculator.api.impl.SimpleLightingTransducer;
 import uk.org.cse.nhm.energycalculator.api.types.AreaType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
@@ -529,7 +530,7 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 	 */
 	@Override
 	public void visitLight(String name, double proportion, double efficiency, double[] splitRate) {
-	    transducers.add(new uk.org.cse.nhm.energycalculator.api.impl.SimpleLightingTransducer(name, proportion, efficiency, splitRate)); 
+	    transducers.add(new SimpleLightingTransducer(name, proportion, efficiency, splitRate)); 
 	}
 }
 

@@ -29,11 +29,12 @@ public class GetHouseLightingProportion extends TechnologyFunction<Double> {
 		this.maxEfficiency = maxEfficiency;
 	}
 
-	@Override
+	@SuppressWarnings("unchecked")
+    @Override
 	public Double compute(IComponentsScope scope, ILets lets) {
 		return getProportionOfLightingOfGivenEfficiency(
 				getTechnologies(scope).getLights(), 
-				Range.openClosed(
+				Range.closed(
 						minEfficiency.compute(scope, lets).doubleValue(), 
 						maxEfficiency.compute(scope, lets).doubleValue()));
 	}
