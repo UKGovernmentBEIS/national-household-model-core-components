@@ -39,7 +39,7 @@ public class LightingProportionMeasureTest {
 	public void allExistingLightingProportionsAreReplaced() throws Exception {
 		MockDimensions dims = new MockDimensions();
 		final LightingProportionMeasure measure = new LightingProportionMeasure(proportionOfCfl,
-				proportionOfIcandescent, propotionOfHAL, proportionOfLED, techDimension, strucDimension);
+				proportionOfIcandescent, propotionOfHAL, proportionOfLED, techDimension);
 		
 		when(scope.get(techDimension)).thenReturn(techModel);
 		when(techModel.getLights()).thenReturn(lights);

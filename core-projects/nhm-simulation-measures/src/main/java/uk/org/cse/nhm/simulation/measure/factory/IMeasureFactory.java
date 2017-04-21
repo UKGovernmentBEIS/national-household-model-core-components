@@ -20,12 +20,14 @@ import uk.org.cse.nhm.hom.emf.technologies.StorageHeaterType;
 import uk.org.cse.nhm.hom.structure.IWall;
 import uk.org.cse.nhm.language.adapt.impl.Adapt;
 import uk.org.cse.nhm.language.adapt.impl.Prop;
+import uk.org.cse.nhm.language.definition.action.measure.adjust.XSetAdjustmentTerms.XAdjustmentType;
 import uk.org.cse.nhm.language.definition.action.measure.lighting.XLightingProportionsMeasure;
 import uk.org.cse.nhm.language.definition.enums.XChangeDirection;
 import uk.org.cse.nhm.simulation.measure.HeatingControlMeasure;
 import uk.org.cse.nhm.simulation.measure.StorageHeaterMeasure;
 import uk.org.cse.nhm.simulation.measure.adjustment.AdjustmentMeasure;
 import uk.org.cse.nhm.simulation.measure.adjustment.ClearAdjustmentsMeasure;
+import uk.org.cse.nhm.simulation.measure.adjustment.SetAdjustmentTermsMeasure;
 import uk.org.cse.nhm.simulation.measure.boilers.BoilerEfficiencyMeasure;
 import uk.org.cse.nhm.simulation.measure.boilers.BreakBoilerMeasure;
 import uk.org.cse.nhm.simulation.measure.boilers.CombiBoilerMeasure;
@@ -54,6 +56,7 @@ import uk.org.cse.nhm.simulation.measure.roomheaters.RoomHeaterMeasure;
 import uk.org.cse.nhm.simulation.measure.structure.AlterWallHeatLossMeasure;
 import uk.org.cse.nhm.simulation.measure.structure.ModifyWallConstructionTypeMeasure;
 import uk.org.cse.nhm.simulator.measure.sizing.ISizingFunction;
+import uk.org.cse.nhm.simulator.scope.IComponentsAction;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.HeatingEfficiencyFunction;
 
@@ -252,4 +255,17 @@ public interface IMeasureFactory {
 			@Assisted("propotionOfHAL") @Prop(XLightingProportionsMeasure.P.proportionOfHAL) final IComponentsFunction<Number> propotionOfHAL,
 			@Assisted("proportionOfLED") @Prop(XLightingProportionsMeasure.P.proportionOfLED) final IComponentsFunction<Number> proportionOfLED
     		);
+
+    /**
+     * TODO.
+     * 
+     * @param adjustmentType
+     * @param constantTerm
+     * @param linearFactor
+     * @return
+     */
+    public SetAdjustmentTermsMeasure createSetAdjustmentTermsMeasure(
+            @Assisted("adjustment-type") final SetAdjustmentTermsMeasure.AdjustmentType adjustmentType,
+            @Assisted("constsant-term") final IComponentsFunction<Number> constantTerm, 
+            @Assisted("linear-factor") final IComponentsFunction<Number> linearFactor);
 }

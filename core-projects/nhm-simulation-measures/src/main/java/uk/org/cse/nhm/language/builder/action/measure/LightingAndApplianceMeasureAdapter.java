@@ -20,9 +20,12 @@ import uk.org.cse.nhm.language.definition.action.measure.adjust.XAddAdjustmentAc
 import uk.org.cse.nhm.language.definition.action.measure.adjust.XAdjustment;
 import uk.org.cse.nhm.language.definition.action.measure.adjust.XClearAdjustmentsAction;
 import uk.org.cse.nhm.language.definition.action.measure.adjust.XRemoveAdjustmentAction;
+import uk.org.cse.nhm.language.definition.action.measure.adjust.XSetAdjustmentTerms;
+import uk.org.cse.nhm.language.definition.action.measure.adjust.XSetAdjustmentTerms.XAdjustmentType;
 import uk.org.cse.nhm.language.definition.action.measure.lighting.XLightingMeasure;
 import uk.org.cse.nhm.language.definition.action.measure.lighting.XLightingProportionsMeasure;
 import uk.org.cse.nhm.language.definition.enums.XFuelType;
+import uk.org.cse.nhm.simulation.measure.adjustment.SetAdjustmentTermsMeasure;
 import uk.org.cse.nhm.simulation.measure.factory.IMeasureFactory;
 import uk.org.cse.nhm.simulation.measure.lighting.LightingProportionMeasure;
 import uk.org.cse.nhm.simulator.main.Initializable;
@@ -59,7 +62,25 @@ public class LightingAndApplianceMeasureAdapter extends ReflectingAdapter {
 		return factory.createLightingProportionMeasure(proportionOfCfl, proportionOfIcandescent, propotionOfHAL, proportionOfLED);
 	}
 	
-	
+	@Adapt(XSetAdjustmentTerms.class)
+	public IComponentsAction buildSetAdjustmentTermsAction(
+	        @Prop(XSetAdjustmentTerms.P.adjustmentType) final XAdjustmentType adjustmentType,
+	        @Prop(XSetAdjustmentTerms.P.constantTerm) final IComponentsFunction<Number> constantTerm,
+	        @Prop(XSetAdjustmentTerms.P.linearFactor) final IComponentsFunction<Number> linearFactor
+            ){
+	    
+	    SetAdjustmentTermsMeasure.AdjustmentType actualAdjustmentType = null;
+	    switch (adjustmentType) {
+            case Appliances:
+                actualAdjustmentType = SetAdjustmentTermsMeasure.AdjustmentType.Appliances; 
+                break;
+            case Cooking:
+                actualAdjustmentType = SetAdjustmentTermsMeasure.AdjustmentType.Cooking; 
+                break;
+        }
+	    	    
+	    return factory.createSetAdjustmentTermsMeasure(actualAdjustmentType, constantTerm, linearFactor);
+	}
 	
 	@Adapt(XAddAdjustmentAction.class)
 	public IComponentsAction buildAddAdjustmentAction(
