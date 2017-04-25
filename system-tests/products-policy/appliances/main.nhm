@@ -3,14 +3,15 @@
  end-date: 2015
  stock-id: ../../stock.json
 
- (def-report report
-   (column name: appliances (house.energy-use by-service: Appliancse)))
+ (def-report product-report
+   (column name: appliances value: (house.energy-use by-service: Appliances  by-fuel: Electricity)))
 
  (on.dates
   (scenario-start)
   (apply
    (do
        (measure.set-adjustment-terms
+        report: product-report
         adjustment-type: Appliances
         constant-term: 1
         linear-factor: 2

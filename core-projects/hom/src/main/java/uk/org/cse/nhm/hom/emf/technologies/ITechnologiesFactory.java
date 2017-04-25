@@ -256,6 +256,15 @@ public interface ITechnologiesFactory extends EFactory {
 	IElectricShower createElectricShower();
 
 	/**
+	 * Returns a new object of class '<em>Energy Use Adjuster</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Energy Use Adjuster</em>'.
+	 * @generated
+	 */
+	IEnergyUseAdjuster createEnergyUseAdjuster();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

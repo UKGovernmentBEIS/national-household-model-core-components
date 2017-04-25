@@ -68,7 +68,7 @@ public class MainWaterHeaterImpl extends CentralWaterHeaterImpl implements IMain
 	@Override
 	public IHeatSource getHeatSource() {
 		if (heatSource != null && heatSource.eIsProxy()) {
-			final InternalEObject oldHeatSource = (InternalEObject)heatSource;
+			InternalEObject oldHeatSource = (InternalEObject)heatSource;
 			heatSource = (IHeatSource)eResolveProxy(oldHeatSource);
 			if (heatSource != oldHeatSource) {
 				if (eNotificationRequired())
@@ -92,11 +92,11 @@ public class MainWaterHeaterImpl extends CentralWaterHeaterImpl implements IMain
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetHeatSource(final IHeatSource newHeatSource, NotificationChain msgs) {
-		final IHeatSource oldHeatSource = heatSource;
+	public NotificationChain basicSetHeatSource(IHeatSource newHeatSource, NotificationChain msgs) {
+		IHeatSource oldHeatSource = heatSource;
 		heatSource = newHeatSource;
 		if (eNotificationRequired()) {
-			final ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.MAIN_WATER_HEATER__HEAT_SOURCE, oldHeatSource, newHeatSource);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.MAIN_WATER_HEATER__HEAT_SOURCE, oldHeatSource, newHeatSource);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
@@ -108,7 +108,7 @@ public class MainWaterHeaterImpl extends CentralWaterHeaterImpl implements IMain
 	 * @generated
 	 */
 	@Override
-	public void setHeatSource(final IHeatSource newHeatSource) {
+	public void setHeatSource(IHeatSource newHeatSource) {
 		if (newHeatSource != heatSource) {
 			NotificationChain msgs = null;
 			if (heatSource != null)
@@ -128,7 +128,7 @@ public class MainWaterHeaterImpl extends CentralWaterHeaterImpl implements IMain
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseAdd(final InternalEObject otherEnd, final int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case ITechnologiesPackage.MAIN_WATER_HEATER__HEAT_SOURCE:
 				if (heatSource != null)
@@ -144,7 +144,7 @@ public class MainWaterHeaterImpl extends CentralWaterHeaterImpl implements IMain
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(final InternalEObject otherEnd, final int featureID, final NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case ITechnologiesPackage.MAIN_WATER_HEATER__HEAT_SOURCE:
 				return basicSetHeatSource(null, msgs);
@@ -158,7 +158,7 @@ public class MainWaterHeaterImpl extends CentralWaterHeaterImpl implements IMain
 	 * @generated
 	 */
 	@Override
-	public Object eGet(final int featureID, final boolean resolve, final boolean coreType) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ITechnologiesPackage.MAIN_WATER_HEATER__HEAT_SOURCE:
 				if (resolve) return getHeatSource();
@@ -173,7 +173,7 @@ public class MainWaterHeaterImpl extends CentralWaterHeaterImpl implements IMain
 	 * @generated
 	 */
 	@Override
-	public void eSet(final int featureID, final Object newValue) {
+	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case ITechnologiesPackage.MAIN_WATER_HEATER__HEAT_SOURCE:
 				setHeatSource((IHeatSource)newValue);
@@ -188,7 +188,7 @@ public class MainWaterHeaterImpl extends CentralWaterHeaterImpl implements IMain
 	 * @generated
 	 */
 	@Override
-	public void eUnset(final int featureID) {
+	public void eUnset(int featureID) {
 		switch (featureID) {
 			case ITechnologiesPackage.MAIN_WATER_HEATER__HEAT_SOURCE:
 				setHeatSource((IHeatSource)null);
@@ -203,7 +203,7 @@ public class MainWaterHeaterImpl extends CentralWaterHeaterImpl implements IMain
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(final int featureID) {
+	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case ITechnologiesPackage.MAIN_WATER_HEATER__HEAT_SOURCE:
 				return heatSource != null;

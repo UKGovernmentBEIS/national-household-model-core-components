@@ -115,8 +115,8 @@ public class BackBoilerImpl extends BoilerImpl implements IBackBoiler {
 	 * @generated
 	 */
 	@Override
-	public void setEfficiency(final Efficiency newEfficiency) {
-		final Efficiency oldEfficiency = efficiency;
+	public void setEfficiency(Efficiency newEfficiency) {
+		Efficiency oldEfficiency = efficiency;
 		efficiency = newEfficiency;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.BACK_BOILER__EFFICIENCY, oldEfficiency, efficiency));
@@ -138,8 +138,8 @@ public class BackBoilerImpl extends BoilerImpl implements IBackBoiler {
 	 * @generated
 	 */
 	@Override
-	public void setThermostatFitted(final boolean newThermostatFitted) {
-		final boolean oldThermostatFitted = (flags & THERMOSTAT_FITTED_EFLAG) != 0;
+	public void setThermostatFitted(boolean newThermostatFitted) {
+		boolean oldThermostatFitted = (flags & THERMOSTAT_FITTED_EFLAG) != 0;
 		if (newThermostatFitted) flags |= THERMOSTAT_FITTED_EFLAG; else flags &= ~THERMOSTAT_FITTED_EFLAG;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.BACK_BOILER__THERMOSTAT_FITTED, oldThermostatFitted, newThermostatFitted));
@@ -161,7 +161,7 @@ public class BackBoilerImpl extends BoilerImpl implements IBackBoiler {
 	 * @generated
 	 */
 	@Override
-	public Object eGet(final int featureID, final boolean resolve, final boolean coreType) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ITechnologiesPackage.BACK_BOILER__EFFICIENCY:
 				return getEfficiency();
@@ -177,7 +177,7 @@ public class BackBoilerImpl extends BoilerImpl implements IBackBoiler {
 	 * @generated
 	 */
 	@Override
-	public void eSet(final int featureID, final Object newValue) {
+	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case ITechnologiesPackage.BACK_BOILER__EFFICIENCY:
 				setEfficiency((Efficiency)newValue);
@@ -195,7 +195,7 @@ public class BackBoilerImpl extends BoilerImpl implements IBackBoiler {
 	 * @generated
 	 */
 	@Override
-	public void eUnset(final int featureID) {
+	public void eUnset(int featureID) {
 		switch (featureID) {
 			case ITechnologiesPackage.BACK_BOILER__EFFICIENCY:
 				setEfficiency(EFFICIENCY_EDEFAULT);
@@ -213,7 +213,7 @@ public class BackBoilerImpl extends BoilerImpl implements IBackBoiler {
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(final int featureID) {
+	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case ITechnologiesPackage.BACK_BOILER__EFFICIENCY:
 				return EFFICIENCY_EDEFAULT == null ? efficiency != null : !EFFICIENCY_EDEFAULT.equals(efficiency);
@@ -229,7 +229,7 @@ public class BackBoilerImpl extends BoilerImpl implements IBackBoiler {
 	 * @generated
 	 */
 	@Override
-	public int eBaseStructuralFeatureID(final int derivedFeatureID, final Class<?> baseClass) {
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
 		if (baseClass == ISpaceHeater.class) {
 			switch (derivedFeatureID) {
 				default: return -1;
@@ -251,7 +251,7 @@ public class BackBoilerImpl extends BoilerImpl implements IBackBoiler {
 	 * @generated
 	 */
 	@Override
-	public int eDerivedStructuralFeatureID(final int baseFeatureID, final Class<?> baseClass) {
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
 		if (baseClass == ISpaceHeater.class) {
 			switch (baseFeatureID) {
 				default: return -1;
