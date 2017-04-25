@@ -1,11 +1,16 @@
 package uk.org.cse.nhm.simulation.measure.adjustment;
 
+import java.util.Iterator;
+
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 import uk.org.cse.nhm.NHMException;
+import uk.org.cse.nhm.hom.emf.technologies.AdjusterType;
+import uk.org.cse.nhm.hom.emf.technologies.IEnergyUseAdjuster;
+import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
-import uk.org.cse.nhm.language.definition.action.measure.adjust.XSetAdjustmentTerms.XAdjustmentType;
+import uk.org.cse.nhm.language.definition.action.measure.adjust.XSetAdjustmentTerms;
 import uk.org.cse.nhm.simulation.measure.AbstractMeasure;
 import uk.org.cse.nhm.simulator.let.ILets;
 import uk.org.cse.nhm.simulator.scope.IComponentsScope;
@@ -20,26 +25,22 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
  *
  * @author trickyBytes
  */
-public class SetAdjustmentTermsMeasure extends AbstractMeasure implements IModifier<ITechnologyModel> {
+public class SetAdjustmentTermsMeasure extends AbstractMeasure {
     private final IDimension<ITechnologyModel> technologies;
     private final IComponentsFunction<Number> constantTerm;
     private final IComponentsFunction<Number> linearFactor;
-    private final AdjustmentType adjustmentType;
-    
-    public enum AdjustmentType {
-        Appliances, Cooking
-    }
+    private final AdjusterType adjusterType;
     
     @AssistedInject
     public SetAdjustmentTermsMeasure(
             final IDimension<ITechnologyModel> technologies,
-            @Assisted("adjustment-type") final AdjustmentType adjustmentType,
-            @Assisted("constsant-term")final IComponentsFunction<Number> constantTerm,
-            @Assisted("linear-factor") final IComponentsFunction<Number> linearFactor) {
+            @Assisted(XSetAdjustmentTerms.P.constantTerm) final IComponentsFunction<Number> constantTerm,
+            @Assisted(XSetAdjustmentTerms.P.linearFactor) final IComponentsFunction<Number> linearFactor,
+            @Assisted final AdjusterType adjusterType){
         this.technologies = technologies;
         this.constantTerm = constantTerm;
         this.linearFactor = linearFactor;
-        this.adjustmentType = adjustmentType;
+        this.adjusterType = adjusterType;
     }
     
     /**
@@ -51,7 +52,34 @@ public class SetAdjustmentTermsMeasure extends AbstractMeasure implements IModif
      */
     @Override
     public boolean apply(ISettableComponentsScope scope, ILets lets) throws NHMException {
-        return true;
+        if(isSuitable(scope, lets)){
+            scope.modify(technologies, new IModifier<ITechnologyModel>() {
+                @Override
+                public boolean modify(ITechnologyModel modifiable) {
+                    double constantTermActual = constantTerm.compute(scope, lets).doubleValue();
+                    double linearFactorActual = linearFactor.compute(scope, lets).doubleValue();
+                    
+                    final Iterator<IEnergyUseAdjuster> it = modifiable.getEnergyUseAdjusters().iterator();
+                    while(it.hasNext()){
+                        if(it.next().getAdjustmentType().equals(adjusterType)){
+                            it.remove();
+                        }
+                    }
+                   
+                   IEnergyUseAdjuster adjuster = ITechnologiesFactory.eINSTANCE.createEnergyUseAdjuster();
+                   adjuster.setAdjustmentType(adjusterType);
+                   adjuster.setConstantTerm(constantTermActual);
+                   adjuster.setLinearFactor(linearFactorActual);
+                   
+                   modifiable.getEnergyUseAdjusters().add(adjuster);
+                   
+                   return true;
+                }
+            });
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -81,15 +109,5 @@ public class SetAdjustmentTermsMeasure extends AbstractMeasure implements IModif
     @Override
     public StateChangeSourceType getSourceType() {
         return StateChangeSourceType.ACTION;
-    }
-
-    /**
-     * @param modifiable
-     * @return
-     * @see uk.org.cse.nhm.simulator.state.IBranch.IModifier#modify(java.lang.Object)
-     */
-    @Override
-    public boolean modify(ITechnologyModel modifiable) {
-        return true;
     }
 }

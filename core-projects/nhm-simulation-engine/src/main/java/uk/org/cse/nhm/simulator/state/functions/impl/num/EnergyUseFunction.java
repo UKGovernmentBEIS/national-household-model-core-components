@@ -41,7 +41,8 @@ public class EnergyUseFunction extends AbstractNamed implements IComponentsFunct
 		this.serviceType = serviceType;
 	}
 
-	@Override
+	@SuppressWarnings("unchecked")
+    @Override
 	public Double compute(final IComponentsScope scope, final ILets lets) {
         return compute(scope.get(energy), fuelType, serviceType);
 	}

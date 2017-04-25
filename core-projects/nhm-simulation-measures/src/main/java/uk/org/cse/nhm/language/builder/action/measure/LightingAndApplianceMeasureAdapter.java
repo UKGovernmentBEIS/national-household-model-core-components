@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import uk.org.cse.commons.names.Name;
+import uk.org.cse.nhm.hom.emf.technologies.AdjusterType;
 import uk.org.cse.nhm.hom.emf.technologies.IAdjuster;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;
 import uk.org.cse.nhm.language.adapt.IAdapterInterceptor;
@@ -63,23 +64,23 @@ public class LightingAndApplianceMeasureAdapter extends ReflectingAdapter {
 	}
 	
 	@Adapt(XSetAdjustmentTerms.class)
-	public IComponentsAction buildSetAdjustmentTermsAction(
+	public SetAdjustmentTermsMeasure buildSetAdjustmentTermsAction(
 	        @Prop(XSetAdjustmentTerms.P.adjustmentType) final XAdjustmentType adjustmentType,
 	        @Prop(XSetAdjustmentTerms.P.constantTerm) final IComponentsFunction<Number> constantTerm,
 	        @Prop(XSetAdjustmentTerms.P.linearFactor) final IComponentsFunction<Number> linearFactor
             ){
-	    
-	    SetAdjustmentTermsMeasure.AdjustmentType actualAdjustmentType = null;
+
+	    AdjusterType adjusterType = null;
 	    switch (adjustmentType) {
             case Appliances:
-                actualAdjustmentType = SetAdjustmentTermsMeasure.AdjustmentType.Appliances; 
+                adjusterType = AdjusterType.APPLIANCE;
                 break;
             case Cooking:
-                actualAdjustmentType = SetAdjustmentTermsMeasure.AdjustmentType.Cooking; 
+                adjusterType = AdjusterType.COOKER;
                 break;
-        }
-	    	    
-	    return factory.createSetAdjustmentTermsMeasure(actualAdjustmentType, constantTerm, linearFactor);
+	    }	    
+	    
+	    return factory.createSetAdjustmentTermsMeasure(adjusterType,constantTerm, linearFactor);
 	}
 	
 	@Adapt(XAddAdjustmentAction.class)

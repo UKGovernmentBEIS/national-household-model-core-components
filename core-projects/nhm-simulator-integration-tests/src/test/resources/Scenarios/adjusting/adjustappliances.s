@@ -1,7 +1,7 @@
 (scenario stock-id: test-survey-cases
           end-date: 01/01/2014
           start-date: 01/01/2012
-          quantum: 400
+          quantum: 1000
           weighting:round
 
   (on.dates
@@ -11,8 +11,8 @@
   		(do
 			(measure.set-adjustment-terms
 				adjustment-type: Appliances
-				constant-term: 1
-				linear-factor: 2
+				constant-term: 10
+				linear-factor: 0.5
 			)
 	  	)
   	)

@@ -130,4 +130,12 @@ public interface IEnergyState {
 	 * @param delta
 	 */
 	public void meetSupply(final EnergyType et, final double delta);
+
+    /**
+     * get the total demand for the service across all energy types.
+     * 
+     * @param serviceType
+     * @return
+     */
+    double getTotalDemand(ServiceType serviceType);
 }
