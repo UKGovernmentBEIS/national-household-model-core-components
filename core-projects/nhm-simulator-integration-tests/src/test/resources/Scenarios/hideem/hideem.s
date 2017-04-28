@@ -88,5 +88,7 @@
                 (set permeability-after (house.permeability))
                 (set heat-loss-after (house.heat-loss Total))
                 (set double-glazed-after (house.double-glazed-proportion)) 
+                
+                ;;Send to report -hideem report
                 ))
         ))

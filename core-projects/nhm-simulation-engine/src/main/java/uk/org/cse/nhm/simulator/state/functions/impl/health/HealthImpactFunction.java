@@ -10,7 +10,6 @@ import javax.inject.Inject;
 
 import org.joda.time.DateTime;
 
-import com.fasterxml.jackson.databind.deser.Deserializers;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -126,7 +125,8 @@ public class HealthImpactFunction extends AbstractNamed implements IComponentsFu
         this.vents = vents;
 	}
 
-	@Override
+	@SuppressWarnings("unchecked")
+    @Override
 	public Number compute(final IComponentsScope scope, final ILets lets) {
 		final BasicCaseAttributes basic = scope.get(attributes);
 		final StructureModel structureModel = scope.get(structure);
@@ -206,10 +206,10 @@ public class HealthImpactFunction extends AbstractNamed implements IComponentsFu
 					    acc += getCost(outcome,d,i);
 						break;
 					case Morbidity:
-					    acc += getCost(outcome,d,i);
+					    acc += getMorbidity(outcome,d,i);
                         break;
 					case Mortality:
-					    acc += getCost(outcome,d,i);
+					    acc += getMortality(outcome,d,i);
                         break;
 					}
 				}
@@ -230,6 +230,16 @@ public class HealthImpactFunction extends AbstractNamed implements IComponentsFu
 	    double cost =  outcome.cost(disease, year);
 	    return Double.isNaN(cost) ? 0 : cost;
 	}
+	
+	protected double getMortality(final CumulativeHealthOutcome outcome, final Disease.Type disease, int year){
+	    double cost =  outcome.mortality(disease, year);
+	    return Double.isNaN(cost) ? 0 : cost;
+	}
+	
+	protected double getMorbidity(final CumulativeHealthOutcome outcome, final Disease.Type disease, int year){
+        double cost =  outcome.morbidity(disease, year);
+        return Double.isNaN(cost) ? 0 : cost;
+    }
 		
 	@Override
 	public Set<IDimension<?>> getDependencies() {
