@@ -64,7 +64,9 @@ public class XHealthImpactFunction extends XHouseNumber {
 		WCV, @Doc("Winter myocardial infarction")
 		WMI, @Doc("Common mental disorders")
 		CMD, @Doc("Athsma")
-		Asthma
+		Asthma,
+		@Doc("Common mental disorder") COPD,
+		@Doc("Over heating") OvHeat
 	}
 
 	@Doc("One of the types of impact a disease may have")

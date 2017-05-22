@@ -7,6 +7,8 @@ import javax.inject.Inject;
 
 import org.joda.time.DateTime;
 
+import com.google.common.collect.ImmutableSet;
+
 import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.simulator.AbstractNamed;
 import uk.org.cse.nhm.simulator.let.ILets;
@@ -14,8 +16,6 @@ import uk.org.cse.nhm.simulator.scope.IComponentsScope;
 import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.dimensions.energy.IPowerTable;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
-
-import com.google.common.collect.ImmutableSet;
 
 public class PermeabilityFunction extends AbstractNamed implements IComponentsFunction<Number> {
 	private final IDimension<StructureModel> structure;
