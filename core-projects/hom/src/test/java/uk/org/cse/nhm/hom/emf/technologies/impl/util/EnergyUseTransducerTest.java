@@ -28,7 +28,7 @@ import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.impl.appliances.Appliances09;
 
 /**
- * EnergyUseTransducerTest.
+ * EnergyUseTransducerTest..
  *
  * @author trickyBytes
  */

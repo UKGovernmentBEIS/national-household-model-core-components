@@ -369,6 +369,7 @@ public class EnergyUseAdjusterImpl extends MinimalEObjectImpl implements IEnergy
 
 	/**
 	 * <!-- begin-user-doc -->
+
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */

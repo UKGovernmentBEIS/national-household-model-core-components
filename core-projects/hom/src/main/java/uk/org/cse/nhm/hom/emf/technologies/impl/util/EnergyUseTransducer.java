@@ -14,7 +14,7 @@ import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.TransducerPhaseType;
 
 /**
- * EnergyUseTransducer.
+ * EnergyUseTransducer..
  *
  * @author trickyBytes
  */
