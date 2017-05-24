@@ -35,6 +35,7 @@ import uk.org.cse.nhm.energycalculator.impl.appliances.Appliances09;
 @RunWith(MockitoJUnitRunner.class)
 public class EnergyUseTransducerTest {
 
+
     @Mock private IEnergyCalculatorHouseCase house;
     @Mock private IInternalParameters parameters;
     @Mock private ISpecificHeatLosses losses;
@@ -122,17 +123,4 @@ public class EnergyUseTransducerTest {
         verify(state, atMost(1)).setCurrentServiceType(ServiceType.APPLIANCES, ServiceType.APPLIANCES.toString());
         verify(state, atMost(0)).increaseDemand(EnergyType.FuelOFFPEAK_ELECTRICITY, 0);
     }
-    
-    @Test
-    public void testEnergyDemandForGiveEnergyTypeAndAndServiceTypeCalculation(){
-        transducer = new EnergyUseTransducer(ServiceType.APPLIANCES, 0.5, 10);
-        when(state.getTotalDemand(EnergyType.FuelOFFPEAK_ELECTRICITY, ServiceType.APPLIANCES)).thenReturn(100d);
-        when(state.getTotalDemand(ServiceType.APPLIANCES)).thenReturn(100d);
-        
-        transducer.generate(house, parameters, losses, state);
-        verify(state, atMost(1)).setCurrentServiceType(ServiceType.APPLIANCES, ServiceType.APPLIANCES.toString());
-        verify(state).increaseDemand(EnergyType.FuelOFFPEAK_ELECTRICITY, -40d);
-    }
-    
-   
 }

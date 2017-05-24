@@ -1,4 +1,3 @@
-
 ## Tests that by increasing the efficiency of appliances that the heat gains removed show as extra heat demand
 result <- load.probe("product-report")
 
@@ -18,4 +17,3 @@ write.csv(result,file.path("~/software-projects/nhm-cse/system-tests/t.csv"))
 # I think this test is ok, it's really as long as the energy demand for heat doesn't go down then cool
 fail.test.if(
     gains.diff > 42,
-    "Appliance energy use after set adjustment")

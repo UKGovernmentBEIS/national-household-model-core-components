@@ -20,10 +20,9 @@ import uk.org.cse.nhm.energycalculator.api.types.TransducerPhaseType;
  */
 public class EnergyUseTransducer implements IEnergyTransducer {
     private final ServiceType serviceType;
-
     private final double linearTerm;
     private final double constantTerm;
-
+        
     /**
      * @param appliances
      * @param linearTerm
