@@ -50,7 +50,7 @@ public class XLightingProportionsMeasure extends XMeasure {
 	
 	@BindNamedArgument("proportion-led")
 	@Prop(P.proportionOfLED)
-	@Doc("The proportion of LED with an efficiency of 67 lpw*")
+	@Doc("The proportion of LED with an efficiency of 67 lpw")
 	public XNumber getProportionOfLED() {
 		return proportionOfLED;
 	}

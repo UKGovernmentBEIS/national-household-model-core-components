@@ -16,7 +16,7 @@ import uk.org.cse.nhm.language.definition.function.num.XNumber;
  * @author trickyBytes
  */
 @Doc({"Applies a linear correction factor to the energy use of either Appliances or Cooking",
-        "Correction factor is applied to result of equation SAP2012 L10"})
+        "Correction factor is applied to result of equation SAP2012 L10."})
 @Bind("measure.set-adjustment-terms")
 public class XSetAdjustmentTerms extends XMeasure {
     public static final class P {
@@ -37,7 +37,7 @@ public class XSetAdjustmentTerms extends XMeasure {
     @Prop(P.constantTerm)
     @BindNamedArgument(P.constantTerm)
     @NotNull(message="A constant term is required")
-    @Doc("The constant term (C) for the adjustment")
+    @Doc("The constant term (C) for the adjustment, this is in kwh")
     public XNumber getConstantTerm() {
         return constantTerm;
     }
