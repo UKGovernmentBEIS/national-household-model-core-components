@@ -47,6 +47,7 @@ import uk.org.cse.nhm.simulation.measure.otherspaceheating.WarmAirMeasure;
 import uk.org.cse.nhm.simulation.measure.renewables.SolarHotWaterMeasure;
 import uk.org.cse.nhm.simulation.measure.renewables.SolarPhotovoltaicMeasure;
 import uk.org.cse.nhm.simulation.measure.roomheaters.RoomHeaterMeasure;
+import uk.org.cse.nhm.simulation.measure.structure.AdjustNumberOfPassiveVentsMeasure;
 import uk.org.cse.nhm.simulation.measure.structure.AlterWallHeatLossMeasure;
 import uk.org.cse.nhm.simulation.measure.structure.ModifyWallConstructionTypeMeasure;
 import uk.org.cse.nhm.simulator.measure.sizing.ISizingFunction;
@@ -241,4 +242,7 @@ public interface IMeasureFactory {
             @Assisted("capex") final IComponentsFunction<Number> capitalCostFunction,
             @Assisted("opex") final IComponentsFunction<Number> operationalCostFunction,
             @Assisted("efficiency") final IComponentsFunction<Number> efficiency);
+    
+    public AdjustNumberOfPassiveVentsMeasure createAdjustNumberOfPassiveVentsModifier(
+            final int numOfVents);
 }

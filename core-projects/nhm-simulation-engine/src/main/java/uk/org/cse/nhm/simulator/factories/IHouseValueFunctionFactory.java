@@ -26,6 +26,7 @@ import uk.org.cse.nhm.language.definition.function.house.XMainHeatingSystemType;
 import uk.org.cse.nhm.language.definition.function.house.XMorphology;
 import uk.org.cse.nhm.language.definition.function.house.XNumberOfBedrooms;
 import uk.org.cse.nhm.language.definition.function.house.XNumberOfOccupants;
+import uk.org.cse.nhm.language.definition.function.house.XNumberOfPassiveVents;
 import uk.org.cse.nhm.language.definition.function.house.XPredominantWallType;
 import uk.org.cse.nhm.language.definition.function.house.XRegion;
 import uk.org.cse.nhm.language.definition.function.house.XRoofArea;
@@ -53,6 +54,7 @@ import uk.org.cse.nhm.simulator.state.functions.impl.house.GetMethodOfPayment;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.GetMorphology;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.GetNumberOfBedrooms;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.GetNumberOfOccupants;
+import uk.org.cse.nhm.simulator.state.functions.impl.house.GetNumberOfPassiveVents;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.GetPredominantWallType;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.GetProportionOfDoubleGlazedWindows;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.GetRegion;
@@ -121,6 +123,9 @@ public interface IHouseValueFunctionFactory {
 
 	@Adapt(XTotalFloorArea.class)
 	public GetTotalFloorArea getTotalFloorArea();
+	
+	@Adapt(XNumberOfPassiveVents.class)
+    public GetNumberOfPassiveVents getNumberOfPassiveVents();
 
 	@Adapt(XVolume.class)
     public GetVolume getGetVolume();

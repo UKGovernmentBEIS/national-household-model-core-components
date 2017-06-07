@@ -20,6 +20,7 @@ import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.adapt.impl.ReflectingAdapter;
 import uk.org.cse.nhm.language.builder.function.MapEnum;
 import uk.org.cse.nhm.language.builder.function.MapWallTypes;
+import uk.org.cse.nhm.language.definition.action.measure.adjust.XAdjustNumberOfPassiveVentsMeasure;
 import uk.org.cse.nhm.language.definition.action.measure.insulation.XDraughtProofingMeasure;
 import uk.org.cse.nhm.language.definition.action.measure.insulation.XFloorInsulationMeasure;
 import uk.org.cse.nhm.language.definition.action.measure.insulation.XGlazingMeasure;
@@ -212,4 +213,11 @@ public class InsulationMeasureAdapter extends ReflectingAdapter {
 	public IComponentsAction buildSetLoftAction(final XSetLoftAction theAction) {
 		return factory.createAddOrRemoveLoftAction(theAction.isAddLoft());
 	}
+	
+	@Adapt(XAdjustNumberOfPassiveVentsMeasure.class)
+    public IComponentsAction buildAdjustNumberOfPassiveVentsMeasure(
+            @Prop(XAdjustNumberOfPassiveVentsMeasure.P.adjustment) final int uValue
+            ) {
+        return factory.createAdjustNumberOfPassiveVentsModifier(uValue);
+    }
 }
