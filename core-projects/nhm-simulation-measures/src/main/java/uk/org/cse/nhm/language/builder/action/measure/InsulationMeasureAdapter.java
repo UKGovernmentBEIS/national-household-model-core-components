@@ -20,7 +20,7 @@ import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.adapt.impl.ReflectingAdapter;
 import uk.org.cse.nhm.language.builder.function.MapEnum;
 import uk.org.cse.nhm.language.builder.function.MapWallTypes;
-import uk.org.cse.nhm.language.definition.action.measure.adjust.XAdjustNumberOfPassiveVentsMeasure;
+import uk.org.cse.nhm.language.definition.action.measure.adjust.XAdjustNumberOfAirChangeDevices;
 import uk.org.cse.nhm.language.definition.action.measure.insulation.XDraughtProofingMeasure;
 import uk.org.cse.nhm.language.definition.action.measure.insulation.XFloorInsulationMeasure;
 import uk.org.cse.nhm.language.definition.action.measure.insulation.XGlazingMeasure;
@@ -214,10 +214,11 @@ public class InsulationMeasureAdapter extends ReflectingAdapter {
 		return factory.createAddOrRemoveLoftAction(theAction.isAddLoft());
 	}
 	
-	@Adapt(XAdjustNumberOfPassiveVentsMeasure.class)
-    public IComponentsAction buildAdjustNumberOfPassiveVentsMeasure(
-            @Prop(XAdjustNumberOfPassiveVentsMeasure.P.adjustment) final int uValue
+	@Adapt(XAdjustNumberOfAirChangeDevices.class)
+    public IComponentsAction buildAdjustNumberOfAirChangeDevicesMeasure(
+            @Prop(XAdjustNumberOfAirChangeDevices.P.adjustment) final int adjustment,
+            @Prop(XAdjustNumberOfAirChangeDevices.P.airChangeDevice) final XAdjustNumberOfAirChangeDevices.XAirChangeDevice device
             ) {
-        return factory.createAdjustNumberOfPassiveVentsModifier(uValue);
+        return factory.createAdjustNumberOfAirChangeDevicesMeasure(adjustment,device);
     }
 }

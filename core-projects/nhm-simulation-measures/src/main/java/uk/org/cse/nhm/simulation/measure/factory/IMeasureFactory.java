@@ -18,6 +18,7 @@ import uk.org.cse.nhm.hom.emf.technologies.IAdjuster;
 import uk.org.cse.nhm.hom.emf.technologies.StorageHeaterControlType;
 import uk.org.cse.nhm.hom.emf.technologies.StorageHeaterType;
 import uk.org.cse.nhm.hom.structure.IWall;
+import uk.org.cse.nhm.language.definition.action.measure.adjust.XAdjustNumberOfAirChangeDevices;
 import uk.org.cse.nhm.language.definition.enums.XChangeDirection;
 import uk.org.cse.nhm.simulation.measure.HeatingControlMeasure;
 import uk.org.cse.nhm.simulation.measure.StorageHeaterMeasure;
@@ -47,7 +48,7 @@ import uk.org.cse.nhm.simulation.measure.otherspaceheating.WarmAirMeasure;
 import uk.org.cse.nhm.simulation.measure.renewables.SolarHotWaterMeasure;
 import uk.org.cse.nhm.simulation.measure.renewables.SolarPhotovoltaicMeasure;
 import uk.org.cse.nhm.simulation.measure.roomheaters.RoomHeaterMeasure;
-import uk.org.cse.nhm.simulation.measure.structure.AdjustNumberOfPassiveVentsMeasure;
+import uk.org.cse.nhm.simulation.measure.structure.AdjustNumberOfAirChangeDevicesMeasure;
 import uk.org.cse.nhm.simulation.measure.structure.AlterWallHeatLossMeasure;
 import uk.org.cse.nhm.simulation.measure.structure.ModifyWallConstructionTypeMeasure;
 import uk.org.cse.nhm.simulator.measure.sizing.ISizingFunction;
@@ -243,6 +244,7 @@ public interface IMeasureFactory {
             @Assisted("opex") final IComponentsFunction<Number> operationalCostFunction,
             @Assisted("efficiency") final IComponentsFunction<Number> efficiency);
     
-    public AdjustNumberOfPassiveVentsMeasure createAdjustNumberOfPassiveVentsModifier(
-            final int numOfVents);
+    public AdjustNumberOfAirChangeDevicesMeasure createAdjustNumberOfAirChangeDevicesMeasure(
+            final int adjustment,
+            final XAdjustNumberOfAirChangeDevices.XAirChangeDevice device);
 }

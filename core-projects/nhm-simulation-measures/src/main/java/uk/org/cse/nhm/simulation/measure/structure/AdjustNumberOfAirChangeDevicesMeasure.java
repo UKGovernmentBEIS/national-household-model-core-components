@@ -5,6 +5,7 @@ import com.google.inject.assistedinject.Assisted;
 
 import uk.org.cse.nhm.NHMException;
 import uk.org.cse.nhm.hom.structure.StructureModel;
+import uk.org.cse.nhm.language.definition.action.measure.adjust.XAdjustNumberOfAirChangeDevices;
 import uk.org.cse.nhm.simulation.measure.AbstractMeasure;
 import uk.org.cse.nhm.simulator.let.ILets;
 import uk.org.cse.nhm.simulator.scope.IComponentsScope;
@@ -18,15 +19,18 @@ import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
  *
  * @author trickyBytes
  */
-public class AdjustNumberOfPassiveVentsMeasure extends AbstractMeasure implements IModifier<StructureModel> {
+public class AdjustNumberOfAirChangeDevicesMeasure extends AbstractMeasure implements IModifier<StructureModel> {
     private final IDimension<StructureModel> structureDimension;
-    private final int numOfVents;
+    private final int adjustment;
+    private final XAdjustNumberOfAirChangeDevices.XAirChangeDevice device;
     
     @Inject
-    public AdjustNumberOfPassiveVentsMeasure(final IDimension<StructureModel> structureDimension,
-            @Assisted int numOfVents) {
+    public AdjustNumberOfAirChangeDevicesMeasure(final IDimension<StructureModel> structureDimension,
+            @Assisted int adjustment,
+            @Assisted XAdjustNumberOfAirChangeDevices.XAirChangeDevice device) {
         this.structureDimension = structureDimension;
-        this.numOfVents = numOfVents;
+        this.adjustment = adjustment;
+        this.device = device;
     }
     
     /**
@@ -83,7 +87,15 @@ public class AdjustNumberOfPassiveVentsMeasure extends AbstractMeasure implement
      */
     @Override
     public boolean modify(StructureModel modifiable) {
-        modifiable.setPassiveVents(modifiable.getPassiveVents() + numOfVents);
-        return true;
+        switch (device) {
+            case Vents:
+                modifiable.setPassiveVents(modifiable.getPassiveVents() + adjustment);
+                return true;
+            case Fans:
+                modifiable.setIntermittentFans(modifiable.getPassiveVents() + adjustment);
+                return true;
+            default:
+                return false;
+        }
     }
 }

@@ -16,12 +16,22 @@ import uk.org.cse.nhm.language.definition.action.XMeasure;
  * @author trickyBytes
  */
 @Doc("Adjust the number of passive vents within a property")
-@Bind("measure.adjust-passive-vents")
+@Bind("measure.adjust-airchange-devices")
 @Unsuitability(alwaysSuitable = true)
-public class XAdjustNumberOfPassiveVentsMeasure extends XMeasure {
+public class XAdjustNumberOfAirChangeDevices extends XMeasure {
     public static final class P {
         public static final String adjustment = "adjustment";
+        public static final String airChangeDevice = "airChangeDevice";
     }
+    
+    private XAirChangeDevice airChangeDevice;
+    
+    @Doc("The type of device to adjust.")
+    public enum XAirChangeDevice {
+        @Doc("Passive Vent") Vents,
+        @Doc("Mechanical Fans") Fans
+    }
+    
     private int adjustment;
     /**
      * Return the adjustment.
@@ -30,7 +40,7 @@ public class XAdjustNumberOfPassiveVentsMeasure extends XMeasure {
      */
     @BindNamedArgument("adjustment")
     @Doc("The adjustment in number of vents to make.")
-    @NotNull(message = "measure.adjust-passive-vents must define an adjustment")
+    @NotNull(message = "measure.adjust-airchange-devices must define an adjustment")
     @Prop(P.adjustment)
     public int getAdjustment() {
         return adjustment;
@@ -43,5 +53,26 @@ public class XAdjustNumberOfPassiveVentsMeasure extends XMeasure {
      */
     public void setAdjustment(int adjustment) {
         this.adjustment = adjustment;
+    }
+
+    /**
+     * Return the airChangeDevice.
+     *
+     * @return the airChangeDevice
+     */
+    @BindNamedArgument("device-type")
+    @Doc("The type of air change device to make adjustments to number of")
+    @NotNull(message = "adjust-airchange-devices must define the type of device to adjust")
+    public XAirChangeDevice getAirChangeDevice() {
+        return airChangeDevice;
+    }
+
+    /**
+     * Set the airChangeDevice.
+     *
+     * @param airChangeDevice the airChangeDevice 
+     */
+    public void setAirChangeDevice(XAirChangeDevice airChangeDevice) {
+        this.airChangeDevice = airChangeDevice;
     }
 }

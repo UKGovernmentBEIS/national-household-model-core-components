@@ -1,0 +1,61 @@
+;; quick-start scenario for hideem
+;; scenario content:
+(scenario
+    start-date: 2017
+    end-date: 2028
+    stock-id: ../../stock.json
+    energy-calculator: BREDEM2012
+    quantum: 2000
+    
+    (def health-impact-Mortality on: House default: 0)
+    (def health-impact-Cost on: House default: 0)
+    (def health-impact-Morbidity on: House default: 0)
+        
+    ;;Report on the state of a house/houses at some point
+    (def-report hideem-report
+                (column name: permeability value: (house.permeability))
+                (column name: health-impact-Mortality value: health-impact-Mortality)
+                (column name: health-impact-Cost value: health-impact-Cost)
+                (column name: health-impact-Morbidity value: health-impact-Morbidity))
+        
+    (on.dates
+        (scenario-end)
+        (apply
+         (do report: hideem-report
+                ;; Change the house in some-way
+                (measure.adjust-airchange-devices device-type: Vents adjustment: 1)
+                (measure.adjust-airchange-devices device-type: Fans adjustment: 1)
+
+                ;;Set a value on the house which is the result of the health-impact funtion
+                (health-impact on: Cost d: CMD)
+                (health-impact on: Morbidity d:[OvHeat COPD])
+                (health-impact on: Mortality d:Asthma)
+        ))))
+        
+    (template health-impact [@on @d]
+              (set (~join "health-impact-" @on)
+                   (health-impact-of
+                       permeability-before:(original (house.permeability))
+                       permeability-after: (house.permeability)
+                       
+                       temperature-before: (original (house.sit))
+                       temperature-after: (house.sit)
+                       
+                       heat-loss-before: (original (house.heat-loss Total))
+                       heat-loss-after: (house.heat-loss Total)
+                       
+                       had-extract-fans: (> (original (house.number-air-change-devices device-type: Fans)) 0)
+                       has-extract-fans: (> (house.number-air-change-devices device-type: Fans) 0)
+                       
+                       had-trickle-vents: (> (original (house.number-air-change-devices device-type: Vents)) 0)
+                       has-trickle-vents: (> (house.number-air-change-devices device-type: Vents) 0)
+                       
+                       horizon: 10
+                       offset: 0
+                       
+                       on: @on
+                       due-to: @d
+                       
+                       double-glazed-before: (original (house.double-glazed-proportion))
+                       double-glazed-after: (house.double-glazed-proportion)))
+              )

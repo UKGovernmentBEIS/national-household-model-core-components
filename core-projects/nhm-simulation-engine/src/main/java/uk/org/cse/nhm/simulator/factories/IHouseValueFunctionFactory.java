@@ -7,6 +7,7 @@ import com.google.inject.assistedinject.Assisted;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.language.adapt.impl.Adapt;
 import uk.org.cse.nhm.language.adapt.impl.Prop;
+import uk.org.cse.nhm.language.definition.action.measure.adjust.XAdjustNumberOfAirChangeDevices;
 import uk.org.cse.nhm.language.definition.function.health.XHealthImpactFunction;
 import uk.org.cse.nhm.language.definition.function.health.XPermeabilityFunction;
 import uk.org.cse.nhm.language.definition.function.health.XHealthImpactFunction.XDisease;
@@ -26,7 +27,7 @@ import uk.org.cse.nhm.language.definition.function.house.XMainHeatingSystemType;
 import uk.org.cse.nhm.language.definition.function.house.XMorphology;
 import uk.org.cse.nhm.language.definition.function.house.XNumberOfBedrooms;
 import uk.org.cse.nhm.language.definition.function.house.XNumberOfOccupants;
-import uk.org.cse.nhm.language.definition.function.house.XNumberOfPassiveVents;
+import uk.org.cse.nhm.language.definition.function.house.XNumberOfAirChangeDevices;
 import uk.org.cse.nhm.language.definition.function.house.XPredominantWallType;
 import uk.org.cse.nhm.language.definition.function.house.XRegion;
 import uk.org.cse.nhm.language.definition.function.house.XRoofArea;
@@ -37,6 +38,7 @@ import uk.org.cse.nhm.language.definition.function.house.XSurveyCode;
 import uk.org.cse.nhm.language.definition.function.house.XTenure;
 import uk.org.cse.nhm.language.definition.function.house.XTotalFloorArea;
 import uk.org.cse.nhm.language.definition.function.house.XVolume;
+import uk.org.cse.nhm.language.definition.function.house.XNumberOfAirChangeDevices.P;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.health.HealthImpactFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.health.PermeabilityFunction;
@@ -54,7 +56,7 @@ import uk.org.cse.nhm.simulator.state.functions.impl.house.GetMethodOfPayment;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.GetMorphology;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.GetNumberOfBedrooms;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.GetNumberOfOccupants;
-import uk.org.cse.nhm.simulator.state.functions.impl.house.GetNumberOfPassiveVents;
+import uk.org.cse.nhm.simulator.state.functions.impl.house.GetNumberOfAirChangeDevices;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.GetPredominantWallType;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.GetProportionOfDoubleGlazedWindows;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.GetRegion;
@@ -124,8 +126,9 @@ public interface IHouseValueFunctionFactory {
 	@Adapt(XTotalFloorArea.class)
 	public GetTotalFloorArea getTotalFloorArea();
 	
-	@Adapt(XNumberOfPassiveVents.class)
-    public GetNumberOfPassiveVents getNumberOfPassiveVents();
+	@Adapt(XNumberOfAirChangeDevices.class)
+    public GetNumberOfAirChangeDevices getNumberOfAirChangeDevices(
+            @Assisted  @Prop(P.airChangeDevice) XAdjustNumberOfAirChangeDevices.XAirChangeDevice device);
 
 	@Adapt(XVolume.class)
     public GetVolume getGetVolume();

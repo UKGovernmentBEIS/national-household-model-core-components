@@ -9,7 +9,7 @@
         
     ;;Report on the state of a house/houses at some point
     (def-report hideem-report
-                (column name: no.of.vents value: (house.number-air-change-devices device-type: Vents))
+                (column name: no.of.fans value: (house.number-air-change-devices device-type: Fans))
                 (column name: permeability value: (house.permeability)))
         
     (on.dates
@@ -18,4 +18,4 @@
          (do report: hideem-report
              (measure.adjust-airchange-devices
               adjustment: 1
-              device-type: Vents)))))
+              device-type: Fans)))))

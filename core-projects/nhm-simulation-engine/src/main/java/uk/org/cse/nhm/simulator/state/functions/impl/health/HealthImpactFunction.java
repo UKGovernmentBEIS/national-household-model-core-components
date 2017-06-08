@@ -47,9 +47,9 @@ public class HealthImpactFunction extends AbstractNamed implements IComponentsFu
 				    .put(XDisease.WMI,	    EnumSet.of(Disease.Type.winmyocardialinfarction))
 				    .put(XDisease.CMD,	    EnumSet.of(Disease.Type.commonmentaldisorder))
 				    .put(XDisease.Asthma,   EnumSet.of(Disease.Type.asthma1, Disease.Type.asthma2, Disease.Type.asthma3))
-				    .build()
-			;
-
+				    .put(XDisease.COPD,     EnumSet.of(Disease.Type.copd))
+				    .put(XDisease.OvHeat,   EnumSet.of(Disease.Type.overheating))
+				    .build();
 
 	private final IHealthModule healthModule;
 	private final IDimension<StructureModel> structure;
