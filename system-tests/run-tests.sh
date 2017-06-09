@@ -68,7 +68,8 @@ function run_test {
         inf "running scenario"
         rm -f "${SIMLOG}" "${TESTLOG}" "${OUTPUT}"
         java -jar "${JAR}" run "${TESTSCENARIO}" "${OUTPUT}" >> "${SIMLOG}" 2>&1
-
+        #java -agentlib:jdwp=transport=dt_socket,server=y,address=8000,suspend=y -jar "${JAR}" run "${TESTSCENARIO}" "${OUTPUT}" >> "${SIMLOG}" 2>&1
+      
         if [ ! -f ${OUTPUT} ]
         then
             err "produced no output"
