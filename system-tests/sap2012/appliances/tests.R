@@ -1,7 +1,6 @@
 ## Checks whether the electricity used for SAP and BREDEM appliances matches the expected numbers.
 
-## TODO: why is there such a high error?
-EPSILON <- 30
+EPSILON <- 0.002
 
 result <- load.probe("appliance-energy")
 
@@ -36,21 +35,28 @@ result$sap.occupancy <- as.double(
     )
 )
 
-## SAP 2012 L10 to L12
-result$sap.expected <- ((result$floor.area * result$sap.occupancy)^0.4714) * 207.8
-
 ## BREDEM 2012 1I to 1K
 result$bredem.expected <- ((result$floor.area * result$occupancy)^0.4714) * 184.8
+result$bredem.ratio <- result$bredem / result$bredem.expected
 
-wrong.bredem <- result[abs(result$bredem - result$bredem.expected) > EPSILON,]
+bredem.failures <- result[abs(result$bredem.ratio - 1) > EPSILON &
+                          result$bredem.expected != 0 &
+                          result$bredem != 0,]
+
 fail.test.if(
-    nrow(wrong.bredem) > 0,
+    nrow(bredem.failures) > 0,
     "Appliance energy did not match the BREDEM 2012 numbers."
 )
 
-wrong.sap <- result[abs(result$sap - result$sap.expected) > EPSILON,]
+## SAP 2012 L10 to L12
+result$sap.expected <- ((result$floor.area * result$sap.occupancy)^0.4714) * 207.8
+result$sap.ratio <- result$sap / result$sap.expected
+
+sap.failures <- result[abs(result$sap.ratio - 1) > EPSILON &
+                       result$sap.expected != 0 &
+                       result$sap != 0,]
 fail.test.if(
-    nrow(wrong.sap) > 0,
+    nrow(sap.failures) > 0,
     "Appliance energy did not match the SAP 2012 numbers."
 )
 
