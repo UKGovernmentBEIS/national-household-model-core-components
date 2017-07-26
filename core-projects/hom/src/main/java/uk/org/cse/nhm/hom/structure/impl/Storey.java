@@ -239,8 +239,9 @@ public class Storey implements IStorey {
 		final double area = getArea();
 		if (area > areaBelow) {
 			final double heatLossAreaBelow = area - areaBelow;
-			visitor.visitFloor(FloorType.External, floorLocationType == FloorLocationType.GROUND, heatLossAreaBelow, floorUValue, getExposedPerimeter(), getAverageWallThicknessWithInsulation());
-			visitor.visitFloor(FloorType.Party, floorLocationType == FloorLocationType.GROUND, areaBelow, 0, getExposedPerimeter(), getAverageWallThicknessWithInsulation());
+			// Basements are treated as ground floors for heat loss purposes, as specified in SAP 2012 S3.10
+			visitor.visitFloor(FloorType.External, floorLocationType.isInContactWithGround(), heatLossAreaBelow, floorUValue, getExposedPerimeter(), getAverageWallThicknessWithInsulation());
+			visitor.visitFloor(FloorType.Party, floorLocationType.isInContactWithGround(), areaBelow, 0, getExposedPerimeter(), getAverageWallThicknessWithInsulation());
 		}
 
 		if (area > areaAbove) {
