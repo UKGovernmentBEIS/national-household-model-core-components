@@ -20,14 +20,15 @@ import uk.org.cse.nhm.language.adapt.impl.ReflectingAdapter;
 import uk.org.cse.nhm.language.definition.action.XActionWithDelegates;
 import uk.org.cse.nhm.language.definition.action.choices.XChoiceAction;
 import uk.org.cse.nhm.language.definition.action.choices.XChoiceSelector;
+import uk.org.cse.nhm.language.definition.action.choices.XCombinationsChoiceAction;
 import uk.org.cse.nhm.language.definition.action.choices.XFallbackSelector;
 import uk.org.cse.nhm.language.definition.action.choices.XFilterSelector;
 import uk.org.cse.nhm.language.definition.action.choices.XMaximumSelector;
 import uk.org.cse.nhm.language.definition.action.choices.XMinimumSelector;
 import uk.org.cse.nhm.language.definition.action.choices.XWeightedSelector;
 import uk.org.cse.nhm.language.definition.sequence.XConsumeAction;
-import uk.org.cse.nhm.language.definition.sequence.XFailUnless;
 import uk.org.cse.nhm.language.definition.sequence.XDecreaseAction;
+import uk.org.cse.nhm.language.definition.sequence.XFailUnless;
 import uk.org.cse.nhm.language.definition.sequence.XIncreaseAction;
 import uk.org.cse.nhm.language.definition.sequence.XNumberDeclaration;
 import uk.org.cse.nhm.language.definition.sequence.XSequenceAction;
@@ -36,7 +37,9 @@ import uk.org.cse.nhm.language.definition.sequence.XSetAction;
 import uk.org.cse.nhm.language.definition.sequence.XSnapshotAction;
 import uk.org.cse.nhm.language.definition.sequence.XSnapshotDeclaration;
 import uk.org.cse.nhm.language.definition.sequence.XVarSetAction;
+import uk.org.cse.nhm.simulator.action.DoNothingAction;
 import uk.org.cse.nhm.simulator.action.choices.ChoiceAction;
+import uk.org.cse.nhm.simulator.action.choices.CombinationChoiceAction;
 import uk.org.cse.nhm.simulator.factories.IActionFactory;
 import uk.org.cse.nhm.simulator.factories.IObjectFunctionFactory;
 import uk.org.cse.nhm.simulator.let.ILets;
@@ -65,6 +68,14 @@ public class LetAndChoiceAdapter extends ReflectingAdapter {
 		super(delegates, interceptors);
 		this.measureFactory = measureFactory;
 		this.functions = functions;
+	}
+	
+	@Adapt(XCombinationsChoiceAction.class)
+	public IComponentsAction buildCombinationsChoice(
+	        @Prop(XCombinationsChoiceAction.P.SELECTOR) final IPicker selector,
+	        @Prop(XCombinationsChoiceAction.P.DELEGATES) final List<List<IComponentsAction>> alternatives
+	        ){
+	    return measureFactory.createCombinationsChoice(selector, alternatives);
 	}
 
 	@Adapt(XChoiceAction.class)

@@ -20,6 +20,7 @@ import uk.org.cse.nhm.hom.emf.technologies.StorageHeaterControlType;
 import uk.org.cse.nhm.hom.emf.technologies.StorageHeaterType;
 import uk.org.cse.nhm.hom.structure.IWall;
 import uk.org.cse.nhm.language.adapt.impl.Prop;
+import uk.org.cse.nhm.language.definition.action.measure.adjust.XAdjustNumberOfAirChangeDevices;
 import uk.org.cse.nhm.language.definition.action.measure.adjust.XSetAdjustmentTerms;
 import uk.org.cse.nhm.language.definition.action.measure.lighting.XLightingProportionsMeasure;
 import uk.org.cse.nhm.language.definition.enums.XChangeDirection;
@@ -53,6 +54,7 @@ import uk.org.cse.nhm.simulation.measure.otherspaceheating.WarmAirMeasure;
 import uk.org.cse.nhm.simulation.measure.renewables.SolarHotWaterMeasure;
 import uk.org.cse.nhm.simulation.measure.renewables.SolarPhotovoltaicMeasure;
 import uk.org.cse.nhm.simulation.measure.roomheaters.RoomHeaterMeasure;
+import uk.org.cse.nhm.simulation.measure.structure.AdjustNumberOfAirChangeDevicesMeasure;
 import uk.org.cse.nhm.simulation.measure.structure.AlterWallHeatLossMeasure;
 import uk.org.cse.nhm.simulation.measure.structure.ModifyWallConstructionTypeMeasure;
 import uk.org.cse.nhm.simulator.measure.sizing.ISizingFunction;
@@ -259,4 +261,8 @@ public interface IMeasureFactory {
             @Assisted final AdjusterType adjuster,
             @Assisted(XSetAdjustmentTerms.P.constantTerm) final IComponentsFunction<Number> constantTerm,
             @Assisted(XSetAdjustmentTerms.P.linearFactor) final IComponentsFunction<Number> linearFactor);
+    
+    public AdjustNumberOfAirChangeDevicesMeasure createAdjustNumberOfAirChangeDevicesMeasure(
+            final int adjustment,
+            final XAdjustNumberOfAirChangeDevices.XAirChangeDevice device);
 }

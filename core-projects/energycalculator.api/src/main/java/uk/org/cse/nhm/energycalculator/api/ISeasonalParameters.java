@@ -52,6 +52,18 @@ public interface ISeasonalParameters {
 	 * @param zone2ControlParameter switches the zone 2 heating schedule based on SAP 2012 Table 9. Not applicable in BREDEM 2012 mode.
 	 * @return the heating schedule for the given zone
 	 */
+	/*
+	BEISDOC
+	NAME: Heating Schedule
+	DESCRIPTION: The heating schedule for the dwelling
+	TYPE: formula
+	UNIT: N/A
+	SAP_COMPLIANT: Yes
+	BREDEM_COMPLIANT: No, see note on bredem-heating-schedule
+	DEPS: sap-heating-schedule,bredem-heating-schedule
+	ID: heating-schedule
+	CODSIEB
+	*/
 	IHeatingSchedule getHeatingSchedule(ZoneType zone, Optional<Zone2ControlParameter> zone2ControlParameter);
 
 	/**

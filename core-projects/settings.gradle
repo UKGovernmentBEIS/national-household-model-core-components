@@ -1,7 +1,7 @@
-include 'energycalculator.api', 
-	'energycalculator.impl', 
-	'hom', 
-	'energy-utils', 
+include 'energycalculator.api',
+	'energycalculator.impl',
+	'hom',
+	'energy-utils',
 	'nhm-core-api',
 	'jasb',
     'nhm-batch',
@@ -29,4 +29,5 @@ include 'energycalculator.api',
     'nhm-stock-documentation',
     'sedbuk-boiler-matching',
     'nhm-bundle-api',
-    'nhm-impl-bundle'
+    'nhm-impl-bundle',
+    'nhm-health'
