@@ -23,6 +23,15 @@ If you want to cross-reference to a language element, you need to use the unique
 ** Released versions
 *** Version 7.0.0
 **** New Features
+***** Combinations Choice
+To help with performance issues being created by using the ~combinations macro within templates combinations choice has been added to avoid the need to macro expand the scenario before validation. This expansion now happens when executing the simulaiton see =ref.combination.choice=.
+
+***** Products Modelling
+To enable modelling of some products policy changes to the NHM some new scenario language elements have been added.
+
+For modelling of changes to energy used by appliances and cooking the =ref.measure.set-adjustment-terms= function allows you to apply a linear correction factor to the energy use of appliances or overaching energy use coooking with reference to SAP2012 L10.
+
+For modelling the altertion of lighting elements within a house =ref.measure.lighting= has been added to alter the types of light within a house and =ref.house.lighting-proportion= has been added to allow reporting on this.
 ***** Health modelling
 The health impact calculations from UCL and LSHTM's HIDEEM model have been integrated into the NHM.
 
