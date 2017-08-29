@@ -3,8 +3,6 @@ package uk.org.cse.nhm.simulator.action.choices;
 import java.util.List;
 import java.util.Set;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableList.Builder;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.inject.assistedinject.Assisted;
@@ -27,21 +25,20 @@ import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
  */
 public class CombinationChoiceAction extends AbstractNamed implements IComponentsAction {
     private final IPicker selector;
-    private final Set<List<IComponentsAction>> alternatives;
+    private final Set<IComponentsAction> packages;
     
     @AssistedInject
     public CombinationChoiceAction(
             @Assisted final IPicker selector,
-            @Assisted final List<List<IComponentsAction>> alternatives) {
+            @Assisted final List<Set<IComponentsAction>> groups) {
         
+        final ImmutableSet.Builder<IComponentsAction> packageBuilder = ImmutableSet.builder();
+        for (final List<IComponentsAction> packageList : Sets.cartesianProduct(groups)) {
+            packageBuilder.add(new SequenceAction(packageList, true, Sets.newHashSet()));
+        }
+
+        this.packages = packageBuilder.build();
         this.selector = selector;
-        
-        final Builder<Set<IComponentsAction>> builder = ImmutableList.<Set<IComponentsAction>>builder();
-        alternatives.forEach(pkg -> {
-            builder.add(ImmutableSet.copyOf(pkg));
-        });
-        
-        this.alternatives = Sets.cartesianProduct(builder.build());
     }    
     
     /**
@@ -62,16 +59,7 @@ public class CombinationChoiceAction extends AbstractNamed implements IComponent
      */
     @Override
     public boolean apply(ISettableComponentsScope scope, ILets lets) throws NHMException {
-        //This isn't quite right yet...we've got list of things in each of the alternatives
-        //But now need to try them in turn to apply it to something....
-        final ImmutableSet.Builder<IComponentsAction>  builder = ImmutableSet.<IComponentsAction>builder();
-        
-        alternatives.forEach(pkg -> {
-            //TODO: What's the yield bit for plus the other bit
-            builder.add(new SequenceAction(pkg, true, null));
-        });
-        
-        return scope.apply(builder.build(), lets, selector);
+        return scope.apply(this.packages, lets, this.selector);
     }
 
     /**
@@ -82,8 +70,12 @@ public class CombinationChoiceAction extends AbstractNamed implements IComponent
      */
     @Override
     public boolean isSuitable(IComponentsScope scope, ILets lets) {
-        //TODO: Not sure what this should be yet - maybe if picker was selected?
-        return true;
+        for (final IComponentsAction p : this.packages) {
+            if (p.isSuitable(scope, lets)) {
+               return true;
+            }
+        }
+        return false; // no packages are suitable
     }
 
     /**

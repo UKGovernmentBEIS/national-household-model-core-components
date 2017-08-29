@@ -41,6 +41,19 @@
   </sect1>
   <sect1 id="released-versions">
     <title>Released versions</title>
+    <sect2 id="version-7.0.1">
+      <title>Version 7.0.1</title>
+      <sect3 id="bugs-fixed">
+        <title>Bugs Fixed</title>
+        <sect4 id="combinations.choice---now-expands-combinations-to-actual-measure-classes-rather-than-nulls---caused-by-a-bad-code-merge">
+          <title>Combinations.choice - now expands combinations to
+          actual measure classes rather than nulls - caused by a bad
+          code merge</title>
+          <para>
+          </para>
+        </sect4>
+      </sect3>
+    </sect2>
     <sect2 id="version-7.0.0">
       <title>Version 7.0.0</title>
       <sect3 id="new-features">
@@ -158,7 +171,7 @@
           </para>
         </sect4>
       </sect3>
-      <sect3 id="bugs-fixed">
+      <sect3 id="bugs-fixed-1">
         <title>Bugs Fixed</title>
         <sect4 id="u-value-calculation-for-suspended-timber-ground-floors">
           <title>U-value calculation for suspended timber ground
@@ -266,7 +279,7 @@
           </para>
         </sect4>
       </sect3>
-      <sect3 id="bugs-fixed-1">
+      <sect3 id="bugs-fixed-2">
         <title>Bugs Fixed</title>
         <sect4 id="wall-thickness">
           <title>Wall Thickness</title>
@@ -445,7 +458,7 @@
     </sect2>
     <sect2 id="version-6.4.0">
       <title>Version 6.4.0</title>
-      <sect3 id="bugs-fixed-2">
+      <sect3 id="bugs-fixed-3">
         <title>Bugs fixed</title>
         <sect4 id="flags-and-reports-work-on-def-action">
           <title>Flags and reports work on def-action</title>
@@ -528,7 +541,7 @@
     </sect2>
     <sect2 id="version-6.3.2">
       <title>Version 6.3.2</title>
-      <sect3 id="bugs-fixed-3">
+      <sect3 id="bugs-fixed-4">
         <title>Bugs fixed</title>
         <sect4 id="batch-reports-work-properly-in-the-desktop-application">
           <title>Batch reports work properly in the desktop
@@ -543,7 +556,7 @@
     </sect2>
     <sect2 id="version-6.3.1">
       <title>Version 6.3.1</title>
-      <sect3 id="bugs-fixed-4">
+      <sect3 id="bugs-fixed-5">
         <title>Bugs Fixed</title>
         <sect4 id="summer-boiler-efficiencies">
           <title>Summer Boiler Efficiencies</title>
@@ -602,7 +615,7 @@
         These are fixes relating to
         <ulink url="https://cseresearch.atlassian.net/browse/EXS-108">EXS-108</ulink>.
       </para>
-      <sect3 id="bugs-fixed-5">
+      <sect3 id="bugs-fixed-6">
         <title>Bugs Fixed</title>
         <sect4 id="space-heating-systems-used-the-total-hot-water-fraction">
           <title>Space heating systems used the total hot water
@@ -804,7 +817,7 @@
     </sect2>
     <sect2 id="version-6.2.2-8th-october-2015">
       <title>Version 6.2.2 [8th October 2015]</title>
-      <sect3 id="bugs-fixed-6">
+      <sect3 id="bugs-fixed-7">
         <title>Bugs Fixed</title>
         <sect4 id="house.all-walls-matched-all-houses">
           <title>house.all-walls matched all houses</title>
@@ -905,7 +918,7 @@
     </sect2>
     <sect2 id="version-6.2.1-not-published">
       <title>Version 6.2.1 [Not published]</title>
-      <sect3 id="bugs-fixed-7">
+      <sect3 id="bugs-fixed-8">
         <title>Bugs Fixed</title>
         <sect4 id="stock-import-not-using-draught-stripped-proportion">
           <title>Stock import not using draught stripped
@@ -1079,7 +1092,7 @@
           </para>
         </sect4>
       </sect3>
-      <sect3 id="bugs-fixed-8">
+      <sect3 id="bugs-fixed-9">
         <title>Bugs fixed</title>
         <sect4 id="error-in-repeat-removed">
           <title>Error in <literal>repeat</literal> removed</title>
@@ -1965,7 +1978,7 @@
 </programlisting>
         </sect4>
       </sect3>
-      <sect3 id="bugs-fixed-9">
+      <sect3 id="bugs-fixed-10">
         <title>Bugs Fixed</title>
         <sect4 id="uninsulated-lofts-imported-correctly">
           <title>Uninsulated lofts imported correctly</title>
