@@ -13,11 +13,13 @@ import com.google.common.collect.ImmutableSet;
 
 import uk.org.cse.commons.names.Name;
 import uk.org.cse.nhm.language.adapt.IAdapterInterceptor;
+import uk.org.cse.nhm.language.adapt.IAdaptingScope;
 import uk.org.cse.nhm.language.adapt.IConverter;
 import uk.org.cse.nhm.language.adapt.impl.Adapt;
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.adapt.impl.ReflectingAdapter;
 import uk.org.cse.nhm.language.definition.action.XActionWithDelegates;
+import uk.org.cse.nhm.language.definition.action.XDwellingAction;
 import uk.org.cse.nhm.language.definition.action.choices.XChoiceAction;
 import uk.org.cse.nhm.language.definition.action.choices.XChoiceSelector;
 import uk.org.cse.nhm.language.definition.action.choices.XCombinationsChoiceAction;
@@ -37,7 +39,6 @@ import uk.org.cse.nhm.language.definition.sequence.XSetAction;
 import uk.org.cse.nhm.language.definition.sequence.XSnapshotAction;
 import uk.org.cse.nhm.language.definition.sequence.XSnapshotDeclaration;
 import uk.org.cse.nhm.language.definition.sequence.XVarSetAction;
-import uk.org.cse.nhm.simulator.action.DoNothingAction;
 import uk.org.cse.nhm.simulator.action.choices.ChoiceAction;
 import uk.org.cse.nhm.simulator.action.choices.CombinationChoiceAction;
 import uk.org.cse.nhm.simulator.factories.IActionFactory;
@@ -72,10 +73,24 @@ public class LetAndChoiceAdapter extends ReflectingAdapter {
 	
 	@Adapt(XCombinationsChoiceAction.class)
 	public IComponentsAction buildCombinationsChoice(
-	        @Prop(XCombinationsChoiceAction.P.SELECTOR) final IPicker selector,
-	        @Prop(XCombinationsChoiceAction.P.DELEGATES) final List<List<IComponentsAction>> alternatives
+	        final XCombinationsChoiceAction combinations,
+	        final IAdaptingScope scope,
+	        @Prop(XCombinationsChoiceAction.P.SELECTOR) final IPicker selector
 	        ){
-	    return measureFactory.createCombinationsChoice(selector, alternatives);
+	    
+	    final ImmutableList.Builder<Set<IComponentsAction>> groupsBuilder = ImmutableList.builder();
+	    //combinations.getAllChildren();
+	    	    
+	    for (final List<XDwellingAction> group : combinations.getDelegates()) {
+            final ImmutableSet.Builder<IComponentsAction> groupBuilder = ImmutableSet.builder();
+            for (final XDwellingAction action : group) {
+                // this is the line which doesn't work unless we have done the getAllChildren method above.
+                groupBuilder.add(action.adapt(IComponentsAction.class, scope));
+            }
+            groupsBuilder.add(groupBuilder.build());
+        }
+	    
+	    return new CombinationChoiceAction(selector, groupsBuilder.build());
 	}
 
 	@Adapt(XChoiceAction.class)

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.google.common.collect.Iterables;
 import com.larkery.jasb.bind.Bind;
 import com.larkery.jasb.bind.BindNamedArgument;
 import com.larkery.jasb.bind.BindRemainingArguments;
@@ -17,7 +18,6 @@ import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.action.Unsuitability;
 import uk.org.cse.nhm.language.definition.action.XDwellingAction;
 import uk.org.cse.nhm.language.definition.action.XFlaggedDwellingAction;
-import uk.org.cse.nhm.language.definition.action.choices.XChoiceAction.P;
 import uk.org.cse.nhm.language.definition.sequence.IScopingElement;
 
 /**
@@ -51,6 +51,10 @@ public class XCombinationsChoiceAction extends XFlaggedDwellingAction implements
 
     public void setDelegates(final List<List<XDwellingAction>> delegates) {
         this.delegates = delegates;
+    }
+    
+    public Iterable<XDwellingAction> getAllChildren() {
+        return Iterables.concat(delegates);
     }
     
     @NotNull(message = "choice element must always contain a selector.")

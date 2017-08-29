@@ -24,4 +24,3 @@
             		(measure.install-glazing glazing-type: Triple frame-type: uPVC insulation-type: LowESoftCoat)
             		(action.do-nothing)])
             )))
-          

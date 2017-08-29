@@ -35,7 +35,6 @@ import uk.org.cse.nhm.simulator.action.SetThermalBridgingFactorAction;
 import uk.org.cse.nhm.simulator.action.SometimesAction;
 import uk.org.cse.nhm.simulator.action.TemperaturesAction;
 import uk.org.cse.nhm.simulator.action.choices.ChoiceAction;
-import uk.org.cse.nhm.simulator.action.choices.CombinationChoiceAction;
 import uk.org.cse.nhm.simulator.action.choices.FallbackPicker;
 import uk.org.cse.nhm.simulator.action.choices.FilterPicker;
 import uk.org.cse.nhm.simulator.action.choices.MaximumPicker;
@@ -114,10 +113,6 @@ public interface IActionFactory {
 			);
 
 	public SapOccupancyAction createSapOccupancy();
-	
-	public CombinationChoiceAction createCombinationsChoice(
-	        @Assisted final IPicker selector,
-	        @Assisted final List<List<IComponentsAction>> alternatives);
 
 	public ChoiceAction createChoice(
 			@Assisted final IPicker selector,
