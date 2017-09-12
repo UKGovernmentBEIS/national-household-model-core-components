@@ -8,15 +8,16 @@ public class MacroModel {
 	public final String description;
 	public final ImmutableMap<String, String> allowedKeys;
 	public final ImmutableMap<String, String> requiredKeys;
+	public final ImmutableMap<String, String> allKeys;
 	public final ImmutableList<String> allowedPos;
 	public final ImmutableList<String> requiredPos;
 	public final Optional<String> restNum;
 
-	public MacroModel(final String description, 
-			final ImmutableMap<String, String> allowedKeys, 
-			final ImmutableMap<String, String> requiredKeys, 
+	public MacroModel(final String description,
+			final ImmutableMap<String, String> allowedKeys,
+			final ImmutableMap<String, String> requiredKeys,
 			final ImmutableList<String> allowedPos,
-			final ImmutableList<String> requiredPos, 
+			final ImmutableList<String> requiredPos,
 			final Optional<String> restNum) {
 				this.description = description;
 				this.allowedKeys = allowedKeys;
@@ -24,7 +25,42 @@ public class MacroModel {
 				this.allowedPos = allowedPos;
 				this.requiredPos = requiredPos;
 				this.restNum = restNum;
+				this.allKeys = ImmutableMap.builder()
+					.putAll(requiredKeys)
+					.putAll(allowedKeys)
+					.build();
+	}
 
+	public Optional<String> descriptionAndArguments() {
+		final StringBuffer sb = new StringBuffer();
+		if (description != null) {
+			sb.append(description);
+			sb.append("\n\n");
+		}
+		for (final Map.Entry<String, String> e : requiredKeys.entrySet()) {
+			sb.append(String.format("%s: (required) %s\n\n", e.getKey(), e.getValue()));
+		}
+		for (final Map.Entry<String, String> required : allowedKeys.entrySet()) {
+			sb.append(String.format("%s: (optional) %s\n\n", e.getKey(), e.getValue()));
+		}
+		int i = 1;
+		for (final String p : requiredPos) {
+			sb.append(String.format("Unnamed argument %d: (required) %s\n", i, p));
+			i++;
+		}
+		for (final String p : allowedPos) {
+			sb.append(String.format("Unnamed argument %d: (optional) %s\n", i, p));
+			i++;
+		}
+		if (restNum.isPresent()) {
+			sb.append(String.format("Remaining arguments: %s", restNum.get()));
+		}
+
+		if (sb.length() > 0) {
+			return Optional.of(sb.toString());
+		} else {
+			return Optional.absent();
+		}
 	}
 
 	public static class Builder {
