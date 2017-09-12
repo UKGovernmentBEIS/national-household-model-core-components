@@ -17,6 +17,7 @@ trybrary <- function(symbol) {
 
 trybrary(stringr)
 trybrary(plyr)
+trybrary(data.table)
 
 fail.test.if <- function(cond, msg) {
     if (cond) {
@@ -68,3 +69,13 @@ load.aggregate <- function(name, current.output="output.zip") {
                sep="\t",
                na.strings="n/a")
 }
+
+COMMON.READ.CSV <- function(file.name){
+    data.table(read.csv(file.name,header=T,sep=","))
+}
+
+COMMON.WRITE.CSV <- function(data, file.name){
+    print(paste("Writing ", nrow(data),"rows to csv",file.name,sep=" "))
+    write.csv(data,file.name,row.names=F)
+}
+

@@ -27,6 +27,7 @@ public class StorageHeaterBuilder implements IStorageHeaterBuilder {
 		
 		heater.setControlType(dto.getStorageHeaterControlType().or(heater.getType() == StorageHeaterType.FAN ? StorageHeaterControlType.CELECT_CHARGE_CONTROL : StorageHeaterControlType.MANUAL_CHARGE_CONTROL));
 		
+		
 		return heater;
 	}
 }

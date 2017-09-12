@@ -1,0 +1,69 @@
+(scenario
+    start-date: 2017
+    end-date: 2028
+    stock-id: ../../stock.json
+    energy-calculator: SAP2012
+    quantum: 2000
+    
+    ;Define some variables on individual houses that we can set the health-function outcomes to
+    (def health-impact-Mortality on: House default: 0)
+    (def health-impact-Cost on: House default: 0)
+    (def health-impact-Morbidity on: House default: 0)
+    
+    ;Define the things we want to see in a report, includes the health health-function outcomes
+    (def-report hideem-report
+                (column name: survey.code value: (house.survey-code))
+                (column name: num.tickle.vents value: (house.number-air-change-devices device-type: Vents))
+                (column name: num.tickle.fans value: (house.number-air-change-devices device-type: Fans))
+                (column name: permeability value: (house.permeability))
+                (column name: house-sit value: (house.sit))
+                (column name: house-sit-rebate value: (house.sit-rebate))
+                (column name: health-impact-Mortality value: health-impact-Mortality)
+                (column name: health-impact-Cost value: health-impact-Cost)
+                (column name: health-impact-Morbidity value: health-impact-Morbidity))
+    
+    ;Carry out a fabric intervention
+    (on.dates
+        (scenario-start)
+        (apply
+            (do
+                name: add.some.draft.proofing
+                report: hideem-report
+                (measure.install-draught-proofing proportion: 1)
+                
+                ;Set a value on the house which is the result of the health-impact funtion, each outcome includes all diseases here
+                ;But if you don't want to report on some just remove them from the list of diseases below
+                (health-impact on: Mortality diseases: [Asthma CMD CP CaV LC MI WCV WCaV WMI])
+                (health-impact on: Morbidity diseases: [Asthma CMD CP CaV LC MI WCV WCaV WMI])
+                (health-impact on: Cost diseases: [Asthma CMD CP CaV LC MI WCV WCaV WMI])
+                )
+            )
+        )
+    )
+
+(template health-impact [@on @diseases]
+          (set (~join "health-impact-" @on)
+               (health-impact-of
+                   permeability-before:(original (house.permeability))
+                   permeability-after: (house.permeability)
+                   
+                   temperature-before: (original (house.sit))
+                   temperature-after: (house.sit)
+                   
+                   heat-loss-before: (original (house.heat-loss Total))
+                   heat-loss-after: (house.heat-loss Total)
+                   
+                   had-extract-fans: (> (original (house.number-air-change-devices device-type: Fans)) 0)
+                   has-extract-fans: (> (house.number-air-change-devices device-type: Fans) 0)
+                   
+                   had-trickle-vents: (> (original (house.number-air-change-devices device-type: Vents)) 0)
+                   has-trickle-vents: (> (house.number-air-change-devices device-type: Vents) 0)
+                   
+                   horizon: 10
+                   offset: 0
+                   
+                   on: @on
+                   due-to: @diseases
+                   
+                   double-glazed-before: (original (house.double-glazed-proportion))
+                   double-glazed-after: (house.double-glazed-proportion))))

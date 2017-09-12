@@ -27,6 +27,19 @@ public class HeatingBehaviour implements IHeatingBehaviour {
 			MonthType.December
 			);
 
+	/*
+	BEISDOC
+	NAME: Default Heating Schedule
+	DESCRIPTION: The default heating schedule under BREDEM 2012 mode
+	TYPE: formula
+	UNIT: N/A
+	SAP_COMPLIANT: N/A - not used
+	BREDEM: Table 27, but appears to have an error
+	BREDEM_COMPLIANT: No - the first weekday period ends too soon
+	NOTES: In BREDEM 2012 mode, the zone 1 and zone 2 heating schedule are always identical
+	ID: bredem-heating-schedule
+	CODSIEB
+	*/
 	public static final IHeatingBehaviour DEFAULT_BEHAVIOUR =
 			new HeatingBehaviour(
 				new WeeklyHeatingSchedule(

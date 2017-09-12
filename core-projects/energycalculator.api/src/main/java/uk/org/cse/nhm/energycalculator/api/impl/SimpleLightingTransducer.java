@@ -1,4 +1,4 @@
-package uk.org.cse.nhm.hom.emf.technologies.impl.util;
+package uk.org.cse.nhm.energycalculator.api.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +11,6 @@ import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.TransducerPhaseType;
-import uk.org.cse.nhm.hom.constants.SplitRateConstants;
 
 /**
  * A lighting transducer
@@ -25,11 +24,13 @@ public class SimpleLightingTransducer implements IEnergyTransducer {
 	private double multiplier;
 	private double proportion;
 	private final String name;
+	private double[] splitRate;
 	
-	public SimpleLightingTransducer(final String name, final double proportion, final double multiplier) {
+	public SimpleLightingTransducer(final String name, final double proportion, final double multiplier, final double[] splitRate) {
 		this.name = name;
 		setProportion(proportion);
 		setMultiplier(multiplier);
+		setSplitRate(splitRate);
 	}
 
 	@Override
@@ -59,7 +60,7 @@ public class SimpleLightingTransducer implements IEnergyTransducer {
 		final double powerDemand = lightingDemand * multiplier;
 		
 		log.debug("Satisfying demand for {} W of light with {} W of electricity ({})", lightingDemand, powerDemand, proportion);
-		state.increaseElectricityDemand(getHighRateFraction(parameters), powerDemand);		
+		state.increaseElectricityDemand(getHighRateFraction(parameters), powerDemand);	
 		state.increaseSupply(EnergyType.DemandsVISIBLE_LIGHT, lightingDemand);
 		state.increaseSupply(
 				EnergyType.GainsLIGHTING_GAINS, 
@@ -68,8 +69,7 @@ public class SimpleLightingTransducer implements IEnergyTransducer {
 	}
 
 	private double getHighRateFraction(final IInternalParameters parameters) {
-		return parameters.getConstants().get(SplitRateConstants.DEFAULT_FRACTIONS, double[].class)
-				[parameters.getTarrifType().ordinal()];
+		return splitRate[parameters.getTarrifType().ordinal()];
 	}
 
 	@Override
@@ -86,4 +86,13 @@ public class SimpleLightingTransducer implements IEnergyTransducer {
 	public TransducerPhaseType getPhase() {
 		return TransducerPhaseType.BeforeGains;
 	}
+
+    /**
+     * Set the splitRate.
+     *
+     * @param splitRate the splitRate 
+     */
+    public void setSplitRate(double[] splitRate) {
+        this.splitRate = splitRate;
+    }
 }

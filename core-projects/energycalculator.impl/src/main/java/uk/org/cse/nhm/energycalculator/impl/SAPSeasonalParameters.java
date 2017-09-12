@@ -49,6 +49,18 @@ public class SAPSeasonalParameters extends SeasonalParameters {
 	public IHeatingSchedule getHeatingSchedule(final ZoneType zone,
 			final Optional<Zone2ControlParameter> zone2ControlParameter) {
 		if (isHeatingOn()) {
+			/*
+			BEISDOC
+			NAME: SAP Heating Schedule
+			DESCRIPTION: The heating schedules for zone 1 and 2 under SAP 2012 mode.
+			TYPE: formula
+			UNIT: N/A
+			SAP: Table 9
+			SAP_COMPLIANT: Yes
+			BREDEM_COMPLIANT: N/A - not used
+			ID: sap-heating-schedule
+			CODSIEB
+			*/
 			switch (zone) {
 			case ZONE1:
 				return weekdaySevenAndEightWeekendZeroAndEight;

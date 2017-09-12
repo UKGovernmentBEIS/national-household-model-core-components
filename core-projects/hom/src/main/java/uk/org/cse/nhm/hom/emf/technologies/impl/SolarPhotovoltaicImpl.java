@@ -152,8 +152,8 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 	 * @generated
 	 */
 	@Override
-	public void setPeakPower(final double newPeakPower) {
-		final double oldPeakPower = peakPower;
+	public void setPeakPower(double newPeakPower) {
+		double oldPeakPower = peakPower;
 		peakPower = newPeakPower;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__PEAK_POWER, oldPeakPower, peakPower));
@@ -173,8 +173,8 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 	 * @generated
 	 */
 	@Override
-	public void setOwnUseProportion(final double newOwnUseProportion) {
-		final double oldOwnUseProportion = ownUseProportion;
+	public void setOwnUseProportion(double newOwnUseProportion) {
+		double oldOwnUseProportion = ownUseProportion;
 		ownUseProportion = newOwnUseProportion;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__OWN_USE_PROPORTION, oldOwnUseProportion, ownUseProportion));
@@ -314,7 +314,7 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 	 * @generated
 	 */
 	@Override
-	public Object eGet(final int featureID, final boolean resolve, final boolean coreType) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__PEAK_POWER:
 				return getPeakPower();
@@ -329,7 +329,7 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 	 * @generated
 	 */
 	@Override
-	public void eSet(final int featureID, final Object newValue) {
+	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__PEAK_POWER:
 				setPeakPower((Double)newValue);
@@ -346,7 +346,7 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 	 * @generated
 	 */
 	@Override
-	public void eUnset(final int featureID) {
+	public void eUnset(int featureID) {
 		switch (featureID) {
 			case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__PEAK_POWER:
 				setPeakPower(PEAK_POWER_EDEFAULT);
@@ -363,7 +363,7 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(final int featureID) {
+	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__PEAK_POWER:
 				return peakPower != PEAK_POWER_EDEFAULT;
@@ -381,7 +381,7 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		final StringBuffer result = new StringBuffer(super.toString());
+		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (peakPower: ");
 		result.append(peakPower);
 		result.append(", ownUseProportion: ");

@@ -197,7 +197,7 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 	 */
 	@Override
 	public void setSourceType(HeatPumpSourceType newSourceType) {
-		final HeatPumpSourceType oldSourceType = SOURCE_TYPE_EFLAG_VALUES[(flags & SOURCE_TYPE_EFLAG) >>> SOURCE_TYPE_EFLAG_OFFSET];
+		HeatPumpSourceType oldSourceType = SOURCE_TYPE_EFLAG_VALUES[(flags & SOURCE_TYPE_EFLAG) >>> SOURCE_TYPE_EFLAG_OFFSET];
 		if (newSourceType == null) newSourceType = SOURCE_TYPE_EDEFAULT;
 		flags = flags & ~SOURCE_TYPE_EFLAG | newSourceType.ordinal() << SOURCE_TYPE_EFLAG_OFFSET;
 		if (eNotificationRequired())
@@ -219,8 +219,8 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 	 * @generated
 	 */
 	@Override
-	public void setCoefficientOfPerformance(final Efficiency newCoefficientOfPerformance) {
-		final Efficiency oldCoefficientOfPerformance = coefficientOfPerformance;
+	public void setCoefficientOfPerformance(Efficiency newCoefficientOfPerformance) {
+		Efficiency oldCoefficientOfPerformance = coefficientOfPerformance;
 		coefficientOfPerformance = newCoefficientOfPerformance;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.HEAT_PUMP__COEFFICIENT_OF_PERFORMANCE, oldCoefficientOfPerformance, coefficientOfPerformance));
@@ -240,8 +240,8 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 	 * @generated
 	 */
 	@Override
-	public void setWeatherCompensated(final boolean newWeatherCompensated) {
-		final boolean oldWeatherCompensated = (flags & WEATHER_COMPENSATED_EFLAG) != 0;
+	public void setWeatherCompensated(boolean newWeatherCompensated) {
+		boolean oldWeatherCompensated = (flags & WEATHER_COMPENSATED_EFLAG) != 0;
 		if (newWeatherCompensated) flags |= WEATHER_COMPENSATED_EFLAG; else flags &= ~WEATHER_COMPENSATED_EFLAG;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.HEAT_PUMP__WEATHER_COMPENSATED, oldWeatherCompensated, newWeatherCompensated));
@@ -261,8 +261,8 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 	 * @generated
 	 */
 	@Override
-	public void setAuxiliaryPresent(final boolean newAuxiliaryPresent) {
-		final boolean oldAuxiliaryPresent = (flags & AUXILIARY_PRESENT_EFLAG) != 0;
+	public void setAuxiliaryPresent(boolean newAuxiliaryPresent) {
+		boolean oldAuxiliaryPresent = (flags & AUXILIARY_PRESENT_EFLAG) != 0;
 		if (newAuxiliaryPresent) flags |= AUXILIARY_PRESENT_EFLAG; else flags &= ~AUXILIARY_PRESENT_EFLAG;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.HEAT_PUMP__AUXILIARY_PRESENT, oldAuxiliaryPresent, newAuxiliaryPresent));
@@ -283,11 +283,11 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetHybrid(final IHybridHeater newHybrid, NotificationChain msgs) {
-		final IHybridHeater oldHybrid = hybrid;
+	public NotificationChain basicSetHybrid(IHybridHeater newHybrid, NotificationChain msgs) {
+		IHybridHeater oldHybrid = hybrid;
 		hybrid = newHybrid;
 		if (eNotificationRequired()) {
-			final ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.HEAT_PUMP__HYBRID, oldHybrid, newHybrid);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.HEAT_PUMP__HYBRID, oldHybrid, newHybrid);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
@@ -299,7 +299,7 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 	 * @generated
 	 */
 	@Override
-	public void setHybrid(final IHybridHeater newHybrid) {
+	public void setHybrid(IHybridHeater newHybrid) {
 		if (newHybrid != hybrid) {
 			NotificationChain msgs = null;
 			if (hybrid != null)
@@ -337,7 +337,7 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(final InternalEObject otherEnd, final int featureID, final NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case ITechnologiesPackage.HEAT_PUMP__HYBRID:
 				return basicSetHybrid(null, msgs);
@@ -350,7 +350,7 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 	 * @generated
 	 */
 	@Override
-	public Object eGet(final int featureID, final boolean resolve, final boolean coreType) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ITechnologiesPackage.HEAT_PUMP__SOURCE_TYPE:
 				return getSourceType();
@@ -371,7 +371,7 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 	 * @generated
 	 */
 	@Override
-	public void eSet(final int featureID, final Object newValue) {
+	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case ITechnologiesPackage.HEAT_PUMP__SOURCE_TYPE:
 				setSourceType((HeatPumpSourceType)newValue);
@@ -397,7 +397,7 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 	 * @generated
 	 */
 	@Override
-	public void eUnset(final int featureID) {
+	public void eUnset(int featureID) {
 		switch (featureID) {
 			case ITechnologiesPackage.HEAT_PUMP__SOURCE_TYPE:
 				setSourceType(SOURCE_TYPE_EDEFAULT);
@@ -423,7 +423,7 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(final int featureID) {
+	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case ITechnologiesPackage.HEAT_PUMP__SOURCE_TYPE:
 				return (flags & SOURCE_TYPE_EFLAG) != SOURCE_TYPE_EFLAG_DEFAULT;

@@ -284,8 +284,8 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public void setAnnualOperationalCost(final double newAnnualOperationalCost) {
-		final double oldAnnualOperationalCost = annualOperationalCost;
+	public void setAnnualOperationalCost(double newAnnualOperationalCost) {
+		double oldAnnualOperationalCost = annualOperationalCost;
 		annualOperationalCost = newAnnualOperationalCost;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_WATER_HEATER__ANNUAL_OPERATIONAL_COST, oldAnnualOperationalCost, annualOperationalCost));
@@ -307,8 +307,8 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public void setPitch(final double newPitch) {
-		final double oldPitch = pitch;
+	public void setPitch(double newPitch) {
+		double oldPitch = pitch;
 		pitch = newPitch;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_WATER_HEATER__PITCH, oldPitch, pitch));
@@ -330,8 +330,8 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public void setOrientation(final double newOrientation) {
-		final double oldOrientation = orientation;
+	public void setOrientation(double newOrientation) {
+		double oldOrientation = orientation;
 		orientation = newOrientation;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_WATER_HEATER__ORIENTATION, oldOrientation, orientation));
@@ -353,8 +353,8 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public void setArea(final double newArea) {
-		final double oldArea = area;
+	public void setArea(double newArea) {
+		double oldArea = area;
 		area = newArea;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_WATER_HEATER__AREA, oldArea, area));
@@ -376,8 +376,8 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public void setUsefulAreaRatio(final double newUsefulAreaRatio) {
-		final double oldUsefulAreaRatio = usefulAreaRatio;
+	public void setUsefulAreaRatio(double newUsefulAreaRatio) {
+		double oldUsefulAreaRatio = usefulAreaRatio;
 		usefulAreaRatio = newUsefulAreaRatio;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_WATER_HEATER__USEFUL_AREA_RATIO, oldUsefulAreaRatio, usefulAreaRatio));
@@ -399,8 +399,8 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public void setZeroLossEfficiency(final double newZeroLossEfficiency) {
-		final double oldZeroLossEfficiency = zeroLossEfficiency;
+	public void setZeroLossEfficiency(double newZeroLossEfficiency) {
+		double oldZeroLossEfficiency = zeroLossEfficiency;
 		zeroLossEfficiency = newZeroLossEfficiency;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_WATER_HEATER__ZERO_LOSS_EFFICIENCY, oldZeroLossEfficiency, zeroLossEfficiency));
@@ -422,8 +422,8 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public void setLinearHeatLossCoefficient(final double newLinearHeatLossCoefficient) {
-		final double oldLinearHeatLossCoefficient = linearHeatLossCoefficient;
+	public void setLinearHeatLossCoefficient(double newLinearHeatLossCoefficient) {
+		double oldLinearHeatLossCoefficient = linearHeatLossCoefficient;
 		linearHeatLossCoefficient = newLinearHeatLossCoefficient;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_WATER_HEATER__LINEAR_HEAT_LOSS_COEFFICIENT, oldLinearHeatLossCoefficient, linearHeatLossCoefficient));
@@ -445,8 +445,8 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public void setPreHeatTankVolume(final double newPreHeatTankVolume) {
-		final double oldPreHeatTankVolume = preHeatTankVolume;
+	public void setPreHeatTankVolume(double newPreHeatTankVolume) {
+		double oldPreHeatTankVolume = preHeatTankVolume;
 		preHeatTankVolume = newPreHeatTankVolume;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_WATER_HEATER__PRE_HEAT_TANK_VOLUME, oldPreHeatTankVolume, preHeatTankVolume));
@@ -468,8 +468,8 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public void setPumpPhotovolatic(final boolean newPumpPhotovolatic) {
-		final boolean oldPumpPhotovolatic = (flags & PUMP_PHOTOVOLATIC_EFLAG) != 0;
+	public void setPumpPhotovolatic(boolean newPumpPhotovolatic) {
+		boolean oldPumpPhotovolatic = (flags & PUMP_PHOTOVOLATIC_EFLAG) != 0;
 		if (newPumpPhotovolatic) flags |= PUMP_PHOTOVOLATIC_EFLAG; else flags &= ~PUMP_PHOTOVOLATIC_EFLAG;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_WATER_HEATER__PUMP_PHOTOVOLATIC, oldPumpPhotovolatic, newPumpPhotovolatic));
@@ -494,7 +494,7 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public Object eGet(final int featureID, final boolean resolve, final boolean coreType) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ITechnologiesPackage.SOLAR_WATER_HEATER__ANNUAL_OPERATIONAL_COST:
 				return getAnnualOperationalCost();
@@ -524,7 +524,7 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public void eSet(final int featureID, final Object newValue) {
+	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case ITechnologiesPackage.SOLAR_WATER_HEATER__ANNUAL_OPERATIONAL_COST:
 				setAnnualOperationalCost((Double)newValue);
@@ -563,7 +563,7 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public void eUnset(final int featureID) {
+	public void eUnset(int featureID) {
 		switch (featureID) {
 			case ITechnologiesPackage.SOLAR_WATER_HEATER__ANNUAL_OPERATIONAL_COST:
 				setAnnualOperationalCost(ANNUAL_OPERATIONAL_COST_EDEFAULT);
@@ -602,7 +602,7 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(final int featureID) {
+	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case ITechnologiesPackage.SOLAR_WATER_HEATER__ANNUAL_OPERATIONAL_COST:
 				return annualOperationalCost != ANNUAL_OPERATIONAL_COST_EDEFAULT;
@@ -632,7 +632,7 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public int eBaseStructuralFeatureID(final int derivedFeatureID, final Class<?> baseClass) {
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
 		if (baseClass == IVisitorAccepter.class) {
 			switch (derivedFeatureID) {
 				default: return -1;
@@ -653,7 +653,7 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public int eDerivedStructuralFeatureID(final int baseFeatureID, final Class<?> baseClass) {
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
 		if (baseClass == IVisitorAccepter.class) {
 			switch (baseFeatureID) {
 				default: return -1;
@@ -677,7 +677,7 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		final StringBuffer result = new StringBuffer(super.toString());
+		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (annualOperationalCost: ");
 		result.append(annualOperationalCost);
 		result.append(", pitch: ");

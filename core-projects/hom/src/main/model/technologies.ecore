@@ -68,6 +68,12 @@
         eType="#//Adjuster" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="shower" eType="#//Shower"
         containment="true" eOpposite="#//Shower/technologyModel"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="energyUseAdjusters" upperBound="2"
+        eType="#//EnergyUseAdjuster" containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Represents a list of adjustments that can be made to Appliance or Cooking Energy use&#xA;"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Appliance" eSuperTypes="#//Named #//VisitorAccepter">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="efficiency" lowerBound="1"
@@ -506,6 +512,15 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MixerShower" eSuperTypes="#//Shower"/>
   <eClassifiers xsi:type="ecore:EClass" name="ElectricShower" eSuperTypes="#//Shower"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EnergyUseAdjuster" eSuperTypes="#//Named #//VisitorAccepter">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="constantTerm" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="linearTerm" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="adjustmentType" eType="#//AdjusterType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="AdjusterType">
+    <eLiterals name="Appliance"/>
+    <eLiterals name="Cooker"/>
+  </eClassifiers>
   <eSubpackages name="boilers" nsURI="http://www.cse.org.uk/nhm/schema/emf/technology/boilers/1/"
       nsPrefix="boilers">
     <eClassifiers xsi:type="ecore:EClass" name="Boiler" eSuperTypes="#//IndividualHeatSource #//VisitorAccepter #//FuelAndFlue">

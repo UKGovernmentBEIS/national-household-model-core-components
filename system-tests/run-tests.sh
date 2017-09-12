@@ -65,10 +65,10 @@ function run_test {
     then
         JAR=$(get_version "${TESTNAME}")
 
-        inf "running scenario"
+        inf "running scenario with version $(java -jar $JAR version)"
         rm -f "${SIMLOG}" "${TESTLOG}" "${OUTPUT}"
+        #java -agentlib:jdwp=transport=dt_socket,server=y,address=8000,suspend=y -jar "${JAR}" run "${TESTSCENARIO}" "${OUTPUT}" >> "${SIMLOG}" 2>&1
         java -jar "${JAR}" run "${TESTSCENARIO}" "${OUTPUT}" >> "${SIMLOG}" 2>&1
-
         if [ ! -f ${OUTPUT} ]
         then
             err "produced no output"

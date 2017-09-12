@@ -43,6 +43,15 @@ public class ClassEnergyStateTest {
 	}
 	
 	@Test
+	public void testTotalForService() {
+	    state.setCurrentServiceType(ServiceType.APPLIANCES, "");
+	    state.increaseDemand(EnergyType.CommunityBIOMASS, 10d);
+	    Assert.assertEquals(10, state.getTotalDemand(ServiceType.APPLIANCES), 0);
+	    state.increaseDemand(EnergyType.FuelGAS, 12d);
+	    Assert.assertEquals(22, state.getTotalDemand(ServiceType.APPLIANCES), 0);
+	}
+	
+	@Test
 	public void testUnsatisfiedDemand() {
 		state.increaseDemand(EnergyType.FuelGAS, 100);
 		Assert.assertEquals(100d, state.getUnsatisfiedDemand(EnergyType.FuelGAS), 0.01);

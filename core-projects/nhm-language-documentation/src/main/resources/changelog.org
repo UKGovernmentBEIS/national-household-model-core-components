@@ -21,9 +21,32 @@ If you want to cross-reference to a language element, you need to use the unique
    - *Bugs removed* will list any known errors that were found to affect the previous version which have been corrected in this version
 
 ** Released versions
-*** Version 6.5.6
-**** Improvements
-***** Various documenation ammendments for SAP/BREDEM compliant energy calculators
+*** Version 7.0.0
+**** New Features
+***** Combinations Choice
+To help with performance issues being created by using the ~combinations macro within templates combinations choice has been added to avoid the need to macro expand the scenario before validation. This expansion now happens when executing the simulaiton see =ref.combination.choice=.
+
+***** Products Modelling
+To enable modelling of some products policy changes to the NHM some new scenario language elements have been added.
+
+For modelling of changes to energy used by appliances and cooking the =ref.measure.set-adjustment-terms= function allows you to apply a linear correction factor to the energy use of appliances or overaching energy use coooking with reference to SAP2012 L10.
+
+For modelling the altertion of lighting elements within a house =ref.measure.lighting= has been added to alter the types of light within a house and =ref.house.lighting-proportion= has been added to allow reporting on this.
+***** Health modelling
+The health impact calculations from UCL and LSHTM's HIDEEM model have been integrated into the NHM.
+
+The =ref.health-impact-of= function allows you to compute the health impact in terms of morbidity QALYS, mortality QALYS, or avoided NHS costs which result from a given change in internal temperature or fabric permeability as a result of a measure being applied.
+
+Some supporting functions have been added to calculating the inputs to =ref.health-impact-of=.
+
+=ref.house.permeability= represents the permeability of the house (air change rate / area).
+
+=ref.house.sit= and =ref.house.sit-rebate= predict a realistic internal temperature in a house.
+
+***** house.surface-area
+
+A function =ref.house.surface-area= has been added, this returns the area of the external envelope of the dwelling (roof, floor, walls, windows and doors).
+
 *** Version 6.5.5
 **** New Features
 
