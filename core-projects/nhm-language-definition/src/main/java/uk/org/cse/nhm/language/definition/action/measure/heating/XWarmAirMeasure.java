@@ -12,12 +12,12 @@ import com.larkery.jasb.bind.BindNamedArgument;
 
 /**
  * XWarmAirMeasure.
- * 
+ *
  * @author richardTiffin
  */
 @Doc("Installs a Warm Air heating system")
 @Unsuitability({
-        "fuel type must be mains gas, botteled LPG or LPG",
+        "fuel type must be mains gas, bottled LPG or LPG",
         "a warm air system must already be installed and have an efficiency less than that being installed"
 })
 @Bind("measure.warm-air-system")

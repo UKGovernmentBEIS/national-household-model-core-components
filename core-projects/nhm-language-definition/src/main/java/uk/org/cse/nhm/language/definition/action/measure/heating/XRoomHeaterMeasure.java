@@ -7,6 +7,7 @@ import com.larkery.jasb.bind.BindNamedArgument;
 
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Doc;
+import uk.org.cse.nhm.language.definition.action.Unsuitability;
 import uk.org.cse.nhm.language.definition.action.XMeasure;
 import uk.org.cse.nhm.language.definition.enums.XFuelType;
 import uk.org.cse.nhm.language.definition.function.num.XNumber;
@@ -17,6 +18,9 @@ import uk.org.cse.nhm.language.validate.efficiency.EfficiencyRequired;
 
 @Bind("measure.room-heater")
 @Doc({"Installs a room heater. This counts as secondary heating: it is a space heater which it not connected to the central heating system. It does not provide domestic hot water."})
+@Unsuitability({
+        "replace-existing: is not supplied (or is supplied as false) and the dwelling already has a secondary heating system - if replace-existing: is true, then this measure is always suitable. Otherwise it is only suitable for dwellings which have no secondary heating."
+})
 public class XRoomHeaterMeasure extends XMeasure {
 	public static class P {
 		public static final String FUEL = "fuel";
@@ -26,16 +30,16 @@ public class XRoomHeaterMeasure extends XMeasure {
 		public static final String CAPEX = "capex";
 		public static final String OPEX = "opex";
 	}
-	
+
 	private XFuelType fuel;
 	private Double efficiency;
 	private boolean replaceExisting = false;
-	
+
 	private XSizingFunction sizing;
 	private XNumber capex;
 	private XNumber opex;
-	
-	
+
+
 @BindNamedArgument
 	@Prop(P.FUEL)
 	@NotNull(message = "measure.room-heater must specify a fuel.")
@@ -43,37 +47,37 @@ public class XRoomHeaterMeasure extends XMeasure {
 	public XFuelType getFuel() {
 		return fuel;
 	}
-	
+
 	public void setFuel(final XFuelType fuel) {
 		this.fuel = fuel;
 	}
-	
-	
+
+
 @BindNamedArgument
 	@Prop(P.EFFICIENCY)
 	@Doc("The efficiency of a heater as a proportion. This will be ignored if the fuel type is electricity (since electricity is aways 1.0 efficient).")
 	public Double getEfficiency() {
 		return efficiency;
 	}
-	
+
 	public void setEfficiency(final Double efficiency) {
 		this.efficiency = efficiency;
 	}
 
 @BindNamedArgument("replace-existing")
 	@Prop(P.REPLACE_EXISTING)
-	@Doc({"If this is set to true, any existing secondary space heaters will also be removed and replaced with the new room heater.", 
+	@Doc({"If this is set to true, any existing secondary space heaters will also be removed and replaced with the new room heater.",
 		"If this is set to false, the new room heater will only be installed in houses which do not already have a secondary heater."})
 	public boolean getReplaceExisting() {
 		return replaceExisting;
 	}
-	
+
 	public void setReplaceExisting(final boolean replaceExisting) {
 		this.replaceExisting = replaceExisting;
 	}
-	
+
 	@Prop(P.SIZING)
-	
+
 	@BindNamedArgument("size")
 	@Doc("Contains the measure's sizing function")
 	@NotNull(message = "measure.room-heater must always declare a sizing function")
@@ -83,7 +87,7 @@ public class XRoomHeaterMeasure extends XMeasure {
 	public void setSizing(final XSizingFunction sizing) {
 		this.sizing = sizing;
 	}
-	
+
 	@Prop(P.CAPEX)
 	@BindNamedArgument
 	@Doc("Contains the measure's capex function")
