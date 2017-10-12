@@ -41,15 +41,15 @@ public class Language implements ILanguage {
 		Macro,
 		Name
 	}
-	
+
 	static class S implements ISuggestion, Comparable<S> {
 		private final SType type;
 		private final String text, description, category;
 		private final int offset, leftOffset;
 		private final boolean spaced;
-		
+
 		protected S(
-				final SType type, 
+				final SType type,
 				final String text, final String description, final String category,
 				final int offset, final int leftOffset, final boolean spaced) {
 			super();
@@ -81,7 +81,7 @@ public class Language implements ILanguage {
 		public int leftOffset() {
 			return this.leftOffset;
 		}
-		
+
 		@Override
 		public boolean spaced() {
 			return this.spaced;
@@ -113,7 +113,7 @@ public class Language implements ILanguage {
 				return Joiner.on(" ").join(d.value());
 			}
 		}
-		
+
 		public static String describe(final Class<?> javaType, final String lit) {
 			if (javaType.isEnum()) {
 				for (final Object o : javaType.getEnumConstants()) {
@@ -142,10 +142,12 @@ public class Language implements ILanguage {
 		}
 
 		public static S macroKeyword(final ICursor cursor, final MacroModel macro, final String argument) {
+			final String description = macro.allKeys.get(argument);
+
 			return new S(
 					SType.Argument,
 					argument + ": ",
-					macro.allowedKeys.get(argument),
+					description,
 					"keywords",
 					0, cursor.left().length(),
 					true);
@@ -164,7 +166,7 @@ public class Language implements ILanguage {
 		static S cmd(final ICursor cursor, final SType type, final String name, final String desc, final String cat) {
 			final String insert;
 			final int offset;
-			
+
             if (!cursor.previous().isPresent() || cursor.argument().name().isPresent() || cursor.argument().position().isPresent()) {
 				insert = "(" + name + ")";
 				offset = -1;
@@ -172,7 +174,7 @@ public class Language implements ILanguage {
 				insert = name;
 				offset = 0;
 			}
-			
+
 			return new S(
 					type,
 					insert,
@@ -181,7 +183,7 @@ public class Language implements ILanguage {
 						 cursor.left().length(),
 						 false);
 		}
-		
+
 		public static S definition(final ICursor cursor, final IDefinition<?> d) {
 			if (d.type() == DefinitionType.Template) {
 				return cmd(cursor, SType.Template, d.name(), "a user-defined template", "templates");
@@ -222,16 +224,16 @@ public class Language implements ILanguage {
 			return cmd(cursor, SType.Macro, name, next.description, "macros");
 		}
 	}
-	
+
 	final ListMultimap<String, IInvocationModel> byName = LinkedListMultimap.create();
 	final ListMultimap<String, MacroModel> macroByName = LinkedListMultimap.create();
-	
+
 	public Language() {
 		final IModel model = Defaults.CONTEXT.getModel();
 		for (final IInvocationModel inv : model.getInvocations()) {
 			this.byName.put(inv.getName(), inv);
 		}
-		
+
 		for (final IMacro macro : ExtraMacros.CURRENT) {
 			this.macroByName.put(macro.getName(), macro.getModel());
         }
@@ -259,8 +261,8 @@ public class Language implements ILanguage {
 	 * We couldn't guess what's around the cursor, so just guess other stuff
 	 * may still be able to guess the thing above the cursor
 	 * @param cursor
-	 * @param definitions 
-	 * @param tmp 
+	 * @param definitions
+	 * @param tmp
 	 * @return
 	 */
 	private void guess(final ICursor cursor, final Set<? extends IDefinition<?>> definitions, final List<S> result) {
@@ -276,17 +278,17 @@ public class Language implements ILanguage {
 				result.add(S.definition(cursor, d));
 			}
 		}
-		
+
 		for (final MacroModel mm : this.macroByName.get(cursor.command())) {
 			// this is a macro which matches where we are
 			// we ought to suggest keywords for it
-			for (final String s : mm.allowedKeys.keySet()) {
+			for (final String s : mm.allKeys.keySet()) {
 				if (s.startsWith(cursor.left())) {
 					result.add(S.macroKeyword(cursor, mm, s));
 				}
 			}
 		}
-		
+
 		for (final String s : this.byName.keySet()) {
 			if (s.startsWith(cursor.left())) {
 				// suggest completing the command
@@ -310,7 +312,7 @@ public class Language implements ILanguage {
 		final Set<IInvocationModel> list = new HashSet<IInvocationModel>(this.byName.get(cursor.command()));
 		if (list.size() > 1) {
 			if (cursor.previous().isPresent()) {
-				final ICursor previous = cursor.previous().get();				
+				final ICursor previous = cursor.previous().get();
 				final Optional<IInvocationModel> pm = resolve(previous);
 				if (pm.isPresent()) {
 					final IInvocationModel im = pm.get();
@@ -331,7 +333,7 @@ public class Language implements ILanguage {
 	}
 
 	@Override
-	public List<? extends ISuggestion> suggest(final ICursor cursor, 
+	public List<? extends ISuggestion> suggest(final ICursor cursor,
             final Set<? extends IDefinition<?>> definitions) {
         final ArrayList<S> tmp = new ArrayList<>();
 		if (cursor.argument().position().isPresent() || cursor.argument().name().isPresent()) {
@@ -345,9 +347,9 @@ public class Language implements ILanguage {
 			// we are at the head of a command, so we should suggest sensible things for that place
 			suggestHead(cursor, definitions, tmp);
 		}
-		
+
 		addMacros(cursor, tmp);
-		
+
 		Collections.sort(tmp);
 		return ImmutableList.copyOf(tmp);
 	}
@@ -385,7 +387,7 @@ public class Language implements ILanguage {
                 }
             }
         }
-		
+
 		for (final IDefinition<?> d : definitions) {
 			if (d.type() == DefinitionType.Template) {
 				if (d.name().startsWith(cursor.left())) {
@@ -436,19 +438,19 @@ public class Language implements ILanguage {
 			}
 		}
 	}
-	
+
 	/**
 	 * Produce suggestions given a cursor and a guess at what's around the cursor
 	 * @param cursor
 	 * @param inv
-	 * @param definitions 
-	 * @param tmp 
+	 * @param definitions
+	 * @param tmp
 	 * @return
 	 */
 	private void suggest(
 			final ICursor cursor,
 			final IInvocationModel inv,
-			final Set<? extends IDefinition<?>> definitions, 
+			final Set<? extends IDefinition<?>> definitions,
 			final List<S> suggestions) {
 		if (cursor.argument().position().isPresent()) {
 			// we may be wanting to insert a keyword
@@ -459,32 +461,32 @@ public class Language implements ILanguage {
 				}
 			}
 		}
-		
+
 		final Optional<IArgument> arg = matchArgument(inv, cursor.argument());
 		if (arg.isPresent()) {
 			suggest(cursor, arg.get(), suggestions);
 		}
-		
+
 		for (final IDefinition<?> d : definitions) {
-			if (d.name().startsWith(cursor.left())) {				
+			if (d.name().startsWith(cursor.left())) {
 				suggestions.add(S.definition(cursor, d));
 			}
 		}
 	}
-	
+
 	@Override
 	public Set<String> elements() {
 		return this.byName.keySet();
 	}
-	
+
 	@Override
 	public Set<String> macros() {
 		return Sets.union(
 				// these are kind of macros, but not really
-				ImmutableSet.of("~module", "~local", "template", "include", "include-modules", "no-include"), 
+				ImmutableSet.of("~module", "~local", "template", "include", "include-modules", "no-include"),
 				this.macroByName.keySet());
 	}
-	
+
 	@Override
 	public Optional<String> describe(final ICursor cursor) {
 		final Optional<IInvocationModel> resolve = resolve(cursor);
@@ -500,7 +502,7 @@ public class Language implements ILanguage {
 		} else if (this.macroByName.containsKey(cursor.command())) {
 			final MacroModel mm = this.macroByName.get(cursor.command()).iterator().next();
 			if (cursor.argument().name().isPresent()) {
-				return Optional.fromNullable(mm.allowedKeys.get(cursor.argument().name().get()));
+				return Optional.fromNullable(mm.allKeys.get(cursor.argument().name().get()));
 			} else if (cursor.argument().position().isPresent()) {
 				final int i = cursor.argument().position().get();
 				if (i >= mm.allowedPos.size()) {
@@ -509,7 +511,7 @@ public class Language implements ILanguage {
 					return Optional.fromNullable(mm.allowedPos.get(i));
 				}
 			} else {
-				return Optional.fromNullable(mm.description);
+				return mm.descriptionAndArguments();
 			}
 		}
 		return Optional.absent();

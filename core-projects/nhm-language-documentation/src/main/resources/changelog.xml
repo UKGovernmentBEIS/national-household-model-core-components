@@ -52,6 +52,14 @@
           <para>
           </para>
         </sect4>
+        <sect4 id="suggestions-and-help-for-macros">
+          <title>Suggestions and help for macros</title>
+          <para>
+            The desktop application now includes suggestions and help
+            for macro arguments which are not optional. These arguments
+            were previously being left out, by mistake.
+          </para>
+        </sect4>
       </sect3>
     </sect2>
     <sect2 id="version-7.0.0">
