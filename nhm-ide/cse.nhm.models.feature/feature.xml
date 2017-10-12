@@ -23,5 +23,6 @@
     <import plugin="uk.org.cse.nhm.bundle.impl" version="7.0.0" match="equivalent"/>
     <import plugin="uk.org.cse.nhm.bundle.impl" version="7.0.1" match="equivalent"/>
     <import plugin="uk.org.cse.nhm.bundle.impl" version="7.0.2" match="equivalent"/>
+    <import plugin="uk.org.cse.nhm.bundle.impl" version="7.0.3" match="equivalent"/>
   </requires>
 </feature>
