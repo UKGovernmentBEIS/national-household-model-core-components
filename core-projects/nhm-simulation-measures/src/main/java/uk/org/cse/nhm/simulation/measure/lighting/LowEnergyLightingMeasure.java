@@ -64,14 +64,10 @@ public class LowEnergyLightingMeasure extends AbstractMeasure {
 	}
 
 	@Override
-	public boolean apply(final ISettableComponentsScope scope, final ILets lets)
+	public boolean doApply(final ISettableComponentsScope scope, final ILets lets)
 			throws NHMException {
 		
 		final double floorArea = scope.get(structureDimension).getFloorArea();
-
-		if (!isSuitable(scope, lets)) {
-			return false;
-		}
 		
 		scope.modify(techDimension, new IModifier<ITechnologyModel>(){
 			@Override

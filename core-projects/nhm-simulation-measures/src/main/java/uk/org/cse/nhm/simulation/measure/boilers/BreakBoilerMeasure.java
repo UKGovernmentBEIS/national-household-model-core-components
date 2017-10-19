@@ -28,7 +28,7 @@ public class BreakBoilerMeasure extends AbstractMeasure {
 	}
 
 	@Override
-	public boolean apply(final ISettableComponentsScope scope, final ILets lets) throws NHMException {
+	public boolean doApply(final ISettableComponentsScope scope, final ILets lets) throws NHMException {
 		scope.modify(techDimension, new IModifier<ITechnologyModel>(){
 
 			@Override

@@ -41,7 +41,7 @@ public class WetHeatingMeasure extends AbstractMeasure {
 	}
 	
 	@Override
-	public boolean apply(final ISettableComponentsScope scope, final ILets lets)
+	public boolean doApply(final ISettableComponentsScope scope, final ILets lets)
 			throws NHMException {
 		final double capex = this.capex.compute(scope, lets).doubleValue();
 		scope.addNote(new TechnologyInstallationDetails(this, TechnologyType.wetCentralHeating(), 0, Units.KILOWATTS, capex, 0));

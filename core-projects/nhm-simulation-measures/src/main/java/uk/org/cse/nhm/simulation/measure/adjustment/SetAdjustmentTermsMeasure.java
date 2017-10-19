@@ -51,35 +51,31 @@ public class SetAdjustmentTermsMeasure extends AbstractMeasure {
      * @see uk.org.cse.nhm.simulator.scope.IComponentsAction#apply(uk.org.cse.nhm.simulator.scope.ISettableComponentsScope, uk.org.cse.nhm.simulator.let.ILets)
      */
     @Override
-    public boolean apply(ISettableComponentsScope scope, ILets lets) throws NHMException {
-        if(isSuitable(scope, lets)){
-            scope.modify(technologies, new IModifier<ITechnologyModel>() {
-                @Override
-                public boolean modify(ITechnologyModel modifiable) {
-                    double constantTermActual = constantTerm.compute(scope, lets).doubleValue();
-                    double linearFactorActual = linearFactor.compute(scope, lets).doubleValue();
-                    
-                    final Iterator<IEnergyUseAdjuster> it = modifiable.getEnergyUseAdjusters().iterator();
-                    while(it.hasNext()){
-                        if(it.next().getAdjustmentType().equals(adjusterType)){
-                            it.remove();
-                        }
+    public boolean doApply(ISettableComponentsScope scope, ILets lets) throws NHMException {
+        scope.modify(technologies, new IModifier<ITechnologyModel>() {
+            @Override
+            public boolean modify(ITechnologyModel modifiable) {
+                double constantTermActual = constantTerm.compute(scope, lets).doubleValue();
+                double linearFactorActual = linearFactor.compute(scope, lets).doubleValue();
+
+                final Iterator<IEnergyUseAdjuster> it = modifiable.getEnergyUseAdjusters().iterator();
+                while (it.hasNext()) {
+                    if (it.next().getAdjustmentType().equals(adjusterType)) {
+                        it.remove();
                     }
-                   
-                   IEnergyUseAdjuster adjuster = ITechnologiesFactory.eINSTANCE.createEnergyUseAdjuster();
-                   adjuster.setAdjustmentType(adjusterType);
-                   adjuster.setConstantTerm(constantTermActual);
-                   adjuster.setLinearFactor(linearFactorActual);
-                   
-                   modifiable.getEnergyUseAdjusters().add(adjuster);
-                   
-                   return true;
                 }
-            });
-            return true;
-        } else {
-            return false;
-        }
+
+                IEnergyUseAdjuster adjuster = ITechnologiesFactory.eINSTANCE.createEnergyUseAdjuster();
+                adjuster.setAdjustmentType(adjusterType);
+                adjuster.setConstantTerm(constantTermActual);
+                adjuster.setLinearFactor(linearFactorActual);
+
+                modifiable.getEnergyUseAdjusters().add(adjuster);
+
+                return true;
+            }
+        });
+        return true;
     }
 
     /**

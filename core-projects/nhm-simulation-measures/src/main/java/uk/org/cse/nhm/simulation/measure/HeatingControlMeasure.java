@@ -104,23 +104,17 @@ public class HeatingControlMeasure extends AbstractMeasure {
 	}
 	
 	@Override
-	public boolean apply(final ISettableComponentsScope scope, final ILets lets) throws NHMException {
-		if (isSuitable(scope, lets)) {
-			final double cost = capex.compute(scope, lets).doubleValue();
+	public boolean doApply(final ISettableComponentsScope scope, final ILets lets) throws NHMException {
+        final double cost = capex.compute(scope, lets).doubleValue();
 
-			scope.modify(technologies, new Modifier(controlType));
-			scope.addTransaction(Payment.capexToMarket(cost));
-			scope.addNote(
-					new TechnologyInstallationDetails(
-							this, 
-							TechnologyType.heatingControls(controlType), 
-							1, Units.Units, cost, 0
-							)
-					);
-			return true;
-		} else {
-			return false;
-		}
+        scope.modify(technologies, new Modifier(controlType));
+        scope.addTransaction(Payment.capexToMarket(cost));
+        scope.addNote(
+                new TechnologyInstallationDetails(
+                        this,
+                        TechnologyType.heatingControls(controlType),
+                        1, Units.Units, cost, 0));
+        return true;
 	}
 
 	@Override

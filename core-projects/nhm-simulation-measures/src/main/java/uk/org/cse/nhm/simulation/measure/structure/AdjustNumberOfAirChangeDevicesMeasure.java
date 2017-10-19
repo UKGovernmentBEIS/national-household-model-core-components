@@ -41,13 +41,9 @@ public class AdjustNumberOfAirChangeDevicesMeasure extends AbstractMeasure imple
      * @see uk.org.cse.nhm.simulator.scope.IComponentsAction#apply(uk.org.cse.nhm.simulator.scope.ISettableComponentsScope, uk.org.cse.nhm.simulator.let.ILets)
      */
     @Override
-    public boolean apply(ISettableComponentsScope scope, ILets lets) throws NHMException {
-        if(isSuitable(scope, lets)){
-            scope.modify(structureDimension, this);
-            return true;
-        } else {
-            return false;
-        }
+    public boolean doApply(ISettableComponentsScope scope, ILets lets) throws NHMException {
+        scope.modify(structureDimension, this);
+        return true;
     }
 
     /**

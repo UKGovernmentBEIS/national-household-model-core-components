@@ -48,17 +48,13 @@ public class DraughtProofingMeasure extends AbstractMeasure implements IModifier
 	}
 	
 	@Override
-	public boolean apply(final ISettableComponentsScope scope, final ILets lets)
+	public boolean doApply(final ISettableComponentsScope scope, final ILets lets)
 			throws NHMException {
-		if (isSuitable(scope, lets)) {
-			this.quantityInstalled  = 0d;
-			scope.modify(structureDimension, this);
-			addCapitalCosts(scope, lets, this.quantityInstalled);
+        this.quantityInstalled = 0d;
+        scope.modify(structureDimension, this);
+        addCapitalCosts(scope, lets, this.quantityInstalled);
 
-			return true;
-		} else {
-			return false;
-		}
+        return true;
 	}
 
 	/**
