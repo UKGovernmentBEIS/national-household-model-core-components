@@ -1,0 +1,27 @@
+;; quick-start scenario for hideem
+;; scenario content:
+(scenario
+    start-date: 2017
+    end-date: 2028
+    stock-id: ../../stock.json
+    energy-calculator: BREDEM2012
+    quantum: 4000
+        
+    ;;Report on the state of a house/houses at some point
+    (def-report install-report
+      (column name: survey-code value: (house.survey-code))
+      (column name: built-form value: (house.built-form))
+      (column name: has-solar-pv value: (house.has-solar-photovoltaic))
+      (column name: has-solar-pv value: (house.has-solar-photovoltaic))
+      (column name: roof-area value: (house.roof-area))
+      (column name: roof-type value: (house.roof-construction-type)))
+        
+    (on.dates
+        (scenario-end)
+        (apply
+	 (measure.solar-photovoltaic
+	  name:Solar-PV
+	  report:install-report
+	  capex:1
+	  size: (size(*(house.roof-area) 0.2 0.14))
+	  own-use-proportion:0.62))))
