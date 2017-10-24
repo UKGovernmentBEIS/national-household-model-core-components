@@ -1,0 +1,25 @@
+(scenario
+    start-date: 2017
+    end-date: 2018
+    stock-id: ../../stock.json
+    energy-calculator: SAP2012
+    quantum: 2000
+    
+    ;Define some variables on individual houses that we can set the health-function outcomes to
+    (def health-impact-Mortality on: House default: 0)
+    (def health-impact-Cost on: House default: 0)
+    (def health-impact-Morbidity on: House default: 0)
+    
+    ;Define the things we want to see in a report, includes the health health-function outcomes
+    (def-report hideem-report
+      (column name: survey.code value: (house.survey-code))
+      (column name: boiler-type value: (house.main-heating-system-type))
+      (column name: permeability value: (house.permeability)))
+    
+    ;Carry out a fabric intervention
+    (on.dates
+        (scenario-start)
+        (apply
+	 (measure.standard-boiler
+	  report: hideem-report
+	  winter-efficiency:0.80))))
