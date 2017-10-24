@@ -3,7 +3,7 @@
 (scenario
     start-date: 2017
     end-date: 2028
-    stock-id: ../../stock.json
+    stock-id: ../../2014.stock
     energy-calculator: BREDEM2012
     quantum: 4000
         
@@ -12,9 +12,10 @@
       (column name: survey-code value: (house.survey-code))
       (column name: built-form value: (house.built-form))
       (column name: has-solar-pv value: (house.has-solar-photovoltaic))
-      (column name: has-solar-pv value: (house.has-solar-photovoltaic))
       (column name: roof-area value: (house.roof-area))
-      (column name: roof-type value: (house.roof-construction-type)))
+      (column name: roof-type value: (house.roof-construction-type))
+      (column name: solar-energy value: (house.energy-use by-fuel:Photons) summary:[mean])
+      (column name: generation-energy value: (house.energy-use by-service:Generation)))
         
     (on.dates
         (scenario-end)
