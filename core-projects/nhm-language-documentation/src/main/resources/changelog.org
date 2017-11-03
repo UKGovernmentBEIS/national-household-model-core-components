@@ -21,6 +21,9 @@ If you want to cross-reference to a language element, you need to use the unique
    - *Bugs removed* will list any known errors that were found to affect the previous version which have been corrected in this version
 
 ** Released versions
+*** Verison 7.0.3
+**** Bugs Fixed
+***** Reverted macro validation fixes added as they cause errors which affect previous BEIS scenarios
 *** Version 7.0.2
 **** Bugs Fixed
 ***** House Permeability Calculation
