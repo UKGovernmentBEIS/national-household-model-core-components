@@ -3,7 +3,6 @@ package com.larkery.jasb.sexp.parse;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import java.util.Map;
 
 public class MacroModel {
 	public final String description;
@@ -26,7 +25,7 @@ public class MacroModel {
 				this.allowedPos = allowedPos;
 				this.requiredPos = requiredPos;
 				this.restNum = restNum;
-				this.allKeys = ImmutableMap.<String, String>builder()
+				this.allKeys = ImmutableMap.builder()
 					.putAll(requiredKeys)
 					.putAll(allowedKeys)
 					.build();
@@ -41,7 +40,7 @@ public class MacroModel {
 		for (final Map.Entry<String, String> e : requiredKeys.entrySet()) {
 			sb.append(String.format("%s: (required) %s\n\n", e.getKey(), e.getValue()));
 		}
-		for (final Map.Entry<String, String> e : allowedKeys.entrySet()) {
+		for (final Map.Entry<String, String> required : allowedKeys.entrySet()) {
 			sb.append(String.format("%s: (optional) %s\n\n", e.getKey(), e.getValue()));
 		}
 		int i = 1;
