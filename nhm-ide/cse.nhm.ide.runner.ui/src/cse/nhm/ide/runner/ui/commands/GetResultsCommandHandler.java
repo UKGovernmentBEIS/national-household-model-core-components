@@ -52,13 +52,13 @@ import cse.nhm.ide.runner.ui.RunnerUIPlugin;
 
 public class GetResultsCommandHandler extends AbstractHandler {
 	static final SimpleDateFormat DTFM = new SimpleDateFormat("YYYY-MM-dd HHmm");
-	
+
 	static abstract class AbsUnzipResultTask implements IRunnableWithProgress {
 		protected IScenarioRun run;
-		
+
 		static class UnclosingStream extends InputStream {
 			final InputStream input;
-			
+
 			public UnclosingStream(final InputStream input) {
 				super();
 				this.input = input;
@@ -69,7 +69,7 @@ public class GetResultsCommandHandler extends AbstractHandler {
 				return input.read();
 			}
 		}
-		
+
 		public AbsUnzipResultTask(final IScenarioRun run2) {
 			run = run2;
 		}
@@ -208,7 +208,7 @@ public class GetResultsCommandHandler extends AbstractHandler {
 				}
 			}
         }
-		
+
 		@Override
 		public void run(final IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 			monitor.beginTask("Getting results", 100);
@@ -218,15 +218,15 @@ public class GetResultsCommandHandler extends AbstractHandler {
 				switch (run.getType()) {
 				case Batch:
 					// process the parts into a whole thing somehow
-					
+
 					prepare(outputFolderName);
 					final BatchResult br = new BatchResult();
-					
+
 					for (int i = 0; i<run.getNumberOfParts(); i++) {
 						final Optional<InputStream> is_ = run.getPartStream(i);
 						if (is_.isPresent()) {
 							try (final InputStream is = is_.get();
-								final Reader r = new InputStreamReader(is, StandardCharsets.UTF_8)) {								
+								final Reader r = new InputStreamReader(is, StandardCharsets.UTF_8)) {
 								final JsonValue j = Json.parse(r);
 								br.addBatchOutput(j);
 							}
@@ -234,7 +234,7 @@ public class GetResultsCommandHandler extends AbstractHandler {
 					}
 
 					monitor.worked(50);
-					
+
 					// combine the parts
                     store("results.tab", new ByteArrayInputStream(br.results.getString()
                                                                   .getBytes(StandardCharsets.UTF_8)),
@@ -245,30 +245,37 @@ public class GetResultsCommandHandler extends AbstractHandler {
                             new SubProgressMonitor(monitor, 25));
 
 					break;
-					
+
 				default:
 				case Scenario:
 					// it's a zip stream and it should have but one part.
-					if (run.getNumberOfParts() != 1) 
+					if (run.getNumberOfParts() != 1)
 						throw new UnsupportedOperationException(
 								"The normal scenario " + run.getName() + " has " + run.getNumberOfParts() + " parts, not one part"
 								);
 						final Optional<InputStream> is_ = run.getPartStream(0);
-						try (final InputStream is = is_.get(); 
+
+						if (!is.isPresent()) {
+							throw new UnsupportedOperationException(
+								String.format("The run %s has no contents for its results. There may be more information about why in the error log view.",
+											  run.getName() ))
+						}
+
+						try (final InputStream is = is_.get();
 							 final ZipInputStream zs = new ZipInputStream(is)) {
-	
+
 							prepare(outputFolderName);
-	
+
 							ZipEntry ze = null;
 							while ((ze = zs.getNextEntry()) != null) {
 								// create a suitable folder in the output, and then
 								// unzip the file into it.
-								store(ze.getName(), zs, new SubProgressMonitor(monitor,
-										Math.max(0, (int) (ze.getCompressedSize() / 1024))));
-	
+								store(ze.getName(), zs, new SubProgressMonitor(
+										  monitor, Math.max(0, (int) (ze.getCompressedSize() / 1024))));
+
 							}
-	
-					}
+
+						}
 					break;
                 }
 
@@ -334,7 +341,7 @@ public class GetResultsCommandHandler extends AbstractHandler {
 				throw new RuntimeException(e.getMessage(), e);
 			}
 		}
-		
+
 		@Override
 		void prepare(final String outputFolderName) throws IOException {
 			tempDirectory = Files.createTempDirectory(run.getName());
@@ -345,9 +352,9 @@ public class GetResultsCommandHandler extends AbstractHandler {
 		public java.nio.file.Path getOutputFolder() {
 			return contentDirectory;
 		}
-		
+
 	}
-	
+
 	static class UnzipResultTask extends AbsUnzipResultTask implements IRunnableWithProgress {
 		private static void mkdirs(final IContainer folder) throws CoreException {
 			final IContainer container = folder.getParent();
@@ -356,7 +363,7 @@ public class GetResultsCommandHandler extends AbstractHandler {
 			}
 			if (!folder.exists() && folder instanceof IFolder) ((IFolder)folder).create(true, true, null);
 		}
-		
+
 		private final IPath output;
 		private IFolder outputFolder;
 
@@ -369,14 +376,14 @@ public class GetResultsCommandHandler extends AbstractHandler {
 		protected void store(final String name, final InputStream stream, final IProgressMonitor monitor) throws Exception {
 			final IFile file = outputFolder.getFile(name);
 			mkdirs(file.getParent());
-			file.create(new UnclosingStream(stream), true, monitor);	
+			file.create(new UnclosingStream(stream), true, monitor);
 		}
-		
+
 		@Override
 		void prepare(final String outputFolderName) {
 			final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 			final IResource parent = root.findMember(this.output);
-			
+
 			final IContainer parentC;
 			final boolean createSubFolder;
 			if (parent == null) {
@@ -401,14 +408,14 @@ public class GetResultsCommandHandler extends AbstractHandler {
 				RunnerUIPlugin.error("Output folder" + this.output + " does not exist or is not a folder", null);
 				return;
 			}
-			
+
 			if (createSubFolder) {
 				int counter = 0;
 				do {
 					outputFolder = parentC.getFolder(new Path(outputFolderName + (counter > 0 ? " (" + counter + ")" : "")));
 					counter++;
 				} while (outputFolder.exists());
-				
+
 				try {
 					mkdirs(outputFolder);
 				} catch (final CoreException e) {
@@ -427,17 +434,17 @@ public class GetResultsCommandHandler extends AbstractHandler {
 			for (final Object o : ((IStructuredSelection) sel).toArray()) {
 				if (o instanceof IScenarioRun) {
 					final IScenarioRun r = (IScenarioRun)o;
-					
+
 				if (r.getState() == State.FINISHED) {
 
 						final ISelection selection = HandlerUtil.getActiveWorkbenchWindow(event)
 								.getSelectionService()
 								.getSelection("org.eclipse.ui.navigator.ProjectExplorer");
-						
+
 						IContainer c = null;
-						if (selection instanceof IStructuredSelection) {								
+						if (selection instanceof IStructuredSelection) {
 							final Object element = ((IStructuredSelection) selection).getFirstElement();
-							
+
 							if (element instanceof IResource) {
 								final IProject proj = ((IResource) element).getProject();
 								c = proj;
@@ -447,9 +454,9 @@ public class GetResultsCommandHandler extends AbstractHandler {
 						if (c == null) {
 							c = ResourcesPlugin.getWorkspace().getRoot();
 						}
-						
+
 						final ContainerSelectionDialog csd = new ContainerSelectionDialog(
-								HandlerUtil.getActiveShell(event), c, 
+								HandlerUtil.getActiveShell(event), c,
 								false,
 								"Save outputs from " + r.getName() + " to");
 
@@ -468,9 +475,9 @@ public class GetResultsCommandHandler extends AbstractHandler {
 				}
 			}
 		}
-								
-									
-									
+
+
+
 		return null;
 	}
 

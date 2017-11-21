@@ -321,8 +321,15 @@ public class RemoteRunner extends ScenarioRunner {
             final int status = c.getResponseCode();
             if (status == HttpURLConnection.HTTP_OK) {
                 return Optional.of(c.getInputStream());
-            }
-        } catch (final IOException e) {}
+            } else {
+				throw new RuntimeException("HTTP Status code not OK");
+			}
+        } catch (final Exception e) {
+			RemoteRunnerPlugin.
+				getDefault().warn(String.format("Attempt to get part %d of %s [%s] from URL %s produced status %d [%s].",
+												part, remoteRun.getName(), remoteRun.getID(), join, status, c.getResponseMessage()),
+								  e);
+		}
         return Optional.absent();
     }
 
