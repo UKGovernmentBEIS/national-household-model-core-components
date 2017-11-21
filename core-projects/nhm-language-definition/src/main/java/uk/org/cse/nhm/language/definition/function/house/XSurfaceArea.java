@@ -6,7 +6,7 @@ import uk.org.cse.nhm.language.definition.function.num.XHouseNumber;
 import com.larkery.jasb.bind.Bind;
 
 @Bind("house.surface-area")
-@Doc("External surface area of the house, in square meters")
+@Doc("Surface area of the house, in square meters, please not in the case of flats this includes the top ceiling area")
 public class XSurfaceArea extends XHouseNumber {
 
 }

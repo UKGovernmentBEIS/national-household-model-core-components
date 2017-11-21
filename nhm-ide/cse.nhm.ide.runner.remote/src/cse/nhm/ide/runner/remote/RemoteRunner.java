@@ -324,11 +324,17 @@ public class RemoteRunner extends ScenarioRunner {
             } else {
 				throw new RuntimeException("HTTP Status code not OK");
 			}
-        } catch (final Exception e) {
-			RemoteRunnerPlugin.
-				getDefault().warn(String.format("Attempt to get part %d of %s [%s] from URL %s produced status %d [%s].",
-												part, remoteRun.getName(), remoteRun.getID(), join, status, c.getResponseMessage()),
-								  e);
+        } catch (final Throwable e) {
+			try {
+				RemoteRunnerPlugin.
+					getDefault().warn(String.format("Attempt to get part %d of %s [%s] from URL %s produced status %d [%s].",
+													part, remoteRun.getName(), remoteRun.getID(), join, c.getResponseCode(), c.getResponseMessage()),
+									  e);
+			} catch (final Throwable e2) {
+				RemoteRunnerPlugin.
+					getDefault().warn(e2.getMessage(), e2);
+
+			}
 		}
         return Optional.absent();
     }

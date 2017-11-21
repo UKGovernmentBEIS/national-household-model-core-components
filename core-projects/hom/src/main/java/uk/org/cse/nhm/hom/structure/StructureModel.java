@@ -395,13 +395,26 @@ public class StructureModel implements ICopyable<StructureModel> {
 	}
 
 	public double getEnvelopeArea() {
-		final double roof = getExternalRoofArea();
-		final double floor = getExternalFloorArea();
+		double roofArea = 0;
+		
+		if (builtFormType.isFlat()) {
+            final Storey top = getTopStorey();
+            roofArea = top.getArea();            
+        } else {
+            // the external roof area by the method above is the maximum floor area.
+            double result = 0d;
+            for (final Storey s : getStoreys()) {
+                result = Math.max(result, s.getArea());
+            }
+            roofArea = result;
+        }
+				
+		final double floor = getFloorArea();
 		double wall = 0;
 		for (final Storey s : storeys) {
-			wall += s.getExposedPerimeter() * s.getHeight();
+			wall += s.getPerimeter() * s.getHeight();
 		}
-		return floor + roof + wall;
+		return floor + roofArea + wall;
 	}
 
 	public double getExternalFloorArea() {

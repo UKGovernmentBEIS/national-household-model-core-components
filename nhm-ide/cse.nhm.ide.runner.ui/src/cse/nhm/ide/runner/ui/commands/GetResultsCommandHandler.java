@@ -255,10 +255,10 @@ public class GetResultsCommandHandler extends AbstractHandler {
 								);
 						final Optional<InputStream> is_ = run.getPartStream(0);
 
-						if (!is.isPresent()) {
+						if (!is_.isPresent()) {
 							throw new UnsupportedOperationException(
 								String.format("The run %s has no contents for its results. There may be more information about why in the error log view.",
-											  run.getName() ))
+											  run.getName() ));
 						}
 
 						try (final InputStream is = is_.get();
