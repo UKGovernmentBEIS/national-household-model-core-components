@@ -18,8 +18,15 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
  * WARNING: After regenerating, you have to add the ICopyable<ITechnologyModel> interface.
  * <!-- end-user-doc -->
  *
+ * <!-- begin-model-doc -->
+ * The technology model is the container for all of the technologies in a house.
+ * It can accept an IEnergyCalculatorVisitor, and also has a method {#getTotalOperationalCost()}
+ * for summing the operational cost of all the cost-bearing objects contained within it.
+ * <!-- end-model-doc -->
+ *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel#getAppliances <em>Appliances</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel#getLights <em>Lights</em>}</li>
@@ -30,12 +37,15 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel#getCentralWaterSystem <em>Central Water System</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel#getSecondaryWaterHeater <em>Secondary Water Heater</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel#getCommunityHeatSource <em>Community Heat Source</em>}</li>
+ *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel#getSolarPhotovoltaic <em>Solar Photovoltaic</em>}</li>
+ *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel#getAdjusters <em>Adjusters</em>}</li>
+ *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel#getShower <em>Shower</em>}</li>
+ *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel#getEnergyUseAdjusters <em>Energy Use Adjusters</em>}</li>
  * </ul>
- * </p>
  *
  * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getTechnologyModel()
  * @model
- * @generated NOT
+ * @generated
  */
 @JsonTypeInfo(use = Id.NONE)
 public interface ITechnologyModel extends IVisitorAccepter, ICopyable<ITechnologyModel> {
@@ -85,7 +95,7 @@ public interface ITechnologyModel extends IVisitorAccepter, ICopyable<ITechnolog
 	 * <!-- begin-model-doc -->
 	 * Contains the house's individual heat source. At the moment a house can only have one of these;
 	 * it is something like a boiler or a heat pump.
-	 *
+	 * 
 	 * This must be connected to a heating or DHW system to do anything.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Individual Heat Source</em>' containment reference.
@@ -341,6 +351,22 @@ public interface ITechnologyModel extends IVisitorAccepter, ICopyable<ITechnolog
 	 * @generated
 	 */
 	void setShower(IShower value);
+
+	/**
+	 * Returns the value of the '<em><b>Energy Use Adjusters</b></em>' containment reference list.
+	 * The list contents are of type {@link uk.org.cse.nhm.hom.emf.technologies.IEnergyUseAdjuster}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Represents a list of adjustments that can be made to Appliance or Cooking Energy use
+	 * 
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Energy Use Adjusters</em>' containment reference list.
+	 * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getTechnologyModel_EnergyUseAdjusters()
+	 * @model containment="true" upper="2"
+	 * @generated
+	 */
+	EList<IEnergyUseAdjuster> getEnergyUseAdjusters();
 
 	/**
 	 * <!-- begin-user-doc -->

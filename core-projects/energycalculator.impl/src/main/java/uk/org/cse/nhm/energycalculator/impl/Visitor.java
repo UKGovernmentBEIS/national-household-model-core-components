@@ -14,6 +14,7 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
 import uk.org.cse.nhm.energycalculator.api.IHeatingSystem;
 import uk.org.cse.nhm.energycalculator.api.IVentilationSystem;
 import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
+import uk.org.cse.nhm.energycalculator.api.impl.SimpleLightingTransducer;
 import uk.org.cse.nhm.energycalculator.api.types.AreaType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
@@ -21,9 +22,9 @@ import uk.org.cse.nhm.energycalculator.api.types.FloorType;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
 import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.RoofType;
-import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 import uk.org.cse.nhm.energycalculator.impl.demands.LightingDemand09;
@@ -520,4 +521,16 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 		return this.getClass().getSimpleName() + " [totalSpecificHeatLoss=" + totalFabricHeatLoss + ", totalExternalArea=" + totalExternalArea + ", totalThermalMass="
 				+ getBestThermalMassParameter() + "]";
 	}
+	
+	/**
+	 * @param name
+	 * @param proportion
+	 * @param efficiency
+	 * @see uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor#visitLight(java.lang.String, double, double)
+	 */
+	@Override
+	public void visitLight(String name, double proportion, double efficiency, double[] splitRate) {
+	    transducers.add(new SimpleLightingTransducer(name, proportion, efficiency, splitRate)); 
+	}
 }
+

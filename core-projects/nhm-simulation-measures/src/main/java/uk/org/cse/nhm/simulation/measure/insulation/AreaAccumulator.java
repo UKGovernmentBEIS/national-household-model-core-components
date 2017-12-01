@@ -148,4 +148,16 @@ public class AreaAccumulator implements IEnergyCalculatorVisitor {
 			this.totalArea += area;
 		}
 	}
+
+    /**
+     * @param name
+     * @param proportion
+     * @param efficiency
+     * @param splitRate
+     * @see uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor#visitLight(java.lang.String, double, double, double[])
+     */
+    @Override
+    public void visitLight(String name, double proportion, double efficiency, double[] splitRate) {
+        // Noop
+    }
 }

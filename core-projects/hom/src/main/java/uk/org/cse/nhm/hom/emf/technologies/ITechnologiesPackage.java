@@ -197,13 +197,22 @@ public interface ITechnologiesPackage extends EPackage {
 	int TECHNOLOGY_MODEL__SHOWER = VISITOR_ACCEPTER_FEATURE_COUNT + 11;
 
 	/**
+	 * The feature id for the '<em><b>Energy Use Adjusters</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TECHNOLOGY_MODEL__ENERGY_USE_ADJUSTERS = VISITOR_ACCEPTER_FEATURE_COUNT + 12;
+
+	/**
 	 * The number of structural features of the '<em>Technology Model</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TECHNOLOGY_MODEL_FEATURE_COUNT = VISITOR_ACCEPTER_FEATURE_COUNT + 12;
+	int TECHNOLOGY_MODEL_FEATURE_COUNT = VISITOR_ACCEPTER_FEATURE_COUNT + 13;
 
 	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.INamed <em>Named</em>}' class.
@@ -2105,6 +2114,61 @@ public interface ITechnologiesPackage extends EPackage {
 	int ELECTRIC_SHOWER_FEATURE_COUNT = SHOWER_FEATURE_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.impl.EnergyUseAdjusterImpl <em>Energy Use Adjuster</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.EnergyUseAdjusterImpl
+	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getEnergyUseAdjuster()
+	 * @generated
+	 */
+	int ENERGY_USE_ADJUSTER = 38;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENERGY_USE_ADJUSTER__NAME = NAMED__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Constant Term</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENERGY_USE_ADJUSTER__CONSTANT_TERM = NAMED_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Linear Term</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENERGY_USE_ADJUSTER__LINEAR_TERM = NAMED_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Adjustment Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENERGY_USE_ADJUSTER__ADJUSTMENT_TYPE = NAMED_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of structural features of the '<em>Energy Use Adjuster</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENERGY_USE_ADJUSTER_FEATURE_COUNT = NAMED_FEATURE_COUNT + 3;
+
+	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.FuelType <em>Fuel Type</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2112,7 +2176,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getFuelType()
 	 * @generated
 	 */
-	int FUEL_TYPE = 38;
+	int FUEL_TYPE = 39;
 
 
 	/**
@@ -2123,7 +2187,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getHeatingSystemControlType()
 	 * @generated
 	 */
-	int HEATING_SYSTEM_CONTROL_TYPE = 39;
+	int HEATING_SYSTEM_CONTROL_TYPE = 40;
 
 	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.EmitterType <em>Emitter Type</em>}' enum.
@@ -2133,7 +2197,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getEmitterType()
 	 * @generated
 	 */
-	int EMITTER_TYPE = 40;
+	int EMITTER_TYPE = 41;
 
 	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.StorageHeaterControlType <em>Storage Heater Control Type</em>}' enum.
@@ -2143,7 +2207,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getStorageHeaterControlType()
 	 * @generated
 	 */
-	int STORAGE_HEATER_CONTROL_TYPE = 41;
+	int STORAGE_HEATER_CONTROL_TYPE = 42;
 
 	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.StorageHeaterType <em>Storage Heater Type</em>}' enum.
@@ -2153,7 +2217,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getStorageHeaterType()
 	 * @generated
 	 */
-	int STORAGE_HEATER_TYPE = 42;
+	int STORAGE_HEATER_TYPE = 43;
 
 	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.HeatPumpSourceType <em>Heat Pump Source Type</em>}' enum.
@@ -2163,7 +2227,17 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getHeatPumpSourceType()
 	 * @generated
 	 */
-	int HEAT_PUMP_SOURCE_TYPE = 43;
+	int HEAT_PUMP_SOURCE_TYPE = 44;
+
+	/**
+	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.AdjusterType <em>Adjuster Type</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see uk.org.cse.nhm.hom.emf.technologies.AdjusterType
+	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getAdjusterType()
+	 * @generated
+	 */
+	int ADJUSTER_TYPE = 45;
 
 	/**
 	 * The meta object id for the '<em>IEnergy Calculator Visitor</em>' data type.
@@ -2173,7 +2247,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getIEnergyCalculatorVisitor()
 	 * @generated
 	 */
-	int IENERGY_CALCULATOR_VISITOR = 44;
+	int IENERGY_CALCULATOR_VISITOR = 46;
 
 	/**
 	 * The meta object id for the '<em>IInternal Parameters</em>' data type.
@@ -2183,7 +2257,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getIInternalParameters()
 	 * @generated
 	 */
-	int IINTERNAL_PARAMETERS = 45;
+	int IINTERNAL_PARAMETERS = 47;
 
 
 	/**
@@ -2194,7 +2268,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getIEnergyState()
 	 * @generated
 	 */
-	int IENERGY_STATE = 46;
+	int IENERGY_STATE = 48;
 
 
 	/**
@@ -2205,7 +2279,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getEnergyType()
 	 * @generated
 	 */
-	int ENERGY_TYPE = 47;
+	int ENERGY_TYPE = 49;
 
 
 	/**
@@ -2216,7 +2290,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getAtomicInteger()
 	 * @generated
 	 */
-	int ATOMIC_INTEGER = 48;
+	int ATOMIC_INTEGER = 50;
 
 
 	/**
@@ -2227,7 +2301,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getIConstants()
 	 * @generated
 	 */
-	int ICONSTANTS = 49;
+	int ICONSTANTS = 51;
 
 	/**
 	 * The meta object id for the '<em>IEnergy Calculator Parameters</em>' data type.
@@ -2237,7 +2311,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getIEnergyCalculatorParameters()
 	 * @generated
 	 */
-	int IENERGY_CALCULATOR_PARAMETERS = 50;
+	int IENERGY_CALCULATOR_PARAMETERS = 52;
 
 	/**
 	 * The meta object id for the '<em>Efficiency</em>' data type.
@@ -2247,7 +2321,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getEfficiency()
 	 * @generated
 	 */
-	int EFFICIENCY = 51;
+	int EFFICIENCY = 53;
 
 
 	/**
@@ -2258,7 +2332,7 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getHeatProportions()
 	 * @generated
 	 */
-	int HEAT_PROPORTIONS = 52;
+	int HEAT_PROPORTIONS = 54;
 
 
 	/**
@@ -2402,6 +2476,17 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getTechnologyModel_Shower();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel#getEnergyUseAdjusters <em>Energy Use Adjusters</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Energy Use Adjusters</em>'.
+	 * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel#getEnergyUseAdjusters()
+	 * @see #getTechnologyModel()
+	 * @generated
+	 */
+	EReference getTechnologyModel_EnergyUseAdjusters();
 
 	/**
 	 * Returns the meta object for class '{@link uk.org.cse.nhm.hom.emf.technologies.IAppliance <em>Appliance</em>}'.
@@ -3621,6 +3706,49 @@ public interface ITechnologiesPackage extends EPackage {
 	EClass getElectricShower();
 
 	/**
+	 * Returns the meta object for class '{@link uk.org.cse.nhm.hom.emf.technologies.IEnergyUseAdjuster <em>Energy Use Adjuster</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Energy Use Adjuster</em>'.
+	 * @see uk.org.cse.nhm.hom.emf.technologies.IEnergyUseAdjuster
+	 * @generated
+	 */
+	EClass getEnergyUseAdjuster();
+
+	/**
+	 * Returns the meta object for the attribute '{@link uk.org.cse.nhm.hom.emf.technologies.IEnergyUseAdjuster#getConstantTerm <em>Constant Term</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Constant Term</em>'.
+	 * @see uk.org.cse.nhm.hom.emf.technologies.IEnergyUseAdjuster#getConstantTerm()
+	 * @see #getEnergyUseAdjuster()
+	 * @generated
+	 */
+	EAttribute getEnergyUseAdjuster_ConstantTerm();
+
+	/**
+	 * Returns the meta object for the attribute '{@link uk.org.cse.nhm.hom.emf.technologies.IEnergyUseAdjuster#getLinearTerm <em>Linear Term</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Linear Term</em>'.
+	 * @see uk.org.cse.nhm.hom.emf.technologies.IEnergyUseAdjuster#getLinearTerm()
+	 * @see #getEnergyUseAdjuster()
+	 * @generated
+	 */
+	EAttribute getEnergyUseAdjuster_LinearTerm();
+
+	/**
+	 * Returns the meta object for the attribute '{@link uk.org.cse.nhm.hom.emf.technologies.IEnergyUseAdjuster#getAdjustmentType <em>Adjustment Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Adjustment Type</em>'.
+	 * @see uk.org.cse.nhm.hom.emf.technologies.IEnergyUseAdjuster#getAdjustmentType()
+	 * @see #getEnergyUseAdjuster()
+	 * @generated
+	 */
+	EAttribute getEnergyUseAdjuster_AdjustmentType();
+
+	/**
 	 * Returns the meta object for enum '{@link uk.org.cse.nhm.hom.emf.technologies.FuelType <em>Fuel Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3679,6 +3807,16 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @generated
 	 */
 	EEnum getHeatPumpSourceType();
+
+	/**
+	 * Returns the meta object for enum '{@link uk.org.cse.nhm.hom.emf.technologies.AdjusterType <em>Adjuster Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Adjuster Type</em>'.
+	 * @see uk.org.cse.nhm.hom.emf.technologies.AdjusterType
+	 * @generated
+	 */
+	EEnum getAdjusterType();
 
 	/**
 	 * Returns the meta object for data type '{@link uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor <em>IEnergy Calculator Visitor</em>}'.
@@ -3906,6 +4044,14 @@ public interface ITechnologiesPackage extends EPackage {
 		 * @generated
 		 */
 		EReference TECHNOLOGY_MODEL__SHOWER = eINSTANCE.getTechnologyModel_Shower();
+
+		/**
+		 * The meta object literal for the '<em><b>Energy Use Adjusters</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TECHNOLOGY_MODEL__ENERGY_USE_ADJUSTERS = eINSTANCE.getTechnologyModel_EnergyUseAdjusters();
 
 		/**
 		 * The meta object literal for the '{@link uk.org.cse.nhm.hom.emf.technologies.impl.ApplianceImpl <em>Appliance</em>}' class.
@@ -4894,6 +5040,40 @@ public interface ITechnologiesPackage extends EPackage {
 		EClass ELECTRIC_SHOWER = eINSTANCE.getElectricShower();
 
 		/**
+		 * The meta object literal for the '{@link uk.org.cse.nhm.hom.emf.technologies.impl.EnergyUseAdjusterImpl <em>Energy Use Adjuster</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see uk.org.cse.nhm.hom.emf.technologies.impl.EnergyUseAdjusterImpl
+		 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getEnergyUseAdjuster()
+		 * @generated
+		 */
+		EClass ENERGY_USE_ADJUSTER = eINSTANCE.getEnergyUseAdjuster();
+
+		/**
+		 * The meta object literal for the '<em><b>Constant Term</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ENERGY_USE_ADJUSTER__CONSTANT_TERM = eINSTANCE.getEnergyUseAdjuster_ConstantTerm();
+
+		/**
+		 * The meta object literal for the '<em><b>Linear Term</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ENERGY_USE_ADJUSTER__LINEAR_TERM = eINSTANCE.getEnergyUseAdjuster_LinearTerm();
+
+		/**
+		 * The meta object literal for the '<em><b>Adjustment Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ENERGY_USE_ADJUSTER__ADJUSTMENT_TYPE = eINSTANCE.getEnergyUseAdjuster_AdjustmentType();
+
+		/**
 		 * The meta object literal for the '{@link uk.org.cse.nhm.hom.emf.technologies.FuelType <em>Fuel Type</em>}' enum.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -4952,6 +5132,16 @@ public interface ITechnologiesPackage extends EPackage {
 		 * @generated
 		 */
 		EEnum HEAT_PUMP_SOURCE_TYPE = eINSTANCE.getHeatPumpSourceType();
+
+		/**
+		 * The meta object literal for the '{@link uk.org.cse.nhm.hom.emf.technologies.AdjusterType <em>Adjuster Type</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see uk.org.cse.nhm.hom.emf.technologies.AdjusterType
+		 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getAdjusterType()
+		 * @generated
+		 */
+		EEnum ADJUSTER_TYPE = eINSTANCE.getAdjusterType();
 
 		/**
 		 * The meta object literal for the '<em>IEnergy Calculator Visitor</em>' data type.

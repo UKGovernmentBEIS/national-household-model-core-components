@@ -123,6 +123,7 @@ public class TechnologiesFactoryImpl extends EFactoryImpl implements ITechnologi
 			case ITechnologiesPackage.HYBRID_HEATER: return createHybridHeater();
 			case ITechnologiesPackage.MIXER_SHOWER: return createMixerShower();
 			case ITechnologiesPackage.ELECTRIC_SHOWER: return createElectricShower();
+			case ITechnologiesPackage.ENERGY_USE_ADJUSTER: return createEnergyUseAdjuster();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -148,6 +149,8 @@ public class TechnologiesFactoryImpl extends EFactoryImpl implements ITechnologi
 				return createStorageHeaterTypeFromString(eDataType, initialValue);
 			case ITechnologiesPackage.HEAT_PUMP_SOURCE_TYPE:
 				return createHeatPumpSourceTypeFromString(eDataType, initialValue);
+			case ITechnologiesPackage.ADJUSTER_TYPE:
+				return createAdjusterTypeFromString(eDataType, initialValue);
 			case ITechnologiesPackage.IENERGY_CALCULATOR_VISITOR:
 				return createIEnergyCalculatorVisitorFromString(eDataType, initialValue);
 			case ITechnologiesPackage.IINTERNAL_PARAMETERS:
@@ -191,6 +194,8 @@ public class TechnologiesFactoryImpl extends EFactoryImpl implements ITechnologi
 				return convertStorageHeaterTypeToString(eDataType, instanceValue);
 			case ITechnologiesPackage.HEAT_PUMP_SOURCE_TYPE:
 				return convertHeatPumpSourceTypeToString(eDataType, instanceValue);
+			case ITechnologiesPackage.ADJUSTER_TYPE:
+				return convertAdjusterTypeToString(eDataType, instanceValue);
 			case ITechnologiesPackage.IENERGY_CALCULATOR_VISITOR:
 				return convertIEnergyCalculatorVisitorToString(eDataType, instanceValue);
 			case ITechnologiesPackage.IINTERNAL_PARAMETERS:
@@ -479,6 +484,16 @@ public class TechnologiesFactoryImpl extends EFactoryImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public IEnergyUseAdjuster createEnergyUseAdjuster() {
+		EnergyUseAdjusterImpl energyUseAdjuster = new EnergyUseAdjusterImpl();
+		return energyUseAdjuster;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public FuelType createFuelTypeFromString(EDataType eDataType, String initialValue) {
 		FuelType result = FuelType.get(initialValue);
 		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
@@ -591,6 +606,26 @@ public class TechnologiesFactoryImpl extends EFactoryImpl implements ITechnologi
 	 * @generated
 	 */
 	public String convertHeatPumpSourceTypeToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AdjusterType createAdjusterTypeFromString(EDataType eDataType, String initialValue) {
+		AdjusterType result = AdjusterType.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertAdjusterTypeToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 

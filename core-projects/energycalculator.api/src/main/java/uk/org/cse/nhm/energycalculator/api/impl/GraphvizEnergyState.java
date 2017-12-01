@@ -146,6 +146,16 @@ public class GraphvizEnergyState implements IEnergyState {
 	public double getExcessSupply(final EnergyType energyType) {
 		return delegate.getExcessSupply(energyType);
 	}
+	
+	/**
+	 * @param serviceType
+	 * @return
+	 * @see uk.org.cse.nhm.energycalculator.api.IEnergyState#getTotalDemand(uk.org.cse.nhm.energycalculator.api.types.ServiceType)
+	 */
+	@Override
+	public double getTotalDemand(ServiceType serviceType) {
+	    return delegate.getTotalDemand(serviceType);
+	}
 
 	@Override
 	public void setCurrentServiceType(final ServiceType serviceType, final String name) {

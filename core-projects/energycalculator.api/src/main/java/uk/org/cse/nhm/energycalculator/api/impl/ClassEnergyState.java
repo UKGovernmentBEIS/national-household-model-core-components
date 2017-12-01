@@ -72,6 +72,15 @@ public class ClassEnergyState implements IEnergyState {
 	public double getTotalDemand(final EnergyType energyType, final ServiceType serviceType) {
 		return byService.get(serviceType).get(energyType, DEMAND);
 	}
+	
+	@Override
+	public double getTotalDemand(final ServiceType serviceType) {
+	    double acc = 0;
+	    for (final EnergyType et : EnergyType.values()) {
+	        acc += getTotalDemand(et, serviceType);
+	    }
+	    return acc;
+	}
 
 	@Override
 	public double getTotalDemand(final EnergyType energy) {
@@ -115,4 +124,18 @@ public class ClassEnergyState implements IEnergyState {
 		final double d = getUnsatisfiedDemand(et);
 		increaseSupply(et, Math.min(delta, d));
 	}
+
+    /**
+     * TODO.
+     * 
+     * @param appliances
+     * @return
+     */
+    public double getTotalSupply(ServiceType serviceType) {
+        double acc = 0;
+        for (final EnergyType et : EnergyType.values()) {
+            acc += getTotalSupply(et, serviceType);
+        }
+        return acc;
+    }
 }

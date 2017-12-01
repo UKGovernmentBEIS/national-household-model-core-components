@@ -1,9 +1,12 @@
 package uk.org.cse.nhm.simulator.guice;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Scopes;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.name.Names;
 
+import uk.ac.ucl.hideem.CachedHealthModule;
+import uk.ac.ucl.hideem.IHealthModule;
 import uk.org.cse.nhm.simulator.IEventQueue;
 import uk.org.cse.nhm.simulator.factories.IActionFactory;
 import uk.org.cse.nhm.simulator.factories.IBooleanFunctionFactory;
@@ -35,17 +38,17 @@ public class SimulationEngineModule extends AbstractModule {
 //		final FactoryModuleBuilder factoryModuleBuilder = new FactoryModuleBuilder();
 		// bind key singletons
 		bind(ISimulator.class).to(Simulator.class).in(SimulationScope);
-		
+
 		bind(IEventQueue.class).to(SimpleEventQueue.class).in(SimulationScope);
-		
+
         install(new StateModule());
-		
+
 		install(new FactoryModuleBuilder().build(IGroupFactory.class));
 		install(new FactoryModuleBuilder().
 				build(IActionFactory.class));
 		install(new FactoryModuleBuilder().
-				implement(IObligation.class, 
-						Names.named(IFinanceFactory.FIXED_REPAYMENT), 
+				implement(IObligation.class,
+						Names.named(IFinanceFactory.FIXED_REPAYMENT),
 						FixedInterestLoanObligation.class).
 				build(IFinanceFactory.class));
 		install(new FactoryModuleBuilder().build(ISamplerFactory.class));
@@ -56,5 +59,7 @@ public class SimulationEngineModule extends AbstractModule {
 		install(new FactoryModuleBuilder().build(IResetFactory.class));
 		install(new FactoryModuleBuilder().build(IHookFactory.class));
         install(new FactoryModuleBuilder().build(IDefaultFunctionFactory.class));
+
+        bind(IHealthModule.class).to(CachedHealthModule.class).in(Scopes.SINGLETON);
 	}
 }

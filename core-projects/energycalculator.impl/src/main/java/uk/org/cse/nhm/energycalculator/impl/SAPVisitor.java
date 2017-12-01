@@ -5,13 +5,14 @@ import java.util.List;
 import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
+import uk.org.cse.nhm.energycalculator.api.impl.SAP2012LightingTransducer;
 import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.FloorType;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
 import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.RoofType;
-import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
@@ -79,7 +80,7 @@ public class SAPVisitor extends Visitor {
 			throw new IllegalArgumentException("Unknown frame type while computing frame factor " + frameType);
 		}
 	}
-
+	
 	@Override
 	protected double overrideVisibleLightTransmittivity(final GlazingType glazingType,
 			final double visibleLightTransmittivity) {
@@ -209,5 +210,18 @@ public class SAPVisitor extends Visitor {
 			) {
 
 		return _check(SAPUValues.Floors.get(type, isGroundFloor, area, exposedPerimeter, wallThickness, groundFloorConstructionType, groundFloorInsulationThickness, ageBand, country));
+	}
+	
+	/**
+	 * @param name
+	 * @param proportion
+	 * @param efficiency
+	 * @param splitRate
+	 * @see uk.org.cse.nhm.energycalculator.impl.Visitor#visitLight(java.lang.String, double, double, double[])
+	 */
+	@Override
+	public void visitLight(String name, double proportion, double efficiency, double[] splitRate) {
+	   //super.visitLight(name, proportion, efficiency, splitRate);
+	   super.transducers.add(new SAP2012LightingTransducer(name, proportion, efficiency, splitRate));
 	}
 }
