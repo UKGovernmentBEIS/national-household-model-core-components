@@ -1,20 +1,9 @@
 package uk.org.cse.nhm.simulator.state.dimensions.fuel.cost;
 
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
-import com.google.common.collect.ImmutableSortedMultiset;
-import com.google.common.collect.SortedMultiset;
-import com.google.common.collect.TreeMultiset;
+import com.google.common.collect.*;
 
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.simulator.let.ILets;
@@ -25,11 +14,9 @@ public class Tariffs implements ITariffs {
 	private final Map<FuelType, ITariff> tariffByFuel = new HashMap<>();
 	private final Set<ITariff> tariffs = new LinkedHashSet<ITariff>();
 	
-	ExtraChargeOrderComparator order = new ExtraChargeOrderComparator();
-	
 	private final Set<IExtraCharge> extraCharges = new LinkedHashSet<>();
-	private final Map<FuelType, SortedMultiset<IExtraCharge>> extraChargesByFuel = new LinkedHashMap<>();
-	private final SortedMultiset<IExtraCharge> extraChargesWithoutFuel = TreeMultiset.create(order);
+	private final Map<FuelType, List<IExtraCharge>> extraChargesByFuel = new LinkedHashMap<>();
+	private List<IExtraCharge> extraChargesWithoutFuel = new ArrayList<>();
 	
 	private Tariffs() {
 	}
@@ -53,8 +40,8 @@ public class Tariffs implements ITariffs {
 		copy.tariffs.addAll(tariffs);
 		
 		copy.extraCharges.addAll(extraCharges);
-		for (final Entry<FuelType, SortedMultiset<IExtraCharge>> entry : extraChargesByFuel.entrySet()) {
-			final TreeMultiset<IExtraCharge> container = TreeMultiset.create(order);
+		for (final Entry<FuelType, List<IExtraCharge>> entry : extraChargesByFuel.entrySet()) {
+			final List<IExtraCharge> container = new ArrayList<>();
 			copy.extraChargesByFuel.put(entry.getKey(), container);
 			container.addAll(entry.getValue());
 		}
@@ -183,12 +170,16 @@ public class Tariffs implements ITariffs {
 			if (charge.getFuel().isPresent()) {
 				final FuelType fuel = charge.getFuel().get();
 				if (!extraChargesByFuel.containsKey(fuel)) {
-					extraChargesByFuel.put(fuel, TreeMultiset.create(order));
+					extraChargesByFuel.put(fuel, new ArrayList<>());
 				}
-				
-				extraChargesByFuel.get(fuel).add(charge);
+
+				List<IExtraCharge> current = extraChargesByFuel.get(fuel);
+				current.add(charge);
+				extraChargesByFuel.put(fuel, inDependencyOrder(current));
+
 			} else {
 				extraChargesWithoutFuel.add(charge);
+				extraChargesWithoutFuel = inDependencyOrder(extraChargesWithoutFuel);
 			}
 			return true;
 		}
@@ -221,16 +212,16 @@ public class Tariffs implements ITariffs {
 	}
 
 	@Override
-	public SortedMultiset<IExtraCharge> getExtraCharges(final FuelType fuelType) {
+	public List<IExtraCharge> getExtraCharges(final FuelType fuelType) {
 		if (extraChargesByFuel.containsKey(fuelType)) {
 			return extraChargesByFuel.get(fuelType);
 		} else {
-			return ImmutableSortedMultiset.of();
+			return ImmutableList.of();
 		}
 	}
 
 	@Override
-	public SortedMultiset<IExtraCharge> getNonFuelSpecificExtraCharges() {
+	public List<IExtraCharge> getNonFuelSpecificExtraCharges() {
 		return extraChargesWithoutFuel;
 	}
 	
@@ -242,5 +233,33 @@ public class Tariffs implements ITariffs {
 		extraChargesByFuel.clear();
 		extraChargesWithoutFuel.clear();
 		return true;
+	}
+
+	/*
+	This is a naive algorithm for sorting a list of extra charges into dependency order.
+	It's probably not very fast, but we shouldn't have many extra charges, so it should be OK.
+	 */
+	List<IExtraCharge> inDependencyOrder(List<IExtraCharge> existing) {
+		List<IExtraCharge> result = new ArrayList<>();
+		Queue<IExtraCharge> toSort = new LinkedList<>();
+		toSort.addAll(existing);
+
+		while(!toSort.isEmpty()) {
+			IExtraCharge current = toSort.poll();
+
+			if (!result.contains(current)) {
+				Set<IExtraCharge> depsPresent = new HashSet<>(current.getDependencies());
+				depsPresent.retainAll(extraCharges);
+
+				if (depsPresent.isEmpty() || result.containsAll(depsPresent)) {
+					result.add(current);
+				} else {
+					// Try adding it again later.
+					toSort.add(current);
+				}
+			}
+		}
+
+		return result;
 	}
 }

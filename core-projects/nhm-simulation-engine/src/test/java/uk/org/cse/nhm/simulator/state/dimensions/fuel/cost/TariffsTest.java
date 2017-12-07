@@ -1,16 +1,76 @@
 package uk.org.cse.nhm.simulator.state.dimensions.fuel.cost;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import org.junit.Assert;
-import org.junit.Test;
-
 import com.google.common.collect.ImmutableSet;
-
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InOrder;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
+import uk.org.cse.nhm.simulator.let.ILets;
+import uk.org.cse.nhm.simulator.scope.ISettableComponentsScope;
+
+import static org.mockito.Mockito.*;
 
 public class TariffsTest {
+    private IExtraCharge chargeOne;
+    private IExtraCharge chargeTwo;
+    private IExtraCharge chargeThree;
+    private ISettableComponentsScope scope;
+    private ILets lets;
+
+    @Before
+    public void setup() {
+        chargeOne = mock(IExtraCharge.class);
+        chargeTwo = mock(IExtraCharge.class);
+        chargeThree = mock(IExtraCharge.class);
+
+        when(chargeOne.getFuel()).thenReturn(com.google.common.base.Optional.absent());
+        when(chargeTwo.getFuel()).thenReturn(com.google.common.base.Optional.absent());
+        when(chargeThree.getFuel()).thenReturn(com.google.common.base.Optional.absent());
+
+        scope = mock(ISettableComponentsScope.class);
+        lets = mock(ILets.class);
+    }
+
+    @Test
+    public void addTwoExtraCharges() {
+        ITariffs t = Tariffs.free().copy();
+
+        t.addExtraCharge(chargeOne);
+        t.addExtraCharge(chargeTwo);
+        t.computeCharges(scope, lets);
+
+        verify(chargeOne, times(1)).apply(scope, lets);
+        verify(chargeTwo, times(1)).apply(scope, lets);
+    }
+
+    @Test
+    public void dependencyOrderedExtraCharges() {
+        when(chargeOne.getDependencies()).thenReturn(ImmutableSet.of(chargeTwo));
+        when(chargeTwo.getDependencies()).thenReturn(ImmutableSet.of(chargeThree));
+        when(chargeThree.getDependencies()).thenReturn(ImmutableSet.of());
+
+        ITariffs t = tariffWithCharges(chargeOne, chargeTwo, chargeThree);
+
+        InOrder inOrder = inOrder(chargeThree, chargeTwo, chargeOne);
+
+        t.computeCharges(scope, lets);
+
+        inOrder.verify(chargeThree, times(1)).apply(scope, lets);
+        inOrder.verify(chargeTwo, times(1)).apply(scope, lets);
+        inOrder.verify(chargeOne, times(1)).apply(scope, lets);
+    }
+
+    public static ITariffs tariffWithCharges(IExtraCharge...charges) {
+        ITariffs t = Tariffs.free().copy();
+
+        for (IExtraCharge c : charges) {
+            t.addExtraCharge(c);
+        }
+
+        return t;
+    }
+
 	@Test(expected = IllegalArgumentException.class)
 	public void invalidSetOfTariffsIsNotAdoptable() {
 		final Tariffs t = Tariffs.free();
@@ -24,7 +84,6 @@ public class TariffsTest {
 				t.canAdoptTariffs(ImmutableSet.of(one, two)));
 		
 		t.adoptTariffs(ImmutableSet.of(one, two));
-		
 	}
 	
 	@Test(expected = IllegalArgumentException.class)

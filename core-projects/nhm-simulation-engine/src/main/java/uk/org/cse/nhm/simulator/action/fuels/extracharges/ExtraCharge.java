@@ -16,18 +16,25 @@ import uk.org.cse.nhm.simulator.transactions.Payment;
 
 public class ExtraCharge implements IExtraCharge {
 	private final String payee;
+	private final Set<IExtraCharge> dependencies;
 	private final Set<String> tags;
 	private final IComponentsFunction<Number> charge;
 	private final Optional<FuelType> maybeFuel;
-	private final int order;
 
 	public ExtraCharge(final Optional<FuelType> maybeFuel, final String payee,
-			final Set<String> tags, final IComponentsFunction<Number> charge, final int order) {
+			final Set<String> tags, final IComponentsFunction<Number> charge,
+					   final Set<IExtraCharge> dependencies) {
 		this.maybeFuel = maybeFuel;
 		this.payee = payee;
-		this.order = order;
+		this.dependencies = dependencies;
 		this.tags = withDefaultTags(maybeFuel, tags);
 		this.charge = charge;
+
+		for (IExtraCharge dep : dependencies) {
+		    if (dep.getFuel() != getFuel()) {
+		        throw new IExtraCharge.DependencyWrongFuelTypeException(this, dependencies);
+            }
+        }
 	}
 
 	private ImmutableSet<String> withDefaultTags(final Optional<FuelType> maybeFuel, final Set<String> tags) {
@@ -52,7 +59,7 @@ public class ExtraCharge implements IExtraCharge {
 	}
 
 	@Override
-	public int getOrder() {
-		return order;
+	public Set<IExtraCharge> getDependencies() {
+		return dependencies;
 	}
 }
