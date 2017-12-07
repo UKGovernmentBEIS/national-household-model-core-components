@@ -39,7 +39,8 @@ public class XConsumeAction extends XBindingAction {
 	}
 	
 	@Prop(P.amount)
-	@Doc("The amount to remove from the variable, if this would result in a non-negative value.")
+	@Doc("The amount to remove from the variable, if this would result in a non-negative value." +
+            " If this is a Simulation scoped variable, then you should usually multiply your value by house.weight.")
 	@BindPositionalArgument(1)
 	public XNumber getAmount() {
 		return amount;
