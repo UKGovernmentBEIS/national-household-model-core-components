@@ -3,18 +3,18 @@ package uk.org.cse.nhm.simulator.state.impl;
 import uk.org.cse.nhm.simulator.transactions.ITransaction;
 import uk.org.cse.nhm.simulator.transactions.ITransactionHistory;
 
+import java.util.Objects;
+
 public class GlobalTransactionHistory implements ITransactionHistory<GlobalTransactionHistory> {
 
-	private final double quantum;
 	private double balance;
 	int generation;
 
-	public GlobalTransactionHistory(final double quantum) {
-		this(quantum, 0, 0);
+	public GlobalTransactionHistory() {
+		this(0, 0);
 	}
 	
-	public GlobalTransactionHistory(final double quantum, final double balance, final int generation) {
-		this.quantum = quantum;
+	public GlobalTransactionHistory(final double balance, final int generation) {
 		this.balance = balance;
 		this.generation = generation;
 	}
@@ -35,18 +35,14 @@ public class GlobalTransactionHistory implements ITransactionHistory<GlobalTrans
 			return;
 		}
 		
-		if (item.isForDwelling()) {
-			balance += item.getAmount() * quantum * sign;			
-		} else {
-			balance += item.getAmount() * sign;
-		}
-		
+		balance += item.getAmount() * item.getWeight() * sign;
+
 		generation++;
 	}
 
 	@Override
 	public GlobalTransactionHistory branch() {
-		return new GlobalTransactionHistory(quantum, balance, generation);
+		return new GlobalTransactionHistory(balance, generation);
 	}
 
 	@Override
@@ -71,36 +67,17 @@ public class GlobalTransactionHistory implements ITransactionHistory<GlobalTrans
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		long temp;
-		temp = Double.doubleToLongBits(balance);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + generation;
-		temp = Double.doubleToLongBits(quantum);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		return result;
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		GlobalTransactionHistory that = (GlobalTransactionHistory) o;
+		return Double.compare(that.balance, balance) == 0 &&
+				generation == that.generation;
 	}
 
 	@Override
-	public boolean equals(final Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		final GlobalTransactionHistory other = (GlobalTransactionHistory) obj;
-		if (Double.doubleToLongBits(balance) != Double
-				.doubleToLongBits(other.balance))
-			return false;
-		if (generation != other.generation)
-			return false;
-		if (Double.doubleToLongBits(quantum) != Double
-				.doubleToLongBits(other.quantum))
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(balance, generation);
 	}
 
 	public int getGeneration() {

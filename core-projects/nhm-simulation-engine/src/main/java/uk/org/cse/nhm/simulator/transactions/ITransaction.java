@@ -10,6 +10,8 @@ public interface ITransaction extends IPayment {
 	DateTime getDate();
 	
 	boolean isForDwelling();
+
+	double getWeight();
 	
 	public interface Counterparties {
 		public static final String MARKET = ":market";
