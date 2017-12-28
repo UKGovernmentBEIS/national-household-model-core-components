@@ -41,6 +41,17 @@
   </sect1>
   <sect1 id="released-versions">
     <title>Released versions</title>
+    <sect2 id="version-7.0.4">
+      <title>Version 7.0.4</title>
+      <sect3 id="improved-documenation-for-using-consume-function-ref.consume">
+        <title>Improved documenation for using consume function
+        <xref linkend="ref.consume"/></title>
+        <para>
+          Added a note about needing to take into account house.weight
+          if using this.
+        </para>
+      </sect3>
+    </sect2>
     <sect2 id="verison-7.0.3">
       <title>Verison 7.0.3</title>
       <sect3 id="bugs-fixed">
