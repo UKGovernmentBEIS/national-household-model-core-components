@@ -41,20 +41,100 @@
   </sect1>
   <sect1 id="released-versions">
     <title>Released versions</title>
-    <sect2 id="version-7.0.4">
-      <title>Version 7.0.4</title>
-      <sect3 id="improved-documenation-for-using-consume-function-ref.consume">
-        <title>Improved documenation for using consume function
-        <xref linkend="ref.consume"/></title>
-        <para>
-          Added a note about needing to take into account house.weight
-          if using this.
-        </para>
+    <sect2 id="version-7.1.0">
+      <title>Version 7.1.0</title>
+      <sect3 id="bugs-fixed">
+        <title>Bugs Fixed</title>
+        <itemizedlist spacing="compact">
+          <listitem>
+            <para>
+              Suitabilily for
+              <xref linkend="ref.measure.solar-photovoltaic"/> is now
+              checked, plus re-factored measures to ensure suitability
+              is checked
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              Warm air system measure no longer ignores fuel argument
+              <xref linkend="ref.measure-warm-air-system"/>
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              Fit now storage tank thermostat measure checks for
+              presence of water tank before installing
+              <xref linkend="ref.measure.hot-water-tank-thermostat"/>
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              Fixed a problem where adding two extra fuel charges for
+              the same fuel would give two duplicate charges instead.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              Fixed a problem with transferring money between a dwelling
+              and a global account where it would multiply the amount
+              byt the scenario quantum instead of the weight of the
+              particular dwelling. This affects
+              <xref linkend="ref.report.global-transactions"/> and
+              <xref linkend="ref.account.balacnce"/>
+            </para>
+          </listitem>
+        </itemizedlist>
+      </sect3>
+      <sect3 id="improvements">
+        <title>Improvements</title>
+        <sect4 id="general">
+          <title>General</title>
+          <itemizedlist spacing="compact">
+            <listitem>
+              <para>
+                More information given when the standalone (nhm ide)
+                fails to retrieve reports from remote server for a
+                simulation job
+              </para>
+            </listitem>
+          </itemizedlist>
+        </sect4>
+        <sect4 id="documenation">
+          <title>Documenation</title>
+          <itemizedlist spacing="compact">
+            <listitem>
+              <para>
+                Improved documenation for using consume function
+                <xref linkend="ref.consume"/> Added a note about
+                needing to take into account house.weight if using this.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                Document on room heater unsuitability
+                <xref linkend="ref.measure.room-heater"/>
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                Update suitability text for hot water tank thermostat
+                measure
+                <xref linkend="ref.measure.hot-water-tank-thermostat"/>
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                Updated un-suitability text for
+                <xref linkend="ref.measure.warm-air-system"/>
+              </para>
+            </listitem>
+          </itemizedlist>
+        </sect4>
       </sect3>
     </sect2>
     <sect2 id="verison-7.0.3">
       <title>Verison 7.0.3</title>
-      <sect3 id="bugs-fixed">
+      <sect3 id="bugs-fixed-1">
         <title>Bugs Fixed</title>
         <sect4 id="reverted-macro-validation-fixes-added-as-they-cause-errors-which-affect-previous-beis-scenarios">
           <title>Reverted macro validation fixes added as they cause
@@ -66,7 +146,7 @@
     </sect2>
     <sect2 id="version-7.0.2">
       <title>Version 7.0.2</title>
-      <sect3 id="bugs-fixed-1">
+      <sect3 id="bugs-fixed-2">
         <title>Bugs Fixed</title>
         <sect4 id="house-permeability-calculation">
           <title>House Permeability Calculation</title>
@@ -79,7 +159,7 @@
     </sect2>
     <sect2 id="version-7.0.1">
       <title>Version 7.0.1</title>
-      <sect3 id="bugs-fixed-2">
+      <sect3 id="bugs-fixed-3">
         <title>Bugs Fixed</title>
         <sect4 id="combinations.choice---now-expands-combinations-to-actual-measure-classes-rather-than-nulls---caused-by-a-bad-code-merge">
           <title>Combinations.choice - now expands combinations to
@@ -215,7 +295,7 @@
           </para>
         </sect4>
       </sect3>
-      <sect3 id="bugs-fixed-3">
+      <sect3 id="bugs-fixed-4">
         <title>Bugs Fixed</title>
         <sect4 id="u-value-calculation-for-suspended-timber-ground-floors">
           <title>U-value calculation for suspended timber ground
@@ -270,7 +350,7 @@
           </para>
         </sect4>
       </sect3>
-      <sect3 id="improvements">
+      <sect3 id="improvements-1">
         <title>Improvements</title>
         <para>
           The manual embedded in the desktop application has had
@@ -323,7 +403,7 @@
           </para>
         </sect4>
       </sect3>
-      <sect3 id="bugs-fixed-4">
+      <sect3 id="bugs-fixed-5">
         <title>Bugs Fixed</title>
         <sect4 id="wall-thickness">
           <title>Wall Thickness</title>
@@ -502,7 +582,7 @@
     </sect2>
     <sect2 id="version-6.4.0">
       <title>Version 6.4.0</title>
-      <sect3 id="bugs-fixed-5">
+      <sect3 id="bugs-fixed-6">
         <title>Bugs fixed</title>
         <sect4 id="flags-and-reports-work-on-def-action">
           <title>Flags and reports work on def-action</title>
@@ -585,7 +665,7 @@
     </sect2>
     <sect2 id="version-6.3.2">
       <title>Version 6.3.2</title>
-      <sect3 id="bugs-fixed-6">
+      <sect3 id="bugs-fixed-7">
         <title>Bugs fixed</title>
         <sect4 id="batch-reports-work-properly-in-the-desktop-application">
           <title>Batch reports work properly in the desktop
@@ -600,7 +680,7 @@
     </sect2>
     <sect2 id="version-6.3.1">
       <title>Version 6.3.1</title>
-      <sect3 id="bugs-fixed-7">
+      <sect3 id="bugs-fixed-8">
         <title>Bugs Fixed</title>
         <sect4 id="summer-boiler-efficiencies">
           <title>Summer Boiler Efficiencies</title>
@@ -659,7 +739,7 @@
         These are fixes relating to
         <ulink url="https://cseresearch.atlassian.net/browse/EXS-108">EXS-108</ulink>.
       </para>
-      <sect3 id="bugs-fixed-8">
+      <sect3 id="bugs-fixed-9">
         <title>Bugs Fixed</title>
         <sect4 id="space-heating-systems-used-the-total-hot-water-fraction">
           <title>Space heating systems used the total hot water
@@ -861,7 +941,7 @@
     </sect2>
     <sect2 id="version-6.2.2-8th-october-2015">
       <title>Version 6.2.2 [8th October 2015]</title>
-      <sect3 id="bugs-fixed-9">
+      <sect3 id="bugs-fixed-10">
         <title>Bugs Fixed</title>
         <sect4 id="house.all-walls-matched-all-houses">
           <title>house.all-walls matched all houses</title>
@@ -962,7 +1042,7 @@
     </sect2>
     <sect2 id="version-6.2.1-not-published">
       <title>Version 6.2.1 [Not published]</title>
-      <sect3 id="bugs-fixed-10">
+      <sect3 id="bugs-fixed-11">
         <title>Bugs Fixed</title>
         <sect4 id="stock-import-not-using-draught-stripped-proportion">
           <title>Stock import not using draught stripped
@@ -1136,7 +1216,7 @@
           </para>
         </sect4>
       </sect3>
-      <sect3 id="bugs-fixed-11">
+      <sect3 id="bugs-fixed-12">
         <title>Bugs fixed</title>
         <sect4 id="error-in-repeat-removed">
           <title>Error in <literal>repeat</literal> removed</title>
@@ -2022,7 +2102,7 @@
 </programlisting>
         </sect4>
       </sect3>
-      <sect3 id="bugs-fixed-12">
+      <sect3 id="bugs-fixed-13">
         <title>Bugs Fixed</title>
         <sect4 id="uninsulated-lofts-imported-correctly">
           <title>Uninsulated lofts imported correctly</title>
