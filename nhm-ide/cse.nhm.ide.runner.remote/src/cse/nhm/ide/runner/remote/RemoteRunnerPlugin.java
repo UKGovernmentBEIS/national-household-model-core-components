@@ -107,10 +107,10 @@ public class RemoteRunnerPlugin extends AbstractUIPlugin implements IPropertyCha
 			return 10000;
 		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.
 	 * BundleContext)
 	 */
@@ -123,22 +123,22 @@ public class RemoteRunnerPlugin extends AbstractUIPlugin implements IPropertyCha
 		// current user name.
 		updateRegistrations();
 		getPreferenceStore().addPropertyChangeListener(this);
-		
+
 		job = new Job("Querying NHM servers for status of remote jobs") {
 			@Override
 			protected IStatus run(final IProgressMonitor monitor) {
 				if (!monitor.isCanceled()) schedule(updateAll());
 				return Status.OK_STATUS;
 			}
-			
+
 		};
-		
+
 		job.schedule(2000);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.
 	 * BundleContext)
 	 */
@@ -169,6 +169,10 @@ public class RemoteRunnerPlugin extends AbstractUIPlugin implements IPropertyCha
 		getLog().log(new Status(Status.ERROR, PLUGIN_ID, string + " " + th.getMessage(), th));
 	}
 
+	public void warn(final String string, final Throwable th) {
+		getLog().log(new Status(Status.WARNING, PLUGIN_ID, string + " " + th.getMessage(), th));
+	}
+
 	@Override
 	public void propertyChange(final PropertyChangeEvent event) {
 		if (event.getProperty().equals("hosts")) {
@@ -181,7 +185,7 @@ public class RemoteRunnerPlugin extends AbstractUIPlugin implements IPropertyCha
 
 		final String user = System.getProperty("user.name");
         final Iterable<String> hosts = splitter.split(hostsStr);
-		
+
 		final Set<String> seen = new HashSet<>();
 		for (final String host : hosts) {
 			try {
