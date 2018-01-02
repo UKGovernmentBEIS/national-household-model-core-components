@@ -58,7 +58,7 @@ public class FitStorageTankThermostat extends HotWaterCylinderMeasurer {
             final ICentralWaterSystem centralWaterSystem = modifiable.getCentralWaterSystem();
             final IWaterTank waterTank = (centralWaterSystem != null) ? centralWaterSystem.getStore() : null;
 
-            if ((centralWaterSystem != null) && (centralWaterSystem != null)) {
+            if ((centralWaterSystem != null) && (waterTank != null)) {
                 waterTank.setThermostatFitted(true);
                 return true;
             }
@@ -78,7 +78,7 @@ public class FitStorageTankThermostat extends HotWaterCylinderMeasurer {
     public boolean isSuitable(IComponentsScope components, ILets lets) {
         final ITechnologyModel structure = components.get(getTechnologyDimension());
 
-        if (hasHotWaterCylinder(structure) 
+        if (hasHotWaterCylinder(structure)
                 && ((ICentralWaterSystem)structure.getCentralWaterSystem()).getStore().isThermostatFitted() == false){
                 return true;
         }
