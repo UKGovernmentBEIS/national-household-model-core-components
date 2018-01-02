@@ -34,14 +34,14 @@ public class WarmAirMeasure extends AbstractMeasure {
 
     private final IDimension<ITechnologyModel> technologyDimension;
     private final ITechnologyOperations operations;
-    
+
     //Input Vars
     private final FuelType fuelType;
     private final ISizingFunction sizingFunction;
     private final IComponentsFunction<Number> capitalCostFunction;
     private final IComponentsFunction<Number> operationalCostFunction;
     private final IComponentsFunction<Number> efficiency;
-    
+
     @AssistedInject
     public WarmAirMeasure(
             final ITechnologyOperations operations,
@@ -53,7 +53,7 @@ public class WarmAirMeasure extends AbstractMeasure {
             @Assisted("efficiency") final IComponentsFunction<Number> efficiency) {
         this.operations = operations;
         this.technologyDimension = technologyDimension;
-    
+
         this.fuelType = fuelType;
         this.sizingFunction = sizingFunction;
         this.capitalCostFunction = capitalCostFunction;
@@ -67,7 +67,7 @@ public class WarmAirMeasure extends AbstractMeasure {
         public Modifier(final double efficiency) {
             this.efficiency = efficiency;
         }
-        
+
         /**
          * @param modifiable
          * @return
@@ -79,9 +79,9 @@ public class WarmAirMeasure extends AbstractMeasure {
 
             IWarmAirSystem warmAirSystem = factory.createWarmAirSystem();
             warmAirSystem.setCirculator(factory.createWarmAirCirculator());
-            warmAirSystem.setFuelType(operations.getMainHeatingFuel(modifiable));
+            warmAirSystem.setFuelType(fuelType);
             warmAirSystem.setEfficiency(Efficiency.fromDouble(efficiency));
-            
+
             operations.replacePrimarySpaceHeater(modifiable, warmAirSystem);
 
             return true;
@@ -100,23 +100,23 @@ public class WarmAirMeasure extends AbstractMeasure {
     public boolean apply(final ISettableComponentsScope components, ILets lets) throws NHMException {
         final ISizingResult result = sizingFunction.computeSize(components, ILets.EMPTY, Units.KILOWATTS);
         components.addNote(result);
-                
+
         if(result.isSuitable() && isSuitable(components, lets)){
             final double capex = capitalCostFunction.compute(components, lets).doubleValue();
             final double opex = operationalCostFunction.compute(components, lets).doubleValue();
-            
+
             if(doApply(components, lets)){
                 components.addNote(new TechnologyInstallationDetails(
                         this, TechnologyType.warmAirHeatingSystem(), result.getSize(), result.getUnits(), capex, opex));
                 components.addTransaction(Payment.capexToMarket(capex));
-                
+
                 return true;
             }
         }
-        
+
         return false;
     }
-    
+
     protected boolean doApply(final ISettableComponentsScope components, final ILets lets){
         components.modify(technologyDimension,
                           new Modifier(getEfficiency(components, lets)));
@@ -149,7 +149,7 @@ public class WarmAirMeasure extends AbstractMeasure {
     private double getEfficiency(final IComponentsScope scope, final ILets lets) {
         return this.efficiency.compute(scope, lets).doubleValue();
     }
-    
+
     /**
      * Is valid if a warm air system is already fitted and the efficiency of this is less than the new one being fitted.
      * @param technologyModel
