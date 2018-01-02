@@ -85,7 +85,7 @@ public abstract class AbstractHeatingMeasure extends AbstractMeasure {
 	}
 
 	@Override
-	public final boolean apply(final ISettableComponentsScope components, final ILets lets) throws NHMException {
+	public final boolean doApply(final ISettableComponentsScope components, final ILets lets) throws NHMException {
 		final ISizingResult result = sizingFunction.computeSize(components, ILets.EMPTY, Units.KILOWATTS);
 		components.addNote(result);
 

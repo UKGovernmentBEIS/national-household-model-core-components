@@ -97,15 +97,15 @@ public class WarmAirMeasure extends AbstractMeasure {
      *      uk.org.cse.nhm.simulator.let.ILets)
      */
     @Override
-    public boolean apply(final ISettableComponentsScope components, ILets lets) throws NHMException {
+    public boolean doApply(final ISettableComponentsScope components, ILets lets) throws NHMException {
         final ISizingResult result = sizingFunction.computeSize(components, ILets.EMPTY, Units.KILOWATTS);
         components.addNote(result);
 
         if(result.isSuitable() && isSuitable(components, lets)){
             final double capex = capitalCostFunction.compute(components, lets).doubleValue();
             final double opex = operationalCostFunction.compute(components, lets).doubleValue();
-
-            if(doApply(components, lets)){
+            
+            if(makeItSo(components, lets)){
                 components.addNote(new TechnologyInstallationDetails(
                         this, TechnologyType.warmAirHeatingSystem(), result.getSize(), result.getUnits(), capex, opex));
                 components.addTransaction(Payment.capexToMarket(capex));
@@ -116,8 +116,8 @@ public class WarmAirMeasure extends AbstractMeasure {
 
         return false;
     }
-
-    protected boolean doApply(final ISettableComponentsScope components, final ILets lets){
+    
+    protected boolean makeItSo(final ISettableComponentsScope components, final ILets lets){
         components.modify(technologyDimension,
                           new Modifier(getEfficiency(components, lets)));
         return true;

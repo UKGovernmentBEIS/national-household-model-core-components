@@ -116,12 +116,8 @@ public class SolarHotWaterMeasure extends AbstractMeasure {
     }
 
 	@Override
-	public boolean apply(final ISettableComponentsScope components, final ILets lets) throws NHMException {
-		if (!isSuitable(components, lets)) {
-			return false;
-		}
-
-		final ITechnologyModel technologyModel = components.get(technologies);
+	public boolean doApply(final ISettableComponentsScope components, final ILets lets) throws NHMException {
+	    final ITechnologyModel technologyModel = components.get(technologies);
 
 		if (technologyModel.getCentralWaterSystem() != null) {
             final double area = this.installedArea.compute(components, lets).doubleValue();

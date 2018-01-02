@@ -20,16 +20,16 @@ import uk.org.cse.nhm.simulator.transactions.Payment;
  * @author richardTiffin
  */
 public abstract class HotWaterCylinderMeasurer extends AbstractMeasure {
-    
+
     private final IDimension<ITechnologyModel> technologyDimension;
     private final IComponentsFunction<Number> capitalCostFunction;
-    
-    public HotWaterCylinderMeasurer(final IDimension<ITechnologyModel> technologyDimension, 
+
+    public HotWaterCylinderMeasurer(final IDimension<ITechnologyModel> technologyDimension,
             IComponentsFunction<Number> capitalCostFunction) {
         this.technologyDimension = technologyDimension;
         this.capitalCostFunction = capitalCostFunction;
     }
-    
+
     /**
      * @param scope
      * @param lets
@@ -39,36 +39,33 @@ public abstract class HotWaterCylinderMeasurer extends AbstractMeasure {
      *      uk.org.cse.nhm.simulator.let.ILets)
      */
     @Override
-    public boolean apply(ISettableComponentsScope components, ILets lets) throws NHMException {
+    public boolean doApply(ISettableComponentsScope components, ILets lets) throws NHMException {
+        final double capex = getCapitalCostFunction().compute(components, lets).doubleValue();
+        final boolean didAnything = doApply(components);
 
-        if (isSuitable(components, lets)) {
-            final double capex = getCapitalCostFunction().compute(components, lets).doubleValue();
-            final boolean didAnything = doApply(components);
+        if (didAnything) {
+            components.addNote(new TechnologyInstallationDetails(this, getTechnologyType(), 1, Units.Units, capex, 0d));
+            components.addTransaction(Payment.capexToMarket(capex));
 
-            if (didAnything) {
-                components.addNote(new TechnologyInstallationDetails(this, getTechnologyType(), 1, Units.Units, capex, 0d));
-                components.addTransaction(Payment.capexToMarket(capex));
-
-                return true;
-            }
+            return true;
         }
         return false;
     }
-    
+
     public abstract boolean doApply(ISettableComponentsScope components) throws NHMException;
-    
-    boolean hasHotWaterCylinder(ITechnologyModel structure){
+
+    boolean hasHotWaterCylinder(ITechnologyModel structure) {
         if ((structure.getCentralWaterSystem() != null)
                 && (structure.getCentralWaterSystem() instanceof ICentralWaterSystem)) {
             ICentralWaterSystem hotWaterSystem = structure.getCentralWaterSystem();
 
-            if (hotWaterSystem.getStore() != null){
+            if (hotWaterSystem.getStore() != null) {
                 return true;
             }
         }
         return false;
     }
-    
+
     /**
      * @return
      * @see uk.org.cse.nhm.simulator.scope.IComponentsAction#isAlwaysSuitable()
@@ -77,7 +74,7 @@ public abstract class HotWaterCylinderMeasurer extends AbstractMeasure {
     public boolean isAlwaysSuitable() {
         return false;
     }
-    
+
     /**
      * @return
      * @see uk.org.cse.nhm.simulator.state.IStateChangeSource#getSourceType()
@@ -104,6 +101,6 @@ public abstract class HotWaterCylinderMeasurer extends AbstractMeasure {
     protected IComponentsFunction<Number> getCapitalCostFunction() {
         return capitalCostFunction;
     }
-    
+
     public abstract TechnologyType getTechnologyType();
 }

@@ -99,17 +99,14 @@ public class GlazingMeasure extends AbstractMeasure implements
 	}
 
 	@Override
-	public boolean apply(final ISettableComponentsScope components, final ILets lets)
+	public boolean doApply(final ISettableComponentsScope components, final ILets lets)
 			throws NHMException {
-		if (isSuitable(components, lets)) {
-			this.quantityInstalled = 0;
-			components.modify(structureDimension, this);
-			addCapitalCosts(components, lets, this.quantityInstalled);
 
-			return true;
-		} else {
-			return false;
-		}
+        this.quantityInstalled = 0;
+        components.modify(structureDimension, this);
+        addCapitalCosts(components, lets, this.quantityInstalled);
+
+        return true;		
 	}
 
 	/**

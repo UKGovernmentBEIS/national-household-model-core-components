@@ -19,64 +19,62 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
 
 public class AdjustmentMeasure extends AbstractMeasure implements IModifier<ITechnologyModel> {
-	private final IDimension<ITechnologyModel> technologies;
-	private final IAdjuster prototype;
-	private final boolean add;
-	
-	@AssistedInject
-	public AdjustmentMeasure(
-			final IDimension<ITechnologyModel> technologies, 
-			@Assisted
-			final IAdjuster prototype, 
-			@Assisted
-			final boolean add) {
-		super();
-		this.technologies = technologies;
-		this.prototype = prototype;
-		this.add = add;
-	}
+    private final IDimension<ITechnologyModel> technologies;
+    private final IAdjuster prototype;
+    private final boolean add;
 
-	@Override
-	public boolean modify(final ITechnologyModel modifiable) {
-		if (add) {
-			modifiable.getAdjusters().add(EcoreUtil.copy(prototype));
-		} else {
-			final Iterator<IAdjuster> it = modifiable.getAdjusters().iterator();
-			while (it.hasNext()) if (it.next().getName().equals(prototype.getName())) it.remove();
-		}
-		return true;
-	}
-	
-	@Override
-	public boolean apply(final ISettableComponentsScope scope, final ILets lets) throws NHMException {
-		if (isSuitable(scope, lets)) {
-			scope.modify(technologies, this);
-			return true;
-		} else {
-			return false;
-		}
-	}
+    @AssistedInject
+    public AdjustmentMeasure(
+            final IDimension<ITechnologyModel> technologies,
+            @Assisted final IAdjuster prototype,
+            @Assisted final boolean add) {
+        super();
+        this.technologies = technologies;
+        this.prototype = prototype;
+        this.add = add;
+    }
 
-	@Override
-	public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
-		final ITechnologyModel tech = scope.get(technologies);
-		for (final IAdjuster adj : tech.getAdjusters()) {
-			if (adj.getName().equals(prototype.getName())) {
-				if (add) return false;
-				else return true;
-			}
-		}
-		
-		return add;
-	}
+    @Override
+    public boolean modify(final ITechnologyModel modifiable) {
+        if (add) {
+            modifiable.getAdjusters().add(EcoreUtil.copy(prototype));
+        } else {
+            final Iterator<IAdjuster> it = modifiable.getAdjusters().iterator();
+            while (it.hasNext())
+                if (it.next().getName().equals(prototype.getName()))
+                    it.remove();
+        }
+        return true;
+    }
 
-	@Override
-	public boolean isAlwaysSuitable() {
-		return false;
-	}
-	
-	@Override
-	public StateChangeSourceType getSourceType() {
-		return StateChangeSourceType.ACTION;
-	}
+    @Override
+    public boolean doApply(final ISettableComponentsScope scope, final ILets lets) throws NHMException {
+        scope.modify(technologies, this);
+        return true;
+    }
+
+    @Override
+    public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
+        final ITechnologyModel tech = scope.get(technologies);
+        for (final IAdjuster adj : tech.getAdjusters()) {
+            if (adj.getName().equals(prototype.getName())) {
+                if (add)
+                    return false;
+                else
+                    return true;
+            }
+        }
+
+        return add;
+    }
+
+    @Override
+    public boolean isAlwaysSuitable() {
+        return false;
+    }
+
+    @Override
+    public StateChangeSourceType getSourceType() {
+        return StateChangeSourceType.ACTION;
+    }
 }

@@ -65,13 +65,9 @@ public class AlterWallHeatLossMeasure extends AbstractMeasure implements IModifi
      * @see uk.org.cse.nhm.simulator.measure.IComponentsAction#apply(IStateChangeSource, IEvaluationContext, uk.org.cse.nhm.simulator.state.ISettableComponents, ILets)
      */
     @Override
-    public boolean apply(final ISettableComponentsScope components, final ILets lets) throws NHMException {
-        if (isSuitable(components, lets)){
-        	components.modify(structureDimension, this);
-            return true;
-        } else {
-            return false;
-        }        
+    public boolean doApply(final ISettableComponentsScope components, final ILets lets) throws NHMException {
+        components.modify(structureDimension, this);
+        return true;        
     }
 
     /**

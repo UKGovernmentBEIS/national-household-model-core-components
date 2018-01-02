@@ -49,11 +49,7 @@ public class LightingProportionMeasure extends AbstractMeasure {
 	}
 		
 	@Override
-	public boolean apply(ISettableComponentsScope scope, ILets lets) throws NHMException {
-		if (!isSuitable(scope, lets)) {
-			return false;
-		}
-		
+	public boolean doApply(ISettableComponentsScope scope, ILets lets) throws NHMException {
 		scope.modify(techDimension, new IModifier<ITechnologyModel>(){
 			@Override
 			public boolean modify(ITechnologyModel modifiable) {
