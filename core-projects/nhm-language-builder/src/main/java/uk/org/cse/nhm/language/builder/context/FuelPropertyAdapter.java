@@ -212,16 +212,11 @@ public class FuelPropertyAdapter extends ReflectingAdapter {
 			@Prop(XExtraCharge.P.dependsOn) final List<IExtraCharge> dependencies
 			) {
 		
-		int order = 1;
-		for (final IExtraCharge extraCharge : dependencies) {
-			order += extraCharge.getOrder();
-		}
-		
-		final Optional<FuelType> maybeFuel = fuel.isPresent() ? 
+		final Optional<FuelType> maybeFuel = fuel.isPresent() ?
 				Optional.of(MapEnum.fuel(fuel.get())) : 
 				Optional.<FuelType>absent();
 		
-		return new ExtraCharge(maybeFuel, payee.or(policyName.or(ITransaction.Counterparties.ENERGY_COMPANIES)), Tag.asSet(tags), charge, order);
+		return new ExtraCharge(maybeFuel, payee.or(policyName.or(ITransaction.Counterparties.ENERGY_COMPANIES)), Tag.asSet(tags), charge, ImmutableSet.copyOf(dependencies));
 	}
 	
 	@Adapt(XRemoveChargeAction.class)

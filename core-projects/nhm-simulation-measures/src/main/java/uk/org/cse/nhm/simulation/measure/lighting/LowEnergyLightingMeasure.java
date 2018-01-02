@@ -34,7 +34,7 @@ public class LowEnergyLightingMeasure extends AbstractMeasure {
 	private final double threshold;
 	private final double proportion;
 	private final IComponentsFunction<Number> capex;
-	
+
 	private final Comparator<ILight> byEnergyAscending = new Comparator<ILight>(){
 
 		@Override
@@ -55,7 +55,7 @@ public class LowEnergyLightingMeasure extends AbstractMeasure {
 		this.techFactory = ITechnologiesFactory.eINSTANCE;;
 		this.capex = capex;
 		if (threshold > proportion) {
-			this.threshold = proportion; 
+			this.threshold = proportion;
 		} else {
 			this.threshold = threshold;
 		}
@@ -66,86 +66,22 @@ public class LowEnergyLightingMeasure extends AbstractMeasure {
 	@Override
 	public boolean doApply(final ISettableComponentsScope scope, final ILets lets)
 			throws NHMException {
-		
+
 		final double floorArea = scope.get(structureDimension).getFloorArea();
-		
-		scope.modify(techDimension, new IModifier<ITechnologyModel>(){
-			@Override
-			public boolean modify(final ITechnologyModel tech) {
-				final SortedSet<ILight> standardLights = new TreeSet<>(byEnergyAscending);
-				
-				double standardP = 0.0;
-				double lowEnergyP = 0.0;
-				
-				for (final ILight l : tech.getLights()) {
-					if (l.getEfficiency() <= ILight.CFL_EFFICIENCY) {
-						lowEnergyP += l.getProportion(); 
-					} else {
-						standardLights.add(l);
-						standardP += l.getProportion();
-					}
-				}
-				
-				final double normalizingFactor = standardP + lowEnergyP;
-				final double normalisedLowEnergyP = lowEnergyP / normalizingFactor;
-				
-				if (normalisedLowEnergyP > threshold 
-						|| normalisedLowEnergyP == proportion
-						|| standardLights.size() == 0) {
-					return false;
-				}
-				
-				final double lightingToInstallNormalised = proportion - normalisedLowEnergyP;
-				  
-				final ILight lowEnergy = techFactory.createLight();
-				
-				final double lightingToInstall = lightingToInstallNormalised * normalizingFactor;
-				
-				double installed = 0;
-				while (installed < lightingToInstall 
-						&& standardLights.size() > 0) {
-					
-					final ILight standard = standardLights.first();
-					final double currentP = standard.getProportion();
-					final double change = Math.max(currentP, lightingToInstall);
-					
-					standard.setProportion(currentP - change);
-					installed += change;
-					lowEnergy.setProportion(lowEnergy.getProportion() + lightingToInstall);
-					
-					if (standard.getProportion() == 0) {
-						standardLights.remove(standard);
-						tech.getLights().remove(standard);
-					}
-				}
-				
-				lowEnergy.setProportion(lowEnergy.getProportion() + installed);
-				
-				final double size = (installed / normalizingFactor) * floorArea;
-				final ISizingResult sizingResult = SizingResult.suitable(size, Units.SQUARE_METRES);
-				scope.addNote(sizingResult);
-				
-				final double capexResult = capex.compute(scope, lets).doubleValue();
-				
-				scope.addNote(new TechnologyInstallationDetails(LowEnergyLightingMeasure.this, TechnologyType.lowEnergyLighting(), sizingResult.getSize(), sizingResult.getUnits(), capexResult, 0));
-				scope.addTransaction(Payment.capexToMarket(capexResult));
-				
-				return true;
-			}
-		});
-		
+
+		scope.modify(techDimension, new Modifier(scope, lets, floorArea));
 		return true;
 	}
-	
+
 	@Override
 	public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
 		final ITechnologyModel tech = scope.get(techDimension);
-		
+
 		double standard = 0.0;
 		double lowEnergy = 0.0;
-		
+
 		boolean someCapacity = false;
-		
+
 		for (final ILight l : tech.getLights()) {
 			if (l.getEfficiency() <= ILight.CFL_EFFICIENCY) {
 				lowEnergy+= l.getProportion();
@@ -155,9 +91,9 @@ public class LowEnergyLightingMeasure extends AbstractMeasure {
 			}
 		}
 
-		return someCapacity && (lowEnergy / (standard + lowEnergy)) <= threshold; 
+		return someCapacity && (lowEnergy / (standard + lowEnergy)) <= threshold;
 	}
-	
+
 	@Override
 	public boolean isAlwaysSuitable() {
 		return false;
@@ -166,5 +102,91 @@ public class LowEnergyLightingMeasure extends AbstractMeasure {
 	@Override
 	public StateChangeSourceType getSourceType() {
 		return StateChangeSourceType.ACTION;
+	}
+
+	/*
+	 * This method just exists for testing.
+	 */
+	public Modifier createModifier(final ISettableComponentsScope scope, final ILets lets, final double floorArea) {
+		return new Modifier(scope, lets, floorArea);
+	}
+
+	public final class Modifier implements IModifier<ITechnologyModel> {
+		private final ISettableComponentsScope scope;
+		private final ILets lets;
+		private final double floorArea;
+
+		public Modifier(final ISettableComponentsScope scope, final ILets lets, final double floorArea) {
+			this.scope = scope;
+			this.lets = lets;
+			this.floorArea = floorArea;
+		}
+
+		@Override
+		public boolean modify(final ITechnologyModel tech) {
+			final SortedSet<ILight> standardLights = new TreeSet<>(byEnergyAscending);
+
+			double standardP = 0.0;
+			double lowEnergyP = 0.0;
+
+			for (final ILight l : tech.getLights()) {
+				if (l.getEfficiency() <= ILight.CFL_EFFICIENCY) {
+					lowEnergyP += l.getProportion();
+				} else {
+					standardLights.add(l);
+					standardP += l.getProportion();
+				}
+			}
+
+			final double normalizingFactor = standardP + lowEnergyP;
+			final double normalisedLowEnergyP = lowEnergyP / normalizingFactor;
+
+			if (normalisedLowEnergyP > threshold
+					|| normalisedLowEnergyP == proportion
+					|| standardLights.size() == 0) {
+				return false;
+			}
+
+			final double lightingToInstallNormalised = proportion - normalisedLowEnergyP;
+
+			final ILight lowEnergy = techFactory.createLight();
+
+			final double lightingToInstall = lightingToInstallNormalised * normalizingFactor;
+
+			double installed = 0;
+			while (installed < lightingToInstall
+					&& standardLights.size() > 0) {
+
+				final ILight standard = standardLights.first();
+				final double currentP = standard.getProportion();
+				final double change = Math.max(currentP, lightingToInstall);
+
+				standard.setProportion(currentP - change);
+				installed += change;
+				lowEnergy.setProportion(lowEnergy.getProportion() + lightingToInstall);
+
+				if (standard.getProportion() == 0) {
+					standardLights.remove(standard);
+					tech.getLights().remove(standard);
+				}
+			}
+
+			lowEnergy.setProportion(lowEnergy.getProportion() + installed);
+
+			lowEnergy.setEfficiency(ILight.CFL_EFFICIENCY);
+
+			tech.getLights().add(lowEnergy);
+
+			final double size = (installed / normalizingFactor) * floorArea;
+			final ISizingResult sizingResult = SizingResult.suitable(size, Units.SQUARE_METRES);
+			scope.addNote(sizingResult);
+
+			final double capexResult = capex.compute(scope, lets).doubleValue();
+
+			scope.addNote(new TechnologyInstallationDetails(LowEnergyLightingMeasure.this, TechnologyType.lowEnergyLighting(), sizingResult.getSize(), sizingResult.getUnits(), capexResult, 0));
+			scope.addTransaction(Payment.capexToMarket(capexResult));
+
+			return true;
+		}
 	}
 }

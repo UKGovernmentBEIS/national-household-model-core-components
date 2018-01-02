@@ -13,12 +13,15 @@ import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
 import uk.org.cse.nhm.simulator.state.dimensions.fuel.cost.IExtraCharge;
 import uk.org.cse.nhm.simulator.state.dimensions.fuel.cost.ITariff;
 
+import java.util.List;
+import java.util.Set;
+
 public class TariffFuelAction extends AbstractNamed implements IComponentsAction {
 	private final FuelType ft;
 	private final ITariff t;
-	private final SortedMultiset<IExtraCharge> extraCharges;
+	private final List<IExtraCharge> extraCharges;
 
-	public TariffFuelAction(final FuelType ft, final ITariff t, final SortedMultiset<IExtraCharge> extraCharges) {
+	public TariffFuelAction(final FuelType ft, final ITariff t, final List<IExtraCharge> extraCharges) {
 		super(t.getIdentifierForFuel(ft));
 		this.extraCharges = extraCharges;
 		this.ft = ft;

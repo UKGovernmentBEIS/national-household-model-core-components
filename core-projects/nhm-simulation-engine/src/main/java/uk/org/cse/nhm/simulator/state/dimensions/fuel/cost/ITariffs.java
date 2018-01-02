@@ -1,5 +1,6 @@
 package uk.org.cse.nhm.simulator.state.dimensions.fuel.cost;
 
+import java.util.List;
 import java.util.Set;
 
 import com.google.common.collect.SortedMultiset;
@@ -58,12 +59,12 @@ public interface ITariffs extends ICopyable<ITariffs>, Iterable<ITariff> {
 	/**
 	 * @return the extra charges which should be applied for a given fuel type. 
 	 */
-	public SortedMultiset<IExtraCharge> getExtraCharges(final FuelType fuelType);
+	public List<IExtraCharge> getExtraCharges(final FuelType fuelType);
 	
 	/**
 	 * @return the extra charges which are not specific to a particular fuel type, but should be run after all the tariffs.
 	 */
-	public SortedMultiset<IExtraCharge> getNonFuelSpecificExtraCharges();
+	public List<IExtraCharge> getNonFuelSpecificExtraCharges();
 	
 	public void computeCharges(final ISettableComponentsScope scope, final ILets lets);
 
