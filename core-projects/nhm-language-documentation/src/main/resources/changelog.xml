@@ -83,6 +83,20 @@
               <xref linkend="ref.account.balacnce"/>
             </para>
           </listitem>
+          <listitem>
+            <para>
+              Basement floors are now treated as if they are ground
+              floors for heat loss, see SAP 2012 S3.10
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              Calculation for upper floor u-values now includes
+              insulation, the bug should not have affected most upper
+              floors as a majority did not have any exposed floor area
+              through which heat loss could occur.
+            </para>
+          </listitem>
         </itemizedlist>
       </sect3>
       <sect3 id="improvements">
