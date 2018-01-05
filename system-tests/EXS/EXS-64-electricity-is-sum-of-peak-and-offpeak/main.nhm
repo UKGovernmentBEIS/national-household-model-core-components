@@ -44,8 +44,9 @@
     (template EQUALS [@1 @2 @name]
               (assert name:@name
                       capture: [@1 @2]
+		      ;;fatal: false
                       over: all-houses
-                      (< -0.01 (- @1 @2) 0.01)))
+                      (< -0.1 (- @1 @2) 0.1)))
 
 
     (template SUM-OVER [@1]
