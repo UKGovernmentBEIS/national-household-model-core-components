@@ -8,5 +8,3 @@ fail.test.if(
 fail.test.if(
     !result$permeability..Before. < result$permeability..After.,
     "Permeability should increase.")
-
-write.csv(result,file.path("~/software-projects/nhm-cse/system-tests/t.csv"))
