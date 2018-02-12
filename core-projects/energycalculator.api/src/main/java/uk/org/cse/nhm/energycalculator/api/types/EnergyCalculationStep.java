@@ -1,5 +1,7 @@
 package uk.org.cse.nhm.energycalculator.api.types;
 
+import java.util.Optional;
+
 public enum EnergyCalculationStep {
     /**
      *  Dimensions and Structure
@@ -29,8 +31,7 @@ public enum EnergyCalculationStep {
     InfiltrationWindows(SAPWorksheetSection.Ventilation.cell(15), null),
     InfiltrationRate_Initial(SAPWorksheetSection.Ventilation.cell(16), null),
 
-    // Unused: for pressure tests
-    AirPermabilityValue(SAPWorksheetSection.Ventilation.cell(17), null),
+    AirPermabilityValue(SAPWorksheetSection.Ventilation.cell(17), null, SkipReason.AirPressureTests_Unsupported),
 
     InfiltrationRateMaybePressureTest(SAPWorksheetSection.Ventilation.cell(18), null),
     SidesSheltered(SAPWorksheetSection.Ventilation.cell(19), null),
@@ -61,8 +62,7 @@ public enum EnergyCalculationStep {
     // TODO fabric elements
     AreaExternal(SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(31), null),
     FabricHeatLoss(SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(33), null),
-    // Unused
-    HeatCapacity(SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(34), null),
+    HeatCapacity(SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(34), null, SkipReason.TMP_Complex_Unsupported),
     // Uses indicative values from Table 1f
     ThermalMassParameter(SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(35), null),
     // Uses simple calculation
@@ -76,8 +76,7 @@ public enum EnergyCalculationStep {
     /**
      * Water Heating
      */
-    Occupancy(
-            SAPWorksheetSection.WaterHeating.cell(42),
+    Occupancy(SAPWorksheetSection.WaterHeating.cell(42),
             BREDEMSection.LightsAppliancesAndCooking.step('a', "N")),
     WaterHeating_Usage_Daily(SAPWorksheetSection.WaterHeating.cell(43), null),
     WaterHeating_UsageFactor(SAPWorksheetSection.WaterHeating.cell(44), null),
@@ -103,7 +102,7 @@ public enum EnergyCalculationStep {
     // There's no step 60 in the SAP worksheet
 
     WaterHeating_CombiLoss_Monthly(SAPWorksheetSection.WaterHeating.cell(61), null),
-    WaterHeating_TotalHeat_Monthly_BeforeoOlar(SAPWorksheetSection.WaterHeating.cell(62), null),
+    WaterHeating_TotalHeat_Monthly_BeforeSolar(SAPWorksheetSection.WaterHeating.cell(62), null),
     WaterHeating_Solar(SAPWorksheetSection.WaterHeating.cell(63), null),
     WaterHeating_TotalHeat_Monthly(SAPWorksheetSection.WaterHeating.cell(64), null),
 
@@ -162,15 +161,15 @@ public enum EnergyCalculationStep {
      * Space Cooling (not implemented)
      * If we were to implement this, we probably need to duplicate a lot of the stuff above. Ugh.
      */
-    HeatLossRate_Cooling(SAPWorksheetSection.SpaceCooling.cell(100), null),
-    LossUtilisation(SAPWorksheetSection.SpaceCooling.cell(101), null),
-    Loss_Useful(SAPWorksheetSection.SpaceCooling.cell(102), null),
-    Gains_Cooling(SAPWorksheetSection.SpaceCooling.cell(103), null),
-    SpaceCooling_Continuous(SAPWorksheetSection.SpaceCooling.cell(104), null),
-    CooledFraction(SAPWorksheetSection.SpaceCooling.cell(105), null),
-    CoolingIntermittencyFactor(SAPWorksheetSection.SpaceCooling.cell(106), null),
-    SpaceCooling(SAPWorksheetSection.SpaceCooling.cell(107), null),
-    SpaceCooling_PerFloorArea(SAPWorksheetSection.SpaceCooling.cell(108), null),
+    HeatLossRate_Cooling(SAPWorksheetSection.SpaceCooling.cell(100), null, SkipReason.SpaceCooling_Unsupported),
+    LossUtilisation(SAPWorksheetSection.SpaceCooling.cell(101), null, SkipReason.SpaceCooling_Unsupported),
+    Loss_Useful(SAPWorksheetSection.SpaceCooling.cell(102), null, SkipReason.SpaceCooling_Unsupported),
+    Gains_Cooling(SAPWorksheetSection.SpaceCooling.cell(103), null, SkipReason.SpaceCooling_Unsupported),
+    SpaceCooling_Continuous(SAPWorksheetSection.SpaceCooling.cell(104), null, SkipReason.SpaceCooling_Unsupported),
+    CooledFraction(SAPWorksheetSection.SpaceCooling.cell(105), null, SkipReason.SpaceCooling_Unsupported),
+    CoolingIntermittencyFactor(SAPWorksheetSection.SpaceCooling.cell(106), null, SkipReason.SpaceCooling_Unsupported),
+    SpaceCooling(SAPWorksheetSection.SpaceCooling.cell(107), null, SkipReason.SpaceCooling_Unsupported),
+    SpaceCooling_PerFloorArea(SAPWorksheetSection.SpaceCooling.cell(108), null, SkipReason.SpaceCooling_Unsupported),
 
     /**
      * Fabric Energy efficiency
@@ -187,23 +186,21 @@ public enum EnergyCalculationStep {
     SpaceHeating_Fraction_Main(SAPWorksheetSection.EnergyRequirements.cell(202), null),
 
     // Always 0% - we never use any heat from system 2 since it isn't supported.
-    SpaceHeating_FractionWithinMainSystem(SAPWorksheetSection.EnergyRequirements.cell(203), null),
+    SpaceHeating_FractionWithinMainSystem(SAPWorksheetSection.EnergyRequirements.cell(203), null, 0d),
 
     // The same as SpaceHeatingFraction_Main
     SpaceHeating_Fraction_Main_System1(SAPWorksheetSection.EnergyRequirements.cell(204), null),
 
     // Always 0%, because system 2 isn't supported
-    SpaceHeating_Fraction_Main_System2(SAPWorksheetSection.EnergyRequirements.cell(205), null),
+    SpaceHeating_Fraction_Main_System2(SAPWorksheetSection.EnergyRequirements.cell(205), null, 0d),
 
     SpaceHeating_Efficiency_Main_System1(SAPWorksheetSection.EnergyRequirements.cell(206), null),
 
-    // Unused: main space heating system 2 isn't supported
-    SpaceHeating_Efficency_Main_System2(SAPWorksheetSection.EnergyRequirements.cell(207), null),
+    SpaceHeating_Efficency_Main_System2(SAPWorksheetSection.EnergyRequirements.cell(207), null, SkipReason.SpaceHeating_Main_System2_Unsupported),
 
     SpaceHeating_Efficiency_Secondary(SAPWorksheetSection.EnergyRequirements.cell(208), null),
 
-    // Unused: space cooling not supported
-    SpaceCooling_EfficencyRatio(SAPWorksheetSection.EnergyRequirements.cell(209), null),
+    SpaceCooling_EfficencyRatio(SAPWorksheetSection.EnergyRequirements.cell(209), null, SkipReason.SpaceCooling_Unsupported),
 
     // Step 210 doesn't exist in the SAP worksheet
 
@@ -211,15 +208,14 @@ public enum EnergyCalculationStep {
 
     // Step 212 doesn't exist in the SAP worksheet
 
-    // Unsued: main spaceheating system 2 isn't supported
-    Energy_SpaceHeating_Fuel_Main_system2(SAPWorksheetSection.EnergyRequirements.cell(213), null),
+    // Always 0, because main space heating system 2 isn't supported.
+    Energy_SpaceHeating_Fuel_Main_system2(SAPWorksheetSection.EnergyRequirements.cell(213), null, 0d),
 
     // Step 214 doesn't exist in the SAP worksheet
 
     Energy_SpaceHeating_Fuel_Secondary(SAPWorksheetSection.EnergyRequirements.cell(215), null),
 
-    // Unused annual calculation
-    Energy_WaterHeating_TotalHeat_Annual(SAPWorksheetSection.EnergyRequirements.cell(216), null),
+    Energy_WaterHeating_TotalHeat_Annual(SAPWorksheetSection.EnergyRequirements.cell(216), null, SkipReason.Annual_Not_Used),
 
     WaterHeating_Efficiency(SAPWorksheetSection.EnergyRequirements.cell(217), null),
 
@@ -242,8 +238,8 @@ public enum EnergyCalculationStep {
     PumpsFansAndKeepHot_BoilerFlueFan(SAPWorksheetSection.EnergyRequirements.subCell(230, 'e'), null),
     PumpsFansAndKeepHot_KeepHot(SAPWorksheetSection.EnergyRequirements.subCell(230, 'f'), null),
     PumpsFansAndKeepHot_SolarWaterHeatingPump(SAPWorksheetSection.EnergyRequirements.subCell(230, 'g'), null),
-    // Always 0 - storage WWHRS pump not implemented
-    PumpsFansAndKeepHot_StorageWWHRSPump(SAPWorksheetSection.EnergyRequirements.subCell(230, 'h'), null),
+    // Storage WWHRS pump not implemented
+    PumpsFansAndKeepHot_StorageWWHRSPump(SAPWorksheetSection.EnergyRequirements.subCell(230, 'h'), null, 0d),
 
     PumpsFansAndKeepHot(SAPWorksheetSection.EnergyRequirements.cell(231), null),
     Lighting(SAPWorksheetSection.EnergyRequirements.cell(232), null),
@@ -251,54 +247,54 @@ public enum EnergyCalculationStep {
     /**
      * Fuel Costs (happens outside energy calculator)
      */
-    Cost_SpaceHeating_Main_System1(SAPWorksheetSection.FuelCosts.cell(240), null),
-    Cost_SpaceHeating_Main_System2(SAPWorksheetSection.FuelCosts.cell(241), null),
-    Cost_SpaceHeating_Secondary(SAPWorksheetSection.FuelCosts.cell(242), null),
+    Cost_SpaceHeating_Main_System1(SAPWorksheetSection.FuelCosts.cell(240), null, SkipReason.Outside_Energy_Calculation),
+    Cost_SpaceHeating_Main_System2(SAPWorksheetSection.FuelCosts.cell(241), null, SkipReason.Outside_Energy_Calculation),
+    Cost_SpaceHeating_Secondary(SAPWorksheetSection.FuelCosts.cell(242), null, SkipReason.Outside_Energy_Calculation),
 
-    Cost_WaterHeating_ElecHighRateFraction(SAPWorksheetSection.FuelCosts.cell(243), null),
-    Cost_WaterHeating_ElecLowRateFraction(SAPWorksheetSection.FuelCosts.cell(244), null),
-    Cost_WaterHeating_ElecHighRate(SAPWorksheetSection.FuelCosts.cell(245), null),
-    Cost_waterHeating_ElecLowRate(SAPWorksheetSection.FuelCosts.cell(246), null),
-    Cost_WaterHeating_NonElec(SAPWorksheetSection.FuelCosts.cell(247), null),
+    Cost_WaterHeating_ElecHighRateFraction(SAPWorksheetSection.FuelCosts.cell(243), null, SkipReason.Outside_Energy_Calculation),
+    Cost_WaterHeating_ElecLowRateFraction(SAPWorksheetSection.FuelCosts.cell(244), null, SkipReason.Outside_Energy_Calculation),
+    Cost_WaterHeating_ElecHighRate(SAPWorksheetSection.FuelCosts.cell(245), null, SkipReason.Outside_Energy_Calculation),
+    Cost_waterHeating_ElecLowRate(SAPWorksheetSection.FuelCosts.cell(246), null, SkipReason.Outside_Energy_Calculation),
+    Cost_WaterHeating_NonElec(SAPWorksheetSection.FuelCosts.cell(247), null, SkipReason.Outside_Energy_Calculation),
 
-    Cost_SpaceCooling(SAPWorksheetSection.FuelCosts.cell(248), null),
-    Cost_PumpsFansAndKeepHot(SAPWorksheetSection.FuelCosts.cell(249), null),
-    Cost_Lighting(SAPWorksheetSection.FuelCosts.cell(250), null),
-    Cost_StandingCharges(SAPWorksheetSection.FuelCosts.cell(251), null),
-    Cost_Generation(SAPWorksheetSection.FuelCosts.cell(252), null),
+    Cost_SpaceCooling(SAPWorksheetSection.FuelCosts.cell(248), null, SkipReason.Outside_Energy_Calculation),
+    Cost_PumpsFansAndKeepHot(SAPWorksheetSection.FuelCosts.cell(249), null, SkipReason.Outside_Energy_Calculation),
+    Cost_Lighting(SAPWorksheetSection.FuelCosts.cell(250), null, SkipReason.Outside_Energy_Calculation),
+    Cost_StandingCharges(SAPWorksheetSection.FuelCosts.cell(251), null, SkipReason.Outside_Energy_Calculation),
+    Cost_Generation(SAPWorksheetSection.FuelCosts.cell(252), null, SkipReason.Outside_Energy_Calculation),
 
     // Appendix Q steps 253 and 254 skipped
 
-    Cost(SAPWorksheetSection.FuelCosts.cell(255), null),
+    Cost(SAPWorksheetSection.FuelCosts.cell(255), null, SkipReason.Outside_Energy_Calculation),
 
     /**
      * SAP Rating (happens outside energy calculator)
      */
-    EnergyCostDeflator(SAPWorksheetSection.SAPRating.cell(256), null),
-    EnergyCostFactor(SAPWorksheetSection.SAPRating.cell(257), null),
-    SAPRating(SAPWorksheetSection.SAPRating.cell(258), null),
+    EnergyCostDeflator(SAPWorksheetSection.SAPRating.cell(256), null, SkipReason.Outside_Energy_Calculation),
+    EnergyCostFactor(SAPWorksheetSection.SAPRating.cell(257), null, SkipReason.Outside_Energy_Calculation),
+    SAPRating(SAPWorksheetSection.SAPRating.cell(258), null, SkipReason.Outside_Energy_Calculation),
 
     /**
      * CO2 Emissions (happens outside energy calculator)
      */
-    Emissions_SpaceHeating_Main_System1(SAPWorksheetSection.Emissions.cell(261), null),
-    Emissions_SpaceHeating_Main_System2(SAPWorksheetSection.Emissions.cell(262), null),
-    Emissions_SpaceHeating_Secondary(SAPWorksheetSection.Emissions.cell(263), null),
-    Emissions_WaterHeating(SAPWorksheetSection.Emissions.cell(264), null),
-    Emissions_SpaceAndWaterHeating(SAPWorksheetSection.Emissions.cell(265), null),
+    Emissions_SpaceHeating_Main_System1(SAPWorksheetSection.Emissions.cell(261), null, SkipReason.Outside_Energy_Calculation),
+    Emissions_SpaceHeating_Main_System2(SAPWorksheetSection.Emissions.cell(262), null, SkipReason.Outside_Energy_Calculation),
+    Emissions_SpaceHeating_Secondary(SAPWorksheetSection.Emissions.cell(263), null, SkipReason.Outside_Energy_Calculation),
+    Emissions_WaterHeating(SAPWorksheetSection.Emissions.cell(264), null, SkipReason.Outside_Energy_Calculation),
+    Emissions_SpaceAndWaterHeating(SAPWorksheetSection.Emissions.cell(265), null, SkipReason.Outside_Energy_Calculation),
 
     // Always 0 - space cooling not implemented
-    Emissions_SpaceCooling(SAPWorksheetSection.Emissions.cell(266), null),
+    Emissions_SpaceCooling(SAPWorksheetSection.Emissions.cell(266), null, SkipReason.Outside_Energy_Calculation),
 
-    Emissions_PumpsFansAndKeepHot(SAPWorksheetSection.Emissions.cell(267), null),
-    Emissions_Lighting(SAPWorksheetSection.Emissions.cell(268), null),
-    Emissions_Generation(SAPWorksheetSection.Emissions.cell(269), null),
+    Emissions_PumpsFansAndKeepHot(SAPWorksheetSection.Emissions.cell(267), null, SkipReason.Outside_Energy_Calculation),
+    Emissions_Lighting(SAPWorksheetSection.Emissions.cell(268), null, SkipReason.Outside_Energy_Calculation),
+    Emissions_Generation(SAPWorksheetSection.Emissions.cell(269), null, SkipReason.Outside_Energy_Calculation),
 
     // Appendix Q steps 270 and 271 skipped
 
-    Emissions(SAPWorksheetSection.Emissions.cell(272), null),
-    Emissions_PerArea(SAPWorksheetSection.Emissions.cell(273), null),
-    Emissions_EIRating(SAPWorksheetSection.Emissions.cell(274), null),
+    Emissions(SAPWorksheetSection.Emissions.cell(272), null, SkipReason.Outside_Energy_Calculation),
+    Emissions_PerArea(SAPWorksheetSection.Emissions.cell(273), null, SkipReason.Outside_Energy_Calculation),
+    Emissions_EIRating(SAPWorksheetSection.Emissions.cell(274), null, SkipReason.Outside_Energy_Calculation),
 
     /**
      * Primary Energy - this section ignored as it is not implemented in the NHM.
@@ -318,23 +314,21 @@ public enum EnergyCalculationStep {
     DaylightCorrectionFactor(null, BREDEMSection.LightsAppliancesAndCooking.step('E', "C2")),
     LightingEnergy_Initial(null, BREDEMSection.LightsAppliancesAndCooking.step('F', "EL'")),
     LightingEnergy_Monthly(null, BREDEMSection.LightsAppliancesAndCooking.step('G', "ELM")),
-    // Annual calculation not used
-    LightingEnergy_Annual(null, BREDEMSection.LightsAppliancesAndCooking.step('H', "EL")),
+    LightingEnergy_Annual(null, BREDEMSection.LightsAppliancesAndCooking.step('H', "EL"), SkipReason.Annual_Not_Used),
 
     /**
      * Appliances
      */
     ApplianceEnergy_Initial(null, BREDEMSection.LightsAppliancesAndCooking.step('I', "EA'")),
     ApplianceEnergy_Monthly(null, BREDEMSection.LightsAppliancesAndCooking.step('J', "EA,m")),
-    // Annual calculation not used
-    ApplianceEnergy_Annual(null, BREDEMSection.LightsAppliancesAndCooking.step('K', "EA")),
+    ApplianceEnergy_Annual(null, BREDEMSection.LightsAppliancesAndCooking.step('K', "EA"), SkipReason.Annual_Not_Used),
     PumpsAndFansEnergy(null, BREDEMSection.LightsAppliancesAndCooking.step('L', "Ep&f")),
 
     /**
      * Cooking
      */
     CookingEnergyCombustion_Annual(null, BREDEMSection.LightsAppliancesAndCooking.step('M', "EC1 or EC2")),
-    CookingEnergyElectri_cAnnual(null, BREDEMSection.LightsAppliancesAndCooking.step('M', "EC1 or EC2")),
+    CookingEnergyElectric_Annual(null, BREDEMSection.LightsAppliancesAndCooking.step('M', "EC1 or EC2")),
 
     CookingEnergyCombustion_Monthly(null, BREDEMSection.LightsAppliancesAndCooking.step('N', "EC1,m or EC2,m")),
     CookingEnergyElectric_Monthly(null, BREDEMSection.LightsAppliancesAndCooking.step('N', "EC1,m or EC2,m")),
@@ -342,16 +336,41 @@ public enum EnergyCalculationStep {
     CookingEnergy_Monthly(null, BREDEMSection.LightsAppliancesAndCooking.step('O', "EC,m")),
 
     // Range cookers not used
-    RangeCookingEnergy_Monthly(null, BREDEMSection.LightsAppliancesAndCooking.step('P', "ER,m")),
-    RangeCookingEnergy_Annual(null, BREDEMSection.LightsAppliancesAndCooking.step('Q', "ER"))
+    RangeCookingEnergy_Monthly(null, BREDEMSection.LightsAppliancesAndCooking.step('P', "ER,m"), 0d),
+    RangeCookingEnergy_Annual(null, BREDEMSection.LightsAppliancesAndCooking.step('Q', "ER"), 0d)
     ;
+
+    public static class SkipReason {
+        public static final String Annual_Not_Used = "Annual value not used.";
+        public static final String Outside_Energy_Calculation = "Annual value not used.";
+        public static final String SpaceHeating_Main_System2_Unsupported = "Using a second main space heating system is not supported in the NHM.";
+        public static final String SpaceCooling_Unsupported = "Space cooling systems are not supported in the NHM.";
+        public static final String TMP_Complex_Unsupported = "The NHM always uses the simplified Table 1f lookup to calculate the Thermal Mass Parameter, as requested by BEIS.";
+        public static final String AirPressureTests_Unsupported = "The NHM always uses the estimation method to calculate permeability of the envelope, as the English Housing Survey doesn't include data from air pressure tests.";
+    }
 
     private final SAPLocation sapLocation;
     private final BREDEMLocation bredemLocation;
+    private final Optional<Double> defaultValue;
+    private final Optional<String> skipReason;
 
     private EnergyCalculationStep(SAPLocation sapLocation, BREDEMLocation bredemLocation) {
+        this(sapLocation, bredemLocation, Optional.empty(), Optional.empty());
+    }
+
+    private EnergyCalculationStep(SAPLocation sapLocation, BREDEMLocation bredemLocation, String skipReason) {
+        this(sapLocation, bredemLocation, Optional.empty(), Optional.of(skipReason));
+    }
+
+    private EnergyCalculationStep(SAPLocation sapLocation, BREDEMLocation bredemLocation, Double defaultValue) {
+        this(sapLocation, bredemLocation, Optional.of(defaultValue), Optional.empty());
+    }
+
+    private EnergyCalculationStep(SAPLocation sapLocation, BREDEMLocation bredemLocation, Optional<Double> defaultValue, Optional<String> skipReason) {
         this.sapLocation = sapLocation;
         this.bredemLocation = bredemLocation;
+        this.defaultValue = defaultValue;
+        this.skipReason = skipReason;
     }
 
     static class SAPLocation {
