@@ -41,6 +41,29 @@
   </sect1>
   <sect1 id="released-versions">
     <title>Released versions</title>
+    <sect2 id="version-7.0.4">
+      <title>Version 7.0.4</title>
+      <sect3 id="improvements">
+        <title>Improvements</title>
+        <sect4 id="change-to-calculation-of-ref.house.permeability">
+          <title>Change to calculation of
+          <xref linkend="ref.house.permeability"/></title>
+          <para>
+            The function can now specify whether to include or exclude
+            deliberate ventilation from the airChange rate calculation.
+          </para>
+        </sect4>
+        <sect4 id="change-to-calculation-of-house.sit">
+          <title>Change to calculation of
+          <literal>house.sit</literal></title>
+          <para>
+            Calculation now defines heatloss as specific heat loss +
+            ventilation heat loss rather than just specific heatloss as
+            before.
+          </para>
+        </sect4>
+      </sect3>
+    </sect2>
     <sect2 id="verison-7.0.3">
       <title>Verison 7.0.3</title>
       <sect3 id="bugs-fixed">
@@ -259,7 +282,7 @@
           </para>
         </sect4>
       </sect3>
-      <sect3 id="improvements">
+      <sect3 id="improvements-1">
         <title>Improvements</title>
         <para>
           The manual embedded in the desktop application has had
