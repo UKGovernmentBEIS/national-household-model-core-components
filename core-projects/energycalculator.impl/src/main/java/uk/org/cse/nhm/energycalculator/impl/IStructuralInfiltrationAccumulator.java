@@ -6,6 +6,8 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 public interface IStructuralInfiltrationAccumulator {
 
 	public abstract double getAirChangeRate(IEnergyCalculatorHouseCase house, IEnergyCalculatorParameters parameters);
+	
+	public abstract double getDeliberateAirChanges(final double houseVolume);
 
 	/**
 	 * In this implementation, to match the SAP worksheet, the wall infiltration is taken to the maximum

@@ -124,6 +124,11 @@ public class EmissionsTest {
 		public float getHotWaterDemand() {
 			return 0;
 		}
+
+		@Override
+		public float getAirChangeRateWithoutDeliberate() {
+			return 0;
+		}
 	}
 	
 	@Test

@@ -116,7 +116,7 @@ public class StructuralInfiltrationAccumulator implements IStructuralInfiltratio
 		/**
 		 * This is air changes/hr due to intermittent fans, passive vents, open flues and chimneys.
 		 */
-		final double deliberateAirChanges = deliberateInfiltration == 0 ? 0 : deliberateInfiltration / volume;
+		final double deliberateAirChanges = getDeliberateAirChanges(volume);
 
 		/*
 		BEISDOC
@@ -297,5 +297,10 @@ public class StructuralInfiltrationAccumulator implements IStructuralInfiltratio
 
 		if (log.isTraceEnabled()) log.trace("Adding {} m3/hr of fan infiltration from {} fans", infiltrationRate);
 		deliberateInfiltration += infiltrationRate;
+	}
+
+	@Override
+	public double getDeliberateAirChanges(final double houseVolume) {
+		return deliberateInfiltration == 0 ? 0 : deliberateInfiltration / houseVolume;
 	}
 }

@@ -29,6 +29,8 @@ public interface IPowerTable {
 	float getMeanInternalTemperature();
 
     float getAirChangeRate();
+    
+    float getAirChangeRateWithoutDeliberate();
 
     float getWeightedHeatLoad(final double[] weights, final boolean space, final boolean water);
 }

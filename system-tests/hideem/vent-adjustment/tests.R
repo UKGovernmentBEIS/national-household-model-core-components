@@ -7,3 +7,7 @@ fail.test.if(
 fail.test.if(
     !result$permeability..Before. < result$permeability..After.,
     "Permeability should increase.")
+
+fail.test.if(
+    !result$permeability.exc..Before. == result$permeability.exc..After.,
+    "Permeability should not change if deliberate ventilation excluded.")

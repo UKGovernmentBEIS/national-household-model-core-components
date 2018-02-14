@@ -44,4 +44,9 @@ public interface ISpecificHeatLosses {
      * @return the air change rate, including the effect of ventilation systems
      */
     public double getAirChangeRate();
+    
+    /**
+     * @return the air change rate, minus the effect of deliberate ventilation
+     */
+    public double getAirChangeExcludingDeliberate();
 }

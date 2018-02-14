@@ -164,7 +164,9 @@ public interface IHouseValueFunctionFactory {
 	public GetSurfaceArea getGetSurfaceArea();
 	
 	@Adapt(XPermeabilityFunction.class)
-	public PermeabilityFunction getPermeabilityFunction();
+	public PermeabilityFunction getPermeabilityFunction(
+			@Prop(XPermeabilityFunction.P.includeDeliberate)
+			@Assisted final Boolean includeDeliberate);
 
     @Adapt(XHealthImpactFunction.class)
 	public HealthImpactFunction createHealthImpactFunction(

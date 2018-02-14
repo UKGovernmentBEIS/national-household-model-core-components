@@ -100,4 +100,9 @@ public class ModifiedPowerTable implements IPowerTable {
 	public float getHotWaterDemand() {
 		return delegate.getHotWaterDemand();
 	}
+
+	@Override
+	public float getAirChangeRateWithoutDeliberate() {
+		return delegate.getAirChangeRateWithoutDeliberate();
+	}
 }

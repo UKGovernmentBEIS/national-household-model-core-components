@@ -10,7 +10,8 @@
     ;;Report on the state of a house/houses at some point
     (def-report hideem-report
                 (column name: no.of.vents value: (house.number-air-change-devices device-type: Vents))
-                (column name: permeability value: (house.permeability)))
+		(column name: permeability value: (house.permeability include-deliberate-ventilation: true))
+                (column name: permeability.exc value: (house.permeability include-deliberate-ventilation: false)))
         
     (on.dates
         (scenario-end)

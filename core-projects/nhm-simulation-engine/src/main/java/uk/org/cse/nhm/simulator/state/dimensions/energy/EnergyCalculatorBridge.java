@@ -70,6 +70,7 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 
         private final float specificHeatLoss, fabricHeatLoss, ventilationHeatLoss, thermalBridgingHeatLoss;
         private final float airChangeRate;
+        private final float airChangeRateWithoutDeliberate;
 		private final float meanInternalTemperature;
         private final float[][] heatLoad = new float[MonthType.values().length][2];
         private final float hotWaterDemand;
@@ -83,6 +84,7 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
             float thermalBridgingHeatLoss = 0;
 
             float airChangeRate = 0;
+            float airChangeRateWithoutDeliberate = 0;
             float meanInternalTemperature = 0;
 
             final FuelServiceTable.Builder builder = FuelServiceTable.builder();
@@ -136,7 +138,8 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
                     result.getEnergyState().getTotalSupply(EnergyType.HackMEAN_INTERNAL_TEMPERATURE);
 
                 airChangeRate += result.getHeatLosses().getAirChangeRate() * m.getStandardDays();
-
+                airChangeRateWithoutDeliberate += result.getHeatLosses().getAirChangeExcludingDeliberate() * m.getStandardDays();
+                
                 final float convert = m.getStandardDays() * WATT_DAYS_TO_KWH;
                 heatLoad[m.ordinal()][0] = (float) (convert * result.getEnergyState().getTotalDemand(EnergyType.DemandsHEAT));
                 heatLoad[m.ordinal()][1] = (float) (convert * result.getEnergyState().getTotalDemand(EnergyType.DemandsHOT_WATER));
@@ -148,6 +151,7 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
             this.thermalBridgingHeatLoss = thermalBridgingHeatLoss / 365f;
 
             this.airChangeRate = airChangeRate;
+            this.airChangeRateWithoutDeliberate = airChangeRateWithoutDeliberate;
             this.meanInternalTemperature = meanInternalTemperature;
 
             this.primaryHeatDemand = primaryHeatDemandAccum;
@@ -230,6 +234,11 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 		@Override
 		public float getHotWaterDemand() {
 			return hotWaterDemand;
+		}
+
+		@Override
+		public float getAirChangeRateWithoutDeliberate() {
+			return airChangeRateWithoutDeliberate;
 		}
 	}
 
