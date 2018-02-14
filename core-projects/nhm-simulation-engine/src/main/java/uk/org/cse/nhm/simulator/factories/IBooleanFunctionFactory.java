@@ -26,6 +26,7 @@ import uk.org.cse.nhm.language.definition.function.bool.house.XHasHotWaterCylind
 import uk.org.cse.nhm.language.definition.function.bool.house.XHasInsulatedHotWaterCylinder;
 import uk.org.cse.nhm.language.definition.function.bool.house.XHasLoft;
 import uk.org.cse.nhm.language.definition.function.bool.house.XHasSolarPV;
+import uk.org.cse.nhm.language.definition.function.bool.house.XHasSolarThermal;
 import uk.org.cse.nhm.language.definition.function.bool.house.XHouseIsOnTariff;
 import uk.org.cse.nhm.language.definition.function.bool.house.XOnGas;
 import uk.org.cse.nhm.language.definition.function.bool.house.XSuitableFor;
@@ -51,6 +52,7 @@ import uk.org.cse.nhm.simulator.state.functions.impl.house.MatchNumberFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.MatchOnGas;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.MatchRegion;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.MatchSolarPV;
+import uk.org.cse.nhm.simulator.state.functions.impl.house.MatchSolarThermal;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.MatchTariff;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.MatchTenure;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.SuitabilityTest;
@@ -119,4 +121,8 @@ public interface IBooleanFunctionFactory {
 
     @Adapt(XHasSolarPV.class)
     public MatchSolarPV hasSolarPV();
+    
+    @Adapt(XHasSolarThermal.class)
+    public MatchSolarThermal hasSolarThermal();
+    
 }

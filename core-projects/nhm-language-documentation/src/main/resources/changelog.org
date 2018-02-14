@@ -27,6 +27,9 @@ If you want to cross-reference to a language element, you need to use the unique
 The function can now specify whether to include or exclude deliberate ventilation from the airChange rate calculation.
 ***** Change to calculation of =house.sit=
 Calculation now defines heatloss as specific heat loss + ventilation heat loss rather than just specific heatloss as before.
+**** New Features
+***** Added new function =ref.house.has-solar-thermal=
+Returns true of the central hot water heating system includes a solar thermal component
 *** Verison 7.0.3
 **** Bugs Fixed
 ***** Reverted macro validation fixes added as they cause errors which affect previous BEIS scenarios

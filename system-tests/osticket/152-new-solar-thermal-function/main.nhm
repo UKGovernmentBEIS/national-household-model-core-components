@@ -1,0 +1,19 @@
+;; quick-start scenario for hideem
+;; scenario content:
+(scenario
+    start-date: 2017
+    end-date: 2028
+    stock-id: ../../stock.json
+    energy-calculator: BREDEM2012
+    quantum: 4000
+
+    (def-report "solar-thermal"
+      (column name: survey-code value: (house.survey-code))
+      (column name: has-solar-thermal value: (house.has-solar-thermal)))
+    
+
+    (on.dates (scenario-start)
+	      (apply
+	       to: (all-houses)
+	       (measure.solar-dhw
+		report: solar-thermal))))
