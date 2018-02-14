@@ -15,6 +15,7 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
 	public final double ventilationLoss;
 	public final double thermalBridgeEffect;
     public final double airChangeRate;
+    public final double airChangeExcludingDeliberate;
 
     public SpecificHeatLosses(final double fabricLoss,
                               final double interzoneHeatLoss,
@@ -22,7 +23,8 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
                               final double floorArea,
                               final double ventilationLoss,
                               final double thermalBridgeEffect,
-                              final double airChangeRate) {
+                              final double airChangeRate, 
+                              final double airChangeExcludingDeliberate) {
         this.fabricLoss = fabricLoss;
 		this.interzoneHeatLoss = interzoneHeatLoss;
         this.thermalMassParameter = thermalMassParameter;
@@ -30,6 +32,7 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
 		this.ventilationLoss = ventilationLoss;
         this.thermalBridgeEffect = thermalBridgeEffect;
         this.airChangeRate = airChangeRate;
+        this.airChangeExcludingDeliberate = airChangeExcludingDeliberate;
 	}
 
 	@Override
@@ -141,4 +144,9 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
     public double getAirChangeRate() {
         return this.airChangeRate;
     }
+
+	@Override
+	public double getAirChangeExcludingDeliberate() {
+		return this.airChangeExcludingDeliberate;
+	}
 }

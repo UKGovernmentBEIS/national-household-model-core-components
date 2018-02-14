@@ -3,11 +3,11 @@ package uk.org.cse.nhm.simulator.state.functions.impl.health;
 import java.util.Collections;
 import java.util.Set;
 
-import javax.inject.Inject;
-
 import org.joda.time.DateTime;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.simulator.AbstractNamed;
@@ -20,22 +20,27 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 public class PermeabilityFunction extends AbstractNamed implements IComponentsFunction<Number> {
 	private final IDimension<StructureModel> structure;
 	private final IDimension<IPowerTable> energy;
+	private final boolean includeDeliberate;
 
-	@Inject
+	@AssistedInject
 	public PermeabilityFunction(
+			@Assisted final boolean includeDeliberate,
 			final IDimension<StructureModel> structure,
 			final IDimension<IPowerTable> energy) {
 		super();
 		this.structure = structure;
 		this.energy = energy;
+		this.includeDeliberate = includeDeliberate;
 	}
 
 	@Override
 	public Number compute(final IComponentsScope scope, final ILets lets) {
 		final StructureModel structure = scope.get(this.structure);
 		final IPowerTable energy = scope.get(this.energy);
+		
+		final double achPerHour = includeDeliberate ? 
+				energy.getAirChangeRate() : energy.getAirChangeRateWithoutDeliberate();
 
-		final double achPerHour = energy.getAirChangeRate();
 		final double envelope =	structure.getEnvelopeArea();
 		final double volume = structure.getVolume();
 

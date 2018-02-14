@@ -210,7 +210,8 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         log.debug("Total thermal mass: {}", totalThermalMass);
 
         final double structuralAirChangeRate = infiltration.getAirChangeRate(houseCase, parameters);
-
+        final double structureAirChangeExcludingDeliberate = structuralAirChangeRate - infiltration.getDeliberateAirChanges(houseCase.getHouseVolume());
+        
         /*
         BEISDOC
         NAME: Shelter Factor
@@ -262,7 +263,9 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         CODSIEB
         */
         final double climateAdjustedAirChangeRate = structuralAirChangeRate * windFactor * siteExposureFactor * shelterFactor;
-
+		final double climateAdjustedAirChangeRateAirChangeExcludingDeliberate = structureAirChangeExcludingDeliberate
+				* windFactor * siteExposureFactor * shelterFactor;
+   
         double houseAirChangeRate = climateAdjustedAirChangeRate;
 
         // If no mechanical ventilation rate then assume human will ventilate
@@ -309,7 +312,8 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
                                       houseCase.getFloorArea(),
                                       ventilationLosses,
                                       thermalBridgeEffect,
-                                      climateAdjustedAirChangeRate);
+                                      climateAdjustedAirChangeRate,
+                                      climateAdjustedAirChangeRateAirChangeExcludingDeliberate);
     }
 
     protected double getThermalBridgeEffect(final IEnergyCalculatorHouseCase houseCase, final IInternalParameters parameters,

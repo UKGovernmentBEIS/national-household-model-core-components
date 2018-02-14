@@ -39,7 +39,7 @@ public class EnerggyCalculatorTest {
 		when(parameters.getConstants()).thenReturn(DefaultConstants.INSTANCE);
 
 		final SpecificHeatLosses heatLosses =
-            new SpecificHeatLosses(1d, 0d, 3.6*16, 1, 0, 0, 0);
+            new SpecificHeatLosses(1d, 0d, 3.6*16, 1, 0, 0, 0, 0);
 
 		when(parameters.getZoneOneDemandTemperature()).thenReturn(20d);
 		when(parameters.getZoneTwoDemandTemperature()).thenReturn(20d);
