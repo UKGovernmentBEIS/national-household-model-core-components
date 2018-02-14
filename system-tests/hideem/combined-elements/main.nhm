@@ -3,7 +3,7 @@
     end-date: 2028
     stock-id: ../../stock.json
     energy-calculator: SAP2012
-    quantum: 2000
+    quantum: 4000
     
     ;Define some variables on individual houses that we can set the health-function outcomes to
     (def health-impact-Mortality on: House default: 0)

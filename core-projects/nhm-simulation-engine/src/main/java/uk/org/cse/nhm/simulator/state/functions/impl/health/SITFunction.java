@@ -42,7 +42,7 @@ public class SITFunction extends AbstractNamed implements IComponentsFunction<Nu
 		final ITechnologyModel technologies = scope.get(this.technologies);
 
 		// watts / k
-		final double heatLoss = energy.getSpecificHeatLoss();
+		final double heatLoss = energy.getSpecificHeatLoss() + energy.getVentilationHeatLoss();
 		final double efficiency = HeatingEfficiencyFunction.getAnySpaceHeatingEfficiency(technologies, XEfficiencyMeasurement.Winter);
 		return health.getInternalTemperature(heatLoss, efficiency);
 	}
