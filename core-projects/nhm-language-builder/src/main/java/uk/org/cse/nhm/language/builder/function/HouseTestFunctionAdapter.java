@@ -6,11 +6,13 @@ import javax.inject.Inject;
 
 import com.google.common.base.Optional;
 
+import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
 import uk.org.cse.nhm.language.adapt.IAdapterInterceptor;
 import uk.org.cse.nhm.language.adapt.IConverter;
 import uk.org.cse.nhm.language.adapt.impl.Adapt;
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.adapt.impl.ReflectingAdapter;
+import uk.org.cse.nhm.language.definition.action.measure.heating.XHeatingControlMeasure;
 import uk.org.cse.nhm.language.definition.enums.XBuiltFormType;
 import uk.org.cse.nhm.language.definition.enums.XFuelType;
 import uk.org.cse.nhm.language.definition.enums.XMorphologyType;
@@ -25,6 +27,7 @@ import uk.org.cse.nhm.language.definition.function.bool.house.XBuildYearIs;
 import uk.org.cse.nhm.language.definition.function.bool.house.XBuiltFormIs;
 import uk.org.cse.nhm.language.definition.function.bool.house.XDoubleIs;
 import uk.org.cse.nhm.language.definition.function.bool.house.XEveryWall;
+import uk.org.cse.nhm.language.definition.function.bool.house.XHasHeatingControl;
 import uk.org.cse.nhm.language.definition.function.bool.house.XIntegerIs;
 import uk.org.cse.nhm.language.definition.function.bool.house.XLoftInsulationThicknessIs;
 import uk.org.cse.nhm.language.definition.function.bool.house.XMainHeatingFuelIs;
@@ -154,4 +157,38 @@ public class HouseTestFunctionAdapter extends ReflectingAdapter {
             ) {
         return testFunctions.matchNumberFunction(delegate, new DoubleRangeTest(above, exactly, below));
     }
+    
+    @Adapt(XHasHeatingControl.class)
+	public IComponentsFunction<Boolean> buildMatchHasHeatingControl(
+			@Prop(XHasHeatingControl.P.type) final XHasHeatingControl.XHeatingControlType type) {
+
+		HeatingSystemControlType internalType;
+		switch (type) {
+		case ApplianceThermostat:
+			internalType = HeatingSystemControlType.APPLIANCE_THERMOSTAT;
+			break;
+		case BypassValve:
+			internalType = HeatingSystemControlType.BYPASS;
+			break;
+		case DelayedStartThermostat:
+			internalType = HeatingSystemControlType.DELAYED_START_THERMOSTAT;
+			break;
+		case Programmer:
+			internalType = HeatingSystemControlType.PROGRAMMER;
+			break;
+		case RoomThermostat:
+			internalType = HeatingSystemControlType.ROOM_THERMOSTAT;
+			break;
+		case ThermostaticRadiatorValve:
+			internalType = HeatingSystemControlType.THERMOSTATIC_RADIATOR_VALVE;
+			break;
+		case TimeTemperatureZoneControl:
+			internalType = HeatingSystemControlType.TIME_TEMPERATURE_ZONE_CONTROL;
+			break;
+		default:
+			throw new IllegalArgumentException("Unknown heating system control type " + type);
+		}
+		
+		return testFunctions.createHasHeatingControlFunction(internalType);
+	}
 }

@@ -12,6 +12,7 @@ import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
+import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
 import uk.org.cse.nhm.hom.types.BuiltFormType;
 import uk.org.cse.nhm.hom.types.MorphologyType;
 import uk.org.cse.nhm.hom.types.TenureType;
@@ -41,6 +42,7 @@ import uk.org.cse.nhm.simulator.state.functions.impl.house.MatchDependsOnSeconda
 import uk.org.cse.nhm.simulator.state.functions.impl.house.MatchExternalWalls;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.MatchFlag;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.MatchHasCentralHeating;
+import uk.org.cse.nhm.simulator.state.functions.impl.house.MatchHasHeatingControl;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.MatchHasHotWaterCylinder;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.MatchHasInsulateHotWaterCylinder;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.MatchHasLoft;
@@ -124,5 +126,7 @@ public interface IBooleanFunctionFactory {
     
     @Adapt(XHasSolarThermal.class)
     public MatchSolarThermal hasSolarThermal();
+    
+    public MatchHasHeatingControl createHasHeatingControlFunction(final HeatingSystemControlType controlType);
     
 }
