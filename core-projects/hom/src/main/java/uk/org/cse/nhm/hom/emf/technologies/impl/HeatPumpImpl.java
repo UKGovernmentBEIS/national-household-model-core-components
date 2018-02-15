@@ -22,6 +22,7 @@ import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
 import uk.org.cse.nhm.energycalculator.api.impl.ElectricHeatTransducer;
 import uk.org.cse.nhm.energycalculator.api.impl.HeatTransducer;
 import uk.org.cse.nhm.energycalculator.api.impl.HybridHeatpumpTransducer;
+import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.Zone2ControlParameter;
@@ -327,7 +328,8 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 
 		if (getFuel().isGas() && getFlueType() == FlueType.FAN_ASSISTED_BALANCED_FLUE) {
 			visitor.visitEnergyTransducer(new Pump("Heat Pump Flue", ServiceType.PRIMARY_SPACE_HEATING, constants.get(
-					PumpAndFanConstants.GAS_HEAT_PUMP_FLUE_FAN_WATTAGE), 0));
+					PumpAndFanConstants.GAS_HEAT_PUMP_FLUE_FAN_WATTAGE), 0,
+					EnergyCalculationStep.PumpsFansAndKeepHot_BoilerFlueFan));
 		}
 	}
 

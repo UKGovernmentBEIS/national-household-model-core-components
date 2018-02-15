@@ -18,10 +18,7 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.energycalculator.api.IHeatingSystem;
 import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
-import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
-import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
-import uk.org.cse.nhm.energycalculator.api.types.Zone2ControlParameter;
+import uk.org.cse.nhm.energycalculator.api.types.*;
 import uk.org.cse.nhm.hom.IHeatProportions;
 import uk.org.cse.nhm.hom.constants.PumpAndFanConstants;
 import uk.org.cse.nhm.hom.emf.technologies.EmitterType;
@@ -293,7 +290,8 @@ public class CentralHeatingSystemImpl extends SpaceHeaterImpl implements ICentra
 					* (getControls().contains(HeatingSystemControlType.ROOM_THERMOSTAT) ?
 							1 : constants.get(PumpAndFanConstants.NO_ROOM_THERMOSTAT_MULTIPLIER))
 					,
-					constants.get(PumpAndFanConstants.CENTRAL_HEATING_PUMP_GAINS)));
+					constants.get(PumpAndFanConstants.CENTRAL_HEATING_PUMP_GAINS),
+							EnergyCalculationStep.PumpsFansAndKeepHot_WaterPump));
 		}
 	}
 

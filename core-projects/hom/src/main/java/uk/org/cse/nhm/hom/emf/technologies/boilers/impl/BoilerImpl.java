@@ -11,21 +11,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.org.cse.nhm.energycalculator.api.IConstants;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorHouseCase;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
-import uk.org.cse.nhm.energycalculator.api.IEnergyState;
-import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
-import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
-import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
+import uk.org.cse.nhm.energycalculator.api.*;
 import uk.org.cse.nhm.energycalculator.api.impl.ElectricHeatTransducer;
 import uk.org.cse.nhm.energycalculator.api.impl.EnergyTransducer;
 import uk.org.cse.nhm.energycalculator.api.impl.HeatTransducer;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
-import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
-import uk.org.cse.nhm.energycalculator.api.types.TransducerPhaseType;
-import uk.org.cse.nhm.energycalculator.api.types.Zone2ControlParameter;
+import uk.org.cse.nhm.energycalculator.api.types.*;
 import uk.org.cse.nhm.hom.IHeatProportions;
 import uk.org.cse.nhm.hom.constants.PumpAndFanConstants;
 import uk.org.cse.nhm.hom.constants.SplitRateConstants;
@@ -723,12 +713,16 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 									1 : constants.get(PumpAndFanConstants.NO_ROOM_THERMOSTAT_MULTIPLIER))
 							,
 							(isPumpInHeatedSpace() ?
-							constants.get(PumpAndFanConstants.OIL_FUEL_PUMP_GAINS) : 0)));
+							constants.get(PumpAndFanConstants.OIL_FUEL_PUMP_GAINS) : 0),
+							EnergyCalculationStep.PumpsFansAndKeepHot_OilBoilerPump
+					)
+			);
 
 		} else if (getFuel().isGas() && getFlueType() == FlueType.FAN_ASSISTED_BALANCED_FLUE) {
 			visitor.visitEnergyTransducer(
 					new Pump("Gas Flue", ServiceType.PRIMARY_SPACE_HEATING,
-							constants.get(PumpAndFanConstants.GAS_BOILER_FLUE_FAN_WATTAGE), 0));
+							constants.get(PumpAndFanConstants.GAS_BOILER_FLUE_FAN_WATTAGE), 0,
+							EnergyCalculationStep.PumpsFansAndKeepHot_BoilerFlueFan));
 		}
 	}
 
@@ -1017,6 +1011,7 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 		CODSIEB
 		*/
 		final double additionalUsageLosses = getAdditionalUsageLosses(parameters, state);
+		StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_CombiLoss_Monthly, additionalUsageLosses);
 
 		final double powerOutOfBoiler =  demandThisBoilerWillSatisfy + primaryLosses + additionalUsageLosses;
 

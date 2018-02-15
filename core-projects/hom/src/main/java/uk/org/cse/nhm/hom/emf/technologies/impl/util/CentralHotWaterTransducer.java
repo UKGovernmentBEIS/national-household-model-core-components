@@ -3,14 +3,9 @@ package uk.org.cse.nhm.hom.emf.technologies.impl.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.org.cse.nhm.energycalculator.api.IConstants;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorHouseCase;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
-import uk.org.cse.nhm.energycalculator.api.IEnergyState;
-import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
-import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
-import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
+import uk.org.cse.nhm.energycalculator.api.*;
 import uk.org.cse.nhm.energycalculator.api.impl.EnergyTransducer;
+import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.TransducerPhaseType;
@@ -150,9 +145,16 @@ public class CentralHotWaterTransducer extends EnergyTransducer {
 						HotWaterUtilities.getStorageTemperatureFactor(parameters, system.getStore(), 
 								system.isStoreInPrimaryCircuit(), system.isSeparatelyTimeControlled());
 			}
-			
+
+			StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_StorageTemperatureFactor, tankTemperatureFactor);
+
 			tankLosses = system.getStore().getStandingLosses(parameters) * tankTemperatureFactor;
 		}
+
+		// These are the same thing
+		StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_StorageLosses_Daily_Calculated, tankLosses);
+		StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_StorageLosses_Daily, tankLosses);
+		StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_StorageLosses_Daily_ExcludeSolar, tankLosses);
 
 		/**
 		 * The amount of hot water energy required before run
@@ -222,12 +224,17 @@ public class CentralHotWaterTransducer extends EnergyTransducer {
 			
 			log.debug("secondary generated {}", amountsGenerated[1]);
 		} else if (immersionHeater != null) {
+			pipeworkLosses = 0;
 			amountsGenerated[2] =
 					immersionHeater.generateHotWaterAndPrimaryGains(parameters, state, systemStore, 
 								systemStoreInPrimaryCircuit, 0, distributionLossFactor, 1);
 
 			log.debug("immersion generated {}", amountsGenerated[2]);
+		} else {
+			pipeworkLosses = 0;
 		}
+
+		StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_PrimaryCircuitLoss_Monthly, pipeworkLosses);
 		
 		nonSolarGeneration = amountsGenerated[0] + amountsGenerated[1] + amountsGenerated[2];
 		
@@ -257,6 +264,7 @@ public class CentralHotWaterTransducer extends EnergyTransducer {
 		 * The amount of distribution losses that were incurred whilst satisfying demand
 		 */
 		final double distributionLosses = demandSatisfied * distributionLossFactor;
+		StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_DistributionLoss, distributionLosses);
 		
 		log.debug("Distribution losses: {}, tank losses: {}", distributionLosses, tankLosses);
 		
@@ -329,8 +337,9 @@ public class CentralHotWaterTransducer extends EnergyTransducer {
 	 * 
 	 * @param parameters
 	 * @param primaryPipeworkIsInsulated
-	 * @param tankPresentAndThermostatic
-	 * @param primaryCorrectionFactor
+	 * @param isCommunityHeating
+	 * @param store
+     * @param solarCorrectionFactor
 	 * @return
 	 */
 	protected final double getPrimaryPipeworkLosses(

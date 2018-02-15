@@ -13,19 +13,9 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.org.cse.nhm.energycalculator.api.IConstants;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorHouseCase;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
-import uk.org.cse.nhm.energycalculator.api.IEnergyState;
-import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
-import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
+import uk.org.cse.nhm.energycalculator.api.*;
 import uk.org.cse.nhm.energycalculator.api.impl.EnergyTransducer;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
-import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
-import uk.org.cse.nhm.energycalculator.api.types.TransducerPhaseType;
-import uk.org.cse.nhm.energycalculator.api.types.Zone2ControlParameter;
+import uk.org.cse.nhm.energycalculator.api.types.*;
 import uk.org.cse.nhm.hom.constants.CommunityHeatingConstants;
 import uk.org.cse.nhm.hom.emf.technologies.EmitterType;
 import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
@@ -435,7 +425,9 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 		if (getWaterHeater() != null) {
 			if (getWaterHeater().getSystem() != null) {
 				if (getWaterHeater().getSystem().getStore() == null) {
-					return getSpuriousTank().getStandingLosses(parameters) * getStorageTemperatureFactor(parameters, getSpuriousTank(), false);
+					final double storageTemperatureFactor = getStorageTemperatureFactor(parameters, getSpuriousTank(), false);
+					StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_StorageTemperatureFactor, storageTemperatureFactor);
+					return getSpuriousTank().getStandingLosses(parameters) * storageTemperatureFactor;
 				}
 			}
 		}

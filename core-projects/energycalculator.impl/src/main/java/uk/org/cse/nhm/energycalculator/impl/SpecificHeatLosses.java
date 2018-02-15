@@ -5,6 +5,8 @@ import org.pojomatic.annotations.AutoProperty;
 import org.pojomatic.annotations.Property;
 
 import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
+import uk.org.cse.nhm.energycalculator.api.StepRecorder;
+import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculationStep;
 
 @AutoProperty
 public class SpecificHeatLosses implements ISpecificHeatLosses {
@@ -30,6 +32,9 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
 		this.ventilationLoss = ventilationLoss;
         this.thermalBridgeEffect = thermalBridgeEffect;
         this.airChangeRate = airChangeRate;
+
+		StepRecorder.recordStep(EnergyCalculationStep.ThermalBridges, thermalBridgeEffect);
+		StepRecorder.recordStep(EnergyCalculationStep.VentilationHeatLoss, ventilationLoss);
 	}
 
 	@Override
@@ -46,6 +51,8 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
         ID: total-fabric-heat-loss
         CODSIEB
         */
+        double totalFabricHeatLoss = fabricLoss + thermalBridgeEffect;
+        StepRecorder.recordStep(EnergyCalculationStep.FabricLossTotal, totalFabricHeatLoss);
 
         /*
         BEISDOC
@@ -60,8 +67,9 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
         ID: specific-heat-loss
         CODSIEB
         */
-
-        return fabricLoss + ventilationLoss + thermalBridgeEffect;
+		double heatLossCoefficient = totalFabricHeatLoss + ventilationLoss;
+		StepRecorder.recordStep(EnergyCalculationStep.HeatTransferCoefficient, heatLossCoefficient);
+		return heatLossCoefficient;
 	}
 
 	@Override
@@ -86,7 +94,9 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
         ID: heat-loss-parameter
         CODSIEB
         */
-        return getSpecificHeatLoss() / floorArea;
+        final double heatLossParameter = getSpecificHeatLoss() / floorArea;
+        StepRecorder.recordStep(EnergyCalculationStep.HeatLossParameter, heatLossParameter);
+        return heatLossParameter;
     }
 
     @Override

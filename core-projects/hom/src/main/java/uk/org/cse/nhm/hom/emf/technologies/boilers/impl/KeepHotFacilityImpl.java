@@ -185,7 +185,7 @@ public class KeepHotFacilityImpl extends MinimalEObjectImpl implements IKeepHotF
 		BREDEM: Table 13
 		DEPS: instantaneous-keep-hot-factor,instantaneous-keep-hot-timeclock-factor
 		ID: combi-losses-instant-keep-hot
-		NOTES: Does not implement special behaviour for electrically powered keep-hot facility.
+		NOTES: Does not implement special behaviour for electrically powered keep-hot facility. Always assumes that the keep-hot facility uses the same fuel as the combi-boiler.
 		CODSIEB
 		*/
 		if (isTimeClock()) {

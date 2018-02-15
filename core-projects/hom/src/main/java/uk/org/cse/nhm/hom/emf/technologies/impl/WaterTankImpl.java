@@ -11,6 +11,8 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
+import uk.org.cse.nhm.energycalculator.api.StepRecorder;
+import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculationStep;
 import uk.org.cse.nhm.hom.constants.CylinderConstants;
 import uk.org.cse.nhm.hom.emf.technologies.IImmersionHeater;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
@@ -369,10 +371,14 @@ public class WaterTankImpl extends MinimalEObjectImpl implements IWaterTank {
 		CODSIEB
 		*/
 		final IConstants constants = parameters.getConstants();
-		
+
 		final double lossFactor = getCylinderLossFactor(constants);
 		final double volumeFactor = getVolumeFactor(constants);
 		final double standardLoss = lossFactor * volumeFactor * getVolume();
+
+		StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_StorageVolume, getVolume());
+		StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_StorageLossFactor, lossFactor);
+		StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_StorageVolumeFactor, volumeFactor);
 		
 		if (getSolarStorageVolume() > 0) {
 			return standardLoss * ((getVolume() - getSolarStorageVolume()) / getVolume());

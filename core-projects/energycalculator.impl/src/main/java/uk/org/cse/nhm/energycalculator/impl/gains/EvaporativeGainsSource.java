@@ -1,11 +1,7 @@
 package uk.org.cse.nhm.energycalculator.impl.gains;
 
-import uk.org.cse.nhm.energycalculator.api.IConstants;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorHouseCase;
-import uk.org.cse.nhm.energycalculator.api.IEnergyState;
-import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
-import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
-import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
+import uk.org.cse.nhm.energycalculator.api.*;
+import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.TransducerPhaseType;
@@ -44,7 +40,9 @@ public class EvaporativeGainsSource implements IEnergyTransducer {
 		CODSIEB
 		*/
 		final double evaporationGains = EVAPORATION_GAINS_PER_PERSON * parameters.getNumberOfOccupants();
-		
+
+		StepRecorder.recordStep(EnergyCalculationStep.Gains_Evaporation, evaporationGains);
+
 		state.increaseDemand(EnergyType.GainsUSEFUL_GAINS, evaporationGains);
 	}
 

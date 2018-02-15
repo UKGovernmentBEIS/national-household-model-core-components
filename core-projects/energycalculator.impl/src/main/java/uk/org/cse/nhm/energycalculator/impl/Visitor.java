@@ -472,8 +472,9 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 	protected abstract double overrideVisibleLightTransmittivity(final GlazingType glazingType, final double visibleLightTransmittivity);
 	protected abstract double overrideSolarGainTransmissivity(final GlazingType glazingType, final WindowInsulationType insulationType, final double solarGainTransmissivity);
 
+	private ThermalMassLevel bestThermalMassLevel = null;
     public double getBestThermalMassParameter() {
-		/*
+    	/*
 		BEISDOC
 		NAME: Thermal Mass
 		DESCRIPTION: Choose the thermal mass parameter based on which level has the largest wall area.
@@ -485,16 +486,19 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 		ID: thermal-mass
 		CODSIEB
 		*/
-		double highestArea = 0;
-		ThermalMassLevel level = ThermalMassLevel.MEDIUM;
-		for (int i = 0; i < thermalMassAreas.length; i++) {
-			if (thermalMassAreas[i] > highestArea) {
-				highestArea = thermalMassAreas[i];
-				level = ThermalMassLevel.values()[i];
+    	if (bestThermalMassLevel == null) {
+			double highestArea = 0;
+			ThermalMassLevel level = ThermalMassLevel.MEDIUM;
+			for (int i = 0; i < thermalMassAreas.length; i++) {
+				if (thermalMassAreas[i] > highestArea) {
+					highestArea = thermalMassAreas[i];
+					level = ThermalMassLevel.values()[i];
+				}
 			}
+			bestThermalMassLevel = level;
 		}
 
-		return level.getThermalMassParameter();
+		return bestThermalMassLevel.getThermalMassParameter();
 	}
 
 	@Override

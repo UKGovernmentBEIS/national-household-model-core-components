@@ -1,10 +1,7 @@
 package uk.org.cse.nhm.energycalculator.impl;
 
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorHouseCase;
-import uk.org.cse.nhm.energycalculator.api.IEnergyState;
-import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
-import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
-import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
+import uk.org.cse.nhm.energycalculator.api.*;
+import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.TransducerPhaseType;
@@ -87,8 +84,11 @@ class GainLoadRatioAdjuster implements IEnergyTransducer {
 		CODSIEB
 		*/
 		final double revisedGains = totalGains * revisedGUF;
+		StepRecorder.recordStep(EnergyCalculationStep.Gains_Useful, revisedGains);
 
 		final double fractionOfMonthThatIsHeated = parameters.getClimate().getHeatingOnFactor(parameters, losses, revisedGains, demandTemperature);
+
+		StepRecorder.recordStep(EnergyCalculationStep.ExternalTemperature, externalTemperature);
 
 		/*
 		BEISDOC
@@ -104,6 +104,8 @@ class GainLoadRatioAdjuster implements IEnergyTransducer {
 		*/
 		final double heatLossRate =
 				(areaWeightedMeanTemperature - externalTemperature) * losses.getSpecificHeatLoss();
+
+		StepRecorder.recordStep(EnergyCalculationStep.HeatLossRate, heatLossRate);
 
 		// TODO this may not be correct in BREDEM; it appears to say that the "Fraction of month that is heated"
 		// modulates only between using all the gains, and using just the utilisation-factored gains.
@@ -126,6 +128,8 @@ class GainLoadRatioAdjuster implements IEnergyTransducer {
 		CODSIEB
 		*/
 		final double totalHeatDemandAfterGains = Math.max(0, heatLossRate - heatDemandSatisfiedByGains);
+
+		StepRecorder.recordStep(EnergyCalculationStep.SpaceHeating, totalHeatDemandAfterGains);
 
 		// the net effect of these two lines is zero
 		state.increaseDemand(EnergyType.DemandsHEAT, heatDemandSatisfiedByGains);

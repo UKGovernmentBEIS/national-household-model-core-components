@@ -21,7 +21,7 @@ public enum EnergyCalculationStep {
 
     AirChanges_ChimneysFluesFansAndPSVs(SAPWorksheetSection.Ventilation.cell(8), null),
     Storeys(SAPWorksheetSection.Ventilation.cell(9), null),
-    InfiltrationAdditional(SAPWorksheetSection.Ventilation.cell(10), null),
+    InfiltrationAdditionalStackEffect(SAPWorksheetSection.Ventilation.cell(10), null),
     InfiltrationStructural(SAPWorksheetSection.Ventilation.cell(11), null),
     InfiltrationGroundFloor(SAPWorksheetSection.Ventilation.cell(12), null),
     InfiltrationAbsenceOfDraughtLobby(SAPWorksheetSection.Ventilation.cell(13), null),
@@ -42,15 +42,18 @@ public enum EnergyCalculationStep {
     WindFactor(SAPWorksheetSection.Ventilation.cell(23), null),
     InfiltrationRate_IncludingShelterAndWind(SAPWorksheetSection.Ventilation.cell(24), null),
 
+    SiteExposureFactor(null, BREDEMSection.HeatLoss.var("ShE")),
+    InfiltrationRate_IncludingShelterAndWindAndSiteExposure(null, BREDEMSection.HeatLoss.step('E', "Lsub,m")),
+
     // Unimplemented technologies
-    AirChanges_MechanicalVentilation(SAPWorksheetSection.Ventilation.subCell(23, 'a'), null),
-    AirChanges_ExhaustAirHeatPump(SAPWorksheetSection.Ventilation.subCell(23, 'b'), null),
-    AirChanges_BalancedWithHeatRecovery(SAPWorksheetSection.Ventilation.subCell(23, 'c'), null),
+    AirChanges_MechanicalVentilation(SAPWorksheetSection.Ventilation.subCell(23, 'a'), null, SkipReason.Unsupported_Technology),
+    AirChanges_ExhaustAirHeatPump(SAPWorksheetSection.Ventilation.subCell(23, 'b'), null, SkipReason.Unsupported_Technology),
+    AirChanges_BalancedWithHeatRecovery(SAPWorksheetSection.Ventilation.subCell(23, 'c'), null, SkipReason.Unsupported_Technology),
 
     // The only type of ventilation we use is natural
-    Ventilation_BalancedMechanicalWithHeatRecovery(SAPWorksheetSection.Ventilation.subCell(24, 'a'), null),
-    Ventilation_BalancedMechanicalWithoutHeatRecovery(SAPWorksheetSection.Ventilation.subCell(24, 'b'), null),
-    Ventilation_WholeHouseExtractOrPositiveFromOutside(SAPWorksheetSection.Ventilation.subCell(24, 'c'), null),
+    Ventilation_BalancedMechanicalWithHeatRecovery(SAPWorksheetSection.Ventilation.subCell(24, 'a'), null, SkipReason.Unsupported_Technology),
+    Ventilation_BalancedMechanicalWithoutHeatRecovery(SAPWorksheetSection.Ventilation.subCell(24, 'b'), null, SkipReason.Unsupported_Technology),
+    Ventilation_WholeHouseExtractOrPositiveFromOutside(SAPWorksheetSection.Ventilation.subCell(24, 'c'), null, SkipReason.Unsupported_Technology),
     Ventilation_NaturalOrPositiveFromLoft(SAPWorksheetSection.Ventilation.subCell(24, 'd'), null),
 
     // We ignore the note about Appendix Q here
@@ -59,8 +62,34 @@ public enum EnergyCalculationStep {
     /**
      * Heat losses and heat loss parameter
      */
-    // TODO fabric elements
+    // For external fabric elements, this is the A x U (W/K) columns
+    // TODO: record doors
+    HeatLossCoefficient_DoorsSolid(SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(26), null),
+    HeatLossCoefficient_DoorsSemiGlazed(SAPWorksheetSection.HeatLossesAndHeatLossParameter.subCell(26, 'a'), null),
+    HeatLossCoefficient_Window(SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(27), null),
+    // We don't have any roof windows in the NHM
+    HeatLossCoefficient_RoofWindow(SAPWorksheetSection.HeatLossesAndHeatLossParameter.subCell(27, 'a'), null, 0d),
+    // TODO: record floors
+    HeatLossCoefficient_BasementFloor(SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(28), null),
+    HeatLossCoefficient_GroundFloor(SAPWorksheetSection.HeatLossesAndHeatLossParameter.subCell(28, 'a'), null),
+    HeatLossCoefficient_ExposedFLoor(SAPWorksheetSection.HeatLossesAndHeatLossParameter.subCell(28, 'b'), null),
+    // Basement walls are treated as External walls in the NHM
+    HeatLossCoefficient_BasementWall(SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(29), null, 0d),
+    HeatLossCoefficient_ExternalWall(SAPWorksheetSection.HeatLossesAndHeatLossParameter.subCell(29, 'a'), null),
+    HeatLossCoefficient_Roof(SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(30), null),
+
     AreaExternal(SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(31), null),
+
+    // For internal and part fabric elements, this is the net area (m^2) column
+    AreaPartyWall(SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(32), null),
+    AreaPartyFloor(SAPWorksheetSection.HeatLossesAndHeatLossParameter.subCell(32, 'a'), null),
+    AreaPartyCeiling(SAPWorksheetSection.HeatLossesAndHeatLossParameter.subCell(32, 'b'), null),
+    AreaInternalWall(SAPWorksheetSection.HeatLossesAndHeatLossParameter.subCell(32, 'c'), null),
+    // In the NHM, we treat Internal Floors and Ceilings as if they were Party Floors and Ceilings.
+    // This should make no difference practically.
+    AreaInternalFloor(SAPWorksheetSection.HeatLossesAndHeatLossParameter.subCell(32, 'd'), null),
+    AreaInternalCeiling(SAPWorksheetSection.HeatLossesAndHeatLossParameter.subCell(32, 'e'), null),
+
     FabricHeatLoss(SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(33), null),
     HeatCapacity(SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(34), null, SkipReason.TMP_Complex_Unsupported),
     // Uses indicative values from Table 1f
@@ -79,7 +108,7 @@ public enum EnergyCalculationStep {
     Occupancy(SAPWorksheetSection.WaterHeating.cell(42),
             BREDEMSection.LightsAppliancesAndCooking.step('a', "N")),
     WaterHeating_Usage_Daily(SAPWorksheetSection.WaterHeating.cell(43), null),
-    WaterHeating_UsageFactor(SAPWorksheetSection.WaterHeating.cell(44), null),
+    WaterHeating_Usage_Monthly(SAPWorksheetSection.WaterHeating.cell(44), null),
     WaterHeating_EnergyContent(SAPWorksheetSection.WaterHeating.cell(45), null),
     WaterHeating_DistributionLoss(SAPWorksheetSection.WaterHeating.cell(46), null),
     WaterHeating_StorageVolume(SAPWorksheetSection.WaterHeating.cell(47), null),
@@ -93,7 +122,8 @@ public enum EnergyCalculationStep {
     WaterHeating_StorageLosses_Daily(SAPWorksheetSection.WaterHeating.cell(55), null),
     WaterHeating_StorageLosses_Monthly(SAPWorksheetSection.WaterHeating.cell(56), null),
 
-    WaterHeating_StorageVolume_ExcludeSolar(SAPWorksheetSection.WaterHeating.cell(57), null),
+    // This should be monthly, but...
+    WaterHeating_StorageLosses_Daily_ExcludeSolar(SAPWorksheetSection.WaterHeating.cell(57), null),
 
     // There's no step 58 in the SAP worksheet
 
@@ -115,8 +145,8 @@ public enum EnergyCalculationStep {
     Gains_Appliances(SAPWorksheetSection.Gains_Internal.cell(68), null),
     Gains_Cooking(SAPWorksheetSection.Gains_Internal.cell(69), null),
     Gains_PumpsAndFans(SAPWorksheetSection.Gains_Internal.cell(70), null),
-    Gains_MiscLosses(SAPWorksheetSection.Gains_Internal.cell(71), null),
-    // TODO: Unclear how this relates to the other hot water gains?
+    Gains_Evaporation(SAPWorksheetSection.Gains_Internal.cell(71), null),
+    // This is the same as the other hot water gains in the NHM. In SAP, this represents a conversion.
     Gains_HotWater(SAPWorksheetSection.Gains_Internal.cell(72), null),
 
     Gains_Internal(SAPWorksheetSection.Gains_Internal.cell(73), null),
@@ -126,7 +156,8 @@ public enum EnergyCalculationStep {
      */
     // TODO: Window gains 74 to 81
 
-    Gains_Solar_Roof(SAPWorksheetSection.Gains_Solar.cell(82), null),
+    // We don't support roof windows in the NHM
+    Gains_Solar_Roof(SAPWorksheetSection.Gains_Solar.cell(82), null, 0d),
 
     Gains_Solar(SAPWorksheetSection.Gains_Solar.cell(83), null),
 
@@ -155,7 +186,8 @@ public enum EnergyCalculationStep {
     ExternalTemperature(SAPWorksheetSection.SpaceHeating.cell(96), null),
     HeatLossRate(SAPWorksheetSection.SpaceHeating.cell(97), null),
     SpaceHeating(SAPWorksheetSection.SpaceHeating.cell(98), null),
-    SpaceHeating_PerFloorArea(SAPWorksheetSection.SpaceHeating.cell(99), null),
+    // Feeds into step 109, which we aren't doing.
+    SpaceHeating_PerFloorArea(SAPWorksheetSection.SpaceHeating.cell(99), null, SkipReason.FabricEnergyEfficiencyNotSupported),
 
     /**
      * Space Cooling (not implemented)
@@ -174,7 +206,7 @@ public enum EnergyCalculationStep {
     /**
      * Fabric Energy efficiency
      */
-    FabricEnergyEfficiency(SAPWorksheetSection.FabricEnergyEfficiency.cell(109), null),
+    FabricEnergyEfficiency(SAPWorksheetSection.FabricEnergyEfficiency.cell(109), null, SkipReason.FabricEnergyEfficiencyNotSupported),
 
     // Steps 110 to 200 don't exist in the SAP worksheet.
 
@@ -191,7 +223,8 @@ public enum EnergyCalculationStep {
     // The same as SpaceHeatingFraction_Main
     SpaceHeating_Fraction_Main_System1(SAPWorksheetSection.EnergyRequirements.cell(204), null),
 
-    // Always 0%, because system 2 isn't supported
+    // Always 0%, because sys
+    // tem 2 isn't supported
     SpaceHeating_Fraction_Main_System2(SAPWorksheetSection.EnergyRequirements.cell(205), null, 0d),
 
     SpaceHeating_Efficiency_Main_System1(SAPWorksheetSection.EnergyRequirements.cell(206), null),
@@ -204,7 +237,7 @@ public enum EnergyCalculationStep {
 
     // Step 210 doesn't exist in the SAP worksheet
 
-    Energy_SpaceHeating_Fuel_Main_System1(SAPWorksheetSection.EnergyRequirements.cell(211), null),
+    Energy_SpaceHeating_Fuel_Main_System1(SAPWorksheetSection.EnergyRequirements.cell(211), null, SkipReason.InEnergyCalculatorResult),
 
     // Step 212 doesn't exist in the SAP worksheet
 
@@ -213,7 +246,7 @@ public enum EnergyCalculationStep {
 
     // Step 214 doesn't exist in the SAP worksheet
 
-    Energy_SpaceHeating_Fuel_Secondary(SAPWorksheetSection.EnergyRequirements.cell(215), null),
+    Energy_SpaceHeating_Fuel_Secondary(SAPWorksheetSection.EnergyRequirements.cell(215), null, SkipReason.InEnergyCalculatorResult),
 
     Energy_WaterHeating_TotalHeat_Annual(SAPWorksheetSection.EnergyRequirements.cell(216), null, SkipReason.Annual_Not_Used),
 
@@ -221,28 +254,41 @@ public enum EnergyCalculationStep {
 
     // Step 218 doesn't exist in the SAP worksheet
 
-    Energy_WaterHeatingFuel(SAPWorksheetSection.EnergyRequirements.cell(219), null),
+    Energy_WaterHeatingFuel(SAPWorksheetSection.EnergyRequirements.cell(219), null, SkipReason.InEnergyCalculatorResult),
 
     // Step 220 doesn't exist in the SAP worksheet
 
-    Energy_SpaceCooling(SAPWorksheetSection.EnergyRequirements.cell(221), null),
+    Energy_SpaceCooling(SAPWorksheetSection.EnergyRequirements.cell(221), null, SkipReason.SpaceCooling_Unsupported),
 
     // The worksheet confusingly repeats 211, 213, 215, 219 and 221 at this point. Ignore this.
 
     // Steps 222 to 229 don't exist in the SAP worksheet.
 
-    PumpsFansAndKeepHot_MechanicalVentilationFans(SAPWorksheetSection.EnergyRequirements.subCell(230, 'a'), null),
+    // The NHM doesn't include mechanical ventilation fans
+    PumpsFansAndKeepHot_MechanicalVentilationFans(SAPWorksheetSection.EnergyRequirements.subCell(230, 'a'), null, 0d),
     PumpsFansAndKeepHot_WarmAirFans(SAPWorksheetSection.EnergyRequirements.subCell(230, 'b'), null),
     PumpsFansAndKeepHot_WaterPump(SAPWorksheetSection.EnergyRequirements.subCell(230, 'c'), null),
     PumpsFansAndKeepHot_OilBoilerPump(SAPWorksheetSection.EnergyRequirements.subCell(230, 'd'), null),
+    // This can also be a heat pump fan flue
     PumpsFansAndKeepHot_BoilerFlueFan(SAPWorksheetSection.EnergyRequirements.subCell(230, 'e'), null),
-    PumpsFansAndKeepHot_KeepHot(SAPWorksheetSection.EnergyRequirements.subCell(230, 'f'), null),
+    // In the NHM, the keep hot facility uses the same fuel as the combi boiler
+    PumpsFansAndKeepHot_KeepHot(SAPWorksheetSection.EnergyRequirements.subCell(230, 'f'), null, 0d),
     PumpsFansAndKeepHot_SolarWaterHeatingPump(SAPWorksheetSection.EnergyRequirements.subCell(230, 'g'), null),
     // Storage WWHRS pump not implemented
     PumpsFansAndKeepHot_StorageWWHRSPump(SAPWorksheetSection.EnergyRequirements.subCell(230, 'h'), null, 0d),
 
     PumpsFansAndKeepHot(SAPWorksheetSection.EnergyRequirements.cell(231), null),
-    Lighting(SAPWorksheetSection.EnergyRequirements.cell(232), null),
+    Lighting(SAPWorksheetSection.EnergyRequirements.cell(232), null, SkipReason.InEnergyCalculatorResult),
+
+    Generation_PhotoVoltaic(SAPWorksheetSection.EnergyRequirements.cell(233), null),
+    // Wind turbines not implemented in the NHM
+    Generation_WindTurbines(SAPWorksheetSection.EnergyRequirements.cell(234), null, 0d),
+    // MicroCHP not implemented in the NHM
+    Generation_MicroCHP(SAPWorksheetSection.EnergyRequirements.cell(235), null, 0d),
+    // Hydro generators not implemented in the NHM
+    Generation_Hydro(SAPWorksheetSection.EnergyRequirements.subCell(235, 'a'), null, 0d),
+
+    Total_Energy(SAPWorksheetSection.EnergyRequirements.cell(238), null, SkipReason.InEnergyCalculatorResult),
 
     /**
      * Fuel Costs (happens outside energy calculator)
@@ -306,6 +352,10 @@ public enum EnergyCalculationStep {
      */
 
     /**
+     * BREDEM things (unfinished, unused)
+     */
+
+    /**
      * Lights
      */
     LightingEnergyBasicRequirement(null, BREDEMSection.LightsAppliancesAndCooking.step('B', "EB")),
@@ -347,6 +397,9 @@ public enum EnergyCalculationStep {
         public static final String SpaceCooling_Unsupported = "Space cooling systems are not supported in the NHM.";
         public static final String TMP_Complex_Unsupported = "The NHM always uses the simplified Table 1f lookup to calculate the Thermal Mass Parameter, as requested by BEIS.";
         public static final String AirPressureTests_Unsupported = "The NHM always uses the estimation method to calculate permeability of the envelope, as the English Housing Survey doesn't include data from air pressure tests.";
+        public static final String Unsupported_Technology = "The NHM does not support this technology.";
+        public static final String FabricEnergyEfficiencyNotSupported = "The NHM does not perform the fabric energy efficiency calculation.";
+        public static final String InEnergyCalculatorResult = "We don't want to output these fields in our report for now. They are fiddly to get, and are already available in IEnergyCalculationResult.";
     }
 
     private final SAPLocation sapLocation;
@@ -371,6 +424,18 @@ public enum EnergyCalculationStep {
         this.bredemLocation = bredemLocation;
         this.defaultValue = defaultValue;
         this.skipReason = skipReason;
+    }
+
+    public boolean hasDefault() {
+        return defaultValue.isPresent();
+    }
+
+    public double getDefault() {
+        if (hasDefault()) {
+            return defaultValue.get();
+        } else {
+            throw new UnsupportedOperationException("Tried to call getDefault on an energy calculation step which has no default.");
+        }
     }
 
     static class SAPLocation {
