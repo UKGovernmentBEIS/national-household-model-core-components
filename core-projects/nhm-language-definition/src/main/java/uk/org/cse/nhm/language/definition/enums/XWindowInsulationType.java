@@ -6,5 +6,8 @@ import uk.org.cse.nhm.language.definition.Doc;
 public enum XWindowInsulationType {
     Air,
     LowESoftCoat,
-    LowEHardCoat
+    LowEHardCoat,
+    Argon,
+    ArgonLowEHardCoat,
+    ArgonlowESoftCoat
 }

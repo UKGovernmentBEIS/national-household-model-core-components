@@ -12,5 +12,8 @@ package uk.org.cse.nhm.energycalculator.api.types;
 public enum WindowInsulationType {
     Air,
     LowESoftCoat,
-    LowEHardCoat
+    LowEHardCoat,
+    Argon,
+    ArgonLowEHardCoat,
+    ArgonLowESoftCoat
 }

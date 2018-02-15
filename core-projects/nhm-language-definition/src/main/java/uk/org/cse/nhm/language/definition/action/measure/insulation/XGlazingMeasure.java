@@ -8,6 +8,7 @@ import uk.org.cse.nhm.language.definition.action.Unsuitability;
 import uk.org.cse.nhm.language.definition.action.XMeasure;
 import uk.org.cse.nhm.language.definition.enums.XFrameType;
 import uk.org.cse.nhm.language.definition.enums.XGlazingType;
+import uk.org.cse.nhm.language.definition.enums.XWindowGlazingAirGap;
 import uk.org.cse.nhm.language.definition.enums.XWindowInsulationType;
 import uk.org.cse.nhm.language.definition.function.num.XNumber;
 
@@ -36,6 +37,7 @@ public class XGlazingMeasure extends XMeasure {
 		public static final String frameType = "frameType";
 		public static final String glazingType = "glazingType";
 		public static final String insulationType = "insulationType";
+		public static final String airGap = "airGap";
 	}
 	
 	private XNumber capex;
@@ -46,6 +48,7 @@ public class XGlazingMeasure extends XMeasure {
 	private XFrameType	frameType;
 	private XGlazingType glazingType;
 	private XWindowInsulationType insulationType;
+	private XWindowGlazingAirGap glazingAirGap = XWindowGlazingAirGap.gapOf6mm;
 	
     /**
      * Return the uValue.
@@ -150,5 +153,16 @@ public class XGlazingMeasure extends XMeasure {
 	public void setInsulationType(final XWindowInsulationType insulationType) {
 		this.insulationType = insulationType;
 	}
-	
+
+	@BindNamedArgument("insulation-type")
+	@Prop(P.airGap)
+	@Doc({ "The size of the air gap between glazings of this window (applies to double and triple glazing only).",
+			"Default value is gapOf6mm" })
+	public XWindowGlazingAirGap getGlazingAirGap() {
+		return glazingAirGap;
+	}
+
+	public void setGlazingAirGap(XWindowGlazingAirGap glazingAirGap) {
+		this.glazingAirGap = glazingAirGap;
+	}
 }

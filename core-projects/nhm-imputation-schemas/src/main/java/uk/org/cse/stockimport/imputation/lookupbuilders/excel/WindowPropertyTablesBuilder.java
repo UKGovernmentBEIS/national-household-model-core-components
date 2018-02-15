@@ -84,30 +84,26 @@ public class WindowPropertyTablesBuilder implements ILookUpTableBuilder<IWindowP
 		
 		int row = 8;
 		//Double glazing gains
-		for(WindowInsulationType type : WindowInsulationType.values()){
-			transmittanceFactors.addDoubleGlazingGainsTransimittance(type, sheet.getRow(row).getCell(5).getNumericCellValue());
-			row++;
-		}
+		transmittanceFactors.addDoubleGlazingGainsTransimittance(WindowInsulationType.Air, sheet.getRow(row++).getCell(5).getNumericCellValue());
+		transmittanceFactors.addDoubleGlazingGainsTransimittance(WindowInsulationType.LowESoftCoat, sheet.getRow(row++).getCell(5).getNumericCellValue());
+		transmittanceFactors.addDoubleGlazingGainsTransimittance(WindowInsulationType.LowEHardCoat, sheet.getRow(row++).getCell(5).getNumericCellValue());
 		
 		//Triple glazing gains
 		row = 14;
-		for(WindowInsulationType type : WindowInsulationType.values()){
-			transmittanceFactors.addTripleGlazingGainsTransimittance(type, sheet.getRow(row).getCell(5).getNumericCellValue());
-			row++;
-		}
+		transmittanceFactors.addTripleGlazingGainsTransimittance(WindowInsulationType.Air, sheet.getRow(row++).getCell(5).getNumericCellValue());
+		transmittanceFactors.addTripleGlazingGainsTransimittance(WindowInsulationType.LowESoftCoat, sheet.getRow(row++).getCell(5).getNumericCellValue());
+		transmittanceFactors.addTripleGlazingGainsTransimittance(WindowInsulationType.LowEHardCoat, sheet.getRow(row++).getCell(5).getNumericCellValue());
 		
 		//Double glazing light
 		row = 20;
-		for(WindowInsulationType type : WindowInsulationType.values()){
-			transmittanceFactors.addDoubleGlazingLightTransimittance(type, sheet.getRow(row).getCell(5).getNumericCellValue());
-			row++;
-		}
+		transmittanceFactors.addDoubleGlazingLightTransimittance(WindowInsulationType.Air, sheet.getRow(row).getCell(5).getNumericCellValue());
+		transmittanceFactors.addDoubleGlazingLightTransimittance(WindowInsulationType.LowESoftCoat, sheet.getRow(row).getCell(5).getNumericCellValue());
+		transmittanceFactors.addDoubleGlazingLightTransimittance(WindowInsulationType.LowEHardCoat, sheet.getRow(row).getCell(5).getNumericCellValue());
 		
 		//Triple glazing light
 		row = 26;
-		for(WindowInsulationType type : WindowInsulationType.values()){
-			transmittanceFactors.addTripleGlazingLightTransimittance(type, sheet.getRow(row).getCell(5).getNumericCellValue());
-			row++;
-		}
+		transmittanceFactors.addTripleGlazingLightTransimittance(WindowInsulationType.Air, sheet.getRow(row++).getCell(5).getNumericCellValue());
+		transmittanceFactors.addTripleGlazingLightTransimittance(WindowInsulationType.LowESoftCoat, sheet.getRow(row++).getCell(5).getNumericCellValue());
+		transmittanceFactors.addTripleGlazingLightTransimittance(WindowInsulationType.LowEHardCoat, sheet.getRow(row++).getCell(5).getNumericCellValue());
 	}
 }

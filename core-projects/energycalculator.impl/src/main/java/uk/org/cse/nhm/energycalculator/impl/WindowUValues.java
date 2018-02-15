@@ -99,59 +99,114 @@ public class WindowUValues implements IWindowUValues {
 		public WindowUValues(boolean useRdSAPValues){
 			if (useRdSAPValues){
 				setCurtainEffectFactor(0.04d);
-				
-				singleGlazingByFrameType.putAll(ImmutableMap.of(
-						FrameType.Wood,  4.8, 
-						FrameType.Metal, 5.7,
-						FrameType.uPVC,  4.8));
-			
-				secondaryGlazingByFrameType.putAll(ImmutableMap.of(
-						FrameType.Wood, 2.4, 
-						FrameType.uPVC, 2.4));
-				
-				Map<FrameType,  Double> map = new EnumMap<FrameType, Double>(FrameType.class);
-				map.putAll(ImmutableMap.of(
-						FrameType.Wood,  3.1,
-						FrameType.Metal, 3.7,
-						FrameType.uPVC,  3.1));
-				doubleGlazingByFrameAndInsulationType.put(WindowInsulationType.Air, map);
-				
-				map = new EnumMap<FrameType, Double>(FrameType.class);
-				map.putAll(ImmutableMap.of(
-						FrameType.Wood,  2.7,
-						FrameType.Metal, 3.3,
-						FrameType.uPVC,  2.7));
-				doubleGlazingByFrameAndInsulationType.put(WindowInsulationType.LowEHardCoat, map);
-				
-				map = new EnumMap<FrameType, Double>(FrameType.class);
-				map.putAll(ImmutableMap.of(
-						FrameType.Wood,  2.6,
-						FrameType.Metal, 3.2,
-						FrameType.uPVC,  2.6));
-				doubleGlazingByFrameAndInsulationType.put(WindowInsulationType.LowESoftCoat, map);
-				
-				map = new EnumMap<FrameType, Double>(FrameType.class);
-				map.putAll(ImmutableMap.of(
-						FrameType.Wood,  2.4,
-						FrameType.Metal, 2.9,
-						FrameType.uPVC,  2.4));
-				tripleGlazingByFrameAndInsulationType.put(WindowInsulationType.Air, map);
-				
-				map = new EnumMap<FrameType, Double>(FrameType.class);
-				map.putAll(ImmutableMap.of(
-						FrameType.Wood,  2.1,
-						FrameType.Metal, 2.6,
-						FrameType.uPVC,  2.1));
-				tripleGlazingByFrameAndInsulationType.put(WindowInsulationType.LowEHardCoat, map);
-				
-				map = new EnumMap<FrameType, Double>(FrameType.class);
-				map.putAll(ImmutableMap.of(
-						FrameType.Wood,  2.0,
-						FrameType.Metal, 2.5,
-						FrameType.uPVC,  2.0));
-				tripleGlazingByFrameAndInsulationType.put(WindowInsulationType.LowESoftCoat, map);
+				buildSingleGlazingSAPDictionaries();
+				buildSecondaryGlazingSAPDictionaries();
+				buildDoubleGlazingSAPDictionairies();
+				buildTripleGlazingSAPDictionaries();				
 			}
 		}
+		
+		protected void buildSingleGlazingSAPDictionaries() {
+			singleGlazingByFrameType.putAll(ImmutableMap.of(
+					FrameType.Wood,  4.8, 
+					FrameType.Metal, 5.7,
+					FrameType.uPVC,  4.8));
+		}
+		
+		protected void buildSecondaryGlazingSAPDictionaries() {
+			secondaryGlazingByFrameType.putAll(ImmutableMap.of(
+					FrameType.Wood, 2.4, 
+					FrameType.uPVC, 2.4));
+		}
+		
+		protected void buildDoubleGlazingSAPDictionairies() {
+			Map<FrameType,  Double> map = new EnumMap<FrameType, Double>(FrameType.class);
+			map.putAll(ImmutableMap.of(
+					FrameType.Wood,  3.1,
+					FrameType.Metal, 3.7,
+					FrameType.uPVC,  3.1));
+			doubleGlazingByFrameAndInsulationType.put(WindowInsulationType.Air, map);
+			
+			map = new EnumMap<FrameType, Double>(FrameType.class);
+			map.putAll(ImmutableMap.of(
+					FrameType.Wood,  2.7,
+					FrameType.Metal, 3.3,
+					FrameType.uPVC,  2.7));
+			doubleGlazingByFrameAndInsulationType.put(WindowInsulationType.LowEHardCoat, map);
+			
+			map = new EnumMap<FrameType, Double>(FrameType.class);
+			map.putAll(ImmutableMap.of(
+					FrameType.Wood,  2.6,
+					FrameType.Metal, 3.2,
+					FrameType.uPVC,  2.6));
+			doubleGlazingByFrameAndInsulationType.put(WindowInsulationType.LowESoftCoat, map);
+			
+			map = new EnumMap<FrameType, Double>(FrameType.class);
+			map.putAll(ImmutableMap.of(
+					FrameType.Wood,  2.9,
+					FrameType.Metal, 3.5,
+					FrameType.uPVC,  2.9));
+			doubleGlazingByFrameAndInsulationType.put(WindowInsulationType.Argon, map);
+			
+			map = new EnumMap<FrameType, Double>(FrameType.class);
+			map.putAll(ImmutableMap.of(
+					FrameType.Wood,  2.5,
+					FrameType.Metal, 3.0,
+					FrameType.uPVC,  2.5));
+			doubleGlazingByFrameAndInsulationType.put(WindowInsulationType.ArgonLowEHardCoat, map);
+			
+			map = new EnumMap<FrameType, Double>(FrameType.class);
+			map.putAll(ImmutableMap.of(
+					FrameType.Wood,  2.3,
+					FrameType.Metal, 2.9,
+					FrameType.uPVC,  2.3));
+			doubleGlazingByFrameAndInsulationType.put(WindowInsulationType.ArgonLowESoftCoat, map);
+		}
+		
+		protected void buildTripleGlazingSAPDictionaries() {
+			Map<FrameType,  Double> map = new EnumMap<FrameType, Double>(FrameType.class);
+			map.putAll(ImmutableMap.of(
+					FrameType.Wood,  2.4,
+					FrameType.Metal, 2.9,
+					FrameType.uPVC,  2.4));
+			tripleGlazingByFrameAndInsulationType.put(WindowInsulationType.Air, map);
+			
+			map = new EnumMap<FrameType, Double>(FrameType.class);
+			map.putAll(ImmutableMap.of(
+					FrameType.Wood,  2.1,
+					FrameType.Metal, 2.6,
+					FrameType.uPVC,  2.1));
+			tripleGlazingByFrameAndInsulationType.put(WindowInsulationType.LowEHardCoat, map);
+			
+			map = new EnumMap<FrameType, Double>(FrameType.class);
+			map.putAll(ImmutableMap.of(
+					FrameType.Wood,  2.0,
+					FrameType.Metal, 2.5,
+					FrameType.uPVC,  2.0));
+			tripleGlazingByFrameAndInsulationType.put(WindowInsulationType.LowESoftCoat, map);
+			
+			map = new EnumMap<FrameType, Double>(FrameType.class);
+			map.putAll(ImmutableMap.of(
+					FrameType.Wood,  2.2,
+					FrameType.Metal, 2.8,
+					FrameType.uPVC,  2.2));
+			tripleGlazingByFrameAndInsulationType.put(WindowInsulationType.Argon, map);
+			
+			map = new EnumMap<FrameType, Double>(FrameType.class);
+			map.putAll(ImmutableMap.of(
+					FrameType.Wood,  1.9,
+					FrameType.Metal, 2.3,
+					FrameType.uPVC,  1.9));
+			tripleGlazingByFrameAndInsulationType.put(WindowInsulationType.ArgonLowEHardCoat, map);
+			
+			map = new EnumMap<FrameType, Double>(FrameType.class);
+			map.putAll(ImmutableMap.of(
+					FrameType.Wood,  1.8,
+					FrameType.Metal, 2.2,
+					FrameType.uPVC,  1.8));
+			tripleGlazingByFrameAndInsulationType.put(WindowInsulationType.ArgonLowESoftCoat, map);
+		}
+		
 		
 		/**
 		 * @param uValue
