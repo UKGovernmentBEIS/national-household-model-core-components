@@ -1,14 +1,4 @@
 package uk.org.cse.stockimport.imputation.rdsap.walls;
-import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.Cavity;
-import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.Cob;
-import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.GraniteOrWhinstone;
-import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.MetalFrame;
-import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.Sandstone;
-import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.SolidBrick;
-import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.SystemBuild;
-import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.TimberFrame;
-import static uk.org.cse.nhm.energycalculator.api.types.WallInsulationType.External;
-import static uk.org.cse.nhm.energycalculator.api.types.WallInsulationType.Internal;
 import static uk.org.cse.nhm.energycalculator.api.types.RegionType.Country.England;
 import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.A;
 import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.B;
@@ -21,22 +11,31 @@ import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.H;
 import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.I;
 import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.J;
 import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.K;
+import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.Cavity;
+import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.Cob;
+import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.GraniteOrWhinstone;
+import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.MetalFrame;
+import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.Sandstone;
+import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.SolidBrick;
+import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.SystemBuild;
+import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.TimberFrame;
+import static uk.org.cse.nhm.energycalculator.api.types.WallInsulationType.External;
+import static uk.org.cse.nhm.energycalculator.api.types.WallInsulationType.Internal;
 
 import java.util.Collections;
 import java.util.Set;
 
-import junit.framework.Assert;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
-import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
+import com.google.common.collect.ImmutableSet;
+
+import junit.framework.Assert;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
 import uk.org.cse.stockimport.imputation.walls.WallPropertyImputer;
-
-import com.google.common.collect.ImmutableSet;
 
 /**
  * Just checks u values, as there are a lot of them and the test is quite big as a result.

@@ -6,11 +6,12 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.collect.ImmutableMap;
+
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowGlazingAirGap;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
-
-import com.google.common.collect.ImmutableMap;
 
 /**
  * This contains the default SAP 2012 u-values for windows from Table 6e, including the curtain adjustment factor.
@@ -31,12 +32,12 @@ public class WindowUValues implements IWindowUValues {
 		private Map<FrameType, Double> secondaryGlazingByFrameType = new EnumMap<FrameType, Double>(FrameType.class);
 		
 		
-		private Map<WindowInsulationType, Map<FrameType, Double>> doubleGlazingByFrameAndInsulationType = 
-				new EnumMap<WindowInsulationType, Map<FrameType, Double>>(WindowInsulationType.class);
+		private Map<WindowInsulationType, Map<FrameType, Map<WindowGlazingAirGap,Double>>> doubleGlazingByFrameAndInsulationType = 
+				new EnumMap<WindowInsulationType, Map<FrameType, Map<WindowGlazingAirGap,Double>>>(WindowInsulationType.class);
 		
 		
-		private Map<WindowInsulationType, Map<FrameType, Double>> tripleGlazingByFrameAndInsulationType = 
-				new EnumMap<WindowInsulationType, Map<FrameType, Double>>(WindowInsulationType.class);
+		private Map<WindowInsulationType, Map<FrameType, Map<WindowGlazingAirGap,Double>>> tripleGlazingByFrameAndInsulationType = 
+				new EnumMap<WindowInsulationType, Map<FrameType, Map<WindowGlazingAirGap,Double>>>(WindowInsulationType.class);
 		
 		public WindowUValues(){
 			this(true);
@@ -62,30 +63,34 @@ public class WindowUValues implements IWindowUValues {
 		 * @see uk.org.cse.stockimport.imputation.apertures.windows.IWindowUValues#addDoubleGlazing(uk.org.cse.nhm.energycalculator.api.types.FrameType, uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType, java.lang.Double)
 		 */
 		@Override
-		public void addDoubleGlazing(FrameType frameType, WindowInsulationType insulationType, Double uValue){
+		public void addDoubleGlazing(FrameType frameType, WindowInsulationType insulationType, Double uValue, WindowGlazingAirGap airGap){
 			
-			Map<FrameType, Double> map = doubleGlazingByFrameAndInsulationType.get(insulationType);
+			Map<FrameType, Map<WindowGlazingAirGap,Double>> map = doubleGlazingByFrameAndInsulationType.get(insulationType);
 			if (map == null){
-				map = new EnumMap<FrameType, Double>(FrameType.class);
+				map = new EnumMap<FrameType, Map<WindowGlazingAirGap, Double>>(FrameType.class);
 				doubleGlazingByFrameAndInsulationType.put(insulationType, map);
 			}
+			Map<WindowGlazingAirGap, Double> uValues = new EnumMap<>(WindowGlazingAirGap.class);
+			uValues.put(airGap, uValue);
 			
-			map.put(frameType, uValue);
+			map.put(frameType, ImmutableMap.of(airGap, uValue));
 		}
 		
 		/* (non-Javadoc)
 		 * @see uk.org.cse.stockimport.imputation.apertures.windows.IWindowUValues#addTripleGlazing(uk.org.cse.nhm.energycalculator.api.types.FrameType, uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType, java.lang.Double)
 		 */
 		@Override
-		public void addTripleGlazing(FrameType frameType, WindowInsulationType insulationType, Double uValue){
+		public void addTripleGlazing(FrameType frameType, WindowInsulationType insulationType, Double uValue, WindowGlazingAirGap airGap){
 			
-			Map<FrameType, Double> map = tripleGlazingByFrameAndInsulationType.get(insulationType);
+			Map<FrameType, Map<WindowGlazingAirGap,Double>> map = tripleGlazingByFrameAndInsulationType.get(insulationType);
 			if (map == null){
-				map = new EnumMap<FrameType, Double>(FrameType.class);
+				map = new EnumMap<FrameType, Map<WindowGlazingAirGap,Double>>(FrameType.class);
 				tripleGlazingByFrameAndInsulationType.put(insulationType, map);
 			}
+			Map<WindowGlazingAirGap, Double> uValues = new EnumMap<>(WindowGlazingAirGap.class);
+			uValues.put(airGap, uValue);
 			
-			map.put(frameType, uValue);
+			map.put(frameType, uValues);
 		}
 		
 		/* (non-Javadoc)
@@ -120,90 +125,98 @@ public class WindowUValues implements IWindowUValues {
 		}
 		
 		protected void buildDoubleGlazingSAPDictionairies() {
-			Map<FrameType,  Double> map = new EnumMap<FrameType, Double>(FrameType.class);
+			Map<FrameType, Map<WindowGlazingAirGap, Double>> map = new EnumMap<FrameType, Map<WindowGlazingAirGap, Double>>(FrameType.class);
+			
+			//Boring old air
 			map.putAll(ImmutableMap.of(
-					FrameType.Wood,  3.1,
-					FrameType.Metal, 3.7,
-					FrameType.uPVC,  3.1));
+					FrameType.Wood, ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 3.1, WindowGlazingAirGap.gapOf12mm, 2.8, WindowGlazingAirGap.gapOf16mmPlus, 2.7), 
+					FrameType.Metal, ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 3.7, WindowGlazingAirGap.gapOf12mm, 3.4, WindowGlazingAirGap.gapOf16mmPlus, 3.3), 
+					FrameType.uPVC,ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 3.1, WindowGlazingAirGap.gapOf12mm, 2.8, WindowGlazingAirGap.gapOf16mmPlus, 2.7)));
+			
 			doubleGlazingByFrameAndInsulationType.put(WindowInsulationType.Air, map);
 			
-			map = new EnumMap<FrameType, Double>(FrameType.class);
+			map = new EnumMap<FrameType, Map<WindowGlazingAirGap, Double>>(FrameType.class);
 			map.putAll(ImmutableMap.of(
-					FrameType.Wood,  2.7,
-					FrameType.Metal, 3.3,
-					FrameType.uPVC,  2.7));
+					FrameType.Wood,  ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 2.7, WindowGlazingAirGap.gapOf12mm, 2.2, WindowGlazingAirGap.gapOf16mmPlus, 2.0),
+					FrameType.Metal, ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 3.3, WindowGlazingAirGap.gapOf12mm, 2.7, WindowGlazingAirGap.gapOf16mmPlus, 2.5),
+					FrameType.uPVC,  ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 2.7, WindowGlazingAirGap.gapOf12mm, 2.2, WindowGlazingAirGap.gapOf16mmPlus, 2.0)));
 			doubleGlazingByFrameAndInsulationType.put(WindowInsulationType.LowEHardCoat, map);
 			
-			map = new EnumMap<FrameType, Double>(FrameType.class);
+			map = new EnumMap<FrameType, Map<WindowGlazingAirGap, Double>>(FrameType.class);
 			map.putAll(ImmutableMap.of(
-					FrameType.Wood,  2.6,
-					FrameType.Metal, 3.2,
-					FrameType.uPVC,  2.6));
+					FrameType.Wood,  ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 2.6, WindowGlazingAirGap.gapOf12mm, 2.1, WindowGlazingAirGap.gapOf16mmPlus, 1.9),
+					FrameType.Metal, ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 3.2, WindowGlazingAirGap.gapOf12mm, 2.6, WindowGlazingAirGap.gapOf16mmPlus, 2.4),
+					FrameType.uPVC,  ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 2.6, WindowGlazingAirGap.gapOf12mm, 2.1, WindowGlazingAirGap.gapOf16mmPlus, 1.9)));
 			doubleGlazingByFrameAndInsulationType.put(WindowInsulationType.LowESoftCoat, map);
 			
-			map = new EnumMap<FrameType, Double>(FrameType.class);
+			//Argon
+			map = new EnumMap<FrameType, Map<WindowGlazingAirGap, Double>>(FrameType.class);
 			map.putAll(ImmutableMap.of(
-					FrameType.Wood,  2.9,
-					FrameType.Metal, 3.5,
-					FrameType.uPVC,  2.9));
+					FrameType.Wood,  ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 2.9, WindowGlazingAirGap.gapOf12mm, 2.7, WindowGlazingAirGap.gapOf16mmPlus, 2.6),
+					FrameType.Metal, ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 3.5, WindowGlazingAirGap.gapOf12mm, 3.3, WindowGlazingAirGap.gapOf16mmPlus, 3.2),
+					FrameType.uPVC,  ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 2.9, WindowGlazingAirGap.gapOf12mm, 2.7, WindowGlazingAirGap.gapOf16mmPlus, 2.6)));
 			doubleGlazingByFrameAndInsulationType.put(WindowInsulationType.Argon, map);
 			
-			map = new EnumMap<FrameType, Double>(FrameType.class);
+			map = new EnumMap<FrameType, Map<WindowGlazingAirGap, Double>>(FrameType.class);
 			map.putAll(ImmutableMap.of(
-					FrameType.Wood,  2.5,
-					FrameType.Metal, 3.0,
-					FrameType.uPVC,  2.5));
+					FrameType.Wood,  ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 2.5, WindowGlazingAirGap.gapOf12mm, 2.1, WindowGlazingAirGap.gapOf16mmPlus, 2.9),
+					FrameType.Metal, ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 3.0, WindowGlazingAirGap.gapOf12mm, 2.6, WindowGlazingAirGap.gapOf16mmPlus, 2.5),
+					FrameType.uPVC,  ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 2.5, WindowGlazingAirGap.gapOf12mm, 2.1, WindowGlazingAirGap.gapOf16mmPlus, 2.9)));
 			doubleGlazingByFrameAndInsulationType.put(WindowInsulationType.ArgonLowEHardCoat, map);
 			
-			map = new EnumMap<FrameType, Double>(FrameType.class);
+			map = new EnumMap<FrameType, Map<WindowGlazingAirGap, Double>>(FrameType.class);
 			map.putAll(ImmutableMap.of(
-					FrameType.Wood,  2.3,
-					FrameType.Metal, 2.9,
-					FrameType.uPVC,  2.3));
+					FrameType.Wood,  ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 2.3, WindowGlazingAirGap.gapOf12mm, 1.9, WindowGlazingAirGap.gapOf16mmPlus, 1.8),
+					FrameType.Metal, ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 2.9, WindowGlazingAirGap.gapOf12mm, 2.4, WindowGlazingAirGap.gapOf16mmPlus, 2.3),
+					FrameType.uPVC,  ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 2.3, WindowGlazingAirGap.gapOf12mm, 1.9, WindowGlazingAirGap.gapOf16mmPlus, 1.8)));
 			doubleGlazingByFrameAndInsulationType.put(WindowInsulationType.ArgonLowESoftCoat, map);
 		}
 		
 		protected void buildTripleGlazingSAPDictionaries() {
-			Map<FrameType,  Double> map = new EnumMap<FrameType, Double>(FrameType.class);
+			Map<FrameType,  Map<WindowGlazingAirGap, Double>> map = new EnumMap<FrameType, Map<WindowGlazingAirGap, Double>>(FrameType.class);
+			
+			//Boring old Air
 			map.putAll(ImmutableMap.of(
-					FrameType.Wood,  2.4,
-					FrameType.Metal, 2.9,
-					FrameType.uPVC,  2.4));
+					FrameType.Wood,  ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 2.4, WindowGlazingAirGap.gapOf12mm, 2.1, WindowGlazingAirGap.gapOf16mmPlus, 2.0),
+					FrameType.Metal,ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 2.9, WindowGlazingAirGap.gapOf12mm, 2.6, WindowGlazingAirGap.gapOf16mmPlus, 2.5),
+					FrameType.uPVC, ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 2.4, WindowGlazingAirGap.gapOf12mm, 2.1, WindowGlazingAirGap.gapOf16mmPlus, 2.0)));
 			tripleGlazingByFrameAndInsulationType.put(WindowInsulationType.Air, map);
 			
-			map = new EnumMap<FrameType, Double>(FrameType.class);
+			map = new EnumMap<FrameType, Map<WindowGlazingAirGap, Double>>(FrameType.class);
 			map.putAll(ImmutableMap.of(
-					FrameType.Wood,  2.1,
-					FrameType.Metal, 2.6,
-					FrameType.uPVC,  2.1));
+					FrameType.Wood,  ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 2.1, WindowGlazingAirGap.gapOf12mm, 1.7, WindowGlazingAirGap.gapOf16mmPlus, 1.6),
+					FrameType.Metal, ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 2.6, WindowGlazingAirGap.gapOf12mm, 2.1, WindowGlazingAirGap.gapOf16mmPlus, 2.0),
+					FrameType.uPVC,  ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 2.1, WindowGlazingAirGap.gapOf12mm, 1.7, WindowGlazingAirGap.gapOf16mmPlus, 1.6)));
 			tripleGlazingByFrameAndInsulationType.put(WindowInsulationType.LowEHardCoat, map);
 			
-			map = new EnumMap<FrameType, Double>(FrameType.class);
+			map = new EnumMap<FrameType, Map<WindowGlazingAirGap, Double>>(FrameType.class);
 			map.putAll(ImmutableMap.of(
-					FrameType.Wood,  2.0,
-					FrameType.Metal, 2.5,
-					FrameType.uPVC,  2.0));
+					FrameType.Wood,  ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 2.0, WindowGlazingAirGap.gapOf12mm, 1.6, WindowGlazingAirGap.gapOf16mmPlus, 1.5),
+					FrameType.Metal, ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 2.5, WindowGlazingAirGap.gapOf12mm, 2.0, WindowGlazingAirGap.gapOf16mmPlus, 1.9),
+					FrameType.uPVC,  ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 2.0, WindowGlazingAirGap.gapOf12mm, 1.6, WindowGlazingAirGap.gapOf16mmPlus, 1.5)));
 			tripleGlazingByFrameAndInsulationType.put(WindowInsulationType.LowESoftCoat, map);
 			
-			map = new EnumMap<FrameType, Double>(FrameType.class);
+			
+			//Argumentative Argon
+			map = new EnumMap<FrameType, Map<WindowGlazingAirGap, Double>>(FrameType.class);
 			map.putAll(ImmutableMap.of(
-					FrameType.Wood,  2.2,
-					FrameType.Metal, 2.8,
-					FrameType.uPVC,  2.2));
+					FrameType.Wood,  ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 2.2, WindowGlazingAirGap.gapOf12mm, 2.0, WindowGlazingAirGap.gapOf16mmPlus, 1.9),
+					FrameType.Metal, ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 2.8, WindowGlazingAirGap.gapOf12mm, 2.5, WindowGlazingAirGap.gapOf16mmPlus, 2.4),
+					FrameType.uPVC,  ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 2.2, WindowGlazingAirGap.gapOf12mm, 2.0, WindowGlazingAirGap.gapOf16mmPlus, 1.9)));
 			tripleGlazingByFrameAndInsulationType.put(WindowInsulationType.Argon, map);
 			
-			map = new EnumMap<FrameType, Double>(FrameType.class);
+			map = new EnumMap<FrameType, Map<WindowGlazingAirGap, Double>>(FrameType.class);
 			map.putAll(ImmutableMap.of(
-					FrameType.Wood,  1.9,
-					FrameType.Metal, 2.3,
-					FrameType.uPVC,  1.9));
+					FrameType.Wood,  ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 1.9, WindowGlazingAirGap.gapOf12mm, 1.6, WindowGlazingAirGap.gapOf16mmPlus, 1.5),
+					FrameType.Metal, ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 2.3, WindowGlazingAirGap.gapOf12mm, 2.0, WindowGlazingAirGap.gapOf16mmPlus, 1.9),
+					FrameType.uPVC,  ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 1.9, WindowGlazingAirGap.gapOf12mm, 1.6, WindowGlazingAirGap.gapOf16mmPlus, 1.5)));
 			tripleGlazingByFrameAndInsulationType.put(WindowInsulationType.ArgonLowEHardCoat, map);
 			
-			map = new EnumMap<FrameType, Double>(FrameType.class);
+			map = new EnumMap<FrameType, Map<WindowGlazingAirGap, Double>>(FrameType.class);
 			map.putAll(ImmutableMap.of(
-					FrameType.Wood,  1.8,
-					FrameType.Metal, 2.2,
-					FrameType.uPVC,  1.8));
+					FrameType.Wood,  ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 1.8, WindowGlazingAirGap.gapOf12mm, 1.5, WindowGlazingAirGap.gapOf16mmPlus, 1.4),
+					FrameType.Metal, ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 2.2, WindowGlazingAirGap.gapOf12mm, 1.9, WindowGlazingAirGap.gapOf16mmPlus, 1.8),
+					FrameType.uPVC,  ImmutableMap.of(WindowGlazingAirGap.gapOf6mm, 1.8, WindowGlazingAirGap.gapOf12mm, 1.5, WindowGlazingAirGap.gapOf16mmPlus, 1.4)));
 			tripleGlazingByFrameAndInsulationType.put(WindowInsulationType.ArgonLowESoftCoat, map);
 		}
 		
@@ -220,7 +233,7 @@ public class WindowUValues implements IWindowUValues {
 		 * @see uk.org.cse.stockimport.imputation.apertures.windows.IWindowUValues#getUValue(uk.org.cse.nhm.energycalculator.api.types.FrameType, uk.org.cse.nhm.energycalculator.api.types.GlazingType, uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType)
 		 */
 		@Override
-		public double getUValue(FrameType frameType, GlazingType glazingType, WindowInsulationType insulationType) {
+		public double getUValue(FrameType frameType, GlazingType glazingType, WindowInsulationType insulationType, WindowGlazingAirGap airGap) {
 			final double result;
 			
         if (frameType == null) {
@@ -234,6 +247,10 @@ public class WindowUValues implements IWindowUValues {
         if (insulationType == null) {
             insulationType = WindowInsulationType.Air;
         }
+        
+        if (airGap == null) {
+        	airGap = WindowGlazingAirGap.gapOf6mm;
+        }
 
 			switch (glazingType) {
 			case Single:
@@ -241,11 +258,11 @@ public class WindowUValues implements IWindowUValues {
 				result = singleGlazingByFrameType.get(frameType);
 				break;
 			case Double:
-                result = doubleGlazingByFrameAndInsulationType.get(insulationType).get(frameType);
+                result = doubleGlazingByFrameAndInsulationType.get(insulationType).get(frameType).get(airGap);
 				break;
 			case Triple:
 				// double and triple glazing should have an insulation type.
-                result = tripleGlazingByFrameAndInsulationType.get(insulationType).get(frameType);
+                result = tripleGlazingByFrameAndInsulationType.get(insulationType).get(frameType).get(airGap);
 				break;
 			case Secondary:
 				result = secondaryGlazingByFrameType.get(frameType);

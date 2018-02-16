@@ -62,6 +62,16 @@
             before.
           </para>
         </sect4>
+        <sect4 id="to-u-values-and-inputs-to-measure-ref.install-glazing">
+          <title>To u-values and inputs to measure
+          <xref linkend="ref.install-glazing"/></title>
+          <para>
+            Added in the ability to specify an air-gap for the measure.
+            Look-up tables for U-Values now take into account air-gap
+            when returning u-values for glazings. If no u-value is
+            supplied then u-value will be take from SAP tables.
+          </para>
+        </sect4>
       </sect3>
       <sect3 id="new-features">
         <title>New Features</title>

@@ -27,6 +27,11 @@ If you want to cross-reference to a language element, you need to use the unique
 The function can now specify whether to include or exclude deliberate ventilation from the airChange rate calculation.
 ***** Change to calculation of =house.sit=
 Calculation now defines heatloss as specific heat loss + ventilation heat loss rather than just specific heatloss as before.
+***** To u-values and inputs to measure =ref.install-glazing=
+Added in the ability to specify an air-gap for the measure.
+Look-up tables for U-Values now take into account air-gap when returning u-values for glazings.
+If no u-value is supplied then u-value will be take from SAP tables.
+ 
 **** New Features
 ***** Added new function =ref.house.has-solar-thermal=
 Returns true of the central hot water heating system includes a solar thermal component

@@ -25,6 +25,7 @@ import com.larkery.jasb.bind.BindNamedArgument;
 		"This will replace any existing glazing with the new type.",
 		"This measure only affects windows - it has no effect on glazed doors.",
 		"When the energy calculator is in SAP 2012 mode, the frame factors, u-value and transmittance will have no effect: these will be overridden by the relevant SAP table lookups."
+		,"If no u-value has been set then the u-value will be looked up from SAP using glazing type, frame-type, insulaton type and air-gap"
 })
 @Unsuitability(alwaysSuitable = true)
 public class XGlazingMeasure extends XMeasure {
@@ -154,7 +155,7 @@ public class XGlazingMeasure extends XMeasure {
 		this.insulationType = insulationType;
 	}
 
-	@BindNamedArgument("insulation-type")
+	@BindNamedArgument("air-gap")
 	@Prop(P.airGap)
 	@Doc({ "The size of the air gap between glazings of this window (applies to double and triple glazing only).",
 			"Default value is gapOf6mm" })

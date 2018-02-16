@@ -158,7 +158,7 @@ public class Elevation implements IElevation {
 			*/
 			final double glazingArea = (wallArea * openingProportion - doorArea) * glazing.getGlazedProportion();
 
-			visitor.visitWindow(glazingArea, glazing.getuValue(), glazing.getFrameType(), glazing.getGlazingType(), glazing.getInsulationType());
+			visitor.visitWindow(glazingArea, glazing.getuValue(), glazing.getFrameType(), glazing.getGlazingType(), glazing.getInsulationType(), glazing.getWindowGlazingAirGap());
 
 			visitor.visitTransparentElement(
 					glazing.getGlazingType(),

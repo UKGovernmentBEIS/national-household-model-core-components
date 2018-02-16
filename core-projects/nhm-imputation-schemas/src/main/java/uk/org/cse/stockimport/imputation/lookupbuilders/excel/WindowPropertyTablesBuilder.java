@@ -4,6 +4,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowGlazingAirGap;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 import uk.org.cse.nhm.energycalculator.impl.IWindowUValues;
 import uk.org.cse.stockimport.imputation.apertures.windows.IWindowPropertyTables;
@@ -48,30 +49,30 @@ public class WindowPropertyTablesBuilder implements ILookUpTableBuilder<IWindowP
 		uvalues.addSecondaryGlazingUValue(FrameType.uPVC, sheet.getRow(16).getCell(1).getNumericCellValue());
 	
 		//DoubleGlazing
-		uvalues.addDoubleGlazing(FrameType.Wood, WindowInsulationType.Air, sheet.getRow(20).getCell(2).getNumericCellValue());
-		uvalues.addDoubleGlazing(FrameType.Metal, WindowInsulationType.Air, sheet.getRow(21).getCell(2).getNumericCellValue());
-		uvalues.addDoubleGlazing(FrameType.uPVC, WindowInsulationType.Air, sheet.getRow(22).getCell(2).getNumericCellValue());
+		uvalues.addDoubleGlazing(FrameType.Wood, WindowInsulationType.Air, sheet.getRow(20).getCell(2).getNumericCellValue(), WindowGlazingAirGap.gapOf6mm);
+		uvalues.addDoubleGlazing(FrameType.Metal, WindowInsulationType.Air, sheet.getRow(21).getCell(2).getNumericCellValue(), WindowGlazingAirGap.gapOf6mm);
+		uvalues.addDoubleGlazing(FrameType.uPVC, WindowInsulationType.Air, sheet.getRow(22).getCell(2).getNumericCellValue(), WindowGlazingAirGap.gapOf6mm);
 		
-		uvalues.addDoubleGlazing(FrameType.Wood, WindowInsulationType.LowEHardCoat, sheet.getRow(23).getCell(2).getNumericCellValue());
-		uvalues.addDoubleGlazing(FrameType.Metal, WindowInsulationType.LowEHardCoat, sheet.getRow(24).getCell(2).getNumericCellValue());
-		uvalues.addDoubleGlazing(FrameType.uPVC, WindowInsulationType.LowEHardCoat, sheet.getRow(25).getCell(2).getNumericCellValue());
+		uvalues.addDoubleGlazing(FrameType.Wood, WindowInsulationType.LowEHardCoat, sheet.getRow(23).getCell(2).getNumericCellValue(), WindowGlazingAirGap.gapOf6mm);
+		uvalues.addDoubleGlazing(FrameType.Metal, WindowInsulationType.LowEHardCoat, sheet.getRow(24).getCell(2).getNumericCellValue(), WindowGlazingAirGap.gapOf6mm);
+		uvalues.addDoubleGlazing(FrameType.uPVC, WindowInsulationType.LowEHardCoat, sheet.getRow(25).getCell(2).getNumericCellValue(), WindowGlazingAirGap.gapOf6mm);
 		
-		uvalues.addDoubleGlazing(FrameType.Wood, WindowInsulationType.LowESoftCoat, sheet.getRow(26).getCell(2).getNumericCellValue());
-		uvalues.addDoubleGlazing(FrameType.Metal, WindowInsulationType.LowESoftCoat, sheet.getRow(27).getCell(2).getNumericCellValue());
-		uvalues.addDoubleGlazing(FrameType.uPVC, WindowInsulationType.LowESoftCoat, sheet.getRow(28).getCell(2).getNumericCellValue());
+		uvalues.addDoubleGlazing(FrameType.Wood, WindowInsulationType.LowESoftCoat, sheet.getRow(26).getCell(2).getNumericCellValue(), WindowGlazingAirGap.gapOf6mm);
+		uvalues.addDoubleGlazing(FrameType.Metal, WindowInsulationType.LowESoftCoat, sheet.getRow(27).getCell(2).getNumericCellValue(), WindowGlazingAirGap.gapOf6mm);
+		uvalues.addDoubleGlazing(FrameType.uPVC, WindowInsulationType.LowESoftCoat, sheet.getRow(28).getCell(2).getNumericCellValue(), WindowGlazingAirGap.gapOf6mm);
 		
 		//TripleGlazing
-		uvalues.addTripleGlazing(FrameType.Wood, WindowInsulationType.Air, sheet.getRow(32).getCell(2).getNumericCellValue());
-		uvalues.addTripleGlazing(FrameType.Metal, WindowInsulationType.Air, sheet.getRow(33).getCell(2).getNumericCellValue());
-		uvalues.addTripleGlazing(FrameType.uPVC, WindowInsulationType.Air, sheet.getRow(34).getCell(2).getNumericCellValue());
+		uvalues.addTripleGlazing(FrameType.Wood, WindowInsulationType.Air, sheet.getRow(32).getCell(2).getNumericCellValue(), WindowGlazingAirGap.gapOf6mm);
+		uvalues.addTripleGlazing(FrameType.Metal, WindowInsulationType.Air, sheet.getRow(33).getCell(2).getNumericCellValue(), WindowGlazingAirGap.gapOf6mm);
+		uvalues.addTripleGlazing(FrameType.uPVC, WindowInsulationType.Air, sheet.getRow(34).getCell(2).getNumericCellValue(), WindowGlazingAirGap.gapOf6mm);
 		
-		uvalues.addTripleGlazing(FrameType.Wood, WindowInsulationType.LowEHardCoat, sheet.getRow(35).getCell(2).getNumericCellValue());
-		uvalues.addTripleGlazing(FrameType.Metal, WindowInsulationType.LowEHardCoat, sheet.getRow(36).getCell(2).getNumericCellValue());
-		uvalues.addTripleGlazing(FrameType.uPVC, WindowInsulationType.LowEHardCoat, sheet.getRow(37).getCell(2).getNumericCellValue());
+		uvalues.addTripleGlazing(FrameType.Wood, WindowInsulationType.LowEHardCoat, sheet.getRow(35).getCell(2).getNumericCellValue(), WindowGlazingAirGap.gapOf6mm);
+		uvalues.addTripleGlazing(FrameType.Metal, WindowInsulationType.LowEHardCoat, sheet.getRow(36).getCell(2).getNumericCellValue(), WindowGlazingAirGap.gapOf6mm);
+		uvalues.addTripleGlazing(FrameType.uPVC, WindowInsulationType.LowEHardCoat, sheet.getRow(37).getCell(2).getNumericCellValue(), WindowGlazingAirGap.gapOf6mm);
 		
-		uvalues.addTripleGlazing(FrameType.Wood, WindowInsulationType.LowESoftCoat, sheet.getRow(38).getCell(2).getNumericCellValue());
-		uvalues.addTripleGlazing(FrameType.Metal, WindowInsulationType.LowESoftCoat, sheet.getRow(39).getCell(2).getNumericCellValue());
-		uvalues.addTripleGlazing(FrameType.uPVC, WindowInsulationType.LowESoftCoat, sheet.getRow(40).getCell(2).getNumericCellValue());
+		uvalues.addTripleGlazing(FrameType.Wood, WindowInsulationType.LowESoftCoat, sheet.getRow(38).getCell(2).getNumericCellValue(), WindowGlazingAirGap.gapOf6mm);
+		uvalues.addTripleGlazing(FrameType.Metal, WindowInsulationType.LowESoftCoat, sheet.getRow(39).getCell(2).getNumericCellValue(), WindowGlazingAirGap.gapOf6mm);
+		uvalues.addTripleGlazing(FrameType.uPVC, WindowInsulationType.LowESoftCoat, sheet.getRow(40).getCell(2).getNumericCellValue(), WindowGlazingAirGap.gapOf6mm);
 	}
 	
 	protected void buildTransmittenceFactors(final IWindowPropertyTables windowPropertyTables, final XSSFSheet sheet){

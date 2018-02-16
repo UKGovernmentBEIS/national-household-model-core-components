@@ -11,6 +11,7 @@ import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowGlazingAirGap;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 import uk.org.cse.nhm.hom.emf.technologies.AdjusterType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
@@ -138,7 +139,8 @@ public interface IMeasureFactory {
             @Assisted("framefactor") final double frameFactor,
             @Assisted final FrameType frameType,
             @Assisted final GlazingType glazingType,
-            @Assisted final WindowInsulationType windowInsulationType
+            @Assisted final WindowInsulationType windowInsulationType,
+            @Assisted final WindowGlazingAirGap airGap
             );
 
     public DraughtProofingMeasure createDraughtProofingMeasure(

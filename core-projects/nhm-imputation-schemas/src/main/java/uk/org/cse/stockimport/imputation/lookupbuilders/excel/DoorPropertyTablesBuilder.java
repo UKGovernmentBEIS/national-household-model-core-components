@@ -14,8 +14,8 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import uk.org.cse.nhm.hom.components.fabric.types.DoorType;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
+import uk.org.cse.nhm.hom.components.fabric.types.DoorType;
 import uk.org.cse.stockimport.imputation.apertures.doors.DoorPropertyImputer;
 import uk.org.cse.stockimport.imputation.apertures.doors.IDoorPropertyImputer;
 import uk.org.cse.stockimport.imputation.lookupbuilders.ILookUpTableBuilder;

@@ -10,6 +10,7 @@ import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
 import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.RoofType;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowGlazingAirGap;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 
 /**
@@ -181,7 +182,8 @@ public interface IEnergyCalculatorVisitor {
 			final double uValue,
 			final FrameType frameType,
 			final GlazingType glazingType,
-			final WindowInsulationType insulationType
+			final WindowInsulationType insulationType,
+			final WindowGlazingAirGap airGap
 		);
 
 	/**

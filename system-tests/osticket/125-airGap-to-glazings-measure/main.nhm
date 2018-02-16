@@ -1,0 +1,49 @@
+(scenario
+    start-date: 2014
+    end-date: 2028
+    stock-id: reduced.stock
+    energy-calculator: SAP2012
+    quantum: 10000
+
+(def-report "glazing-report"
+  (column name: survey-code value: (house.survey-code))
+  (column name: heat-loss-fabric value: (house.heat-loss Fabric))
+  (column name: window-u-value value: (house.u-value of: Windows)))
+    
+(on.dates (scenario-start)
+	  (apply
+	   to: (filter
+		(any
+		 (is (house.survey-code) "J0794305")))     ;;Everything bar ApplianceThermostat and ByPassValve
+	   (measure.install-glazing
+	    name: "6mm"
+	    frame-type: uPVC
+	    glazing-type: Double
+	    insulation-type: Air
+	    report: glazing-report)))
+        
+(on.dates 01/01/2015
+	  (apply
+	   to: (filter
+		(any
+		 (is (house.survey-code) "J0794305")))     ;;Everything bar ApplianceThermostat and ByPassValve
+	   (measure.install-glazing
+	    name: "12mm"
+	    frame-type: uPVC
+	    glazing-type: Double
+	    insulation-type: Air
+	    air-gap: gapOf12mm
+	    report: glazing-report)))
+    
+(on.dates 01/01/2016
+	  (apply
+	   to: (filter
+		(any
+		 (is (house.survey-code) "J0794305")))     ;;Everything bar ApplianceThermostat and ByPassValve
+	   (measure.install-glazing
+	    name: "16mm"
+	    frame-type: uPVC
+	    glazing-type: Double
+	    insulation-type: Air
+	    air-gap: gapOf16mmPlus
+	    report: glazing-report))))
