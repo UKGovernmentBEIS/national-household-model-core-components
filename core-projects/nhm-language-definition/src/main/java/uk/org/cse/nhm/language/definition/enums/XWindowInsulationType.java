@@ -9,5 +9,5 @@ public enum XWindowInsulationType {
     LowEHardCoat,
     Argon,
     ArgonLowEHardCoat,
-    ArgonlowESoftCoat
+    ArgonLowESoftCoat
 }

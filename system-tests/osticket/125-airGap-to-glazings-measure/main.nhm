@@ -2,7 +2,8 @@
     start-date: 2014
     end-date: 2028
     stock-id: reduced.stock
-    energy-calculator: SAP2012
+    energy-calculator: BREDEM2012
+    ;energy-calculator: SAP2012 BREDEM2012
     quantum: 10000
 
 (def-report "glazing-report"
@@ -14,7 +15,7 @@
 	  (apply
 	   to: (filter
 		(any
-		 (is (house.survey-code) "J0794305")))     ;;Everything bar ApplianceThermostat and ByPassValve
+		 (is (house.survey-code) "J0794305")))
 	   (measure.install-glazing
 	    name: "6mm"
 	    frame-type: uPVC
@@ -26,7 +27,7 @@
 	  (apply
 	   to: (filter
 		(any
-		 (is (house.survey-code) "J0794305")))     ;;Everything bar ApplianceThermostat and ByPassValve
+		 (is (house.survey-code) "J0794305")))
 	   (measure.install-glazing
 	    name: "12mm"
 	    frame-type: uPVC
@@ -39,11 +40,24 @@
 	  (apply
 	   to: (filter
 		(any
-		 (is (house.survey-code) "J0794305")))     ;;Everything bar ApplianceThermostat and ByPassValve
+		 (is (house.survey-code) "J0794305")))
 	   (measure.install-glazing
 	    name: "16mm"
 	    frame-type: uPVC
 	    glazing-type: Double
 	    insulation-type: Air
 	    air-gap: gapOf16mmPlus
+	    report: glazing-report)))
+
+(on.dates 01/01/2017
+	  (apply
+	   to: (filter
+		(any
+		 (is (house.survey-code) "J0794305")))
+	   (measure.install-glazing
+	    name: "UpvcArgonLowESoft12mm"
+	    frame-type: uPVC
+	    glazing-type: Triple
+	    insulation-type: ArgonlowESoftCoat
+	    air-gap: gapOf12mm
 	    report: glazing-report))))
