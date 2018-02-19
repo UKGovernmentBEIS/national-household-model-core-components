@@ -2,8 +2,8 @@
     start-date: 2014
     end-date: 2028
     stock-id: reduced.stock
-    energy-calculator: BREDEM2012
-    ;energy-calculator: SAP2012 BREDEM2012
+    ;energy-calculator: BREDEM2012
+    energy-calculator: SAP2012
     quantum: 10000
 
 (def-report "glazing-report"

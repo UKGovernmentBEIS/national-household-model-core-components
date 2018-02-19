@@ -143,9 +143,12 @@ public class SAPVisitor extends Visitor {
 		case Double:
 			switch (insulationType) {
 			case Air:
+			case Argon:
 				return _check(0.76);
+			case ArgonLowEHardCoat:
 			case LowEHardCoat:
 				return _check(0.72);
+			case ArgonLowESoftCoat:
 			case LowESoftCoat:
 				return _check(0.63);
 			default:
@@ -155,9 +158,12 @@ public class SAPVisitor extends Visitor {
 		case Triple:
 			switch (insulationType) {
 			case Air:
+			case Argon:
 				return _check(0.68);
+			case ArgonLowEHardCoat:
 			case LowEHardCoat:
 				return _check(0.64);
+			case ArgonLowESoftCoat:
 			case LowESoftCoat:
 				return _check(0.57);
 			default:
