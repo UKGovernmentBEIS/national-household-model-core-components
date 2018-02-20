@@ -2,6 +2,11 @@ package uk.org.cse.nhm.energycalculator.api.types;
 
 import java.util.Optional;
 
+/**
+ * This is derived from a combination of:
+ * The worksheet from SAP 2012 https://www.bre.co.uk/filelibrary/SAP/2012/SAP-2012_9-92.pdf
+ * BREDEM 2012 (only partially included, unfinished)
+ */
 public enum EnergyCalculationStep {
     /**
      *  Dimensions and Structure
@@ -17,7 +22,7 @@ public enum EnergyCalculationStep {
     OpenFluesVentilation(SAPWorksheetSection.Ventilation.subCell(6, 'b'), null),
     IntermittentFansVentilation(SAPWorksheetSection.Ventilation.subCell(7, 'a'), null),
     PassiveVentsVentilation(SAPWorksheetSection.Ventilation.subCell(7, 'b'), null),
-    FluelessGasFiresVentilation(SAPWorksheetSection.Ventilation.subCell(8 ,'c'), null),
+    FluelessGasFiresVentilation(SAPWorksheetSection.Ventilation.subCell(7 ,'c'), null),
 
     AirChanges_ChimneysFluesFansAndPSVs(SAPWorksheetSection.Ventilation.cell(8), null),
     Storeys(SAPWorksheetSection.Ventilation.cell(9), null),
@@ -67,8 +72,12 @@ public enum EnergyCalculationStep {
     HeatLossCoefficient_DoorsSolid(SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(26), null),
     HeatLossCoefficient_DoorsSemiGlazed(SAPWorksheetSection.HeatLossesAndHeatLossParameter.subCell(26, 'a'), null),
     HeatLossCoefficient_Window(SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(27), null),
+    // Extra breakdown of cell 27 as requested by BRE.
+    // TODO; record windows aggregated by frame type
+    HeatLossCoefficient_Window_UPVC_Or_Wood(null, null),
+    HeatLossCoefficient_Window_Metal(null, null),
     // We don't have any roof windows in the NHM
-    HeatLossCoefficient_RoofWindow(SAPWorksheetSection.HeatLossesAndHeatLossParameter.subCell(27, 'a'), null, 0d),
+    HeatLossCoefficient_Window_Roof(SAPWorksheetSection.HeatLossesAndHeatLossParameter.subCell(27, 'a'), null, 0d),
     // TODO: record floors
     HeatLossCoefficient_BasementFloor(SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(28), null),
     HeatLossCoefficient_GroundFloor(SAPWorksheetSection.HeatLossesAndHeatLossParameter.subCell(28, 'a'), null),
@@ -223,8 +232,7 @@ public enum EnergyCalculationStep {
     // The same as SpaceHeatingFraction_Main
     SpaceHeating_Fraction_Main_System1(SAPWorksheetSection.EnergyRequirements.cell(204), null),
 
-    // Always 0%, because sys
-    // tem 2 isn't supported
+    // Always 0%, because main space heating system 2 isn't supported
     SpaceHeating_Fraction_Main_System2(SAPWorksheetSection.EnergyRequirements.cell(205), null, 0d),
 
     SpaceHeating_Efficiency_Main_System1(SAPWorksheetSection.EnergyRequirements.cell(206), null),
@@ -258,7 +266,7 @@ public enum EnergyCalculationStep {
 
     // Step 220 doesn't exist in the SAP worksheet
 
-    Energy_SpaceCooling(SAPWorksheetSection.EnergyRequirements.cell(221), null, SkipReason.SpaceCooling_Unsupported),
+    Energy_SpaceCooling(SAPWorksheetSection.EnergyRequirements.cell(221), null, 0d),
 
     // The worksheet confusingly repeats 211, 213, 215, 219 and 221 at this point. Ignore this.
 
