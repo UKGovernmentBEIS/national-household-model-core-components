@@ -2,14 +2,14 @@
 <?metadataRepository version='1.1.0'?>
 <repository name='Package Drone Channel: 7b9c5ef4-16a1-4b8f-ae4e-83bb87337fdb' type='org.eclipse.equinox.p2.artifact.repository.simpleRepository' version='1'>
   <properties size='1'>
-    <property name='p2.timestamp' value='1519135897020'/>
+    <property name='p2.timestamp' value='1519138384084'/>
   </properties>
   <mappings size='3'>
     <rule filter='(&amp; (classifier=osgi.bundle))' output='${repoUrl}/plugins/${id}/${version}/${id}_${version}.jar' />
     <rule filter='(&amp; (classifier=binary))' output='${repoUrl}/binary/${id}/${version}/${id}_${version}' />
     <rule filter='(&amp; (classifier=org.eclipse.update.feature))' output='${repoUrl}/features/${id}/${version}/${id}_${version}.jar' />
   </mappings>
-  <artifacts size='21'>
+  <artifacts size='20'>
 <artifact classifier="osgi.bundle" id="uk.org.cse.nhm.manual" version="7.0.5.20180220123556586">
   <properties size="4">
     <property name="download.size" value="1157459"/>
@@ -40,14 +40,6 @@
     <property name="artifact.size" value="1079548"/>
     <property name="drone.artifact.id" value="51ca99f1-5b9b-46b4-993f-b6c4c6c21a8e"/>
     <property name="download.md5" value="307e0822587b8f90cfefc2208961e742"/>
-  </properties>
-</artifact>
-<artifact classifier="osgi.bundle" id="uk.org.cse.nhm.bundle.impl" version="7.0.4.Dv-7_0_4-alpha">
-  <properties size="4">
-    <property name="download.size" value="34586973"/>
-    <property name="artifact.size" value="34586973"/>
-    <property name="drone.artifact.id" value="cab8e664-34d6-4e5c-a571-7482af58c47f"/>
-    <property name="download.md5" value="bbbcd4dce6220d63f246873c58aa17a9"/>
   </properties>
 </artifact>
 <artifact classifier="osgi.bundle" id="uk.org.cse.nhm.bundle.impl" version="6.5.2.R6_5_2_dirty">
@@ -122,20 +114,20 @@
     <property name="download.md5" value="d9214b09fea814e6f91c0457dc780836"/>
   </properties>
 </artifact>
+<artifact classifier="osgi.bundle" id="uk.org.cse.nhm.manual" version="7.0.5">
+  <properties size="4">
+    <property name="download.size" value="1157431"/>
+    <property name="artifact.size" value="1157431"/>
+    <property name="drone.artifact.id" value="aa879a49-4e31-4aa2-af81-a173bcbf2d46"/>
+    <property name="download.md5" value="4c4bad07e21f67a5877731901412136a"/>
+  </properties>
+</artifact>
 <artifact classifier="osgi.bundle" id="uk.org.cse.nhm.manual" version="7.0.5.20180220124818799">
   <properties size="4">
     <property name="download.size" value="1157462"/>
     <property name="artifact.size" value="1157462"/>
     <property name="drone.artifact.id" value="4b0291c6-c765-434b-b901-b0a74355e7cf"/>
     <property name="download.md5" value="de890b23f1d2944634a81490240598e6"/>
-  </properties>
-</artifact>
-<artifact classifier="osgi.bundle" id="uk.org.cse.nhm.manual" version="7.0.4.20180220120435027">
-  <properties size="4">
-    <property name="download.size" value="1157460"/>
-    <property name="artifact.size" value="1157460"/>
-    <property name="drone.artifact.id" value="1d11aaef-5900-49d0-87f2-abeda1888ef4"/>
-    <property name="download.md5" value="cb02eb3c11e3f546f05c1c990a0a452d"/>
   </properties>
 </artifact>
 <artifact classifier="osgi.bundle" id="uk.org.cse.nhm.manual" version="7.0.5.20180220141134633">
@@ -170,12 +162,12 @@
     <property name="download.md5" value="957ed9c69d528f4e1cbab0b71caa5e8a"/>
   </properties>
 </artifact>
-<artifact classifier="osgi.bundle" id="uk.org.cse.nhm.manual" version="7.0.4.20180220114110380">
+<artifact classifier="osgi.bundle" id="uk.org.cse.nhm.bundle.impl" version="7.0.5.Rv-7_0_5">
   <properties size="4">
-    <property name="download.size" value="1157460"/>
-    <property name="artifact.size" value="1157460"/>
-    <property name="drone.artifact.id" value="663ff49c-2455-4015-b75a-a4726f772a87"/>
-    <property name="download.md5" value="02b1a7b8e1ab487240cc4c3f523334c3"/>
+    <property name="download.size" value="34586892"/>
+    <property name="artifact.size" value="34586892"/>
+    <property name="drone.artifact.id" value="79594f19-644f-481e-b5e5-12afaa394764"/>
+    <property name="download.md5" value="0f88ae0c40f55a79fd2efb71716ee831"/>
   </properties>
 </artifact>
   </artifacts>
