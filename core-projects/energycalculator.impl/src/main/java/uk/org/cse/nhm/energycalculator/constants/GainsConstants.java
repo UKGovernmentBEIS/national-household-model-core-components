@@ -10,7 +10,7 @@ public enum GainsConstants implements IConstant {
 	BEISDOC
 	NAME: Lighting Gains Utilisation
 	DESCRIPTION: The proportion of lighting energy that provides useful heating gains
-	TYPE: valyue
+	TYPE: value
 	UNIT: Dimensionless
 	SAP: (L9)
 	BREDEM: 6B
