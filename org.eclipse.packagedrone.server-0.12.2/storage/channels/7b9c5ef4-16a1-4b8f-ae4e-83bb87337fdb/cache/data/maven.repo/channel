@@ -75,7 +75,7 @@
                                           "maven-metadata.xml.md5": {
                                             "type": "DataNode",
                                             "node": {
-                                              "data": "ZjkxNmFhOGY2ODA5ZGIyNjE3NGM4ZDliNTZkYjBiN2U\u003d",
+                                              "data": "YTg2ZGNmNzEwYTY0M2RlNjgxOGViNTM3MDE4ZDUxZGQ\u003d",
                                               "mimeType": "text/plain"
                                             }
                                           },
@@ -96,7 +96,7 @@
                                           "maven-metadata.xml.sha1": {
                                             "type": "DataNode",
                                             "node": {
-                                              "data": "YTBjYzQ0ZWMyYmY3ZDA0ZTFjYjMyZDY1ZWI2MWJhMTZiOThiOTg2NQ\u003d\u003d",
+                                              "data": "NzViNGM3ZDc5Y2QwMjcxNGZlNmE3YTRiOTFjYzAzNDg1ODgzZWI5NQ\u003d\u003d",
                                               "mimeType": "text/plain"
                                             }
                                           },
@@ -109,7 +109,7 @@
                                           "maven-metadata.xml": {
                                             "type": "DataNode",
                                             "node": {
-                                              "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG08L2dyb3VwSWQ+CiAgPGFydGlmYWN0SWQ+bmhtLWxhbmd1YWdlLWRvY3VtZW50YXRpb248L2FydGlmYWN0SWQ+CiAgPHZlcnNpb24+Ni41LjAtU05BUFNIT1Q8L3ZlcnNpb24+CiAgPHZlcnNpb25pbmc+CiAgICA8c25hcHNob3RWZXJzaW9ucz4KICAgICAgPHNuYXBzaG90VmVyc2lvbj4KICAgICAgICA8ZXh0ZW5zaW9uPnBvbTwvZXh0ZW5zaW9uPgogICAgICAgIDx2YWx1ZT42LjUuMC0yMDE2MTExNS4xMTU2MDYtMTwvdmFsdWU+CiAgICAgICAgPHVwZGF0ZWQ+MjAxNjExMTUxMTU2MDY8L3VwZGF0ZWQ+CiAgICAgIDwvc25hcHNob3RWZXJzaW9uPgogICAgICA8c25hcHNob3RWZXJzaW9uPgogICAgICAgIDxleHRlbnNpb24+amFyPC9leHRlbnNpb24+CiAgICAgICAgPHZhbHVlPjYuNS4wLTIwMTYxMTE1LjExNTYwNi0xPC92YWx1ZT4KICAgICAgICA8dXBkYXRlZD4yMDE2MTExNTExNTYwNjwvdXBkYXRlZD4KICAgICAgPC9zbmFwc2hvdFZlcnNpb24+CiAgICA8L3NuYXBzaG90VmVyc2lvbnM+CiAgICA8bGFzdFVwZGF0ZWQ+MjAxODAyMjAxMjA0Mzc8L2xhc3RVcGRhdGVkPgogIDwvdmVyc2lvbmluZz4KPC9tZXRhZGF0YT4K",
+                                              "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG08L2dyb3VwSWQ+CiAgPGFydGlmYWN0SWQ+bmhtLWxhbmd1YWdlLWRvY3VtZW50YXRpb248L2FydGlmYWN0SWQ+CiAgPHZlcnNpb24+Ni41LjAtU05BUFNIT1Q8L3ZlcnNpb24+CiAgPHZlcnNpb25pbmc+CiAgICA8c25hcHNob3RWZXJzaW9ucz4KICAgICAgPHNuYXBzaG90VmVyc2lvbj4KICAgICAgICA8ZXh0ZW5zaW9uPnBvbTwvZXh0ZW5zaW9uPgogICAgICAgIDx2YWx1ZT42LjUuMC0yMDE2MTExNS4xMTU2MDYtMTwvdmFsdWU+CiAgICAgICAgPHVwZGF0ZWQ+MjAxNjExMTUxMTU2MDY8L3VwZGF0ZWQ+CiAgICAgIDwvc25hcHNob3RWZXJzaW9uPgogICAgICA8c25hcHNob3RWZXJzaW9uPgogICAgICAgIDxleHRlbnNpb24+amFyPC9leHRlbnNpb24+CiAgICAgICAgPHZhbHVlPjYuNS4wLTIwMTYxMTE1LjExNTYwNi0xPC92YWx1ZT4KICAgICAgICA8dXBkYXRlZD4yMDE2MTExNTExNTYwNjwvdXBkYXRlZD4KICAgICAgPC9zbmFwc2hvdFZlcnNpb24+CiAgICA8L3NuYXBzaG90VmVyc2lvbnM+CiAgICA8bGFzdFVwZGF0ZWQ+MjAxODAyMjAxNDExMzY8L2xhc3RVcGRhdGVkPgogIDwvdmVyc2lvbmluZz4KPC9tZXRhZGF0YT4K",
                                               "mimeType": "application/xml"
                                             }
                                           },
@@ -136,17 +136,165 @@
                                         }
                                       }
                                     },
+                                    "7.0.5-SNAPSHOT": {
+                                      "type": "DirectoryNode",
+                                      "node": {
+                                        "nodes": {
+                                          "nhm-language-documentation-7.0.5-20180220.123413-1.pom.sha1": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "MTU2NmMyOTFiMDQ2MTM2NDA3MmNjZjU5OTdjMTgzNWZiMmMwMzI1Zg\u003d\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-language-documentation-7.0.5-20180220.140947-1.pom.sha1": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "MTU2NmMyOTFiMDQ2MTM2NDA3MmNjZjU5OTdjMTgzNWZiMmMwMzI1Zg\u003d\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-language-documentation-7.0.5-20180220.140947-1.jar": {
+                                            "type": "ArtifactNode",
+                                            "node": {
+                                              "artifactId": "34347ea1-e6e2-449b-80e3-04c7f17d3e59"
+                                            }
+                                          },
+                                          "nhm-language-documentation-7.0.5-20180220.124624-1.jar": {
+                                            "type": "ArtifactNode",
+                                            "node": {
+                                              "artifactId": "7e5c566a-df94-4976-8177-7b36fb6fbf0f"
+                                            }
+                                          },
+                                          "nhm-language-documentation-7.0.5-20180220.140947-1.pom.md5": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "MGE2YzZlMGQ1ZGU2ZDI1MzY0ZTk2ZjJlYjc5ZThiYjQ\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-language-documentation-7.0.5-20180220.123413-1.pom.md5": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "MGE2YzZlMGQ1ZGU2ZDI1MzY0ZTk2ZjJlYjc5ZThiYjQ\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "maven-metadata.xml.sha1": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "YWU0N2I5MzMxYWI4MzFjZjlkZTQxNGJmYWRjMmYyYjVhNDlkZDUzMg\u003d\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-language-documentation-7.0.5-20180220.123413-1.jar.md5": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "ZmFlOTBmODk0NDQxNTViZDg0MzgyNjgyYTM3YjhmNGI\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-language-documentation-7.0.5-20180220.123413-1.jar": {
+                                            "type": "ArtifactNode",
+                                            "node": {
+                                              "artifactId": "af67bfe3-212d-4119-85fc-5ec4d92731f7"
+                                            }
+                                          },
+                                          "nhm-language-documentation-7.0.5-20180220.140947-1.jar.md5": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "YjZkOTgyODU5MjA1YTAxNmIyODE4ZmIwYTJmMDg1OWE\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-language-documentation-7.0.5-20180220.124624-1.jar.md5": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "NWMwNDUwYjFjMzI1MTBlOGYxNWUxMzcyZTRjNTQwYTI\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-language-documentation-7.0.5-20180220.140947-1.pom": {
+                                            "type": "ArtifactNode",
+                                            "node": {
+                                              "artifactId": "56c979df-fe7a-44d7-a248-ac69df2f0287"
+                                            }
+                                          },
+                                          "maven-metadata.xml.md5": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "YTg1NDVhMTg0NDJlYTk4ZTZmZmMwZWE3MDVhMDE0Nzg\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-language-documentation-7.0.5-20180220.124624-1.pom.sha1": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "MTU2NmMyOTFiMDQ2MTM2NDA3MmNjZjU5OTdjMTgzNWZiMmMwMzI1Zg\u003d\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-language-documentation-7.0.5-20180220.123413-1.jar.sha1": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "ZDA0OTZkMTQxNDM0YWQzOGZkNmFiMWI4ZDFhOTRiMThjMGNhOTAzNA\u003d\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-language-documentation-7.0.5-20180220.140947-1.jar.sha1": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "MmQ4YzU1ZTY1ODAyNmNkYjgzZTUyNDQ3ZTk0YWYwOGVjY2FjZDI0NA\u003d\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-language-documentation-7.0.5-20180220.123413-1.pom": {
+                                            "type": "ArtifactNode",
+                                            "node": {
+                                              "artifactId": "8bc3bd2c-7f97-4c2c-872b-1e37f8b4bd18"
+                                            }
+                                          },
+                                          "maven-metadata.xml": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG08L2dyb3VwSWQ+CiAgPGFydGlmYWN0SWQ+bmhtLWxhbmd1YWdlLWRvY3VtZW50YXRpb248L2FydGlmYWN0SWQ+CiAgPHZlcnNpb24+Ny4wLjUtU05BUFNIT1Q8L3ZlcnNpb24+CiAgPHZlcnNpb25pbmc+CiAgICA8c25hcHNob3RWZXJzaW9ucz4KICAgICAgPHNuYXBzaG90VmVyc2lvbj4KICAgICAgICA8ZXh0ZW5zaW9uPmphcjwvZXh0ZW5zaW9uPgogICAgICAgIDx2YWx1ZT43LjAuNS0yMDE4MDIyMC4xMjM0MTMtMTwvdmFsdWU+CiAgICAgICAgPHVwZGF0ZWQ+MjAxODAyMjAxMjM0MTM8L3VwZGF0ZWQ+CiAgICAgIDwvc25hcHNob3RWZXJzaW9uPgogICAgICA8c25hcHNob3RWZXJzaW9uPgogICAgICAgIDxleHRlbnNpb24+cG9tPC9leHRlbnNpb24+CiAgICAgICAgPHZhbHVlPjcuMC41LTIwMTgwMjIwLjEyMzQxMy0xPC92YWx1ZT4KICAgICAgICA8dXBkYXRlZD4yMDE4MDIyMDEyMzQxMzwvdXBkYXRlZD4KICAgICAgPC9zbmFwc2hvdFZlcnNpb24+CiAgICAgIDxzbmFwc2hvdFZlcnNpb24+CiAgICAgICAgPGV4dGVuc2lvbj5qYXI8L2V4dGVuc2lvbj4KICAgICAgICA8dmFsdWU+Ny4wLjUtMjAxODAyMjAuMTI0NjI0LTE8L3ZhbHVlPgogICAgICAgIDx1cGRhdGVkPjIwMTgwMjIwMTI0NjI0PC91cGRhdGVkPgogICAgICA8L3NuYXBzaG90VmVyc2lvbj4KICAgICAgPHNuYXBzaG90VmVyc2lvbj4KICAgICAgICA8ZXh0ZW5zaW9uPnBvbTwvZXh0ZW5zaW9uPgogICAgICAgIDx2YWx1ZT43LjAuNS0yMDE4MDIyMC4xMjQ2MjQtMTwvdmFsdWU+CiAgICAgICAgPHVwZGF0ZWQ+MjAxODAyMjAxMjQ2MjQ8L3VwZGF0ZWQ+CiAgICAgIDwvc25hcHNob3RWZXJzaW9uPgogICAgICA8c25hcHNob3RWZXJzaW9uPgogICAgICAgIDxleHRlbnNpb24+cG9tPC9leHRlbnNpb24+CiAgICAgICAgPHZhbHVlPjcuMC41LTIwMTgwMjIwLjE0MDk0Ny0xPC92YWx1ZT4KICAgICAgICA8dXBkYXRlZD4yMDE4MDIyMDE0MDk0ODwvdXBkYXRlZD4KICAgICAgPC9zbmFwc2hvdFZlcnNpb24+CiAgICAgIDxzbmFwc2hvdFZlcnNpb24+CiAgICAgICAgPGV4dGVuc2lvbj5qYXI8L2V4dGVuc2lvbj4KICAgICAgICA8dmFsdWU+Ny4wLjUtMjAxODAyMjAuMTQwOTQ3LTE8L3ZhbHVlPgogICAgICAgIDx1cGRhdGVkPjIwMTgwMjIwMTQwOTQ3PC91cGRhdGVkPgogICAgICA8L3NuYXBzaG90VmVyc2lvbj4KICAgIDwvc25hcHNob3RWZXJzaW9ucz4KICAgIDxsYXN0VXBkYXRlZD4yMDE4MDIyMDE0MTEzNjwvbGFzdFVwZGF0ZWQ+CiAgPC92ZXJzaW9uaW5nPgo8L21ldGFkYXRhPgo\u003d",
+                                              "mimeType": "application/xml"
+                                            }
+                                          },
+                                          "nhm-language-documentation-7.0.5-20180220.124624-1.pom.md5": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "MGE2YzZlMGQ1ZGU2ZDI1MzY0ZTk2ZjJlYjc5ZThiYjQ\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-language-documentation-7.0.5-20180220.124624-1.jar.sha1": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "M2RkMmM0NGQ4MGEyOTM4Nzk3MzAxZDgwNjFkMjllODJlNmRiZjliMQ\u003d\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-language-documentation-7.0.5-20180220.124624-1.pom": {
+                                            "type": "ArtifactNode",
+                                            "node": {
+                                              "artifactId": "79359b93-c15d-4f29-95b9-616f2d7f8bb4"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
                                     "maven-metadata.xml.md5": {
                                       "type": "DataNode",
                                       "node": {
-                                        "data": "MzNmNWFiZjVmYTUzY2M5YzJlN2MxMzI2MDU0NmFmM2M\u003d",
+                                        "data": "OTg5YmU1NzFiNTU3ZWM3NDEyMTRkYjgxMWU3OWZmOTU\u003d",
                                         "mimeType": "text/plain"
                                       }
                                     },
                                     "maven-metadata.xml.sha1": {
                                       "type": "DataNode",
                                       "node": {
-                                        "data": "MDdiNDA4YTg4N2FjYzYxNGU3ZDYxM2VkOTlmOTc1MDBiNGZhMDg0Nw\u003d\u003d",
+                                        "data": "OTRjOTY3MjcwMDU0NDU1OGUwNzM2NDc2MGEzZmY3MmY0OGI5NWZlNQ\u003d\u003d",
                                         "mimeType": "text/plain"
                                       }
                                     },
@@ -178,7 +326,7 @@
                                           "maven-metadata.xml.sha1": {
                                             "type": "DataNode",
                                             "node": {
-                                              "data": "YTNiMzk5M2ViMWUwMDRiOTk0ZGRmYjI0NDkzNGM0NGJmYmY5MDk0NA\u003d\u003d",
+                                              "data": "Nzg2N2E4NmY3YzYwMWU1MDVlYzRhNmE0NGMxNTQ3MTRmYTdhNDkwZA\u003d\u003d",
                                               "mimeType": "text/plain"
                                             }
                                           },
@@ -211,7 +359,7 @@
                                           "maven-metadata.xml.md5": {
                                             "type": "DataNode",
                                             "node": {
-                                              "data": "OTc2ZmJhY2M0ZmRlYWM5MTkwYzBlZGQzN2Q3ODAzYTQ\u003d",
+                                              "data": "YmI0Y2Y4N2U5NzZhMzVkMTkyMDQ2NWFmODNmYWM1Zjg\u003d",
                                               "mimeType": "text/plain"
                                             }
                                           },
@@ -232,7 +380,7 @@
                                           "maven-metadata.xml": {
                                             "type": "DataNode",
                                             "node": {
-                                              "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG08L2dyb3VwSWQ+CiAgPGFydGlmYWN0SWQ+bmhtLWxhbmd1YWdlLWRvY3VtZW50YXRpb248L2FydGlmYWN0SWQ+CiAgPHZlcnNpb24+Ny4wLjQtU05BUFNIT1Q8L3ZlcnNpb24+CiAgPHZlcnNpb25pbmc+CiAgICA8c25hcHNob3RWZXJzaW9ucz4KICAgICAgPHNuYXBzaG90VmVyc2lvbj4KICAgICAgICA8ZXh0ZW5zaW9uPnBvbTwvZXh0ZW5zaW9uPgogICAgICAgIDx2YWx1ZT43LjAuNC0yMDE4MDIyMC4xMTM5MzItMTwvdmFsdWU+CiAgICAgICAgPHVwZGF0ZWQ+MjAxODAyMjAxMTM5MzI8L3VwZGF0ZWQ+CiAgICAgIDwvc25hcHNob3RWZXJzaW9uPgogICAgICA8c25hcHNob3RWZXJzaW9uPgogICAgICAgIDxleHRlbnNpb24+amFyPC9leHRlbnNpb24+CiAgICAgICAgPHZhbHVlPjcuMC40LTIwMTgwMjIwLjExMzkzMi0xPC92YWx1ZT4KICAgICAgICA8dXBkYXRlZD4yMDE4MDIyMDExMzkzMjwvdXBkYXRlZD4KICAgICAgPC9zbmFwc2hvdFZlcnNpb24+CiAgICAgIDxzbmFwc2hvdFZlcnNpb24+CiAgICAgICAgPGV4dGVuc2lvbj5qYXI8L2V4dGVuc2lvbj4KICAgICAgICA8dmFsdWU+Ny4wLjQtMjAxODAyMjAuMTIwMjU2LTE8L3ZhbHVlPgogICAgICAgIDx1cGRhdGVkPjIwMTgwMjIwMTIwMjU2PC91cGRhdGVkPgogICAgICA8L3NuYXBzaG90VmVyc2lvbj4KICAgICAgPHNuYXBzaG90VmVyc2lvbj4KICAgICAgICA8ZXh0ZW5zaW9uPnBvbTwvZXh0ZW5zaW9uPgogICAgICAgIDx2YWx1ZT43LjAuNC0yMDE4MDIyMC4xMjAyNTYtMTwvdmFsdWU+CiAgICAgICAgPHVwZGF0ZWQ+MjAxODAyMjAxMjAyNTc8L3VwZGF0ZWQ+CiAgICAgIDwvc25hcHNob3RWZXJzaW9uPgogICAgPC9zbmFwc2hvdFZlcnNpb25zPgogICAgPGxhc3RVcGRhdGVkPjIwMTgwMjIwMTIwNDM3PC9sYXN0VXBkYXRlZD4KICA8L3ZlcnNpb25pbmc+CjwvbWV0YWRhdGE+Cg\u003d\u003d",
+                                              "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG08L2dyb3VwSWQ+CiAgPGFydGlmYWN0SWQ+bmhtLWxhbmd1YWdlLWRvY3VtZW50YXRpb248L2FydGlmYWN0SWQ+CiAgPHZlcnNpb24+Ny4wLjQtU05BUFNIT1Q8L3ZlcnNpb24+CiAgPHZlcnNpb25pbmc+CiAgICA8c25hcHNob3RWZXJzaW9ucz4KICAgICAgPHNuYXBzaG90VmVyc2lvbj4KICAgICAgICA8ZXh0ZW5zaW9uPnBvbTwvZXh0ZW5zaW9uPgogICAgICAgIDx2YWx1ZT43LjAuNC0yMDE4MDIyMC4xMTM5MzItMTwvdmFsdWU+CiAgICAgICAgPHVwZGF0ZWQ+MjAxODAyMjAxMTM5MzI8L3VwZGF0ZWQ+CiAgICAgIDwvc25hcHNob3RWZXJzaW9uPgogICAgICA8c25hcHNob3RWZXJzaW9uPgogICAgICAgIDxleHRlbnNpb24+amFyPC9leHRlbnNpb24+CiAgICAgICAgPHZhbHVlPjcuMC40LTIwMTgwMjIwLjExMzkzMi0xPC92YWx1ZT4KICAgICAgICA8dXBkYXRlZD4yMDE4MDIyMDExMzkzMjwvdXBkYXRlZD4KICAgICAgPC9zbmFwc2hvdFZlcnNpb24+CiAgICAgIDxzbmFwc2hvdFZlcnNpb24+CiAgICAgICAgPGV4dGVuc2lvbj5qYXI8L2V4dGVuc2lvbj4KICAgICAgICA8dmFsdWU+Ny4wLjQtMjAxODAyMjAuMTIwMjU2LTE8L3ZhbHVlPgogICAgICAgIDx1cGRhdGVkPjIwMTgwMjIwMTIwMjU2PC91cGRhdGVkPgogICAgICA8L3NuYXBzaG90VmVyc2lvbj4KICAgICAgPHNuYXBzaG90VmVyc2lvbj4KICAgICAgICA8ZXh0ZW5zaW9uPnBvbTwvZXh0ZW5zaW9uPgogICAgICAgIDx2YWx1ZT43LjAuNC0yMDE4MDIyMC4xMjAyNTYtMTwvdmFsdWU+CiAgICAgICAgPHVwZGF0ZWQ+MjAxODAyMjAxMjAyNTc8L3VwZGF0ZWQ+CiAgICAgIDwvc25hcHNob3RWZXJzaW9uPgogICAgPC9zbmFwc2hvdFZlcnNpb25zPgogICAgPGxhc3RVcGRhdGVkPjIwMTgwMjIwMTQxMTM2PC9sYXN0VXBkYXRlZD4KICA8L3ZlcnNpb25pbmc+CjwvbWV0YWRhdGE+Cg\u003d\u003d",
                                               "mimeType": "application/xml"
                                             }
                                           },
@@ -308,7 +456,7 @@
                                     "maven-metadata.xml": {
                                       "type": "DataNode",
                                       "node": {
-                                        "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG08L2dyb3VwSWQ+CiAgPGFydGlmYWN0SWQ+bmhtLWxhbmd1YWdlLWRvY3VtZW50YXRpb248L2FydGlmYWN0SWQ+CiAgPHZlcnNpb25pbmc+CiAgICA8dmVyc2lvbnM+CiAgICAgIDx2ZXJzaW9uPjYuNC4wPC92ZXJzaW9uPgogICAgICA8dmVyc2lvbj42LjUuMC1TTkFQU0hPVDwvdmVyc2lvbj4KICAgICAgPHZlcnNpb24+Ni41LjE8L3ZlcnNpb24+CiAgICAgIDx2ZXJzaW9uPjYuNS4yPC92ZXJzaW9uPgogICAgICA8dmVyc2lvbj42LjUuNTwvdmVyc2lvbj4KICAgICAgPHZlcnNpb24+Ny4wLjQtU05BUFNIT1Q8L3ZlcnNpb24+CiAgICA8L3ZlcnNpb25zPgogICAgPHJlbGVhc2U+Ni41LjU8L3JlbGVhc2U+CiAgICA8bGF0ZXN0PjcuMC40LVNOQVBTSE9UPC9sYXRlc3Q+CiAgICA8bGFzdFVwZGF0ZWQ+MjAxODAyMjAxMjA0Mzc8L2xhc3RVcGRhdGVkPgogIDwvdmVyc2lvbmluZz4KPC9tZXRhZGF0YT4K",
+                                        "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG08L2dyb3VwSWQ+CiAgPGFydGlmYWN0SWQ+bmhtLWxhbmd1YWdlLWRvY3VtZW50YXRpb248L2FydGlmYWN0SWQ+CiAgPHZlcnNpb25pbmc+CiAgICA8dmVyc2lvbnM+CiAgICAgIDx2ZXJzaW9uPjYuNC4wPC92ZXJzaW9uPgogICAgICA8dmVyc2lvbj42LjUuMC1TTkFQU0hPVDwvdmVyc2lvbj4KICAgICAgPHZlcnNpb24+Ni41LjE8L3ZlcnNpb24+CiAgICAgIDx2ZXJzaW9uPjYuNS4yPC92ZXJzaW9uPgogICAgICA8dmVyc2lvbj42LjUuNTwvdmVyc2lvbj4KICAgICAgPHZlcnNpb24+Ny4wLjQtU05BUFNIT1Q8L3ZlcnNpb24+CiAgICAgIDx2ZXJzaW9uPjcuMC41LVNOQVBTSE9UPC92ZXJzaW9uPgogICAgPC92ZXJzaW9ucz4KICAgIDxyZWxlYXNlPjYuNS41PC9yZWxlYXNlPgogICAgPGxhdGVzdD43LjAuNS1TTkFQU0hPVDwvbGF0ZXN0PgogICAgPGxhc3RVcGRhdGVkPjIwMTgwMjIwMTQxMTM2PC9sYXN0VXBkYXRlZD4KICA8L3ZlcnNpb25pbmc+CjwvbWV0YWRhdGE+Cg\u003d\u003d",
                                         "mimeType": "application/xml"
                                       }
                                     },
@@ -473,7 +621,7 @@
                                           "maven-metadata.xml.md5": {
                                             "type": "DataNode",
                                             "node": {
-                                              "data": "YjBjMzA0OTU1MzM0NTFmMzAyOWRlMjZmMWNhOTFlNDc\u003d",
+                                              "data": "OWE2YjBhMDIwZTkxNjNjYTlhOWI4MzM5MTFiZjFiODM\u003d",
                                               "mimeType": "text/plain"
                                             }
                                           },
@@ -487,7 +635,7 @@
                                           "maven-metadata.xml.sha1": {
                                             "type": "DataNode",
                                             "node": {
-                                              "data": "MTc2MTJjY2EyYTI1NmNmMDA3MmJiYmY1ZjVmZTQ1YjQzNGNkYWQzMQ\u003d\u003d",
+                                              "data": "YTVlNDBjOWUzNmZiMjk0OWE3NTcxNWU5OGEyMDNlMDE5ZGY2NjZmMQ\u003d\u003d",
                                               "mimeType": "text/plain"
                                             }
                                           },
@@ -508,7 +656,7 @@
                                           "maven-metadata.xml": {
                                             "type": "DataNode",
                                             "node": {
-                                              "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG08L2dyb3VwSWQ+CiAgPGFydGlmYWN0SWQ+bmhtLXN0b2NrLWRvY3VtZW50YXRpb248L2FydGlmYWN0SWQ+CiAgPHZlcnNpb24+Ni41LjAtU05BUFNIT1Q8L3ZlcnNpb24+CiAgPHZlcnNpb25pbmc+CiAgICA8c25hcHNob3RWZXJzaW9ucz4KICAgICAgPHNuYXBzaG90VmVyc2lvbj4KICAgICAgICA8ZXh0ZW5zaW9uPmphcjwvZXh0ZW5zaW9uPgogICAgICAgIDx2YWx1ZT42LjUuMC0yMDE2MTExNS4xMTU2MTAtMTwvdmFsdWU+CiAgICAgICAgPHVwZGF0ZWQ+MjAxNjExMTUxMTU2MTA8L3VwZGF0ZWQ+CiAgICAgIDwvc25hcHNob3RWZXJzaW9uPgogICAgICA8c25hcHNob3RWZXJzaW9uPgogICAgICAgIDxleHRlbnNpb24+cG9tPC9leHRlbnNpb24+CiAgICAgICAgPHZhbHVlPjYuNS4wLTIwMTYxMTE1LjExNTYxMC0xPC92YWx1ZT4KICAgICAgICA8dXBkYXRlZD4yMDE2MTExNTExNTYxMTwvdXBkYXRlZD4KICAgICAgPC9zbmFwc2hvdFZlcnNpb24+CiAgICA8L3NuYXBzaG90VmVyc2lvbnM+CiAgICA8bGFzdFVwZGF0ZWQ+MjAxODAyMjAxMjA0Mzc8L2xhc3RVcGRhdGVkPgogIDwvdmVyc2lvbmluZz4KPC9tZXRhZGF0YT4K",
+                                              "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG08L2dyb3VwSWQ+CiAgPGFydGlmYWN0SWQ+bmhtLXN0b2NrLWRvY3VtZW50YXRpb248L2FydGlmYWN0SWQ+CiAgPHZlcnNpb24+Ni41LjAtU05BUFNIT1Q8L3ZlcnNpb24+CiAgPHZlcnNpb25pbmc+CiAgICA8c25hcHNob3RWZXJzaW9ucz4KICAgICAgPHNuYXBzaG90VmVyc2lvbj4KICAgICAgICA8ZXh0ZW5zaW9uPmphcjwvZXh0ZW5zaW9uPgogICAgICAgIDx2YWx1ZT42LjUuMC0yMDE2MTExNS4xMTU2MTAtMTwvdmFsdWU+CiAgICAgICAgPHVwZGF0ZWQ+MjAxNjExMTUxMTU2MTA8L3VwZGF0ZWQ+CiAgICAgIDwvc25hcHNob3RWZXJzaW9uPgogICAgICA8c25hcHNob3RWZXJzaW9uPgogICAgICAgIDxleHRlbnNpb24+cG9tPC9leHRlbnNpb24+CiAgICAgICAgPHZhbHVlPjYuNS4wLTIwMTYxMTE1LjExNTYxMC0xPC92YWx1ZT4KICAgICAgICA8dXBkYXRlZD4yMDE2MTExNTExNTYxMTwvdXBkYXRlZD4KICAgICAgPC9zbmFwc2hvdFZlcnNpb24+CiAgICA8L3NuYXBzaG90VmVyc2lvbnM+CiAgICA8bGFzdFVwZGF0ZWQ+MjAxODAyMjAxNDExMzY8L2xhc3RVcGRhdGVkPgogIDwvdmVyc2lvbmluZz4KPC9tZXRhZGF0YT4K",
                                               "mimeType": "application/xml"
                                             }
                                           },
@@ -528,17 +676,165 @@
                                         }
                                       }
                                     },
+                                    "7.0.5-SNAPSHOT": {
+                                      "type": "DirectoryNode",
+                                      "node": {
+                                        "nodes": {
+                                          "nhm-stock-documentation-7.0.5-20180220.124630-1.pom": {
+                                            "type": "ArtifactNode",
+                                            "node": {
+                                              "artifactId": "400a5006-7994-4dd0-a3b2-4733ad62073c"
+                                            }
+                                          },
+                                          "nhm-stock-documentation-7.0.5-20180220.123417-1.jar": {
+                                            "type": "ArtifactNode",
+                                            "node": {
+                                              "artifactId": "52a0caf2-6b4a-4529-812e-048ae4f6b073"
+                                            }
+                                          },
+                                          "nhm-stock-documentation-7.0.5-20180220.140954-1.jar.md5": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "ZmMzOTgzZmZhZGVhZTQzYTY1MWQ3N2JiZGRhNDhlNjY\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "maven-metadata.xml.sha1": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "NmI5ZTYzZGYyNmNkNzJhMjY1M2I5NjU4M2E0YzFmNTViMzMyYWFjOA\u003d\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-stock-documentation-7.0.5-20180220.123417-1.pom.sha1": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "ODgyMDFhNzIzMjU4OTdmNjJlYzhmYjYyNGNlZTIwYTc1Y2VmZTM5YQ\u003d\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-stock-documentation-7.0.5-20180220.124630-1.pom.md5": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "NDBkMDFmYTEwYjk2MGJmODFjZjZjYzc3MDIwZDhkOTE\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-stock-documentation-7.0.5-20180220.140954-1.pom": {
+                                            "type": "ArtifactNode",
+                                            "node": {
+                                              "artifactId": "ab8cf956-2dd7-428d-9d8d-4f55ce10e26f"
+                                            }
+                                          },
+                                          "nhm-stock-documentation-7.0.5-20180220.140954-1.pom.sha1": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "ODgyMDFhNzIzMjU4OTdmNjJlYzhmYjYyNGNlZTIwYTc1Y2VmZTM5YQ\u003d\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-stock-documentation-7.0.5-20180220.124630-1.pom.sha1": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "ODgyMDFhNzIzMjU4OTdmNjJlYzhmYjYyNGNlZTIwYTc1Y2VmZTM5YQ\u003d\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-stock-documentation-7.0.5-20180220.123417-1.pom": {
+                                            "type": "ArtifactNode",
+                                            "node": {
+                                              "artifactId": "ce1adcb2-b89e-4579-8de6-2defcdacad2c"
+                                            }
+                                          },
+                                          "nhm-stock-documentation-7.0.5-20180220.140954-1.pom.md5": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "NDBkMDFmYTEwYjk2MGJmODFjZjZjYzc3MDIwZDhkOTE\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-stock-documentation-7.0.5-20180220.123417-1.jar.sha1": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "NjlhNmNhNzFjOTRhMzIxZTVkNmUyOTIxM2VlY2Q4NjdhYTlmYmY4Mg\u003d\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-stock-documentation-7.0.5-20180220.140954-1.jar.sha1": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "NTdhNzQ2MGFlM2MwODI4YmE5ZGY3YWJiZjExMmYxMjA4ZWYxMDBjNw\u003d\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-stock-documentation-7.0.5-20180220.124630-1.jar": {
+                                            "type": "ArtifactNode",
+                                            "node": {
+                                              "artifactId": "d56f1df5-96ad-478d-99b9-a45b8b41d6bf"
+                                            }
+                                          },
+                                          "maven-metadata.xml.md5": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "ZmY5ZDI0ZWYxMzhhMTI2M2U2MzUxNzliMjliNmJlNjA\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-stock-documentation-7.0.5-20180220.123417-1.pom.md5": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "NDBkMDFmYTEwYjk2MGJmODFjZjZjYzc3MDIwZDhkOTE\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "maven-metadata.xml": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG08L2dyb3VwSWQ+CiAgPGFydGlmYWN0SWQ+bmhtLXN0b2NrLWRvY3VtZW50YXRpb248L2FydGlmYWN0SWQ+CiAgPHZlcnNpb24+Ny4wLjUtU05BUFNIT1Q8L3ZlcnNpb24+CiAgPHZlcnNpb25pbmc+CiAgICA8c25hcHNob3RWZXJzaW9ucz4KICAgICAgPHNuYXBzaG90VmVyc2lvbj4KICAgICAgICA8ZXh0ZW5zaW9uPmphcjwvZXh0ZW5zaW9uPgogICAgICAgIDx2YWx1ZT43LjAuNS0yMDE4MDIyMC4xMjM0MTctMTwvdmFsdWU+CiAgICAgICAgPHVwZGF0ZWQ+MjAxODAyMjAxMjM0MTc8L3VwZGF0ZWQ+CiAgICAgIDwvc25hcHNob3RWZXJzaW9uPgogICAgICA8c25hcHNob3RWZXJzaW9uPgogICAgICAgIDxleHRlbnNpb24+cG9tPC9leHRlbnNpb24+CiAgICAgICAgPHZhbHVlPjcuMC41LTIwMTgwMjIwLjEyMzQxNy0xPC92YWx1ZT4KICAgICAgICA8dXBkYXRlZD4yMDE4MDIyMDEyMzQxNzwvdXBkYXRlZD4KICAgICAgPC9zbmFwc2hvdFZlcnNpb24+CiAgICAgIDxzbmFwc2hvdFZlcnNpb24+CiAgICAgICAgPGV4dGVuc2lvbj5wb208L2V4dGVuc2lvbj4KICAgICAgICA8dmFsdWU+Ny4wLjUtMjAxODAyMjAuMTI0NjMwLTE8L3ZhbHVlPgogICAgICAgIDx1cGRhdGVkPjIwMTgwMjIwMTI0NjMxPC91cGRhdGVkPgogICAgICA8L3NuYXBzaG90VmVyc2lvbj4KICAgICAgPHNuYXBzaG90VmVyc2lvbj4KICAgICAgICA8ZXh0ZW5zaW9uPmphcjwvZXh0ZW5zaW9uPgogICAgICAgIDx2YWx1ZT43LjAuNS0yMDE4MDIyMC4xMjQ2MzAtMTwvdmFsdWU+CiAgICAgICAgPHVwZGF0ZWQ+MjAxODAyMjAxMjQ2MzA8L3VwZGF0ZWQ+CiAgICAgIDwvc25hcHNob3RWZXJzaW9uPgogICAgICA8c25hcHNob3RWZXJzaW9uPgogICAgICAgIDxleHRlbnNpb24+amFyPC9leHRlbnNpb24+CiAgICAgICAgPHZhbHVlPjcuMC41LTIwMTgwMjIwLjE0MDk1NC0xPC92YWx1ZT4KICAgICAgICA8dXBkYXRlZD4yMDE4MDIyMDE0MDk1NDwvdXBkYXRlZD4KICAgICAgPC9zbmFwc2hvdFZlcnNpb24+CiAgICAgIDxzbmFwc2hvdFZlcnNpb24+CiAgICAgICAgPGV4dGVuc2lvbj5wb208L2V4dGVuc2lvbj4KICAgICAgICA8dmFsdWU+Ny4wLjUtMjAxODAyMjAuMTQwOTU0LTE8L3ZhbHVlPgogICAgICAgIDx1cGRhdGVkPjIwMTgwMjIwMTQwOTU0PC91cGRhdGVkPgogICAgICA8L3NuYXBzaG90VmVyc2lvbj4KICAgIDwvc25hcHNob3RWZXJzaW9ucz4KICAgIDxsYXN0VXBkYXRlZD4yMDE4MDIyMDE0MTEzNjwvbGFzdFVwZGF0ZWQ+CiAgPC92ZXJzaW9uaW5nPgo8L21ldGFkYXRhPgo\u003d",
+                                              "mimeType": "application/xml"
+                                            }
+                                          },
+                                          "nhm-stock-documentation-7.0.5-20180220.124630-1.jar.sha1": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "M2UxM2JlNjYxNDU3MjRmYTQ5NzM3MmUxNzliNTViYWMwNzI2MzgwMg\u003d\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-stock-documentation-7.0.5-20180220.124630-1.jar.md5": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "MzMyMzdhZjNiYzYxOGVkMzAxN2EzNTdmZmQyZGYzOTM\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-stock-documentation-7.0.5-20180220.140954-1.jar": {
+                                            "type": "ArtifactNode",
+                                            "node": {
+                                              "artifactId": "b9b40716-2af4-4af9-8d61-7fda4db8f305"
+                                            }
+                                          },
+                                          "nhm-stock-documentation-7.0.5-20180220.123417-1.jar.md5": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "OTJmNzc3YjM1MmNiNTAzZjg4ZTNjMGE5ZDA1YzNhNzI\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
                                     "maven-metadata.xml.md5": {
                                       "type": "DataNode",
                                       "node": {
-                                        "data": "OGNiYzFhOTI1ZDg1YTBmOTFjNTU0N2Q2NWJlZWE3ZmI\u003d",
+                                        "data": "ZGIwYWY0NmQ4MTdlM2E4MWQ0M2FjYmYyNmI5NWU4Y2U\u003d",
                                         "mimeType": "text/plain"
                                       }
                                     },
                                     "maven-metadata.xml.sha1": {
                                       "type": "DataNode",
                                       "node": {
-                                        "data": "MGFhNzQ1MDc4YWRkNGQ3YmMwY2QwOTUxMTQwODkxYjUyNjk4YjFiNw\u003d\u003d",
+                                        "data": "MjhmMThhNWI4OTNkYzIxN2E4NWNjYjEwZTBjODVjMDdmMDUxZjczMw\u003d\u003d",
                                         "mimeType": "text/plain"
                                       }
                                     },
@@ -569,7 +865,7 @@
                                           "maven-metadata.xml.sha1": {
                                             "type": "DataNode",
                                             "node": {
-                                              "data": "YzhkODViZWM4MTk5NjNjNGJhZWJlYjI2YjU5NmNlODI3MzhiMTk2Yw\u003d\u003d",
+                                              "data": "MWRmNDg4M2VhZTg4MDA1ZDZlZmM3MjE3ZjFhM2Y2NGUzYzJiMjU5NQ\u003d\u003d",
                                               "mimeType": "text/plain"
                                             }
                                           },
@@ -596,7 +892,7 @@
                                           "maven-metadata.xml.md5": {
                                             "type": "DataNode",
                                             "node": {
-                                              "data": "NmZiNGZjZDhhZmM4M2FiODFhODM1YTVmOTc1Y2RkZjA\u003d",
+                                              "data": "MTg1NTJiZTgxMWNiMGNlYTBjNmMwNjFkYTU5MTkzYTI\u003d",
                                               "mimeType": "text/plain"
                                             }
                                           },
@@ -623,7 +919,7 @@
                                           "maven-metadata.xml": {
                                             "type": "DataNode",
                                             "node": {
-                                              "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG08L2dyb3VwSWQ+CiAgPGFydGlmYWN0SWQ+bmhtLXN0b2NrLWRvY3VtZW50YXRpb248L2FydGlmYWN0SWQ+CiAgPHZlcnNpb24+Ny4wLjQtU05BUFNIT1Q8L3ZlcnNpb24+CiAgPHZlcnNpb25pbmc+CiAgICA8c25hcHNob3RWZXJzaW9ucz4KICAgICAgPHNuYXBzaG90VmVyc2lvbj4KICAgICAgICA8ZXh0ZW5zaW9uPmphcjwvZXh0ZW5zaW9uPgogICAgICAgIDx2YWx1ZT43LjAuNC0yMDE4MDIyMC4xMTM5MzYtMTwvdmFsdWU+CiAgICAgICAgPHVwZGF0ZWQ+MjAxODAyMjAxMTM5MzY8L3VwZGF0ZWQ+CiAgICAgIDwvc25hcHNob3RWZXJzaW9uPgogICAgICA8c25hcHNob3RWZXJzaW9uPgogICAgICAgIDxleHRlbnNpb24+cG9tPC9leHRlbnNpb24+CiAgICAgICAgPHZhbHVlPjcuMC40LTIwMTgwMjIwLjExMzkzNi0xPC92YWx1ZT4KICAgICAgICA8dXBkYXRlZD4yMDE4MDIyMDExMzkzNjwvdXBkYXRlZD4KICAgICAgPC9zbmFwc2hvdFZlcnNpb24+CiAgICAgIDxzbmFwc2hvdFZlcnNpb24+CiAgICAgICAgPGV4dGVuc2lvbj5qYXI8L2V4dGVuc2lvbj4KICAgICAgICA8dmFsdWU+Ny4wLjQtMjAxODAyMjAuMTIwMzAxLTE8L3ZhbHVlPgogICAgICAgIDx1cGRhdGVkPjIwMTgwMjIwMTIwMzAxPC91cGRhdGVkPgogICAgICA8L3NuYXBzaG90VmVyc2lvbj4KICAgICAgPHNuYXBzaG90VmVyc2lvbj4KICAgICAgICA8ZXh0ZW5zaW9uPnBvbTwvZXh0ZW5zaW9uPgogICAgICAgIDx2YWx1ZT43LjAuNC0yMDE4MDIyMC4xMjAzMDEtMTwvdmFsdWU+CiAgICAgICAgPHVwZGF0ZWQ+MjAxODAyMjAxMjAzMDE8L3VwZGF0ZWQ+CiAgICAgIDwvc25hcHNob3RWZXJzaW9uPgogICAgPC9zbmFwc2hvdFZlcnNpb25zPgogICAgPGxhc3RVcGRhdGVkPjIwMTgwMjIwMTIwNDM3PC9sYXN0VXBkYXRlZD4KICA8L3ZlcnNpb25pbmc+CjwvbWV0YWRhdGE+Cg\u003d\u003d",
+                                              "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG08L2dyb3VwSWQ+CiAgPGFydGlmYWN0SWQ+bmhtLXN0b2NrLWRvY3VtZW50YXRpb248L2FydGlmYWN0SWQ+CiAgPHZlcnNpb24+Ny4wLjQtU05BUFNIT1Q8L3ZlcnNpb24+CiAgPHZlcnNpb25pbmc+CiAgICA8c25hcHNob3RWZXJzaW9ucz4KICAgICAgPHNuYXBzaG90VmVyc2lvbj4KICAgICAgICA8ZXh0ZW5zaW9uPmphcjwvZXh0ZW5zaW9uPgogICAgICAgIDx2YWx1ZT43LjAuNC0yMDE4MDIyMC4xMTM5MzYtMTwvdmFsdWU+CiAgICAgICAgPHVwZGF0ZWQ+MjAxODAyMjAxMTM5MzY8L3VwZGF0ZWQ+CiAgICAgIDwvc25hcHNob3RWZXJzaW9uPgogICAgICA8c25hcHNob3RWZXJzaW9uPgogICAgICAgIDxleHRlbnNpb24+cG9tPC9leHRlbnNpb24+CiAgICAgICAgPHZhbHVlPjcuMC40LTIwMTgwMjIwLjExMzkzNi0xPC92YWx1ZT4KICAgICAgICA8dXBkYXRlZD4yMDE4MDIyMDExMzkzNjwvdXBkYXRlZD4KICAgICAgPC9zbmFwc2hvdFZlcnNpb24+CiAgICAgIDxzbmFwc2hvdFZlcnNpb24+CiAgICAgICAgPGV4dGVuc2lvbj5qYXI8L2V4dGVuc2lvbj4KICAgICAgICA8dmFsdWU+Ny4wLjQtMjAxODAyMjAuMTIwMzAxLTE8L3ZhbHVlPgogICAgICAgIDx1cGRhdGVkPjIwMTgwMjIwMTIwMzAxPC91cGRhdGVkPgogICAgICA8L3NuYXBzaG90VmVyc2lvbj4KICAgICAgPHNuYXBzaG90VmVyc2lvbj4KICAgICAgICA8ZXh0ZW5zaW9uPnBvbTwvZXh0ZW5zaW9uPgogICAgICAgIDx2YWx1ZT43LjAuNC0yMDE4MDIyMC4xMjAzMDEtMTwvdmFsdWU+CiAgICAgICAgPHVwZGF0ZWQ+MjAxODAyMjAxMjAzMDE8L3VwZGF0ZWQ+CiAgICAgIDwvc25hcHNob3RWZXJzaW9uPgogICAgPC9zbmFwc2hvdFZlcnNpb25zPgogICAgPGxhc3RVcGRhdGVkPjIwMTgwMjIwMTQxMTM2PC9sYXN0VXBkYXRlZD4KICA8L3ZlcnNpb25pbmc+CjwvbWV0YWRhdGE+Cg\u003d\u003d",
                                               "mimeType": "application/xml"
                                             }
                                           },
@@ -700,7 +996,7 @@
                                     "maven-metadata.xml": {
                                       "type": "DataNode",
                                       "node": {
-                                        "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG08L2dyb3VwSWQ+CiAgPGFydGlmYWN0SWQ+bmhtLXN0b2NrLWRvY3VtZW50YXRpb248L2FydGlmYWN0SWQ+CiAgPHZlcnNpb25pbmc+CiAgICA8dmVyc2lvbnM+CiAgICAgIDx2ZXJzaW9uPjYuNC4wPC92ZXJzaW9uPgogICAgICA8dmVyc2lvbj42LjUuMC1TTkFQU0hPVDwvdmVyc2lvbj4KICAgICAgPHZlcnNpb24+Ni41LjE8L3ZlcnNpb24+CiAgICAgIDx2ZXJzaW9uPjYuNS4yPC92ZXJzaW9uPgogICAgICA8dmVyc2lvbj42LjUuNTwvdmVyc2lvbj4KICAgICAgPHZlcnNpb24+Ny4wLjQtU05BUFNIT1Q8L3ZlcnNpb24+CiAgICA8L3ZlcnNpb25zPgogICAgPHJlbGVhc2U+Ni41LjU8L3JlbGVhc2U+CiAgICA8bGF0ZXN0PjcuMC40LVNOQVBTSE9UPC9sYXRlc3Q+CiAgICA8bGFzdFVwZGF0ZWQ+MjAxODAyMjAxMjA0Mzc8L2xhc3RVcGRhdGVkPgogIDwvdmVyc2lvbmluZz4KPC9tZXRhZGF0YT4K",
+                                        "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG08L2dyb3VwSWQ+CiAgPGFydGlmYWN0SWQ+bmhtLXN0b2NrLWRvY3VtZW50YXRpb248L2FydGlmYWN0SWQ+CiAgPHZlcnNpb25pbmc+CiAgICA8dmVyc2lvbnM+CiAgICAgIDx2ZXJzaW9uPjYuNC4wPC92ZXJzaW9uPgogICAgICA8dmVyc2lvbj42LjUuMC1TTkFQU0hPVDwvdmVyc2lvbj4KICAgICAgPHZlcnNpb24+Ni41LjE8L3ZlcnNpb24+CiAgICAgIDx2ZXJzaW9uPjYuNS4yPC92ZXJzaW9uPgogICAgICA8dmVyc2lvbj42LjUuNTwvdmVyc2lvbj4KICAgICAgPHZlcnNpb24+Ny4wLjQtU05BUFNIT1Q8L3ZlcnNpb24+CiAgICAgIDx2ZXJzaW9uPjcuMC41LVNOQVBTSE9UPC92ZXJzaW9uPgogICAgPC92ZXJzaW9ucz4KICAgIDxyZWxlYXNlPjYuNS41PC9yZWxlYXNlPgogICAgPGxhdGVzdD43LjAuNS1TTkFQU0hPVDwvbGF0ZXN0PgogICAgPGxhc3RVcGRhdGVkPjIwMTgwMjIwMTQxMTM2PC9sYXN0VXBkYXRlZD4KICA8L3ZlcnNpb25pbmc+CjwvbWV0YWRhdGE+Cg\u003d\u003d",
                                         "mimeType": "application/xml"
                                       }
                                     },
@@ -855,21 +1151,21 @@
                                     "maven-metadata.xml.md5": {
                                       "type": "DataNode",
                                       "node": {
-                                        "data": "NjRmY2UxZTgwYTRjYzllNTNlZTZiODU4NjE0ZWQwMDc\u003d",
+                                        "data": "ZTNjMGI3YWEwODViMGE4MmM5OWVhNTcxYWQxNWM1OTk\u003d",
                                         "mimeType": "text/plain"
                                       }
                                     },
                                     "maven-metadata.xml.sha1": {
                                       "type": "DataNode",
                                       "node": {
-                                        "data": "ZTVmZDBjN2JhMDk2MzY1OTc1MzgzNDE2ZGQ0YjI3OGQ2MDVhYjkwYg\u003d\u003d",
+                                        "data": "Njg2OTUyZmJkZWI4ZWZkM2RlODY2MTAyZDQwNDM0YjMyYWIxODM4OQ\u003d\u003d",
                                         "mimeType": "text/plain"
                                       }
                                     },
                                     "maven-metadata.xml": {
                                       "type": "DataNode",
                                       "node": {
-                                        "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG08L2dyb3VwSWQ+CiAgPGFydGlmYWN0SWQ+bmhtLWJ1bmRsZS1hcGk8L2FydGlmYWN0SWQ+CiAgPHZlcnNpb25pbmc+CiAgICA8dmVyc2lvbnM+CiAgICAgIDx2ZXJzaW9uPjIuMC4wPC92ZXJzaW9uPgogICAgPC92ZXJzaW9ucz4KICAgIDxyZWxlYXNlPjIuMC4wPC9yZWxlYXNlPgogICAgPGxhdGVzdD4yLjAuMDwvbGF0ZXN0PgogICAgPGxhc3RVcGRhdGVkPjIwMTgwMjIwMTIwNDM3PC9sYXN0VXBkYXRlZD4KICA8L3ZlcnNpb25pbmc+CjwvbWV0YWRhdGE+Cg\u003d\u003d",
+                                        "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG08L2dyb3VwSWQ+CiAgPGFydGlmYWN0SWQ+bmhtLWJ1bmRsZS1hcGk8L2FydGlmYWN0SWQ+CiAgPHZlcnNpb25pbmc+CiAgICA8dmVyc2lvbnM+CiAgICAgIDx2ZXJzaW9uPjIuMC4wPC92ZXJzaW9uPgogICAgPC92ZXJzaW9ucz4KICAgIDxyZWxlYXNlPjIuMC4wPC9yZWxlYXNlPgogICAgPGxhdGVzdD4yLjAuMDwvbGF0ZXN0PgogICAgPGxhc3RVcGRhdGVkPjIwMTgwMjIwMTQxMTM2PC9sYXN0VXBkYXRlZD4KICA8L3ZlcnNpb25pbmc+CjwvbWV0YWRhdGE+Cg\u003d\u003d",
                                         "mimeType": "application/xml"
                                       }
                                     }
@@ -954,7 +1250,7 @@
                                           "maven-metadata.xml.md5": {
                                             "type": "DataNode",
                                             "node": {
-                                              "data": "MzdhZmU0NDZlMmM3OTE5NDdlOGU2OTI2OTllNzU0NWU\u003d",
+                                              "data": "ZTI2NmQ1MDUzNWVhNDE4ZjZlMjNiNTgxZDc3OTg5MWE\u003d",
                                               "mimeType": "text/plain"
                                             }
                                           },
@@ -974,7 +1270,7 @@
                                           "maven-metadata.xml.sha1": {
                                             "type": "DataNode",
                                             "node": {
-                                              "data": "Nzk1NTZiZjQwYjUzNmNiYzU5YzMwOTdhZTU4MmFlZDA3NTFmN2RkNQ\u003d\u003d",
+                                              "data": "NmZhNDAzMzYwMzIzOTY5NDlhY2ZhNzQ4ZTc5ZWMxYzFiZTQ5MDg2Nw\u003d\u003d",
                                               "mimeType": "text/plain"
                                             }
                                           },
@@ -988,8 +1284,156 @@
                                           "maven-metadata.xml": {
                                             "type": "DataNode",
                                             "node": {
-                                              "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG08L2dyb3VwSWQ+CiAgPGFydGlmYWN0SWQ+bmhtLWltcGwtYnVuZGxlPC9hcnRpZmFjdElkPgogIDx2ZXJzaW9uPjYuNS4wLVNOQVBTSE9UPC92ZXJzaW9uPgogIDx2ZXJzaW9uaW5nPgogICAgPHNuYXBzaG90VmVyc2lvbnM+CiAgICAgIDxzbmFwc2hvdFZlcnNpb24+CiAgICAgICAgPGV4dGVuc2lvbj5qYXI8L2V4dGVuc2lvbj4KICAgICAgICA8dmFsdWU+Ni41LjAtMjAxNjExMTUuMTE1NTQyLTE8L3ZhbHVlPgogICAgICAgIDx1cGRhdGVkPjIwMTYxMTE1MTE1NTQ0PC91cGRhdGVkPgogICAgICA8L3NuYXBzaG90VmVyc2lvbj4KICAgICAgPHNuYXBzaG90VmVyc2lvbj4KICAgICAgICA8ZXh0ZW5zaW9uPnBvbTwvZXh0ZW5zaW9uPgogICAgICAgIDx2YWx1ZT42LjUuMC0yMDE2MTExNS4xMTU1NDItMTwvdmFsdWU+CiAgICAgICAgPHVwZGF0ZWQ+MjAxNjExMTUxMTU1NDc8L3VwZGF0ZWQ+CiAgICAgIDwvc25hcHNob3RWZXJzaW9uPgogICAgPC9zbmFwc2hvdFZlcnNpb25zPgogICAgPGxhc3RVcGRhdGVkPjIwMTgwMjIwMTIwNDM3PC9sYXN0VXBkYXRlZD4KICA8L3ZlcnNpb25pbmc+CjwvbWV0YWRhdGE+Cg\u003d\u003d",
+                                              "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG08L2dyb3VwSWQ+CiAgPGFydGlmYWN0SWQ+bmhtLWltcGwtYnVuZGxlPC9hcnRpZmFjdElkPgogIDx2ZXJzaW9uPjYuNS4wLVNOQVBTSE9UPC92ZXJzaW9uPgogIDx2ZXJzaW9uaW5nPgogICAgPHNuYXBzaG90VmVyc2lvbnM+CiAgICAgIDxzbmFwc2hvdFZlcnNpb24+CiAgICAgICAgPGV4dGVuc2lvbj5qYXI8L2V4dGVuc2lvbj4KICAgICAgICA8dmFsdWU+Ni41LjAtMjAxNjExMTUuMTE1NTQyLTE8L3ZhbHVlPgogICAgICAgIDx1cGRhdGVkPjIwMTYxMTE1MTE1NTQ0PC91cGRhdGVkPgogICAgICA8L3NuYXBzaG90VmVyc2lvbj4KICAgICAgPHNuYXBzaG90VmVyc2lvbj4KICAgICAgICA8ZXh0ZW5zaW9uPnBvbTwvZXh0ZW5zaW9uPgogICAgICAgIDx2YWx1ZT42LjUuMC0yMDE2MTExNS4xMTU1NDItMTwvdmFsdWU+CiAgICAgICAgPHVwZGF0ZWQ+MjAxNjExMTUxMTU1NDc8L3VwZGF0ZWQ+CiAgICAgIDwvc25hcHNob3RWZXJzaW9uPgogICAgPC9zbmFwc2hvdFZlcnNpb25zPgogICAgPGxhc3RVcGRhdGVkPjIwMTgwMjIwMTQxMTM2PC9sYXN0VXBkYXRlZD4KICA8L3ZlcnNpb25pbmc+CjwvbWV0YWRhdGE+Cg\u003d\u003d",
                                               "mimeType": "application/xml"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    "7.0.5-SNAPSHOT": {
+                                      "type": "DirectoryNode",
+                                      "node": {
+                                        "nodes": {
+                                          "nhm-impl-bundle-7.0.5-20180220.123352-1.pom.sha1": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "MTgwODkxMDA1YTM1NjdjNWM0MmMzOTE2YjRlMGNkY2Q1MTM4OGZlNw\u003d\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-impl-bundle-7.0.5-20180220.124551-1.pom": {
+                                            "type": "ArtifactNode",
+                                            "node": {
+                                              "artifactId": "62ddfb74-c452-4913-8ace-27a2ba572299"
+                                            }
+                                          },
+                                          "nhm-impl-bundle-7.0.5-20180220.124551-1.pom.md5": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "OTIwNjA1YzBkOWM0NGJlZDdkZjg0NTkwNWJmOTU3Yzc\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-impl-bundle-7.0.5-20180220.123352-1.pom.md5": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "OTIwNjA1YzBkOWM0NGJlZDdkZjg0NTkwNWJmOTU3Yzc\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-impl-bundle-7.0.5-20180220.140924-1.jar.sha1": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "ZjdiNmE2NDU2MDU1M2FiNDU0ZWNlNzcwMjNhYzY1Yzc0ZjEyNzIxYg\u003d\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-impl-bundle-7.0.5-20180220.140924-1.jar.md5": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "Nzk2YTBmZTZmZjEwMmIzZDI4MTU3YzJkMjY4NTQ5OGU\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "maven-metadata.xml.sha1": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "NjVjYzU3NTIwYjc3MmZmZTZhMjRmYjNkYWJiMWFjMWU0MGI5MTNjMA\u003d\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-impl-bundle-7.0.5-20180220.140924-1.jar": {
+                                            "type": "ArtifactNode",
+                                            "node": {
+                                              "artifactId": "9ff95e13-09a9-4799-a9ec-f5b056cfe5e5"
+                                            }
+                                          },
+                                          "nhm-impl-bundle-7.0.5-20180220.123352-1.jar": {
+                                            "type": "ArtifactNode",
+                                            "node": {
+                                              "artifactId": "dadba191-008b-40ce-927c-53deac072fa2"
+                                            }
+                                          },
+                                          "nhm-impl-bundle-7.0.5-20180220.123352-1.jar.md5": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "YzdiYjkxYjA1MzAzMTMyNDlmYzQ3YmRlYzc5YmQ1Zjc\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-impl-bundle-7.0.5-20180220.124551-1.jar.md5": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "MjFjOWM4ZTY0NmVjYWZiOTA5M2ZmM2RkMGVhYTgzNjg\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "maven-metadata.xml.md5": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "YmMwODI3ZGJkODU0YjY2OTFhZTI0MGFiYTViZmJiZmI\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-impl-bundle-7.0.5-20180220.124551-1.jar": {
+                                            "type": "ArtifactNode",
+                                            "node": {
+                                              "artifactId": "c5e393e5-241f-4afd-b6b4-10553588194a"
+                                            }
+                                          },
+                                          "nhm-impl-bundle-7.0.5-20180220.140924-1.pom.sha1": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "MTgwODkxMDA1YTM1NjdjNWM0MmMzOTE2YjRlMGNkY2Q1MTM4OGZlNw\u003d\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-impl-bundle-7.0.5-20180220.123352-1.jar.sha1": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "ODU1YzQyNGZkYzI1YWU2ZTI2ZjYzODIwYjAyMDhmYTUyYWZmMGJlMw\u003d\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "maven-metadata.xml": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG08L2dyb3VwSWQ+CiAgPGFydGlmYWN0SWQ+bmhtLWltcGwtYnVuZGxlPC9hcnRpZmFjdElkPgogIDx2ZXJzaW9uPjcuMC41LVNOQVBTSE9UPC92ZXJzaW9uPgogIDx2ZXJzaW9uaW5nPgogICAgPHNuYXBzaG90VmVyc2lvbnM+CiAgICAgIDxzbmFwc2hvdFZlcnNpb24+CiAgICAgICAgPGV4dGVuc2lvbj5qYXI8L2V4dGVuc2lvbj4KICAgICAgICA8dmFsdWU+Ny4wLjUtMjAxODAyMjAuMTIzMzUyLTE8L3ZhbHVlPgogICAgICAgIDx1cGRhdGVkPjIwMTgwMjIwMTIzMzUzPC91cGRhdGVkPgogICAgICA8L3NuYXBzaG90VmVyc2lvbj4KICAgICAgPHNuYXBzaG90VmVyc2lvbj4KICAgICAgICA8ZXh0ZW5zaW9uPnBvbTwvZXh0ZW5zaW9uPgogICAgICAgIDx2YWx1ZT43LjAuNS0yMDE4MDIyMC4xMjMzNTItMTwvdmFsdWU+CiAgICAgICAgPHVwZGF0ZWQ+MjAxODAyMjAxMjMzNTU8L3VwZGF0ZWQ+CiAgICAgIDwvc25hcHNob3RWZXJzaW9uPgogICAgICA8c25hcHNob3RWZXJzaW9uPgogICAgICAgIDxleHRlbnNpb24+amFyPC9leHRlbnNpb24+CiAgICAgICAgPHZhbHVlPjcuMC41LTIwMTgwMjIwLjEyNDU1MS0xPC92YWx1ZT4KICAgICAgICA8dXBkYXRlZD4yMDE4MDIyMDEyNDU1MjwvdXBkYXRlZD4KICAgICAgPC9zbmFwc2hvdFZlcnNpb24+CiAgICAgIDxzbmFwc2hvdFZlcnNpb24+CiAgICAgICAgPGV4dGVuc2lvbj5wb208L2V4dGVuc2lvbj4KICAgICAgICA8dmFsdWU+Ny4wLjUtMjAxODAyMjAuMTI0NTUxLTE8L3ZhbHVlPgogICAgICAgIDx1cGRhdGVkPjIwMTgwMjIwMTI0NTU1PC91cGRhdGVkPgogICAgICA8L3NuYXBzaG90VmVyc2lvbj4KICAgICAgPHNuYXBzaG90VmVyc2lvbj4KICAgICAgICA8ZXh0ZW5zaW9uPnBvbTwvZXh0ZW5zaW9uPgogICAgICAgIDx2YWx1ZT43LjAuNS0yMDE4MDIyMC4xNDA5MjQtMTwvdmFsdWU+CiAgICAgICAgPHVwZGF0ZWQ+MjAxODAyMjAxNDA5Mjk8L3VwZGF0ZWQ+CiAgICAgIDwvc25hcHNob3RWZXJzaW9uPgogICAgICA8c25hcHNob3RWZXJzaW9uPgogICAgICAgIDxleHRlbnNpb24+amFyPC9leHRlbnNpb24+CiAgICAgICAgPHZhbHVlPjcuMC41LTIwMTgwMjIwLjE0MDkyNC0xPC92YWx1ZT4KICAgICAgICA8dXBkYXRlZD4yMDE4MDIyMDE0MDkyNjwvdXBkYXRlZD4KICAgICAgPC9zbmFwc2hvdFZlcnNpb24+CiAgICA8L3NuYXBzaG90VmVyc2lvbnM+CiAgICA8bGFzdFVwZGF0ZWQ+MjAxODAyMjAxNDExMzY8L2xhc3RVcGRhdGVkPgogIDwvdmVyc2lvbmluZz4KPC9tZXRhZGF0YT4K",
+                                              "mimeType": "application/xml"
+                                            }
+                                          },
+                                          "nhm-impl-bundle-7.0.5-20180220.124551-1.jar.sha1": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "ZjI5MjM3ZDAwZmU2Nzg3OWU3NzIzNGRjZDBkMDY5ZTY1MGY2OTE0Ng\u003d\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-impl-bundle-7.0.5-20180220.140924-1.pom": {
+                                            "type": "ArtifactNode",
+                                            "node": {
+                                              "artifactId": "982d927c-c291-4bca-8cd3-5fc91a08b53f"
+                                            }
+                                          },
+                                          "nhm-impl-bundle-7.0.5-20180220.140924-1.pom.md5": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "OTIwNjA1YzBkOWM0NGJlZDdkZjg0NTkwNWJmOTU3Yzc\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-impl-bundle-7.0.5-20180220.124551-1.pom.sha1": {
+                                            "type": "DataNode",
+                                            "node": {
+                                              "data": "MTgwODkxMDA1YTM1NjdjNWM0MmMzOTE2YjRlMGNkY2Q1MTM4OGZlNw\u003d\u003d",
+                                              "mimeType": "text/plain"
+                                            }
+                                          },
+                                          "nhm-impl-bundle-7.0.5-20180220.123352-1.pom": {
+                                            "type": "ArtifactNode",
+                                            "node": {
+                                              "artifactId": "6db72c07-540b-49fc-a798-c0384e9123bc"
                                             }
                                           }
                                         }
@@ -998,14 +1442,14 @@
                                     "maven-metadata.xml.md5": {
                                       "type": "DataNode",
                                       "node": {
-                                        "data": "OWUzNDUxNTAxMDA4NGU0OGNmYTU0MWYzNTMxZjE2Zjc\u003d",
+                                        "data": "YzViNWJiNjg4YWE0YWNkOTY5NzIzODA3ODg2NTkxODc\u003d",
                                         "mimeType": "text/plain"
                                       }
                                     },
                                     "maven-metadata.xml.sha1": {
                                       "type": "DataNode",
                                       "node": {
-                                        "data": "ZTAxZGIzM2I3MzY1M2U5YTljZmUyMDRkYTNlMmQyYjhiZDExZTY4YQ\u003d\u003d",
+                                        "data": "MzIxN2E4ZGZlNmZjNzBlN2Y5OWQ3NDhlNDgyZjA4ZTE4M2FkZDIxZQ\u003d\u003d",
                                         "mimeType": "text/plain"
                                       }
                                     },
@@ -1036,7 +1480,7 @@
                                           "maven-metadata.xml.sha1": {
                                             "type": "DataNode",
                                             "node": {
-                                              "data": "ZTBhYjNiNDkzNzA2MmUwZGY4ODliYjM4ODQ1ODU3YTcxMjkzMWQ4MA\u003d\u003d",
+                                              "data": "Y2ZjNTk3OWFjNjNiNTk4ZjYzNjk4NWY0MmIzZWVmMDA2ODMzNGQwMA\u003d\u003d",
                                               "mimeType": "text/plain"
                                             }
                                           },
@@ -1070,7 +1514,7 @@
                                           "maven-metadata.xml.md5": {
                                             "type": "DataNode",
                                             "node": {
-                                              "data": "NTFlOGQyM2QzNzQxMDE1NzQ1ODFmZjk1MTEzZGZmNWU\u003d",
+                                              "data": "YTVlMTcwOGE1NTUyYTBkNTRlMDZjMTg4OTJmOWFjYmY\u003d",
                                               "mimeType": "text/plain"
                                             }
                                           },
@@ -1083,7 +1527,7 @@
                                           "maven-metadata.xml": {
                                             "type": "DataNode",
                                             "node": {
-                                              "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG08L2dyb3VwSWQ+CiAgPGFydGlmYWN0SWQ+bmhtLWltcGwtYnVuZGxlPC9hcnRpZmFjdElkPgogIDx2ZXJzaW9uPjcuMC40LVNOQVBTSE9UPC92ZXJzaW9uPgogIDx2ZXJzaW9uaW5nPgogICAgPHNuYXBzaG90VmVyc2lvbnM+CiAgICAgIDxzbmFwc2hvdFZlcnNpb24+CiAgICAgICAgPGV4dGVuc2lvbj5wb208L2V4dGVuc2lvbj4KICAgICAgICA8dmFsdWU+Ny4wLjQtMjAxODAyMjAuMTEzOTEyLTE8L3ZhbHVlPgogICAgICAgIDx1cGRhdGVkPjIwMTgwMjIwMTEzOTE0PC91cGRhdGVkPgogICAgICA8L3NuYXBzaG90VmVyc2lvbj4KICAgICAgPHNuYXBzaG90VmVyc2lvbj4KICAgICAgICA8ZXh0ZW5zaW9uPmphcjwvZXh0ZW5zaW9uPgogICAgICAgIDx2YWx1ZT43LjAuNC0yMDE4MDIyMC4xMTM5MTItMTwvdmFsdWU+CiAgICAgICAgPHVwZGF0ZWQ+MjAxODAyMjAxMTM5MTM8L3VwZGF0ZWQ+CiAgICAgIDwvc25hcHNob3RWZXJzaW9uPgogICAgICA8c25hcHNob3RWZXJzaW9uPgogICAgICAgIDxleHRlbnNpb24+cG9tPC9leHRlbnNpb24+CiAgICAgICAgPHZhbHVlPjcuMC40LTIwMTgwMjIwLjEyMDIzNS0xPC92YWx1ZT4KICAgICAgICA8dXBkYXRlZD4yMDE4MDIyMDEyMDIzODwvdXBkYXRlZD4KICAgICAgPC9zbmFwc2hvdFZlcnNpb24+CiAgICAgIDxzbmFwc2hvdFZlcnNpb24+CiAgICAgICAgPGV4dGVuc2lvbj5qYXI8L2V4dGVuc2lvbj4KICAgICAgICA8dmFsdWU+Ny4wLjQtMjAxODAyMjAuMTIwMjM1LTE8L3ZhbHVlPgogICAgICAgIDx1cGRhdGVkPjIwMTgwMjIwMTIwMjM2PC91cGRhdGVkPgogICAgICA8L3NuYXBzaG90VmVyc2lvbj4KICAgIDwvc25hcHNob3RWZXJzaW9ucz4KICAgIDxsYXN0VXBkYXRlZD4yMDE4MDIyMDEyMDQzNzwvbGFzdFVwZGF0ZWQ+CiAgPC92ZXJzaW9uaW5nPgo8L21ldGFkYXRhPgo\u003d",
+                                              "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG08L2dyb3VwSWQ+CiAgPGFydGlmYWN0SWQ+bmhtLWltcGwtYnVuZGxlPC9hcnRpZmFjdElkPgogIDx2ZXJzaW9uPjcuMC40LVNOQVBTSE9UPC92ZXJzaW9uPgogIDx2ZXJzaW9uaW5nPgogICAgPHNuYXBzaG90VmVyc2lvbnM+CiAgICAgIDxzbmFwc2hvdFZlcnNpb24+CiAgICAgICAgPGV4dGVuc2lvbj5wb208L2V4dGVuc2lvbj4KICAgICAgICA8dmFsdWU+Ny4wLjQtMjAxODAyMjAuMTEzOTEyLTE8L3ZhbHVlPgogICAgICAgIDx1cGRhdGVkPjIwMTgwMjIwMTEzOTE0PC91cGRhdGVkPgogICAgICA8L3NuYXBzaG90VmVyc2lvbj4KICAgICAgPHNuYXBzaG90VmVyc2lvbj4KICAgICAgICA8ZXh0ZW5zaW9uPmphcjwvZXh0ZW5zaW9uPgogICAgICAgIDx2YWx1ZT43LjAuNC0yMDE4MDIyMC4xMTM5MTItMTwvdmFsdWU+CiAgICAgICAgPHVwZGF0ZWQ+MjAxODAyMjAxMTM5MTM8L3VwZGF0ZWQ+CiAgICAgIDwvc25hcHNob3RWZXJzaW9uPgogICAgICA8c25hcHNob3RWZXJzaW9uPgogICAgICAgIDxleHRlbnNpb24+cG9tPC9leHRlbnNpb24+CiAgICAgICAgPHZhbHVlPjcuMC40LTIwMTgwMjIwLjEyMDIzNS0xPC92YWx1ZT4KICAgICAgICA8dXBkYXRlZD4yMDE4MDIyMDEyMDIzODwvdXBkYXRlZD4KICAgICAgPC9zbmFwc2hvdFZlcnNpb24+CiAgICAgIDxzbmFwc2hvdFZlcnNpb24+CiAgICAgICAgPGV4dGVuc2lvbj5qYXI8L2V4dGVuc2lvbj4KICAgICAgICA8dmFsdWU+Ny4wLjQtMjAxODAyMjAuMTIwMjM1LTE8L3ZhbHVlPgogICAgICAgIDx1cGRhdGVkPjIwMTgwMjIwMTIwMjM2PC91cGRhdGVkPgogICAgICA8L3NuYXBzaG90VmVyc2lvbj4KICAgIDwvc25hcHNob3RWZXJzaW9ucz4KICAgIDxsYXN0VXBkYXRlZD4yMDE4MDIyMDE0MTEzNjwvbGFzdFVwZGF0ZWQ+CiAgPC92ZXJzaW9uaW5nPgo8L21ldGFkYXRhPgo\u003d",
                                               "mimeType": "application/xml"
                                             }
                                           },
@@ -1167,7 +1611,7 @@
                                     "maven-metadata.xml": {
                                       "type": "DataNode",
                                       "node": {
-                                        "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG08L2dyb3VwSWQ+CiAgPGFydGlmYWN0SWQ+bmhtLWltcGwtYnVuZGxlPC9hcnRpZmFjdElkPgogIDx2ZXJzaW9uaW5nPgogICAgPHZlcnNpb25zPgogICAgICA8dmVyc2lvbj42LjQuMDwvdmVyc2lvbj4KICAgICAgPHZlcnNpb24+Ni41LjAtU05BUFNIT1Q8L3ZlcnNpb24+CiAgICAgIDx2ZXJzaW9uPjYuNS4xPC92ZXJzaW9uPgogICAgICA8dmVyc2lvbj42LjUuMjwvdmVyc2lvbj4KICAgICAgPHZlcnNpb24+Ni41LjU8L3ZlcnNpb24+CiAgICAgIDx2ZXJzaW9uPjcuMC40LVNOQVBTSE9UPC92ZXJzaW9uPgogICAgPC92ZXJzaW9ucz4KICAgIDxyZWxlYXNlPjYuNS41PC9yZWxlYXNlPgogICAgPGxhdGVzdD43LjAuNC1TTkFQU0hPVDwvbGF0ZXN0PgogICAgPGxhc3RVcGRhdGVkPjIwMTgwMjIwMTIwNDM3PC9sYXN0VXBkYXRlZD4KICA8L3ZlcnNpb25pbmc+CjwvbWV0YWRhdGE+Cg\u003d\u003d",
+                                        "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG08L2dyb3VwSWQ+CiAgPGFydGlmYWN0SWQ+bmhtLWltcGwtYnVuZGxlPC9hcnRpZmFjdElkPgogIDx2ZXJzaW9uaW5nPgogICAgPHZlcnNpb25zPgogICAgICA8dmVyc2lvbj42LjQuMDwvdmVyc2lvbj4KICAgICAgPHZlcnNpb24+Ni41LjAtU05BUFNIT1Q8L3ZlcnNpb24+CiAgICAgIDx2ZXJzaW9uPjYuNS4xPC92ZXJzaW9uPgogICAgICA8dmVyc2lvbj42LjUuMjwvdmVyc2lvbj4KICAgICAgPHZlcnNpb24+Ni41LjU8L3ZlcnNpb24+CiAgICAgIDx2ZXJzaW9uPjcuMC40LVNOQVBTSE9UPC92ZXJzaW9uPgogICAgICA8dmVyc2lvbj43LjAuNS1TTkFQU0hPVDwvdmVyc2lvbj4KICAgIDwvdmVyc2lvbnM+CiAgICA8cmVsZWFzZT42LjUuNTwvcmVsZWFzZT4KICAgIDxsYXRlc3Q+Ny4wLjUtU05BUFNIT1Q8L2xhdGVzdD4KICAgIDxsYXN0VXBkYXRlZD4yMDE4MDIyMDE0MTEzNjwvbGFzdFVwZGF0ZWQ+CiAgPC92ZXJzaW9uaW5nPgo8L21ldGFkYXRhPgo\u003d",
                                         "mimeType": "application/xml"
                                       }
                                     },
@@ -1303,17 +1747,105 @@
                                               }
                                             }
                                           },
+                                          "7.0.5-SNAPSHOT": {
+                                            "type": "DirectoryNode",
+                                            "node": {
+                                              "nodes": {
+                                                "parent-7.0.5-20180220.141000-1.pom": {
+                                                  "type": "ArtifactNode",
+                                                  "node": {
+                                                    "artifactId": "1421bb4b-3e89-43a1-97c2-004d702d6c72"
+                                                  }
+                                                },
+                                                "parent-7.0.5-20180220.124638-1.pom.md5": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "YjJiZTdmNDRiMzdmNGY1YTM2MmU5MzBiNjI2ZDMwYWI\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "maven-metadata.xml.md5": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "Y2ZiZTRlODgwYTljNjM5MDFmYjk5MzQwNzFjNGU2NWY\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "parent-7.0.5-20180220.123422-1.pom": {
+                                                  "type": "ArtifactNode",
+                                                  "node": {
+                                                    "artifactId": "ee1ff13a-f599-443a-875b-bdeecd212983"
+                                                  }
+                                                },
+                                                "parent-7.0.5-20180220.141000-1.pom.md5": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "YjJiZTdmNDRiMzdmNGY1YTM2MmU5MzBiNjI2ZDMwYWI\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "parent-7.0.5-20180220.124638-1.pom": {
+                                                  "type": "ArtifactNode",
+                                                  "node": {
+                                                    "artifactId": "1725aed9-9ca1-4f52-ab88-af96965c75cb"
+                                                  }
+                                                },
+                                                "maven-metadata.xml.sha1": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "NmJkNDhlOTBiMzQwZmU2MDdlZGRhYTc5N2M4MTI0YjY4NmJjMDYwMQ\u003d\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "parent-7.0.5-20180220.123422-1.pom.md5": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "YjJiZTdmNDRiMzdmNGY1YTM2MmU5MzBiNjI2ZDMwYWI\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "parent-7.0.5-20180220.123422-1.pom.sha1": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "ZGU4MWZmYjY3MDMxMjM2OTdlZDhhN2Y4YzkyYTJlYjE3YmQzMjg5ZA\u003d\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "maven-metadata.xml": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG0ubWFudWFsPC9ncm91cElkPgogIDxhcnRpZmFjdElkPnBhcmVudDwvYXJ0aWZhY3RJZD4KICA8dmVyc2lvbj43LjAuNS1TTkFQU0hPVDwvdmVyc2lvbj4KICA8dmVyc2lvbmluZz4KICAgIDxzbmFwc2hvdFZlcnNpb25zPgogICAgICA8c25hcHNob3RWZXJzaW9uPgogICAgICAgIDxleHRlbnNpb24+cG9tPC9leHRlbnNpb24+CiAgICAgICAgPHZhbHVlPjcuMC41LTIwMTgwMjIwLjEyMzQyMi0xPC92YWx1ZT4KICAgICAgICA8dXBkYXRlZD4yMDE4MDIyMDEyMzQyMjwvdXBkYXRlZD4KICAgICAgPC9zbmFwc2hvdFZlcnNpb24+CiAgICAgIDxzbmFwc2hvdFZlcnNpb24+CiAgICAgICAgPGV4dGVuc2lvbj5wb208L2V4dGVuc2lvbj4KICAgICAgICA8dmFsdWU+Ny4wLjUtMjAxODAyMjAuMTI0NjM4LTE8L3ZhbHVlPgogICAgICAgIDx1cGRhdGVkPjIwMTgwMjIwMTI0NjM4PC91cGRhdGVkPgogICAgICA8L3NuYXBzaG90VmVyc2lvbj4KICAgICAgPHNuYXBzaG90VmVyc2lvbj4KICAgICAgICA8ZXh0ZW5zaW9uPnBvbTwvZXh0ZW5zaW9uPgogICAgICAgIDx2YWx1ZT43LjAuNS0yMDE4MDIyMC4xNDEwMDAtMTwvdmFsdWU+CiAgICAgICAgPHVwZGF0ZWQ+MjAxODAyMjAxNDEwMDA8L3VwZGF0ZWQ+CiAgICAgIDwvc25hcHNob3RWZXJzaW9uPgogICAgPC9zbmFwc2hvdFZlcnNpb25zPgogICAgPGxhc3RVcGRhdGVkPjIwMTgwMjIwMTQxMTM2PC9sYXN0VXBkYXRlZD4KICA8L3ZlcnNpb25pbmc+CjwvbWV0YWRhdGE+Cg\u003d\u003d",
+                                                    "mimeType": "application/xml"
+                                                  }
+                                                },
+                                                "parent-7.0.5-20180220.141000-1.pom.sha1": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "ZGU4MWZmYjY3MDMxMjM2OTdlZDhhN2Y4YzkyYTJlYjE3YmQzMjg5ZA\u003d\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "parent-7.0.5-20180220.124638-1.pom.sha1": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "ZGU4MWZmYjY3MDMxMjM2OTdlZDhhN2Y4YzkyYTJlYjE3YmQzMjg5ZA\u003d\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          },
                                           "maven-metadata.xml.md5": {
                                             "type": "DataNode",
                                             "node": {
-                                              "data": "ZWRlNTdkOGZhYjVlNmJiOTEzMTRlN2NmMjM0NTNhYjk\u003d",
+                                              "data": "ZTNkNjc4ZjM3ZmJiNmFkOTliYzMwY2Q3MzVkMTlmOTQ\u003d",
                                               "mimeType": "text/plain"
                                             }
                                           },
                                           "maven-metadata.xml.sha1": {
                                             "type": "DataNode",
                                             "node": {
-                                              "data": "NzViZTA4ZDc2YWQ3MTdjYWIxNjRmODRjMDBhNDBlMmJkZmEwYzI0Nw\u003d\u003d",
+                                              "data": "YmQ1ZTk5OGM1MDEzNjU4NTdmNDkzODdlNGZmMjhhZGI2MGE2OTk1Mg\u003d\u003d",
                                               "mimeType": "text/plain"
                                             }
                                           },
@@ -1337,7 +1869,7 @@
                                                 "maven-metadata.xml.md5": {
                                                   "type": "DataNode",
                                                   "node": {
-                                                    "data": "NzAwODdkZmQyM2FjNzU0MGE1NDljMjhiZmIwOTkxM2E\u003d",
+                                                    "data": "NjMxNGJmMTRiZmVhNTBhYTg4NzgyNGVhMWU0ZjFiMGY\u003d",
                                                     "mimeType": "text/plain"
                                                   }
                                                 },
@@ -1365,7 +1897,7 @@
                                                 "maven-metadata.xml.sha1": {
                                                   "type": "DataNode",
                                                   "node": {
-                                                    "data": "ZDA3OTk4MTNkNTI5ZmQ4ODgwODVhYWIyMzc2ZDhiOTFmODM5ZWQ4Yw\u003d\u003d",
+                                                    "data": "ZGI4MWVmY2ZiYWQ0ZTJhY2YyYjdiNzc0NjllZTZjNmRmMDBkMDc1MA\u003d\u003d",
                                                     "mimeType": "text/plain"
                                                   }
                                                 },
@@ -1378,7 +1910,7 @@
                                                 "maven-metadata.xml": {
                                                   "type": "DataNode",
                                                   "node": {
-                                                    "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG0ubWFudWFsPC9ncm91cElkPgogIDxhcnRpZmFjdElkPnBhcmVudDwvYXJ0aWZhY3RJZD4KICA8dmVyc2lvbj43LjAuNC1TTkFQU0hPVDwvdmVyc2lvbj4KICA8dmVyc2lvbmluZz4KICAgIDxzbmFwc2hvdFZlcnNpb25zPgogICAgICA8c25hcHNob3RWZXJzaW9uPgogICAgICAgIDxleHRlbnNpb24+cG9tPC9leHRlbnNpb24+CiAgICAgICAgPHZhbHVlPjcuMC40LTIwMTgwMjIwLjExMzk0MS0xPC92YWx1ZT4KICAgICAgICA8dXBkYXRlZD4yMDE4MDIyMDExMzk0MTwvdXBkYXRlZD4KICAgICAgPC9zbmFwc2hvdFZlcnNpb24+CiAgICAgIDxzbmFwc2hvdFZlcnNpb24+CiAgICAgICAgPGV4dGVuc2lvbj5wb208L2V4dGVuc2lvbj4KICAgICAgICA8dmFsdWU+Ny4wLjQtMjAxODAyMjAuMTIwMzA1LTE8L3ZhbHVlPgogICAgICAgIDx1cGRhdGVkPjIwMTgwMjIwMTIwMzA1PC91cGRhdGVkPgogICAgICA8L3NuYXBzaG90VmVyc2lvbj4KICAgIDwvc25hcHNob3RWZXJzaW9ucz4KICAgIDxsYXN0VXBkYXRlZD4yMDE4MDIyMDEyMDQzNzwvbGFzdFVwZGF0ZWQ+CiAgPC92ZXJzaW9uaW5nPgo8L21ldGFkYXRhPgo\u003d",
+                                                    "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG0ubWFudWFsPC9ncm91cElkPgogIDxhcnRpZmFjdElkPnBhcmVudDwvYXJ0aWZhY3RJZD4KICA8dmVyc2lvbj43LjAuNC1TTkFQU0hPVDwvdmVyc2lvbj4KICA8dmVyc2lvbmluZz4KICAgIDxzbmFwc2hvdFZlcnNpb25zPgogICAgICA8c25hcHNob3RWZXJzaW9uPgogICAgICAgIDxleHRlbnNpb24+cG9tPC9leHRlbnNpb24+CiAgICAgICAgPHZhbHVlPjcuMC40LTIwMTgwMjIwLjExMzk0MS0xPC92YWx1ZT4KICAgICAgICA8dXBkYXRlZD4yMDE4MDIyMDExMzk0MTwvdXBkYXRlZD4KICAgICAgPC9zbmFwc2hvdFZlcnNpb24+CiAgICAgIDxzbmFwc2hvdFZlcnNpb24+CiAgICAgICAgPGV4dGVuc2lvbj5wb208L2V4dGVuc2lvbj4KICAgICAgICA8dmFsdWU+Ny4wLjQtMjAxODAyMjAuMTIwMzA1LTE8L3ZhbHVlPgogICAgICAgIDx1cGRhdGVkPjIwMTgwMjIwMTIwMzA1PC91cGRhdGVkPgogICAgICA8L3NuYXBzaG90VmVyc2lvbj4KICAgIDwvc25hcHNob3RWZXJzaW9ucz4KICAgIDxsYXN0VXBkYXRlZD4yMDE4MDIyMDE0MTEzNjwvbGFzdFVwZGF0ZWQ+CiAgPC92ZXJzaW9uaW5nPgo8L21ldGFkYXRhPgo\u003d",
                                                     "mimeType": "application/xml"
                                                   }
                                                 }
@@ -1415,7 +1947,7 @@
                                           "maven-metadata.xml": {
                                             "type": "DataNode",
                                             "node": {
-                                              "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG0ubWFudWFsPC9ncm91cElkPgogIDxhcnRpZmFjdElkPnBhcmVudDwvYXJ0aWZhY3RJZD4KICA8dmVyc2lvbmluZz4KICAgIDx2ZXJzaW9ucz4KICAgICAgPHZlcnNpb24+Ni40LjA8L3ZlcnNpb24+CiAgICAgIDx2ZXJzaW9uPjYuNS41PC92ZXJzaW9uPgogICAgICA8dmVyc2lvbj43LjAuNC1TTkFQU0hPVDwvdmVyc2lvbj4KICAgIDwvdmVyc2lvbnM+CiAgICA8cmVsZWFzZT42LjUuNTwvcmVsZWFzZT4KICAgIDxsYXRlc3Q+Ny4wLjQtU05BUFNIT1Q8L2xhdGVzdD4KICAgIDxsYXN0VXBkYXRlZD4yMDE4MDIyMDEyMDQzNzwvbGFzdFVwZGF0ZWQ+CiAgPC92ZXJzaW9uaW5nPgo8L21ldGFkYXRhPgo\u003d",
+                                              "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG0ubWFudWFsPC9ncm91cElkPgogIDxhcnRpZmFjdElkPnBhcmVudDwvYXJ0aWZhY3RJZD4KICA8dmVyc2lvbmluZz4KICAgIDx2ZXJzaW9ucz4KICAgICAgPHZlcnNpb24+Ni40LjA8L3ZlcnNpb24+CiAgICAgIDx2ZXJzaW9uPjYuNS41PC92ZXJzaW9uPgogICAgICA8dmVyc2lvbj43LjAuNC1TTkFQU0hPVDwvdmVyc2lvbj4KICAgICAgPHZlcnNpb24+Ny4wLjUtU05BUFNIT1Q8L3ZlcnNpb24+CiAgICA8L3ZlcnNpb25zPgogICAgPHJlbGVhc2U+Ni41LjU8L3JlbGVhc2U+CiAgICA8bGF0ZXN0PjcuMC41LVNOQVBTSE9UPC9sYXRlc3Q+CiAgICA8bGFzdFVwZGF0ZWQ+MjAxODAyMjAxNDExMzY8L2xhc3RVcGRhdGVkPgogIDwvdmVyc2lvbmluZz4KPC9tZXRhZGF0YT4K",
                                               "mimeType": "application/xml"
                                             }
                                           }
@@ -1473,17 +2005,165 @@
                                               }
                                             }
                                           },
+                                          "7.0.5-SNAPSHOT": {
+                                            "type": "DirectoryNode",
+                                            "node": {
+                                              "nodes": {
+                                                "eclipse-nhm-manual-7.0.5-20180220.124820-1.pom.sha1": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "YTJhM2JlZjcyYjIzNzg2Zjk1ODA2MDI4YThjODRlNGUyMjZiMTBhNA\u003d\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "eclipse-nhm-manual-7.0.5-20180220.123558-1.jar.sha1": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "OTE5MGQxMTRjOTEyZTVjMDllM2ZjMGIxMWRhODc0OTUzMzhmNTA5MQ\u003d\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "eclipse-nhm-manual-7.0.5-20180220.124820-1.jar.md5": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "ZGU4OTBiMjNmMWQyOTQ0NjM0YTgxNDkwMjQwNTk4ZTY\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "maven-metadata.xml.sha1": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "YmJlYmUzOGVjMjg4ZWM4NjQ5YjkwZWRjZWZlYTRhYjk0MmZiMjFkNQ\u003d\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "eclipse-nhm-manual-7.0.5-20180220.124820-1.jar": {
+                                                  "type": "ArtifactNode",
+                                                  "node": {
+                                                    "artifactId": "4b0291c6-c765-434b-b901-b0a74355e7cf"
+                                                  }
+                                                },
+                                                "eclipse-nhm-manual-7.0.5-20180220.141136-1.jar.sha1": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "MWFlMTNhOTBjYjRjODI3MDQ2YTAzOGE1MzYwMmU0MjM5OGNkMjE3Mg\u003d\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "eclipse-nhm-manual-7.0.5-20180220.141136-1.pom": {
+                                                  "type": "ArtifactNode",
+                                                  "node": {
+                                                    "artifactId": "f7a27d4a-47d1-48fb-b0fa-1b9d81a93cf1"
+                                                  }
+                                                },
+                                                "eclipse-nhm-manual-7.0.5-20180220.141136-1.jar.md5": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "YTkzZTNmN2RlMDlmNzExZDc0ZGYwMGVkNzVlOGIwYWE\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "eclipse-nhm-manual-7.0.5-20180220.124820-1.jar.sha1": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "NGI5YmE2NzMyNDA1MzBjYzYxMDlkNGU1MWIxNjFiOTI4YzEyNDM0Mg\u003d\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "eclipse-nhm-manual-7.0.5-20180220.123558-1.pom.sha1": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "YTJhM2JlZjcyYjIzNzg2Zjk1ODA2MDI4YThjODRlNGUyMjZiMTBhNA\u003d\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "eclipse-nhm-manual-7.0.5-20180220.124820-1.pom.md5": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "YzFjZjM3MDMzNGZlNTc4YmE1YTQwODc1Mzk4ZTM2YmQ\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "eclipse-nhm-manual-7.0.5-20180220.123558-1.jar.md5": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "ZWI1ZGYyM2Y4ZDJkNzY2Zjc0NDQyY2MxOGIxZGFlYWM\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "eclipse-nhm-manual-7.0.5-20180220.141136-1.pom.sha1": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "YTJhM2JlZjcyYjIzNzg2Zjk1ODA2MDI4YThjODRlNGUyMjZiMTBhNA\u003d\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "eclipse-nhm-manual-7.0.5-20180220.123558-1.jar": {
+                                                  "type": "ArtifactNode",
+                                                  "node": {
+                                                    "artifactId": "a2953819-6615-414e-bafd-0647453dab20"
+                                                  }
+                                                },
+                                                "maven-metadata.xml.md5": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "YjVhN2YxNTc5NTVlZjA0MTlmNGU2ODg3ZDFhYTUzYjg\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "eclipse-nhm-manual-7.0.5-20180220.141136-1.pom.md5": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "YzFjZjM3MDMzNGZlNTc4YmE1YTQwODc1Mzk4ZTM2YmQ\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "eclipse-nhm-manual-7.0.5-20180220.123558-1.pom.md5": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "YzFjZjM3MDMzNGZlNTc4YmE1YTQwODc1Mzk4ZTM2YmQ\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "eclipse-nhm-manual-7.0.5-20180220.141136-1.jar": {
+                                                  "type": "ArtifactNode",
+                                                  "node": {
+                                                    "artifactId": "ec93fee8-ed93-4b4e-a00d-fe114bb00e84"
+                                                  }
+                                                },
+                                                "maven-metadata.xml": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG0ubWFudWFsPC9ncm91cElkPgogIDxhcnRpZmFjdElkPmVjbGlwc2UtbmhtLW1hbnVhbDwvYXJ0aWZhY3RJZD4KICA8dmVyc2lvbj43LjAuNS1TTkFQU0hPVDwvdmVyc2lvbj4KICA8dmVyc2lvbmluZz4KICAgIDxzbmFwc2hvdFZlcnNpb25zPgogICAgICA8c25hcHNob3RWZXJzaW9uPgogICAgICAgIDxleHRlbnNpb24+cG9tPC9leHRlbnNpb24+CiAgICAgICAgPHZhbHVlPjcuMC41LTIwMTgwMjIwLjEyMzU1OC0xPC92YWx1ZT4KICAgICAgICA8dXBkYXRlZD4yMDE4MDIyMDEyMzU1ODwvdXBkYXRlZD4KICAgICAgPC9zbmFwc2hvdFZlcnNpb24+CiAgICAgIDxzbmFwc2hvdFZlcnNpb24+CiAgICAgICAgPGV4dGVuc2lvbj5qYXI8L2V4dGVuc2lvbj4KICAgICAgICA8dmFsdWU+Ny4wLjUtMjAxODAyMjAuMTIzNTU4LTE8L3ZhbHVlPgogICAgICAgIDx1cGRhdGVkPjIwMTgwMjIwMTIzNTU4PC91cGRhdGVkPgogICAgICA8L3NuYXBzaG90VmVyc2lvbj4KICAgICAgPHNuYXBzaG90VmVyc2lvbj4KICAgICAgICA8ZXh0ZW5zaW9uPnBvbTwvZXh0ZW5zaW9uPgogICAgICAgIDx2YWx1ZT43LjAuNS0yMDE4MDIyMC4xMjQ4MjAtMTwvdmFsdWU+CiAgICAgICAgPHVwZGF0ZWQ+MjAxODAyMjAxMjQ4MjA8L3VwZGF0ZWQ+CiAgICAgIDwvc25hcHNob3RWZXJzaW9uPgogICAgICA8c25hcHNob3RWZXJzaW9uPgogICAgICAgIDxleHRlbnNpb24+amFyPC9leHRlbnNpb24+CiAgICAgICAgPHZhbHVlPjcuMC41LTIwMTgwMjIwLjEyNDgyMC0xPC92YWx1ZT4KICAgICAgICA8dXBkYXRlZD4yMDE4MDIyMDEyNDgyMDwvdXBkYXRlZD4KICAgICAgPC9zbmFwc2hvdFZlcnNpb24+CiAgICAgIDxzbmFwc2hvdFZlcnNpb24+CiAgICAgICAgPGV4dGVuc2lvbj5qYXI8L2V4dGVuc2lvbj4KICAgICAgICA8dmFsdWU+Ny4wLjUtMjAxODAyMjAuMTQxMTM2LTE8L3ZhbHVlPgogICAgICAgIDx1cGRhdGVkPjIwMTgwMjIwMTQxMTM2PC91cGRhdGVkPgogICAgICA8L3NuYXBzaG90VmVyc2lvbj4KICAgICAgPHNuYXBzaG90VmVyc2lvbj4KICAgICAgICA8ZXh0ZW5zaW9uPnBvbTwvZXh0ZW5zaW9uPgogICAgICAgIDx2YWx1ZT43LjAuNS0yMDE4MDIyMC4xNDExMzYtMTwvdmFsdWU+CiAgICAgICAgPHVwZGF0ZWQ+MjAxODAyMjAxNDExMzY8L3VwZGF0ZWQ+CiAgICAgIDwvc25hcHNob3RWZXJzaW9uPgogICAgPC9zbmFwc2hvdFZlcnNpb25zPgogICAgPGxhc3RVcGRhdGVkPjIwMTgwMjIwMTQxMTM3PC9sYXN0VXBkYXRlZD4KICA8L3ZlcnNpb25pbmc+CjwvbWV0YWRhdGE+Cg\u003d\u003d",
+                                                    "mimeType": "application/xml"
+                                                  }
+                                                },
+                                                "eclipse-nhm-manual-7.0.5-20180220.124820-1.pom": {
+                                                  "type": "ArtifactNode",
+                                                  "node": {
+                                                    "artifactId": "7331116e-fe72-4e1d-9e56-e93ac2e0e802"
+                                                  }
+                                                },
+                                                "eclipse-nhm-manual-7.0.5-20180220.123558-1.pom": {
+                                                  "type": "ArtifactNode",
+                                                  "node": {
+                                                    "artifactId": "7981e8ef-8356-410f-8bba-c242e1a60e22"
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          },
                                           "maven-metadata.xml.md5": {
                                             "type": "DataNode",
                                             "node": {
-                                              "data": "NjczMDNkZDIyYWJlMDU3MzI5ZjUyYTZiNmFkMDFjOWM\u003d",
+                                              "data": "YjBlZjI0OTdmNWU2MjdlN2Y3MWFkNzFlNTM0MzQ3NmM\u003d",
                                               "mimeType": "text/plain"
                                             }
                                           },
                                           "maven-metadata.xml.sha1": {
                                             "type": "DataNode",
                                             "node": {
-                                              "data": "MzViNDQ3ZmVlZDlhM2YwM2FhYjRkZTA1MDY2NDRlYjk3MDViYTA0Ng\u003d\u003d",
+                                              "data": "OWY4YTRmZDE5YzVhZWE2YWMxYzY4MjE1NmZmYTVkZTFlMWNlNzc1ZQ\u003d\u003d",
                                               "mimeType": "text/plain"
                                             }
                                           },
@@ -1514,7 +2194,7 @@
                                                 "maven-metadata.xml.sha1": {
                                                   "type": "DataNode",
                                                   "node": {
-                                                    "data": "ZDcwZmE4NDc1NjI1M2NhOTBiMWZlMDc2Y2I1OWYxMDZjYzVlYmY5OQ\u003d\u003d",
+                                                    "data": "MzBiMjExZDczZDI5MzVhNDhhZWQwZTdjMzQyZDgzMDY3ODAzMGVkOQ\u003d\u003d",
                                                     "mimeType": "text/plain"
                                                   }
                                                 },
@@ -1568,14 +2248,14 @@
                                                 "maven-metadata.xml.md5": {
                                                   "type": "DataNode",
                                                   "node": {
-                                                    "data": "ZjIyN2VhOTAyZjkwM2U0OGRmNzhmODUwM2I2NzZhNGU\u003d",
+                                                    "data": "N2FlOTIxM2FiNzIzZjdlYzI2NzdmZmIyODI3MWE5ODg\u003d",
                                                     "mimeType": "text/plain"
                                                   }
                                                 },
                                                 "maven-metadata.xml": {
                                                   "type": "DataNode",
                                                   "node": {
-                                                    "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG0ubWFudWFsPC9ncm91cElkPgogIDxhcnRpZmFjdElkPmVjbGlwc2UtbmhtLW1hbnVhbDwvYXJ0aWZhY3RJZD4KICA8dmVyc2lvbj43LjAuNC1TTkFQU0hPVDwvdmVyc2lvbj4KICA8dmVyc2lvbmluZz4KICAgIDxzbmFwc2hvdFZlcnNpb25zPgogICAgICA8c25hcHNob3RWZXJzaW9uPgogICAgICAgIDxleHRlbnNpb24+cG9tPC9leHRlbnNpb24+CiAgICAgICAgPHZhbHVlPjcuMC40LTIwMTgwMjIwLjExNDExMS0xPC92YWx1ZT4KICAgICAgICA8dXBkYXRlZD4yMDE4MDIyMDExNDExMjwvdXBkYXRlZD4KICAgICAgPC9zbmFwc2hvdFZlcnNpb24+CiAgICAgIDxzbmFwc2hvdFZlcnNpb24+CiAgICAgICAgPGV4dGVuc2lvbj5qYXI8L2V4dGVuc2lvbj4KICAgICAgICA8dmFsdWU+Ny4wLjQtMjAxODAyMjAuMTE0MTExLTE8L3ZhbHVlPgogICAgICAgIDx1cGRhdGVkPjIwMTgwMjIwMTE0MTExPC91cGRhdGVkPgogICAgICA8L3NuYXBzaG90VmVyc2lvbj4KICAgICAgPHNuYXBzaG90VmVyc2lvbj4KICAgICAgICA8ZXh0ZW5zaW9uPnBvbTwvZXh0ZW5zaW9uPgogICAgICAgIDx2YWx1ZT43LjAuNC0yMDE4MDIyMC4xMjA0MzYtMTwvdmFsdWU+CiAgICAgICAgPHVwZGF0ZWQ+MjAxODAyMjAxMjA0MzY8L3VwZGF0ZWQ+CiAgICAgIDwvc25hcHNob3RWZXJzaW9uPgogICAgICA8c25hcHNob3RWZXJzaW9uPgogICAgICAgIDxleHRlbnNpb24+amFyPC9leHRlbnNpb24+CiAgICAgICAgPHZhbHVlPjcuMC40LTIwMTgwMjIwLjEyMDQzNi0xPC92YWx1ZT4KICAgICAgICA8dXBkYXRlZD4yMDE4MDIyMDEyMDQzNjwvdXBkYXRlZD4KICAgICAgPC9zbmFwc2hvdFZlcnNpb24+CiAgICA8L3NuYXBzaG90VmVyc2lvbnM+CiAgICA8bGFzdFVwZGF0ZWQ+MjAxODAyMjAxMjA0Mzc8L2xhc3RVcGRhdGVkPgogIDwvdmVyc2lvbmluZz4KPC9tZXRhZGF0YT4K",
+                                                    "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG0ubWFudWFsPC9ncm91cElkPgogIDxhcnRpZmFjdElkPmVjbGlwc2UtbmhtLW1hbnVhbDwvYXJ0aWZhY3RJZD4KICA8dmVyc2lvbj43LjAuNC1TTkFQU0hPVDwvdmVyc2lvbj4KICA8dmVyc2lvbmluZz4KICAgIDxzbmFwc2hvdFZlcnNpb25zPgogICAgICA8c25hcHNob3RWZXJzaW9uPgogICAgICAgIDxleHRlbnNpb24+cG9tPC9leHRlbnNpb24+CiAgICAgICAgPHZhbHVlPjcuMC40LTIwMTgwMjIwLjExNDExMS0xPC92YWx1ZT4KICAgICAgICA8dXBkYXRlZD4yMDE4MDIyMDExNDExMjwvdXBkYXRlZD4KICAgICAgPC9zbmFwc2hvdFZlcnNpb24+CiAgICAgIDxzbmFwc2hvdFZlcnNpb24+CiAgICAgICAgPGV4dGVuc2lvbj5qYXI8L2V4dGVuc2lvbj4KICAgICAgICA8dmFsdWU+Ny4wLjQtMjAxODAyMjAuMTE0MTExLTE8L3ZhbHVlPgogICAgICAgIDx1cGRhdGVkPjIwMTgwMjIwMTE0MTExPC91cGRhdGVkPgogICAgICA8L3NuYXBzaG90VmVyc2lvbj4KICAgICAgPHNuYXBzaG90VmVyc2lvbj4KICAgICAgICA8ZXh0ZW5zaW9uPnBvbTwvZXh0ZW5zaW9uPgogICAgICAgIDx2YWx1ZT43LjAuNC0yMDE4MDIyMC4xMjA0MzYtMTwvdmFsdWU+CiAgICAgICAgPHVwZGF0ZWQ+MjAxODAyMjAxMjA0MzY8L3VwZGF0ZWQ+CiAgICAgIDwvc25hcHNob3RWZXJzaW9uPgogICAgICA8c25hcHNob3RWZXJzaW9uPgogICAgICAgIDxleHRlbnNpb24+amFyPC9leHRlbnNpb24+CiAgICAgICAgPHZhbHVlPjcuMC40LTIwMTgwMjIwLjEyMDQzNi0xPC92YWx1ZT4KICAgICAgICA8dXBkYXRlZD4yMDE4MDIyMDEyMDQzNjwvdXBkYXRlZD4KICAgICAgPC9zbmFwc2hvdFZlcnNpb24+CiAgICA8L3NuYXBzaG90VmVyc2lvbnM+CiAgICA8bGFzdFVwZGF0ZWQ+MjAxODAyMjAxNDExMzc8L2xhc3RVcGRhdGVkPgogIDwvdmVyc2lvbmluZz4KPC9tZXRhZGF0YT4K",
                                                     "mimeType": "application/xml"
                                                   }
                                                 },
@@ -1645,7 +2325,7 @@
                                           "maven-metadata.xml": {
                                             "type": "DataNode",
                                             "node": {
-                                              "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG0ubWFudWFsPC9ncm91cElkPgogIDxhcnRpZmFjdElkPmVjbGlwc2UtbmhtLW1hbnVhbDwvYXJ0aWZhY3RJZD4KICA8dmVyc2lvbmluZz4KICAgIDx2ZXJzaW9ucz4KICAgICAgPHZlcnNpb24+Ni41LjA8L3ZlcnNpb24+CiAgICAgIDx2ZXJzaW9uPjYuNS41PC92ZXJzaW9uPgogICAgICA8dmVyc2lvbj43LjAuNC1TTkFQU0hPVDwvdmVyc2lvbj4KICAgIDwvdmVyc2lvbnM+CiAgICA8cmVsZWFzZT42LjUuNTwvcmVsZWFzZT4KICAgIDxsYXRlc3Q+Ny4wLjQtU05BUFNIT1Q8L2xhdGVzdD4KICAgIDxsYXN0VXBkYXRlZD4yMDE4MDIyMDEyMDQzNzwvbGFzdFVwZGF0ZWQ+CiAgPC92ZXJzaW9uaW5nPgo8L21ldGFkYXRhPgo\u003d",
+                                              "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG0ubWFudWFsPC9ncm91cElkPgogIDxhcnRpZmFjdElkPmVjbGlwc2UtbmhtLW1hbnVhbDwvYXJ0aWZhY3RJZD4KICA8dmVyc2lvbmluZz4KICAgIDx2ZXJzaW9ucz4KICAgICAgPHZlcnNpb24+Ni41LjA8L3ZlcnNpb24+CiAgICAgIDx2ZXJzaW9uPjYuNS41PC92ZXJzaW9uPgogICAgICA8dmVyc2lvbj43LjAuNC1TTkFQU0hPVDwvdmVyc2lvbj4KICAgICAgPHZlcnNpb24+Ny4wLjUtU05BUFNIT1Q8L3ZlcnNpb24+CiAgICA8L3ZlcnNpb25zPgogICAgPHJlbGVhc2U+Ni41LjU8L3JlbGVhc2U+CiAgICA8bGF0ZXN0PjcuMC41LVNOQVBTSE9UPC9sYXRlc3Q+CiAgICA8bGFzdFVwZGF0ZWQ+MjAxODAyMjAxNDExMzc8L2xhc3RVcGRhdGVkPgogIDwvdmVyc2lvbmluZz4KPC9tZXRhZGF0YT4K",
                                               "mimeType": "application/xml"
                                             }
                                           }
@@ -1750,17 +2430,165 @@
                                               }
                                             }
                                           },
+                                          "7.0.5-SNAPSHOT": {
+                                            "type": "DirectoryNode",
+                                            "node": {
+                                              "nodes": {
+                                                "docbook-7.0.5-20180220.124641-1.jar.md5": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "YTE4NWM5MzRmYjJlYzMzNDE5MzQzYTJjZTU2YzYyNGE\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "docbook-7.0.5-20180220.141002-1.jar": {
+                                                  "type": "ArtifactNode",
+                                                  "node": {
+                                                    "artifactId": "55823920-03ff-494d-aa30-e0d72bfad8f1"
+                                                  }
+                                                },
+                                                "docbook-7.0.5-20180220.141002-1.pom.sha1": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "ODIzYmZmMmRlZTU2Nzk2NTdjMDgwZWM1M2Y1NTA0MTE0NTNhNDQwYg\u003d\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "docbook-7.0.5-20180220.124641-1.pom": {
+                                                  "type": "ArtifactNode",
+                                                  "node": {
+                                                    "artifactId": "c5dd8b1d-2915-4a8a-83c1-2259278d268f"
+                                                  }
+                                                },
+                                                "maven-metadata.xml.sha1": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "NDY0MWYxODk5MzRhOGRkNzRiNmQxNmQ3Y2U5YWFjNjQzNWYyYWE4Mw\u003d\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "docbook-7.0.5-20180220.123424-1.pom": {
+                                                  "type": "ArtifactNode",
+                                                  "node": {
+                                                    "artifactId": "53e9df33-6ade-45bf-8551-d045fd435dd9"
+                                                  }
+                                                },
+                                                "docbook-7.0.5-20180220.124641-1.pom.sha1": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "ODIzYmZmMmRlZTU2Nzk2NTdjMDgwZWM1M2Y1NTA0MTE0NTNhNDQwYg\u003d\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "docbook-7.0.5-20180220.141002-1.jar.sha1": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "MGExYTYyOWNjYjZkMTE0YTVhYjcyZWY4MjE1NzM3ODNiMjRjNjVkNA\u003d\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "docbook-7.0.5-20180220.124641-1.jar.sha1": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "MjFkZTI0ZjE5YjFjM2U1NzQwYWVhZDZkMjJmYmIwOThlZWZiOTMwZA\u003d\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "docbook-7.0.5-20180220.123424-1.jar.md5": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "MzU3MTFkODQ0ODVkMjk4ODIxODhhMjgwMzhlYjJjMDI\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "docbook-7.0.5-20180220.141002-1.jar.md5": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "ZmEyZmZmMGI0OGFhNjMwMDQxZWI4ZGY5ZmQyNzhjNzA\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "docbook-7.0.5-20180220.124641-1.pom.md5": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "ZmVhNTUyMTE2NmQ4NjdmN2YwY2U4MWNlZDYzYWEwMTc\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "docbook-7.0.5-20180220.124641-1.jar": {
+                                                  "type": "ArtifactNode",
+                                                  "node": {
+                                                    "artifactId": "8f3b5624-8ad2-479b-a7a9-9336d54d7ab1"
+                                                  }
+                                                },
+                                                "docbook-7.0.5-20180220.123424-1.pom.md5": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "ZmVhNTUyMTE2NmQ4NjdmN2YwY2U4MWNlZDYzYWEwMTc\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "docbook-7.0.5-20180220.123424-1.jar": {
+                                                  "type": "ArtifactNode",
+                                                  "node": {
+                                                    "artifactId": "6927bd39-212f-46df-ac76-7683ad6dcbf5"
+                                                  }
+                                                },
+                                                "maven-metadata.xml.md5": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "NjJiZmMxMWQ3NGMzNGI4ODg4ZTRmZTI3MGEwYTJlMTc\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "docbook-7.0.5-20180220.141002-1.pom.md5": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "ZmVhNTUyMTE2NmQ4NjdmN2YwY2U4MWNlZDYzYWEwMTc\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "docbook-7.0.5-20180220.123424-1.pom.sha1": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "ODIzYmZmMmRlZTU2Nzk2NTdjMDgwZWM1M2Y1NTA0MTE0NTNhNDQwYg\u003d\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "docbook-7.0.5-20180220.123424-1.jar.sha1": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "N2RiMGI1ZjI4ZDIxYjgyZWE0MTZmZjU1NTM4ZWY0MzY3MDdmODI2MA\u003d\u003d",
+                                                    "mimeType": "text/plain"
+                                                  }
+                                                },
+                                                "maven-metadata.xml": {
+                                                  "type": "DataNode",
+                                                  "node": {
+                                                    "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG0ubWFudWFsPC9ncm91cElkPgogIDxhcnRpZmFjdElkPmRvY2Jvb2s8L2FydGlmYWN0SWQ+CiAgPHZlcnNpb24+Ny4wLjUtU05BUFNIT1Q8L3ZlcnNpb24+CiAgPHZlcnNpb25pbmc+CiAgICA8c25hcHNob3RWZXJzaW9ucz4KICAgICAgPHNuYXBzaG90VmVyc2lvbj4KICAgICAgICA8ZXh0ZW5zaW9uPnBvbTwvZXh0ZW5zaW9uPgogICAgICAgIDx2YWx1ZT43LjAuNS0yMDE4MDIyMC4xMjM0MjQtMTwvdmFsdWU+CiAgICAgICAgPHVwZGF0ZWQ+MjAxODAyMjAxMjM0MjQ8L3VwZGF0ZWQ+CiAgICAgIDwvc25hcHNob3RWZXJzaW9uPgogICAgICA8c25hcHNob3RWZXJzaW9uPgogICAgICAgIDxleHRlbnNpb24+amFyPC9leHRlbnNpb24+CiAgICAgICAgPHZhbHVlPjcuMC41LTIwMTgwMjIwLjEyMzQyNC0xPC92YWx1ZT4KICAgICAgICA8dXBkYXRlZD4yMDE4MDIyMDEyMzQyNDwvdXBkYXRlZD4KICAgICAgPC9zbmFwc2hvdFZlcnNpb24+CiAgICAgIDxzbmFwc2hvdFZlcnNpb24+CiAgICAgICAgPGV4dGVuc2lvbj5qYXI8L2V4dGVuc2lvbj4KICAgICAgICA8dmFsdWU+Ny4wLjUtMjAxODAyMjAuMTI0NjQxLTE8L3ZhbHVlPgogICAgICAgIDx1cGRhdGVkPjIwMTgwMjIwMTI0NjQxPC91cGRhdGVkPgogICAgICA8L3NuYXBzaG90VmVyc2lvbj4KICAgICAgPHNuYXBzaG90VmVyc2lvbj4KICAgICAgICA8ZXh0ZW5zaW9uPnBvbTwvZXh0ZW5zaW9uPgogICAgICAgIDx2YWx1ZT43LjAuNS0yMDE4MDIyMC4xMjQ2NDEtMTwvdmFsdWU+CiAgICAgICAgPHVwZGF0ZWQ+MjAxODAyMjAxMjQ2NDE8L3VwZGF0ZWQ+CiAgICAgIDwvc25hcHNob3RWZXJzaW9uPgogICAgICA8c25hcHNob3RWZXJzaW9uPgogICAgICAgIDxleHRlbnNpb24+amFyPC9leHRlbnNpb24+CiAgICAgICAgPHZhbHVlPjcuMC41LTIwMTgwMjIwLjE0MTAwMi0xPC92YWx1ZT4KICAgICAgICA8dXBkYXRlZD4yMDE4MDIyMDE0MTAwMjwvdXBkYXRlZD4KICAgICAgPC9zbmFwc2hvdFZlcnNpb24+CiAgICAgIDxzbmFwc2hvdFZlcnNpb24+CiAgICAgICAgPGV4dGVuc2lvbj5wb208L2V4dGVuc2lvbj4KICAgICAgICA8dmFsdWU+Ny4wLjUtMjAxODAyMjAuMTQxMDAyLTE8L3ZhbHVlPgogICAgICAgIDx1cGRhdGVkPjIwMTgwMjIwMTQxMDAyPC91cGRhdGVkPgogICAgICA8L3NuYXBzaG90VmVyc2lvbj4KICAgIDwvc25hcHNob3RWZXJzaW9ucz4KICAgIDxsYXN0VXBkYXRlZD4yMDE4MDIyMDE0MTEzNzwvbGFzdFVwZGF0ZWQ+CiAgPC92ZXJzaW9uaW5nPgo8L21ldGFkYXRhPgo\u003d",
+                                                    "mimeType": "application/xml"
+                                                  }
+                                                },
+                                                "docbook-7.0.5-20180220.141002-1.pom": {
+                                                  "type": "ArtifactNode",
+                                                  "node": {
+                                                    "artifactId": "53dfebbe-eccf-4e37-ab87-084ec99d5101"
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          },
                                           "maven-metadata.xml.md5": {
                                             "type": "DataNode",
                                             "node": {
-                                              "data": "MDZhZjUyMjc1YmZmNmJjODE3ZjkyN2Q1YmMzNTJjZjQ\u003d",
+                                              "data": "NGIyOGFlNTJjMDk4NDVmMTFmMmIwNWRkNTc1ODhhMTA\u003d",
                                               "mimeType": "text/plain"
                                             }
                                           },
                                           "maven-metadata.xml.sha1": {
                                             "type": "DataNode",
                                             "node": {
-                                              "data": "ZDhiOTA0YzJiNGUwNmJjZTBhZTAxZTc5NTRmZmExODlhMDVkNGZjMQ\u003d\u003d",
+                                              "data": "ODFlZTlkNmY2OTA3NjY3ZDlmZjk0Yjc3YzNiODc5MmFlYjE5YTBjNQ\u003d\u003d",
                                               "mimeType": "text/plain"
                                             }
                                           },
@@ -1784,7 +2612,7 @@
                                                 "maven-metadata.xml.sha1": {
                                                   "type": "DataNode",
                                                   "node": {
-                                                    "data": "NjRkNmFjZDhkOWUzNTgxNDZmNzM5NmVlODM2NGFhMTVjYzFiZDJhMQ\u003d\u003d",
+                                                    "data": "MDQ2NGFmOWM0NGE4NWVlMDMxMTU2YWZkMjhjNTlhM2Y0MTE1YjBjMQ\u003d\u003d",
                                                     "mimeType": "text/plain"
                                                   }
                                                 },
@@ -1839,7 +2667,7 @@
                                                 "maven-metadata.xml.md5": {
                                                   "type": "DataNode",
                                                   "node": {
-                                                    "data": "ZGVmYjIwYWQwNTZkZDg4YmE4Y2M4NjE3MTc3ZWUzMDk\u003d",
+                                                    "data": "YWJkNDMwODg0NzAzZjEzNGZlZGMxODNmNDY0YzM2YTE\u003d",
                                                     "mimeType": "text/plain"
                                                   }
                                                 },
@@ -1859,7 +2687,7 @@
                                                 "maven-metadata.xml": {
                                                   "type": "DataNode",
                                                   "node": {
-                                                    "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG0ubWFudWFsPC9ncm91cElkPgogIDxhcnRpZmFjdElkPmRvY2Jvb2s8L2FydGlmYWN0SWQ+CiAgPHZlcnNpb24+Ny4wLjQtU05BUFNIT1Q8L3ZlcnNpb24+CiAgPHZlcnNpb25pbmc+CiAgICA8c25hcHNob3RWZXJzaW9ucz4KICAgICAgPHNuYXBzaG90VmVyc2lvbj4KICAgICAgICA8ZXh0ZW5zaW9uPmphcjwvZXh0ZW5zaW9uPgogICAgICAgIDx2YWx1ZT43LjAuNC0yMDE4MDIyMC4xMTM5NDUtMTwvdmFsdWU+CiAgICAgICAgPHVwZGF0ZWQ+MjAxODAyMjAxMTM5NDU8L3VwZGF0ZWQ+CiAgICAgIDwvc25hcHNob3RWZXJzaW9uPgogICAgICA8c25hcHNob3RWZXJzaW9uPgogICAgICAgIDxleHRlbnNpb24+cG9tPC9leHRlbnNpb24+CiAgICAgICAgPHZhbHVlPjcuMC40LTIwMTgwMjIwLjExMzk0NS0xPC92YWx1ZT4KICAgICAgICA8dXBkYXRlZD4yMDE4MDIyMDExMzk0NTwvdXBkYXRlZD4KICAgICAgPC9zbmFwc2hvdFZlcnNpb24+CiAgICAgIDxzbmFwc2hvdFZlcnNpb24+CiAgICAgICAgPGV4dGVuc2lvbj5wb208L2V4dGVuc2lvbj4KICAgICAgICA8dmFsdWU+Ny4wLjQtMjAxODAyMjAuMTIwMzA4LTE8L3ZhbHVlPgogICAgICAgIDx1cGRhdGVkPjIwMTgwMjIwMTIwMzA4PC91cGRhdGVkPgogICAgICA8L3NuYXBzaG90VmVyc2lvbj4KICAgICAgPHNuYXBzaG90VmVyc2lvbj4KICAgICAgICA8ZXh0ZW5zaW9uPmphcjwvZXh0ZW5zaW9uPgogICAgICAgIDx2YWx1ZT43LjAuNC0yMDE4MDIyMC4xMjAzMDgtMTwvdmFsdWU+CiAgICAgICAgPHVwZGF0ZWQ+MjAxODAyMjAxMjAzMDg8L3VwZGF0ZWQ+CiAgICAgIDwvc25hcHNob3RWZXJzaW9uPgogICAgPC9zbmFwc2hvdFZlcnNpb25zPgogICAgPGxhc3RVcGRhdGVkPjIwMTgwMjIwMTIwNDM3PC9sYXN0VXBkYXRlZD4KICA8L3ZlcnNpb25pbmc+CjwvbWV0YWRhdGE+Cg\u003d\u003d",
+                                                    "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG0ubWFudWFsPC9ncm91cElkPgogIDxhcnRpZmFjdElkPmRvY2Jvb2s8L2FydGlmYWN0SWQ+CiAgPHZlcnNpb24+Ny4wLjQtU05BUFNIT1Q8L3ZlcnNpb24+CiAgPHZlcnNpb25pbmc+CiAgICA8c25hcHNob3RWZXJzaW9ucz4KICAgICAgPHNuYXBzaG90VmVyc2lvbj4KICAgICAgICA8ZXh0ZW5zaW9uPmphcjwvZXh0ZW5zaW9uPgogICAgICAgIDx2YWx1ZT43LjAuNC0yMDE4MDIyMC4xMTM5NDUtMTwvdmFsdWU+CiAgICAgICAgPHVwZGF0ZWQ+MjAxODAyMjAxMTM5NDU8L3VwZGF0ZWQ+CiAgICAgIDwvc25hcHNob3RWZXJzaW9uPgogICAgICA8c25hcHNob3RWZXJzaW9uPgogICAgICAgIDxleHRlbnNpb24+cG9tPC9leHRlbnNpb24+CiAgICAgICAgPHZhbHVlPjcuMC40LTIwMTgwMjIwLjExMzk0NS0xPC92YWx1ZT4KICAgICAgICA8dXBkYXRlZD4yMDE4MDIyMDExMzk0NTwvdXBkYXRlZD4KICAgICAgPC9zbmFwc2hvdFZlcnNpb24+CiAgICAgIDxzbmFwc2hvdFZlcnNpb24+CiAgICAgICAgPGV4dGVuc2lvbj5wb208L2V4dGVuc2lvbj4KICAgICAgICA8dmFsdWU+Ny4wLjQtMjAxODAyMjAuMTIwMzA4LTE8L3ZhbHVlPgogICAgICAgIDx1cGRhdGVkPjIwMTgwMjIwMTIwMzA4PC91cGRhdGVkPgogICAgICA8L3NuYXBzaG90VmVyc2lvbj4KICAgICAgPHNuYXBzaG90VmVyc2lvbj4KICAgICAgICA8ZXh0ZW5zaW9uPmphcjwvZXh0ZW5zaW9uPgogICAgICAgIDx2YWx1ZT43LjAuNC0yMDE4MDIyMC4xMjAzMDgtMTwvdmFsdWU+CiAgICAgICAgPHVwZGF0ZWQ+MjAxODAyMjAxMjAzMDg8L3VwZGF0ZWQ+CiAgICAgIDwvc25hcHNob3RWZXJzaW9uPgogICAgPC9zbmFwc2hvdFZlcnNpb25zPgogICAgPGxhc3RVcGRhdGVkPjIwMTgwMjIwMTQxMTM3PC9sYXN0VXBkYXRlZD4KICA8L3ZlcnNpb25pbmc+CjwvbWV0YWRhdGE+Cg\u003d\u003d",
                                                     "mimeType": "application/xml"
                                                   }
                                                 },
@@ -1922,7 +2750,7 @@
                                           "maven-metadata.xml": {
                                             "type": "DataNode",
                                             "node": {
-                                              "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG0ubWFudWFsPC9ncm91cElkPgogIDxhcnRpZmFjdElkPmRvY2Jvb2s8L2FydGlmYWN0SWQ+CiAgPHZlcnNpb25pbmc+CiAgICA8dmVyc2lvbnM+CiAgICAgIDx2ZXJzaW9uPjYuNC4wPC92ZXJzaW9uPgogICAgICA8dmVyc2lvbj42LjUuMDwvdmVyc2lvbj4KICAgICAgPHZlcnNpb24+Ni41LjU8L3ZlcnNpb24+CiAgICAgIDx2ZXJzaW9uPjcuMC40LVNOQVBTSE9UPC92ZXJzaW9uPgogICAgPC92ZXJzaW9ucz4KICAgIDxyZWxlYXNlPjYuNS41PC9yZWxlYXNlPgogICAgPGxhdGVzdD43LjAuNC1TTkFQU0hPVDwvbGF0ZXN0PgogICAgPGxhc3RVcGRhdGVkPjIwMTgwMjIwMTIwNDM3PC9sYXN0VXBkYXRlZD4KICA8L3ZlcnNpb25pbmc+CjwvbWV0YWRhdGE+Cg\u003d\u003d",
+                                              "data": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWV0YWRhdGE+CiAgPGdyb3VwSWQ+dWsub3JnLmNzZS5uaG0ubWFudWFsPC9ncm91cElkPgogIDxhcnRpZmFjdElkPmRvY2Jvb2s8L2FydGlmYWN0SWQ+CiAgPHZlcnNpb25pbmc+CiAgICA8dmVyc2lvbnM+CiAgICAgIDx2ZXJzaW9uPjYuNC4wPC92ZXJzaW9uPgogICAgICA8dmVyc2lvbj42LjUuMDwvdmVyc2lvbj4KICAgICAgPHZlcnNpb24+Ni41LjU8L3ZlcnNpb24+CiAgICAgIDx2ZXJzaW9uPjcuMC40LVNOQVBTSE9UPC92ZXJzaW9uPgogICAgICA8dmVyc2lvbj43LjAuNS1TTkFQU0hPVDwvdmVyc2lvbj4KICAgIDwvdmVyc2lvbnM+CiAgICA8cmVsZWFzZT42LjUuNTwvcmVsZWFzZT4KICAgIDxsYXRlc3Q+Ny4wLjUtU05BUFNIT1Q8L2xhdGVzdD4KICAgIDxsYXN0VXBkYXRlZD4yMDE4MDIyMDE0MTEzNzwvbGFzdFVwZGF0ZWQ+CiAgPC92ZXJzaW9uaW5nPgo8L21ldGFkYXRhPgo\u003d",
                                               "mimeType": "application/xml"
                                             }
                                           }

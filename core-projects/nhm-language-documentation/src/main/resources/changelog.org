@@ -21,13 +21,13 @@ If you want to cross-reference to a language element, you need to use the unique
    - *Bugs removed* will list any known errors that were found to affect the previous version which have been corrected in this version
 
 ** Released versions
-*** Version 7.0.4
+*** Version 7.0.5
 **** Improvements
 ***** Change to calculation of =ref.house.permeability=
 The function can now specify whether to include or exclude deliberate ventilation from the airChange rate calculation.
-***** Change to calculation of =house.sit=
+***** Change to calculation of =ref.house.sit=
 Calculation now defines heatloss as specific heat loss + ventilation heat loss rather than just specific heatloss as before.
-***** To u-values and inputs to measure =ref.install-glazing=
+***** To u-values and inputs to measure =ref.measure.install-glazing=
 Added in the ability to specify an air-gap for the measure.
 Look-up tables for U-Values now take into account air-gap when returning u-values for glazings.
 If no u-value is supplied then u-value will be take from SAP tables.

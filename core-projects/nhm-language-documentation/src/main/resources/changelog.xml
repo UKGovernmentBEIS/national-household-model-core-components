@@ -41,8 +41,8 @@
   </sect1>
   <sect1 id="released-versions">
     <title>Released versions</title>
-    <sect2 id="version-7.0.4">
-      <title>Version 7.0.4</title>
+    <sect2 id="version-7.0.5">
+      <title>Version 7.0.5</title>
       <sect3 id="improvements">
         <title>Improvements</title>
         <sect4 id="change-to-calculation-of-ref.house.permeability">
@@ -53,18 +53,18 @@
             deliberate ventilation from the airChange rate calculation.
           </para>
         </sect4>
-        <sect4 id="change-to-calculation-of-house.sit">
+        <sect4 id="change-to-calculation-of-ref.house.sit">
           <title>Change to calculation of
-          <literal>house.sit</literal></title>
+          <xref linkend="ref.house.sit"/></title>
           <para>
             Calculation now defines heatloss as specific heat loss +
             ventilation heat loss rather than just specific heatloss as
             before.
           </para>
         </sect4>
-        <sect4 id="to-u-values-and-inputs-to-measure-ref.install-glazing">
+        <sect4 id="to-u-values-and-inputs-to-measure-ref.measure.install-glazing">
           <title>To u-values and inputs to measure
-          <xref linkend="ref.install-glazing"/></title>
+          <xref linkend="ref.measure.install-glazing"/></title>
           <para>
             Added in the ability to specify an air-gap for the measure.
             Look-up tables for U-Values now take into account air-gap
