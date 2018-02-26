@@ -3,15 +3,29 @@ package uk.org.cse.nhm.energycalculator.api.types;
 import java.util.Optional;
 
 /**
- * This is derived from a combination of:
- * The worksheet from SAP 2012 https://www.bre.co.uk/filelibrary/SAP/2012/SAP-2012_9-92.pdf
- * BREDEM 2012 (only partially included, unfinished)
+ * This is derived from the SAP 2012 worksheet https://www.bre.co.uk/filelibrary/SAP/2012/SAP-2012_9-92.pdf
+ * It's incomplete, because the NHM doesn't implement everything in there.
+ * Additionally we do some things in a different way to SAP (e.g. different ordering, or leaving out a pathway.
+ *
+ * This class was created so that BEIS could have NHM outputs to compare with the outputs from
+ * BRE's private internal SAP reference implementation.
+ *
+ * At some point in the future we might add BREDEM 2012.
  */
 public enum EnergyCalculationStep {
     /**
      *  Dimensions and Structure
      */
     // TODO: areas of individual floors
+    FloorArea_Basement(Units.MetreSquared, Period.Annual, SAPWorksheetSection.Dimensions.subCell(1, 'a'), null),
+    FloorArea_Ground(Units.MetreSquared, Period.Annual, SAPWorksheetSection.Dimensions.subCell(1, 'b'), null),
+    FloorArea_First(Units.MetreSquared, Period.Annual, SAPWorksheetSection.Dimensions.subCell(1, 'c'), null),
+    FloorArea_Second(Units.MetreSquared, Period.Annual, SAPWorksheetSection.Dimensions.subCell(1, 'd'), null),
+    // BRE lump all of the upper floors together so that they can fit into a spreadsheet with a fixed number of columns.
+    FloorArea_Third_and_Above(Units.MetreSquared, Period.Annual, SAPWorksheetSection.Dimensions.subCell(1, 'e'), null),
+
+    // v2a to 2n (storey heights) and v3a to 3n (storey volumes) omitted, because they weren't present in BRE's sample spreadsheet.
+
     TotalFloorArea(Units.MetreSquared, Period.Annual, SAPWorksheetSection.Dimensions.cell(4), BREDEMSection.LightsAppliancesAndCooking.var("TFA")),
     DwellingVolume(Units.MetreCubed, Period.Annual, SAPWorksheetSection.Dimensions.cell(5), null),
 

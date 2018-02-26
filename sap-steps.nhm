@@ -3,7 +3,7 @@
 (scenario
  start-date: 2018
  end-date: 2018
- stock-id: my-lovely-stock
+ stock-id: ./system-tests/stock.json
  energy-calculator: SAP2012
 
  (~init-modules)
@@ -16,11 +16,14 @@
    ;; N/A values that you get from a report by default
    record-changes: false
 
-   (column name: v1a value: (house.energy-calculation-step TODO)) ; Basement area
-   (column name: v1b value: (house.energy-calculation-step TODO)) ; Ground floor area
-   (column name: v1c value: (house.energy-calculation-step TODO)) ; First floor area
-   (column name: v1d value: (house.energy-calculation-step TODO)) ; Second floor area
-   (column name: v1e value: (house.energy-calculation-step TODO)) ; Third floor area
+   (column name: v1a value: (house.energy-calculation-step FloorArea_Basement)) ; Basement area
+   (column name: v1b value: (house.energy-calculation-step FloorArea_Ground)) ; Ground floor area
+   (column name: v1c value: (house.energy-calculation-step FloorArea_First)) ; First floor area
+   (column name: v1d value: (house.energy-calculation-step FloorArea_Second)) ; Second floor area
+   (column name: v1e value: (house.energy-calculation-step FloorArea_Third_and_Above)) ; Third floor area
+
+   ;; SAP worksheet cells 2a to 2n (storey heights) and 3a to 3n (storey volumes) omitted as not present in BRE's spreadsheet.
+
    (column name: v4 value: (house.energy-calculation-step TotalFloorArea)) ; Total floor area
    (column name: v5 value: (house.energy-calculation-step DwellingVolume)) ; Dwelling volume
 
@@ -219,7 +222,7 @@
 
    (column name: v217 value: (house.energy-calculation-step WaterHeating_Efficiency)) ; Efficiency of water heater
 
-   ;; Step 218 doesn't exist in the SAP worksheet2
+   ;; Step 218 doesn't exist in the SAP worksheet
 
    (column name: v219 value: (house.energy-use by-service: WaterHeating)) ; Fuel for water heating
 
