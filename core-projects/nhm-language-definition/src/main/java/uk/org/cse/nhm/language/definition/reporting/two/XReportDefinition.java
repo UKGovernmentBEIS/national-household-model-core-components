@@ -3,6 +3,7 @@ package uk.org.cse.nhm.language.definition.reporting.two;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.larkery.jasb.bind.*;
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
@@ -10,11 +11,6 @@ import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.SeeAlso;
 import uk.org.cse.nhm.language.definition.XScenarioElement;
 import uk.org.cse.nhm.language.definition.function.num.IHouseContext;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindPositionalArgument;
-import com.larkery.jasb.bind.BindRemainingArguments;
-import com.larkery.jasb.bind.Identity;
 
 @Doc(
 		{
@@ -41,9 +37,11 @@ import com.larkery.jasb.bind.Identity;
 public class XReportDefinition extends XScenarioElement implements IHouseContext {
 	public static class P {
 		public static final String contents = "contents";
+		public static final String recordChange = "recordChange";
 	}
 	private List<XReportPart> contents = new ArrayList<>();
-	
+	private boolean recordChange = true;
+
 	@Doc({"A name for the report - this will be used to name the files that contain the results of the report, and",
 		"as the identity to use when sending houses to the report from elsewhere in the scenario.",
 		"",
@@ -55,6 +53,24 @@ public class XReportDefinition extends XScenarioElement implements IHouseContext
 	@Identity
 	public String getName() {
 		return super.getName();
+	}
+
+	@Prop(P.recordChange)
+	@BindNamedArgument("record-changes")
+	@Doc({
+			"If true, each column will be split into two (Before) and (After) columns.",
+			"Reporting is triggered by an action.",
+			"The (Before) column is the initial state of the dwelling before that action was applied.",
+			"The (After) column is the state of the dwelling after that action had been applied, and may be N/A if the action failed for that dwelling.",
+			"This mode will also cause the special 'outcome' and 'selected' columns to be included.",
+			"If record-change is set to false, each column is output once, using only the values from before the action was applied."
+	})
+	public boolean getRecordChange() {
+		return recordChange;
+	}
+
+	public void setRecordChange(boolean recordChange) {
+		this.recordChange = recordChange;
 	}
 
 	@Prop(P.contents)

@@ -54,21 +54,21 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public interface IReportingFactory {
 	public Explain createExplain(final List<String> conditionNames, final Condition condition);
-	
+
 	public NumberProbe createNumberProbe(
 			final IComponentsFunction<Number> delegate,
 			final List<IComponentsFunction<? extends Object>> probeFunctions
 			);
 
 	public NetPresentValueProbingFunction createNetPresentValueProbingFunction();
-	
+
 	public ActionProbe createComponentsActionProbe(
 			final Optional<IComponentsAction> delegate,
 			final List<IComponentsFunction<? extends Object>> probeFunctions);
-	
+
 	public AggregateActionProbe createAggregateActionProbe(
-			@Assisted final IStateAction delegate, 
-			@Assisted final List<IComponentsFunction<?>> cuts, 
+			@Assisted final IStateAction delegate,
+			@Assisted final List<IComponentsFunction<?>> cuts,
 			@Assisted final List<IAggregationFunction> values);
 
 	public AggregateReport createAggregateReport(final IReportMode mode, final List<IAggregationFunction> functions);
@@ -94,7 +94,7 @@ public interface IReportingFactory {
 			final List<IComponentsFunction<?>> categories);
 
 	public GlobalAccountsReport createGlobalAccounReport();
-	
+
 	public TransactionReport createTransactionReport(
 			@Assisted final IDwellingSet group,
 			@Assisted final Set<String> requiredTags);
@@ -114,8 +114,8 @@ public interface IReportingFactory {
 	public ReportTrigger createReportTrigger(final IReportMode mode, final IGroups division);
 
 	public DwellingsReport createDwellingsReport(
-			@Assisted final IDwellingGroup group, 
-			@Assisted final IReportMode mode, 
+			@Assisted final IDwellingGroup group,
+			@Assisted final IReportMode mode,
 			@Assisted final List<IComponentsFunction<?>> fields);
 
     @Adapt(XNTileAggregation.class)
@@ -129,8 +129,8 @@ public interface IReportingFactory {
         @Assisted final IDwellingSet group,
         @Prop(XSummaryFunction.P.aggregation)
         @Assisted final IAggregationFunction aggregation);
-			
+
 	public SequenceLogger createSequenceLogger();
 
-	public UnifiedReport createUnifiedReport(final List<IReportPart> contents);
+	public UnifiedReport createUnifiedReport(final boolean recordChange, final List<IReportPart> contents);
 }

@@ -82,7 +82,7 @@ public class UnifiedReport extends AbstractNamed implements IStateListener, ISim
 
 		@Override
 		public void after(final IComponentsScope scope, final ILets lets) {
-			UnifiedReport.this.after(this, scope, lets);
+            UnifiedReport.this.after(this, scope, lets);
 		}
 
         public boolean isFrom(final UnifiedReport r) {
@@ -93,7 +93,8 @@ public class UnifiedReport extends AbstractNamed implements IStateListener, ISim
 	private final List<Column> columns;
 	private final List<Cut> cuts;
 	private final ILogEntryHandler out;
-	private final ISimulator simulator;
+    private final boolean recordChange;
+    private final ISimulator simulator;
 	private final ICanonicalState state;
 	private static final Object NAME_PLACEHOLDER = new Object();
 
@@ -109,15 +110,23 @@ public class UnifiedReport extends AbstractNamed implements IStateListener, ISim
 			final ICanonicalState state,
 			final ISimulator simulator,
 			final ILogEntryHandler out,
+			@Assisted final boolean recordChange,
 			@Assisted final List<IReportPart> contents) {
 		this.state = state;
 		this.simulator = simulator;
 		this.out = out;
-		columns = new ArrayList<Column>();
+        this.recordChange = recordChange;
+        columns = new ArrayList<Column>();
 		cuts = new ArrayList<Cut>();
 
 		// add default cut
-		final Cut cut = new Cut(ImmutableList.of(Cut.SENT_FROM_COLUMN, Cut.OUTCOME_COLUMN));
+		final Cut cut;
+		if (recordChange) {
+			cut = new Cut(ImmutableList.of(Cut.SENT_FROM_COLUMN, Cut.OUTCOME_COLUMN));
+		} else {
+			cut = new Cut(ImmutableList.of(Cut.SENT_FROM_COLUMN));
+		}
+
 		cut.setIdentifier(Name.of("summary"));
 		cuts.add(cut);
 
@@ -126,11 +135,16 @@ public class UnifiedReport extends AbstractNamed implements IStateListener, ISim
 			cuts.addAll(part.cuts());
 		}
 
-		columnNames.add(NAME_PLACEHOLDER, Cut.OUTCOME_COLUMN);
-		columnNames.add(NAME_PLACEHOLDER, Cut.SELECTED_COLUMN);
+		if (recordChange) {
+            columnNames.add(NAME_PLACEHOLDER, Cut.OUTCOME_COLUMN);
+            columnNames.add(NAME_PLACEHOLDER, Cut.SELECTED_COLUMN);
+        }
 		columnNames.add(NAME_PLACEHOLDER, Cut.SENT_FROM_COLUMN);
 		columnNames.add(NAME_PLACEHOLDER, "count");
-        columnNames.add(NAME_PLACEHOLDER, "suitable-count");
+
+		if (recordChange) {
+            columnNames.add(NAME_PLACEHOLDER, "suitable-count");
+        }
 
 		int index = 0;
 		for (final Column c : columns) {
@@ -176,9 +190,11 @@ public class UnifiedReport extends AbstractNamed implements IStateListener, ISim
 	public void after(final Record record,
                       final IComponentsScope scope,
                       final ILets lets) {
-        // record should be in buffer already.
-        record.columnValuesAfter = evaluate(record.key, scope, lets);
-        record.sequenceAfter = sequence++;
+        if (recordChange) {
+            // record should be in buffer already.
+            record.columnValuesAfter = evaluate(record.key, scope, lets);
+            record.sequenceAfter = sequence++;
+        }
 	}
 
 	private Object[] evaluate(final String key, final IComponentsScope scope, final ILets lets) {
@@ -209,8 +225,10 @@ public class UnifiedReport extends AbstractNamed implements IStateListener, ISim
 					final ImmutableMap.Builder<String, Double> aggregations = ImmutableMap.builder();
 
 					aggregations.put("count", cut.getCountBefore(group));
-                    final double suitableCount = cut.getCountAfter(group);
-                    aggregations.put("suitable-count", suitableCount);
+					if (recordChange) {
+                        final double suitableCount = cut.getCountAfter(group);
+                        aggregations.put("suitable-count", suitableCount);
+                    }
 
 					for (final Column column : columns) {
                         // N/A is not supported here.
@@ -273,16 +291,24 @@ public class UnifiedReport extends AbstractNamed implements IStateListener, ISim
 		final DeduplicatingMap.Builder<Object> builder = DeduplicatingMap.stringBuilder();
 
 		builder.put(Cut.SENT_FROM_COLUMN, r.key);
-		builder.put(Cut.SELECTED_COLUMN, r.selected);
-		builder.put(Cut.OUTCOME_COLUMN, r.columnValuesAfter != null);
+
+		if (recordChange) {
+            builder.put(Cut.SELECTED_COLUMN, r.selected);
+            builder.put(Cut.OUTCOME_COLUMN, r.columnValuesAfter != null);
+        }
 
         for (int i = 0; i<columns.size(); i++) {
             final String name = columns.get(i).getIdentifier().getName();
-            builder.put(name + " (Before)", r.columnValuesBefore[i]);
-            if (r.columnValuesAfter != null) {
-                builder.put(name + " (After)", r.columnValuesAfter[i]);
+
+            if (recordChange) {
+                builder.put(name + " (Before)", r.columnValuesBefore[i]);
+                if (r.columnValuesAfter != null) {
+                    builder.put(name + " (After)", r.columnValuesAfter[i]);
+                } else {
+                    builder.put(name + " (After)", "n/a");
+                }
             } else {
-                builder.put(name + " (After)", "n/a");
+                builder.put(name, r.columnValuesBefore[i]);
             }
         }
 

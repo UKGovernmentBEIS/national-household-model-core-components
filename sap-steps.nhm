@@ -12,6 +12,10 @@
  ;; TODO: include sap emissions
 
  (def-report sap-steps
+   ;; This lines strips out all duplicate (After) columns filled with
+   ;; N/A values that you get from a report by default
+   record-changes: false
+
    (column name: v1a value: (house.energy-calculation-step TODO)) ; Basement area
    (column name: v1b value: (house.energy-calculation-step TODO)) ; Ground floor area
    (column name: v1c value: (house.energy-calculation-step TODO)) ; First floor area
