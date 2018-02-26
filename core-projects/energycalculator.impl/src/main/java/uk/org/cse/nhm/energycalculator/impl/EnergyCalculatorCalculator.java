@@ -678,6 +678,8 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 
             StepRecorder.recordStep(EnergyCalculationStep.DemandTemperature_LivingArea, eparameters.getZoneOneDemandTemperature());
 
+            StepRecorder.recordStep(EnergyCalculationStep.LivingAreaFraction, houseCase.getLivingAreaProportionOfFloorArea());
+
             sortTransducers(v.transducers);
             log.debug("New sort: {}", v.transducers);
 
@@ -768,7 +770,6 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         StepRecorder.recordStep(EnergyCalculationStep.MeanInternalTemperature_LivingArea, meanTemperature[ZoneType.ZONE1.ordinal()]);
         StepRecorder.recordStep(EnergyCalculationStep.MeanInternalTemperature_RestOfDwelling, meanTemperature[ZoneType.ZONE2.ordinal()]);
 
-        StepRecorder.recordStep(EnergyCalculationStep.LivingAreaFraction, houseCase.getLivingAreaProportionOfFloorArea());
         double areaWeightedMeanTemperature = getAreaWeightedMeanTemperature(houseCase, meanTemperature);
         StepRecorder.recordStep(EnergyCalculationStep.MeanInternalTemperature_Unadjusted, areaWeightedMeanTemperature);
         state.increaseSupply(EnergyType.HackUNADJUSTED_TEMPERATURE, areaWeightedMeanTemperature);
