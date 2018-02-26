@@ -1,5 +1,7 @@
 package uk.org.cse.nhm.energycalculator.api.types;
 
+import org.joda.time.format.PeriodParser;
+
 import java.util.Optional;
 
 /**
@@ -12,343 +14,354 @@ public enum EnergyCalculationStep {
      *  Dimensions and Structure
      */
     // TODO: areas of individual floors
-    TotalFloorArea(SAPWorksheetSection.Dimensions.cell(4), BREDEMSection.LightsAppliancesAndCooking.var("TFA")),
-    DwellingVolume(SAPWorksheetSection.Dimensions.cell(5), null),
+    TotalFloorArea(Units.MetreSquared, Period.Annual, SAPWorksheetSection.Dimensions.cell(4), BREDEMSection.LightsAppliancesAndCooking.var("TFA")),
+    DwellingVolume(Units.MetreCubed, Period.Annual, SAPWorksheetSection.Dimensions.cell(5), null),
 
     /**
      * Ventilation
      */
-    ChimneyVentilation(SAPWorksheetSection.Ventilation.subCell(6, 'a'), null),
-    OpenFluesVentilation(SAPWorksheetSection.Ventilation.subCell(6, 'b'), null),
-    IntermittentFansVentilation(SAPWorksheetSection.Ventilation.subCell(7, 'a'), null),
-    PassiveVentsVentilation(SAPWorksheetSection.Ventilation.subCell(7, 'b'), null),
-    FluelessGasFiresVentilation(SAPWorksheetSection.Ventilation.subCell(7 ,'c'), null),
+    ChimneyVentilation(Units.MetreCubed_per_Hour, Period.Annual, SAPWorksheetSection.Ventilation.subCell(6, 'a'), null),
+    OpenFluesVentilation(Units.MetreCubed_per_Hour, Period.Annual, SAPWorksheetSection.Ventilation.subCell(6, 'b'), null),
+    IntermittentFansVentilation(Units.MetreCubed_per_Hour, Period.Annual, SAPWorksheetSection.Ventilation.subCell(7, 'a'), null),
+    PassiveVentsVentilation(Units.MetreCubed_per_Hour, Period.Annual, SAPWorksheetSection.Ventilation.subCell(7, 'b'), null),
+    FluelessGasFiresVentilation(Units.MetreCubed_per_Hour, Period.Annual, SAPWorksheetSection.Ventilation.subCell(7 ,'c'), null),
 
-    AirChanges_ChimneysFluesFansAndPSVs(SAPWorksheetSection.Ventilation.cell(8), null),
-    Storeys(SAPWorksheetSection.Ventilation.cell(9), null),
-    InfiltrationAdditionalStackEffect(SAPWorksheetSection.Ventilation.cell(10), null),
-    InfiltrationStructural(SAPWorksheetSection.Ventilation.cell(11), null),
-    InfiltrationGroundFloor(SAPWorksheetSection.Ventilation.cell(12), null),
-    InfiltrationAbsenceOfDraughtLobby(SAPWorksheetSection.Ventilation.cell(13), null),
+    AirChanges_ChimneysFluesFansAndPSVs(Units.AirChange_per_Hour, Period.Annual, SAPWorksheetSection.Ventilation.cell(8), null),
+    Storeys(Units.Count, Period.Annual, SAPWorksheetSection.Ventilation.cell(9), null),
+    InfiltrationAdditionalStackEffect(Units.AirChange_per_Hour, Period.Annual, SAPWorksheetSection.Ventilation.cell(10), null),
+    InfiltrationStructural(Units.AirChange_per_Hour, Period.Annual, SAPWorksheetSection.Ventilation.cell(11), null),
+    InfiltrationGroundFloor(Units.AirChange_per_Hour, Period.Annual, SAPWorksheetSection.Ventilation.cell(12), null),
+    InfiltrationAbsenceOfDraughtLobby(Units.AirChange_per_Hour, Period.Annual, SAPWorksheetSection.Ventilation.cell(13), null),
 
     // TODO: this is percent in the worksheet?
-    ProportionWindowsDraughtProofed(SAPWorksheetSection.Ventilation.cell(14), null),
-    InfiltrationWindows(SAPWorksheetSection.Ventilation.cell(15), null),
-    InfiltrationRate_Initial(SAPWorksheetSection.Ventilation.cell(16), null),
+    ProportionWindowsDraughtProofed(Units.DimensionlessProportion, Period.Annual, SAPWorksheetSection.Ventilation.cell(14), null),
+    InfiltrationWindows(Units.AirChange_per_Hour, Period.Annual, SAPWorksheetSection.Ventilation.cell(15), null),
+    InfiltrationRate_Initial(Units.AirChange_per_Hour, Period.Annual, SAPWorksheetSection.Ventilation.cell(16), null),
 
-    AirPermabilityValue(SAPWorksheetSection.Ventilation.cell(17), null, SkipReason.AirPressureTests_Unsupported),
+    AirPermabilityValue(null, Period.Annual, SAPWorksheetSection.Ventilation.cell(17), null, SkipReason.AirPressureTests_Unsupported),
 
-    InfiltrationRateMaybePressureTest(SAPWorksheetSection.Ventilation.cell(18), null),
-    SidesSheltered(SAPWorksheetSection.Ventilation.cell(19), null),
-    ShelterFactor(SAPWorksheetSection.Ventilation.cell(20), null),
-    InfiltrationRate_IncludingShelter(SAPWorksheetSection.Ventilation.cell(21), null),
+    InfiltrationRateMaybePressureTest(Units.AirChange_per_Hour, Period.Annual, SAPWorksheetSection.Ventilation.cell(18), null),
+    SidesSheltered(Units.Count, Period.Annual, SAPWorksheetSection.Ventilation.cell(19), null),
+    ShelterFactor(Units.Dimensionless, Period.Annual, SAPWorksheetSection.Ventilation.cell(20), null),
+    InfiltrationRate_IncludingShelter(Units.AirChange_per_Hour, Period.Annual, SAPWorksheetSection.Ventilation.cell(21), null),
 
-    AverageWindSpeed(SAPWorksheetSection.Ventilation.cell(22), null),
-    WindFactor(SAPWorksheetSection.Ventilation.cell(23), null),
-    InfiltrationRate_IncludingShelterAndWind(SAPWorksheetSection.Ventilation.cell(24), null),
+    AverageWindSpeed(Units.Metre_per_Second, Period.MonthlyMean, SAPWorksheetSection.Ventilation.cell(22), null),
+    WindFactor(Units.Dimensionless, Period.MonthlyMean, SAPWorksheetSection.Ventilation.cell(23), null),
+    InfiltrationRate_IncludingShelterAndWind(Units.AirChange_per_Hour, Period.MonthlyMean, SAPWorksheetSection.Ventilation.cell(24), null),
 
-    SiteExposureFactor(null, BREDEMSection.HeatLoss.var("ShE")),
-    InfiltrationRate_IncludingShelterAndWindAndSiteExposure(null, BREDEMSection.HeatLoss.step('E', "Lsub,m")),
+    SiteExposureFactor(Units.Dimensionless, Period.Annual, null, BREDEMSection.HeatLoss.var("ShE")),
+    InfiltrationRate_IncludingShelterAndWindAndSiteExposure(Units.AirChange_per_Hour, Period.MonthlyMean, null, BREDEMSection.HeatLoss.step('E', "Lsub,m")),
 
     // Unimplemented technologies
-    AirChanges_MechanicalVentilation(SAPWorksheetSection.Ventilation.subCell(23, 'a'), null, SkipReason.Unsupported_Technology),
-    AirChanges_ExhaustAirHeatPump(SAPWorksheetSection.Ventilation.subCell(23, 'b'), null, SkipReason.Unsupported_Technology),
-    AirChanges_BalancedWithHeatRecovery(SAPWorksheetSection.Ventilation.subCell(23, 'c'), null, SkipReason.Unsupported_Technology),
+    AirChanges_MechanicalVentilation(null, Period.MonthlyMean, SAPWorksheetSection.Ventilation.subCell(23, 'a'), null, SkipReason.Unsupported_Technology),
+    AirChanges_ExhaustAirHeatPump(null, Period.MonthlyMean, SAPWorksheetSection.Ventilation.subCell(23, 'b'), null, SkipReason.Unsupported_Technology),
+    AirChanges_BalancedWithHeatRecovery(null, Period.MonthlyMean, SAPWorksheetSection.Ventilation.subCell(23, 'c'), null, SkipReason.Unsupported_Technology),
 
     // The only type of ventilation we use is natural
-    Ventilation_BalancedMechanicalWithHeatRecovery(SAPWorksheetSection.Ventilation.subCell(24, 'a'), null, SkipReason.Unsupported_Technology),
-    Ventilation_BalancedMechanicalWithoutHeatRecovery(SAPWorksheetSection.Ventilation.subCell(24, 'b'), null, SkipReason.Unsupported_Technology),
-    Ventilation_WholeHouseExtractOrPositiveFromOutside(SAPWorksheetSection.Ventilation.subCell(24, 'c'), null, SkipReason.Unsupported_Technology),
-    Ventilation_NaturalOrPositiveFromLoft(SAPWorksheetSection.Ventilation.subCell(24, 'd'), null),
+    Ventilation_BalancedMechanicalWithHeatRecovery(null, Period.MonthlyMean, SAPWorksheetSection.Ventilation.subCell(24, 'a'), null, SkipReason.Unsupported_Technology),
+    Ventilation_BalancedMechanicalWithoutHeatRecovery(null, Period.MonthlyMean, SAPWorksheetSection.Ventilation.subCell(24, 'b'), null, SkipReason.Unsupported_Technology),
+    Ventilation_WholeHouseExtractOrPositiveFromOutside(null, Period.MonthlyMean, SAPWorksheetSection.Ventilation.subCell(24, 'c'), null, SkipReason.Unsupported_Technology),
+    Ventilation_NaturalOrPositiveFromLoft(Units.AirChange_per_Hour, Period.MonthlyMean, SAPWorksheetSection.Ventilation.subCell(24, 'd'), null),
 
     // We ignore the note about Appendix Q here
-    AirChanges_Effective(SAPWorksheetSection.Ventilation.cell(25), null),
+    AirChanges_Effective(Units.AirChange_per_Hour, Period.MonthlyMean, SAPWorksheetSection.Ventilation.cell(25), null),
 
     /**
      * Heat losses and heat loss parameter
      */
     // For external fabric elements, this is the A x U (W/K) columns
     // TODO: record doors
-    HeatLossCoefficient_DoorsSolid(SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(26), null),
-    HeatLossCoefficient_DoorsSemiGlazed(SAPWorksheetSection.HeatLossesAndHeatLossParameter.subCell(26, 'a'), null),
-    HeatLossCoefficient_Window(SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(27), null),
+    HeatLossCoefficient_DoorsSolid(Units.Watt_per_Kelvin, Period.Annual, SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(26), null),
+    HeatLossCoefficient_DoorsSemiGlazed(Units.Watt_per_Kelvin, Period.Annual, SAPWorksheetSection.HeatLossesAndHeatLossParameter.subCell(26, 'a'), null),
+    HeatLossCoefficient_Window(Units.Watt_per_Kelvin, Period.Annual, SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(27), null),
     // Extra breakdown of cell 27 as requested by BRE.
     // TODO; record windows aggregated by frame type
-    HeatLossCoefficient_Window_UPVC_Or_Wood(null, null),
-    HeatLossCoefficient_Window_Metal(null, null),
+    HeatLossCoefficient_Window_UPVC_Or_Wood(Units.Watt_per_Kelvin, Period.Annual, null, null),
+    HeatLossCoefficient_Window_Metal(Units.Watt_per_Kelvin, Period.Annual, null, null),
     // We don't have any roof windows in the NHM
-    HeatLossCoefficient_Window_Roof(SAPWorksheetSection.HeatLossesAndHeatLossParameter.subCell(27, 'a'), null, 0d),
+    HeatLossCoefficient_Window_Roof(Units.Watt_per_Kelvin, Period.Annual, SAPWorksheetSection.HeatLossesAndHeatLossParameter.subCell(27, 'a'), null, 0d),
     // TODO: record floors
-    HeatLossCoefficient_BasementFloor(SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(28), null),
-    HeatLossCoefficient_GroundFloor(SAPWorksheetSection.HeatLossesAndHeatLossParameter.subCell(28, 'a'), null),
-    HeatLossCoefficient_ExposedFLoor(SAPWorksheetSection.HeatLossesAndHeatLossParameter.subCell(28, 'b'), null),
+    HeatLossCoefficient_BasementFloor(Units.Watt_per_Kelvin, Period.Annual, SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(28), null),
+    HeatLossCoefficient_GroundFloor(Units.Watt_per_Kelvin, Period.Annual, SAPWorksheetSection.HeatLossesAndHeatLossParameter.subCell(28, 'a'), null),
+    HeatLossCoefficient_ExposedFLoor(Units.Watt_per_Kelvin, Period.Annual, SAPWorksheetSection.HeatLossesAndHeatLossParameter.subCell(28, 'b'), null),
     // Basement walls are treated as External walls in the NHM
-    HeatLossCoefficient_BasementWall(SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(29), null, 0d),
-    HeatLossCoefficient_ExternalWall(SAPWorksheetSection.HeatLossesAndHeatLossParameter.subCell(29, 'a'), null),
-    HeatLossCoefficient_Roof(SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(30), null),
+    HeatLossCoefficient_BasementWall(Units.Watt_per_Kelvin, Period.Annual, SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(29), null, 0d),
+    HeatLossCoefficient_ExternalWall(Units.Watt_per_Kelvin, Period.Annual, SAPWorksheetSection.HeatLossesAndHeatLossParameter.subCell(29, 'a'), null),
+    HeatLossCoefficient_Roof(Units.Watt_per_Kelvin, Period.Annual, SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(30), null),
 
-    AreaExternal(SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(31), null),
+    AreaExternal(Units.MetreSquared, Period.Annual, SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(31), null),
 
     // For internal and part fabric elements, this is the net area (m^2) column
-    AreaPartyWall(SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(32), null),
-    AreaPartyFloor(SAPWorksheetSection.HeatLossesAndHeatLossParameter.subCell(32, 'a'), null),
-    AreaPartyCeiling(SAPWorksheetSection.HeatLossesAndHeatLossParameter.subCell(32, 'b'), null),
-    AreaInternalWall(SAPWorksheetSection.HeatLossesAndHeatLossParameter.subCell(32, 'c'), null),
+    AreaPartyWall(Units.MetreSquared, Period.Annual, SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(32), null),
+    AreaPartyFloor(Units.MetreSquared, Period.Annual, SAPWorksheetSection.HeatLossesAndHeatLossParameter.subCell(32, 'a'), null),
+    AreaPartyCeiling(Units.MetreSquared, Period.Annual, SAPWorksheetSection.HeatLossesAndHeatLossParameter.subCell(32, 'b'), null),
+    AreaInternalWall(Units.MetreSquared, Period.Annual, SAPWorksheetSection.HeatLossesAndHeatLossParameter.subCell(32, 'c'), null),
     // In the NHM, we treat Internal Floors and Ceilings as if they were Party Floors and Ceilings.
     // This should make no difference practically.
-    AreaInternalFloor(SAPWorksheetSection.HeatLossesAndHeatLossParameter.subCell(32, 'd'), null),
-    AreaInternalCeiling(SAPWorksheetSection.HeatLossesAndHeatLossParameter.subCell(32, 'e'), null),
+    AreaInternalFloor(Units.MetreSquared, Period.Annual, SAPWorksheetSection.HeatLossesAndHeatLossParameter.subCell(32, 'd'), null),
+    AreaInternalCeiling(Units.MetreSquared, Period.Annual, SAPWorksheetSection.HeatLossesAndHeatLossParameter.subCell(32, 'e'), null),
 
-    FabricHeatLoss(SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(33), null),
-    HeatCapacity(SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(34), null, SkipReason.TMP_Complex_Unsupported),
+    FabricHeatLoss(Units.Watt_per_Kelvin, Period.Annual, SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(33), null),
+    HeatCapacity(null, Period.Annual, SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(34), null, SkipReason.TMP_Complex_Unsupported),
     // Uses indicative values from Table 1f
-    ThermalMassParameter(SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(35), null),
+    ThermalMassParameter(Units.Kilo_Joule_per_MetreSquared_Kelvin, Period.Annual, SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(35), null),
     // Uses simple calculation
-    ThermalBridges(SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(36), null),
-    FabricLossTotal(SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(37), null),
-    VentilationHeatLoss(SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(38), null),
-    HeatTransferCoefficient(SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(39), null),
-    HeatLossParameter(SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(40), null),
-    DaysInMonth(SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(41), null),
+    ThermalBridges(Units.Watt_per_Kelvin, Period.Annual, SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(36), null),
+    FabricLossTotal(Units.Watt_per_Kelvin, Period.Annual, SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(37), null),
+    VentilationHeatLoss(Units.Watt_per_Kelvin, Period.MonthlyMean, SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(38), null),
+    HeatTransferCoefficient(Units.Watt_per_Kelvin, Period.MonthlyMean, SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(39), null),
+    HeatLossParameter(Units.Watt_per_MetreSquared_Kelvin, Period.MonthlyMean, SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(40), null),
+    DaysInMonth(Units.Count, Period.MonthlySum, SAPWorksheetSection.HeatLossesAndHeatLossParameter.cell(41), null),
 
     /**
      * Water Heating
      */
-    Occupancy(SAPWorksheetSection.WaterHeating.cell(42),
+    Occupancy(Units.Count, Period.Annual, SAPWorksheetSection.WaterHeating.cell(42),
             BREDEMSection.LightsAppliancesAndCooking.step('a', "N")),
-    WaterHeating_Usage_Daily(SAPWorksheetSection.WaterHeating.cell(43), null),
-    WaterHeating_Usage_Monthly(SAPWorksheetSection.WaterHeating.cell(44), null),
-    WaterHeating_EnergyContent(SAPWorksheetSection.WaterHeating.cell(45), null),
-    WaterHeating_DistributionLoss(SAPWorksheetSection.WaterHeating.cell(46), null),
-    WaterHeating_StorageVolume(SAPWorksheetSection.WaterHeating.cell(47), null),
+
+    // TODO: In SAP, this is annual.
+    WaterHeating_Usage_Initial(Units.Litre_per_Day, Period.MonthlyMean, SAPWorksheetSection.WaterHeating.cell(43), null),
+
+    // TODO: in SAP, this is summed over the year? Weird?
+    WaterHeating_Usage_MonthAdjusted(Units.Litre_per_Day, Period.MonthlyMean, SAPWorksheetSection.WaterHeating.cell(44), null),
+
+    WaterHeating_EnergyContent(Units.Kilo_Watt_Hour_per_Month, Period.MonthlySum, SAPWorksheetSection.WaterHeating.cell(45), null),
+    WaterHeating_DistributionLoss(Units.Kilo_Watt_Hour_per_Month, Period.MonthlySum, SAPWorksheetSection.WaterHeating.cell(46), null),
+
+    // TODO: in SAP, this is annual
+    WaterHeating_StorageVolume(Units.MetreCubed, Period.MonthlyMean, SAPWorksheetSection.WaterHeating.cell(47), null),
 
     // 48,49 and 50 ignored as we don't know manufacturer's declared loss factor
 
-    WaterHeating_StorageLossFactor(SAPWorksheetSection.WaterHeating.cell(51), null),
-    WaterHeating_StorageVolumeFactor(SAPWorksheetSection.WaterHeating.cell(52), null),
-    WaterHeating_StorageTemperatureFactor(SAPWorksheetSection.WaterHeating.cell(53), null),
-    WaterHeating_StorageLosses_Daily_Calculated(SAPWorksheetSection.WaterHeating.cell(54), null),
-    WaterHeating_StorageLosses_Daily(SAPWorksheetSection.WaterHeating.cell(55), null),
-    WaterHeating_StorageLosses_Monthly(SAPWorksheetSection.WaterHeating.cell(56), null),
+    // TODO: in SAP, this is annual
+    WaterHeating_StorageLossFactor(Units.Kilo_Watt_Hour_per_Litre_per_Day, Period.MonthlyMean, SAPWorksheetSection.WaterHeating.cell(51), null),
+    WaterHeating_StorageVolumeFactor(Units.Dimensionless, Period.MonthlyMean, SAPWorksheetSection.WaterHeating.cell(52), null),
+    WaterHeating_StorageTemperatureFactor(Units.Dimensionless, Period.MonthlyMean, SAPWorksheetSection.WaterHeating.cell(53), null),
+    WaterHeating_StorageLosses_Daily_Calculated(Units.Kilo_Watt_Hour_per_Day, Period.MonthlyMean, SAPWorksheetSection.WaterHeating.cell(54), null),
+    WaterHeating_StorageLosses_Daily(Units.Kilo_Watt_Hour_per_Day, Period.MonthlyMean, SAPWorksheetSection.WaterHeating.cell(55), null),
+    WaterHeating_StorageLosses_Monthly(Units.Kilo_Watt_Hour_per_Month, Period.MonthlyMean, SAPWorksheetSection.WaterHeating.cell(56), null),
 
-    // This should be monthly, but...
-    WaterHeating_StorageLosses_Daily_ExcludeSolar(SAPWorksheetSection.WaterHeating.cell(57), null),
+    WaterHeating_StorageLosses_Monthly_ExcludeSolar(Units.Kilo_Watt_Hour_per_Month, Period.MonthlyMean, SAPWorksheetSection.WaterHeating.cell(57), null),
 
     // There's no step 58 in the SAP worksheet
 
-    WaterHeating_PrimaryCircuitLoss_Monthly(SAPWorksheetSection.WaterHeating.cell(59), null),
+    WaterHeating_PrimaryCircuitLoss_Monthly(Units.Kilo_Watt_Hour_per_Month, Period.MonthlyMean, SAPWorksheetSection.WaterHeating.cell(59), null),
 
     // There's no step 60 in the SAP worksheet
 
-    WaterHeating_CombiLoss_Monthly(SAPWorksheetSection.WaterHeating.cell(61), null),
-    WaterHeating_TotalHeat_Monthly_BeforeSolar(SAPWorksheetSection.WaterHeating.cell(62), null),
-    WaterHeating_Solar(SAPWorksheetSection.WaterHeating.cell(63), null),
-    WaterHeating_TotalHeat_Monthly(SAPWorksheetSection.WaterHeating.cell(64), null),
+
+    WaterHeating_CombiLoss_Monthly(Units.Kilo_Watt_Hour_per_Month, Period.MonthlyMean, SAPWorksheetSection.WaterHeating.cell(61), null),
+    WaterHeating_TotalHeat_Monthly_BeforeSolar(Units.Kilo_Watt_Hour_per_Month, Period.MonthlyMean, SAPWorksheetSection.WaterHeating.cell(62), null),
+    WaterHeating_Solar(Units.Kilo_Watt_Hour_per_Month, Period.MonthlyMean, SAPWorksheetSection.WaterHeating.cell(63), null),
+    WaterHeating_TotalHeat_Monthly(Units.Kilo_Watt_Hour_per_Month, Period.MonthlySum, SAPWorksheetSection.WaterHeating.cell(64), null),
 
     /**
      * Internal Gains (watts)
      */
-    Gains_HotWater_Monthly(SAPWorksheetSection.WaterHeating.cell(65), null),
-    Gains_Metabolic(SAPWorksheetSection.Gains_Internal.cell(66), null),
-    Gains_Lighting(SAPWorksheetSection.Gains_Internal.cell(67), null),
-    Gains_Appliances(SAPWorksheetSection.Gains_Internal.cell(68), null),
-    Gains_Cooking(SAPWorksheetSection.Gains_Internal.cell(69), null),
-    Gains_PumpsAndFans(SAPWorksheetSection.Gains_Internal.cell(70), null),
-    Gains_Evaporation(SAPWorksheetSection.Gains_Internal.cell(71), null),
+    Gains_HotWater_Monthly(Units.Kilo_Watt_Hour_per_Month, Period.MonthlyMean, SAPWorksheetSection.WaterHeating.cell(65), null),
+    Gains_Metabolic(Units.Watt, Period.MonthlyMean, SAPWorksheetSection.Gains_Internal.cell(66), null),
+    Gains_Lighting(Units.Watt, Period.MonthlyMean, SAPWorksheetSection.Gains_Internal.cell(67), null),
+    Gains_Appliances(Units.Watt, Period.MonthlyMean, SAPWorksheetSection.Gains_Internal.cell(68), null),
+    Gains_Cooking(Units.Watt, Period.MonthlyMean, SAPWorksheetSection.Gains_Internal.cell(69), null),
+    Gains_PumpsAndFans(Units.Watt, Period.MonthlyMean, SAPWorksheetSection.Gains_Internal.cell(70), null),
+    // These are actually losses.
+    Gains_Evaporation(Units.Watt, Period.MonthlyMean, SAPWorksheetSection.Gains_Internal.cell(71), null),
     // This is the same as the other hot water gains in the NHM. In SAP, this represents a conversion.
-    Gains_HotWater(SAPWorksheetSection.Gains_Internal.cell(72), null),
+    Gains_HotWater(Units.Watt, Period.MonthlyMean, SAPWorksheetSection.Gains_Internal.cell(72), null),
 
-    Gains_Internal(SAPWorksheetSection.Gains_Internal.cell(73), null),
+    Gains_Internal(Units.Watt, Period.MonthlyMean, SAPWorksheetSection.Gains_Internal.cell(73), null),
 
     /**
      * Solar Gains (watts)
      */
-    // TODO: Window gains 74 to 81
+    // Solar window gains (cells 74 to 81) omitted as they are difficult to get out of the NHM.
 
     // We don't support roof windows in the NHM
-    Gains_Solar_Roof(SAPWorksheetSection.Gains_Solar.cell(82), null, 0d),
+    Gains_Solar_Roof(Units.Watt, Period.MonthlyMean, SAPWorksheetSection.Gains_Solar.cell(82), null, 0d),
 
-    Gains_Solar(SAPWorksheetSection.Gains_Solar.cell(83), null),
+    Gains_Solar(Units.Watt, Period.MonthlyMean, SAPWorksheetSection.Gains_Solar.cell(83), null),
 
-    Gains(SAPWorksheetSection.Gains_Solar.cell(84), null),
+    Gains(Units.Watt, Period.MonthlyMean, SAPWorksheetSection.Gains_Solar.cell(84), null),
 
     /**
      * Mean Internal Temperature
      */
-    DemandTemperature_LivingArea(SAPWorksheetSection.MeanInternalTemperature.cell(85), null),
-    GainsUtilisation_LivingArea(SAPWorksheetSection.MeanInternalTemperature.cell(86), null),
-    MeanInternalTemperature_LivingArea(SAPWorksheetSection.MeanInternalTemperature.cell(87), null),
+    DemandTemperature_LivingArea(Units.Centigrade, Period.Annual, SAPWorksheetSection.MeanInternalTemperature.cell(85), null),
+    GainsUtilisation_LivingArea(Units.DimensionlessProportion, Period.MonthlyMean, SAPWorksheetSection.MeanInternalTemperature.cell(86), null),
+    MeanInternalTemperature_LivingArea(Units.Centigrade, Period.MonthlyMean, SAPWorksheetSection.MeanInternalTemperature.cell(87), null),
 
-    DemandTemperature_RestOfDwelling(SAPWorksheetSection.MeanInternalTemperature.cell(88), null),
-    GainsUtilisation_RestOfDwelling(SAPWorksheetSection.MeanInternalTemperature.cell(89), null),
-    MeanInternalTemperature_RestOfDwelling(SAPWorksheetSection.MeanInternalTemperature.cell(90), null),
+    DemandTemperature_RestOfDwelling(Units.Centigrade, Period.MonthlyMean, SAPWorksheetSection.MeanInternalTemperature.cell(88), null),
+    GainsUtilisation_RestOfDwelling(Units.DimensionlessProportion, Period.MonthlyMean, SAPWorksheetSection.MeanInternalTemperature.cell(89), null),
+    MeanInternalTemperature_RestOfDwelling(Units.Centigrade, Period.MonthlyMean, SAPWorksheetSection.MeanInternalTemperature.cell(90), null),
 
-    LivingAreaFraction(SAPWorksheetSection.MeanInternalTemperature.cell(91), null),
-    MeanInternalTemperature_Unadjusted(SAPWorksheetSection.MeanInternalTemperature.cell(92), null),
-    MeanInternalTemperature(SAPWorksheetSection.MeanInternalTemperature.cell(93), null),
+    LivingAreaFraction(Units.DimensionlessProportion, Period.Annual, SAPWorksheetSection.MeanInternalTemperature.cell(91), null),
+    MeanInternalTemperature_Unadjusted(Units.Centigrade, Period.MonthlyMean, SAPWorksheetSection.MeanInternalTemperature.cell(92), null),
+    MeanInternalTemperature(Units.Centigrade, Period.MonthlyMean, SAPWorksheetSection.MeanInternalTemperature.cell(93), null),
 
     /**
      * Space Heating
      */
-    GainsUtilisation(SAPWorksheetSection.SpaceHeating.cell(94), null),
-    Gains_Useful(SAPWorksheetSection.SpaceHeating.cell(95), null),
-    ExternalTemperature(SAPWorksheetSection.SpaceHeating.cell(96), null),
-    HeatLossRate(SAPWorksheetSection.SpaceHeating.cell(97), null),
-    SpaceHeating(SAPWorksheetSection.SpaceHeating.cell(98), null),
+    GainsUtilisation(Units.DimensionlessProportion, Period.MonthlyMean, SAPWorksheetSection.SpaceHeating.cell(94), null),
+    Gains_Useful(Units.Watt, Period.MonthlyMean, SAPWorksheetSection.SpaceHeating.cell(95), null),
+    ExternalTemperature(Units.Centigrade, Period.MonthlyMean, SAPWorksheetSection.SpaceHeating.cell(96), null),
+    HeatLossRate(Units.Watt, Period.MonthlyMean, SAPWorksheetSection.SpaceHeating.cell(97), null),
+    SpaceHeating(Units.Kilo_Watt_Hour_per_Month, Period.MonthlySum, SAPWorksheetSection.SpaceHeating.cell(98), null),
     // Feeds into step 109, which we aren't doing.
-    SpaceHeating_PerFloorArea(SAPWorksheetSection.SpaceHeating.cell(99), null, SkipReason.FabricEnergyEfficiencyNotSupported),
+    SpaceHeating_PerFloorArea(Units.Kilo_Watt_Hour_per_MetreSquared_per_Month, Period.MonthlySum, SAPWorksheetSection.SpaceHeating.cell(99), null, SkipReason.FabricEnergyEfficiencyNotSupported),
 
     /**
      * Space Cooling (not implemented)
      * If we were to implement this, we probably need to duplicate a lot of the stuff above. Ugh.
      */
-    HeatLossRate_Cooling(SAPWorksheetSection.SpaceCooling.cell(100), null, SkipReason.SpaceCooling_Unsupported),
-    LossUtilisation(SAPWorksheetSection.SpaceCooling.cell(101), null, SkipReason.SpaceCooling_Unsupported),
-    Loss_Useful(SAPWorksheetSection.SpaceCooling.cell(102), null, SkipReason.SpaceCooling_Unsupported),
-    Gains_Cooling(SAPWorksheetSection.SpaceCooling.cell(103), null, SkipReason.SpaceCooling_Unsupported),
-    SpaceCooling_Continuous(SAPWorksheetSection.SpaceCooling.cell(104), null, SkipReason.SpaceCooling_Unsupported),
-    CooledFraction(SAPWorksheetSection.SpaceCooling.cell(105), null, SkipReason.SpaceCooling_Unsupported),
-    CoolingIntermittencyFactor(SAPWorksheetSection.SpaceCooling.cell(106), null, SkipReason.SpaceCooling_Unsupported),
-    SpaceCooling(SAPWorksheetSection.SpaceCooling.cell(107), null, SkipReason.SpaceCooling_Unsupported),
-    SpaceCooling_PerFloorArea(SAPWorksheetSection.SpaceCooling.cell(108), null, SkipReason.SpaceCooling_Unsupported),
+    HeatLossRate_Cooling(Units.Watt, Period.MonthlyMean, SAPWorksheetSection.SpaceCooling.cell(100), null, SkipReason.SpaceCooling_Unsupported),
+    LossUtilisation(Units.DimensionlessProportion, Period.MonthlyMean, SAPWorksheetSection.SpaceCooling.cell(101), null, SkipReason.SpaceCooling_Unsupported),
+    Loss_Useful(Units.Watt, Period.MonthlyMean, SAPWorksheetSection.SpaceCooling.cell(102), null, SkipReason.SpaceCooling_Unsupported),
+    Gains_Cooling(Units.Watt, Period.MonthlyMean, SAPWorksheetSection.SpaceCooling.cell(103), null, SkipReason.SpaceCooling_Unsupported),
+    SpaceCooling_Continuous(Units.Kilo_Watt_Hour_per_Month, Period.MonthlyMean, SAPWorksheetSection.SpaceCooling.cell(104), null, SkipReason.SpaceCooling_Unsupported),
+    CooledFraction(Units.DimensionlessProportion, Period.Annual, SAPWorksheetSection.SpaceCooling.cell(105), null, SkipReason.SpaceCooling_Unsupported),
+    // This seems like a mistake in SAP? Why are summing up this proportion?
+    CoolingIntermittencyFactor(Units.DimensionlessProportion, Period.MonthlySum, SAPWorksheetSection.SpaceCooling.cell(106), null, SkipReason.SpaceCooling_Unsupported),
+    SpaceCooling(Units.Kilo_Watt_Hour_per_Month, Period.MonthlySum, SAPWorksheetSection.SpaceCooling.cell(107), null, SkipReason.SpaceCooling_Unsupported),
+    SpaceCooling_PerFloorArea(Units.Kilo_Watt_Hour_per_MetreSquared_per_Month, Period.MonthlySum, SAPWorksheetSection.SpaceCooling.cell(108), null, SkipReason.SpaceCooling_Unsupported),
 
     /**
      * Fabric Energy efficiency
      */
-    FabricEnergyEfficiency(SAPWorksheetSection.FabricEnergyEfficiency.cell(109), null, SkipReason.FabricEnergyEfficiencyNotSupported),
+    FabricEnergyEfficiency(Units.Kilo_Watt_Hour_per_MetreSquared_per_Month, Period.MonthlySum, SAPWorksheetSection.FabricEnergyEfficiency.cell(109), null, SkipReason.FabricEnergyEfficiencyNotSupported),
 
     // Steps 110 to 200 don't exist in the SAP worksheet.
 
     /**
      * Energy Requirements
      */
-    SpaceHeating_Fraction_Secondary(SAPWorksheetSection.EnergyRequirements.cell(201), null),
+    SpaceHeating_Fraction_Secondary(Units.DimensionlessProportion, Period.Annual, SAPWorksheetSection.EnergyRequirements.cell(201), null),
 
-    SpaceHeating_Fraction_Main(SAPWorksheetSection.EnergyRequirements.cell(202), null),
+    SpaceHeating_Fraction_Main(Units.DimensionlessProportion, Period.Annual, SAPWorksheetSection.EnergyRequirements.cell(202), null),
 
     // Always 0% - we never use any heat from system 2 since it isn't supported.
-    SpaceHeating_FractionWithinMainSystem(SAPWorksheetSection.EnergyRequirements.cell(203), null, 0d),
+    SpaceHeating_FractionWithinMainSystem(Units.DimensionlessProportion, Period.Annual, SAPWorksheetSection.EnergyRequirements.cell(203), null, 0d),
 
     // The same as SpaceHeatingFraction_Main
-    SpaceHeating_Fraction_Main_System1(SAPWorksheetSection.EnergyRequirements.cell(204), null),
+    SpaceHeating_Fraction_Main_System1(Units.DimensionlessProportion, Period.Annual, SAPWorksheetSection.EnergyRequirements.cell(204), null),
 
     // Always 0%, because main space heating system 2 isn't supported
-    SpaceHeating_Fraction_Main_System2(SAPWorksheetSection.EnergyRequirements.cell(205), null, 0d),
+    SpaceHeating_Fraction_Main_System2(Units.DimensionlessProportion, Period.Annual, SAPWorksheetSection.EnergyRequirements.cell(205), null, 0d),
 
-    SpaceHeating_Efficiency_Main_System1(SAPWorksheetSection.EnergyRequirements.cell(206), null),
+    SpaceHeating_Efficiency_Main_System1(Units.DimensionlessProportion, Period.Annual, SAPWorksheetSection.EnergyRequirements.cell(206), null),
 
-    SpaceHeating_Efficency_Main_System2(SAPWorksheetSection.EnergyRequirements.cell(207), null, SkipReason.SpaceHeating_Main_System2_Unsupported),
+    SpaceHeating_Efficency_Main_System2(Units.DimensionlessProportion, Period.Annual, SAPWorksheetSection.EnergyRequirements.cell(207), null, SkipReason.SpaceHeating_Main_System2_Unsupported),
 
-    SpaceHeating_Efficiency_Secondary(SAPWorksheetSection.EnergyRequirements.cell(208), null),
+    SpaceHeating_Efficiency_Secondary(Units.DimensionlessProportion, Period.Annual, SAPWorksheetSection.EnergyRequirements.cell(208), null),
 
-    SpaceCooling_EfficencyRatio(SAPWorksheetSection.EnergyRequirements.cell(209), null, SkipReason.SpaceCooling_Unsupported),
+    SpaceCooling_EfficencyRatio(Units.DimensionlessProportion, Period.Annual, SAPWorksheetSection.EnergyRequirements.cell(209), null, SkipReason.SpaceCooling_Unsupported),
 
     // Step 210 doesn't exist in the SAP worksheet
 
-    Energy_SpaceHeating_Fuel_Main_System1(SAPWorksheetSection.EnergyRequirements.cell(211), null, SkipReason.InEnergyCalculatorResult),
+    Energy_SpaceHeating_Fuel_Main_System1(Units.Kilo_Watt_Hour_per_Month, Period.MonthlySum, SAPWorksheetSection.EnergyRequirements.cell(211), null, SkipReason.InEnergyCalculatorResult),
 
     // Step 212 doesn't exist in the SAP worksheet
 
     // Always 0, because main space heating system 2 isn't supported.
-    Energy_SpaceHeating_Fuel_Main_system2(SAPWorksheetSection.EnergyRequirements.cell(213), null, 0d),
+    Energy_SpaceHeating_Fuel_Main_system2(Units.Kilo_Watt_Hour_per_Month, Period.MonthlySum, SAPWorksheetSection.EnergyRequirements.cell(213), null, 0d),
 
     // Step 214 doesn't exist in the SAP worksheet
 
-    Energy_SpaceHeating_Fuel_Secondary(SAPWorksheetSection.EnergyRequirements.cell(215), null, SkipReason.InEnergyCalculatorResult),
+    Energy_SpaceHeating_Fuel_Secondary(Units.Kilo_Watt_Hour_per_Month, Period.MonthlySum, SAPWorksheetSection.EnergyRequirements.cell(215), null, SkipReason.InEnergyCalculatorResult),
 
-    Energy_WaterHeating_TotalHeat_Annual(SAPWorksheetSection.EnergyRequirements.cell(216), null, SkipReason.Annual_Not_Used),
+    Energy_WaterHeating_TotalHeat_Annual(Units.Kilo_Watt_Hour_per_Month, Period.MonthlySum, SAPWorksheetSection.EnergyRequirements.cell(216), null),
 
-    WaterHeating_Efficiency(SAPWorksheetSection.EnergyRequirements.cell(217), null),
+    WaterHeating_Efficiency(Units.DimensionlessProportion, Period.MonthlyMean, SAPWorksheetSection.EnergyRequirements.cell(217), null),
 
     // Step 218 doesn't exist in the SAP worksheet
 
-    Energy_WaterHeatingFuel(SAPWorksheetSection.EnergyRequirements.cell(219), null, SkipReason.InEnergyCalculatorResult),
+    Energy_WaterHeatingFuel(Units.Kilo_Watt_Hour_per_Month, Period.MonthlySum, SAPWorksheetSection.EnergyRequirements.cell(219), null, SkipReason.InEnergyCalculatorResult),
 
     // Step 220 doesn't exist in the SAP worksheet
 
-    Energy_SpaceCooling(SAPWorksheetSection.EnergyRequirements.cell(221), null, 0d),
+    Energy_SpaceCooling(Units.Kilo_Watt_Hour_per_Month, Period.MonthlySum, SAPWorksheetSection.EnergyRequirements.cell(221), null, 0d),
 
     // The worksheet confusingly repeats 211, 213, 215, 219 and 221 at this point. Ignore this.
 
     // Steps 222 to 229 don't exist in the SAP worksheet.
 
     // The NHM doesn't include mechanical ventilation fans
-    PumpsFansAndKeepHot_MechanicalVentilationFans(SAPWorksheetSection.EnergyRequirements.subCell(230, 'a'), null, 0d),
-    PumpsFansAndKeepHot_WarmAirFans(SAPWorksheetSection.EnergyRequirements.subCell(230, 'b'), null),
-    PumpsFansAndKeepHot_WaterPump(SAPWorksheetSection.EnergyRequirements.subCell(230, 'c'), null),
-    PumpsFansAndKeepHot_OilBoilerPump(SAPWorksheetSection.EnergyRequirements.subCell(230, 'd'), null),
+    PumpsFansAndKeepHot_MechanicalVentilationFans(Units.Kilo_Watt_Hour_per_Month, Period.MonthlySum, SAPWorksheetSection.EnergyRequirements.subCell(230, 'a'), null, 0d),
+    PumpsFansAndKeepHot_WarmAirFans(Units.Kilo_Watt_Hour_per_Month, Period.MonthlySum, SAPWorksheetSection.EnergyRequirements.subCell(230, 'b'), null),
+    PumpsFansAndKeepHot_WaterPump(Units.Kilo_Watt_Hour_per_Month, Period.MonthlySum, SAPWorksheetSection.EnergyRequirements.subCell(230, 'c'), null),
+    PumpsFansAndKeepHot_OilBoilerPump(Units.Kilo_Watt_Hour_per_Month, Period.MonthlySum, SAPWorksheetSection.EnergyRequirements.subCell(230, 'd'), null),
     // This can also be a heat pump fan flue
-    PumpsFansAndKeepHot_BoilerFlueFan(SAPWorksheetSection.EnergyRequirements.subCell(230, 'e'), null),
+    PumpsFansAndKeepHot_BoilerFlueFan(Units.Kilo_Watt_Hour_per_Month, Period.MonthlySum, SAPWorksheetSection.EnergyRequirements.subCell(230, 'e'), null),
     // In the NHM, the keep hot facility uses the same fuel as the combi boiler
-    PumpsFansAndKeepHot_KeepHot(SAPWorksheetSection.EnergyRequirements.subCell(230, 'f'), null, 0d),
-    PumpsFansAndKeepHot_SolarWaterHeatingPump(SAPWorksheetSection.EnergyRequirements.subCell(230, 'g'), null),
+    PumpsFansAndKeepHot_KeepHot(Units.Kilo_Watt_Hour_per_Month, Period.MonthlySum, SAPWorksheetSection.EnergyRequirements.subCell(230, 'f'), null, 0d),
+    PumpsFansAndKeepHot_SolarWaterHeatingPump(Units.Kilo_Watt_Hour_per_Month, Period.MonthlySum, SAPWorksheetSection.EnergyRequirements.subCell(230, 'g'), null),
     // Storage WWHRS pump not implemented
-    PumpsFansAndKeepHot_StorageWWHRSPump(SAPWorksheetSection.EnergyRequirements.subCell(230, 'h'), null, 0d),
+    PumpsFansAndKeepHot_StorageWWHRSPump(Units.Kilo_Watt_Hour_per_Month, Period.MonthlySum, SAPWorksheetSection.EnergyRequirements.subCell(230, 'h'), null, 0d),
 
-    PumpsFansAndKeepHot(SAPWorksheetSection.EnergyRequirements.cell(231), null),
-    Lighting(SAPWorksheetSection.EnergyRequirements.cell(232), null, SkipReason.InEnergyCalculatorResult),
+    PumpsFansAndKeepHot(Units.Kilo_Watt_Hour_per_Month, Period.MonthlySum, SAPWorksheetSection.EnergyRequirements.cell(231), null),
+    Lighting(Units.Kilo_Watt_Hour_per_Month, Period.MonthlySum, SAPWorksheetSection.EnergyRequirements.cell(232), null, SkipReason.InEnergyCalculatorResult),
 
-    Generation_PhotoVoltaic(SAPWorksheetSection.EnergyRequirements.cell(233), null),
+    Generation_PhotoVoltaic(Units.Kilo_Watt_Hour_per_Month, Period.MonthlySum, SAPWorksheetSection.EnergyRequirements.cell(233), null),
     // Wind turbines not implemented in the NHM
-    Generation_WindTurbines(SAPWorksheetSection.EnergyRequirements.cell(234), null, 0d),
+    Generation_WindTurbines(Units.Kilo_Watt_Hour_per_Month, Period.MonthlySum, SAPWorksheetSection.EnergyRequirements.cell(234), null, 0d),
     // MicroCHP not implemented in the NHM
-    Generation_MicroCHP(SAPWorksheetSection.EnergyRequirements.cell(235), null, 0d),
+    Generation_MicroCHP(Units.Kilo_Watt_Hour_per_Month, Period.MonthlySum, SAPWorksheetSection.EnergyRequirements.cell(235), null, 0d),
     // Hydro generators not implemented in the NHM
-    Generation_Hydro(SAPWorksheetSection.EnergyRequirements.subCell(235, 'a'), null, 0d),
+    Generation_Hydro(Units.Kilo_Watt_Hour_per_Month, Period.MonthlySum, SAPWorksheetSection.EnergyRequirements.subCell(235, 'a'), null, 0d),
 
-    Total_Energy(SAPWorksheetSection.EnergyRequirements.cell(238), null, SkipReason.InEnergyCalculatorResult),
+    Total_Energy(Units.Kilo_Watt_Hour_per_Month, Period.MonthlySum, SAPWorksheetSection.EnergyRequirements.cell(238), null, SkipReason.InEnergyCalculatorResult),
 
     /**
      * Fuel Costs (happens outside energy calculator)
      */
-    Cost_SpaceHeating_Main_System1(SAPWorksheetSection.FuelCosts.cell(240), null, SkipReason.Outside_Energy_Calculation),
-    Cost_SpaceHeating_Main_System2(SAPWorksheetSection.FuelCosts.cell(241), null, SkipReason.Outside_Energy_Calculation),
-    Cost_SpaceHeating_Secondary(SAPWorksheetSection.FuelCosts.cell(242), null, SkipReason.Outside_Energy_Calculation),
+    Cost_SpaceHeating_Main_System1(Units.PoundSterling, Period.Annual, SAPWorksheetSection.FuelCosts.cell(240), null, SkipReason.Outside_Energy_Calculation),
+    Cost_SpaceHeating_Main_System2(Units.PoundSterling, Period.Annual, SAPWorksheetSection.FuelCosts.cell(241), null, SkipReason.Outside_Energy_Calculation),
+    Cost_SpaceHeating_Secondary(Units.PoundSterling, Period.Annual, SAPWorksheetSection.FuelCosts.cell(242), null, SkipReason.Outside_Energy_Calculation),
 
-    Cost_WaterHeating_ElecHighRateFraction(SAPWorksheetSection.FuelCosts.cell(243), null, SkipReason.Outside_Energy_Calculation),
-    Cost_WaterHeating_ElecLowRateFraction(SAPWorksheetSection.FuelCosts.cell(244), null, SkipReason.Outside_Energy_Calculation),
-    Cost_WaterHeating_ElecHighRate(SAPWorksheetSection.FuelCosts.cell(245), null, SkipReason.Outside_Energy_Calculation),
-    Cost_waterHeating_ElecLowRate(SAPWorksheetSection.FuelCosts.cell(246), null, SkipReason.Outside_Energy_Calculation),
-    Cost_WaterHeating_NonElec(SAPWorksheetSection.FuelCosts.cell(247), null, SkipReason.Outside_Energy_Calculation),
+    Cost_WaterHeating_ElecHighRateFraction(Units.PoundSterling, Period.Annual, SAPWorksheetSection.FuelCosts.cell(243), null, SkipReason.Outside_Energy_Calculation),
+    Cost_WaterHeating_ElecLowRateFraction(Units.PoundSterling, Period.Annual, SAPWorksheetSection.FuelCosts.cell(244), null, SkipReason.Outside_Energy_Calculation),
+    Cost_WaterHeating_ElecHighRate(Units.PoundSterling, Period.Annual, SAPWorksheetSection.FuelCosts.cell(245), null, SkipReason.Outside_Energy_Calculation),
+    Cost_waterHeating_ElecLowRate(Units.PoundSterling, Period.Annual, SAPWorksheetSection.FuelCosts.cell(246), null, SkipReason.Outside_Energy_Calculation),
+    Cost_WaterHeating_NonElec(Units.PoundSterling, Period.Annual, SAPWorksheetSection.FuelCosts.cell(247), null, SkipReason.Outside_Energy_Calculation),
 
-    Cost_SpaceCooling(SAPWorksheetSection.FuelCosts.cell(248), null, SkipReason.Outside_Energy_Calculation),
-    Cost_PumpsFansAndKeepHot(SAPWorksheetSection.FuelCosts.cell(249), null, SkipReason.Outside_Energy_Calculation),
-    Cost_Lighting(SAPWorksheetSection.FuelCosts.cell(250), null, SkipReason.Outside_Energy_Calculation),
-    Cost_StandingCharges(SAPWorksheetSection.FuelCosts.cell(251), null, SkipReason.Outside_Energy_Calculation),
-    Cost_Generation(SAPWorksheetSection.FuelCosts.cell(252), null, SkipReason.Outside_Energy_Calculation),
+    Cost_SpaceCooling(Units.PoundSterling, Period.Annual, SAPWorksheetSection.FuelCosts.cell(248), null, SkipReason.Outside_Energy_Calculation),
+    Cost_PumpsFansAndKeepHot(Units.PoundSterling, Period.Annual, SAPWorksheetSection.FuelCosts.cell(249), null, SkipReason.Outside_Energy_Calculation),
+    Cost_Lighting(Units.PoundSterling, Period.Annual, SAPWorksheetSection.FuelCosts.cell(250), null, SkipReason.Outside_Energy_Calculation),
+    Cost_StandingCharges(Units.PoundSterling, Period.Annual, SAPWorksheetSection.FuelCosts.cell(251), null, SkipReason.Outside_Energy_Calculation),
+    Cost_Generation(Units.PoundSterling, Period.Annual, SAPWorksheetSection.FuelCosts.cell(252), null, SkipReason.Outside_Energy_Calculation),
 
     // Appendix Q steps 253 and 254 skipped
 
-    Cost(SAPWorksheetSection.FuelCosts.cell(255), null, SkipReason.Outside_Energy_Calculation),
+    Cost(Units.PoundSterling, Period.Annual, SAPWorksheetSection.FuelCosts.cell(255), null, SkipReason.Outside_Energy_Calculation),
 
     /**
      * SAP Rating (happens outside energy calculator)
      */
-    EnergyCostDeflator(SAPWorksheetSection.SAPRating.cell(256), null, SkipReason.Outside_Energy_Calculation),
-    EnergyCostFactor(SAPWorksheetSection.SAPRating.cell(257), null, SkipReason.Outside_Energy_Calculation),
-    SAPRating(SAPWorksheetSection.SAPRating.cell(258), null, SkipReason.Outside_Energy_Calculation),
+    EnergyCostDeflator(Units.Unknown, Period.Annual, SAPWorksheetSection.SAPRating.cell(256), null, SkipReason.Outside_Energy_Calculation),
+    EnergyCostFactor(Units.Unknown, Period.Annual, SAPWorksheetSection.SAPRating.cell(257), null, SkipReason.Outside_Energy_Calculation),
+    SAPRating(Units.Dimensionless, Period.Annual, SAPWorksheetSection.SAPRating.cell(258), null, SkipReason.Outside_Energy_Calculation),
 
     /**
      * CO2 Emissions (happens outside energy calculator)
+     * The units are unknown here, because they depend on user inputs.
      */
-    Emissions_SpaceHeating_Main_System1(SAPWorksheetSection.Emissions.cell(261), null, SkipReason.Outside_Energy_Calculation),
-    Emissions_SpaceHeating_Main_System2(SAPWorksheetSection.Emissions.cell(262), null, SkipReason.Outside_Energy_Calculation),
-    Emissions_SpaceHeating_Secondary(SAPWorksheetSection.Emissions.cell(263), null, SkipReason.Outside_Energy_Calculation),
-    Emissions_WaterHeating(SAPWorksheetSection.Emissions.cell(264), null, SkipReason.Outside_Energy_Calculation),
-    Emissions_SpaceAndWaterHeating(SAPWorksheetSection.Emissions.cell(265), null, SkipReason.Outside_Energy_Calculation),
+    Emissions_SpaceHeating_Main_System1(Units.Unknown, Period.Annual, SAPWorksheetSection.Emissions.cell(261), null, SkipReason.Outside_Energy_Calculation),
+    Emissions_SpaceHeating_Main_System2(Units.Unknown, Period.Annual, SAPWorksheetSection.Emissions.cell(262), null, SkipReason.Outside_Energy_Calculation),
+    Emissions_SpaceHeating_Secondary(Units.Unknown, Period.Annual, SAPWorksheetSection.Emissions.cell(263), null, SkipReason.Outside_Energy_Calculation),
+    Emissions_WaterHeating(Units.Unknown, Period.Annual, SAPWorksheetSection.Emissions.cell(264), null, SkipReason.Outside_Energy_Calculation),
+    Emissions_SpaceAndWaterHeating(Units.Unknown, Period.Annual, SAPWorksheetSection.Emissions.cell(265), null, SkipReason.Outside_Energy_Calculation),
 
     // Always 0 - space cooling not implemented
-    Emissions_SpaceCooling(SAPWorksheetSection.Emissions.cell(266), null, SkipReason.Outside_Energy_Calculation),
+    Emissions_SpaceCooling(Units.Unknown, Period.Annual, SAPWorksheetSection.Emissions.cell(266), null, SkipReason.Outside_Energy_Calculation),
 
-    Emissions_PumpsFansAndKeepHot(SAPWorksheetSection.Emissions.cell(267), null, SkipReason.Outside_Energy_Calculation),
-    Emissions_Lighting(SAPWorksheetSection.Emissions.cell(268), null, SkipReason.Outside_Energy_Calculation),
-    Emissions_Generation(SAPWorksheetSection.Emissions.cell(269), null, SkipReason.Outside_Energy_Calculation),
+    Emissions_PumpsFansAndKeepHot(Units.Unknown, Period.Annual, SAPWorksheetSection.Emissions.cell(267), null, SkipReason.Outside_Energy_Calculation),
+    Emissions_Lighting(Units.Unknown, Period.Annual, SAPWorksheetSection.Emissions.cell(268), null, SkipReason.Outside_Energy_Calculation),
+    Emissions_Generation(Units.Unknown, Period.Annual, SAPWorksheetSection.Emissions.cell(269), null, SkipReason.Outside_Energy_Calculation),
 
     // Appendix Q steps 270 and 271 skipped
 
-    Emissions(SAPWorksheetSection.Emissions.cell(272), null, SkipReason.Outside_Energy_Calculation),
-    Emissions_PerArea(SAPWorksheetSection.Emissions.cell(273), null, SkipReason.Outside_Energy_Calculation),
-    Emissions_EIRating(SAPWorksheetSection.Emissions.cell(274), null, SkipReason.Outside_Energy_Calculation),
+    Emissions(Units.Unknown, Period.Annual, SAPWorksheetSection.Emissions.cell(272), null, SkipReason.Outside_Energy_Calculation),
+    Emissions_PerArea(Units.Unknown, Period.Annual, SAPWorksheetSection.Emissions.cell(273), null, SkipReason.Outside_Energy_Calculation),
+    Emissions_EIRating(Units.Unknown, Period.Annual, SAPWorksheetSection.Emissions.cell(274), null, SkipReason.Outside_Energy_Calculation),
 
     /**
      * Primary Energy - this section ignored as it is not implemented in the NHM.
@@ -358,44 +371,6 @@ public enum EnergyCalculationStep {
      * Community Heating sections - this section of the worksheet is ignored as it is not implemented in the NHM.
      * We have community heating, but we do not divide it up by the different heat sources.
      */
-
-    /**
-     * BREDEM things (unfinished, unused)
-     */
-
-    /**
-     * Lights
-     */
-    LightingEnergyBasicRequirement(null, BREDEMSection.LightsAppliancesAndCooking.step('B', "EB")),
-    LowEnergyLightingCorrectionFactor(null, BREDEMSection.LightsAppliancesAndCooking.step('C', "C1")),
-    DaylightAvailability(null, BREDEMSection.LightsAppliancesAndCooking.step('D', "GDL")),
-    DaylightCorrectionFactor(null, BREDEMSection.LightsAppliancesAndCooking.step('E', "C2")),
-    LightingEnergy_Initial(null, BREDEMSection.LightsAppliancesAndCooking.step('F', "EL'")),
-    LightingEnergy_Monthly(null, BREDEMSection.LightsAppliancesAndCooking.step('G', "ELM")),
-    LightingEnergy_Annual(null, BREDEMSection.LightsAppliancesAndCooking.step('H', "EL"), SkipReason.Annual_Not_Used),
-
-    /**
-     * Appliances
-     */
-    ApplianceEnergy_Initial(null, BREDEMSection.LightsAppliancesAndCooking.step('I', "EA'")),
-    ApplianceEnergy_Monthly(null, BREDEMSection.LightsAppliancesAndCooking.step('J', "EA,m")),
-    ApplianceEnergy_Annual(null, BREDEMSection.LightsAppliancesAndCooking.step('K', "EA"), SkipReason.Annual_Not_Used),
-    PumpsAndFansEnergy(null, BREDEMSection.LightsAppliancesAndCooking.step('L', "Ep&f")),
-
-    /**
-     * Cooking
-     */
-    CookingEnergyCombustion_Annual(null, BREDEMSection.LightsAppliancesAndCooking.step('M', "EC1 or EC2")),
-    CookingEnergyElectric_Annual(null, BREDEMSection.LightsAppliancesAndCooking.step('M', "EC1 or EC2")),
-
-    CookingEnergyCombustion_Monthly(null, BREDEMSection.LightsAppliancesAndCooking.step('N', "EC1,m or EC2,m")),
-    CookingEnergyElectric_Monthly(null, BREDEMSection.LightsAppliancesAndCooking.step('N', "EC1,m or EC2,m")),
-
-    CookingEnergy_Monthly(null, BREDEMSection.LightsAppliancesAndCooking.step('O', "EC,m")),
-
-    // Range cookers not used
-    RangeCookingEnergy_Monthly(null, BREDEMSection.LightsAppliancesAndCooking.step('P', "ER,m"), 0d),
-    RangeCookingEnergy_Annual(null, BREDEMSection.LightsAppliancesAndCooking.step('Q', "ER"), 0d)
     ;
 
     public static class SkipReason {
@@ -410,29 +385,36 @@ public enum EnergyCalculationStep {
         public static final String InEnergyCalculatorResult = "We don't want to output these fields in our report for now. They are fiddly to get, and are already available in IEnergyCalculationResult.";
     }
 
+    private final Units conversion;
     private final SAPLocation sapLocation;
     private final BREDEMLocation bredemLocation;
     private final Optional<Double> defaultValue;
     private final Optional<String> skipReason;
 
-    private EnergyCalculationStep(SAPLocation sapLocation, BREDEMLocation bredemLocation) {
-        this(sapLocation, bredemLocation, Optional.empty(), Optional.empty());
+    private EnergyCalculationStep(Units conversion, Period period, SAPLocation sapLocation, BREDEMLocation bredemLocation) {
+        this(conversion, period, sapLocation, bredemLocation, Optional.empty(), Optional.empty());
     }
 
-    private EnergyCalculationStep(SAPLocation sapLocation, BREDEMLocation bredemLocation, String skipReason) {
-        this(sapLocation, bredemLocation, Optional.empty(), Optional.of(skipReason));
+    private EnergyCalculationStep(Units conversion, Period period, SAPLocation sapLocation, BREDEMLocation bredemLocation, String skipReason) {
+        this(conversion, period, sapLocation, bredemLocation, Optional.empty(), Optional.of(skipReason));
     }
 
-    private EnergyCalculationStep(SAPLocation sapLocation, BREDEMLocation bredemLocation, Double defaultValue) {
-        this(sapLocation, bredemLocation, Optional.of(defaultValue), Optional.empty());
+    private EnergyCalculationStep(Units conversion, Period period, SAPLocation sapLocation, BREDEMLocation bredemLocation, Double defaultValue) {
+        this(conversion, period, sapLocation, bredemLocation, Optional.of(defaultValue), Optional.empty());
     }
 
-    private EnergyCalculationStep(SAPLocation sapLocation, BREDEMLocation bredemLocation, Optional<Double> defaultValue, Optional<String> skipReason) {
+    private EnergyCalculationStep(Units conversion, Period period, SAPLocation sapLocation, BREDEMLocation bredemLocation, Optional<Double> defaultValue, Optional<String> skipReason) {
+        this.conversion = conversion;
         this.sapLocation = sapLocation;
         this.bredemLocation = bredemLocation;
         this.defaultValue = defaultValue;
         this.skipReason = skipReason;
     }
+
+    public boolean isSkipped() {
+        return skipReason.isPresent();
+    }
+
 
     public boolean hasDefault() {
         return defaultValue.isPresent();
@@ -456,6 +438,59 @@ public enum EnergyCalculationStep {
             this.cell = cell;
             this.subcell = subcell;
         }
+    }
+
+    public enum Period {
+        MonthlyMean {
+            @Override
+            public double getMonth(double[] data, int month) {
+                return getMonthImpl(data, month);
+            }
+
+            @Override
+            public double getAnnual(double[] data) {
+                return Period.sumAnnual(data) / 12d;
+            }
+        },
+        MonthlySum {
+            @Override
+            public double getMonth(double[] data, int month) {
+                return getMonthImpl(data, month);
+            }
+
+            @Override
+            public double getAnnual(double[] data) {
+                return Period.sumAnnual(data);
+            }
+        },
+        Annual {
+            @Override
+            public double getMonth(double[] data, int month) {
+                throw new UnsupportedOperationException("Can't get a monthly value for an annual quantity.");
+            }
+
+            @Override
+            public double getAnnual(double[] data) {
+                return data[0];
+            }
+        };
+
+        public static double getMonthImpl(double[] data, int month) {
+            return data[month - 1];
+        }
+
+        public static double sumAnnual(double[] data) {
+            double result = 0d;
+
+            for (double d : data) {
+                result += d;
+            }
+
+            return result;
+        }
+
+        abstract public double getMonth(double[] data, int month);
+        abstract public double getAnnual(double[] data);
     }
 
     public static enum SAPWorksheetSection {
@@ -544,6 +579,132 @@ public enum EnergyCalculationStep {
 
         public BREDEMLocation step(char step, String variable) {
             return new BREDEMLocation(this, step, variable, null);
+        }
+    }
+
+    enum Units {
+        Unknown(Unit.Unknown),
+        Dimensionless(Unit.Dimensionless),
+        DimensionlessProportion(Unit.DimensionlessProportion),
+        Count(Unit.Count),
+
+        Watt(Unit.Watt),
+
+        MetreCubed_per_Hour(Unit.MetreCubed_per_Hour),
+        Watt_per_Kelvin(Unit.Watt_per_Kelvin),
+        Watt_per_MetreSquared_Kelvin(Unit.Watt_per_MetreSquared_Kelvin),
+        AirChange_per_Hour(Unit.AirChange_per_Hour),
+        MetreSquared(Unit.MetreSquared),
+        MetreCubed(Unit.MetreCubed),
+        Metre_per_Second(Unit.Metre_per_Second),
+        Kilo_Joule_per_MetreSquared_Kelvin(Unit.Kilo_Joule_per_MetreSquared_Kelvin),
+        Litre_per_Day(Unit.Litre_per_Day),
+
+        Centigrade(Unit.Centigrade),
+
+        PoundSterling(Unit.PoundSterling),
+
+        Kilo_Watt_Hour_per_Day(Unit.Watt, Unit.Kilo_Watt_Hour_per_Day) {
+            @Override
+            public double convert(double from, int daysInMonth) {
+                return from / (1000 * 24);
+            }
+        },
+
+        Kilo_Watt_Hour_per_Month(Unit.Watt, Unit.Kilo_Watt_Hour_per_Month) {
+            @Override
+            public double convert(double from, int daysInMonth) {
+                return from / (1000 * daysInMonth * 24);
+            }
+        },
+
+        Kilo_Watt_Hour_per_Litre_per_Day(Unit.Watt_per_Litre, Unit.Kilo_Watt_Hour_per_Litre_per_Day) {
+            @Override
+            public double convert(double from, int daysInMonth) {
+                return from * 24 / 1000;
+            }
+        },
+
+        Kilo_Watt_Hour_per_MetreSquared_per_Month(Unit.Watt_per_MetreSquared, Unit.Kilo_Watt_Hour_per_MetreSquared_per_Month) {
+            @Override
+            public double convert(double from, int daysInMonth) {
+                return from / (1000 * daysInMonth * 24);
+            }
+        }
+        ;
+
+
+        private final Unit from;
+        private final Unit to;
+
+        Units(Unit both) {
+            this(both, both);
+        }
+
+        Units(Unit from, Unit to) {
+            this.from = from;
+            this.to = to;
+        }
+
+        public double convert(double from, int daysInMonth) {
+            return from;
+        }
+
+        public Unit getFrom() {
+            return from;
+        }
+
+        public Unit getTo() {
+            return to;
+        }
+
+        public enum Unit {
+            Unknown,
+
+            Dimensionless,
+            DimensionlessProportion,
+            Count,
+            Boolean,
+
+            Radian,
+
+            Metre,
+            MetreSquared,
+            MetreCubed,
+
+            Second,
+            Hour,
+            Day,
+            Month,
+
+            Watt,
+            Centigrade,
+            Kelvin,
+
+            Litre,
+
+            PoundSterling,
+
+            AirChange,
+
+            MetreCubed_per_Hour,
+            AirChange_per_Hour,
+            Watt_per_MetreSquared,
+            Watt_per_Person,
+            Watt_per_Kelvin,
+            Watt_per_MetreSquared_Kelvin,
+            Kilo_Watt_Hour_per_Day,
+            Kilo_Watt_Hour_per_MetreSquared_per_Month,
+            Kilo_Watt_Hour_per_Month,
+            Metre_per_Second,
+
+            Litre_per_Day,
+            Watt_per_Litre,
+            Kilo_Watt_Hour_per_Litre_per_Day,
+
+            Kilo_Joule_per_MetreSquared_Kelvin,
+
+            ;
         }
     }
 }

@@ -74,7 +74,7 @@ public class HotWaterDemand09 implements IEnergyTransducer {
 	  CODSIEB
 	*/
 	final double usageAdjustedVolume = getHotWaterVolume(house, parameters) * USAGE_FACTOR;
-	StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_Usage_Monthly, usageAdjustedVolume);
+	StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_Usage_MonthAdjusted, usageAdjustedVolume);
 
 	/*
 	  BEISDOC
@@ -161,7 +161,7 @@ public class HotWaterDemand09 implements IEnergyTransducer {
         default:
             throw new UnsupportedOperationException("Unknown energy calculator type when calculating hot water volume " + parameters.getCalculatorType());
         }
-        StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_Usage_Daily, result);
+        StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_Usage_Initial, result);
 	    return result;
     }
 
