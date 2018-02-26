@@ -8,15 +8,15 @@
 
  (~init-modules)
 
- ;; TODO: sap tariffs
- ;; TODO: sap emissions
+ ;; TODO: include sap tariffs
+ ;; TODO: include sap emissions
 
  (def-report sap-steps
-   (column name: v1a value: (house.energy-calculation-step)) ; Basement area
-   (column name: v1b value: (house.energy-calculation-step)) ; Ground floor area
-   (column name: v1c value: (house.energy-calculation-step)) ; First floor area
-   (column name: v1d value: (house.energy-calculation-step)) ; Second floor area
-   (column name: v1e value: (house.energy-calculation-step)) ; Third floor area
+   (column name: v1a value: (house.energy-calculation-step TODO)) ; Basement area
+   (column name: v1b value: (house.energy-calculation-step TODO)) ; Ground floor area
+   (column name: v1c value: (house.energy-calculation-step TODO)) ; First floor area
+   (column name: v1d value: (house.energy-calculation-step TODO)) ; Second floor area
+   (column name: v1e value: (house.energy-calculation-step TODO)) ; Third floor area
    (column name: v4 value: (house.energy-calculation-step TotalFloorArea)) ; Total floor area
    (column name: v5 value: (house.energy-calculation-step DwellingVolume)) ; Dwelling volume
 
@@ -47,7 +47,7 @@
 
    (column name: v22b value: (house.energy-calculation-step InfiltrationRate_IncludingShelterAndWind)) ; Adjusted infiltration rate allowing for shelter factor and wind factor
 
-   ;; unimplemented:
+   ;; The following are not implemented in the NHM:
    ;; v23a mechanical ventilation
    ;; v23b exhaust air heat pump
    ;; v23c "balanced with heat recovery"
@@ -67,18 +67,20 @@
    ;; BRE deviate from the SAP worksheet for v27, v27a and v27b, because they split the windows cell based on frame type.
    (column name: v27 value: (house.energy-calculation-step HeatLossCoefficient_Window_UPVC_Or_Wood)) ; Heat loss coefficient - windows 1 (UPVC / wood)
    (column name: v27a value: (house.energy-calculation-step HeatLossCoefficient_Window_Metal)) ; Heat loss coefficient - windows 1 (metal)
-   ;; The NHM doesn't implement roof windows.
+
+   ;; The NHM doesn't implement roof windows, so this will always come out as 0.
    (column name: v27b value: (house.energy-calculation-step HeatLossCoefficient_Window_Roof)) ; Heat loss coefficient - rooflights
 
    (column name: v28 value: (house.energy-calculation-step HeatLossCoefficient_BasementFloor)) ; Heat loss coefficient - basement floor
    (column name: v28a value: (house.energy-calculation-step HeatLossCoefficient_GroundFloor)) ; Heat loss coefficient - ground floor
    (column name: v28b value: (house.energy-calculation-step HeatLossCoefficient_ExposedFLoor)) ; Heat loss coefficient - exposed floor
 
-   ;; Basement and external walls are treated the same in the NHM.
+   ;; Basement and external walls are treated the same in the NHM, so v29 will come out as 0...
    (column name: v29 value: (house.energy-calculation-step HeatLossCoefficient_BasementWall)) ; Heat loss coefficient - basement wall
+   ;; ... and v29a will come out as the sum of v29 and v29a.
    (column name: v29a value: (house.energy-calculation-step HeatLossCoefficient_ExternalWall)) ; Heat loss coefficient - external wall
-   (column name: v30 value: (house.energy-calculation-step HeatLossCoefficient_Roof)) ; Heat loss coefficient - roof
 
+   (column name: v30 value: (house.energy-calculation-step HeatLossCoefficient_Roof)) ; Heat loss coefficient - roof
    (column name: v31 value: (house.energy-calculation-step AreaExternal)) ; Total area of elements
    (column name: v32 value: (house.energy-calculation-step AreaPartyWall)) ; Party wall area
    (column name: v32c value: (house.energy-calculation-step AreaInternalWall)) ; Internal wall area
@@ -106,7 +108,7 @@
    (column name: v42 value: (house.energy-calculation-step Occupancy)) ; Assumed occupancy
 
    ;; TODO; naming seems dodgy here
-   (column name: v43 value: (house.energy-calculation-step WaterHeating_Usage_Daily)) ; Annual average hot water usage
+   (column name: v43 value: (house.energy-calculation-step WaterHeating_Usage_Initial)) ; Annual average hot water usage
    (column name: v44 value: (house.energy-calculation-step WaterHeating_Usage_Monthly)) ; Hot water usage in litres per day
 
    (column name: v45 value: (house.energy-calculation-step WaterHeating_EnergyContent)) ; Energy content of hot water used
@@ -144,20 +146,15 @@
    (column name: v69 value: (house.energy-calculation-step Gains_Cooking)) ; Cooking gains
    (column name: v70 value: (house.energy-calculation-step Gains_PumpsAndFans)) ; Pumps and fans gains
    (column name: v71 value: (house.energy-calculation-step Gains_Evaporation)) ; Losses e.g evaporation
-   ;; Gains_HotWater will be the same as Gains_HotWater_Monthly because we don't have to do the conversion
+   ;; Gains_HotWater will be the same as Gains_HotWater_Monthly because we don't have to do the conversion. Hmm.
    (column name: v72 value: (house.energy-calculation-step Gains_HotWater)) ; Water heating gains
    (column name: v73 value: (house.energy-calculation-step Gains_Internal)) ; Total internal gains
 
-   ;; TODO: solar gains by orientation
-   ;; (column name: v74 value: (house.energy-calculation-step)) ; Solar gains - north
-   ;; (column name: v75 value: (house.energy-calculation-step)) ; Solar gains - northest
-   ;; (column name: v76 value: (house.energy-calculation-step)) ; Solar gains - east
-   ;; (column name: v77 value: (house.energy-calculation-step)) ; Solar gains - southeast
-   ;; (column name: v78 value: (house.energy-calculation-step)) ; Solar gains - south
-   ;; (column name: v79 value: (house.energy-calculation-step)) ; Solar gains - southwest
-   ;; (column name: v80 value: (house.energy-calculation-step)) ; Solar gains - west
-   ;; (column name: v81 value: (house.energy-calculation-step)) ; Solar gains - northwest
+   ;; Omitted: v74 to v81 - solar gains by orientation. This is difficult to get out of the NHM
+
+   ;; Solar rooflights aren't implemented in the NHM, so v82 will always come out as 0.
    (column name: v82 value: (house.energy-calculation-step Gains_Solar_Roof)) ; Solar gains - rooflights
+
    (column name: v83 value: (house.energy-calculation-step Gains_Solar)) ; Total solar gains
 
    (column name: v84 value: (house.energy-calculation-step Gains)) ; Total gains
@@ -218,7 +215,7 @@
 
    (column name: v217 value: (house.energy-calculation-step WaterHeating_Efficiency)) ; Efficiency of water heater
 
-   ;; Step 218 doesn't exist in the SAP worksheet
+   ;; Step 218 doesn't exist in the SAP worksheet2
 
    (column name: v219 value: (house.energy-use by-service: WaterHeating)) ; Fuel for water heating
 
