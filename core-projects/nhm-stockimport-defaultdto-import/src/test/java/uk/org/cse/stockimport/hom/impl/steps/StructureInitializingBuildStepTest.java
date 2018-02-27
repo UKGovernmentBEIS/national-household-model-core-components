@@ -13,7 +13,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import com.google.common.base.Optional;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.hom.SurveyCase;
 import uk.org.cse.nhm.hom.structure.StructureModel;

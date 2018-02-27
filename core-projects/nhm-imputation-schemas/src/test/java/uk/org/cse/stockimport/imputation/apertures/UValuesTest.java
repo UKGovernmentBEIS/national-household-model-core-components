@@ -1,6 +1,6 @@
 package uk.org.cse.stockimport.imputation.apertures;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 import org.junit.Test;
 
@@ -14,13 +14,13 @@ public class UValuesTest {
 	@Test
 	public void testUValues() {
 		final IWindowUValues uvalues = new WindowUValues();
-		
+
 		testSingleGlazing(uvalues);
 
 		testDoubleGlazing(uvalues);
-		
+
 		testTripleGlazing(uvalues);
-		
+
 		testSecondaryGlazing(uvalues);
 	}
 
@@ -33,7 +33,7 @@ public class UValuesTest {
 		Assert.assertEquals(2.8, uvalues.getUValue(FrameType.Wood, GlazingType.Double, WindowInsulationType.Air), 0.05);
 		Assert.assertEquals(2.4, uvalues.getUValue(FrameType.Wood, GlazingType.Double, WindowInsulationType.LowEHardCoat), 0.05);
 		Assert.assertEquals(2.4, uvalues.getUValue(FrameType.Wood, GlazingType.Double, WindowInsulationType.LowESoftCoat), 0.05);
-		
+
 		Assert.assertEquals(3.2, uvalues.getUValue(FrameType.Metal, GlazingType.Double, WindowInsulationType.Air), 0.05);
 		Assert.assertEquals(2.9, uvalues.getUValue(FrameType.Metal, GlazingType.Double, WindowInsulationType.LowEHardCoat), 0.05);
 		Assert.assertEquals(2.8, uvalues.getUValue(FrameType.Metal, GlazingType.Double, WindowInsulationType.LowESoftCoat), 0.05);
@@ -42,12 +42,12 @@ public class UValuesTest {
 		Assert.assertEquals(2.4, uvalues.getUValue(FrameType.uPVC, GlazingType.Double, WindowInsulationType.LowEHardCoat), 0.05);
 		Assert.assertEquals(2.4, uvalues.getUValue(FrameType.uPVC, GlazingType.Double, WindowInsulationType.LowESoftCoat), 0.05);
 	}
-	
+
 	private void testTripleGlazing(final IWindowUValues uvalues) {
 		Assert.assertEquals(2.2, uvalues.getUValue(FrameType.Wood, GlazingType.Triple, WindowInsulationType.Air), 0.05);
 		Assert.assertEquals(1.9, uvalues.getUValue(FrameType.Wood, GlazingType.Triple, WindowInsulationType.LowEHardCoat), 0.05);
 		Assert.assertEquals(1.9, uvalues.getUValue(FrameType.Wood, GlazingType.Triple, WindowInsulationType.LowESoftCoat), 0.05);
-		
+
 		Assert.assertEquals(2.6, uvalues.getUValue(FrameType.Metal, GlazingType.Triple, WindowInsulationType.Air), 0.05);
 		Assert.assertEquals(2.4, uvalues.getUValue(FrameType.Metal, GlazingType.Triple, WindowInsulationType.LowEHardCoat), 0.05);
 		Assert.assertEquals(2.3, uvalues.getUValue(FrameType.Metal, GlazingType.Triple, WindowInsulationType.LowESoftCoat), 0.05);

@@ -4,11 +4,11 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.google.common.base.Optional;
 
-import junit.framework.Assert;
 import uk.org.cse.nhm.hom.emf.technologies.IBackBoiler;
 import uk.org.cse.nhm.hom.emf.technologies.ICentralWaterHeater;
 import uk.org.cse.nhm.hom.emf.technologies.ICentralWaterSystem;
@@ -35,7 +35,7 @@ public class HotWaterBuildStepTest {
 		final IBoiler combi = IBoilersFactory.eINSTANCE.createBoiler();
 		tech.setIndividualHeatSource(combi);
 		tech.setCentralWaterSystem(system);
-		
+
         ITechnologiesFactory.eINSTANCE.createMainWaterHeater();
 
         when(dto.getWaterHeatingSystemType()).thenReturn(Optional.of(WaterHeatingSystemType.STANDARD_BOILER));
@@ -44,7 +44,7 @@ public class HotWaterBuildStepTest {
 		HotWaterBuildStep.installWaterTank(dto, tech);
         Assert.assertNotNull("Tank not installed", system.getStore());
 	}
-	
+
 	@Test
     public void testSetWaterTankDetailsFromDTO() throws Exception {
         final IWaterHeatingDTO dto = mock(IWaterHeatingDTO.class);
@@ -72,7 +72,7 @@ public class HotWaterBuildStepTest {
 		final ICentralWaterSystem centralWaterSystem2 = HotWaterBuildStep.getCentralWaterSystemOrCreate(tech);
 		Assert.assertSame(centralWaterSystem, centralWaterSystem2);
 	}
-	
+
 	@Test
 	public void testAttachWaterHeater() {
 		final ITechnologyModel tech = ITechnologiesFactory.eINSTANCE.createTechnologyModel();
@@ -81,15 +81,15 @@ public class HotWaterBuildStepTest {
 
 		Assert.assertSame(heater, tech.getCentralWaterSystem().getPrimaryWaterHeater());
 	}
-	
+
 	@Test
 	public void testConnectToMainHeatSource() {
 		final ITechnologyModel tech = ITechnologiesFactory.eINSTANCE.createTechnologyModel();
 		final IBoiler boiler = IBoilersFactory.eINSTANCE.createBoiler();
 		tech.setIndividualHeatSource(boiler);
-		
+
 		final ICentralWaterHeater connection = HotWaterBuildStep.connectToMainHeatSource(tech, IBoiler.class);
-	
+
 		Assert.assertTrue(connection instanceof IMainWaterHeater);
 		Assert.assertSame(((IMainWaterHeater) connection).getHeatSource(), boiler);
 	}
@@ -103,8 +103,8 @@ public class HotWaterBuildStepTest {
 		Assert.assertTrue(cwh instanceof IWarmAirCirculator);
 		Assert.assertSame(((IWarmAirCirculator) cwh).getWarmAirSystem(), system);
 	}
-	
-	@Test 
+
+	@Test
 	public void testConnectToBackBoiler() {
 		final ITechnologyModel tech = ITechnologiesFactory.eINSTANCE.createTechnologyModel();
 		final IBackBoiler rh = ITechnologiesFactory.eINSTANCE.createBackBoiler();
@@ -113,24 +113,24 @@ public class HotWaterBuildStepTest {
 		Assert.assertTrue(chw instanceof IMainWaterHeater);
 		Assert.assertSame(((IMainWaterHeater) chw).getHeatSource(), rh);
 	}
-	
+
 	@Test
 	public void testShouldAttachToEmptyMainHeating() {
 		final ITechnologyModel tech = ITechnologiesFactory.eINSTANCE.createTechnologyModel();
-		
+
 		for (final WaterHeatingSystemType type : WaterHeatingSystemType.values()) {
-			Assert.assertEquals(type+"", 
-					type == WaterHeatingSystemType.BACK_BOILER, 
+			Assert.assertEquals(type+"",
+					type == WaterHeatingSystemType.BACK_BOILER,
 					HotWaterBuildStep.shouldAttachToMainHeating(type, tech));
 		}
 	}
-	
+
 	@Test
 	public void testShouldAttachToBoiler() {
 		final ITechnologyModel tech = ITechnologiesFactory.eINSTANCE.createTechnologyModel();
 		final IBoiler boiler = IBoilersFactory.eINSTANCE.createBoiler();
 		tech.setIndividualHeatSource(boiler);
-		
+
 		for (final WaterHeatingSystemType type : WaterHeatingSystemType.values()) {
 			switch (type) {
 			case BACK_BOILER:
@@ -151,7 +151,7 @@ public class HotWaterBuildStepTest {
 			}
 		}
 	}
-	
+
 	@Test
 	public void testPrimaryPipeWorkInsulation() {
 		final IHouseCaseDTO house = mock(IHouseCaseDTO.class);
@@ -180,6 +180,6 @@ public class HotWaterBuildStepTest {
 
 	@Test
 	public void testInstallNewWaterHeater() {
-		
+
 	}
 }

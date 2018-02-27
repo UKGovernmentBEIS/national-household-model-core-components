@@ -1,7 +1,6 @@
 package uk.org.cse.stockimport.imputation.rdsap.walls;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,7 +14,7 @@ public class WallInfiltrationTest {
 	public void create() {
 		this.i = new WallPropertyImputer();
 	}
-	
+
 	@Test
 	public void testWallInfiltration() {
 		for (final WallConstructionType wct : WallConstructionType.values()) {
@@ -26,11 +25,11 @@ public class WallInfiltrationTest {
 			case Sandstone:
 			case SystemBuild:
 			case SolidBrick:
-				Assert.assertEquals(0.35, i.getAirChangeRate(wct));
+				Assert.assertEquals(0.35, i.getAirChangeRate(wct), 0d);
 				break;
 			case TimberFrame:
 			case MetalFrame:
-				Assert.assertEquals(0.25, i.getAirChangeRate(wct));
+				Assert.assertEquals(0.25, i.getAirChangeRate(wct), 0d);
 				break;
 			default:
 				break;

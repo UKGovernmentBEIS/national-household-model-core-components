@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import com.google.common.base.Optional;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import uk.org.cse.nhm.ehcs10.physical.ServicesEntry;
 import uk.org.cse.stockimport.domain.impl.HouseCaseDTO;
 import uk.org.cse.stockimport.domain.services.SpaceHeatingSystemType;

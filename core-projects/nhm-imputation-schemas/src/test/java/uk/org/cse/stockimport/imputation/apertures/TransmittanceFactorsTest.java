@@ -1,6 +1,6 @@
 package uk.org.cse.stockimport.imputation.apertures;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 import org.junit.Test;
 
@@ -21,30 +21,30 @@ Triple glazed (Low-E, hard-coat)	0.64	0.7
 Triple glazed (Low-E, soft-coat)	0.57	0.7
 
 	 */
-	
+
 	@Test
 	public void testLightTransmittance() {
 		final ITransmittanceFactors factors = new TransmittanceFactors();
-		Assert.assertEquals(0.9, factors.getLightTransmittance(GlazingType.Single, null));
-		Assert.assertEquals(0.8, factors.getLightTransmittance(GlazingType.Double, WindowInsulationType.Air));
-		Assert.assertEquals(0.8, factors.getLightTransmittance(GlazingType.Double, WindowInsulationType.LowEHardCoat));
-		Assert.assertEquals(0.8, factors.getLightTransmittance(GlazingType.Double, WindowInsulationType.LowESoftCoat));
-		Assert.assertEquals(0.8, factors.getLightTransmittance(GlazingType.Secondary, null));
-		Assert.assertEquals(0.7, factors.getLightTransmittance(GlazingType.Triple, WindowInsulationType.Air));
-		Assert.assertEquals(0.7, factors.getLightTransmittance(GlazingType.Triple, WindowInsulationType.LowEHardCoat));
-		Assert.assertEquals(0.7, factors.getLightTransmittance(GlazingType.Triple, WindowInsulationType.LowESoftCoat));
+		Assert.assertEquals(0.9, factors.getLightTransmittance(GlazingType.Single, null), 0);
+		Assert.assertEquals(0.8, factors.getLightTransmittance(GlazingType.Double, WindowInsulationType.Air), 0);
+		Assert.assertEquals(0.8, factors.getLightTransmittance(GlazingType.Double, WindowInsulationType.LowEHardCoat), 0);
+		Assert.assertEquals(0.8, factors.getLightTransmittance(GlazingType.Double, WindowInsulationType.LowESoftCoat), 0);
+		Assert.assertEquals(0.8, factors.getLightTransmittance(GlazingType.Secondary, null), 0);
+		Assert.assertEquals(0.7, factors.getLightTransmittance(GlazingType.Triple, WindowInsulationType.Air), 0);
+		Assert.assertEquals(0.7, factors.getLightTransmittance(GlazingType.Triple, WindowInsulationType.LowEHardCoat), 0);
+		Assert.assertEquals(0.7, factors.getLightTransmittance(GlazingType.Triple, WindowInsulationType.LowESoftCoat), 0);
 	}
-	
+
 	@Test
 	public void testGainsTransmittance() {
 		final ITransmittanceFactors factors = new TransmittanceFactors();
-		Assert.assertEquals(0.85, factors.getGainsTransmittance(GlazingType.Single, null));
-		Assert.assertEquals(0.76, factors.getGainsTransmittance(GlazingType.Double, WindowInsulationType.Air));
-		Assert.assertEquals(0.72, factors.getGainsTransmittance(GlazingType.Double, WindowInsulationType.LowEHardCoat));
-		Assert.assertEquals(0.63, factors.getGainsTransmittance(GlazingType.Double, WindowInsulationType.LowESoftCoat));
-		Assert.assertEquals(0.76, factors.getGainsTransmittance(GlazingType.Secondary, null));
-		Assert.assertEquals(0.68, factors.getGainsTransmittance(GlazingType.Triple, WindowInsulationType.Air));
-		Assert.assertEquals(0.64, factors.getGainsTransmittance(GlazingType.Triple, WindowInsulationType.LowEHardCoat));
-		Assert.assertEquals(0.57, factors.getGainsTransmittance(GlazingType.Triple, WindowInsulationType.LowESoftCoat));
+		Assert.assertEquals(0.85, factors.getGainsTransmittance(GlazingType.Single, null), 0);
+		Assert.assertEquals(0.76, factors.getGainsTransmittance(GlazingType.Double, WindowInsulationType.Air), 0);
+		Assert.assertEquals(0.72, factors.getGainsTransmittance(GlazingType.Double, WindowInsulationType.LowEHardCoat), 0);
+		Assert.assertEquals(0.63, factors.getGainsTransmittance(GlazingType.Double, WindowInsulationType.LowESoftCoat), 0);
+		Assert.assertEquals(0.76, factors.getGainsTransmittance(GlazingType.Secondary, null), 0);
+		Assert.assertEquals(0.68, factors.getGainsTransmittance(GlazingType.Triple, WindowInsulationType.Air), 0);
+		Assert.assertEquals(0.64, factors.getGainsTransmittance(GlazingType.Triple, WindowInsulationType.LowEHardCoat), 0);
+		Assert.assertEquals(0.57, factors.getGainsTransmittance(GlazingType.Triple, WindowInsulationType.LowESoftCoat), 0);
 	}
 }

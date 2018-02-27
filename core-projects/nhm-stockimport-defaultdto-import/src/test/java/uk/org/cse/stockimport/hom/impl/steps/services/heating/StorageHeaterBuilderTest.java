@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import com.google.common.base.Optional;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
 import uk.org.cse.nhm.hom.emf.technologies.IStorageHeater;
 import uk.org.cse.nhm.hom.emf.technologies.StorageHeaterControlType;
@@ -19,16 +19,16 @@ public class StorageHeaterBuilderTest {
 	public void testBuildRubbishOldStorageHeater() {
 		final IStorageHeaterBuilder shb = new StorageHeaterBuilder();
 		final ISpaceHeatingDTO dto = mock(ISpaceHeatingDTO.class);
-		
+
 		when(dto.getStorageHeaterType()).thenReturn(Optional.of(StorageHeaterType.FAN));
 		when(dto.getElectricTariff()).thenReturn(Optional.of(ElectricityTariffType.FLAT_RATE));
 		when(dto.getStorageHeaterControlType()).thenReturn(Optional.<StorageHeaterControlType>absent());
 		final IStorageHeater sh = shb.buildStorageHeater(dto);
-		
+
 		Assert.assertEquals(StorageHeaterType.FAN, sh.getType());
 		Assert.assertEquals(StorageHeaterControlType.CELECT_CHARGE_CONTROL, sh.getControlType());
 	}
-	
+
 	@Test
 	public void testBuildFancyNewStorageHeater() {
 		final IStorageHeaterBuilder shb = new StorageHeaterBuilder();
@@ -37,11 +37,11 @@ public class StorageHeaterBuilderTest {
 		when(dto.getStorageHeaterType()).thenReturn(Optional.of(StorageHeaterType.SLIMLINE));
 		when(dto.getStorageHeaterControlType()).thenReturn(Optional.<StorageHeaterControlType>absent());
 		final IStorageHeater sh = shb.buildStorageHeater(dto);
-		
+
 		Assert.assertEquals(StorageHeaterType.SLIMLINE, sh.getType());
 		Assert.assertEquals(StorageHeaterControlType.MANUAL_CHARGE_CONTROL, sh.getControlType());
 	}
-	
+
 	@Test
 	public void testFlatRateResponsivness() {
 		final IStorageHeaterBuilder shb = new StorageHeaterBuilder();
@@ -50,11 +50,11 @@ public class StorageHeaterBuilderTest {
 		when(dto.getStorageHeaterType()).thenReturn(Optional.of(StorageHeaterType.SLIMLINE));
 		when(dto.getStorageHeaterControlType()).thenReturn(Optional.<StorageHeaterControlType>absent());
 		final IStorageHeater sh = shb.buildStorageHeater(dto);
-		
+
 		Assert.assertEquals(StorageHeaterType.SLIMLINE, sh.getType());
 		Assert.assertEquals(StorageHeaterControlType.MANUAL_CHARGE_CONTROL, sh.getControlType());
 	}
-	
+
 	@Test
 	public void testNotFlatRateResponsivness() {
 		final IStorageHeaterBuilder shb = new StorageHeaterBuilder();
@@ -63,7 +63,7 @@ public class StorageHeaterBuilderTest {
 		when(dto.getStorageHeaterType()).thenReturn(Optional.of(StorageHeaterType.SLIMLINE));
 		when(dto.getStorageHeaterControlType()).thenReturn(Optional.<StorageHeaterControlType>absent());
 		final IStorageHeater sh = shb.buildStorageHeater(dto);
-		
+
 		Assert.assertEquals(StorageHeaterType.SLIMLINE, sh.getType());
 		Assert.assertEquals(StorageHeaterControlType.MANUAL_CHARGE_CONTROL, sh.getControlType());
 	}

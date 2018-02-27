@@ -13,7 +13,7 @@ import org.junit.Test;
 
 import com.google.common.base.Optional;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import uk.org.cse.nhm.hom.BasicCaseAttributes;
 import uk.org.cse.nhm.hom.SurveyCase;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
@@ -49,12 +49,12 @@ public class SpaceHeatingBuildStepTest {
 		final SpaceHeatingBuildStep f = new SpaceHeatingBuildStep();
 		final IRoomHeater h = mock(IRoomHeater.class);
 		final ITechnologyModel m = mock(ITechnologyModel.class);
-		
+
 		f.installSecondaryHeater("test", m, h);
-		
+
 		verify(m).setSecondarySpaceHeater(h);
 	}
-	
+
 	/**
 	 * @issue NHM-444
 	 */
@@ -65,93 +65,93 @@ public class SpaceHeatingBuildStepTest {
 		final IRoomHeater ex = mock(IRoomHeater.class);
 		final ITechnologyModel m = mock(ITechnologyModel.class);
 		when(m.getSecondarySpaceHeater()).thenReturn(ex);
-		
+
 		when(h.getFuel()).thenReturn(FuelType.MAINS_GAS);
 		when(ex.getFuel()).thenReturn(FuelType.ELECTRICITY);
-		
+
 		f.installSecondaryHeater("test", m, h);
 
 		verify(m, never()).setSecondarySpaceHeater(any(IRoomHeater.class));
 	}
-	
+
 	@Test
 	public void testGetCentralHeatingSystemCreates() {
 		final ITechnologyModel model = ITechnologiesFactory.eINSTANCE.createTechnologyModel();
-		
+
 		final ICentralHeatingSystem centralHeatingSystem = SpaceHeatingBuildStep.getCentralHeatingSystem(model);
-		
+
 		Assert.assertNotNull(centralHeatingSystem);
-		
+
 		Assert.assertSame(centralHeatingSystem, model.getPrimarySpaceHeater());
-		
+
 	}
-	
+
 	@Test
 	public void testGetCentralHeatingSystemInserts() {
 		final ITechnologyModel model = ITechnologiesFactory.eINSTANCE.createTechnologyModel();
 		final IRoomHeater roomHeater = ITechnologiesFactory.eINSTANCE.createRoomHeater();
-		
+
 		model.setSecondarySpaceHeater(roomHeater);
-		
+
 		final ICentralHeatingSystem centralHeatingSystem = SpaceHeatingBuildStep.getCentralHeatingSystem(model);
-		
+
 		Assert.assertNotNull(centralHeatingSystem);
-		
+
 		Assert.assertSame(centralHeatingSystem, model.getPrimarySpaceHeater());
 		Assert.assertSame(roomHeater, model.getSecondarySpaceHeater());
 	}
-	
+
 	@Test
 	public void testGetCentralHeatingSystemFinds() {
 		final ITechnologyModel model = ITechnologiesFactory.eINSTANCE.createTechnologyModel();
 		final ICentralHeatingSystem hs = ITechnologiesFactory.eINSTANCE.createCentralHeatingSystem();
 		model.setPrimarySpaceHeater(hs);
-		
+
 		final ICentralHeatingSystem centralHeatingSystem = SpaceHeatingBuildStep.getCentralHeatingSystem(model);
-		
+
 		Assert.assertNotNull(centralHeatingSystem);
-		
+
 		Assert.assertSame(hs, centralHeatingSystem);
 	}
-	
+
 	@Test
 	public void testCreateBoiler() {
 		final SpaceHeatingBuildStep step = new SpaceHeatingBuildStep();
 		final IHeatSourceBuilder builder = mock(IHeatSourceBuilder.class);
-		
+
 		final ISpaceHeatingDTO dto = mock(ISpaceHeatingDTO.class);
 		when(dto.getSpaceHeatingSystemType()).thenReturn(SpaceHeatingSystemType.STANDARD);
 		// EMF objects are a pain to mock, as they have interrelationship tracking stuff that needs
 		// to work.
 		final IBoiler boiler = IBoilersFactory.eINSTANCE.createBoiler();
-		final ITechnologyModel tm = ITechnologiesFactory.eINSTANCE.createTechnologyModel();		
+		final ITechnologyModel tm = ITechnologiesFactory.eINSTANCE.createTechnologyModel();
 		step.setHeatSourceBuilder(builder);
 		step.setSecondaryBuilder(mock(ISecondaryHeatingSystemBuilder.class));
-		final IHouseCaseSources<IBasicDTO> p = 
+		final IHouseCaseSources<IBasicDTO> p =
 				HouseCaseSources.withImmutableList("foo", 2010, Collections.singletonList((IBasicDTO) dto));
-		
+
 		when(dto.getInstallationYear()).thenReturn(Optional.of(1900));
-		
+
 		final SurveyCase model = mock(SurveyCase.class);
 		when(model.getBuildYear()).thenReturn(1900);
-		
+
 		when(builder.createHeatSource(1900, dto)).thenReturn(boiler);
-		
+
 		when(model.getTechnologies()).thenReturn(tm);
-		
+
 		final BasicCaseAttributes battrs = mock(BasicCaseAttributes.class);
 		when(battrs.getBuildYear()).thenReturn(1900);
 		when(model.getBasicAttributes()).thenReturn(battrs );
-		
+
 		addDefaultStructure(model);
 
 		step.build(model, p);
-		
+
 		verify(builder).createHeatSource(1900, dto);
-		
+
 		Assert.assertNotNull(tm.getPrimarySpaceHeater());
 		Assert.assertSame(boiler, tm.getIndividualHeatSource());
-		
+
 		Assert.assertTrue(((ICentralHeatingSystem)tm.getPrimarySpaceHeater()).getHeatSource() == boiler);
 	}
 
@@ -160,99 +160,99 @@ public class SpaceHeatingBuildStepTest {
 		when(structure.isOnGasGrid()).thenReturn(true);
 		when(model.getStructure()).thenReturn(structure);
 	}
-	
+
 	@Test
 	public void testCreateStorageHeater() {
 		final SpaceHeatingBuildStep step = new SpaceHeatingBuildStep();
 		final IStorageHeaterBuilder builder = mock(IStorageHeaterBuilder.class);
-		
+
 		final ISpaceHeatingDTO dto = mock(ISpaceHeatingDTO.class);
 		when(dto.getSpaceHeatingSystemType()).thenReturn(SpaceHeatingSystemType.STORAGE_HEATER);
 		// EMF objects are a pain to mock, as they have interrelationship tracking stuff that needs
 		// to work.
 		final IStorageHeater storageHeater = ITechnologiesFactory.eINSTANCE.createStorageHeater();
-		final ITechnologyModel tm = ITechnologiesFactory.eINSTANCE.createTechnologyModel();		
+		final ITechnologyModel tm = ITechnologiesFactory.eINSTANCE.createTechnologyModel();
 		step.setStorageHeaterBuilder(builder);
 		step.setSecondaryBuilder(mock(ISecondaryHeatingSystemBuilder.class));
-		final IHouseCaseSources<IBasicDTO> p = 
+		final IHouseCaseSources<IBasicDTO> p =
 				HouseCaseSources.withImmutableList("foo", 2010, Collections.singletonList((IBasicDTO) dto));
-		
+
 		final SurveyCase model = mock(SurveyCase.class);
 		addDefaultStructure(model);
-		
+
 		when(builder.buildStorageHeater(dto)).thenReturn(storageHeater);
-		
+
 		when(model.getTechnologies()).thenReturn(tm);
-		
+
 		step.build(model, p);
-		
+
 		verify(builder).buildStorageHeater(dto);
-			
+
 		Assert.assertSame(storageHeater, tm.getPrimarySpaceHeater());
 	}
-	
+
 	@Test
 	public void testCreateWarmAirSystem() {
 		final SpaceHeatingBuildStep step = new SpaceHeatingBuildStep();
 		final IWarmAirSystemBuilder builder = mock(IWarmAirSystemBuilder.class);
-		
+
 		final ISpaceHeatingDTO dto = mock(ISpaceHeatingDTO.class);
 		when(dto.getSpaceHeatingSystemType()).thenReturn(SpaceHeatingSystemType.WARM_AIR);
 		// EMF objects are a pain to mock, as they have interrelationship tracking stuff that needs
 		// to work.
 		final IWarmAirSystem warmAirSystem = ITechnologiesFactory.eINSTANCE.createWarmAirSystem();
-		final ITechnologyModel tm = ITechnologiesFactory.eINSTANCE.createTechnologyModel();		
+		final ITechnologyModel tm = ITechnologiesFactory.eINSTANCE.createTechnologyModel();
 		step.setWarmAirBuilder(builder);
 		step.setSecondaryBuilder(mock(ISecondaryHeatingSystemBuilder.class));
-		final IHouseCaseSources<IBasicDTO> p = 
+		final IHouseCaseSources<IBasicDTO> p =
 				HouseCaseSources.withImmutableList("foo", 2010, Collections.singletonList((IBasicDTO) dto));
-		
+
 		final SurveyCase model = mock(SurveyCase.class);
 		addDefaultStructure(model);
-		
+
 		when(builder.buildWarmAirSystem(dto)).thenReturn(warmAirSystem);
-		
+
 		when(model.getTechnologies()).thenReturn(tm);
-		
+
 		step.build(model, p);
-		
+
 		verify(builder).buildWarmAirSystem(dto);
-		
+
 		Assert.assertSame(warmAirSystem, tm.getPrimarySpaceHeater());
 	}
-	
+
 	@Test
 	public void testCreateRoomHeater() {
 		final SpaceHeatingBuildStep step = new SpaceHeatingBuildStep();
 		final IRoomHeaterBuilder builder = mock(IRoomHeaterBuilder.class);
-		
+
 		final ISpaceHeatingDTO dto = mock(ISpaceHeatingDTO.class);
 		when(dto.getSpaceHeatingSystemType()).thenReturn(SpaceHeatingSystemType.ROOM_HEATER);
 		when(dto.getMainHeatingFuel()).thenReturn(FuelType.ELECTRICITY);
-		
+
 		final IRoomHeater roomHeater = ITechnologiesFactory.eINSTANCE.createRoomHeater();
-		final ITechnologyModel tm = ITechnologiesFactory.eINSTANCE.createTechnologyModel();		
+		final ITechnologyModel tm = ITechnologiesFactory.eINSTANCE.createTechnologyModel();
 		step.setRoomHeaterBuilder(builder);
 		step.setSecondaryBuilder(mock(ISecondaryHeatingSystemBuilder.class));
-		
-		final IHouseCaseSources<IBasicDTO> p = 
+
+		final IHouseCaseSources<IBasicDTO> p =
 				HouseCaseSources.withImmutableList("foo", 2010, Collections.singletonList((IBasicDTO) dto));
-		
+
 		final SurveyCase model = mock(SurveyCase.class);
 		addDefaultStructure(model);
 		when(model.getBuildYear()).thenReturn(1);
 		when(builder.buildRoomHeater(1, dto)).thenReturn(roomHeater);
-		
+
 		when(model.getTechnologies()).thenReturn(tm);
-		
+
 		step.build(model, p);
-		
+
 		verify(builder).buildRoomHeater(1, dto);
-		
+
 		Assert.assertSame(roomHeater, tm.getSecondarySpaceHeater());
 	}
-	
-	
+
+
 	@Test
 	public void testCreateBackBoiler() {
 		final SpaceHeatingBuildStep step = new SpaceHeatingBuildStep();
@@ -262,23 +262,23 @@ public class SpaceHeatingBuildStepTest {
 		when(dto.getMainHeatingFuel()).thenReturn(FuelType.MAINS_GAS);
 
 		final IBackBoiler backBoiler = ITechnologiesFactory.eINSTANCE.createBackBoiler();
-		final ITechnologyModel tm = ITechnologiesFactory.eINSTANCE.createTechnologyModel();		
+		final ITechnologyModel tm = ITechnologiesFactory.eINSTANCE.createTechnologyModel();
 		step.setRoomHeaterBuilder(builder);
 		step.setSecondaryBuilder(mock(ISecondaryHeatingSystemBuilder.class));
-		
-		final IHouseCaseSources<IBasicDTO> p = 
+
+		final IHouseCaseSources<IBasicDTO> p =
 				HouseCaseSources.withImmutableList("foo", 2010, Collections.singletonList((IBasicDTO) dto));
-		
+
 		final SurveyCase model = mock(SurveyCase.class);
 		addDefaultStructure(model);
 		when(model.getBuildYear()).thenReturn(1234);
-		
+
 		when(builder.buildRoomHeater(1234, dto)).thenReturn(backBoiler);
-		
+
 		when(model.getTechnologies()).thenReturn(tm);
-		
+
 		step.build(model, p);
-		
+
 		verify(builder).buildRoomHeater(1234, dto);
 
 		//central heating should have been added

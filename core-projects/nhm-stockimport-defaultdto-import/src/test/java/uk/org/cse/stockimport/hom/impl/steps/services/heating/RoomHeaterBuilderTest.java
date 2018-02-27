@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import com.google.common.base.Optional;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.IBackBoiler;
 import uk.org.cse.nhm.hom.emf.technologies.IRoomHeater;
@@ -24,16 +24,16 @@ public class RoomHeaterBuilderTest {
 		when(dto.getSpaceHeatingSystemType()).thenReturn(SpaceHeatingSystemType.ROOM_HEATER);
 		when(dto.getMainHeatingFuel()).thenReturn(FuelType.ELECTRICITY);
         when(dto.getCondensing()).thenReturn(Optional.<Boolean> absent());
-		
+
 		when(dto.getBasicEfficiency()).thenReturn(0.75);
 		when(dto.getFlueType()).thenReturn(Optional.<FlueType>absent());
-		
+
 		final IRoomHeater roomHeater = rhb.buildRoomHeater(1234, dto);
-		
+
 		Assert.assertEquals(FlueType.NOT_APPLICABLE, roomHeater.getFlueType());
 		Assert.assertEquals(Efficiency.fromDouble(0.75), roomHeater.getEfficiency());
 	}
-	
+
 	@Test
 	public void testWithBackBoiler() {
 		final IRoomHeaterBuilder rhb = new RoomHeaterBuilder();
@@ -47,7 +47,7 @@ public class RoomHeaterBuilderTest {
 
 		final IRoomHeater roomHeater = rhb.buildRoomHeater(1234, dto);
 		Assert.assertTrue(roomHeater instanceof IBackBoiler);
-		
+
 		final IBackBoiler bb = (IBackBoiler) roomHeater;
 		Assert.assertEquals(Efficiency.fromDouble(0.75), bb.getSummerEfficiency());
 		Assert.assertEquals(Efficiency.fromDouble(0.75), bb.getWinterEfficiency());

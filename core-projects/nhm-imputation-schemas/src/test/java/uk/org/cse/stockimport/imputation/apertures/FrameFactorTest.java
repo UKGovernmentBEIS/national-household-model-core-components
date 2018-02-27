@@ -1,6 +1,6 @@
 package uk.org.cse.stockimport.imputation.apertures;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 import org.junit.Test;
 
@@ -12,9 +12,9 @@ public class FrameFactorTest {
 	@Test
 	public void testFrameFactors() {
 		final IWindowFrameFactor factors = new FrameFactors();
-		
-		Assert.assertEquals(0.7, factors.getFrameFactor(FrameType.Wood));
-		Assert.assertEquals(0.8, factors.getFrameFactor(FrameType.Metal));
-		Assert.assertEquals(0.7, factors.getFrameFactor(FrameType.uPVC));
+
+		Assert.assertEquals(0.7, factors.getFrameFactor(FrameType.Wood), 0d);
+		Assert.assertEquals(0.8, factors.getFrameFactor(FrameType.Metal), 0d);
+		Assert.assertEquals(0.7, factors.getFrameFactor(FrameType.uPVC), 0d);
 	}
 }

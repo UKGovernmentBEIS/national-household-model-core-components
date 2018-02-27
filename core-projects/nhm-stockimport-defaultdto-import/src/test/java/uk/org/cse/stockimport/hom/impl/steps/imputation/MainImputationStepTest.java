@@ -7,7 +7,7 @@ import java.awt.Polygon;
 
 import org.junit.Test;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import uk.org.cse.nhm.hom.SurveyCase;
 import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
 import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
@@ -29,20 +29,20 @@ public class MainImputationStepTest {
 		final MainImputationStep mis = new MainImputationStep();
 		final HouseCaseDTO hdc = mock(HouseCaseDTO.class);
 		when(hdc.getRegionType()).thenReturn(RegionType.SouthWest);
-		
+
 		@SuppressWarnings("unchecked")
 		final IHouseCaseSources<IBasicDTO> dtos = mock(IHouseCaseSources.class);
 		when(dtos.requireOne(HouseCaseDTO.class)).thenReturn(hdc);
-		
+
 		final SurveyCase sc = new SurveyCase();
 		final StructureModel sm = new StructureModel(BuiltFormType.Detached);
 		sc.setStructure(sm);
-		
+
 		final Polygon pg = new Polygon(
 				new int[] {0, 1, 1, 0},
 				new int[] {0, 0, 1, 1},
 				4);
-		
+
 		final Storey s = new Storey();
 		s.setPerimeter(pg);
 		s.setHeight(1);
@@ -54,15 +54,15 @@ public class MainImputationStepTest {
 		}
 		sm.setRoofConstructionType(RoofConstructionType.Flat);
 		sm.setGroundFloorConstructionType(FloorConstructionType.Solid);
-		
+
 		mis.build(sc, dtos);
-		
+
 		for (final IMutableWall wall : s.getWalls()) {
-			Assert.assertEquals(2.1, wall.getUValue());
-			Assert.assertEquals(0.35, wall.getAirChangeRate());
+			Assert.assertEquals(2.1, wall.getUValue(), 0d);
+			Assert.assertEquals(0.35, wall.getAirChangeRate(), 0d);
 		}
-		
-		Assert.assertEquals(1.2, s.getFloorUValue());
-		Assert.assertEquals(2.3, s.getCeilingUValue());
+
+		Assert.assertEquals(1.2, s.getFloorUValue(), 0d);
+		Assert.assertEquals(2.3, s.getCeilingUValue(), 0d);
 	}
 }

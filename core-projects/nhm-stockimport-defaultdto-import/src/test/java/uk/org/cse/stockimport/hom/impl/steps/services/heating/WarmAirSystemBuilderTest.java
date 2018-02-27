@@ -5,7 +5,7 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Test;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.IWarmAirSystem;
 import uk.org.cse.nhm.hom.emf.util.Efficiency;
