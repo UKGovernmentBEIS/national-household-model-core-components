@@ -263,7 +263,13 @@
 
    (column name: v255 value: (house.fuel-cost exclude-services: [Appliances Cooking])) ; Total energy cost
    (column name: v256 value: 0.42) ; Energy cost deflator
-   (column name: v257 value: TODO) ; Energy cost factor (ECF)
+
+   ;; Energy cost factor (ECF)
+   (column name: v257 value: EnergyCostFactor (* 0.42
+                                                 (/ (house.fuel-cost exclude-services: [Appliances Cooking])
+                                                    (+ (house.total-floor-area)
+                                                       45))))
+
    (column name: v258 value: (house.fuel-cost-index)) ; SAP Rating
 
    ;; v300+ extra SAP worksheet for community heat not implemented.
