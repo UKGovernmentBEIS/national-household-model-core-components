@@ -1,4 +1,4 @@
-; (include-modules ./modules/sap.nhm)
+(include-modules ./sap.nhm)
 
 (scenario
  start-date: 2018
@@ -8,8 +8,8 @@
 
  (~init-modules)
 
- ;; TODO: include sap tariffs
- ;; TODO: include sap emissions
+ (context.tariffs
+  defaults: [(sap-tariffs/definitions)])
 
  (def-report sap-steps
    ;; This lines strips out all duplicate (After) columns filled with
@@ -114,7 +114,6 @@
    (column name: v39 value: (house.energy-calculation-step HeatTransferCoefficient)) ; Heat loss coefficient
    (column name: v40 value: (house.energy-calculation-step HeatLossParameter)) ; Heat loss parameter
 
-   ;; TODO: what to do about this?
    (column name: v41 value: (house.energy-calculation-step DaysInMonth))
 
    (column name: v42 value: (house.energy-calculation-step Occupancy)) ; Assumed occupancy
@@ -258,7 +257,7 @@
 
    ;; v236, v237 Appendix Q items not implemented
 
-   ;; TODO: exclude Photons?
+   ;; TODO: do I need to exclude Photons?
    (column name: v238 value: (+ (house.energy-use by-service: Generation) ; Total delivered energy v211-v234
                                 (house.energy-use by-service: Lighting)
                                 (house.energy-use by-service: WaterHeating)
@@ -274,12 +273,13 @@
    (column name: v256 value: 0.42) ; Energy cost deflator
 
    ;; Energy cost factor (ECF)
-   (column name: v257 value: (* 0.42
-                                (/ (house.fuel-cost exclude-services: [Appliances Cooking])
-                                   (+ (house.total-floor-area)
-                                      45))))
+   (column name: v257 value: (sap/under-sap
+                              evaluate: (* 0.42
+                                           (/ (house.fuel-cost exclude-services: [Appliances Cooking])
+                                              (+ (house.total-floor-area)
+                                                 45)))))
 
-   (column name: v258 value: (house.fuel-cost-index)) ; SAP Rating
+   (column name: v258 value: (sap/score)) ; SAP Rating
 
    ;; v300+ extra SAP worksheet for community heat not implemented.
    )
