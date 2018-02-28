@@ -30,6 +30,7 @@ import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
 import uk.org.cse.nhm.hom.emf.util.EObjectWrapper;
 import uk.org.cse.nhm.hom.people.People;
 import uk.org.cse.nhm.hom.structure.StructureModel;
+import uk.org.cse.nhm.simulator.guice.EnergyCalculationRequestedSteps;
 import uk.org.cse.nhm.simulator.state.dimensions.FuelServiceTable;
 import uk.org.cse.nhm.simulator.state.dimensions.behaviour.IHeatingBehaviour;
 
@@ -454,7 +455,7 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 	}
 
 	@Inject
-	public EnergyCalculatorBridge(final IEnergyCalculator calculator, @Named(CACHE_SIZE) final int cacheSize) {
+	public EnergyCalculatorBridge(final IEnergyCalculator calculator, final EnergyCalculationRequestedSteps requestedSteps, @Named(CACHE_SIZE) final int cacheSize) {
 		this.cache = CacheBuilder.newBuilder().
 				softValues().
 				recordStats().
@@ -495,7 +496,7 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 								};
 							}
 
-                            return new Result(calculator.evaluate(key, parameters, climate));
+                            return new Result(calculator.evaluate(key, parameters, climate, requestedSteps.getRequestedSteps()));
 						}
 
 						private IEnergyCalculatorParameters createParameters(final IHeatingBehaviour heatingBehaviour, final double floorArea, final double occupancy) {

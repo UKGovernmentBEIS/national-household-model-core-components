@@ -1,6 +1,7 @@
 package uk.org.cse.nhm.simulator.integration.tests;
 
 import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,6 +21,7 @@ import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.MonthType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.impl.BredemSeasonalParameters;
 import uk.org.cse.nhm.hom.SurveyCase;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType;
@@ -150,7 +152,13 @@ public class AnnualizedEnergyCalculator {
 		}
 
 
-		final IEnergyCalculationResult[] results = calculator.evaluate(surveyCase, parameters, seasons).getResults();
+		final IEnergyCalculationResult[] results = calculator.evaluate(
+				surveyCase,
+				parameters,
+				seasons,
+				EnumSet.noneOf(EnergyCalculationStep.class)
+		).getResults();
+
 		int month = 0;
 		for (final IEnergyCalculationResult result : results) {
 			final IEnergyState es = result.getEnergyState();

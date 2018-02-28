@@ -656,14 +656,12 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
      * @return
      */
     @Override
-    public IEnergyCalculationResultWithSteps evaluate(final IEnergyCalculatorHouseCase houseCase, final IEnergyCalculatorParameters eparameters,
-            final ISeasonalParameters[] climate) {
-        try (final StepRecorder.Steps steps = StepRecorder.record(EnumSet.allOf(EnergyCalculationStep.class)
-                .stream()
-                .filter(step -> !step.isSkipped())
-                .collect(Collectors.toSet())
-
-        )) {
+    public IEnergyCalculationResultWithSteps evaluate(
+            final IEnergyCalculatorHouseCase houseCase,
+            final IEnergyCalculatorParameters eparameters,
+            final ISeasonalParameters[] climate,
+            final Set<EnergyCalculationStep> requestedSteps) {
+        try (final StepRecorder.Steps steps = StepRecorder.record(requestedSteps)) {
             final Visitor v = Visitor.create(constants, eparameters, houseCase.getBuildYear(), houseCase.getCountry(), defaultTransducers);
 
             houseCase.accept(constants, eparameters, v);

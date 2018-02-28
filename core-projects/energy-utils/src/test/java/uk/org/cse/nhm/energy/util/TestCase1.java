@@ -1,6 +1,7 @@
 package uk.org.cse.nhm.energy.util;
 
 import java.awt.Polygon;
+import java.util.EnumSet;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -21,6 +22,7 @@ import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.MonthType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.impl.BredemSeasonalParameters;
 import uk.org.cse.nhm.energycalculator.impl.EnergyCalculatorCalculator;
 import uk.org.cse.nhm.hom.BasicCaseAttributes;
@@ -233,7 +235,12 @@ public class TestCase1 {
 
 		final IEnergyCalculator calc = new EnergyCalculatorCalculator();
 
-		final IEnergyCalculationResult state = calc.evaluate(sc, parameters, new ISeasonalParameters[] {climate}).getResults()[0];
+		final IEnergyCalculationResult state = calc.evaluate(
+				sc,
+				parameters,
+				new ISeasonalParameters[] {climate},
+                EnumSet.noneOf(EnergyCalculationStep.class)
+            ).getResults()[0];
 
 		final ISpecificHeatLosses heatLosses = state.getHeatLosses();
 

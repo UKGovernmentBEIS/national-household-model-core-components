@@ -2,6 +2,7 @@ package uk.org.cse.nhm.energy.util;
 
 import java.awt.Polygon;
 import java.io.IOException;
+import java.util.EnumSet;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -22,6 +23,7 @@ import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.MonthType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.impl.BredemSeasonalParameters;
 import uk.org.cse.nhm.energycalculator.impl.EnergyCalculatorCalculator;
 import uk.org.cse.nhm.energycalculator.impl.EnergyCalculatorCalculator.IEnergyStateFactory;
@@ -213,7 +215,13 @@ public class BackupSpaceHeatersWorkWhenOtherThingsAreMissing {
 				return new GraphvizEnergyState(new ClassEnergyState());
 			}
 		});
-		final IEnergyCalculationResult energyCalculationResult = calc.evaluate(sc, ep, new ISeasonalParameters[] {climate}).getResults()[0];
+		final IEnergyCalculationResult energyCalculationResult = calc.evaluate(
+		        sc,
+                ep,
+                new ISeasonalParameters[] {climate},
+                EnumSet.noneOf(EnergyCalculationStep.class)
+            ).getResults()[0];
+
 		final IEnergyState energyState = energyCalculationResult.getEnergyState();
 
 		Assert.assertEquals(16, energyState.getTotalSupply(EnergyType.HackMEAN_INTERNAL_TEMPERATURE), 1.0);

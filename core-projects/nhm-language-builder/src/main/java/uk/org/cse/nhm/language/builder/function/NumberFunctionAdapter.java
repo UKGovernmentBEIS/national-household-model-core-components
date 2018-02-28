@@ -64,6 +64,7 @@ import uk.org.cse.nhm.language.definition.sequence.XSnapshotDeclaration;
 import uk.org.cse.nhm.simulator.IProfilingStack;
 import uk.org.cse.nhm.simulator.SimulatorConfigurationConstants;
 import uk.org.cse.nhm.simulator.factories.IObjectFunctionFactory;
+import uk.org.cse.nhm.simulator.guice.EnergyCalculationRequestedSteps;
 import uk.org.cse.nhm.simulator.main.Initializable;
 import uk.org.cse.nhm.simulator.measure.Units;
 import uk.org.cse.nhm.simulator.scope.IComponentsAction;
@@ -87,16 +88,24 @@ import uk.org.cse.nhm.simulator.transactions.ITransaction;
  */
 public class NumberFunctionAdapter extends ReflectingAdapter {
 	final IObjectFunctionFactory factory;
-    final Provider<IProfilingStack> profiler;
+	private final Provider<EnergyCalculationRequestedSteps> requestedSteps;
+	final Provider<IProfilingStack> profiler;
 
 	@SuppressWarnings("unused")
 	private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(NumberFunctionAdapter.class);
 
 	@Inject
-	public NumberFunctionAdapter(final Provider<IProfilingStack> profiler, final Set<IConverter> delegates, final IObjectFunctionFactory factory, final Set<IAdapterInterceptor> interceptors) {
+	public NumberFunctionAdapter(
+			final Provider<IProfilingStack> profiler,
+			final Set<IConverter> delegates,
+			final IObjectFunctionFactory factory,
+			final Set<IAdapterInterceptor> interceptors,
+			final Provider<EnergyCalculationRequestedSteps> requestedSteps
+			) {
 		super(delegates, interceptors);
         this.profiler = profiler;
 		this.factory = factory;
+		this.requestedSteps = requestedSteps;
 	}
 
 	@Adapt(XInflatedFunction.class)
@@ -320,6 +329,8 @@ public class NumberFunctionAdapter extends ReflectingAdapter {
             @Prop(XEnergyCalculationStepFunction.P.month) final Integer month
     ) {
 	    final EnergyCalculationStep realStep = MapEnum.energyCalculationStep(step);
+
+	    requestedSteps.get().request(realStep);
 
         return factory.createEnergyCalculatorStepFunction(realStep, java.util.Optional.ofNullable(month));
     }

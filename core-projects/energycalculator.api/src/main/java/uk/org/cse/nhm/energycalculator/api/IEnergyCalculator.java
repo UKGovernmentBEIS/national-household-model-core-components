@@ -1,5 +1,9 @@
 package uk.org.cse.nhm.energycalculator.api;
 
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
+
+import java.util.Set;
+
 /**
  * The general interface for a energy calculator
  *
@@ -14,5 +18,9 @@ public interface IEnergyCalculator {
 	 * @param externalParameters
 	 * @return an {@link IEnergyCalculationResultWithSteps} for the house
 	 */
-	public abstract IEnergyCalculationResultWithSteps evaluate(IEnergyCalculatorHouseCase houseCase, IEnergyCalculatorParameters externalParameters, final ISeasonalParameters[] climate);
+	public abstract IEnergyCalculationResultWithSteps evaluate(
+			IEnergyCalculatorHouseCase houseCase,
+			IEnergyCalculatorParameters externalParameters,
+			final ISeasonalParameters[] climate,
+			final Set<EnergyCalculationStep> requestedSteps);
 }
