@@ -1,4 +1,4 @@
-(include-modules ./modules/sap/sap.nhm)
+; (include-modules ./modules/sap.nhm)
 
 (scenario
  start-date: 2018
@@ -42,7 +42,12 @@
    (column name: v14 value: (house.energy-calculation-step ProportionWindowsDraughtProofed)) ; Proportion of draughtstripping
    (column name: v15 value: (house.energy-calculation-step InfiltrationWindows)) ; Window infiltration
    (column name: v16 value: (house.energy-calculation-step InfiltrationRate_Initial)) ; Infiltration rate
-   (column name: v17 value: (house.energy-calculation-step AirPermabilityValue)) ; Air changes per hour
+
+   ;; v17 Air changes per hour (pressure test) omitted.
+   ;; v18 is calculated in SAP as:
+   ;; if a pressure test has been carried out (always false in the NHM)
+   ;; then use v17 (never happens in the NHM)
+   ;; else use v16 (always happens in the NHM)
    (column name: v18 value: (house.energy-calculation-step InfiltrationRateMaybePressureTest)) ; Air changes per hour
    (column name: v19 value: (house.energy-calculation-step SidesSheltered)) ; Number of sheltered sides
    (column name: v20 value: (house.energy-calculation-step ShelterFactor)) ; Shelter factor
@@ -116,7 +121,7 @@
 
    ;; TODO; naming seems dodgy here
    (column name: v43 value: (house.energy-calculation-step WaterHeating_Usage_Initial)) ; Annual average hot water usage
-   (column name: v44 value: (house.energy-calculation-step WaterHeating_Usage_Monthly)) ; Hot water usage in litres per day
+   (column name: v44 value: (house.energy-calculation-step WaterHeating_Usage_MonthAdjusted)) ; Hot water usage in litres per day
 
    (column name: v45 value: (house.energy-calculation-step WaterHeating_EnergyContent)) ; Energy content of hot water used
    (column name: v46 value: (house.energy-calculation-step WaterHeating_DistributionLoss)) ; Distribution loss
@@ -136,7 +141,7 @@
    (column name: v54 value: (house.energy-calculation-step WaterHeating_StorageLosses_Daily_Calculated)) ; Energy lost from water storage 2
    (column name: v55 value: (house.energy-calculation-step WaterHeating_StorageLosses_Daily)) ; Overall energy lost from water storage
    (column name: v56 value: (house.energy-calculation-step WaterHeating_StorageLosses_Monthly)) ; Water storage loss
-   (column name: v57 value: (house.energy-calculation-step WaterHeating_StorageLosses_Daily_ExcludeSolar)) ; Where cylinder contains dedicated solar storage
+   (column name: v57 value: (house.energy-calculation-step WaterHeating_StorageLosses_Monthly_ExcludeSolar)) ; Where cylinder contains dedicated solar storage
 
    ;; There's no cell 58 in the SAP worksheet, but BRE have included one in their spreadsheet.
    (column name: v58 value: (house.energy-calculation-step WaterHeating_PrimaryCircuitLoss_Monthly)) ; Primary circuit loss
@@ -180,7 +185,11 @@
    (column name: v96 value: (house.energy-calculation-step ExternalTemperature)) ; Average external temperature
    (column name: v97 value: (house.energy-calculation-step HeatLossRate)) ; Heat loss rate for mean internal temperature
    (column name: v98 value: (house.energy-calculation-step SpaceHeating)) ; Space heating requirement per month
-   (column name: v99 value: (house.energy-calculation-step SpaceHeating_PerFloorArea)) ; Space heating requirement
+
+   ;; Space heating requirement
+   (column name: v99 value: (/
+                             (house.energy-calculation-step SpaceHeating)
+                             (house.total-floor-area)))
 
    ;; v100 to 108 space cooling not implemented in the NHM.
 
@@ -253,7 +262,7 @@
    (column name: v238 value: (+ (house.energy-use by-service: Generation) ; Total delivered energy v211-v234
                                 (house.energy-use by-service: Lighting)
                                 (house.energy-use by-service: WaterHeating)
-                                (house.energy-use by-service: SpaceHeating))
+                                (house.energy-use by-service: SpaceHeating)))
 
    ;; v239 doesn't exist in the SAP worksheet
 
@@ -265,10 +274,10 @@
    (column name: v256 value: 0.42) ; Energy cost deflator
 
    ;; Energy cost factor (ECF)
-   (column name: v257 value: EnergyCostFactor (* 0.42
-                                                 (/ (house.fuel-cost exclude-services: [Appliances Cooking])
-                                                    (+ (house.total-floor-area)
-                                                       45))))
+   (column name: v257 value: (* 0.42
+                                (/ (house.fuel-cost exclude-services: [Appliances Cooking])
+                                   (+ (house.total-floor-area)
+                                      45))))
 
    (column name: v258 value: (house.fuel-cost-index)) ; SAP Rating
 
@@ -276,6 +285,6 @@
    )
 
  (on.dates
-  [(scenario-start)
+  [(scenario-start)]
   (apply
-   (send-to-report sap-steps))]))
+   (send-to-report sap-steps))))
