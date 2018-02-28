@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.org.cse.nhm.energycalculator.api.*;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculationStep;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.hom.constants.CylinderConstants;
@@ -43,7 +43,7 @@ import uk.org.cse.nhm.hom.emf.technologies.boilers.ICPSU;
  */
 public class CPSUImpl extends BoilerImpl implements ICPSU {
 	private static final Logger log = LoggerFactory.getLogger(CPSUImpl.class);
-	
+
 	/**
 	 * The cached value of the '{@link #getStore() <em>Store</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -295,11 +295,11 @@ public class CPSUImpl extends BoilerImpl implements ICPSU {
 		if (getFuel() != FuelType.ELECTRICITY) {
 			throw new RuntimeException("Cannot get the high-rate fraction for a non-electric CPSU!");
 		}
-		
+
 		final double usefulGains = state.getTotalSupply(EnergyType.DemandsHEAT, ServiceType.INTERNALS);
-		
+
 		return getHighRateFraction(
-				parameters.getConstants(), 
+				parameters.getConstants(),
 				parameters.getClimate().getExternalTemperature(),
 				state.getTotalSupply(EnergyType.HackMEAN_INTERNAL_TEMPERATURE),
 				losses.getSpecificHeatLoss(),
@@ -307,7 +307,7 @@ public class CPSUImpl extends BoilerImpl implements ICPSU {
 				qWater,
 				qHeat);
 	}
-		
+
 	@Override
 	protected boolean isIntermediatePowerRequired() {
 		return getFuel() == FuelType.ELECTRICITY || super.isIntermediatePowerRequired();
@@ -321,14 +321,14 @@ public class CPSUImpl extends BoilerImpl implements ICPSU {
 			return (deltaT / (1-Math.exp(-deltaT)));
 		}
 	}
-	
+
 	protected double getHighRateFraction(final IConstants constants, final double externalTemperature, final double internalTemperature, final double specificHeatLoss, final double usefulGains, final double hotWaterPower, final double spacePower) {
 		final double lowRatePower = constants.get(HeatingSystemConstants.ELECTRIC_CPSU_LOW_RATE_HEAT_CONSTANT)
 				* getStore().getVolume() * (getStoreTemperature() - constants.get(HeatingSystemConstants.ELECTRIC_CPSU_WINTER_TEMPERATURE_OFFSET));
 		// calculate minimum external temperature for which a CPSU of this size can satisfy the heat demand using the tank
-		final double lowestExternalTemperature = 
+		final double lowestExternalTemperature =
 				((specificHeatLoss * internalTemperature) - lowRatePower + hotWaterPower - usefulGains) / specificHeatLoss;
-		
+
 		// this is the number of degree days of temperature difference /in one day/.
 		final double degreeDays = getDegreeDays(lowestExternalTemperature, externalTemperature);
 
@@ -338,13 +338,13 @@ public class CPSUImpl extends BoilerImpl implements ICPSU {
 		// then in SAP the high rate fraction is taken to be (on peak) / (total = hw + space)
 		// because we are doing watts rather than kWh, and num days is thus not present in any of the parts of the equation
 		// we can just use
-		
+
 		// DD1 * H = watt days for 1 day / 1 day = watts
-		
+
 		final double peakEnergy = degreeDays * specificHeatLoss;
-		
+
 		final double highRateFraction = peakEnergy / (hotWaterPower + spacePower);
-		
+
 		return highRateFraction;
 	}
 
@@ -370,20 +370,20 @@ public class CPSUImpl extends BoilerImpl implements ICPSU {
 		if (store != getStore()) {
 			log.error("CPSU should not be used with an external storage tank!");
 		}
-		
+
 		final IConstants constants = parameters.getConstants();
 		if (getFuel() == FuelType.ELECTRICITY) {
 			return constants.get(CylinderConstants.TEMPERATURE_FACTOR_ELECTRIC_CPSU);
 		} else {
 			final double result = constants.get(CylinderConstants.TEMPERATURE_FACTOR_GAS_CPSU);
-		
+
 			// TODO multiply by 0.81 if there is a timer
 			// TODO multiply by 1.1 if not in airing cupboard
-			
+
 			return result;
 		}
 	}
-	
+
 	@Override
 	public double getContainedTankLosses(final IInternalParameters parameters) {
 		final IWaterTank store = getStore();

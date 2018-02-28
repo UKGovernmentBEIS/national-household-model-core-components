@@ -150,7 +150,7 @@ public class AnnualizedEnergyCalculator {
 		}
 
 
-		final IEnergyCalculationResult[] results = calculator.evaluate(surveyCase, parameters, seasons);
+		final IEnergyCalculationResult[] results = calculator.evaluate(surveyCase, parameters, seasons).getResults();
 		int month = 0;
 		for (final IEnergyCalculationResult result : results) {
 			final IEnergyState es = result.getEnergyState();

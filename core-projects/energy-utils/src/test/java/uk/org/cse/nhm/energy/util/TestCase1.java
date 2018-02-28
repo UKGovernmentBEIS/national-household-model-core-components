@@ -233,7 +233,7 @@ public class TestCase1 {
 
 		final IEnergyCalculator calc = new EnergyCalculatorCalculator();
 
-		final IEnergyCalculationResult state = calc.evaluate(sc, parameters, new ISeasonalParameters[] {climate})[0];
+		final IEnergyCalculationResult state = calc.evaluate(sc, parameters, new ISeasonalParameters[] {climate}).getResults()[0];
 
 		final ISpecificHeatLosses heatLosses = state.getHeatLosses();
 

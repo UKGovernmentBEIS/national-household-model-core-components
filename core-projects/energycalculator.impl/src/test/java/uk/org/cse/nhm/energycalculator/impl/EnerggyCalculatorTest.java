@@ -164,7 +164,7 @@ public class EnerggyCalculatorTest {
 		when(climate.getSiteWindSpeed()).thenReturn(4d);
 		when(houseCase.getHouseVolume()).thenReturn(100d);
 		when(houseCase.getFloorArea()).thenReturn(100d);
-		when(infiltration.getAirChangeRate(houseCase, parameters)).thenReturn(100d);
+		when(infiltration.getAirChangeRate()).thenReturn(100d);
 
 		final ISpecificHeatLosses heatLosses = calc.calculateSpecificHeatLosses(houseCase, parameters, 0d,0d,0d, infiltration, ventilationSystems);
 
@@ -189,7 +189,7 @@ public class EnerggyCalculatorTest {
 
 		when(houseCase.getHouseVolume()).thenReturn(0d); //force ventilation loss to be zero
 		when(houseCase.getFloorArea()).thenReturn(100d);
-		when(infiltration.getAirChangeRate(houseCase, parameters)).thenReturn(0d);
+		when(infiltration.getAirChangeRate()).thenReturn(0d);
 
 		final ISpecificHeatLosses heatLosses = calc.calculateSpecificHeatLosses(houseCase, parameters,
 				10, 20, 0,
@@ -216,7 +216,7 @@ public class EnerggyCalculatorTest {
 		when(climate.getSiteWindSpeed()).thenReturn(4d);
 		when(houseCase.getHouseVolume()).thenReturn(100d);
 		when(houseCase.getFloorArea()).thenReturn(100d);
-		when(infiltration.getAirChangeRate(houseCase, parameters)).thenReturn(0d);
+		when(infiltration.getAirChangeRate()).thenReturn(0d);
 
 		final ISpecificHeatLosses heatLosses = calc.calculateSpecificHeatLosses(houseCase, parameters,0,0,0, infiltration, ventilationSystems);
 
@@ -248,7 +248,7 @@ public class EnerggyCalculatorTest {
 
 		when(houseCase.getHouseVolume()).thenReturn(100d);
 		when(houseCase.getFloorArea()).thenReturn(100d);
-		when(infiltration.getAirChangeRate(houseCase, parameters)).thenReturn(0d);
+		when(infiltration.getAirChangeRate()).thenReturn(0d);
 
 		final ISpecificHeatLosses heatLosses = calc.calculateSpecificHeatLosses(houseCase, parameters,
 				0,0,0,

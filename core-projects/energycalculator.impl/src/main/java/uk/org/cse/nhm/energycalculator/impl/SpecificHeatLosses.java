@@ -6,7 +6,7 @@ import org.pojomatic.annotations.Property;
 
 import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
 import uk.org.cse.nhm.energycalculator.api.StepRecorder;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculationStep;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 
 @AutoProperty
 public class SpecificHeatLosses implements ISpecificHeatLosses {
@@ -17,6 +17,8 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
 	public final double ventilationLoss;
 	public final double thermalBridgeEffect;
     public final double airChangeRate;
+    private final double specificHeatLoss;
+    private final double heatLossParameter;
 
     public SpecificHeatLosses(final double fabricLoss,
                               final double interzoneHeatLoss,
@@ -35,10 +37,7 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
 
 		StepRecorder.recordStep(EnergyCalculationStep.ThermalBridges, thermalBridgeEffect);
 		StepRecorder.recordStep(EnergyCalculationStep.VentilationHeatLoss, ventilationLoss);
-	}
 
-	@Override
-    public double getSpecificHeatLoss() {
         /*
         BEISDOC
         NAME: Total fabric heat loss
@@ -67,19 +66,9 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
         ID: specific-heat-loss
         CODSIEB
         */
-		double heatLossCoefficient = totalFabricHeatLoss + ventilationLoss;
-		StepRecorder.recordStep(EnergyCalculationStep.HeatTransferCoefficient, heatLossCoefficient);
-		return heatLossCoefficient;
-	}
+        specificHeatLoss = totalFabricHeatLoss + ventilationLoss;
+        StepRecorder.recordStep(EnergyCalculationStep.HeatTransferCoefficient, specificHeatLoss);
 
-	@Override
-	public double getInterzoneHeatLoss() {
-		return interzoneHeatLoss;
-	}
-
-	@Override
-	@Property
-    public double getHeatLossParameter() {
         /*
         BEISDOC
         NAME: Heat loss parameter
@@ -94,8 +83,23 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
         ID: heat-loss-parameter
         CODSIEB
         */
-        final double heatLossParameter = getSpecificHeatLoss() / floorArea;
+        heatLossParameter = getSpecificHeatLoss() / floorArea;
         StepRecorder.recordStep(EnergyCalculationStep.HeatLossParameter, heatLossParameter);
+	}
+
+	@Override
+    public double getSpecificHeatLoss() {
+		return specificHeatLoss;
+	}
+
+	@Override
+	public double getInterzoneHeatLoss() {
+		return interzoneHeatLoss;
+	}
+
+	@Override
+	@Property
+    public double getHeatLossParameter() {
         return heatLossParameter;
     }
 

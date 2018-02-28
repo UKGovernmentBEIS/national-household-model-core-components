@@ -1,7 +1,7 @@
 package uk.org.cse.nhm.energycalculator.impl.gains;
 
 import uk.org.cse.nhm.energycalculator.api.*;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculationStep;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.TransducerPhaseType;
@@ -9,7 +9,7 @@ import uk.org.cse.nhm.energycalculator.constants.EnergyCalculatorConstants;
 
 /**
  * A gizmo which provides metabolic gains.
- * 
+ *
  * @author hinton
  *
  */
@@ -19,7 +19,7 @@ public class EvaporativeGainsSource implements IEnergyTransducer {
 	public EvaporativeGainsSource(final IConstants constants) {
 		EVAPORATION_GAINS_PER_PERSON = constants.get(EnergyCalculatorConstants.EVAPORATION_GAINS_PER_PERSON);
 	}
-	
+
 	@Override
 	public ServiceType getServiceType() {
 		return ServiceType.INTERNALS;
@@ -50,12 +50,12 @@ public class EvaporativeGainsSource implements IEnergyTransducer {
 	public int getPriority() {
 		return 0;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Evaporation";
 	}
-	
+
 	@Override
 	public TransducerPhaseType getPhase() {
 		return TransducerPhaseType.Gains;

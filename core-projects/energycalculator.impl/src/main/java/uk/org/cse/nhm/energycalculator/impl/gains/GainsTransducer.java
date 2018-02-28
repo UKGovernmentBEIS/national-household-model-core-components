@@ -1,8 +1,7 @@
 package uk.org.cse.nhm.energycalculator.impl.gains;
 
-import com.sun.org.apache.xerces.internal.impl.xpath.XPath;
 import uk.org.cse.nhm.energycalculator.api.*;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculationStep;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.TransducerPhaseType;
@@ -18,7 +17,7 @@ public class GainsTransducer implements IEnergyTransducer {
 		HOT_WATER_USE_USEFULNESS = constants.get(GainsConstants.HOT_WATER_DIRECT_GAINS);
 		HOT_WATER_PIPEWORK_USEFULNESS = constants.get(GainsConstants.HOT_WATER_SYSTEM_GAINS);
 	}
-	
+
 	@Override
 	public ServiceType getServiceType() {
 		return ServiceType.INTERNALS;
@@ -33,7 +32,7 @@ public class GainsTransducer implements IEnergyTransducer {
 		final double lightingGains = state.getTotalSupply(EnergyType.GainsLIGHTING_GAINS);
 		final double applianceGains = state.getTotalSupply(EnergyType.GainsAPPLIANCE_GAINS);
 		final double cookingGains = state.getTotalSupply(EnergyType.GainsCOOKING_GAINS);
-		
+
 		/*
 		BEISDOC
 		NAME: Pump and fan gains
@@ -47,7 +46,7 @@ public class GainsTransducer implements IEnergyTransducer {
 		CODSIEB
 		*/
 		final double pumpGains = state.getTotalSupply(EnergyType.GainsPUMP_AND_FAN_GAINS);
-		
+
 		final double hotWaterGains = state.getTotalSupply(EnergyType.GainsHOT_WATER_USAGE_GAINS);
 		final double hotWaterGains2 = state.getTotalSupply(EnergyType.GainsHOT_WATER_SYSTEM_GAINS);
 		final double solarGains = state.getTotalSupply(EnergyType.GainsSOLAR_GAINS);
@@ -108,6 +107,7 @@ public class GainsTransducer implements IEnergyTransducer {
 		StepRecorder.recordStep(EnergyCalculationStep.Gains_Internal, usefulInternalGains);
 
 		state.increaseDemand(EnergyType.GainsSOLAR_GAINS, solarGains);
+		StepRecorder.recordStep(EnergyCalculationStep.Gains_Solar, solarGains);
 
 		/*
 		BEISDOC
@@ -132,12 +132,12 @@ public class GainsTransducer implements IEnergyTransducer {
 	public TransducerPhaseType getPhase() {
 		return TransducerPhaseType.Gains;
 	}
-	
+
 	@Override
 	public int getPriority() {
 		return 0;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Gains (internals)";

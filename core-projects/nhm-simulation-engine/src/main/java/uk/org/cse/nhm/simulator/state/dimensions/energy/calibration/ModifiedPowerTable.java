@@ -3,6 +3,7 @@ package uk.org.cse.nhm.simulator.state.dimensions.energy.calibration;
 import java.util.List;
 import java.util.Set;
 
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.simulator.state.dimensions.energy.IPowerTable;
@@ -10,13 +11,13 @@ import uk.org.cse.nhm.simulator.state.dimensions.energy.IPowerTable;
 public class ModifiedPowerTable implements IPowerTable {
 	private final IPowerTable delegate;
 	private final Set<ServiceType> services;
-	
+
 	ModifiedPowerTable(final IPowerTable delegate, final Set<ServiceType> services) {
 		super();
 		this.delegate = delegate;
 		this.services = services;
 	}
-	
+
 	public static IPowerTable excludingEnergyServices(final IPowerTable delegate, final Set<ServiceType> services) {
 		return new ModifiedPowerTable(delegate, services);
 	}
@@ -29,7 +30,7 @@ public class ModifiedPowerTable implements IPowerTable {
 			return delegate.getFuelUseByEnergyService(es, ft);
 		}
 	}
-	
+
 
 	@Override
 	public float getFuelUseByEnergyService(List<ServiceType> es, FuelType ft) {
@@ -70,19 +71,19 @@ public class ModifiedPowerTable implements IPowerTable {
     public float getAirChangeRate() {
         return delegate.getAirChangeRate();
     }
-    
+
     @Override
     public float getWeightedHeatLoad(double[] weights, boolean space, boolean water) {
     	return delegate.getWeightedHeatLoad(weights, space, water);
     }
-    
+
 	@Override
 	public float getPowerByFuel(final FuelType ft) {
 		float remove = 0;
 		for (final ServiceType st : services) {
 			remove += delegate.getFuelUseByEnergyService(st, ft);
 		}
-		
+
 		return delegate.getPowerByFuel(ft) - remove;
 	}
 
@@ -99,5 +100,15 @@ public class ModifiedPowerTable implements IPowerTable {
 	@Override
 	public float getHotWaterDemand() {
 		return delegate.getHotWaterDemand();
+	}
+
+	@Override
+	public double readStepAnnual(EnergyCalculationStep step) {
+		return delegate.readStepAnnual(step);
+	}
+
+	@Override
+	public double readStepMonthly(EnergyCalculationStep step, int month) {
+		return delegate.readStepMonthly(step, month);
 	}
 }

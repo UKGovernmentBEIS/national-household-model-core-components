@@ -2,6 +2,7 @@ package uk.org.cse.nhm.simulator.state.dimensions.energy.calibration;
 
 import java.util.List;
 
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.simulator.state.dimensions.energy.IPowerTable;
@@ -19,7 +20,7 @@ public class CalibratedPowerTable implements IPowerTable {
 	public float getFuelUseByEnergyService(final ServiceType es, final FuelType ft) {
 		final float calibratedPowerByFuel = getPowerByFuel(ft);
 		final float uncalibratedPowerByFuel = uncal.getPowerByFuel(ft);
-		
+
 		if (calibratedPowerByFuel == 0) {
 			return 0f;
 		} else if (uncalibratedPowerByFuel == 0) {
@@ -29,7 +30,7 @@ public class CalibratedPowerTable implements IPowerTable {
 					* (calibratedPowerByFuel / uncalibratedPowerByFuel);
 		}
  	}
-	
+
 
 	@Override
 	public float getFuelUseByEnergyService(List<ServiceType> es, FuelType ft) {
@@ -59,7 +60,7 @@ public class CalibratedPowerTable implements IPowerTable {
     public float getThermalBridgingHeatLoss() {
         return uncal.getThermalBridgingHeatLoss();
     }
-	
+
 	@Override
 	public float getMeanInternalTemperature() {
 		return uncal.getMeanInternalTemperature();
@@ -74,7 +75,7 @@ public class CalibratedPowerTable implements IPowerTable {
     public float getWeightedHeatLoad(double[] weights, boolean space, boolean water) {
     	return uncal.getWeightedHeatLoad(weights, space, water);
     }
-    
+
 	@Override
 	public float getPowerByFuel(final FuelType ft) {
 		return cal[ft.ordinal()];
@@ -94,4 +95,14 @@ public class CalibratedPowerTable implements IPowerTable {
 	public float getHotWaterDemand() {
 		return uncal.getHotWaterDemand();
 	}
+
+    @Override
+    public double readStepAnnual(EnergyCalculationStep step) {
+        return uncal.readStepAnnual(step);
+    }
+
+    @Override
+    public double readStepMonthly(EnergyCalculationStep step, int month) {
+        return uncal.readStepMonthly(step, month);
+    }
 }

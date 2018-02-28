@@ -15,27 +15,15 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 
-import uk.org.cse.nhm.energycalculator.api.IConstants;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculationResult;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculator;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorHouseCase;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
-import uk.org.cse.nhm.energycalculator.api.IEnergyState;
-import uk.org.cse.nhm.energycalculator.api.IHeatingSchedule;
-import uk.org.cse.nhm.energycalculator.api.ISeasonalParameters;
-import uk.org.cse.nhm.energycalculator.api.IWeather;
+import uk.org.cse.nhm.energycalculator.api.*;
 import uk.org.cse.nhm.energycalculator.api.impl.BredemExternalParameters;
 import uk.org.cse.nhm.energycalculator.api.impl.DailyHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.impl.SAPExternalParameters;
-import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
-import uk.org.cse.nhm.energycalculator.api.types.MonthType;
+import uk.org.cse.nhm.energycalculator.api.types.*;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.impl.BredemSeasonalParameters;
 import uk.org.cse.nhm.energycalculator.impl.SAPSeasonalParameters;
-import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
-import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
 import uk.org.cse.nhm.hom.BasicCaseAttributes;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
@@ -44,7 +32,6 @@ import uk.org.cse.nhm.hom.people.People;
 import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.simulator.state.dimensions.FuelServiceTable;
 import uk.org.cse.nhm.simulator.state.dimensions.behaviour.IHeatingBehaviour;
-import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
 
 /**
  * Glue that runs a energy calculator from within the simulator.
@@ -75,8 +62,14 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
         private final float hotWaterDemand;
         private final float primaryHeatDemand;
         private final float secondaryHeatDemand;
+        private final IEnergyCalculationSteps intermediateSteps;
 
-        Result(final IEnergyCalculationResult[] months) {
+        Result(final IEnergyCalculationResultWithSteps resultWithSteps) {
+            this(resultWithSteps.getResults(), resultWithSteps.getSteps());
+        }
+
+        Result(final IEnergyCalculationResult[] months, IEnergyCalculationSteps intermediateSteps) {
+            this.intermediateSteps = intermediateSteps;
             float specificHeatLoss = 0;
             float fabricHeatLoss = 0;
             float ventilationHeatLoss = 0;
@@ -231,7 +224,17 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 		public float getHotWaterDemand() {
 			return hotWaterDemand;
 		}
-	}
+
+        @Override
+        public double readStepAnnual(EnergyCalculationStep step) {
+            return intermediateSteps.readStepAnnual(step);
+        }
+
+        @Override
+        public double readStepMonthly(EnergyCalculationStep step, int month) {
+            return intermediateSteps.readStepMonthly(step, month);
+        }
+    }
 
 	@AutoProperty
 	private static class Wrapper implements IEnergyCalculatorHouseCase {

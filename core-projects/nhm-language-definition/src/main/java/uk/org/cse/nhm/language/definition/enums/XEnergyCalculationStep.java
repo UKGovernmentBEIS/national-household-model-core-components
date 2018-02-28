@@ -14,6 +14,36 @@ import uk.org.cse.nhm.language.definition.Doc;
 @Category(CategoryType.CATEGORIES)
 public enum XEnergyCalculationStep {
     @Doc({
+            "SAP 2012 worksheet cell (1a) in section Dimensions.",
+            "Annual.",
+            "MetresSquared"
+    })
+    FloorArea_Basement,
+    @Doc({
+            "SAP 2012 worksheet cell (1b) in section Dimensions.",
+            "Annual.",
+            "MetresSquared"
+    })
+    FloorArea_Ground,
+    @Doc({
+            "SAP 2012 worksheet cell (1c) in section Dimensions.",
+            "Annual.",
+            "MetresSquared"
+    })
+    FloorArea_First,
+    @Doc({
+            "SAP 2012 worksheet cell (1d) in section Dimensions.",
+            "Annual.",
+            "MetresSquared"
+    })
+    FloorArea_Second,
+    @Doc({
+            "SAP 2012 worksheet cell (1e) in section Dimensions.",
+            "Annual.",
+            "MetresSquared"
+    })
+    FloorArea_Third_and_Above,
+    @Doc({
             "SAP 2012 worksheet cell (4) in section Dimensions.",
             "Annual.",
             "MetresSquared"

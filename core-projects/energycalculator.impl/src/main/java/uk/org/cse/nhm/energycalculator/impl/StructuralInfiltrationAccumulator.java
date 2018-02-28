@@ -7,7 +7,7 @@ import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorHouseCase;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.StepRecorder;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculationStep;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.constants.EnergyCalculatorConstants;
 
 /**
@@ -29,7 +29,7 @@ public class StructuralInfiltrationAccumulator implements IStructuralInfiltratio
      */
     private double maximumWallArea = 0;
 
-    /**
+ /**
      * The air change rate associated with the largest wall, in ACH/hr
      */
     private double wallAirChangeRate = 0;
@@ -62,6 +62,7 @@ public class StructuralInfiltrationAccumulator implements IStructuralInfiltratio
      */
     private final double ventInfiltrationRate = 10;
     private double totalVentInfiltration = 0;
+    private Double airChangeRate;
 
 
     public StructuralInfiltrationAccumulator(final IConstants constants) {
@@ -73,6 +74,108 @@ public class StructuralInfiltrationAccumulator implements IStructuralInfiltratio
         chimneyVentilation = constants.get(EnergyCalculatorConstants.CHIMNEY_VENTILATION_RATE);
     }
 
+    @Override
+    public double getAirChangeRate() {
+        if (airChangeRate == null) {
+            throw new IllegalStateException("calculateAirChangeRate should be called before getAirChangeRate.");
+        }
+
+        return airChangeRate;
+    }
+
+    /* (non-Javadoc)
+     * @see uk.org.cse.nhm.energycalculator.impl.IStructuralInfiltrationAccumulator#addWallInfiltration(double, double)
+     */
+    @Override
+    public void addWallInfiltration(final double wallArea, final double airChangeRate) {
+        if (airChangeRate == 0) {
+            if (log.isTraceEnabled()) log.trace("Ignoring zero-infiltration wall, assuming it is a party wall");
+            return;
+        }
+        if (log.isTraceEnabled()) log.trace("Adding {} ach/hr of wall infiltration", airChangeRate);
+
+		/*
+		BEISDOC
+		ID: wall-air-changes
+		NAME: Structural infiltration
+		DESCRIPTION: Having a particular type of wall contributes some air changes to the total air change rate. The largest wall breaks ties
+		TYPE: formula
+		UNIT: ach/h
+		SAP: (11)
+		BREDEM: Table 19
+		DEPS: external-wall-area
+		NOTES: TODO Bredem specifies that this should be an area-weighted average.
+		CODSIEB
+		*/
+
+        if (wallArea > maximumWallArea) {
+            maximumWallArea = wallArea;
+            wallAirChangeRate = airChangeRate;
+        } else if (wallArea == maximumWallArea && airChangeRate > wallAirChangeRate) {
+            wallAirChangeRate = airChangeRate;
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see uk.org.cse.nhm.energycalculator.impl.IStructuralInfiltrationAccumulator#addVentInfiltration(double)
+     */
+    @Override
+    public void addVentInfiltration(final int vents) {
+        final double infiltrationRate = vents * ventInfiltrationRate;
+
+        if (log.isTraceEnabled())
+            log.trace("Adding {} m3/hr of vent infiltration for {} passive vents", infiltrationRate, vents);
+        totalVentInfiltration += infiltrationRate;
+    }
+
+    @Override
+    public void addFlueInfiltration() {
+        if (log.isTraceEnabled()) log.trace("Adding {} m3/hr of open flue infiltration", openFlueVentilation);
+        totalOpenFlueVentilation += openFlueVentilation;
+
+    }
+
+    @Override
+    public void addChimneyInfiltration() {
+        if (log.isTraceEnabled()) log.trace("Adding {} m3/hr of chimney infiltration", chimneyVentilation);
+        totalChimneyVentilation += chimneyVentilation;
+
+    }
+
+    /* (non-Javadoc)
+     * @see uk.org.cse.nhm.energycalculator.impl.IStructuralInfiltrationAccumulator#addFloorInfiltration(double, double)
+     */
+    @Override
+    public void addFloorInfiltration(double airChangeRate) {
+        if (log.isTraceEnabled()) log.trace("Adding {} ach/hr of floor infiltration", airChangeRate);
+		/*
+		BEISDOC
+		NAME: Floor Infiltration
+		DESCRIPTION: Infiltration due to suspended timber floor
+		TYPE: formula
+		UNIT: m^3/h
+		SAP: (12)
+		BREDEM: Table 19
+		SET: =action.reset-floors=
+		NOTES: In SAP 2012 mode, this will always use the values from the SAP table, and will ignore any values from action.reset-floors.
+		ID: floor-infiltration
+		CODSIEB
+		*/
+
+        floorAirChangeRate += airChangeRate;
+    }
+
+    /* (non-Javadoc)
+     * @see uk.org.cse.nhm.energycalculator.impl.IStructuralInfiltrationAccumulator#addFanInfiltration(double)
+     */
+    @Override
+    public void addFanInfiltration(int fans) {
+        final double infiltrationRate = fanInfiltrationRate * fans;
+
+        if (log.isTraceEnabled()) log.trace("Adding {} m3/hr of fan infiltration from {} fans", infiltrationRate);
+        totalFanInfiltration += infiltrationRate;
+    }
+
     /**
      * @assumption Infiltration rates are processed in the manner suggested by
      * SAP-09, as it has the clearest specification. Specifically,
@@ -80,7 +183,7 @@ public class StructuralInfiltrationAccumulator implements IStructuralInfiltratio
      * there are several largest walls.
      */
     @Override
-    public double getAirChangeRate(final IEnergyCalculatorHouseCase house, final IEnergyCalculatorParameters parameters) {
+    public void calculateAirChangeRate(final IEnergyCalculatorHouseCase house, final IEnergyCalculatorParameters parameters) {
         final double volume = house.getHouseVolume();
 
         StepRecorder.recordStep(EnergyCalculationStep.ChimneyVentilation, totalChimneyVentilation);
@@ -202,11 +305,11 @@ public class StructuralInfiltrationAccumulator implements IStructuralInfiltratio
                         floorAirChangeRate +
                         absenceOfDraughtLobby +
                         stackEffect;
-		
+
 		/*
 		BEISDOC
 		NAME: Total infiltration rate
-		DESCRIPTION: The sum of deliberate ventilation and passive infiltration. 
+		DESCRIPTION: The sum of deliberate ventilation and passive infiltration.
 		TYPE: formula
 		UNIT: ach/h
 		SAP: (16,18)
@@ -215,104 +318,9 @@ public class StructuralInfiltrationAccumulator implements IStructuralInfiltratio
 		ID: total-infiltration
 		CODSIEB
 		*/
-		final double result = unforcedAirChanges + deliberateAirChanges;
+        airChangeRate = unforcedAirChanges + deliberateAirChanges;
 
-		StepRecorder.recordStep(EnergyCalculationStep.InfiltrationRate_Initial, result);
-        StepRecorder.recordStep(EnergyCalculationStep.InfiltrationRateMaybePressureTest, result); // Since we never use the pressure test.
-
-        return result;
-    }
-
-    /* (non-Javadoc)
-     * @see uk.org.cse.nhm.energycalculator.impl.IStructuralInfiltrationAccumulator#addWallInfiltration(double, double)
-     */
-    @Override
-    public void addWallInfiltration(final double wallArea, final double airChangeRate) {
-        if (airChangeRate == 0) {
-            if (log.isTraceEnabled()) log.trace("Ignoring zero-infiltration wall, assuming it is a party wall");
-            return;
-        }
-        if (log.isTraceEnabled()) log.trace("Adding {} ach/hr of wall infiltration", airChangeRate);
-		
-		/*
-		BEISDOC
-		ID: wall-air-changes
-		NAME: Structural infiltration
-		DESCRIPTION: Having a particular type of wall contributes some air changes to the total air change rate. The largest wall breaks ties
-		TYPE: formula
-		UNIT: ach/h
-		SAP: (11)
-		BREDEM: Table 19
-		DEPS: external-wall-area
-		NOTES: TODO Bredem specifies that this should be an area-weighted average.
-		CODSIEB
-		*/
-
-        if (wallArea > maximumWallArea) {
-            maximumWallArea = wallArea;
-            wallAirChangeRate = airChangeRate;
-        } else if (wallArea == maximumWallArea && airChangeRate > wallAirChangeRate) {
-            wallAirChangeRate = airChangeRate;
-        }
-    }
-
-    /* (non-Javadoc)
-     * @see uk.org.cse.nhm.energycalculator.impl.IStructuralInfiltrationAccumulator#addVentInfiltration(double)
-     */
-    @Override
-    public void addVentInfiltration(final int vents) {
-        final double infiltrationRate = vents * ventInfiltrationRate;
-
-        if (log.isTraceEnabled())
-            log.trace("Adding {} m3/hr of vent infiltration for {} passive vents", infiltrationRate, vents);
-        totalVentInfiltration += infiltrationRate;
-    }
-
-    @Override
-    public void addFlueInfiltration() {
-        if (log.isTraceEnabled()) log.trace("Adding {} m3/hr of open flue infiltration", openFlueVentilation);
-        totalOpenFlueVentilation += openFlueVentilation;
-
-    }
-
-    @Override
-    public void addChimneyInfiltration() {
-        if (log.isTraceEnabled()) log.trace("Adding {} m3/hr of chimney infiltration", chimneyVentilation);
-        totalChimneyVentilation += chimneyVentilation;
-
-    }
-
-    /* (non-Javadoc)
-     * @see uk.org.cse.nhm.energycalculator.impl.IStructuralInfiltrationAccumulator#addFloorInfiltration(double, double)
-     */
-    @Override
-    public void addFloorInfiltration(double airChangeRate) {
-        if (log.isTraceEnabled()) log.trace("Adding {} ach/hr of floor infiltration", airChangeRate);
-		/*
-		BEISDOC
-		NAME: Floor Infiltration
-		DESCRIPTION: Infiltration due to suspended timber floor
-		TYPE: formula
-		UNIT: m^3/h
-		SAP: (12)
-		BREDEM: Table 19
-		SET: =action.reset-floors=
-		NOTES: In SAP 2012 mode, this will always use the values from the SAP table, and will ignore any values from action.reset-floors.
-		ID: floor-infiltration
-		CODSIEB
-		*/
-
-        floorAirChangeRate += airChangeRate;
-    }
-
-    /* (non-Javadoc)
-     * @see uk.org.cse.nhm.energycalculator.impl.IStructuralInfiltrationAccumulator#addFanInfiltration(double)
-     */
-    @Override
-    public void addFanInfiltration(int fans) {
-        final double infiltrationRate = fanInfiltrationRate * fans;
-
-        if (log.isTraceEnabled()) log.trace("Adding {} m3/hr of fan infiltration from {} fans", infiltrationRate);
-        totalFanInfiltration += infiltrationRate;
+        StepRecorder.recordStep(EnergyCalculationStep.InfiltrationRate_Initial, airChangeRate);
+        StepRecorder.recordStep(EnergyCalculationStep.InfiltrationRateMaybePressureTest, airChangeRate); // Since we never use the pressure test.
     }
 }

@@ -12,7 +12,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
 import uk.org.cse.nhm.energycalculator.api.StepRecorder;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculationStep;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.hom.constants.CylinderConstants;
 import uk.org.cse.nhm.hom.emf.technologies.IImmersionHeater;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
@@ -207,7 +207,7 @@ public class WaterTankImpl extends MinimalEObjectImpl implements IWaterTank {
 	BREDEM: Input
 	STOCK: water-heating.csv (cylinderfactoryinsulated)
 	ID: cylinder-insulation-type
-	CODSIEB	 
+	CODSIEB
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -346,19 +346,19 @@ public class WaterTankImpl extends MinimalEObjectImpl implements IWaterTank {
 
 	/**
 	 * Get the standing losses in watts for the cylinder.
-	 * 
+	 *
 	 * This does not take account of SAP Table 2b, the temperature factor, because the tank does not
-	 * have enough information to determine the value correctly. 
-	 * 
+	 * have enough information to determine the value correctly.
+	 *
 	 * Instead, it is the responsibility of the central water heating system and the boiler together.
-	 * 
+	 *
 	 * @generated Not generated any more!
 	 */
 	@Override
 	public double getStandingLosses(final IInternalParameters parameters) {
 		/*
 		BEISDOC
-		NAME: Tank Storage Losses 
+		NAME: Tank Storage Losses
 		DESCRIPTION: Storage losses for a hot water cylinder. Excludes volume used for solar hot water.
 		TYPE: formula
 		UNIT: W
@@ -366,7 +366,7 @@ public class WaterTankImpl extends MinimalEObjectImpl implements IWaterTank {
 		BREDEM: 2.2B
 		DEPS: cylinder-loss-factor,storage-temperature-factor,volume-factor,cylinder-volume,solar-store-effective-volume
 		NOTES: Storage losses apply to system water tanks, CPSU water tanks, and storage combi water tanks.
-		NOTES: Storage-combi water tanks are excluded if its efficiency numbers are the SAP defaults, and included if they are the manufacturers declared efficiencies.  
+		NOTES: Storage-combi water tanks are excluded if its efficiency numbers are the SAP defaults, and included if they are the manufacturers declared efficiencies.
 		ID: tank-losses
 		CODSIEB
 		*/
@@ -379,7 +379,7 @@ public class WaterTankImpl extends MinimalEObjectImpl implements IWaterTank {
 		StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_StorageVolume, getVolume());
 		StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_StorageLossFactor, lossFactor);
 		StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_StorageVolumeFactor, volumeFactor);
-		
+
 		if (getSolarStorageVolume() > 0) {
 			return standardLoss * ((getVolume() - getSolarStorageVolume()) / getVolume());
 		} else {
@@ -532,7 +532,7 @@ public class WaterTankImpl extends MinimalEObjectImpl implements IWaterTank {
 		result.append(')');
 		return result.toString();
 	}
-	
+
 	/**
 	 * Calculate cylinder volume factor, in accordance with SAP 2009 Table 2a
 	 * @param constants
@@ -572,7 +572,7 @@ public class WaterTankImpl extends MinimalEObjectImpl implements IWaterTank {
 		DEPS: cylinder-loss-constant,cylinder-loss-loose-jacket-terms,cylinder-loss-factory-foam-terms,cylinder-insulation-type
 		NOTES: Both SAP and BREDEM specify that CPSU cylinder loss factor should always be 0.022. This is not implemented in the NHM.
 		CONVERSION: In SAP and BREDEM this is in kWh/litre/day. In the NHM it is scaled to W/litre.
-		
+
 		ID: cylinder-loss-factor
 		CODSIEB
 		*/
@@ -582,10 +582,10 @@ public class WaterTankImpl extends MinimalEObjectImpl implements IWaterTank {
 		} else {
 			terms = constants.get(CylinderConstants.LOOSE_JACKET_FACTORS, double[].class);
 		}
-		
+
 		return constants.get(CylinderConstants.LOSS_FACTOR_CONSTANT_TERM) +
 				terms[0] / (getInsulation() + terms[1]);
 	}
-	
+
 
 } //WaterTankImpl

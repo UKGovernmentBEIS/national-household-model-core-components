@@ -214,7 +214,7 @@ public class TestCase2 {
 				return new GraphvizEnergyState(new ClassEnergyState());
 			}
 		});
-		final IEnergyCalculationResult energyCalculationResult = calc.evaluate(sc, ep, new ISeasonalParameters[] {climate})[0];
+		final IEnergyCalculationResult energyCalculationResult = calc.evaluate(sc, ep, new ISeasonalParameters[] {climate}).getResults()[0];
 		final IEnergyState energyState = energyCalculationResult.getEnergyState();
 
 		if (energyState instanceof GraphvizEnergyState) {

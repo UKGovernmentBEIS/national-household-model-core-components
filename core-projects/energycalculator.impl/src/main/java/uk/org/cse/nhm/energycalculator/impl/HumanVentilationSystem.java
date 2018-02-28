@@ -3,7 +3,7 @@ package uk.org.cse.nhm.energycalculator.impl;
 import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IVentilationSystem;
 import uk.org.cse.nhm.energycalculator.api.StepRecorder;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculationStep;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 
 /**
  * This is a special {@link IVentilationSystem} which implements BREDEM 7.2.3, Occupant Ventilation.

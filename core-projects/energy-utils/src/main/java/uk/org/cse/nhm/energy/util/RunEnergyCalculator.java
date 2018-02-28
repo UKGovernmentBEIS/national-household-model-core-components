@@ -61,7 +61,7 @@ public class RunEnergyCalculator {
             		in.getPeople().getNumberOfPeople()
         		);
 
-            final IEnergyCalculationResult x = calc.evaluate(in, parameters, new ISeasonalParameters[] {climate})[0];
+            final IEnergyCalculationResult x = calc.evaluate(in, parameters, new ISeasonalParameters[] {climate}).getResults()[0];
 
             for (final EnergyType et : EnergyType.values()) {
             	System.out.println(String.format("%s\t%s\t%s", et, x.getEnergyState().getTotalDemand(et),

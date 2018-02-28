@@ -1,6 +1,7 @@
 package uk.org.cse.nhm.energycalculator.impl;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -14,12 +15,15 @@ import uk.org.cse.nhm.energycalculator.api.impl.ClassEnergyState;
 import uk.org.cse.nhm.energycalculator.api.impl.DefaultConstants;
 import uk.org.cse.nhm.energycalculator.api.impl.GraphvizEnergyState;
 import uk.org.cse.nhm.energycalculator.api.types.*;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.constants.EnergyCalculatorConstants;
 import uk.org.cse.nhm.energycalculator.impl.appliances.Appliances09;
 import uk.org.cse.nhm.energycalculator.impl.demands.HotWaterDemand09;
 import uk.org.cse.nhm.energycalculator.impl.gains.EvaporativeGainsSource;
 import uk.org.cse.nhm.energycalculator.impl.gains.GainsTransducer;
 import uk.org.cse.nhm.energycalculator.impl.gains.MetabolicGainsSource;
+
+import static uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep.*;
 
 /**
  * An implementation of an EnergyCalculator. The main
@@ -186,7 +190,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 
         log.debug("Total thermal mass: {}", totalThermalMass);
 
-        final double structuralAirChangeRate = infiltration.getAirChangeRate(houseCase, parameters);
+        final double structuralAirChangeRate = infiltration.getAirChangeRate();
 
         /*
         BEISDOC
@@ -203,11 +207,14 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         CODSIEB
         */
         final double shelterFactor = 1 - (houseCase.getNumberOfShelteredSides() * SHELTERED_SIDES_EXPOSURE_FACTOR);
-        StepRecorder.recordStep(EnergyCalculationStep.SidesSheltered, houseCase.getNumberOfShelteredSides());
-        StepRecorder.recordStep(EnergyCalculationStep.ShelterFactor, shelterFactor);
+        StepRecorder.recordStep(SidesSheltered, houseCase.getNumberOfShelteredSides());
+        StepRecorder.recordStep(ShelterFactor, shelterFactor);
 
         final double structuralAirChangeRateIncludingShelter = structuralAirChangeRate * shelterFactor;
-        StepRecorder.recordStep(EnergyCalculationStep.InfiltrationRate_IncludingShelter, structuralAirChangeRateIncludingShelter);
+        StepRecorder.recordStep(InfiltrationRate_IncludingShelter, structuralAirChangeRateIncludingShelter);
+
+        final double windSpeed = parameters.getClimate().getSiteWindSpeed();
+        StepRecorder.recordStep(AverageWindSpeed, windSpeed);
 
         /*
         BEISDOC
@@ -223,14 +230,14 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         ID: wind-factor
         CODSIEB
         */
-        final double windFactor = (parameters.getClimate().getSiteWindSpeed() / WIND_FACTOR_DIVISOR) ;
-        StepRecorder.recordStep(EnergyCalculationStep.WindFactor, windFactor);
+        final double windFactor = (windSpeed / WIND_FACTOR_DIVISOR) ;
+        StepRecorder.recordStep(WindFactor, windFactor);
 
         final double structuralAirChangeRateIncludingShelterAndWind = structuralAirChangeRateIncludingShelter * windFactor;
-        StepRecorder.recordStep(EnergyCalculationStep.InfiltrationRate_IncludingShelterAndWind, structuralAirChangeRateIncludingShelterAndWind);
+        StepRecorder.recordStep(InfiltrationRate_IncludingShelterAndWind, structuralAirChangeRateIncludingShelterAndWind);
 
         final double siteExposureFactor = getSiteExposureFactor(houseCase, parameters);
-        StepRecorder.recordStep(EnergyCalculationStep.SiteExposureFactor, siteExposureFactor);
+        StepRecorder.recordStep(SiteExposureFactor, siteExposureFactor);
 
         /*
         BEISDOC
@@ -245,7 +252,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         CODSIEB
         */
         final double climateAdjustedAirChangeRate = structuralAirChangeRateIncludingShelterAndWind * siteExposureFactor;
-        StepRecorder.recordStep(EnergyCalculationStep.InfiltrationRate_IncludingShelterAndWindAndSiteExposure, climateAdjustedAirChangeRate);
+        StepRecorder.recordStep(InfiltrationRate_IncludingShelterAndWindAndSiteExposure, climateAdjustedAirChangeRate);
 
         double houseAirChangeRate = climateAdjustedAirChangeRate;
 
@@ -261,7 +268,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         log.debug("air change rates: {} {} {}", structuralAirChangeRate, climateAdjustedAirChangeRate,
                 houseAirChangeRate);
 
-        StepRecorder.recordStep(EnergyCalculationStep.AirChanges_Effective, houseAirChangeRate);
+        StepRecorder.recordStep(AirChanges_Effective, houseAirChangeRate);
 
         // CHM handles thermal bridging using a simple model, which we just add
         // in here; the simple model states
@@ -524,7 +531,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         final double utilisationFactorInZone1 = calculateGainsUtilisationFactor(Td1, Text, specificHeatLoss, totalGains,
                 utilisationFactorExponent);
 
-        StepRecorder.recordStep(EnergyCalculationStep.GainsUtilisation_LivingArea, utilisationFactorInZone1);
+        StepRecorder.recordStep(GainsUtilisation_LivingArea, utilisationFactorInZone1);
 
         /*
         BEISDOC
@@ -541,7 +548,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         final double utilisationFactorInZone2 = calculateGainsUtilisationFactor(Td2_2, Text, specificHeatLoss,
                 totalGains, utilisationFactorExponent);
 
-        StepRecorder.recordStep(EnergyCalculationStep.GainsUtilisation_RestOfDwelling, utilisationFactorInZone2);
+        StepRecorder.recordStep(GainsUtilisation_RestOfDwelling, utilisationFactorInZone2);
 
         final double deltaT = parameters.getConstants().get(EnergyCalculatorConstants.UNRESPONSIVE_HEATING_SYSTEM_DELTA_T);
 
@@ -649,36 +656,42 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
      * @return
      */
     @Override
-    public IEnergyCalculationResult[] evaluate(final IEnergyCalculatorHouseCase houseCase, final IEnergyCalculatorParameters eparameters,
+    public IEnergyCalculationResultWithSteps evaluate(final IEnergyCalculatorHouseCase houseCase, final IEnergyCalculatorParameters eparameters,
             final ISeasonalParameters[] climate) {
-        try (StepRecorder.Steps s = StepRecorder.record(EnumSet.allOf(EnergyCalculationStep.class))) {
+        try (final StepRecorder.Steps steps = StepRecorder.record(EnumSet.allOf(EnergyCalculationStep.class)
+                .stream()
+                .filter(step -> !step.isSkipped())
+                .collect(Collectors.toSet())
+
+        )) {
             final Visitor v = Visitor.create(constants, eparameters, houseCase.getBuildYear(), houseCase.getCountry(), defaultTransducers);
 
             houseCase.accept(constants, eparameters, v);
+            v.infiltration.calculateAirChangeRate(houseCase, eparameters);
             log.debug("visitor: {}", v);
 
-            StepRecorder.recordStep(EnergyCalculationStep.TotalFloorArea, houseCase.getFloorArea());
-            StepRecorder.recordStep(EnergyCalculationStep.DwellingVolume, houseCase.getHouseVolume());
-            StepRecorder.recordStep(EnergyCalculationStep.Storeys, houseCase.getNumberOfStoreys());
+            StepRecorder.recordStep(TotalFloorArea, houseCase.getFloorArea());
+            StepRecorder.recordStep(DwellingVolume, houseCase.getHouseVolume());
+            StepRecorder.recordStep(Storeys, houseCase.getNumberOfStoreys());
 
-            StepRecorder.recordStep(EnergyCalculationStep.HeatLossCoefficient_ExternalWall, v.areasByType[1][AreaType.ExternalWall.ordinal()]);
-            StepRecorder.recordStep(EnergyCalculationStep.HeatLossCoefficient_Roof, v.areasByType[1][AreaType.Glazing.ordinal()]);
-            StepRecorder.recordStep(EnergyCalculationStep.HeatLossCoefficient_Roof, v.areasByType[1][AreaType.ExternalCeiling.ordinal()]);
+            StepRecorder.recordStep(HeatLossCoefficient_ExternalWall, v.areasByType[1][AreaType.ExternalWall.ordinal()]);
+            StepRecorder.recordStep(HeatLossCoefficient_Window, v.areasByType[1][AreaType.Glazing.ordinal()]);
+            StepRecorder.recordStep(HeatLossCoefficient_Roof, v.areasByType[1][AreaType.ExternalCeiling.ordinal()]);
 
-            StepRecorder.recordStep(EnergyCalculationStep.AreaExternal, v.totalExternalArea);
-            StepRecorder.recordStep(EnergyCalculationStep.AreaPartyWall, v.areasByType[0][AreaType.PartyWall.ordinal()]);
-            StepRecorder.recordStep(EnergyCalculationStep.AreaPartyFloor, v.areasByType[0][AreaType.PartyFloor.ordinal()]);
-            StepRecorder.recordStep(EnergyCalculationStep.AreaPartyCeiling, v.areasByType[0][AreaType.PartyCeiling.ordinal()]);
-            StepRecorder.recordStep(EnergyCalculationStep.AreaInternalWall, v.areasByType[0][AreaType.InternalWall.ordinal()]);
+            StepRecorder.recordStep(AreaExternal, v.totalExternalArea);
+            StepRecorder.recordStep(AreaPartyWall, v.areasByType[0][AreaType.PartyWall.ordinal()]);
+            StepRecorder.recordStep(AreaPartyFloor, v.areasByType[0][AreaType.PartyFloor.ordinal()]);
+            StepRecorder.recordStep(AreaPartyCeiling, v.areasByType[0][AreaType.PartyCeiling.ordinal()]);
+            StepRecorder.recordStep(AreaInternalWall, v.areasByType[0][AreaType.InternalWall.ordinal()]);
 
-            StepRecorder.recordStep(EnergyCalculationStep.FabricHeatLoss, v.totalFabricHeatLoss);
-            StepRecorder.recordStep(EnergyCalculationStep.ThermalMassParameter, v.getBestThermalMassParameter());
+            StepRecorder.recordStep(FabricHeatLoss, v.totalFabricHeatLoss);
+            StepRecorder.recordStep(ThermalMassParameter, v.getBestThermalMassParameter());
 
-            StepRecorder.recordStep(EnergyCalculationStep.Occupancy, eparameters.getNumberOfOccupants());
+            StepRecorder.recordStep(Occupancy, eparameters.getNumberOfOccupants());
 
-            StepRecorder.recordStep(EnergyCalculationStep.DemandTemperature_LivingArea, eparameters.getZoneOneDemandTemperature());
+            StepRecorder.recordStep(DemandTemperature_LivingArea, eparameters.getZoneOneDemandTemperature());
 
-            StepRecorder.recordStep(EnergyCalculationStep.LivingAreaFraction, houseCase.getLivingAreaProportionOfFloorArea());
+            StepRecorder.recordStep(LivingAreaFraction, houseCase.getLivingAreaProportionOfFloorArea());
 
             sortTransducers(v.transducers);
             log.debug("New sort: {}", v.transducers);
@@ -690,7 +703,17 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
                 results[i++] = evaluate(houseCase, iparameters, v);
             }
 
-            return results;
+            return new IEnergyCalculationResultWithSteps() {
+                @Override
+                public IEnergyCalculationResult[] getResults() {
+                    return results;
+                }
+
+                @Override
+                public IEnergyCalculationSteps getSteps() {
+                    return steps;
+                }
+            };
         }
     }
 
@@ -767,11 +790,11 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
                 );
         }
 
-        StepRecorder.recordStep(EnergyCalculationStep.MeanInternalTemperature_LivingArea, meanTemperature[ZoneType.ZONE1.ordinal()]);
-        StepRecorder.recordStep(EnergyCalculationStep.MeanInternalTemperature_RestOfDwelling, meanTemperature[ZoneType.ZONE2.ordinal()]);
+        StepRecorder.recordStep(MeanInternalTemperature_LivingArea, meanTemperature[ZoneType.ZONE1.ordinal()]);
+        StepRecorder.recordStep(MeanInternalTemperature_RestOfDwelling, meanTemperature[ZoneType.ZONE2.ordinal()]);
 
         double areaWeightedMeanTemperature = getAreaWeightedMeanTemperature(houseCase, meanTemperature);
-        StepRecorder.recordStep(EnergyCalculationStep.MeanInternalTemperature_Unadjusted, areaWeightedMeanTemperature);
+        StepRecorder.recordStep(MeanInternalTemperature_Unadjusted, areaWeightedMeanTemperature);
         state.increaseSupply(EnergyType.HackUNADJUSTED_TEMPERATURE, areaWeightedMeanTemperature);
 
         /*
@@ -786,7 +809,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         CODSIEB
         */
         areaWeightedMeanTemperature += adjustedParameters.getTemperatureAdjustment();
-        StepRecorder.recordStep(EnergyCalculationStep.MeanInternalTemperature, areaWeightedMeanTemperature);
+        StepRecorder.recordStep(MeanInternalTemperature, areaWeightedMeanTemperature);
 
         if (log.isDebugEnabled())
             log.debug("Mean temps = {}, Area-weighted = {}", meanTemperature, areaWeightedMeanTemperature);
@@ -875,7 +898,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
                 adjustedParameters.getClimate().getExternalTemperature(), heatLosses.getSpecificHeatLoss(), totalGains,
                 utilisationFactorExponent);
 
-        StepRecorder.recordStep(EnergyCalculationStep.GainsUtilisation, revisedGUF);
+        StepRecorder.recordStep(GainsUtilisation, revisedGUF);
 
         glrAdjuster.setAreaWeightedMeanTemperature(areaWeightedMeanTemperature);
         glrAdjuster.setDemandTemperature(demandTemperature);
@@ -1122,7 +1145,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
             heatingSystemZoneTwoTemperature = parameters.getZoneTwoDemandTemperature();
         }
 
-        StepRecorder.recordStep(EnergyCalculationStep.DemandTemperature_RestOfDwelling, heatingSystemZoneTwoTemperature);
+        StepRecorder.recordStep(DemandTemperature_RestOfDwelling, heatingSystemZoneTwoTemperature);
 
         return new ParameterAdjustment(parameters, totalTemperatureAdjustment, heatingSystemZoneTwoTemperature,  zone2ControlParameter);
     }

@@ -213,7 +213,7 @@ public class BackupSpaceHeatersWorkWhenOtherThingsAreMissing {
 				return new GraphvizEnergyState(new ClassEnergyState());
 			}
 		});
-		final IEnergyCalculationResult energyCalculationResult = calc.evaluate(sc, ep, new ISeasonalParameters[] {climate})[0];
+		final IEnergyCalculationResult energyCalculationResult = calc.evaluate(sc, ep, new ISeasonalParameters[] {climate}).getResults()[0];
 		final IEnergyState energyState = energyCalculationResult.getEnergyState();
 
 		Assert.assertEquals(16, energyState.getTotalSupply(EnergyType.HackMEAN_INTERNAL_TEMPERATURE), 1.0);

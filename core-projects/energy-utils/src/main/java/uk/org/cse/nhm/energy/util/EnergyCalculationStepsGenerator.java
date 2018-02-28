@@ -1,6 +1,6 @@
 package uk.org.cse.nhm.energy.util;
 
-import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculationStep;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -75,12 +75,10 @@ public class EnergyCalculationStepsGenerator {
     private static void writeEnumValue(PrintWriter enumDef, EnergyCalculationStep step) {
         enumDef.println("@Doc({");
 
-        if (step.sapLocation.isPresent()) {
-            enumDef.println("\"" + step.sapLocation.get().toString() + "\",");
-        }
+        enumDef.println("\"" + step.sapLocation.toString() + "\",");
 
         if (step.hasDefault()) {
-            enumDef.println(String.format("\"Always has value %.1f in the NHM.\",", step.getDefault()));
+            enumDef.println(String.format("\"Always has value %.1f in the NHM.\",", step.getDefault().get(0)));
         }
 
         enumDef.println("\"" + step.period.toString() + "\",");
