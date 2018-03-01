@@ -727,10 +727,13 @@ public enum EnergyCalculationStep {
             BREDEMLocation.NotDetermined,
             new NotSupportedValuePlaceholder(0d)),
 
+    /**
+     * Ignores the efficiency differrence from Hybrid heat pumps
+     */
     SpaceHeating_Efficiency_Main_System1(DimensionlessProportion, Annual,
             SAPWorksheetSection.Energy_Requirements.cell(206),
             BREDEMLocation.NotDetermined,
-            DefaultValue.NotImplementedTempPlaceholder),
+            DefaultValue.None),
 
     SpaceHeating_Efficency_Main_System2(DimensionlessProportion, Annual,
             SAPWorksheetSection.Energy_Requirements.cell(207),
@@ -740,7 +743,7 @@ public enum EnergyCalculationStep {
     SpaceHeating_Efficiency_Secondary(DimensionlessProportion, Annual,
             SAPWorksheetSection.Energy_Requirements.cell(208),
             BREDEMLocation.NotDetermined,
-            DefaultValue.NotImplementedTempPlaceholder),
+            new DefaultValue(Double.NaN)),
 
     SpaceCooling_EfficencyRatio(DimensionlessProportion, Annual,
             SAPWorksheetSection.Energy_Requirements.cell(209),
@@ -777,7 +780,7 @@ public enum EnergyCalculationStep {
     WaterHeating_Efficiency(DimensionlessProportion, MonthlyMean,
             SAPWorksheetSection.Energy_Requirements.cell(217),
             BREDEMLocation.NotDetermined,
-            DefaultValue.NotImplementedTempPlaceholder),
+            DefaultValue.None),
 
     // Step 218 doesn't exist in the SAP worksheet
 

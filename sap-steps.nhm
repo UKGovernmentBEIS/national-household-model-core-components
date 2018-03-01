@@ -196,6 +196,11 @@
 
    ;; Cells 110 to 200 don't exist in the SAP worksheet.
 
+   ;; These columns aren't in the SAP worksheet, but they are useful diagnostics.
+   (column name: main-space-heating-system-type value: (house.main-heating-system-type))
+   (column name: main-space-heating-fuel value: (house.heating-fuel))
+   (column name: depends-on-secondary-heating value: (house.depends-on-secondary-heating))
+
    (column name: v201 value: (house.energy-calculation-step SpaceHeating_Fraction_Secondary)) ; Fraction of space heat from secondary/supplementary system
    (column name: v202 value: (house.energy-calculation-step SpaceHeating_Fraction_Main)) ; Fraction of space heat from main system 1
 
@@ -206,6 +211,8 @@
    ;; Always 0%, because main space heating system 2 isn't supported
    (column name: v205 value: (house.energy-calculation-step SpaceHeating_Fraction_Main_System2)) ; Fraction of total space heat from main system 2
 
+   ;; Community heating systems will always have efficiency of '1', because we convert heat demand 1-for-1 into community heat in the NHM
+   ;; Hybrid heat pumps output the efficiency of the main heat pump. These don't really fit into the SAP worksheet properly, because their efficiency varies by month.
    (column name: v206 value: (house.energy-calculation-step SpaceHeating_Efficiency_Main_System1)) ; Efficiency of main space heating system 1
 
    ;; v207 - Efficiency of main space heating system 2 omitted as unsupported in the NHM

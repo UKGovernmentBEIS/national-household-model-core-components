@@ -364,6 +364,9 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 				return TransducerPhaseType.Heat;
 			}
 		});
+
+		// Heat demand is always converted 1-for-1 into community heat
+		StepRecorder.recordStep(EnergyCalculationStep.SpaceHeating_Efficiency_Main_System1, 1);
 	}
 
 	@Override
@@ -390,6 +393,9 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 		final double demandSatisfied = state.getBoundedTotalDemand(EnergyType.DemandsHOT_WATER, proportion);
 
 		log.debug("{} pp losses, {} demand satisied", primaryPipeworkLosses, demandSatisfied);
+
+		// Heating demand is converted 1-for-1 into CommunityHeat
+		StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_Efficiency, 1);
 
 		satisfyHotWaterDemand(constants, state, demandSatisfied, primaryPipeworkLosses, parameters.getCalculatorType());
 

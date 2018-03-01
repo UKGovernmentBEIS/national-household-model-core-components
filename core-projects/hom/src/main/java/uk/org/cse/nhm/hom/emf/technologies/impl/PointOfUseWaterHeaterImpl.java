@@ -4,6 +4,7 @@ package uk.org.cse.nhm.hom.emf.technologies.impl;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.sun.org.apache.xerces.internal.impl.xpath.XPath;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -11,6 +12,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
+import uk.org.cse.nhm.energycalculator.api.StepRecorder;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.hom.IHeatProportions;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.IPointOfUseWaterHeater;
@@ -212,11 +215,13 @@ public class PointOfUseWaterHeaterImpl extends WaterHeaterImpl implements IPoint
 	 */
 	public void accept(IConstants constants, IEnergyCalculatorParameters parameters, IEnergyCalculatorVisitor visitor, AtomicInteger heatingSystemCounter, IHeatProportions heatProportions) {
 		if (heatProportions.providesHotWater(this)) {
+			final double efficiency = getEfficiency().value;
+
 			visitor.visitEnergyTransducer(new PointOfUseWaterHeaterTransducer(
 					5 //TODO this is less than ideal; should come after shower and central water heater.
 					, getFuelType(), 
 					1, 
-					getEfficiency().value, 
+					efficiency,
 					isMultipoint()
 				));
 		}

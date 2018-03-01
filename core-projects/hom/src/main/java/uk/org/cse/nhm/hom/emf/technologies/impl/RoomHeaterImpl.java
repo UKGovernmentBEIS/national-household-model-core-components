@@ -4,6 +4,7 @@ package uk.org.cse.nhm.hom.emf.technologies.impl;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.sun.org.apache.xerces.internal.impl.xpath.XPath;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -11,8 +12,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
+import uk.org.cse.nhm.energycalculator.api.StepRecorder;
 import uk.org.cse.nhm.energycalculator.api.impl.HeatTransducer;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.hom.IHeatProportions;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.IFuelAndFlue;
@@ -320,10 +323,24 @@ public class RoomHeaterImpl extends SpaceHeaterImpl implements IRoomHeater {
 		*/
 		if (self.getFuel() == FuelType.ELECTRICITY) {
 			visitor.visitEnergyTransducer(new DirectElectricHeatTransducer(heatingSystemCounter.getAndIncrement(), effectiveProportion));
+                StepRecorder.recordStep(
+                        /**
+                         * These are probably assumed direct electric heaters (see TechnologyModelImpl), although they could just be an electric room heater (unlikely)
+                         * This means we need to work out whether they're primary or secondary.
+                         * The proportion is a reliable way to do this.
+                         *
+                         * SAP says that if a heater is heating at least 30% of the house, it's a candidate to be a main space heating system.
+                         */
+                        effectiveProportion >= 0.3 ? EnergyCalculationStep.SpaceHeating_Efficiency_Main_System1 : EnergyCalculationStep.SpaceHeating_Efficiency_Secondary,
+                        1
+                );
 		} else {
+		    final double efficiency = self.getEfficiency().value;
 			visitor.visitEnergyTransducer(
-					new HeatTransducer(self.getFuel().getEnergyType(), self.getEfficiency().value, effectiveProportion, true, heatingSystemCounter.getAndIncrement(), ServiceType.SECONDARY_SPACE_HEATING)
-					);
+					new HeatTransducer(self.getFuel().getEnergyType(), efficiency, effectiveProportion, true, heatingSystemCounter.getAndIncrement(), ServiceType.SECONDARY_SPACE_HEATING)
+            );
+
+            StepRecorder.recordStep(EnergyCalculationStep.SpaceHeating_Efficiency_Secondary, efficiency);
 		}
 
 		if (!isBackBoiler) {

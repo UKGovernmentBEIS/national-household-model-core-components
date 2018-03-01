@@ -593,6 +593,7 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 					final double highRateFraction = getHighRateFraction(parameters, losses, state, qWater, qHeat);
 
 					state.increaseElectricityDemand(highRateFraction, qWater);
+                    StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_Efficiency, 1);
 					log.debug("Transduced {} of electricity at high rate {} for water",qWater, highRateFraction);
 					return qWater;
 				}
@@ -610,6 +611,7 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 						final IEnergyState state, final double qWater, final double qHeat) {
 
 					final double efficiency = getWaterHeatingEfficiency(parameters.getConstants(), qWater, qHeat);
+					StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_Efficiency, efficiency);
 
 					state.increaseDemand(getFuel().getEnergyType(), qWater / efficiency);
 
@@ -888,6 +890,12 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 		ID: boiler-fuel-energy-demand
 		CODSIEB
 		*/
+        final double efficiency = getSpaceHeatingEfficiency(constants, isSystemHeatingUnderfloor(), 0, 0);
+
+        StepRecorder.recordStep(
+                EnergyCalculationStep.SpaceHeating_Efficiency_Main_System1,
+                getFuel() == FuelType.ELECTRICITY ? 1 : efficiency);
+
 		if (isIntermediatePowerRequired()) {
 			visitor.visitEnergyTransducer(new HeatTransducer(parameters.getInternalEnergyType(this),
 					1, proportion, true, priority, ServiceType.PRIMARY_SPACE_HEATING));
@@ -907,9 +915,10 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 					}
 				});
 			} else {
+
 				visitor.visitEnergyTransducer(
 						new HeatTransducer(getFuel().getEnergyType(),
-						 getSpaceHeatingEfficiency(constants, isSystemHeatingUnderfloor(), 0, 0),
+						 efficiency,
 						 proportion,
 						 true,
 						 priority,
@@ -1040,9 +1049,12 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 			state.increaseDemand(parameters.getInternalEnergyType(BoilerImpl.this), powerOutOfBoiler);
 		} else {
 			if (getFuel() == FuelType.ELECTRICITY) {
+			    StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_Efficiency, 1);
 				state.increaseElectricityDemand(getHighRateFraction(parameters, null, state, 0, 0), powerOutOfBoiler);
 			} else {
-				state.increaseDemand(getFuel().getEnergyType(), powerOutOfBoiler / getWinterEfficiency().value);
+			    final double efficiency = getWinterEfficiency().value;
+                StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_Efficiency, efficiency);
+				state.increaseDemand(getFuel().getEnergyType(), powerOutOfBoiler / efficiency);
 			}
 		}
 

@@ -3,15 +3,12 @@ package uk.org.cse.nhm.hom.emf.technologies.impl.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.org.cse.nhm.energycalculator.api.IConstants;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorHouseCase;
-import uk.org.cse.nhm.energycalculator.api.IEnergyState;
-import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
-import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
+import uk.org.cse.nhm.energycalculator.api.*;
 import uk.org.cse.nhm.energycalculator.api.impl.EnergyTransducer;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.TransducerPhaseType;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.hom.constants.HeatingSystemConstants;
 import uk.org.cse.nhm.hom.constants.SplitRateConstants;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
@@ -92,8 +89,11 @@ public class PointOfUseWaterHeaterTransducer extends EnergyTransducer {
 		if (fuelType == FuelType.ELECTRICITY) {
 			state.increaseElectricityDemand(constants.get(SplitRateConstants.DEFAULT_FRACTIONS, parameters.getTarrifType()),
 					requiredEnergy);
+
+			StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_Efficiency, 1);
 		} else {
 			state.increaseDemand(fuelType.getEnergyType(), requiredEnergy/efficiency);
+			StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_Efficiency, efficiency);
 		}
 	}
 

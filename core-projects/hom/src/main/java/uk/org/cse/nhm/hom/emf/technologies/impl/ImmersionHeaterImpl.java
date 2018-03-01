@@ -21,8 +21,10 @@ import org.slf4j.LoggerFactory;
 import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyState;
 import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
+import uk.org.cse.nhm.energycalculator.api.StepRecorder;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.hom.emf.technologies.IImmersionHeater;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
 import uk.org.cse.nhm.hom.emf.technologies.IWaterTank;
@@ -186,6 +188,11 @@ public class ImmersionHeaterImpl extends CentralWaterHeaterImpl implements IImme
 		if (store == null) {
 			log.warn("Immersion heater used in system with no shared tank");
 			return 0;
+		}
+
+		if (systemProportion > 0) {
+		    // Electric immersion heater has an efficiency of 1.
+            StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_Efficiency, 1);
 		}
 
 		final double demand = systemProportion * state.getUnsatisfiedDemand(EnergyType.DemandsHOT_WATER);
