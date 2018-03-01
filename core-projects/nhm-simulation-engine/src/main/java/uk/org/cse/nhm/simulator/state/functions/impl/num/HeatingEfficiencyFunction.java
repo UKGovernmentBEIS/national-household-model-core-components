@@ -255,6 +255,7 @@ public class HeatingEfficiencyFunction extends AbstractNamed implements ICompone
 			}
 
 		} else if (heatSource instanceof IHeatPump) {
+			// TODO: this doesn't handle hybrid heat pumps correctly.
 			return Optional.of(((IHeatPump) heatSource).getCoefficientOfPerformance().value);
 
 		} else {
