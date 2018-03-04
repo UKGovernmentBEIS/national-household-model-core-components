@@ -15,13 +15,7 @@ import uk.org.cse.nhm.energycalculator.api.IHeatingSystem;
 import uk.org.cse.nhm.energycalculator.api.IVentilationSystem;
 import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
 import uk.org.cse.nhm.energycalculator.api.impl.SimpleLightingTransducer;
-import uk.org.cse.nhm.energycalculator.api.types.AreaType;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
-import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
-import uk.org.cse.nhm.energycalculator.api.types.FloorType;
-import uk.org.cse.nhm.energycalculator.api.types.FrameType;
-import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
-import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
+import uk.org.cse.nhm.energycalculator.api.types.*;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
 import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.RoofType;
@@ -193,7 +187,7 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 	abstract protected double overrideWallUValue(final double uValue, final WallConstructionType constructionType, final double externalOrInternalInsulationThickness, final boolean hasCavityInsulation, final double thickness);
 
 	@Override
-	public void visitDoor(final double area, final double uValue) {
+	public void visitDoor(final DoorType doorType, final double area, final double uValue) {
 		log.debug("VISIT Door, {}, {}", area, uValue);
 
 		/*
@@ -215,7 +209,7 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 		NOTES: Some doors may be omitted if the total area of doors is greater than the area allowed by the openingProportion.
 		CODSIEB
 		*/
-		visitArea(AreaType.Door, area, overrideDoorUValue(uValue));
+		visitArea(doorType.getAreaType(), area, overrideDoorUValue(uValue));
 	}
 
 	protected abstract double overrideDoorUValue(double uValue);
@@ -291,7 +285,7 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 		CODSIEB
 		*/
 		visitArea(
-				AreaType.Glazing,
+				frameType.getAreaType(),
 				area,
 				overrideWindowUValue(uValue, frameType, glazingType, insulationType)
 			);
@@ -307,7 +301,7 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 	}
 
 	@Override
-	public void visitFloor(final FloorType type, final boolean isGroundFloor, final double area, final double uValue, final double exposedPerimeter, final double wallThickness) {
+	public void visitFloor(final AreaType type, final double area, final double uValue, final double exposedPerimeter, final double wallThickness) {
 		log.debug("VISIT {}, {}, {}, {}, {}", type, area, uValue, groundFloorConstructionType, floorInsulationThickness);
 
 		/*
@@ -329,16 +323,18 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 		CODSIEB
 		*/
 
-		if (isGroundFloor && (groundFloorConstructionType == null || floorInsulationThickness == null)) {
-			throw new RuntimeException("setGroundFloorType must be called before calling visitFloor with isGroundFloor = true");
+		final boolean isGroundFloorOrBasement = type == AreaType.BasementFloor || type == AreaType.GroundFloor;
+
+		if (isGroundFloorOrBasement && (groundFloorConstructionType == null || floorInsulationThickness == null)) {
+			throw new RuntimeException("setGroundFloorType must be called before calling visitFloor with a ground or basement floor");
 		}
 
 		visitArea(
-				type.getAreaType(),
+				type,
 				area,
 				overrideFloorUValue(
-						type,
-						isGroundFloor,
+						type == AreaType.PartyFloor,
+						isGroundFloorOrBasement,
 						area,
 						uValue,
 						exposedPerimeter,
@@ -348,8 +344,8 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 	}
 
 	protected abstract double overrideFloorUValue(
-			final FloorType type,
-			final boolean isGroundFloor,
+			final boolean isParty,
+			final boolean isBasementOrGroundFloor,
 			final double area,
 			final double uValue,
 			final double exposedPerimeter,
@@ -525,16 +521,15 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 		return this.getClass().getSimpleName() + " [totalSpecificHeatLoss=" + totalFabricHeatLoss + ", totalExternalArea=" + totalExternalArea + ", totalThermalMass="
 				+ getBestThermalMassParameter() + "]";
 	}
-	
-	/**
-	 * @param name
-	 * @param proportion
-	 * @param efficiency
-	 * @see uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor#visitLight(java.lang.String, double, double)
-	 */
-	@Override
-	public void visitLight(String name, double proportion, double efficiency, double[] splitRate) {
-	    transducers.add(new SimpleLightingTransducer(name, proportion, efficiency, splitRate)); 
-	}
-}
 
+    /**
+     * @param name
+     * @param proportion
+     * @param efficiency
+     * @see uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor#visitLight(java.lang.String, double, double)
+     */
+    @Override
+    public void visitLight(String name, double proportion, double efficiency, double[] splitRate) {
+        transducers.add(new SimpleLightingTransducer(name, proportion, efficiency, splitRate));
+    }
+}

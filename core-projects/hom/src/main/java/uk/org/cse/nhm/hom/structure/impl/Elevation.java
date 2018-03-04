@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
-import uk.org.cse.nhm.hom.components.fabric.types.DoorType;
+import uk.org.cse.nhm.energycalculator.api.types.DoorType;
 import uk.org.cse.nhm.hom.structure.Door;
 import uk.org.cse.nhm.hom.structure.Glazing;
 import uk.org.cse.nhm.hom.structure.IElevation;
@@ -241,7 +241,8 @@ public class Elevation implements IElevation {
 
 			for (final Door d : doors) {
 				visitor.visitDoor(
-					d.getArea() * doorScaling,
+                    d.getDoorType(),
+                    d.getArea() * doorScaling,
 					d.getuValue()
 				);
 

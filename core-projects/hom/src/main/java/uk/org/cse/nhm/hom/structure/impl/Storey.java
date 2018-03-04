@@ -19,7 +19,7 @@ import com.google.common.base.Optional;
 
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
-import uk.org.cse.nhm.energycalculator.api.types.FloorType;
+import uk.org.cse.nhm.energycalculator.api.types.AreaType;
 import uk.org.cse.nhm.energycalculator.api.types.RoofType;
 import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
 import uk.org.cse.nhm.energycalculator.api.types.WallType;
@@ -240,8 +240,8 @@ public class Storey implements IStorey {
 		if (area > areaBelow) {
 			final double heatLossAreaBelow = area - areaBelow;
 			// Basements are treated as ground floors for heat loss purposes, as specified in SAP 2012 S3.10
-			visitor.visitFloor(FloorType.External, floorLocationType.isInContactWithGround(), heatLossAreaBelow, floorUValue, getExposedPerimeter(), getAverageWallThicknessWithInsulation());
-			visitor.visitFloor(FloorType.Party, floorLocationType.isInContactWithGround(), areaBelow, 0, getExposedPerimeter(), getAverageWallThicknessWithInsulation());
+			visitor.visitFloor(floorLocationType.getExternalAreaType(), heatLossAreaBelow, floorUValue, getExposedPerimeter(), getAverageWallThicknessWithInsulation());
+			visitor.visitFloor(AreaType.PartyFloor, areaBelow, 0, getExposedPerimeter(), getAverageWallThicknessWithInsulation());
 		}
 
 		if (area > areaAbove) {

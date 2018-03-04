@@ -387,14 +387,18 @@ public class NumberFunctionAdapter extends ReflectingAdapter {
 		switch (surface) {
 		case AllSurfaces:
 			return factory.createAverageUValueFunction(
-				EnumSet.of(AreaType.Door, AreaType.ExternalCeiling,
-						AreaType.ExternalFloor, AreaType.ExternalWall, AreaType.Glazing));
+				EnumSet.of(
+						AreaType.DoorSolid, AreaType.DoorGlazed,
+						AreaType.ExternalCeiling,
+						AreaType.ExposedUpperFloor, AreaType.BasementFloor, AreaType.GroundFloor,
+						AreaType.ExternalWall,
+						AreaType.GlazingMetal, AreaType.GlazingUPVC, AreaType.GlazingWood));
 		case Doors:
 			return factory.createAverageUValueFunction(
-					EnumSet.of(AreaType.Door));
+					EnumSet.of(AreaType.DoorGlazed, AreaType.DoorSolid));
 		case Floors:
 			return factory.createAverageUValueFunction(
-					EnumSet.of(AreaType.ExternalFloor));
+					EnumSet.of(AreaType.ExposedUpperFloor, AreaType.BasementFloor, AreaType.GroundFloor));
 		case Roofs:
 			return factory.createAverageUValueFunction(
 					EnumSet.of(AreaType.ExternalCeiling));
@@ -403,7 +407,7 @@ public class NumberFunctionAdapter extends ReflectingAdapter {
 					EnumSet.of(AreaType.ExternalWall));
 		case Windows:
 			return factory.createAverageUValueFunction(
-					EnumSet.of(AreaType.Glazing));
+					EnumSet.of(AreaType.GlazingMetal, AreaType.GlazingUPVC, AreaType.GlazingWood));
 		default:
 			throw new IllegalArgumentException("Cannot build average u value function for " + surface);
 		}

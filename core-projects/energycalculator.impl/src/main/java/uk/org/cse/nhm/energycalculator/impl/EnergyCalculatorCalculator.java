@@ -707,8 +707,24 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
             StepRecorder.recordStep(DwellingVolume, houseCase.getHouseVolume());
             StepRecorder.recordStep(Storeys, houseCase.getNumberOfStoreys());
 
+            StepRecorder.recordStep(HeatLossCoefficient_DoorsSolid, v.areasByType[1][AreaType.DoorSolid.ordinal()]);
+            StepRecorder.recordStep(HeatLossCoefficient_DoorsSemiGlazed, v.areasByType[1][AreaType.DoorGlazed.ordinal()]);
+
+            final double windowsMetalFrame = v.areasByType[1][AreaType.GlazingMetal.ordinal()];
+            final double windowsWoodFrame = v.areasByType[1][AreaType.GlazingWood.ordinal()];
+            final double windowsUPVCFrame = v.areasByType[1][AreaType.GlazingUPVC.ordinal()];
+
+            StepRecorder.recordStep(HeatLossCoefficient_Window_Metal, windowsMetalFrame);
+            StepRecorder.recordStep(HeatLossCoefficient_Window_Wood, windowsWoodFrame);
+            StepRecorder.recordStep(HeatLossCoefficient_Window_UPVC, windowsUPVCFrame);
+            StepRecorder.recordStep(HeatLossCoefficient_Window, windowsMetalFrame + windowsWoodFrame + windowsUPVCFrame);
+
+            StepRecorder.recordStep(HeatLossCoefficient_BasementFloor, v.areasByType[1][AreaType.BasementFloor.ordinal()]);
+            StepRecorder.recordStep(HeatLossCoefficient_GroundFloor, v.areasByType[1][AreaType.GroundFloor.ordinal()]);
+            StepRecorder.recordStep(HeatLossCoefficient_ExposedFloor, v.areasByType[1][AreaType.ExposedUpperFloor.ordinal()]);
+
             StepRecorder.recordStep(HeatLossCoefficient_ExternalWall, v.areasByType[1][AreaType.ExternalWall.ordinal()]);
-            StepRecorder.recordStep(HeatLossCoefficient_Window, v.areasByType[1][AreaType.Glazing.ordinal()]);
+
             StepRecorder.recordStep(HeatLossCoefficient_Roof, v.areasByType[1][AreaType.ExternalCeiling.ordinal()]);
 
             StepRecorder.recordStep(AreaExternal, v.totalExternalArea);

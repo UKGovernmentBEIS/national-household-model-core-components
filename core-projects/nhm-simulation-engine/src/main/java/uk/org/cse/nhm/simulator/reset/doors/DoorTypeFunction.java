@@ -2,7 +2,7 @@ package uk.org.cse.nhm.simulator.reset.doors;
 
 import javax.inject.Inject;
 
-import uk.org.cse.nhm.hom.components.fabric.types.DoorType;
+import uk.org.cse.nhm.energycalculator.api.types.DoorType;
 import uk.org.cse.nhm.hom.structure.Door;
 import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.ipc.api.tasks.report.ILogEntryHandler;

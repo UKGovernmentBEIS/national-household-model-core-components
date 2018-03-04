@@ -77,7 +77,11 @@
                                (house.energy-calculation-step HeatLossCoefficient_DoorsSemiGlazed)))
 
    ;; BRE deviate from the SAP worksheet for v27, v27a and v27b, because they split the windows cell based on frame type.
-   (column name: v27 value: (house.energy-calculation-step HeatLossCoefficient_Window_UPVC_Or_Wood)) ; Heat loss coefficient - windows 1 (UPVC / wood)
+   (column
+    name: v27
+    value: (+
+            (house.energy-calculation-step HeatLossCoefficient_Window_UPVC)
+            (house.energy-calculation-step HeatLossCoefficient_Window_Wood))) ; Heat loss coefficient - windows 1 (UPVC / wood)
    (column name: v27a value: (house.energy-calculation-step HeatLossCoefficient_Window_Metal)) ; Heat loss coefficient - windows 1 (metal)
 
    ;; The NHM doesn't implement roof windows, so this will always come out as 0.

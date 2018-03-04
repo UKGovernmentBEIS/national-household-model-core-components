@@ -15,7 +15,7 @@ import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
-import uk.org.cse.nhm.hom.components.fabric.types.DoorType;
+import uk.org.cse.nhm.energycalculator.api.types.DoorType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.language.adapt.IAdapterInterceptor;
 import uk.org.cse.nhm.language.adapt.IConverter;

@@ -1,12 +1,7 @@
 package uk.org.cse.nhm.energycalculator.impl;
 
-import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
-import uk.org.cse.nhm.energycalculator.api.types.FloorType;
-import uk.org.cse.nhm.energycalculator.api.types.FrameType;
-import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
+import uk.org.cse.nhm.energycalculator.api.types.*;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
-import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
-import uk.org.cse.nhm.energycalculator.api.types.RoofType;
 
 import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.*;
 import static uk.org.cse.nhm.energycalculator.api.types.RegionType.Country.*;
@@ -21,10 +16,7 @@ import java.util.EnumMap;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 
-import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
-import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
-import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 
 public class SAPUValues {
 	private static final double _check(final double d) {
@@ -434,8 +426,8 @@ public class SAPUValues {
 		private static final GroundFloorUValues groundFloor = new GroundFloorUValues();
 
 		public static double get(
-			final FloorType type,
-			final boolean isGroundFloor,
+			final boolean isParty,
+			final boolean isBasementOrGroundFloor,
 			final double floorArea,
 			final double exposedPerimeter,
 			final double wallThickness,
@@ -444,10 +436,10 @@ public class SAPUValues {
 			final Band ageBand,
 			final Country country
 				) {
-			if (type == FloorType.Party) {
+			if (isParty) {
 				return 0d;
 
-			} else if (isGroundFloor) {
+			} else if (isBasementOrGroundFloor) {
 				return _check(groundFloor.getU(wallThickness, floorArea, exposedPerimeter, groundFloorConstructionType, insulationThickness));
 
 			} else {

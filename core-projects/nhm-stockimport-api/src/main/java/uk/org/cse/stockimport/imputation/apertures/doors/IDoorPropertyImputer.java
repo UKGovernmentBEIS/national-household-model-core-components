@@ -1,6 +1,6 @@
 package uk.org.cse.stockimport.imputation.apertures.doors;
 
-import uk.org.cse.nhm.hom.components.fabric.types.DoorType;
+import uk.org.cse.nhm.energycalculator.api.types.DoorType;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
 
 /**

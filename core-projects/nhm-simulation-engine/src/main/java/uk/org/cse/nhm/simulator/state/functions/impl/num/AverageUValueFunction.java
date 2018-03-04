@@ -16,20 +16,9 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
 import uk.org.cse.nhm.energycalculator.api.IHeatingSystem;
 import uk.org.cse.nhm.energycalculator.api.IVentilationSystem;
 import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
-import uk.org.cse.nhm.energycalculator.api.types.AreaType;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
-import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
-import uk.org.cse.nhm.energycalculator.api.types.FloorType;
-import uk.org.cse.nhm.energycalculator.api.types.FrameType;
-import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
-import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
+import uk.org.cse.nhm.energycalculator.api.types.*;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
-import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
-import uk.org.cse.nhm.energycalculator.api.types.RoofType;
-import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
-import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
-import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 import uk.org.cse.nhm.energycalculator.impl.SAPUValues;
 import uk.org.cse.nhm.hom.BasicCaseAttributes;
 import uk.org.cse.nhm.hom.structure.StructureModel;
@@ -154,8 +143,8 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 		}
 
 		@Override
-		public void visitDoor(final double area, final double uValue) {
-			if (includedAreas.contains(AreaType.Door)) {
+		public void visitDoor(final DoorType doorType, final double area, final double uValue) {
+			if (includedAreas.contains(doorType.getAreaType())) {
 				totalA += area;
 
 				final double overrideU;
@@ -211,7 +200,7 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 		public void visitWindow(final double area, final double uValue, final FrameType frameType, final GlazingType glazingType,
 				final WindowInsulationType insulationType) {
 
-			if (includedAreas.contains(AreaType.Glazing)) {
+			if (includedAreas.contains(frameType.getAreaType())) {
 				totalA += area;
 
 				final double overrideU;
@@ -238,10 +227,10 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 		}
 
 		@Override
-		public void visitFloor(final FloorType type, final boolean isGroundFloor, final double area, final double uValue,
+		public void visitFloor(final AreaType type, final double area, final double uValue,
 				final double exposedPerimeter, final double wallThickness) {
 
-			if (includedAreas.contains(type.getAreaType())) {
+			if (includedAreas.contains(type)) {
 				totalA += area;
 
 				final double overrideU;
@@ -251,7 +240,7 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 					overrideU = uValue;
 					break;
 				case SAP2012:
-					overrideU = SAPUValues.Floors.get(type, isGroundFloor, area, exposedPerimeter, wallThickness, groundFloorConstructionType, insulationThickness, ageBand, country);
+					overrideU = SAPUValues.Floors.get(type == AreaType.PartyFloor, type == AreaType.BasementFloor || type == AreaType.GroundFloor, area, exposedPerimeter, wallThickness, groundFloorConstructionType, insulationThickness, ageBand, country);
 					break;
 				default:
 					throw new UnsupportedOperationException("Unknown energy calculator type when computing average u value for floors " + calculatorType);

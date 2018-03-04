@@ -10,16 +10,7 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
 import uk.org.cse.nhm.energycalculator.api.IHeatingSystem;
 import uk.org.cse.nhm.energycalculator.api.IVentilationSystem;
 import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
-import uk.org.cse.nhm.energycalculator.api.types.AreaType;
-import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
-import uk.org.cse.nhm.energycalculator.api.types.FloorType;
-import uk.org.cse.nhm.energycalculator.api.types.FrameType;
-import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
-import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
-import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
-import uk.org.cse.nhm.energycalculator.api.types.RoofType;
-import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
-import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.*;
 import uk.org.cse.nhm.hom.SurveyCase;
 import uk.org.cse.stockimport.domain.IBasicDTO;
 import uk.org.cse.stockimport.hom.ISurveyCaseBuildStep;
@@ -115,7 +106,7 @@ public class InternalWallBuildStep implements ISurveyCaseBuildStep {
 		}
 
 		@Override
-		public void visitDoor(final double area, final double uValue) {
+		public void visitDoor(final DoorType doorType, final double area, final double uValue) {
 			externalArea += area;
 		}
 
@@ -141,7 +132,7 @@ public class InternalWallBuildStep implements ISurveyCaseBuildStep {
 		}
 
 		@Override
-		public void visitFloor(final FloorType type, final boolean isGroundFloor, final double area, final double uValue, final double exposedPerimeter, final double wallThickness) {
+		public void visitFloor(final AreaType type, final double area, final double uValue, final double exposedPerimeter, final double wallThickness) {
 			// Noop
 		}
 

@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.ImmutableSet;
 
 import uk.org.cse.nhm.hom.SurveyCase;
-import uk.org.cse.nhm.hom.components.fabric.types.DoorType;
+import uk.org.cse.nhm.energycalculator.api.types.DoorType;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.hom.structure.Door;

@@ -9,16 +9,7 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
 import uk.org.cse.nhm.energycalculator.api.IHeatingSystem;
 import uk.org.cse.nhm.energycalculator.api.IVentilationSystem;
 import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
-import uk.org.cse.nhm.energycalculator.api.types.AreaType;
-import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
-import uk.org.cse.nhm.energycalculator.api.types.FloorType;
-import uk.org.cse.nhm.energycalculator.api.types.FrameType;
-import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
-import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
-import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
-import uk.org.cse.nhm.energycalculator.api.types.RoofType;
-import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
-import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.*;
 
 public class AreaAccumulator implements IEnergyCalculatorVisitor {
 
@@ -111,8 +102,8 @@ public class AreaAccumulator implements IEnergyCalculatorVisitor {
 	}
 
 	@Override
-	public void visitDoor(final double area, final double uValue) {
-		if (this.areaTypes.contains(AreaType.Door)) {
+	public void visitDoor(final DoorType doorType, final double area, final double uValue) {
+		if (this.areaTypes.contains(doorType.getAreaType())) {
 			this.totalArea += area;
 		}
 	}
@@ -132,7 +123,7 @@ public class AreaAccumulator implements IEnergyCalculatorVisitor {
 	@Override
 	public void visitWindow(final double area, final double uValue, final FrameType frameType, final GlazingType glazingType,
 			final WindowInsulationType insulationType) {
-		if (this.areaTypes.contains(AreaType.Glazing)) {
+		if (this.areaTypes.contains(frameType.getAreaType())) {
 			this.totalArea += area;
 		}
 	}
@@ -143,8 +134,8 @@ public class AreaAccumulator implements IEnergyCalculatorVisitor {
 	}
 
 	@Override
-	public void visitFloor(final FloorType type, final boolean isGroundFloor, final double area, final double uValue, final double exposedPerimeter, final double wallThickness) {
-		if (this.areaTypes.contains(type.getAreaType())) {
+	public void visitFloor(final AreaType type, final double area, final double uValue, final double exposedPerimeter, final double wallThickness) {
+		if (this.areaTypes.contains(type)) {
 			this.totalArea += area;
 		}
 	}

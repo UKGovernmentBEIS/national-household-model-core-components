@@ -3,7 +3,7 @@ package uk.org.cse.stockimport.imputation.apertures.doors;
 import java.util.Map;
 import java.util.TreeMap;
 
-import uk.org.cse.nhm.hom.components.fabric.types.DoorType;
+import uk.org.cse.nhm.energycalculator.api.types.DoorType;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
 

@@ -6,7 +6,6 @@ import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
 import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
-import uk.org.cse.nhm.energycalculator.api.types.FloorType;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
@@ -65,7 +64,7 @@ public class BREDEMVisitor extends Visitor {
 	}
 
 	@Override
-	protected double overrideFloorUValue(final FloorType type, final boolean isGroundFloor, final double area, final double uValue,
+	protected double overrideFloorUValue(final boolean isParty, final boolean isBasementOrGroundFloor, final double area, final double uValue,
 			final double exposedPerimeter, final double wallThickness,
 			final FloorConstructionType groundFloorConstructionType, final double groundFloorInsulationThickness) {
 		return uValue;

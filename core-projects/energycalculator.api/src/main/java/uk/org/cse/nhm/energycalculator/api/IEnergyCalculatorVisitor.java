@@ -2,15 +2,7 @@ package uk.org.cse.nhm.energycalculator.api;
 
 import com.google.common.base.Optional;
 
-import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
-import uk.org.cse.nhm.energycalculator.api.types.FloorType;
-import uk.org.cse.nhm.energycalculator.api.types.FrameType;
-import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
-import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
-import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
-import uk.org.cse.nhm.energycalculator.api.types.RoofType;
-import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
-import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.*;
 
 /**
  * A visitor interface for a house to accept; the energy calculator algorithm can use this to collect
@@ -146,6 +138,7 @@ public interface IEnergyCalculatorVisitor {
 	 * (If the door is glazed, also see visitTransparentElement, which adds the natural lighting and solar gains.)
 	 */
 	public void visitDoor(
+			final DoorType doorType,
 			final double area,
 			final double uValue
 		);
@@ -197,8 +190,7 @@ public interface IEnergyCalculatorVisitor {
 	 * setFloorType must have been called first.
 	 */
 	public void visitFloor(
-			final FloorType type,
-			final boolean isGroundFloor,
+			final AreaType type,
 			final double area,
 			final double uValue,
 			final double exposedPerimeter,

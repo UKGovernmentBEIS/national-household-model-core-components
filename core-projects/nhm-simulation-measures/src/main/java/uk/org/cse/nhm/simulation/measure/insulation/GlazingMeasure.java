@@ -91,7 +91,7 @@ public class GlazingMeasure extends AbstractMeasure implements
 		}
 		
 		if(modified) {
-			final AreaAccumulator a = new  AreaAccumulator(EnumSet.of(AreaType.Glazing));
+			final AreaAccumulator a = new  AreaAccumulator(EnumSet.of(AreaType.GlazingMetal, AreaType.GlazingUPVC, AreaType.GlazingWood));
 			modifiable.accept(a);
 			quantityInstalled = a.getTotalArea();
 		}

@@ -16,7 +16,7 @@ import com.google.common.base.Optional;
 
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
-import uk.org.cse.nhm.energycalculator.api.types.FloorType;
+import uk.org.cse.nhm.energycalculator.api.types.AreaType;
 import uk.org.cse.nhm.energycalculator.api.types.RoofType;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
@@ -143,7 +143,7 @@ public class StoreyTest {
         verify(visitor, times(3)).visitWall(eq(WallConstructionType.Cavity), eq(0d), eq(false), eq(10d * 10d), eq(2d), eq(0d), eq(Optional.of(ThermalMassLevel.MEDIUM)));
 
         // floor
-        verify(visitor, times(1)).visitFloor(eq(FloorType.External), eq(true),
+        verify(visitor, times(1)).visitFloor(eq(AreaType.ExposedUpperFloor),
         		eq(50d), // heat loss area below the dwelling (argument to s.accept)
         		eq(2d), // u value for floor
         		eq(3d * 10d), // external perimeter excluding the party wall

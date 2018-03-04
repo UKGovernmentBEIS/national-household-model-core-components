@@ -225,7 +225,12 @@ public enum XEnergyCalculationStep {
             "Annual.",
             "Watts per Kelvin"
     })
-    HeatLossCoefficient_Window_UPVC_Or_Wood,
+    HeatLossCoefficient_Window_UPVC,
+    @Doc({
+            "Annual.",
+            "Watts per Kelvin"
+    })
+    HeatLossCoefficient_Window_Wood,
     @Doc({
             "Annual.",
             "Watts per Kelvin"
@@ -255,7 +260,7 @@ public enum XEnergyCalculationStep {
             "Annual.",
             "Watts per Kelvin"
     })
-    HeatLossCoefficient_ExposedFLoor,
+    HeatLossCoefficient_ExposedFloor,
     @Doc({
             "SAP 2012 worksheet cell (29) in section HeatLosses and Heat Loss Parameter.",
             "Always has value 0.0 in the NHM.",

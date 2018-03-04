@@ -232,16 +232,15 @@ public enum EnergyCalculationStep {
      * Heat losses and heat loss parameter
      */
     // For external fabric elements, this is the A x U (W/K) columns
-    // TODO: record doors
     HeatLossCoefficient_DoorsSolid(Watt_per_Kelvin, Annual,
             SAPWorksheetSection.HeatLosses_and_Heat_Loss_Parameter.cell(26),
             BREDEMLocation.NotDetermined,
-            DefaultValue.NotImplementedTempPlaceholder),
+            DefaultValue.None),
 
     HeatLossCoefficient_DoorsSemiGlazed(Watt_per_Kelvin, Annual,
             SAPWorksheetSection.HeatLosses_and_Heat_Loss_Parameter.subCell(26, 'a'),
             BREDEMLocation.NotDetermined,
-            DefaultValue.NotImplementedTempPlaceholder),
+            DefaultValue.None),
 
     HeatLossCoefficient_Window(Watt_per_Kelvin, Annual,
             SAPWorksheetSection.HeatLosses_and_Heat_Loss_Parameter.cell(27),
@@ -249,16 +248,20 @@ public enum EnergyCalculationStep {
             DefaultValue.None),
 
     // Extra breakdown of cell 27 as requested by BRE.
-    // TODO; record windows aggregated by frame type
-    HeatLossCoefficient_Window_UPVC_Or_Wood(Watt_per_Kelvin, Annual,
+    HeatLossCoefficient_Window_UPVC(Watt_per_Kelvin, Annual,
             SAPLocation.None,
             BREDEMLocation.None,
-            DefaultValue.NotImplementedTempPlaceholder),
+            DefaultValue.None),
+
+    HeatLossCoefficient_Window_Wood(Watt_per_Kelvin, Annual,
+            SAPLocation.None,
+            BREDEMLocation.None,
+            DefaultValue.None),
 
     HeatLossCoefficient_Window_Metal(Watt_per_Kelvin, Annual,
             SAPLocation.None,
             BREDEMLocation.None,
-            DefaultValue.NotImplementedTempPlaceholder),
+            DefaultValue.None),
 
     // We don't have any roof windows in the NHM
     HeatLossCoefficient_Window_Roof(Watt_per_Kelvin, Annual,
@@ -266,21 +269,20 @@ public enum EnergyCalculationStep {
             BREDEMLocation.NotDetermined,
             new NotSupportedValuePlaceholder(0)),
 
-    // TODO: record floors
     HeatLossCoefficient_BasementFloor(Watt_per_Kelvin, Annual,
             SAPWorksheetSection.HeatLosses_and_Heat_Loss_Parameter.cell(28),
             BREDEMLocation.NotDetermined,
-            DefaultValue.NotImplementedTempPlaceholder),
+            DefaultValue.None),
 
     HeatLossCoefficient_GroundFloor(Watt_per_Kelvin, Annual,
             SAPWorksheetSection.HeatLosses_and_Heat_Loss_Parameter.subCell(28, 'a'),
             BREDEMLocation.NotDetermined,
-            DefaultValue.NotImplementedTempPlaceholder),
+            DefaultValue.None),
 
-    HeatLossCoefficient_ExposedFLoor(Watt_per_Kelvin, Annual,
+    HeatLossCoefficient_ExposedFloor(Watt_per_Kelvin, Annual,
             SAPWorksheetSection.HeatLosses_and_Heat_Loss_Parameter.subCell(28, 'b'),
             BREDEMLocation.NotDetermined,
-            DefaultValue.NotImplementedTempPlaceholder),
+            DefaultValue.None),
 
     // Basement walls are treated as External walls in the NHM
     HeatLossCoefficient_BasementWall(Watt_per_Kelvin, Annual,

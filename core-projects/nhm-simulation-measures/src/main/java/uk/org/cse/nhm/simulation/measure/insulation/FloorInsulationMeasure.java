@@ -55,7 +55,7 @@ public class FloorInsulationMeasure extends InsulationMeasure {
 	}
 
 	private void addCapitalCosts(final ISettableComponentsScope scope, final ILets lets) {
-		final AreaAccumulator acc = new AreaAccumulator(EnumSet.of(AreaType.ExternalFloor));
+		final AreaAccumulator acc = new AreaAccumulator(EnumSet.of(AreaType.BasementFloor, AreaType.GroundFloor, AreaType.ExposedUpperFloor));
 		scope.get(structureDimension).accept(acc);
 
 		addCapitalCosts(scope, lets, acc.getTotalArea());

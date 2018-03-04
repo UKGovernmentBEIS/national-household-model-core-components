@@ -10,12 +10,23 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyCalculationResult;
 public enum AreaType {
 	ExternalWall,
 	PartyWall,
-	ExternalFloor,
+
+    BasementFloor,
+    GroundFloor,
+	ExposedUpperFloor,
 	PartyFloor,
+
 	ExternalCeiling,
 	PartyCeiling,
-	Glazing,
-	Door, InternalWall;
+
+	GlazingWood,
+    GlazingMetal,
+    GlazingUPVC,
+
+	DoorSolid,
+	DoorGlazed,
+
+	InternalWall;
 
 	/**
 	 * @since 1.0.0
@@ -23,18 +34,23 @@ public enum AreaType {
 	 */
 	public boolean isExternal() {
 		switch (this) {
-		case Door:
+        case DoorGlazed:
+        case DoorSolid:
 		case ExternalCeiling:
-		case ExternalFloor:
+        case BasementFloor:
+        case GroundFloor:
+        case ExposedUpperFloor:
 		case ExternalWall:
-		case Glazing:
+        case GlazingMetal:
+        case GlazingUPVC:
+        case GlazingWood:
 			return true;
 		case PartyCeiling:
 		case PartyFloor:
 		case PartyWall:
 		case InternalWall:
 		default:
-			return false;
+			throw new UnsupportedOperationException("Unknown if area type is external or not " + this);
 		}
 	}
 }

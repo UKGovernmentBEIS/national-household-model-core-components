@@ -7,7 +7,6 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
 import uk.org.cse.nhm.energycalculator.api.impl.SAP2012LightingTransducer;
 import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
-import uk.org.cse.nhm.energycalculator.api.types.FloorType;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
@@ -199,8 +198,8 @@ public class SAPVisitor extends Visitor {
 
 	@Override
 	protected double overrideFloorUValue(
-			final FloorType type,
-			final boolean isGroundFloor,
+			final boolean isParty,
+			final boolean isBasementOrGroundFloor,
 			final double area,
 			final double uValue,
 			final double exposedPerimeter,
@@ -209,7 +208,7 @@ public class SAPVisitor extends Visitor {
 			final double groundFloorInsulationThickness
 			) {
 
-		return _check(SAPUValues.Floors.get(type, isGroundFloor, area, exposedPerimeter, wallThickness, groundFloorConstructionType, groundFloorInsulationThickness, ageBand, country));
+		return _check(SAPUValues.Floors.get(isParty, isBasementOrGroundFloor, area, exposedPerimeter, wallThickness, groundFloorConstructionType, groundFloorInsulationThickness, ageBand, country));
 	}
 	
 	/**
