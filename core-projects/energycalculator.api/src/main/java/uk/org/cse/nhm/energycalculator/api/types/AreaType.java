@@ -49,6 +49,7 @@ public enum AreaType {
 		case PartyFloor:
 		case PartyWall:
 		case InternalWall:
+			return false;
 		default:
 			throw new UnsupportedOperationException("Unknown if area type is external or not " + this);
 		}
