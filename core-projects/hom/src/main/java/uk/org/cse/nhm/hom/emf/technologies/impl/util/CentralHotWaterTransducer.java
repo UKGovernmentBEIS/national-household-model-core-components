@@ -305,9 +305,9 @@ public class CentralHotWaterTransducer extends EnergyTransducer {
 						TYPE: formula
 						UNIT: W
 						SAP: (62)
-                                                SAP_COMPLIANT: Yes
+						SAP_COMPLIANT: Yes
 						BREDEM: 2.5A
-                                                BREDEM_COMPLIANT: Yes
+						BREDEM_COMPLIANT: Yes
 						DEPS: central-hot-water-distribution-losses,water-storage-loss
 						NOTES: Combi losses and pipework losses are not included here. They are added on inside the various kinds of heat source.
 						ID: total-central-hot-water-losses
