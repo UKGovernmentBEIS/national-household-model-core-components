@@ -848,7 +848,8 @@ public enum EnergyCalculationStep {
     PumpsFansAndKeepHot(Kilo_Watt_Hour_per_Month, MonthlySum,
             SAPWorksheetSection.Energy_Requirements.cell(231),
             BREDEMLocation.NotDetermined,
-            DefaultValue.NotImplementedTempPlaceholder),
+            DefaultValue.None,
+            SkipReason.PumpsFansAndKeepHotSum_Unsupported),
 
     Lighting(Kilo_Watt_Hour_per_Month, MonthlySum,
             SAPWorksheetSection.Energy_Requirements.cell(232),
@@ -1092,6 +1093,7 @@ public enum EnergyCalculationStep {
         static final String Unsupported_Technology = "The NHM does not support this technology.";
         static final String FabricEnergyEfficiencyNotSupported = "The NHM does not perform the fabric energy efficiency calculation.";
         static final String InEnergyCalculatorResult = "We don't want to output these fields in our report for now. They are fiddly to get, and are already available in IEnergyCalculationResult.";
+        static final String PumpsFansAndKeepHotSum_Unsupported = "The sum of all the pumps fans and keep hot is not supported by the SAP steps mechanism. To get this value, add up all the sub-steps in your scenario.";
     }
 
     public final Units conversion;
