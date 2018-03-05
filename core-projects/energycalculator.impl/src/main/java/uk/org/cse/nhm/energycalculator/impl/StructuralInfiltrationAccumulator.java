@@ -63,6 +63,7 @@ public class StructuralInfiltrationAccumulator implements IStructuralInfiltratio
     private final double ventInfiltrationRate = 10;
     private double totalVentInfiltration = 0;
     private Double airChangeRate;
+    private Double deliberateInfiltration;
 
 
     public StructuralInfiltrationAccumulator(final IConstants constants) {
@@ -102,7 +103,9 @@ public class StructuralInfiltrationAccumulator implements IStructuralInfiltratio
 		TYPE: formula
 		UNIT: ach/h
 		SAP: (11)
+		SAP_COMPLIANT: Yes
 		BREDEM: Table 19
+		BREDEM_COMPLIANT: No, see note
 		DEPS: external-wall-area
 		NOTES: TODO Bredem specifies that this should be an area-weighted average.
 		CODSIEB
@@ -155,7 +158,9 @@ public class StructuralInfiltrationAccumulator implements IStructuralInfiltratio
 		TYPE: formula
 		UNIT: m^3/h
 		SAP: (12)
+		SAP_COMPLIANT: SAP mode only
 		BREDEM: Table 19
+		BREDEM_COMPLIANT: N/A - value from stock
 		SET: =action.reset-floors=
 		NOTES: In SAP 2012 mode, this will always use the values from the SAP table, and will ignore any values from action.reset-floors.
 		ID: floor-infiltration
@@ -200,7 +205,9 @@ public class StructuralInfiltrationAccumulator implements IStructuralInfiltratio
         TYPE: formula
         UNIT: m^3/hour
         SAP: (6a, 6b, 6a, 7b, 7c)
+        SAP_COMPLIANT: Yes
         BREDEM: Table 20
+	BREDEM_COMPLIANT: Yes
         STOCK: ventilation.csv
         NOTES: The values in the stock for chimneys are ignored. The counts of chimneys and open flues are derived from the heating system instead.
         NOTES: Flueless gas fires are not implemented in the NHM.
@@ -210,7 +217,7 @@ public class StructuralInfiltrationAccumulator implements IStructuralInfiltratio
         /**
          *  in M3/hr
          */
-        final double deliberateInfiltration = totalChimneyVentilation + totalChimneyVentilation + totalFanInfiltration + totalVentInfiltration;
+        deliberateInfiltration = totalChimneyVentilation + totalChimneyVentilation + totalFanInfiltration + totalVentInfiltration;
 
         /*
 		BEISDOC
@@ -220,7 +227,9 @@ public class StructuralInfiltrationAccumulator implements IStructuralInfiltratio
 		TYPE: formula
 		UNIT: ach/h
 		SAP: (8)
+                SAP_COMPLIANT: Yes
 		BREDEM: 3C
+                BREDEM_COMPLIANT: Yes
 		DEPS: deliberate-infiltration,dwelling-volume
 		CODSIEB
 		*/
@@ -238,7 +247,9 @@ public class StructuralInfiltrationAccumulator implements IStructuralInfiltratio
 		TYPE: formula
 		UNIT: ach/h
 		SAP: (15)
+                SAP_COMPLIANT: Yes
 		BREDEM: Table 19
+                BREDEM_COMPLIANT: No
 		DEPS: window-infiltration-constant,draught-stripped-factor-constant,draught-stripped-proportion
 		STOCK: ventilation.csv (windowsanddoorsdraughtstrippedproportion)
 		ID: window-infiltration
@@ -256,7 +267,9 @@ public class StructuralInfiltrationAccumulator implements IStructuralInfiltratio
         TYPE: formula
         UNIT: ach/h
         SAP: (9,10)
+        SAP_COMPLIANT: Yes
         BREDEM: Table 19
+        BREDEM_COMPLIANT: Yes
         DEPS:
         GET: house.number-of-storeys
         SET:
@@ -313,7 +326,9 @@ public class StructuralInfiltrationAccumulator implements IStructuralInfiltratio
 		TYPE: formula
 		UNIT: ach/h
 		SAP: (16,18)
+		SAP_COMPLIANT: Yes
 		BREDEM: 3D
+		BREDEM_COMPLIANT: Yes
 		DEPS: has-draught-lobby,stack-effect,window-infiltration,wall-air-changes,floor-infiltration,deliberate-air-changes
 		ID: total-infiltration
 		CODSIEB
@@ -322,5 +337,13 @@ public class StructuralInfiltrationAccumulator implements IStructuralInfiltratio
 
         StepRecorder.recordStep(EnergyCalculationStep.InfiltrationRate_Initial, airChangeRate);
         StepRecorder.recordStep(EnergyCalculationStep.InfiltrationRateMaybePressureTest, airChangeRate); // Since we never use the pressure test.
+    }
+
+    @Override
+    public double getDeliberateAirChanges(final double houseVolume) {
+        if (deliberateInfiltration == null) {
+            throw new IllegalStateException("calculateAirChangeRate should be called before getDeliberateAirChanges.");
+        }
+        return deliberateInfiltration == 0 ? 0 : deliberateInfiltration / houseVolume;
     }
 }

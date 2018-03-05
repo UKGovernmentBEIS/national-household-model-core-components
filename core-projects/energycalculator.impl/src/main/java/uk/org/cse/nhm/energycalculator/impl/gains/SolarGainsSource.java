@@ -103,7 +103,9 @@ public class SolarGainsSource implements IEnergyTransducer {
 		TYPE: formula
 		UNIT: m2
 		SAP: (74-82)
+                SAP_COMPLIANT: Yes
 		BREDEM: 5A
+                BREDEM_COMPLIANT: Yes
 		DEPS: solar-gains-effective-transmission-area,gains-overshading-factor,solar-reflection
 		ID: solar-gains-effective-transmission-area-2
 		CODSIEB
@@ -136,7 +138,9 @@ public class SolarGainsSource implements IEnergyTransducer {
 		TYPE: type
 		UNIT: W
 		SAP: (74-83)
+                SAP_COMPLIANT: Yes
 		BREDEM: 5A
+                BREDEM_COMPLIANT: Yes
 		DEPS: solar-gains-effective-transmission-area-2, effective-solar-flux
 		ID: monthly-solar-gains
 		CODSIEB

@@ -29,13 +29,9 @@ public class ClearAdjustmentsMeasure extends AbstractMeasure implements IModifie
 	}
 	
 	@Override
-	public boolean apply(final ISettableComponentsScope scope, final ILets lets) throws NHMException {
-		if (isSuitable(scope, lets)) {
-			scope.modify(technologies, this);
-			return true;
-		} else {
-			return false;
-		}
+	public boolean doApply(final ISettableComponentsScope scope, final ILets lets) throws NHMException {
+        scope.modify(technologies, this);
+        return true;		
 	}
 
 	@Override

@@ -20,7 +20,7 @@ import uk.org.cse.nhm.hom.emf.technologies.impl.PointOfUseWaterHeaterImpl;
 /**
  * A utility class associated with {@link PointOfUseWaterHeaterImpl} which is supplied into the energy calculation
  * to satisfy some hot water demand in the manner of a point of use water heater.
- * 
+ *
  * @author hinton
  *
  */
@@ -51,48 +51,52 @@ public class PointOfUseWaterHeaterTransducer extends EnergyTransducer {
 		state.increaseSupply(EnergyType.DemandsHOT_WATER, toSatisfy);
 		state.increaseSupply(EnergyType.GainsHOT_WATER_USAGE_GAINS, toSatisfy); // this gets multiplied down in the gains transducer
 		final IConstants constants = parameters.getConstants();
-		
+
 		/*
 		BEISDOC
 		NAME: Point-of-use Distribution Losses
-		DESCRIPTION: Point of use distribution losses are applied it if it multipoint.
+		DESCRIPTION: Point of use distribution losses are applied for multipoint water heaters.
 		TYPE: formula
 		UNIT: W
 		SAP: (46)
+                SAP_COMPLIANT: Yes
 		BREDEM: 2.2A
+                BREDEM_COMPLIANT: Yes
 		DEPS: distribution-loss-factor,usage-adjusted-water-volume,is-main-weater-heating
 		ID: point-of-use-distribution-loss
 		CODSIEB
 		*/
-		final double distributionLossFactor = 
+		final double distributionLossFactor =
 				multipoint ? constants.get(HeatingSystemConstants.CENTRAL_HEATING_DISTRIBUTION_LOSSES) : 0.0;
-		
+
 		final double distributionLosses = toSatisfy * distributionLossFactor;
-		
+
 		final double requiredEnergy = toSatisfy + distributionLosses;
-		
+
 		state.increaseSupply(EnergyType.GainsHOT_WATER_SYSTEM_GAINS, distributionLosses);
-		
+
 		/*
 		BEISDOC
-		NAME: Point-of-use Fuel Energy Demand 
-		DESCRIPTION: The amount of fuel consumed by a point-of-use water heater. 
+		NAME: Point-of-use Fuel Energy Demand
+		DESCRIPTION: The amount of fuel consumed by a point-of-use water heater.
 		TYPE: formula
 		UNIT: W
 		SAP: (64,217,219)
+                SAP_COMPLIANT: Yes
 		BREDEM: 2.2A-2.2D
+                BREDEM_COMPLIANT: Yes
 		DEPS: is-main-weater-heating,usage-adjusted-water-volume,point-of-use-distribution-losses
 		ID: point-of-use-fuel-energy-demand
 		CODSIEB
 		*/
 		if (fuelType == FuelType.ELECTRICITY) {
-			state.increaseElectricityDemand(constants.get(SplitRateConstants.DEFAULT_FRACTIONS, parameters.getTarrifType()), 
+			state.increaseElectricityDemand(constants.get(SplitRateConstants.DEFAULT_FRACTIONS, parameters.getTarrifType()),
 					requiredEnergy);
 		} else {
 			state.increaseDemand(fuelType.getEnergyType(), requiredEnergy/efficiency);
 		}
 	}
-	
+
 	@Override
 	public TransducerPhaseType getPhase() {
 		return TransducerPhaseType.HotWater;

@@ -87,9 +87,8 @@ public class Storey implements IStorey {
 	UNIT: m
 	SAP: (2a,2b...)
 	BREDEM: Input variable
-	DEPS:
-	GET:
-	SET:
+        SAP_COMPLIANT: N/A - value from stock
+        BREDEM_COMPLIANT: N/A - value from stock
 	STOCK: storeys.csv (storyheight)
 	CODSIEB
 	*/
@@ -240,8 +239,9 @@ public class Storey implements IStorey {
 		final double area = getArea();
 		if (area > areaBelow) {
 			final double heatLossAreaBelow = area - areaBelow;
-			visitor.visitFloor(FloorType.External, floorLocationType == FloorLocationType.GROUND, heatLossAreaBelow, floorUValue, getExposedPerimeter(), getAverageWallThicknessWithInsulation());
-			visitor.visitFloor(FloorType.Party, floorLocationType == FloorLocationType.GROUND, areaBelow, 0, getExposedPerimeter(), getAverageWallThicknessWithInsulation());
+			// Basements are treated as ground floors for heat loss purposes, as specified in SAP 2012 S3.10
+			visitor.visitFloor(FloorType.External, floorLocationType.isInContactWithGround(), heatLossAreaBelow, floorUValue, getExposedPerimeter(), getAverageWallThicknessWithInsulation());
+			visitor.visitFloor(FloorType.Party, floorLocationType.isInContactWithGround(), areaBelow, 0, getExposedPerimeter(), getAverageWallThicknessWithInsulation());
 		}
 
 		if (area > areaAbove) {
@@ -274,7 +274,9 @@ public class Storey implements IStorey {
 		TYPE: formula
 		UNIT: m3
 		SAP: (3a,3b..)
+                SAP_COMPLIANT: Yes
 		BREDEM: Input variable
+                BREDEM_COMPLIANT: Yes
 		DEPS: storey-floor-area,storey-height
 		GET: house.volume
 		SET:
@@ -296,10 +298,9 @@ public class Storey implements IStorey {
 		TYPE: formula
 		UNIT: m2
 		SAP: (1a,1b...)
+                SAP_COMPLIANT: Yes
 		BREDEM: Input variable
-		DEPS:
-		GET:
-		SET:
+                BREDEM_COMPLIANT: Yes
 		STOCK: stories.csv (polygon shape)
 		CODSIEB
 		*/
@@ -391,7 +392,9 @@ public class Storey implements IStorey {
 				TYPE: formula
 				UNIT: m^2
 				SAP: (11)
+                                SAP_COMPLIANT: Yes
 				BREDEM: Table 19
+                                BREDEM_COMPLIANT: Yes
 				DEPS: elevation-glazed-proportion,opening-proportion,storey-height
 				STOCK: storeys.csv (polygons)
 				ID: external-wall-area

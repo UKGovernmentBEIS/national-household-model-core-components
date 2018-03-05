@@ -290,19 +290,19 @@ public class RoomHeaterImpl extends SpaceHeaterImpl implements IRoomHeater {
 	public void accept(IConstants constants, final IEnergyCalculatorParameters parameters, final IEnergyCalculatorVisitor visitor, final AtomicInteger heatingSystemCounter, IHeatProportions heatProportions) {
 		accept(this, constants, parameters, visitor, heatingSystemCounter, heatProportions, false);
 	}
-	
+
 	/**
 	 * Factored out into a static method to allow use from multiply inheriting {@link BackBoilerImpl}.
 	 * @param self
 	 * @param parameters
 	 * @param visitor
 	 * @param heatingSystemCounter
-	 * @param heatProportions 
+	 * @param heatProportions
 	 */
 	protected static void accept(final IRoomHeater self, final IConstants constants, final IEnergyCalculatorParameters parameters, final IEnergyCalculatorVisitor visitor, final AtomicInteger heatingSystemCounter, IHeatProportions heatProportions, final boolean isBackBoiler) {
 		visitor.visitHeatingSystem(new RoomHeaterHeatingSystem(self), heatProportions.spaceHeatingProportion(self));
 		final double effectiveProportion = heatProportions.spaceHeatingProportion(self);
-		
+
 		/*
 		BEISDOC
 		NAME: Room heater Fuel Energy demand
@@ -310,7 +310,9 @@ public class RoomHeaterImpl extends SpaceHeaterImpl implements IRoomHeater {
 		TYPE: formula
 		UNIT: W
 		SAP: (215)
+                SAP_COMPLIANT: Yes
 		BREDEM: 8J,8K
+                BREDEM_COMPLIANT: Yes
 		DEPS: heat-demand,space-heating-fraction
 		NOTES: This code constructs a 'heat transducer', which is an object in the energy calculator which models converting fuel into heat.
 		ID: room-heater-fuel-energy-demand
@@ -323,10 +325,10 @@ public class RoomHeaterImpl extends SpaceHeaterImpl implements IRoomHeater {
 					new HeatTransducer(self.getFuel().getEnergyType(), self.getEfficiency().value, effectiveProportion, true, heatingSystemCounter.getAndIncrement(), ServiceType.SECONDARY_SPACE_HEATING)
 					);
 		}
-		
+
 		if (!isBackBoiler) {
 			// Back boiler flue has already been added in BoilerImpl
-			
+
 			if (self.getFuel() != FuelType.ELECTRICITY) {
 				if (self.getFlueType() == FlueType.OPEN_FLUE || self.getFlueType() == FlueType.CHIMNEY) {
 					// these are the only kind of flue which cause ventilation

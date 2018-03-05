@@ -73,7 +73,7 @@ class Globals implements IGlobals {
 	@Override
 	public GlobalTransactionHistory getGlobalAccount(final String accountName) {
 		if(!accounts.containsKey(accountName)) {
-			accounts.put(accountName, new GlobalTransactionHistory(quantum));
+			accounts.put(accountName, new GlobalTransactionHistory());
 		}
 		return accounts.get(accountName);
 	}

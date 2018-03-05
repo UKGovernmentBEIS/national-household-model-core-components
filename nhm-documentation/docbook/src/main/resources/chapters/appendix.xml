@@ -428,6 +428,7 @@
 	  </sect3>
 	</section>
   </appendix>
-  
+
   <xi:include href="imputation.xml" />
+  <xi:include href="sap-2012-spec.xml" />
 </part>

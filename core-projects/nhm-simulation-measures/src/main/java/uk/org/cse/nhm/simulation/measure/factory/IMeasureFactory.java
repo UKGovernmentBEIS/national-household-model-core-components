@@ -12,17 +12,23 @@ import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
+import uk.org.cse.nhm.hom.emf.technologies.AdjusterType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
 import uk.org.cse.nhm.hom.emf.technologies.IAdjuster;
 import uk.org.cse.nhm.hom.emf.technologies.StorageHeaterControlType;
 import uk.org.cse.nhm.hom.emf.technologies.StorageHeaterType;
 import uk.org.cse.nhm.hom.structure.IWall;
+import uk.org.cse.nhm.language.adapt.impl.Prop;
+import uk.org.cse.nhm.language.definition.action.measure.adjust.XAdjustNumberOfAirChangeDevices;
+import uk.org.cse.nhm.language.definition.action.measure.adjust.XSetAdjustmentTerms;
+import uk.org.cse.nhm.language.definition.action.measure.lighting.XLightingProportionsMeasure;
 import uk.org.cse.nhm.language.definition.enums.XChangeDirection;
 import uk.org.cse.nhm.simulation.measure.HeatingControlMeasure;
 import uk.org.cse.nhm.simulation.measure.StorageHeaterMeasure;
 import uk.org.cse.nhm.simulation.measure.adjustment.AdjustmentMeasure;
 import uk.org.cse.nhm.simulation.measure.adjustment.ClearAdjustmentsMeasure;
+import uk.org.cse.nhm.simulation.measure.adjustment.SetAdjustmentTermsMeasure;
 import uk.org.cse.nhm.simulation.measure.boilers.BoilerEfficiencyMeasure;
 import uk.org.cse.nhm.simulation.measure.boilers.BreakBoilerMeasure;
 import uk.org.cse.nhm.simulation.measure.boilers.CombiBoilerMeasure;
@@ -42,11 +48,13 @@ import uk.org.cse.nhm.simulation.measure.insulation.ModifyRoofInsulationMeasure;
 import uk.org.cse.nhm.simulation.measure.insulation.ModifyWallInsulationMeasure;
 import uk.org.cse.nhm.simulation.measure.insulation.RoofInsulationMeasure;
 import uk.org.cse.nhm.simulation.measure.insulation.WallInsulationMeasure;
+import uk.org.cse.nhm.simulation.measure.lighting.LightingProportionMeasure;
 import uk.org.cse.nhm.simulation.measure.lighting.LowEnergyLightingMeasure;
 import uk.org.cse.nhm.simulation.measure.otherspaceheating.WarmAirMeasure;
 import uk.org.cse.nhm.simulation.measure.renewables.SolarHotWaterMeasure;
 import uk.org.cse.nhm.simulation.measure.renewables.SolarPhotovoltaicMeasure;
 import uk.org.cse.nhm.simulation.measure.roomheaters.RoomHeaterMeasure;
+import uk.org.cse.nhm.simulation.measure.structure.AdjustNumberOfAirChangeDevicesMeasure;
 import uk.org.cse.nhm.simulation.measure.structure.AlterWallHeatLossMeasure;
 import uk.org.cse.nhm.simulation.measure.structure.ModifyWallConstructionTypeMeasure;
 import uk.org.cse.nhm.simulator.measure.sizing.ISizingFunction;
@@ -241,4 +249,20 @@ public interface IMeasureFactory {
             @Assisted("capex") final IComponentsFunction<Number> capitalCostFunction,
             @Assisted("opex") final IComponentsFunction<Number> operationalCostFunction,
             @Assisted("efficiency") final IComponentsFunction<Number> efficiency);
+    
+    public LightingProportionMeasure createLightingProportionMeasure(
+    		@Assisted("proportionOfCfl") @Prop(XLightingProportionsMeasure.P.proportionOfCfl) final IComponentsFunction<Number> proportionOfCfl,
+			@Assisted("proportionOfIcandescent") @Prop(XLightingProportionsMeasure.P.proportionOfIcandescent) final IComponentsFunction<Number> proportionOfIcandescent,
+			@Assisted("propotionOfHAL") @Prop(XLightingProportionsMeasure.P.proportionOfHAL) final IComponentsFunction<Number> propotionOfHAL,
+			@Assisted("proportionOfLED") @Prop(XLightingProportionsMeasure.P.proportionOfLED) final IComponentsFunction<Number> proportionOfLED
+    		);
+
+    public SetAdjustmentTermsMeasure createSetAdjustmentTermsMeasure(
+            @Assisted final AdjusterType adjuster,
+            @Assisted(XSetAdjustmentTerms.P.constantTerm) final IComponentsFunction<Number> constantTerm,
+            @Assisted(XSetAdjustmentTerms.P.linearFactor) final IComponentsFunction<Number> linearFactor);
+    
+    public AdjustNumberOfAirChangeDevicesMeasure createAdjustNumberOfAirChangeDevicesMeasure(
+            final int adjustment,
+            final XAdjustNumberOfAirChangeDevices.XAirChangeDevice device);
 }

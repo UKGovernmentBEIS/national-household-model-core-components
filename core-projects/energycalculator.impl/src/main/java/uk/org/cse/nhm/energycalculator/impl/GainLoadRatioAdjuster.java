@@ -78,7 +78,9 @@ class GainLoadRatioAdjuster implements IEnergyTransducer {
 		TYPE: formula
 		UNIT: W
 		SAP: (95)
+                SAP_COMPLIANT: Yes
 		BREDEM: 8I
+                BREDEM_COMPLIANT: Yes
 		DEPS: gains-utilisation-factor-revised,total-gains
 		ID: total-useful-gains
 		CODSIEB
@@ -97,7 +99,9 @@ class GainLoadRatioAdjuster implements IEnergyTransducer {
 		TYPE: formula
 		UNIT: W
 		SAP: (97)
+                SAP_COMPLIANT: Yes
 		BREDEM: 8I
+                BREDEM_COMPLIANT: Yes
 		DEPS: specific-heat-loss,external-temperature,mean-internal-temperature-adjusted
 		ID: heat-loss-at-mean-internal-temperature
 		CODSIEB
@@ -122,7 +126,9 @@ class GainLoadRatioAdjuster implements IEnergyTransducer {
 		TYPE: formula
 		UNIT: W
 		SAP: (98)
+                SAP_COMPLIANT: Yes
 		BREDEM: 8I
+                BREDEM_COMPLIANT: Yes, but possible bug in BREDEM 2012 spec here
 		DEPS: bredem-heating-on-factor,heat-loss-at-mean-internal-temperature
 		ID: heat-demand
 		CODSIEB

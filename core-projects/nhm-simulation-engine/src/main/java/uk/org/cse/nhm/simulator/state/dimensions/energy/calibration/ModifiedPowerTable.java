@@ -103,6 +103,11 @@ public class ModifiedPowerTable implements IPowerTable {
 	}
 
 	@Override
+	public float getAirChangeRateWithoutDeliberate() {
+		return delegate.getAirChangeRateWithoutDeliberate();
+	}
+
+	@Override
 	public double readStepAnnual(EnergyCalculationStep step) {
 		return delegate.readStepAnnual(step);
 	}

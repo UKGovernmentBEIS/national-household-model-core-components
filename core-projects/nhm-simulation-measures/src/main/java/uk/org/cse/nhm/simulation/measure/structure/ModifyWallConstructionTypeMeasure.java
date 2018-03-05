@@ -30,15 +30,12 @@ public class ModifyWallConstructionTypeMeasure extends AbstractMeasure
 	}
 
 	@Override
-	public boolean apply(final ISettableComponentsScope components, final ILets lets)
+	public boolean doApply(final ISettableComponentsScope components, final ILets lets)
 			throws NHMException {
-		if (isSuitable(components, lets)) {
-			components.modify(structureDimension, this);
-			return true;
-		} else {
-			return false;
-		}
-	}
+
+        components.modify(structureDimension, this);
+        return true;
+    }
 
 	@Override
 	public boolean isAlwaysSuitable() {

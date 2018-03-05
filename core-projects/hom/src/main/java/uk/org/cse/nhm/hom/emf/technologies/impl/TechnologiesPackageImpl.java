@@ -20,6 +20,7 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyState;
 import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.hom.IHeatProportions;
+import uk.org.cse.nhm.hom.emf.technologies.AdjusterType;
 import uk.org.cse.nhm.hom.emf.technologies.EmitterType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.HeatPumpSourceType;
@@ -34,6 +35,7 @@ import uk.org.cse.nhm.hom.emf.technologies.ICommunityCHP;
 import uk.org.cse.nhm.hom.emf.technologies.ICommunityHeatSource;
 import uk.org.cse.nhm.hom.emf.technologies.ICooker;
 import uk.org.cse.nhm.hom.emf.technologies.IElectricShower;
+import uk.org.cse.nhm.hom.emf.technologies.IEnergyUseAdjuster;
 import uk.org.cse.nhm.hom.emf.technologies.IFuelAndFlue;
 import uk.org.cse.nhm.hom.emf.technologies.IHasInstallationYear;
 import uk.org.cse.nhm.hom.emf.technologies.IHeatPump;
@@ -348,6 +350,13 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass energyUseAdjusterEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EEnum fuelTypeEEnum = null;
 
 	/**
@@ -384,6 +393,13 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * @generated
 	 */
 	private EEnum heatPumpSourceTypeEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum adjusterTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -629,6 +645,15 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 */
 	public EReference getTechnologyModel_Shower() {
 		return (EReference)technologyModelEClass.getEStructuralFeatures().get(11);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTechnologyModel_EnergyUseAdjusters() {
+		return (EReference)technologyModelEClass.getEStructuralFeatures().get(12);
 	}
 
 	/**
@@ -1662,6 +1687,42 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getEnergyUseAdjuster() {
+		return energyUseAdjusterEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getEnergyUseAdjuster_ConstantTerm() {
+		return (EAttribute)energyUseAdjusterEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getEnergyUseAdjuster_LinearTerm() {
+		return (EAttribute)energyUseAdjusterEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getEnergyUseAdjuster_AdjustmentType() {
+		return (EAttribute)energyUseAdjusterEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getFuelType() {
 		return fuelTypeEEnum;
 	}
@@ -1709,6 +1770,15 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 */
 	public EEnum getHeatPumpSourceType() {
 		return heatPumpSourceTypeEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getAdjusterType() {
+		return adjusterTypeEEnum;
 	}
 
 	/**
@@ -1833,6 +1903,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		createEReference(technologyModelEClass, TECHNOLOGY_MODEL__SOLAR_PHOTOVOLTAIC);
 		createEReference(technologyModelEClass, TECHNOLOGY_MODEL__ADJUSTERS);
 		createEReference(technologyModelEClass, TECHNOLOGY_MODEL__SHOWER);
+		createEReference(technologyModelEClass, TECHNOLOGY_MODEL__ENERGY_USE_ADJUSTERS);
 
 		applianceEClass = createEClass(APPLIANCE);
 		createEAttribute(applianceEClass, APPLIANCE__EFFICIENCY);
@@ -1985,6 +2056,11 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 
 		electricShowerEClass = createEClass(ELECTRIC_SHOWER);
 
+		energyUseAdjusterEClass = createEClass(ENERGY_USE_ADJUSTER);
+		createEAttribute(energyUseAdjusterEClass, ENERGY_USE_ADJUSTER__CONSTANT_TERM);
+		createEAttribute(energyUseAdjusterEClass, ENERGY_USE_ADJUSTER__LINEAR_TERM);
+		createEAttribute(energyUseAdjusterEClass, ENERGY_USE_ADJUSTER__ADJUSTMENT_TYPE);
+
 		// Create enums
 		fuelTypeEEnum = createEEnum(FUEL_TYPE);
 		heatingSystemControlTypeEEnum = createEEnum(HEATING_SYSTEM_CONTROL_TYPE);
@@ -1992,6 +2068,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		storageHeaterControlTypeEEnum = createEEnum(STORAGE_HEATER_CONTROL_TYPE);
 		storageHeaterTypeEEnum = createEEnum(STORAGE_HEATER_TYPE);
 		heatPumpSourceTypeEEnum = createEEnum(HEAT_PUMP_SOURCE_TYPE);
+		adjusterTypeEEnum = createEEnum(ADJUSTER_TYPE);
 
 		// Create data types
 		iEnergyCalculatorVisitorEDataType = createEDataType(IENERGY_CALCULATOR_VISITOR);
@@ -2084,6 +2161,8 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		showerEClass.getESuperTypes().add(this.getVisitorAccepter());
 		mixerShowerEClass.getESuperTypes().add(this.getShower());
 		electricShowerEClass.getESuperTypes().add(this.getShower());
+		energyUseAdjusterEClass.getESuperTypes().add(this.getNamed());
+		energyUseAdjusterEClass.getESuperTypes().add(this.getVisitorAccepter());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(technologyModelEClass, ITechnologyModel.class, "TechnologyModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -2099,6 +2178,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		initEReference(getTechnologyModel_SolarPhotovoltaic(), this.getSolarPhotovoltaic(), null, "solarPhotovoltaic", null, 0, 1, ITechnologyModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTechnologyModel_Adjusters(), this.getAdjuster(), null, "adjusters", null, 0, -1, ITechnologyModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTechnologyModel_Shower(), this.getShower(), this.getShower_TechnologyModel(), "shower", null, 0, 1, ITechnologyModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTechnologyModel_EnergyUseAdjusters(), this.getEnergyUseAdjuster(), null, "energyUseAdjusters", null, 0, 2, ITechnologyModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(technologyModelEClass, ecorePackage.getEDouble(), "getTotalOperationalCost", 1, 1, IS_UNIQUE, IS_ORDERED);
 
@@ -2341,6 +2421,11 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 
 		initEClass(electricShowerEClass, IElectricShower.class, "ElectricShower", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
+		initEClass(energyUseAdjusterEClass, IEnergyUseAdjuster.class, "EnergyUseAdjuster", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getEnergyUseAdjuster_ConstantTerm(), ecorePackage.getEDouble(), "constantTerm", null, 0, 1, IEnergyUseAdjuster.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getEnergyUseAdjuster_LinearTerm(), ecorePackage.getEDouble(), "linearTerm", null, 0, 1, IEnergyUseAdjuster.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getEnergyUseAdjuster_AdjustmentType(), this.getAdjusterType(), "adjustmentType", null, 0, 1, IEnergyUseAdjuster.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		// Initialize enums and add enum literals
 		initEEnum(fuelTypeEEnum, FuelType.class, "FuelType");
 		addEEnumLiteral(fuelTypeEEnum, FuelType.MAINS_GAS);
@@ -2392,6 +2477,10 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		initEEnum(heatPumpSourceTypeEEnum, HeatPumpSourceType.class, "HeatPumpSourceType");
 		addEEnumLiteral(heatPumpSourceTypeEEnum, HeatPumpSourceType.GROUND);
 		addEEnumLiteral(heatPumpSourceTypeEEnum, HeatPumpSourceType.AIR);
+
+		initEEnum(adjusterTypeEEnum, AdjusterType.class, "AdjusterType");
+		addEEnumLiteral(adjusterTypeEEnum, AdjusterType.APPLIANCE);
+		addEEnumLiteral(adjusterTypeEEnum, AdjusterType.COOKER);
 
 		// Initialize data types
 		initEDataType(iEnergyCalculatorVisitorEDataType, IEnergyCalculatorVisitor.class, "IEnergyCalculatorVisitor", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

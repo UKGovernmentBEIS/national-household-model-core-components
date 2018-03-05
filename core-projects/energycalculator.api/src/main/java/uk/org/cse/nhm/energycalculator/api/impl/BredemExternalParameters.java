@@ -31,6 +31,19 @@ public class BredemExternalParameters extends ExternalParameters {
 		this.numberOfOccupants = numberOfOccupants;
 	}
 
+	/*
+	BEISDOC
+	NAME: BREDEM zone 1 demand temperature
+	DESCRIPTION: The zone 1 demand temperature under BREDEM 2012
+	TYPE: value
+	UNIT: ℃
+    SAP_COMPLIANT: N/A - not used
+    BREDEM: 7 input Td1
+    BREDEM_COMPLIANT: N/A - user defined
+    NOTES: Defaults to 19℃
+	ID: bredem-zone-1-demand-temperature
+	CODSIEB
+	*/
 	@Override
 	public double getZoneOneDemandTemperature() {
 		return zoneOneDemandTemperature;
@@ -51,6 +64,19 @@ public class BredemExternalParameters extends ExternalParameters {
 		}
 	}
 
+	/*
+	BEISDOC
+	NAME: BREDEM interzone temperature difference
+	DESCRIPTION: The difference in demand temperature between the living area and the rest of the dwelling.
+	TYPE: value
+	UNIT: ℃
+    SAP_COMPLIANT: N/A - not used
+    BREDEM: 7 input Tdt
+    BREDEM_COMPLIANT: N/A - user defined
+    NOTES: Defaults to 3℃
+	ID: bredem-interzone-temperature-difference
+	CODSIEB
+	*/
 	@Override
 	public double getInterzoneTemperatureDifference() {
 		if (interzoneTemperatureDifference.isPresent()) {

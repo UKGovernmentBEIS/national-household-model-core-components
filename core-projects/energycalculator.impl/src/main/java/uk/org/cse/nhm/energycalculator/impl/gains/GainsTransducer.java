@@ -40,7 +40,9 @@ public class GainsTransducer implements IEnergyTransducer {
 		TYPE: formula
 		UNIT: W
 		SAP: (70), Table 5a
+                SAP_COMPLIANT: Yes
 		BREDEM: 6G, Table 26
+                BREDEM_COMPLIANT: Yes
 		DEPS: warm-air-fan-electricity,central-heating-pump-gains,oil-boiler-pump-gains
 		ID: pump-and-fan-gains
 		CODSIEB
@@ -59,6 +61,7 @@ public class GainsTransducer implements IEnergyTransducer {
 		state.increaseDemand(EnergyType.GainsHOT_WATER_USAGE_GAINS, hotWaterGains);
 		state.increaseDemand(EnergyType.GainsHOT_WATER_SYSTEM_GAINS, hotWaterGains2);
 
+
 		final double usefulLightingGains = LIGHTING_GAIN_USEFULNESS * lightingGains;
 		final double usefulHotWaterGains =
 				/*
@@ -68,7 +71,9 @@ public class GainsTransducer implements IEnergyTransducer {
 				TYPE: formula
 				UNIT: W
 				SAP: (65)
+                                SAP_COMPLIANT: Yes
 				BREDEM: 6I
+                                BREDEM_COMPLIANT: Yes
 				DEPS: combi-losses,water-heating-power,hot-water-direct-gains-usefulness
 				NOTES: Combi losses are included here because they model 'rejected' water, which came out of the tap at the wrong temperature.
 				ID: hot-water-usage-gains
@@ -82,7 +87,9 @@ public class GainsTransducer implements IEnergyTransducer {
 				TYPE: formula
 				UNIT: W
 				SAP: (65)
+                                SAP_COMPLIANT: Yes
 				BREDEM: 6I
+                                BREDEM_COMPLIANT: Yes
 				DEPS: central-hot-water-distribution-losses,point-of-use-distribution-losses,distribution-losses,water-storage-loss,hot-water-system-gains-usefulness
 				ID: hot-water-system-gains
 				CODSIEB

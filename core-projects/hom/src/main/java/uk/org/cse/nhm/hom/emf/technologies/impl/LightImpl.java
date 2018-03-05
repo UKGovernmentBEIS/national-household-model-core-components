@@ -13,9 +13,9 @@ import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.hom.IHeatProportions;
+import uk.org.cse.nhm.hom.constants.SplitRateConstants;
 import uk.org.cse.nhm.hom.emf.technologies.ILight;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
-import uk.org.cse.nhm.hom.emf.technologies.impl.util.SimpleLightingTransducer;
 
 /**
  * <!-- begin-user-doc -->
@@ -190,8 +190,7 @@ public class LightImpl extends MinimalEObjectImpl implements ILight {
 	 * @generated NO
 	 */
 	public void accept(IConstants constants, final IEnergyCalculatorParameters parameters, final IEnergyCalculatorVisitor visitor, AtomicInteger heatingSystemCounter, IHeatProportions heatProportions) {
-		// emit a lighting transducer
-		visitor.visitEnergyTransducer(new SimpleLightingTransducer(getName(), getProportion(), getEfficiency()));
+		visitor.visitLight(getName(), getProportion(), getEfficiency(), constants.get(SplitRateConstants.DEFAULT_FRACTIONS, double[].class));
 	}
 
 	/**

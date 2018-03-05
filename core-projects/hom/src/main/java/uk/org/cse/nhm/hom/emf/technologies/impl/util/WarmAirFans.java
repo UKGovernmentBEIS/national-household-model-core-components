@@ -26,7 +26,9 @@ public class WarmAirFans extends EnergyTransducer {
 		TYPE: formula
 		UNIT: W
 		SAP: Table 5a (warm air heating system fans)
+                SAP_COMPLIANT: Yes
 		BREDEM: Table4, Table 26 (warm air heating system fans)
+                BREDEM_COMPLIANT: Yes
 		DEPS: warm-air-system-volume-multiplier
 		ID: warm-air-fan-electricity
 		CODSIEB

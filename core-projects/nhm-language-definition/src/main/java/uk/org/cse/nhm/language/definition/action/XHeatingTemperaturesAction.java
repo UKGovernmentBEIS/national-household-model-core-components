@@ -48,7 +48,8 @@ public class XHeatingTemperaturesAction extends XFlaggedDwellingAction {
 	}
 
 	@BindNamedArgument("living-area-temperature")
-	@Doc("If specified, this action will set the living area demand temperature to this value (in celsius). This is the heating temperature in the main part of the house.")
+	@Doc({"If specified, this action will set the living area demand temperature to this value (in celsius). This is the heating temperature in the main part of the house.",
+		"If no value for living-area-temperature has been set on a dwelling, then the defaul value of 19\u2103 from the Cambridge Household Model is used."})
 	public XNumber getLivingAreaTemperature() {
 		return livingAreaTemperature;
 	}
@@ -62,7 +63,8 @@ public class XHeatingTemperaturesAction extends XFlaggedDwellingAction {
 				"If specified, this action will set the living area / rest of house temperature difference to the given amount (in celsius).",
 				"This is different from, and exclusive of, setting the rest-of-dwelling-temperature; when a temperature difference is specified",
 				"SAP determines the rest of dwelling temperature using the responsiveness of the house's heating systems.",
-				"When the rest of dwelling temperature is set explicitly, SAP will not compute it but will take the given value."
+				"When the rest of dwelling temperature is set explicitly, SAP will not compute it but will take the given value.",
+				"If no value is present for this on the dwelling, then the default value of 3\u2103 from the Cambridge Household Model is used."
 			}
 		)
 	public XNumber getTemperatureDifference() {

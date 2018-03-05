@@ -11,7 +11,9 @@ public abstract class SeasonalParameters implements ISeasonalParameters {
 	TYPE: value
 	UNIT: Radians
 	SAP: Table U3 (bottom half)
+        SAP_COMPLIANT: Yes
 	BREDEM: Table 16
+        BREDEM_COMPLIANT: Yes
 	CONVERSION: From degress to radians
 	ID: solar-declination
 	CODSIEB

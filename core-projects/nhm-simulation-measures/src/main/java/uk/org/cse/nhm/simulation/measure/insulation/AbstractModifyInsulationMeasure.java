@@ -34,13 +34,10 @@ public abstract class AbstractModifyInsulationMeasure extends AbstractMeasure {
 	}
 
 	@Override
-	public boolean apply(final ISettableComponentsScope scope, final ILets lets)
+	public boolean doApply(final ISettableComponentsScope scope, final ILets lets)
 			throws NHMException {
-		if(isSuitable(scope, lets)) {
-			scope.modify(structureDimension, modifier(scope, lets));
-			return true;
-		}
-		return false;
+        scope.modify(structureDimension, modifier(scope, lets));
+        return true;
 	}
 	
 	protected abstract IModifier<StructureModel> modifier(final ISettableComponentsScope scope, final ILets lets);

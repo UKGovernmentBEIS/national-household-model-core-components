@@ -17,6 +17,7 @@ public class Transaction implements ITransaction {
 	private final String payer;
 	private final String payee;
 	private final double amount;
+	private final double weight;
 	private final DateTime date;
 	private final Set<String> tags;
 	private final boolean isForDwelling;
@@ -27,21 +28,22 @@ public class Transaction implements ITransaction {
 	private static Interner<Set<String>> tagsInterner = Interners.newWeakInterner();
 	
 	public static ITransaction dwelling(final IDwelling payer, final String payee, final double amount, final DateTime date, final Set<String> tags) {
-		return interner.intern(new Transaction("dwelling " + Integer.toString(payer.getID()), payee, amount, date, tags, true));
+		return interner.intern(new Transaction("dwelling " + Integer.toString(payer.getID()), payee, amount, date, tags, true, payer.getWeight()));
 	}
 	
 	public static ITransaction global(final String payer, final String payee, final double amount, final DateTime date, final Set<String> tags) {
-		return interner.intern(new Transaction(payer, payee, amount, date, tags, false));
+		return interner.intern(new Transaction(payer, payee, amount, date, tags, false, 1));
 	}
 	
 	private Transaction(final String payer, final String payee, final double amount, final DateTime date,
-			final Set<String> tags, final boolean isForDwelling) {
+			final Set<String> tags, final boolean isForDwelling, final double weight) {
 		super();
 		this.payer = idInterner.intern(payer);
 		this.payee = idInterner.intern(payee);
 		this.amount = amount;
 		this.date = dtInterner.intern(date);
 		this.isForDwelling = isForDwelling;
+		this.weight = weight;
 		this.tags = tagsInterner.intern(ImmutableSet.copyOf(tags));
 	}
 
@@ -88,5 +90,10 @@ public class Transaction implements ITransaction {
 	@Override
 	public boolean isForDwelling() {
 		return isForDwelling;
+	}
+
+	@Override
+	public double getWeight() {
+		return weight;
 	}
 }

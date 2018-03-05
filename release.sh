@@ -22,6 +22,8 @@ set_documentation_version () {
     # although obviously we have to start java and all that.
     maven versions:set -DnewVersion="$1"
 
+    rm -f */pom.xml.versionsBackup pom.xml.versionsBackup
+
     popd
 }
 

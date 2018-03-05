@@ -3,12 +3,12 @@ package uk.org.cse.nhm.energycalculator.api.impl;
 import uk.org.cse.nhm.energycalculator.api.IHeatingSchedule;
 
 /**
- * A heating schedule which takes the weighted average of two other heating schedules, 
+ * A heating schedule which takes the weighted average of two other heating schedules,
  * the first being weekdays and the second being weekend days.
- * 
+ *
  * The intention is that this is used to combine two {@link DailyHeatingSchedule}s, which
  * handle the daily averages.
- * 
+ *
  * @author hinton
  *
  */
@@ -16,12 +16,12 @@ public class WeeklyHeatingSchedule implements IHeatingSchedule {
 	private static final double WEEKEND_DAYS_PER_WEEK = 2.0;
 	private static final double WEEKDAYS_PER_WEEK = 5.0;
 	private static final double DAYS_PER_WEEK = WEEKEND_DAYS_PER_WEEK + WEEKDAYS_PER_WEEK;
-	
+
 	private final IHeatingSchedule weekdays, weekends;
-	
+
 	/**
 	 * Make a new weekly schedule which has the given sub-schedules for weekdays and weekends
-	 * 
+	 *
 	 * @param weekdays
 	 * @param weekends
 	 */
@@ -29,7 +29,7 @@ public class WeeklyHeatingSchedule implements IHeatingSchedule {
 		this.weekdays = weekdays;
 		this.weekends = weekends;
 	}
-	
+
 	@Override
 	public double getMeanTemperature(final double demandTemperature,
 			final double backgroundTemperature, final double cutoffTime) {
@@ -37,18 +37,20 @@ public class WeeklyHeatingSchedule implements IHeatingSchedule {
 		BEISDOC
 		NAME: Mean zonal temperatures
 		DESCRIPTION: The zone 1 and zone 2 mean internal temperatures, accounting for the heating schedule.
-		TYPE: formula 
+		TYPE: formula
 		UNIT: ℃
 		SAP: (87,90), Table 9c (Step 7)
+                SAP_COMPLIANT: Yes
 		BREDEM: 7P, 7X
-		DEPS: weekday-and-weekend-mean-temperatures 
+                BREDEM_COMPLIANT: Yes
+		DEPS: weekday-and-weekend-mean-temperatures
 		ID: mean-zonal-temperatures
 		CODSIEB
 		*/
 		return (weekdays.getMeanTemperature(demandTemperature, backgroundTemperature, cutoffTime) * WEEKDAYS_PER_WEEK
 				+ weekends.getMeanTemperature(demandTemperature, backgroundTemperature, cutoffTime) * WEEKEND_DAYS_PER_WEEK) / DAYS_PER_WEEK;
 	}
-	
+
 	@Override
 	public boolean isHeatingOn() {
 		return weekdays.isHeatingOn() || weekends.isHeatingOn();

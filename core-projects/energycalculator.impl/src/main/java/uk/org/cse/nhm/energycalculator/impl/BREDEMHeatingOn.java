@@ -17,7 +17,9 @@ public class BREDEMHeatingOn {
 		DESCRIPTION: The upper threshold temperature for BREDEM's degree days calculation.
 		TYPE: formula
 		UNIT: ℃
+                SAP_COMPLIANT: N/A - not used
 		BREDEM: 8D
+                BREDEM_COMPLIANT: Yes
 		DEPS: zone-1-demand-temperature,gains-utilisation-factor-threshold-difference
 		ID: threshold-temperature
 		CODSIEB
@@ -30,7 +32,9 @@ public class BREDEMHeatingOn {
 		DESCRIPTION: The lower threshold temperature for BREDEM's degree days calculation.
 		TYPE: formala
 		UNIT: ℃
+                SAP_COMPLIANT: N/A - not used
 		BREDEM: 8E
+                BREDEM_COMPLIANT: Yes
 		DEPS: external-temperature,total-useful-gains,specific-heat-loss
 		ID: unheated-temperature
 		CODSIEB
@@ -47,7 +51,9 @@ public class BREDEMHeatingOn {
 		DESCRIPTION: The fraction of gains which should be multiplied by the gains utilisation factor (the remaining gains are used unmodified). Calculated by subtracting the number of degree days at threshold -0.5 from those at threshold +0.5.
 		TYPE: formula
 		UNIT: Dimensionless
+                SAP_COMPLIANT: N/A - not used
 		BREDEM: 8H
+                BREDEM_COMPLIANT: Yes
 		DEPS: threshold-degree-days
 		NOTES: Despite the name, this value does not directly affect whether or not the heating is on.
 		NOTES: Also known as the fraction of month heated.
@@ -66,7 +72,9 @@ public class BREDEMHeatingOn {
 		DESCRIPTION: The number of degree days at threshold temp +-0.5 ℃.
 		TYPE: formula
 		UNIT: Degree Days
+                SAP_COMPLIANT: N/A - not used
 		BREDEM: 8F, 8G
+                BREDEM_COMPLIANT: Yes
 		DEPS: threshold-degree-days-value,threshold-temperature,unheated-temperature
 		ID: threshold-degree-days
 		CODSIEB

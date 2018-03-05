@@ -6,14 +6,28 @@ import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.simulator.let.ILets;
 import uk.org.cse.nhm.simulator.scope.ISettableComponentsScope;
 
+import java.util.Set;
+
 public interface IExtraCharge {
 	Optional<FuelType> getFuel();
 	void apply(ISettableComponentsScope scope, ILets lets);
-	
-	/**
-	 * The number of dependencies this extra charge has if you count everything in its tree. 
-	 * This is used to determine the order in which extra charges should be run.
-	 * A larger number means it will be run later. 
-	 */
-	int getOrder();
+	Set<IExtraCharge> getDependencies();
+
+	public static class CircularDependencyException extends Exception {
+		private final IExtraCharge head;
+
+		CircularDependencyException(IExtraCharge head) {
+			this.head = head;
+		}
+	}
+
+	public static class DependencyWrongFuelTypeException extends RuntimeException {
+		private final IExtraCharge parent;
+		private final Set<IExtraCharge> deps;
+
+		public DependencyWrongFuelTypeException(IExtraCharge parent, Set<IExtraCharge> deps) {
+			this.parent = parent;
+			this.deps = deps;
+		}
+	}
 }

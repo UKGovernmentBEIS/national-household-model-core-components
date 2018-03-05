@@ -348,7 +348,9 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 		TYPE: formula
 		UNIT: W
 		SAP: (211)
+                SAP_COMPLIANT: Yes
 		BREDEM: 8J,8K
+                BREDEM_COMPLIANT: Yes
 		DEPS: heat-demand,space-heating-fraction
 		NOTES: This code constructs a 'heat transducer', which is an object in the energy calculator which models converting fuel into heat.
 		ID: storage-heater-fuel-energy-demand
@@ -375,7 +377,9 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 		TYPE: lookup
 		UNIT: Dimensionless
 		SAP: Table 4a (Category 7)
+                SAP_COMPLIANT: SAP mode only
 		BREDEM: Defers to SAP
+                BREDEM_COMPLIANT: N/A - out of scope
 		SET: measure.storage-heater
 		NOTES: In BREDEM 2012 mode, the storage heater responsiveness can be overridden by the scenario author. In SAP 2012 mode, it cannot.
 		ID: storage-heater-responsiveness

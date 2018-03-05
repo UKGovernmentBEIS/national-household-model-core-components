@@ -54,7 +54,7 @@ public class SolarPhotovoltaicMeasure extends AbstractMeasure {
 	}
 
 	@Override
-	public boolean apply(final ISettableComponentsScope scope, final ILets lets) throws NHMException {
+	public boolean doApply(final ISettableComponentsScope scope, final ILets lets) throws NHMException {
 		final ISizingResult peakPower = sizing.computeSize(scope, lets, Units.KILOWATTS);
 
 		final double ownUseProportion = clampProportion(ownUse.compute(scope, lets).doubleValue(),

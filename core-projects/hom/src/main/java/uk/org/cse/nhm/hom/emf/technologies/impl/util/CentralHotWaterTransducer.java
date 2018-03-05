@@ -115,7 +115,9 @@ public class CentralHotWaterTransducer extends EnergyTransducer {
 		TYPE: formula
 		UNIT: W
 		SAP: (51-56), Tables 2, 2a, 2b
+                SAP_COMPLIANT: Yes
 		BREDEM: 2.2B, 2.2C, Table 9
+                BREDEM_COMPLIANT: Yes
 		DEPS: tank-losses,storage-combi-storage-temperature-factor,cpsu-storage-temperature-factor
 		ID: water-storage-loss
 		CODSIEB
@@ -178,7 +180,9 @@ public class CentralHotWaterTransducer extends EnergyTransducer {
 		TYPE: formula
 		UNIT: W
 		SAP: (64,216,217,219)
+                SAP_COMPLIANT: Yes
 		BREDEM: 2.5
+                BREDEM_COMPLIANT: Yes
 		DEPS: boiler-water-heating-efficiency,combi-losses,community-water-heating-energy-multipliers,solar-hot-water-output
 		ID: central-direct-hot-water-fuel-demand
 		CODSIEB
@@ -257,7 +261,9 @@ public class CentralHotWaterTransducer extends EnergyTransducer {
 		TYPE: formula
 		UNIT: W
 		SAP: (46)
+                SAP_COMPLIANT: Yes
 		BREDEM: 2.21
+                BREDEM_COMPLIANT: Yes
 		DEPS: distribution-loss-factor,usage-adjusted-water-volume,is-main-weater-heating
 		ID: central-hot-water-distribution-losses
 		CODSIEB
@@ -277,7 +283,9 @@ public class CentralHotWaterTransducer extends EnergyTransducer {
 		TYPE: formula
 		UNIT: W
 		SAP: (64,216,217,219)
+                SAP_COMPLIANT: Yes
 		BREDEM: 2.5
+                BREDEM_COMPLIANT: Yes
 		DEPS: central-hot-water-distribution-losses,primary-pipework-losses,water-storage-loss
 		ID: central-system-hot-water-fuel-demand
 		CODSIEB
@@ -297,7 +305,9 @@ public class CentralHotWaterTransducer extends EnergyTransducer {
 						TYPE: formula
 						UNIT: W
 						SAP: (62)
+                                                SAP_COMPLIANT: Yes
 						BREDEM: 2.5A
+                                                BREDEM_COMPLIANT: Yes
 						DEPS: central-hot-water-distribution-losses,water-storage-loss
 						NOTES: Combi losses and pipework losses are not included here. They are added on inside the various kinds of heat source.
 						ID: total-central-hot-water-losses
@@ -358,7 +368,9 @@ public class CentralHotWaterTransducer extends EnergyTransducer {
 		TYPE: Lookup
 		UNIT: Dimensionless
 		SAP: Table 3
+                SAP_COMPLIANT: Yes, but limited data
 		BREDEM: Table 10
+                BREDEM_COMPLIANT: Yes, but limited data
 		NOTES: In the NHM we only implement the rows for uninsulated and fully insulated, and community heating is always fully insulated.
 		ID: pipework-insulation-fraction
 		CODSIEB
@@ -383,7 +395,9 @@ public class CentralHotWaterTransducer extends EnergyTransducer {
 		TYPE: formula
 		UNIT: W
 		SAP: (59), Table 3
+                SAP_COMPLIANT: Yes
 		BREDEM: 2.2D
+                BREDEM_COMPLIANT: Yes
 		DEPS: primary-pipework-coefficient, primary-pipework-insulated-multiplier, primary-pipework-uninsulated-multiplier, primary-pipework-constant, pipework-insulation-fraction, hours-per-day-primary-hot, solar-primary-pipework-correction
 		ID: primary-pipework-losses
 		CODSIEB
@@ -415,7 +429,9 @@ public class CentralHotWaterTransducer extends EnergyTransducer {
 		TYPE: formula
 		UNIT: Hours
 		SAP: Table 3
+                SAP_COMPLIANT: Yes
 		BREDEM: Table 11
+                BREDEM_COMPLIANT: Yes
 		DEPS: month-of-year,hours-per-day-primary-hot-lookup
 		NOTES: We assume that water heating is not separately timed by default.
 		NOTES:

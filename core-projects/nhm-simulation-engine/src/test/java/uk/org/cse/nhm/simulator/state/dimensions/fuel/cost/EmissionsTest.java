@@ -127,6 +127,11 @@ public class EmissionsTest {
 		}
 
 		@Override
+		public float getAirChangeRateWithoutDeliberate() {
+			return 0;
+		}
+
+		@Override
 		public double readStepMonthly(EnergyCalculationStep step, int month) { return 0; }
 
 		@Override

@@ -1,0 +1,31 @@
+(scenario
+ stock-id: ../../stock.json
+ end-date: 01/01/2015
+ start-date: 01/01/2014
+ weighting: round
+          
+          (def-report
+              "report"
+              (column name: energy-use value: (house.energy-use))
+              (column name: flags value: (house.flags))
+              (column name: glazing value: (house.double-glazed-proportion))
+              (column name: has-cavity-insulation value: (house.any-wall has-cavity-insulation: true))
+              (column name: has-external-insulation value: (house.any-wall has-external-insulation: true)))
+          
+          (on.dates
+              [2014]
+              (apply
+                  (combination.choice
+                      report: report
+                      select: (select.minimum (house.energy-use))
+
+                      ;;Package 2
+                      [(measure.wall-insulation type: Cavity thickness: 50 update-flags: pkg-1-wall-ins)
+                       (measure.install-glazing glazing-type: Triple frame-type: uPVC insulation-type: LowESoftCoat update-flags: pkg-1-glaz)
+                       (action.do-nothing update-flags: pkg-1-nothing)]
+                      
+                      ;;Package 3
+                      [(measure.wall-insulation type: External thickness: 100 update-flags: pkg2-wall-ins)
+                       (measure.install-glazing glazing-type: Triple frame-type: uPVC insulation-type: LowESoftCoat update-flags: pkg-2-glaz)
+                       (action.do-nothing update-flags: pkg-2-nothing)])
+                  )))

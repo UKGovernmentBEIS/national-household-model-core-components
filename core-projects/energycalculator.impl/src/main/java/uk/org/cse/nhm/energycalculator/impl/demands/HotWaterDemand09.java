@@ -68,7 +68,9 @@ public class HotWaterDemand09 implements IEnergyTransducer {
 	  TYPE: type
 	  UNIT: litres
 	  SAP: (44)
+          SAP_COMPLIANT: Yes
 	  BREDEM: 2.1G
+          BREDEM_COMPLIANT: Yes
 	  DEPS: sap-water-volume,bredem-water-volume,monthly-water-usage-factor
 	  ID: usage-adjusted-water-volume
 	  CODSIEB
@@ -83,7 +85,9 @@ public class HotWaterDemand09 implements IEnergyTransducer {
 	  TYPE: formula
 	  UNIT: W
 	  SAP: (45,46), Tables
+          SAP_COMPLIANT: Yes
 	  BREDEM: 2.1H, 2.1I,2.2A
+          BREDEM_COMPLIANT: Yes
 	  DEPS: usage-adjusted-water-volume,monthly-water-temperature-factor,energy-per-hot-water
 	  NOTES: SAP includes distribution losses in the amount demanded. We exclude that here and add it on later.
 	  ID: water-heating-power
@@ -114,6 +118,8 @@ public class HotWaterDemand09 implements IEnergyTransducer {
               TYPE: formula
               UNIT: litres
               SAP: (43)
+              SAP_COMPLIANT: No, see note
+              BREDEM_COMPLIANT: N/A - not used
               DEPS: base-hot-water-demand,person-hot-water-demand,occupancy
               NOTES: We omit the 5% reduction in hot water usage for dwellings with hot water targets. We have no information about this.
               ID: sap-water-volume
@@ -128,7 +134,9 @@ public class HotWaterDemand09 implements IEnergyTransducer {
               DESCRIPTION: The volume of hot water required by the house according to BREDEM.
               TYPE: formula
               UNIT: litres
+              SAP_COMPLIANT: N/A - not used
               BREDEM: 2.1A-2.2F
+              BREDEM_COMPLIANT: Yes
               DEPS:
               ID: bredem-water-volume
               CODSIEB

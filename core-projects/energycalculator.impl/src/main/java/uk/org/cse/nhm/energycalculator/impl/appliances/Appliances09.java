@@ -16,7 +16,7 @@ import uk.org.cse.nhm.energycalculator.constants.ApplianceConstants09;
 
 /**
  * The EnergyCalculator appliance model
- * 
+ *
  * @author hinton
  *
  */
@@ -38,7 +38,7 @@ public class Appliances09 implements IEnergyTransducer {
 		this.APPLIANCE_DEMAND_COSINE_OFFSET = constants.get(ApplianceConstants09.APPLIANCE_DEMAND_COSINE_OFFSET);
 		this.APPLIANCE_HIGH_RATE_FRACTION = constants.get(ApplianceConstants09.APPLIANCE_HIGH_RATE_FRACTION, double[].class);
 	}
-	
+
 	@Override
 	public ServiceType getServiceType() {
 		return ServiceType.APPLIANCES;
@@ -47,10 +47,10 @@ public class Appliances09 implements IEnergyTransducer {
 	@Override
 	public void generate(
 			final IEnergyCalculatorHouseCase house,
-			final IInternalParameters parameters, 
+			final IInternalParameters parameters,
 			final ISpecificHeatLosses losses,
 			final IEnergyState state) {
-		
+
 		/*
 		BEISDOC
 		NAME: Appliance Initial Demand
@@ -58,44 +58,48 @@ public class Appliances09 implements IEnergyTransducer {
 		TYPE: formula
 		UNIT: W
 		SAP: (L10)
+                SAP_COMPLIANT: Yes
 		BREDEM: 1I
+                BREDEM_COMPLIANT: Yes
 		DEPS: appliance-demand-coefficient,appliance-demand-exponent,occupancy,dwelling-floor-area
 		ID: appliance-initial-demand
 		CODSIEB
 		*/
-		final double demand = getApplianceDemandCoefficient(parameters) * 		
+		final double demand = getApplianceDemandCoefficient(parameters) *
 				Math.pow(house.getFloorArea() * parameters.getNumberOfOccupants(),
 						APPLIANCE_DEMAND_EXPONENT);
-		
+
 		if (log.isDebugEnabled()) log.debug("Ea = {} W", demand);
-		
+
 		/*
 		BEISDOC
-		NAME: Appliance Adjusted Demand 
+		NAME: Appliance Adjusted Demand
 		DESCRIPTION: Electric demand from household appliances, adjusted for the month of the year.
 		TYPE: formula
 		UNIT: W
 		SAP: (L11)
+                SAP_COMPLIANT: Yes
 		BREDEM: (1J)
+                BREDEM_COMPLIANT: Yes
 		DEPS: appliance-initial-demand,appliance-adjustement-cosine-coefficient,appliance-adjustment-cosine-offset
 		ID: appliance-adjusted-demand
 		CODSIEB
 		*/
-		final double monthlyAdjustment = 
+		final double monthlyAdjustment =
 				1 + APPLIANCE_DEMAND_COSINE_COEFFICIENT *
 				Math.cos(Math.PI * 2 * (parameters.getClimate().getMonthOfYear() - APPLIANCE_DEMAND_COSINE_OFFSET) / 12);
 		final double adjustedDemand = monthlyAdjustment * demand;
-		
+
 		if (log.isDebugEnabled()) log.debug("Monthly adjustment = {} (adjusted = {})", monthlyAdjustment, adjustedDemand);
-		
+
 		state.increaseElectricityDemand(APPLIANCE_HIGH_RATE_FRACTION[parameters.getTarrifType().ordinal()], adjustedDemand);
 		state.increaseSupply(
-				EnergyType.GainsAPPLIANCE_GAINS, 
+				EnergyType.GainsAPPLIANCE_GAINS,
 				house.hasReducedInternalGains() ? (0.6 * adjustedDemand) : adjustedDemand
 					);
 	}
 
-	private double getApplianceDemandCoefficient(IInternalParameters parameters) {
+	private double getApplianceDemandCoefficient(final IInternalParameters parameters) {
 		switch(parameters.getCalculatorType()) {
 		case SAP2012:
 			return APPLIANCE_DEMAND_COEFFICIENT_SAP;
@@ -110,12 +114,12 @@ public class Appliances09 implements IEnergyTransducer {
 	public int getPriority() {
 		return 0;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Appliances";
 	}
-	
+
 	@Override
 	public TransducerPhaseType getPhase() {
 		return TransducerPhaseType.BeforeEverything;

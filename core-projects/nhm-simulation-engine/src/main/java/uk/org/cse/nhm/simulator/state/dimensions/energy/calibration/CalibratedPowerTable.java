@@ -96,6 +96,11 @@ public class CalibratedPowerTable implements IPowerTable {
 		return uncal.getHotWaterDemand();
 	}
 
+	@Override
+	public float getAirChangeRateWithoutDeliberate() {
+		return uncal.getMeanInternalTemperature();
+	}
+
     @Override
     public double readStepAnnual(EnergyCalculationStep step) {
         return uncal.readStepAnnual(step);

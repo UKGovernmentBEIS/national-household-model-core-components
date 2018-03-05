@@ -35,6 +35,7 @@ import uk.org.cse.nhm.hom.emf.technologies.IAppliance;
 import uk.org.cse.nhm.hom.emf.technologies.ICentralWaterSystem;
 import uk.org.cse.nhm.hom.emf.technologies.ICommunityHeatSource;
 import uk.org.cse.nhm.hom.emf.technologies.ICooker;
+import uk.org.cse.nhm.hom.emf.technologies.IEnergyUseAdjuster;
 import uk.org.cse.nhm.hom.emf.technologies.IIndividualHeatSource;
 import uk.org.cse.nhm.hom.emf.technologies.ILight;
 import uk.org.cse.nhm.hom.emf.technologies.IOperationalCost;
@@ -74,6 +75,7 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.TechnologyModelImpl#getSolarPhotovoltaic <em>Solar Photovoltaic</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.TechnologyModelImpl#getAdjusters <em>Adjusters</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.TechnologyModelImpl#getShower <em>Shower</em>}</li>
+ *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.TechnologyModelImpl#getEnergyUseAdjusters <em>Energy Use Adjusters</em>}</li>
  * </ul>
  *
  * @generated
@@ -239,6 +241,16 @@ public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnolo
 	 * @ordered
 	 */
 	protected IShower shower;
+
+	/**
+	 * The cached value of the '{@link #getEnergyUseAdjusters() <em>Energy Use Adjusters</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEnergyUseAdjusters()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<IEnergyUseAdjuster> energyUseAdjusters;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -683,6 +695,18 @@ public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnolo
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.TECHNOLOGY_MODEL__SHOWER, newShower, newShower));
 	}
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<IEnergyUseAdjuster> getEnergyUseAdjusters() {
+		if (energyUseAdjusters == null) {
+			energyUseAdjusters = new EObjectContainmentEList<IEnergyUseAdjuster>(IEnergyUseAdjuster.class, this, ITechnologiesPackage.TECHNOLOGY_MODEL__ENERGY_USE_ADJUSTERS);
+		}
+		return energyUseAdjusters;
+	}
+
 	private transient Double operationalCostCache = null;
 
 	/**
@@ -831,6 +855,8 @@ public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnolo
 				return ((InternalEList<?>)getAdjusters()).basicRemove(otherEnd, msgs);
 			case ITechnologiesPackage.TECHNOLOGY_MODEL__SHOWER:
 				return basicSetShower(null, msgs);
+			case ITechnologiesPackage.TECHNOLOGY_MODEL__ENERGY_USE_ADJUSTERS:
+				return ((InternalEList<?>)getEnergyUseAdjusters()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -867,6 +893,8 @@ public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnolo
 				return getAdjusters();
 			case ITechnologiesPackage.TECHNOLOGY_MODEL__SHOWER:
 				return getShower();
+			case ITechnologiesPackage.TECHNOLOGY_MODEL__ENERGY_USE_ADJUSTERS:
+				return getEnergyUseAdjusters();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -920,6 +948,10 @@ public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnolo
 			case ITechnologiesPackage.TECHNOLOGY_MODEL__SHOWER:
 				setShower((IShower)newValue);
 				return;
+			case ITechnologiesPackage.TECHNOLOGY_MODEL__ENERGY_USE_ADJUSTERS:
+				getEnergyUseAdjusters().clear();
+				getEnergyUseAdjusters().addAll((Collection<? extends IEnergyUseAdjuster>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -968,6 +1000,9 @@ public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnolo
 			case ITechnologiesPackage.TECHNOLOGY_MODEL__SHOWER:
 				setShower((IShower)null);
 				return;
+			case ITechnologiesPackage.TECHNOLOGY_MODEL__ENERGY_USE_ADJUSTERS:
+				getEnergyUseAdjusters().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -1004,6 +1039,8 @@ public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnolo
 				return adjusters != null && !adjusters.isEmpty();
 			case ITechnologiesPackage.TECHNOLOGY_MODEL__SHOWER:
 				return shower != null;
+			case ITechnologiesPackage.TECHNOLOGY_MODEL__ENERGY_USE_ADJUSTERS:
+				return energyUseAdjusters != null && !energyUseAdjusters.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -1033,7 +1070,9 @@ public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnolo
 		TYPE: algorithm/lookup
 		UNIT: Dimensionless
 		SAP: (201,202,204), Table 11, Appendix A
+                SAP_COMPLIANT: No, see note
 		BREDEM: User input (frsys1,frsys2,...)
+                BREDEM_COMPLIANT: N/A - out of scope
 		NOTES: Does not implement SAP Table N9 secondary fraction for heat pumps.
 		ID: space-heating-fraction
 		CODSIEB
@@ -1081,6 +1120,8 @@ public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnolo
 		TYPE: formula
 		UNIT: True/False
 		SAP: (217)
+                SAP_COMPLIANT: Yes, with limitations, see note
+                BREDEM_COMPLIANT: No, see note
 		NOTES: SAP allows for two main water heating systems. We do not support this.
 		NOTES: We do allow for secondary water heating systems, but they will only supply hot water if a main water heating system is not present or is not functioning.
 		NOTES: BREDEM computes a fraction based on volume or water heated and temperature rise. We do not implement this as we do not have the information.

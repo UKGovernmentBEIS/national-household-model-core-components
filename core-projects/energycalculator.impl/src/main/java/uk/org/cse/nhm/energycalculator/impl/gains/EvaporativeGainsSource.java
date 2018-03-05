@@ -34,7 +34,9 @@ public class EvaporativeGainsSource implements IEnergyTransducer {
 		TYPE: formula
 		UNIT: W
 		SAP: (71), Table 5
+                SAP_COMPLIANT: Yes
 		BREDEM: 6F
+                BREDEM_COMPLIANT: Yes
 		DEPS: evaporation-loss-per-person,occupancy
 		ID: evaporation-loss
 		CODSIEB

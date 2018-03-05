@@ -20,7 +20,9 @@ targetCompatibility = 1.8
 
 ext.buildtype = version.endsWith("-SNAPSHOT") ? "D" : "R"
 ext.gitV = project.gitVersion()
-ext.buildVersion = version.replace("-SNAPSHOT", "") + "." + buildtype + gitV.replace(".", "_")
+ext.buildVersion = version.replace("-SNAPSHOT", "") + "." + buildtype +
+    gitV.replace(".dirty", "")
+    .replace(".", "_")
 
 ext.mavenUser = project.hasProperty('mvnUser') ? project.mvnUser : 'deploy'
 ext.mavenPassword = project.hasProperty('mvnPassword') ? project.mvnPassword : 'da9fc69a5d93f07432ace3fc7015fffa4d4b032a88d267f88cb2dd5369d1b6af'
@@ -41,7 +43,7 @@ group = 'uk.org.cse.nhm'
 // of the embedded deps.
 configurations {
   embed
-  
+
   compile {
     extendsFrom embed
   }

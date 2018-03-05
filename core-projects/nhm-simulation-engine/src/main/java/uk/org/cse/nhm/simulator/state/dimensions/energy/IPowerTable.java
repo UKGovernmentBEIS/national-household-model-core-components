@@ -30,6 +30,8 @@ public interface IPowerTable extends IEnergyCalculationSteps {
 	float getMeanInternalTemperature();
 
     float getAirChangeRate();
+    
+    float getAirChangeRateWithoutDeliberate();
 
     float getWeightedHeatLoad(final double[] weights, final boolean space, final boolean water);
 }

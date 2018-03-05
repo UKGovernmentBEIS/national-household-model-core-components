@@ -232,8 +232,8 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 	 * @generated
 	 */
 	@Override
-	public void setSummerEfficiency(final Efficiency newSummerEfficiency) {
-		final Efficiency oldSummerEfficiency = summerEfficiency;
+	public void setSummerEfficiency(Efficiency newSummerEfficiency) {
+		Efficiency oldSummerEfficiency = summerEfficiency;
 		summerEfficiency = newSummerEfficiency;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, IBoilersPackage.BOILER__SUMMER_EFFICIENCY, oldSummerEfficiency, summerEfficiency));
@@ -256,8 +256,8 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 	 * @generated
 	 */
 	@Override
-	public void setWinterEfficiency(final Efficiency newWinterEfficiency) {
-		final Efficiency oldWinterEfficiency = winterEfficiency;
+	public void setWinterEfficiency(Efficiency newWinterEfficiency) {
+		Efficiency oldWinterEfficiency = winterEfficiency;
 		winterEfficiency = newWinterEfficiency;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, IBoilersPackage.BOILER__WINTER_EFFICIENCY, oldWinterEfficiency, winterEfficiency));
@@ -279,8 +279,8 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 	 * @generated
 	 */
 	@Override
-	public void setCondensing(final boolean newCondensing) {
-		final boolean oldCondensing = (flags & CONDENSING_EFLAG) != 0;
+	public void setCondensing(boolean newCondensing) {
+		boolean oldCondensing = (flags & CONDENSING_EFLAG) != 0;
 		if (newCondensing) flags |= CONDENSING_EFLAG; else flags &= ~CONDENSING_EFLAG;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, IBoilersPackage.BOILER__CONDENSING, oldCondensing, newCondensing));
@@ -303,8 +303,8 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 	 * @generated
 	 */
 	@Override
-	public void setWeatherCompensated(final boolean newWeatherCompensated) {
-		final boolean oldWeatherCompensated = (flags & WEATHER_COMPENSATED_EFLAG) != 0;
+	public void setWeatherCompensated(boolean newWeatherCompensated) {
+		boolean oldWeatherCompensated = (flags & WEATHER_COMPENSATED_EFLAG) != 0;
 		if (newWeatherCompensated) flags |= WEATHER_COMPENSATED_EFLAG; else flags &= ~WEATHER_COMPENSATED_EFLAG;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, IBoilersPackage.BOILER__WEATHER_COMPENSATED, oldWeatherCompensated, newWeatherCompensated));
@@ -326,8 +326,8 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 	 * @generated
 	 */
 	@Override
-	public void setPumpInHeatedSpace(final boolean newPumpInHeatedSpace) {
-		final boolean oldPumpInHeatedSpace = (flags & PUMP_IN_HEATED_SPACE_EFLAG) != 0;
+	public void setPumpInHeatedSpace(boolean newPumpInHeatedSpace) {
+		boolean oldPumpInHeatedSpace = (flags & PUMP_IN_HEATED_SPACE_EFLAG) != 0;
 		if (newPumpInHeatedSpace) flags |= PUMP_IN_HEATED_SPACE_EFLAG; else flags &= ~PUMP_IN_HEATED_SPACE_EFLAG;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, IBoilersPackage.BOILER__PUMP_IN_HEATED_SPACE, oldPumpInHeatedSpace, newPumpInHeatedSpace));
@@ -350,7 +350,7 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 	 */
 	@Override
 	public void setEfficiencySource(EfficiencySourceType newEfficiencySource) {
-		final EfficiencySourceType oldEfficiencySource = EFFICIENCY_SOURCE_EFLAG_VALUES[(flags & EFFICIENCY_SOURCE_EFLAG) >>> EFFICIENCY_SOURCE_EFLAG_OFFSET];
+		EfficiencySourceType oldEfficiencySource = EFFICIENCY_SOURCE_EFLAG_VALUES[(flags & EFFICIENCY_SOURCE_EFLAG) >>> EFFICIENCY_SOURCE_EFLAG_OFFSET];
 		if (newEfficiencySource == null) newEfficiencySource = EFFICIENCY_SOURCE_EDEFAULT;
 		flags = flags & ~EFFICIENCY_SOURCE_EFLAG | newEfficiencySource.ordinal() << EFFICIENCY_SOURCE_EFLAG_OFFSET;
 		if (eNotificationRequired())
@@ -376,7 +376,9 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 		TYPE: formula
 		UNIT: Dimensionless
 		SAP: Section 9.2.1 (8), Table 4c
+                SAP_COMPLIANT: Yes
 		BREDEM: Appendix B2
+                BREDEM_COMPLIANT: N/A - out of scope
 		DEPS: combi-boiler-hot-water-efficiency,cpsu-boiler-hot-water-efficiency,boiler-without-interlock
 		ID: boiler-water-heating-efficiency
 		CODSIEB
@@ -454,6 +456,8 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 		DEPS: boiler-without-interlock,condensing-underfloor-adjustment,condensing-weather-compensation
 		NOTES: The adjustments here apply to both the SAP and BREDEM energy calculations.
 		SAP: (206,208), Table 4c, PCDB
+                SAP_COMPLIANT: Yes
+                BREDEM_COMPLIANT: N/A - out of scope
 		ID: boiler-efficiency
 		CODSIEB
 		*/
@@ -703,7 +707,9 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 					TYPE: formula
 					UNIT: W
 					SAP: Table 4f
+                                        SAP_COMPLIANT: Yes
 					BREDEM: Table 4
+                                        BREDEM_COMPLIANT: Yes
 					DEPS: oil-boiler-pump-base-power,pump-no-thermostat-modifier
 					ID: oil-boiler-pump-power
 					CODSIEB
@@ -741,7 +747,7 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 	 * @generated
 	 */
 	@Override
-	public Object eGet(final int featureID, final boolean resolve, final boolean coreType) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case IBoilersPackage.BOILER__SUMMER_EFFICIENCY:
 				return getSummerEfficiency();
@@ -765,7 +771,7 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 	 * @generated
 	 */
 	@Override
-	public void eSet(final int featureID, final Object newValue) {
+	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case IBoilersPackage.BOILER__SUMMER_EFFICIENCY:
 				setSummerEfficiency((Efficiency)newValue);
@@ -795,7 +801,7 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 	 * @generated
 	 */
 	@Override
-	public void eUnset(final int featureID) {
+	public void eUnset(int featureID) {
 		switch (featureID) {
 			case IBoilersPackage.BOILER__SUMMER_EFFICIENCY:
 				setSummerEfficiency(SUMMER_EFFICIENCY_EDEFAULT);
@@ -825,7 +831,7 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(final int featureID) {
+	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case IBoilersPackage.BOILER__SUMMER_EFFICIENCY:
 				return SUMMER_EFFICIENCY_EDEFAULT == null ? summerEfficiency != null : !SUMMER_EFFICIENCY_EDEFAULT.equals(summerEfficiency);
@@ -874,7 +880,9 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 		TYPE: formula
 		UNIT: W
 		SAP: (208,201)
+                SAP_COMPLIANT: Yes
 		BREDEM: 8J,8K
+                BREDEM_COMPLIANT: Yes
 		DEPS: boiler-efficiency,heat-demand,space-heating-fraction
 		NOTES: This code constructs a 'heat transducer', which is an object in the energy calculator which models converting fuel into heat.
 		ID: boiler-fuel-energy-demand
@@ -925,7 +933,9 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 		TYPE: lookup
 		UNIT: Unknown
 		SAP: Table 4a (category 2)
+                SAP_COMPLIANT: Yes
 		BREDEM: Defers to SAP.
+                BREDEM_COMPLIANT: N/A - out of scope
 		ID: boiler-responsiveness
 		CODSIEB
 		*/
@@ -1006,7 +1016,9 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 		TYPE: formula
 		UNIT: W
 		SAP: (61), Table 3a
+                SAP_COMPLIANT: Yes
 		BREDEM: Table 13
+                BREDEM_COMPLIANT: Yes
 		DEPS: combi-losses-instant,combi-losses-storage
 		ID: combi-losses
 		CODSIEB

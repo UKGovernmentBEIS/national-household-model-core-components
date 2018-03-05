@@ -24,6 +24,8 @@ import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
 import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.impl.BredemSeasonalParameters;
 import uk.org.cse.nhm.energycalculator.impl.SAPSeasonalParameters;
+import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
+import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
 import uk.org.cse.nhm.hom.BasicCaseAttributes;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
@@ -33,6 +35,7 @@ import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.simulator.guice.EnergyCalculationRequestedSteps;
 import uk.org.cse.nhm.simulator.state.dimensions.FuelServiceTable;
 import uk.org.cse.nhm.simulator.state.dimensions.behaviour.IHeatingBehaviour;
+import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
 
 /**
  * Glue that runs a energy calculator from within the simulator.
@@ -58,6 +61,7 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 
         private final float specificHeatLoss, fabricHeatLoss, ventilationHeatLoss, thermalBridgingHeatLoss;
         private final float airChangeRate;
+        private final float airChangeRateWithoutDeliberate;
 		private final float meanInternalTemperature;
         private final float[][] heatLoad = new float[MonthType.values().length][2];
         private final float hotWaterDemand;
@@ -77,6 +81,7 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
             float thermalBridgingHeatLoss = 0;
 
             float airChangeRate = 0;
+            float airChangeRateWithoutDeliberate = 0;
             float meanInternalTemperature = 0;
 
             final FuelServiceTable.Builder builder = FuelServiceTable.builder();
@@ -130,7 +135,8 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
                     result.getEnergyState().getTotalSupply(EnergyType.HackMEAN_INTERNAL_TEMPERATURE);
 
                 airChangeRate += result.getHeatLosses().getAirChangeRate() * m.getStandardDays();
-
+                airChangeRateWithoutDeliberate += result.getHeatLosses().getAirChangeExcludingDeliberate() * m.getStandardDays();
+                
                 final float convert = m.getStandardDays() * WATT_DAYS_TO_KWH;
                 heatLoad[m.ordinal()][0] = (float) (convert * result.getEnergyState().getTotalDemand(EnergyType.DemandsHEAT));
                 heatLoad[m.ordinal()][1] = (float) (convert * result.getEnergyState().getTotalDemand(EnergyType.DemandsHOT_WATER));
@@ -142,6 +148,7 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
             this.thermalBridgingHeatLoss = thermalBridgingHeatLoss / 365f;
 
             this.airChangeRate = airChangeRate;
+            this.airChangeRateWithoutDeliberate = airChangeRateWithoutDeliberate;
             this.meanInternalTemperature = meanInternalTemperature;
 
             this.primaryHeatDemand = primaryHeatDemandAccum;
@@ -224,6 +231,11 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 		@Override
 		public float getHotWaterDemand() {
 			return hotWaterDemand;
+		}
+
+		@Override
+		public float getAirChangeRateWithoutDeliberate() {
+			return airChangeRateWithoutDeliberate;
 		}
 
         @Override
@@ -323,7 +335,9 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 			DESCRIPTION: The fraction of Zone 2 which is heated. This should be a number between 0 and 1. A dwelling with central heating usually has the value 1.
 			TYPE: value
 			UNIT: Dimensionless
+                        SAP_COMPLIANT: SAP mode only
 			BREDEM: Section 7 fz2htd Input
+                        BREDEM_COMPLIANT: Yes
 			NOTES: Always 100% in SAP 2012 mode.
 			ID: zone-2-heated-proportion
 			CODSIEB

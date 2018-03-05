@@ -14,6 +14,7 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
 import uk.org.cse.nhm.energycalculator.api.IHeatingSystem;
 import uk.org.cse.nhm.energycalculator.api.IVentilationSystem;
 import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
+import uk.org.cse.nhm.energycalculator.api.impl.SimpleLightingTransducer;
 import uk.org.cse.nhm.energycalculator.api.types.AreaType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
@@ -21,9 +22,9 @@ import uk.org.cse.nhm.energycalculator.api.types.FloorType;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
 import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.RoofType;
-import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 import uk.org.cse.nhm.energycalculator.impl.demands.LightingDemand09;
@@ -68,7 +69,9 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 	TYPE: formula
 	UNIT: W/℃
 	SAP: (33)
+        SAP_COMPLIANT: Yes
 	BREDEM: 3B
+        BREDEM_COMPLIANT: Yes
 	DEPS: window-heat-loss,floor-heat-loss,ceiling-heat-loss,wall-heat-loss,door-heat-loss
 	ID: fabric-heat-loss
 	CODSIEB
@@ -157,7 +160,9 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 		TYPE: formula
 		UNIT: area m^2 * u-value W/m^2/℃ = W/℃
 		SAP: (29a,32b,32c)
+                SAP_COMPLIANT: Yes
 		BREDEM: 3B
+                BREDEM_COMPLIANT: Yes
 		DEPS:
 		GET: house.u-value
 		SET: action.reset-walls
@@ -198,7 +203,9 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 		TYPE: formula
 		UNIT: area m^2 * u-value W/m^2/℃ = W/℃
 		SAP: (26)
+                SAP_COMPLIANT: Yes
 		BREDEM: 3B
+                BREDEM_COMPLIANT: Yes
 		DEPS:
 		GET: house.u-value
 		SET: action.reset-doors
@@ -230,7 +237,9 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 		TYPE: formula
 		UNIT: area m^2 * u-value W/m^2/℃ = W/℃
 		SAP: (30,32b)
+                SAP_COMPLIANT: Yes
 		BREDEM: 3B
+                BREDEM_COMPLIANT: Yes
 		DEPS:
 		GET: house.u-value
 		SET: action.reset-roofs
@@ -270,7 +279,9 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 		TYPE: formula
 		UNIT: area m^2 * u-value W/m^2/℃ = W/℃
 		SAP: (27,27a)
+                SAP_COMPLIANT: Yes
 		BREDEM: 3B
+                BREDEM_COMPLIANT: Yes
 		DEPS: glazing-area
 		GET: house.u-value
 		SET: measure.install-glazing,action.reset-glazing
@@ -306,7 +317,9 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 		TYPE: formula
 		UNIT: area m^2 * u-value W/m^2/℃ = W/℃
 		SAP: 28b, 32a
+                SAP_COMPLIANT: Yes
 		BREDEM: 3B
+                BREDEM_COMPLIANT: Yes
 		DEPS:
 		GET: house.u-value
 		SET: action.reset-floors,action.set-floor-insulation
@@ -430,7 +443,9 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 		TYPE: formula
 		UNIT: m2
 		SAP: (74-82)
+                SAP_COMPLIANT: Yes
 		BREDEM: 5A
+                BREDEM_COMPLIANT: Yes
 		DEPS: light-transmittance-factor,frame-factor
 		ID: visible-light-effective-transmission-area
 		CODSIEB
@@ -444,7 +459,9 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 		TYPE: formula
 		UNIT: m2
 		SAP: (74-82)
+                SAP_COMPLIANT: Yes
 		BREDEM: 5A
+                BREDEM_COMPLIANT: Yes
 		DEPS: solar-gain-transmissivity,frame-factor
 		ID: solar-gains-effective-transmission-area
 		CODSIEB
@@ -481,7 +498,9 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 		TYPE: lookup
 		UNIT: kJ/m^2.℃
 		SAP: Table 1f
+                SAP_COMPLIANT: Yes
 		BREDEM: 4A
+                BREDEM_COMPLIANT: Yes
 		DEPS: thermal-mass-level,wall-thermal-mass-category
 		ID: thermal-mass
 		CODSIEB
@@ -506,4 +525,16 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 		return this.getClass().getSimpleName() + " [totalSpecificHeatLoss=" + totalFabricHeatLoss + ", totalExternalArea=" + totalExternalArea + ", totalThermalMass="
 				+ getBestThermalMassParameter() + "]";
 	}
+	
+	/**
+	 * @param name
+	 * @param proportion
+	 * @param efficiency
+	 * @see uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor#visitLight(java.lang.String, double, double)
+	 */
+	@Override
+	public void visitLight(String name, double proportion, double efficiency, double[] splitRate) {
+	    transducers.add(new SimpleLightingTransducer(name, proportion, efficiency, splitRate)); 
+	}
 }
+

@@ -97,8 +97,8 @@ public class ImmersionHeaterImpl extends CentralWaterHeaterImpl implements IImme
 	 * @generated
 	 */
 	@Override
-	public void setDualCoil(final boolean newDualCoil) {
-		final boolean oldDualCoil = (flags & DUAL_COIL_EFLAG) != 0;
+	public void setDualCoil(boolean newDualCoil) {
+		boolean oldDualCoil = (flags & DUAL_COIL_EFLAG) != 0;
 		if (newDualCoil) flags |= DUAL_COIL_EFLAG; else flags &= ~DUAL_COIL_EFLAG;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.IMMERSION_HEATER__DUAL_COIL, oldDualCoil, newDualCoil));
@@ -110,7 +110,7 @@ public class ImmersionHeaterImpl extends CentralWaterHeaterImpl implements IImme
 	 * @generated
 	 */
 	@Override
-	public Object eGet(final int featureID, final boolean resolve, final boolean coreType) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ITechnologiesPackage.IMMERSION_HEATER__DUAL_COIL:
 				return isDualCoil();
@@ -124,7 +124,7 @@ public class ImmersionHeaterImpl extends CentralWaterHeaterImpl implements IImme
 	 * @generated
 	 */
 	@Override
-	public void eSet(final int featureID, final Object newValue) {
+	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case ITechnologiesPackage.IMMERSION_HEATER__DUAL_COIL:
 				setDualCoil((Boolean)newValue);
@@ -139,7 +139,7 @@ public class ImmersionHeaterImpl extends CentralWaterHeaterImpl implements IImme
 	 * @generated
 	 */
 	@Override
-	public void eUnset(final int featureID) {
+	public void eUnset(int featureID) {
 		switch (featureID) {
 			case ITechnologiesPackage.IMMERSION_HEATER__DUAL_COIL:
 				setDualCoil(DUAL_COIL_EDEFAULT);
@@ -154,7 +154,7 @@ public class ImmersionHeaterImpl extends CentralWaterHeaterImpl implements IImme
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(final int featureID) {
+	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case ITechnologiesPackage.IMMERSION_HEATER__DUAL_COIL:
 				return ((flags & DUAL_COIL_EFLAG) != 0) != DUAL_COIL_EDEFAULT;
@@ -171,7 +171,7 @@ public class ImmersionHeaterImpl extends CentralWaterHeaterImpl implements IImme
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		final StringBuffer result = new StringBuffer(super.toString());
+		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (dualCoil: ");
 		result.append((flags & DUAL_COIL_EFLAG) != 0);
 		result.append(')');
@@ -232,6 +232,8 @@ public class ImmersionHeaterImpl extends CentralWaterHeaterImpl implements IImme
 		TYPE: formula
 		UNIT: Dimensionless
 		SAP: Table 13 (footnote 2)
+                SAP_COMPLIANT: Yes
+                BREDEM_COMPLIANT: N/A - out of scope
 		DEPS: single-coil-immersion-split-rate-terms,dual-coil-immersion-split-rate-terms,occupancy,cylinder-volume,
 		ID: immersion-split-rate
 		CODSIEB

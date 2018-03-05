@@ -112,6 +112,8 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
     TYPE: value
     UNIT: W/℃/m^2
     SAP: (36)
+    SAP_COMPLIANT: SAP mode only
+    BREDEM_COMPLIANT: N/A - user defined
     ID: thermal-bridging-coefficient
     CODSIEB
     */
@@ -191,6 +193,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         log.debug("Total thermal mass: {}", totalThermalMass);
 
         final double structuralAirChangeRate = infiltration.getAirChangeRate();
+        final double structureAirChangeExcludingDeliberate = structuralAirChangeRate - infiltration.getDeliberateAirChanges(houseCase.getHouseVolume());
 
         /*
         BEISDOC
@@ -199,7 +202,9 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         TYPE: formula
         UNIT: dimensionless
         SAP: 20
+        SAP_COMPLIANT: Yes
         BREDEM: Table 22
+        BREDEM_COMPLIANT: Yes
         DEPS: sheltered-sides-exposure-factor,num-sheltered-sides
         GET:
         SET:
@@ -223,14 +228,14 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         TYPE: formula
         UNIT: m/s
         SAP: (22a)
+        SAP_COMPLIANT: Yes
         BREDEM: 3E
+        BREDEM_COMPLIANT: Yes
         DEPS: wind-speed,wind-factor-divisor
-        GET:
-        SET:
         ID: wind-factor
         CODSIEB
         */
-        final double windFactor = (windSpeed / WIND_FACTOR_DIVISOR) ;
+        final double windFactor = (parameters.getClimate().getSiteWindSpeed() / WIND_FACTOR_DIVISOR);
         StepRecorder.recordStep(WindFactor, windFactor);
 
         final double structuralAirChangeRateIncludingShelterAndWind = structuralAirChangeRateIncludingShelter * windFactor;
@@ -246,13 +251,18 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         TYPE: formula
         UNIT: ach/h
         SAP: (21,22b)
+        SAP_COMPLIANT: Yes
         BREDEM: 3E
+        BREDEM_COMPLIANT: Yes
         DEPS: wind-factor,shelter-factor,total-infiltration,site-exposure-factor
         ID: adjusted-infiltration
         CODSIEB
         */
         final double climateAdjustedAirChangeRate = structuralAirChangeRateIncludingShelterAndWind * siteExposureFactor;
         StepRecorder.recordStep(InfiltrationRate_IncludingShelterAndWindAndSiteExposure, climateAdjustedAirChangeRate);
+
+	    final double climateAdjustedAirChangeRateAirChangeExcludingDeliberate = structureAirChangeExcludingDeliberate
+				* windFactor * siteExposureFactor * shelterFactor;
 
         double houseAirChangeRate = climateAdjustedAirChangeRate;
 
@@ -285,7 +295,9 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         TYPE: formula
         UNIT: W/℃
         SAP: (38)
+        SAP_COMPLIANT: Yes
         BREDEM: 3G
+        BREDEM_COMPLIANT: Yes
         DEPS: ventilation-heat-loss-coefficient,natural-infiltration,dwelling-volume
         ID: ventilation-heat-loss
         CODSIEB
@@ -300,7 +312,8 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
                                       houseCase.getFloorArea(),
                                       ventilationLosses,
                                       thermalBridgeEffect,
-                                      climateAdjustedAirChangeRate);
+                                      climateAdjustedAirChangeRate,
+                                      climateAdjustedAirChangeRateAirChangeExcludingDeliberate);
     }
 
     protected double getThermalBridgeEffect(final IEnergyCalculatorHouseCase houseCase, final IInternalParameters parameters,
@@ -312,7 +325,9 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         TYPE: formula
         UNIT: W / ℃
         SAP: (36), Appendix K (K2)
+        SAP_COMPLIANT: Yes
         BREDEM: 3A.b
+        BREDEM_COMPLIANT: Yes
         DEPS: sap-thermal-bridging-coefficient,thermal-bridging-coefficient,external-area
         ID: thermal-bridging-heat-loss
         NOTES: The thermal bridging coefficient is always 0.15 in SAP 2012 mode.
@@ -352,7 +367,9 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         DESCRIPTION: A multiplier to the air change rate based on the local geographical area of the dwelling.
         TYPE: value
         UNIT: Dimensionless
+        SAP_COMPLIANT: SAP mode only
         BREDEM: Table 21
+        BREDEM_COMPLIANT: Yes
         DEPS: site-exposure-factor-lookup
         NOTES: Does not apply when the calculator is running in SAP mode.
         ID: site-exposure-factor
@@ -396,7 +413,9 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         TYPE: formula
         UNIT: W
         SAP: Table 9a (computation of L)
+        SAP_COMPLIANT: Yes
         BREDEM: 7H, 7Q
+        BREDEM_COMPLIANT: Yes
         DEPS: external-temperature,zone-1-demand-temperature,zone-2-adjusted-demand-temperature,specific-heat-loss
         ID: heat-loss-at-temperature
         NOTES: This calculation step repeated twice - once for each Zone.
@@ -415,7 +434,9 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         TYPE: formula
         UNIT: Dimensionless
         SAP: Table 9a (computation of gamma)
+        SAP_COMPLIANT: Yes
         BREDEM: 7I, 7R
+        BREDEM_COMPLIANT: Yes
         DEPS: heat-loss-at-temperature,total-gains
         ID: gain-to-loss-ratio
         NOTES: This calculation step repeated twice - once for each Zone.
@@ -432,7 +453,9 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         TYPE: formula
         UNIT: Dimensionless
         SAP: Table 9a (computation of Nu)
+        SAP_COMPLIANT: Yes
         BREDEM: 7J,7S
+        BREDEM_COMPLIANT: Yes
         DEPS: utilisation-factor-exponent,gain-to-loss-ratio
         ID: gains-utilisation-factor
         NOTES: This calculation step repeated twice - once for each Zone.
@@ -488,7 +511,9 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         DESCRIPTION: The average temperature in Zone 2 while the heating is off.
         TYPE: formula
         UNIT: ℃
+        SAP_COMPLIANT: SAP mode only
         BREDEM: 7D
+        BREDEM_COMPLIANT: Yes
         DEPS: zone-1-demand-temperature,interzone-specific-heat-loss,external-temperature,specific-heat-loss,total-gains,interzone-specific-heat-loss
         NOTES: This will only be used in BREDEM 2012 mode, because the zone 2 heated proportion is always 100% in SAP 2012.
         ID: unheated-zone-2-temperature
@@ -507,7 +532,9 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         DESCRIPTION: The Zone 2 Demand Temperature interpolated with the unheated Zone 2 temperature, based on the proportion of Zone 2 which is heated.
         TYPE: formula
         UNIT: ℃
+        SAP_COMPLIANT: SAP mode only
         BREDEM: 7E
+        BREDEM_COMPLIANT: Yes
         DEPS: unheated-zone-2-temperature,zone-2-demand-temperature,zone-2-heated-proportion
         NOTES: This does not have an effect in SAP 2012 mode (the zone-2 heated proportion is considered to be 1).
         ID: zone-2-adjusted-demand-temperature
@@ -523,7 +550,9 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         TYPE: formula
         UNIT: Dimensionless
         SAP: Table 9a
+        SAP_COMPLIANT: Yes
         BREDEM: 7J
+        BREDEM_COMPLIANT: Yes
         DEPS: gains-utilisation-factor
         ID: zone-1-utilisation-factor
         CODSIEB
@@ -540,7 +569,9 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         TYPE: formula
         UNIT: Dimensionless
         SAP: Table 9a
+        SAP_COMPLIANT: Yes
         BREDEM: 7J
+        BREDEM_COMPLIANT: Yes
         DEPS: gains-utilisation-factor
         ID: zone-2-utilisation-factor
         CODSIEB
@@ -559,7 +590,9 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         TYPE: formula
         UNIT: ℃
         SAP: Table 9b
+        SAP_COMPLIANT: Yes
         BREDEM: 7L, 7T
+        BREDEM_COMPLIANT: Yes
         DEPS: unresponsive-temperature-reduction,zone-1-demand-temperature,zone-2-adjusted-demand-temperature
         ID: unresponsive-temperatures
         CODSIEB
@@ -574,7 +607,9 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         TYPE: formula
         UNIT: ℃
         SAP: Table 9b
+        SAP_COMPLIANT: Yes
         BREDEM: 7L, 7T
+        BREDEM_COMPLIANT: Yes
         DEPS: external-temperature,zone-1-utilisation-factor,zone-2-utilisation-factor,total-gains,specific-heat-loss
         ID: responsive-temperatures
         CODSIEB
@@ -749,7 +784,9 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         TYPE: type
         UNIT: unit
         SAP: (73)
+        SAP_COMPLIANT: Yes
         BREDEM: 6J
+        BREDEM_COMPLIANT: Yes
         DEPS: useful-gains,evaporation-loss
         NOTES: In SAP and BREDEM, this happens earlier on. We do it here in order to take advantage of the supply vs demand ledger structure of our code.
         ID: total-gains
@@ -802,6 +839,8 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         TYPE: formula
         UNIT: ℃
         SAP: (93), Table 4e
+        SAP_COMPLIANT: Yes
+        BREDEM_COMPLIANT: N/A - out of scope
         DEPS: temperature-adjustments,mean-internal-temperature-unadjusted
         ID: mean-internal-temperature-adjusted
         CODSIEB
@@ -845,6 +884,8 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         UNIT: W
         DEPS: boiler-fuel-energy-demand,community-space-heating-fuel-energy-demand,heat-pump-fuel-energy-demand,room-heater-fuel-energy-demand,storage-heater-fuel-energy-demand,warm-air-system-fuel-energy-demand
         GET: house.energy-use
+        SAP_COMPLIANT: N/A - out of scope
+        BREDEM_COMPLIANT: N/A - out of scope
         NOTES: This doesn't strictly form a part of the SAP or BREDEM calculations. It's included in these documents to indicate the structure of the NHM energy calculator code.
         ID: all-space-heating-fuel-energy-demand
         CODSIEB
@@ -887,7 +928,9 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         TYPE: formula
         UNIT: Dimensionless
         SAP: (94), Table 9a
+        SAP_COMPLIANT: Yes
         BREDEM: 8A-C
+        BREDEM_COMPLIANT: Yes
         DEPS: mean-internal-temperature-adjusted,external-temperature,specific-heat-loss,total-gains,utilisation-factor-exponent
         ID: gains-utilisation-factor-revised
         CODSIEB
@@ -921,7 +964,9 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         TYPE: formula
         UNIT: ℃
         SAP: (92)
+        SAP_COMPLIANT: Yes
         BREDEM: 7Y
+        BREDEM_COMPLIANT: Yes
         DEPS: mean-zonal-temperatures,living-area-proportion
         ID: mean-internal-temperature-unadjusted
         CODSIEB
@@ -965,7 +1010,9 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         TYPE: lookup
         UNIT: Unknown
         SAP: Table 4a, 4d
+        SAP_COMPLIANT: Yes
         BREDEM: Defers to SAP
+        BREDEM_COMPLIANT: N/A - out of scope
         DEPS: room-heater-responsiveness, storage-heater-responsiveness,wet-system-responsiveness,boiler-responsiveness
         ID: responsiveness
         CODSIEB
@@ -991,7 +1038,9 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         TYPE: formula
         UNIT: ℃
         SAP: Table 9b
+        SAP_COMPLIANT: Yes
         BREDEM: 7L, 7T
+        BREDEM_COMPLIANT: Yes
         DEPS: responsiveness, unresponsive-temperatures,responsive-temperatures
         ID: background-temperatures
         CODSIEB
@@ -1011,7 +1060,9 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         TYPE: formula
         UNIT: Dimensionless
         SAP: Table 9a
+        SAP_COMPLIANT: Yes
         BREDEM: 7G
+        BREDEM_COMPLIANT: Yes
         DEPS: time-constant,utilisation-factor-time-constant-divisor
         ID: utilisation-factor-exponent
         CODSIEB
@@ -1027,7 +1078,9 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         TYPE: formula
         UNIT: Hours
         SAP: Table 9b
+        SAP_COMPLIANT: Yes
         BREDEM: 7K
+        BREDEM_COMPLIANT: Yes
         DEPS: time-constant,mimimum-cooling-time,cooling-time-time-constant-multiplier
         ID: cooling-time
         CODSIEB
@@ -1044,7 +1097,9 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         TYPE: formula
         UNIT: Hours
         SAP: Table 9a
+        SAP_COMPLIANT: Yes
         BREDEM: 7F
+        BREDEM_COMPLIANT: Yes
         DEPS: thermal-mass-parameter,heat-loss-parameter,time-constant-heat-loss-parameter-multiplier
         ID: time-constant
         CODSIEB
@@ -1159,7 +1214,9 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         TYPE: formula
         UNIT: ℃
         SAP: Table 9 (row 1, Temperature H2)
+        SAP_COMPLIANT: Yes
         BREDEM: 7A
+        BREDEM_COMPLIANT: Yes
         DEPS: reference-heat-loss-parameter,heat-loss-parameter,zone-1-demand-temperature,interzone-temperature-difference
         ID: uncontrolled-zone-2-demand-temperature
         CODSIEB
@@ -1174,7 +1231,9 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         TYPE: formula
         UNIT: ℃
         SAP: Table 9 (rows 2 and 3, Temperature H2)
+        SAP_COMPLIANT: Yes
         BREDEM: 7B
+        BREDEM_COMPLIANT: Yes
         DEPS: reference-heat-loss-parameter,heat-loss-parameter,zone-1-demand-temperature,interzone-temperature-difference
         ID: controlled-zone-2-demand-temperature
         CODSIEB
@@ -1190,7 +1249,9 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         TYPE: formula
         UNIT: ℃
         SAP: Table 9 (Temperature H2 column)
+        SAP_COMPLIANT: Yes
         BREDEM: 7C
+        BREDEM_COMPLIANT: No, see note
         DEPS: controlled-zone-2-demand-temperature,uncontrolled-zone-2-demand-temperature,zone-2-control-parameter
         NOTES: While this looks like the BREDEM algorithm, it actually behaves according to SAP rather than BREDEM.
         NOTES: If the zone 2 control parameter is 0, we get row 1 of the SAP table. If it is 1, we get rows 2 and 3 (which are the same).

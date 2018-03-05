@@ -1,0 +1,22 @@
+;; quick-start scenario for hideem
+;; scenario content:
+(scenario
+    start-date: 2017
+    end-date: 2028
+    stock-id: ../../stock.json
+    energy-calculator: BREDEM2012
+    quantum: 4000
+        
+    ;;Report on the state of a house/houses at some point
+    (def-report hideem-report
+                (column name: no.of.vents value: (house.number-air-change-devices device-type: Vents))
+		(column name: permeability value: (house.permeability include-deliberate-ventilation: true))
+                (column name: permeability.exc value: (house.permeability include-deliberate-ventilation: false)))
+        
+    (on.dates
+        (scenario-end)
+        (apply
+         (do report: hideem-report
+             (measure.adjust-airchange-devices
+              adjustment: 1
+              device-type: Vents)))))

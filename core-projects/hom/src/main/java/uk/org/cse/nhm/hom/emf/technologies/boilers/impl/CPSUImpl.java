@@ -361,7 +361,9 @@ public class CPSUImpl extends BoilerImpl implements ICPSU {
 		TYPE: formula
 		UNIT: Dimensionless
 		SAP: (53), Table 2b
+                SAP_COMPLIANT: No, see note
 		BREDEM: 2.2B.c, Table 9
+                BREDEM_COMPLIANT: No, see note
 		DEPS: cpsu-electric-storage-temperature-factor,cpsu-gas-storage-temperature-factor
 		NOTES: Does not implement footnotes (c) or (d), due to lack of data.
 		ID: cpsu-storage-temperature-factor
@@ -406,6 +408,8 @@ public class CPSUImpl extends BoilerImpl implements ICPSU {
 		TYPE: formula
 		UNIT: Dimensionless
 		SAP: (206), Table 4c
+                SAP_COMPLIANT: Yes
+                BREDEM_COMPLIANT: Yes
 		ID: cpsu-boiler-hot-water-efficiency
 		CODSIEB
 		*/

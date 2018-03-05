@@ -144,6 +144,18 @@ public class InternalWallBuildStep implements ISurveyCaseBuildStep {
 		public void visitFloor(final FloorType type, final boolean isGroundFloor, final double area, final double uValue, final double exposedPerimeter, final double wallThickness) {
 			// Noop
 		}
+
+        /**
+         * @param name
+         * @param proportion
+         * @param efficiency
+         * @param splitRate
+         * @see uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor#visitLight(java.lang.String, double, double, double[])
+         */
+        @Override
+        public void visitLight(String name, double proportion, double efficiency, double[] splitRate) {
+         // Noop
+        }
 	}
 
 	@Override

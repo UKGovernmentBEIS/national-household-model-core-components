@@ -27,6 +27,8 @@ public class XSapScore extends XHouseNumber implements ICalibratedEnergyFunction
 	TYPE: value
 	UNIT: ???
 	SAP: (256), Table 12 (beneath the table)
+        SAP_COMPLIANT: Yes
+        BREDEM_COMPLIANT: N/A - out of scope
 	SET: house.fuel-cost-index
 	NOTES: This can be overridden by the scenario author, in which case it will not give a "true" SAP score.
 	ID: energy-cost-deflator

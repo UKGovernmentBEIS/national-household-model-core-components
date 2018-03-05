@@ -36,8 +36,11 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 	 BEISDOC
 	 NAME: Solar Generation Factor
 	 DESCRIPTION: The number '0.8' which is used to adjust the cheese.
-	 TYPE: value UNIT: m^2 / W SAP: (M1)
+	 TYPE: value UNIT: m^2 / W
+         SAP: (M1)
+         SAP_COMPLIANT: Yes
 	 BREDEM: 10A
+         BREDEM_COMPLIANT: Yes
 	 CONVERSION: From m^2/kW in SAP to m^2/W in the NHM, divide by 1000.
 	 ID: solar-generation-factor
 	 CODSIEB
@@ -92,6 +95,8 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 	 TYPE: value
 	 UNIT: Dimensionless
 	 SAP: Appendix M (M1 section 3)
+         SAP_COMPLIANT: SAP mode only
+         BREDEM_COMPLIANT: N/A - out of scope
 	 SET: measure.solar-photovoltaic
 	 NOTES: In SAP 2012 mode, this will always be 0.5, regardless of which value was put in by measure.solar-photovoltaic.
 	 ID: pv-own-use-proportion
@@ -137,8 +142,8 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 	 * @generated
 	 */
 	@Override
-	public void setPeakPower(final double newPeakPower) {
-		final double oldPeakPower = peakPower;
+	public void setPeakPower(double newPeakPower) {
+		double oldPeakPower = peakPower;
 		peakPower = newPeakPower;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__PEAK_POWER, oldPeakPower, peakPower));
@@ -158,8 +163,8 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 	 * @generated
 	 */
 	@Override
-	public void setOwnUseProportion(final double newOwnUseProportion) {
-		final double oldOwnUseProportion = ownUseProportion;
+	public void setOwnUseProportion(double newOwnUseProportion) {
+		double oldOwnUseProportion = ownUseProportion;
 		ownUseProportion = newOwnUseProportion;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__OWN_USE_PROPORTION, oldOwnUseProportion, ownUseProportion));
@@ -211,7 +216,9 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 				 TYPE: formula
 				 UNIT: W
 				 SAP: (233), (M1)
+                                 SAP_COMPLIANT: Yes
 				 BREDEM: 10A
+                                 BREDEM_COMPLIANT: Yes
 				 DEPS: effective-solar-flux,solar-overshading-factor,solar-generation-factor
 				 GET: house.energy-use
 				 CONVERSION: No conversion is required. We have already converted all of the inputs to Watts by this point.
@@ -238,6 +245,8 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 				 TYPE: formula
 				 UNIT: W
 				 SAP: (233)
+                                 SAP_COMPLIANT: Yes
+                                 BREDEM_COMPLIANT: N/A - out of scope
 				 DEPS: pv-electricity-generated,pv-own-use-proportion
 				 ID: pv-exported-electricity
 				 CODSIEB
@@ -259,6 +268,8 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 				 TYPE: formula
 				 UNIT: W
 				 SAP: Appendix M (M1 section 3)
+                                 SAP_COMPLIANT: Yes
+                                 BREDEM_COMPLIANT: N/A - out of scope
 				 DEPS: pv-electricity-generated,pv-own-use-proportion,default-split-rate
 				 NOTES: The dwelling will not use more electricity than it has demand for.
 				 ID: pv-useful-electricity
@@ -295,7 +306,7 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 	 * @generated
 	 */
 	@Override
-	public Object eGet(final int featureID, final boolean resolve, final boolean coreType) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__PEAK_POWER:
 				return getPeakPower();
@@ -310,7 +321,7 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 	 * @generated
 	 */
 	@Override
-	public void eSet(final int featureID, final Object newValue) {
+	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__PEAK_POWER:
 				setPeakPower((Double)newValue);
@@ -327,7 +338,7 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 	 * @generated
 	 */
 	@Override
-	public void eUnset(final int featureID) {
+	public void eUnset(int featureID) {
 		switch (featureID) {
 			case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__PEAK_POWER:
 				setPeakPower(PEAK_POWER_EDEFAULT);
@@ -344,7 +355,7 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(final int featureID) {
+	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case ITechnologiesPackage.SOLAR_PHOTOVOLTAIC__PEAK_POWER:
 				return peakPower != PEAK_POWER_EDEFAULT;
@@ -362,7 +373,7 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		final StringBuffer result = new StringBuffer(super.toString());
+		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (peakPower: ");
 		result.append(peakPower);
 		result.append(", ownUseProportion: ");

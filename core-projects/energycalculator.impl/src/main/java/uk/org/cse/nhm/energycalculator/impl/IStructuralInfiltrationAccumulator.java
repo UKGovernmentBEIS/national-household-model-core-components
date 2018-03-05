@@ -10,6 +10,8 @@ public interface IStructuralInfiltrationAccumulator {
      */
     public abstract double getAirChangeRate();
 
+    public abstract double getDeliberateAirChanges(final double houseVolume);
+
     /**
      * Once all the infiltration source have been added, call this.
      * @param house

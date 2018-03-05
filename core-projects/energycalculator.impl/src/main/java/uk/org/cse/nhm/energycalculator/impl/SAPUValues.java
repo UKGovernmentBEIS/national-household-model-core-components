@@ -484,7 +484,7 @@ public class SAPUValues {
 				}
 
 				for (int i = 0; i < insulationLevels.length; i++) {
-					if (insulationThickness >= insulationLevels[i]) {
+					if (insulationThickness <= insulationLevels[i]) {
 						return insulationLookup[i];
 					}
 				}

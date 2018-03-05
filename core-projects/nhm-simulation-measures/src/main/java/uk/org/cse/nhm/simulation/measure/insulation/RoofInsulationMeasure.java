@@ -112,27 +112,27 @@ public class RoofInsulationMeasure extends InsulationMeasure {
 		}
 	}
 
-	/**
-	 * @issue 3 : although loft insulation was being installed, it was not being flagged as such and so not counted in reports.
-	 */
-	@Override
-	public boolean apply(final ISettableComponentsScope components, final ILets lets) throws NHMException {
-		if (isSuitable(components, lets)) {
-			if (uValueFunction.isPresent()) {
-				components.modify(structureDimension, new UValueModifier(uValueFunction.get().compute(components, lets).doubleValue(), insulationThickness));
-			} else {
-				components.modify(structureDimension, new ResistanceModifier(resistanceFunction.compute(components, lets).doubleValue(), insulationThickness));
-			}
+    /**
+     * @issue 3 : although loft insulation was being installed, it was not being flagged as such and so not counted in
+     *        reports.
+     */
+    @Override
+    public boolean doApply(final ISettableComponentsScope components, final ILets lets) throws NHMException {
+        if (uValueFunction.isPresent()) {
+            components.modify(structureDimension, new UValueModifier(
+                    uValueFunction.get().compute(components, lets).doubleValue(), insulationThickness));
+        } else {
+            components.modify(structureDimension, new ResistanceModifier(
+                    resistanceFunction.compute(components, lets).doubleValue(), insulationThickness));
+        }
 
-			final double area = components.get(structureDimension).getExternalRoofArea();
+        final double area = components.get(structureDimension).getExternalRoofArea();
 
-			addCapitalCosts(components, lets, area);
+        addCapitalCosts(components, lets, area);
 
-			return true;
-		} else {
-			return false;
-		}
-	}
+        return true;
+
+    }
 
 	@Override
 	public boolean isSuitable(final IComponentsScope components, final ILets lets) {

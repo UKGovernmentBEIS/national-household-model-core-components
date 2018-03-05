@@ -21,6 +21,62 @@ If you want to cross-reference to a language element, you need to use the unique
    - *Bugs removed* will list any known errors that were found to affect the previous version which have been corrected in this version
 
 ** Released versions
+*** Version 7.1.0
+**** Bugs Fixed
+- Suitabilily for =ref.measure.solar-photovoltaic= is now checked, plus re-factored measures to ensure suitability is checked
+- Warm air system measure no longer ignores fuel argument =ref.measure-warm-air-system=
+- Fit now storage tank thermostat measure checks for presence of water tank before installing =ref.measure.hot-water-tank-thermostat=
+- Fixed a problem where adding two extra fuel charges for the same fuel would give two duplicate charges instead.
+- Fixed a problem with transferring money between a dwelling and a global account where it would multiply the amount byt the scenario quantum instead of the weight of the particular dwelling. This affects =ref.report.global-transactions= and =ref.account.balacnce=
+- Basement floors are now treated as if they are ground floors for heat loss, see SAP 2012 S3.10
+- Calculation for upper floor u-values now includes insulation, the bug should not have affected most upper floors as a majority did not have any exposed floor area through which heat loss could occur.
+**** Improvements
+***** General
+- More information given when the standalone (nhm ide) fails to retrieve reports from remote server for a simulation job
+***** Documenation
+- Improved documenation for using consume function =ref.consume= Added a note about needing to take into account house.weight if using this.
+- Document on room heater unsuitability =ref.measure.room-heater=
+- Update suitability text for hot water tank thermostat measure =ref.measure.hot-water-tank-thermostat=
+- Updated un-suitability text for =ref.measure.warm-air-system=
+*** Verison 7.0.3
+**** Bugs Fixed
+***** Reverted macro validation fixes added as they cause errors which affect previous BEIS scenarios
+*** Version 7.0.2
+**** Bugs Fixed
+***** House Permeability Calculation
+Calculate house envelope using all surfaces not just external - Asked for by BEIS/Hideem team
+*** Version 7.0.1
+**** Bugs Fixed
+***** Combinations.choice - now expands combinations to actual measure classes rather than nulls - caused by a bad code merge
+***** Suggestions and help for macros
+The desktop application now includes suggestions and help for macro arguments which are not optional.
+These arguments were previously being left out, by mistake.
+*** Version 7.0.0
+**** New Features
+***** Combinations Choice
+To help with performance issues being created by using the ~combinations macro within templates combinations choice has been added to avoid the need to macro expand the scenario before validation. This expansion now happens when executing the simulaiton see =ref.combination.choice=.
+
+***** Products Modelling
+To enable modelling of some products policy changes to the NHM some new scenario language elements have been added.
+
+For modelling of changes to energy used by appliances and cooking the =ref.measure.set-adjustment-terms= function allows you to apply a linear correction factor to the energy use of appliances or overaching energy use coooking with reference to SAP2012 L10.
+
+For modelling the altertion of lighting elements within a house =ref.measure.lighting= has been added to alter the types of light within a house and =ref.house.lighting-proportion= has been added to allow reporting on this.
+***** Health modelling
+The health impact calculations from UCL and LSHTM's HIDEEM model have been integrated into the NHM.
+
+The =ref.health-impact-of= function allows you to compute the health impact in terms of morbidity QALYS, mortality QALYS, or avoided NHS costs which result from a given change in internal temperature or fabric permeability as a result of a measure being applied.
+
+Some supporting functions have been added to calculating the inputs to =ref.health-impact-of=.
+
+=ref.house.permeability= represents the permeability of the house (air change rate / area).
+
+=ref.house.sit= and =ref.house.sit-rebate= predict a realistic internal temperature in a house.
+
+***** house.surface-area
+
+A function =ref.house.surface-area= has been added, this returns the area of the external envelope of the dwelling (roof, floor, walls, windows and doors).
+
 *** Version 6.5.5
 **** New Features
 

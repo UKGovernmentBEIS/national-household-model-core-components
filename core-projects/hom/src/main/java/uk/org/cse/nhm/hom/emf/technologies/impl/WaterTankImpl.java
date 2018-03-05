@@ -204,7 +204,9 @@ public class WaterTankImpl extends MinimalEObjectImpl implements IWaterTank {
 	TYPE: value
 	UNIT: Boolean
 	SAP: Input
+        SAP_COMPLIANT: N/A - value from stock
 	BREDEM: Input
+        BREDEM_COMPLIANT: N/A - value from stock
 	STOCK: water-heating.csv (cylinderfactoryinsulated)
 	ID: cylinder-insulation-type
 	CODSIEB
@@ -235,7 +237,9 @@ public class WaterTankImpl extends MinimalEObjectImpl implements IWaterTank {
 	TYPE: value
 	UNIT: m^3
 	SAP: (47)
+        SAP_COMPLIANT: N/A - value from stock
 	BREDEM: User input
+        BREDEM_COMPLIANT: N/A - value from stock
 	SET: cylinder-volume property when installing a measure
 	STOCK: water-heating.csv (cylindervolume)
 	ID: cylinder-volume
@@ -363,7 +367,9 @@ public class WaterTankImpl extends MinimalEObjectImpl implements IWaterTank {
 		TYPE: formula
 		UNIT: W
 		SAP: (54,55)
+                SAP_COMPLIANT: Yes
 		BREDEM: 2.2B
+                BREDEM_COMPLIANT: Yes
 		DEPS: cylinder-loss-factor,storage-temperature-factor,volume-factor,cylinder-volume,solar-store-effective-volume
 		NOTES: Storage losses apply to system water tanks, CPSU water tanks, and storage combi water tanks.
 		NOTES: Storage-combi water tanks are excluded if its efficiency numbers are the SAP defaults, and included if they are the manufacturers declared efficiencies.
@@ -546,7 +552,9 @@ public class WaterTankImpl extends MinimalEObjectImpl implements IWaterTank {
 		TYPE: formula
 		UNIT: Dimensionless
 		SAP: (52), Table 2a footnote 2
+                SAP_COMPLIANT: Yes
 		BREDEM: 2.2B.b
+                BREDEM_COMPLIANT: Yes
 		DEPS: volume-factor-terms,cylinder-volume
 		ID: volume-factor
 		CODSIEB
@@ -568,7 +576,9 @@ public class WaterTankImpl extends MinimalEObjectImpl implements IWaterTank {
 		TYPE: formula
 		UNIT: W/litre
 		SAP: (51), Table 2
+                SAP_COMPLIANT: No, see note
 		BREDEM: 2.2B.a
+                BREDEM_COMPLIANT: No, see note
 		DEPS: cylinder-loss-constant,cylinder-loss-loose-jacket-terms,cylinder-loss-factory-foam-terms,cylinder-insulation-type
 		NOTES: Both SAP and BREDEM specify that CPSU cylinder loss factor should always be 0.022. This is not implemented in the NHM.
 		CONVERSION: In SAP and BREDEM this is in kWh/litre/day. In the NHM it is scaled to W/litre.

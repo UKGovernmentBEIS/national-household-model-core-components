@@ -33,7 +33,7 @@ ext.libs =
 
    commonsLang: "org.apache.commons:commons-lang3:3.1",
    commonsIO: "commons-io:commons-io:2.4",
-   commonsMath3: "org.apache.commons:commons-math3:3.1",
+   commonsMath3: "org.apache.commons:commons-math3:3.4",
 
    lucene: ["org.apache.lucene:lucene-core:4.0.0",
             "org.apache.lucene:lucene-analyzers-common:4.0.0",
@@ -107,7 +107,8 @@ configure(subprojects -
             project(':nhm-stock-documentation') -
             project(':sedbuk-boiler-matching') -
             project(':nhm-bundle-api') -
-            project(':nhm-impl-bundle')
+            project(':nhm-impl-bundle') -
+            project(':nhm-health')
             )
 {
   publishing {
@@ -238,6 +239,7 @@ project(':nhm-simulation-engine') {
     compile project(':nhm-report-messages')
     compile project(':hom')
     compile project(':nhm-core-api')
+    compile project(':nhm-health')
     compile libs.guice
     compile libs.carrot
     compile libs.findbugs
@@ -480,6 +482,35 @@ project(':sedbuk-boiler-matching'){
     compile    "org.apache.lucene:lucene-analyzers-common:${lucene}"
     compile    "org.apache.lucene:lucene-sandbox:${lucene}"
     compile    "org.apache.lucene:lucene-suggest:${lucene}"
+  }
+}
+
+project(':nhm-health') {
+  group = 'uk.ac.ucl.iede'
+
+  dependencies {
+    compile project(':energycalculator.api')
+    compile project(':hom')
+    compile libs.commonsIO
+    compile libs.commonsMath3
+    compile libs.slf4j
+    compile libs.guava
+    testCompile libs.junit
+  }
+
+  task(execute, type:JavaExec) {
+    main = 'uk.ac.ucl.hideem.Main'
+    classpath = sourceSets.main.runtimeClasspath
+    args = [
+      // Inputs
+      'people.csv',
+      'houses.csv',
+      // Outputs
+      new File(project.buildDir, 'exposures.csv'),
+      new File(project.buildDir, 'qalys.csv'),
+      new File(project.buildDir, 'morbqalys.csv'),
+      new File(project.buildDir, 'costs.csv')
+    ]
   }
 }
 

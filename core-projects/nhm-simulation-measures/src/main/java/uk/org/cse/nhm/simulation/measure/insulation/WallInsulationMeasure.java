@@ -123,7 +123,7 @@ public class WallInsulationMeasure extends InsulationMeasure {
 	}
 	
 	@Override
-	public boolean apply(final ISettableComponentsScope components, final ILets lets) throws NHMException {
+	public boolean doApply(final ISettableComponentsScope components, final ILets lets) throws NHMException {
 		if (isSuitable(components, lets)) {
 			final WallModifier modifier;
 			if (uValueOverride.isPresent()) {

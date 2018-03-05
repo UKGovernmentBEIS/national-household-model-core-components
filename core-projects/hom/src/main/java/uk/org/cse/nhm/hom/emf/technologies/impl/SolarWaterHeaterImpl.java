@@ -165,7 +165,9 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: (H2)
+    SAP_COMPLIANT: No, user defined
 	BREDEM: User input
+    BREDEM_COMPLIANT: N/A - user defined
 	SET: measure.solar-dhw
 	STOCK: Set to 4 based on Cambridge Household Model assumptions
 	ID: zero-loss-efficiency
@@ -195,7 +197,9 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	TYPE: value
 	UNIT: Dimensionless
 	SAP: (H3b)
+        SAP_COMPLIANT: No, user defined
 	BREDEM: User input
+        BREDEM_COMPLIANT: N/A - user defined
 	SET: measure.solar-dhw
 	STOCK: Set to 0.8 based on Cambridge Household Model assumptions
 	ID: linear-heat-loss-coefficient
@@ -281,8 +285,8 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public void setAnnualOperationalCost(final double newAnnualOperationalCost) {
-		final double oldAnnualOperationalCost = annualOperationalCost;
+	public void setAnnualOperationalCost(double newAnnualOperationalCost) {
+		double oldAnnualOperationalCost = annualOperationalCost;
 		annualOperationalCost = newAnnualOperationalCost;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_WATER_HEATER__ANNUAL_OPERATIONAL_COST, oldAnnualOperationalCost, annualOperationalCost));
@@ -304,8 +308,8 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public void setPitch(final double newPitch) {
-		final double oldPitch = pitch;
+	public void setPitch(double newPitch) {
+		double oldPitch = pitch;
 		pitch = newPitch;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_WATER_HEATER__PITCH, oldPitch, pitch));
@@ -327,8 +331,8 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public void setOrientation(final double newOrientation) {
-		final double oldOrientation = orientation;
+	public void setOrientation(double newOrientation) {
+		double oldOrientation = orientation;
 		orientation = newOrientation;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_WATER_HEATER__ORIENTATION, oldOrientation, orientation));
@@ -350,8 +354,8 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public void setArea(final double newArea) {
-		final double oldArea = area;
+	public void setArea(double newArea) {
+		double oldArea = area;
 		area = newArea;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_WATER_HEATER__AREA, oldArea, area));
@@ -373,8 +377,8 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public void setUsefulAreaRatio(final double newUsefulAreaRatio) {
-		final double oldUsefulAreaRatio = usefulAreaRatio;
+	public void setUsefulAreaRatio(double newUsefulAreaRatio) {
+		double oldUsefulAreaRatio = usefulAreaRatio;
 		usefulAreaRatio = newUsefulAreaRatio;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_WATER_HEATER__USEFUL_AREA_RATIO, oldUsefulAreaRatio, usefulAreaRatio));
@@ -396,8 +400,8 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public void setZeroLossEfficiency(final double newZeroLossEfficiency) {
-		final double oldZeroLossEfficiency = zeroLossEfficiency;
+	public void setZeroLossEfficiency(double newZeroLossEfficiency) {
+		double oldZeroLossEfficiency = zeroLossEfficiency;
 		zeroLossEfficiency = newZeroLossEfficiency;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_WATER_HEATER__ZERO_LOSS_EFFICIENCY, oldZeroLossEfficiency, zeroLossEfficiency));
@@ -419,8 +423,8 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public void setLinearHeatLossCoefficient(final double newLinearHeatLossCoefficient) {
-		final double oldLinearHeatLossCoefficient = linearHeatLossCoefficient;
+	public void setLinearHeatLossCoefficient(double newLinearHeatLossCoefficient) {
+		double oldLinearHeatLossCoefficient = linearHeatLossCoefficient;
 		linearHeatLossCoefficient = newLinearHeatLossCoefficient;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_WATER_HEATER__LINEAR_HEAT_LOSS_COEFFICIENT, oldLinearHeatLossCoefficient, linearHeatLossCoefficient));
@@ -442,8 +446,8 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public void setPreHeatTankVolume(final double newPreHeatTankVolume) {
-		final double oldPreHeatTankVolume = preHeatTankVolume;
+	public void setPreHeatTankVolume(double newPreHeatTankVolume) {
+		double oldPreHeatTankVolume = preHeatTankVolume;
 		preHeatTankVolume = newPreHeatTankVolume;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_WATER_HEATER__PRE_HEAT_TANK_VOLUME, oldPreHeatTankVolume, preHeatTankVolume));
@@ -465,8 +469,8 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public void setPumpPhotovolatic(final boolean newPumpPhotovolatic) {
-		final boolean oldPumpPhotovolatic = (flags & PUMP_PHOTOVOLATIC_EFLAG) != 0;
+	public void setPumpPhotovolatic(boolean newPumpPhotovolatic) {
+		boolean oldPumpPhotovolatic = (flags & PUMP_PHOTOVOLATIC_EFLAG) != 0;
 		if (newPumpPhotovolatic) flags |= PUMP_PHOTOVOLATIC_EFLAG; else flags &= ~PUMP_PHOTOVOLATIC_EFLAG;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.SOLAR_WATER_HEATER__PUMP_PHOTOVOLATIC, oldPumpPhotovolatic, newPumpPhotovolatic));
@@ -492,7 +496,7 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public Object eGet(final int featureID, final boolean resolve, final boolean coreType) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ITechnologiesPackage.SOLAR_WATER_HEATER__ANNUAL_OPERATIONAL_COST:
 				return getAnnualOperationalCost();
@@ -522,7 +526,7 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public void eSet(final int featureID, final Object newValue) {
+	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case ITechnologiesPackage.SOLAR_WATER_HEATER__ANNUAL_OPERATIONAL_COST:
 				setAnnualOperationalCost((Double)newValue);
@@ -561,7 +565,7 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public void eUnset(final int featureID) {
+	public void eUnset(int featureID) {
 		switch (featureID) {
 			case ITechnologiesPackage.SOLAR_WATER_HEATER__ANNUAL_OPERATIONAL_COST:
 				setAnnualOperationalCost(ANNUAL_OPERATIONAL_COST_EDEFAULT);
@@ -600,7 +604,7 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(final int featureID) {
+	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case ITechnologiesPackage.SOLAR_WATER_HEATER__ANNUAL_OPERATIONAL_COST:
 				return annualOperationalCost != ANNUAL_OPERATIONAL_COST_EDEFAULT;
@@ -630,7 +634,7 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public int eBaseStructuralFeatureID(final int derivedFeatureID, final Class<?> baseClass) {
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
 		if (baseClass == IVisitorAccepter.class) {
 			switch (derivedFeatureID) {
 				default: return -1;
@@ -651,7 +655,7 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	 * @generated
 	 */
 	@Override
-	public int eDerivedStructuralFeatureID(final int baseFeatureID, final Class<?> baseClass) {
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
 		if (baseClass == IVisitorAccepter.class) {
 			switch (baseFeatureID) {
 				default: return -1;
@@ -675,7 +679,7 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		final StringBuffer result = new StringBuffer(super.toString());
+		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (annualOperationalCost: ");
 		result.append(annualOperationalCost);
 		result.append(", pitch: ");
@@ -711,7 +715,9 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 		TYPE: formula
 		UNIT: ???
 		SAP: (H4)
+                SAP_COMPLIANT: Yes
 		BREDEM: 2.4.2B
+                BREDEM_COMPLIANT: Yes
 		DEPS: linear-heat-loss-coefficient,zero-loss-efficiency
 		ID: collector-performance-ratio
 		CODSIEB
@@ -725,7 +731,9 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 		TYPE: formula
 		UNIT: ???
 		SAP: (H10)
+                SAP_COMPLIANT: Yes
 		BREDEM: 2.4.2B
+                BREDEM_COMPLIANT: Yes
 		DEPS: collector-performance-ratio,collector-performance-ratio-threshold,collector-performance-factor-lower-terms,collector-performance-factor-higher-terms
 		ID: collector-performance-factor
 		CODSIEB
@@ -765,7 +773,9 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 		TYPE: formula
 		UNIT: W
 		SAP: (H7)
+                SAP_COMPLIANT: Yes
 		BREDEM: 2.4.2C (expression in parentheses)
+                BREDEM_COMPLIANT: Yes
 		DEPS: solar-thermal-collector-area,solar-overshading-factor,effective-solar-flux,zero-loss-efficiency
 		ID: solar-energy-available
 		CODSIEB
@@ -780,7 +790,9 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 		TYPE: formula
 		UNIT: Dimensionless
 		SAP: (H8)
+                SAP_COMPLIANT: Yes
 		BREDEM: 2.4.2C
+                BREDEM_COMPLIANT: Yes
 		DEPS: solar-energy-available,distribution-loss-factor,water-heating-power,solar-hot-water-use-adjustment
 		ID: solar-to-load-ratio
 		CODSIEB
@@ -796,7 +808,9 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 		TYPE: formula
 		UNIT: Dimensionless
 		SAP: (H9)
+                SAP_COMPLIANT: Yes
 		BREDEM: 2.4.2D
+                BREDEM_COMPLIANT: Yes
 		DEPS: solar-utilisation-factor-thermostat-factor,solar-to-load-ratio
 		ID: solar-utilisation-factor
 		CODSIEB
@@ -825,7 +839,9 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 		TYPE: formula
 		UNIT: Litres
 		SAP: (H13)
+                SAP_COMPLIANT: Yes
 		BREDEM: User input, 2.4.2 (footnote)
+                BREDEM_COMPLIANT: Yes
 		DEPS: solar-dedicated-store-volume,solar-system-store-volume
 		ID: solar-store-effective-volume
 		CODSIEB
@@ -841,7 +857,9 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 			TYPE: value
 			UNIT: Litres
 			SAP: (H11, H13)
+                        SAP_COMPLIANT: Yes
 			BREDEM: User input, 2.4.2 (footnote)
+                        BREDEM_COMPLIANT: Yes
 			STOCK: water-heating.csv (solarstorevolume if either solarstoreincylinder is 'true' or cylindervolume is not present or equal to 0)
 			ID: solar-dedicated-store-volume
 			CODSIEB
@@ -856,7 +874,9 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 			TYPE: formula
 			UNIT: Litres
 			SAP: (H12, H13)
+                        SAP_COMPLIANT: Yes
 			BREDEM: User input, 2.4.2 (footnote)
+                        BREDEM_COMPLIANT: Yes
 			DEPS: cylinder-volume,solar-cylinder-remainder
 			STOCK: water-heating.csv (solarstorevolume)
 			ID: solar-system-store-volume
@@ -892,7 +912,9 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 		TYPE: formula
 		UNIT: Dimensionless
 		SAP: (H15, H16)
+                SAP_COMPLIANT: Yes
 		BREDEM: 2.4.2E
+                BREDEM_COMPLIANT: Yes
 		DEPS: solar-store-effective-volume,water-volume,solar-min-volume-factor,solar-volume-factor-coefficient
 		ID: solar-storage-volume-factor
 		CODSIEB
@@ -910,7 +932,9 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 		TYPE: formula
 		UNIT: W
 		SAP: (64,H17)
+                SAP_COMPLIANT: Yes
 		BREDEM: 2.4.2G
+                BREDEM_COMPLIANT: Yes
 		DEPS: solar-energy-available,solar-utilisation-factor,collector-performance-factor,solar-storage-volume-factor
 		ID: solar-hot-water-output
 		CODSIEB
@@ -942,7 +966,9 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 		DESCRIPTION: An adjustment to the solar-to-load ratio based on which kinds of showers are present in the dwelling.
 		TYPE: formula
 		UNIT: Dimensionless
+                BREDEM_COMPLIANT: BREDEM mode only
 		SAP: (H7a), Table H3
+                SAP_COMPLIANT: SAP mode only
 		NOTES: Only has an effect in SAP 2012 mode.
 		ID: solar-hot-water-use-adjustment
 		CODSIEB

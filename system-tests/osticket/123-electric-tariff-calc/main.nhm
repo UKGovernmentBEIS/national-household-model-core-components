@@ -1,0 +1,46 @@
+(scenario start-date: 2015
+          end-date: 2016
+          stock-id:  reduced.stock.gz
+          quantum: 10000
+          (on.dates [(scenario-start)]
+                    (apply (measure.solar-photovoltaic
+                               capex: 0
+                               size: (size(* (house.roof-area) 0.3   0.14))
+                               own-use-proportion: 0.5
+                               report: r)
+                           )
+                    )
+          (def-report r
+                      (column name: Energy value: (+ (house.energy-use by-fuel: PeakElectricity by-service: Generation)
+                                                     (house.energy-use by-fuel: PeakElectricity by-service: Lighting)
+                                                     (house.energy-use by-fuel: PeakElectricity by-service: SpaceHeating)
+                                                     (house.energy-use by-fuel: PeakElectricity by-service: WaterHeating)))
+                      (column name: FuelFixed 
+                              value: (under (action.set-tariffs fixed) 
+                                            evaluate: 
+                                            (house.fuel-cost by-fuel: PeakElectricity exclude-services: [Appliances Cooking])))
+                      (column name: Broken
+                              value: (under (action.set-tariffs broken) 
+                                            evaluate: 
+                                            (house.fuel-cost by-fuel: PeakElectricity exclude-services: [Appliances Cooking]))))
+          (context.tariffs others: [(tariff name: fixed (-sp PeakElectricity 0 sc: 1))
+                                    (tariff name: broken (-sp-broken PeakElectricity 0 sc: 1))]))
+
+(template -sp
+          [@1:fuel @2:unit-rate [@sc:standing-charge 0]]
+          (fuel type: @fuel
+                (charge (* (house.meter-reading) @unit-rate))
+                (charge (function.case (when (= 0 (house.meter-reading))
+                                             0)
+                                       default: @standing-charge))))
+
+
+(template -sp-broken
+          [@1:fuel @2:unit-rate [@sc:standing-charge 0]]
+          (fuel type: @fuel
+                (charge (* (house.meter-reading) @unit-rate))
+                (charge (*
+                            (min
+                                1
+                                (round (house.meter-reading) to: Upper 1))
+                            @standing-charge))))

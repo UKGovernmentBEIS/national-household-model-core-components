@@ -106,11 +106,11 @@ public class StorageCombiBoilerImpl extends CombiBoilerImpl implements IStorageC
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetStore(final IWaterTank newStore, NotificationChain msgs) {
-		final IWaterTank oldStore = store;
+	public NotificationChain basicSetStore(IWaterTank newStore, NotificationChain msgs) {
+		IWaterTank oldStore = store;
 		store = newStore;
 		if (eNotificationRequired()) {
-			final ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, IBoilersPackage.STORAGE_COMBI_BOILER__STORE, oldStore, newStore);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, IBoilersPackage.STORAGE_COMBI_BOILER__STORE, oldStore, newStore);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
@@ -122,7 +122,7 @@ public class StorageCombiBoilerImpl extends CombiBoilerImpl implements IStorageC
 	 * @generated
 	 */
 	@Override
-	public void setStore(final IWaterTank newStore) {
+	public void setStore(IWaterTank newStore) {
 		if (newStore != store) {
 			NotificationChain msgs = null;
 			if (store != null)
@@ -152,8 +152,8 @@ public class StorageCombiBoilerImpl extends CombiBoilerImpl implements IStorageC
 	 * @generated
 	 */
 	@Override
-	public void setStoreInPrimaryCircuit(final boolean newStoreInPrimaryCircuit) {
-		final boolean oldStoreInPrimaryCircuit = (flags & STORE_IN_PRIMARY_CIRCUIT_EFLAG) != 0;
+	public void setStoreInPrimaryCircuit(boolean newStoreInPrimaryCircuit) {
+		boolean oldStoreInPrimaryCircuit = (flags & STORE_IN_PRIMARY_CIRCUIT_EFLAG) != 0;
 		if (newStoreInPrimaryCircuit) flags |= STORE_IN_PRIMARY_CIRCUIT_EFLAG; else flags &= ~STORE_IN_PRIMARY_CIRCUIT_EFLAG;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, IBoilersPackage.STORAGE_COMBI_BOILER__STORE_IN_PRIMARY_CIRCUIT, oldStoreInPrimaryCircuit, newStoreInPrimaryCircuit));
@@ -165,7 +165,7 @@ public class StorageCombiBoilerImpl extends CombiBoilerImpl implements IStorageC
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(final InternalEObject otherEnd, final int featureID, final NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case IBoilersPackage.STORAGE_COMBI_BOILER__STORE:
 				return basicSetStore(null, msgs);
@@ -179,7 +179,7 @@ public class StorageCombiBoilerImpl extends CombiBoilerImpl implements IStorageC
 	 * @generated
 	 */
 	@Override
-	public Object eGet(final int featureID, final boolean resolve, final boolean coreType) {
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case IBoilersPackage.STORAGE_COMBI_BOILER__STORE:
 				return getStore();
@@ -195,7 +195,7 @@ public class StorageCombiBoilerImpl extends CombiBoilerImpl implements IStorageC
 	 * @generated
 	 */
 	@Override
-	public void eSet(final int featureID, final Object newValue) {
+	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case IBoilersPackage.STORAGE_COMBI_BOILER__STORE:
 				setStore((IWaterTank)newValue);
@@ -213,7 +213,7 @@ public class StorageCombiBoilerImpl extends CombiBoilerImpl implements IStorageC
 	 * @generated
 	 */
 	@Override
-	public void eUnset(final int featureID) {
+	public void eUnset(int featureID) {
 		switch (featureID) {
 			case IBoilersPackage.STORAGE_COMBI_BOILER__STORE:
 				setStore((IWaterTank)null);
@@ -231,7 +231,7 @@ public class StorageCombiBoilerImpl extends CombiBoilerImpl implements IStorageC
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(final int featureID) {
+	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case IBoilersPackage.STORAGE_COMBI_BOILER__STORE:
 				return store != null;
@@ -247,7 +247,7 @@ public class StorageCombiBoilerImpl extends CombiBoilerImpl implements IStorageC
 	 * @generated
 	 */
 	@Override
-	public int eBaseStructuralFeatureID(final int derivedFeatureID, final Class<?> baseClass) {
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
 		if (baseClass == IStoreContainer.class) {
 			switch (derivedFeatureID) {
 				case IBoilersPackage.STORAGE_COMBI_BOILER__STORE: return ITechnologiesPackage.STORE_CONTAINER__STORE;
@@ -263,7 +263,7 @@ public class StorageCombiBoilerImpl extends CombiBoilerImpl implements IStorageC
 	 * @generated
 	 */
 	@Override
-	public int eDerivedStructuralFeatureID(final int baseFeatureID, final Class<?> baseClass) {
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
 		if (baseClass == IStoreContainer.class) {
 			switch (baseFeatureID) {
 				case ITechnologiesPackage.STORE_CONTAINER__STORE: return IBoilersPackage.STORAGE_COMBI_BOILER__STORE;
@@ -293,7 +293,9 @@ public class StorageCombiBoilerImpl extends CombiBoilerImpl implements IStorageC
 		TYPE: formula
 		UNIT: W
 		SAP: Table 3a
+                SAP_COMPLIANT: Yes
 		BREDEM: Table 13
+                BREDEM_COMPLIANT: Yes
 		DEPS: storage-combi-volume-threshold,storage-combi-storage-loss-factor,combi-loss-water-usage-limit
 		ID: combi-losses-storage
 		CODSIEB
@@ -350,7 +352,9 @@ public class StorageCombiBoilerImpl extends CombiBoilerImpl implements IStorageC
 		TYPE: formula
 		UNIT: W
 		SAP: (51-55)
+                SAP_COMPLIANT: Yes
 		BREDEM: 2.2B
+                BREDEM_COMPLIANT: Yes
 		DEPS: temperature-factor-storage-combi-primary-store-terms,temperature-factor-storage-combi-secondary-store-terms
 		ID: storage-combi-storage-temperature-factor
 		CODSIEB

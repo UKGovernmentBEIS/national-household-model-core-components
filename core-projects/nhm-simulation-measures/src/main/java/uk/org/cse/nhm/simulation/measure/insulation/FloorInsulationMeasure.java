@@ -63,49 +63,44 @@ public class FloorInsulationMeasure extends InsulationMeasure {
 
 
 	@Override
-   	public boolean apply(final ISettableComponentsScope scope, final ILets lets) {
-		if (isSuitable(scope, lets)) {
-			if (this.uValue.isPresent()) {
-				final double uvalue = this.uValue.get().compute(scope, lets).doubleValue();
-				scope.modify(structureDimension,
-							 new IBranch.IModifier<StructureModel>() {
-								 @Override
-								 public boolean modify(final StructureModel sm) {
-									 for (final Storey storey : sm.getStoreys()) {
-										 storey.setFloorUValue(uvalue);
-									 }
+   	public boolean doApply(final ISettableComponentsScope scope, final ILets lets) {
+        if (this.uValue.isPresent()) {
+            final double uvalue = this.uValue.get().compute(scope, lets).doubleValue();
+            scope.modify(structureDimension,
+                    new IBranch.IModifier<StructureModel>() {
+                        @Override
+                        public boolean modify(final StructureModel sm) {
+                            for (final Storey storey : sm.getStoreys()) {
+                                storey.setFloorUValue(uvalue);
+                            }
 
-									 sm.setFloorInsulationThickness(thickness);
+                            sm.setFloorInsulationThickness(thickness);
 
-									 return true;
-								 }
-							 });
-				addCapitalCosts(scope, lets);
-			} else if (this.resistance.isPresent()) {
-				final double resistance = this.resistance.get().compute(scope, lets).doubleValue() * thickness;
-				scope.modify(structureDimension,
-							 new IBranch.IModifier<StructureModel>() {
-								 @Override
-								 public boolean modify(final StructureModel sm) {
-									 for (final Storey storey : sm.getStoreys()) {
-										 final double newUValue =
-											 1/(resistance +
-												(1/storey.getFloorUValue()));
-										 storey.setFloorUValue(newUValue);
-									 }
+                            return true;
+                        }
+                    });
+            addCapitalCosts(scope, lets);
+        } else if (this.resistance.isPresent()) {
+            final double resistance = this.resistance.get().compute(scope, lets).doubleValue() * thickness;
+            scope.modify(structureDimension,
+                    new IBranch.IModifier<StructureModel>() {
+                        @Override
+                        public boolean modify(final StructureModel sm) {
+                            for (final Storey storey : sm.getStoreys()) {
+                                final double newUValue = 1 / (resistance +
+                                        (1 / storey.getFloorUValue()));
+                                storey.setFloorUValue(newUValue);
+                            }
 
-									 sm.setFloorInsulationThickness(thickness);
+                            sm.setFloorInsulationThickness(thickness);
 
-									 return true;
-								 }
-							 });
-				addCapitalCosts(scope, lets);
-			}
+                            return true;
+                        }
+                    });
+            addCapitalCosts(scope, lets);
+        }
 
-			return true;
-		} else {
-			return false;
-		}
+        return true;
 	}
 
 	@Override
