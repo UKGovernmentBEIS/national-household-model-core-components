@@ -372,10 +372,10 @@ public enum EnergyCalculationStep {
             BREDEMLocation.NotDetermined,
             DefaultValue.None),
 
-    DaysInMonth(Count, MonthlySum,
+    DaysInMonth(Day_per_Month, MonthlySum,
             SAPWorksheetSection.HeatLosses_and_Heat_Loss_Parameter.cell(41),
             BREDEMLocation.NotDetermined,
-            DefaultValue.NotImplementedTempPlaceholder),
+            new DefaultValue(1)),
 
     /**
      * Water Heating

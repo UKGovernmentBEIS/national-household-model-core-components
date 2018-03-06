@@ -22,6 +22,13 @@ public enum Units {
 
     PoundSterling(Unit.PoundSterling),
 
+    Day_per_Month(Unit.Days, Unit.Days_per_Month) {
+        @Override
+        public double convert(double nhmValue, Integer daysInMonth) {
+            return nhmValue * daysInMonth;
+        }
+    },
+
     Kilo_Watt_Hour_per_Day(Unit.Watts, Unit.Kilo_Watt_Hours_per_Day) {
         @Override
         public double convert(double nhmValue, Integer daysInMonth) { return nhmValue * 24 / 1000 ; }
@@ -100,6 +107,8 @@ public enum Units {
         PoundSterling,
 
         AirChanges,
+
+        Days_per_Month,
 
         MetresCubed_per_Hour,
         AirChanges_per_Hour,
