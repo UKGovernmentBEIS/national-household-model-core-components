@@ -336,7 +336,6 @@ public class MapEnum {
 			.put(XEnergyCalculationStep.WaterHeating_CombiLoss_Monthly, EnergyCalculationStep.WaterHeating_CombiLoss_Monthly)
 			.put(XEnergyCalculationStep.WaterHeating_TotalHeat_Monthly_BeforeSolar, EnergyCalculationStep.WaterHeating_TotalHeat_Monthly_BeforeSolar)
 			.put(XEnergyCalculationStep.WaterHeating_Solar, EnergyCalculationStep.WaterHeating_Solar)
-			.put(XEnergyCalculationStep.WaterHeating_TotalHeat_Monthly, EnergyCalculationStep.WaterHeating_TotalHeat_Monthly)
 			.put(XEnergyCalculationStep.Gains_HotWater_Monthly, EnergyCalculationStep.Gains_HotWater_Monthly)
 			.put(XEnergyCalculationStep.Gains_Metabolic, EnergyCalculationStep.Gains_Metabolic)
 			.put(XEnergyCalculationStep.Gains_Lighting, EnergyCalculationStep.Gains_Lighting)
@@ -371,7 +370,6 @@ public class MapEnum {
 			.put(XEnergyCalculationStep.SpaceHeating_Efficiency_Main_System1, EnergyCalculationStep.SpaceHeating_Efficiency_Main_System1)
 			.put(XEnergyCalculationStep.SpaceHeating_Efficiency_Secondary, EnergyCalculationStep.SpaceHeating_Efficiency_Secondary)
 			.put(XEnergyCalculationStep.Energy_SpaceHeating_Fuel_Main_system2, EnergyCalculationStep.Energy_SpaceHeating_Fuel_Main_system2)
-			.put(XEnergyCalculationStep.Energy_WaterHeating_TotalHeat_Annual, EnergyCalculationStep.Energy_WaterHeating_TotalHeat_Annual)
 			.put(XEnergyCalculationStep.WaterHeating_Efficiency, EnergyCalculationStep.WaterHeating_Efficiency)
 			.put(XEnergyCalculationStep.Energy_SpaceCooling, EnergyCalculationStep.Energy_SpaceCooling)
 			.put(XEnergyCalculationStep.PumpsFansAndKeepHot_MechanicalVentilationFans, EnergyCalculationStep.PumpsFansAndKeepHot_MechanicalVentilationFans)
@@ -382,11 +380,13 @@ public class MapEnum {
 			.put(XEnergyCalculationStep.PumpsFansAndKeepHot_KeepHot, EnergyCalculationStep.PumpsFansAndKeepHot_KeepHot)
 			.put(XEnergyCalculationStep.PumpsFansAndKeepHot_SolarWaterHeatingPump, EnergyCalculationStep.PumpsFansAndKeepHot_SolarWaterHeatingPump)
 			.put(XEnergyCalculationStep.PumpsFansAndKeepHot_StorageWWHRSPump, EnergyCalculationStep.PumpsFansAndKeepHot_StorageWWHRSPump)
-			.put(XEnergyCalculationStep.PumpsFansAndKeepHot, EnergyCalculationStep.PumpsFansAndKeepHot)
 			.put(XEnergyCalculationStep.Generation_PhotoVoltaic, EnergyCalculationStep.Generation_PhotoVoltaic)
 			.put(XEnergyCalculationStep.Generation_WindTurbines, EnergyCalculationStep.Generation_WindTurbines)
 			.put(XEnergyCalculationStep.Generation_MicroCHP, EnergyCalculationStep.Generation_MicroCHP)
 			.put(XEnergyCalculationStep.Generation_Hydro, EnergyCalculationStep.Generation_Hydro)
+			.put(XEnergyCalculationStep.Community_ChargingFactor_SpaceHeating, EnergyCalculationStep.Community_ChargingFactor_SpaceHeating)
+			.put(XEnergyCalculationStep.Community_ChargingFactor_WaterHeating, EnergyCalculationStep.Community_ChargingFactor_WaterHeating)
+			.put(XEnergyCalculationStep.Community_DistributionLossFactor, EnergyCalculationStep.Community_DistributionLossFactor)
 			.build();
 
     public static EnergyCalculationStep energyCalculationStep(XEnergyCalculationStep step) {

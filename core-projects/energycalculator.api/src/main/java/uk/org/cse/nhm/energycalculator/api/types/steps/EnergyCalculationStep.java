@@ -1082,7 +1082,23 @@ public enum EnergyCalculationStep {
     /**
      * Community Heating sections - this section of the worksheet is ignored as it is not implemented in the NHM.
      * We have community heating, but we do not divide it up by the different heat sources.
+     *
+     * I have, however, included the usage factors.
      */
+    Community_ChargingFactor_SpaceHeating(DimensionlessProportion, Annual,
+            SAPWorksheetSection.Energy_Requirements_Community.cell(305),
+            BREDEMLocation.NotDetermined,
+            new DefaultValue(Double.NaN)),
+
+    Community_ChargingFactor_WaterHeating(DimensionlessProportion, MonthlyMean,
+            SAPWorksheetSection.Energy_Requirements_Community.subCell(305, 'a'),
+            BREDEMLocation.NotDetermined,
+            new DefaultValue(Double.NaN)),
+
+    Community_DistributionLossFactor(DimensionlessProportion, Annual,
+            SAPWorksheetSection.Energy_Requirements_Community.cell(306),
+            BREDEMLocation.NotDetermined,
+            new DefaultValue(Double.NaN))
     ;
 
     public static class SkipReason {

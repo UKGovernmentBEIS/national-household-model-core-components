@@ -315,7 +315,12 @@
 
    (mean-column name: v258 value: (sap/score)) ; SAP Rating
 
-   ;; v300+ extra SAP worksheet for community heat not implemented.
+   ;; v300+ extra SAP worksheet for community heat not implemented, except for some factors:
+
+   (mean-column name: v305 value: (house.energy-calculation-step Community_ChargingFactor_SpaceHeating))
+   (mean-column name: v305a value: (house.energy-calculation-step Community_ChargingFactor_WaterHeating))
+   (mean-column name: v306 value: (house.energy-calculation-step Community_DistributionLossFactor))
+
    )
 
  (on.dates
