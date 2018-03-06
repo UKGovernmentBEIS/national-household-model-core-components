@@ -2,7 +2,6 @@
  */
 package uk.org.cse.nhm.hom.emf.technologies.impl;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
@@ -454,9 +453,10 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 		if (getWaterHeater() != null) {
 			if (getWaterHeater().getSystem() != null) {
 				if (getWaterHeater().getSystem().getStore() == null) {
-					final double storageTemperatureFactor = getStorageTemperatureFactor(parameters, getSpuriousTank(), false);
-					StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_StorageTemperatureFactor, storageTemperatureFactor);
-					return getSpuriousTank().getStandingLosses(parameters) * storageTemperatureFactor;
+					final IWaterTank tank = getSpuriousTank();
+					return tank.getStandingLosses(
+					        parameters,
+                            getStorageTemperatureFactor(parameters, tank, false));
 				}
 			}
 		}

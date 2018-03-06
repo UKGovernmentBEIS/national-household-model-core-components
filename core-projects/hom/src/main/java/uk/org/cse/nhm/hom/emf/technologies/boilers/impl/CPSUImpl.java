@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.org.cse.nhm.energycalculator.api.*;
-import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.hom.constants.CylinderConstants;
@@ -390,9 +389,10 @@ public class CPSUImpl extends BoilerImpl implements ICPSU {
 	public double getContainedTankLosses(final IInternalParameters parameters) {
 		final IWaterTank store = getStore();
 
-		final double storageTemperatureFactor = getStorageTemperatureFactor(parameters, store, true);
-		StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_StorageTemperatureFactor, storageTemperatureFactor);
-		return store.getStandingLosses(parameters) * storageTemperatureFactor;
+		return store.getStandingLosses(
+				parameters,
+				getStorageTemperatureFactor(parameters, store, true)
+		);
 	}
 
 	/**

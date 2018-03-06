@@ -14,8 +14,6 @@ import org.slf4j.LoggerFactory;
 import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyState;
 import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
-import uk.org.cse.nhm.energycalculator.api.StepRecorder;
-import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.hom.constants.CylinderConstants;
 import uk.org.cse.nhm.hom.constants.HeatingSystemConstants;
@@ -330,12 +328,10 @@ public class StorageCombiBoilerImpl extends CombiBoilerImpl implements IStorageC
 			return 0;
 		}
 
-		final double standingLosses = getStore().getStandingLosses(parameters);
-
-		final double temperatureFactor = getStorageTemperatureFactor(parameters, getStore(), isStoreInPrimaryCircuit());
-		StepRecorder.recordStep(EnergyCalculationStep.AirChanges_BalancedWithHeatRecovery.WaterHeating_StorageTemperatureFactor, temperatureFactor);
-
-		return standingLosses * temperatureFactor;
+		return getStore().getStandingLosses(
+				parameters,
+                getStorageTemperatureFactor(parameters, getStore(), isStoreInPrimaryCircuit())
+		);
 	}
 
 	@Override

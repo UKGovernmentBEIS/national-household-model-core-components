@@ -153,8 +153,6 @@
    (mean-column name: v52 value: (house.energy-calculation-step WaterHeating_StorageVolumeFactor)) ; Volume factor
    (mean-column name: v53 value: (house.energy-calculation-step WaterHeating_StorageTemperatureFactor)) ; Temperature factor
 
-   ;; v54 to v57 are the same in the NHM, because we deduct the solar volume earlier in the calculation
-   ;; Additionally, we don't go through all these different time conversions.
    (mean-column name: v54 value: (house.energy-calculation-step WaterHeating_StorageLosses_Daily_Calculated)) ; Energy lost from water storage 2
    (mean-column name: v55 value: (house.energy-calculation-step WaterHeating_StorageLosses_Daily)) ; Overall energy lost from water storage
    (mean-column name: v56 value: (house.energy-calculation-step WaterHeating_StorageLosses_Monthly)) ; Water storage loss

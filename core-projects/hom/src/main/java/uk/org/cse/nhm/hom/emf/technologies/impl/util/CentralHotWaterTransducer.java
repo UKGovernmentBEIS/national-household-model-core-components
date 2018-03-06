@@ -148,17 +148,8 @@ public class CentralHotWaterTransducer extends EnergyTransducer {
 								system.isStoreInPrimaryCircuit(), system.isSeparatelyTimeControlled());
 			}
 
-			StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_StorageTemperatureFactor, tankTemperatureFactor);
-
-			tankLosses = system.getStore().getStandingLosses(parameters) * tankTemperatureFactor;
+			tankLosses = system.getStore().getStandingLosses(parameters, tankTemperatureFactor);
 		}
-
-		// These are the same thing
-        // TODO: sort out solar vs non-solar losses?
-		StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_StorageLosses_Daily_Calculated, tankLosses);
-		StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_StorageLosses_Daily, tankLosses);
-		StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_StorageLosses_Monthly, tankLosses);
-		StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_StorageLosses_Monthly_ExcludeSolar, tankLosses);
 
 		/**
 		 * The amount of hot water energy required before run

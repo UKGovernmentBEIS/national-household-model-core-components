@@ -436,11 +436,13 @@ public enum EnergyCalculationStep {
             BREDEMLocation.NotDetermined,
             new DefaultValue(0)),
 
+    // This step is a choice between 50 (not implemented in the NHM) or 54.
     WaterHeating_StorageLosses_Daily(Kilo_Watt_Hour_per_Day, MonthlyMean,
             SAPWorksheetSection.Water_Heating.cell(55),
             BREDEMLocation.NotDetermined,
             new DefaultValue(0)),
 
+    // This is step 54 converted into months.
     WaterHeating_StorageLosses_Monthly(Kilo_Watt_Hour_per_Month, MonthlyMean,
             SAPWorksheetSection.Water_Heating.cell(56),
             BREDEMLocation.NotDetermined,

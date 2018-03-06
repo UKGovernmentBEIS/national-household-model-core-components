@@ -23,9 +23,6 @@ class DefaultValue {
         }
     };
 
-    // TODO: delete this field
-    static final DefaultValue NotImplementedTempPlaceholder = new DefaultValue(0) {};
-
     private final List<Double> annual;
     private final List<Double> monthly;
 

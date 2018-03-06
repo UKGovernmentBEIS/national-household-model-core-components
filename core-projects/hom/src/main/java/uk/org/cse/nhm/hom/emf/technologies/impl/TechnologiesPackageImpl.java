@@ -2305,6 +2305,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 
 		op = addEOperation(waterTankEClass, ecorePackage.getEDouble(), "getStandingLosses", 1, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getIInternalParameters(), "parameters", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEDouble(), "temperatureFactor", 1, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(visitorAccepterEClass, IVisitorAccepter.class, "VisitorAccepter", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
