@@ -166,7 +166,8 @@
    (mean-column name: v61 value: (house.energy-calculation-step WaterHeating_CombiLoss_Monthly)) ; Combi boiler loss
    (mean-column name: v62 value: (house.energy-calculation-step WaterHeating_TotalHeat_Monthly_BeforeSolar)) ; Total heat required for water heating
    (mean-column name: v63 value: (house.energy-calculation-step WaterHeating_Solar)) ; Solar DHW input
-   (mean-column name: v64 value: (house.energy-calculation-step WaterHeating_TotalHeat_Monthly)) ; Output from water heater
+   (mean-column name: v64 value: (- (house.energy-calculation-step WaterHeating_TotalHeat_Monthly_BeforeSolar)
+                                    (house.energy-calculation-step WaterHeating_Solar))) ; Output from water heater
    (mean-column name: v65 value: (house.energy-calculation-step Gains_HotWater_Monthly)) ; Heat gains from water heating
    (mean-column name: v66 value: (house.energy-calculation-step Gains_Metabolic)) ; Metabolic gains
    (mean-column name: v67 value: (house.energy-calculation-step Gains_Lighting)) ; Lighting gains
@@ -245,7 +246,9 @@
 
    (mean-column name: v215 value: (house.energy-use by-service: SecondarySpaceHeating)) ; Space heating fuel secondary -month
 
-   (mean-column name: v216 value: (house.energy-calculation-step Energy_WaterHeating_TotalHeat_Annual)) ; Output from water heater
+   ;; This is the same as step 64, except summed over the year.
+   (mean-column name: v216 value: (- (house.energy-calculation-step WaterHeating_TotalHeat_Monthly_BeforeSolar)
+                                     (house.energy-calculation-step WaterHeating_Solar))) ; Output from water heater
 
    (mean-column name: v217 value: (house.energy-calculation-step WaterHeating_Efficiency)) ; Efficiency of water heater
 

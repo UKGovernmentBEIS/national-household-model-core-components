@@ -471,17 +471,18 @@ public enum EnergyCalculationStep {
     WaterHeating_TotalHeat_Monthly_BeforeSolar(Kilo_Watt_Hour_per_Month, MonthlyMean,
             SAPWorksheetSection.Water_Heating.cell(62),
             BREDEMLocation.NotDetermined,
-            DefaultValue.NotImplementedTempPlaceholder),
+            DefaultValue.None),
 
     WaterHeating_Solar(Kilo_Watt_Hour_per_Month, MonthlyMean,
             SAPWorksheetSection.Water_Heating.cell(63),
             BREDEMLocation.NotDetermined,
-            DefaultValue.NotImplementedTempPlaceholder),
+            new DefaultValue(0)),
 
     WaterHeating_TotalHeat_Monthly(Kilo_Watt_Hour_per_Month, MonthlySum,
             SAPWorksheetSection.Water_Heating.cell(64),
             BREDEMLocation.NotDetermined,
-            DefaultValue.NotImplementedTempPlaceholder),
+            DefaultValue.None,
+            SkipReason.WaterHeating_TotalHeat_ExcludeSolar_Not_Recorded),
 
     /**
      * Internal Gains (watts)
@@ -774,10 +775,12 @@ public enum EnergyCalculationStep {
             BREDEMLocation.NotDetermined,
             DefaultValue.None, SkipReason.InEnergyCalculatorResult),
 
+    // This is just 64, summed up over the year
     Energy_WaterHeating_TotalHeat_Annual(Kilo_Watt_Hour_per_Month, MonthlySum,
             SAPWorksheetSection.Energy_Requirements.cell(216),
             BREDEMLocation.NotDetermined,
-            DefaultValue.NotImplementedTempPlaceholder),
+            DefaultValue.None,
+            SkipReason.WaterHeating_TotalHeat_ExcludeSolar_Not_Recorded),
 
     WaterHeating_Efficiency(DimensionlessProportion, MonthlyMean,
             SAPWorksheetSection.Energy_Requirements.cell(217),
@@ -1094,6 +1097,7 @@ public enum EnergyCalculationStep {
         static final String FabricEnergyEfficiencyNotSupported = "The NHM does not perform the fabric energy efficiency calculation.";
         static final String InEnergyCalculatorResult = "We don't want to output these fields in our report for now. They are fiddly to get, and are already available in IEnergyCalculationResult.";
         static final String PumpsFansAndKeepHotSum_Unsupported = "The sum of all the pumps fans and keep hot is not supported by the SAP steps mechanism. To get this value, add up all the sub-steps in your scenario.";
+        static final String WaterHeating_TotalHeat_ExcludeSolar_Not_Recorded = "This is hot water demand + all losses - demand met by solar. It's cells (64) and (216). It's difficult to get out of the NHM. Calculate it as (62) - (63) instead.";
     }
 
     public final Units conversion;

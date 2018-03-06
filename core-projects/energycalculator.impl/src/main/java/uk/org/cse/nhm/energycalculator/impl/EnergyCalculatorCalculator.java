@@ -872,6 +872,13 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 
         runHeatTransducers(houseCase, v.transducers, heatLosses, adjustedParameters, state, indexOfFirstHeatingSystem);
 
+        StepRecorder.recordStep(
+                EnergyCalculationStep.WaterHeating_TotalHeat_Monthly_BeforeSolar,
+                state.getTotalSupply(EnergyType.DemandsHOT_WATER) +
+                        state.getTotalSupply(EnergyType.GainsHOT_WATER_SYSTEM_GAINS) +
+                        state.getTotalSupply(EnergyType.GainsHOT_WATER_USAGE_GAINS)
+        );
+
         return new EnergyCalculationResult(state, heatLosses, v.areasByType[0], v.areasByType[1]);
     }
 
