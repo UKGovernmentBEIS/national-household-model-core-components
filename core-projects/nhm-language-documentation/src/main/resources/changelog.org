@@ -33,11 +33,15 @@ If you want to cross-reference to a language element, you need to use the unique
 **** Improvements
 ***** General
 - More information given when the standalone (nhm ide) fails to retrieve reports from remote server for a simulation job
+- Added extra record-changes property on =ref.def-report=. If you set it to "false", then you won't get the "After" columns in the report.
+- Added extra services "MainSpaceHeating" and "SecondarySpaceHeating", which you can use in conjunction with =house.energy-use=.
 ***** Documenation
 - Improved documenation for using consume function =ref.consume= Added a note about needing to take into account house.weight if using this.
 - Document on room heater unsuitability =ref.measure.room-heater=
 - Update suitability text for hot water tank thermostat measure =ref.measure.hot-water-tank-thermostat=
 - Updated un-suitability text for =ref.measure.warm-air-system=
+**** New Features
+- Added =ref.house.energy-calculation-step=, a number function which allow you to look at intermediate steps in the energy calculation.
 *** Verison 7.0.3
 **** Bugs Fixed
 ***** Reverted macro validation fixes added as they cause errors which affect previous BEIS scenarios
