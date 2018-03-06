@@ -135,8 +135,9 @@
 
    (mean-column name: v42 value: (house.energy-calculation-step Occupancy)) ; Assumed occupancy
 
-   ;; TODO; naming seems dodgy here
+   ;; Litres per day averaged over the year
    (mean-column name: v43 value: (house.energy-calculation-step WaterHeating_Usage_Initial)) ; Annual average hot water usage
+
    (mean-column name: v44 value: (house.energy-calculation-step WaterHeating_Usage_MonthAdjusted)) ; Hot water usage in litres per day
 
    (mean-column name: v45 value: (house.energy-calculation-step WaterHeating_EnergyContent)) ; Energy content of hot water used
