@@ -1,9 +1,8 @@
 package uk.org.cse.stockimport.imputation.apertures;
 
-import junit.framework.Assert;
-
 import org.junit.Test;
 
+import junit.framework.Assert;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.stockimport.imputation.apertures.windows.FrameFactors;
 import uk.org.cse.stockimport.imputation.apertures.windows.IWindowFrameFactor;

@@ -3,9 +3,9 @@ package uk.org.cse.stockimport.imputation.apertures.windows;
 import java.util.EnumMap;
 import java.util.Map;
 
-import uk.org.cse.nhm.energycalculator.api.types.FrameType;
-
 import com.google.common.collect.ImmutableMap;
+
+import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 
 /**
  * Frame factor lookup, as defined by RD-SAP.

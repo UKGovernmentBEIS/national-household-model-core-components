@@ -26,6 +26,7 @@ import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
 import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.RoofType;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowGlazingAirGap;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 import uk.org.cse.nhm.energycalculator.impl.demands.LightingDemand09;
 import uk.org.cse.nhm.energycalculator.impl.gains.SolarGainsSource;
@@ -268,7 +269,8 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 			final double uValue,
 			final FrameType frameType,
 			final GlazingType glazingType,
-			final WindowInsulationType insulationType
+			final WindowInsulationType insulationType,
+			final WindowGlazingAirGap airGap
 			) {
 		log.debug("VISIT Window, {}, {}, {}, {}, {}", area, uValue, frameType, glazingType, insulationType);
 
@@ -293,12 +295,12 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 		visitArea(
 				AreaType.Glazing,
 				area,
-				overrideWindowUValue(uValue, frameType, glazingType, insulationType)
+				overrideWindowUValue(uValue, frameType, glazingType, insulationType, airGap)
 			);
 	}
 
 	protected abstract double overrideWindowUValue(final double uValue, final FrameType frameType, final GlazingType glazingType,
-			final WindowInsulationType insulationType);
+			final WindowInsulationType insulationType, final WindowGlazingAirGap airGap);
 
 	@Override
 	public void setFloorType(final FloorConstructionType groundFloorConstructionType, final double insulationThickness) {

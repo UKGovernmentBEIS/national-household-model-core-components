@@ -12,6 +12,7 @@ import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
+import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
 import uk.org.cse.nhm.hom.types.BuiltFormType;
 import uk.org.cse.nhm.hom.types.MorphologyType;
 import uk.org.cse.nhm.hom.types.TenureType;
@@ -26,6 +27,7 @@ import uk.org.cse.nhm.language.definition.function.bool.house.XHasHotWaterCylind
 import uk.org.cse.nhm.language.definition.function.bool.house.XHasInsulatedHotWaterCylinder;
 import uk.org.cse.nhm.language.definition.function.bool.house.XHasLoft;
 import uk.org.cse.nhm.language.definition.function.bool.house.XHasSolarPV;
+import uk.org.cse.nhm.language.definition.function.bool.house.XHasSolarThermal;
 import uk.org.cse.nhm.language.definition.function.bool.house.XHouseIsOnTariff;
 import uk.org.cse.nhm.language.definition.function.bool.house.XOnGas;
 import uk.org.cse.nhm.language.definition.function.bool.house.XSuitableFor;
@@ -40,6 +42,7 @@ import uk.org.cse.nhm.simulator.state.functions.impl.house.MatchDependsOnSeconda
 import uk.org.cse.nhm.simulator.state.functions.impl.house.MatchExternalWalls;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.MatchFlag;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.MatchHasCentralHeating;
+import uk.org.cse.nhm.simulator.state.functions.impl.house.MatchHasHeatingControl;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.MatchHasHotWaterCylinder;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.MatchHasInsulateHotWaterCylinder;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.MatchHasLoft;
@@ -51,6 +54,7 @@ import uk.org.cse.nhm.simulator.state.functions.impl.house.MatchNumberFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.MatchOnGas;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.MatchRegion;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.MatchSolarPV;
+import uk.org.cse.nhm.simulator.state.functions.impl.house.MatchSolarThermal;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.MatchTariff;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.MatchTenure;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.SuitabilityTest;
@@ -119,4 +123,10 @@ public interface IBooleanFunctionFactory {
 
     @Adapt(XHasSolarPV.class)
     public MatchSolarPV hasSolarPV();
+    
+    @Adapt(XHasSolarThermal.class)
+    public MatchSolarThermal hasSolarThermal();
+    
+    public MatchHasHeatingControl createHasHeatingControlFunction(final HeatingSystemControlType controlType);
+    
 }

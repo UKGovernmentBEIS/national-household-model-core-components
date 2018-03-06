@@ -17,6 +17,7 @@ import uk.org.cse.commons.names.Name;
 import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowGlazingAirGap;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 import uk.org.cse.nhm.hom.structure.Glazing;
 import uk.org.cse.nhm.hom.structure.StructureModel;
@@ -44,7 +45,8 @@ public class GlazingMeasureTest {
 				0d, 
 				FrameType.Metal, 
 				GlazingType.Double,
-				WindowInsulationType.LowESoftCoat);
+				WindowInsulationType.LowESoftCoat,
+				WindowGlazingAirGap.gapOf12mm);
 	}
 	
 	private IComponentsScope components(final StructureModel sm) {
@@ -73,6 +75,8 @@ public class GlazingMeasureTest {
 			Assert.assertEquals("Should be the same glazing installed as in the measure", glazings.get(0), m.getGlazing());
 			Assert.assertEquals("Should be the same glazing type installed as in the measure", glazings.get(0).getGlazingType(), m.getGlazing().getGlazingType());
 			Assert.assertEquals("Should be 100% of the glazed proportion", glazings.get(0).getGlazedProportion(), 1d, 0d);
+			Assert.assertEquals("Should be correct insulation type", WindowInsulationType.LowESoftCoat, glazings.get(0).getInsulationType());
+			Assert.assertEquals("Should be correct glazing air gap", WindowGlazingAirGap.gapOf12mm, glazings.get(0).getWindowGlazingAirGap());
 		}
 	}
 	

@@ -1,10 +1,9 @@
 package uk.org.cse.stockimport.imputation.rdsap.walls;
 
-import junit.framework.Assert;
-
 import org.junit.Before;
 import org.junit.Test;
 
+import junit.framework.Assert;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.stockimport.imputation.walls.WallPropertyImputer;
 

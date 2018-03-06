@@ -12,6 +12,7 @@ import uk.org.cse.commons.names.Name;
 import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowGlazingAirGap;
 import uk.org.cse.nhm.hom.structure.IWall;
 import uk.org.cse.nhm.language.adapt.IAdapterInterceptor;
 import uk.org.cse.nhm.language.adapt.IConverter;
@@ -38,6 +39,7 @@ import uk.org.cse.nhm.language.definition.enums.XFrameType;
 import uk.org.cse.nhm.language.definition.enums.XGlazingType;
 import uk.org.cse.nhm.language.definition.enums.XWallConstructionTypeRule;
 import uk.org.cse.nhm.language.definition.enums.XWallInsulationRule;
+import uk.org.cse.nhm.language.definition.enums.XWindowGlazingAirGap;
 import uk.org.cse.nhm.language.definition.enums.XWindowInsulationType;
 import uk.org.cse.nhm.simulation.measure.factory.IMeasureFactory;
 import uk.org.cse.nhm.simulator.factories.IDefaultFunctionFactory;
@@ -133,7 +135,8 @@ public class InsulationMeasureAdapter extends ReflectingAdapter {
 			@Prop(XGlazingMeasure.P.frameFactor) final double frameFactor,
 			@Prop(XGlazingMeasure.P.frameType) final XFrameType frameType,
 			@Prop(XGlazingMeasure.P.glazingType) final XGlazingType glazingType,
-			@Prop(XGlazingMeasure.P.insulationType) final XWindowInsulationType insulationType
+			@Prop(XGlazingMeasure.P.insulationType) final XWindowInsulationType insulationType,
+			@Prop(XGlazingMeasure.P.airGap) final XWindowGlazingAirGap airGap
 	) {
 		return factory.createGlazingInsulationMeasure(
 					capitalCostFunction.or(fns.createPricingFunction(id)), 
@@ -143,7 +146,8 @@ public class InsulationMeasureAdapter extends ReflectingAdapter {
 					frameFactor, 
 					MapEnum.frameType(frameType), 
 					MapEnum.glazingType(glazingType),
-					MapEnum.windowInsulationType(insulationType));
+					MapEnum.windowInsulationType(insulationType),
+					MapEnum.windowGlazingAirGap(airGap));
 	}
 	
 	@Adapt(XDraughtProofingMeasure.class)

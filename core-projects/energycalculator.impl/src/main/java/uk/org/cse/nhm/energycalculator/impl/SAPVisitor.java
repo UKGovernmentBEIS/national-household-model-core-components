@@ -16,6 +16,7 @@ import uk.org.cse.nhm.energycalculator.api.types.RoofType;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowGlazingAirGap;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 
 public class SAPVisitor extends Visitor {
@@ -142,9 +143,12 @@ public class SAPVisitor extends Visitor {
 		case Double:
 			switch (insulationType) {
 			case Air:
+			case Argon:
 				return _check(0.76);
+			case ArgonLowEHardCoat:
 			case LowEHardCoat:
 				return _check(0.72);
+			case ArgonLowESoftCoat:
 			case LowESoftCoat:
 				return _check(0.63);
 			default:
@@ -154,9 +158,12 @@ public class SAPVisitor extends Visitor {
 		case Triple:
 			switch (insulationType) {
 			case Air:
+			case Argon:
 				return _check(0.68);
+			case ArgonLowEHardCoat:
 			case LowEHardCoat:
 				return _check(0.64);
+			case ArgonLowESoftCoat:
 			case LowESoftCoat:
 				return _check(0.57);
 			default:
@@ -193,8 +200,8 @@ public class SAPVisitor extends Visitor {
 
 	@Override
 	protected double overrideWindowUValue(final double uValue, final FrameType frameType, final GlazingType glazingType,
-			final WindowInsulationType insulationType) {
-		return _check(SAPUValues.Windows.get(frameType, glazingType, insulationType));
+			final WindowInsulationType insulationType, final WindowGlazingAirGap airGap) {
+		return _check(SAPUValues.Windows.get(frameType, glazingType, insulationType, airGap));
 	}
 
 	@Override

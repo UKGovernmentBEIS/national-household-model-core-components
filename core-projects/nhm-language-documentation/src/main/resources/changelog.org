@@ -38,6 +38,20 @@ If you want to cross-reference to a language element, you need to use the unique
 - Document on room heater unsuitability =ref.measure.room-heater=
 - Update suitability text for hot water tank thermostat measure =ref.measure.hot-water-tank-thermostat=
 - Updated un-suitability text for =ref.measure.warm-air-system=
+*** Version 7.0.5
+**** Improvements
+***** Change to calculation of =ref.house.permeability=
+The function can now specify whether to include or exclude deliberate ventilation from the airChange rate calculation.
+***** Change to calculation of =ref.house.sit=
+Calculation now defines heatloss as specific heat loss + ventilation heat loss rather than just specific heatloss as before.
+***** To u-values and inputs to measure =ref.measure.install-glazing=
+Added in the ability to specify an air-gap for the measure.
+Look-up tables for U-Values now take into account air-gap when returning u-values for glazings.
+If no u-value is supplied then u-value will be take from SAP tables.
+ 
+**** New Features
+***** Added new function =ref.house.has-solar-thermal=
+Returns true of the central hot water heating system includes a solar thermal component
 *** Verison 7.0.3
 **** Bugs Fixed
 ***** Reverted macro validation fixes added as they cause errors which affect previous BEIS scenarios

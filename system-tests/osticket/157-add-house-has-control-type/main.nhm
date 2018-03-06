@@ -1,0 +1,27 @@
+;; quick-start scenario for hideem
+;; scenario content:
+(scenario
+    start-date: 2017
+    end-date: 2028
+    stock-id: ../../stock.json
+    energy-calculator: BREDEM2012
+    quantum: 4000
+
+    (def-report "control-types-installed"
+      (column name: survey-code value: (house.survey-code))
+      (column name: has-room-thermostat value: (house.has-heating-control type: RoomThermostat))
+      (column name: has-appliance-thermostat value: (house.has-heating-control type: ApplianceThermostat))
+      (column name: has-thermostatic-radiator-valve value: (house.has-heating-control type: ThermostaticRadiatorValve))
+
+      (column name: has-time-temp-control value: (house.has-heating-control type: TimeTemperatureZoneControl))
+      (column name: has-delayed-start-stat value: (house.has-heating-control type: DelayedStartThermostat))
+      (column name: has-programmer value: (house.has-heating-control type: Programmer))
+      (column name: has-by-pass-valve value: (house.has-heating-control type: BypassValve))
+      (column name: main-heating-system value: (house.main-heating-system-type)))
+    
+    (on.dates (scenario-start)
+              (apply
+	       to: (filter
+		    (any
+		     (is (house.survey-code) "J0794305")))     ;;Everything bar ApplianceThermostat and ByPassValve
+	       (action.do-nothing report: control-types-installed))))

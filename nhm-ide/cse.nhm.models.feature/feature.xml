@@ -20,10 +20,7 @@
     <import plugin="uk.org.cse.nhm.bundle.impl" version="6.3.0" match="equivalent"/>
     <import plugin="uk.org.cse.nhm.manual" version="0.0.0" match="greaterOrEqual"/>
     <import plugin="uk.org.cse.nhm.bundle.impl" version="6.5.5.Rv-6_5_5_dirty" match="perfect"/>
-    <import plugin="uk.org.cse.nhm.bundle.impl" version="7.0.0" match="equivalent"/>
-    <import plugin="uk.org.cse.nhm.bundle.impl" version="7.0.1" match="equivalent"/>
-    <import plugin="uk.org.cse.nhm.bundle.impl" version="7.0.2" match="equivalent"/>
-    <import plugin="uk.org.cse.nhm.bundle.impl" version="7.0.3.Rv-7_0_3" match="perfect"/>
+    <import plugin="uk.org.cse.nhm.bundle.impl" version="7.0.5.Rv-7_0_5" match="perfect"/>
     <import plugin="uk.org.cse.nhm.bundle.impl" version="7.1.0" match="equivalent"/>
   </requires>
 </feature>

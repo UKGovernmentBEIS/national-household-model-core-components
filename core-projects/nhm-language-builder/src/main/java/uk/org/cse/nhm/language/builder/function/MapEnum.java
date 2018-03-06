@@ -13,6 +13,7 @@ import uk.org.cse.nhm.energycalculator.api.types.MonthType;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
 import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowGlazingAirGap;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 import uk.org.cse.nhm.energycalculator.constants.ApplianceConstants09;
 import uk.org.cse.nhm.energycalculator.constants.EnergyCalculatorConstants;
@@ -44,6 +45,7 @@ import uk.org.cse.nhm.language.definition.enums.XGlazingType;
 import uk.org.cse.nhm.language.definition.enums.XMorphologyType;
 import uk.org.cse.nhm.language.definition.enums.XRegionType;
 import uk.org.cse.nhm.language.definition.enums.XTenureType;
+import uk.org.cse.nhm.language.definition.enums.XWindowGlazingAirGap;
 import uk.org.cse.nhm.language.definition.enums.XWindowInsulationType;
 
 public class MapEnum {
@@ -73,6 +75,10 @@ public class MapEnum {
 
 	public static final WindowInsulationType windowInsulationType(final XWindowInsulationType in) {
 		return mapName(WindowInsulationType.class, in);
+	}
+	
+	public static final WindowGlazingAirGap windowGlazingAirGap(final XWindowGlazingAirGap in) {
+		return mapName(WindowGlazingAirGap.class, in);
 	}
 
 	public static final MorphologyType morphology(final XMorphologyType morph) {
