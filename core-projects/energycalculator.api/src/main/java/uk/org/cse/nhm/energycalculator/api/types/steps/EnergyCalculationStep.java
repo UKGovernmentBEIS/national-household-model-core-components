@@ -405,8 +405,7 @@ public enum EnergyCalculationStep {
     WaterHeating_DistributionLoss(Kilo_Watt_Hour_per_Month, MonthlySum,
             SAPWorksheetSection.Water_Heating.cell(46),
             BREDEMLocation.NotDetermined,
-            // TODO: some dwellnigs don't have a CentralHotWaterTransducer. Hmm.
-            DefaultValue.NotImplementedTempPlaceholder),
+            DefaultValue.None),
 
     // In SAP, this is annual
     WaterHeating_StorageVolume(MetreCubed, MonthlyMean,
@@ -457,8 +456,7 @@ public enum EnergyCalculationStep {
     WaterHeating_PrimaryCircuitLoss_Monthly(Kilo_Watt_Hour_per_Month, MonthlyMean,
             SAPWorksheetSection.Water_Heating.cell(59),
             BREDEMLocation.NotDetermined,
-            // TODO: what if CentralHotWaterTransducer is missing from a dwelling?
-            DefaultValue.NotImplementedTempPlaceholder),
+            DefaultValue.None),
 
     // There's no step 60 in the SAP worksheet
 

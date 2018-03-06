@@ -68,6 +68,9 @@ public class PointOfUseWaterHeaterTransducer extends EnergyTransducer {
 
 		final double distributionLosses = toSatisfy * distributionLossFactor;
 
+		StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_DistributionLoss, distributionLosses);
+        StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_PrimaryCircuitLoss_Monthly, 0);
+
 		final double requiredEnergy = toSatisfy + distributionLosses;
 
 		state.increaseSupply(EnergyType.GainsHOT_WATER_SYSTEM_GAINS, distributionLosses);
