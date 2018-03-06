@@ -24,12 +24,12 @@ public enum Units {
 
     Kilo_Watt_Hour_per_Day(Unit.Watts, Unit.Kilo_Watt_Hours_per_Day) {
         @Override
-        public double convert(double nhmValue, Integer daysInMonth) { return nhmValue / (1000 * 24); }
+        public double convert(double nhmValue, Integer daysInMonth) { return nhmValue * 24 / 1000 ; }
     },
 
     Kilo_Watt_Hour_per_Month(Unit.Watts, Unit.Kilo_Watt_Hours_per_Month) {
         @Override
-        public double convert(double nhmValue, Integer daysInMonth) { return nhmValue / (1000 * daysInMonth * 24); }
+        public double convert(double nhmValue, Integer daysInMonth) { return nhmValue * daysInMonth * 24 / 1000; }
     },
 
     Kilo_Watt_Hour_per_Litre_per_Day(Unit.Watts_per_Litre, Unit.Kilo_Watt_Hours_per_Litre_per_Day) {
@@ -42,7 +42,7 @@ public enum Units {
     Kilo_Watt_Hour_per_MetreSquared_per_Month(Unit.Watts_per_MetreSquared, Unit.Kilo_Watt_Hours_per_MetreSquared_per_Month) {
         @Override
         public double convert(double nhmValue, Integer daysInMonth) {
-            return nhmValue / (1000 * daysInMonth * 24);
+            return nhmValue * daysInMonth * 24 / 1000;
         }
     }
     ;
