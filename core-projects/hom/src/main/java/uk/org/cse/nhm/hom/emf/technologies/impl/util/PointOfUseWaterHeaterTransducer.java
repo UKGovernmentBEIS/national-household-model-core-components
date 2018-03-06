@@ -49,6 +49,8 @@ public class PointOfUseWaterHeaterTransducer extends EnergyTransducer {
 		state.increaseSupply(EnergyType.GainsHOT_WATER_USAGE_GAINS, toSatisfy); // this gets multiplied down in the gains transducer
 		final IConstants constants = parameters.getConstants();
 
+        StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_StorageVolume, 0);
+
 		/*
 		BEISDOC
 		NAME: Point-of-use Distribution Losses
@@ -56,9 +58,9 @@ public class PointOfUseWaterHeaterTransducer extends EnergyTransducer {
 		TYPE: formula
 		UNIT: W
 		SAP: (46)
-                SAP_COMPLIANT: Yes
+            SAP_COMPLIANT: Yes
 		BREDEM: 2.2A
-                BREDEM_COMPLIANT: Yes
+            BREDEM_COMPLIANT: Yes
 		DEPS: distribution-loss-factor,usage-adjusted-water-volume,is-main-weater-heating
 		ID: point-of-use-distribution-loss
 		CODSIEB

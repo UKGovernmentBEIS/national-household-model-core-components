@@ -411,7 +411,7 @@ public enum EnergyCalculationStep {
     WaterHeating_StorageVolume(MetreCubed, MonthlyMean,
             SAPWorksheetSection.Water_Heating.cell(47),
             BREDEMLocation.NotDetermined,
-            DefaultValue.NotImplementedTempPlaceholder),
+            DefaultValue.None),
 
     // 48,49 and 50 ignored as we don't know manufacturer's declared loss factor
 

@@ -10,11 +10,8 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
-import uk.org.cse.nhm.energycalculator.api.IConstants;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
-import uk.org.cse.nhm.energycalculator.api.IEnergyState;
-import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
+import uk.org.cse.nhm.energycalculator.api.*;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.hom.constants.adjustments.ResponsivenessAdjustments;
 import uk.org.cse.nhm.hom.emf.technologies.EmitterType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
@@ -504,7 +501,7 @@ public abstract class HeatSourceImpl extends MinimalEObjectImpl implements IHeat
 	protected final double getSAPTable4dResponsiveness(final IConstants constants, final EList<HeatingSystemControlType> controls, final EmitterType emitterType) {
 		return constants.get(ResponsivenessAdjustments.WET_SYSTEM_RESPONSIVENESS, emitterType);
 	}
-	
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -549,7 +546,7 @@ public abstract class HeatSourceImpl extends MinimalEObjectImpl implements IHeat
 	 */
 	@Override
 	public double getStorageTemperatureFactor(final IInternalParameters parameters, final IWaterTank store, final boolean storeInPrimaryCircuit) {
-		return HotWaterUtilities.getStorageTemperatureFactor(parameters, store, storeInPrimaryCircuit, 
+		return HotWaterUtilities.getStorageTemperatureFactor(parameters, store, storeInPrimaryCircuit,
 				getWaterHeater().getSystem().isSeparatelyTimeControlled());
 	}
 
@@ -561,6 +558,7 @@ public abstract class HeatSourceImpl extends MinimalEObjectImpl implements IHeat
 	 */
 	@Override
 	public double getContainedTankLosses(final IInternalParameters parameters) {
+		StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_StorageVolume, 0);
 		return 0;
 	}
 
