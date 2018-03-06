@@ -23,7 +23,7 @@
    (column name: main-space-heating-fuel value: (house.heating-fuel))
    (column name: depends-on-secondary-heating value: (house.depends-on-secondary-heating))
    (column name: built-form value: (house.built-form))
-   (column name: morphology value: (house.morphology-form))
+   (column name: morphology value: (house.morphology))
 
    (cut main-space-heating-system-type main-space-heating-fuel depends-on-secondary-heating)
 
