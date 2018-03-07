@@ -5,6 +5,7 @@
  end-date: 2018
  stock-id: ./system-tests/stock.json
  energy-calculator: SAP2012
+ quantum: 10000
 
  (~init-modules)
 
