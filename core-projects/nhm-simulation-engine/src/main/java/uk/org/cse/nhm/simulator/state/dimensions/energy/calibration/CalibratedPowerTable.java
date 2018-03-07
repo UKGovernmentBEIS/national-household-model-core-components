@@ -68,7 +68,7 @@ public class CalibratedPowerTable implements IPowerTable {
 
 	@Override
 	public float getAirChangeRate() {
-		return uncal.getMeanInternalTemperature();
+		return uncal.getAirChangeRate();
 	}
 
     @Override
@@ -97,9 +97,7 @@ public class CalibratedPowerTable implements IPowerTable {
 	}
 
 	@Override
-	public float getAirChangeRateWithoutDeliberate() {
-		return uncal.getMeanInternalTemperature();
-	}
+	public float getAirChangeRateWithoutDeliberate() { return uncal.getAirChangeRateWithoutDeliberate(); }
 
     @Override
     public double readStepAnnual(EnergyCalculationStep step) {
