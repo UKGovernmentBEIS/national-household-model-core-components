@@ -217,7 +217,7 @@ public class StructuralInfiltrationAccumulator implements IStructuralInfiltratio
         /**
          *  in M3/hr
          */
-        deliberateInfiltration = totalChimneyVentilation + totalChimneyVentilation + totalFanInfiltration + totalVentInfiltration;
+        deliberateInfiltration = totalChimneyVentilation + totalOpenFlueVentilation + totalFanInfiltration + totalVentInfiltration;
 
         /*
 		BEISDOC
