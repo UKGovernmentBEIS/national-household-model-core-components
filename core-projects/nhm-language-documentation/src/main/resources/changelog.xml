@@ -60,7 +60,7 @@
             <listitem>
               <para>
                 Warm air system measure no longer ignores fuel argument
-                <xref linkend="ref.measure-warm-air-system"/>
+                <xref linkend="ref.measure.warm-air-system"/>
               </para>
             </listitem>
             <listitem>
@@ -80,10 +80,10 @@
               <para>
                 Fixed a problem with transferring money between a
                 dwelling and a global account where it would multiply
-                the amount byt the scenario quantum instead of the
-                weight of the particular dwelling. This affects
-                <xref linkend="ref.report.global-transactions"/> and
-                <xref linkend="ref.account.balacnce"/>
+                the amount by the scenario quantum instead of the weight
+                of the particular dwelling. This affects
+                <xref linkend="ref.report.global-accounts"/> and
+                <xref linkend="ref.account.balance"/>
               </para>
             </listitem>
             <listitem>
@@ -121,18 +121,19 @@
                 </listitem>
                 <listitem>
                   <para>
-                    Added extra record-changes property on
-                    <xref linkend="ref.def-report"/>. If you set it to
-                    &quot;false&quot;, then you won't get the
-                    &quot;After&quot; columns in the report.
+                    Added extra <literal>record-changes</literal>
+                    property on <xref linkend="ref.def-report"/>. If
+                    you set it to &quot;false&quot;, then you won't get
+                    the &quot;After&quot; columns in the report.
                   </para>
                 </listitem>
                 <listitem>
                   <para>
-                    Added extra services &quot;MainSpaceHeating&quot;
-                    and &quot;SecondarySpaceHeating&quot;, which you can
-                    use in conjunction with
-                    <literal>house.energy-use</literal>.
+                    Added extra services
+                    <literal>MainSpaceHeating</literal> and
+                    <literal>SecondarySpaceHeating</literal>, which you
+                    can use in conjunction with
+                    <xref linkend="ref.house.energy-use"/>.
                   </para>
                 </listitem>
               </itemizedlist>

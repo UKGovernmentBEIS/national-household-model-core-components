@@ -13,686 +13,772 @@ import uk.org.cse.nhm.language.definition.Doc;
 public enum XEnergyCalculationStep {
     @Doc({
             "SAP 2012 worksheet cell (1a) in section Dimensions.",
-            "Always has value 0.0 in the NHM.",
+            "Default value: 0.0.",
             "Annual.",
-            "MetresSquared"
+            "MetresSquared."
     })
     FloorArea_Basement,
     @Doc({
             "SAP 2012 worksheet cell (1b) in section Dimensions.",
-            "Always has value 0.0 in the NHM.",
+            "Default value: 0.0.",
             "Annual.",
-            "MetresSquared"
+            "MetresSquared."
     })
     FloorArea_Ground,
     @Doc({
             "SAP 2012 worksheet cell (1c) in section Dimensions.",
-            "Always has value 0.0 in the NHM.",
+            "Default value: 0.0.",
             "Annual.",
-            "MetresSquared"
+            "MetresSquared."
     })
     FloorArea_First,
     @Doc({
             "SAP 2012 worksheet cell (1d) in section Dimensions.",
-            "Always has value 0.0 in the NHM.",
+            "Default value: 0.0.",
             "Annual.",
-            "MetresSquared"
+            "MetresSquared."
     })
     FloorArea_Second,
     @Doc({
             "SAP 2012 worksheet cell (1e) in section Dimensions.",
-            "Always has value 0.0 in the NHM.",
+            "Default value: 0.0.",
             "Annual.",
-            "MetresSquared"
+            "MetresSquared."
     })
     FloorArea_Third_and_Above,
     @Doc({
             "SAP 2012 worksheet cell (4) in section Dimensions.",
+            "No default.",
             "Annual.",
-            "MetresSquared"
+            "MetresSquared."
     })
     TotalFloorArea,
     @Doc({
             "SAP 2012 worksheet cell (5) in section Dimensions.",
+            "No default.",
             "Annual.",
-            "MetresCubed"
+            "MetresCubed."
     })
     DwellingVolume,
     @Doc({
             "SAP 2012 worksheet cell (6a) in section Ventilation.",
+            "No default.",
             "Annual.",
-            "MetresCubed per Hour"
+            "MetresCubed per Hour."
     })
     ChimneyVentilation,
     @Doc({
             "SAP 2012 worksheet cell (6b) in section Ventilation.",
+            "No default.",
             "Annual.",
-            "MetresCubed per Hour"
+            "MetresCubed per Hour."
     })
     OpenFluesVentilation,
     @Doc({
             "SAP 2012 worksheet cell (7a) in section Ventilation.",
+            "No default.",
             "Annual.",
-            "MetresCubed per Hour"
+            "MetresCubed per Hour."
     })
     IntermittentFansVentilation,
     @Doc({
             "SAP 2012 worksheet cell (7b) in section Ventilation.",
+            "No default.",
             "Annual.",
-            "MetresCubed per Hour"
+            "MetresCubed per Hour."
     })
     PassiveVentsVentilation,
     @Doc({
             "SAP 2012 worksheet cell (7c) in section Ventilation.",
+            "No default.",
             "Annual.",
-            "MetresCubed per Hour"
+            "MetresCubed per Hour."
     })
     FluelessGasFiresVentilation,
     @Doc({
             "SAP 2012 worksheet cell (8) in section Ventilation.",
+            "No default.",
             "Annual.",
-            "AirChanges per Hour"
+            "AirChanges per Hour."
     })
     AirChanges_ChimneysFluesFansAndPSVs,
     @Doc({
             "SAP 2012 worksheet cell (9) in section Ventilation.",
+            "No default.",
             "Annual.",
-            "Count"
+            "Count."
     })
     Storeys,
     @Doc({
             "SAP 2012 worksheet cell (10) in section Ventilation.",
+            "No default.",
             "Annual.",
-            "AirChanges per Hour"
+            "AirChanges per Hour."
     })
     InfiltrationAdditionalStackEffect,
     @Doc({
             "SAP 2012 worksheet cell (11) in section Ventilation.",
+            "No default.",
             "Annual.",
-            "AirChanges per Hour"
+            "AirChanges per Hour."
     })
     InfiltrationStructural,
     @Doc({
             "SAP 2012 worksheet cell (12) in section Ventilation.",
+            "No default.",
             "Annual.",
-            "AirChanges per Hour"
+            "AirChanges per Hour."
     })
     InfiltrationGroundFloor,
     @Doc({
             "SAP 2012 worksheet cell (13) in section Ventilation.",
+            "No default.",
             "Annual.",
-            "AirChanges per Hour"
+            "AirChanges per Hour."
     })
     InfiltrationAbsenceOfDraughtLobby,
     @Doc({
             "SAP 2012 worksheet cell (14) in section Ventilation.",
+            "No default.",
             "Annual.",
-            "DimensionlessProportion"
+            "DimensionlessProportion."
     })
     ProportionWindowsDraughtProofed,
     @Doc({
             "SAP 2012 worksheet cell (15) in section Ventilation.",
+            "No default.",
             "Annual.",
-            "AirChanges per Hour"
+            "AirChanges per Hour."
     })
     InfiltrationWindows,
     @Doc({
             "SAP 2012 worksheet cell (16) in section Ventilation.",
+            "No default.",
             "Annual.",
-            "AirChanges per Hour"
+            "AirChanges per Hour."
     })
     InfiltrationRate_Initial,
     @Doc({
             "SAP 2012 worksheet cell (18) in section Ventilation.",
+            "No default.",
             "Annual.",
-            "AirChanges per Hour"
+            "AirChanges per Hour."
     })
     InfiltrationRateMaybePressureTest,
     @Doc({
             "SAP 2012 worksheet cell (19) in section Ventilation.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "Count"
+            "Count."
     })
     SidesSheltered,
     @Doc({
             "SAP 2012 worksheet cell (20) in section Ventilation.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "Dimensionless"
+            "Dimensionless."
     })
     ShelterFactor,
     @Doc({
             "SAP 2012 worksheet cell (21) in section Ventilation.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "AirChanges per Hour"
+            "AirChanges per Hour."
     })
     InfiltrationRate_IncludingShelter,
     @Doc({
             "SAP 2012 worksheet cell (22) in section Ventilation.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "Metres per Second"
+            "Metres per Second."
     })
     AverageWindSpeed,
     @Doc({
             "SAP 2012 worksheet cell (23) in section Ventilation.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "Dimensionless"
+            "Dimensionless."
     })
     WindFactor,
     @Doc({
             "SAP 2012 worksheet cell (24) in section Ventilation.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "AirChanges per Hour"
+            "AirChanges per Hour."
     })
     InfiltrationRate_IncludingShelterAndWind,
     @Doc({
             "This step is not present in the SAP worksheet.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "Dimensionless"
+            "Dimensionless."
     })
     SiteExposureFactor,
     @Doc({
             "This step is not present in the SAP worksheet.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "AirChanges per Hour"
+            "AirChanges per Hour."
     })
     InfiltrationRate_IncludingShelterAndWindAndSiteExposure,
     @Doc({
             "SAP 2012 worksheet cell (24d) in section Ventilation.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "AirChanges per Hour"
+            "AirChanges per Hour."
     })
     Ventilation_NaturalOrPositiveFromLoft,
     @Doc({
             "SAP 2012 worksheet cell (25) in section Ventilation.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "AirChanges per Hour"
+            "AirChanges per Hour."
     })
     AirChanges_Effective,
     @Doc({
             "SAP 2012 worksheet cell (26) in section HeatLosses and Heat Loss Parameter.",
+            "No default.",
             "Annual.",
-            "Watts per Kelvin"
+            "Watts per Kelvin."
     })
     HeatLossCoefficient_DoorsSolid,
     @Doc({
             "SAP 2012 worksheet cell (26a) in section HeatLosses and Heat Loss Parameter.",
+            "No default.",
             "Annual.",
-            "Watts per Kelvin"
+            "Watts per Kelvin."
     })
     HeatLossCoefficient_DoorsSemiGlazed,
     @Doc({
             "SAP 2012 worksheet cell (27) in section HeatLosses and Heat Loss Parameter.",
+            "No default.",
             "Annual.",
-            "Watts per Kelvin"
+            "Watts per Kelvin."
     })
     HeatLossCoefficient_Window,
     @Doc({
             "This step is not present in the SAP worksheet.",
+            "No default.",
             "Annual.",
-            "Watts per Kelvin"
+            "Watts per Kelvin."
     })
     HeatLossCoefficient_Window_UPVC,
     @Doc({
             "This step is not present in the SAP worksheet.",
+            "No default.",
             "Annual.",
-            "Watts per Kelvin"
+            "Watts per Kelvin."
     })
     HeatLossCoefficient_Window_Wood,
     @Doc({
             "This step is not present in the SAP worksheet.",
+            "No default.",
             "Annual.",
-            "Watts per Kelvin"
+            "Watts per Kelvin."
     })
     HeatLossCoefficient_Window_Metal,
     @Doc({
             "SAP 2012 worksheet cell (27a) in section HeatLosses and Heat Loss Parameter.",
             "Always has value 0.0 in the NHM.",
             "Annual.",
-            "Watts per Kelvin"
+            "Watts per Kelvin."
     })
     HeatLossCoefficient_Window_Roof,
     @Doc({
             "SAP 2012 worksheet cell (28) in section HeatLosses and Heat Loss Parameter.",
+            "No default.",
             "Annual.",
-            "Watts per Kelvin"
+            "Watts per Kelvin."
     })
     HeatLossCoefficient_BasementFloor,
     @Doc({
             "SAP 2012 worksheet cell (28a) in section HeatLosses and Heat Loss Parameter.",
+            "No default.",
             "Annual.",
-            "Watts per Kelvin"
+            "Watts per Kelvin."
     })
     HeatLossCoefficient_GroundFloor,
     @Doc({
             "SAP 2012 worksheet cell (28b) in section HeatLosses and Heat Loss Parameter.",
+            "No default.",
             "Annual.",
-            "Watts per Kelvin"
+            "Watts per Kelvin."
     })
     HeatLossCoefficient_ExposedFloor,
     @Doc({
             "SAP 2012 worksheet cell (29) in section HeatLosses and Heat Loss Parameter.",
             "Always has value 0.0 in the NHM.",
             "Annual.",
-            "Watts per Kelvin"
+            "Watts per Kelvin."
     })
     HeatLossCoefficient_BasementWall,
     @Doc({
             "SAP 2012 worksheet cell (29a) in section HeatLosses and Heat Loss Parameter.",
+            "No default.",
             "Annual.",
-            "Watts per Kelvin"
+            "Watts per Kelvin."
     })
     HeatLossCoefficient_ExternalWall,
     @Doc({
             "SAP 2012 worksheet cell (30) in section HeatLosses and Heat Loss Parameter.",
+            "No default.",
             "Annual.",
-            "Watts per Kelvin"
+            "Watts per Kelvin."
     })
     HeatLossCoefficient_Roof,
     @Doc({
             "SAP 2012 worksheet cell (31) in section HeatLosses and Heat Loss Parameter.",
+            "No default.",
             "Annual.",
-            "MetresSquared"
+            "MetresSquared."
     })
     AreaExternal,
     @Doc({
             "SAP 2012 worksheet cell (32) in section HeatLosses and Heat Loss Parameter.",
+            "No default.",
             "Annual.",
-            "MetresSquared"
+            "MetresSquared."
     })
     AreaPartyWall,
     @Doc({
             "SAP 2012 worksheet cell (32a) in section HeatLosses and Heat Loss Parameter.",
+            "No default.",
             "Annual.",
-            "MetresSquared"
+            "MetresSquared."
     })
     AreaPartyFloor,
     @Doc({
             "SAP 2012 worksheet cell (32b) in section HeatLosses and Heat Loss Parameter.",
+            "No default.",
             "Annual.",
-            "MetresSquared"
+            "MetresSquared."
     })
     AreaPartyCeiling,
     @Doc({
             "SAP 2012 worksheet cell (32c) in section HeatLosses and Heat Loss Parameter.",
+            "No default.",
             "Annual.",
-            "MetresSquared"
+            "MetresSquared."
     })
     AreaInternalWall,
     @Doc({
             "SAP 2012 worksheet cell (32d) in section HeatLosses and Heat Loss Parameter.",
             "Always has value 0.0 in the NHM.",
             "Annual.",
-            "MetresSquared"
+            "MetresSquared."
     })
     AreaInternalFloor,
     @Doc({
             "SAP 2012 worksheet cell (32e) in section HeatLosses and Heat Loss Parameter.",
             "Always has value 0.0 in the NHM.",
             "Annual.",
-            "MetresSquared"
+            "MetresSquared."
     })
     AreaInternalCeiling,
     @Doc({
             "SAP 2012 worksheet cell (33) in section HeatLosses and Heat Loss Parameter.",
+            "No default.",
             "Annual.",
-            "Watts per Kelvin"
+            "Watts per Kelvin."
     })
     FabricHeatLoss,
     @Doc({
             "SAP 2012 worksheet cell (35) in section HeatLosses and Heat Loss Parameter.",
+            "No default.",
             "Annual.",
-            "Kilo Joules per MetreSquared Kelvin"
+            "Kilo Joules per MetreSquared Kelvin."
     })
     ThermalMassParameter,
     @Doc({
             "SAP 2012 worksheet cell (36) in section HeatLosses and Heat Loss Parameter.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "Watts per Kelvin"
+            "Watts per Kelvin."
     })
     ThermalBridges,
     @Doc({
             "SAP 2012 worksheet cell (37) in section HeatLosses and Heat Loss Parameter.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "Watts per Kelvin"
+            "Watts per Kelvin."
     })
     FabricLossTotal,
     @Doc({
             "SAP 2012 worksheet cell (38) in section HeatLosses and Heat Loss Parameter.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "Watts per Kelvin"
+            "Watts per Kelvin."
     })
     VentilationHeatLoss,
     @Doc({
             "SAP 2012 worksheet cell (39) in section HeatLosses and Heat Loss Parameter.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "Watts per Kelvin"
+            "Watts per Kelvin."
     })
     HeatTransferCoefficient,
     @Doc({
             "SAP 2012 worksheet cell (40) in section HeatLosses and Heat Loss Parameter.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "Watts per MetreSquared Kelvin"
+            "Watts per MetreSquared Kelvin."
     })
     HeatLossParameter,
     @Doc({
             "SAP 2012 worksheet cell (41) in section HeatLosses and Heat Loss Parameter.",
-            "Always has value 1.0 in the NHM.",
+            "Default value: 1.0.",
             "Monthly, or summed over all the months in the year.",
             "Days inside the NHM, converted to Days per Month."
     })
     DaysInMonth,
     @Doc({
             "SAP 2012 worksheet cell (42) in section Water Heating.",
+            "No default.",
             "Annual.",
-            "Count"
+            "Count."
     })
     Occupancy,
     @Doc({
             "SAP 2012 worksheet cell (43) in section Water Heating.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "Litres per Day"
+            "Litres per Day."
     })
     WaterHeating_Usage_Initial,
     @Doc({
             "SAP 2012 worksheet cell (44) in section Water Heating.",
+            "No default.",
             "Monthly, or summed over all the months in the year.",
-            "Litres per Day"
+            "Litres per Day."
     })
     WaterHeating_Usage_MonthAdjusted,
     @Doc({
             "SAP 2012 worksheet cell (45) in section Water Heating.",
+            "No default.",
             "Monthly, or summed over all the months in the year.",
             "Watts inside the NHM, converted to Kilo Watt Hours per Month."
     })
     WaterHeating_EnergyContent,
     @Doc({
             "SAP 2012 worksheet cell (46) in section Water Heating.",
+            "No default.",
             "Monthly, or summed over all the months in the year.",
             "Watts inside the NHM, converted to Kilo Watt Hours per Month."
     })
     WaterHeating_DistributionLoss,
     @Doc({
             "SAP 2012 worksheet cell (47) in section Water Heating.",
-            "Always has value 999.0 in the NHM.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "MetresCubed"
+            "MetresCubed."
     })
     WaterHeating_StorageVolume,
     @Doc({
             "SAP 2012 worksheet cell (51) in section Water Heating.",
-            "Always has value NaN in the NHM.",
+            "Default value: NaN.",
             "Monthly, or averaged over all the months in the year.",
             "Watts per Litre inside the NHM, converted to Kilo Watt Hours per Litre per Day."
     })
     WaterHeating_StorageLossFactor,
     @Doc({
             "SAP 2012 worksheet cell (52) in section Water Heating.",
-            "Always has value NaN in the NHM.",
+            "Default value: NaN.",
             "Monthly, or averaged over all the months in the year.",
-            "Dimensionless"
+            "Dimensionless."
     })
     WaterHeating_StorageVolumeFactor,
     @Doc({
             "SAP 2012 worksheet cell (53) in section Water Heating.",
-            "Always has value NaN in the NHM.",
+            "Default value: NaN.",
             "Monthly, or averaged over all the months in the year.",
-            "Dimensionless"
+            "Dimensionless."
     })
     WaterHeating_StorageTemperatureFactor,
     @Doc({
             "SAP 2012 worksheet cell (54) in section Water Heating.",
-            "Always has value 0.0 in the NHM.",
+            "Default value: 0.0.",
             "Monthly, or averaged over all the months in the year.",
             "Watts inside the NHM, converted to Kilo Watt Hours per Day."
     })
     WaterHeating_StorageLosses_Daily_Calculated,
     @Doc({
             "SAP 2012 worksheet cell (55) in section Water Heating.",
-            "Always has value 0.0 in the NHM.",
+            "Default value: 0.0.",
             "Monthly, or averaged over all the months in the year.",
             "Watts inside the NHM, converted to Kilo Watt Hours per Day."
     })
     WaterHeating_StorageLosses_Daily,
     @Doc({
             "SAP 2012 worksheet cell (56) in section Water Heating.",
-            "Always has value 0.0 in the NHM.",
+            "Default value: 0.0.",
             "Monthly, or averaged over all the months in the year.",
             "Watts inside the NHM, converted to Kilo Watt Hours per Month."
     })
     WaterHeating_StorageLosses_Monthly,
     @Doc({
             "SAP 2012 worksheet cell (57) in section Water Heating.",
-            "Always has value 0.0 in the NHM.",
+            "Default value: 0.0.",
             "Monthly, or averaged over all the months in the year.",
             "Watts inside the NHM, converted to Kilo Watt Hours per Month."
     })
     WaterHeating_StorageLosses_Monthly_ExcludeSolar,
     @Doc({
             "SAP 2012 worksheet cell (59) in section Water Heating.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
             "Watts inside the NHM, converted to Kilo Watt Hours per Month."
     })
     WaterHeating_PrimaryCircuitLoss_Monthly,
     @Doc({
             "SAP 2012 worksheet cell (61) in section Water Heating.",
-            "Always has value 0.0 in the NHM.",
+            "Default value: 0.0.",
             "Monthly, or averaged over all the months in the year.",
             "Watts inside the NHM, converted to Kilo Watt Hours per Month."
     })
     WaterHeating_CombiLoss_Monthly,
     @Doc({
             "SAP 2012 worksheet cell (62) in section Water Heating.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
             "Watts inside the NHM, converted to Kilo Watt Hours per Month."
     })
     WaterHeating_TotalHeat_Monthly_BeforeSolar,
     @Doc({
             "SAP 2012 worksheet cell (63) in section Water Heating.",
-            "Always has value 0.0 in the NHM.",
+            "Default value: 0.0.",
             "Monthly, or averaged over all the months in the year.",
             "Watts inside the NHM, converted to Kilo Watt Hours per Month."
     })
     WaterHeating_Solar,
     @Doc({
             "SAP 2012 worksheet cell (65) in section Water Heating.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
             "Watts inside the NHM, converted to Kilo Watt Hours per Month."
     })
     Gains_HotWater_Monthly,
     @Doc({
             "SAP 2012 worksheet cell (66) in section Gains Internal.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "Watts"
+            "Watts."
     })
     Gains_Metabolic,
     @Doc({
             "SAP 2012 worksheet cell (67) in section Gains Internal.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "Watts"
+            "Watts."
     })
     Gains_Lighting,
     @Doc({
             "SAP 2012 worksheet cell (68) in section Gains Internal.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "Watts"
+            "Watts."
     })
     Gains_Appliances,
     @Doc({
             "SAP 2012 worksheet cell (69) in section Gains Internal.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "Watts"
+            "Watts."
     })
     Gains_Cooking,
     @Doc({
             "SAP 2012 worksheet cell (70) in section Gains Internal.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "Watts"
+            "Watts."
     })
     Gains_PumpsAndFans,
     @Doc({
             "SAP 2012 worksheet cell (71) in section Gains Internal.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "Watts"
+            "Watts."
     })
     Gains_Evaporation,
     @Doc({
             "SAP 2012 worksheet cell (72) in section Gains Internal.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "Watts"
+            "Watts."
     })
     Gains_HotWater,
     @Doc({
             "SAP 2012 worksheet cell (73) in section Gains Internal.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "Watts"
+            "Watts."
     })
     Gains_Internal,
     @Doc({
             "SAP 2012 worksheet cell (82) in section Gains Solar.",
             "Always has value 0.0 in the NHM.",
             "Monthly, or averaged over all the months in the year.",
-            "Watts"
+            "Watts."
     })
     Gains_Solar_Roof,
     @Doc({
             "SAP 2012 worksheet cell (83) in section Gains Solar.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "Watts"
+            "Watts."
     })
     Gains_Solar,
     @Doc({
             "SAP 2012 worksheet cell (84) in section Gains Solar.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "Watts"
+            "Watts."
     })
     Gains,
     @Doc({
             "SAP 2012 worksheet cell (85) in section Mean Internal Temperature.",
+            "No default.",
             "Annual.",
-            "Centigrade"
+            "Centigrade."
     })
     DemandTemperature_LivingArea,
     @Doc({
             "SAP 2012 worksheet cell (86) in section Mean Internal Temperature.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "DimensionlessProportion"
+            "DimensionlessProportion."
     })
     GainsUtilisation_LivingArea,
     @Doc({
             "SAP 2012 worksheet cell (87) in section Mean Internal Temperature.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "Centigrade"
+            "Centigrade."
     })
     MeanInternalTemperature_LivingArea,
     @Doc({
             "SAP 2012 worksheet cell (88) in section Mean Internal Temperature.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "Centigrade"
+            "Centigrade."
     })
     DemandTemperature_RestOfDwelling,
     @Doc({
             "SAP 2012 worksheet cell (89) in section Mean Internal Temperature.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "DimensionlessProportion"
+            "DimensionlessProportion."
     })
     GainsUtilisation_RestOfDwelling,
     @Doc({
             "SAP 2012 worksheet cell (90) in section Mean Internal Temperature.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "Centigrade"
+            "Centigrade."
     })
     MeanInternalTemperature_RestOfDwelling,
     @Doc({
             "SAP 2012 worksheet cell (91) in section Mean Internal Temperature.",
+            "No default.",
             "Annual.",
-            "DimensionlessProportion"
+            "DimensionlessProportion."
     })
     LivingAreaFraction,
     @Doc({
             "SAP 2012 worksheet cell (92) in section Mean Internal Temperature.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "Centigrade"
+            "Centigrade."
     })
     MeanInternalTemperature_Unadjusted,
     @Doc({
             "SAP 2012 worksheet cell (93) in section Mean Internal Temperature.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "Centigrade"
+            "Centigrade."
     })
     MeanInternalTemperature,
     @Doc({
             "SAP 2012 worksheet cell (94) in section Space Heating.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "DimensionlessProportion"
+            "DimensionlessProportion."
     })
     GainsUtilisation,
     @Doc({
             "SAP 2012 worksheet cell (95) in section Space Heating.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "Watts"
+            "Watts."
     })
     Gains_Useful,
     @Doc({
             "SAP 2012 worksheet cell (96) in section Space Heating.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "Centigrade"
+            "Centigrade."
     })
     ExternalTemperature,
     @Doc({
             "SAP 2012 worksheet cell (97) in section Space Heating.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "Watts"
+            "Watts."
     })
     HeatLossRate,
     @Doc({
             "SAP 2012 worksheet cell (98) in section Space Heating.",
+            "No default.",
             "Monthly, or summed over all the months in the year.",
             "Watts inside the NHM, converted to Kilo Watt Hours per Month."
     })
     SpaceHeating,
     @Doc({
             "SAP 2012 worksheet cell (201) in section Energy Requirements.",
+            "No default.",
             "Annual.",
-            "DimensionlessProportion"
+            "DimensionlessProportion."
     })
     SpaceHeating_Fraction_Secondary,
     @Doc({
             "SAP 2012 worksheet cell (202) in section Energy Requirements.",
+            "No default.",
             "Annual.",
-            "DimensionlessProportion"
+            "DimensionlessProportion."
     })
     SpaceHeating_Fraction_Main,
     @Doc({
             "SAP 2012 worksheet cell (203) in section Energy Requirements.",
             "Always has value 0.0 in the NHM.",
             "Annual.",
-            "DimensionlessProportion"
+            "DimensionlessProportion."
     })
     SpaceHeating_FractionWithinMainSystem,
     @Doc({
             "SAP 2012 worksheet cell (204) in section Energy Requirements.",
+            "No default.",
             "Annual.",
-            "DimensionlessProportion"
+            "DimensionlessProportion."
     })
     SpaceHeating_Fraction_Main_System1,
     @Doc({
             "SAP 2012 worksheet cell (205) in section Energy Requirements.",
             "Always has value 0.0 in the NHM.",
             "Annual.",
-            "DimensionlessProportion"
+            "DimensionlessProportion."
     })
     SpaceHeating_Fraction_Main_System2,
     @Doc({
             "SAP 2012 worksheet cell (206) in section Energy Requirements.",
+            "No default.",
             "Annual.",
-            "DimensionlessProportion"
+            "DimensionlessProportion."
     })
     SpaceHeating_Efficiency_Main_System1,
     @Doc({
             "SAP 2012 worksheet cell (208) in section Energy Requirements.",
-            "Always has value NaN in the NHM.",
+            "Default value: NaN.",
             "Annual.",
-            "DimensionlessProportion"
+            "DimensionlessProportion."
     })
     SpaceHeating_Efficiency_Secondary,
     @Doc({
@@ -704,8 +790,9 @@ public enum XEnergyCalculationStep {
     Energy_SpaceHeating_Fuel_Main_system2,
     @Doc({
             "SAP 2012 worksheet cell (217) in section Energy Requirements.",
+            "No default.",
             "Monthly, or averaged over all the months in the year.",
-            "DimensionlessProportion"
+            "DimensionlessProportion."
     })
     WaterHeating_Efficiency,
     @Doc({
@@ -724,28 +811,28 @@ public enum XEnergyCalculationStep {
     PumpsFansAndKeepHot_MechanicalVentilationFans,
     @Doc({
             "SAP 2012 worksheet cell (230b) in section Energy Requirements.",
-            "Always has value 0.0 in the NHM.",
+            "Default value: 0.0.",
             "Monthly, or summed over all the months in the year.",
             "Watts inside the NHM, converted to Kilo Watt Hours per Month."
     })
     PumpsFansAndKeepHot_WarmAirFans,
     @Doc({
             "SAP 2012 worksheet cell (230c) in section Energy Requirements.",
-            "Always has value 0.0 in the NHM.",
+            "Default value: 0.0.",
             "Monthly, or summed over all the months in the year.",
             "Watts inside the NHM, converted to Kilo Watt Hours per Month."
     })
     PumpsFansAndKeepHot_WaterPump,
     @Doc({
             "SAP 2012 worksheet cell (230d) in section Energy Requirements.",
-            "Always has value 0.0 in the NHM.",
+            "Default value: 0.0.",
             "Monthly, or summed over all the months in the year.",
             "Watts inside the NHM, converted to Kilo Watt Hours per Month."
     })
     PumpsFansAndKeepHot_OilBoilerPump,
     @Doc({
             "SAP 2012 worksheet cell (230e) in section Energy Requirements.",
-            "Always has value 0.0 in the NHM.",
+            "Default value: 0.0.",
             "Monthly, or summed over all the months in the year.",
             "Watts inside the NHM, converted to Kilo Watt Hours per Month."
     })
@@ -759,7 +846,7 @@ public enum XEnergyCalculationStep {
     PumpsFansAndKeepHot_KeepHot,
     @Doc({
             "SAP 2012 worksheet cell (230g) in section Energy Requirements.",
-            "Always has value 0.0 in the NHM.",
+            "Default value: 0.0.",
             "Monthly, or summed over all the months in the year.",
             "Watts inside the NHM, converted to Kilo Watt Hours per Month."
     })
@@ -773,7 +860,7 @@ public enum XEnergyCalculationStep {
     PumpsFansAndKeepHot_StorageWWHRSPump,
     @Doc({
             "SAP 2012 worksheet cell (233) in section Energy Requirements.",
-            "Always has value 0.0 in the NHM.",
+            "Default value: 0.0.",
             "Monthly, or summed over all the months in the year.",
             "Watts inside the NHM, converted to Kilo Watt Hours per Month."
     })
@@ -801,23 +888,23 @@ public enum XEnergyCalculationStep {
     Generation_Hydro,
     @Doc({
             "SAP 2012 worksheet cell (305) in section Energy Requirements Community.",
-            "Always has value NaN in the NHM.",
-            "Monthly, or averaged over all the months in the year.",
-            "DimensionlessProportion"
+            "Default value: NaN.",
+            "Annual.",
+            "DimensionlessProportion."
     })
     Community_ChargingFactor_SpaceHeating,
     @Doc({
             "SAP 2012 worksheet cell (305a) in section Energy Requirements Community.",
-            "Always has value NaN in the NHM.",
+            "Default value: NaN.",
             "Monthly, or averaged over all the months in the year.",
-            "DimensionlessProportion"
+            "DimensionlessProportion."
     })
     Community_ChargingFactor_WaterHeating,
     @Doc({
             "SAP 2012 worksheet cell (306) in section Energy Requirements Community.",
-            "Always has value NaN in the NHM.",
-            "Monthly, or averaged over all the months in the year.",
-            "DimensionlessProportion"
+            "Default value: NaN.",
+            "Annual.",
+            "DimensionlessProportion."
     })
     Community_DistributionLossFactor,
     ;

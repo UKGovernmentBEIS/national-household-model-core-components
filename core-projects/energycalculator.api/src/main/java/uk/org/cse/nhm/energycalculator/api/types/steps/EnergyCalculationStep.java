@@ -1178,6 +1178,10 @@ public enum EnergyCalculationStep {
         return defaultValue.exists();
     }
 
+    public String getDefaultText() {
+        return defaultValue.toString();
+    }
+
     public List<Double> getDefault() {
         if (hasDefault()) {
             if (period.isMonthly()) {
