@@ -35,7 +35,7 @@ If you want to cross-reference to a language element, you need to use the unique
 - More information given when the standalone (nhm ide) fails to retrieve reports from remote server for a simulation job
 - Added extra record-changes property on =ref.def-report=. If you set it to "false", then you won't get the "After" columns in the report.
 - Added extra services "MainSpaceHeating" and "SecondarySpaceHeating", which you can use in conjunction with =house.energy-use=.
-***** Documenation
+***** Documentation
 - Improved documenation for using consume function =ref.consume= Added a note about needing to take into account house.weight if using this.
 - Document on room heater unsuitability =ref.measure.room-heater=
 - Update suitability text for hot water tank thermostat measure =ref.measure.hot-water-tank-thermostat=
