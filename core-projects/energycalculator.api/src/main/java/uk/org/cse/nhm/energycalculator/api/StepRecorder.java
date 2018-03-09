@@ -87,8 +87,20 @@ public class StepRecorder{
     }
 
     public static Steps record(Collection<EnergyCalculationStep> record) {
-        final Steps out = new Steps(record);
-        currentSteps.set(out);
-        return out;
+        if (record.isEmpty()) {
+            final Steps noSteps = new Steps(record) {
+                @Override
+                void recordStep(EnergyCalculationStep step, double value) {
+                    // Noop
+                }
+            };
+            currentSteps.set(null);
+            return noSteps;
+
+        } else {
+            final Steps out = new Steps(record);
+            currentSteps.set(out);
+            return out;
+        }
     }
 }
