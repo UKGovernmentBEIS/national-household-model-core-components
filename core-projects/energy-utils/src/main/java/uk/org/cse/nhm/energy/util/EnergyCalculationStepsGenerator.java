@@ -77,9 +77,7 @@ public class EnergyCalculationStepsGenerator {
 
         enumDef.println("\"" + step.sapLocation.toString() + "\",");
 
-        if (step.hasDefault()) {
-            enumDef.println(String.format("\"Always has value %.1f in the NHM.\",", step.getDefault().get(0)));
-        }
+        enumDef.println("\"" + step.getDefaultText() + "\",");
 
         enumDef.println("\"" + step.period.toString() + "\",");
 

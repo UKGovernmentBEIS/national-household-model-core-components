@@ -832,6 +832,7 @@ public enum EnergyCalculationStep {
             new DefaultValue(0)),
 
     // In the NHM, the keep hot facility uses the same fuel as the combi boiler
+    // This variable is specifically for an electric keep hot.
     PumpsFansAndKeepHot_KeepHot(Kilo_Watt_Hour_per_Month, MonthlySum,
             SAPWorksheetSection.Energy_Requirements.subCell(230, 'f'),
             BREDEMLocation.NotDetermined,
@@ -1175,6 +1176,10 @@ public enum EnergyCalculationStep {
 
     public boolean hasDefault() {
         return defaultValue.exists();
+    }
+
+    public String getDefaultText() {
+        return defaultValue.toString();
     }
 
     public List<Double> getDefault() {

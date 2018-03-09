@@ -73,7 +73,7 @@ public enum Units {
     @Override
     public String toString() {
         if (sap == nhm) {
-            return sap.toString();
+            return sap.toString() + ".";
         } else {
             return nhm.toString() + " inside the NHM, converted to " + sap.toString() + ".";
         }

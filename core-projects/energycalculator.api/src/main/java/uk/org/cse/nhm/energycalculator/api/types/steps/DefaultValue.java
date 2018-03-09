@@ -18,6 +18,11 @@ class DefaultValue {
         }
 
         @Override
+        public String toString() {
+            return "No default.";
+        }
+
+        @Override
         public boolean exists() {
             return false;
         }
@@ -25,9 +30,11 @@ class DefaultValue {
 
     private final List<Double> annual;
     private final List<Double> monthly;
+    protected final double value;
 
 
     DefaultValue(double value) {
+        this.value = value;
         this.annual = ImmutableList.of(value);
         this.monthly = Collections.nCopies(12, value);
     }
@@ -36,6 +43,11 @@ class DefaultValue {
     List<Double> getMonthly() { return monthly; }
     boolean exists() { return true; }
     boolean supportedInNHM() { return true; }
+
+    @Override
+    public String toString() {
+        return "Default value: " + value + ".";
+    }
 }
 
 /**
@@ -49,5 +61,10 @@ class NotSupportedValuePlaceholder extends DefaultValue {
     @Override
     public boolean supportedInNHM() {
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Always has value %.1f in the NHM.", value);
     }
 }
