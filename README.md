@@ -5,41 +5,72 @@ Full documentation on what the NHM is and how it can be used can be found here: 
 
 If you would like to run a compiled version of the National Household Model, the latest application can be found here [Standalone releases](https://github.com/cse-bristol/national-household-model-standalone/releases/tag/Current)
 
-The project has been written using Java 1.7, will shortly be java 1.8. Our advice is build using java 8 as p2 drone requires it anyway.
+The project has been written using Java 1.7, will shortly be java 1.8.
 
 # Installation
 This is a bit basic, we will fill in later, the project can be built end-to-end on a linux machine.
 
-## Pre-requisits
-- Linux os - tested on Ubuntu 15+ and Debian?
-- Java 7, but will also work on 8
-- Maven 3
+## Dependencies
+- A JDK for Java 7 or above
+- The bash shell
+- Maven
+- Gradle
+- xmlstarlet
+- webfsd
+- R and packages
 
-## Build process
-There is a shell script named build, this wil build the core projects, then start a p2 drone server, build some p2 bundles and push them to drone server, build the ide-project using the drone server to fetch the osgi bundles, then stop the drone server.
+You can assemble all the dependencies you need using nixpkgs.
+Install this, and run the build inside a shell produced with nix-shell user-environment.nix.
 
-- Make sure you add the following to your maven settigns file (/usr/share/maven/conf/settings.xml or ~/.m2/settings.xml).
+## Building
 
-```xml
-<servers>
-    <server>
-      <id>package-drone</id>
-      <username>deploy</username>
-      <password>da9fc69a5d93f07432ace3fc7015fffa4d4b032a88d267f88cb2dd5369d1b6af</password>
-    </server>
-  </servers>
-```
+A complete build can be run using the script build.sh in the top-level directory.
+Invoke ./build --help for more on how to use it.
 
-This gives the documentation the credentials required to push the p2 server.
+The script uses other build tools to run various build stages. A
+summary follows but the script itself should be good documentation, so
+read that if you want to know what's going on.
 
-- [ ] At the moment the build script always pushes a version of the nhm-api-bundler at version 2, this causes issues when repeatedly building, we need to remove this from the repeated build script and only run it when the api changes...
-- The p2 drone server admin user-name and password are buildprocess@nhm.org.uk and password
+## Building the core model
 
+This is all in core-projects and is built using gradle. This is
+sufficient to produce a working copy of the model usable on the
+command line
 
-### Things stil todo
-- [ ] More detail needed on the above including why etc...  currnently lives in other README files so maybe just linking to those is ok.
-- [ ] Re-create past history of nhm bundle builds, by putting old p2 bundles into repo, tagging each one as a specific version, you could then just build the ide at that point?
+## Generating the documentation
 
+This is in nhm-documentation, and depends on the core model being
+built first as this generates some of the documentation text. It's
+built with maven, using a docbook plugin.
+
+## Building the IDE
+
+This is in nhm-ide; it has a couple of steps:
+
+1. Collect up all the model versions into the p2/inputs folder.
+   Any newly built jars are taken from the binaries/ folder and put in here.
+2. Use the maven tycho p2 extras plugin to assemble a p2 repository for these jars.
+3. Run webfsd to serve the p2 repository locally via http on port 8000
+4. Use maven tycho to compile the NHM application 'product'
+
+## Running the system tests
+
+These are in system-tests; they involve running a bunch of scenarios
+against the model CLI and then verifying the results with some simple R scripts.
+
+## Packaging a result for distribution
+
+The build script can locate all the things you need to run the
+application, including copies of the model for use on a back-end
+server if you have one.
+
+## Doing a release
+
+We try and derive version numbers from git where possible, but this is
+not easy for the maven parts of the project. The release script should
+help you bump all the version numbers and end up with something usable.
+
+It is run through build.sh so don't run it on its own.
 
 # License
 [Open Government License] (http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)

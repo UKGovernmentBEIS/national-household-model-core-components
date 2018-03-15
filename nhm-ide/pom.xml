@@ -10,7 +10,7 @@
   <name>NHM IDE PARENT</name>
 
   <properties>
-    <tycho-version>0.24.0</tycho-version>
+    <tycho-version>1.1.0</tycho-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <stupid-root-dir-hack>${session.executionRootDirectory}</stupid-root-dir-hack>
   </properties>
@@ -33,7 +33,7 @@
     </repository>
     <repository>
       <id>package-drone</id>
-      <url>http://localhost:8080/p2/7b9c5ef4-16a1-4b8f-ae4e-83bb87337fdb/</url>
+      <url>http://localhost:8000/</url>
       <layout>p2</layout>
     </repository>
     <repository>

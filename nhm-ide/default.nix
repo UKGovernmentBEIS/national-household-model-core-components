@@ -1,3 +1,4 @@
+# needs NIX_ALLOW_INSECURE=1 for webkitgtk
 with import <nixpkgs> {};
 
 stdenv.mkDerivation {
@@ -21,6 +22,6 @@ stdenv.mkDerivation {
     patchelf --set-interpreter $(cat $NIX_CC/nix-support/dynamic-linker) "$exe"
     patchelf --set-rpath "${pkgs.freetype}/lib:${pkgs.fontconfig}/lib:${pkgs.xorg.libX11}/lib:${pkgs.xorg.libXrender}/lib:${pkgs.zlib}/lib" "$exe"
 
-    wrapProgram "$exe" --prefix LD_LIBRARY_PATH : "${pkgs.glib}/lib:${pkgs.gtk.out}/lib:${pkgs.xorg.libXtst}/lib:${webkitgtk2}/lib"
+    wrapProgram "$exe" --prefix LD_LIBRARY_PATH : "${pkgs.glib}/lib:${pkgs.gnome2.gtk.out}/lib:${pkgs.xorg.libXtst}/lib:${webkitgtk}/lib"
    '';
 }

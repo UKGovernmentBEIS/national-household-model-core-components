@@ -11,6 +11,7 @@ check_path xmlstarlet
 check_path git
 check_path mvn
 check_path java
+check_path webfsd
 
 declare -A steps
 declare -A doc
@@ -107,24 +108,6 @@ if [ ${steps["release"]} == 1 ] ; then
     source ./release.sh
 fi
 
-nc -zv localhost 8080
-if [ $? -eq 0 ]; then
-    red "Some other process is using port 8080"
-    red "Use sudo netstat -n -p | grep 8080 to find it"
-    exit 1
-fi
-
-./start_p2.sh &
-SERVER=$!
-green "Starting P2 server [$SERVER]"
-
-while ! nc -zv localhost 8080 ; do
-    green "Waiting for port 8080..."
-    sleep 5
-done
-
-green "Started P2 server [$SERVER]"
-
 pushd core-projects
 
 if [ ${steps["clean"]} == 1 ]; then
@@ -158,7 +141,6 @@ else
 
 fi
 
-
 if [ ${steps["tests"]} == 1 ]; then
     green "Running system tests"
     pushd system-tests
@@ -167,6 +149,15 @@ if [ ${steps["tests"]} == 1 ]; then
 fi
 
 if [ ${steps["ide"]} == 1 ]; then
+    green "Copy jars to p2 inputs directory"
+    find binaries -iname \*.jar -exec cp '{}' p2/inputs/plugins/ ';'
+    pushd p2
+    mvn tycho-p2-extras:publish-features-and-bundles
+    cd target/repository
+    webfsd -F -p 8000 &
+    WEB=$!
+    popd
+
     pushd nhm-ide
 
     green "Update signing keys"
@@ -178,6 +169,8 @@ if [ ${steps["ide"]} == 1 ]; then
     green "product is in nhm-ide/cse.nhm.ide.build/target/products/*.zip"
 
     popd
+
+    kill $WEB
 fi
 
 if [ ${steps["package"]} == 1 ]; then
@@ -216,10 +209,6 @@ if [ ${steps["package"]} == 1 ]; then
 
     zip -r "${rdir}.zip" "$rdir"
 fi
-
-green "Stopping p2 server [$SERVER]..."
-
-kill $SERVER
 
 if [ ! -z "$ERRORS" ]; then
     red "various errors:\n"

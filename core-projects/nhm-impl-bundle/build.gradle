@@ -66,7 +66,7 @@ dependencies {
 repositories {
   mavenCentral()
   mavenLocal()
-  maven { url "http://localhost:8080/maven/7b9c5ef4-16a1-4b8f-ae4e-83bb87337fdb/" }
+  maven { url uri("${project.rootDir}/../binaries") }
 }
 
 bundle {
@@ -170,10 +170,5 @@ publishing {
       }
 
       repositories {
-        maven {
-          credentials {
-            username mavenUser
-            password mavenPassword
-          }
-          url "http://localhost:8080/maven/7b9c5ef4-16a1-4b8f-ae4e-83bb87337fdb/"
-        }}}}}
+        maven { url uri("${project.rootDir}/../binaries") }
+        }}}}

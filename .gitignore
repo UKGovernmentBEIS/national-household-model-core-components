@@ -53,3 +53,6 @@ system-tests/**/*.png
 core-projects/GPATH
 core-projects/GRTAGS
 core-projects/GTAGS
+
+binaries
+nhm-ide/result

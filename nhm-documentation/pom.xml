@@ -23,7 +23,7 @@
     <repository>
       <id>p2</id>
       <name>Local P2</name>
-      <url>http://localhost:8080/maven/7b9c5ef4-16a1-4b8f-ae4e-83bb87337fdb/</url>
+      <url>file:///${project.basedir}/../binaries/</url>
       <layout>default</layout>
     </repository>
   </repositories>
@@ -134,12 +134,12 @@
     <repository>
       <id>package-drone</id>
       <name>package-drone</name>
-      <url>http://localhost:8080/maven/7b9c5ef4-16a1-4b8f-ae4e-83bb87337fdb/</url>
+      <url>file:///${project.basedir}/../binaries/</url>
     </repository>
     <snapshotRepository>
       <id>package-drone</id>
       <name>package-drone</name>
-      <url>http://localhost:8080/maven/7b9c5ef4-16a1-4b8f-ae4e-83bb87337fdb/</url>
+      <url>file:///${project.basedir}/../binaries/</url>
     </snapshotRepository>
   </distributionManagement>
   <dependencyManagement>
