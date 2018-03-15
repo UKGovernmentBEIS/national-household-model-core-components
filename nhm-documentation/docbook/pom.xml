@@ -31,19 +31,6 @@
     </plugins>
   </build>
 
-  <distributionManagement>
-    <repository>
-      <id>package-drone</id>
-      <name>package-drone</name>
-      <url>file:///${project.basedir}/../../binaries/</url>
-    </repository>
-    <snapshotRepository>
-      <id>package-drone</id>
-      <name>package-drone</name>
-      <url>file:///${project.basedir}/../../binaries/</url>
-    </snapshotRepository>
-  </distributionManagement>
-
   <dependencies>
     <dependency>
       <groupId>uk.org.cse.nhm</groupId>

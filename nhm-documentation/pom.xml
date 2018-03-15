@@ -23,7 +23,7 @@
     <repository>
       <id>p2</id>
       <name>Local P2</name>
-      <url>file:///${project.basedir}/../binaries/</url>
+      <url>file:///${binaries-path}/</url>
       <layout>default</layout>
     </repository>
   </repositories>
@@ -134,12 +134,12 @@
     <repository>
       <id>package-drone</id>
       <name>package-drone</name>
-      <url>file:///${project.basedir}/../binaries/</url>
+      <url>file://${binaries-path}/</url>
     </repository>
     <snapshotRepository>
       <id>package-drone</id>
       <name>package-drone</name>
-      <url>file:///${project.basedir}/../binaries/</url>
+      <url>file://${binaries-path}/</url>
     </snapshotRepository>
   </distributionManagement>
   <dependencyManagement>

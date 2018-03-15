@@ -128,13 +128,14 @@ popd
 
 
 if [ ${steps["docs"]} == 1 ]; then
+    BINARIES_PATH="$PWD/binaries"
     pushd core-projects
     #these could be install rather than publish to avoid p2 serving older versions
     gradle :nhm-language-documentation:publish :nhm-stock-documentation:publish
     popd
     pushd nhm-documentation
     # TODO: we may want to build the PDF or web manual here
-    maven deploy -pl eclipse -am -U
+    maven deploy -pl eclipse -am -U "-Dbinaries-path=$BINARIES_PATH"
     popd
 else
     green "Skip documentation"
