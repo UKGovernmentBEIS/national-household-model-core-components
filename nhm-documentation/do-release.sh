@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -o errexit
 set -o nounset
@@ -32,7 +32,7 @@ setversion () {
     V=$1
     sed -i -r -e "s:<nhm\\.version>.+</nhm\\.version>:<nhm.version>$V</nhm.version>:g" \
         -e "s:<stockimport\\.version>.+</stockimport\\.version>:<stockimport.version>$V</stockimport.version>:g" pom.xml
-    mvn -U versions:set -DnewVersion="$V"
+    mvn -U versions:set -DnewVersion="$V" -Dbinaries-path="$PWD/../binaries"
     git clean -f
 }
 
