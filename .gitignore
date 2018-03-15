@@ -56,3 +56,9 @@ core-projects/GTAGS
 
 binaries
 nhm-ide/result
+
+p2/inputs/plugins/*nhm-language-documentation*
+p2/inputs/plugins/*nhm-stock-documentation*
+p2/inputs/plugins/*docbook*
+p2/inputs/plugins/*manual*
+p2/inputs/plugins/*-????????.??????-*
