@@ -19,6 +19,7 @@ import uk.org.cse.nhm.energycalculator.api.impl.DailyHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.impl.GraphvizEnergyState;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
+import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.MonthType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
@@ -120,6 +121,7 @@ public class TestCase1 {
 		final Elevation right = new Elevation();
 
 		final Glazing frontWindow = new Glazing();
+		frontWindow.setFrameType(FrameType.uPVC);
 		frontWindow.setUValue(2.5);
 		frontWindow.setFrameFactor(1);
 		frontWindow.setGainsTransmissionFactor(0.76);
@@ -127,6 +129,7 @@ public class TestCase1 {
 		frontWindow.setGlazedProportion(1.0);
 
 		final Glazing backWindow = new Glazing();
+		backWindow.setFrameType(FrameType.uPVC);
 		backWindow.setUValue(2.5);
 		backWindow.setFrameFactor(1);
 		backWindow.setGainsTransmissionFactor(0.76);

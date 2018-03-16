@@ -10,7 +10,17 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
 import uk.org.cse.nhm.energycalculator.api.IHeatingSystem;
 import uk.org.cse.nhm.energycalculator.api.IVentilationSystem;
 import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
-import uk.org.cse.nhm.energycalculator.api.types.*;
+import uk.org.cse.nhm.energycalculator.api.types.AreaType;
+import uk.org.cse.nhm.energycalculator.api.types.DoorType;
+import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.FrameType;
+import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
+import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofType;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowGlazingAirGap;
+import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 import uk.org.cse.nhm.hom.SurveyCase;
 import uk.org.cse.stockimport.domain.IBasicDTO;
 import uk.org.cse.stockimport.hom.ISurveyCaseBuildStep;
@@ -122,7 +132,7 @@ public class InternalWallBuildStep implements ISurveyCaseBuildStep {
 
 		@Override
 		public void visitWindow(final double area, final double uValue, final FrameType frameType, final GlazingType glazingType,
-				final WindowInsulationType insulationType) {
+				final WindowInsulationType insulationType, final WindowGlazingAirGap airGap) {
 			externalArea += area;
 		}
 

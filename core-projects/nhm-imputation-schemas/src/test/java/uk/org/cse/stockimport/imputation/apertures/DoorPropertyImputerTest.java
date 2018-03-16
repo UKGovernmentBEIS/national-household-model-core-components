@@ -1,10 +1,9 @@
 package uk.org.cse.stockimport.imputation.apertures;
 
-import org.junit.Assert;
-
 import org.junit.Before;
 import org.junit.Test;
 
+import junit.framework.Assert;
 import uk.org.cse.nhm.energycalculator.api.types.DoorType;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;

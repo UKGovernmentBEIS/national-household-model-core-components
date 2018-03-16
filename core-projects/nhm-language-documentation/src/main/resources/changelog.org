@@ -21,27 +21,44 @@ If you want to cross-reference to a language element, you need to use the unique
    - *Bugs removed* will list any known errors that were found to affect the previous version which have been corrected in this version
 
 ** Released versions
-*** Version 7.1.0
-**** Bugs Fixed
-- Suitabilily for =ref.measure.solar-photovoltaic= is now checked, plus re-factored measures to ensure suitability is checked
-- Warm air system measure no longer ignores fuel argument =ref.measure.warm-air-system=
-- Fit now storage tank thermostat measure checks for presence of water tank before installing =ref.measure.hot-water-tank-thermostat=
-- Fixed a problem where adding two extra fuel charges for the same fuel would give two duplicate charges instead.
-- Fixed a problem with transferring money between a dwelling and a global account where it would multiply the amount by the scenario quantum instead of the weight of the particular dwelling. This affects =ref.report.global-accounts= and =ref.account.balance=
-- Basement floors are now treated as if they are ground floors for heat loss, see SAP 2012 S3.10
-- Calculation for upper floor u-values now includes insulation, the bug should not have affected most upper floors as a majority did not have any exposed floor area through which heat loss could occur.
+*** Version 7.2.0
+**** New features
+- Added =ref.house.energy-calculation-step=, a number function which allow you to look at intermediate steps in the energy calculation.
 **** Improvements
-***** General
-- More information given when the standalone (nhm ide) fails to retrieve reports from remote server for a simulation job
 - Added extra =record-changes= property on =ref.def-report=. If you set it to "false", then you won't get the "After" columns in the report.
 - Added extra services =MainSpaceHeating= and =SecondarySpaceHeating=, which you can use in conjunction with =ref.house.energy-use=.
+*** Version 7.1.0
+**** Bugs Fixed
+- Suitability for =ref.measure.solar-photovoltaic= is checked correctly.
+  The implementation of measure suitability has been enhanced so this kind of error cannot be reintroduced for any other measure.
+- =ref.measure-warm-air-system= no longer ignores fuel argument.
+- =ref.measure.hot-water-tank-thermostat= checks for presence of water tank before installation.
+- Fixed a problem where adding two extra fuel charges for the same fuel would give two duplicate charges instead.
+- Fixed a problem with transferring money between a dwelling and a global account where it would multiply the amount byt the scenario quantum instead of the weight of the particular dwelling. This affects =ref.report.global-transactions= and =ref.account.balance=
+- Basement floors are now treated as if they are ground floors for heat loss, per SAP 2012 S3.10
+- =ref.measure.low-energy-lighting= had no effect on buildings which had no low energy lighting to start with. It now works correctly for all buildings.
+- In SAP mode, floor u-values for exposed upper floors did not account for the presence of floor insulation. This is fixed. The impact of the change is small, because there are few cases in the stock which have any exposed upper floor area. Only buildings in which storeys above the ground floor are larger than the storey below them which also have floor insulation will see an impact, and for these only for the heat loss contribution from the exposed floor area.
+**** Improvements
+***** General
+- More information given when the desktop application fails to retrieve reports from a  remote server for a simulation job
 ***** Documentation
-- Improved documenation for using consume function =ref.consume= Added a note about needing to take into account house.weight if using this.
-- Document on room heater unsuitability =ref.measure.room-heater=
-- Update suitability text for hot water tank thermostat measure =ref.measure.hot-water-tank-thermostat=
-- Updated un-suitability text for =ref.measure.warm-air-system=
+- Improved documentation for using consume function =ref.consume= Added a note about needing to take into account =ref.house.weight= if using this.
+- Documentation for room heater unsuitability =ref.measure.room-heater=
+- Improved suitability information for hot water tank thermostat measure =ref.measure.hot-water-tank-thermostat=
+- Improved suitability information for =ref.measure.warm-air-system=
+*** Version 7.0.5
+**** Improvements
+***** Change to calculation of =ref.house.permeability=
+The function can now specify whether to include or exclude deliberate ventilation from the airChange rate calculation.
+***** Change to calculation of =ref.house.sit=
+Calculation now defines heatloss as specific heat loss + ventilation heat loss rather than just specific heatloss as before.
+***** To u-values and inputs to measure =ref.measure.install-glazing=
+Added in the ability to specify an air-gap for the measure.
+Look-up tables for U-Values now take into account air-gap when returning u-values for glazings.
+If no u-value is supplied then u-value will be take from SAP tables.
 **** New Features
-- Added =ref.house.energy-calculation-step=, a number function which allow you to look at intermediate steps in the energy calculation.
+***** Added new function =ref.house.has-solar-thermal=
+Returns true of the central hot water heating system includes a solar thermal component
 *** Verison 7.0.3
 **** Bugs Fixed
 ***** Reverted macro validation fixes added as they cause errors which affect previous BEIS scenarios

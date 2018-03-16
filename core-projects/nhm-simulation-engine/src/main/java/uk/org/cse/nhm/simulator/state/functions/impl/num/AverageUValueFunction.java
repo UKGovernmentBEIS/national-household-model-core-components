@@ -19,6 +19,9 @@ import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
 import uk.org.cse.nhm.energycalculator.api.types.*;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowGlazingAirGap;
+import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 import uk.org.cse.nhm.energycalculator.impl.SAPUValues;
 import uk.org.cse.nhm.hom.BasicCaseAttributes;
 import uk.org.cse.nhm.hom.structure.StructureModel;
@@ -198,7 +201,7 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 
 		@Override
 		public void visitWindow(final double area, final double uValue, final FrameType frameType, final GlazingType glazingType,
-				final WindowInsulationType insulationType) {
+				final WindowInsulationType insulationType, final WindowGlazingAirGap airGap) {
 
 			if (includedAreas.contains(frameType.getAreaType())) {
 				totalA += area;
@@ -210,7 +213,7 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 					overrideU = uValue;
 					break;
 				case SAP2012:
-					overrideU = SAPUValues.Windows.get(frameType, glazingType, insulationType);
+					overrideU = SAPUValues.Windows.get(frameType, glazingType, insulationType, airGap);
 					break;
 				default:
 					throw new UnsupportedOperationException("Unknown energy calculator type when computing average u value for windows " + calculatorType);

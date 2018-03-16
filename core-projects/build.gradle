@@ -330,11 +330,7 @@ project(':nhm-language-documentation') {
 
         repositories {
          maven {
-           credentials {
-            username mavenUser
-            password mavenPassword
-           }
-           url "http://localhost:8080/maven/7b9c5ef4-16a1-4b8f-ae4e-83bb87337fdb/"
+            url uri("${project.rootDir}/../binaries")
           }
         }
 
@@ -453,11 +449,7 @@ project(':nhm-stock-documentation') {
 
         repositories {
           maven {
-           credentials {
-            username mavenUser
-            password mavenPassword
-           }
-           url "http://localhost:8080/maven/7b9c5ef4-16a1-4b8f-ae4e-83bb87337fdb/"
+             url uri("${project.rootDir}/../binaries")
           }
         }
 

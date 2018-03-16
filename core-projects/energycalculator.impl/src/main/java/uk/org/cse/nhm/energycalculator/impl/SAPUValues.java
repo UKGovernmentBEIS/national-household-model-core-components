@@ -17,6 +17,9 @@ import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowGlazingAirGap;
+import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 
 public class SAPUValues {
 	private static final double _check(final double d) {
@@ -403,8 +406,8 @@ public class SAPUValues {
 	public static class Windows {
 		private static final IWindowUValues windowUValues = new WindowUValues();
 
-		public static double get(final FrameType frameType, final GlazingType glazingType, final WindowInsulationType insulationType) {
-			return _check(windowUValues.getUValue(frameType, glazingType, insulationType));
+		public static double get(final FrameType frameType, final GlazingType glazingType, final WindowInsulationType insulationType, final WindowGlazingAirGap airGap) {
+			return _check(windowUValues.getUValue(frameType, glazingType, insulationType, airGap));
 		}
 	}
 

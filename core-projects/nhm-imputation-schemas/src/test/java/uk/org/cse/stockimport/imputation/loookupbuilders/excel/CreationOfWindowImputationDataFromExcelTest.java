@@ -4,13 +4,14 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
-import org.junit.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import junit.framework.Assert;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowGlazingAirGap;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 import uk.org.cse.nhm.energycalculator.impl.IWindowUValues;
 import uk.org.cse.stockimport.imputation.ImputationSchema;
@@ -45,10 +46,10 @@ public class CreationOfWindowImputationDataFromExcelTest extends AbsImputationFr
 		IWindowUValues uValues = imputationSchema.getWindowPropertyTables().getUValues();
 		assertThat("uvalues table", uValues, is(notNullValue()));
 
-		Assert.assertEquals(4.0, uValues.getUValue(FrameType.Wood, GlazingType.Single, null), 0.05);
-		Assert.assertEquals(2.2, uValues.getUValue(FrameType.Wood, GlazingType.Secondary, null), 0.05);
-		Assert.assertEquals(3.2, uValues.getUValue(FrameType.Metal, GlazingType.Double, WindowInsulationType.Air), 0.05);
-		Assert.assertEquals(2.2, uValues.getUValue(FrameType.Wood, GlazingType.Triple, WindowInsulationType.Air), 0.05);
+		Assert.assertEquals(4.0, uValues.getUValue(FrameType.Wood, GlazingType.Single, null, WindowGlazingAirGap.gapOf6mm), 0.05);
+		Assert.assertEquals(2.2, uValues.getUValue(FrameType.Wood, GlazingType.Secondary, null, WindowGlazingAirGap.gapOf6mm), 0.05);
+		Assert.assertEquals(3.2, uValues.getUValue(FrameType.Metal, GlazingType.Double, WindowInsulationType.Air, WindowGlazingAirGap.gapOf6mm), 0.05);
+		Assert.assertEquals(2.2, uValues.getUValue(FrameType.Wood, GlazingType.Triple, WindowInsulationType.Air, WindowGlazingAirGap.gapOf6mm), 0.05);
 	}
 
 	@Test

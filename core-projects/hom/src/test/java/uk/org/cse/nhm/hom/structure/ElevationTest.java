@@ -11,6 +11,7 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowGlazingAirGap;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 import uk.org.cse.nhm.energycalculator.api.types.DoorType;
 import uk.org.cse.nhm.hom.structure.impl.Elevation;
@@ -30,7 +31,7 @@ public class ElevationTest {
 
 		e.visitGlazing(visitor, 100, 0);
 
-		verify(visitor).visitWindow(eq(50d), eq(2d), eq(FrameType.uPVC), eq(GlazingType.Single), eq(WindowInsulationType.Air));
+		verify(visitor).visitWindow(eq(50d), eq(2d), eq(FrameType.uPVC), eq(GlazingType.Single), eq(WindowInsulationType.Air),eq(WindowGlazingAirGap.gapOf6mm));
 	}
 
 	@Test

@@ -5,6 +5,7 @@ import org.pojomatic.annotations.AutoProperty;
 
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowGlazingAirGap;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 
 /**
@@ -88,6 +89,8 @@ public class Glazing implements IGlazedElement {
 	private FrameType frameType;
 
 	private WindowInsulationType insulationType;
+	
+	private WindowGlazingAirGap airGap;
 
     public Glazing(){
         super();
@@ -105,6 +108,7 @@ public class Glazing implements IGlazedElement {
 		other.setInsulationType(getInsulationType());
 		other.setGlazingType(getGlazingType());
 		other.setFrameType(getFrameType());
+		other.setWindowGlazingAirGap(getWindowGlazingAirGap());
 
 		return other;
 	}
@@ -117,6 +121,7 @@ public class Glazing implements IGlazedElement {
         this.glazingType = glazingType;
         this.frameType = frameType;
         this.insulationType = WindowInsulationType.Air;
+        this.airGap = WindowGlazingAirGap.gapOf6mm;
     }
 
 	public double getuValue() {
@@ -209,6 +214,8 @@ public class Glazing implements IGlazedElement {
 				+ ((glazingType == null) ? 0 : glazingType.hashCode());
 		result = prime * result
 				+ ((insulationType == null) ? 0 : insulationType.hashCode());
+		result = prime * result
+				+ ((airGap == null) ? 0 : airGap.hashCode());
 		temp = Double.doubleToLongBits(lightTransmissionFactor);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(uValue);
@@ -240,6 +247,8 @@ public class Glazing implements IGlazedElement {
 			return false;
 		if (insulationType != other.insulationType)
 			return false;
+		if (airGap != other.airGap)
+			return false;
 		if (Double.doubleToLongBits(lightTransmissionFactor) != Double
 				.doubleToLongBits(other.lightTransmissionFactor))
 			return false;
@@ -247,5 +256,13 @@ public class Glazing implements IGlazedElement {
 				.doubleToLongBits(other.uValue))
 			return false;
 		return true;
+	}
+
+	public WindowGlazingAirGap getWindowGlazingAirGap() {
+		return airGap;
+	}
+
+	public void setWindowGlazingAirGap(WindowGlazingAirGap airGap) {
+		this.airGap = airGap;
 	}
 }

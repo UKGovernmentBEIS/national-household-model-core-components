@@ -11,6 +11,7 @@ import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.RoofType;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowGlazingAirGap;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 
 public class BREDEMVisitor extends Visitor {
@@ -59,7 +60,7 @@ public class BREDEMVisitor extends Visitor {
 
 	@Override
 	protected double overrideWindowUValue(final double uValue, final FrameType frameType, final GlazingType glazingType,
-			final WindowInsulationType insulationType) {
+			final WindowInsulationType insulationType, final WindowGlazingAirGap airGap) {
 		return uValue;
 	}
 

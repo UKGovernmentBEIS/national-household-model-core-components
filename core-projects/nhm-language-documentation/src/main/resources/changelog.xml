@@ -41,6 +41,49 @@
   </sect1>
   <sect1 id="released-versions">
     <title>Released versions</title>
+    <sect2 id="version-7.2.0">
+      <title>Version 7.2.0</title>
+      <orderedlist>
+        <listitem>
+          <para>
+            New features
+          </para>
+          <itemizedlist spacing="compact">
+            <listitem>
+              <para>
+                Added
+                <xref linkend="ref.house.energy-calculation-step"/>, a
+                number function which allow you to look at intermediate
+                steps in the energy calculation.
+              </para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+        <listitem>
+          <para>
+            Improvements
+          </para>
+          <itemizedlist spacing="compact">
+            <listitem>
+              <para>
+                Added extra <literal>record-changes</literal> property
+                on <xref linkend="ref.def-report"/>. If you set it to
+                &quot;false&quot;, then you won't get the
+                &quot;After&quot; columns in the report.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                Added extra services <literal>MainSpaceHeating</literal>
+                and <literal>SecondarySpaceHeating</literal>, which you
+                can use in conjunction with
+                <xref linkend="ref.house.energy-use"/>.
+              </para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </orderedlist>
+    </sect2>
     <sect2 id="version-7.1.0">
       <title>Version 7.1.0</title>
       <orderedlist>
@@ -51,23 +94,23 @@
           <itemizedlist spacing="compact">
             <listitem>
               <para>
-                Suitabilily for
-                <xref linkend="ref.measure.solar-photovoltaic"/> is now
-                checked, plus re-factored measures to ensure suitability
-                is checked
+                Suitability for
+                <xref linkend="ref.measure.solar-photovoltaic"/> is
+                checked correctly. The implementation of measure
+                suitability has been enhanced so this kind of error
+                cannot be reintroduced for any other measure.
               </para>
             </listitem>
             <listitem>
               <para>
-                Warm air system measure no longer ignores fuel argument
-                <xref linkend="ref.measure.warm-air-system"/>
+                <xref linkend="ref.measure-warm-air-system"/> no longer
+                ignores fuel argument.
               </para>
             </listitem>
             <listitem>
               <para>
-                Fit now storage tank thermostat measure checks for
-                presence of water tank before installing
                 <xref linkend="ref.measure.hot-water-tank-thermostat"/>
+                checks for presence of water tank before installation.
               </para>
             </listitem>
             <listitem>
@@ -80,24 +123,36 @@
               <para>
                 Fixed a problem with transferring money between a
                 dwelling and a global account where it would multiply
-                the amount by the scenario quantum instead of the weight
-                of the particular dwelling. This affects
-                <xref linkend="ref.report.global-accounts"/> and
+                the amount byt the scenario quantum instead of the
+                weight of the particular dwelling. This affects
+                <xref linkend="ref.report.global-transactions"/> and
                 <xref linkend="ref.account.balance"/>
               </para>
             </listitem>
             <listitem>
               <para>
                 Basement floors are now treated as if they are ground
-                floors for heat loss, see SAP 2012 S3.10
+                floors for heat loss, per SAP 2012 S3.10
               </para>
             </listitem>
             <listitem>
               <para>
-                Calculation for upper floor u-values now includes
-                insulation, the bug should not have affected most upper
-                floors as a majority did not have any exposed floor area
-                through which heat loss could occur.
+                <xref linkend="ref.measure.low-energy-lighting"/> had
+                no effect on buildings which had no low energy lighting
+                to start with. It now works correctly for all buildings.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                In SAP mode, floor u-values for exposed upper floors did
+                not account for the presence of floor insulation. This
+                is fixed. The impact of the change is small, because
+                there are few cases in the stock which have any exposed
+                upper floor area. Only buildings in which storeys above
+                the ground floor are larger than the storey below them
+                which also have floor insulation will see an impact, and
+                for these only for the heat loss contribution from the
+                exposed floor area.
               </para>
             </listitem>
           </itemizedlist>
@@ -114,26 +169,9 @@
               <itemizedlist spacing="compact">
                 <listitem>
                   <para>
-                    More information given when the standalone (nhm ide)
-                    fails to retrieve reports from remote server for a
+                    More information given when the desktop application
+                    fails to retrieve reports from a remote server for a
                     simulation job
-                  </para>
-                </listitem>
-                <listitem>
-                  <para>
-                    Added extra <literal>record-changes</literal>
-                    property on <xref linkend="ref.def-report"/>. If
-                    you set it to &quot;false&quot;, then you won't get
-                    the &quot;After&quot; columns in the report.
-                  </para>
-                </listitem>
-                <listitem>
-                  <para>
-                    Added extra services
-                    <literal>MainSpaceHeating</literal> and
-                    <literal>SecondarySpaceHeating</literal>, which you
-                    can use in conjunction with
-                    <xref linkend="ref.house.energy-use"/>.
                   </para>
                 </listitem>
               </itemizedlist>
@@ -145,28 +183,28 @@
               <itemizedlist spacing="compact">
                 <listitem>
                   <para>
-                    Improved documenation for using consume function
+                    Improved documentation for using consume function
                     <xref linkend="ref.consume"/> Added a note about
-                    needing to take into account house.weight if using
-                    this.
+                    needing to take into account
+                    <xref linkend="ref.house.weight"/> if using this.
                   </para>
                 </listitem>
                 <listitem>
                   <para>
-                    Document on room heater unsuitability
+                    Documentation for room heater unsuitability
                     <xref linkend="ref.measure.room-heater"/>
                   </para>
                 </listitem>
                 <listitem>
                   <para>
-                    Update suitability text for hot water tank
+                    Improved suitability information for hot water tank
                     thermostat measure
                     <xref linkend="ref.measure.hot-water-tank-thermostat"/>
                   </para>
                 </listitem>
                 <listitem>
                   <para>
-                    Updated un-suitability text for
+                    Improved suitability information for
                     <xref linkend="ref.measure.warm-air-system"/>
                   </para>
                 </listitem>
@@ -174,20 +212,69 @@
             </listitem>
           </orderedlist>
         </listitem>
+      </orderedlist>
+    </sect2>
+    <sect2 id="version-7.0.5">
+      <title>Version 7.0.5</title>
+      <orderedlist>
+        <listitem>
+          <para>
+            Improvements
+          </para>
+          <orderedlist>
+            <listitem>
+              <para>
+                Change to calculation of
+                <xref linkend="ref.house.permeability"/>
+              </para>
+              <para>
+                The function can now specify whether to include or
+                exclude deliberate ventilation from the airChange rate
+                calculation.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                Change to calculation of
+                <xref linkend="ref.house.sit"/>
+              </para>
+              <para>
+                Calculation now defines heatloss as specific heat loss +
+                ventilation heat loss rather than just specific heatloss
+                as before.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                To u-values and inputs to measure
+                <xref linkend="ref.measure.install-glazing"/>
+              </para>
+              <para>
+                Added in the ability to specify an air-gap for the
+                measure. Look-up tables for U-Values now take into
+                account air-gap when returning u-values for glazings. If
+                no u-value is supplied then u-value will be take from
+                SAP tables.
+              </para>
+            </listitem>
+          </orderedlist>
+        </listitem>
         <listitem>
           <para>
             New Features
           </para>
-          <itemizedlist spacing="compact">
+          <orderedlist>
             <listitem>
               <para>
-                Added
-                <xref linkend="ref.house.energy-calculation-step"/>, a
-                number function which allow you to look at intermediate
-                steps in the energy calculation.
+                Added new function
+                <xref linkend="ref.house.has-solar-thermal"/>
+              </para>
+              <para>
+                Returns true of the central hot water heating system
+                includes a solar thermal component
               </para>
             </listitem>
-          </itemizedlist>
+          </orderedlist>
         </listitem>
       </orderedlist>
     </sect2>
@@ -1676,7 +1763,7 @@
                 defaults would be entirely replaced. For example,
                 writing
               </para>
-              <programlisting language="commonlisp">
+              <programlisting>
 (context.carbon-factors
  (group fuels:PeakElectricity
         carbon-factor: 0.5))
@@ -2441,14 +2528,14 @@
                 written directly by prefacing them with a slash; for
                 example, the following
               </para>
-              <programlisting language="commonlisp">
+              <programlisting>
 (~module M
       (template T [] /my-identifier))
 </programlisting>
               <para>
                 is equivalent to
               </para>
-              <programlisting language="commonlisp">
+              <programlisting>
 (template M/T [] M/my-identifier)
 </programlisting>
               <para>
@@ -2583,7 +2670,7 @@
                 case where disaggregated fuel use is required under some
                 complex set of counterfactual assumptions:
               </para>
-              <programlisting language="commonlisp">
+              <programlisting>
 (set
       [mains-gas electricity]
       [(house.energy-use by-fuel:mainsgas) (house.energy-use by-fuel:peakelectricity)]

@@ -6,8 +6,16 @@ import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
 
-import uk.org.cse.nhm.energycalculator.api.types.*;
 import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
+import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
+import uk.org.cse.nhm.energycalculator.api.types.FrameType;
+import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
+import uk.org.cse.nhm.energycalculator.api.types.MonthType;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType;
+import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
+import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowGlazingAirGap;
+import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 import uk.org.cse.nhm.energycalculator.constants.ApplianceConstants09;
 import uk.org.cse.nhm.energycalculator.constants.EnergyCalculatorConstants;
 import uk.org.cse.nhm.energycalculator.constants.GainsConstants;
@@ -59,6 +67,10 @@ public class MapEnum {
 
 	public static final WindowInsulationType windowInsulationType(final XWindowInsulationType in) {
 		return mapName(WindowInsulationType.class, in);
+	}
+
+	public static final WindowGlazingAirGap windowGlazingAirGap(final XWindowGlazingAirGap in) {
+		return mapName(WindowGlazingAirGap.class, in);
 	}
 
 	public static final MorphologyType morphology(final XMorphologyType morph) {

@@ -8,6 +8,7 @@ import uk.org.cse.nhm.language.definition.action.Unsuitability;
 import uk.org.cse.nhm.language.definition.action.XMeasure;
 import uk.org.cse.nhm.language.definition.enums.XFrameType;
 import uk.org.cse.nhm.language.definition.enums.XGlazingType;
+import uk.org.cse.nhm.language.definition.enums.XWindowGlazingAirGap;
 import uk.org.cse.nhm.language.definition.enums.XWindowInsulationType;
 import uk.org.cse.nhm.language.definition.function.num.XNumber;
 
@@ -24,6 +25,7 @@ import com.larkery.jasb.bind.BindNamedArgument;
 		"This will replace any existing glazing with the new type.",
 		"This measure only affects windows - it has no effect on glazed doors.",
 		"When the energy calculator is in SAP 2012 mode, the frame factors, u-value and transmittance will have no effect: these will be overridden by the relevant SAP table lookups."
+		,"If no u-value has been set then the u-value will be looked up from SAP using glazing type, frame-type, insulaton type and air-gap"
 })
 @Unsuitability(alwaysSuitable = true)
 public class XGlazingMeasure extends XMeasure {
@@ -36,6 +38,7 @@ public class XGlazingMeasure extends XMeasure {
 		public static final String frameType = "frameType";
 		public static final String glazingType = "glazingType";
 		public static final String insulationType = "insulationType";
+		public static final String airGap = "airGap";
 	}
 	
 	private XNumber capex;
@@ -46,6 +49,7 @@ public class XGlazingMeasure extends XMeasure {
 	private XFrameType	frameType;
 	private XGlazingType glazingType;
 	private XWindowInsulationType insulationType;
+	private XWindowGlazingAirGap glazingAirGap = XWindowGlazingAirGap.gapOf6mm;
 	
     /**
      * Return the uValue.
@@ -150,5 +154,16 @@ public class XGlazingMeasure extends XMeasure {
 	public void setInsulationType(final XWindowInsulationType insulationType) {
 		this.insulationType = insulationType;
 	}
-	
+
+	@BindNamedArgument("air-gap")
+	@Prop(P.airGap)
+	@Doc({ "The size of the air gap between glazings of this window (applies to double and triple glazing only).",
+			"Default value is gapOf6mm" })
+	public XWindowGlazingAirGap getGlazingAirGap() {
+		return glazingAirGap;
+	}
+
+	public void setGlazingAirGap(XWindowGlazingAirGap glazingAirGap) {
+		this.glazingAirGap = glazingAirGap;
+	}
 }

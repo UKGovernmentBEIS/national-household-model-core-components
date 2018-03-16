@@ -8,22 +8,35 @@
    </copyright>
   <license url="http://www.example.com/license">
      The license for the NHM core code belongs here.
-   </license>
-  <requires>
-    <import plugin="uk.org.cse.nhm.bundle.impl" version="6.5.4" match="equivalent"/>
-    <import plugin="uk.org.cse.nhm.bundle.impl" version="6.5.3" match="equivalent"/>
-    <import plugin="uk.org.cse.nhm.bundle.impl" version="6.5.2" match="equivalent"/>
-    <import plugin="uk.org.cse.nhm.bundle.impl" version="6.5.1" match="equivalent"/>
-    <import plugin="uk.org.cse.nhm.bundle.impl" version="6.5.0" match="equivalent"/>
-    <import plugin="uk.org.cse.nhm.bundle.impl" version="6.4.0" match="equivalent"/>
-    <import plugin="uk.org.cse.nhm.bundle.impl" version="6.3.2" match="equivalent"/>
-    <import plugin="uk.org.cse.nhm.bundle.impl" version="6.3.0" match="equivalent"/>
-    <import plugin="uk.org.cse.nhm.manual" version="0.0.0" match="greaterOrEqual"/>
-    <import plugin="uk.org.cse.nhm.bundle.impl" version="6.5.5.Rv-6_5_5_dirty" match="perfect"/>
-    <import plugin="uk.org.cse.nhm.bundle.impl" version="7.0.0" match="equivalent"/>
-    <import plugin="uk.org.cse.nhm.bundle.impl" version="7.0.1" match="equivalent"/>
-    <import plugin="uk.org.cse.nhm.bundle.impl" version="7.0.2" match="equivalent"/>
-    <import plugin="uk.org.cse.nhm.bundle.impl" version="7.0.3.Rv-7_0_3" match="perfect"/>
-    <import plugin="uk.org.cse.nhm.bundle.impl" version="7.1.0" match="equivalent"/>
+  </license>
+  <!--
+      What does match mean below?
+
+      perfect - dependent plug-in version must match exactly the
+      specified version. If "patch" is "true", "perfect" is assumed
+      and other values cannot be set.
+
+      equivalent - dependent plug-in version must be at least at the
+      version specified, or at a higher service level (major and minor
+      version levels must equal the specified version).
+
+      compatible - dependent plug-in version must be at least at the
+      version specified, or at a higher service level or minor level
+      (major version level must equal the specified version).
+
+      greaterOrEqual - dependent plug-in version must be at least at
+      the version specified, or at a higher service, minor or major
+      level.
+  -->
+   <requires>
+     <import plugin="uk.org.cse.nhm.manual" version="0.0.0" match="greaterOrEqual"/>
+
+     <import plugin="uk.org.cse.nhm.bundle.impl" version="7.1.0" match="equivalent"/>
+     <import plugin="uk.org.cse.nhm.bundle.impl" version="7.0.5.Rv-7_0_5" match="perfect"/>
+     <import plugin="uk.org.cse.nhm.bundle.impl" version="6.5.5.Rv-6_5_5_dirty" match="perfect"/>
+     <import plugin="uk.org.cse.nhm.bundle.impl" version="6.5.2" match="equivalent"/>
+     <import plugin="uk.org.cse.nhm.bundle.impl" version="6.5.1" match="equivalent"/>
+     <import plugin="uk.org.cse.nhm.bundle.impl" version="6.4.0" match="equivalent"/>
+     <import plugin="uk.org.cse.nhm.bundle.impl" version="6.3.2" match="equivalent"/>
   </requires>
 </feature>
