@@ -11,5 +11,17 @@ public enum XEnergyCalculatorType {
 	SAP2012,
 	
 	@Doc("Based on http://www.bre.co.uk/filelibrary/bredem/BREDEM-2012-specification.pdf")
-	BREDEM2012
+	BREDEM2012,
+	
+	@Doc({"Like SAP2012, except that the following parameters are free: ",
+	"",
+		"- Energy calculator adjustment terms are allowed.",
+		"",
+		"- Real occupancy is used.",
+		"",
+		"- Energy calibration is allowed.",
+		"",
+		"- Heating temperatures and schedule can be changed."
+	})
+	SAP2012_PHYSICAL
 }

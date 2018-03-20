@@ -78,7 +78,7 @@ public class PowerDimension extends DerivedDimensionWithCache<IPowerTable> {
 	protected IPowerTable doGet(final IDwelling instance) {
 		IHeatingBehaviour behaviour = state.get(heatingBehaviour, instance);
 		
-		IEnergyCalculatorBridge chosenBridge = behaviour.getEnergyCalculatorType() == EnergyCalculatorType.SAP2012 ? defaultConstantsBridge : bridge;
+		IEnergyCalculatorBridge chosenBridge = behaviour.getEnergyCalculatorType() != EnergyCalculatorType.BREDEM2012 ? defaultConstantsBridge : bridge;
 		
 		return chosenBridge.evaluate(
 				state.get(weather, instance), 

@@ -274,6 +274,7 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 				 */
 				this.people = 0;
 				break;
+			case SAP2012_UVALUES:
 			case BREDEM2012:
 				this.people = npeople;
 				break;
@@ -336,6 +337,7 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 			CODSIEB
 			*/
 			switch(heatingBehaviour.getEnergyCalculatorType()) {
+			case SAP2012_UVALUES:
 			case SAP2012:
 				return 1d;
 			case BREDEM2012:
@@ -377,6 +379,7 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 		@Override
 		public boolean hasReducedInternalGains() {
 			switch (heatingBehaviour.getEnergyCalculatorType()) {
+			case SAP2012_UVALUES:
 			case SAP2012:
 				return false;
 			case BREDEM2012:
@@ -481,6 +484,7 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 								case SAP2012:
 									climate[m.ordinal()] = new SAPSeasonalParameters(m);
 									break;
+								case SAP2012_UVALUES:
 								case BREDEM2012:
 									final double externalTemperature = key.weather.getExternalTemperature(m);
 
@@ -508,6 +512,7 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 
 						private IEnergyCalculatorParameters createParameters(final IHeatingBehaviour heatingBehaviour, final double floorArea, final double occupancy) {
 							switch (heatingBehaviour.getEnergyCalculatorType()) {
+							case SAP2012_UVALUES:
 							case BREDEM2012:
 								return new BredemExternalParameters(
 										tariffType,

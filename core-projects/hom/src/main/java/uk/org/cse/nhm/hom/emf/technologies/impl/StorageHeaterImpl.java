@@ -391,6 +391,7 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 			if (isHasResponsivenessOverride()) {
 				return getResponsivenessOverride();
 			}
+		case SAP2012_UVALUES:
 		case SAP2012:
 			final double baseResponsiveness;
 

@@ -66,6 +66,7 @@ public class ElectricShowerImpl extends ShowerImpl implements IElectricShower {
 		// make a special Sink
 
 		switch (parameters.getCalculatorType()) {
+		case SAP2012_UVALUES:
 		case SAP2012:
 			break;
 		case BREDEM2012:

@@ -235,7 +235,7 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 		 */
 		final double controlFactor;
 
-		if (calculatorType != EnergyCalculatorType.SAP2012) {
+		if (calculatorType == EnergyCalculatorType.BREDEM2012) {
 			controlFactor = 1;
 		}
 		else if (isChargingUsageBased()) {
@@ -301,7 +301,7 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 		 */
 		final double controlFactor;
 
-		if (calculatorType == EnergyCalculatorType.SAP2012) {
+		if (calculatorType != EnergyCalculatorType.BREDEM2012) {
 			if (isChargingUsageBased()) {
 				controlFactor = constants.get(CommunityHeatingConstants.LOW_WATER_USAGE_MULTIPLIER);
 			} else {

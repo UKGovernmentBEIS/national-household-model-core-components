@@ -95,6 +95,7 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 
 	public static Visitor create(final IConstants constants, final IEnergyCalculatorParameters parameters, final int buildYear, final Country country, final List<IEnergyTransducer> defaultTransducers) {
 		switch(parameters.getCalculatorType()) {
+		case SAP2012_UVALUES:
 		case SAP2012:
 			return new SAPVisitor(constants, parameters, buildYear, country, defaultTransducers);
 		case BREDEM2012:

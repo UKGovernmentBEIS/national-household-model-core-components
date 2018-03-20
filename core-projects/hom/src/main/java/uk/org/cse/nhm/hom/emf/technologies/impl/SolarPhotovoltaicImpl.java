@@ -241,7 +241,7 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 				final double usefulElectricity = useElectricityInDwelling(
 						state,
 						generation,
-						parameters.getCalculatorType() == EnergyCalculatorType.SAP2012 ? sapOwnUseProportion : getOwnUseProportion(),
+						parameters.getCalculatorType() != EnergyCalculatorType.BREDEM2012 ? sapOwnUseProportion : getOwnUseProportion(),
 						parameters.getConstants().get(SplitRateConstants.DEFAULT_FRACTIONS, double[].class)
 								[parameters.getTarrifType().ordinal()]
 					);

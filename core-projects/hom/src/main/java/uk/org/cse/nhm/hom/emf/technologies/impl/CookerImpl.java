@@ -493,6 +493,7 @@ public class CookerImpl extends MinimalEObjectImpl implements ICooker, IEnergyTr
 		CODSIEB
 		*/
 		switch(parameters.getCalculatorType()) {
+		case SAP2012_UVALUES:
         case SAP2012:
             // Reduced internal gains do not apply in SAP2012 mode
 			return ICooker.SAP_BASE_GAINS + (ICooker.SAP_GAINS_OCCUPANCY_FACTOR * parameters.getNumberOfOccupants());

@@ -335,6 +335,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         */
         final double thermalBridgingCoefficient;
         switch (parameters.getCalculatorType()) {
+        case SAP2012_UVALUES:
         case SAP2012:
             thermalBridgingCoefficient = SAP_THERMAL_BRIDGING_COEFFICIENT;
             break;
@@ -351,6 +352,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
     protected final double getInterzoneSpecificHeatLoss(final EnergyCalculatorType calculatorType,
             final IEnergyCalculatorHouseCase houseCase) {
         switch(calculatorType) {
+        case SAP2012_UVALUES:
         case SAP2012:
             return 0;
         case BREDEM2012:
@@ -376,6 +378,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         CODSIEB
         */
         switch(parameters.getCalculatorType()) {
+        case SAP2012_UVALUES:
         case SAP2012:
             return 1;
         case BREDEM2012:

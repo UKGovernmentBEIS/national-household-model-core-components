@@ -102,6 +102,7 @@ public class Appliances09 implements IEnergyTransducer {
 	private double getApplianceDemandCoefficient(final IInternalParameters parameters) {
 		switch(parameters.getCalculatorType()) {
 		case SAP2012:
+		case SAP2012_UVALUES:
 			return APPLIANCE_DEMAND_COEFFICIENT_SAP;
 		case BREDEM2012:
 			return APPLIANCE_DEMAND_COEFFICIENT_BREDEM;

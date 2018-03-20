@@ -193,6 +193,7 @@ public class AdjusterImpl extends MinimalEObjectImpl implements IAdjuster {
 			final AtomicInteger heatingSystemCounter, IHeatProportions heatProportions) {
 		
 		switch(parameters.getCalculatorType()) {
+		case SAP2012_UVALUES:
 		case BREDEM2012:
 			visitor.visitEnergyTransducer(new AdjustingTransducer(getFuelTypes(), getDeltas(), getGains()));
 			break;

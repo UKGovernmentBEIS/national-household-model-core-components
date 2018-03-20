@@ -121,10 +121,12 @@ public class MapEnum {
 		switch (calculatorType) {
 		case BREDEM2012: return EnergyCalculatorType.BREDEM2012;
 		case SAP2012: return EnergyCalculatorType.SAP2012;
+		case SAP2012_PHYSICAL: return EnergyCalculatorType.SAP2012_UVALUES;
 		default: throw new RuntimeException("Unexpected XEnergyCalculatorType " + calculatorType);
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Unmapped({
 		"INTERNALS",
 		"SOLAR_GAINS",

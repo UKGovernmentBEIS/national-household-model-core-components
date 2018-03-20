@@ -143,6 +143,7 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 				case BREDEM2012:
 					overrideU = uValue;
 					break;
+				case SAP2012_UVALUES:
 				case SAP2012:
 					overrideU = SAPUValues.Walls.get(country, constructionType, externalOrExternalInsulationThickness, hasCavityInsulation, ageBand, thickness);
 					break;
@@ -166,6 +167,7 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 					overrideU = uValue;
 					break;
 				case SAP2012:
+				case SAP2012_UVALUES:
 					overrideU = SAPUValues.Doors.getOutside(ageBand, country);
 					break;
 				default:
@@ -193,6 +195,7 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 				case BREDEM2012:
 					overrideU = uValue;
 					break;
+				case SAP2012_UVALUES:
 				case SAP2012:
 					if (roofConstructionType == null || roofInsulationThickness == null) {
 						throw new RuntimeException("setRoofType should be called before visitCeiling");
@@ -222,6 +225,7 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 					overrideU = uValue;
 					break;
 				case SAP2012:
+				case SAP2012_UVALUES:
 					overrideU = SAPUValues.Windows.get(frameType, glazingType, insulationType, airGap);
 					break;
 				default:
@@ -251,6 +255,7 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 				case BREDEM2012:
 					overrideU = uValue;
 					break;
+				case SAP2012_UVALUES:
 				case SAP2012:
 					overrideU = SAPUValues.Floors.get(type, isGroundFloor, area, exposedPerimeter, wallThickness, groundFloorConstructionType, insulationThickness, ageBand, country);
 					break;

@@ -974,6 +974,7 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 		switch(parameters.getCalculatorType()) {
 		case BREDEM2012:
 			return 1.0;
+		case SAP2012_UVALUES:
 		case SAP2012:
 			final IShower shower = getSystem().getTechnologyModel().getShower();
 			if (shower == null) {
