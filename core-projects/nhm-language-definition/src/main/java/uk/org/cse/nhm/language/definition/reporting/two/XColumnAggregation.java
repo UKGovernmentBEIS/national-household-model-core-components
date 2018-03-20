@@ -26,37 +26,37 @@ public abstract class XColumnAggregation extends XElement implements ISelfValida
 	public boolean hasName() {
 		return getName() != null;
 	}
-	
+
 	static abstract class XNumberAggregation extends XColumnAggregation {
 		@Override
 		protected String getFunctionBaseName() {
 			return "number";
 		}
-		
+
 		@Override
 		protected Class<? extends XFunction> getFunctionBase() {
 			return XNumber.class;
 		}
 	}
-	
+
 	@Doc("produces the weighted mean of the value")
 	@Bind("mean")
 	public static class XMean extends XNumberAggregation {
-		
+
 	}
-	
+
 	@Doc("produces the minimum of the value")
 	@Bind("min")
 	public static class XMin extends XNumberAggregation {
-		
+
 	}
-	
+
 	@Doc("produces the maximum of the value")
 	@Bind("max")
 	public static class XMax extends XNumberAggregation {
-		
+
 	}
-	
+
 	@Doc("produces a weighted n-tile of the value - by default the 0.5-tile or median.")
 	@Bind("n-tile")
 	public static class XTile extends XNumberAggregation {
@@ -72,19 +72,19 @@ public abstract class XColumnAggregation extends XElement implements ISelfValida
 			this.p = p;
 		}
 	}
-	
+
 	@Doc("produces the weighted sum of the value")
 	@Bind("sum")
 	public static class XSum extends XNumberAggregation {
-		
+
 	}
-	
+
 	@Doc("produces an estimate of the weighted variance of the value; it is computed using the algorithm in West (1979): Communications of the ACM, 22, 9, 532-535: Updating Mean and Variance Estimates: An Improved Method")
 	@Bind("variance")
 	public static class XVariance extends XNumberAggregation {
-		
+
 	}
-	
+
 	@Doc("produces the count of houses where the value is boolean true or numeric nonzero")
 	@Bind("count")
 	public static class XCount extends XColumnAggregation {
@@ -92,13 +92,13 @@ public abstract class XColumnAggregation extends XElement implements ISelfValida
 		protected String getFunctionBaseName() {
 			return "boolean";
 		}
-		
+
 		@Override
 		protected Class<? extends XFunction> getFunctionBase() {
 			return XBoolean.class;
 		}
 	}
-	
+
 	@Doc("produces the count of houses where the value is one of the given literal values")
 	@Bind("in")
 	public static class XIs extends XColumnAggregation {
@@ -113,21 +113,21 @@ public abstract class XColumnAggregation extends XElement implements ISelfValida
 		public void setValue(List<String> value) {
 			this.value = value;
 		}
-		
+
 		@Override
 		protected String getFunctionBaseName() {
 			return "category";
 		}
-		
+
 		@Override
 		protected Class<? extends XFunction> getFunctionBase() {
 			return XCategoryFunction.class;
 		}
 	}
-	
+
 	protected abstract Class<? extends XFunction> getFunctionBase();
 	protected abstract String getFunctionBaseName();
-	
+
 	@Override
 	public List<IError> validate(final Deque<XElement> context) {
 		final Iterator<XElement> it = context.descendingIterator();
@@ -136,9 +136,9 @@ public abstract class XColumnAggregation extends XElement implements ISelfValida
 			if (e instanceof XReportColumn) {
 				final XReportColumn col = (XReportColumn) e;
 				final XFunction f = col.getValue();
-				if (!getFunctionBase().isInstance(f)) {
+				if (f != null && !getFunctionBase().isInstance(f)) {
 					return Collections.singletonList(
-							BasicError.warningAt(getLocation(), 
+							BasicError.warningAt(getLocation(),
 									String.format("%s cannot be summarised with %s, as it is not a %s",
 											f.getIdentifier().getName(),
 											getIdentifier().getName(),
