@@ -41,6 +41,47 @@
   </sect1>
   <sect1 id="released-versions">
     <title>Released versions</title>
+    <sect2 id="version-7.2.0">
+      <title>Version 7.2.0</title>
+      <orderedlist>
+        <listitem>
+          <para>
+            Bugs Fixed
+          </para>
+          <itemizedlist spacing="compact">
+            <listitem>
+              <para>
+                A small bug which caused an error during validation of
+                scenarios with an invalid stock file name has been
+                removed. This should make the desktop application a
+                little bit better behaved.
+              </para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+        <listitem>
+          <para>
+            New Features
+          </para>
+          <orderedlist>
+            <listitem>
+              <para>
+                Addition of SAP2012 Physical Mode
+              </para>
+              <para>
+                A new energy calculator mode,
+                <literal>SAP2012_PHYSICAL</literal> has been added. This
+                is a slightly relaxed version of
+                <literal>SAP2012</literal>, in which you can change the
+                heating schedule, occupancy and weather parameters but
+                which is otherwise restricted to SAP2012, enforcing
+                consistent u-values and other parameters.
+              </para>
+            </listitem>
+          </orderedlist>
+        </listitem>
+      </orderedlist>
+    </sect2>
     <sect2 id="version-7.1.0">
       <title>Version 7.1.0</title>
       <orderedlist>
