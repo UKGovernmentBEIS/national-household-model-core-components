@@ -18,19 +18,26 @@ function inf {
     printf "${GREEN}[INFO]${NC}\t${CYAN}${PREFIX}${NC}\t%s\n" "$@"
 }
 
+function newest {
+    unset -v latest
+    for file in "$@"; do
+        [[ $file -nt $latest ]] && latest=$file
+    done
+    echo "$latest"
+}
+
 function download_version {
     inf "downloading $1..."
-    mvn 'org.apache.maven.plugins:maven-dependency-plugin:2.8:get' \
-        '-U' \
-        '-DremoteRepositories=http://localhost:8080/maven/7b9c5ef4-16a1-4b8f-ae4e-83bb87337fdb/'\
-        "-Dartifact=uk.org.cse.nhm:nhm-impl-bundle:$1" \
-        "-Ddest=$2" 2>&1 > /dev/null
-    if [[ $? != 0 ]]
-    then
-        err "Could not download $1"
-        exit 1
+    GET=$1
+    if [[ $GET == LATEST ]]; then
+        GET="*"
     fi
-    inf "downloaded $1"
+    shopt -s extglob
+    pth=$(newest ../p2/inputs/plugins/nhm-impl-bundle$GET.jar ../binaries/uk/org/cse/nhm/nhm-impl-bundle/*/nhm-impl-bundle$GET.jar)
+    shopt -u extglob
+    [[ -f $pth ]] || (err "Could not download $1" ; exit 1)
+    inf "$pth => $2"
+    cp $pth "$2"
     return 0
 }
 
@@ -65,7 +72,7 @@ function run_test {
     then
         JAR=$(get_version "${TESTNAME}")
 
-        inf "running scenario with version $(java -jar $JAR version)"
+        inf "running scenario with version $JAR $(java -jar $JAR version)"
         rm -f "${SIMLOG}" "${TESTLOG}" "${OUTPUT}"
         #java -agentlib:jdwp=transport=dt_socket,server=y,address=8000,suspend=y -jar "${JAR}" run "${TESTSCENARIO}" "${OUTPUT}" >> "${SIMLOG}" 2>&1
         java -jar "${JAR}" run "${TESTSCENARIO}" "${OUTPUT}" >> "${SIMLOG}" 2>&1
