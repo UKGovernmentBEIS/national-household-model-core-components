@@ -134,6 +134,7 @@ public class TestCase2 {
 //		final Roof roof = new Roof(10.4495, 10.4495, 0.5, 9);
 	}
 
+	@Ignore
 	@Test
 	public void test() throws IOException {
 		final SurveyCase sc = new SurveyCase();

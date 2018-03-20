@@ -53,6 +53,7 @@ import uk.org.cse.nhm.hom.types.TenureType;
  *
  */
 public class TestCase1 {
+	@Ignore
 	@Test
 	public void testHouseWithoutHeatingOrHotWater() {
 		final SurveyCase sc = new SurveyCase();
