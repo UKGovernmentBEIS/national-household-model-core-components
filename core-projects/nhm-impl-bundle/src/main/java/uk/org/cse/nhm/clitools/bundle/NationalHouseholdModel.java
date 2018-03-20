@@ -82,28 +82,28 @@ public class NationalHouseholdModel implements INationalHouseholdModel {
     private static final int BATCH_PROBLEM_LIMIT = 1000;
     private static final int BATCH_VALIDATION_LIMIT = 50;
     private static final DateTimeFormatter DATE = DateTimeFormat.forPattern("dd/MM/yyyy");
-    
+
     // stuff we need to make the model work:
     private final ObjectMapper mapper;
     private final BatchExpander batchExpander;
     private final IScenarioParser<XBatch> batchParser;
-    private final IScenarioParser<XScenario> batchInstanceParser;    
+    private final IScenarioParser<XScenario> batchInstanceParser;
     private final IScenarioParser<XScenario> standardParser;
     private final IReportEngine standardReportEngine;
 	private final IReportEngine batchReportEngine;
-    
+
     public NationalHouseholdModel() {
         final ClassLoader ccl = Thread.currentThread().getContextClassLoader();
         try {
             Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
             final Injector injector = Guice.createInjector(
                 new StandaloneBatchReportingModule(),
-        		new StandardReportingModule(false), 
+        		new StandardReportingModule(false),
                 new StandardJacksonModule());
             this.mapper = injector.getInstance(ObjectMapper.class);
             this.batchReportEngine = injector.getInstance(Key.get(IReportEngine.class, Names.named(IReportEngine.STANDALONE_BATCH_ENGINE)));
             this.standardReportEngine = injector.getInstance(Key.get(IReportEngine.class, Names.named(IReportEngine.STANDARD_ENGINE)));
-        
+
             final ScenarioParserFactory factory = injector.getInstance(ScenarioParserFactory.class);
             this.standardParser = factory.buildDefaultScenarioParser();
             this.batchParser = factory.buildBatchParser();
@@ -113,10 +113,10 @@ public class NationalHouseholdModel implements INationalHouseholdModel {
             Thread.currentThread().setContextClassLoader(ccl);
         }
 	}
-	
+
     private ILanguage language = null;
 
-    @SuppressWarnings({"serial"}) 
+    @SuppressWarnings({"serial"})
     static class Stop extends RuntimeException {
         public Stop(String s) { super(s); }
         public Stop() { super(); };
@@ -129,7 +129,7 @@ public class NationalHouseholdModel implements INationalHouseholdModel {
 		public CallbackStoppingCriterion(ISimulationCallback callback) {this.callback = callback;}
         @Override public Boolean call() { return callback.shouldCancel(); }
     }
-    
+
     @Override
     public <P> IncludeGraph<P> getIncludeGraph(final IFS<P> fs, final P top) {
         final ClassLoader ccl = Thread.currentThread().getContextClassLoader();
@@ -140,7 +140,7 @@ public class NationalHouseholdModel implements INationalHouseholdModel {
             Thread.currentThread().setContextClassLoader(ccl);
         }
     }
-    
+
     @Override
     public <P> Set<IDefinition<P>> getDefinitions(final IFS<P> fs, final P top) {
         final ClassLoader ccl = Thread.currentThread().getContextClassLoader();
@@ -155,7 +155,7 @@ public class NationalHouseholdModel implements INationalHouseholdModel {
     private static void stopIfAnyFatal(final Collection<? extends IError> errors) {
         for (final IError e : errors) if (e.getType().isFatal()) throw new Stop();
     }
-    
+
     @Override
     public <P> ValidationResult<P> validate(final IFS<P> fs, final P input) {
         final ClassLoader ccl = Thread.currentThread().getContextClassLoader();
@@ -172,15 +172,15 @@ public class NationalHouseholdModel implements INationalHouseholdModel {
     public <P> ValidationResult<P> validate(final IFS<P> fs, final P input, FSUtil.SnapshotAndGraph<P> snap) {
         final ImmutableSet.Builder<IDefinition<P>> definitions      = ImmutableSet.builder();
         final ImmutableList.Builder<IValidationProblem<P>> problems = ImmutableList.builder();
-        
+
         problems.addAll(FSUtil.translateE(fs, input, snap.snapshot.getProblems(), ProblemLevel.SyntacticError));
 
         boolean runnable = false;
         Optional<XElement> rootElement = Optional.absent();
-        
+
         try {
             stopIfAnyFatal(snap.snapshot.getProblems());
-            
+
             // get macro definitions out
             final IExpansion expansion = snap.snapshot.expand();
             definitions.addAll(FSUtil.translateM(fs, input, expansion.macros()));
@@ -200,10 +200,10 @@ public class NationalHouseholdModel implements INationalHouseholdModel {
                 }
             }
 
-            final String head = 
+            final String head =
             		top == null ? "no" :
             			top.firstAtom().or((Atom) Atom.create("no")).getValue();
-            
+
             if (!ImmutableSet.of("scenario", "batch").contains(head)) {
                 problems.add(new ValidationProblem<P>(
                                  input,
@@ -214,7 +214,7 @@ public class NationalHouseholdModel implements INationalHouseholdModel {
             }
 
             IResult<? extends XElement> parseResult = null;
-            
+
             switch (head) {
             case "scenario":
                 runnable = true;
@@ -226,7 +226,7 @@ public class NationalHouseholdModel implements INationalHouseholdModel {
                         for (final String s : scenario.getStockID()) {
                             final P p = fs.resolve(String.valueOf(input), s);
                             final Path p2 = fs.filesystemPath(p);
-                            if (!Files.exists(p2)) {
+                            if (p2 == null || !Files.exists(p2)) {
                                 problems.add(FSUtil.translateE(fs, input,
                                                                BasicError.at(scenario.getSourceNode(),
                                                                              "The stock " + s + " cannot be located"),
@@ -257,7 +257,7 @@ public class NationalHouseholdModel implements INationalHouseholdModel {
                         problems.addAll(FSUtil.translateE(fs, input, parse.getWarnings(), ProblemLevel.SemanticError));
         			}
                 }
-                
+
                 break;
             }
 
@@ -270,7 +270,7 @@ public class NationalHouseholdModel implements INationalHouseholdModel {
                 rootElement = Optional.<XElement>fromNullable(parseResult.getOutput().orNull());
             }
         } catch (Stop s) {}
-        
+
         return new ValidationResult<P>(
             runnable,
             snap.graph,
@@ -280,7 +280,7 @@ public class NationalHouseholdModel implements INationalHouseholdModel {
             snap.snapshot
             );
     }
-    
+
     @Override
     public <P> void simulate(final IFS<P> fs,
                              final P top,
@@ -291,7 +291,7 @@ public class NationalHouseholdModel implements INationalHouseholdModel {
             callback.log("INFO", "Loading and validating " + top);
             final ValidationResult<P> validate = validate(fs, top);
 
-        
+
             runScenario(Optional.<Map<String, String>>absent(),
                         validate, String.valueOf(top),
                         new FSStockService<P>(fs, top, mapper),
@@ -322,7 +322,7 @@ public class NationalHouseholdModel implements INationalHouseholdModel {
 
                     // dss does not quite contain enough information to write an IFS implementation
                     // but it does contain enough information to run the model
-        	
+
                     runScenario(
                         Optional.fromNullable(ps.parameters),
                         validate(new IFS<String>() {
@@ -349,7 +349,7 @@ public class NationalHouseholdModel implements INationalHouseholdModel {
                                         throw new UnsupportedOperationException("Data missing from snapshot - unable to resolve " + arg0 + " against " + arg1);
                                     }
                                 }
-        		
+
                             },
                             dss.root(),
                             FSUtil.load(dss)),
@@ -373,7 +373,7 @@ public class NationalHouseholdModel implements INationalHouseholdModel {
                          final String topName,
                          final IStockService stocks,
                          final ISimulationCallback<P> callback) {
-    	
+
     	boolean dead = false;
     	for (final IValidationProblem<?> prob : validate.problems()) {
     		if (prob.level().isFatal()) {
@@ -382,13 +382,13 @@ public class NationalHouseholdModel implements INationalHouseholdModel {
         		return;
     		}
     	}
-    	
+
     	if (!validate.isScenario()) {
     		callback.invalid(validate);
     		callback.failed();
     		return;
     	}
-    	
+
     	callback.progress(0.05);
     	final XScenario scenario;
     	try {
@@ -414,14 +414,14 @@ public class NationalHouseholdModel implements INationalHouseholdModel {
             callback.failed();
             return;
         }
-    	
+
         final LogHelper log = new LogHelper() {
                 @Override
                 protected void log(final Level level2, final String msg) {
                     callback.log(level2.toString(), msg);
                 }
             };
-            
+
         log.install(Thread.currentThread());
         try {
             final long now = System.currentTimeMillis();
@@ -441,7 +441,7 @@ public class NationalHouseholdModel implements INationalHouseholdModel {
                     sim.addStoppingCriterion(new CallbackStoppingCriterion(callback));
                     final long startMillis = scenario.getStartDate().getMillis();
                     final long millis = scenario.getEndDate().getMillis() - startMillis;
-                    
+
                     int maxSteps = 0, stepsNow = 0;
                     while ((stepsNow = sim.step()) > 0) {
                         maxSteps = Math.max(stepsNow, maxSteps);
@@ -490,7 +490,7 @@ public class NationalHouseholdModel implements INationalHouseholdModel {
             this(version, data, null);
         }
     }
-    
+
     @Override
     public <P> IRunInformation<P> getRunInformation(final IFS<P> fs,
                                                     final P top) {
@@ -499,9 +499,9 @@ public class NationalHouseholdModel implements INationalHouseholdModel {
             Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
             try {
                 final ValidationResult<P> vr = validate(fs, top);
-            
+
                 final XElement element = vr.result.orNull();
-            
+
                 final Map<String, P> stockMap;
 
                 final ImmutableList.Builder<String> parts = ImmutableList.builder();
@@ -550,7 +550,7 @@ public class NationalHouseholdModel implements INationalHouseholdModel {
                 } else {
                     stockMap = ImmutableMap.of();
                 }
-            
+
                 return new RunInformation<P>(
                     element instanceof XBatch,
                     parts.build(),
@@ -562,7 +562,7 @@ public class NationalHouseholdModel implements INationalHouseholdModel {
             Thread.currentThread().setContextClassLoader(ccl);
         }
     }
-    
+
     @Override
     public <P> void importStock(final IFS<P> fs,
                                 final P stockZipFile,
@@ -574,7 +574,7 @@ public class NationalHouseholdModel implements INationalHouseholdModel {
 
             Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
             final Path stockZipFilePath = fs.filesystemPath(stockZipFile);
-    	
+
             final Optional<String> string = Util.getTypeOfZip(stockZipFilePath);
             if (string.isPresent()) {
                 switch (string.get().toLowerCase()) {
@@ -624,7 +624,7 @@ public class NationalHouseholdModel implements INationalHouseholdModel {
             final List<SurveyCase> run = phase.run(stockZipFile, conn); // errors???
 
             try (final BufferedWriter bw =
-                 new BufferedWriter(new OutputStreamWriter(new GZIPOutputStream(Files.newOutputStream(temporary)), 
+                 new BufferedWriter(new OutputStreamWriter(new GZIPOutputStream(Files.newOutputStream(temporary)),
                 		 StandardCharsets.UTF_8))) {
                 for (final SurveyCase sc : run) {
                     bw.write(mapper.writeValueAsString(sc));
