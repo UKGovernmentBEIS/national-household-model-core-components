@@ -1,7 +1,5 @@
 package uk.ac.ucl.hideem;
 
-import uk.ac.ucl.hideem.IExposure.OccupancyType;
-import uk.ac.ucl.hideem.IExposure.OverheatingAgeBands;
 import com.google.common.base.Preconditions;
 
 /**

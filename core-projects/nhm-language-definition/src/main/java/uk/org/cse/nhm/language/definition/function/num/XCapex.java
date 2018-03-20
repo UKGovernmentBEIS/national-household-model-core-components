@@ -1,5 +1,7 @@
 package uk.org.cse.nhm.language.definition.function.num;
 
+import com.larkery.jasb.bind.Bind;
+
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
 import uk.org.cse.nhm.language.definition.Doc;
@@ -7,8 +9,6 @@ import uk.org.cse.nhm.language.definition.Obsolete;
 import uk.org.cse.nhm.language.definition.SeeAlso;
 import uk.org.cse.nhm.language.definition.money.TransactionTags;
 import uk.org.cse.nhm.language.definition.money.XLoanAction;
-
-import com.larkery.jasb.bind.Bind;
 
 
 @Bind("cost.capex")

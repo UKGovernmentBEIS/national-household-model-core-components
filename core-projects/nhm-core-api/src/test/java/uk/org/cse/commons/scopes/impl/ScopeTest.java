@@ -7,10 +7,10 @@ import java.util.Stack;
 import org.junit.Assert;
 import org.junit.Test;
 
-import uk.org.cse.commons.scopes.IScopeVisitor;
-
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
+
+import uk.org.cse.commons.scopes.IScopeVisitor;
 
 public class ScopeTest {
 	@Test

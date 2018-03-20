@@ -1,7 +1,7 @@
 package uk.org.cse.stockimport.imputation.apertures.doors;
 
-import uk.org.cse.nhm.hom.components.fabric.types.DoorType;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
+import uk.org.cse.nhm.hom.components.fabric.types.DoorType;
 
 /**
  * Tells the dto -> object model builder about the properties of doors

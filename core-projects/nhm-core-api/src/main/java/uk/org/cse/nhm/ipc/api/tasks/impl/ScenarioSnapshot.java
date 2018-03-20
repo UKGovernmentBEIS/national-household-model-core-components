@@ -8,9 +8,6 @@ import java.util.List;
 import org.pojomatic.Pojomatic;
 import org.pojomatic.annotations.AutoProperty;
 
-import uk.org.cse.nhm.ipc.api.tasks.IScenarioSnapshot;
-import uk.org.cse.nhm.macros.ExtraMacros;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -31,6 +28,9 @@ import com.larkery.jasb.sexp.parse.IDataSource;
 import com.larkery.jasb.sexp.parse.IMacro;
 import com.larkery.jasb.sexp.parse.StandardSource;
 import com.larkery.jasb.sexp.parse.StandardSource.Expansion;
+
+import uk.org.cse.nhm.ipc.api.tasks.IScenarioSnapshot;
+import uk.org.cse.nhm.macros.ExtraMacros;
 
 @AutoProperty
 public class ScenarioSnapshot implements IScenarioSnapshot, IDataSource<String> {

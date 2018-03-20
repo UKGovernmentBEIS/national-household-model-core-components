@@ -3,11 +3,11 @@ package uk.org.cse.nhm.language.definition.two.selectors;
 import java.util.ArrayList;
 import java.util.List;
 
-import uk.org.cse.nhm.language.adapt.impl.Prop;
-import uk.org.cse.nhm.language.definition.Doc;
-
 import com.larkery.jasb.bind.Bind;
 import com.larkery.jasb.bind.BindRemainingArguments;
+
+import uk.org.cse.nhm.language.adapt.impl.Prop;
+import uk.org.cse.nhm.language.definition.Doc;
 
 @Bind("union")
 @Doc("A set of houses which is computed by taking the union of some other sets.")

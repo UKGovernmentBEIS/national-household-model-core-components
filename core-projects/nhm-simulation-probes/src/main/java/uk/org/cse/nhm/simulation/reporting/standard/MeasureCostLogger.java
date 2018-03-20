@@ -4,11 +4,10 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.inject.Inject;
-
-import java.util.Map.Entry;
 
 import org.joda.time.DateTime;
 import org.pojomatic.Pojomatic;

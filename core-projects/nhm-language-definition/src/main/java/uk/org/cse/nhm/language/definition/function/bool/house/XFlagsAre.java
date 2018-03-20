@@ -3,15 +3,14 @@ package uk.org.cse.nhm.language.definition.function.bool.house;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindRemainingArguments;
+
+import uk.org.cse.commons.Glob;
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.function.bool.XHouseBoolean;
-
-import uk.org.cse.commons.Glob;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindRemainingArguments;
 
 @Doc("A more convenient version of house.test-flag which can test several flags at once.")
 @Category(CategoryType.SETSANDFLAGS)

@@ -5,8 +5,8 @@ import org.pojomatic.annotations.AutoProperty;
 
 import com.google.common.base.Optional;
 
-import uk.org.cse.nhm.hom.components.fabric.types.CoveringType;
 import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
+import uk.org.cse.nhm.hom.components.fabric.types.CoveringType;
 import uk.org.cse.nhm.hom.components.fabric.types.RoofStructureType;
 import uk.org.cse.stockimport.domain.geometry.IRoofDTO;
 

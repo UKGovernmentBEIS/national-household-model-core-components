@@ -2,12 +2,12 @@ package uk.org.cse.nhm.language.definition.two.selectors;
 
 import javax.validation.constraints.NotNull;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindPositionalArgument;
+
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.function.bool.XBoolean;
 import uk.org.cse.nhm.language.definition.function.num.IHouseContext;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindPositionalArgument;
 
 @Bind("filter")
 @Doc({

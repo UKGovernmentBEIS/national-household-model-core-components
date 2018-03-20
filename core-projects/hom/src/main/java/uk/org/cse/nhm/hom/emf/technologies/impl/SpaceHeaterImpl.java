@@ -4,6 +4,7 @@ package uk.org.cse.nhm.hom.emf.technologies.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
 import uk.org.cse.nhm.hom.emf.technologies.ISpaceHeater;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
 

@@ -3,28 +3,27 @@ package uk.ac.ucl.hideem;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.Iterator;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Supplier;
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Table;
 
 import uk.ac.ucl.hideem.IExposure.ExposureBuiltForm;
 import uk.ac.ucl.hideem.IExposure.OccupancyType;
 import uk.ac.ucl.hideem.IExposure.OverheatingAgeBands;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.hom.types.BuiltFormType;
-
-import com.google.common.base.Supplier;
-
-import com.google.common.collect.Table;
-import com.google.common.collect.HashBasedTable;
 
 public class HealthModule implements IHealthModule {
     private static final Logger log = LoggerFactory.getLogger(HealthModule.class);
@@ -128,7 +127,8 @@ public class HealthModule implements IHealthModule {
 		return new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(resource)));
 	}
 
-    @Override
+    @SuppressWarnings("unused")
+	@Override
     public <T extends HealthOutcome> T effectOf(
         final Supplier<T> factory,
 

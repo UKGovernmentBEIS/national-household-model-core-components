@@ -3,8 +3,6 @@ package uk.org.cse.nhm.energycalculator.api.impl;
 import org.junit.Assert;
 import org.junit.Test;
 
-import uk.org.cse.nhm.energycalculator.api.impl.DoubleMap;
-
 public class DoubleMapTest {
 	enum TestE {
 		One,

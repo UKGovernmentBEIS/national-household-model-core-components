@@ -7,15 +7,15 @@ import javax.inject.Inject;
 
 import org.joda.time.DateTime;
 
+import com.google.common.base.Predicate;
+import com.google.inject.assistedinject.Assisted;
+
 import uk.org.cse.hom.housepropertystore.IHouseProperties;
 import uk.org.cse.nhm.simulator.AbstractNamed;
 import uk.org.cse.nhm.simulator.let.ILets;
 import uk.org.cse.nhm.simulator.scope.IComponentsScope;
 import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
-
-import com.google.common.base.Predicate;
-import com.google.inject.assistedinject.Assisted;
 
 public class HousePropertyFunction extends AbstractNamed implements IComponentsFunction<Boolean> {
 	private final IDimension<IHouseProperties> constants;

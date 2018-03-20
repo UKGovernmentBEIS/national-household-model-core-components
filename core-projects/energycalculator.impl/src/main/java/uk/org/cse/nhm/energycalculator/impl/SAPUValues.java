@@ -1,5 +1,28 @@
 package uk.org.cse.nhm.energycalculator.impl;
 
+import static uk.org.cse.nhm.energycalculator.api.types.RegionType.Country.England;
+import static uk.org.cse.nhm.energycalculator.api.types.RegionType.Country.NorthernIreland;
+import static uk.org.cse.nhm.energycalculator.api.types.RegionType.Country.Scotland;
+import static uk.org.cse.nhm.energycalculator.api.types.RegionType.Country.Wales;
+import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.Cavity;
+import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.Cob;
+import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.GraniteOrWhinstone;
+import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.MetalFrame;
+import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.Sandstone;
+import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.SolidBrick;
+import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.SystemBuild;
+import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.TimberFrame;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableSet;
+
 import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.FloorType;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
@@ -7,20 +30,6 @@ import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
 import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.RoofType;
-
-import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.*;
-import static uk.org.cse.nhm.energycalculator.api.types.RegionType.Country.*;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-import java.util.Map;
-import java.util.EnumMap;
-
-import com.google.common.base.Optional;
-import com.google.common.collect.ImmutableSet;
-
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;

@@ -12,15 +12,15 @@ import org.pojomatic.Pojomatic;
 import com.google.common.collect.ImmutableMap;
 
 import uk.org.cse.nhm.NHMException;
-import uk.org.cse.nhm.hom.components.fabric.types.DoorType;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
 import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
+import uk.org.cse.nhm.hom.components.fabric.types.DoorType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.structure.Door;
 import uk.org.cse.nhm.hom.structure.IWall;
 import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.hom.structure.impl.Elevation;
 import uk.org.cse.nhm.hom.structure.impl.Storey;
-import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
 import uk.org.cse.nhm.simulator.integration.tests.guice.IFunctionAssertion;
 import uk.org.cse.nhm.simulator.integration.tests.guice.IntegrationTestOutput;
 import uk.org.cse.nhm.simulator.let.ILets;

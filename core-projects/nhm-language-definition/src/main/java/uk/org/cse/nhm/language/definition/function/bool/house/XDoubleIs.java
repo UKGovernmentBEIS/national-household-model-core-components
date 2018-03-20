@@ -1,9 +1,9 @@
 package uk.org.cse.nhm.language.definition.function.bool.house;
 
+import com.larkery.jasb.bind.BindNamedArgument;
+
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.function.bool.XBoolean;
-
-import com.larkery.jasb.bind.BindNamedArgument;
 
 public abstract class XDoubleIs extends XBoolean {
 	public static final class P {

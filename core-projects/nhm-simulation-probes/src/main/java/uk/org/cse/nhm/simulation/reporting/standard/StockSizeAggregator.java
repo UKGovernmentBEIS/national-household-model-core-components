@@ -13,8 +13,8 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.ImmutableMap;
 
 import uk.org.cse.nhm.NHMException;
-import uk.org.cse.nhm.hom.BasicCaseAttributes;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType;
+import uk.org.cse.nhm.hom.BasicCaseAttributes;
 import uk.org.cse.nhm.ipc.api.tasks.report.ILogEntryHandler;
 import uk.org.cse.nhm.logging.logentry.ConstructAndDemoLogEntry;
 import uk.org.cse.nhm.logging.logentry.ReportHeaderLogEntry;

@@ -3,15 +3,15 @@ package uk.org.cse.nhm.language.definition.fuel;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindRemainingArguments;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.action.Unsuitability;
 import uk.org.cse.nhm.language.definition.action.XFlaggedDwellingAction;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindRemainingArguments;
 
 
 @Bind("action.set-tariffs")

@@ -1,7 +1,6 @@
 package uk.org.cse.nhm.hom.components.fabric.types;
 
 import org.junit.Assert;
-
 import org.junit.Before;
 import org.junit.Test;
 

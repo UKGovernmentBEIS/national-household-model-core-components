@@ -1,12 +1,13 @@
 package uk.org.cse.nhm.simulator.state.functions.impl.health;
 
-import com.google.common.collect.Sets;
 import java.util.Set;
 
 import javax.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 
 import org.joda.time.DateTime;
+
+import com.google.common.collect.Sets;
+import com.google.inject.assistedinject.Assisted;
 
 import uk.ac.ucl.hideem.IHealthModule;
 import uk.org.cse.nhm.simulator.AbstractNamed;

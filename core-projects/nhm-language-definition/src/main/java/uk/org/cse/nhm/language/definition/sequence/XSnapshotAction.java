@@ -5,15 +5,15 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindPositionalArgument;
+import com.larkery.jasb.bind.BindRemainingArguments;
+
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.Obsolete;
 import uk.org.cse.nhm.language.definition.SeeAlso;
 import uk.org.cse.nhm.language.definition.action.XDwellingAction;
 import uk.org.cse.nhm.language.definition.function.num.IHypotheticalContext;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindPositionalArgument;
-import com.larkery.jasb.bind.BindRemainingArguments;
 
 @Doc("Takes a snapshot of the current house, which will be available for the rest of the parent (sequence).")
 @Bind("take-snapshot")

@@ -3,16 +3,15 @@ package uk.org.cse.nhm.language.definition.two.hooks;
 import java.util.ArrayList;
 import java.util.List;
 
-import uk.org.cse.commons.Glob;
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindNamedArgument;
+import com.larkery.jasb.bind.BindPositionalArgument;
 
+import uk.org.cse.commons.Glob;
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.SeeAlso;
 import uk.org.cse.nhm.language.definition.two.selectors.XAffectedHouses;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindNamedArgument;
-import com.larkery.jasb.bind.BindPositionalArgument;
 
 @Bind("on.flag")
 @Doc(

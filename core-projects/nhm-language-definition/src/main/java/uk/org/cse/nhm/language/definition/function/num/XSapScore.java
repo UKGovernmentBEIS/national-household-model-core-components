@@ -1,11 +1,11 @@
 package uk.org.cse.nhm.language.definition.function.num;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindNamedArgument;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.context.calibration.ICalibratedEnergyFunction;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindNamedArgument;
 
 @Doc({
 	"Evaluates the SAP score equations in section 13 of SAP 2012 version 9.92 (October 2013); ",

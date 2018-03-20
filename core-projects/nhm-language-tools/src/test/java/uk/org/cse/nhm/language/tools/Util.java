@@ -9,9 +9,9 @@ import java.util.List;
 
 import org.apache.commons.lang3.reflect.TypeUtils;
 
-import uk.org.cse.nhm.language.adapt.impl.Prop;
-
 import com.google.common.base.Optional;
+
+import uk.org.cse.nhm.language.adapt.impl.Prop;
 
 class Util {
 	public static Class<?> getEffectiveParameterType(Method m, int i) {

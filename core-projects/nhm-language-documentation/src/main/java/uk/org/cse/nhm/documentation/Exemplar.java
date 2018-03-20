@@ -15,12 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import uk.org.cse.nhm.language.definition.Obsolete;
-import uk.org.cse.nhm.language.definition.XElement;
-import uk.org.cse.nhm.language.sexp.Defaults;
-import uk.org.cse.nhm.language.visit.IVisitor;
-import uk.org.cse.nhm.language.visit.SinglyVisitingVisitor;
-
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.larkery.jasb.io.impl.JASB;
@@ -37,6 +31,12 @@ import com.larkery.jasb.sexp.errors.IErrorHandler;
 import com.larkery.jasb.sexp.errors.UnfinishedExpressionException;
 import com.larkery.jasb.sexp.parse.IDataSource;
 import com.larkery.jasb.sexp.parse.StandardSource;
+
+import uk.org.cse.nhm.language.definition.Obsolete;
+import uk.org.cse.nhm.language.definition.XElement;
+import uk.org.cse.nhm.language.sexp.Defaults;
+import uk.org.cse.nhm.language.visit.IVisitor;
+import uk.org.cse.nhm.language.visit.SinglyVisitingVisitor;
 
 public class Exemplar {
 	public static class Example {

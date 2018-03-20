@@ -34,9 +34,9 @@ import uk.org.cse.nhm.language.definition.action.measure.heating.XStorageHeaterM
 import uk.org.cse.nhm.language.definition.action.measure.heating.XStorageHeaterMeasure.XStorageHeaterType;
 import uk.org.cse.nhm.language.definition.action.measure.heating.XWarmAirMeasure;
 import uk.org.cse.nhm.language.definition.action.measure.heating.XWetHeatingMeasure;
-import uk.org.cse.nhm.language.definition.enums.XHeatingSystem;
 import uk.org.cse.nhm.language.definition.enums.XChangeDirection;
 import uk.org.cse.nhm.language.definition.enums.XFuelType;
+import uk.org.cse.nhm.language.definition.enums.XHeatingSystem;
 import uk.org.cse.nhm.language.definition.function.num.XEfficiencyMeasurement;
 import uk.org.cse.nhm.simulation.measure.factory.IMeasureFactory;
 import uk.org.cse.nhm.simulation.measure.heatpumps.AbstractHeatPumpMeasure.Hybrid;

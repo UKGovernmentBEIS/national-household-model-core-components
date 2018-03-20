@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
 
 import com.google.common.collect.ImmutableSet;
 
-import junit.framework.Assert;
 import uk.org.cse.nhm.hom.SurveyCase;
 import uk.org.cse.stockimport.hom.ISurveyCaseBuildStep;
 import uk.org.cse.stockimport.repository.IHouseCaseSources;

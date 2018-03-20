@@ -2,18 +2,18 @@ package uk.org.cse.nhm.housepropertystore.guice;
 
 import java.util.Set;
 
+import com.google.inject.AbstractModule;
+import com.google.inject.TypeLiteral;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
+import com.google.inject.multibindings.Multibinder;
+import com.google.inject.name.Names;
+
 import uk.org.cse.nhm.housepropertystore.build.HousePropertyAdapter;
 import uk.org.cse.nhm.language.adapt.IAdapter;
 import uk.org.cse.nhm.language.builder.SimulationParameter;
 import uk.org.cse.nhm.logging.logentry.BasicAttributesLogEntry;
 import uk.org.cse.nhm.simulator.guice.SimulationScoped;
 import uk.org.cse.nhm.simulator.impl.RequestedHouseProperties;
-
-import com.google.inject.AbstractModule;
-import com.google.inject.TypeLiteral;
-import com.google.inject.assistedinject.FactoryModuleBuilder;
-import com.google.inject.multibindings.Multibinder;
-import com.google.inject.name.Names;
 
 /**
  * A module which sets up the house property store related simulation logic.

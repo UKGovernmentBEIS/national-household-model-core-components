@@ -2,6 +2,8 @@ package uk.org.cse.nhm.language.definition.action.measure.insulation;
 
 import javax.validation.constraints.NotNull;
 
+import com.larkery.jasb.bind.BindNamedArgument;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.ProducesTags;
@@ -10,8 +12,6 @@ import uk.org.cse.nhm.language.definition.action.XMeasure;
 import uk.org.cse.nhm.language.definition.function.num.XNumber;
 import uk.org.cse.nhm.language.definition.function.num.XNumberConstant;
 import uk.org.cse.nhm.language.definition.money.TransactionTags;
-
-import com.larkery.jasb.bind.BindNamedArgument;
 
 @ProducesTags(
 		@Tag(value = TransactionTags.Internal.capex, 

@@ -6,9 +6,6 @@ import static uk.org.cse.nhm.energycalculator.api.types.WallType.Party;
 import java.util.EnumSet;
 import java.util.Set;
 
-import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
-import uk.org.cse.nhm.energycalculator.api.types.WallType;
-
 /**
  * WallConstructionType.
  *

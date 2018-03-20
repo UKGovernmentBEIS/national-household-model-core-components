@@ -14,6 +14,13 @@ import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.lang3.reflect.TypeUtils;
 
+import com.google.common.base.Optional;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+
 import uk.org.cse.nhm.language.adapt.IAdaptable;
 import uk.org.cse.nhm.language.adapt.IAdapter;
 import uk.org.cse.nhm.language.adapt.IAdapterDelegator;
@@ -21,13 +28,6 @@ import uk.org.cse.nhm.language.adapt.IAdaptingScope;
 import uk.org.cse.nhm.language.visit.IPropertyVisitor;
 import uk.org.cse.nhm.language.visit.IVisitable;
 import uk.org.cse.nhm.language.visit.IVisitor;
-
-import com.google.common.base.Optional;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 
 /**
  * A useful base class for things which need to be adaptable and visitable.

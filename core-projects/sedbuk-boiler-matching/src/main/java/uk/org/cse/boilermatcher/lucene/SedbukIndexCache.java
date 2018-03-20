@@ -5,14 +5,14 @@ import java.util.concurrent.ExecutionException;
 import org.pojomatic.Pojomatic;
 import org.pojomatic.annotations.AutoProperty;
 
-import uk.org.cse.boilermatcher.types.BoilerType;
-import uk.org.cse.boilermatcher.types.FlueType;
-import uk.org.cse.boilermatcher.types.FuelType;
-
 import com.google.common.base.Optional;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+
+import uk.org.cse.boilermatcher.types.BoilerType;
+import uk.org.cse.boilermatcher.types.FlueType;
+import uk.org.cse.boilermatcher.types.FuelType;
 
 /**
  * @since 1.0

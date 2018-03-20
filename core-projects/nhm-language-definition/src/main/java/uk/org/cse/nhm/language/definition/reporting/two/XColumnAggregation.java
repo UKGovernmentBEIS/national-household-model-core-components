@@ -6,6 +6,11 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.List;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindPositionalArgument;
+import com.larkery.jasb.sexp.errors.BasicError;
+import com.larkery.jasb.sexp.errors.IErrorHandler.IError;
+
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
 import uk.org.cse.nhm.language.definition.Doc;
@@ -15,11 +20,6 @@ import uk.org.cse.nhm.language.definition.function.XFunction;
 import uk.org.cse.nhm.language.definition.function.bool.XBoolean;
 import uk.org.cse.nhm.language.definition.function.num.XNumber;
 import uk.org.cse.nhm.language.validate.ISelfValidating;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindPositionalArgument;
-import com.larkery.jasb.sexp.errors.BasicError;
-import com.larkery.jasb.sexp.errors.IErrorHandler.IError;
 
 @Category(CategoryType.REPORTING)
 public abstract class XColumnAggregation extends XElement implements ISelfValidating {

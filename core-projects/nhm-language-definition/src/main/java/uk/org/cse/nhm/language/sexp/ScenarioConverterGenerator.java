@@ -18,14 +18,14 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import uk.org.cse.nhm.language.definition.XScenarioElement;
-import uk.org.cse.nhm.language.parse.LanguageElements;
-
 import com.google.common.reflect.TypeToken;
 import com.larkery.jasb.bind.Bind;
 import com.larkery.jasb.bind.BindNamedArgument;
 import com.larkery.jasb.bind.BindPositionalArgument;
 import com.larkery.jasb.bind.BindRemainingArguments;
+
+import uk.org.cse.nhm.language.definition.XScenarioElement;
+import uk.org.cse.nhm.language.parse.LanguageElements;
 
 /**
  * A main method which generates the code for a scenario converter,

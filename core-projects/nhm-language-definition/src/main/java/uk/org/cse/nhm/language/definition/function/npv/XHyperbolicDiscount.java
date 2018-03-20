@@ -1,5 +1,9 @@
 package uk.org.cse.nhm.language.definition.function.npv;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindNamedArgument;
+import com.larkery.jasb.bind.BindPositionalArgument;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
@@ -8,10 +12,6 @@ import uk.org.cse.nhm.language.definition.SeeAlso;
 import uk.org.cse.nhm.language.definition.function.num.XNumber;
 import uk.org.cse.nhm.language.definition.function.num.XNumberConstant;
 import uk.org.cse.nhm.language.validate.contents.RequireParent;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindNamedArgument;
-import com.larkery.jasb.bind.BindPositionalArgument;
 
 @Bind("hyperbolic-discount")
 @Category(CategoryType.MONEY)

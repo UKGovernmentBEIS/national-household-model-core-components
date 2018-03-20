@@ -6,15 +6,15 @@ import javax.validation.Validator;
 
 import org.apache.bval.guice.ValidationModule;
 
-import uk.org.cse.nhm.language.definition.XElement;
-import uk.org.cse.nhm.language.definition.XScenario;
-import uk.org.cse.nhm.language.definition.batch.XBatch;
-import uk.org.cse.nhm.language.parse.LanguageElements;
-
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.name.Names;
+
+import uk.org.cse.nhm.language.definition.XElement;
+import uk.org.cse.nhm.language.definition.XScenario;
+import uk.org.cse.nhm.language.definition.batch.XBatch;
+import uk.org.cse.nhm.language.parse.LanguageElements;
 
 public class ScenarioParserFactory {
 	public static final String IS_BATCH_MODE =  "uk.org.cse.nhm.language.sexp.ScenarioParserFactory.IS_BATCH_MODE";

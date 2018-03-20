@@ -1,14 +1,28 @@
 package uk.ac.ucl.hideem;
 
+import static uk.org.cse.nhm.energycalculator.api.types.RegionType.EastMidlands;
+import static uk.org.cse.nhm.energycalculator.api.types.RegionType.EastOfEngland;
+import static uk.org.cse.nhm.energycalculator.api.types.RegionType.EasternScotland;
+import static uk.org.cse.nhm.energycalculator.api.types.RegionType.London;
+import static uk.org.cse.nhm.energycalculator.api.types.RegionType.NorthEast;
+import static uk.org.cse.nhm.energycalculator.api.types.RegionType.NorthWest;
+import static uk.org.cse.nhm.energycalculator.api.types.RegionType.NorthernIreland;
+import static uk.org.cse.nhm.energycalculator.api.types.RegionType.NorthernScotland;
+import static uk.org.cse.nhm.energycalculator.api.types.RegionType.SouthEast;
+import static uk.org.cse.nhm.energycalculator.api.types.RegionType.SouthWest;
+import static uk.org.cse.nhm.energycalculator.api.types.RegionType.Wales;
+import static uk.org.cse.nhm.energycalculator.api.types.RegionType.WestMidlands;
+import static uk.org.cse.nhm.energycalculator.api.types.RegionType.WesternScotland;
+import static uk.org.cse.nhm.energycalculator.api.types.RegionType.YorkshireAndHumber;
+
 import java.util.EnumSet;
 import java.util.Set;
 
+import uk.ac.ucl.hideem.IExposure.OccupancyType;
+import uk.ac.ucl.hideem.IExposure.OverheatingAgeBands;
 import uk.ac.ucl.hideem.IExposure.Type;
 import uk.ac.ucl.hideem.Person.Sex;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType;
-import static uk.org.cse.nhm.energycalculator.api.types.RegionType.*;
-import uk.ac.ucl.hideem.IExposure.OccupancyType;
-import uk.ac.ucl.hideem.IExposure.OverheatingAgeBands;
 
 public class Constants {
 	/**

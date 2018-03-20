@@ -5,15 +5,14 @@ import java.util.List;
 import java.util.Random;
 
 import org.junit.Assert;
-
 import org.junit.Test;
-
-import uk.org.cse.nhm.language.builder.batch.inputs.distributions.Discrete.WeightedChoice;
 
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multiset;
+
+import uk.org.cse.nhm.language.builder.batch.inputs.distributions.Discrete.WeightedChoice;
 
 public class DisreteTest extends AbsDistributionTest {
 

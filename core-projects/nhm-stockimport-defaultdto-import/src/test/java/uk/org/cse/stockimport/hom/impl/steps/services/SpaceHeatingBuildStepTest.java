@@ -9,11 +9,11 @@ import static org.mockito.Mockito.when;
 
 import java.util.Collections;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.google.common.base.Optional;
 
-import junit.framework.Assert;
 import uk.org.cse.nhm.hom.BasicCaseAttributes;
 import uk.org.cse.nhm.hom.SurveyCase;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;

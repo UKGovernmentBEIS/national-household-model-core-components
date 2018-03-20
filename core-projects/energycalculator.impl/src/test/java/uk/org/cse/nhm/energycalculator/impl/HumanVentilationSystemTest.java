@@ -4,7 +4,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import uk.org.cse.nhm.energycalculator.api.impl.DefaultConstants;
-import uk.org.cse.nhm.energycalculator.impl.HumanVentilationSystem;
 
 public class HumanVentilationSystemTest {
 	@Test

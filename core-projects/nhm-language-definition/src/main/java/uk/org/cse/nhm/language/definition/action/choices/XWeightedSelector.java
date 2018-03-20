@@ -2,13 +2,13 @@ package uk.org.cse.nhm.language.definition.action.choices;
 
 import javax.validation.constraints.NotNull;
 
-import uk.org.cse.nhm.language.adapt.impl.Prop;
-import uk.org.cse.nhm.language.definition.Doc;
-import uk.org.cse.nhm.language.definition.function.num.XNumber;
-
 import com.larkery.jasb.bind.Bind;
 import com.larkery.jasb.bind.BindNamedArgument;
 import com.larkery.jasb.bind.BindPositionalArgument;
+
+import uk.org.cse.nhm.language.adapt.impl.Prop;
+import uk.org.cse.nhm.language.definition.Doc;
+import uk.org.cse.nhm.language.definition.function.num.XNumber;
 
 
 @Bind("select.weighted")

@@ -1,12 +1,11 @@
 package uk.org.cse.nhm.language.builder.batch.inputs.combinators;
 
 import org.junit.Assert;
-
 import org.junit.Test;
 
-import uk.org.cse.nhm.language.builder.batch.inputs.IBatchInputs;
-
 import com.google.common.collect.ImmutableList;
+
+import uk.org.cse.nhm.language.builder.batch.inputs.IBatchInputs;
 
 abstract public class WideCombinatorTest extends CombinatorTest {
 

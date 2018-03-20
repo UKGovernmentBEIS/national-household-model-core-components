@@ -6,15 +6,14 @@ import java.util.List;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindRemainingArguments;
+
+import uk.org.cse.commons.Glob;
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
 import uk.org.cse.nhm.language.definition.Doc;
-
-import uk.org.cse.commons.Glob;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindRemainingArguments;
 
 @XmlRootElement(name="house.flag")
 @Doc("Sets or clears flags on the house to which it is applied.")

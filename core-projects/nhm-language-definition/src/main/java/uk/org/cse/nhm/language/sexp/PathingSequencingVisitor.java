@@ -2,9 +2,6 @@ package uk.org.cse.nhm.language.sexp;
 
 import java.util.IdentityHashMap;
 
-import uk.org.cse.nhm.language.definition.XElement;
-import uk.org.cse.nhm.language.visit.SinglyVisitingVisitor;
-
 import com.google.common.base.Optional;
 import com.larkery.jasb.sexp.Atom;
 import com.larkery.jasb.sexp.Comment;
@@ -13,6 +10,8 @@ import com.larkery.jasb.sexp.Node;
 import com.larkery.jasb.sexp.Seq;
 
 import uk.org.cse.commons.names.Path;
+import uk.org.cse.nhm.language.definition.XElement;
+import uk.org.cse.nhm.language.visit.SinglyVisitingVisitor;
 
 public class PathingSequencingVisitor implements INodeVisitor {	
 	final IdentityHashMap<Node, XElement> elementsByNode = new IdentityHashMap<>();

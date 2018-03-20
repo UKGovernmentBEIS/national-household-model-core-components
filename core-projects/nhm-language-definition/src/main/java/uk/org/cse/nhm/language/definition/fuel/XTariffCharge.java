@@ -2,16 +2,16 @@ package uk.org.cse.nhm.language.definition.fuel;
 
 import javax.validation.constraints.NotNull;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindNamedArgument;
+import com.larkery.jasb.bind.BindPositionalArgument;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.XElement;
 import uk.org.cse.nhm.language.definition.function.num.XNumber;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindNamedArgument;
-import com.larkery.jasb.bind.BindPositionalArgument;
 
 @Doc({ "A transaction that occurs as part of a tariff. Charges an amount based on a function and pays it to a global account." })
 @Bind("charge")

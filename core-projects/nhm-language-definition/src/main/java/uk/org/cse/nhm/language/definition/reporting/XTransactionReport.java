@@ -3,17 +3,17 @@ package uk.org.cse.nhm.language.definition.reporting;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindNamedArgument;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.SeeAlso;
 import uk.org.cse.nhm.language.definition.tags.Tag;
 import uk.org.cse.nhm.language.definition.two.actions.XPayHookAction;
-import uk.org.cse.nhm.language.definition.two.selectors.XAllTheHouses;
 import uk.org.cse.nhm.language.definition.two.selectors.ISetOfHouses;
+import uk.org.cse.nhm.language.definition.two.selectors.XAllTheHouses;
 import uk.org.cse.nhm.language.validate.BatchForbidden;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindNamedArgument;
 
 @Doc({
 		"A report which logs transactions that houses engage in.",

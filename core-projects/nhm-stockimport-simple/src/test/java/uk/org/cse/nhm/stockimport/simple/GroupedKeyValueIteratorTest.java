@@ -10,6 +10,7 @@ import org.junit.Test;
 import uk.org.cse.nhm.stockimport.simple.dto.GroupedKeyValueIterator;
 
 public class GroupedKeyValueIteratorTest {
+	@SuppressWarnings("resource")
 	@Test
 	public void groupedKeyValueIteratorWorks() throws Exception {
 		final GroupedKeyValueIterator iterator = new GroupedKeyValueIterator(

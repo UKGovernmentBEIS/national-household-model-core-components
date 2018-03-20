@@ -13,7 +13,6 @@ import uk.org.cse.nhm.energycalculator.api.ITransparentElement;
 import uk.org.cse.nhm.energycalculator.api.impl.DefaultConstants;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
-import uk.org.cse.nhm.energycalculator.impl.gains.SolarGainsSource;
 
 public class SolarGainsSourceTest {
 	@Test

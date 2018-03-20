@@ -13,15 +13,15 @@ import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
 import org.reflections.scanners.SubTypesScanner;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
+
 import uk.org.cse.nhm.language.adapt.impl.Adapt;
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.simulator.measure.sizing.ISizingFunction;
 import uk.org.cse.nhm.simulator.scope.IComponentsAction;
 import uk.org.cse.nhm.simulator.scope.IStateAction;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
-
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
 
 /**
  * This suite of tests does static analysis of all the adapters in the classpath, and checks that they

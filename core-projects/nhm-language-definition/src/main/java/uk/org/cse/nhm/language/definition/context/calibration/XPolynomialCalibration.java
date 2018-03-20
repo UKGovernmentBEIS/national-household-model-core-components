@@ -3,12 +3,12 @@ package uk.org.cse.nhm.language.definition.context.calibration;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindRemainingArguments;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.function.num.XNumber;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindRemainingArguments;
 
 @Doc(
 		{

@@ -3,10 +3,10 @@ package uk.org.cse.nhm.language.definition.two.actions;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import com.google.common.collect.ImmutableSet;
+
 import uk.org.cse.nhm.language.definition.sequence.XNumberDeclaration;
 import uk.org.cse.nhm.language.definition.sequence.XScope;
-
-import com.google.common.collect.ImmutableSet;
 
 public class RequiresScopeValidator implements ConstraintValidator<RequireScope, XNumberDeclaration>{
 

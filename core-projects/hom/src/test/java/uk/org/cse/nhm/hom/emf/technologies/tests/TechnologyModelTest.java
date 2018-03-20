@@ -8,6 +8,7 @@ import org.junit.Assert;
 import junit.framework.TestCase;
 import junit.textui.TestRunner;
 import uk.org.cse.nhm.energycalculator.api.IConstants;
+import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler;

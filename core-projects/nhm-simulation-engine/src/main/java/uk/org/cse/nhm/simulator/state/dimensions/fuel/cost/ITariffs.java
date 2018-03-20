@@ -3,8 +3,6 @@ package uk.org.cse.nhm.simulator.state.dimensions.fuel.cost;
 import java.util.List;
 import java.util.Set;
 
-import com.google.common.collect.SortedMultiset;
-
 import uk.org.cse.nhm.hom.ICopyable;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.simulator.let.ILets;

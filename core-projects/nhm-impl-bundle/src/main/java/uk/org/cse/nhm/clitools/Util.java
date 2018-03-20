@@ -3,14 +3,14 @@ package uk.org.cse.nhm.clitools;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import uk.org.cse.nhm.ipc.api.tasks.IScenarioSnapshot;
-import uk.org.cse.nhm.ipc.api.tasks.impl.ScenarioSnapshot;
-
 import com.larkery.jasb.sexp.Location;
 import com.larkery.jasb.sexp.errors.BaseErrorHandler;
 import com.larkery.jasb.sexp.errors.ErrorCollector;
 import com.larkery.jasb.sexp.errors.IErrorHandler;
 import com.larkery.jasb.sexp.parse.DataSourceSnapshot;
+
+import uk.org.cse.nhm.ipc.api.tasks.IScenarioSnapshot;
+import uk.org.cse.nhm.ipc.api.tasks.impl.ScenarioSnapshot;
 
 public class Util {
 	public static IErrorHandler errors(final Path base) {

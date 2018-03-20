@@ -1,9 +1,9 @@
 package uk.org.cse.nhm.simulator.state.impl;
 
+import java.util.Objects;
+
 import uk.org.cse.nhm.simulator.transactions.ITransaction;
 import uk.org.cse.nhm.simulator.transactions.ITransactionHistory;
-
-import java.util.Objects;
 
 public class GlobalTransactionHistory implements ITransactionHistory<GlobalTransactionHistory> {
 

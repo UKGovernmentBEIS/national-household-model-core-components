@@ -1,5 +1,8 @@
 package uk.org.cse.nhm.simulator.sequence;
 
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
+
 import uk.org.cse.nhm.NHMException;
 import uk.org.cse.nhm.simulator.AbstractNamed;
 import uk.org.cse.nhm.simulator.let.ILets;
@@ -8,9 +11,6 @@ import uk.org.cse.nhm.simulator.scope.IComponentsScope;
 import uk.org.cse.nhm.simulator.scope.ISettableComponentsScope;
 import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
-
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 
 public class FailUnless extends AbstractNamed implements IComponentsAction, ISequenceScopeAction {
     private final IComponentsFunction<Boolean> condition;

@@ -2,11 +2,11 @@ package uk.org.cse.boilermatcher.sedbuk;
 
 import java.util.Map;
 
+import com.google.common.collect.ImmutableMap;
+
 import uk.org.cse.boilermatcher.types.BoilerType;
 import uk.org.cse.boilermatcher.types.FlueType;
 import uk.org.cse.boilermatcher.types.FuelType;
-
-import com.google.common.collect.ImmutableMap;
 
 /**
  * Class which handles the special case fields for the boiler table in sedbuk.

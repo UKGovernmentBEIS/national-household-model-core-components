@@ -1,11 +1,11 @@
 package uk.org.cse.nhm.language.definition.action.measure.insulation;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindNamedArgument;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.action.Unsuitability;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindNamedArgument;
 
 @Bind("measure.floor-insulation")
 @Doc("Applies insulation to uninsulated floors within a house")

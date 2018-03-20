@@ -1,6 +1,7 @@
 package uk.ac.ucl.hideem;
 
-import uk.ac.ucl.hideem.IExposure.*;
+import uk.ac.ucl.hideem.IExposure.OccupancyType;
+import uk.ac.ucl.hideem.IExposure.OverheatingAgeBands;
 
 public abstract class HealthOutcome {
     protected final int horizon;

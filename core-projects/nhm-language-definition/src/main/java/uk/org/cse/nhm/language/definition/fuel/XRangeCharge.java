@@ -3,15 +3,15 @@ package uk.org.cse.nhm.language.definition.fuel;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindNamedArgument;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.XElement;
 import uk.org.cse.nhm.language.definition.function.num.XNumber;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindNamedArgument;
 
 @Doc({
 	"Defines the charge for a portion of units consumed. Range is defined as being from the end of the next smallest range up to and including the value of its own to attribute."

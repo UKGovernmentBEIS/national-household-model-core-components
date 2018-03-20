@@ -1,10 +1,5 @@
 package uk.org.cse.nhm.language.definition;
 
-import uk.org.cse.commons.names.IIdentified;
-import uk.org.cse.commons.names.Name;
-import uk.org.cse.commons.names.Path;
-import uk.org.cse.nhm.language.visit.impl.AdaptableVisitable;
-
 import com.larkery.jasb.bind.AfterReading;
 import com.larkery.jasb.bind.Bind;
 import com.larkery.jasb.bind.BindNamedArgument;
@@ -12,6 +7,11 @@ import com.larkery.jasb.sexp.Atom;
 import com.larkery.jasb.sexp.Location;
 import com.larkery.jasb.sexp.Node;
 import com.larkery.jasb.sexp.Seq;
+
+import uk.org.cse.commons.names.IIdentified;
+import uk.org.cse.commons.names.Name;
+import uk.org.cse.commons.names.Path;
+import uk.org.cse.nhm.language.visit.impl.AdaptableVisitable;
 
 /**
  * The base class for all elements in the language.

@@ -1,32 +1,32 @@
 package uk.org.cse.nhm.language.definition.function.lookup;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Deque;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-import uk.org.cse.nhm.language.adapt.impl.Prop;
-import uk.org.cse.nhm.language.definition.Category;
-import uk.org.cse.nhm.language.definition.Category.CategoryType;
-import uk.org.cse.nhm.language.definition.Doc;
-import uk.org.cse.nhm.language.definition.XElement;
-import uk.org.cse.nhm.language.definition.function.XFunction;
-import uk.org.cse.nhm.language.definition.function.XCategoryFunction;
-import uk.org.cse.nhm.language.definition.function.bool.XBoolean;
-import uk.org.cse.nhm.language.definition.function.num.XNumber;
-import uk.org.cse.nhm.language.definition.function.num.XNumberConstant;
-import uk.org.cse.nhm.language.definition.ReturnsEnum;
-import uk.org.cse.nhm.language.validate.ISelfValidating;
-
+import com.google.common.base.Function;
+import com.google.common.base.Functions;
 import com.larkery.jasb.bind.Bind;
 import com.larkery.jasb.bind.BindNamedArgument;
 import com.larkery.jasb.bind.BindPositionalArgument;
 import com.larkery.jasb.bind.BindRemainingArguments;
 import com.larkery.jasb.sexp.errors.BasicError;
 import com.larkery.jasb.sexp.errors.IErrorHandler.IError;
-import com.google.common.base.Function;
-import com.google.common.base.Functions;
+
+import uk.org.cse.nhm.language.adapt.impl.Prop;
+import uk.org.cse.nhm.language.definition.Category;
+import uk.org.cse.nhm.language.definition.Category.CategoryType;
+import uk.org.cse.nhm.language.definition.Doc;
+import uk.org.cse.nhm.language.definition.ReturnsEnum;
+import uk.org.cse.nhm.language.definition.XElement;
+import uk.org.cse.nhm.language.definition.function.XCategoryFunction;
+import uk.org.cse.nhm.language.definition.function.XFunction;
+import uk.org.cse.nhm.language.definition.function.bool.XBoolean;
+import uk.org.cse.nhm.language.definition.function.num.XNumber;
+import uk.org.cse.nhm.language.definition.function.num.XNumberConstant;
+import uk.org.cse.nhm.language.validate.ISelfValidating;
 
 @Bind("lookup")
 @Doc({

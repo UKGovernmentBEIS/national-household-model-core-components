@@ -3,10 +3,10 @@ package uk.org.cse.nhm.language.definition.group;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.larkery.jasb.bind.BindRemainingArguments;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Doc;
-
-import com.larkery.jasb.bind.BindRemainingArguments;
 
 public abstract class XGroupWithSources extends XGroup {
 	public static final class P {

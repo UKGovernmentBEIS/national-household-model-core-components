@@ -4,12 +4,11 @@ package uk.org.cse.nhm.hom.emf.technologies;
 
 import org.eclipse.emf.common.util.EList;
 
-import uk.org.cse.nhm.hom.ICopyable;
-import uk.org.cse.nhm.hom.IHeatProportions;
-
-import uk.org.cse.nhm.hom.emf.technologies.IShower;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+
+import uk.org.cse.nhm.hom.ICopyable;
+import uk.org.cse.nhm.hom.IHeatProportions;
 
 /**
  * <!-- begin-user-doc -->

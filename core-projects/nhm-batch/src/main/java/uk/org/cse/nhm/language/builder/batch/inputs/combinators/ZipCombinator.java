@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import uk.org.cse.nhm.language.builder.batch.inputs.IBatchInputs;
-
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
+
+import uk.org.cse.nhm.language.builder.batch.inputs.IBatchInputs;
 
 public class ZipCombinator extends WideInputCombinator {
 	public ZipCombinator(List<IBatchInputs> delegates) {

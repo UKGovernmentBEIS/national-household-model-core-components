@@ -1,12 +1,12 @@
 package uk.org.cse.nhm.language.definition.reporting.aggregate;
 
+import com.larkery.jasb.bind.BindNamedArgument;
+
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.XElement;
 import uk.org.cse.nhm.language.definition.function.num.IHouseContext;
-
-import com.larkery.jasb.bind.BindNamedArgument;
 
 @Category(CategoryType.AGGREGATE_VALUES)
 public abstract class XAggregation extends XElement implements IHouseContext {

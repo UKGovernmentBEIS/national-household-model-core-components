@@ -3,9 +3,9 @@ package uk.org.cse.stockimport.hom.impl.steps.services.heating;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import org.junit.Assert;
 import org.junit.Test;
 
-import junit.framework.Assert;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.IWarmAirSystem;
 import uk.org.cse.nhm.hom.emf.util.Efficiency;

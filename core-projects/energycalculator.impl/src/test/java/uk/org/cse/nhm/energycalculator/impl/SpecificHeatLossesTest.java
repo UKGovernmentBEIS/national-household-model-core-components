@@ -3,8 +3,6 @@ package uk.org.cse.nhm.energycalculator.impl;
 import org.junit.Assert;
 import org.junit.Test;
 
-import uk.org.cse.nhm.energycalculator.impl.SpecificHeatLosses;
-
 public class SpecificHeatLossesTest {
 	@Test
 	public void testValues() {

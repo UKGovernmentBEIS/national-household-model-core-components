@@ -2,6 +2,9 @@ package uk.org.cse.nhm.language.definition.function.bool.house;
 
 import javax.validation.constraints.NotNull;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindPositionalArgument;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
@@ -10,9 +13,6 @@ import uk.org.cse.nhm.language.definition.SeeAlso;
 import uk.org.cse.nhm.language.definition.fuel.XTariffBase;
 import uk.org.cse.nhm.language.definition.function.bool.XHouseBoolean;
 import uk.org.cse.nhm.language.definition.function.house.XHouseTariff;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindPositionalArgument;
 
 
 @Bind("house.is-on-tariff")

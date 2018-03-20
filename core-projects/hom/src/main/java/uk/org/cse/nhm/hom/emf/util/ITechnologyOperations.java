@@ -2,6 +2,8 @@ package uk.org.cse.nhm.hom.emf.util;
 
 import java.util.Set;
 
+import com.google.common.base.Optional;
+
 import uk.org.cse.nhm.hom.emf.technologies.EmitterType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
@@ -12,8 +14,6 @@ import uk.org.cse.nhm.hom.emf.technologies.IPrimarySpaceHeater;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
 import uk.org.cse.nhm.hom.emf.technologies.IWaterTank;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler;
-
-import com.google.common.base.Optional;
 
 /**
  * Describes operations on an {@link ITechnologyModel}, for most standard measures to use.

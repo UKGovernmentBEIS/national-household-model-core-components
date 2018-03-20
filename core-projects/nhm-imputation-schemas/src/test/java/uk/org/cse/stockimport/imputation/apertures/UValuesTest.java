@@ -1,8 +1,8 @@
 package uk.org.cse.stockimport.imputation.apertures;
 
+import org.junit.Assert;
 import org.junit.Test;
 
-import junit.framework.Assert;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.WindowGlazingAirGap;

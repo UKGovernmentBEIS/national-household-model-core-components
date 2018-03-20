@@ -2,12 +2,12 @@ package uk.org.cse.nhm.language.definition.context.calibration;
 
 import javax.validation.constraints.NotNull;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindPositionalArgument;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.function.num.XNumber;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindPositionalArgument;
 
 @Doc({ "Replaces the energy calculation for a set of fuels with",
 		"an equation of your choosing. This is the most flexible kind of calibration." })

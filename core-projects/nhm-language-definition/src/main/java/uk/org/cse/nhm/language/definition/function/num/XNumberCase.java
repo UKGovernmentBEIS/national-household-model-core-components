@@ -5,16 +5,16 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindNamedArgument;
+import com.larkery.jasb.bind.BindPositionalArgument;
+import com.larkery.jasb.bind.BindRemainingArguments;
+
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.XElement;
 import uk.org.cse.nhm.language.definition.function.bool.XBoolean;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindNamedArgument;
-import com.larkery.jasb.bind.BindPositionalArgument;
-import com.larkery.jasb.bind.BindRemainingArguments;
 
 
 

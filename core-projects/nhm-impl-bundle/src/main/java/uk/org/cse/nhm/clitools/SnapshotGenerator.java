@@ -1,16 +1,14 @@
 package uk.org.cse.nhm.clitools;
 
-import uk.org.cse.nhm.clitools.bundle.NationalHouseholdModel;
-import uk.org.cse.nhm.bundle.api.*;
-import uk.org.cse.nhm.bundle.api.IValidationResult.IValidationProblem;
-
+import java.io.BufferedWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.Files;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Properties;
-import java.io.*;
+
+import uk.org.cse.nhm.bundle.api.IRunInformation;
+import uk.org.cse.nhm.clitools.bundle.NationalHouseholdModel;
 
 public class SnapshotGenerator {
     public static final String USAGE = "<scenario to snapshot> <output snapshot> <output stock list>\n\tProduces a snapshot which contains all includes of the given scenario, and a list of stock names to absolute stock file paths.";

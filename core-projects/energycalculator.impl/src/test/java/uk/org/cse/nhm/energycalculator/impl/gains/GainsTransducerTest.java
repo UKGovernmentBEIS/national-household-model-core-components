@@ -9,7 +9,6 @@ import org.junit.Test;
 import uk.org.cse.nhm.energycalculator.api.IEnergyState;
 import uk.org.cse.nhm.energycalculator.api.impl.DefaultConstants;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
-import uk.org.cse.nhm.energycalculator.impl.gains.GainsTransducer;
 
 public class GainsTransducerTest {
 	public void testGainsPassThrough(final EnergyType gainsType, final double expectedProportion) {

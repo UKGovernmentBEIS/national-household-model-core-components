@@ -1,10 +1,10 @@
 package uk.org.cse.commons.names;
 
-import com.google.common.collect.Interners;
-import com.google.common.collect.Interner;
-
 import org.pojomatic.Pojomatic;
 import org.pojomatic.annotations.AutoProperty;
+
+import com.google.common.collect.Interner;
+import com.google.common.collect.Interners;
 
 @AutoProperty
 public class Path {

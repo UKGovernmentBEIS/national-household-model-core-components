@@ -3,16 +3,16 @@ package uk.org.cse.nhm.language.definition.fuel.extracharges;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindNamedArgument;
+import com.larkery.jasb.bind.Identity;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.enums.XFuelType;
 import uk.org.cse.nhm.language.definition.fuel.XTariffCharge;
 import uk.org.cse.nhm.language.definition.fuel.validation.DependenciesCannotMixFuelTypes;
 import uk.org.cse.nhm.language.definition.tags.Tag;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindNamedArgument;
-import com.larkery.jasb.bind.Identity;
 
 @Bind("extra-charge")
 @Doc({ "A transaction that occurs in addition to the normal fuel charges incurred by a dwelling. Charges an amount based on a function and pays it to a global account." })

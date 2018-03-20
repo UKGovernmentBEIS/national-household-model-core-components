@@ -6,17 +6,6 @@ import java.util.Set;
 
 import javax.validation.Validator;
 
-import uk.org.cse.nhm.ipc.api.tasks.IScenarioSnapshot;
-import uk.org.cse.nhm.language.definition.XElement;
-import uk.org.cse.nhm.language.parse.ValidatingVisitor;
-import uk.org.cse.nhm.language.validate.FlagsValidator;
-import uk.org.cse.nhm.language.validate.NoCyclesValidatorWithDelegates;
-import uk.org.cse.nhm.language.validate.ObsolesenceValidator;
-import uk.org.cse.nhm.language.validate.SelfValidatingVisitor;
-import uk.org.cse.nhm.language.validate.contents.ContainmentValidator;
-import uk.org.cse.nhm.language.validate.let.ScopingError;
-import uk.org.cse.nhm.language.validate.let.ScopingValidator;
-
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -31,6 +20,17 @@ import com.larkery.jasb.sexp.errors.ErrorCollector;
 import com.larkery.jasb.sexp.errors.IErrorHandler.IError;
 import com.larkery.jasb.sexp.errors.IErrorHandler.IError.Type;
 import com.larkery.jasb.sexp.errors.JasbErrorException;
+
+import uk.org.cse.nhm.ipc.api.tasks.IScenarioSnapshot;
+import uk.org.cse.nhm.language.definition.XElement;
+import uk.org.cse.nhm.language.parse.ValidatingVisitor;
+import uk.org.cse.nhm.language.validate.FlagsValidator;
+import uk.org.cse.nhm.language.validate.NoCyclesValidatorWithDelegates;
+import uk.org.cse.nhm.language.validate.ObsolesenceValidator;
+import uk.org.cse.nhm.language.validate.SelfValidatingVisitor;
+import uk.org.cse.nhm.language.validate.contents.ContainmentValidator;
+import uk.org.cse.nhm.language.validate.let.ScopingError;
+import uk.org.cse.nhm.language.validate.let.ScopingValidator;
 
 public class ScenarioParser<X extends XElement> implements IScenarioParser<X> {
 	private final Class<X> outputClass;

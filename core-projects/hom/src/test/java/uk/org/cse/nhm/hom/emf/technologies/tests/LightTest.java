@@ -5,6 +5,7 @@ package uk.org.cse.nhm.hom.emf.technologies.tests;
 import junit.framework.TestCase;
 import junit.textui.TestRunner;
 import uk.org.cse.nhm.energycalculator.api.IConstants;
+import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.hom.emf.technologies.ILight;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;
 

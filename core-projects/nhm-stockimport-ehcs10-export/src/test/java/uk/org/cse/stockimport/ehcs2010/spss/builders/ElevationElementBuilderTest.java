@@ -3,10 +3,10 @@ package uk.org.cse.stockimport.ehcs2010.spss.builders;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import junit.framework.Assert;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.stockimport.domain.geometry.IElevationDTO;
 import uk.org.cse.stockimport.domain.geometry.impl.ElevationDTO;

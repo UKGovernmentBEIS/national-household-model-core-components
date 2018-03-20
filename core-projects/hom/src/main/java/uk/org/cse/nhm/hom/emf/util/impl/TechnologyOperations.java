@@ -10,6 +10,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Optional;
+
 import uk.org.cse.nhm.hom.emf.technologies.EmitterType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
@@ -35,8 +37,6 @@ import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.ICombiBoiler;
 import uk.org.cse.nhm.hom.emf.util.Efficiency;
 import uk.org.cse.nhm.hom.emf.util.ITechnologyOperations;
-
-import com.google.common.base.Optional;
 
 public class TechnologyOperations implements ITechnologyOperations {
 	private static final Logger log = LoggerFactory.getLogger(TechnologyOperations.class);

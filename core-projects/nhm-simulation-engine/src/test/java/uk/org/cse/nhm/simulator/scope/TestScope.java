@@ -3,7 +3,6 @@ package uk.org.cse.nhm.simulator.scope;
 import java.util.Map;
 
 import uk.org.cse.commons.scopes.IScope;
-
 import uk.org.cse.nhm.simulator.state.IBranch;
 import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.IDwelling;

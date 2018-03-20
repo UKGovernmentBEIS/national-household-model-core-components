@@ -2,7 +2,6 @@ package uk.ac.ucl.hideem;
 import static org.junit.Assert.assertFalse;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.common.collect.ImmutableList;

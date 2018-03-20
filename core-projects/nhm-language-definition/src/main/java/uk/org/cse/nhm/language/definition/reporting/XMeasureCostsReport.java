@@ -1,9 +1,9 @@
 package uk.org.cse.nhm.language.definition.reporting;
 
+import com.larkery.jasb.bind.Bind;
+
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.validate.BatchForbidden;
-
-import com.larkery.jasb.bind.Bind;
 
 
 @Bind("report.aggregate-measure-costs")

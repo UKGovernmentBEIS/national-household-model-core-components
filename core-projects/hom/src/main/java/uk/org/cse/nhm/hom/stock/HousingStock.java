@@ -4,13 +4,13 @@ import java.util.Map;
 
 import org.joda.time.DateTime;
 
-import uk.org.cse.nhm.hom.SurveyCase;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.google.common.collect.ImmutableMap;
+
+import uk.org.cse.nhm.hom.SurveyCase;
 
 /**
  * Represents a list of {@link SurveyCase} cases which belong together because

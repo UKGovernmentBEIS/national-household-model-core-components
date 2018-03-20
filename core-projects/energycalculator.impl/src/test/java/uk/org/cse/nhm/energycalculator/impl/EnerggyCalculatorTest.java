@@ -28,9 +28,6 @@ import uk.org.cse.nhm.energycalculator.api.impl.DefaultConstants;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
 import uk.org.cse.nhm.energycalculator.api.types.Zone2ControlParameter;
-import uk.org.cse.nhm.energycalculator.impl.EnergyCalculatorCalculator;
-import uk.org.cse.nhm.energycalculator.impl.IStructuralInfiltrationAccumulator;
-import uk.org.cse.nhm.energycalculator.impl.SpecificHeatLosses;
 
 public class EnerggyCalculatorTest {
 	@Test

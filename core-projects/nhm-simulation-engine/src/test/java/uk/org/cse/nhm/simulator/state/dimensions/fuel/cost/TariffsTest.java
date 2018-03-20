@@ -1,15 +1,21 @@
 package uk.org.cse.nhm.simulator.state.dimensions.fuel.cost;
 
-import com.google.common.collect.ImmutableSet;
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
+
+import com.google.common.collect.ImmutableSet;
+
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.simulator.let.ILets;
 import uk.org.cse.nhm.simulator.scope.ISettableComponentsScope;
-
-import static org.mockito.Mockito.*;
 
 public class TariffsTest {
     private IExtraCharge chargeOne;

@@ -14,16 +14,16 @@ import java.util.zip.GZIPInputStream;
 
 import org.slf4j.Logger;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Sets;
+
 import uk.org.cse.nhm.bundle.api.IFS;
 import uk.org.cse.nhm.hom.SurveyCase;
 import uk.org.cse.nhm.hom.stock.IHousingStock;
 import uk.org.cse.nhm.ipc.api.scenario.IImportStatus;
 import uk.org.cse.nhm.ipc.api.scenario.IStockService;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Sets;
 
 class FSStockService<P> implements IStockService {
 	private static final Logger log = org.slf4j.LoggerFactory.getLogger(FSStockService.class);

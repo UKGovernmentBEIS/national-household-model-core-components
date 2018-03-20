@@ -1,8 +1,5 @@
 package uk.org.cse.nhm.language.sexp;
 
-import uk.org.cse.nhm.language.definition.function.lookup.LookupRuleAtomIO;
-import uk.org.cse.nhm.language.parse.LanguageElements;
-
 import com.google.common.collect.ImmutableSet;
 import com.larkery.jasb.io.IAtomIO;
 import com.larkery.jasb.io.atom.BooleanAtomIO;
@@ -10,6 +7,9 @@ import com.larkery.jasb.io.atom.EnumAtomIO;
 import com.larkery.jasb.io.atom.PeriodAtomIO;
 import com.larkery.jasb.io.atom.StringAtomIO;
 import com.larkery.jasb.io.impl.JASB;
+
+import uk.org.cse.nhm.language.definition.function.lookup.LookupRuleAtomIO;
+import uk.org.cse.nhm.language.parse.LanguageElements;
 
 public class Defaults {
 	public static final ImmutableSet<IAtomIO> DEFAULT_ATOM_IO = ImmutableSet.<IAtomIO>of(

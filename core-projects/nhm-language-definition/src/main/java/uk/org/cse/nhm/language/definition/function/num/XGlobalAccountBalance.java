@@ -1,11 +1,11 @@
 package uk.org.cse.nhm.language.definition.function.num;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindNamedArgument;
+
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
 import uk.org.cse.nhm.language.definition.Doc;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindNamedArgument;
 
 @Bind("account.balance")
 @Doc({"Returns the balance for a named global account (these are the parties to all transactions which are not houses).", 

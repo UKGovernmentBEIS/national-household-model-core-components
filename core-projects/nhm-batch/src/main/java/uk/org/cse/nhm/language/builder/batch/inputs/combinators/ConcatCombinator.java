@@ -3,9 +3,9 @@ package uk.org.cse.nhm.language.builder.batch.inputs.combinators;
 import java.util.Iterator;
 import java.util.List;
 
-import uk.org.cse.nhm.language.builder.batch.inputs.IBatchInputs;
-
 import com.google.common.base.Optional;
+
+import uk.org.cse.nhm.language.builder.batch.inputs.IBatchInputs;
 
 /**
  * ConcatCombinator takes some delegate inputs which must have the same placeholders, and turns them into one very long input.

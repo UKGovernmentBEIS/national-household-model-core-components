@@ -6,12 +6,12 @@ import java.util.List;
 
 import javax.validation.constraints.Size;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindNamedArgument;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.context.calibration.IEnergyFunction;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindNamedArgument;
 
 @Doc("The annual heat load (in kWh) for a house. This is the heat output required from the heating systems in the house.")
 @Bind("house.heat-load")

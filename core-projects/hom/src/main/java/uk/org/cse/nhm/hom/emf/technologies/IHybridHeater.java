@@ -4,6 +4,7 @@ package uk.org.cse.nhm.hom.emf.technologies;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+
 import uk.org.cse.nhm.hom.emf.util.Efficiency;
 
 /**

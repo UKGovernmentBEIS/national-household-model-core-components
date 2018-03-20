@@ -11,13 +11,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import net.sf.cglib.asm.ClassWriter;
-import net.sf.cglib.asm.FieldVisitor;
-import net.sf.cglib.asm.Label;
-import net.sf.cglib.asm.MethodVisitor;
-import net.sf.cglib.asm.Opcodes;
-import net.sf.cglib.asm.Type;
-
 import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
@@ -33,6 +26,13 @@ import com.larkery.jasb.io.impl.JasbPropertyDescriptor.BoundTo;
 import com.larkery.jasb.sexp.Invocation;
 import com.larkery.jasb.sexp.Node;
 import com.larkery.jasb.sexp.Seq;
+
+import net.sf.cglib.asm.ClassWriter;
+import net.sf.cglib.asm.FieldVisitor;
+import net.sf.cglib.asm.Label;
+import net.sf.cglib.asm.MethodVisitor;
+import net.sf.cglib.asm.Opcodes;
+import net.sf.cglib.asm.Type;
 
 /**
  * This is a class which generates subclasses of {@link InvocationReader} which handle

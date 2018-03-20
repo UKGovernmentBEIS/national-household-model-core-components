@@ -1,9 +1,9 @@
 package uk.org.cse.stockimport.imputation.apertures;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import junit.framework.Assert;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
@@ -24,18 +24,18 @@ public class DoorPropertyImputerTest {
 	@Test
 	public void testArea() {
 		for (final DoorType dt : DoorType.values()) {
-			Assert.assertEquals(1.85, dpi.getArea(dt));
+			Assert.assertEquals(1.85, dpi.getArea(dt), 0.01);
 		}
 	}
 	
 	@Test
 	public void testUValue() {
 		for (final DoorType dt : DoorType.values()) {			
-			Assert.assertEquals(3.0, dpi.getUValue(SAPAgeBandValue.fromYear(1900, RegionType.SouthWest).getName(), dt));
+			Assert.assertEquals(3.0, dpi.getUValue(SAPAgeBandValue.fromYear(1900, RegionType.SouthWest).getName(), dt), 0.01);
 		}
 		
 		for (final DoorType dt : DoorType.values()) {			
-			Assert.assertEquals(2.0, dpi.getUValue(SAPAgeBandValue.fromYear(2007, RegionType.SouthWest).getName(), dt));
+			Assert.assertEquals(2.0, dpi.getUValue(SAPAgeBandValue.fromYear(2007, RegionType.SouthWest).getName(), dt), 0.01);
 		}
 	}
 	

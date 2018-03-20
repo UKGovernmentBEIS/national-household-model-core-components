@@ -1,5 +1,8 @@
 package uk.org.cse.nhm.language.definition.group;
 
+import com.larkery.jasb.bind.BindNamedArgument;
+import com.larkery.jasb.bind.Identity;
+
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
 import uk.org.cse.nhm.language.definition.Doc;
@@ -7,9 +10,6 @@ import uk.org.cse.nhm.language.definition.Obsolete;
 import uk.org.cse.nhm.language.definition.XElement;
 import uk.org.cse.nhm.language.definition.two.selectors.XAllTheHouses;
 import uk.org.cse.nhm.language.definition.two.selectors.XFilteredSet;
-
-import com.larkery.jasb.bind.BindNamedArgument;
-import com.larkery.jasb.bind.Identity;
 
 @Category(CategoryType.OBSOLETE)
 @Obsolete(

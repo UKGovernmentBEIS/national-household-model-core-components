@@ -6,11 +6,11 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.text.WordUtils;
 
-import uk.org.cse.nhm.language.definition.Doc;
-import uk.org.cse.nhm.language.sexp.Defaults;
-
 import com.google.common.base.Joiner;
 import com.larkery.jasb.io.IModel;
+
+import uk.org.cse.nhm.language.definition.Doc;
+import uk.org.cse.nhm.language.sexp.Defaults;
 
 public class Manual {
     public static final String USAGE = "<model command>\n\tProduces the manual page for the given model command.";

@@ -1,12 +1,8 @@
 package uk.org.cse.nhm.simulator.integration.tests;
 
-import static org.junit.Assert.*;
-
 import java.util.Collections;
 
 import org.junit.Test;
-
-import uk.org.cse.nhm.simulator.integration.tests.guice.IntegrationTestOutput;
 
 /**
  * ProductsPolicyApplicanceTests.

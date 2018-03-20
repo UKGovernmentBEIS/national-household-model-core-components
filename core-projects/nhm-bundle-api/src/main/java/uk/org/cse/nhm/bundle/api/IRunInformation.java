@@ -1,7 +1,6 @@
 package uk.org.cse.nhm.bundle.api;
 
 import java.util.Map;
-import java.util.List;
 
 /*
  * The inputs the model needs for a run

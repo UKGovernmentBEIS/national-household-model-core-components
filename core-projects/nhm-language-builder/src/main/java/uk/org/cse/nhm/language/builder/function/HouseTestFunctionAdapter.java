@@ -12,7 +12,6 @@ import uk.org.cse.nhm.language.adapt.IConverter;
 import uk.org.cse.nhm.language.adapt.impl.Adapt;
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.adapt.impl.ReflectingAdapter;
-import uk.org.cse.nhm.language.definition.action.measure.heating.XHeatingControlMeasure;
 import uk.org.cse.nhm.language.definition.enums.XBuiltFormType;
 import uk.org.cse.nhm.language.definition.enums.XFuelType;
 import uk.org.cse.nhm.language.definition.enums.XMorphologyType;

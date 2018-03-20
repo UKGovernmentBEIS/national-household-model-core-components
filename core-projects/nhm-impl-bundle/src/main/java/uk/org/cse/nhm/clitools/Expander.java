@@ -4,9 +4,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import uk.org.cse.nhm.ipc.api.tasks.IScenarioSnapshot;
-
 import com.larkery.jasb.sexp.BetterPrinter;
+
+import uk.org.cse.nhm.ipc.api.tasks.IScenarioSnapshot;
 
 public class Expander {
     public static final String USAGE = "<scenario>\n\tProduces the fully template-expanded form of the scenario, which is what the model really runs.";

@@ -2,6 +2,10 @@ package uk.org.cse.nhm.language.definition;
 
 import javax.validation.constraints.NotNull;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindNamedArgument;
+import com.larkery.jasb.bind.Identity;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
 import uk.org.cse.nhm.language.definition.action.XAction;
@@ -12,10 +16,6 @@ import uk.org.cse.nhm.language.definition.group.XAllHousesGroup;
 import uk.org.cse.nhm.language.definition.group.XGroup;
 import uk.org.cse.nhm.language.definition.two.actions.XApplyHookAction;
 import uk.org.cse.nhm.language.definition.two.hooks.XDateHook;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindNamedArgument;
-import com.larkery.jasb.bind.Identity;
 
 
 @Doc(

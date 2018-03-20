@@ -1,19 +1,20 @@
 package uk.org.cse.nhm.hom.emf.technologies.impl;
 
 import java.util.concurrent.atomic.AtomicInteger;
+
 import org.eclipse.emf.ecore.EClass;
+
 import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
-
 import uk.org.cse.nhm.hom.IHeatProportions;
 import uk.org.cse.nhm.hom.emf.technologies.ICentralWaterHeater;
 import uk.org.cse.nhm.hom.emf.technologies.ICentralWaterSystem;
 import uk.org.cse.nhm.hom.emf.technologies.IHeatSource;
+import uk.org.cse.nhm.hom.emf.technologies.IMainWaterHeater;
 import uk.org.cse.nhm.hom.emf.technologies.IMixerShower;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.ICombiBoiler;
-import uk.org.cse.nhm.hom.emf.technologies.IMainWaterHeater;
 
 /**
  * <!-- begin-user-doc -->

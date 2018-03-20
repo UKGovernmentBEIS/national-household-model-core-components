@@ -21,12 +21,12 @@ import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.hom.IHeatProportions;
 import uk.org.cse.nhm.hom.constants.SolarConstants;
 import uk.org.cse.nhm.hom.emf.technologies.IOperationalCost;
+import uk.org.cse.nhm.hom.emf.technologies.IShower;
 import uk.org.cse.nhm.hom.emf.technologies.ISolarWaterHeater;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
 import uk.org.cse.nhm.hom.emf.technologies.IVisitorAccepter;
 import uk.org.cse.nhm.hom.emf.technologies.IWaterTank;
 import uk.org.cse.nhm.hom.emf.technologies.impl.util.Pump;
-import uk.org.cse.nhm.hom.emf.technologies.IShower;
 
 /**
  * <!-- begin-user-doc -->

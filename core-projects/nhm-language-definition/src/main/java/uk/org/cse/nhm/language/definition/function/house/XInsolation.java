@@ -1,11 +1,11 @@
 package uk.org.cse.nhm.language.definition.function.house;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindNamedArgument;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.function.num.XHouseNumber;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindNamedArgument;
 
 @Bind("house.insolation")
 @Doc("The total annual solar insolation per square meter for the house under the current weather conditions, in kWh.")

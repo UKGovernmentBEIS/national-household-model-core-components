@@ -1,8 +1,8 @@
 package uk.org.cse.stockimport.hom.impl.steps.services.heating;
 
+import org.junit.Assert;
 import org.junit.Test;
 
-import junit.framework.Assert;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.IRoomHeater;
 import uk.org.cse.nhm.hom.emf.technologies.ISpaceHeater;

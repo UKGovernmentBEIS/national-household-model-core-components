@@ -1,33 +1,28 @@
 package uk.org.cse.nhm.language.definition.function.bool;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.HashSet;
+import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
-import uk.org.cse.nhm.language.adapt.impl.Prop;
-import uk.org.cse.nhm.language.definition.Doc;
-import uk.org.cse.nhm.language.definition.function.XFunction;
-import uk.org.cse.nhm.language.definition.function.bool.XBoolean;
-import uk.org.cse.nhm.language.definition.function.num.XNumber;
-
-import uk.org.cse.nhm.language.validate.ISelfValidating;
-
-import uk.org.cse.nhm.language.definition.ReturnsEnum;
-import uk.org.cse.nhm.language.definition.XElement;
-
+import com.google.common.base.Joiner;
 import com.larkery.jasb.bind.Bind;
 import com.larkery.jasb.bind.BindPositionalArgument;
 import com.larkery.jasb.bind.BindRemainingArguments;
-
+import com.larkery.jasb.io.atom.NumberAtomIO;
 import com.larkery.jasb.sexp.errors.BasicError;
 import com.larkery.jasb.sexp.errors.IErrorHandler.IError;
-import com.larkery.jasb.io.atom.NumberAtomIO;
 
-import com.google.common.base.Joiner;
+import uk.org.cse.nhm.language.adapt.impl.Prop;
+import uk.org.cse.nhm.language.definition.Doc;
+import uk.org.cse.nhm.language.definition.ReturnsEnum;
+import uk.org.cse.nhm.language.definition.XElement;
+import uk.org.cse.nhm.language.definition.function.XFunction;
+import uk.org.cse.nhm.language.definition.function.num.XNumber;
+import uk.org.cse.nhm.language.validate.ISelfValidating;
 
 @Doc("Test a categorical function to see whether it has one of a range of values")
 @Bind("is")

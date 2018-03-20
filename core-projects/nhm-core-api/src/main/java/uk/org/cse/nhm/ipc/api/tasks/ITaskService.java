@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
+import com.google.common.base.Optional;
+
 import uk.org.cse.nhm.ipc.api.tasks.ITaskStatus.Phase;
 import uk.org.cse.nhm.ipc.api.tasks.report.ILogEntryHandler;
-
-import com.google.common.base.Optional;
 
 /**
  * Provides a facility to handle tasks across the NHM system.

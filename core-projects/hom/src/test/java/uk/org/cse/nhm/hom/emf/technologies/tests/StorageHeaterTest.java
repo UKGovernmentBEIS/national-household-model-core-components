@@ -4,6 +4,7 @@ package uk.org.cse.nhm.hom.emf.technologies.tests;
 
 import junit.textui.TestRunner;
 import uk.org.cse.nhm.energycalculator.api.IConstants;
+import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.hom.emf.technologies.IStorageHeater;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;
 

@@ -1,11 +1,11 @@
 package uk.org.cse.nhm.language.definition.function.num;
 
-import uk.org.cse.nhm.language.definition.Doc;
-import uk.org.cse.nhm.language.definition.SeeAlso;
-
 import com.larkery.jasb.bind.Bind;
 import com.larkery.jasb.bind.BindPositionalArgument;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
+import uk.org.cse.nhm.language.definition.Doc;
+import uk.org.cse.nhm.language.definition.SeeAlso;
 
 @Doc({
 	"Get the specific heat loss computed by the energy calculator for this house.",

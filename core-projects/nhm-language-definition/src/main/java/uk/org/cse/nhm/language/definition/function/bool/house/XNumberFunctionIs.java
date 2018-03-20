@@ -1,5 +1,8 @@
 package uk.org.cse.nhm.language.definition.function.bool.house;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindPositionalArgument;
+
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.Obsolete;
 import uk.org.cse.nhm.language.definition.function.bool.XNumberSequence.XEqualNumbers;
@@ -8,9 +11,6 @@ import uk.org.cse.nhm.language.definition.function.bool.XNumberSequence.XGreater
 import uk.org.cse.nhm.language.definition.function.bool.XNumberSequence.XLess;
 import uk.org.cse.nhm.language.definition.function.bool.XNumberSequence.XLessEq;
 import uk.org.cse.nhm.language.definition.function.num.XNumber;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindPositionalArgument;
 
 
 @Bind("house.value-is")

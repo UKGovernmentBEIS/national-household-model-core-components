@@ -1,11 +1,11 @@
 package uk.org.cse.nhm.language.definition.action.hypothetical;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindNamedArgument;
+
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
 import uk.org.cse.nhm.language.definition.Doc;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindNamedArgument;
 
 @Bind("counterfactual.carbon")
 @Doc({ "Sets counterfactual carbon factors for a house, if used in an under.",

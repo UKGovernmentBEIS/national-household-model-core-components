@@ -5,13 +5,12 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.junit.Assert;
-
 import org.junit.Test;
-
-import uk.org.cse.nhm.language.visit.IVisitor;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+
+import uk.org.cse.nhm.language.visit.IVisitor;
 
 public class AdaptableVisitableVisitorTest {
 	public static class AdaptableVisitableImpl extends AdaptableVisitable<AdaptableVisitableImpl> {

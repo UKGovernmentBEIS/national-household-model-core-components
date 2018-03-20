@@ -14,15 +14,6 @@ import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import uk.org.cse.nhm.ipc.api.tasks.IScenarioSnapshot;
-import uk.org.cse.nhm.stock.io.StandardJacksonModule;
-import uk.org.cse.nhm.language.builder.batch.BatchExpander;
-import uk.org.cse.nhm.language.definition.XScenario;
-import uk.org.cse.nhm.language.definition.batch.XBatch;
-import uk.org.cse.nhm.language.sexp.IScenarioParser;
-import uk.org.cse.nhm.language.sexp.IScenarioParser.IResult;
-import uk.org.cse.nhm.language.sexp.ScenarioParserFactory;
-
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Guice;
@@ -32,6 +23,15 @@ import com.larkery.jasb.sexp.Location;
 import com.larkery.jasb.sexp.errors.BasicError;
 import com.larkery.jasb.sexp.errors.IErrorHandler.IError;
 import com.larkery.jasb.sexp.errors.JasbErrorException;
+
+import uk.org.cse.nhm.ipc.api.tasks.IScenarioSnapshot;
+import uk.org.cse.nhm.language.builder.batch.BatchExpander;
+import uk.org.cse.nhm.language.definition.XScenario;
+import uk.org.cse.nhm.language.definition.batch.XBatch;
+import uk.org.cse.nhm.language.sexp.IScenarioParser;
+import uk.org.cse.nhm.language.sexp.IScenarioParser.IResult;
+import uk.org.cse.nhm.language.sexp.ScenarioParserFactory;
+import uk.org.cse.nhm.stock.io.StandardJacksonModule;
 
 public class Validator {
 	private static final int 	ENOUGH_PROBLEMS_TO_BE_GETTING_ON_WITH = 100;

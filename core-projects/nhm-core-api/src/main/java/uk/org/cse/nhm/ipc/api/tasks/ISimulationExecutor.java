@@ -8,10 +8,10 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import uk.org.cse.nhm.ipc.api.tasks.sim.ISimulationSession;
-
 import com.larkery.jasb.sexp.ISExpression;
 import com.larkery.jasb.sexp.errors.IErrorHandler.IError;
+
+import uk.org.cse.nhm.ipc.api.tasks.sim.ISimulationSession;
 
 /**
  * Callback interface for a simulator to interface; implementors should register themself with

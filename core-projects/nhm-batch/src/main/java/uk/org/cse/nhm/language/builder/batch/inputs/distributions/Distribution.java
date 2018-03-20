@@ -5,9 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import uk.org.cse.nhm.language.builder.batch.inputs.SingleInput;
-
 import com.google.common.base.Optional;
+
+import uk.org.cse.nhm.language.builder.batch.inputs.SingleInput;
 
 abstract class Distribution extends SingleInput {
 	private final Random random;

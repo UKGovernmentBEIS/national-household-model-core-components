@@ -2,10 +2,6 @@ package uk.org.cse.nhm.language.validate;
 
 import java.util.concurrent.ExecutionException;
 
-import uk.org.cse.nhm.language.definition.Obsolete;
-import uk.org.cse.nhm.language.definition.XElement;
-import uk.org.cse.nhm.language.validate.NoCyclesValidatorWithDelegates.IDelegate;
-
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -13,6 +9,10 @@ import com.google.common.collect.ImmutableList;
 import com.larkery.jasb.bind.Bind;
 import com.larkery.jasb.sexp.errors.BasicError;
 import com.larkery.jasb.sexp.errors.IErrorHandler.IError;
+
+import uk.org.cse.nhm.language.definition.Obsolete;
+import uk.org.cse.nhm.language.definition.XElement;
+import uk.org.cse.nhm.language.validate.NoCyclesValidatorWithDelegates.IDelegate;
 
 public class ObsolesenceValidator implements IDelegate {
 	private final ImmutableList.Builder<IError> problems = ImmutableList.builder();

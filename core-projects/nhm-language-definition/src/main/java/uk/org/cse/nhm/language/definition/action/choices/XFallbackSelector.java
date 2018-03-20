@@ -5,12 +5,12 @@ import java.util.List;
 
 import javax.validation.constraints.Size;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindRemainingArguments;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.SeeAlso;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindRemainingArguments;
 
 @Bind("select.fallback")
 @Doc({

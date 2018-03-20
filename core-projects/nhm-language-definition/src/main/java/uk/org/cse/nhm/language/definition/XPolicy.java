@@ -5,13 +5,13 @@ import java.util.List;
 
 import javax.validation.constraints.Size;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindRemainingArguments;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
 import uk.org.cse.nhm.language.definition.two.actions.XApplyHookAction;
 import uk.org.cse.nhm.language.definition.two.hooks.XDateHook;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindRemainingArguments;
 
 @Doc("A policy is an organisational element, which collects together a set of related targets and cases.")
 @Bind("policy")

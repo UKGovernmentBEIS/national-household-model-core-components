@@ -5,13 +5,12 @@ import static org.mockito.Mockito.mock;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.google.common.base.Optional;
+
 import uk.org.cse.nhm.energycalculator.api.IHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.types.MonthType;
 import uk.org.cse.nhm.energycalculator.api.types.Zone2ControlParameter;
 import uk.org.cse.nhm.energycalculator.api.types.ZoneType;
-import uk.org.cse.nhm.energycalculator.impl.BredemSeasonalParameters;
-
-import com.google.common.base.Optional;
 
 public class ClimateParametersTest {
 	@Test

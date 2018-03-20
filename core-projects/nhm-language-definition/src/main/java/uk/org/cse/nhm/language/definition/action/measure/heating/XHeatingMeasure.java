@@ -1,5 +1,7 @@
 package uk.org.cse.nhm.language.definition.action.measure.heating;
 
+import com.larkery.jasb.bind.BindNamedArgument;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.ProducesTags;
@@ -9,8 +11,6 @@ import uk.org.cse.nhm.language.definition.action.XMeasure;
 import uk.org.cse.nhm.language.definition.function.num.XNumber;
 import uk.org.cse.nhm.language.definition.function.num.XSizingFunction;
 import uk.org.cse.nhm.language.definition.money.TransactionTags;
-
-import com.larkery.jasb.bind.BindNamedArgument;
 
 @Unsuitability("the measure could not be sized")
 @ProducesTags(

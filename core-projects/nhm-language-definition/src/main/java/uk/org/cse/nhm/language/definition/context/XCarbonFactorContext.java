@@ -3,6 +3,10 @@ package uk.org.cse.nhm.language.definition.context;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindNamedArgument;
+import com.larkery.jasb.bind.BindRemainingArguments;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
@@ -17,10 +21,6 @@ import uk.org.cse.nhm.language.definition.function.num.IHouseContext;
 import uk.org.cse.nhm.language.definition.function.num.XCarbonEmissions;
 import uk.org.cse.nhm.language.definition.function.num.XNumber;
 import uk.org.cse.nhm.language.validate.contents.ForbidChild;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindNamedArgument;
-import com.larkery.jasb.bind.BindRemainingArguments;
 
 @Doc(value = {
 	"A context parameter which defines the carbon factors for fuels.",

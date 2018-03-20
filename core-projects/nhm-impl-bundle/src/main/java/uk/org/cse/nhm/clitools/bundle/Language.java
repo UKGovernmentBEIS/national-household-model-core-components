@@ -8,15 +8,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import uk.org.cse.nhm.bundle.api.IDefinition;
-import uk.org.cse.nhm.bundle.api.IDefinition.DefinitionType;
-import uk.org.cse.nhm.bundle.api.ILanguage;
-import uk.org.cse.nhm.language.definition.Category;
-import uk.org.cse.nhm.language.definition.Doc;
-import uk.org.cse.nhm.language.definition.Obsolete;
-import uk.org.cse.nhm.language.sexp.Defaults;
-import uk.org.cse.nhm.macros.ExtraMacros;
-
 import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
@@ -31,6 +22,15 @@ import com.larkery.jasb.io.IModel.IElement;
 import com.larkery.jasb.io.IModel.IInvocationModel;
 import com.larkery.jasb.sexp.parse.IMacro;
 import com.larkery.jasb.sexp.parse.MacroModel;
+
+import uk.org.cse.nhm.bundle.api.IDefinition;
+import uk.org.cse.nhm.bundle.api.IDefinition.DefinitionType;
+import uk.org.cse.nhm.bundle.api.ILanguage;
+import uk.org.cse.nhm.language.definition.Category;
+import uk.org.cse.nhm.language.definition.Doc;
+import uk.org.cse.nhm.language.definition.Obsolete;
+import uk.org.cse.nhm.language.sexp.Defaults;
+import uk.org.cse.nhm.macros.ExtraMacros;
 
 public class Language implements ILanguage {
 	enum SType {

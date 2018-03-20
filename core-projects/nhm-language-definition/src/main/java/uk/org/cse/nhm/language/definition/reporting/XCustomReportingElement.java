@@ -2,10 +2,10 @@ package uk.org.cse.nhm.language.definition.reporting;
 
 import javax.validation.constraints.NotNull;
 
-import uk.org.cse.nhm.language.definition.Doc;
-
 import com.larkery.jasb.bind.BindNamedArgument;
 import com.larkery.jasb.bind.Identity;
+
+import uk.org.cse.nhm.language.definition.Doc;
 
 /**
  * A reporting element which has some user-defined parts.

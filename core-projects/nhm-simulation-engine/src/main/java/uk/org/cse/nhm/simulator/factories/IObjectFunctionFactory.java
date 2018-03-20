@@ -94,8 +94,8 @@ import uk.org.cse.nhm.simulator.state.functions.impl.num.MeanInternalTemperature
 import uk.org.cse.nhm.simulator.state.functions.impl.num.MeterReadingFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.NetPresentValueFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.PeakHeatLoadFunction;
-import uk.org.cse.nhm.simulator.state.functions.impl.num.Polynomial.PolynomialTerm;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.Polynomial;
+import uk.org.cse.nhm.simulator.state.functions.impl.num.Polynomial.PolynomialTerm;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.PredictObligationsFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.PredictSum;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.PriorFunction;
@@ -103,14 +103,14 @@ import uk.org.cse.nhm.simulator.state.functions.impl.num.RegisterGetFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.SapScoreFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.SimYearFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.SizingResultFunction;
-import uk.org.cse.nhm.simulator.state.functions.impl.num.SteppedFunction.Direction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.SteppedFunction;
+import uk.org.cse.nhm.simulator.state.functions.impl.num.SteppedFunction.Direction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.SumOfTransactionsFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.random.GaussianRandomFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.random.TriangularRandomFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.random.UniformRandomFunction;
-import uk.org.cse.nhm.simulator.state.functions.impl.num.steppedcharge.SteppedPricingFunction.Range;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.steppedcharge.SteppedPricingFunction;
+import uk.org.cse.nhm.simulator.state.functions.impl.num.steppedcharge.SteppedPricingFunction.Range;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.var.GetRegister;
 
 public interface IObjectFunctionFactory {

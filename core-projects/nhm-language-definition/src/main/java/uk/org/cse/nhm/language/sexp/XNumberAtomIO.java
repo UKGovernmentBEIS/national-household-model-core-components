@@ -3,11 +3,11 @@ package uk.org.cse.nhm.language.sexp;
 import java.util.Collections;
 import java.util.Set;
 
-import uk.org.cse.nhm.language.definition.function.num.XNumberConstant;
-
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 import com.larkery.jasb.io.atom.NumberAtomIO;
+
+import uk.org.cse.nhm.language.definition.function.num.XNumberConstant;
 
 /**
  * Modifies the JASB number reader to handle translating XNumber from

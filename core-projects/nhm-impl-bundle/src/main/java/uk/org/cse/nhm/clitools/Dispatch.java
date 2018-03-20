@@ -1,12 +1,8 @@
 package uk.org.cse.nhm.clitools;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
-import uk.org.cse.nhm.clitools.bundle.NationalHouseholdModel;
 
-import javax.swing.UIManager;
+import uk.org.cse.nhm.clitools.bundle.NationalHouseholdModel;
 
 /** The real main method */
 public class Dispatch {

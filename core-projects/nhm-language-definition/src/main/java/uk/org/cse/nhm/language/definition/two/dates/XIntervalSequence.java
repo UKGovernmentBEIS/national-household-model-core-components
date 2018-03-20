@@ -6,12 +6,12 @@ import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.joda.time.format.PeriodFormat;
 
-import uk.org.cse.nhm.language.definition.Doc;
-import uk.org.cse.nhm.language.two.build.IBuilder;
-
 import com.google.common.collect.ImmutableList;
 import com.larkery.jasb.bind.Bind;
 import com.larkery.jasb.bind.BindNamedArgument;
+
+import uk.org.cse.nhm.language.definition.Doc;
+import uk.org.cse.nhm.language.two.build.IBuilder;
 
 @Doc({
 	"Represents a series of regularly spaced dates, produced by taking the start date, and adding the interval to it until the end date is reached.",

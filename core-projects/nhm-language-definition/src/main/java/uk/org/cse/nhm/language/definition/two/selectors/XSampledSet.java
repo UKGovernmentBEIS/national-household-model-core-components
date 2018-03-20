@@ -2,11 +2,11 @@ package uk.org.cse.nhm.language.definition.two.selectors;
 
 import javax.validation.constraints.NotNull;
 
-import uk.org.cse.nhm.language.definition.Doc;
-import uk.org.cse.nhm.language.definition.function.num.XNumber;
-
 import com.larkery.jasb.bind.Bind;
 import com.larkery.jasb.bind.BindPositionalArgument;
+
+import uk.org.cse.nhm.language.definition.Doc;
+import uk.org.cse.nhm.language.definition.function.num.XNumber;
 
 @Bind("sample")
 @Doc("construct a set by sampling from another set")

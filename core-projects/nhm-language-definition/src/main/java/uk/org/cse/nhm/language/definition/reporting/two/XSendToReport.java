@@ -3,13 +3,13 @@ package uk.org.cse.nhm.language.definition.reporting.two;
 import java.util.ArrayList;
 import java.util.List;
 
-import uk.org.cse.nhm.language.adapt.impl.Prop;
-import uk.org.cse.nhm.language.definition.Doc;
-import uk.org.cse.nhm.language.definition.action.XDwellingAction;
-
 import com.larkery.jasb.bind.Bind;
 import com.larkery.jasb.bind.BindNamedArgument;
 import com.larkery.jasb.bind.BindRemainingArguments;
+
+import uk.org.cse.nhm.language.adapt.impl.Prop;
+import uk.org.cse.nhm.language.definition.Doc;
+import uk.org.cse.nhm.language.definition.action.XDwellingAction;
 
 @Doc("Sends the current house to one or more reports")
 @Bind("send-to-report")

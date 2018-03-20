@@ -3,14 +3,14 @@ package uk.org.cse.nhm.language.builder.batch.substitute;
 import java.util.Map;
 import java.util.Set;
 
-import uk.org.cse.nhm.language.builder.batch.IBatchInstance;
-
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.larkery.jasb.sexp.Delim;
 import com.larkery.jasb.sexp.ISExpression;
 import com.larkery.jasb.sexp.ISExpressionVisitor;
 import com.larkery.jasb.sexp.Location;
+
+import uk.org.cse.nhm.language.builder.batch.IBatchInstance;
 
 public class Substitution {
 	public static Set<String> getSubstitutions(final ISExpression input) {

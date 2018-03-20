@@ -2,11 +2,11 @@ package uk.org.cse.nhm.language.sexp;
 
 import org.joda.time.DateTime;
 
-import uk.org.cse.nhm.language.definition.two.dates.XIntervalSequence;
-import uk.org.cse.nhm.language.definition.two.dates.XSingleDate;
-
 import com.google.common.base.Optional;
 import com.larkery.jasb.io.atom.DateAtomIO;
+
+import uk.org.cse.nhm.language.definition.two.dates.XIntervalSequence;
+import uk.org.cse.nhm.language.definition.two.dates.XSingleDate;
 
 public class XDateSequenceAtomIO extends DateAtomIO {
 	@Override

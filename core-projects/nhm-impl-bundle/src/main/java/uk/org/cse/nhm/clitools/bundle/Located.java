@@ -2,10 +2,10 @@ package uk.org.cse.nhm.clitools.bundle;
 
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
+
 import uk.org.cse.nhm.bundle.api.ILocated;
 import uk.org.cse.nhm.bundle.api.ILocation;
-
-import com.google.common.collect.ImmutableList;
 
 abstract class Located<P> implements ILocated<P> {
 	private final List<ILocation<P>> locations;

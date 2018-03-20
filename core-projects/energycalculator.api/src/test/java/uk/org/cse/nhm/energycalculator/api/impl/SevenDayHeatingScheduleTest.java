@@ -3,9 +3,6 @@ package uk.org.cse.nhm.energycalculator.api.impl;
 import org.junit.Assert;
 import org.junit.Test;
 
-import uk.org.cse.nhm.energycalculator.api.impl.DailyHeatingSchedule;
-import uk.org.cse.nhm.energycalculator.api.impl.SevenDayHeatingSchedule;
-
 public class SevenDayHeatingScheduleTest {
 	@Test
 	public void weightedAverageIsCorrectWhenMondayIsOnAndOthersAreOff() {

@@ -1,11 +1,11 @@
 package uk.org.cse.nhm.language.definition.function.health;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindNamedArgument;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.function.num.XHouseNumber;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindNamedArgument;
 
 @Doc({"The permeability of the house; this is equivalent to (* 20 house.air-change-rate house.volume (/ 1 house.envelope-area)).",
 	 "The default operation of this function excludes deliberate air-changes, see include-deliberate-ventilation option for more detail"})

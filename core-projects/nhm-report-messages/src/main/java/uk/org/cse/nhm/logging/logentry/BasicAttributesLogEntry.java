@@ -14,10 +14,11 @@ import com.google.common.collect.ImmutableSet;
 
 import uk.org.cse.hom.housepropertystore.IHouseProperties;
 import uk.org.cse.hom.money.FinancialAttributes;
-import uk.org.cse.nhm.hom.BasicCaseAttributes;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
 import uk.org.cse.nhm.energycalculator.api.types.WallType;
+import uk.org.cse.nhm.hom.BasicCaseAttributes;
 import uk.org.cse.nhm.hom.emf.technologies.EmitterType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.IBackBoiler;
@@ -40,7 +41,6 @@ import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.hom.structure.impl.Storey;
 import uk.org.cse.nhm.hom.types.BuiltFormType;
 import uk.org.cse.nhm.hom.types.MorphologyType;
-import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.hom.types.TenureType;
 import uk.org.cse.nhm.types.MainHeatingSystemType;
 

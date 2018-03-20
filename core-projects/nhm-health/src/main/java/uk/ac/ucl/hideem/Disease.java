@@ -1,10 +1,10 @@
 package uk.ac.ucl.hideem;
 
 import uk.ac.ucl.hideem.Constants.RiskConstant;
-import uk.ac.ucl.hideem.Person.Sex;
-import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.ac.ucl.hideem.IExposure.OccupancyType;
 import uk.ac.ucl.hideem.IExposure.OverheatingAgeBands;
+import uk.ac.ucl.hideem.Person.Sex;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 
 /**
  * Everything HIDEEM needs to know about diseases.

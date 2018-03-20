@@ -5,10 +5,10 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import uk.org.cse.nhm.language.definition.XScenario.Weighting;
-
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
+
+import uk.org.cse.nhm.language.definition.XScenario.Weighting;
 
 public class ScenarioWeightingFunctionTest {
 	private static void validate(final Weighting weighting, final int quantum, final double caseweight, final double... values) {

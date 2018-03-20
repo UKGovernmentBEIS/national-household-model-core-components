@@ -1,11 +1,11 @@
 package uk.org.cse.nhm.clitools;
 
 import java.awt.BorderLayout;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.nio.file.Path;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -14,15 +14,10 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import org.apache.log4j.Level;
-
-import uk.org.cse.nhm.ipc.api.tasks.IScenarioSnapshot;
-
-import uk.org.cse.nhm.clitools.bundle.NationalHouseholdModel;
-import uk.org.cse.nhm.bundle.api.*;
+import uk.org.cse.nhm.bundle.api.ISimulationCallback;
+import uk.org.cse.nhm.bundle.api.IValidationResult;
 import uk.org.cse.nhm.bundle.api.IValidationResult.IValidationProblem;
-import java.nio.file.Path;
-import java.io.IOException;
+import uk.org.cse.nhm.clitools.bundle.NationalHouseholdModel;
 
 public class RunWindow extends JFrame implements Runnable {
     final Path scenario, output;

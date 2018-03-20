@@ -6,6 +6,8 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
+import com.google.common.base.Optional;
+
 import uk.org.cse.nhm.language.adapt.IAdapterInterceptor;
 import uk.org.cse.nhm.language.adapt.IConverter;
 import uk.org.cse.nhm.language.adapt.impl.Adapt;
@@ -38,8 +40,6 @@ import uk.org.cse.nhm.language.definition.batch.inputs.random.XGaussianInput;
 import uk.org.cse.nhm.language.definition.batch.inputs.random.XTriangularInput;
 import uk.org.cse.nhm.language.definition.batch.inputs.random.XUniformInput;
 import uk.org.cse.nhm.language.definition.batch.inputs.random.XUniformIntegerInput;
-
-import com.google.common.base.Optional;
 
 public class BatchInputsAdapter extends ReflectingAdapter {
 	

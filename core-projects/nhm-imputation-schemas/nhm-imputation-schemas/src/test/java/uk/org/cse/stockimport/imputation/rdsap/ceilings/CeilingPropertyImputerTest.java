@@ -1,6 +1,6 @@
 package uk.org.cse.stockimport.imputation.rdsap.ceilings;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;

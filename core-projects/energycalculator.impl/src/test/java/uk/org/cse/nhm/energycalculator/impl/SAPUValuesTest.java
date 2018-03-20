@@ -3,12 +3,12 @@ package uk.org.cse.nhm.energycalculator.impl;
 import org.junit.Assert;
 import org.junit.Test;
 
-import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.FloorType;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 
 public class SAPUValuesTest {
 

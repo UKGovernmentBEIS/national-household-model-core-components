@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import uk.org.cse.nhm.language.definition.Doc;
-
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
+
+import uk.org.cse.nhm.language.definition.Doc;
 
 @Doc(
 	{

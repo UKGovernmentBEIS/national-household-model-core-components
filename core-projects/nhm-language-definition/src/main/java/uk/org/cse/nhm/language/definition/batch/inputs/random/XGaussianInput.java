@@ -1,10 +1,10 @@
 package uk.org.cse.nhm.language.definition.batch.inputs.random;
 
-import uk.org.cse.nhm.language.adapt.impl.Prop;
-import uk.org.cse.nhm.language.definition.Doc;
-
 import com.larkery.jasb.bind.Bind;
 import com.larkery.jasb.bind.BindNamedArgument;
+
+import uk.org.cse.nhm.language.adapt.impl.Prop;
+import uk.org.cse.nhm.language.definition.Doc;
 
 @Bind("gaussian")
 @Doc(value={"A batch input which draws values from a Gaussian distribution (also known as a normal distribution).",

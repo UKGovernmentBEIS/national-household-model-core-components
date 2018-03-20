@@ -12,8 +12,6 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorHouseCase;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.impl.DefaultConstants;
 import uk.org.cse.nhm.energycalculator.constants.EnergyCalculatorConstants;
-import uk.org.cse.nhm.energycalculator.impl.IStructuralInfiltrationAccumulator;
-import uk.org.cse.nhm.energycalculator.impl.StructuralInfiltrationAccumulator;
 
 public class StructuralInfiltrationAccumulatorTest {
 	private IStructuralInfiltrationAccumulator accumulator;

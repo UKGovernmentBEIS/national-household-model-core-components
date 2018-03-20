@@ -5,6 +5,7 @@ package uk.org.cse.nhm.hom.emf.technologies.boilers.util;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
+
 import uk.org.cse.nhm.hom.emf.technologies.IFuelAndFlue;
 import uk.org.cse.nhm.hom.emf.technologies.IHasInstallationYear;
 import uk.org.cse.nhm.hom.emf.technologies.IHeatSource;

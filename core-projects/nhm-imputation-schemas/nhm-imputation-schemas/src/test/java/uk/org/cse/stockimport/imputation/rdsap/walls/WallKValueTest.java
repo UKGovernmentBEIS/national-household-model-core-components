@@ -11,7 +11,7 @@ import static uk.org.cse.nhm.hom.components.fabric.types.WallConstructionType.Ti
 import static uk.org.cse.nhm.hom.components.fabric.types.WallInsulationType.External;
 import static uk.org.cse.nhm.hom.components.fabric.types.WallInsulationType.FilledCavity;
 import static uk.org.cse.nhm.hom.components.fabric.types.WallInsulationType.Internal;
-import junit.framework.Assert;
+import org.junit.Assert;
 
 import org.junit.Before;
 import org.junit.Test;

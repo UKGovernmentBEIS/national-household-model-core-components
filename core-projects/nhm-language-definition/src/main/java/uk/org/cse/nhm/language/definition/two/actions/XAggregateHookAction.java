@@ -3,18 +3,18 @@ package uk.org.cse.nhm.language.definition.two.actions;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindNamedArgument;
+import com.larkery.jasb.bind.BindRemainingArguments;
+
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.function.XFunction;
 import uk.org.cse.nhm.language.definition.function.num.IHouseContext;
 import uk.org.cse.nhm.language.definition.reporting.aggregate.XAggregation;
-import uk.org.cse.nhm.language.definition.two.selectors.XAllTheHouses;
 import uk.org.cse.nhm.language.definition.two.selectors.ISetOfHouses;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindNamedArgument;
-import com.larkery.jasb.bind.BindRemainingArguments;
+import uk.org.cse.nhm.language.definition.two.selectors.XAllTheHouses;
 
 @Doc({
 	"A command to compute and output some aggregate values.",

@@ -2,9 +2,11 @@ package uk.org.cse.nhm.simulation.measure.lighting;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
 import uk.org.cse.commons.names.Name;
 import uk.org.cse.nhm.hom.emf.technologies.ILight;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;

@@ -4,11 +4,11 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.google.common.base.Optional;
 
-import junit.framework.Assert;
 import uk.org.cse.nhm.hom.emf.technologies.IBackBoiler;
 import uk.org.cse.nhm.hom.emf.technologies.ICentralWaterHeater;
 import uk.org.cse.nhm.hom.emf.technologies.ICentralWaterSystem;

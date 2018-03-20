@@ -11,10 +11,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.Callable;
@@ -23,6 +23,24 @@ import java.util.zip.GZIPOutputStream;
 import org.apache.log4j.Level;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.Key;
+import com.google.inject.name.Names;
+import com.larkery.jasb.sexp.Atom;
+import com.larkery.jasb.sexp.ISExpression;
+import com.larkery.jasb.sexp.Node;
+import com.larkery.jasb.sexp.Seq;
+import com.larkery.jasb.sexp.SimplePrinter;
+import com.larkery.jasb.sexp.errors.BasicError;
+import com.larkery.jasb.sexp.errors.IErrorHandler.IError;
+import com.larkery.jasb.sexp.parse.DataSourceSnapshot;
 
 import uk.org.cse.nhm.NHMException;
 import uk.org.cse.nhm.bundle.api.IDefinition;
@@ -38,13 +56,16 @@ import uk.org.cse.nhm.clitools.LogHelper;
 import uk.org.cse.nhm.hom.SurveyCase;
 import uk.org.cse.nhm.ipc.api.scenario.IStockService;
 import uk.org.cse.nhm.ipc.api.tasks.IScenarioSnapshot.IExpansion;
+import uk.org.cse.nhm.language.builder.batch.Batch;
 import uk.org.cse.nhm.language.builder.batch.BatchExpander;
+import uk.org.cse.nhm.language.builder.batch.IBatchInstance;
 import uk.org.cse.nhm.language.definition.XElement;
 import uk.org.cse.nhm.language.definition.XScenario;
 import uk.org.cse.nhm.language.definition.batch.XBatch;
 import uk.org.cse.nhm.language.sexp.IScenarioParser;
 import uk.org.cse.nhm.language.sexp.IScenarioParser.IResult;
 import uk.org.cse.nhm.language.sexp.ScenarioParserFactory;
+import uk.org.cse.nhm.logging.logentry.batch.BatchInputEntry;
 import uk.org.cse.nhm.logging.logentry.errors.SystemErrorLogEntry;
 import uk.org.cse.nhm.reporting.IReportEngine;
 import uk.org.cse.nhm.reporting.guice.StandaloneBatchReportingModule;
@@ -56,28 +77,6 @@ import uk.org.cse.nhm.stock.io.StandardJacksonModule;
 import uk.org.cse.nhm.stockimport.simple.Util;
 import uk.org.cse.nhm.stockimport.simple.dto.DTOImportPhase;
 import uk.org.cse.nhm.stockimport.simple.spss.SPSSImportPhase;
-
-import uk.org.cse.nhm.logging.logentry.batch.BatchInputEntry;
-import uk.org.cse.nhm.language.builder.batch.Batch;
-import uk.org.cse.nhm.language.builder.batch.IBatchInstance;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Optional;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.Key;
-import com.google.inject.name.Names;
-import com.larkery.jasb.sexp.Atom;
-import com.larkery.jasb.sexp.SimplePrinter;
-import com.larkery.jasb.sexp.ISExpression;
-import com.larkery.jasb.sexp.Node;
-import com.larkery.jasb.sexp.Seq;
-import com.larkery.jasb.sexp.errors.BasicError;
-import com.larkery.jasb.sexp.errors.IErrorHandler.IError;
-import com.larkery.jasb.sexp.parse.DataSourceSnapshot;
 
 public class NationalHouseholdModel implements INationalHouseholdModel {
     private static final int BATCH_PROBLEM_LIMIT = 1000;
@@ -124,8 +123,10 @@ public class NationalHouseholdModel implements INationalHouseholdModel {
     }
 
     static class CallbackStoppingCriterion implements Callable<Boolean> {
-        private final ISimulationCallback callback;
-        public CallbackStoppingCriterion(ISimulationCallback callback) {this.callback = callback;}
+        @SuppressWarnings("rawtypes")
+		private final ISimulationCallback callback;
+        @SuppressWarnings("rawtypes")
+		public CallbackStoppingCriterion(ISimulationCallback callback) {this.callback = callback;}
         @Override public Boolean call() { return callback.shouldCancel(); }
     }
     

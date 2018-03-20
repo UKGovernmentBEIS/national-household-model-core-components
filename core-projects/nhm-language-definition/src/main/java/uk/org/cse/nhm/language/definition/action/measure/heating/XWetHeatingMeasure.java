@@ -1,10 +1,10 @@
 package uk.org.cse.nhm.language.definition.action.measure.heating;
 
+import com.larkery.jasb.bind.BindNamedArgument;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.function.num.XNumber;
-
-import com.larkery.jasb.bind.BindNamedArgument;
 
 public abstract class XWetHeatingMeasure extends XHeatingMeasure {
 	public static final class P {

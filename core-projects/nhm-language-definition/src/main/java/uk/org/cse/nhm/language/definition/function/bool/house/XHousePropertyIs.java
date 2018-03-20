@@ -1,10 +1,10 @@
 package uk.org.cse.nhm.language.definition.function.bool.house;
 
-import uk.org.cse.nhm.language.definition.Doc;
-import uk.org.cse.nhm.language.definition.function.bool.XHouseBoolean;
-
 import com.larkery.jasb.bind.Bind;
 import com.larkery.jasb.bind.BindNamedArgument;
+
+import uk.org.cse.nhm.language.definition.Doc;
+import uk.org.cse.nhm.language.definition.function.bool.XHouseBoolean;
 
 
 @Bind("house.static-property-is")

@@ -6,16 +6,16 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindNamedArgument;
+import com.larkery.jasb.bind.BindRemainingArguments;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.function.bool.XBoolean;
 import uk.org.cse.nhm.language.definition.function.num.IHouseContext;
 import uk.org.cse.nhm.language.definition.sequence.XNumberDeclaration;
 import uk.org.cse.nhm.language.validate.contents.ActsAsParent;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindNamedArgument;
-import com.larkery.jasb.bind.BindRemainingArguments;
 
 @Doc({"Repeats a sequence of other commands until a given condition is met.",
       "When the repeat is triggered, it will repeatedly perform all the commands it contains,",

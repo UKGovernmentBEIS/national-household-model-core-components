@@ -2,17 +2,17 @@ package uk.org.cse.nhm.language.definition.function.num;
 
 import javax.validation.constraints.NotNull;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindNamedArgument;
+import com.larkery.jasb.bind.BindPositionalArgument;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.reporting.aggregate.XAggregation;
-import uk.org.cse.nhm.language.definition.two.selectors.XAllTheHouses;
 import uk.org.cse.nhm.language.definition.two.selectors.ISetOfHouses;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindNamedArgument;
-import com.larkery.jasb.bind.BindPositionalArgument;
+import uk.org.cse.nhm.language.definition.two.selectors.XAllTheHouses;
 
 @Bind("summarize")
 @Doc("Given a group and an aggregation, runs that aggregation on that group and return the result.")
