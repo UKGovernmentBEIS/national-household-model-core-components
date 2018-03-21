@@ -80,6 +80,29 @@
             </listitem>
           </orderedlist>
         </listitem>
+        <listitem>
+          <para>
+            Improvements
+          </para>
+          <itemizedlist spacing="compact">
+            <listitem>
+              <para>
+                The service type for space heating has been subdivided
+                into primary and secondary space heating. This means it
+                is now possible to separately query energy use and
+                emissions due to each heating system.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                The documentation for
+                <xref linkend="ref.house.heat-load"/> has been improved
+                to properly state that the heat load is determined
+                before accounting for gains.
+              </para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
       </orderedlist>
     </sect2>
     <sect2 id="version-7.1.0">
@@ -101,7 +124,7 @@
             </listitem>
             <listitem>
               <para>
-                <xref linkend="ref.measure-warm-air-system"/> no longer
+                <xref linkend="ref.measure.warm-air-system"/> no longer
                 ignores fuel argument.
               </para>
             </listitem>

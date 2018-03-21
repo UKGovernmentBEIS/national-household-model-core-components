@@ -29,11 +29,15 @@ If you want to cross-reference to a language element, you need to use the unique
 ***** Addition of SAP2012 Physical Mode
 A new energy calculator mode, ~SAP2012_PHYSICAL~ has been added.
 This is a slightly relaxed version of ~SAP2012~, in which you can change the heating schedule, occupancy and weather parameters but which is otherwise restricted to SAP2012, enforcing consistent u-values and other parameters.
+**** Improvements
+- The service type for space heating has been subdivided into primary and secondary space heating.
+  This means it is now possible to separately query energy use and emissions due to each heating system.
+- The documentation for =ref.house.heat-load= has been improved to properly state that the heat load is determined before accounting for gains.
 *** Version 7.1.0
 **** Bugs Fixed
 - Suitabilily for =ref.measure.solar-photovoltaic= is checked correctly.
   The implementation of measure suitability has been enhanced so this kind of error cannot be reintroduced for any other measure.
-- =ref.measure-warm-air-system= no longer ignores fuel argument.
+- =ref.measure.warm-air-system= no longer ignores fuel argument.
 - =ref.measure.hot-water-tank-thermostat= checks for presence of water tank before installation.
 - Fixed a problem where adding two extra fuel charges for the same fuel would give two duplicate charges instead.
 - Fixed a problem with transferring money between a dwelling and a global account where it would multiply the amount byt the scenario quantum instead of the weight of the particular dwelling. This affects =ref.report.global-transactions= and =ref.account.balance=

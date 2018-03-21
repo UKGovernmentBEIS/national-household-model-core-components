@@ -13,13 +13,16 @@ import uk.org.cse.nhm.language.definition.Doc;
 @Doc("Each of these defines an end-use for energy that the energy calculator understands.")
 @Category(CategoryType.CATEGORIES)
 public enum XServiceType {
-	Cooking(ServiceType.COOKING), 
-	Lighting(ServiceType.LIGHTING), 
-	Appliances(ServiceType.APPLIANCES), 
+	Cooking(ServiceType.COOKING),
+	Lighting(ServiceType.LIGHTING),
+	Appliances(ServiceType.APPLIANCES),
+	@Doc("This is the sum of primary and secondary space heating.")
 	SpaceHeating(ServiceType.PRIMARY_SPACE_HEATING, ServiceType.SECONDARY_SPACE_HEATING),
+	PrimarySpaceHeating(ServiceType.PRIMARY_SPACE_HEATING),
+	SecondarySpaceHeating(ServiceType.SECONDARY_SPACE_HEATING),
 	WaterHeating(ServiceType.WATER_HEATING),
 	Generation(ServiceType.GENERATION);
-	
+
 	private ImmutableList<ServiceType> serviceTypes;
 
 	private XServiceType(final ServiceType... serviceTypes) {
@@ -27,9 +30,9 @@ public enum XServiceType {
 				serviceTypes
 		);
 	}
-	
+
 	public List<ServiceType> getInternal() {
 		return serviceTypes;
 	}
-	
+
 }
