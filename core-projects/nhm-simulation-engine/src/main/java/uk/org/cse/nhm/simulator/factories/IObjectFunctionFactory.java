@@ -34,6 +34,7 @@ import uk.org.cse.nhm.language.definition.function.num.XGlobalAccountBalance;
 import uk.org.cse.nhm.language.definition.function.num.XHeatLoad;
 import uk.org.cse.nhm.language.definition.function.num.XHeatLoss;
 import uk.org.cse.nhm.language.definition.function.num.XHeatingEfficiency;
+import uk.org.cse.nhm.language.definition.function.num.XHeatingSystemOutput;
 import uk.org.cse.nhm.language.definition.function.num.XHouseBalance;
 import uk.org.cse.nhm.language.definition.function.num.XHouseWeight;
 import uk.org.cse.nhm.language.definition.function.num.XInterpolate;
@@ -81,6 +82,7 @@ import uk.org.cse.nhm.simulator.state.functions.impl.num.HeatLoadFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.HeatLossFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.HeatingEfficiencyFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.HeatingResponsivenessFunction;
+import uk.org.cse.nhm.simulator.state.functions.impl.num.HeatingSystemOutputFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.HouseBalanceFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.HouseWeightFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.HyperbolicDiscount;
@@ -335,6 +337,11 @@ public interface IObjectFunctionFactory {
 	@Adapt(XAirChangeRate.class)
 	public AirChangeRateFunction createAirChangeRate();
 
+	@Adapt(XHeatingSystemOutput.class)
+	public HeatingSystemOutputFunction createHeatingSystemOutputFunction(
+			@Prop("of") final Optional<XHeatingSystem> system
+			);
+	
 	@Adapt(XHeatLoad.class)
     public HeatLoadFunction createHeatLoadFunction(
     		@Prop(XHeatLoad.P.weights) 

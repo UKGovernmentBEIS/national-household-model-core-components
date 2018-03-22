@@ -186,7 +186,9 @@ public class UnifiedReport extends AbstractNamed implements IStateListener, ISim
 		for (int i = 0; i<values.length; i++) {
 			values[i] = columns.get(i).compute(scope, lets);
 			if (values[i] == null) {
-				throw new IllegalStateException("A function returned null (this should never happen) when calculating report column " + key);
+				throw new IllegalStateException(String.format("A function (%s) returned null (this should never happen) when calculating report column " + key,
+						columns.get(i).getIdentifier()
+						));
 			}
 		}
         return values;

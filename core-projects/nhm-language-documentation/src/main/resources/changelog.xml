@@ -78,6 +78,16 @@
                 consistent u-values and other parameters.
               </para>
             </listitem>
+            <listitem>
+              <para>
+                Addition of
+                <xref linkend="ref.house.heating-system-output"/>
+              </para>
+              <para>
+                This functions allows you to ask the model for the heat
+                output from the heating system.
+              </para>
+            </listitem>
           </orderedlist>
         </listitem>
         <listitem>

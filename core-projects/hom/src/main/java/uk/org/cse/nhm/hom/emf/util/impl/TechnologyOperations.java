@@ -342,6 +342,9 @@ public class TechnologyOperations implements ITechnologyOperations {
 		if (result == null) {
 			result = technologies.getSecondaryHeatingFuel();
 		}
+		if (result == null) {
+			return FuelType.ELECTRICITY;
+		}
 		return result;
 	}
 }

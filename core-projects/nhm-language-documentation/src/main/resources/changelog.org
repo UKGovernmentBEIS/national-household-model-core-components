@@ -29,6 +29,8 @@ If you want to cross-reference to a language element, you need to use the unique
 ***** Addition of SAP2012 Physical Mode
 A new energy calculator mode, ~SAP2012_PHYSICAL~ has been added.
 This is a slightly relaxed version of ~SAP2012~, in which you can change the heating schedule, occupancy and weather parameters but which is otherwise restricted to SAP2012, enforcing consistent u-values and other parameters.
+***** Addition of =ref.house.heating-system-output=
+This functions allows you to ask the model for the heat output from the heating system.
 **** Improvements
 - The service type for space heating has been subdivided into primary and secondary space heating.
   This means it is now possible to separately query energy use and emissions due to each heating system.

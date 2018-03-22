@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.inject.assistedinject.Assisted;
 
+import com.google.common.base.Optional;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.language.adapt.impl.Adapt;
 import uk.org.cse.nhm.language.adapt.impl.Prop;
@@ -91,7 +92,7 @@ public interface IHouseValueFunctionFactory {
 	public GetBuiltForm getGetBuiltForm();
 
 	@Adapt(XMainHeatingFuel2.class)
-	public GetMainHeatingFuel getGetMainHeatingFuel(@Prop("of") XHeatingSystem system);
+	public GetMainHeatingFuel getGetMainHeatingFuel(@Prop("of") Optional<XHeatingSystem> system);
 
 	@Adapt(XMainHeatingFuel.class)
 	public OldGetMainHeatingFuel getOldGetMainHeatingFuel();

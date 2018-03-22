@@ -1,5 +1,6 @@
 package uk.org.cse.nhm.simulator.state.functions.impl.house;
 
+import com.google.common.base.Optional;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
@@ -19,9 +20,9 @@ public class GetMainHeatingFuel extends MainHeatingFuelFunction<XFuelType> {
 	@AssistedInject
 	public GetMainHeatingFuel(final ITechnologyOperations operations,
 							  final IDimension<ITechnologyModel> tech,
-							  @Assisted XHeatingSystem system) {
+							  @Assisted Optional<XHeatingSystem> system) {
 		super(operations, tech);
-		this.system = system;
+		this.system = system.orNull();
 		this.operations = operations;
 	}
 
