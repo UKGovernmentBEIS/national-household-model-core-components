@@ -43,7 +43,7 @@ public class EvaporativeGainsSource implements IEnergyTransducer {
 		*/
 		final double evaporationGains = EVAPORATION_GAINS_PER_PERSON * parameters.getNumberOfOccupants();
 
-		StepRecorder.recordStep(EnergyCalculationStep.Gains_Evaporation, evaporationGains);
+		StepRecorder.recordStep(EnergyCalculationStep.Gains_Evaporation, -evaporationGains);
 
 		state.increaseDemand(EnergyType.GainsUSEFUL_GAINS, evaporationGains);
 	}
