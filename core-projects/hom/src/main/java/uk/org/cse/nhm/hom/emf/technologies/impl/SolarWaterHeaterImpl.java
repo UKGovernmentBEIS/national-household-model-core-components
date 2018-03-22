@@ -20,6 +20,7 @@ import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.hom.IHeatProportions;
 import uk.org.cse.nhm.hom.constants.SolarConstants;
+import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.IOperationalCost;
 import uk.org.cse.nhm.hom.emf.technologies.IShower;
 import uk.org.cse.nhm.hom.emf.technologies.ISolarWaterHeater;
@@ -1002,5 +1003,10 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	@Override
 	public boolean isCommunityHeating() {
 		return false;
+	}
+	
+	@Override
+	public FuelType getFuel() {
+		return FuelType.PHOTONS;
 	}
 } //SolarWaterHeaterImpl

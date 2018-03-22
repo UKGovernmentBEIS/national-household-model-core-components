@@ -266,4 +266,13 @@ public class WarmAirCirculatorImpl extends CentralWaterHeaterImpl implements IWa
 	public boolean isCommunityHeating() {
 		return false;
 	}
+	
+	@Override
+	public FuelType getFuel() {
+		if (getWarmAirSystem() != null) {
+			return getWarmAirSystem().getFuel();
+		} else {
+			return null;
+		}
+	}
 } //WarmAirCirculatorImpl

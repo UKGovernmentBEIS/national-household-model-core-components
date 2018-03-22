@@ -72,6 +72,7 @@ import uk.org.cse.nhm.simulator.state.functions.impl.house.GetVolume;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.OldGetMainHeatingFuel;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.RoofAreaFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.SurveyCodeFunction;
+import uk.org.cse.nhm.language.definition.enums.XHeatingSystem;
 
 public interface IHouseValueFunctionFactory {
 	public GetTariff getGetTariff(final FuelType fuelType);
@@ -90,7 +91,7 @@ public interface IHouseValueFunctionFactory {
 	public GetBuiltForm getGetBuiltForm();
 
 	@Adapt(XMainHeatingFuel2.class)
-	public GetMainHeatingFuel getGetMainHeatingFuel();
+	public GetMainHeatingFuel getGetMainHeatingFuel(@Prop("of") XHeatingSystem system);
 
 	@Adapt(XMainHeatingFuel.class)
 	public OldGetMainHeatingFuel getOldGetMainHeatingFuel();
@@ -127,7 +128,7 @@ public interface IHouseValueFunctionFactory {
 
 	@Adapt(XTotalFloorArea.class)
 	public GetTotalFloorArea getTotalFloorArea();
-	
+
 	@Adapt(XNumberOfAirChangeDevices.class)
     public GetNumberOfAirChangeDevices getNumberOfAirChangeDevices(
             @Assisted  @Prop(P.airChangeDevice) XAdjustNumberOfAirChangeDevices.XAirChangeDevice device);
@@ -146,7 +147,7 @@ public interface IHouseValueFunctionFactory {
 
 	@Adapt(XGetProportionOfDoubleGlazedWindows.class)
     public GetProportionOfDoubleGlazedWindows getProportionOfDoubleGlazedWindows();
-	
+
 	public GetInsolation getGetInsolation(@Assisted("orientation") final double orientation,
                                           @Assisted("inclination") final double inclination);
 
@@ -154,7 +155,7 @@ public interface IHouseValueFunctionFactory {
 	public RoofAreaFunction createRoofAreaFunction(
 			@Prop(XRoofArea.P.pitchCorrection)
 			@Assisted boolean pitchCorrection);
-	
+
 	@Adapt(XHouseLightingProportion.class)
 	public GetHouseLightingProportion getGetHouseLightingProportion(
 			@Assisted("maxEfficiency") @Prop(XHouseLightingProportion.P.maxEfficiency) final IComponentsFunction<Number> maxEfficiency,
@@ -162,7 +163,7 @@ public interface IHouseValueFunctionFactory {
 
 	@Adapt(XSurfaceArea.class)
 	public GetSurfaceArea getGetSurfaceArea();
-	
+
 	@Adapt(XPermeabilityFunction.class)
 	public PermeabilityFunction getPermeabilityFunction(
 			@Prop(XPermeabilityFunction.P.includeDeliberate)
@@ -194,12 +195,12 @@ public interface IHouseValueFunctionFactory {
         @Assisted("horizon") final IComponentsFunction<Number> horizon,
         @Prop(XHealthImpactFunction.P.fromYear)
         @Assisted("offset")  final IComponentsFunction<Number> offset,
-        
+
         @Prop(XHealthImpactFunction.P.hadTrickleVents)
         @Assisted("had-vents")   final IComponentsFunction<Boolean> hadVents,
         @Prop(XHealthImpactFunction.P.hadExtractFans)
         @Assisted("had-fans")   final IComponentsFunction<Boolean> hadFans,
-        
+
         @Prop(XHealthImpactFunction.P.hasTrickleVents)
         @Assisted("has-vents")   final IComponentsFunction<Boolean> vents,
         @Prop(XHealthImpactFunction.P.hasExtractFans)

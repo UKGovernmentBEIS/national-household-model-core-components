@@ -25,6 +25,7 @@ import uk.org.cse.nhm.energycalculator.api.types.Zone2ControlParameter;
 import uk.org.cse.nhm.hom.IHeatProportions;
 import uk.org.cse.nhm.hom.constants.PumpAndFanConstants;
 import uk.org.cse.nhm.hom.emf.technologies.EmitterType;
+import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
 import uk.org.cse.nhm.hom.emf.technologies.ICentralHeatingSystem;
 import uk.org.cse.nhm.hom.emf.technologies.IHeatSource;
@@ -470,4 +471,13 @@ public class CentralHeatingSystemImpl extends SpaceHeaterImpl implements ICentra
 		return getHeatSource().getZoneTwoControlParameter(parameters, getControls(), getEmitterType());
 	}
 
+	@Override
+	public FuelType getFuel() {
+		if (getHeatSource() != null) {
+			return getHeatSource().getFuel();
+		} else {
+			return null;
+		}
+			
+	}
 } //CentralHeatingSystemImpl

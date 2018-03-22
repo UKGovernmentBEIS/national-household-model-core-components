@@ -18,6 +18,7 @@ import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.Zone2ControlParameter;
 import uk.org.cse.nhm.hom.IHeatProportions;
 import uk.org.cse.nhm.hom.constants.adjustments.TemperatureAdjustments;
+import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.IOperationalCost;
 import uk.org.cse.nhm.hom.emf.technologies.IStorageHeater;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
@@ -600,4 +601,8 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 		return Zone2ControlParameter.Three;
 	}
 
+	@Override
+	public FuelType getFuel() {
+		return FuelType.ELECTRICITY;
+	}
 } //StorageHeaterImpl

@@ -2182,6 +2182,14 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 
 		addEOperation(technologyModelEClass, ecorePackage.getEDouble(), "getTotalOperationalCost", 1, 1, IS_UNIQUE, IS_ORDERED);
 
+		addEOperation(technologyModelEClass, this.getFuelType(), "getPrimaryHeatingFuel", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(technologyModelEClass, this.getFuelType(), "getSecondaryHeatingFuel", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(technologyModelEClass, this.getFuelType(), "getPrimaryHotWaterFuel", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(technologyModelEClass, this.getFuelType(), "getSecondaryHotWaterFuel", 0, 1, IS_UNIQUE, IS_ORDERED);
+
 		initEClass(applianceEClass, IAppliance.class, "Appliance", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getAppliance_Efficiency(), ecorePackage.getEDouble(), "efficiency", null, 1, 1, IAppliance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

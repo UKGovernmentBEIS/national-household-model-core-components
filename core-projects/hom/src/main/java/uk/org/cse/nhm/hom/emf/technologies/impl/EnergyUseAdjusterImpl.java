@@ -227,7 +227,7 @@ public class EnergyUseAdjusterImpl extends MinimalEObjectImpl implements IEnergy
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setLinearFactor(double newLinearTerm) {
+	public void setLinearTerm(double newLinearTerm) {
 		double oldLinearTerm = linearTerm;
 		linearTerm = newLinearTerm;
 		if (eNotificationRequired())
@@ -314,7 +314,7 @@ public class EnergyUseAdjusterImpl extends MinimalEObjectImpl implements IEnergy
 				setConstantTerm((Double)newValue);
 				return;
 			case ITechnologiesPackage.ENERGY_USE_ADJUSTER__LINEAR_TERM:
-				setLinearFactor((Double)newValue);
+				setLinearTerm((Double)newValue);
 				return;
 			case ITechnologiesPackage.ENERGY_USE_ADJUSTER__ADJUSTMENT_TYPE:
 				setAdjustmentType((AdjusterType)newValue);
@@ -338,7 +338,7 @@ public class EnergyUseAdjusterImpl extends MinimalEObjectImpl implements IEnergy
 				setConstantTerm(CONSTANT_TERM_EDEFAULT);
 				return;
 			case ITechnologiesPackage.ENERGY_USE_ADJUSTER__LINEAR_TERM:
-				setLinearFactor(LINEAR_TERM_EDEFAULT);
+				setLinearTerm(LINEAR_TERM_EDEFAULT);
 				return;
 			case ITechnologiesPackage.ENERGY_USE_ADJUSTER__ADJUSTMENT_TYPE:
 				setAdjustmentType(ADJUSTMENT_TYPE_EDEFAULT);

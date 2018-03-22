@@ -338,23 +338,10 @@ public class TechnologyOperations implements ITechnologyOperations {
 
 	@Override
 	public FuelType getMainHeatingFuel(final ITechnologyModel technologies) {
-		final IPrimarySpaceHeater primarySpaceHeater = technologies.getPrimarySpaceHeater();
-		if (primarySpaceHeater instanceof ICentralHeatingSystem) {
-			final IHeatSource heatSource = ((ICentralHeatingSystem) primarySpaceHeater).getHeatSource();
-			if(heatSource != null) {
-				return heatSource.getFuel();
-			}
-		} else if (primarySpaceHeater instanceof IStorageHeater) {
-			return FuelType.ELECTRICITY;
-		} else if (primarySpaceHeater instanceof IWarmAirSystem) {
-			return ((IWarmAirSystem) primarySpaceHeater).getFuelType();
+		FuelType result = technologies.getPrimaryHeatingFuel();
+		if (result == null) {
+			result = technologies.getSecondaryHeatingFuel();
 		}
-
-		if (technologies.getSecondarySpaceHeater() != null) {
-			return technologies.getSecondarySpaceHeater().getFuel();
-		} else {
-			// If there is no heating system present, we will use assume portable electric heaters.
-			return FuelType.ELECTRICITY;
-		}
+		return result;
 	}
 }

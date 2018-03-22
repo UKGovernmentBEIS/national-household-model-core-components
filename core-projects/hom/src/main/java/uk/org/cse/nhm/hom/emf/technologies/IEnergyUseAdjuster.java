@@ -57,7 +57,7 @@ public interface IEnergyUseAdjuster extends INamed, IVisitorAccepter {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Linear Term</em>' attribute.
-	 * @see #setLinearFactor(double)
+	 * @see #setLinearTerm(double)
 	 * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getEnergyUseAdjuster_LinearTerm()
 	 * @model
 	 * @generated
@@ -72,7 +72,7 @@ public interface IEnergyUseAdjuster extends INamed, IVisitorAccepter {
 	 * @see #getLinearTerm()
 	 * @generated
 	 */
-	void setLinearFactor(double value);
+	void setLinearTerm(double value);
 
 	/**
 	 * Returns the value of the '<em><b>Adjustment Type</b></em>' attribute.

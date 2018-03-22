@@ -31,4 +31,6 @@ public interface IWaterHeater extends EObject {
 	 */
 	boolean isBroken();
 
+	FuelType getFuel();
+
 } // IWaterHeater

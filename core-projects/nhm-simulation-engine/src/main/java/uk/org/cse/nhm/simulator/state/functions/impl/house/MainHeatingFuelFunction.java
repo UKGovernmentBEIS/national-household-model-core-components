@@ -7,7 +7,7 @@ import uk.org.cse.nhm.simulator.state.IComponents;
 import uk.org.cse.nhm.simulator.state.IDimension;
 
 public abstract class MainHeatingFuelFunction<T> extends TechnologyFunction<T> {
-	private final ITechnologyOperations operations;
+	protected final ITechnologyOperations operations;
 
 	public MainHeatingFuelFunction(ITechnologyOperations operations, IDimension<ITechnologyModel> bad) {
 		super(bad);

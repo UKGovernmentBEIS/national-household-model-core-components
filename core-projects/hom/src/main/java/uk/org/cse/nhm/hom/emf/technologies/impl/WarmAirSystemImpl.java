@@ -517,4 +517,8 @@ public class WarmAirSystemImpl extends SpaceHeaterImpl implements IWarmAirSystem
 		}
 	}
 
+	@Override
+	public FuelType getFuel() {
+		return getFuelType();
+	}
 } //WarmAirSystemImpl

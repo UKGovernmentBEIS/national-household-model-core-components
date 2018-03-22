@@ -33,6 +33,7 @@ This is a slightly relaxed version of ~SAP2012~, in which you can change the hea
 - The service type for space heating has been subdivided into primary and secondary space heating.
   This means it is now possible to separately query energy use and emissions due to each heating system.
 - The documentation for =ref.house.heat-load= has been improved to properly state that the heat load is determined before accounting for gains.
+- The function =house.heating-fuel= can now be used to ask about the heating fuel for secondary heating and hot water systems.
 *** Version 7.1.0
 **** Bugs Fixed
 - Suitabilily for =ref.measure.solar-photovoltaic= is checked correctly.

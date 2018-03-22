@@ -26,6 +26,7 @@ import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.energycalculator.impl.demands.HotWaterDemand09;
+import uk.org.cse.nhm.hom.ICopyable;
 import uk.org.cse.nhm.hom.IHeatProportions;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.IAdjuster;
@@ -78,7 +79,7 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
  *
  * @generated
  */
-public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnologyModel {
+public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnologyModel, ICopyable<ITechnologyModel> {
 	/**
 	 * <!-- begin-user-doc -->
 	 * This corresponds to heating system 693 "Portable Electric Heaters" and 699 "Electric heaters (assumed)" in SAP tables 4a to 4c.
@@ -727,6 +728,54 @@ public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnolo
 		}
 				
 		return operationalCostCache;
+	}
+
+		/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public FuelType getPrimaryHeatingFuel() {
+		final IPrimarySpaceHeater primary = getPrimarySpaceHeater();
+		
+		if (primary == null) return null;
+		
+		return primary.getFuel();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public FuelType getSecondaryHeatingFuel() {
+		final IRoomHeater secondary = getSecondarySpaceHeater();
+		if (secondary == null) return null;
+		return secondary.getFuel();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public FuelType getPrimaryHotWaterFuel() {
+		final ICentralWaterSystem central = getCentralWaterSystem();
+		
+		if (central == null) return null;
+		
+		return central.getPrimaryFuel();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public FuelType getSecondaryHotWaterFuel() {
+		final IWaterHeater secondary = getSecondaryWaterHeater();
+		if (secondary == null) return null;
+		return secondary.getFuel();
 	}
 
 		/**

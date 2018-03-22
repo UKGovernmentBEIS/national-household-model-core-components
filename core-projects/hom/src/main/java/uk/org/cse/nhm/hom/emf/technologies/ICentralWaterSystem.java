@@ -217,11 +217,15 @@ public interface ICentralWaterSystem extends IWaterHeater, IVisitorAccepter, ISt
 	 * Returns true if the proportion should be ignored
 	 * <!-- end-model-doc -->
 	 * @model kind="operation" required="true"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='return getPrimaryWaterHeater() == null && getSecondaryWaterHeater() == null && \n\t\t\t\t(getStore() == null || getStore().getImmersionHeater() == null);'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='return getPrimaryWaterHeater() == null &amp;&amp; getSecondaryWaterHeater() == null &amp;&amp; \n\t\t\t\t(getStore() == null || getStore().getImmersionHeater() == null);'"
 	 * @generated
 	 */
 	boolean isBroken();
 
 	public boolean hasImmersionHeater();
+
+	FuelType getPrimaryFuel();
+
+	FuelType getSecondaryFuel();
 
 } // ICentralWaterSystem
