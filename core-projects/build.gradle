@@ -150,6 +150,12 @@ project(':energy-utils') {
     compile libs.reflections
     compile libs.slf4jSimple
   }
+
+  task genTable(type: JavaExec) {
+    classpath sourceSets.main.runtimeClasspath
+    main = "uk.org.cse.nhm.energy.util.EnergyCalculationStepsGenerator"
+    args "steps.tab"
+  }
 }
 
 project(':nhm-core-api') {
