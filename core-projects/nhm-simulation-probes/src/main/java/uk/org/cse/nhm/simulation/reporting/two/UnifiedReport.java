@@ -143,6 +143,8 @@ public class UnifiedReport extends AbstractNamed implements IStateListener, ISim
 		}
 	}
 
+	private static final Object NA = new Object() { public String toString() { return "n/a"; } };
+
 	/**
 	 * Because the report wants to have information about things which were selected, we keep a buffer
 	 * of report rows in memory in the simulator before we send them down the pipe to get written.
@@ -186,10 +188,13 @@ public class UnifiedReport extends AbstractNamed implements IStateListener, ISim
 		for (int i = 0; i<values.length; i++) {
 			values[i] = columns.get(i).compute(scope, lets);
 			if (values[i] == null) {
-				throw new IllegalStateException(String.format("A function (%s) returned null (this should never happen) when calculating report column " + key,
-						columns.get(i).getIdentifier()
-						));
+				values[i] = NA;
 			}
+			// if (values[i] == null) {
+			// 	throw new IllegalStateException(String.format("A function (%s) returned null (this should never happen) when calculating report column " + key,
+			// 			columns.get(i).getIdentifier()
+			// 			));
+			// }
 		}
         return values;
 	}
@@ -284,7 +289,7 @@ public class UnifiedReport extends AbstractNamed implements IStateListener, ISim
             if (r.columnValuesAfter != null) {
                 builder.put(name + " (After)", r.columnValuesAfter[i]);
             } else {
-                builder.put(name + " (After)", "n/a");
+                builder.put(name + " (After)", NA);
             }
         }
 
