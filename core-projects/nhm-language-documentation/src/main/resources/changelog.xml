@@ -113,9 +113,9 @@
             </listitem>
             <listitem>
               <para>
-                The function <literal>house.heating-fuel</literal> can
-                now be used to ask about the heating fuel for secondary
-                heating and hot water systems.
+                The function <xref linkend="ref.house.heating-fuel"/>
+                can now be used to ask about the heating fuel for
+                secondary heating and hot water systems.
               </para>
             </listitem>
           </itemizedlist>
