@@ -48,7 +48,7 @@ public class SAPSeasonalParameters extends SeasonalParameters {
 	@Override
 	public IHeatingSchedule getHeatingSchedule(final ZoneType zone,
 			final Optional<Zone2ControlParameter> zone2ControlParameter) {
-		if (isHeatingOn()) {
+		//if (isHeatingOn()) { // to make the SAP-steps output comparable, we pretend heating is on all the time here.
 			/*
 			BEISDOC
 			NAME: SAP Heating Schedule
@@ -85,9 +85,9 @@ public class SAPSeasonalParameters extends SeasonalParameters {
 				throw new IllegalArgumentException(
 						"Unknown heating zone while calculating SAP heating schedule " + zone);
 			}
-		} else {
-			return DailyHeatingSchedule.OFF;
-		}
+//		} else {
+//			return DailyHeatingSchedule.OFF;
+//		}
 	}
 
 	@Override
