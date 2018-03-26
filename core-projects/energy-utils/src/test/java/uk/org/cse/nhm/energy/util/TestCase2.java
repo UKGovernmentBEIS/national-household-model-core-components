@@ -1,6 +1,7 @@
 package uk.org.cse.nhm.energy.util;
 
 import java.awt.Polygon;
+import org.junit.Ignore;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;

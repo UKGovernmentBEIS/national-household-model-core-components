@@ -7,6 +7,7 @@ import java.util.EnumSet;
 import org.junit.Assert;
 import org.junit.Test;
 
+import org.junit.Ignore;
 import com.google.common.base.Optional;
 
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculationResult;
