@@ -111,8 +111,6 @@ public class GainsTransducer implements IEnergyTransducer {
 				pumpGains +
 				usefulHotWaterGains;
 
-		StepRecorder.recordStep(EnergyCalculationStep.Gains_Internal, usefulInternalGains);
-
 		state.increaseDemand(EnergyType.GainsSOLAR_GAINS, solarGains);
 		StepRecorder.recordStep(EnergyCalculationStep.Gains_Solar, solarGains);
 
@@ -129,8 +127,6 @@ public class GainsTransducer implements IEnergyTransducer {
 		CODSIEB
 		*/
 		final double usefulGains = solarGains + usefulInternalGains;
-
-		StepRecorder.recordStep(EnergyCalculationStep.Gains, usefulGains);
 
 		state.increaseSupply(EnergyType.GainsUSEFUL_GAINS, usefulGains);
 	}

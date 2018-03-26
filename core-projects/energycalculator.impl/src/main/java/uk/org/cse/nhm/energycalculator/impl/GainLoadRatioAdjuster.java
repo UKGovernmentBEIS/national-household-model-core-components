@@ -1,10 +1,15 @@
 package uk.org.cse.nhm.energycalculator.impl;
 
-import uk.org.cse.nhm.energycalculator.api.*;
-import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
+import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorHouseCase;
+import uk.org.cse.nhm.energycalculator.api.IEnergyState;
+import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
+import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
+import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
+import uk.org.cse.nhm.energycalculator.api.StepRecorder;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.TransducerPhaseType;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 
 /**
  * This is an internal transducer which determines the gain-load ratio and
@@ -16,8 +21,6 @@ import uk.org.cse.nhm.energycalculator.api.types.TransducerPhaseType;
  *
  */
 class GainLoadRatioAdjuster implements IEnergyTransducer {
-	private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(GainLoadRatioAdjuster.class);
-
 	@Override
 	public ServiceType getServiceType() {
 		return ServiceType.INTERNALS;
@@ -67,6 +70,17 @@ class GainLoadRatioAdjuster implements IEnergyTransducer {
 	public void generate(final IEnergyCalculatorHouseCase house, final IInternalParameters parameters, final ISpecificHeatLosses losses, final IEnergyState state) {
 		final double totalGains = state.getExcessSupply(EnergyType.GainsUSEFUL_GAINS);
 
+		{
+			// SAP steps recording for these values has to happen here, rather than in
+			// GainsTransducer, because we need to reflect things which consume gains
+			StepRecorder.recordStep(EnergyCalculationStep.Gains, totalGains);
+			final double solarGains = state.getTotalSupply(EnergyType.GainsSOLAR_GAINS);
+			// The SAP steps need to include this subtotal, which is the sum of all non-solar gains including
+			// evaporative losses. However, for us, there is no place where we work out that subtotal during the calculation.
+			// At this point we do have what we need to work it out so we do it here.
+			StepRecorder.recordStep(EnergyCalculationStep.Gains_Internal, totalGains - solarGains); 
+		}
+		
 		// now we use up these gains, so that we don't use them anywhere else
 		// this box turns them into heat, using the "heating on factor"
 		state.increaseDemand(EnergyType.GainsUSEFUL_GAINS, totalGains);
