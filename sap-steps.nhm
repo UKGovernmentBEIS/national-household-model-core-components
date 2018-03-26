@@ -53,7 +53,7 @@
    (mean-column name: v11 value: (house.energy-calculation-step InfiltrationStructural)) ; Structural infiltration
    (mean-column name: v12 value: (house.energy-calculation-step InfiltrationGroundFloor)) ; Suspended floor infiltration
    (mean-column name: v13 value: (house.energy-calculation-step InfiltrationAbsenceOfDraughtLobby)) ; Draught lobby infiltration
-   (mean-column name: v14 value: (house.energy-calculation-step ProportionWindowsDraughtProofed)) ; Proportion of draughtstripping
+   (mean-column name: v14 value: (* 100 (house.energy-calculation-step ProportionWindowsDraughtProofed))) ; Proportion of draughtstripping
    (mean-column name: v15 value: (house.energy-calculation-step InfiltrationWindows)) ; Window infiltration
    (mean-column name: v16 value: (house.energy-calculation-step InfiltrationRate_Initial)) ; Infiltration rate
 
@@ -68,10 +68,10 @@
    (mean-column name: v21 value: (house.energy-calculation-step InfiltrationRate_IncludingShelter)) ; Adjusted infiltration rate for shelter factor (annual)
 
    ;; BRE have confirmed they have a naming mistake with v22 and v22a
-   (mean-column name: v22 value: (house.energy-calculation-step AverageWindSpeed)) ; Adjusted infiltration rate for monthly wind speed
-   (mean-column name: v22a value: (house.energy-calculation-step WindFactor)) ; Adjusted infiltration rate for wind factor
+   (mean-column name: v22 value: (sum-months AverageWindSpeed)) ; Adjusted infiltration rate for monthly wind speed
+   (mean-column name: v22a value: (sum-months WindFactor)) ; Adjusted infiltration rate for wind factor
 
-   (mean-column name: v22b value: (house.energy-calculation-step InfiltrationRate_IncludingShelterAndWind)) ; Adjusted infiltration rate allowing for shelter factor and wind factor
+   (mean-column name: v22b value: (sum-months InfiltrationRate_IncludingShelterAndWind)) ; Adjusted infiltration rate allowing for shelter factor and wind factor
 
    ;; The following are not implemented in the NHM:
    ;; v23a mechanical ventilation
@@ -83,8 +83,8 @@
    ;; v24c whole house extract or positive input ventilation from outside
 
    ;; BRE have a naming mistake with v24d
-   (mean-column name: v24d value: (house.energy-calculation-step Ventilation_NaturalOrPositiveFromLoft)) ; Effective air change rate
-   (mean-column name: v25 value: (house.energy-calculation-step AirChanges_Effective)) ; Effective air change rate
+   (mean-column name: v24d value: (sum-months Ventilation_NaturalOrPositiveFromLoft)) ; Effective air change rate
+   (mean-column name: v25 value: (sum-months AirChanges_Effective)) ; Effective air change rate
 
    ;; BRE deviate from the SAP worksheet for v26 and v26a, where SAP has separate cells for Solid and Semi-Glazed doors.
    (mean-column name: v26 value: (+ (house.energy-calculation-step HeatLossCoefficient_DoorsSolid) ; Heat loss coefficient - doors
@@ -128,7 +128,7 @@
    (mean-column name: v35 value: (house.energy-calculation-step ThermalMassParameter)) ; Thermal mass parameter
    (mean-column name: v36 value: (house.energy-calculation-step ThermalBridges)) ; Thermal bridges heat loss
    (mean-column name: v37 value: (house.energy-calculation-step FabricLossTotal)) ; Total fabric heat loss
-   (mean-column name: v38 value: (house.energy-calculation-step VentilationHeatLoss)) ; Ventilation heat loss
+   (mean-column name: v38 value: (sum-months VentilationHeatLoss)) ; Ventilation heat loss
    (mean-column name: v39 value: (house.energy-calculation-step HeatTransferCoefficient)) ; Heat loss coefficient
    (mean-column name: v40 value: (house.energy-calculation-step HeatLossParameter)) ; Heat loss parameter
 
@@ -156,51 +156,51 @@
 
    (mean-column name: v54 value: (house.energy-calculation-step WaterHeating_StorageLosses_Daily_Calculated)) ; Energy lost from water storage 2
    (mean-column name: v55 value: (house.energy-calculation-step WaterHeating_StorageLosses_Daily)) ; Overall energy lost from water storage
-   (mean-column name: v56 value: (house.energy-calculation-step WaterHeating_StorageLosses_Monthly)) ; Water storage loss
-   (mean-column name: v57 value: (house.energy-calculation-step WaterHeating_StorageLosses_Monthly_ExcludeSolar)) ; Where cylinder contains dedicated solar storage
+   (mean-column name: v56 value: (sum-months WaterHeating_StorageLosses_Monthly)) ; Water storage loss
+   (mean-column name: v57 value: (sum-months WaterHeating_StorageLosses_Monthly_ExcludeSolar)) ; Where cylinder contains dedicated solar storage
 
    ;; There's no cell 58 in the SAP worksheet, but BRE have included one in their spreadsheet.
-   (mean-column name: v58 value: (house.energy-calculation-step WaterHeating_PrimaryCircuitLoss_Monthly)) ; Primary circuit loss
-   (mean-column name: v59 value: (house.energy-calculation-step WaterHeating_PrimaryCircuitLoss_Monthly)) ; Primary circuit loss
+   (mean-column name: v58 value: (sum-months WaterHeating_PrimaryCircuitLoss_Monthly)) ; Primary circuit loss
+   (mean-column name: v59 value: (sum-months WaterHeating_PrimaryCircuitLoss_Monthly)) ; Primary circuit loss
 
-   (mean-column name: v61 value: (house.energy-calculation-step WaterHeating_CombiLoss_Monthly)) ; Combi boiler loss
-   (mean-column name: v62 value: (house.energy-calculation-step WaterHeating_TotalHeat_Monthly_BeforeSolar)) ; Total heat required for water heating
-   (mean-column name: v63 value: (house.energy-calculation-step WaterHeating_Solar)) ; Solar DHW input
-   (mean-column name: v64 value: (- (house.energy-calculation-step WaterHeating_TotalHeat_Monthly_BeforeSolar)
-                                    (house.energy-calculation-step WaterHeating_Solar))) ; Output from water heater
-   (mean-column name: v65 value: (house.energy-calculation-step Gains_HotWater_Monthly)) ; Heat gains from water heating
-   (mean-column name: v66 value: (house.energy-calculation-step Gains_Metabolic)) ; Metabolic gains
-   (mean-column name: v67 value: (house.energy-calculation-step Gains_Lighting)) ; Lighting gains
-   (mean-column name: v68 value: (house.energy-calculation-step Gains_Appliances)) ; Appliances gains
-   (mean-column name: v69 value: (house.energy-calculation-step Gains_Cooking)) ; Cooking gains
-   (mean-column name: v70 value: (house.energy-calculation-step Gains_PumpsAndFans)) ; Pumps and fans gains
-   (mean-column name: v71 value: (house.energy-calculation-step Gains_Evaporation)) ; Losses e.g evaporation
+   (mean-column name: v61 value: (sum-months WaterHeating_CombiLoss_Monthly)) ; Combi boiler loss
+   (mean-column name: v62 value: (sum-months WaterHeating_TotalHeat_Monthly_BeforeSolar)) ; Total heat required for water heating
+   (mean-column name: v63 value: (sum-months WaterHeating_Solar)) ; Solar DHW input
+   (mean-column name: v64 value: (- (sum-months WaterHeating_TotalHeat_Monthly_BeforeSolar)
+                                    (sum-months WaterHeating_Solar))) ; Output from water heater
+   (mean-column name: v65 value: (sum-months Gains_HotWater_Monthly)) ; Heat gains from water heating
+   (mean-column name: v66 value: (sum-months Gains_Metabolic)) ; Metabolic gains
+   (mean-column name: v67 value: (sum-months Gains_Lighting)) ; Lighting gains
+   (mean-column name: v68 value: (sum-months Gains_Appliances)) ; Appliances gains
+   (mean-column name: v69 value: (sum-months Gains_Cooking)) ; Cooking gains
+   (mean-column name: v70 value: (sum-months Gains_PumpsAndFans)) ; Pumps and fans gains
+   (mean-column name: v71 value: (sum-months Gains_Evaporation)) ; Losses e.g evaporation
    ;; Gains_HotWater will be the same as Gains_HotWater_Monthly because we don't have to do the conversion. Hmm.
-   (mean-column name: v72 value: (house.energy-calculation-step Gains_HotWater)) ; Water heating gains
-   (mean-column name: v73 value: (house.energy-calculation-step Gains_Internal)) ; Total internal gains
+   (mean-column name: v72 value: (sum-months Gains_HotWater)) ; Water heating gains
+   (mean-column name: v73 value: (sum-months Gains_Internal)) ; Total internal gains
 
    ;; Omitted: v74 to v81 - solar gains by orientation. This is difficult to get out of the NHM
 
    ;; Solar rooflights aren't implemented in the NHM, so v82 will always come out as 0.
-   (mean-column name: v82 value: (house.energy-calculation-step Gains_Solar_Roof)) ; Solar gains - rooflights
+   (mean-column name: v82 value: (sum-months Gains_Solar_Roof)) ; Solar gains - rooflights
 
-   (mean-column name: v83 value: (house.energy-calculation-step Gains_Solar)) ; Total solar gains
+   (mean-column name: v83 value: (sum-months Gains_Solar)) ; Total solar gains
 
-   (mean-column name: v84 value: (house.energy-calculation-step Gains)) ; Total gains
+   (mean-column name: v84 value: (sum-months Gains)) ; Total gains
 
    (mean-column name: v85 value: (house.energy-calculation-step DemandTemperature_LivingArea)) ; Temperature - heating periods in the living area
-   (mean-column name: v86 value: (house.energy-calculation-step GainsUtilisation_LivingArea)) ; Utilisation factor for gains for living area
-   (mean-column name: v87 value: (house.energy-calculation-step MeanInternalTemperature_LivingArea)) ; Mean intenal temperature of the living area
-   (mean-column name: v88 value: (house.energy-calculation-step DemandTemperature_RestOfDwelling)) ; Temperature - heating periods in rest of dwelling
-   (mean-column name: v89 value: (house.energy-calculation-step GainsUtilisation_RestOfDwelling)) ; Utilisation factor for gains for rest of dwelling
-   (mean-column name: v90 value: (house.energy-calculation-step MeanInternalTemperature_RestOfDwelling)) ; Mean intenal temperature in rest of dwelling
+   (mean-column name: v86 value: (sum-months GainsUtilisation_LivingArea)) ; Utilisation factor for gains for living area
+   (mean-column name: v87 value: (sum-months MeanInternalTemperature_LivingArea)) ; Mean intenal temperature of the living area
+   (mean-column name: v88 value: (sum-months DemandTemperature_RestOfDwelling)) ; Temperature - heating periods in rest of dwelling
+   (mean-column name: v89 value: (sum-months GainsUtilisation_RestOfDwelling)) ; Utilisation factor for gains for rest of dwelling
+   (mean-column name: v90 value: (sum-months MeanInternalTemperature_RestOfDwelling)) ; Mean intenal temperature in rest of dwelling
    (mean-column name: v91 value: (house.energy-calculation-step LivingAreaFraction)) ; Living area fraction
-   (mean-column name: v92 value: (house.energy-calculation-step MeanInternalTemperature_Unadjusted)) ; Mean internal temperature for the whole dwelling
-   (mean-column name: v93 value: (house.energy-calculation-step MeanInternalTemperature)) ; Adjustment to the mean internal temperature
-   (mean-column name: v94 value: (house.energy-calculation-step GainsUtilisation)) ; Space heating - utilisation factor for gains
-   (mean-column name: v95 value: (house.energy-calculation-step Gains_Useful)) ; Useful gains
-   (mean-column name: v96 value: (house.energy-calculation-step ExternalTemperature)) ; Average external temperature
-   (mean-column name: v97 value: (house.energy-calculation-step HeatLossRate)) ; Heat loss rate for mean internal temperature
+   (mean-column name: v92 value: (sum-months MeanInternalTemperature_Unadjusted)) ; Mean internal temperature for the whole dwelling
+   (mean-column name: v93 value: (sum-months MeanInternalTemperature)) ; Adjustment to the mean internal temperature
+   (mean-column name: v94 value: (sum-months GainsUtilisation)) ; Space heating - utilisation factor for gains
+   (mean-column name: v95 value: (sum-months Gains_Useful)) ; Useful gains
+   (mean-column name: v96 value: (sum-months ExternalTemperature)) ; Average external temperature
+   (mean-column name: v97 value: (sum-months HeatLossRate)) ; Heat loss rate for mean internal temperature
    (mean-column name: v98 value: (house.energy-calculation-step SpaceHeating)) ; Space heating requirement per month
 
    ;; Space heating requirement
@@ -226,11 +226,11 @@
 
    ;; Community heating systems will always have efficiency of '1', because we convert heat demand 1-for-1 into community heat in the NHM
    ;; Hybrid heat pumps output the efficiency of the main heat pump. These don't really fit into the SAP worksheet properly, because their efficiency varies by month.
-   (mean-column name: v206 value: (house.energy-calculation-step SpaceHeating_Efficiency_Main_System1)) ; Efficiency of main space heating system 1
+   (mean-column name: v206 value: (* 100 (house.energy-calculation-step SpaceHeating_Efficiency_Main_System1))) ; Efficiency of main space heating system 1
 
    ;; v207 - Efficiency of main space heating system 2 omitted as unsupported in the NHM
 
-   (mean-column name: v208 value: (house.energy-calculation-step SpaceHeating_Efficiency_Secondary)) ; Efficiency of secondary/supplementary heating system, %
+   (mean-column name: v208 value: (* 100 (house.energy-calculation-step SpaceHeating_Efficiency_Secondary))) ; Efficiency of secondary/supplementary heating system, %
 
    ;; v209 - Cooling System Energy Efficiency Ratio omitted as unsupported in the NHM.
 
@@ -250,7 +250,7 @@
    (mean-column name: v216 value: (- (house.energy-calculation-step WaterHeating_TotalHeat_Monthly_BeforeSolar)
                                      (house.energy-calculation-step WaterHeating_Solar))) ; Output from water heater
 
-   (mean-column name: v217 value: (house.energy-calculation-step WaterHeating_Efficiency)) ; Efficiency of water heater
+   (mean-column name: v217 value: (* 100 (house.energy-calculation-step WaterHeating_Efficiency))) ; Efficiency of water heater
 
    ;; Step 218 doesn't exist in the SAP worksheet
 
@@ -329,3 +329,17 @@
 
 (template mean-column [@name @value]
           (column name: @name value: @value summary: [(mean)]))
+
+(template sum-months [@1:step]
+          (+ (house.energy-calculation-step @step month:1)
+             (house.energy-calculation-step @step month:2)
+             (house.energy-calculation-step @step month:3)
+             (house.energy-calculation-step @step month:4)
+             (house.energy-calculation-step @step month:5)
+             (house.energy-calculation-step @step month:6)
+             (house.energy-calculation-step @step month:7)
+             (house.energy-calculation-step @step month:8)
+             (house.energy-calculation-step @step month:9)
+             (house.energy-calculation-step @step month:10)
+             (house.energy-calculation-step @step month:11)
+             (house.energy-calculation-step @step month:12)))
