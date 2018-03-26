@@ -141,7 +141,14 @@
 
    (mean-column name: v44 value: (house.energy-calculation-step WaterHeating_Usage_MonthAdjusted)) ; Hot water usage in litres per day
 
-   (mean-column name: v45 value: (house.energy-calculation-step WaterHeating_EnergyContent)) ; Energy content of hot water used
+   (mean-column name: v45 value: (/ (house.energy-calculation-step WaterHeating_EnergyContent) 0.85))
+   ;; ^^ Energy content of hot water used. This is divided by 0.85
+   ;; because the NHM computes the energy content of actual delivered
+   ;; hot water and then adds on distribution losses later, whereas
+   ;; SAP computes the energy content plus distribution losses, and
+   ;; then nets off the losses if you don't have them. Since the NHM
+   ;; adds them on later it's a wash, but we make up the difference
+   ;; here so the values are comparable with BRE's values.
    (mean-column name: v46 value: (house.energy-calculation-step WaterHeating_DistributionLoss)) ; Distribution loss
 
    ;; BRE's naming differs from the SAP worksheet here.
