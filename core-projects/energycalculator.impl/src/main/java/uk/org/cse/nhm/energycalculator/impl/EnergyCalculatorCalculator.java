@@ -789,9 +789,9 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         final double[] demandTemperature = new double[] { adjustedParameters.getZoneOneDemandTemperature(),
                 adjustedParameters.getZoneTwoDemandTemperature() };
 
-        final double timeConstant = getTimeConstant(heatLosses);
-        final double coolingTime = getCoolingTime(timeConstant);
-        final double utilisationFactorExponent = getUtilisationFactorExponent(timeConstant);
+        final double timeConstant = getTimeConstant(heatLosses); // tau in 9a
+        final double coolingTime = getCoolingTime(timeConstant); // t_c in 9b
+        final double utilisationFactorExponent = getUtilisationFactorExponent(timeConstant); // a in table 9a
 
         /*
         BEISDOC
@@ -875,8 +875,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         StepRecorder.recordStep(
                 EnergyCalculationStep.WaterHeating_TotalHeat_Monthly_BeforeSolar,
                 state.getTotalSupply(EnergyType.DemandsHOT_WATER) +
-                        state.getTotalSupply(EnergyType.GainsHOT_WATER_SYSTEM_GAINS) +
-                        state.getTotalSupply(EnergyType.GainsHOT_WATER_USAGE_GAINS)
+                        state.getTotalSupply(EnergyType.GainsHOT_WATER_SYSTEM_GAINS)
         );
 
         return new EnergyCalculationResult(state, heatLosses, v.areasByType[0], v.areasByType[1]);
@@ -1090,6 +1089,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         ID: utilisation-factor-exponent
         CODSIEB
         */
+    	// this is a = 1 + tau / 15
         return 1 + (timeConstant / UTILISATION_FACTOR_TIME_CONSTANT_DIVISOR);
     }
 
@@ -1108,7 +1108,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         ID: cooling-time
         CODSIEB
         */
-
+    	// This is Tc = 4 + 0.25 tau
         return MINIMUM_COOLING_TIME + COOLING_TIME_CONSTANT_MULTIPLIER * timeConstant;
     }
 
@@ -1127,6 +1127,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         ID: time-constant
         CODSIEB
         */
+    	// this is tau = TMP / 3.6 * HLP
         return div(heatLosses.getThermalMassParameter(),
                    (TIME_CONSTANT_HEAT_LOSS_PARAMETER_MULTIPLIER * heatLosses.getHeatLossParameter()), "time constant");
     }
