@@ -34,7 +34,9 @@ public class PathFS implements IFS<Path> {
         final Path p = deserialize(arg0);
         if (p == null) throw new IllegalArgumentException("The path " + arg0 + " de-serialized to null");
         final Path parent = p.getParent();
-        if (parent == null) throw new IllegalArgumentException("The path " + p + " has a null parent path");
+        if (parent == null) {
+        	return deserialize(arg1);
+        }
         final Path result = parent.resolve(arg1);
         return result;
 	}
