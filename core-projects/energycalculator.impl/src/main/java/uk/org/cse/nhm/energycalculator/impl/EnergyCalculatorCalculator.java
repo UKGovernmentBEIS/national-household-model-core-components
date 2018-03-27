@@ -874,7 +874,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 
         StepRecorder.recordStep(
                 EnergyCalculationStep.WaterHeating_TotalHeat_Monthly_BeforeSolar,
-                state.getTotalSupply(EnergyType.DemandsHOT_WATER) +
+                state.getTotalSupply(EnergyType.GainsHOT_WATER_USAGE_GAINS) +
                         state.getTotalSupply(EnergyType.GainsHOT_WATER_SYSTEM_GAINS)
         );
 
