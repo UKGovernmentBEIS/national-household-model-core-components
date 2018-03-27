@@ -320,6 +320,7 @@ project(':nhm-language-documentation') {
     // we only want xml files in the output jar
     from new File(project.buildDir, '/outputs/')
     include '**/*.xml'
+    include '**/*.png'
     includeEmptyDirs false
   }
 
@@ -440,6 +441,7 @@ project(':nhm-stock-documentation') {
   jar {
     dependsOn generateReference, generateVarUsage
     include '**/*.xml'
+    include '**/*.png'
     includeEmptyDirs false
   }
 

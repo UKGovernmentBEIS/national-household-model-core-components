@@ -25,6 +25,22 @@ If you want to cross-reference to a language element, you need to use the unique
 **** Bugs Fixed
 - A small bug which caused an error during validation of scenarios with an invalid stock file name has been removed.
   This should make the desktop application a little bit better behaved.
+
+- A typo in the representative UK latitude (35.5 degrees, as opposed to 53.5) caused reduced solar gains and less useful daylight for lighting.
+  The representative latitude is only used in SAP mode, so there is no effect on BREDEM mode calculations.
+
+  #+CAPTION: Weighted scatterplot of error in SAP score due to latitude error, for EHS 2012 stock. Cases with no error are omitted to make the graph readable, and are visible in the histogram below.
+  [[./figures/score-bug/score-xy.png]]
+
+  #+CAPTION: Weighted histogram of error in SAP score due to latitude error, for EHS 2012 stock, including all cases.
+  [[./figures/score-bug/score-histogram.png]]
+
+  #+CAPTION: Scatterplot of error in energy use (in SAP mode) due to latitude error, for EHS 2012 stock. This figure is restricted to houses with energy use below 200,000 kWh/year, for clarity.
+  [[./figures/score-bug/energy-most-xy.png]]
+
+  #+CAPTION: Scatterplot of error in energy use (in SAP mode) due to latitude error, for EHS 2012 stock.
+  [[./figures/score-bug/energy-all-xy.png]]
+
 **** New Features
 ***** Addition of SAP2012 Physical Mode
 A new energy calculator mode, ~SAP2012_PHYSICAL~ has been added.

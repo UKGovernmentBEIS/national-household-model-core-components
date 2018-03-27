@@ -48,7 +48,7 @@
           <para>
             Bugs Fixed
           </para>
-          <itemizedlist spacing="compact">
+          <itemizedlist>
             <listitem>
               <para>
                 A small bug which caused an error during validation of
@@ -56,6 +56,72 @@
                 removed. This should make the desktop application a
                 little bit better behaved.
               </para>
+            </listitem>
+            <listitem>
+              <para>
+                A typo in the representative UK latitude (35.5 degrees,
+                as opposed to 53.5) caused reduced solar gains and less
+                useful daylight for lighting. The representative
+                latitude is only used in SAP mode, so there is no effect
+                on BREDEM mode calculations.
+              </para>
+              <figure>
+                <title>Weighted scatterplot of error in SAP score due to
+                latitude error, for EHS 2012 stock. Cases with no error
+                are omitted to make the graph readable, and are visible
+                in the histogram below.</title>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="./figures/score-bug/score-xy.png" />
+                  </imageobject>
+                  <textobject><phrase>Weighted scatterplot of error in
+                  SAP score due to latitude error, for EHS 2012 stock.
+                  Cases with no error are omitted to make the graph
+                  readable, and are visible in the histogram
+                  below.</phrase></textobject>
+                </mediaobject>
+              </figure>
+              <figure>
+                <title>Weighted histogram of error in SAP score due to
+                latitude error, for EHS 2012 stock, including all
+                cases.</title>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="./figures/score-bug/score-histogram.png" />
+                  </imageobject>
+                  <textobject><phrase>Weighted histogram of error in SAP
+                  score due to latitude error, for EHS 2012 stock,
+                  including all cases.</phrase></textobject>
+                </mediaobject>
+              </figure>
+              <figure>
+                <title>Scatterplot of error in energy use (in SAP mode)
+                due to latitude error, for EHS 2012 stock. This figure
+                is restricted to houses with energy use below 200,000
+                kWh/year, for clarity.</title>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="./figures/score-bug/energy-most-xy.png" />
+                  </imageobject>
+                  <textobject><phrase>Scatterplot of error in energy use
+                  (in SAP mode) due to latitude error, for EHS 2012
+                  stock. This figure is restricted to houses with energy
+                  use below 200,000 kWh/year, for
+                  clarity.</phrase></textobject>
+                </mediaobject>
+              </figure>
+              <figure>
+                <title>Scatterplot of error in energy use (in SAP mode)
+                due to latitude error, for EHS 2012 stock.</title>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="./figures/score-bug/energy-all-xy.png" />
+                  </imageobject>
+                  <textobject><phrase>Scatterplot of error in energy use
+                  (in SAP mode) due to latitude error, for EHS 2012
+                  stock.</phrase></textobject>
+                </mediaobject>
+              </figure>
             </listitem>
           </itemizedlist>
         </listitem>
