@@ -1149,7 +1149,7 @@ public enum EnergyCalculationStep {
     public double convertMonthly(List<Double> data, int month) {
         return conversion.convert(
                 period.getMonth(data, month),
-                MonthType.values()[month + 1].getStandardDays()
+                MonthType.values()[month - 1].getStandardDays()
             );
     }
 
