@@ -12,7 +12,7 @@ stdenv.mkDerivation rec {
     git xmlstarlet jdk maven gradle webfs
     (rWrapper.override {
       packages = with rPackages;
-      [ dplyr jsonlite stringr data_table plyr ggplot2 ];
+      [ dplyr jsonlite stringr data_table plyr ggplot2 tidyr ];
     })
   ];
 }

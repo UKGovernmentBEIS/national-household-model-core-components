@@ -153,7 +153,7 @@ fi
 
 if [ ${steps["ide"]} == 1 ]; then
     green "Copy jars to p2 inputs directory"
-    find binaries -iname \*.jar -exec cp '{}' p2/inputs/plugins/ ';'
+    find binaries -iname \*.jar -exec cp '-p' '{}' p2/inputs/plugins/ ';'
     pushd p2
     mvn tycho-p2-extras:publish-features-and-bundles
     cd target/repository
