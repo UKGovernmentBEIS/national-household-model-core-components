@@ -24,6 +24,21 @@ If you want to cross-reference to a language element, you need to use the unique
 *** Version 7.2.0
 **** New features
 - Added =ref.house.energy-calculation-step=, a number function which allow you to look at intermediate steps in the energy calculation.
+**** Bugs Fixed
+- A typo in the representative UK latitude (35.5 degrees, as opposed to 53.5) caused reduced solar gains and less useful daylight for lighting.
+  The representative latitude is only used in SAP mode, so there is no effect on BREDEM mode calculations.
+
+  #+CAPTION: Weighted scatterplot of error in SAP score due to latitude error, for EHS 2012 stock. Cases with no error are omitted to make the graph readable, and are visible in the histogram below.
+  [[./figures/score-bug/score-xy.png]]
+
+  #+CAPTION: Weighted histogram of error in SAP score due to latitude error, for EHS 2012 stock, including all cases.
+  [[./figures/score-bug/score-histogram.png]]
+
+  #+CAPTION: Scatterplot of error in energy use (in SAP mode) due to latitude error, for EHS 2012 stock. This figure is restricted to houses with energy use below 200,000 kWh/year, for clarity.
+  [[./figures/score-bug/energy-most-xy.png]]
+
+  #+CAPTION: Scatterplot of error in energy use (in SAP mode) due to latitude error, for EHS 2012 stock.
+  [[./figures/score-bug/energy-all-xy.png]]
 **** Improvements
 - Added extra =record-changes= property on =ref.def-report=. If you set it to "false", then you won't get the "After" columns in the report.
 - Added extra services =MainSpaceHeating= and =SecondarySpaceHeating=, which you can use in conjunction with =ref.house.energy-use=.

@@ -3,6 +3,56 @@ import org.junit.Test;
 import org.junit.Assert;
 
 public class InsolationPlaneUtilTest {
+	@Test
+	public void southFacingStandardValues() {
+		final double[] monthlySun = new double[] {
+				26, 54, 96, 150, 192, 200, 189, 157, 115, 66, 33, 21
+		};
+		final double [] declination = new double[] {
+				-20.7, -12.8, -1.8, 9.8, 18.8, 23.1, 21.2, 13.7, 2.9, -8.7, -18.4, -23.0
+		};
+		
+/*
+sun.monthly <- c(26, 54, 96, 150, 192, 200, 189, 157, 115, 66, 33, 21)
+declination <- c(-20.7, -12.8, -1.8, 9.8, 18.8, 23.1, 21.2, 13.7, 2.9, -8.7, -18.4, -23.0)
+latitude <-  53.5
+
+Rh <- function(ks, tilt, month) {
+    phi_delta <- (pi * (latitude - declination)/180)[month]
+    sin_tilt_2 <- sin(tilt/2)
+    parts <- c(sin_tilt_2^3, sin_tilt_2^2, sin_tilt_2)
+
+    A <- sum(parts * ks[1:3])
+    B <- sum(parts * ks[4:6])
+    C <- sum(parts * ks[7:9]) + 1
+
+    A * (cos(phi_delta)^2) + B * cos(phi_delta) + C
+}
+
+S <- function(ks, tilt, month) sun.monthly[month] * Rh(ks, tilt, month)
+
+Ks_south = c(-0.66, -0.106, 2.93, 3.63, -0.374, -7.4, -2.71, -0.991, 4.59)
+S(Ks_south, pi/2, 1:12)
+*/
+		
+		final double[] expectation = new double[] {
+				46.75207,  76.56784,  97.53384 ,110.23441 ,114.87108 ,110.54778 ,108.01191 ,104.89453 ,101.88561 , 82.58559 , 55.41714,
+				40.39809
+		};
+		
+		final double lat = 53.5;
+		final double R = Math.PI / 180;
+		for (int month = 0; month<12; month++) {
+			final double out = InsolationPlaneUtil.getSolarFluxMultiplier(
+					R*declination[month], 
+					R*lat, 
+					R*90, 
+					R*180);
+
+			Assert.assertEquals(expectation[month], monthlySun[month] * out, 0.1);
+		}
+	}
+	
     @Test
     public void fluxMuliplierIsOneWhenFlat() {
         Assert.assertEquals(1, InsolationPlaneUtil.getSolarFluxMultiplier(
