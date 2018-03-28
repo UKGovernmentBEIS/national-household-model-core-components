@@ -19,11 +19,7 @@ function inf {
 }
 
 function newest {
-    unset -v latest
-    for file in "$@"; do
-        [[ $file -nt $latest ]] && latest=$file
-    done
-    echo "$latest"
+    find "$@" | sort -n | tail -n 1
 }
 
 function download_version {
