@@ -141,8 +141,10 @@ if [ ${steps["docs"]} == 1 ]; then
     popd
 else
     green "Skip documentation"
-
 fi
+
+green "Copy jars to p2 inputs directory"
+find binaries -iname \*.jar -exec cp '-p' '{}' p2/inputs/plugins/ ';'
 
 if [ ${steps["tests"]} == 1 ]; then
     green "Running system tests"
@@ -152,8 +154,7 @@ if [ ${steps["tests"]} == 1 ]; then
 fi
 
 if [ ${steps["ide"]} == 1 ]; then
-    green "Copy jars to p2 inputs directory"
-    find binaries -iname \*.jar -exec cp '-p' '{}' p2/inputs/plugins/ ';'
+    green "Create P2 repo and serve contents on port 8000"
     pushd p2
     mvn tycho-p2-extras:publish-features-and-bundles
     cd target/repository
