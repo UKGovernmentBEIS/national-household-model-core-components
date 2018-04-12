@@ -13,6 +13,7 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyCalculationResult;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculator;
 import uk.org.cse.nhm.energycalculator.api.IEnergyState;
 import uk.org.cse.nhm.energycalculator.api.IHeatingSchedule;
+import uk.org.cse.nhm.energycalculator.api.IWeather;
 import uk.org.cse.nhm.energycalculator.api.impl.BredemExternalParameters;
 import uk.org.cse.nhm.energycalculator.api.impl.DailyHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.types.AreaType;
@@ -21,7 +22,9 @@ import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.MonthType;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
-import uk.org.cse.nhm.energycalculator.impl.BredemSeasonalParameters;
+import uk.org.cse.nhm.energycalculator.impl.BREDEMHeatingSeasonalParameters;
+import uk.org.cse.nhm.energycalculator.impl.SeasonalParameters;
+import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
 import uk.org.cse.nhm.hom.SurveyCase;
 
 /**
@@ -128,6 +131,7 @@ public class AnnualizedEnergyCalculator {
 		Map<AreaType, Double> heatLosses = null;
 
 		final BredemExternalParameters parameters = new BredemExternalParameters(
+				EnergyCalculatorType.BREDEM2012,
 				ElectricityTariffType.ECONOMY_7,
 				zoneOneDemandTemperature,
 				Optional.<Double>absent(),
@@ -138,15 +142,30 @@ public class AnnualizedEnergyCalculator {
 		surveyCase.getStructure().setZoneTwoHeatedProportion(1d);
 
 
-		final BredemSeasonalParameters[] seasons = new BredemSeasonalParameters[12];
+		final SeasonalParameters[] seasons = new SeasonalParameters[12];
 
 		// set monthly varying parameters
 		for (final MonthType m : MonthType.values()) {
-			seasons[m.ordinal()] = new BredemSeasonalParameters(m,
-					externalTemperature.get(region, m.ordinal()), windSpeed.get(
-							region, m.ordinal()), horizontalSolarFlux.get(region,
-							m.ordinal()), region.getLatitudeRadians(),
-					heatingMonths[m.ordinal()] ? heatingSchedule : heatingOff, Optional.<IHeatingSchedule>absent());
+			seasons[m.ordinal()] = new BREDEMHeatingSeasonalParameters(m,
+					new IWeather() {
+						
+						@Override
+						public double getWindSpeed(MonthType month) {
+							return windSpeed.get(region, month.ordinal());
+						}
+						
+						@Override
+						public double getHorizontalSolarFlux(MonthType month) {
+							return horizontalSolarFlux.get(region, month.ordinal());
+						}
+						
+						@Override
+						public double getExternalTemperature(MonthType month) {
+							return externalTemperature.get(region, month.ordinal());
+						}
+					},
+					region.getLatitudeRadians(),
+					heatingMonths[m.ordinal()] ? heatingSchedule : heatingOff);
 		}
 
 

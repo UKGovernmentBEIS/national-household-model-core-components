@@ -15,21 +15,12 @@ import uk.org.cse.nhm.energycalculator.api.IHeatingSystem;
 import uk.org.cse.nhm.energycalculator.api.IVentilationSystem;
 import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
 import uk.org.cse.nhm.energycalculator.api.impl.SimpleLightingTransducer;
-import uk.org.cse.nhm.energycalculator.api.types.AreaType;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
-import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
-import uk.org.cse.nhm.energycalculator.api.types.FloorType;
-import uk.org.cse.nhm.energycalculator.api.types.FrameType;
-import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
-import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
+import uk.org.cse.nhm.energycalculator.api.types.*;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
-import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
-import uk.org.cse.nhm.energycalculator.api.types.RoofType;
-import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
-import uk.org.cse.nhm.energycalculator.api.types.WindowGlazingAirGap;
-import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
 import uk.org.cse.nhm.energycalculator.impl.demands.LightingDemand09;
 import uk.org.cse.nhm.energycalculator.impl.gains.SolarGainsSource;
+import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
 
 /**
  * Helper class for the calculator, which implements the visitor interface and connects up default transducers.
@@ -51,7 +42,7 @@ import uk.org.cse.nhm.energycalculator.impl.gains.SolarGainsSource;
  * @author hinton
  *
  */
-abstract class Visitor implements IEnergyCalculatorVisitor {
+final class Visitor implements IEnergyCalculatorVisitor {
 	private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Visitor.class);
 
 	public final IStructuralInfiltrationAccumulator infiltration;
@@ -92,26 +83,25 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 
 	private FloorConstructionType groundFloorConstructionType;
 	private Double floorInsulationThickness;
+	
+	private final EnergyCalculatorType mode;
+	private final Country country;
+	private final Band band;
 
 	public static Visitor create(final IConstants constants, final IEnergyCalculatorParameters parameters, final int buildYear, final Country country, final List<IEnergyTransducer> defaultTransducers) {
-		switch(parameters.getCalculatorType()) {
-		case SAP2012_UVALUES:
-		case SAP2012:
-			return new SAPVisitor(constants, parameters, buildYear, country, defaultTransducers);
-		case BREDEM2012:
-			return new BREDEMVisitor(constants, parameters, defaultTransducers);
-		default:
-			throw new UnsupportedOperationException("Unknown calculator type when choosing visitor to construct " + parameters.getCalculatorType());
-		}
+		return new Visitor(constants, parameters, defaultTransducers, country, SAPAgeBandValue.fromYear(buildYear, country).getName());
 	}
 
-	protected Visitor(final IConstants constants, final IEnergyCalculatorParameters parameters, final List<IEnergyTransducer> defaultTransducers) {
+	protected Visitor(final IConstants constants, final IEnergyCalculatorParameters parameters, final List<IEnergyTransducer> defaultTransducers, final Country country, final Band band) {
+		this.country = country;
+		this.band = band;
 		this.solarGains = new SolarGainsSource(constants, EnergyType.GainsSOLAR_GAINS);
 		this.glrAdjuster = new GainLoadRatioAdjuster();
 		this.lightingDemand = new LightingDemand09(constants);
 		this.transducers = new ArrayList<IEnergyTransducer>(defaultTransducers.size() + 15);
 		this.transducers.addAll(defaultTransducers);
 		this.infiltration = new StructuralInfiltrationAccumulator(constants);
+		this.mode = parameters.getCalculatorType();
 		transducers.add(solarGains);
 		transducers.add(glrAdjuster);
 		transducers.add(lightingDemand);
@@ -183,16 +173,8 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 		visitArea(
 				areaType,
 				area,
-				overrideWallUValue(
-						uValue,
-						constructionType,
-						externalOrExternalInsulationThickness,
-						hasCavityInsulation,
-						thickness
-					));
+				mode.uvalues.getWall(uValue, country, constructionType, externalOrExternalInsulationThickness, hasCavityInsulation, band, thickness));
 	}
-
-	abstract protected double overrideWallUValue(final double uValue, final WallConstructionType constructionType, final double externalOrInternalInsulationThickness, final boolean hasCavityInsulation, final double thickness);
 
 	@Override
 	public void visitDoor(final double area, final double uValue) {
@@ -217,10 +199,8 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 		NOTES: Some doors may be omitted if the total area of doors is greater than the area allowed by the openingProportion.
 		CODSIEB
 		*/
-		visitArea(AreaType.Door, area, overrideDoorUValue(uValue));
+		visitArea(AreaType.Door, area, mode.uvalues.getOutsideDoor(uValue, band, country));
 	}
-
-	protected abstract double overrideDoorUValue(double uValue);
 
 	@Override
 	public void setRoofType(final RoofConstructionType constructionType, final double insulationThickness) {
@@ -258,11 +238,9 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 		visitArea(
 				type.getAreaType(),
 				area,
-				overrideRoofUValue(uValue, type, roofConstructionType, roofInsulationThickness));
+				mode.uvalues.getCeiling(uValue, type, roofConstructionType, roofInsulationThickness, country, band));
 	}
 
-	protected abstract double overrideRoofUValue(double uValue, RoofType type, RoofConstructionType constructionType,
-			double insulationThickness);
 
 	@Override
 	public void visitWindow(
@@ -296,12 +274,9 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 		visitArea(
 				AreaType.Glazing,
 				area,
-				overrideWindowUValue(uValue, frameType, glazingType, insulationType, airGap)
+				mode.uvalues.getWindow(uValue, frameType, glazingType, insulationType, airGap)
 			);
 	}
-
-	protected abstract double overrideWindowUValue(final double uValue, final FrameType frameType, final GlazingType glazingType,
-			final WindowInsulationType insulationType, final WindowGlazingAirGap airGap);
 
 	@Override
 	public void setFloorType(final FloorConstructionType groundFloorConstructionType, final double insulationThickness) {
@@ -339,26 +314,8 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 		visitArea(
 				type.getAreaType(),
 				area,
-				overrideFloorUValue(
-						type,
-						isGroundFloor,
-						area,
-						uValue,
-						exposedPerimeter,
-						wallThickness,
-						groundFloorConstructionType,
-						floorInsulationThickness));
+				mode.uvalues.getFloor(uValue, type, isGroundFloor, area, exposedPerimeter, wallThickness, groundFloorConstructionType, floorInsulationThickness, band, country));
 	}
-
-	protected abstract double overrideFloorUValue(
-			final FloorType type,
-			final boolean isGroundFloor,
-			final double area,
-			final double uValue,
-			final double exposedPerimeter,
-			final double wallThickness,
-			final FloorConstructionType groundFloorConstructionType,
-			final double groundFloorInsulationThickness);
 
 	public void visitArea(final AreaType type, final double area, final double uValue) {
 		assert !(Double.isNaN(uValue) || Double.isInfinite(uValue)) : "Infinite or NaN u-value";
@@ -414,30 +371,44 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 	public void addWallInfiltration(final double wallArea, final WallConstructionType wallType, final double airChangeRate) {
 		infiltration.addWallInfiltration(
 				wallArea,
-				overrideAirChangeRate(
-						wallType,
-						airChangeRate
-				)
+				mode.uvalues.getWallAirChangeRate(airChangeRate, wallType)
 		);
 	}
-
-	protected abstract double overrideAirChangeRate(final WallConstructionType wallType, final double airChangeRate);
 
 	@Override
 	public final void visitTransparentElement(
 			final GlazingType glazingType,
 			final WindowInsulationType insulationType,
-			final double visibleLightTransmittivity,
-			final double solarGainTransmissivity,
+			final double _visibleLightTransmittivity,
+			final double _solarGainTransmissivity,
 			final double area,
 			final FrameType frameType,
-			final double frameFactor,
+			final double _frameFactor,
 			final double horizontalOrientation,
 			final double verticalOrientation,
 			final OvershadingType overshading
 			) {
 
-		final double usefulArea = overrideFrameFactor(frameType, frameFactor) * area;
+		/*
+		BEISDOC
+		NAME: Frame Factor
+		DESCRIPTION: The proportion of a door or window which is glazed.
+		TYPE: Lookup
+		UNIT: Dimensionless
+		SAP: Table 6c
+                SAP_COMPLIANT: SAP mode only
+		BREDEM: Table 2
+                BREDEM_COMPLIANT: N/A - value from stock
+		DEPS: frame-type
+		SET: action.reset-glazing, measure.install-glazing
+		STOCK: Imputation schema (windows)
+		NOTES: In SAP 2012 mode, values for the frame-factor set in the scenario will be overridden by the SAP table lookup.
+		ID: frame-factor
+		CODSIEB
+		*/
+		final double frameFactor = mode.uvalues.getFrameFactor(_frameFactor, frameType);
+		
+		final double usefulArea = frameFactor * area;
 
 		/*
 		BEISDOC
@@ -453,7 +424,8 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 		ID: visible-light-effective-transmission-area
 		CODSIEB
 		*/
-		final double totalVisibleLightTransmittivity = overrideVisibleLightTransmittivity(glazingType, visibleLightTransmittivity) * usefulArea;
+		final double totalVisibleLightTransmittivity = 
+				mode.uvalues.getVisibleLightTransmissivity(_visibleLightTransmittivity, glazingType) * usefulArea;
 
 		/*
 		BEISDOC
@@ -469,7 +441,7 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 		ID: solar-gains-effective-transmission-area
 		CODSIEB
 		*/
-		final double totalSolarGainTransmissivity = overrideSolarGainTransmissivity(glazingType, insulationType, solarGainTransmissivity) * usefulArea;
+		final double totalSolarGainTransmissivity = mode.uvalues.getSolarGainTransmissivity(_solarGainTransmissivity, glazingType, insulationType) * usefulArea;
 
 		solarGains.addTransparentElement(
 				totalVisibleLightTransmittivity,
@@ -487,10 +459,6 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 				overshading
 			);
 	}
-
-	protected abstract double overrideFrameFactor(final FrameType frameType, final double frameFactor);
-	protected abstract double overrideVisibleLightTransmittivity(final GlazingType glazingType, final double visibleLightTransmittivity);
-	protected abstract double overrideSolarGainTransmissivity(final GlazingType glazingType, final WindowInsulationType insulationType, final double solarGainTransmissivity);
 
     public double getBestThermalMassParameter() {
 		/*
@@ -525,15 +493,10 @@ abstract class Visitor implements IEnergyCalculatorVisitor {
 				+ getBestThermalMassParameter() + "]";
 	}
 	
-	/**
-	 * @param name
-	 * @param proportion
-	 * @param efficiency
-	 * @see uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor#visitLight(java.lang.String, double, double)
-	 */
 	@Override
-	public void visitLight(String name, double proportion, double efficiency, double[] splitRate) {
-	    transducers.add(new SimpleLightingTransducer(name, proportion, efficiency, splitRate)); 
+	public void visitLight(String name, double proportion, LightType lightType, double[] splitRate) {
+		transducers.add(new SimpleLightingTransducer(lightType.name(), proportion, 
+				mode.lighting.getMultiplier(lightType), splitRate));
 	}
 }
 

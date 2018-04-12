@@ -4,7 +4,7 @@ import javax.inject.Inject;
 
 import com.google.inject.assistedinject.Assisted;
 
-import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
+import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
 import uk.org.cse.nhm.simulator.let.ILets;
 import uk.org.cse.nhm.simulator.scope.IHypotheticalComponentsScope;
 import uk.org.cse.nhm.simulator.state.IBranch.IModifier;

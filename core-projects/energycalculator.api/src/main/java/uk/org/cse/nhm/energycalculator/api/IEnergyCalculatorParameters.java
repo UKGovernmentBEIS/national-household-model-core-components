@@ -1,8 +1,8 @@
 package uk.org.cse.nhm.energycalculator.api;
 
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
+import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
 
 /**
  * The control parameters for a run of a energy calculator.

@@ -126,7 +126,6 @@ public class LookupFunction extends AbstractNamed implements IComponentsFunction
 		
 		return compute;
 	}
-
 	
 	private Object convertInputObjectToEqualsType(final Object input, final Class<?> type) {
 		try {
@@ -159,6 +158,10 @@ public class LookupFunction extends AbstractNamed implements IComponentsFunction
 			e.printStackTrace();
 		}
 		
+		if (input instanceof Number) {
+			return ((Number) input).doubleValue();
+		}
+		
 		return String.valueOf(input);
 	}
 	
@@ -177,7 +180,7 @@ public class LookupFunction extends AbstractNamed implements IComponentsFunction
 	}
 
 	@AssistedInject
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public LookupFunction(
 			final ILogEntryHandler log,
 			@Assisted final boolean warnOnDefault,
@@ -201,12 +204,17 @@ public class LookupFunction extends AbstractNamed implements IComponentsFunction
 		for (int i = 0; i<keys.size(); i++) {
 			final IComponentsFunction<?> key = keys.get(i);
 			
-			@SuppressWarnings("rawtypes")
-			final TypeToken<? extends IComponentsFunction> tt = TypeToken.of(key.getClass());
+			final Class<?> rawTypeOfKey;
+			if (key instanceof ConstantComponentsFunction) {
+				rawTypeOfKey = ((ConstantComponentsFunction) key).getValue().getClass();
+			} else {
+				@SuppressWarnings("rawtypes")
+				final TypeToken<? extends IComponentsFunction> tt = TypeToken.of(key.getClass());
+				final TypeToken<?> resolvedType = tt.resolveType(IComponentsFunction.class.getTypeParameters()[0]);
+				rawTypeOfKey = resolvedType.getRawType();
+			}
 			
-			final TypeToken<?> resolvedType = tt.resolveType(IComponentsFunction.class.getTypeParameters()[0]);
-			
-			convertKeysTo[i] = getConvertedType(resolvedType.getRawType());
+			convertKeysTo[i] = getConvertedType(rawTypeOfKey);
 			
 			final ImmutableList.Builder<LookupRule> rangeRules = ImmutableList.builder(); 
 			final ImmutableList.Builder<Integer> rangeRuleEntries = ImmutableList.builder(); 
@@ -217,10 +225,10 @@ public class LookupFunction extends AbstractNamed implements IComponentsFunction
 				final LookupRule rule = le.getRules().get(i);
 				switch (rule.getType()) {
 				case String:
-					addMatch(exactMatches[i], convertInputObjectToEqualsType(rule.getStringValue(), resolvedType.getRawType()), j);
+					addMatch(exactMatches[i], convertInputObjectToEqualsType(rule.getStringValue(), rawTypeOfKey), j);
 					break;
 				case Number:
-					addMatch(exactMatches[i], convertInputObjectToEqualsType(rule.getExact(), resolvedType.getRawType()), j);
+					addMatch(exactMatches[i], convertInputObjectToEqualsType(rule.getExact(), rawTypeOfKey), j);
 					break;
 				case Range:
 					rangeRules.add(rule);

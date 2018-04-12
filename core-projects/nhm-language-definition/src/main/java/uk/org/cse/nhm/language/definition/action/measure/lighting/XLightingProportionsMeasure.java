@@ -5,69 +5,106 @@ import com.larkery.jasb.bind.BindNamedArgument;
 
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Doc;
+import uk.org.cse.nhm.language.definition.action.Unsuitability;
 import uk.org.cse.nhm.language.definition.action.XMeasure;
 import uk.org.cse.nhm.language.definition.function.num.XNumber;
+import uk.org.cse.nhm.language.definition.function.num.XNumberConstant;
 
 @Bind("measure.lighting")
 @Doc({
 	"Replace all lighting with lighting types in the given proportion.",
-	"Proportions for the different type sof lightingshould sum to 1.",
-	"Efficiencies are defined in Lumens Per Watt (lpw).",
-	"When using SAP2012 calculator efficiences better than 11.2 lpw will be clamped to 20.4417 lpw (SAP CFL)"})
+	"Proportions for the different types of lighting should sum to 1.",
+	"",
+	"The relative efficiency of the different types of light is determined by",
+	"the energy calculator mode being used. In SAP or BREDEM modes, all non-incandescent lights",
+	"use half the energy of incandescent lights.",
+	"",
+	"In BEIS mode, a set of efficiencies determined by the products policy team are used.",
+	"These efficiencies are documented in the manual section on energy calculator modes."
+	})
+@Unsuitability({
+	"The proportions given do not sum to one."
+})
 public class XLightingProportionsMeasure extends XMeasure {
 	public static final class P {
 		public static final String proportionOfCfl = "proportion-cfl";
 		public static final String proportionOfIcandescent = "proportion-incandescent";
 		public static final String proportionOfHAL = "proportion-hal";
 		public static final String proportionOfLED = "proportion-led";
+		public static final String proportionOfLVHAL = "proportion-lvhal";
+		public static final String proportionOfAPlusPlus = "proportion-aplusplus";
 	}
 	
-	private XNumber proportionOfIncandescent = null;
-	private XNumber propotionOfHAL = null;
-	private XNumber proportionOfLED = null;
-	private XNumber proportionOfCfl = null;
-
-	@BindNamedArgument("proportion-cfl")
-	@Prop(P.proportionOfCfl)
-	@Doc("The proportion of compact fluorescent lamp with an efficiency of 67 lpw")
-	public XNumber getProportionOfCfl() {
-		return proportionOfCfl;
-	}
+	private XNumber proportionOfIncandescent = XNumberConstant.create(0);
+	private XNumber propotionOfHAL = XNumberConstant.create(0);
+	private XNumber proportionOfLED = XNumberConstant.create(0);
+	private XNumber proportionOfCfl = XNumberConstant.create(0);
+	private XNumber proportionOfLVHal = XNumberConstant.create(0);
+	private XNumber proportionOfAPlusPlus = XNumberConstant.create(0);
 	
 	@BindNamedArgument("proportion-incandescent")
 	@Prop(P.proportionOfIcandescent)
-	@Doc("The proportion incandescent with an efficiency of 11.2 lpw")
+	@Doc("A function used to compute the proportion of lights to be set as incandescent.")
 	public XNumber getProportionOfIncandescent() {
 		return proportionOfIncandescent;
-	}
-	
-	@BindNamedArgument("proportion-hal")
-	@Prop(P.proportionOfHAL)
-	@Doc("The proportion of halogen lighting with an efficiency of 15.7 lpw")
-	public XNumber getPropotionOfHAL() {
-		return propotionOfHAL;
-	}
-	
-	@BindNamedArgument("proportion-led")
-	@Prop(P.proportionOfLED)
-	@Doc("The proportion of LED with an efficiency of 67 lpw")
-	public XNumber getProportionOfLED() {
-		return proportionOfLED;
 	}
 
 	public void setProportionOfIncandescent(XNumber proportionOfIncandescent) {
 		this.proportionOfIncandescent = proportionOfIncandescent;
 	}
 
+	@BindNamedArgument("proportion-hal")
+	@Prop(P.proportionOfHAL)
+	@Doc("A function used to compute the proportion of lights to be set as halogen.")
+	public XNumber getPropotionOfHAL() {
+		return propotionOfHAL;
+	}
+
 	public void setPropotionOfHAL(XNumber propotionOfHAL) {
 		this.propotionOfHAL = propotionOfHAL;
+	}
+
+	@BindNamedArgument("proportion-led")
+	@Prop(P.proportionOfLED)
+	@Doc("A function used to compute the proportion of lights to be set as LED.")
+	public XNumber getProportionOfLED() {
+		return proportionOfLED;
 	}
 
 	public void setProportionOfLED(XNumber proportionOfLED) {
 		this.proportionOfLED = proportionOfLED;
 	}
 
+	@BindNamedArgument("proportion-cfl")
+	@Prop(P.proportionOfCfl)
+	@Doc("A function used to compute the proportion of lights to be set as CFL.")
+	public XNumber getProportionOfCfl() {
+		return proportionOfCfl;
+	}
+
 	public void setProportionOfCfl(XNumber proportionOfCfl) {
 		this.proportionOfCfl = proportionOfCfl;
+	}
+	
+	@BindNamedArgument("proportion-lv-hal")
+	@Prop(P.proportionOfLVHAL)
+	@Doc("A function used to compute the proportion of lights to be set as low-voltage halogen.")
+	public XNumber getProportionOfLVHal() {
+		return proportionOfLVHal;
+	}
+
+	public void setProportionOfLVHal(XNumber proportionOfLVHal) {
+		this.proportionOfLVHal = proportionOfLVHal;
+	}
+	
+	@BindNamedArgument("proportion-a++")
+	@Prop(P.proportionOfAPlusPlus)
+	@Doc("A function used to compute the proportion of lights to be set as A-plus-plus rated.")
+	public XNumber getProportionOfAPlusPlus() {
+		return proportionOfAPlusPlus;
+	}
+
+	public void setProportionOfAPlusPlus(XNumber proportionOfAPlusPlus) {
+		this.proportionOfAPlusPlus = proportionOfAPlusPlus;
 	}
 }

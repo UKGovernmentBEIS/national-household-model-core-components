@@ -1,4 +1,4 @@
-package uk.org.cse.nhm.energycalculator.impl;
+package uk.org.cse.nhm.energycalculator.mode;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -21,7 +21,7 @@ import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
  * Separate instances are used by the windows imputation in the stock import (which may override these values),
  * and by the energy calculator's SAP u-values lookup.
  */
-public class WindowUValues implements IWindowUValues {
+public class WindowUValues {
 	private static final Logger log = LoggerFactory.getLogger(WindowUValues.class);
 	/**
 		 * The R-Value for curtains
@@ -46,7 +46,6 @@ public class WindowUValues implements IWindowUValues {
 		/* (non-Javadoc)
 		 * @see uk.org.cse.stockimport.imputation.apertures.windows.IWindowUValues#addSingleGlazingUValue(uk.org.cse.nhm.energycalculator.api.types.FrameType, java.lang.Double)
 		 */
-		@Override
 		public void addSingleGlazingUValue(FrameType frameType, Double uValue){
 			singleGlazingByFrameType.put(frameType, uValue);
 		}
@@ -54,7 +53,6 @@ public class WindowUValues implements IWindowUValues {
 		/* (non-Javadoc)
 		 * @see uk.org.cse.stockimport.imputation.apertures.windows.IWindowUValues#addSecondaryGlazingUValue(uk.org.cse.nhm.energycalculator.api.types.FrameType, java.lang.Double)
 		 */
-		@Override
 		public void addSecondaryGlazingUValue(FrameType frameType, Double uValue){
 			secondaryGlazingByFrameType.put(frameType, uValue);
 		}
@@ -62,7 +60,6 @@ public class WindowUValues implements IWindowUValues {
 		/* (non-Javadoc)
 		 * @see uk.org.cse.stockimport.imputation.apertures.windows.IWindowUValues#addDoubleGlazing(uk.org.cse.nhm.energycalculator.api.types.FrameType, uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType, java.lang.Double)
 		 */
-		@Override
 		public void addDoubleGlazing(FrameType frameType, WindowInsulationType insulationType, Double uValue, WindowGlazingAirGap airGap){
 			
 			Map<FrameType, Map<WindowGlazingAirGap,Double>> map = doubleGlazingByFrameAndInsulationType.get(insulationType);
@@ -79,7 +76,6 @@ public class WindowUValues implements IWindowUValues {
 		/* (non-Javadoc)
 		 * @see uk.org.cse.stockimport.imputation.apertures.windows.IWindowUValues#addTripleGlazing(uk.org.cse.nhm.energycalculator.api.types.FrameType, uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType, java.lang.Double)
 		 */
-		@Override
 		public void addTripleGlazing(FrameType frameType, WindowInsulationType insulationType, Double uValue, WindowGlazingAirGap airGap){
 			
 			Map<FrameType, Map<WindowGlazingAirGap,Double>> map = tripleGlazingByFrameAndInsulationType.get(insulationType);
@@ -96,7 +92,6 @@ public class WindowUValues implements IWindowUValues {
 		/* (non-Javadoc)
 		 * @see uk.org.cse.stockimport.imputation.apertures.windows.IWindowUValues#setCurtainEffectFactor(double)
 		 */
-		@Override
 		public void setCurtainEffectFactor(double curtainEffectFactor){
 			this.curtainEffectFactor = curtainEffectFactor;
 		}
@@ -232,7 +227,6 @@ public class WindowUValues implements IWindowUValues {
 		/* (non-Javadoc)
 		 * @see uk.org.cse.stockimport.imputation.apertures.windows.IWindowUValues#getUValue(uk.org.cse.nhm.energycalculator.api.types.FrameType, uk.org.cse.nhm.energycalculator.api.types.GlazingType, uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType)
 		 */
-		@Override
 		public double getUValue(FrameType frameType, GlazingType glazingType, WindowInsulationType insulationType, WindowGlazingAirGap airGap) {
 			final double result;
 			

@@ -1,14 +1,5 @@
 package uk.org.cse.stockimport.imputation.lookupbuilders.excel;
-import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.A;
-import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.B;
-import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.C;
-import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.D;
-import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.E;
-import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.F;
-import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.G;
-import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.H;
-import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.I;
-import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.J;
+import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.*;
 
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;

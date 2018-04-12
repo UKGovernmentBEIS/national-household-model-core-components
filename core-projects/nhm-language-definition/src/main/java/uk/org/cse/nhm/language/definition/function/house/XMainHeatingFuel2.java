@@ -7,9 +7,9 @@ import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.ReturnsEnum;
 import uk.org.cse.nhm.language.definition.SeeAlso;
 import uk.org.cse.nhm.language.definition.enums.XFuelType;
+import uk.org.cse.nhm.language.definition.enums.XHeatingSystem;
 import uk.org.cse.nhm.language.definition.function.XCategoryFunction;
 import uk.org.cse.nhm.language.definition.function.bool.house.XMainHeatingFuelIs;
-import uk.org.cse.nhm.language.definition.enums.XHeatingSystem;
 
 @Doc({"The fuel used by one of the heating or hot water systems in the house. Defaults to the main heating system, or the secondary system if there is no main system."
 })

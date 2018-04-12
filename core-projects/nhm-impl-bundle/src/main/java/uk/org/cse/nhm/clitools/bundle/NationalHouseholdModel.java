@@ -374,7 +374,6 @@ public class NationalHouseholdModel implements INationalHouseholdModel {
                          final IStockService stocks,
                          final ISimulationCallback<P> callback) {
 
-    	boolean dead = false;
     	for (final IValidationProblem<?> prob : validate.problems()) {
     		if (prob.level().isFatal()) {
     			callback.invalid(validate);

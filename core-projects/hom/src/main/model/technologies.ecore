@@ -111,6 +111,7 @@
         <details key="documentation" value="The fraction of total light demand that this light will emit"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//LightType"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SpaceHeater" abstract="true">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -541,6 +542,7 @@
     <eLiterals name="Appliance"/>
     <eLiterals name="Cooker"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="LightType" instanceClassName="uk.org.cse.nhm.energycalculator.api.types.LightType"/>
   <eSubpackages name="boilers" nsURI="http://www.cse.org.uk/nhm/schema/emf/technology/boilers/1/"
       nsPrefix="boilers">
     <eClassifiers xsi:type="ecore:EClass" name="Boiler" eSuperTypes="#//IndividualHeatSource #//VisitorAccepter #//FuelAndFlue">

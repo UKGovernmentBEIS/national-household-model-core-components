@@ -10,7 +10,6 @@ import com.google.common.base.Optional;
 
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculationResult;
 import uk.org.cse.nhm.energycalculator.api.IEnergyState;
-import uk.org.cse.nhm.energycalculator.api.IHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.ISeasonalParameters;
 import uk.org.cse.nhm.energycalculator.api.impl.BredemExternalParameters;
 import uk.org.cse.nhm.energycalculator.api.impl.ClassEnergyState;
@@ -19,29 +18,21 @@ import uk.org.cse.nhm.energycalculator.api.impl.GraphvizEnergyState;
 import uk.org.cse.nhm.energycalculator.api.impl.WeeklyHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
+import uk.org.cse.nhm.energycalculator.api.types.LightType;
 import uk.org.cse.nhm.energycalculator.api.types.MonthType;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
-import uk.org.cse.nhm.energycalculator.impl.BredemSeasonalParameters;
+import uk.org.cse.nhm.energycalculator.impl.BREDEMHeatingSeasonalParameters;
 import uk.org.cse.nhm.energycalculator.impl.EnergyCalculatorCalculator;
 import uk.org.cse.nhm.energycalculator.impl.EnergyCalculatorCalculator.IEnergyStateFactory;
+import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
 import uk.org.cse.nhm.hom.BasicCaseAttributes;
 import uk.org.cse.nhm.hom.SurveyCase;
 import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
 import uk.org.cse.nhm.hom.components.fabric.types.FloorLocationType;
-import uk.org.cse.nhm.hom.emf.technologies.FuelType;
-import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
-import uk.org.cse.nhm.hom.emf.technologies.ICentralHeatingSystem;
-import uk.org.cse.nhm.hom.emf.technologies.ICentralWaterSystem;
-import uk.org.cse.nhm.hom.emf.technologies.ILight;
-import uk.org.cse.nhm.hom.emf.technologies.IMainWaterHeater;
-import uk.org.cse.nhm.hom.emf.technologies.IRoomHeater;
-import uk.org.cse.nhm.hom.emf.technologies.ISolarWaterHeater;
-import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;
-import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
-import uk.org.cse.nhm.hom.emf.technologies.IWaterTank;
+import uk.org.cse.nhm.hom.emf.technologies.*;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoilersFactory;
 import uk.org.cse.nhm.hom.emf.technologies.impl.CookerImpl;
@@ -187,6 +178,7 @@ public class BackupSpaceHeatersWorkWhenOtherThingsAreMissing {
 		breakBoilerAndAddRoomHeater(technologies);
 
 		final BredemExternalParameters ep = new BredemExternalParameters(
+				EnergyCalculatorType.BREDEM2012,
 				ElectricityTariffType.FLAT_RATE,
 				21,
 				Optional.<Double>absent(),
@@ -198,13 +190,14 @@ public class BackupSpaceHeatersWorkWhenOtherThingsAreMissing {
 				DailyHeatingSchedule.fromHours(7, 8, 18, 23),
 				DailyHeatingSchedule.fromHours(7, 23)
 						);
+//		7.4,
+//		5 * 1.5,
+//		99,
 		final ISeasonalParameters climate = new
-				BredemSeasonalParameters(
+				BREDEMHeatingSeasonalParameters(
 						MonthType.March,
-						7.4,
-						5 * 1.5,
-						99,
-						0.8988, weeklyHeatingSchedule, Optional.<IHeatingSchedule>absent());
+						new TestWeather(7.5, 99, 5*1.5),
+						0.8988, weeklyHeatingSchedule);
 
 		final EnergyCalculatorCalculator calc = new EnergyCalculatorCalculator();
 		calc.setStateFactory(new IEnergyStateFactory() {
@@ -281,10 +274,10 @@ public class BackupSpaceHeatersWorkWhenOtherThingsAreMissing {
 		goodLights.setName("CFLs");
 
 		badLights.setProportion(0.4);
-		badLights.setEfficiency(ILight.INCANDESCENT_EFFICIENCY);
+		badLights.setType(LightType.Incandescent);
 
 		goodLights.setProportion(0.6);
-		goodLights.setEfficiency(ILight.CFL_EFFICIENCY);
+		goodLights.setType(LightType.CFL);
 
 		sc.getTechnologies().getLights().add(badLights);
 		sc.getTechnologies().getLights().add(goodLights);

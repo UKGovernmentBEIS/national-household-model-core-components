@@ -11,26 +11,10 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Optional;
-
-import uk.org.cse.nhm.energycalculator.api.IConstants;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculationResult;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculator;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorHouseCase;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
-import uk.org.cse.nhm.energycalculator.api.IEnergyState;
-import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
-import uk.org.cse.nhm.energycalculator.api.IHeatingSchedule;
-import uk.org.cse.nhm.energycalculator.api.IHeatingSystem;
-import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
-import uk.org.cse.nhm.energycalculator.api.ISeasonalParameters;
-import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
-import uk.org.cse.nhm.energycalculator.api.IVentilationSystem;
+import uk.org.cse.nhm.energycalculator.api.*;
 import uk.org.cse.nhm.energycalculator.api.impl.ClassEnergyState;
 import uk.org.cse.nhm.energycalculator.api.impl.DefaultConstants;
 import uk.org.cse.nhm.energycalculator.api.impl.GraphvizEnergyState;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.Zone2ControlParameter;
@@ -41,6 +25,7 @@ import uk.org.cse.nhm.energycalculator.impl.demands.HotWaterDemand09;
 import uk.org.cse.nhm.energycalculator.impl.gains.EvaporativeGainsSource;
 import uk.org.cse.nhm.energycalculator.impl.gains.GainsTransducer;
 import uk.org.cse.nhm.energycalculator.impl.gains.MetabolicGainsSource;
+import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
 
 /**
  * An implementation of an EnergyCalculator. The main
@@ -334,12 +319,11 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         CODSIEB
         */
         final double thermalBridgingCoefficient;
-        switch (parameters.getCalculatorType()) {
-        case SAP2012_UVALUES:
+        switch (parameters.getCalculatorType().uvalues) {
         case SAP2012:
             thermalBridgingCoefficient = SAP_THERMAL_BRIDGING_COEFFICIENT;
             break;
-        case BREDEM2012:
+        case SCENARIO:
             thermalBridgingCoefficient = houseCase.getThermalBridgingCoefficient();
             break;
         default:
@@ -351,11 +335,10 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 
     protected final double getInterzoneSpecificHeatLoss(final EnergyCalculatorType calculatorType,
             final IEnergyCalculatorHouseCase houseCase) {
-        switch(calculatorType) {
-        case SAP2012_UVALUES:
+        switch(calculatorType.uvalues) {
         case SAP2012:
             return 0;
-        case BREDEM2012:
+        case SCENARIO:
             return houseCase.getInterzoneSpecificHeatLoss();
         default:
             throw new UnsupportedOperationException("getInterzoneSpecificHeatLoss does not know about EnergyCalculatorType " + calculatorType);
@@ -377,11 +360,10 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         ID: site-exposure-factor
         CODSIEB
         */
-        switch(parameters.getCalculatorType()) {
-        case SAP2012_UVALUES:
+        switch(parameters.getCalculatorType().uvalues) {
         case SAP2012:
             return 1;
-        case BREDEM2012:
+        case SCENARIO:
             return constants.get(EnergyCalculatorConstants.SITE_EXPOSURE_FACTOR, houseCase.getSiteExposure().ordinal());
         default:
             throw new UnsupportedOperationException("Site exposure calculation does not know about energy calculator type " + parameters.getCalculatorType());
@@ -771,18 +753,19 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 
         // find mean temperature from profile
         final double[] meanTemperature = new double[ZoneType.values().length];
-        for (final ZoneType zt : ZoneType.values()) {
-            final int zi = zt.ordinal();
-            meanTemperature[zi] = adjustedParameters.getClimate().getHeatingSchedule(
-                    zt,
-                    zt == ZoneType.ZONE2 ? Optional.of(adjustedParameters.getZone2ControlParameter()) : Optional.<Zone2ControlParameter>absent()
-                ).getMeanTemperature(
-                    demandTemperature[zi],
-                    backgroundTemperature[zi],
-                    coolingTime * MINUTES_PER_HOUR
-                );
-        }
-
+        
+        meanTemperature[ZoneType.ZONE1.ordinal()] = adjustedParameters.getClimate()
+        		.getZone1HeatingSchedule()
+        		.getMeanTemperature(demandTemperature[ZoneType.ZONE1.ordinal()], 
+        				backgroundTemperature[ZoneType.ZONE1.ordinal()], 
+        				coolingTime * MINUTES_PER_HOUR);
+        
+        meanTemperature[ZoneType.ZONE2.ordinal()] = adjustedParameters.getClimate()
+        		.getZone2HeatingSchedule(adjustedParameters.getZone2ControlParameter())
+        		.getMeanTemperature(demandTemperature[ZoneType.ZONE2.ordinal()], 
+        				backgroundTemperature[ZoneType.ZONE2.ordinal()], 
+        				coolingTime * MINUTES_PER_HOUR);
+        
         double areaWeightedMeanTemperature = getAreaWeightedMeanTemperature(houseCase, meanTemperature);
         state.increaseSupply(EnergyType.HackUNADJUSTED_TEMPERATURE, areaWeightedMeanTemperature);
 
@@ -1099,6 +1082,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
                 transducer.generate(houseCase, adjustedParameters, heatLosses, state);
             //}
         }
+        
         return indexOfFirstHeatingSystem;
     }
 

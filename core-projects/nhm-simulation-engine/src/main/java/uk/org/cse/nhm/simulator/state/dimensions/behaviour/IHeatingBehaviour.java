@@ -5,8 +5,8 @@ import java.util.Set;
 import com.google.common.base.Optional;
 
 import uk.org.cse.nhm.energycalculator.api.IHeatingSchedule;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.MonthType;
+import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
 import uk.org.cse.nhm.hom.ICopyable;
 
 /**

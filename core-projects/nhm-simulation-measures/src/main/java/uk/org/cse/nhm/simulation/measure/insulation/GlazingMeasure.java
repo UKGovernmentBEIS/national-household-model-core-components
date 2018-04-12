@@ -13,7 +13,7 @@ import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.WindowGlazingAirGap;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
-import uk.org.cse.nhm.energycalculator.impl.SAPUValues;
+import uk.org.cse.nhm.energycalculator.mode.SAPTables;
 import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
 import uk.org.cse.nhm.hom.structure.Glazing;
 import uk.org.cse.nhm.hom.structure.StructureModel;
@@ -73,7 +73,7 @@ public class GlazingMeasure extends AbstractMeasure implements
 		
 		//BREDEMVisitor expects a u-value to be present and so we must try and set-one 
 		if(uValue == 0 && frameType != null && insulationType != null && airGap != null) {
-			this.glazing.setUValue(SAPUValues.Windows.get(frameType, glazingType, insulationType, airGap));
+			this.glazing.setUValue(SAPTables.Windows.uValue(frameType, glazingType, insulationType, airGap));
 		}
 	}
 

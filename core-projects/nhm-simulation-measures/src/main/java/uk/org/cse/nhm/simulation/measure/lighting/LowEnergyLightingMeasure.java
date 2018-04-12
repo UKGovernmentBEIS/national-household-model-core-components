@@ -1,13 +1,14 @@
 package uk.org.cse.nhm.simulation.measure.lighting;
 
-import java.util.Comparator;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.EnumSet;
+import java.util.Iterator;
+import java.util.List;
 
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 import uk.org.cse.nhm.NHMException;
+import uk.org.cse.nhm.energycalculator.api.types.LightType;
 import uk.org.cse.nhm.hom.emf.technologies.ILight;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
@@ -31,22 +32,14 @@ public class LowEnergyLightingMeasure extends AbstractMeasure {
 	private final IDimension<ITechnologyModel> techDimension;
 	private final IDimension<StructureModel> structureDimension;
 	private final ITechnologiesFactory techFactory;
-	private final double threshold;
-	private final double proportion;
 	private final IComponentsFunction<Number> capex;
-
-	private final Comparator<ILight> byEnergyAscending = new Comparator<ILight>(){
-
-		@Override
-		public int compare(final ILight a, final ILight b) {
-			return Double.compare(a.getEfficiency(), b.getEfficiency());
-		}
-	};
+	private EnumSet<LightType> from;
+	private LightType to;
 
 	@AssistedInject
 	public LowEnergyLightingMeasure(
-			@Assisted("threshold") final double threshold,
-			@Assisted("proportion") final double proportion,
+			@Assisted final List<LightType> from,
+			@Assisted final LightType to,
 			@Assisted final IComponentsFunction<Number> capex,
 			final IDimension<ITechnologyModel> techDimension,
 			final IDimension<StructureModel> structureDimension
@@ -54,13 +47,10 @@ public class LowEnergyLightingMeasure extends AbstractMeasure {
 		this.structureDimension = structureDimension;
 		this.techFactory = ITechnologiesFactory.eINSTANCE;;
 		this.capex = capex;
-		if (threshold > proportion) {
-			this.threshold = proportion;
-		} else {
-			this.threshold = threshold;
-		}
-		this.proportion = proportion;
 		this.techDimension = techDimension;
+		
+		this.to = to;
+		this.from = EnumSet.copyOf(from);
 	}
 
 	@Override
@@ -77,21 +67,13 @@ public class LowEnergyLightingMeasure extends AbstractMeasure {
 	public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
 		final ITechnologyModel tech = scope.get(techDimension);
 
-		double standard = 0.0;
-		double lowEnergy = 0.0;
-
-		boolean someCapacity = false;
-
 		for (final ILight l : tech.getLights()) {
-			if (l.getEfficiency() <= ILight.CFL_EFFICIENCY) {
-				lowEnergy+= l.getProportion();
-			} else {
-				standard += l.getProportion();
-				someCapacity = true;
+			if (l.getProportion() > 0 && this.from.contains(l.getType())) {
+				return true;
 			}
 		}
-
-		return someCapacity && (lowEnergy / (standard + lowEnergy)) <= threshold;
+		
+		return false;
 	}
 
 	@Override
@@ -124,60 +106,33 @@ public class LowEnergyLightingMeasure extends AbstractMeasure {
 
 		@Override
 		public boolean modify(final ITechnologyModel tech) {
-			final SortedSet<ILight> standardLights = new TreeSet<>(byEnergyAscending);
-
-			double standardP = 0.0;
-			double lowEnergyP = 0.0;
-
-			for (final ILight l : tech.getLights()) {
-				if (l.getEfficiency() <= ILight.CFL_EFFICIENCY) {
-					lowEnergyP += l.getProportion();
-				} else {
-					standardLights.add(l);
-					standardP += l.getProportion();
+			ILight existing = null;
+			double missing = 0;
+			double total = 0;
+			Iterator<ILight> iterator = tech.getLights().iterator();
+			
+			while (iterator.hasNext()) {
+				final ILight l = iterator.next();
+				if (from.contains(l.getType())) {
+					iterator.remove();
+					missing += l.getProportion();
+				} else if (l.getType() == to) {
+					existing = l;
 				}
+				total += l.getProportion();
+			}
+			
+			if (existing == null) {
+				existing = techFactory.createLight();
+				existing.setName(to.name());
+				existing.setType(to);
+				existing.setProportion(missing);
+				tech.getLights().add(existing);
+			} else {
+				existing.setProportion(existing.getProportion() + missing);
 			}
 
-			final double normalizingFactor = standardP + lowEnergyP;
-			final double normalisedLowEnergyP = lowEnergyP / normalizingFactor;
-
-			if (normalisedLowEnergyP > threshold
-					|| normalisedLowEnergyP == proportion
-					|| standardLights.size() == 0) {
-				return false;
-			}
-
-			final double lightingToInstallNormalised = proportion - normalisedLowEnergyP;
-
-			final ILight lowEnergy = techFactory.createLight();
-
-			final double lightingToInstall = lightingToInstallNormalised * normalizingFactor;
-
-			double installed = 0;
-			while (installed < lightingToInstall
-					&& standardLights.size() > 0) {
-
-				final ILight standard = standardLights.first();
-				final double currentP = standard.getProportion();
-				final double change = Math.max(currentP, lightingToInstall);
-
-				standard.setProportion(currentP - change);
-				installed += change;
-				lowEnergy.setProportion(lowEnergy.getProportion() + lightingToInstall);
-
-				if (standard.getProportion() == 0) {
-					standardLights.remove(standard);
-					tech.getLights().remove(standard);
-				}
-			}
-
-			lowEnergy.setProportion(lowEnergy.getProportion() + installed);
-
-			lowEnergy.setEfficiency(ILight.CFL_EFFICIENCY);
-
-			tech.getLights().add(lowEnergy);
-
-			final double size = (installed / normalizingFactor) * floorArea;
+			final double size = (missing / total) * floorArea;
 			final ISizingResult sizingResult = SizingResult.suitable(size, Units.SQUARE_METRES);
 			scope.addNote(sizingResult);
 
@@ -185,7 +140,11 @@ public class LowEnergyLightingMeasure extends AbstractMeasure {
 
 			scope.addNote(new TechnologyInstallationDetails(LowEnergyLightingMeasure.this, TechnologyType.lowEnergyLighting(), sizingResult.getSize(), sizingResult.getUnits(), capexResult, 0));
 			scope.addTransaction(Payment.capexToMarket(capexResult));
-
+			
+			if (tech.getLights().isEmpty()) {
+				throw new RuntimeException("measure.replace-lighting has left a house with no lights; this should never happen");
+			}
+			
 			return true;
 		}
 	}

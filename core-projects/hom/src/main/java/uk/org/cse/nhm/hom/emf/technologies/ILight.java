@@ -2,6 +2,8 @@
  */
 package uk.org.cse.nhm.hom.emf.technologies;
 
+import uk.org.cse.nhm.energycalculator.api.types.LightType;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -18,6 +20,7 @@ package uk.org.cse.nhm.hom.emf.technologies;
  * <ul>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ILight#getEfficiency <em>Efficiency</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ILight#getProportion <em>Proportion</em>}</li>
+ *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.ILight#getType <em>Type</em>}</li>
  * </ul>
  *
  * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getLight()
@@ -60,63 +63,6 @@ public interface ILight extends INamed, IVisitorAccepter {
 	*/
 	public static final double CFL_EFFICIENCY = INCANDESCENT_EFFICIENCY / 2.0;
 	
-	
-	/*
-	 BEISDOC
-     NAME: Halogen Energy Consumption
-     DESCRIPTION: The number of watts of electricity a CFL bulb must consume to emit a watt of light.
-     TYPE: value
-     UNIT: Dimensionless
-     NOTES: Based on BRE's 67 lumens per watt of light numbers from Roger Lamper
-     */
-	public static final double BRE_CFL_EFFICIENCY = INCANDESCENT_EFFICIENCY / 6;
-	
-	/*
-	 BEISDOC
-	 NAME: Halogen Energy Consumption
-	 DESCRIPTION: The number of watts of electricity a Halogen bulb must consume to emit a watt of light.
-	 TYPE: value
-	 UNIT: Dimensionless
-	 NOTES: Based on BRE's 15.7 lumens per watt of light numbers from Roger Lamper
-	 */
-	public static final double HAL_EFFICIENCY = INCANDESCENT_EFFICIENCY / 1.4;
-	
-	/*
-	 BEISDOC
-	 NAME: LED Energy Consumption
-	 DESCRIPTION: The number of watts of electricity an LED bulb must consume to emit a watt of light.
-	 TYPE: value
-	 UNIT: Dimensionless
-	  NOTES: Based on BRE's 67 lumens per watt of light numbers from Roger Lamper
-	 */
-	public static final double LED_EFFICIENCY = INCANDESCENT_EFFICIENCY / 6;
-
-	/**
-	 * Returns the value of the '<em><b>Efficiency</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Efficiency</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Efficiency</em>' attribute.
-	 * @see #setEfficiency(double)
-	 * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getLight_Efficiency()
-	 * @model required="true"
-	 * @generated
-	 */
-	double getEfficiency();
-
-	/**
-	 * Sets the value of the '{@link uk.org.cse.nhm.hom.emf.technologies.ILight#getEfficiency <em>Efficiency</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Efficiency</em>' attribute.
-	 * @see #getEfficiency()
-	 * @generated
-	 */
-	void setEfficiency(double value);
-
 	/**
 	 * Returns the value of the '<em><b>Proportion</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -145,5 +91,31 @@ public interface ILight extends INamed, IVisitorAccepter {
 	 * @generated
 	 */
 	void setProportion(double value);
+
+	/**
+	 * Returns the value of the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Type</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Type</em>' attribute.
+	 * @see #setType(LightType)
+	 * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getLight_Type()
+	 * @model dataType="uk.org.cse.nhm.hom.emf.technologies.LightType" required="true"
+	 * @generated
+	 */
+	LightType getType();
+
+	/**
+	 * Sets the value of the '{@link uk.org.cse.nhm.hom.emf.technologies.ILight#getType <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Type</em>' attribute.
+	 * @see #getType()
+	 * @generated
+	 */
+	void setType(LightType value);
 
 } // ILight

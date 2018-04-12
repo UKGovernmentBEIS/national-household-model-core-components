@@ -14,8 +14,8 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.energycalculator.api.IHeatingSystem;
 import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.Zone2ControlParameter;
+import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
 import uk.org.cse.nhm.hom.IHeatProportions;
 import uk.org.cse.nhm.hom.constants.adjustments.TemperatureAdjustments;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
@@ -386,13 +386,12 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 		ID: storage-heater-responsiveness
 		CODSIEB
 		*/
-		switch(calculatorType) {
+		switch(calculatorType.heating) {
 		case BREDEM2012:
 			// Use the override if it has been specified, otherwise fall through to the SAP behaviour.
 			if (isHasResponsivenessOverride()) {
 				return getResponsivenessOverride();
 			}
-		case SAP2012_UVALUES:
 		case SAP2012:
 			final double baseResponsiveness;
 

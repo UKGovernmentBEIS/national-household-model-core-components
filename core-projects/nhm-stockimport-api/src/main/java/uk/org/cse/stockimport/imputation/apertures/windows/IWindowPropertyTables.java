@@ -1,9 +1,9 @@
 package uk.org.cse.stockimport.imputation.apertures.windows;
 
-import uk.org.cse.nhm.energycalculator.impl.IWindowUValues;
+import uk.org.cse.nhm.energycalculator.mode.WindowUValues;
 
 public interface IWindowPropertyTables {
-	IWindowUValues getUValues();
+	WindowUValues getUValues();
 	IWindowFrameFactor getFrameFactors();
 	ITransmittanceFactors getTransmittanceFactors();
 }

@@ -109,8 +109,7 @@ public class HotWaterDemand09 implements IEnergyTransducer {
      * @return The volume of hot water demanded by the dwelling.
      */
     protected double getHotWaterVolume(final IEnergyCalculatorHouseCase house, final IInternalParameters parameters) {
-	switch (parameters.getCalculatorType()) {
-	case SAP2012_UVALUES:
+	switch (parameters.getCalculatorType().hotWater) {
 	case SAP2012:
 	    /*
 	      BEISDOC

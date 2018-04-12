@@ -10,15 +10,13 @@ import com.google.common.collect.ImmutableSet;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
-import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
-import uk.org.cse.nhm.energycalculator.impl.GroundFloorUValues;
+import uk.org.cse.nhm.energycalculator.mode.GroundFloorUValues;
 import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.hom.structure.impl.Storey;
 import uk.org.cse.nhm.simulator.AbstractNamed;
 import uk.org.cse.nhm.simulator.let.ILets;
 import uk.org.cse.nhm.simulator.scope.IComponentsScope;
 import uk.org.cse.nhm.simulator.state.IDimension;
-import uk.org.cse.nhm.simulator.state.dimensions.behaviour.IHeatingBehaviour;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 /**
@@ -28,7 +26,6 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
  */
 public class RdSapFloorUValueFunction extends AbstractNamed implements IComponentsFunction<Double> {
 	private final IDimension<StructureModel> structureDimension;
-	private final IDimension<IHeatingBehaviour> behaviourDimension;
 	private final GroundFloorUValues uValues;
 
 
@@ -36,7 +33,6 @@ public class RdSapFloorUValueFunction extends AbstractNamed implements IComponen
 	@AssistedInject
 	RdSapFloorUValueFunction(
 			final IDimension<StructureModel> structureDimension,
-			final IDimension<IHeatingBehaviour> behaviourDimension,
 			@Assisted("rsi") final double rsi,
 			@Assisted("rse") final double rse,
 			@Assisted("soilThermalConductivity") final double soilThermalConductivity,
@@ -48,7 +44,6 @@ public class RdSapFloorUValueFunction extends AbstractNamed implements IComponen
 			@Assisted("windShieldingFactor") final double windShieldingFactor,
 			@Assisted("floorInsulationConductivity") final double floorInsulationConductivity) {
 		this.structureDimension = structureDimension;
-		this.behaviourDimension = behaviourDimension;
 
 		this.uValues = new GroundFloorUValues()
 				.setRsi(rsi)
@@ -63,16 +58,15 @@ public class RdSapFloorUValueFunction extends AbstractNamed implements IComponen
 				.setFloorInsulationConductivity(floorInsulationConductivity);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Double compute(final IComponentsScope scope, final ILets lets) {
 		final StructureModel structure = scope.get(structureDimension);
 		final Optional<Storey> storey = lets.get(ResetFloorsAction.STOREY_SCOPE_KEY, Storey.class);
 		final Optional<Double> areaBelow = lets.get(ResetFloorsAction.STOREY_GROUND_AREA_KEY, Double.class);
 
-		final EnergyCalculatorType calculatorType = scope.get(behaviourDimension).getEnergyCalculatorType();
-
 		if (storey.isPresent() && areaBelow.isPresent()) {
-			return compute(structure, storey.get(), areaBelow.get(), calculatorType);
+			return compute(structure, storey.get(), areaBelow.get());
 		} else {
 			// error
 			return 0d;
@@ -80,7 +74,7 @@ public class RdSapFloorUValueFunction extends AbstractNamed implements IComponen
 	}
 
 	private double compute(final StructureModel structure, final Storey storey,
-			final double areaBelow, final EnergyCalculatorType calculatorType) {
+			final double areaBelow) {
 
 		return uValues.getU(
 				storey.getAverageWallThicknessWithInsulation(),

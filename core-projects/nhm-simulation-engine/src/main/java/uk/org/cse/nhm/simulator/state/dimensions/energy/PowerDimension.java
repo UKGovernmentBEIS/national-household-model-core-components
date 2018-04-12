@@ -4,7 +4,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import uk.org.cse.nhm.energycalculator.api.IWeather;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
+import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType.ECCalibration;
 import uk.org.cse.nhm.hom.BasicCaseAttributes;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
 import uk.org.cse.nhm.hom.people.People;
@@ -78,7 +78,7 @@ public class PowerDimension extends DerivedDimensionWithCache<IPowerTable> {
 	protected IPowerTable doGet(final IDwelling instance) {
 		IHeatingBehaviour behaviour = state.get(heatingBehaviour, instance);
 		
-		IEnergyCalculatorBridge chosenBridge = behaviour.getEnergyCalculatorType() != EnergyCalculatorType.BREDEM2012 ? defaultConstantsBridge : bridge;
+		IEnergyCalculatorBridge chosenBridge = behaviour.getEnergyCalculatorType().calibration != ECCalibration.SCENARIO ? defaultConstantsBridge : bridge;
 		
 		return chosenBridge.evaluate(
 				state.get(weather, instance), 

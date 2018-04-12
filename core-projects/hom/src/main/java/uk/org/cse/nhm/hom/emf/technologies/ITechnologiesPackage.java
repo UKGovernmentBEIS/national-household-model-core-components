@@ -317,13 +317,22 @@ public interface ITechnologiesPackage extends EPackage {
 	int LIGHT__PROPORTION = NAMED_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LIGHT__TYPE = NAMED_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Light</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LIGHT_FEATURE_COUNT = NAMED_FEATURE_COUNT + 2;
+	int LIGHT_FEATURE_COUNT = NAMED_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link uk.org.cse.nhm.hom.emf.technologies.impl.SpaceHeaterImpl <em>Space Heater</em>}' class.
@@ -2336,6 +2345,17 @@ public interface ITechnologiesPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '<em>Light Type</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see uk.org.cse.nhm.energycalculator.api.types.LightType
+	 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getLightType()
+	 * @generated
+	 */
+	int LIGHT_TYPE = 55;
+
+
+	/**
 	 * Returns the meta object for class '{@link uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel <em>Technology Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2540,6 +2560,17 @@ public interface ITechnologiesPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getLight_Proportion();
+
+	/**
+	 * Returns the meta object for the attribute '{@link uk.org.cse.nhm.hom.emf.technologies.ILight#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Type</em>'.
+	 * @see uk.org.cse.nhm.hom.emf.technologies.ILight#getType()
+	 * @see #getLight()
+	 * @generated
+	 */
+	EAttribute getLight_Type();
 
 	/**
 	 * Returns the meta object for class '{@link uk.org.cse.nhm.hom.emf.technologies.ISpaceHeater <em>Space Heater</em>}'.
@@ -3918,6 +3949,17 @@ public interface ITechnologiesPackage extends EPackage {
 	EDataType getHeatProportions();
 
 	/**
+	 * Returns the meta object for data type '{@link uk.org.cse.nhm.energycalculator.api.types.LightType <em>Light Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>Light Type</em>'.
+	 * @see uk.org.cse.nhm.energycalculator.api.types.LightType
+	 * @model instanceClass="uk.org.cse.nhm.energycalculator.api.types.LightType"
+	 * @generated
+	 */
+	EDataType getLightType();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4096,6 +4138,14 @@ public interface ITechnologiesPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute LIGHT__PROPORTION = eINSTANCE.getLight_Proportion();
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LIGHT__TYPE = eINSTANCE.getLight_Type();
 
 		/**
 		 * The meta object literal for the '{@link uk.org.cse.nhm.hom.emf.technologies.impl.SpaceHeaterImpl <em>Space Heater</em>}' class.
@@ -5232,6 +5282,16 @@ public interface ITechnologiesPackage extends EPackage {
 		 * @generated
 		 */
 		EDataType HEAT_PROPORTIONS = eINSTANCE.getHeatProportions();
+
+		/**
+		 * The meta object literal for the '<em>Light Type</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see uk.org.cse.nhm.energycalculator.api.types.LightType
+		 * @see uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl#getLightType()
+		 * @generated
+		 */
+		EDataType LIGHT_TYPE = eINSTANCE.getLightType();
 
 	}
 

@@ -17,43 +17,9 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.energycalculator.api.IEnergyState;
 import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
+import uk.org.cse.nhm.energycalculator.api.types.LightType;
 import uk.org.cse.nhm.hom.IHeatProportions;
-import uk.org.cse.nhm.hom.emf.technologies.AdjusterType;
-import uk.org.cse.nhm.hom.emf.technologies.EmitterType;
-import uk.org.cse.nhm.hom.emf.technologies.FuelType;
-import uk.org.cse.nhm.hom.emf.technologies.HeatPumpSourceType;
-import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
-import uk.org.cse.nhm.hom.emf.technologies.IAdjuster;
-import uk.org.cse.nhm.hom.emf.technologies.IAppliance;
-import uk.org.cse.nhm.hom.emf.technologies.IBackBoiler;
-import uk.org.cse.nhm.hom.emf.technologies.ICentralHeatingSystem;
-import uk.org.cse.nhm.hom.emf.technologies.ICentralWaterSystem;
-import uk.org.cse.nhm.hom.emf.technologies.ICommunityCHP;
-import uk.org.cse.nhm.hom.emf.technologies.ICommunityHeatSource;
-import uk.org.cse.nhm.hom.emf.technologies.ICooker;
-import uk.org.cse.nhm.hom.emf.technologies.IElectricShower;
-import uk.org.cse.nhm.hom.emf.technologies.IEnergyUseAdjuster;
-import uk.org.cse.nhm.hom.emf.technologies.IHeatPump;
-import uk.org.cse.nhm.hom.emf.technologies.IHeatPumpWarmAirSystem;
-import uk.org.cse.nhm.hom.emf.technologies.IHybridHeater;
-import uk.org.cse.nhm.hom.emf.technologies.IImmersionHeater;
-import uk.org.cse.nhm.hom.emf.technologies.ILight;
-import uk.org.cse.nhm.hom.emf.technologies.IMainWaterHeater;
-import uk.org.cse.nhm.hom.emf.technologies.IMixerShower;
-import uk.org.cse.nhm.hom.emf.technologies.IOperationalCost;
-import uk.org.cse.nhm.hom.emf.technologies.IPointOfUseWaterHeater;
-import uk.org.cse.nhm.hom.emf.technologies.IRoomHeater;
-import uk.org.cse.nhm.hom.emf.technologies.ISolarPhotovoltaic;
-import uk.org.cse.nhm.hom.emf.technologies.ISolarWaterHeater;
-import uk.org.cse.nhm.hom.emf.technologies.IStorageHeater;
-import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;
-import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
-import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
-import uk.org.cse.nhm.hom.emf.technologies.IWarmAirCirculator;
-import uk.org.cse.nhm.hom.emf.technologies.IWarmAirSystem;
-import uk.org.cse.nhm.hom.emf.technologies.IWaterTank;
-import uk.org.cse.nhm.hom.emf.technologies.StorageHeaterControlType;
-import uk.org.cse.nhm.hom.emf.technologies.StorageHeaterType;
+import uk.org.cse.nhm.hom.emf.technologies.*;
 import uk.org.cse.nhm.hom.emf.util.Efficiency;
 
 /**
@@ -172,6 +138,8 @@ public class TechnologiesFactoryImpl extends EFactoryImpl implements ITechnologi
 				return createEfficiencyFromString(eDataType, initialValue);
 			case ITechnologiesPackage.HEAT_PROPORTIONS:
 				return createHeatProportionsFromString(eDataType, initialValue);
+			case ITechnologiesPackage.LIGHT_TYPE:
+				return createLightTypeFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -217,6 +185,8 @@ public class TechnologiesFactoryImpl extends EFactoryImpl implements ITechnologi
 				return convertEfficiencyToString(eDataType, instanceValue);
 			case ITechnologiesPackage.HEAT_PROPORTIONS:
 				return convertHeatProportionsToString(eDataType, instanceValue);
+			case ITechnologiesPackage.LIGHT_TYPE:
+				return convertLightTypeToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -791,6 +761,24 @@ public class TechnologiesFactoryImpl extends EFactoryImpl implements ITechnologi
 	 * @generated
 	 */
 	public String convertHeatProportionsToString(EDataType eDataType, Object instanceValue) {
+		return super.convertToString(eDataType, instanceValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public LightType createLightTypeFromString(EDataType eDataType, String initialValue) {
+		return (LightType)super.createFromString(eDataType, initialValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertLightTypeToString(EDataType eDataType, Object instanceValue) {
 		return super.convertToString(eDataType, instanceValue);
 	}
 

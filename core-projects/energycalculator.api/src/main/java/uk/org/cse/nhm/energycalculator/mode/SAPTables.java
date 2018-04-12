@@ -1,4 +1,4 @@
-package uk.org.cse.nhm.energycalculator.impl;
+package uk.org.cse.nhm.energycalculator.mode;
 
 import static uk.org.cse.nhm.energycalculator.api.types.RegionType.Country.England;
 import static uk.org.cse.nhm.energycalculator.api.types.RegionType.Country.NorthernIreland;
@@ -23,20 +23,14 @@ import java.util.Set;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 
-import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
-import uk.org.cse.nhm.energycalculator.api.types.FloorType;
-import uk.org.cse.nhm.energycalculator.api.types.FrameType;
-import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
+import uk.org.cse.nhm.energycalculator.api.IHeatingSchedule;
+import uk.org.cse.nhm.energycalculator.api.impl.DailyHeatingSchedule;
+import uk.org.cse.nhm.energycalculator.api.impl.WeeklyHeatingSchedule;
+import uk.org.cse.nhm.energycalculator.api.types.*;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
-import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
-import uk.org.cse.nhm.energycalculator.api.types.RoofType;
-import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
-import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
-import uk.org.cse.nhm.energycalculator.api.types.WindowGlazingAirGap;
-import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 
-public class SAPUValues {
+public class SAPTables {
 	private static final double _check(final double d) {
 		assert !(Double.isNaN(d) || Double.isInfinite(d)) : "SAP table returned NaN or infinite";
 		return d;
@@ -251,7 +245,7 @@ public class SAPUValues {
 				}
 			}
 
-			public double get(final SAPAgeBandValue.Band ageBand) {
+			public double u(final SAPAgeBandValue.Band ageBand) {
 				return this.uValues[ageBand.ordinal()];
 			}
 		}
@@ -341,14 +335,14 @@ public class SAPUValues {
 				) {
             for (final ExternalWallRow row : externalRows.get(constructionType)) {
                 if (row.test(country, externalOrInternalInsulationThickness, hasCavityInsulation)) {
-					return row.get(ageBand);
+					return row.u(ageBand);
 				}
 			}
 
 			throw new UnsupportedOperationException("The external wall u-value lookup does not support this combination, and needs to be extended " + country + " " + constructionType + " " + externalOrInternalInsulationThickness + " " + hasCavityInsulation + " " + ageBand);
 		}
 
-		public static double get(final Country country, final WallConstructionType constructionType, final double externalOrInternalInsulationThickness, final boolean hasCavityInsulation, final SAPAgeBandValue.Band band, final double thickness) {
+		public static double uValue(final Country country, final WallConstructionType constructionType, final double externalOrInternalInsulationThickness, final boolean hasCavityInsulation, final SAPAgeBandValue.Band band, final double thickness) {
 			switch (constructionType.getWallType()) {
 				case External:
 					return _check(applyStoneThicknessAdjustment(
@@ -364,6 +358,17 @@ public class SAPUValues {
 					return getPartyWallUValue(constructionType, hasCavityInsulation);
 				default:
 					throw new IllegalArgumentException("Unknown wall type when looking up u-value " + constructionType.getWallType());
+			}
+		}
+
+		static final double steelOrTimberFrameInfiltration = 0.25;
+		static final double otherWallInfiltration = 0.35;
+		
+		public static double infiltration(final WallConstructionType wallType) {
+			if (wallType == WallConstructionType.TimberFrame || wallType == WallConstructionType.MetalFrame) {
+				return steelOrTimberFrameInfiltration;
+			} else {
+				return otherWallInfiltration;
 			}
 		}
 	}
@@ -419,10 +424,112 @@ public class SAPUValues {
 	 * We ignore the footnotes in the table.
 	 */
 	public static class Windows {
-		private static final IWindowUValues windowUValues = new WindowUValues();
+		private static final WindowUValues windowUValues = new WindowUValues();
 
-		public static double get(final FrameType frameType, final GlazingType glazingType, final WindowInsulationType insulationType, final WindowGlazingAirGap airGap) {
+		public static double uValue(final FrameType frameType, final GlazingType glazingType, final WindowInsulationType insulationType, final WindowGlazingAirGap airGap) {
 			return _check(windowUValues.getUValue(frameType, glazingType, insulationType, airGap));
+		}
+		
+		public static double frameFactor(final FrameType frameType) {
+			switch(frameType) {
+			case Metal:
+				return _check(0.8);
+			case uPVC:
+			case Wood:
+				return _check(0.7);
+			default:
+				throw new IllegalArgumentException("Unknown frame type while computing frame factor " + frameType);
+			}
+		}
+		
+
+		public static double visibleLightTransmittivity(final GlazingType glazingType) {
+			/*
+			BEISDOC
+			NAME: Solar Light Transmittivity
+			DESCRIPTION: Visible light transmittance factor of the glazing at normal incidence
+			TYPE: Lookup
+			UNIT: Dimensionless
+			SAP: Table 6b (light transmittance column)
+	                SAP_COMPLIANT: SAP mode only
+			BREDEM: Table 1
+	                BREDEM_COMPLIANT: N/A - value from stock
+			DEPS: glazing-type
+			SET: action.reset-glazing, measure.install-glazing
+			STOCK: Imputation schema (windows)
+			NOTES: In SAP 2012 mode, values for the visible light transmissivity set in the scenario will be overridden by the SAP table lookup.
+			ID: light-transmittance-factor
+			CODSIEB
+			*/
+			switch (glazingType) {
+			case Single:
+				return _check(0.9);
+			case Secondary:
+			case Double:
+				return _check(0.8);
+			case Triple:
+				return _check(0.7);
+			default:
+				throw new IllegalArgumentException("Unknown glazing type while computing light transmittance factor " + glazingType);
+			}
+		}
+
+		public static double solarGainTransmissivity(final GlazingType glazingType, final WindowInsulationType insulationType) {
+			/*
+			BEISDOC
+			NAME: Solar Gain Transmissivity
+			DESCRIPTION: Solar energy transmittance factor of the glazing at normal incidence.
+			TYPE: Lookup
+			UNIT: Dimensionless
+			SAP: Table 6b (solar energy column)
+	                SAP_COMPLIANT: SAP mode only
+			BREDEM: Table 24
+	                BREDEM_COMPLIANT: N/A - value from stock
+			DEPS: glazing-type,glazing-insulation-type
+			SET: action.reset-glazing, measure.install-glazing
+			STOCK: Imputation schema (windows)
+			NOTES: In SAP 2012 mode, values for the gains transmissivity set in the scenario will be overridden by the SAP table lookup.
+			ID: solar-gain-transmissivity
+			CODSIEB
+			*/
+			switch (glazingType) {
+			case Single:
+				return _check(0.85);
+			case Secondary:
+				return _check(0.76);
+			case Double:
+				switch (insulationType) {
+				case Air:
+				case Argon:
+					return _check(0.76);
+				case ArgonLowEHardCoat:
+				case LowEHardCoat:
+					return _check(0.72);
+				case ArgonLowESoftCoat:
+				case LowESoftCoat:
+					return _check(0.63);
+				default:
+					throw new IllegalArgumentException("Unknown window insulation type while computing solar gains tranmissivity " + insulationType);
+				}
+
+			case Triple:
+				switch (insulationType) {
+				case Air:
+				case Argon:
+					return _check(0.68);
+				case ArgonLowEHardCoat:
+				case LowEHardCoat:
+					return _check(0.64);
+				case ArgonLowESoftCoat:
+				case LowESoftCoat:
+					return _check(0.57);
+				default:
+					throw new IllegalArgumentException("Unknown window insulation type while computing solar gains tranmissivity " + insulationType);
+				}
+
+			default:
+				throw new IllegalArgumentException("Unknown glazing type while computing solar gains tranmissivity " + glazingType);
+			}
 		}
 	}
 
@@ -558,4 +665,20 @@ public class SAPUValues {
 			throw new RuntimeException("Roof u-value lookup failed with insulation thickness " + insulationThickness + " and roof type " + constructionType);
 		}
 	}
+    
+    public static final class HeatingSchedule {
+    	public static final IHeatingSchedule sevenAndEight = DailyHeatingSchedule.fromHours(7, 9, 16, 23);
+    	public static final IHeatingSchedule zeroAndEight = DailyHeatingSchedule.fromHours(7, 23);
+    	public static final IHeatingSchedule nineAndEight = DailyHeatingSchedule.fromHours(7, 9, 18, 23);
+
+    	public static final IHeatingSchedule weekdaySevenAndEightWeekendZeroAndEight = new WeeklyHeatingSchedule(
+    			sevenAndEight, zeroAndEight);
+		public static final Map<Zone2ControlParameter, IHeatingSchedule> zoneTwo = new EnumMap<>(Zone2ControlParameter.class);
+    	 
+		static {
+			zoneTwo.put(Zone2ControlParameter.One, weekdaySevenAndEightWeekendZeroAndEight);
+			zoneTwo.put(Zone2ControlParameter.Two, weekdaySevenAndEightWeekendZeroAndEight);
+			zoneTwo.put(Zone2ControlParameter.Three, nineAndEight);
+		}
+    }
 }

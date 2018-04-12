@@ -22,10 +22,10 @@ import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
 import uk.org.cse.nhm.energycalculator.api.impl.ClassEnergyState;
 import uk.org.cse.nhm.energycalculator.api.impl.DefaultConstants;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.impl.appliances.Appliances09;
+import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
 
 /**
  * EnergyUseTransducerTest..

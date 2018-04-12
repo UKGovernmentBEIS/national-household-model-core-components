@@ -1,0 +1,73 @@
+(scenario
+ start-date: 2012
+ end-date: 2032
+ stock-id: ../../2014.stock
+ energy-calculator:BEIS
+ quantum:10000
+
+ (~init-modules)
+
+ (products-policy/adjust-lighting start-year: 2014 end-year: 2020)
+ )
+
+;; Below uses a convention  that templates that are 'auxiliary' and not intended
+;; for people to use directly have names starting with a dash.
+(~module products-policy
+         (template -cfl []   0)
+         (template -hal []   1)
+         (template -incan [] 2)
+         (template -led []   3)
+
+         (template init []
+                   (def-report
+                     "proportion-of-lighting-in-stock"
+                     (column name: IncandescentProportions value:
+                             (house.lighting-proportion Incandescent)
+                             summary: (mean name:inc))
+                     (column name: HalogenProportions value:
+                             (house.lighting-proportion Halogen)
+                             summary: (mean name:hal))
+                     (column name: CFLProportions value:
+                             (house.lighting-proportion CFL)
+                             summary: (mean name:cfl))
+                     (column name: LEDProportions value:
+                             (house.lighting-proportion LED)
+                             summary: (mean name:led))
+                     ))
+
+         (template -lighting-by-type-and-year [@1]
+                   (~lookup-table
+                    column-key: @1
+                    row-keys: sim.year
+                    [year (-cfl) (-hal) (-incan) (-led)]
+                    [2014 0.28 0.44 0.24 0.04]
+                    [2015 0.29 0.47 0.17 0.07]
+                    [2016 0.29 0.49 0.12 0.1]
+                    [2017 0.28 0.52 0.08 0.12]
+                    [2018 0.26 0.54 0.05 0.15]
+                    [2019 0.24 0.52 0.03 0.21]
+                    [2020 0.21 0.50 0.02 0.27]
+                    [2021 0.18 0.47 0.01 0.34]
+                    [2022 0.15 0.43 0.00 0.42]
+                    [2023 0.12 0.38 0.00 0.50]
+                    [2024 0.10 0.33 0.00 0.57]
+                    [2025 0.07 0.30 0.00 0.63]
+                    [2026 0.05 0.26 0.00 0.69]
+                    [2027 0.04 0.23 0.00 0.73]
+                    [2028 0.03 0.20 0.00 0.77]
+                    [2029 0.03 0.20 0.00 0.79]
+                    [2030 0.03 0.17 0.00 0.80]))
+
+         (template adjust-lighting [@start-year @end-year]
+                   (on.dates (regularly from: @start-year until: @end-year)
+                             (apply
+                              (measure.lighting
+                               name: products-lighting-measure
+                               report: proportion-of-lighting-in-stock
+                               proportion-cfl:(-lighting-by-type-and-year (-cfl))
+                               proportion-hal:(-lighting-by-type-and-year (-hal))
+                               proportion-incandescent:(-lighting-by-type-and-year (-incan))
+                               proportion-led:(-lighting-by-type-and-year (-led))
+                               ))))
+
+         )

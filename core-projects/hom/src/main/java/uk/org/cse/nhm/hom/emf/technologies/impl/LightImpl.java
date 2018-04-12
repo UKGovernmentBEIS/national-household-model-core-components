@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
+import uk.org.cse.nhm.energycalculator.api.types.LightType;
 import uk.org.cse.nhm.hom.IHeatProportions;
 import uk.org.cse.nhm.hom.constants.SplitRateConstants;
 import uk.org.cse.nhm.hom.emf.technologies.ILight;
@@ -28,6 +29,7 @@ import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.LightImpl#getName <em>Name</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.LightImpl#getEfficiency <em>Efficiency</em>}</li>
  *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.LightImpl#getProportion <em>Proportion</em>}</li>
+ *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.impl.LightImpl#getType <em>Type</em>}</li>
  * </ul>
  *
  * @generated
@@ -103,6 +105,26 @@ public class LightImpl extends MinimalEObjectImpl implements ILight {
 	protected double proportion = PROPORTION_EDEFAULT;
 
 	/**
+	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getType()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final LightType TYPE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getType()
+	 * @generated
+	 * @ordered
+	 */
+	protected LightType type = TYPE_EDEFAULT;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -161,6 +183,12 @@ public class LightImpl extends MinimalEObjectImpl implements ILight {
 		efficiency = newEfficiency;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.LIGHT__EFFICIENCY, oldEfficiency, efficiency));
+		
+		if (getEfficiency() < ILight.CFL_EFFICIENCY) {
+			type = LightType.Incandescent;
+		} else {
+			type = LightType.CFL;
+		}
 	}
 
 	/**
@@ -187,10 +215,39 @@ public class LightImpl extends MinimalEObjectImpl implements ILight {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated no
+	 */
+	public LightType getType() {
+		if (type == null) {
+			// backwards compatibility to infer type from old stocks which have only an efficiency in them
+			if (getEfficiency() < ILight.CFL_EFFICIENCY) {
+				type = LightType.Incandescent;
+			} else {
+				type = LightType.CFL;
+			}
+		}
+		return type;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setType(LightType newType) {
+		LightType oldType = type;
+		type = newType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ITechnologiesPackage.LIGHT__TYPE, oldType, type));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NO
 	 */
 	public void accept(IConstants constants, final IEnergyCalculatorParameters parameters, final IEnergyCalculatorVisitor visitor, AtomicInteger heatingSystemCounter, IHeatProportions heatProportions) {
-		visitor.visitLight(getName(), getProportion(), getEfficiency(), constants.get(SplitRateConstants.DEFAULT_FRACTIONS, double[].class));
+		visitor.visitLight(getName(), getProportion(), getType(), constants.get(SplitRateConstants.DEFAULT_FRACTIONS, double[].class));
 	}
 
 	/**
@@ -207,6 +264,8 @@ public class LightImpl extends MinimalEObjectImpl implements ILight {
 				return getEfficiency();
 			case ITechnologiesPackage.LIGHT__PROPORTION:
 				return getProportion();
+			case ITechnologiesPackage.LIGHT__TYPE:
+				return getType();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -227,6 +286,9 @@ public class LightImpl extends MinimalEObjectImpl implements ILight {
 				return;
 			case ITechnologiesPackage.LIGHT__PROPORTION:
 				setProportion((Double)newValue);
+				return;
+			case ITechnologiesPackage.LIGHT__TYPE:
+				setType((LightType)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -249,6 +311,9 @@ public class LightImpl extends MinimalEObjectImpl implements ILight {
 			case ITechnologiesPackage.LIGHT__PROPORTION:
 				setProportion(PROPORTION_EDEFAULT);
 				return;
+			case ITechnologiesPackage.LIGHT__TYPE:
+				setType(TYPE_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -267,6 +332,8 @@ public class LightImpl extends MinimalEObjectImpl implements ILight {
 				return efficiency != EFFICIENCY_EDEFAULT;
 			case ITechnologiesPackage.LIGHT__PROPORTION:
 				return proportion != PROPORTION_EDEFAULT;
+			case ITechnologiesPackage.LIGHT__TYPE:
+				return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT.equals(type);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -287,6 +354,8 @@ public class LightImpl extends MinimalEObjectImpl implements ILight {
 		result.append(efficiency);
 		result.append(", proportion: ");
 		result.append(proportion);
+		result.append(", type: ");
+		result.append(type);
 		result.append(')');
 		return result.toString();
 	}

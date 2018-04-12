@@ -15,7 +15,7 @@ import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 
 import uk.org.cse.commons.names.Name;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
+import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
 import uk.org.cse.nhm.language.adapt.IAdapterInterceptor;
 import uk.org.cse.nhm.language.adapt.IConverter;
 import uk.org.cse.nhm.language.adapt.impl.Adapt;

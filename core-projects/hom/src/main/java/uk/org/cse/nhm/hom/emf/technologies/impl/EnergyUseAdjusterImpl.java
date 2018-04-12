@@ -13,6 +13,8 @@ import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
+import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType.ECAppliances;
+import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType.ECCookers;
 import uk.org.cse.nhm.hom.IHeatProportions;
 import uk.org.cse.nhm.hom.emf.technologies.AdjusterType;
 import uk.org.cse.nhm.hom.emf.technologies.IEnergyUseAdjuster;
@@ -262,16 +264,15 @@ public class EnergyUseAdjusterImpl extends MinimalEObjectImpl implements IEnergy
 	 * @generated NOT
 	 */
 	public void accept(final IConstants constants, final IEnergyCalculatorParameters parameters, final IEnergyCalculatorVisitor visitor, final AtomicInteger heatingSystemCounter, final IHeatProportions heatProportions) {
-		//TODO: Don't add if SAP....
-	    
 	    ServiceType serviceType;
 	    switch (this.getAdjustmentType()) {
             case COOKER:
+            	if (parameters.getCalculatorType().cookers != ECCookers.PRODUCTS_POLICY) return;
                 serviceType = ServiceType.COOKING;
                 break;
             default:
+            	if (parameters.getCalculatorType().appliances != ECAppliances.PRODUCTS_POLICY) return;
                 serviceType = ServiceType.APPLIANCES;
-                break;
         }
 	    
 	    EnergyUseTransducer eu = new EnergyUseTransducer(serviceType, getLinearTerm(), 

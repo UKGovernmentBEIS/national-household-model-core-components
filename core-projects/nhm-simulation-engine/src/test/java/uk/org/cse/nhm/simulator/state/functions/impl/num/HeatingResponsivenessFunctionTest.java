@@ -25,7 +25,7 @@ import com.google.common.collect.ImmutableMap;
 
 import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.impl.DefaultConstants;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
+import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
 import uk.org.cse.nhm.hom.emf.technologies.EmitterType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;

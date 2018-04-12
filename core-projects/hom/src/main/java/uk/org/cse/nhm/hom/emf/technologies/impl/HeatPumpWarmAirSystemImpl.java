@@ -8,7 +8,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
+import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
 import uk.org.cse.nhm.hom.constants.SplitRateConstants;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.HeatPumpSourceType;

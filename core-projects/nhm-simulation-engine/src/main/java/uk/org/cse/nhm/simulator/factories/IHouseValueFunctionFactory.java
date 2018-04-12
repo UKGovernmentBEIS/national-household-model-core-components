@@ -2,78 +2,29 @@ package uk.org.cse.nhm.simulator.factories;
 
 import java.util.List;
 
+import com.google.common.base.Optional;
 import com.google.inject.assistedinject.Assisted;
 
-import com.google.common.base.Optional;
+import uk.org.cse.nhm.energycalculator.api.types.LightType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.language.adapt.impl.Adapt;
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.action.measure.adjust.XAdjustNumberOfAirChangeDevices;
+import uk.org.cse.nhm.language.definition.enums.XHeatingSystem;
 import uk.org.cse.nhm.language.definition.function.health.XHealthImpactFunction;
 import uk.org.cse.nhm.language.definition.function.health.XHealthImpactFunction.XDisease;
 import uk.org.cse.nhm.language.definition.function.health.XHealthImpactFunction.XImpact;
 import uk.org.cse.nhm.language.definition.function.health.XPermeabilityFunction;
 import uk.org.cse.nhm.language.definition.function.health.XSITFunction;
 import uk.org.cse.nhm.language.definition.function.health.XSITRebateFunction;
-import uk.org.cse.nhm.language.definition.function.house.XAgeOfHeatingSystem;
-import uk.org.cse.nhm.language.definition.function.house.XBuildYear;
-import uk.org.cse.nhm.language.definition.function.house.XBuildYear2;
-import uk.org.cse.nhm.language.definition.function.house.XBuiltForm;
-import uk.org.cse.nhm.language.definition.function.house.XFloorConstructionType;
-import uk.org.cse.nhm.language.definition.function.house.XGetProportionOfDoubleGlazedWindows;
-import uk.org.cse.nhm.language.definition.function.house.XHouseLightingProportion;
-import uk.org.cse.nhm.language.definition.function.house.XHouseholdIncome;
-import uk.org.cse.nhm.language.definition.function.house.XMainHeatingFuel;
-import uk.org.cse.nhm.language.definition.function.house.XMainHeatingFuel2;
-import uk.org.cse.nhm.language.definition.function.house.XMainHeatingSystemType;
-import uk.org.cse.nhm.language.definition.function.house.XMorphology;
-import uk.org.cse.nhm.language.definition.function.house.XNumberOfAirChangeDevices;
+import uk.org.cse.nhm.language.definition.function.house.*;
 import uk.org.cse.nhm.language.definition.function.house.XNumberOfAirChangeDevices.P;
-import uk.org.cse.nhm.language.definition.function.house.XNumberOfBedrooms;
-import uk.org.cse.nhm.language.definition.function.house.XNumberOfOccupants;
-import uk.org.cse.nhm.language.definition.function.house.XPredominantWallType;
-import uk.org.cse.nhm.language.definition.function.house.XRegion;
-import uk.org.cse.nhm.language.definition.function.house.XRoofArea;
-import uk.org.cse.nhm.language.definition.function.house.XRoofConstructionType;
-import uk.org.cse.nhm.language.definition.function.house.XSAPAgeBand;
-import uk.org.cse.nhm.language.definition.function.house.XSurfaceArea;
-import uk.org.cse.nhm.language.definition.function.house.XSurveyCode;
-import uk.org.cse.nhm.language.definition.function.house.XTenure;
-import uk.org.cse.nhm.language.definition.function.house.XTotalFloorArea;
-import uk.org.cse.nhm.language.definition.function.house.XVolume;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.health.HealthImpactFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.health.PermeabilityFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.health.SITFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.health.SITRebateFunction;
-import uk.org.cse.nhm.simulator.state.functions.impl.house.GetAgeOfHeatingSystem;
-import uk.org.cse.nhm.simulator.state.functions.impl.house.GetBuildYear;
-import uk.org.cse.nhm.simulator.state.functions.impl.house.GetBuiltForm;
-import uk.org.cse.nhm.simulator.state.functions.impl.house.GetFloorConstructionType;
-import uk.org.cse.nhm.simulator.state.functions.impl.house.GetHouseLightingProportion;
-import uk.org.cse.nhm.simulator.state.functions.impl.house.GetHouseholdIncome;
-import uk.org.cse.nhm.simulator.state.functions.impl.house.GetInsolation;
-import uk.org.cse.nhm.simulator.state.functions.impl.house.GetMainHeatingFuel;
-import uk.org.cse.nhm.simulator.state.functions.impl.house.GetMainHeatingSystemType;
-import uk.org.cse.nhm.simulator.state.functions.impl.house.GetMethodOfPayment;
-import uk.org.cse.nhm.simulator.state.functions.impl.house.GetMorphology;
-import uk.org.cse.nhm.simulator.state.functions.impl.house.GetNumberOfAirChangeDevices;
-import uk.org.cse.nhm.simulator.state.functions.impl.house.GetNumberOfBedrooms;
-import uk.org.cse.nhm.simulator.state.functions.impl.house.GetNumberOfOccupants;
-import uk.org.cse.nhm.simulator.state.functions.impl.house.GetPredominantWallType;
-import uk.org.cse.nhm.simulator.state.functions.impl.house.GetProportionOfDoubleGlazedWindows;
-import uk.org.cse.nhm.simulator.state.functions.impl.house.GetRegion;
-import uk.org.cse.nhm.simulator.state.functions.impl.house.GetRoofConstructionType;
-import uk.org.cse.nhm.simulator.state.functions.impl.house.GetSAPAgeBand;
-import uk.org.cse.nhm.simulator.state.functions.impl.house.GetSurfaceArea;
-import uk.org.cse.nhm.simulator.state.functions.impl.house.GetTariff;
-import uk.org.cse.nhm.simulator.state.functions.impl.house.GetTenure;
-import uk.org.cse.nhm.simulator.state.functions.impl.house.GetTotalFloorArea;
-import uk.org.cse.nhm.simulator.state.functions.impl.house.GetVolume;
-import uk.org.cse.nhm.simulator.state.functions.impl.house.OldGetMainHeatingFuel;
-import uk.org.cse.nhm.simulator.state.functions.impl.house.RoofAreaFunction;
-import uk.org.cse.nhm.simulator.state.functions.impl.house.SurveyCodeFunction;
-import uk.org.cse.nhm.language.definition.enums.XHeatingSystem;
+import uk.org.cse.nhm.simulator.state.functions.impl.house.*;
 
 public interface IHouseValueFunctionFactory {
 	public GetTariff getGetTariff(final FuelType fuelType);
@@ -157,11 +108,6 @@ public interface IHouseValueFunctionFactory {
 			@Prop(XRoofArea.P.pitchCorrection)
 			@Assisted boolean pitchCorrection);
 
-	@Adapt(XHouseLightingProportion.class)
-	public GetHouseLightingProportion getGetHouseLightingProportion(
-			@Assisted("maxEfficiency") @Prop(XHouseLightingProportion.P.maxEfficiency) final IComponentsFunction<Number> maxEfficiency,
-			@Assisted("minEfficiency") @Prop(XHouseLightingProportion.P.minEfficiency) final IComponentsFunction<Number> minEfficiency);
-
 	@Adapt(XSurfaceArea.class)
 	public GetSurfaceArea getGetSurfaceArea();
 
@@ -222,4 +168,9 @@ public interface IHouseValueFunctionFactory {
         @Assisted("rebate")
         final IComponentsFunction<Number> rebate
         );
+    
+
+	public GetHouseLightingProportion getGetHouseLightingProportion(
+			@Assisted List<LightType> lightTypes);
+
 }

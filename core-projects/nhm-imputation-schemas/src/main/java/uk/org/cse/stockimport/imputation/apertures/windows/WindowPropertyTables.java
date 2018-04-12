@@ -1,16 +1,15 @@
 package uk.org.cse.stockimport.imputation.apertures.windows;
 
-import uk.org.cse.nhm.energycalculator.impl.IWindowUValues;
-import uk.org.cse.nhm.energycalculator.impl.WindowUValues;
+import uk.org.cse.nhm.energycalculator.mode.WindowUValues;
 
 public class WindowPropertyTables implements IWindowPropertyTables {
 
 	private IWindowFrameFactor frameFactors = new FrameFactors();
-	private IWindowUValues uValues = new WindowUValues(false);
+	private WindowUValues uValues = new WindowUValues(false);
 	private ITransmittanceFactors transmittanceFactors = new TransmittanceFactors(false);
 	
 	@Override
-	public IWindowUValues getUValues() {
+	public WindowUValues getUValues() {
 		return uValues;
 	}
 

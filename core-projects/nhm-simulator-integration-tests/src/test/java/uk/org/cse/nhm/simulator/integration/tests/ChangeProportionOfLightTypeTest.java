@@ -30,7 +30,7 @@ public class ChangeProportionOfLightTypeTest extends SimulatorIntegrationTest {
 			//TODO: Should not be suitable if proportions don't sum to 1...
 		
 			lights.forEach(light -> {
-				assertEquals(String.format("Light efficiency %s expected proportion:", light.getEfficiency()), 0.25, light.getProportion(),0d);
+				assertEquals(String.format("Light efficiency %s expected proportion:", light.getType()), 0.25, light.getProportion(),0d);
 				
 			});
 			

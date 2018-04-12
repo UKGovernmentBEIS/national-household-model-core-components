@@ -17,11 +17,11 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyState;
 import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
 import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
 import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.TransducerPhaseType;
+import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType.ECGeneration;
 import uk.org.cse.nhm.hom.IHeatProportions;
 import uk.org.cse.nhm.hom.constants.SolarConstants;
 import uk.org.cse.nhm.hom.constants.SplitRateConstants;
@@ -241,7 +241,7 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 				final double usefulElectricity = useElectricityInDwelling(
 						state,
 						generation,
-						parameters.getCalculatorType() != EnergyCalculatorType.BREDEM2012 ? sapOwnUseProportion : getOwnUseProportion(),
+						parameters.getCalculatorType().generation == ECGeneration.SAP2012 ? sapOwnUseProportion : getOwnUseProportion(),
 						parameters.getConstants().get(SplitRateConstants.DEFAULT_FRACTIONS, double[].class)
 								[parameters.getTarrifType().ordinal()]
 					);

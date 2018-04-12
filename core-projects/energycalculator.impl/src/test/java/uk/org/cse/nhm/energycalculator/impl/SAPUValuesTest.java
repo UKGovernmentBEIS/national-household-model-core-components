@@ -9,12 +9,13 @@ import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.mode.SAPTables;
 
 public class SAPUValuesTest {
 
 	@Test
 	public void wallFailure() {
-		SAPUValues.Walls.get(
+		SAPTables.Walls.uValue(
 				Country.England,
 				WallConstructionType.Cavity,
 				0,
@@ -50,7 +51,7 @@ public class SAPUValuesTest {
 	private void assertUpperExternalFloor(final double expected, final SAPAgeBandValue.Band ageBand, final double insulationThickness) {
 		Assert.assertEquals("Non-ground floor u-value didn't match.",
 				expected,
-				SAPUValues.Floors.get(
+				SAPTables.Floors.get(
 						FloorType.External,
 						false,
 						1,

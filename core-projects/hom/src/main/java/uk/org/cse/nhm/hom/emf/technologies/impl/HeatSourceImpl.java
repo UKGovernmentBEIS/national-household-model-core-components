@@ -16,16 +16,7 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.energycalculator.api.IEnergyState;
 import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
 import uk.org.cse.nhm.hom.constants.adjustments.ResponsivenessAdjustments;
-import uk.org.cse.nhm.hom.emf.technologies.EmitterType;
-import uk.org.cse.nhm.hom.emf.technologies.FuelType;
-import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
-import uk.org.cse.nhm.hom.emf.technologies.ICentralHeatingSystem;
-import uk.org.cse.nhm.hom.emf.technologies.IHasInstallationYear;
-import uk.org.cse.nhm.hom.emf.technologies.IHeatSource;
-import uk.org.cse.nhm.hom.emf.technologies.IMainWaterHeater;
-import uk.org.cse.nhm.hom.emf.technologies.IOperationalCost;
-import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
-import uk.org.cse.nhm.hom.emf.technologies.IWaterTank;
+import uk.org.cse.nhm.hom.emf.technologies.*;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.FlueType;
 import uk.org.cse.nhm.hom.emf.technologies.impl.util.HotWaterUtilities;
 

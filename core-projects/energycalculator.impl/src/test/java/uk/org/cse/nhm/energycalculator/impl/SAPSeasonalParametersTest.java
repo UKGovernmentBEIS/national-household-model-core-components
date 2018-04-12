@@ -1,9 +1,11 @@
 package uk.org.cse.nhm.energycalculator.impl;
 
-import org.junit.Test;
 import org.junit.Assert;
+import org.junit.Test;
 
+import uk.org.cse.nhm.energycalculator.api.impl.Weather;
 import uk.org.cse.nhm.energycalculator.api.types.MonthType;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 
 public class SAPSeasonalParametersTest {
 	@Test
@@ -15,7 +17,7 @@ public class SAPSeasonalParametersTest {
 		};
 		
 		for (final MonthType mt : MonthType.values()) {
-			final SAPSeasonalParameters params = new SAPSeasonalParameters(mt);
+			final SAPHeatingSeasonalParameters params = new SAPHeatingSeasonalParameters(mt, Weather.SAP12, RegionType.UK_AVERAGE_LATITUDE_RADIANS);
 			
 			final double flux = params.getSolarFlux(Math.PI/2, Math.PI);
 			Assert.assertEquals(expectation[mt.ordinal()], flux, 0.1);

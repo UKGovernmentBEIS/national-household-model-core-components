@@ -21,11 +21,12 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyState;
 import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
 import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
 import uk.org.cse.nhm.energycalculator.api.impl.EnergyTransducer;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.TransducerPhaseType;
 import uk.org.cse.nhm.energycalculator.api.types.Zone2ControlParameter;
+import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
+import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType.ECHeating;
 import uk.org.cse.nhm.hom.constants.CommunityHeatingConstants;
 import uk.org.cse.nhm.hom.emf.technologies.EmitterType;
 import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
@@ -235,7 +236,7 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 		 */
 		final double controlFactor;
 
-		if (calculatorType == EnergyCalculatorType.BREDEM2012) {
+		if (calculatorType.heating == ECHeating.BREDEM2012) {
 			controlFactor = 1;
 		}
 		else if (isChargingUsageBased()) {
@@ -301,7 +302,7 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 		 */
 		final double controlFactor;
 
-		if (calculatorType != EnergyCalculatorType.BREDEM2012) {
+		if (calculatorType.heating != ECHeating.BREDEM2012) {
 			if (isChargingUsageBased()) {
 				controlFactor = constants.get(CommunityHeatingConstants.LOW_WATER_USAGE_MULTIPLIER);
 			} else {

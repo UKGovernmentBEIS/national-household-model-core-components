@@ -11,16 +11,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
-import uk.org.cse.nhm.hom.emf.technologies.boilers.EfficiencySourceType;
-import uk.org.cse.nhm.hom.emf.technologies.boilers.FlueType;
-import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler;
-import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoilersFactory;
-import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoilersPackage;
-import uk.org.cse.nhm.hom.emf.technologies.boilers.ICPSU;
-import uk.org.cse.nhm.hom.emf.technologies.boilers.ICombiBoiler;
-import uk.org.cse.nhm.hom.emf.technologies.boilers.IInstantaneousCombiBoiler;
-import uk.org.cse.nhm.hom.emf.technologies.boilers.IKeepHotFacility;
-import uk.org.cse.nhm.hom.emf.technologies.boilers.IStorageCombiBoiler;
+import uk.org.cse.nhm.hom.emf.technologies.boilers.*;
 import uk.org.cse.nhm.hom.emf.technologies.impl.TechnologiesPackageImpl;
 
 /**

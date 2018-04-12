@@ -31,7 +31,7 @@ public class Invocation {
 	
 	public static final Invocation of(final Node node, final IErrorHandler errors, final boolean withComments) {
 		if (node instanceof Seq) {
-			final Seq seq = (Seq) node;
+			final Seq seq = (Seq) node.removeComments();
 			if (seq.size() == 0) {
 				errors.handle(BasicError.at(node, "An empty pair of parentheses was not expected here. A parenthesis will usually be followed by the name of a command."));
 			} else if (seq.getDelimeter() != Delim.Paren) {

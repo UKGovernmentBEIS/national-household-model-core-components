@@ -6,9 +6,9 @@ import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
 
-import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
+import uk.org.cse.nhm.energycalculator.api.types.LightType;
 import uk.org.cse.nhm.energycalculator.api.types.MonthType;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
@@ -20,6 +20,7 @@ import uk.org.cse.nhm.energycalculator.constants.EnergyCalculatorConstants;
 import uk.org.cse.nhm.energycalculator.constants.GainsConstants;
 import uk.org.cse.nhm.energycalculator.constants.HotWaterConstants09;
 import uk.org.cse.nhm.energycalculator.constants.LightingConstants09;
+import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
 import uk.org.cse.nhm.hom.constants.CommunityHeatingConstants;
 import uk.org.cse.nhm.hom.constants.CylinderConstants;
 import uk.org.cse.nhm.hom.constants.HeatingSystemConstants;
@@ -37,16 +38,7 @@ import uk.org.cse.nhm.language.definition.action.XHeatingTemperaturesAction.XMon
 import uk.org.cse.nhm.language.definition.action.XSetSiteExposureAction;
 import uk.org.cse.nhm.language.definition.action.measure.insulation.XWallInsulationMeasure.XWallInsulationType;
 import uk.org.cse.nhm.language.definition.context.XEnergyConstantsContext.XEnergyConstantType;
-import uk.org.cse.nhm.language.definition.enums.XBuiltFormType;
-import uk.org.cse.nhm.language.definition.enums.XEnergyCalculatorType;
-import uk.org.cse.nhm.language.definition.enums.XFrameType;
-import uk.org.cse.nhm.language.definition.enums.XFuelType;
-import uk.org.cse.nhm.language.definition.enums.XGlazingType;
-import uk.org.cse.nhm.language.definition.enums.XMorphologyType;
-import uk.org.cse.nhm.language.definition.enums.XRegionType;
-import uk.org.cse.nhm.language.definition.enums.XTenureType;
-import uk.org.cse.nhm.language.definition.enums.XWindowGlazingAirGap;
-import uk.org.cse.nhm.language.definition.enums.XWindowInsulationType;
+import uk.org.cse.nhm.language.definition.enums.*;
 
 public class MapEnum {
 	@Retention(RetentionPolicy.RUNTIME)
@@ -122,6 +114,7 @@ public class MapEnum {
 		case BREDEM2012: return EnergyCalculatorType.BREDEM2012;
 		case SAP2012: return EnergyCalculatorType.SAP2012;
 		case SAP2012_PHYSICAL: return EnergyCalculatorType.SAP2012_UVALUES;
+		case BEIS: return EnergyCalculatorType.BEIS;
 		default: throw new RuntimeException("Unexpected XEnergyCalculatorType " + calculatorType);
 		}
 	}
@@ -277,5 +270,9 @@ public class MapEnum {
 			throw new IllegalArgumentException();
 
 		}
+	}
+	
+	public static LightType lightType(final XLightType x) {
+		return mapName(LightType.class, x);
 	}
 }

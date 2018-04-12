@@ -145,7 +145,9 @@ public class Language implements ILanguage {
 			return new S(
 					SType.Argument,
 					argument + ": ",
-					macro.allowedKeys.get(argument),
+					(macro.allowedKeys.containsKey(argument)) ?
+					macro.allowedKeys.get(argument) : macro.requiredKeys.get(argument)
+					,
 					"keywords",
 					0, cursor.left().length(),
 					true);
@@ -281,6 +283,11 @@ public class Language implements ILanguage {
 			// this is a macro which matches where we are
 			// we ought to suggest keywords for it
 			for (final String s : mm.allowedKeys.keySet()) {
+				if (s.startsWith(cursor.left())) {
+					result.add(S.macroKeyword(cursor, mm, s));
+				}
+			}
+			for (final String s : mm.requiredKeys.keySet()) {
 				if (s.startsWith(cursor.left())) {
 					result.add(S.macroKeyword(cursor, mm, s));
 				}

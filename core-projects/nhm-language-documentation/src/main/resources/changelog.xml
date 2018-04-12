@@ -137,11 +137,15 @@
               <para>
                 A new energy calculator mode,
                 <literal>SAP2012_PHYSICAL</literal> has been added. This
-                is a slightly relaxed version of
-                <literal>SAP2012</literal>, in which you can change the
-                heating schedule, occupancy and weather parameters but
-                which is otherwise restricted to SAP2012, enforcing
-                consistent u-values and other parameters.
+                is a slightly constrained version of
+                <literal>BREDEM2012</literal>, which does not require
+                specification of u-values or other physical parameters,
+                but does allow changes outside the scope of
+                <literal>SAP2012</literal>.
+              </para>
+              <para>
+                It is documented in more detail below in the section on
+                energy calculator modes.
               </para>
             </listitem>
             <listitem>
@@ -152,6 +156,88 @@
               <para>
                 This functions allows you to ask the model for the heat
                 output from the heating system.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                Changes to lighting model and measures
+              </para>
+              <para>
+                The way lights are represented in the stock has been
+                changed to support products policy modelling. The stock
+                data now records information about the type of lights
+                that are installed in a house, rather than their
+                efficiencies. The model represents six types of light:
+              </para>
+              <itemizedlist spacing="compact">
+                <listitem>
+                  <para>
+                    Incandescent
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    CFL
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    Halogen
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    LED
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    Low-voltage Halogen
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    A++
+                  </para>
+                </listitem>
+              </itemizedlist>
+              <para>
+                The efficiencies used for lights are determined by the
+                energy calculator mode in use.
+              </para>
+              <para>
+                The measures
+                <xref linkend="ref.measure.replace-lighting"/> and
+                <xref linkend="ref.measure.set-lighting-proportions"/>
+                allow the installation of new lighting or a direct
+                change to the lighting mix in a house, and
+                <xref linkend="ref.house.lighting-proportion"/> allows
+                you to query what proportion of the lights in a house
+                are of a pariticular type.
+              </para>
+              <para>
+                These changes have broken backwards-compatibility for
+                lighting related commands, so you will need to amend any
+                scenarios you have written which used
+                <xref linkend="ref.measure.low-energy-lighting"/> or
+                <xref linkend="ref.house.lighting-proportion"/> to
+                refer to light types rather than light efficiencies.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                Addition of BEIS mode
+              </para>
+              <para>
+                A new energy calculator mode, <literal>BEIS</literal>
+                has been added. This is to support changes for products
+                policy modelling. It has a more realistic set of
+                lighting efficiency coefficients, and allows products
+                policy changes to appliance and cooker efficiencies.
+              </para>
+              <para>
+                It is documented in more detail below in the section on
+                energy calculator modes.
               </para>
             </listitem>
           </orderedlist>
@@ -182,6 +268,13 @@
                 The function <xref linkend="ref.house.heating-fuel"/>
                 can now be used to ask about the heating fuel for
                 secondary heating and hot water systems.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                Energy calculator modes have been documented in more
+                detail - see the next section of the manual if you are
+                interested.
               </para>
             </listitem>
           </itemizedlist>
@@ -2902,5 +2995,596 @@
         them.
       </para>
     </sect2>
+  </sect1>
+</chapter>
+<chapter xmlns="http://docbook.org/ns/docbook">
+  <title>Energy Calculator Modes</title>
+  <para>
+    The NHM energy calculator can operate in several different
+    <emphasis>modes</emphasis>. Changing the calculator mode affects man
+    of the input assumptions the energy calculator uses.
+  </para>
+  <para>
+    The energy calculator mode can be set for the whole scenario using
+    the <literal>energy-calculator:</literal> argument to the
+    <xref linkend="ref.scenario"/> command. It can be changed for a
+    particular calculation using <xref linkend="ref.under"/> or with
+    the <xref linkend="ref.counterfactual.energy-calculator"/> command.
+  </para>
+  <para>
+    Here is a summary of what assumptions are used in each mode. The
+    <emphasis role="strong">Physical parameters</emphasis> below cover
+    u-values and glazing parameters (frame factor, light transmission
+    and so on).
+  </para>
+  <sect1 id="bredem2012-mode">
+    <title>BREDEM2012 Mode</title>
+    <variablelist>
+      <varlistentry>
+        <term>
+          Physical parameters
+        </term>
+        <listitem>
+          <para>
+            Initial values are taken from the stock. The values in the
+            stock are in turn determined by the
+            <literal>imputation-schema.xlsx</literal> file which is
+            included in the stock zip file.
+          </para>
+          <para>
+            If your scenario puts in insulation measures the u-values
+            resulting will be determined by what you have written on the
+            measure. Any measure you write must be told a resistance or
+            a u-value. These scenario parameters will update or replace
+            the u-values on the relevant fabric in the house.
+          </para>
+          <para>
+            Similarly, glazing measures may change the glazing-specific
+            parameters.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          Lighting coefficients
+        </term>
+        <listitem>
+          <para>
+            Lighting energy use is determined using the following
+            coefficients for different types of lighting:
+          </para>
+          <informaltable>
+            <tgroup cols="2">
+              <colspec align="left" />
+              <colspec align="left" />
+              <thead>
+                <row>
+                  <entry>
+                    Lighting
+                  </entry>
+                  <entry>
+                    Times SAP Incandescent
+                  </entry>
+                </row>
+              </thead>
+              <tbody>
+                <row>
+                  <entry>
+                    Incandescent
+                  </entry>
+                  <entry>
+                    1
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    CFL
+                  </entry>
+                  <entry>
+                    0.5
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    Halogen
+                  </entry>
+                  <entry>
+                    0.5
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    LED
+                  </entry>
+                  <entry>
+                    0.5
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    LV-Halogen
+                  </entry>
+                  <entry>
+                    0.5
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    A++
+                  </entry>
+                  <entry>
+                    0.5
+                  </entry>
+                </row>
+              </tbody>
+            </tgroup>
+          </informaltable>
+          <para>
+            This corresponds to the SAP and BREDEM lighting equation,
+            and includes an embedded assumption that 1/3 of all lights
+            are always incandescent (rolled into the CFL coefficient).
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          Solar panel
+        </term>
+        <listitem>
+          <para>
+            Solar PV panel own-use proportion is defined by the
+            scenario.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          Calibration rules
+        </term>
+        <listitem>
+          <para>
+            Calibration rules
+            (<xref linkend="ref.context.calibration"/>) are used if
+            they are given in the scenario.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          Occupancy
+        </term>
+        <listitem>
+          <para>
+            The occupancy recorded in the stock is used.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          Cooking coefficients
+        </term>
+        <listitem>
+          <para>
+            BREDEM 2012 cooking coefficients are used. These differ a
+            bit from SAP 2012 coefficients.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          Appliance coefficients
+        </term>
+        <listitem>
+          <para>
+            BREDEM 2012 appliance demand coefficients are used. These
+            are slightly lower than SAP 2012 coefficients.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          Heating parameters
+        </term>
+        <listitem>
+          <para>
+            Scenario heating parameters are used, with model defaults if
+            none are specified. The model defaults are:
+          </para>
+          <itemizedlist spacing="compact">
+            <listitem>
+              <para>
+                19 degrees living area demand temperature (following the
+                Cambridge Household Model, by DECC's preference).
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                rest of dwelling temperature difference of 3 degrees
+                (again per CHM).
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                Heating on from October to May.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                Heating on from 7:00-8:00 and 18:00-23:00 on weekdays
+                and 7:00-23:00 on weekends.
+              </para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          Weather
+        </term>
+        <listitem>
+          <para>
+            Scenario weather is used, with the model default of SAP 2012
+            regionally averaged weather if nothing is given. Latitude
+            for solar radiation calculations is taken from the
+            dwelling's region's representative latitude.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          Carbon factors
+        </term>
+        <listitem>
+          <para>
+            Scenario carbon factors are used, or zero if nothing is
+            specified.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          Fuel prices
+        </term>
+        <listitem>
+          <para>
+            Scenario tariffs are used, or zero if nothing is specified.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          Reduced internal gains
+        </term>
+        <listitem>
+          <para>
+            Reduced internal gains are allowed, but off by default.
+          </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </sect1>
+  <sect1 id="sap2012-mode">
+    <title>SAP2012 Mode</title>
+    <variablelist>
+      <varlistentry>
+        <term>
+          Physical parameters
+        </term>
+        <listitem>
+          <para>
+            Values are always looked up from a set of hard-coded
+            internal tables. These tables reflect changes in the
+            insulation and glazing status of the building, so using
+            insulation measures will typically change u-values, but the
+            measures' u-value and resistance parameters are ignored
+            (only the thickness or glazing type matter).
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          Lighting coefficients
+        </term>
+        <listitem>
+          <para>
+            Lighting energy use is determined using the following
+            coefficients for different types of lighting:
+          </para>
+          <informaltable>
+            <tgroup cols="2">
+              <colspec align="left" />
+              <colspec align="left" />
+              <thead>
+                <row>
+                  <entry>
+                    Lighting
+                  </entry>
+                  <entry>
+                    Times SAP Incandescent
+                  </entry>
+                </row>
+              </thead>
+              <tbody>
+                <row>
+                  <entry>
+                    Incandescent
+                  </entry>
+                  <entry>
+                    1
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    CFL
+                  </entry>
+                  <entry>
+                    0.5
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    Halogen
+                  </entry>
+                  <entry>
+                    0.5
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    LED
+                  </entry>
+                  <entry>
+                    0.5
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    LV-Halogen
+                  </entry>
+                  <entry>
+                    0.5
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    A++
+                  </entry>
+                  <entry>
+                    0.5
+                  </entry>
+                </row>
+              </tbody>
+            </tgroup>
+          </informaltable>
+          <para>
+            This corresponds to the SAP and BREDEM lighting equation,
+            and includes an embedded assumption that 1/3 of all lights
+            are always incandescent (rolled into the CFL coefficient).
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          Solar panel
+        </term>
+        <listitem>
+          <para>
+            Solar PV panel own-use proportion is defined by SAP as 1/5.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          Calibration rules
+        </term>
+        <listitem>
+          <para>
+            Calibration rules
+            (<xref linkend="ref.context.calibration"/>) are disabled in
+            all cases.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          Occupancy
+        </term>
+        <listitem>
+          <para>
+            SAP standard occupancy is used in all cases.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          Cooking coefficients
+        </term>
+        <listitem>
+          <para>
+            SAP 2012 cooking coefficients are used.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          Appliance coefficients
+        </term>
+        <listitem>
+          <para>
+            SAP 2012 appliance coefficients are used.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          Heating parameters
+        </term>
+        <listitem>
+          <para>
+            SAP 2012 heating schedule and demand temperature are used.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          Weather
+        </term>
+        <listitem>
+          <para>
+            SAP 2012 regional average weather and regional average
+            latitude are used.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          Carbon factors
+        </term>
+        <listitem>
+          <para>
+            Scenario carbon factors are used, or zero if nothing is
+            specified.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          Fuel prices
+        </term>
+        <listitem>
+          <para>
+            Scenario tariffs are used, or zero if nothing is specified.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          Reduced internal gains
+        </term>
+        <listitem>
+          <para>
+            Reduced internal gains are disabled; if used they will have
+            no effect.
+          </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </sect1>
+  <sect1 id="sap2012uvalues-mode">
+    <title>SAP2012<subscript>UVALUES</subscript> Mode</title>
+    <para>
+      Per <literal>BREDEM2012</literal> mode, except physical parameters
+      per <literal>SAP2012</literal> mode. This allows you to write a
+      scenario in which most things are flexible but using SAP u-values
+      for convenience.
+    </para>
+  </sect1>
+  <sect1 id="beis-mode">
+    <title>BEIS Mode</title>
+    <para>
+      Per <literal>BREDEM2012</literal> mode, except with changes to
+      lighting, appliances and cooking:
+    </para>
+    <variablelist>
+      <varlistentry>
+        <term>
+          Lighting coefficients
+        </term>
+        <listitem>
+          <para>
+            Lighting energy use is determined using the following
+            coefficients for different types of lighting:
+          </para>
+          <informaltable>
+            <tgroup cols="2">
+              <colspec align="left" />
+              <colspec align="left" />
+              <thead>
+                <row>
+                  <entry>
+                    Lighting
+                  </entry>
+                  <entry>
+                    Times SAP Incandescent
+                  </entry>
+                </row>
+              </thead>
+              <tbody>
+                <row>
+                  <entry>
+                    Incandescent
+                  </entry>
+                  <entry>
+                    1
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    CFL
+                  </entry>
+                  <entry>
+                    0.166
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    Halogen
+                  </entry>
+                  <entry>
+                    0.714
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    LED
+                  </entry>
+                  <entry>
+                    0.166
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    LV-Halogen
+                  </entry>
+                  <entry>
+                    0.43
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    A++
+                  </entry>
+                  <entry>
+                    0.076
+                  </entry>
+                </row>
+              </tbody>
+            </tgroup>
+          </informaltable>
+          <para>
+            These values have been determined by BEIS as part of
+            products policy work.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          Cooking and appliances
+        </term>
+        <listitem>
+          <para>
+            Cooking and appliance energy use can be adjusted using
+            <xref linkend="ref.measure.set-adjustment-terms"/> and
+            <xref linkend="ref.measure.add-adjustment"/>. These
+            commands will have no effect on calculations outside BEIS
+            mode.
+          </para>
+          <para>
+            In BEIS mode they allow the energy use and internal gains
+            for appliances and cookers to be adjusted after the fact.
+          </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
   </sect1>
 </chapter>

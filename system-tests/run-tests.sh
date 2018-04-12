@@ -64,6 +64,7 @@ function run_test {
     SIMLOG="${TESTNAME}/sim-log.txt"
     TESTLOG="${TESTNAME}/test-log.txt"
 
+    DELETE_OUTPUT=1
     if [ -f "${TESTSCENARIO}" ]
     then
         JAR=$(get_version "${TESTNAME}")
@@ -84,6 +85,7 @@ function run_test {
                 err "${ERROR}"
                 unzip -p ${OUTPUT} errors.txt >> "${SIMLOG}"
                 echo -e "${TESTNAME}\toutput has errors.txt" >> failed-tests
+                DELETE_OUTPUT=0
             elif [ -f "${TESTSCRIPT}" ]
             then
                 inf "running test script"
@@ -97,6 +99,7 @@ function run_test {
                 then
                     err "the test script failed: $(grep -e '^\[1\] \"ERROR:' ${TESTLOG} | tail -n 1)"
                     echo -e "${TESTNAME}\thas failing tests" >> failed-tests
+                    DELETE_OUTPUT=0
                 fi
             fi
         fi
@@ -104,7 +107,7 @@ function run_test {
         err "main.nhm is missing"
     fi
 
-    rm -f "${OUTPUT}"
+    [[ $DELETE_OUTPUT == 1 ]] && rm -f "${OUTPUT}"
 
     PREFIX="${OLDPREFIX}"
 }

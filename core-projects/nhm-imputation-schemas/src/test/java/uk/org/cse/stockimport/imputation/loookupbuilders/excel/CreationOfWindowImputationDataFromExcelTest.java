@@ -13,7 +13,7 @@ import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.WindowGlazingAirGap;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
-import uk.org.cse.nhm.energycalculator.impl.IWindowUValues;
+import uk.org.cse.nhm.energycalculator.mode.WindowUValues;
 import uk.org.cse.stockimport.imputation.ImputationSchema;
 import uk.org.cse.stockimport.imputation.apertures.windows.ITransmittanceFactors;
 import uk.org.cse.stockimport.imputation.apertures.windows.IWindowFrameFactor;
@@ -43,7 +43,7 @@ public class CreationOfWindowImputationDataFromExcelTest extends AbsImputationFr
 	
 	@Test
 	public void UValuesAreReadFromExcelAndStoredInTable() throws Exception {
-		IWindowUValues uValues = imputationSchema.getWindowPropertyTables().getUValues();
+		WindowUValues uValues = imputationSchema.getWindowPropertyTables().getUValues();
 		assertThat("uvalues table", uValues, is(notNullValue()));
 		
 		Assert.assertEquals(4.0, uValues.getUValue(FrameType.Wood, GlazingType.Single, null, WindowGlazingAirGap.gapOf6mm), 0.05);

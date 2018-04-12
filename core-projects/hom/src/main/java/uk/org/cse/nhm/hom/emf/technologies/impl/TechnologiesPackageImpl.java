@@ -19,55 +19,9 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.energycalculator.api.IEnergyState;
 import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
+import uk.org.cse.nhm.energycalculator.api.types.LightType;
 import uk.org.cse.nhm.hom.IHeatProportions;
-import uk.org.cse.nhm.hom.emf.technologies.AdjusterType;
-import uk.org.cse.nhm.hom.emf.technologies.EmitterType;
-import uk.org.cse.nhm.hom.emf.technologies.FuelType;
-import uk.org.cse.nhm.hom.emf.technologies.HeatPumpSourceType;
-import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
-import uk.org.cse.nhm.hom.emf.technologies.IAdjuster;
-import uk.org.cse.nhm.hom.emf.technologies.IAppliance;
-import uk.org.cse.nhm.hom.emf.technologies.IBackBoiler;
-import uk.org.cse.nhm.hom.emf.technologies.ICentralHeatingSystem;
-import uk.org.cse.nhm.hom.emf.technologies.ICentralWaterHeater;
-import uk.org.cse.nhm.hom.emf.technologies.ICentralWaterSystem;
-import uk.org.cse.nhm.hom.emf.technologies.ICommunityCHP;
-import uk.org.cse.nhm.hom.emf.technologies.ICommunityHeatSource;
-import uk.org.cse.nhm.hom.emf.technologies.ICooker;
-import uk.org.cse.nhm.hom.emf.technologies.IElectricShower;
-import uk.org.cse.nhm.hom.emf.technologies.IEnergyUseAdjuster;
-import uk.org.cse.nhm.hom.emf.technologies.IFuelAndFlue;
-import uk.org.cse.nhm.hom.emf.technologies.IHasInstallationYear;
-import uk.org.cse.nhm.hom.emf.technologies.IHeatPump;
-import uk.org.cse.nhm.hom.emf.technologies.IHeatPumpWarmAirSystem;
-import uk.org.cse.nhm.hom.emf.technologies.IHeatSource;
-import uk.org.cse.nhm.hom.emf.technologies.IHybridHeater;
-import uk.org.cse.nhm.hom.emf.technologies.IImmersionHeater;
-import uk.org.cse.nhm.hom.emf.technologies.IIndividualHeatSource;
-import uk.org.cse.nhm.hom.emf.technologies.ILight;
-import uk.org.cse.nhm.hom.emf.technologies.IMainWaterHeater;
-import uk.org.cse.nhm.hom.emf.technologies.IMixerShower;
-import uk.org.cse.nhm.hom.emf.technologies.INamed;
-import uk.org.cse.nhm.hom.emf.technologies.IOperationalCost;
-import uk.org.cse.nhm.hom.emf.technologies.IPointOfUseWaterHeater;
-import uk.org.cse.nhm.hom.emf.technologies.IPrimarySpaceHeater;
-import uk.org.cse.nhm.hom.emf.technologies.IRoomHeater;
-import uk.org.cse.nhm.hom.emf.technologies.IShower;
-import uk.org.cse.nhm.hom.emf.technologies.ISolarPhotovoltaic;
-import uk.org.cse.nhm.hom.emf.technologies.ISolarWaterHeater;
-import uk.org.cse.nhm.hom.emf.technologies.ISpaceHeater;
-import uk.org.cse.nhm.hom.emf.technologies.IStorageHeater;
-import uk.org.cse.nhm.hom.emf.technologies.IStoreContainer;
-import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;
-import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
-import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
-import uk.org.cse.nhm.hom.emf.technologies.IVisitorAccepter;
-import uk.org.cse.nhm.hom.emf.technologies.IWarmAirCirculator;
-import uk.org.cse.nhm.hom.emf.technologies.IWarmAirSystem;
-import uk.org.cse.nhm.hom.emf.technologies.IWaterHeater;
-import uk.org.cse.nhm.hom.emf.technologies.IWaterTank;
-import uk.org.cse.nhm.hom.emf.technologies.StorageHeaterControlType;
-import uk.org.cse.nhm.hom.emf.technologies.StorageHeaterType;
+import uk.org.cse.nhm.hom.emf.technologies.*;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoilersPackage;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.impl.BoilersPackageImpl;
 import uk.org.cse.nhm.hom.emf.util.Efficiency;
@@ -465,6 +419,13 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	private EDataType heatProportionsEDataType = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType lightTypeEDataType = null;
+
+	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
 	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
 	 * package URI value.
@@ -699,6 +660,15 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 */
 	public EAttribute getLight_Proportion() {
 		return (EAttribute)lightEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLight_Type() {
+		return (EAttribute)lightEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -1867,6 +1837,15 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EDataType getLightType() {
+		return lightTypeEDataType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public ITechnologiesFactory getTechnologiesFactory() {
 		return (ITechnologiesFactory)getEFactoryInstance();
 	}
@@ -1911,6 +1890,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		lightEClass = createEClass(LIGHT);
 		createEAttribute(lightEClass, LIGHT__EFFICIENCY);
 		createEAttribute(lightEClass, LIGHT__PROPORTION);
+		createEAttribute(lightEClass, LIGHT__TYPE);
 
 		spaceHeaterEClass = createEClass(SPACE_HEATER);
 
@@ -2080,6 +2060,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		iEnergyCalculatorParametersEDataType = createEDataType(IENERGY_CALCULATOR_PARAMETERS);
 		efficiencyEDataType = createEDataType(EFFICIENCY);
 		heatProportionsEDataType = createEDataType(HEAT_PROPORTIONS);
+		lightTypeEDataType = createEDataType(LIGHT_TYPE);
 	}
 
 	/**
@@ -2196,6 +2177,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		initEClass(lightEClass, ILight.class, "Light", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getLight_Efficiency(), ecorePackage.getEDouble(), "efficiency", null, 1, 1, ILight.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLight_Proportion(), ecorePackage.getEDouble(), "proportion", null, 1, 1, ILight.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLight_Type(), this.getLightType(), "type", null, 1, 1, ILight.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(spaceHeaterEClass, ISpaceHeater.class, "SpaceHeater", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -2500,6 +2482,7 @@ public class TechnologiesPackageImpl extends EPackageImpl implements ITechnologi
 		initEDataType(iEnergyCalculatorParametersEDataType, IEnergyCalculatorParameters.class, "IEnergyCalculatorParameters", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(efficiencyEDataType, Efficiency.class, "Efficiency", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(heatProportionsEDataType, IHeatProportions.class, "HeatProportions", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(lightTypeEDataType, LightType.class, "LightType", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

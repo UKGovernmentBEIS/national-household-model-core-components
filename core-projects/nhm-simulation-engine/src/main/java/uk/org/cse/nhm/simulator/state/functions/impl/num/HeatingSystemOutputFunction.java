@@ -1,13 +1,13 @@
 package uk.org.cse.nhm.simulator.state.functions.impl.num;
 
 import java.util.Collections;
-import com.google.common.base.Optional;
 import java.util.Set;
 
 import javax.inject.Inject;
 
 import org.joda.time.DateTime;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.assistedinject.Assisted;
 

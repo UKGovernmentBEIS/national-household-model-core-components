@@ -1,18 +1,37 @@
 package uk.org.cse.nhm.energycalculator.impl;
 
-import static org.mockito.Mockito.mock;
-
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.google.common.base.Optional;
-
-import uk.org.cse.nhm.energycalculator.api.IHeatingSchedule;
+import uk.org.cse.nhm.energycalculator.api.IWeather;
 import uk.org.cse.nhm.energycalculator.api.types.MonthType;
-import uk.org.cse.nhm.energycalculator.api.types.Zone2ControlParameter;
-import uk.org.cse.nhm.energycalculator.api.types.ZoneType;
 
 public class ClimateParametersTest {
+	static class TestWeather implements IWeather {
+
+		public TestWeather(double flux) {
+			super();
+			this.flux = flux;
+		}
+
+		private double flux;
+
+		@Override
+		public double getExternalTemperature(MonthType month) {
+			return 0;
+		}
+
+		@Override
+		public double getHorizontalSolarFlux(MonthType month) {
+			return flux;
+		}
+
+		@Override
+		public double getWindSpeed(MonthType month) {
+			return 0;
+		}
+		
+	}
 	@Test
 	public void testInsolationAtAngle() {
 		// insolation on the flat is unchanged.
@@ -21,31 +40,12 @@ public class ClimateParametersTest {
 	}
 
 	private double getInsolation(final double horizontal, final double vertical, final double onPlane) {
-		final BredemSeasonalParameters p = new BredemSeasonalParameters(
-				MonthType.January,0,0,onPlane,0, null, null
+		final BREDEMHeatingSeasonalParameters p = new BREDEMHeatingSeasonalParameters(
+				MonthType.January,
+				new TestWeather(onPlane),
+				0, null
 				);
 
 		return p.getSolarFlux(horizontal, vertical);
-	}
-
-
-	@Test
-	public void testGetHeatingScheduleByZone() {
-		final IHeatingSchedule schedule1 = mock(IHeatingSchedule.class);
-		final IHeatingSchedule schedule2 = mock(IHeatingSchedule.class);
-
-		final BredemSeasonalParameters p = new BredemSeasonalParameters(
-				MonthType.January,0, 0,0,0, schedule1, Optional.of(schedule2)
-				);
-
-
-		Assert.assertSame(schedule1, p.getHeatingSchedule(ZoneType.ZONE1, Optional.<Zone2ControlParameter>absent()));
-		Assert.assertSame(schedule2, p.getHeatingSchedule(ZoneType.ZONE2, Optional.<Zone2ControlParameter>absent()));
-
-		final BredemSeasonalParameters p2 = new BredemSeasonalParameters(
-				MonthType.January,0, 0,0,0, schedule1, Optional.<IHeatingSchedule>absent()
-				);
-
-		Assert.assertSame(schedule1, p2.getHeatingSchedule(ZoneType.ZONE2, Optional.of(Zone2ControlParameter.One)));
 	}
 }

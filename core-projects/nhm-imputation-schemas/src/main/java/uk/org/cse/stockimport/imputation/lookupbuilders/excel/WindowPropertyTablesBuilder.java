@@ -6,7 +6,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.WindowGlazingAirGap;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
-import uk.org.cse.nhm.energycalculator.impl.IWindowUValues;
+import uk.org.cse.nhm.energycalculator.mode.WindowUValues;
 import uk.org.cse.stockimport.imputation.apertures.windows.IWindowPropertyTables;
 import uk.org.cse.stockimport.imputation.apertures.windows.TransmittanceFactors;
 import uk.org.cse.stockimport.imputation.apertures.windows.WindowPropertyTables;
@@ -35,7 +35,7 @@ public class WindowPropertyTablesBuilder implements ILookUpTableBuilder<IWindowP
 	}
 	
 	protected void buildUValues(final IWindowPropertyTables windowPropertyTables, final XSSFSheet sheet){
-		IWindowUValues uvalues = windowPropertyTables.getUValues();
+		WindowUValues uvalues = windowPropertyTables.getUValues();
 		
 		uvalues.setCurtainEffectFactor(sheet.getRow(42).getCell(1).getNumericCellValue());
 		
