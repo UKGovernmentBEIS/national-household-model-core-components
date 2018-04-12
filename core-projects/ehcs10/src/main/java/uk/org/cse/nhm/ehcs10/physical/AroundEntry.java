@@ -1,24 +1,7 @@
 package uk.org.cse.nhm.ehcs10.physical;
 
 import uk.org.cse.nhm.ehcs10.derived.types.Enum10;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1150;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1151;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1152;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1153;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1154;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1159;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1161;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1163;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1164;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1165;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1167;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1170;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1180;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1185;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1186;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1190;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1192;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1202;
+import uk.org.cse.nhm.ehcs10.physical.types.*;
 import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 

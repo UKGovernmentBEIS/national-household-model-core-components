@@ -6,16 +6,7 @@ import static uk.org.cse.nhm.hom.emf.technologies.FuelType.MAINS_GAS;
 import static uk.org.cse.nhm.hom.emf.technologies.boilers.FlueType.BALANCED_FLUE;
 import static uk.org.cse.nhm.hom.emf.technologies.boilers.FlueType.FAN_ASSISTED_BALANCED_FLUE;
 import static uk.org.cse.nhm.hom.emf.technologies.boilers.FlueType.OPEN_FLUE;
-import static uk.org.cse.stockimport.domain.services.SpaceHeatingSystemType.AIR_SOURCE_HEAT_PUMP;
-import static uk.org.cse.stockimport.domain.services.SpaceHeatingSystemType.BACK_BOILER;
-import static uk.org.cse.stockimport.domain.services.SpaceHeatingSystemType.BACK_BOILER_NO_CENTRAL_HEATING;
-import static uk.org.cse.stockimport.domain.services.SpaceHeatingSystemType.COMMUNITY_HEATING_WITHOUT_CHP;
-import static uk.org.cse.stockimport.domain.services.SpaceHeatingSystemType.COMMUNITY_HEATING_WITH_CHP;
-import static uk.org.cse.stockimport.domain.services.SpaceHeatingSystemType.GROUND_SOURCE_HEAT_PUMP;
-import static uk.org.cse.stockimport.domain.services.SpaceHeatingSystemType.ROOM_HEATER;
-import static uk.org.cse.stockimport.domain.services.SpaceHeatingSystemType.STANDARD;
-import static uk.org.cse.stockimport.domain.services.SpaceHeatingSystemType.STORAGE_HEATER;
-import static uk.org.cse.stockimport.domain.services.SpaceHeatingSystemType.WARM_AIR;
+import static uk.org.cse.stockimport.domain.services.SpaceHeatingSystemType.*;
 
 import java.util.Set;
 

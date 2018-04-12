@@ -2,16 +2,7 @@ package uk.org.cse.nhm.ehcs10.interview;
 
 import uk.org.cse.nhm.ehcs10.derived.types.Enum30;
 import uk.org.cse.nhm.ehcs10.derived.types.Enum69;
-import uk.org.cse.nhm.ehcs10.interview.types.Enum1003;
-import uk.org.cse.nhm.ehcs10.interview.types.Enum1004;
-import uk.org.cse.nhm.ehcs10.interview.types.Enum1012;
-import uk.org.cse.nhm.ehcs10.interview.types.Enum1014;
-import uk.org.cse.nhm.ehcs10.interview.types.Enum1018;
-import uk.org.cse.nhm.ehcs10.interview.types.Enum1021;
-import uk.org.cse.nhm.ehcs10.interview.types.Enum1022;
-import uk.org.cse.nhm.ehcs10.interview.types.Enum1023;
-import uk.org.cse.nhm.ehcs10.interview.types.Enum229;
-import uk.org.cse.nhm.ehcs10.interview.types.Enum230;
+import uk.org.cse.nhm.ehcs10.interview.types.*;
 import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 

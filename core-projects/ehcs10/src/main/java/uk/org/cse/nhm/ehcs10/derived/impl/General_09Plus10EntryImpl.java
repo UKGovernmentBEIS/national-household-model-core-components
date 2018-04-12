@@ -1,16 +1,7 @@
 package uk.org.cse.nhm.ehcs10.derived.impl;
 
 import uk.org.cse.nhm.ehcs10.derived.General_09Plus10Entry;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum21;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum22;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum23;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum24;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum25;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum26;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum27;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum28;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum29;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum30;
+import uk.org.cse.nhm.ehcs10.derived.types.*;
 import uk.org.cse.stockimport.spss.SurveyEntryImpl;
 
 public class General_09Plus10EntryImpl extends SurveyEntryImpl implements General_09Plus10Entry {
