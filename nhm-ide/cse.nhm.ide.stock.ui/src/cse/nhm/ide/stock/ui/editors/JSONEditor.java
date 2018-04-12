@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -28,7 +29,8 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.deferred.DeferredContentProvider;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.DisposeEvent;
@@ -37,6 +39,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Widget;
@@ -66,7 +69,7 @@ public class JSONEditor extends EditorPart implements ISelectionChangedListener 
 	private TableViewer master;
 	private Sorter masterSorter;
 	
-	private final ListModel contentsModel = new ListModel();
+	private final List<Object> contentsModel = Collections.synchronizedList(new ArrayList<>());
 	private final Job loadInputJob = new Job("Load input") {
 		private JsonValue dedup(final JsonValue input, final Interner<String> si) {
 			if (input.isString()) {
@@ -93,6 +96,13 @@ public class JSONEditor extends EditorPart implements ISelectionChangedListener 
 		protected IStatus run(final IProgressMonitor monitor) {
 			contentsModel.clear();
 			
+			Runnable refresh = new Runnable() {
+				@Override
+				public void run() {
+					master.refresh();
+				}
+			};
+			
 			if (uriInput != null) {
 				monitor.beginTask("Load data from " + uriInput.getName(), 100);
 				try {
@@ -118,6 +128,7 @@ public class JSONEditor extends EditorPart implements ISelectionChangedListener 
 							if (buffer.size() > 100) {
 								contentsModel.addAll(buffer);
 								buffer.clear();
+								Display.getDefault().asyncExec(refresh);
 							}
 							readMonitor.worked((int) (countstream.getCount() - offset));
 							offset = (int) countstream.getCount();
@@ -151,13 +162,13 @@ public class JSONEditor extends EditorPart implements ISelectionChangedListener 
 	static class Sorter implements SelectionListener, DisposeListener {
 		final LinkedList<TableColumn> columns = new LinkedList<>();
 		final LinkedList<Boolean> sortOrder = new LinkedList<>();
-		private final DeferredContentProvider contentProvider;
+		private TableViewer viewer;
 		
-		public Sorter(final DeferredContentProvider contentProvider) {
-			this.contentProvider = contentProvider;
+		public Sorter(TableViewer master) {
+			viewer = master;
 		}
-		
-		public Comparator<Object> getComparator() {
+
+		public ViewerComparator getComparator() {
 			final ImmutableList.Builder<List<?>> bcolumns = 
 					ImmutableList.builder();
 			
@@ -170,10 +181,10 @@ public class JSONEditor extends EditorPart implements ISelectionChangedListener 
 			
 			final List<List<?>> columns = bcolumns.build();
 			final List<Boolean> sortOrder = ImmutableList.copyOf(this.sortOrder);
-			return new Comparator<Object>() {
+			return new ViewerComparator() {
 
 				@Override
-				public int compare(final Object e1, final Object e2) {
+				public int compare(final Viewer v, final Object e1, final Object e2) {
 					// these two things are two json nodes
 					// want to get the column for each one and so on.
 					if (columns.isEmpty())
@@ -248,9 +259,9 @@ public class JSONEditor extends EditorPart implements ISelectionChangedListener 
 				final TableColumn peek = columns.peek();
 				peek.getParent().setSortColumn(peek);
 				peek.getParent().setSortDirection(sortOrder.peek() ? SWT.UP : SWT.DOWN);
+				
+				viewer.setComparator(getComparator());
 			}
-			
-			contentProvider.setSortOrder(getComparator());
 		}
 
 		@Override
@@ -371,10 +382,9 @@ public class JSONEditor extends EditorPart implements ISelectionChangedListener 
 		detail = new JsonObjectViewer(sash, SWT.BORDER | SWT.FULL_SELECTION);
 		
 		
-		final DeferredContentProvider dcp = new DeferredContentProvider(null);
-		masterSorter = new Sorter(dcp);
+		final ArrayContentProvider dcp = ArrayContentProvider.getInstance();
+		masterSorter = new Sorter(master);
 		master.setContentProvider(dcp);
-		dcp.setSortOrder(masterSorter.getComparator());
 		
 		final Table t = master.getTable();
 		t.setHeaderVisible(true);
