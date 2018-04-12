@@ -23,7 +23,7 @@ nhm <- function(...) {
          out = paste(result, collapse="\n"))
 }
 
-run <- function(scenario) {
+run.nhm <- function(scenario) {
     output.file <- paste(dirname(scenario), "output.zip", sep = "/")
     if (file.exists(output.file)) unlink(output.file)
     out <- nhm("run", scenario, output.file)
@@ -42,17 +42,23 @@ run.test.script <- function(test.script) {
     any.failed # argh, why not working
 }
 
-failures <- data.frame(scenario=character(), msg=character())
+run.results <- data.frame(scenario=character(), status = character(), msg=character())
 
 run.scenario <- function(scenario) {
     println("[INFO] Scenario %s", scenario)
-    result <- run(scenario)
+    result <- run.nhm(scenario)
     if (result$status) {
         println("[FAIL] %s has non-zero exit status %d", scenario, result$status)
-        failures <<- bind_rows(failures,
+        run.results <<- bind_rows(run.results,
                              data.frame(scenario = scenario,
+                                        status = "Run error",
                                         msg = result$out))
     } else {
+        run.results <<- bind_rows(run.results,
+                             data.frame(scenario = scenario,
+                                        status = "Run OK",
+                                        msg = ""))
+
         println("[INFO] OK, output %s", result$file)
         ## look for verifier script and run it
         test.script <- paste(dirname(scenario), "tests.R", sep = "/")
@@ -60,9 +66,17 @@ run.scenario <- function(scenario) {
             println("[INFO] Test script %s", test.script)
             failed <- run.test.script(test.script)
             if (length(failed) > 0) {
-                failures <<- bind_rows(failures,
-                                     data.frame(scenario = scenario, msg = failed))
+                run.results <<- bind_rows(run.results,
+                                     data.frame(scenario = scenario,
+                                                status = "Test error",
+                                                msg = failed))
                 println("[FAIL] Errors from %s: %s", test.script, failed)
+            } else {
+                run.results <<- bind_rows(run.results,
+                                     data.frame(scenario = scenario,
+                                                status = "Tests OK",
+                                                msg = ""))
+
             }
         }
         ## remove output
@@ -81,4 +95,4 @@ if (length(args) == 0) {
 
 for (scenario in scenarios) run.scenario(scenario)
 
-print(failures)
+print(run.results)

@@ -12,10 +12,14 @@ comparison <- load.probe("energy") %>%
            delta.sap = sap2012.x - sap2012.y) %>%
     select(survey.code, delta.bredem, delta.sap)
 
-print(filter(comparison, delta.bredem > 0.01 | delta.sap > 0.01))
+bad.rows <- filter(comparison, delta.bredem > 0.01 | delta.sap > 0.01)
 
-fail.test.unless(with(comparison, abs(delta.bredem) > 0.01),
-                 "BREDEM2012 mode values changed")
+if (nrow(bad.rows)) {
+    print(bad.rows)
+}
 
-fail.test.unless(with(comparison, abs(delta.sap) > 0.01),
-                 "SAP2012 mode values changed")
+fail.test.if(with(comparison, abs(delta.bredem) > 0.01),
+             "BREDEM2012 mode values changed")
+
+fail.test.if(with(comparison, abs(delta.sap) > 0.01),
+             "SAP2012 mode values changed")
