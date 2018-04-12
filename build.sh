@@ -148,7 +148,7 @@ find binaries -iname \*.jar -exec cp '{}' p2/inputs/plugins/ ';'
 if [ ${steps["tests"]} == 1 ]; then
     green "Running system tests"
     pushd system-tests
-    ./run-tests.sh
+    Rscript run-tests.R
     popd
 fi
 
