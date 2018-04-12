@@ -142,6 +142,9 @@ else
 
 fi
 
+green "Copy jars to p2 inputs directory"
+find binaries -iname \*.jar -exec cp '{}' p2/inputs/plugins/ ';'
+
 if [ ${steps["tests"]} == 1 ]; then
     green "Running system tests"
     pushd system-tests
@@ -150,8 +153,6 @@ if [ ${steps["tests"]} == 1 ]; then
 fi
 
 if [ ${steps["ide"]} == 1 ]; then
-    green "Copy jars to p2 inputs directory"
-    find binaries -iname \*.jar -exec cp '{}' p2/inputs/plugins/ ';'
     pushd p2
     mvn tycho-p2-extras:publish-features-and-bundles
     cd target/repository
