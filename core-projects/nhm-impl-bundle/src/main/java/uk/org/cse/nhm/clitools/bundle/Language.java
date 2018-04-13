@@ -507,7 +507,8 @@ public class Language implements ILanguage {
 		} else if (this.macroByName.containsKey(cursor.command())) {
 			final MacroModel mm = this.macroByName.get(cursor.command()).iterator().next();
 			if (cursor.argument().name().isPresent()) {
-				return Optional.fromNullable(mm.allowedKeys.get(cursor.argument().name().get()));
+				return Optional.fromNullable(mm.allowedKeys.get(cursor.argument().name().get()))
+						.or(Optional.fromNullable(mm.requiredKeys.get(cursor.argument().name().get())));
 			} else if (cursor.argument().position().isPresent()) {
 				final int i = cursor.argument().position().get();
 				if (i >= mm.allowedPos.size()) {

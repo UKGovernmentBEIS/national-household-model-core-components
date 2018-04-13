@@ -181,6 +181,19 @@ class FSUtil {
 				}
 			});
 		}
+    	
+    	for (final String s : macro.getModel().requiredKeys.keySet()) {
+			arguments.add(new IArgument() {
+				@Override
+				public Optional<String> name() {
+					return Optional.of(s);
+				}
+				@Override
+				public Optional<Integer> position() {
+					return Optional.absent();
+				}
+			});
+		}
 
         // the defining node location may be through some includes I guess
         // so we want its tail location to get the length field out

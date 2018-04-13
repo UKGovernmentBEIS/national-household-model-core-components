@@ -1,6 +1,9 @@
 package cse.nhm.ide.ui.editor;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.ui.statushandlers.StatusManager;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -45,5 +48,11 @@ public class NHMEditorPlugin extends AbstractUIPlugin {
 	 */
 	public static NHMEditorPlugin getDefault() {
 		return plugin;
+	}
+	
+
+	public static void logException(final String string, final Exception e) {
+		final IStatus s = new Status(Status.ERROR, PLUGIN_ID, string, e);
+		StatusManager.getManager().handle(s, StatusManager.LOG | StatusManager.SHOW);
 	}
 }
