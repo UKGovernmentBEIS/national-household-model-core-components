@@ -11,6 +11,7 @@
 
 
   <xi:include href="generated/changelog.xml" />
+  <xi:include href="generated/energy-modes.xml" />
   <xi:include href="chapters/introduction.xml" />
   <xi:include href="chapters/macroref.xml" />
   <xi:include href="generated/langref.xml" />
