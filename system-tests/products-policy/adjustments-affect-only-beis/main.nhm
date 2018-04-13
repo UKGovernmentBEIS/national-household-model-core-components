@@ -1,0 +1,32 @@
+(scenario
+ start-date: 2017
+ end-date: 2019
+ stock-id: ../../stock.json
+ quantum: 2000
+ weighting: Round
+
+
+ (on.dates
+  (scenario-start)
+  (assert
+   over: (all-houses)
+   (all
+    (= 0 (use-with-zero-terms BEIS Appliances))
+    (= 0 (use-with-zero-terms BEIS Cooking))
+
+    (< 0 (use-with-zero-terms BREDEM2012 Appliances))
+    (< 0 (use-with-zero-terms BREDEM2012 Cooking))
+
+    (< 0 (use-with-zero-terms SAP2012 Appliances))
+    (< 0 (use-with-zero-terms SAP2012 Cooking))
+
+    (< 0 (use-with-zero-terms SAP2012_PHYSICAL Appliances))
+    (< 0 (use-with-zero-terms SAP2012_PHYSICAL Cooking))
+
+    ))))
+
+(template
+ use-with-zero-terms [@1:calc @2:service]
+ (under (measure.set-adjustment-terms constant-term:0 linear-factor:0 adjustment-type:@service)
+        (counterfactual.energy-calculator @calc)
+        evaluate: (house.energy-use by-service: @service)))
