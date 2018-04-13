@@ -12,4 +12,5 @@ gains.diff <- max(result$gains.increase, na.rm=TRUE) - min(result$gains.increase
 
 print(paste("Gains diff",gains.diff,sep="="))
 
-fail.test.if(gains.diff > 42, "gains diff")
+fail.test.if(gains.diff > 42, sprintf("Gains difference is too large: %.2f", gains.diff))
+fail.test.if(gains.diff <= 0, sprintf("Gains difference is too small: %.2f", gains.diff))

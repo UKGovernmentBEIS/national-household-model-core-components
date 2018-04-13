@@ -4,6 +4,7 @@
  stock-id: ../../stock.json
  quantum: 2000
  weighting: Round
+ energy-calculator: BEIS
 
 (def-report product-report
   (column name: heat-system-type value: (house.main-heating-system-type))
