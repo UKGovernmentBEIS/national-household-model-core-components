@@ -299,6 +299,13 @@
                 interested.
               </para>
             </listitem>
+            <listitem>
+              <para>
+                There is now a checkbox in the application's editor
+                preferences to disable auto-indentation, in case you
+                don't want it.
+              </para>
+            </listitem>
           </itemizedlist>
         </listitem>
       </orderedlist>

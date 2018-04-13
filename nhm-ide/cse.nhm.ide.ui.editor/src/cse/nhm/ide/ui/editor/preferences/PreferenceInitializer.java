@@ -22,6 +22,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		store.setDefault(PreferenceConstants.SKIP_CLOSING, true);
 		store.setDefault(PreferenceConstants.SKIP_DELETE, false);
 		store.setDefault(PreferenceConstants.WRAP_SELECTION, true);
+		store.setDefault(PreferenceConstants.AUTO_INDENT, true);
 	}
 
 }

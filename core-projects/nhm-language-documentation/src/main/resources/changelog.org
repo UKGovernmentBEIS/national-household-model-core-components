@@ -80,6 +80,7 @@ It is documented in more detail below in the section on energy calculator modes.
   When this is the case, =ref.house.heating-fuel= will output ~Electricity~; previously it would output the heating fuel for the secondary space heating system, even though this heating system would not be used to meet most heat demand.
 - In an associated change, the command =ref.house.main-heating-system-type= now outputs ~AssumedElectricHeater~ when primary space heating is handled by plug-in electric heaters.
 - Energy calculator modes have been documented in more detail - see the next section of the manual if you are interested.
+- There is now a checkbox in the application's editor preferences to disable auto-indentation, in case you don't want it.
 *** Version 7.1.0
 **** Bugs Fixed
 - Suitabilily for =ref.measure.solar-photovoltaic= is checked correctly.
