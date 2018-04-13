@@ -246,7 +246,7 @@
           <para>
             Improvements
           </para>
-          <itemizedlist spacing="compact">
+          <itemizedlist>
             <listitem>
               <para>
                 The service type for space heating has been subdivided
@@ -267,7 +267,29 @@
               <para>
                 The function <xref linkend="ref.house.heating-fuel"/>
                 can now be used to ask about the heating fuel for
-                secondary heating and hot water systems.
+                secondary heating and hot water systems. Its behaviour
+                has been changed to be more consistent with how the
+                model works when there is no working main heating
+                system;
+              </para>
+              <para>
+                In this situation, the model assumes plug-in electric
+                space heaters for the primary heating system (per SAP
+                rules). When this is the case,
+                <xref linkend="ref.house.heating-fuel"/> will output
+                <literal>Electricity</literal>; previously it would
+                output the heating fuel for the secondary space heating
+                system, even though this heating system would not be
+                used to meet most heat demand.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                In an associated change, the command
+                <xref linkend="ref.house.main-heating-system-type"/>
+                now outputs <literal>AssumedElectricHeater</literal>
+                when primary space heating is handled by plug-in
+                electric heaters.
               </para>
             </listitem>
             <listitem>

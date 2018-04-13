@@ -74,6 +74,11 @@ It is documented in more detail below in the section on energy calculator modes.
   This means it is now possible to separately query energy use and emissions due to each heating system.
 - The documentation for =ref.house.heat-load= has been improved to properly state that the heat load is determined before accounting for gains.
 - The function =ref.house.heating-fuel= can now be used to ask about the heating fuel for secondary heating and hot water systems.
+  Its behaviour has been changed to be more consistent with how the model works when there is no working main heating system;
+
+  In this situation, the model assumes plug-in electric space heaters for the primary heating system (per SAP rules).
+  When this is the case, =ref.house.heating-fuel= will output ~Electricity~; previously it would output the heating fuel for the secondary space heating system, even though this heating system would not be used to meet most heat demand.
+- In an associated change, the command =ref.house.main-heating-system-type= now outputs ~AssumedElectricHeater~ when primary space heating is handled by plug-in electric heaters.
 - Energy calculator modes have been documented in more detail - see the next section of the manual if you are interested.
 *** Version 7.1.0
 **** Bugs Fixed
@@ -719,39 +724,6 @@ Note that, for heat-pumps, we use the /Heat pump, data from Table 4a/ entry of T
     - They cannot reweight the copies
 
     In a future version, the stock will be extended to allow storage of /archetypal/ houses, with zero weight, which represent buildings that might be constructed in the future. New language commands will allow you to construct new houses within simulation by creating them from the archetypes in the stock. This will allow you to define expectations for new build, without having to find analogous existing houses and copy them.
-#+BEGIN_COMMENT
-This tells emacs to run pandoc on save. This comment needs to be near the end of the file, as emacs only looks for buffer specific variables near the end.
-
-The command which gets run is this:
-
-(shell-command "pandoc -f org -t docbook changelog.org --chapters | sed 's! id=\"\"!!g' | sed 's!<chapter>!<chapter xmlns=\"http://docbook.org/ns/docbook\">!g' | sed 's!<literal>\\(ref\\..\\+\\)</literal>!<xref linkend=\"\\1\"/>!g'")
-
-It has some escapes in it because it is a lisp string getting passed to the shell.
-
-Written out and unescaped it is
-
-pandoc -f org -t docbook changelog.org --chapters |                        convert this file to docbook with pandoc
-    sed 's!id=""!!g' |                                                     remove id="" from the thing - pandoc makes this and it upsets maven docbook
-    sed 's!<chapter.*>!<chapter xmlns="http://docbook.org/ns/docbook">!g' |  add the docbook namespace to the top-level chapter - pandoc does not put this in
-    sed 's!<literal>\(ref\..\+\)</literal>!<xref linkend="\1\/>!g'         finally, fix cross-references written in the org-mode source
-
-To explain about cross-references:
-
-- we need to refer to stuff in the other docbook xml from this file
-- the IDs of those things are not known to org mode or to pandoc
-- both org and pandoc fail if you refer to an unknown thing, so
-- we use a hack; in this file, to refer to one of the other things in the docbook
-  we write =ref.the-thing=; this is converted into <literal>ref.the-thing</literal>
-  in docbook, which we then regex to <xref linkend="ref.the-thing" /> which happens
-  to be a legal cross ref if we got it right.
-
-In the local variables line below we have eval:, which is a special local variable that runs some emacs lisp.
-The lisp we are running adds the lisp above onto the after-save-hook, which is a list of functions to call after saving.
-
-Local Variables:
-eval: (add-hook 'after-save-hook (lambda () (shell-command "pandoc -f org -t docbook changelog.org --chapters | sed 's! id=\"\"!!g' | sed 's!<chapter.*>!<chapter xmlns=\"http://docbook.org/ns/docbook\">!g' | sed 's!<literal>\\(ref\\..\\+\\)</literal>!<xref linkend=\"\\1\"/>!g' > changelog.xml")) nil t)
-End:
-#+END_COMMENT
 * Energy Calculator Modes
 
 The NHM energy calculator can operate in several different /modes/.
@@ -851,3 +823,36 @@ Per ~BREDEM2012~ mode, except with changes to lighting, appliances and cooking:
 - Cooking and appliances :: Cooking and appliance energy use can be adjusted using =ref.measure.set-adjustment-terms= and =ref.measure.add-adjustment=. These commands will have no effect on calculations outside BEIS mode.
 
      In BEIS mode they allow the energy use and internal gains for appliances and cookers to be adjusted after the fact.
+#+BEGIN_COMMENT
+This tells emacs to run pandoc on save. This comment needs to be near the end of the file, as emacs only looks for buffer specific variables near the end.
+
+The command which gets run is this:
+
+(shell-command "pandoc -f org -t docbook changelog.org --chapters | sed 's! id=\"\"!!g' | sed 's!<chapter>!<chapter xmlns=\"http://docbook.org/ns/docbook\">!g' | sed 's!<literal>\\(ref\\..\\+\\)</literal>!<xref linkend=\"\\1\"/>!g'")
+
+It has some escapes in it because it is a lisp string getting passed to the shell.
+
+Written out and unescaped it is
+
+pandoc -f org -t docbook changelog.org --chapters |                        convert this file to docbook with pandoc
+    sed 's!id=""!!g' |                                                     remove id="" from the thing - pandoc makes this and it upsets maven docbook
+    sed 's!<chapter.*>!<chapter xmlns="http://docbook.org/ns/docbook">!g' |  add the docbook namespace to the top-level chapter - pandoc does not put this in
+    sed 's!<literal>\(ref\..\+\)</literal>!<xref linkend="\1\/>!g'         finally, fix cross-references written in the org-mode source
+
+To explain about cross-references:
+
+- we need to refer to stuff in the other docbook xml from this file
+- the IDs of those things are not known to org mode or to pandoc
+- both org and pandoc fail if you refer to an unknown thing, so
+- we use a hack; in this file, to refer to one of the other things in the docbook
+  we write =ref.the-thing=; this is converted into <literal>ref.the-thing</literal>
+  in docbook, which we then regex to <xref linkend="ref.the-thing" /> which happens
+  to be a legal cross ref if we got it right.
+
+In the local variables line below we have eval:, which is a special local variable that runs some emacs lisp.
+The lisp we are running adds the lisp above onto the after-save-hook, which is a list of functions to call after saving.
+
+Local Variables:
+eval: (add-hook 'after-save-hook (lambda () (shell-command "pandoc -f org -t docbook changelog.org --chapters | sed 's! id=\"\"!!g' | sed 's!<chapter.*>!<chapter xmlns=\"http://docbook.org/ns/docbook\">!g' | sed 's!<literal>\\(ref\\..\\+\\)</literal>!<xref linkend=\"\\1\"/>!g' > changelog.xml")) nil t)
+End:
+#+END_COMMENT
