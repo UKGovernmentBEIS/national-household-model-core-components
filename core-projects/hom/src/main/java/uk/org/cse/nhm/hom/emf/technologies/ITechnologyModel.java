@@ -422,4 +422,6 @@ public interface ITechnologyModel extends IVisitorAccepter, ICopyable<ITechnolog
 	 */
 	IHeatProportions getHeatProportions();
 
+	boolean isUsingAssumedElectricSpaceHeater();
+
 } // ITechnologyModel

@@ -714,6 +714,10 @@ public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnolo
 	 * @generated
 	 */
 	public FuelType getPrimaryHeatingFuel() {
+		if (isUsingAssumedElectricSpaceHeater(getHeatProportions())) {
+			return FuelType.ELECTRICITY;
+		}
+		
 		final IPrimarySpaceHeater primary = getPrimarySpaceHeater();
 		
 		if (primary == null) return null;
@@ -738,6 +742,10 @@ public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnolo
 	 * @generated
 	 */
 	public FuelType getPrimaryHotWaterFuel() {
+		if (isUsingAssumedElectricWaterHeater(getHeatProportions())) {
+			return FuelType.ELECTRICITY;
+		}
+		
 		final ICentralWaterSystem central = getCentralWaterSystem();
 		
 		if (central == null) return null;
@@ -819,13 +827,24 @@ public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnolo
 			}
 		}
 
-		if (heatProportions.spaceHeatingProportion(assumedElectricSpaceHeater) > 0.0) {
+		if (isUsingAssumedElectricSpaceHeater(heatProportions)) {
 			assumedElectricSpaceHeater.accept(constants, parameters, visitor, counter, heatProportions);
 		}
 
-		if (heatProportions.providesHotWater(assumedElectricWaterHeater)) {
+		if (isUsingAssumedElectricWaterHeater(heatProportions)) {
 			assumedElectricWaterHeater.accept(constants, parameters, visitor, counter, heatProportions);
 		}
+	}
+	@Override
+	public boolean isUsingAssumedElectricSpaceHeater() {
+		return isUsingAssumedElectricSpaceHeater(getHeatProportions());
+	}
+	public boolean isUsingAssumedElectricSpaceHeater(IHeatProportions heatProportions) {
+		return heatProportions.spaceHeatingProportion(assumedElectricSpaceHeater) > 0.0;
+	}
+	
+	public boolean isUsingAssumedElectricWaterHeater(IHeatProportions heatProportions) {
+		return heatProportions.providesHotWater(assumedElectricWaterHeater);
 	}
 
 	/**

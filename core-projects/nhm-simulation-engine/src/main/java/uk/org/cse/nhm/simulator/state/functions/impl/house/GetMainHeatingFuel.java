@@ -48,9 +48,11 @@ public class GetMainHeatingFuel extends MainHeatingFuelFunction<XFuelType> {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public XFuelType compute(final IComponentsScope scope, final ILets lets) {
 		final FuelType type;
+		
 		if (system == null) {
 			type = getMainHeatingFuel(scope);
 		} else {
@@ -72,7 +74,6 @@ public class GetMainHeatingFuel extends MainHeatingFuelFunction<XFuelType> {
 				throw new RuntimeException("Unknown system type "+system);
 			}
 		}
-
 
 		return convert(type);
 	}

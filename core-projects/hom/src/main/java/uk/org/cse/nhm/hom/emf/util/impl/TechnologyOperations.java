@@ -320,9 +320,6 @@ public class TechnologyOperations implements ITechnologyOperations {
 	public FuelType getMainHeatingFuel(final ITechnologyModel technologies) {
 		FuelType result = technologies.getPrimaryHeatingFuel();
 		if (result == null) {
-			result = technologies.getSecondaryHeatingFuel();
-		}
-		if (result == null) {
 			return FuelType.ELECTRICITY;
 		}
 		return result;
