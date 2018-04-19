@@ -219,5 +219,7 @@ if [ ! -z "$ERRORS" ]; then
         red "   $e\n"
     done
 else
-    green "IDE built into nhm-ide/nhm-ide/cse.nhm.ide.build/target/products/"
+    if [ ${steps["ide"]} == 1 ]; then
+        green "IDE built into nhm-ide/cse.nhm.ide.build/target/products/"
+    fi
 fi
