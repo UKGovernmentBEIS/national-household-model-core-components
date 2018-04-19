@@ -9,5 +9,5 @@
        (def-report energy
           (column name:survey-code value:house.survey-code)
           (column name:bredem2012 value:(under (counterfactual.energy-calculator bredem2012) evaluate:house.energy-use))
-          (column name:sap2012 value:(under (counterfactual.energy-calculator bredem2012) evaluate:house.energy-use))
+          (column name:sap2012 value:(under (counterfactual.energy-calculator sap2012) evaluate:house.energy-use))
        )))))

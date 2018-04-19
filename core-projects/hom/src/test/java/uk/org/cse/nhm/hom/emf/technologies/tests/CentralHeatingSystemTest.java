@@ -2,14 +2,42 @@
  */
 package uk.org.cse.nhm.hom.emf.technologies.tests;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.junit.Assert;
+import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 
 import junit.textui.TestRunner;
 import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
+import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
+import uk.org.cse.nhm.energycalculator.api.IEnergyState;
+import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
+import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
+import uk.org.cse.nhm.energycalculator.api.impl.DefaultConstants;
+import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
+import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
+import uk.org.cse.nhm.hom.IHeatProportions;
+import uk.org.cse.nhm.hom.constants.PumpAndFanConstants;
 import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
 import uk.org.cse.nhm.hom.emf.technologies.ICentralHeatingSystem;
+import uk.org.cse.nhm.hom.emf.technologies.IHeatSource;
+import uk.org.cse.nhm.hom.emf.technologies.ISpaceHeater;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;
+import uk.org.cse.nhm.hom.emf.technologies.IWaterHeater;
+import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler;
+import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoilersFactory;
+import uk.org.cse.nhm.hom.emf.technologies.impl.util.Pump;
+import uk.org.cse.nhm.hom.emf.util.Efficiency;
 
 /**
  * <!-- begin-user-doc -->
@@ -101,7 +129,105 @@ public class CentralHeatingSystemTest extends SpaceHeaterTest {
 			Assert.assertTrue(system.isThermostaticallyControlled());
 		}
 	}
+	
+	@Test
+	public void testPumpGainsForCommunity() {
+		final ICentralHeatingSystem system = getFixture();
+		
+		final IHeatProportions p = new IHeatProportions() {
+			
+			@Override
+			public double spaceHeatingProportion(ISpaceHeater heatSource) {
+				return 0;
+			}
+			
+			@Override
+			public boolean providesHotWater(IWaterHeater heatSource) {
+				return false;
+			}
+		};
+		
+		final IHeatSource comm = ITechnologiesFactory.eINSTANCE.createCommunityHeatSource();
+		
+		system.setHeatSource(comm);
+		final IEnergyCalculatorVisitor visitor = mock(IEnergyCalculatorVisitor.class);
+		final IInternalParameters params = mock(IInternalParameters.class);
+		when(params.getConstants()).thenReturn(DefaultConstants.INSTANCE);
+		when(params.getTarrifType()).thenReturn(ElectricityTariffType.ECONOMY_7);
+		system.accept(DefaultConstants.INSTANCE,
+				params, visitor, new AtomicInteger(), p);
+		
+		final ArgumentCaptor<IEnergyTransducer> tc = ArgumentCaptor.forClass(IEnergyTransducer.class);
+		
+		verify(visitor,times(2)).visitEnergyTransducer(tc.capture());
+		
+		List<IEnergyTransducer> value = tc.getAllValues();
+		
+		for (final IEnergyTransducer v : value) {
+			if (v instanceof Pump) {
 
+				final IEnergyState state = mock(IEnergyState.class);
+				v.generate(null, params, null, state);
+				
+				verify(state, times(0)).increaseSupply(eq(EnergyType.GainsPUMP_AND_FAN_GAINS), any(Double.class));
+				return;
+			}
+		}
+		
+		Assert.fail("No pump was introduced");
+	}
+
+
+	@Test
+	public void testPumpGainsForNotCommunity() {
+		final ICentralHeatingSystem system = getFixture();
+		
+		final IHeatProportions p = new IHeatProportions() {
+			
+			@Override
+			public double spaceHeatingProportion(ISpaceHeater heatSource) {
+				return 0;
+			}
+			
+			@Override
+			public boolean providesHotWater(IWaterHeater heatSource) {
+				return false;
+			}
+		};
+		
+		final IBoiler comm = IBoilersFactory.eINSTANCE.createBoiler();
+		comm.setWinterEfficiency(Efficiency.ONE);
+		comm.setSummerEfficiency(Efficiency.ONE);
+		
+		system.setHeatSource(comm);
+		final IEnergyCalculatorVisitor visitor = mock(IEnergyCalculatorVisitor.class);
+		final IInternalParameters params = mock(IInternalParameters.class);
+		when(params.getConstants()).thenReturn(DefaultConstants.INSTANCE);
+		when(params.getTarrifType()).thenReturn(ElectricityTariffType.ECONOMY_7);
+		system.accept(DefaultConstants.INSTANCE,
+				params, visitor, new AtomicInteger(), p);
+		
+		final ArgumentCaptor<IEnergyTransducer> tc = ArgumentCaptor.forClass(IEnergyTransducer.class);
+		
+		verify(visitor,times(2)).visitEnergyTransducer(tc.capture());
+		
+		List<IEnergyTransducer> value = tc.getAllValues();
+		
+		for (final IEnergyTransducer v : value) {
+			if (v instanceof Pump) {
+
+				final IEnergyState state = mock(IEnergyState.class);
+				v.generate(null, params, null, state);
+				
+				verify(state, times(1)).increaseSupply(eq(EnergyType.GainsPUMP_AND_FAN_GAINS), eq(PumpAndFanConstants.CENTRAL_HEATING_PUMP_GAINS.getValue(Double.class).doubleValue()));
+				return;
+			}
+		}
+		
+		Assert.fail("No pump was introduced");
+	}
+
+	
 	/**
 	 * Tests the '{@link uk.org.cse.nhm.hom.emf.technologies.IVisitorAccepter#accept(IConstants, IEnergyCalculatorParameters,  uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor, java.util.concurrent.atomic.AtomicInteger, double, double) <em>Accept</em>}' operation.
 	 * <!-- begin-user-doc -->

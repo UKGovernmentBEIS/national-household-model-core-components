@@ -41,6 +41,12 @@ If you want to cross-reference to a language element, you need to use the unique
   #+CAPTION: Scatterplot of error in energy use (in SAP mode) due to latitude error, for EHS 2012 stock.
   [[./figures/score-bug/energy-all-xy.png]]
 
+- A mis-reading of SAP table 5a caused the gains from central heating circulating pumps to be included when central heating is connected to a community heating system. However, table 5a states that they should be excluded in this case (although the electricity demand should not).
+
+  This error has been corrected. It caused buildings with community heat connected to central heating to experience at most 87kWh/year more internal gains than they ought to have done, which will have reduced space heat demand by (at most) the same amount. This is typically around half a percent.
+
+  The error affected 465 cases in the combined 2014 stock, for which the maximum change in annual energy use in SAP 2012 mode was 59kWh/year. Most (22933) cases were unaffected.
+
 **** New Features
 ***** Addition of SAP2012 Physical Mode
 A new energy calculator mode, ~SAP2012_PHYSICAL~ has been added.

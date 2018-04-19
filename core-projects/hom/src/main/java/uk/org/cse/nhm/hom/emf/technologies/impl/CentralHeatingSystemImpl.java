@@ -276,6 +276,14 @@ public class CentralHeatingSystemImpl extends SpaceHeaterImpl implements ICentra
 			visitor.visitHeatingSystem(this, heatProportions.spaceHeatingProportion(this));
 			// we need to include the central heating pump
 
+			final double centralHeatingPumpGains;
+			if (getHeatSource().isCommunityHeating()) {
+				/* SAP Table 5a */
+				centralHeatingPumpGains = 0;
+			} else {
+				centralHeatingPumpGains = constants.get(PumpAndFanConstants.CENTRAL_HEATING_PUMP_GAINS);
+			}
+			
 			visitor.visitEnergyTransducer(
 					/*
 					BEISDOC
@@ -295,8 +303,7 @@ public class CentralHeatingSystemImpl extends SpaceHeaterImpl implements ICentra
 					constants.get(PumpAndFanConstants.CENTRAL_HEATING_PUMP_WATTAGE)
 					* (getControls().contains(HeatingSystemControlType.ROOM_THERMOSTAT) ?
 							1 : constants.get(PumpAndFanConstants.NO_ROOM_THERMOSTAT_MULTIPLIER))
-					,
-					constants.get(PumpAndFanConstants.CENTRAL_HEATING_PUMP_GAINS)));
+					, centralHeatingPumpGains));
 		}
 	}
 
