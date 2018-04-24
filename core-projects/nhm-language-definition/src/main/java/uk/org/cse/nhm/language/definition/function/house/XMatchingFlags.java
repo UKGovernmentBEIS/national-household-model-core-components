@@ -3,10 +3,9 @@ package uk.org.cse.nhm.language.definition.function.house;
 import com.larkery.jasb.bind.Bind;
 import com.larkery.jasb.bind.BindPositionalArgument;
 
+import uk.org.cse.commons.Glob;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.function.XCategoryFunction;
-
-import uk.org.cse.commons.Glob;
 
 @Bind("house.flags")
 @Doc("Produces a comma-separated list of all flags on the house which match a given pattern")

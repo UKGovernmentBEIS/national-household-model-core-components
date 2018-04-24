@@ -1,5 +1,8 @@
 package uk.org.cse.nhm.language.definition.action.measure.insulation;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindPositionalArgument;
+
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
 import uk.org.cse.nhm.language.definition.Doc;
@@ -7,9 +10,6 @@ import uk.org.cse.nhm.language.definition.SeeAlso;
 import uk.org.cse.nhm.language.definition.action.Unsuitability;
 import uk.org.cse.nhm.language.definition.action.XFlaggedDwellingAction;
 import uk.org.cse.nhm.language.definition.action.reset.XResetRoofs;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindPositionalArgument;
 
 @Doc(
 	{"Adds or removes a loft from any buildings. If removing a loft, it will also remove any loft insulation that is present. It does not update the u-value afterwards."}

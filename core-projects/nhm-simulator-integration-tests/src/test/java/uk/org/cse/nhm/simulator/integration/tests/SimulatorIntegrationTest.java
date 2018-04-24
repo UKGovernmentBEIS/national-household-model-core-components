@@ -1,6 +1,5 @@
 package uk.org.cse.nhm.simulator.integration.tests;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -8,7 +7,6 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.net.URI;
 import java.nio.file.Files;
-import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;

@@ -3,6 +3,9 @@ package uk.org.cse.nhm.language.definition.action.reset;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindRemainingArguments;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
@@ -11,9 +14,6 @@ import uk.org.cse.nhm.language.definition.SeeAlso;
 import uk.org.cse.nhm.language.definition.action.measure.insulation.XWallInsulationMeasure.XWallInsulationType;
 import uk.org.cse.nhm.language.definition.function.num.XHouseNumber;
 import uk.org.cse.nhm.language.validate.contents.RequireParent;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindRemainingArguments;
 
 @RequireParent(XResetWalls.class)
 @Bind("wall.insulation-thickness")

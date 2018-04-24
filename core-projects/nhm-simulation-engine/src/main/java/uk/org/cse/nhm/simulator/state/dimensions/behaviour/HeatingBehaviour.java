@@ -11,8 +11,8 @@ import com.google.common.collect.ImmutableSet;
 import uk.org.cse.nhm.energycalculator.api.IHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.impl.DailyHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.impl.WeeklyHeatingSchedule;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.MonthType;
+import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
 
 @AutoProperty
 public class HeatingBehaviour implements IHeatingBehaviour {

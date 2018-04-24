@@ -1,8 +1,8 @@
 package uk.org.cse.nhm.energycalculator.api;
 
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.Zone2ControlParameter;
+import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
 
 /**
  * The interface for a heating system (which may have some things inside it)

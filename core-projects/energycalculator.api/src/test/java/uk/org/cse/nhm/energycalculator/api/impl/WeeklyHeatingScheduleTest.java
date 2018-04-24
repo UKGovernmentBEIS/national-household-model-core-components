@@ -7,7 +7,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import uk.org.cse.nhm.energycalculator.api.IHeatingSchedule;
-import uk.org.cse.nhm.energycalculator.api.impl.WeeklyHeatingSchedule;
 
 public class WeeklyHeatingScheduleTest {
 	@Test

@@ -1,31 +1,22 @@
 package uk.org.cse.nhm.clitools;
 
 import java.io.BufferedWriter;
-import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.zip.GZIPOutputStream;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.inject.Guice;
 
 import uk.org.cse.nhm.hom.SurveyCase;
 import uk.org.cse.nhm.stock.io.StandardJacksonModule;
-import uk.org.cse.nhm.stockimport.simple.CSV;
 import uk.org.cse.nhm.stockimport.simple.ImportErrorHandler;
 import uk.org.cse.nhm.stockimport.simple.dto.DTOImportPhase;
 import uk.org.cse.nhm.stockimport.simple.spss.SPSSImportPhase;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Joiner;
-import com.google.common.base.Optional;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
-import com.google.inject.Guice;
 
 public class StockImporter {
     public static final String USAGE = " spss <spss zip file> <output dto zip> | dto <do zip file> <output json.gz file>\n\t run the stock importer";

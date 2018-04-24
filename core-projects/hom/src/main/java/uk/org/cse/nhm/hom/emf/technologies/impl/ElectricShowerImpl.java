@@ -3,7 +3,9 @@
 package uk.org.cse.nhm.hom.emf.technologies.impl;
 
 import java.util.concurrent.atomic.AtomicInteger;
+
 import org.eclipse.emf.ecore.EClass;
+
 import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
@@ -63,7 +65,7 @@ public class ElectricShowerImpl extends ShowerImpl implements IElectricShower {
 		// get number of showers
 		// make a special Sink
 
-		switch (parameters.getCalculatorType()) {
+		switch (parameters.getCalculatorType().hotWater) {
 		case SAP2012:
 			break;
 		case BREDEM2012:

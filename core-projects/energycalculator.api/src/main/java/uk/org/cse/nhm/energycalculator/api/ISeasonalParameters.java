@@ -1,9 +1,6 @@
 package uk.org.cse.nhm.energycalculator.api;
 
-import com.google.common.base.Optional;
-
 import uk.org.cse.nhm.energycalculator.api.types.Zone2ControlParameter;
-import uk.org.cse.nhm.energycalculator.api.types.ZoneType;
 
 public interface ISeasonalParameters {
 	/**
@@ -64,19 +61,15 @@ public interface ISeasonalParameters {
 	ID: heating-schedule
 	CODSIEB
 	*/
-	IHeatingSchedule getHeatingSchedule(ZoneType zone, Optional<Zone2ControlParameter> zone2ControlParameter);
+	IHeatingSchedule getZone1HeatingSchedule();
+	
+	IHeatingSchedule getZone2HeatingSchedule(final Zone2ControlParameter control);
 
 	/**
 	 * is the heating on in any zone?
 	 * @return
 	 */
 	boolean isHeatingOn();
-
-	/**
-	 * is the cooling on in any zone?
-	 * @return
-	 */
-	boolean isCoolingOn();
 
 	/**
 	 * A convenience method which turns our TRUE/FALSE into a 1/0.

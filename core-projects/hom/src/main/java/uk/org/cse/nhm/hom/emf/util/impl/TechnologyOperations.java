@@ -10,33 +10,13 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.org.cse.nhm.hom.emf.technologies.EmitterType;
-import uk.org.cse.nhm.hom.emf.technologies.FuelType;
-import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
-import uk.org.cse.nhm.hom.emf.technologies.ICentralHeatingSystem;
-import uk.org.cse.nhm.hom.emf.technologies.ICentralWaterHeater;
-import uk.org.cse.nhm.hom.emf.technologies.ICentralWaterSystem;
-import uk.org.cse.nhm.hom.emf.technologies.ICommunityHeatSource;
-import uk.org.cse.nhm.hom.emf.technologies.IHasInstallationYear;
-import uk.org.cse.nhm.hom.emf.technologies.IHeatPump;
-import uk.org.cse.nhm.hom.emf.technologies.IHeatSource;
-import uk.org.cse.nhm.hom.emf.technologies.IImmersionHeater;
-import uk.org.cse.nhm.hom.emf.technologies.IIndividualHeatSource;
-import uk.org.cse.nhm.hom.emf.technologies.IMainWaterHeater;
-import uk.org.cse.nhm.hom.emf.technologies.IPrimarySpaceHeater;
-import uk.org.cse.nhm.hom.emf.technologies.IStorageHeater;
-import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;
-import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
-import uk.org.cse.nhm.hom.emf.technologies.IWarmAirCirculator;
-import uk.org.cse.nhm.hom.emf.technologies.IWarmAirSystem;
-import uk.org.cse.nhm.hom.emf.technologies.IWaterTank;
-import uk.org.cse.nhm.hom.emf.technologies.StorageHeaterType;
+import com.google.common.base.Optional;
+
+import uk.org.cse.nhm.hom.emf.technologies.*;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.ICombiBoiler;
 import uk.org.cse.nhm.hom.emf.util.Efficiency;
 import uk.org.cse.nhm.hom.emf.util.ITechnologyOperations;
-
-import com.google.common.base.Optional;
 
 public class TechnologyOperations implements ITechnologyOperations {
 	private static final Logger log = LoggerFactory.getLogger(TechnologyOperations.class);
@@ -338,23 +318,10 @@ public class TechnologyOperations implements ITechnologyOperations {
 
 	@Override
 	public FuelType getMainHeatingFuel(final ITechnologyModel technologies) {
-		final IPrimarySpaceHeater primarySpaceHeater = technologies.getPrimarySpaceHeater();
-		if (primarySpaceHeater instanceof ICentralHeatingSystem) {
-			final IHeatSource heatSource = ((ICentralHeatingSystem) primarySpaceHeater).getHeatSource();
-			if(heatSource != null) {
-				return heatSource.getFuel();
-			}
-		} else if (primarySpaceHeater instanceof IStorageHeater) {
-			return FuelType.ELECTRICITY;
-		} else if (primarySpaceHeater instanceof IWarmAirSystem) {
-			return ((IWarmAirSystem) primarySpaceHeater).getFuelType();
-		}
-
-		if (technologies.getSecondarySpaceHeater() != null) {
-			return technologies.getSecondarySpaceHeater().getFuel();
-		} else {
-			// If there is no heating system present, we will use assume portable electric heaters.
+		FuelType result = technologies.getPrimaryHeatingFuel();
+		if (result == null) {
 			return FuelType.ELECTRICITY;
 		}
+		return result;
 	}
 }

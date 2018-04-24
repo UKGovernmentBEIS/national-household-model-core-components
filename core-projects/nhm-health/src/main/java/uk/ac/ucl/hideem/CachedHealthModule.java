@@ -1,19 +1,16 @@
 package uk.ac.ucl.hideem;
 
 import java.util.List;
-
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import com.google.common.base.Supplier;
-
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 
 import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.hom.types.BuiltFormType;
-
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
 
 /*
  * Wraps an IHealthModule in a LoadingCache

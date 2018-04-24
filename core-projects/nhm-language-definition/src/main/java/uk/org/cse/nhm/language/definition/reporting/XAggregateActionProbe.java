@@ -5,6 +5,10 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindNamedArgument;
+import com.larkery.jasb.bind.BindPositionalArgument;
+
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
 import uk.org.cse.nhm.language.definition.Doc;
@@ -13,10 +17,6 @@ import uk.org.cse.nhm.language.definition.action.XAction;
 import uk.org.cse.nhm.language.definition.function.XFunction;
 import uk.org.cse.nhm.language.definition.reporting.aggregate.XAggregation;
 import uk.org.cse.nhm.language.definition.two.actions.XAggregateHookAction;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindNamedArgument;
-import com.larkery.jasb.bind.BindPositionalArgument;
 
 @Doc({"An aggregated probe, which will compute an aggregation before and after applying another action.",
 	"The behaviour is analogous to the <code>aggregate</code> element, except that instead of specifying a group, the aggregation will be computed",

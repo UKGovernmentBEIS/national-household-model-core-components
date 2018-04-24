@@ -27,31 +27,7 @@ import uk.org.cse.nhm.language.definition.function.house.XMatchingFlags;
 import uk.org.cse.nhm.language.definition.function.lookup.XLookupFunction;
 import uk.org.cse.nhm.language.definition.function.npv.XExponentialDiscount;
 import uk.org.cse.nhm.language.definition.function.npv.XHyperbolicDiscount;
-import uk.org.cse.nhm.language.definition.function.num.XAirChangeRate;
-import uk.org.cse.nhm.language.definition.function.num.XAnnualMaintenance;
-import uk.org.cse.nhm.language.definition.function.num.XEfficiencyMeasurement;
-import uk.org.cse.nhm.language.definition.function.num.XFloorInsulationThickness;
-import uk.org.cse.nhm.language.definition.function.num.XGlobalAccountBalance;
-import uk.org.cse.nhm.language.definition.function.num.XHeatLoad;
-import uk.org.cse.nhm.language.definition.function.num.XHeatLoss;
-import uk.org.cse.nhm.language.definition.function.num.XHeatingEfficiency;
-import uk.org.cse.nhm.language.definition.function.num.XHouseBalance;
-import uk.org.cse.nhm.language.definition.function.num.XHouseWeight;
-import uk.org.cse.nhm.language.definition.function.num.XInterpolate;
-import uk.org.cse.nhm.language.definition.function.num.XLoanBalance;
-import uk.org.cse.nhm.language.definition.function.num.XLoanBalanceOutstanding;
-import uk.org.cse.nhm.language.definition.function.num.XLoanBalancePaid;
-import uk.org.cse.nhm.language.definition.function.num.XLoftInsulationThickness;
-import uk.org.cse.nhm.language.definition.function.num.XMainHeatingTemperature;
-import uk.org.cse.nhm.language.definition.function.num.XMeanInternalTemperature;
-import uk.org.cse.nhm.language.definition.function.num.XNetCost;
-import uk.org.cse.nhm.language.definition.function.num.XNumberOfAdults;
-import uk.org.cse.nhm.language.definition.function.num.XNumberOfChildren;
-import uk.org.cse.nhm.language.definition.function.num.XPrior;
-import uk.org.cse.nhm.language.definition.function.num.XSapScore;
-import uk.org.cse.nhm.language.definition.function.num.XSizingFunction;
-import uk.org.cse.nhm.language.definition.function.num.XSpaceHeatingResponsiveness;
-import uk.org.cse.nhm.language.definition.function.num.XYear;
+import uk.org.cse.nhm.language.definition.function.num.*;
 import uk.org.cse.nhm.language.definition.function.num.random.XGaussian;
 import uk.org.cse.nhm.language.definition.function.num.random.XTriangular;
 import uk.org.cse.nhm.language.definition.function.num.random.XUniform;
@@ -71,8 +47,8 @@ import uk.org.cse.nhm.simulator.state.functions.impl.num.SteppedFunction.Directi
 import uk.org.cse.nhm.simulator.state.functions.impl.num.random.GaussianRandomFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.random.TriangularRandomFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.random.UniformRandomFunction;
-import uk.org.cse.nhm.simulator.state.functions.impl.num.steppedcharge.SteppedPricingFunction.Range;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.steppedcharge.SteppedPricingFunction;
+import uk.org.cse.nhm.simulator.state.functions.impl.num.steppedcharge.SteppedPricingFunction.Range;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.var.GetRegister;
 
 public interface IObjectFunctionFactory {
@@ -297,6 +273,11 @@ public interface IObjectFunctionFactory {
 	@Adapt(XAirChangeRate.class)
 	public AirChangeRateFunction createAirChangeRate();
 
+	@Adapt(XHeatingSystemOutput.class)
+	public HeatingSystemOutputFunction createHeatingSystemOutputFunction(
+			@Prop("of") final Optional<XHeatingSystem> system
+			);
+	
 	@Adapt(XHeatLoad.class)
     public HeatLoadFunction createHeatLoadFunction(
     		@Prop(XHeatLoad.P.weights)

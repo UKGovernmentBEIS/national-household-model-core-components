@@ -2,7 +2,6 @@ package uk.org.cse.nhm.ipc.api;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.Objects;
 
 import com.larkery.jasb.sexp.Atom;

@@ -1,13 +1,13 @@
 package uk.org.cse.nhm.language.definition.function.bool;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindNamedArgument;
+
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.action.XForesightLevel;
 import uk.org.cse.nhm.language.definition.function.bool.house.XIntegerIs;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindNamedArgument;
 
 
 @Bind("sim.year-is")

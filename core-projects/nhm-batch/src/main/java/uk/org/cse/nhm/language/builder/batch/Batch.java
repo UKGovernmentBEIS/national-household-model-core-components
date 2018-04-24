@@ -3,9 +3,6 @@ package uk.org.cse.nhm.language.builder.batch;
 import java.util.Iterator;
 import java.util.List;
 
-import uk.org.cse.nhm.language.builder.batch.inputs.IBatchInputs;
-import uk.org.cse.nhm.language.builder.batch.substitute.Substitution;
-
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
@@ -14,6 +11,9 @@ import com.larkery.jasb.sexp.Node;
 import com.larkery.jasb.sexp.PrettyPrinter;
 import com.larkery.jasb.sexp.errors.IErrorHandler.IError;
 import com.larkery.jasb.sexp.errors.UnfinishedExpressionException;
+
+import uk.org.cse.nhm.language.builder.batch.inputs.IBatchInputs;
+import uk.org.cse.nhm.language.builder.batch.substitute.Substitution;
 
 public class Batch implements Iterator<IBatchInstance> {
 	private final ISExpression scenario;

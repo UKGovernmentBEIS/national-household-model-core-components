@@ -3,13 +3,13 @@ package uk.org.cse.nhm.language.sexp;
 import java.util.List;
 import java.util.Map;
 
-import uk.org.cse.nhm.ipc.api.tasks.IScenarioSnapshot;
-import uk.org.cse.nhm.language.definition.XElement;
-
 import com.google.common.base.Optional;
 import com.larkery.jasb.sexp.ISExpression;
 import com.larkery.jasb.sexp.Node;
 import com.larkery.jasb.sexp.errors.IErrorHandler.IError;
+
+import uk.org.cse.nhm.ipc.api.tasks.IScenarioSnapshot;
+import uk.org.cse.nhm.language.definition.XElement;
 
 public interface IScenarioParser<X extends XElement> {
 	public interface IResult<X extends XElement> {

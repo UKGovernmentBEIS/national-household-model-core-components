@@ -2,14 +2,14 @@ package uk.org.cse.nhm.language.sexp;
 
 import java.util.IdentityHashMap;
 
-import uk.org.cse.nhm.language.definition.XElement;
-import uk.org.cse.nhm.language.visit.SinglyVisitingVisitor;
-
 import com.larkery.jasb.sexp.Atom;
 import com.larkery.jasb.sexp.Comment;
 import com.larkery.jasb.sexp.INodeVisitor;
 import com.larkery.jasb.sexp.Node;
 import com.larkery.jasb.sexp.Seq;
+
+import uk.org.cse.nhm.language.definition.XElement;
+import uk.org.cse.nhm.language.visit.SinglyVisitingVisitor;
 
 public class SequencingVisitor extends SinglyVisitingVisitor<XElement> implements INodeVisitor {
 	public SequencingVisitor(final Node node) {

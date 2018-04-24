@@ -3,7 +3,7 @@ package uk.org.cse.nhm.simulator.state.dimensions.fuel.cost;
 import java.util.*;
 import java.util.Map.Entry;
 
-import com.google.common.collect.*;
+import com.google.common.collect.ImmutableList;
 
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.simulator.let.ILets;

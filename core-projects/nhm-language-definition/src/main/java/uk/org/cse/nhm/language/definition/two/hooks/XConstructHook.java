@@ -1,5 +1,8 @@
 package uk.org.cse.nhm.language.definition.two.hooks;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindNamedArgument;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.SeeAlso;
@@ -9,9 +12,6 @@ import uk.org.cse.nhm.language.definition.two.dates.XSimEndDate;
 import uk.org.cse.nhm.language.definition.two.dates.XSimStartDate;
 import uk.org.cse.nhm.language.definition.two.selectors.XAffectedHouses;
 import uk.org.cse.nhm.language.validate.contents.ForbidChild;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindNamedArgument;
 
 @Doc({      "Run some commands when new houses are constructed.",
             "",

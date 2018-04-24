@@ -3,11 +3,11 @@ package uk.org.cse.stockimport.hom.impl.steps.services.heating;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.google.common.base.Optional;
 
-import org.junit.Assert;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
 import uk.org.cse.nhm.hom.emf.technologies.IStorageHeater;
 import uk.org.cse.nhm.hom.emf.technologies.StorageHeaterControlType;

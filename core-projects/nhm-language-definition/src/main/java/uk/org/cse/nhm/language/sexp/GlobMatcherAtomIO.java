@@ -2,11 +2,11 @@ package uk.org.cse.nhm.language.sexp;
 
 import java.util.Set;
 
-import uk.org.cse.commons.Glob;
-
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 import com.larkery.jasb.io.IAtomIO;
+
+import uk.org.cse.commons.Glob;
 
 public class GlobMatcherAtomIO implements IAtomIO {
 	@Override

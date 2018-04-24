@@ -7,13 +7,13 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import com.google.common.collect.ImmutableSortedSet;
+
 import uk.org.cse.nhm.spss.SavInputStream;
 import uk.org.cse.nhm.spss.SavMetadata;
 import uk.org.cse.nhm.spss.SavVariable;
 import uk.org.cse.nhm.spss.SavVariableType;
 import uk.org.cse.nhm.spss.impl.SavInputStreamImpl;
-
-import com.google.common.collect.ImmutableSortedSet;
 
 /**
  * Utility for loading an index of sav metadata from some sav files.

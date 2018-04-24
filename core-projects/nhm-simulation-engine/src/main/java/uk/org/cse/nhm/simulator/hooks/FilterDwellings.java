@@ -1,6 +1,5 @@
 package uk.org.cse.nhm.simulator.hooks;
 
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 

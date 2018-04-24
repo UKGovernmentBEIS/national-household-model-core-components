@@ -13,9 +13,9 @@ import javax.xml.namespace.NamespaceContext;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamWriter;
 
-import uk.org.cse.nhm.language.visit.IVisitor;
-
 import com.google.common.base.Joiner;
+
+import uk.org.cse.nhm.language.visit.IVisitor;
 
 public class BaseExamples implements Iterable<IExample> {
 	private final List<IExample> contents = new ArrayList<IExample>();

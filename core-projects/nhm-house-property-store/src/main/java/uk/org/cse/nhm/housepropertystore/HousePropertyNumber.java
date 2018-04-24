@@ -5,6 +5,10 @@ import java.util.Set;
 
 import org.joda.time.DateTime;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
+
 import uk.org.cse.hom.housepropertystore.IHouseProperties;
 import uk.org.cse.nhm.hom.BasicCaseAttributes;
 import uk.org.cse.nhm.ipc.api.tasks.report.ILogEntryHandler;
@@ -14,10 +18,6 @@ import uk.org.cse.nhm.simulator.let.ILets;
 import uk.org.cse.nhm.simulator.scope.IComponentsScope;
 import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
-
-import com.google.common.collect.ImmutableMap;
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 
 public class HousePropertyNumber extends AbstractNamed implements IComponentsFunction<Number> {
 

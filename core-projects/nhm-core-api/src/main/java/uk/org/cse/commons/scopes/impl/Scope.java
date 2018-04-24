@@ -8,12 +8,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-import uk.org.cse.commons.scopes.IScope;
-import uk.org.cse.commons.scopes.IScopeVisitor;
-
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+
+import uk.org.cse.commons.scopes.IScope;
+import uk.org.cse.commons.scopes.IScopeVisitor;
 
 /**
  * Provides a naive implementation of IScope; the operating methods

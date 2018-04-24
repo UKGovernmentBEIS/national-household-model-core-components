@@ -1,25 +1,22 @@
 package uk.org.cse.nhm.language.validate;
 
-import uk.org.cse.commons.Glob;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Multimap;
 import com.larkery.jasb.sexp.Location;
 import com.larkery.jasb.sexp.errors.BasicError;
 import com.larkery.jasb.sexp.errors.IErrorHandler.IError;
 
-import uk.org.cse.nhm.language.definition.action.IXFlaggedAction;
+import uk.org.cse.commons.Glob;
 import uk.org.cse.nhm.language.definition.XElement;
+import uk.org.cse.nhm.language.definition.action.IXFlaggedAction;
 import uk.org.cse.nhm.language.definition.function.bool.house.XFlagsAre;
-
 import uk.org.cse.nhm.language.validate.NoCyclesValidatorWithDelegates.IDelegate;
-
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.HashMultimap;
-
-import java.util.Set;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Iterator;
 
 public class FlagsValidator implements IDelegate {
     private final Multimap<String, Location> setLocations = HashMultimap.create();

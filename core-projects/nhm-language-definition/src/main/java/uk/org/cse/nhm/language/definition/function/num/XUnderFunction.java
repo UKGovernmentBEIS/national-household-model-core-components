@@ -5,6 +5,10 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindNamedArgument;
+import com.larkery.jasb.bind.BindRemainingArguments;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
@@ -15,10 +19,6 @@ import uk.org.cse.nhm.language.definition.sequence.XSequenceAction;
 import uk.org.cse.nhm.language.definition.sequence.XSetAction;
 import uk.org.cse.nhm.language.definition.sequence.XSnapshotAction;
 import uk.org.cse.nhm.language.definition.sequence.XSnapshotDeclaration;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindNamedArgument;
-import com.larkery.jasb.bind.BindRemainingArguments;
 
 
 @Bind("under")

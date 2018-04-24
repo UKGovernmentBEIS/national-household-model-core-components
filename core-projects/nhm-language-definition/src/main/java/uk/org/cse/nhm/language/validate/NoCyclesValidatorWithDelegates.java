@@ -4,13 +4,13 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
-import uk.org.cse.nhm.language.definition.XElement;
-import uk.org.cse.nhm.language.visit.IPropertyVisitor;
-import uk.org.cse.nhm.language.visit.NonRecursiveVisitor;
-
 import com.google.common.collect.ImmutableList;
 import com.larkery.jasb.sexp.errors.BasicError;
 import com.larkery.jasb.sexp.errors.IErrorHandler.IError;
+
+import uk.org.cse.nhm.language.definition.XElement;
+import uk.org.cse.nhm.language.visit.IPropertyVisitor;
+import uk.org.cse.nhm.language.visit.NonRecursiveVisitor;
 
 public class NoCyclesValidatorWithDelegates extends NonRecursiveVisitor<XElement> implements IPropertyVisitor<XElement> {
 	private final IDelegate[] delegates;

@@ -3,15 +3,15 @@ package uk.org.cse.nhm.language.definition.function.num;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindNamedArgument;
+import com.larkery.jasb.bind.BindRemainingArguments;
+
 import uk.org.cse.commons.Glob;
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.context.calibration.ICalibratedEnergyFunction;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindNamedArgument;
-import com.larkery.jasb.bind.BindRemainingArguments;
 
 @Doc({ "The expected cost of all or some of a house's obligations for the next year from now.",
        "Obligations are produced by (for example), the house's tariff and energy use, the house's operational costs, the repayment of extant loans, or finance.with-obligation.",

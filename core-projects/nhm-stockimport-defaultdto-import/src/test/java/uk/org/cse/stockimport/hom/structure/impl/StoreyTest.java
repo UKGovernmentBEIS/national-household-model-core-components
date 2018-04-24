@@ -1,18 +1,6 @@
 package uk.org.cse.stockimport.hom.structure.impl;
 
-import static uk.org.cse.stockimport.domain.types.AddedFloorModulePosition.BackElevation_Centre;
-import static uk.org.cse.stockimport.domain.types.AddedFloorModulePosition.BackElevation_Left;
-import static uk.org.cse.stockimport.domain.types.AddedFloorModulePosition.BackElevation_Right;
-import static uk.org.cse.stockimport.domain.types.AddedFloorModulePosition.FrontElevation_Centre;
-import static uk.org.cse.stockimport.domain.types.AddedFloorModulePosition.FrontElevation_Left;
-import static uk.org.cse.stockimport.domain.types.AddedFloorModulePosition.FrontElevation_Right;
-import static uk.org.cse.stockimport.domain.types.AddedFloorModulePosition.LeftElevation_Back;
-import static uk.org.cse.stockimport.domain.types.AddedFloorModulePosition.LeftElevation_Centre;
-import static uk.org.cse.stockimport.domain.types.AddedFloorModulePosition.LeftElevation_Front;
-import static uk.org.cse.stockimport.domain.types.AddedFloorModulePosition.NoAdditionalPart;
-import static uk.org.cse.stockimport.domain.types.AddedFloorModulePosition.RightElevation_Back;
-import static uk.org.cse.stockimport.domain.types.AddedFloorModulePosition.RightElevation_Centre;
-import static uk.org.cse.stockimport.domain.types.AddedFloorModulePosition.RightElevation_Front;
+import static uk.org.cse.stockimport.domain.types.AddedFloorModulePosition.*;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

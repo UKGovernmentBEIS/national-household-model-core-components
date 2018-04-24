@@ -3,7 +3,7 @@ package uk.org.cse.nhm.energycalculator.api.impl;
 import com.google.common.base.Optional;
 
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
+import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
 
 public class BredemExternalParameters extends ExternalParameters {
 
@@ -11,14 +11,17 @@ public class BredemExternalParameters extends ExternalParameters {
 	private final Optional<Double> zoneTwoDemandTemperature;
 	private final Optional<Double> interzoneTemperatureDifference;
 	private final double numberOfOccupants;
+	private EnergyCalculatorType calcType;
 
 	public BredemExternalParameters(
+			final EnergyCalculatorType calcType,
 			final ElectricityTariffType tariff,
 			final double zoneOneDemandTemperature,
 			final Optional<Double> zoneTwoDemandTemperature,
 			final Optional<Double> interzoneTemperatureDifference,
 			final double numberOfOccupants) {
 		super(tariff);
+		this.calcType = calcType;
 
 		if (zoneTwoDemandTemperature.isPresent() == interzoneTemperatureDifference.isPresent()) {
 			throw new IllegalArgumentException("Either the zone two demand temperature, or the interzone temperature difference must be specified (but not both).");
@@ -93,6 +96,6 @@ public class BredemExternalParameters extends ExternalParameters {
 
 	@Override
 	public EnergyCalculatorType getCalculatorType() {
-		return EnergyCalculatorType.BREDEM2012;
+		return calcType;
 	}
 }

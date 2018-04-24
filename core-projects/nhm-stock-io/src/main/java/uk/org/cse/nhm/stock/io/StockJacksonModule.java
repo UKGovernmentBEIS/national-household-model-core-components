@@ -4,11 +4,6 @@ import java.util.Date;
 
 import org.joda.time.DateTime;
 
-import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
-import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
-import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoilersPackage;
-import uk.org.cse.nhm.hom.util.EObjectSerializer;
-
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +14,11 @@ import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
+
+import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
+import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
+import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoilersPackage;
+import uk.org.cse.nhm.hom.util.EObjectSerializer;
 
 /**
  * A module which makes an objectmapper suitable for talking to the stock

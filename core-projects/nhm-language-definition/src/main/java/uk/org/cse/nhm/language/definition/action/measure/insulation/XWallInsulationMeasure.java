@@ -2,6 +2,9 @@ package uk.org.cse.nhm.language.definition.action.measure.insulation;
 
 import javax.validation.constraints.NotNull;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindNamedArgument;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.SeeAlso;
@@ -12,9 +15,6 @@ import uk.org.cse.nhm.language.definition.enums.XWallConstructionTypeRule;
 import uk.org.cse.nhm.language.definition.enums.XWallInsulationRule;
 import uk.org.cse.nhm.language.definition.function.bool.house.XAnyWall;
 import uk.org.cse.nhm.language.definition.function.bool.house.XEveryWall;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindNamedArgument;
 
 
 @Bind("measure.wall-insulation")

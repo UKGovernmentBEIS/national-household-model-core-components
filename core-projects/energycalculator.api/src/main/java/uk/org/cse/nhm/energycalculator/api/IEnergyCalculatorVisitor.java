@@ -2,17 +2,7 @@ package uk.org.cse.nhm.energycalculator.api;
 
 import com.google.common.base.Optional;
 
-import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
-import uk.org.cse.nhm.energycalculator.api.types.FrameType;
-import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
-import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
-import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
-import uk.org.cse.nhm.energycalculator.api.types.RoofType;
-import uk.org.cse.nhm.energycalculator.api.types.DoorType;
-import uk.org.cse.nhm.energycalculator.api.types.AreaType;
-import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
-import uk.org.cse.nhm.energycalculator.api.types.WindowGlazingAirGap;
-import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.*;
 
 /**
  * A visitor interface for a house to accept; the energy calculator algorithm can use this to collect
@@ -213,8 +203,8 @@ public interface IEnergyCalculatorVisitor {
      *
      * @param name
      * @param proportion
-     * @param efficiency
+     * @param lightType
      * @param splitRate
      */
-    void visitLight(String name, double proportion, double efficiency, double[] splitRate);
+    void visitLight(String name, double proportion, LightType lightType, double[] splitRate);
 }

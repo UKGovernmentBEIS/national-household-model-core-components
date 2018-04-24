@@ -9,8 +9,8 @@ import uk.org.cse.nhm.reporting.IReportEngine;
 import uk.org.cse.nhm.reporting.standard.IReporterFactory;
 import uk.org.cse.nhm.reporting.standard.IZippingFileStreamFactory;
 import uk.org.cse.nhm.reporting.standard.StandardReportEngine;
-import uk.org.cse.nhm.reporting.standard.ZippingStandaloneFileStreamFactory;
 import uk.org.cse.nhm.reporting.standard.ZippingIndexingFileStreamFactory;
+import uk.org.cse.nhm.reporting.standard.ZippingStandaloneFileStreamFactory;
 
 class ReportingModule extends PrivateModule {
 	private final String engineName;

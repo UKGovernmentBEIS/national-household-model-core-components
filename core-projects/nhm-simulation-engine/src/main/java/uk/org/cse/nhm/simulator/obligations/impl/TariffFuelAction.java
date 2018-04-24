@@ -1,6 +1,6 @@
 package uk.org.cse.nhm.simulator.obligations.impl;
 
-import com.google.common.collect.SortedMultiset;
+import java.util.List;
 
 import uk.org.cse.nhm.NHMException;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
@@ -12,9 +12,6 @@ import uk.org.cse.nhm.simulator.scope.ISettableComponentsScope;
 import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
 import uk.org.cse.nhm.simulator.state.dimensions.fuel.cost.IExtraCharge;
 import uk.org.cse.nhm.simulator.state.dimensions.fuel.cost.ITariff;
-
-import java.util.List;
-import java.util.Set;
 
 public class TariffFuelAction extends AbstractNamed implements IComponentsAction {
 	private final FuelType ft;

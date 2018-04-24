@@ -9,14 +9,14 @@ import javax.validation.Constraint;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
-import uk.org.cse.nhm.language.definition.XElement;
-import uk.org.cse.nhm.language.visit.SinglyVisitingVisitor;
-
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.larkery.jasb.sexp.errors.BasicError;
 import com.larkery.jasb.sexp.errors.IErrorHandler.IError;
+
+import uk.org.cse.nhm.language.definition.XElement;
+import uk.org.cse.nhm.language.visit.SinglyVisitingVisitor;
 
 public class ValidatingVisitor extends SinglyVisitingVisitor<XElement> {
 	private final Validator validator;

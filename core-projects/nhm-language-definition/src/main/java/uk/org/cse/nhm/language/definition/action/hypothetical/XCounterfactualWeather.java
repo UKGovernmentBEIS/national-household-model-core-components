@@ -1,14 +1,14 @@
 package uk.org.cse.nhm.language.definition.action.hypothetical;
 
+import com.google.common.collect.ImmutableList;
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindPositionalArgument;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.context.XWeatherConstant;
-
-import com.google.common.collect.ImmutableList;
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindPositionalArgument;
 
 @Doc("Sets counterfactual weather on a house; if no weather is specified, SAP 2009 weather is used.")
 @Bind("counterfactual.weather")

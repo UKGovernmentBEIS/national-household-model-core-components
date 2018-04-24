@@ -2,24 +2,9 @@ package uk.org.cse.nhm.clitools.bundle;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-
-import uk.org.cse.nhm.bundle.api.IArgument;
-import uk.org.cse.nhm.bundle.api.IDefinition;
-import uk.org.cse.nhm.bundle.api.IFS;
-import uk.org.cse.nhm.bundle.api.IDefinition.DefinitionType;
-import uk.org.cse.nhm.bundle.api.ILocation;
-import uk.org.cse.nhm.bundle.api.IValidationResult.IValidationProblem;
-import uk.org.cse.nhm.bundle.api.IValidationResult.IValidationProblem.ProblemLevel;
-import uk.org.cse.nhm.ipc.api.tasks.impl.ScenarioSnapshot;
-import uk.org.cse.nhm.language.definition.XElement;
-import uk.org.cse.nhm.language.definition.action.XAction;
-import uk.org.cse.nhm.language.definition.function.bool.XBoolean;
-import uk.org.cse.nhm.language.definition.function.num.XNumber;
-import uk.org.cse.nhm.language.definition.sequence.XNumberDeclaration;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.HashMultimap;
@@ -31,10 +16,23 @@ import com.larkery.jasb.sexp.Seq;
 import com.larkery.jasb.sexp.errors.ErrorCollector;
 import com.larkery.jasb.sexp.errors.IErrorHandler;
 import com.larkery.jasb.sexp.errors.IErrorHandler.IError;
-import com.larkery.jasb.sexp.errors.IErrorHandler.IError.Type;
 import com.larkery.jasb.sexp.parse.DataSourceSnapshot;
 import com.larkery.jasb.sexp.parse.IDataSource;
 import com.larkery.jasb.sexp.parse.IMacro;
+
+import uk.org.cse.nhm.bundle.api.IArgument;
+import uk.org.cse.nhm.bundle.api.IDefinition;
+import uk.org.cse.nhm.bundle.api.IDefinition.DefinitionType;
+import uk.org.cse.nhm.bundle.api.IFS;
+import uk.org.cse.nhm.bundle.api.ILocation;
+import uk.org.cse.nhm.bundle.api.IValidationResult.IValidationProblem;
+import uk.org.cse.nhm.bundle.api.IValidationResult.IValidationProblem.ProblemLevel;
+import uk.org.cse.nhm.ipc.api.tasks.impl.ScenarioSnapshot;
+import uk.org.cse.nhm.language.definition.XElement;
+import uk.org.cse.nhm.language.definition.action.XAction;
+import uk.org.cse.nhm.language.definition.function.bool.XBoolean;
+import uk.org.cse.nhm.language.definition.function.num.XNumber;
+import uk.org.cse.nhm.language.definition.sequence.XNumberDeclaration;
 
 class FSUtil {
     static class FSDataSource<P> implements IDataSource<P> {
@@ -172,6 +170,19 @@ class FSUtil {
     	final ImmutableSet.Builder<IArgument> arguments = ImmutableSet.builder();
 
     	for (final String s : macro.getModel().allowedKeys.keySet()) {
+			arguments.add(new IArgument() {
+				@Override
+				public Optional<String> name() {
+					return Optional.of(s);
+				}
+				@Override
+				public Optional<Integer> position() {
+					return Optional.absent();
+				}
+			});
+		}
+    	
+    	for (final String s : macro.getModel().requiredKeys.keySet()) {
 			arguments.add(new IArgument() {
 				@Override
 				public Optional<String> name() {

@@ -75,4 +75,6 @@ public interface ICentralWaterHeater extends EObject {
 	 * @generated
 	 */
 	void generateSystemGains(IInternalParameters parameters, IEnergyState state, IWaterTank store, boolean storeIsPrimary, double systemLosses);
+
+	FuelType getFuel();
 } // ICentralWaterHeater

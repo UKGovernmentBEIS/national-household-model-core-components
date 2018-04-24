@@ -5,10 +5,10 @@ import java.util.List;
 
 import javax.validation.constraints.Size;
 
+import com.larkery.jasb.bind.BindRemainingArguments;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Doc;
-
-import com.larkery.jasb.bind.BindRemainingArguments;
 
 public abstract class XActionWithDelegates extends XFlaggedDwellingAction {
 	public static final class P {

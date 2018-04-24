@@ -3,12 +3,12 @@ package uk.org.cse.nhm.language.definition.reporting.aggregate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindRemainingArguments;
+
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.group.XAllHousesGroup;
 import uk.org.cse.nhm.language.definition.group.XGroup;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindRemainingArguments;
 
 
 @Bind("division.by-group")

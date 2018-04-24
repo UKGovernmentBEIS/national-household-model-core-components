@@ -5,15 +5,15 @@ import java.util.List;
 
 import javax.validation.constraints.Size;
 
+import com.google.common.collect.ImmutableList;
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindRemainingArguments;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.ProducesTags;
 import uk.org.cse.nhm.language.definition.ProducesTags.Tag;
 import uk.org.cse.nhm.language.definition.enums.XFuelType;
-
-import com.google.common.collect.ImmutableList;
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindRemainingArguments;
 
 
 @Bind("tariff")

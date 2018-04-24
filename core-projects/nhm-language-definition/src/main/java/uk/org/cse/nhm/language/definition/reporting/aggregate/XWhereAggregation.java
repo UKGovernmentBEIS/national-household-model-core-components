@@ -2,11 +2,11 @@ package uk.org.cse.nhm.language.definition.reporting.aggregate;
 
 import javax.validation.constraints.NotNull;
 
-import uk.org.cse.nhm.language.definition.Doc;
-import uk.org.cse.nhm.language.definition.function.bool.XBoolean;
-
 import com.larkery.jasb.bind.Bind;
 import com.larkery.jasb.bind.BindPositionalArgument;
+
+import uk.org.cse.nhm.language.definition.Doc;
+import uk.org.cse.nhm.language.definition.function.bool.XBoolean;
 
 @Doc(
 		{

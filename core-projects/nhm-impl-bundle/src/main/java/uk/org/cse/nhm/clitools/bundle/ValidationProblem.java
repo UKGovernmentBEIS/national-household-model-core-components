@@ -2,10 +2,10 @@ package uk.org.cse.nhm.clitools.bundle;
 
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
+
 import uk.org.cse.nhm.bundle.api.ILocation;
 import uk.org.cse.nhm.bundle.api.IValidationResult.IValidationProblem;
-
-import com.google.common.collect.ImmutableList;
 
 class ValidationProblem<P> extends Located<P> implements IValidationProblem<P> {
 	private final String message;

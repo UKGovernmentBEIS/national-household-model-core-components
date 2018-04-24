@@ -1,14 +1,11 @@
 package uk.org.cse.nhm.energycalculator.api.impl;
 
 import org.junit.Assert;
-
 import org.junit.Test;
 
-import uk.org.cse.nhm.energycalculator.api.IConstant;
-import uk.org.cse.nhm.energycalculator.api.impl.DefaultConstants;
-import uk.org.cse.nhm.energycalculator.api.impl.OverrideConstants;
-
 import com.google.common.collect.ImmutableMap;
+
+import uk.org.cse.nhm.energycalculator.api.IConstant;
 
 public class OverrideConstantsTest {
 	private static enum TestConstant implements IConstant {

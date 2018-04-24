@@ -84,6 +84,7 @@ abstract class FieldReader<T> {
 			return propertyClass.getSimpleName();
 		}
 		
+		@SuppressWarnings("rawtypes")
 		@Override
 		public String getSQLTypeDef() {
 			final List<String> types = new ArrayList<>();

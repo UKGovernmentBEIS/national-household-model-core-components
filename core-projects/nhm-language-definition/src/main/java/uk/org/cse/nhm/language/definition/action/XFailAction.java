@@ -1,12 +1,12 @@
 package uk.org.cse.nhm.language.definition.action;
 
+import com.larkery.jasb.bind.Bind;
+
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.SeeAlso;
 import uk.org.cse.nhm.language.definition.sequence.XSequenceAction;
-
-import com.larkery.jasb.bind.Bind;
 
 @Bind("action.fail")
 @Unsuitability(value="Always")

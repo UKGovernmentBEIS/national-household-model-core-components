@@ -3,6 +3,9 @@ package uk.org.cse.nhm.language.definition.context.calibration;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindRemainingArguments;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
@@ -12,9 +15,6 @@ import uk.org.cse.nhm.language.definition.action.XAction;
 import uk.org.cse.nhm.language.definition.context.XContextParameter;
 import uk.org.cse.nhm.language.definition.function.num.XEnergyUse;
 import uk.org.cse.nhm.language.validate.contents.ForbidChild;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindRemainingArguments;
 
 @Doc(
 		{

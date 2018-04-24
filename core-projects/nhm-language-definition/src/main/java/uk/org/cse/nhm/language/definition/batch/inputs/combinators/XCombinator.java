@@ -5,11 +5,11 @@ import java.util.List;
 
 import javax.validation.constraints.Size;
 
+import com.larkery.jasb.bind.BindRemainingArguments;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.batch.inputs.XInputs;
-
-import com.larkery.jasb.bind.BindRemainingArguments;
 
 public abstract class XCombinator extends XInputs {
 	public static final class P {

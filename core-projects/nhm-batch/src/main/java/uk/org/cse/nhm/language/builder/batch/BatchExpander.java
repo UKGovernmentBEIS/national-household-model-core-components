@@ -5,6 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableSet;
+import com.larkery.jasb.sexp.errors.IErrorHandler.IError;
+
 import uk.org.cse.nhm.ipc.api.tasks.IScenarioSnapshot;
 import uk.org.cse.nhm.language.adapt.IAdapter;
 import uk.org.cse.nhm.language.adapt.IAdapterInterceptor;
@@ -16,11 +20,6 @@ import uk.org.cse.nhm.language.definition.batch.XBatch;
 import uk.org.cse.nhm.language.sexp.IScenarioParser;
 import uk.org.cse.nhm.language.sexp.IScenarioParser.IResult;
 import uk.org.cse.nhm.language.visit.impl.AdapterInstaller;
-
-import com.larkery.jasb.sexp.errors.IErrorHandler.IError;
-
-import com.google.common.base.Optional;
-import com.google.common.collect.ImmutableSet;
 
 public class BatchExpander {
 	private final IScenarioParser<XBatch> parser;

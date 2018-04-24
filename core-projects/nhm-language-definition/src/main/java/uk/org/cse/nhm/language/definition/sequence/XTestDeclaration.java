@@ -2,6 +2,10 @@ package uk.org.cse.nhm.language.definition.sequence;
 
 import javax.validation.constraints.NotNull;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindPositionalArgument;
+import com.larkery.jasb.bind.Identity;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
@@ -10,10 +14,6 @@ import uk.org.cse.nhm.language.definition.IScenarioElement;
 import uk.org.cse.nhm.language.definition.XElement;
 import uk.org.cse.nhm.language.definition.function.bool.XBoolean;
 import uk.org.cse.nhm.language.validate.contents.Declaration;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindPositionalArgument;
-import com.larkery.jasb.bind.Identity;
 
 @Declaration
 @Bind("def-test")

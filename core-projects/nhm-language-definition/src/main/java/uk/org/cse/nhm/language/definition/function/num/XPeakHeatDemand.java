@@ -1,9 +1,9 @@
 package uk.org.cse.nhm.language.definition.function.num;
 
-import uk.org.cse.nhm.language.definition.Doc;
-
 import com.larkery.jasb.bind.Bind;
 import com.larkery.jasb.bind.BindNamedArgument;
+
+import uk.org.cse.nhm.language.definition.Doc;
 
 
 @Bind("house.peak-load")

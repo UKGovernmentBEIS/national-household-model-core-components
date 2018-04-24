@@ -1,12 +1,12 @@
 package uk.org.cse.nhm.simulator.state.dimensions.fuel.cost;
 
+import java.util.Set;
+
 import com.google.common.base.Optional;
 
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.simulator.let.ILets;
 import uk.org.cse.nhm.simulator.scope.ISettableComponentsScope;
-
-import java.util.Set;
 
 public interface IExtraCharge {
 	Optional<FuelType> getFuel();

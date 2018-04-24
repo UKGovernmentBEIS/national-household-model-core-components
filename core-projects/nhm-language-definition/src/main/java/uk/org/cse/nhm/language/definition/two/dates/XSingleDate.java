@@ -2,11 +2,11 @@ package uk.org.cse.nhm.language.definition.two.dates;
 
 import org.joda.time.DateTime;
 
-import uk.org.cse.nhm.language.definition.Doc;
-import uk.org.cse.nhm.language.two.build.IBuilder;
-
 import com.larkery.jasb.bind.Bind;
 import com.larkery.jasb.bind.BindPositionalArgument;
+
+import uk.org.cse.nhm.language.definition.Doc;
+import uk.org.cse.nhm.language.two.build.IBuilder;
 
 @Doc({
 	"Contains a single date; these can also be written in the form dd/mm/yyyy."

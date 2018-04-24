@@ -100,10 +100,11 @@ public class Appliances09 implements IEnergyTransducer {
 	}
 
 	private double getApplianceDemandCoefficient(final IInternalParameters parameters) {
-		switch(parameters.getCalculatorType()) {
+		switch (parameters.getCalculatorType().appliances) {
 		case SAP2012:
 			return APPLIANCE_DEMAND_COEFFICIENT_SAP;
 		case BREDEM2012:
+		case PRODUCTS_POLICY:
 			return APPLIANCE_DEMAND_COEFFICIENT_BREDEM;
 		default:
 			throw new UnsupportedOperationException("Unknown energy calculator type " + parameters.getCalculatorType());

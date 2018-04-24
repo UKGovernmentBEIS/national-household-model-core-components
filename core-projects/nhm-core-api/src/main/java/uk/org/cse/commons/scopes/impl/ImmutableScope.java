@@ -3,10 +3,10 @@ package uk.org.cse.commons.scopes.impl;
 import java.util.Collections;
 import java.util.List;
 
+import com.google.common.base.Optional;
+
 import uk.org.cse.commons.scopes.IScope;
 import uk.org.cse.commons.scopes.IScopeVisitor;
-
-import com.google.common.base.Optional;
 
 public class ImmutableScope<Tag> implements IScope<Tag> {
 	private final Tag tag;

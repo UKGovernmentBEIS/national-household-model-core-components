@@ -6,25 +6,29 @@ import java.util.List;
 
 import javax.validation.constraints.Size;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindNamedArgument;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.context.calibration.IEnergyFunction;
 
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindNamedArgument;
-
-@Doc("The annual heat load (in kWh) for a house. This is the heat output required from the heating systems in the house.")
+@Doc({"The annual heat load (in kWh) for a house.",
+			"",
+			"This is the amount of heat that needs putting into the house to keep it heated and to provide hot water.",
+			"The need for space heat is met both by heating systems and internal gains."
+			})
 @Bind("house.heat-load")
 public class XHeatLoad extends XHouseNumber implements IEnergyFunction {
 	private List<Double> weights = ones();
 	private boolean space = true, water = true;
-	
+
 	public static final class P {
 		public static final String weights = "weights";
 		public static final String space = "space";
 		public static final String water = "water";
 	}
-	
+
 	private static List<Double> ones() {
 		return new ArrayList<Double>(Collections.nCopies(12, 1d));
 	}

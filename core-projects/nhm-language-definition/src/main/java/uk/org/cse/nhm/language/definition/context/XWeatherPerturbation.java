@@ -2,12 +2,12 @@ package uk.org.cse.nhm.language.definition.context;
 
 import javax.validation.constraints.NotNull;
 
-import uk.org.cse.nhm.language.adapt.impl.Prop;
-import uk.org.cse.nhm.language.definition.Doc;
-
 import com.larkery.jasb.bind.Bind;
 import com.larkery.jasb.bind.BindNamedArgument;
 import com.larkery.jasb.bind.BindPositionalArgument;
+
+import uk.org.cse.nhm.language.adapt.impl.Prop;
+import uk.org.cse.nhm.language.definition.Doc;
 
 @Bind("weather.perturb")
 @Doc({

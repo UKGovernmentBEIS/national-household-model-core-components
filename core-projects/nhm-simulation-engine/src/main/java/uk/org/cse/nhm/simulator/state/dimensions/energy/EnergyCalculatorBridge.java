@@ -9,7 +9,6 @@ import javax.inject.Named;
 
 import org.pojomatic.annotations.AutoProperty;
 
-import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -19,13 +18,19 @@ import uk.org.cse.nhm.energycalculator.api.*;
 import uk.org.cse.nhm.energycalculator.api.impl.BredemExternalParameters;
 import uk.org.cse.nhm.energycalculator.api.impl.DailyHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.impl.SAPExternalParameters;
+
 import uk.org.cse.nhm.energycalculator.api.types.*;
+
 import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
 import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.impl.BredemSeasonalParameters;
 import uk.org.cse.nhm.energycalculator.impl.SAPSeasonalParameters;
+
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
+import uk.org.cse.nhm.energycalculator.impl.BREDEMHeatingSeasonalParameters;
+import uk.org.cse.nhm.energycalculator.impl.SAPHeatingSeasonalParameters;
+import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
 import uk.org.cse.nhm.hom.BasicCaseAttributes;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
@@ -35,7 +40,6 @@ import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.simulator.guice.EnergyCalculationRequestedSteps;
 import uk.org.cse.nhm.simulator.state.dimensions.FuelServiceTable;
 import uk.org.cse.nhm.simulator.state.dimensions.behaviour.IHeatingBehaviour;
-import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
 
 /**
  * Glue that runs a energy calculator from within the simulator.
@@ -136,7 +140,7 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 
                 airChangeRate += result.getHeatLosses().getAirChangeRate() * m.getStandardDays();
                 airChangeRateWithoutDeliberate += result.getHeatLosses().getAirChangeExcludingDeliberate() * m.getStandardDays();
-                
+
                 final float convert = m.getStandardDays() * WATT_DAYS_TO_KWH;
                 heatLoad[m.ordinal()][0] = (float) (convert * result.getEnergyState().getTotalDemand(EnergyType.DemandsHEAT));
                 heatLoad[m.ordinal()][1] = (float) (convert * result.getEnergyState().getTotalDemand(EnergyType.DemandsHOT_WATER));
@@ -273,15 +277,15 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 			this.heatingBehaviour = behaviour;
 			this.country = attributes.getRegionType().getCountry();
 
-			switch(behaviour.getEnergyCalculatorType()) {
+			switch(behaviour.getEnergyCalculatorType().occupancy) {
 			case SAP2012:
 				/*
 				 * This field is derived from floor area in SAP 2012 mode, so we set it to a dummy value.
 				 * See {@link SAPExternalParameters}
 				 */
-				this.people = 0;
+				this.people = SAPOccupancy.calculate(structure.getFloorArea());
 				break;
-			case BREDEM2012:
+			case SCENARIO:
 				this.people = npeople;
 				break;
 			default:
@@ -342,10 +346,10 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 			ID: zone-2-heated-proportion
 			CODSIEB
 			*/
-			switch(heatingBehaviour.getEnergyCalculatorType()) {
+			switch(heatingBehaviour.getEnergyCalculatorType().heatingSchedule) {
 			case SAP2012:
 				return 1d;
-			case BREDEM2012:
+			case SCENARIO:
 				return structure.getZoneTwoHeatedProportion();
 			default:
 				throw new RuntimeException("Unknown energy calculator type while working out zone 2 heated proportion " + heatingBehaviour.getEnergyCalculatorType());
@@ -383,10 +387,10 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 
 		@Override
 		public boolean hasReducedInternalGains() {
-			switch (heatingBehaviour.getEnergyCalculatorType()) {
+			switch (heatingBehaviour.getEnergyCalculatorType().heatingSchedule) {
 			case SAP2012:
 				return false;
-			case BREDEM2012:
+			case SCENARIO:
 				return structure.hasReducedInternalGains();
 			default:
 				throw new UnsupportedOperationException("Unknown energy calculator type when trying to determine if we should use reduced internal gains " + heatingBehaviour.getEnergyCalculatorType());
@@ -478,45 +482,45 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 					new CacheLoader<Wrapper, Result>() {
 						@Override
 						public Result load(final Wrapper key) throws Exception {
+							final EnergyCalculatorType mode = key.heatingBehaviour.getEnergyCalculatorType();
 
 							final IEnergyCalculatorParameters parameters = createParameters(key.heatingBehaviour, key.structure.getFloorArea(), key.people);
-
 							final ISeasonalParameters[] climate = new ISeasonalParameters[MonthType.values().length];
 
-							for (final MonthType m : MonthType.values()) {
-								switch (key.heatingBehaviour.getEnergyCalculatorType()) {
-								case SAP2012:
-									climate[m.ordinal()] = new SAPSeasonalParameters(m);
-									break;
-								case BREDEM2012:
-									final double externalTemperature = key.weather.getExternalTemperature(m);
+							final IWeather weather = mode.weather.getWeather(key.weather);
+							final double latitude = mode.weather.getLatitude(key.getLatitudeRadians());
 
-									climate[m.ordinal()] = new BredemSeasonalParameters(
-											m,
-											externalTemperature,
-											key.weather.getWindSpeed(m),
-											key.weather.getHorizontalSolarFlux(m),
-											key.getLatitudeRadians(),
-
-											key.heatingBehaviour.getHeatingMonths().contains(m) ?
-													key.heatingBehaviour.getHeatingSchedule() :
-														DailyHeatingSchedule.OFF,
-
-											Optional.<IHeatingSchedule>absent()
-											);
+							switch (mode.heatingSchedule) {
+							case SAP2012:
+								for (final MonthType m : MonthType.values()) {
+									climate[m.ordinal()] = new SAPHeatingSeasonalParameters(m, weather, latitude);
+								}
 								break;
-								default:
-									throw new UnsupportedOperationException("Unknown energy calculator type when preparing seasonal parameters " + key.heatingBehaviour.getEnergyCalculatorType());
-								};
+								case SCENARIO:
+									for (final MonthType m : MonthType.values()) {
+										if (key.heatingBehaviour.getHeatingMonths().contains(m)) {
+											climate[m.ordinal()] = new BREDEMHeatingSeasonalParameters(m, weather,
+													latitude, key.heatingBehaviour.getHeatingSchedule());
+										} else {
+											climate[m.ordinal()] = new BREDEMHeatingSeasonalParameters(m, weather,
+													latitude, DailyHeatingSchedule.OFF
+												);
+									}
+								}
+								break;
+							default:
+								throw new IllegalArgumentException("Unknown energy calculator type for heating schedule");
 							}
+
 
                             return new Result(calculator.evaluate(key, parameters, climate, requestedSteps.getRequestedSteps()));
 						}
 
 						private IEnergyCalculatorParameters createParameters(final IHeatingBehaviour heatingBehaviour, final double floorArea, final double occupancy) {
-							switch (heatingBehaviour.getEnergyCalculatorType()) {
-							case BREDEM2012:
+							switch (heatingBehaviour.getEnergyCalculatorType().heatingSchedule) {
+							case SCENARIO:
 								return new BredemExternalParameters(
+										heatingBehaviour.getEnergyCalculatorType(),
 										tariffType,
 										heatingBehaviour.getLivingAreaDemandTemperature(),
 										heatingBehaviour.getSecondAreaDemandTemperature(),
@@ -524,7 +528,7 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 										occupancy
 									);
 							case SAP2012:
-								return new SAPExternalParameters(tariffType, floorArea);
+								return new SAPExternalParameters(heatingBehaviour.getEnergyCalculatorType(), tariffType, floorArea);
 							default:
 								throw new IllegalArgumentException("Unknown energy calculator type when creating energy calculator parameters " + heatingBehaviour.getEnergyCalculatorType());
 							}

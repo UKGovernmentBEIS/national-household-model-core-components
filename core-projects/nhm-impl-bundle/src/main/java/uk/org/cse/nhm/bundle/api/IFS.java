@@ -1,9 +1,8 @@
 package uk.org.cse.nhm.bundle.api;
 
-import java.nio.file.Path;
-
 import java.io.IOException;
 import java.io.Reader;
+import java.nio.file.Path;
 
 /**
  * Something which is like a path, as far as NHM is concerned

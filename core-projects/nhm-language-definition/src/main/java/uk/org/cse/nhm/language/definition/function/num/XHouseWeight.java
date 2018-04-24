@@ -1,10 +1,10 @@
 package uk.org.cse.nhm.language.definition.function.num;
 
+import com.larkery.jasb.bind.Bind;
+
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.SeeAlso;
 import uk.org.cse.nhm.language.definition.XScenario;
-
-import com.larkery.jasb.bind.Bind;
 
 @Doc({
 	"Evaluates to the weight of the current house. This is the number of real houses that the current simulated house represents.",

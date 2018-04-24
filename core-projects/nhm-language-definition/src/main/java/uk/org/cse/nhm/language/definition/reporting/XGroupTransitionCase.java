@@ -2,17 +2,17 @@ package uk.org.cse.nhm.language.definition.reporting;
 
 import javax.validation.constraints.NotNull;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindNamedArgument;
+import com.larkery.jasb.bind.BindPositionalArgument;
+import com.larkery.jasb.bind.Identity;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.Obsolete;
 import uk.org.cse.nhm.language.definition.XElement;
 import uk.org.cse.nhm.language.definition.function.bool.XBoolean;
 import uk.org.cse.nhm.language.definition.two.actions.XTransitionHookAction;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindNamedArgument;
-import com.larkery.jasb.bind.BindPositionalArgument;
-import com.larkery.jasb.bind.Identity;
 
 
 @Doc("Defines one of the mutually exclusive conditions which is being reported in a group transition report.")

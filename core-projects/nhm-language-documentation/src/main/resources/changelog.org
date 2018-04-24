@@ -22,9 +22,10 @@ If you want to cross-reference to a language element, you need to use the unique
 
 ** Released versions
 *** Version 7.2.0
-**** New features
-- Added =ref.house.energy-calculation-step=, a number function which allow you to look at intermediate steps in the energy calculation.
 **** Bugs Fixed
+- A small bug which caused an error during validation of scenarios with an invalid stock file name has been removed.
+  This should make the desktop application a little bit better behaved.
+
 - A typo in the representative UK latitude (35.5 degrees, as opposed to 53.5) caused reduced solar gains and less useful daylight for lighting.
   The representative latitude is only used in SAP mode, so there is no effect on BREDEM mode calculations.
 
@@ -39,14 +40,61 @@ If you want to cross-reference to a language element, you need to use the unique
 
   #+CAPTION: Scatterplot of error in energy use (in SAP mode) due to latitude error, for EHS 2012 stock.
   [[./figures/score-bug/energy-all-xy.png]]
+
+- A mis-reading of SAP table 5a caused the gains from central heating circulating pumps to be included when central heating is connected to a community heating system. However, table 5a states that they should be excluded in this case (although the electricity demand should not).
+
+  This error has been corrected. It caused buildings with community heat connected to central heating to experience at most 87kWh/year more internal gains than they ought to have done, which will have reduced space heat demand by (at most) the same amount.
+
+  The error affected 465 cases in the combined 2014 stock, for which the maximum change in annual energy use in SAP 2012 mode was 59kWh/year. Most (22933) cases were unaffected.
+
+**** New Features
+***** Addition of energy calculator intermediate outputs
+Added =ref.house.energy-calculation-step=, a number function which allow you to look at intermediate steps in the energy calculation.
+***** Addition of SAP2012 Physical Mode
+A new energy calculator mode, ~SAP2012_PHYSICAL~ has been added.
+This is a slightly constrained version of ~BREDEM2012~, which does not require specification of u-values or other physical parameters, but does allow changes outside the scope of ~SAP2012~.
+
+It is documented in more detail below in the section on energy calculator modes.
+***** Addition of =ref.house.heating-system-output=
+This functions allows you to ask the model for the heat output from the heating system.
+***** Changes to lighting model and measures
+The way lights are represented in the stock has been changed to support products policy modelling.
+The stock data now records information about the type of lights that are installed in a house, rather than their efficiencies. The model represents six types of light:
+
+- Incandescent
+- CFL
+- Halogen
+- LED
+- Low-voltage Halogen
+- A++
+
+The efficiencies used for lights are determined by the energy calculator mode in use.
+
+The measures =ref.measure.replace-lighting= and =ref.measure.set-lighting-proportions= allow the installation of new lighting or a direct change to the lighting mix in a house, and =ref.house.lighting-proportion= allows you to query what proportion of the lights in a house are of a pariticular type.
+
+These changes have broken backwards-compatibility for lighting related commands, so you will need to amend any scenarios you have written which used =ref.measure.low-energy-lighting= or =ref.house.lighting-proportion= to refer to light types rather than light efficiencies.
+***** Addition of BEIS mode
+A new energy calculator mode, ~BEIS~ has been added. This is to support changes for products policy modelling. It has a more realistic set of lighting efficiency coefficients, and allows products policy changes to appliance and cooker efficiencies.
+
+It is documented in more detail below in the section on energy calculator modes.
 **** Improvements
+- The service type for space heating has been subdivided into primary and secondary space heating.
+  This means it is now possible to separately query energy use and emissions due to each heating system.
+- The documentation for =ref.house.heat-load= has been improved to properly state that the heat load is determined before accounting for gains.
+- The function =ref.house.heating-fuel= can now be used to ask about the heating fuel for secondary heating and hot water systems.
+  Its behaviour has been changed to be more consistent with how the model works when there is no working main heating system;
+
+  In this situation, the model assumes plug-in electric space heaters for the primary heating system (per SAP rules).
+  When this is the case, =ref.house.heating-fuel= will output ~Electricity~; previously it would output the heating fuel for the secondary space heating system, even though this heating system would not be used to meet most heat demand.
+- In an associated change, the command =ref.house.main-heating-system-type= now outputs ~AssumedElectricHeater~ when primary space heating is handled by plug-in electric heaters.
+- Energy calculator modes have been documented in more detail - see the next section of the manual if you are interested.
+- There is now a checkbox in the application's editor preferences to disable auto-indentation, in case you don't want it.
 - Added extra =record-changes= property on =ref.def-report=. If you set it to "false", then you won't get the "After" columns in the report.
-- Added extra services =MainSpaceHeating= and =SecondarySpaceHeating=, which you can use in conjunction with =ref.house.energy-use=.
 *** Version 7.1.0
 **** Bugs Fixed
 - Suitability for =ref.measure.solar-photovoltaic= is checked correctly.
   The implementation of measure suitability has been enhanced so this kind of error cannot be reintroduced for any other measure.
-- =ref.measure-warm-air-system= no longer ignores fuel argument.
+- =ref.measure.warm-air-system= no longer ignores fuel argument.
 - =ref.measure.hot-water-tank-thermostat= checks for presence of water tank before installation.
 - Fixed a problem where adding two extra fuel charges for the same fuel would give two duplicate charges instead.
 - Fixed a problem with transferring money between a dwelling and a global account where it would multiply the amount byt the scenario quantum instead of the weight of the particular dwelling. This affects =ref.report.global-transactions= and =ref.account.balance=

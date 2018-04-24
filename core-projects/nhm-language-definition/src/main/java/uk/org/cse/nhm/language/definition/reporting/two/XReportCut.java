@@ -8,10 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import uk.org.cse.nhm.language.definition.Doc;
-import uk.org.cse.nhm.language.definition.XElement;
-import uk.org.cse.nhm.language.validate.ISelfValidating;
-
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -21,6 +17,10 @@ import com.larkery.jasb.bind.BindNamedArgument;
 import com.larkery.jasb.bind.BindRemainingArguments;
 import com.larkery.jasb.sexp.errors.BasicError;
 import com.larkery.jasb.sexp.errors.IErrorHandler.IError;
+
+import uk.org.cse.nhm.language.definition.Doc;
+import uk.org.cse.nhm.language.definition.XElement;
+import uk.org.cse.nhm.language.validate.ISelfValidating;
 
 @Bind("cut")
 @Doc("Each cut adds an extra summary output to a report, in which each columns summaries' are computed for subsets of houses broken down by the values of the functions in the cut.")

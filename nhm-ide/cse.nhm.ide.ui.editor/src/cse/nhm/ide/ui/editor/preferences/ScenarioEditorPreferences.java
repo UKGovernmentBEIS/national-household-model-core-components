@@ -40,6 +40,8 @@ public class ScenarioEditorPreferences extends FieldEditorPreferencePage impleme
 		addField(new BooleanFieldEditor(PreferenceConstants.SKIP_DELETE, "When deleting a bracket, pass over it if there is something between the brackets", getFieldEditorParent()));
 		addField(new BooleanFieldEditor(PreferenceConstants.DELETE_BOTH, "When deleting a bracket, delete the corresponding other bracket automatically", getFieldEditorParent()));
 		addField(new BooleanFieldEditor(PreferenceConstants.WRAP_SELECTION, "If there is a selection and you type a bracket, wrap the selection in brackets rather than replacing it", getFieldEditorParent()));
+		
+		addField(new BooleanFieldEditor(PreferenceConstants.AUTO_INDENT, "When inserting new lines, auto-indent the line to the standard position", getFieldEditorParent()));
 	}
 
 	/*

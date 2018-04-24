@@ -10,14 +10,13 @@ import org.joda.time.DateTime;
 
 import com.google.inject.assistedinject.Assisted;
 
+import uk.org.cse.nhm.language.definition.function.num.XHeatLoss.XHeatLossType;
 import uk.org.cse.nhm.simulator.AbstractNamed;
 import uk.org.cse.nhm.simulator.let.ILets;
 import uk.org.cse.nhm.simulator.scope.IComponentsScope;
 import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.dimensions.energy.IPowerTable;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
-
-import uk.org.cse.nhm.language.definition.function.num.XHeatLoss.XHeatLossType;
 
 public class HeatLossFunction extends AbstractNamed implements IComponentsFunction<Double> {
     private final IDimension<IPowerTable> energy;

@@ -2,34 +2,7 @@ package uk.org.cse.nhm.ehcs10.physical.impl;
 
 import uk.org.cse.nhm.ehcs10.derived.types.Enum10;
 import uk.org.cse.nhm.ehcs10.physical.ServicesEntry;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1060;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1233;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1282;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1710;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1711;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1713;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1718;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1719;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1721;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1722;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1727;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1729;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1730;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1742;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1748;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1751;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1753;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1755;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1757;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1758;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1764;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1766;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1770;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1771;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1776;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1777;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1779;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1784;
+import uk.org.cse.nhm.ehcs10.physical.types.*;
 import uk.org.cse.stockimport.spss.SurveyEntryImpl;
 
 public class ServicesEntryImpl extends SurveyEntryImpl implements ServicesEntry {

@@ -1,0 +1,61 @@
+(scenario
+ start-date: 2012
+ end-date: 2032
+ stock-id: ../../2014.stock
+ quantum:10000
+ energy-calculator:BREDEM2012
+
+ (~init-modules)
+
+ (on.dates
+  (scenario-start)
+
+  (check-lighting-multiplier BREDEM2012 Incandescent 1)
+  (check-lighting-multiplier BREDEM2012 CFL 0.5)
+  (check-lighting-multiplier BREDEM2012 LED 0.5)
+  (check-lighting-multiplier BREDEM2012 Halogen 0.5)
+  (check-lighting-multiplier BREDEM2012 LV-Halogen 0.5)
+  (check-lighting-multiplier BREDEM2012 A++ 0.5)
+
+  (check-lighting-multiplier SAP2012 Incandescent 1)
+  (check-lighting-multiplier SAP2012 CFL 0.5)
+  (check-lighting-multiplier SAP2012 LED 0.5)
+  (check-lighting-multiplier SAP2012 Halogen 0.5)
+  (check-lighting-multiplier SAP2012 LV-Halogen 0.5)
+  (check-lighting-multiplier SAP2012 A++ 0.5)
+
+  (check-lighting-multiplier BEIS Incandescent 1)
+  (check-lighting-multiplier BEIS CFL 0.166)
+  (check-lighting-multiplier BEIS LED 0.166)
+  (check-lighting-multiplier BEIS Halogen 0.714)
+  (check-lighting-multiplier BEIS LV-Halogen 0.43)
+  (check-lighting-multiplier BEIS A++ 0.076)
+  )
+ )
+
+(template check-lighting-multiplier [@1:calc @2:light @3:value]
+          (assert name: (~join @calc - @light -is- @value)
+           over: (all-houses)
+           capture: [
+           (house.survey-code)
+           (lighting-multiplier @calc @light)
+           ]
+           (= (lighting-multiplier @calc @light) @value)))
+
+(template lighting-multiplier [@1:calc @2:light]
+          (under name: (~join @calc - @light -multiplier)
+                 (counterfactual.energy-calculator @calc)
+                 (sap.occupancy)
+
+                 evaluate:
+                 (/
+                  (under (measure.replace-lighting
+                          replace: [incandescent cfl halogen led lv-halogen A++]
+                          with: @light)
+                         evaluate: (house.energy-use by-service:lighting))
+
+                  (under (measure.replace-lighting
+                          replace: [incandescent cfl halogen led lv-halogen A++]
+                          with: incandescent)
+                         evaluate: (house.energy-use by-service:lighting)
+                         ))))

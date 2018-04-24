@@ -46,15 +46,15 @@
       <orderedlist>
         <listitem>
           <para>
-            New features
+            Bugs Fixed
           </para>
           <itemizedlist>
             <listitem>
               <para>
-                Added
-                <xref linkend="ref.house.energy-calculation-step"/>, a
-                number function which allow you to look at intermediate
-                steps in the energy calculation.
+                A small bug which caused an error during validation of
+                scenarios with an invalid stock file name has been
+                removed. This should make the desktop application a
+                little bit better behaved.
               </para>
             </listitem>
             <listitem>
@@ -123,27 +123,229 @@
                 </mediaobject>
               </figure>
             </listitem>
+            <listitem>
+              <para>
+                A mis-reading of SAP table 5a caused the gains from
+                central heating circulating pumps to be included when
+                central heating is connected to a community heating
+                system. However, table 5a states that they should be
+                excluded in this case (although the electricity demand
+                should not).
+              </para>
+              <para>
+                This error has been corrected. It caused buildings with
+                community heat connected to central heating to
+                experience at most 87kWh/year more internal gains than
+                they ought to have done, which will have reduced space
+                heat demand by (at most) the same amount.
+              </para>
+              <para>
+                The error affected 465 cases in the combined 2014 stock,
+                for which the maximum change in annual energy use in SAP
+                2012 mode was 59kWh/year. Most (22933) cases were
+                unaffected.
+              </para>
+            </listitem>
           </itemizedlist>
+        </listitem>
+        <listitem>
+          <para>
+            New Features
+          </para>
+          <orderedlist>
+            <listitem>
+              <para>
+                Addition of energy calculator intermediate outputs
+              </para>
+              <para>
+                Added
+                <xref linkend="ref.house.energy-calculation-step"/>, a
+                number function which allow you to look at intermediate
+                steps in the energy calculation.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                Addition of SAP2012 Physical Mode
+              </para>
+              <para>
+                A new energy calculator mode,
+                <literal>SAP2012_PHYSICAL</literal> has been added. This
+                is a slightly constrained version of
+                <literal>BREDEM2012</literal>, which does not require
+                specification of u-values or other physical parameters,
+                but does allow changes outside the scope of
+                <literal>SAP2012</literal>.
+              </para>
+              <para>
+                It is documented in more detail below in the section on
+                energy calculator modes.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                Addition of
+                <xref linkend="ref.house.heating-system-output"/>
+              </para>
+              <para>
+                This functions allows you to ask the model for the heat
+                output from the heating system.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                Changes to lighting model and measures
+              </para>
+              <para>
+                The way lights are represented in the stock has been
+                changed to support products policy modelling. The stock
+                data now records information about the type of lights
+                that are installed in a house, rather than their
+                efficiencies. The model represents six types of light:
+              </para>
+              <itemizedlist spacing="compact">
+                <listitem>
+                  <para>
+                    Incandescent
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    CFL
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    Halogen
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    LED
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    Low-voltage Halogen
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    A++
+                  </para>
+                </listitem>
+              </itemizedlist>
+              <para>
+                The efficiencies used for lights are determined by the
+                energy calculator mode in use.
+              </para>
+              <para>
+                The measures
+                <xref linkend="ref.measure.replace-lighting"/> and
+                <xref linkend="ref.measure.set-lighting-proportions"/>
+                allow the installation of new lighting or a direct
+                change to the lighting mix in a house, and
+                <xref linkend="ref.house.lighting-proportion"/> allows
+                you to query what proportion of the lights in a house
+                are of a pariticular type.
+              </para>
+              <para>
+                These changes have broken backwards-compatibility for
+                lighting related commands, so you will need to amend any
+                scenarios you have written which used
+                <xref linkend="ref.measure.low-energy-lighting"/> or
+                <xref linkend="ref.house.lighting-proportion"/> to
+                refer to light types rather than light efficiencies.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                Addition of BEIS mode
+              </para>
+              <para>
+                A new energy calculator mode, <literal>BEIS</literal>
+                has been added. This is to support changes for products
+                policy modelling. It has a more realistic set of
+                lighting efficiency coefficients, and allows products
+                policy changes to appliance and cooker efficiencies.
+              </para>
+              <para>
+                It is documented in more detail below in the section on
+                energy calculator modes.
+              </para>
+            </listitem>
+          </orderedlist>
         </listitem>
         <listitem>
           <para>
             Improvements
           </para>
-          <itemizedlist spacing="compact">
+          <itemizedlist>
+            <listitem>
+              <para>
+                The service type for space heating has been subdivided
+                into primary and secondary space heating. This means it
+                is now possible to separately query energy use and
+                emissions due to each heating system.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                The documentation for
+                <xref linkend="ref.house.heat-load"/> has been improved
+                to properly state that the heat load is determined
+                before accounting for gains.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                The function <xref linkend="ref.house.heating-fuel"/>
+                can now be used to ask about the heating fuel for
+                secondary heating and hot water systems. Its behaviour
+                has been changed to be more consistent with how the
+                model works when there is no working main heating
+                system;
+              </para>
+              <para>
+                In this situation, the model assumes plug-in electric
+                space heaters for the primary heating system (per SAP
+                rules). When this is the case,
+                <xref linkend="ref.house.heating-fuel"/> will output
+                <literal>Electricity</literal>; previously it would
+                output the heating fuel for the secondary space heating
+                system, even though this heating system would not be
+                used to meet most heat demand.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                In an associated change, the command
+                <xref linkend="ref.house.main-heating-system-type"/>
+                now outputs <literal>AssumedElectricHeater</literal>
+                when primary space heating is handled by plug-in
+                electric heaters.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                Energy calculator modes have been documented in more
+                detail - see the next section of the manual if you are
+                interested.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                There is now a checkbox in the application's editor
+                preferences to disable auto-indentation, in case you
+                don't want it.
+              </para>
+            </listitem>
             <listitem>
               <para>
                 Added extra <literal>record-changes</literal> property
                 on <xref linkend="ref.def-report"/>. If you set it to
                 &quot;false&quot;, then you won't get the
                 &quot;After&quot; columns in the report.
-              </para>
-            </listitem>
-            <listitem>
-              <para>
-                Added extra services <literal>MainSpaceHeating</literal>
-                and <literal>SecondarySpaceHeating</literal>, which you
-                can use in conjunction with
-                <xref linkend="ref.house.energy-use"/>.
               </para>
             </listitem>
           </itemizedlist>
@@ -169,7 +371,7 @@
             </listitem>
             <listitem>
               <para>
-                <xref linkend="ref.measure-warm-air-system"/> no longer
+                <xref linkend="ref.measure.warm-air-system"/> no longer
                 ignores fuel argument.
               </para>
             </listitem>

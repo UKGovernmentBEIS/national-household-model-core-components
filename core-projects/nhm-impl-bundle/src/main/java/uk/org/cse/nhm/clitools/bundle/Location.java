@@ -1,9 +1,9 @@
 package uk.org.cse.nhm.clitools.bundle;
 
-import uk.org.cse.nhm.bundle.api.ILocation;
-
 import com.google.common.base.Optional;
 import com.larkery.jasb.sexp.Location.Via;
+
+import uk.org.cse.nhm.bundle.api.ILocation;
 
 public class Location<P> implements ILocation<P> {
 	private P path;

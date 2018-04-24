@@ -12,18 +12,18 @@ import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Table;
 
-import uk.org.cse.nhm.energycalculator.api.types.DoorType;
-import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
+import uk.org.cse.nhm.hom.components.fabric.types.DoorType;
+import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
 import uk.org.cse.stockimport.domain.geometry.IElevationDTO;
 
 /**
- * ElevationDTO. 
+ * ElevationDTO.
  *
  * @assumption CHM does not compute roof windows are either not applicable or zero.
  * @assumption CHM has default imputation values for window orientation(east/west) and over shading(average/unknown)
- * 
+ *
  * @author richardt
  * @version $Id: ElevationDTO.java 94 2010-09-30 15:39:21Z richardt
  * @since 0.0.1-SNAPSHOT
@@ -48,26 +48,26 @@ public class ElevationDTO extends AbsDTO implements IElevationDTO {
 
     private Optional<FrameType> singleGlazedWindowFrame = Optional.of(FrameType.Metal);
     private Optional<FrameType> doubleGlazedWindowFrame = Optional.absent();
-    
+
     private Optional<Double> angleFromNorth = Optional.absent();
-    
+
     @Property(policy=PojomaticPolicy.NONE)
     private Table<FrameType, DoorType, Integer> doors = HashBasedTable.create();
-    
-    /** Default door type used when non-specified 
+
+    /** Default door type used when non-specified
      * @since 1.0
-     * 
+     *
      */
     public static final DoorType DEFAULT_DOORTYPE = DoorType.Solid;
-    
-    
+
+
 	public ElevationDTO() {
 		for (final FrameType ft : FrameType.values()) {
 			for (final DoorType dt : DoorType.values()) {
 				doors.put(ft, dt, 0);
 			}
 		}
-	}    
+	}
 
 	@Override
 	public ElevationType getElevationType() {
@@ -194,45 +194,45 @@ public class ElevationDTO extends AbsDTO implements IElevationDTO {
 	public int getNumberOfDoors(final FrameType ft, final DoorType dt) {
 		return Optional.fromNullable(doors.get(ft, dt)).or(0);
 	}
-	
+
 	@Override
 	public void setNumberOfDoors(final FrameType frameType, final int numOfDoors) {
 		doors.put(frameType, DEFAULT_DOORTYPE, numOfDoors);
 	}
-	
+
 	@Override
 	public void addDoors(final FrameType frameType, final int count) {
-		setNumberOfDoors(frameType, 
-				count + 
+		setNumberOfDoors(frameType,
+				count +
 				getNumberOfDoors(frameType, DEFAULT_DOORTYPE));
 	}
-	
+
 	@Override
 	public List<String> validate() {
 		final ImmutableList.Builder<String> b = ImmutableList.builder();
 		b.addAll(super.validate());
-		
+
 		b.addAll(checkTenths("attached", tenthsAttached).asSet());
 		b.addAll(checkTenths("opening", tenthsOpening).asSet());
-		
+
 		if (tenthsAttached == 10) {
 			if (externalWallConstructionType.isPresent()) {
 				b.add("ten tenths are attached, and external wall construction type is present");
 			}
-			
+
 			if (cavityInsulation.isPresent() && cavityInsulation.get()) {
 				b.add("ten tenths are attached, and cavity insulation is present");
 			}
-			
+
 			if (externalInsulation.isPresent() && externalInsulation.get()) {
 				b.add("ten tenths are attached, and external insulation is present");
 			}
-			
+
 			if (internalInsulation.isPresent() && internalInsulation.get()) {
 				b.add("ten tenths are attached, and internal insulation is present");
 			}
 		}
-		
+
 		return b.build();
 	}
 
@@ -245,7 +245,7 @@ public class ElevationDTO extends AbsDTO implements IElevationDTO {
 			return Optional.absent();
 		}
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return Pojomatic.hashCode(this);
@@ -263,7 +263,7 @@ public class ElevationDTO extends AbsDTO implements IElevationDTO {
 							return false;
 						}
 					}
-				}	
+				}
 			} else {
 				return false;
 			}

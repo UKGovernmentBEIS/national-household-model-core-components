@@ -1,6 +1,6 @@
 package uk.org.cse.stockimport.imputation.apertures;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 import org.junit.Test;
 

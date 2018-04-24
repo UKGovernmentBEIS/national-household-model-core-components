@@ -8,6 +8,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.google.common.collect.ContiguousSet;
+import com.google.common.collect.DiscreteDomain;
+import com.google.common.collect.Range;
+
 import uk.org.cse.boilermatcher.lucene.IBoilerTableEntry;
 import uk.org.cse.boilermatcher.lucene.ISedbukIndex;
 import uk.org.cse.boilermatcher.lucene.LuceneSedbukIndex;
@@ -15,10 +19,6 @@ import uk.org.cse.boilermatcher.lucene.StopwordIndex;
 import uk.org.cse.boilermatcher.sedbuk.IBoilerTable;
 import uk.org.cse.boilermatcher.sedbuk.ISedbuk;
 import uk.org.cse.boilermatcher.sedbuk.Sedbuk;
-
-import com.google.common.collect.ContiguousSet;
-import com.google.common.collect.DiscreteDomain;
-import com.google.common.collect.Range;
 
 public class SedbukToLucene {
 	ISedbuk sedbuk;

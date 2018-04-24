@@ -1,7 +1,6 @@
 package uk.org.cse.nhm.hom;
 
 import org.junit.Assert;
-
 import org.junit.Test;
 
 public class BasicAttributesTest {

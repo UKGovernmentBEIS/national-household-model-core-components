@@ -16,6 +16,9 @@ import uk.org.cse.nhm.energycalculator.api.*;
 import uk.org.cse.nhm.energycalculator.api.impl.EnergyTransducer;
 import uk.org.cse.nhm.energycalculator.api.types.*;
 import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
+import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
+import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType.ECHeating;
+
 import uk.org.cse.nhm.hom.constants.CommunityHeatingConstants;
 import uk.org.cse.nhm.hom.emf.technologies.EmitterType;
 import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
@@ -220,6 +223,44 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 		state.increaseSupply(EnergyType.DemandsHEAT, amount);
 
 		/**
+		 * This is the factor taken from SAP 2012 Table 4c (3)
+         Glenn commented this out TODO check why
+
+
+		final double controlFactor;
+
+		if (calculatorType.heating == ECHeating.BREDEM2012) {
+			controlFactor = 1;
+		}
+		else if (isChargingUsageBased()) {
+			// it seems like the discriminating factor here is whether there are
+			// TRVs in the space heater.
+			if (controls.contains(HeatingSystemControlType.THERMOSTATIC_RADIATOR_VALVE)) {
+				// 2310, 2306
+				controlFactor = constants.get(CommunityHeatingConstants.LOW_SPACE_USAGE_MULTIPLIER);
+				log.debug("Control factor for usage-based thermostatic systems : {}", controlFactor);
+			} else {
+				// 2308, 2309
+				controlFactor = constants.get(CommunityHeatingConstants.MEDIUM_SPACE_USAGE_MULTIPLER);
+				log.debug("Control factor usage based non-thermostatic systems : {}", controlFactor);
+			}
+		} else {
+			if (systemIsThermostaticallyControlled) {
+				// Codes from table in this branch:
+				// 2303, 2304, 2307, 2305
+				controlFactor = constants.get(CommunityHeatingConstants.MEDIUM_SPACE_USAGE_MULTIPLER);
+				log.debug("Control factor for thermostatically controlled flate rate : {}", controlFactor);
+			} else {
+				// codes in this branch
+				// 2301, 2302
+				controlFactor = constants.get(CommunityHeatingConstants.HIGH_SPACE_USAGE_MULTIPLER);
+				log.debug("Control factor for non-thermostatically controlled flat rate : {}", controlFactor);
+			}
+		}
+
+        */
+		/**
+
 		 * The distribution loss factor, from SAP table 12c. We don't have any
 		 * of the information required to get this number!
 		 */
@@ -266,6 +307,23 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 		state.increaseSupply(EnergyType.GainsHOT_WATER_SYSTEM_GAINS, gains);
 
 		final double amount = hw + gains;
+
+		/**
+		 * Control factor from SAP 2012 table 4c(3), removed by glenn??
+		 *
+		final double controlFactor;
+
+		if (calculatorType.heating != ECHeating.BREDEM2012) {
+			if (isChargingUsageBased()) {
+				controlFactor = constants.get(CommunityHeatingConstants.LOW_WATER_USAGE_MULTIPLIER);
+			} else {
+				controlFactor = constants.get(CommunityHeatingConstants.HIGH_WATER_USAGE_MULTIPLIER);
+			}
+		} else {
+			// Hot water usage adjustments only apply to the SAP calculator.
+			controlFactor = 1;
+		}
+        */
 
 		final double distributionLossFactor = constants.get(CommunityHeatingConstants.DEFAULT_DISTRIBUTION_LOSS_FACTOR);
 

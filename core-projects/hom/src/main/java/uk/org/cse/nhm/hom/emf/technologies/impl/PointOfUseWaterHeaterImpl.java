@@ -324,4 +324,8 @@ public class PointOfUseWaterHeaterImpl extends WaterHeaterImpl implements IPoint
 		return result.toString();
 	}
 
+	@Override
+	public FuelType getFuel() {
+		return getFuelType();
+	}
 } //PointOfUseWaterHeaterImpl

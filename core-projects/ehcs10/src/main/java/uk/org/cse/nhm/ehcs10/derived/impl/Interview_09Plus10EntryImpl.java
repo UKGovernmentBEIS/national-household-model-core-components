@@ -1,39 +1,7 @@
 package uk.org.cse.nhm.ehcs10.derived.impl;
 
 import uk.org.cse.nhm.ehcs10.derived.Interview_09Plus10Entry;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum0;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum10;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum100;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum59;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum60;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum62;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum63;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum64;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum66;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum67;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum68;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum69;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum70;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum71;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum72;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum73;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum76;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum77;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum8;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum80;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum82;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum83;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum84;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum86;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum87;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum88;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum90;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum94;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum95;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum96;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum97;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum98;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum99;
+import uk.org.cse.nhm.ehcs10.derived.types.*;
 import uk.org.cse.stockimport.spss.SurveyEntryImpl;
 
 public class Interview_09Plus10EntryImpl extends SurveyEntryImpl implements Interview_09Plus10Entry {

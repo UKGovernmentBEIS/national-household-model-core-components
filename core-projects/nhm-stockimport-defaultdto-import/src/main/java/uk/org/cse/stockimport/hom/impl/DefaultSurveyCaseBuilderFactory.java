@@ -2,17 +2,7 @@ package uk.org.cse.stockimport.hom.impl;
 
 import uk.org.cse.stockimport.hom.ISurveyCaseBuilder;
 import uk.org.cse.stockimport.hom.ISurveyCaseBuilderFactory;
-import uk.org.cse.stockimport.hom.impl.steps.AdditionalHouseCasePropertyStep;
-import uk.org.cse.stockimport.hom.impl.steps.BasicAttributesBuildStep;
-import uk.org.cse.stockimport.hom.impl.steps.ElevationBuildStep;
-import uk.org.cse.stockimport.hom.impl.steps.FinancialAttributesBuilderStep;
-import uk.org.cse.stockimport.hom.impl.steps.InternalWallBuildStep;
-import uk.org.cse.stockimport.hom.impl.steps.PeopleBuildStep;
-import uk.org.cse.stockimport.hom.impl.steps.RoofBuildStep;
-import uk.org.cse.stockimport.hom.impl.steps.StoreyBuildStep;
-import uk.org.cse.stockimport.hom.impl.steps.StructureInitializingBuildStep;
-import uk.org.cse.stockimport.hom.impl.steps.VentilationBuildStep;
-import uk.org.cse.stockimport.hom.impl.steps.WarningsStep;
+import uk.org.cse.stockimport.hom.impl.steps.*;
 import uk.org.cse.stockimport.hom.impl.steps.imputation.DoorWranglingStep;
 import uk.org.cse.stockimport.hom.impl.steps.imputation.MainImputationStep;
 import uk.org.cse.stockimport.hom.impl.steps.services.CookerBuildStep;

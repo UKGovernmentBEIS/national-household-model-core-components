@@ -1,15 +1,6 @@
 package uk.org.cse.nhm.ehcs10.derived;
 
-import uk.org.cse.nhm.ehcs10.derived.types.Enum21;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum22;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum23;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum24;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum25;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum26;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum27;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum28;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum29;
-import uk.org.cse.nhm.ehcs10.derived.types.Enum30;
+import uk.org.cse.nhm.ehcs10.derived.types.*;
 import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 

@@ -2,6 +2,9 @@ package uk.org.cse.nhm.language.definition.action.measure.insulation;
 
 import javax.validation.constraints.NotNull;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindNamedArgument;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.action.Unsuitability;
@@ -11,9 +14,6 @@ import uk.org.cse.nhm.language.definition.enums.XGlazingType;
 import uk.org.cse.nhm.language.definition.enums.XWindowGlazingAirGap;
 import uk.org.cse.nhm.language.definition.enums.XWindowInsulationType;
 import uk.org.cse.nhm.language.definition.function.num.XNumber;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindNamedArgument;
 
 
 /**

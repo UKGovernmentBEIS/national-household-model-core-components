@@ -1,23 +1,7 @@
 package uk.org.cse.stockimport.ehcs2010.spss.elementreader;
 
 import static uk.org.cse.nhm.ehcs10.physical.types.Enum1282.Yes;
-import static uk.org.cse.nhm.ehcs10.physical.types.Enum1776.ElectricHeaters_IndividualStorageHe;
-import static uk.org.cse.nhm.ehcs10.physical.types.Enum1776.ElectricHeaters_Panel_ConvectorOrRa;
-import static uk.org.cse.nhm.ehcs10.physical.types.Enum1776.ElectricHeaters_Portable;
-import static uk.org.cse.nhm.ehcs10.physical.types.Enum1776.LPG_FixedHeaters;
-import static uk.org.cse.nhm.ehcs10.physical.types.Enum1776.MainsGas_BalancesFlue;
-import static uk.org.cse.nhm.ehcs10.physical.types.Enum1776.MainsGas_Condensing;
-import static uk.org.cse.nhm.ehcs10.physical.types.Enum1776.MainsGas_Decorative_OpenToChimney;
-import static uk.org.cse.nhm.ehcs10.physical.types.Enum1776.MainsGas_FanAssisted;
-import static uk.org.cse.nhm.ehcs10.physical.types.Enum1776.MainsGas_Flueless;
-import static uk.org.cse.nhm.ehcs10.physical.types.Enum1776.MainsGas_LiveEffect_FanAssistedF;
-import static uk.org.cse.nhm.ehcs10.physical.types.Enum1776.MainsGas_LiveEffect_SealedToChim;
-import static uk.org.cse.nhm.ehcs10.physical.types.Enum1776.MainsGas_OpenFlue;
-import static uk.org.cse.nhm.ehcs10.physical.types.Enum1776.MainsGas_Unknown;
-import static uk.org.cse.nhm.ehcs10.physical.types.Enum1776.Other;
-import static uk.org.cse.nhm.ehcs10.physical.types.Enum1776.Paraffin_PortableHeaters;
-import static uk.org.cse.nhm.ehcs10.physical.types.Enum1776.SolidFuelHeaters_OpenFire;
-import static uk.org.cse.nhm.ehcs10.physical.types.Enum1776.SolidFuelHeaters_Stove_SpaceHeater;
+import static uk.org.cse.nhm.ehcs10.physical.types.Enum1776.*;
 import static uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType.DELAYED_START_THERMOSTAT;
 import static uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType.PROGRAMMER;
 import static uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType.ROOM_THERMOSTAT;

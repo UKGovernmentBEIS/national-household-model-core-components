@@ -5,7 +5,7 @@ import javax.inject.Named;
 
 import com.google.inject.Provider;
 
-import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
+import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
 import uk.org.cse.nhm.simulator.SimulatorConfigurationConstants;
 
 public class DefaultHeatingBehaviourProvider implements Provider<IHeatingBehaviour> {

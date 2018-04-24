@@ -2,10 +2,10 @@ package uk.org.cse.nhm;
 
 import java.util.List;
 
-import uk.org.cse.commons.names.Name;
-
 import com.google.common.collect.ImmutableList;
 import com.larkery.jasb.sexp.Location;
+
+import uk.org.cse.commons.names.Name;
 
 public class NHMException extends RuntimeException {
     private static final long serialVersionUID = 1L;

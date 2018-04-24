@@ -17,13 +17,14 @@ import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.hom.IHeatProportions;
 import uk.org.cse.nhm.hom.constants.SolarConstants;
+import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.IOperationalCost;
+import uk.org.cse.nhm.hom.emf.technologies.IShower;
 import uk.org.cse.nhm.hom.emf.technologies.ISolarWaterHeater;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
 import uk.org.cse.nhm.hom.emf.technologies.IVisitorAccepter;
 import uk.org.cse.nhm.hom.emf.technologies.IWaterTank;
 import uk.org.cse.nhm.hom.emf.technologies.impl.util.Pump;
-import uk.org.cse.nhm.hom.emf.technologies.IShower;
 
 /**
  * <!-- begin-user-doc -->
@@ -970,7 +971,7 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 		ID: solar-hot-water-use-adjustment
 		CODSIEB
 		*/
-		switch(parameters.getCalculatorType()) {
+		switch(parameters.getCalculatorType().hotWater) {
 		case BREDEM2012:
 			return 1.0;
 		case SAP2012:
@@ -1000,5 +1001,10 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	@Override
 	public boolean isCommunityHeating() {
 		return false;
+	}
+	
+	@Override
+	public FuelType getFuel() {
+		return FuelType.PHOTONS;
 	}
 } //SolarWaterHeaterImpl

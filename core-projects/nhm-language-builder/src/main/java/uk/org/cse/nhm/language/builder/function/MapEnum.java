@@ -10,6 +10,7 @@ import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
+import uk.org.cse.nhm.energycalculator.api.types.LightType;
 import uk.org.cse.nhm.energycalculator.api.types.MonthType;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
@@ -21,6 +22,7 @@ import uk.org.cse.nhm.energycalculator.constants.EnergyCalculatorConstants;
 import uk.org.cse.nhm.energycalculator.constants.GainsConstants;
 import uk.org.cse.nhm.energycalculator.constants.HotWaterConstants09;
 import uk.org.cse.nhm.energycalculator.constants.LightingConstants09;
+import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
 import uk.org.cse.nhm.hom.constants.CommunityHeatingConstants;
 import uk.org.cse.nhm.hom.constants.CylinderConstants;
 import uk.org.cse.nhm.hom.constants.HeatingSystemConstants;
@@ -113,10 +115,13 @@ public class MapEnum {
 		switch (calculatorType) {
 		case BREDEM2012: return EnergyCalculatorType.BREDEM2012;
 		case SAP2012: return EnergyCalculatorType.SAP2012;
+		case SAP2012_PHYSICAL: return EnergyCalculatorType.SAP2012_UVALUES;
+		case BEIS: return EnergyCalculatorType.BEIS;
 		default: throw new RuntimeException("Unexpected XEnergyCalculatorType " + calculatorType);
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Unmapped({
 		"INTERNALS",
 		"SOLAR_GAINS",
@@ -404,4 +409,8 @@ public class MapEnum {
     public static EnergyCalculationStep energyCalculationStep(XEnergyCalculationStep step) {
         return energyCalculationStepMapping.get(step);
     }
+
+	public static LightType lightType(final XLightType x) {
+		return mapName(LightType.class, x);
+	}
 }

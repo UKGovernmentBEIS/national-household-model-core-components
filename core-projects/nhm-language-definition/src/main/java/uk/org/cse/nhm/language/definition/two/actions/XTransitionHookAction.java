@@ -5,17 +5,17 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindNamedArgument;
+
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.function.XFunction;
 import uk.org.cse.nhm.language.definition.function.num.IHouseContext;
-import uk.org.cse.nhm.language.definition.two.selectors.XAllTheHouses;
 import uk.org.cse.nhm.language.definition.two.selectors.ISetOfHouses;
+import uk.org.cse.nhm.language.definition.two.selectors.XAllTheHouses;
 import uk.org.cse.nhm.language.validate.BatchForbidden;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindNamedArgument;
 
 @Bind("transitions")
 @BatchForbidden(element = "transitions")

@@ -1,7 +1,5 @@
 package uk.org.cse.nhm.language.definition.action;
 
-import uk.org.cse.nhm.language.definition.Doc;
-
 import javax.validation.constraints.NotNull;
 
 import com.larkery.jasb.bind.Bind;
@@ -10,6 +8,7 @@ import com.larkery.jasb.bind.BindPositionalArgument;
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
+import uk.org.cse.nhm.language.definition.Doc;
 
 @Doc({
 	"Change the site exposure of a dwelling.",

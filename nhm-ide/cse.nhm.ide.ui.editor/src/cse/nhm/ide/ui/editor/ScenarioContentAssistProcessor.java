@@ -219,10 +219,14 @@ public class ScenarioContentAssistProcessor implements IContentAssistProcessor {
 				suggestResources(offset, cursor, out, "include", ".nhm");
 			} else {
 				final IProgressMonitor monitor = new NullProgressMonitor();
-				final List<? extends ISuggestion> suggest = 
-						model.language().suggest(cursor, editor.getDefinitions(monitor));
-				for (final ISuggestion s : suggest) {
-					out.add(new ScenarioCompletionProposal(cursor, s, offset));
+				try {
+					final List<? extends ISuggestion> suggest = model.language().suggest(cursor,
+							editor.getDefinitions(monitor));
+					for (final ISuggestion s : suggest) {
+						out.add(new ScenarioCompletionProposal(cursor, s, offset));
+					}
+				} catch (final Exception th) {
+					NHMEditorPlugin.logException("An exception occurred whilst getting completion proposals for "+cursor, th);
 				}
 			}
 			

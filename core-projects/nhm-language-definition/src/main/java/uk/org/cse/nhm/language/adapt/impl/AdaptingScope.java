@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import uk.org.cse.nhm.language.adapt.IAdaptingScope;
-import uk.org.cse.nhm.language.adapt.IConverter;
-
 import com.google.common.base.Optional;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
+
+import uk.org.cse.nhm.language.adapt.IAdaptingScope;
+import uk.org.cse.nhm.language.adapt.IConverter;
 
 public class AdaptingScope implements IAdaptingScope {
 	private final Map<String, Object> scopeVariables = new HashMap<String, Object>();

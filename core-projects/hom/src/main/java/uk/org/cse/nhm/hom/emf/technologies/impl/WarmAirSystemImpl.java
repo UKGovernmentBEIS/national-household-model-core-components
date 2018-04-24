@@ -17,10 +17,10 @@ import uk.org.cse.nhm.energycalculator.api.*;
 import uk.org.cse.nhm.energycalculator.api.impl.ElectricHeatTransducer;
 import uk.org.cse.nhm.energycalculator.api.impl.HeatTransducer;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.Zone2ControlParameter;
 import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
+import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
 import uk.org.cse.nhm.hom.IHeatProportions;
 import uk.org.cse.nhm.hom.constants.SplitRateConstants;
 import uk.org.cse.nhm.hom.constants.adjustments.TemperatureAdjustments;
@@ -518,4 +518,8 @@ public class WarmAirSystemImpl extends SpaceHeaterImpl implements IWarmAirSystem
 		}
 	}
 
+	@Override
+	public FuelType getFuel() {
+		return getFuelType();
+	}
 } //WarmAirSystemImpl

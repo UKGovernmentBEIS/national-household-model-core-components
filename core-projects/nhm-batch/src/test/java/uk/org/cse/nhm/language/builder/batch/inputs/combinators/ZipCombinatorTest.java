@@ -5,10 +5,10 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import uk.org.cse.nhm.language.builder.batch.inputs.IBatchInputs;
-
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
+
+import uk.org.cse.nhm.language.builder.batch.inputs.IBatchInputs;
 
 public class ZipCombinatorTest extends WideCombinatorTest {
 

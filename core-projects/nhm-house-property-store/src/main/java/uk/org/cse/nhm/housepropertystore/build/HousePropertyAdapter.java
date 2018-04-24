@@ -6,6 +6,9 @@ import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Provider;
 
+import com.google.common.base.Optional;
+import com.google.common.base.Predicate;
+
 import uk.org.cse.nhm.housepropertystore.guice.IHousePropertyFunctionFactory;
 import uk.org.cse.nhm.language.adapt.IAdapterInterceptor;
 import uk.org.cse.nhm.language.adapt.IConverter;
@@ -17,9 +20,6 @@ import uk.org.cse.nhm.language.definition.function.house.XHouseProperty;
 import uk.org.cse.nhm.language.definition.function.num.XHousePropertyNumber;
 import uk.org.cse.nhm.simulator.impl.RequestedHouseProperties;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
-
-import com.google.common.base.Optional;
-import com.google.common.base.Predicate;
 
 public class HousePropertyAdapter extends ReflectingAdapter {
 	private final IHousePropertyFunctionFactory factory;

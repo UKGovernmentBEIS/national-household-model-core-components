@@ -1,6 +1,5 @@
 package uk.org.cse.nhm.language.adapt.impl;
 
-import uk.org.cse.nhm.language.definition.XElement;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -16,6 +15,10 @@ import javax.inject.Named;
 
 import org.apache.commons.lang3.reflect.TypeUtils;
 
+import com.google.common.base.Optional;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
+
 import uk.org.cse.commons.names.IIdentified;
 import uk.org.cse.commons.names.ISettableIdentified;
 import uk.org.cse.commons.names.Name;
@@ -24,10 +27,7 @@ import uk.org.cse.nhm.language.adapt.IAdapter;
 import uk.org.cse.nhm.language.adapt.IAdapterInterceptor;
 import uk.org.cse.nhm.language.adapt.IAdaptingScope;
 import uk.org.cse.nhm.language.adapt.IConverter;
-
-import com.google.common.base.Optional;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
+import uk.org.cse.nhm.language.definition.XElement;
 
 /**
  * An {@link IAdapter} which works by reflecting on its subclasses' methods; any method annotated with

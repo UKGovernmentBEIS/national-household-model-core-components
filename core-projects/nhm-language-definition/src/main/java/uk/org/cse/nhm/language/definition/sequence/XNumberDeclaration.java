@@ -5,6 +5,12 @@ import java.util.Set;
 
 import javax.validation.constraints.NotNull;
 
+import com.google.common.collect.ImmutableSet;
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindNamedArgument;
+import com.larkery.jasb.bind.BindPositionalArgument;
+import com.larkery.jasb.bind.Identity;
+
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
 import uk.org.cse.nhm.language.definition.Doc;
@@ -14,12 +20,6 @@ import uk.org.cse.nhm.language.definition.function.num.IHouseContext;
 import uk.org.cse.nhm.language.definition.function.num.XNumber;
 import uk.org.cse.nhm.language.validate.contents.Declaration;
 import uk.org.cse.nhm.language.validate.contents.ISpecialContentsForValidation;
-
-import com.google.common.collect.ImmutableSet;
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindNamedArgument;
-import com.larkery.jasb.bind.BindPositionalArgument;
-import com.larkery.jasb.bind.Identity;
 
 @Declaration
 @Category(CategoryType.DECLARATIONS)

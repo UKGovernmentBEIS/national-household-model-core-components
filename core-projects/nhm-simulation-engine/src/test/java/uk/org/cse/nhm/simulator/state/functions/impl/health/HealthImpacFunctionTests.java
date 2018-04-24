@@ -1,7 +1,6 @@
 package uk.org.cse.nhm.simulator.state.functions.impl.health;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

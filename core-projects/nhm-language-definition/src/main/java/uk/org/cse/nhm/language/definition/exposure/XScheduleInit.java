@@ -2,11 +2,11 @@ package uk.org.cse.nhm.language.definition.exposure;
 
 import javax.validation.constraints.NotNull;
 
-import uk.org.cse.nhm.language.adapt.impl.Prop;
-import uk.org.cse.nhm.language.definition.Doc;
-
 import com.larkery.jasb.bind.Bind;
 import com.larkery.jasb.bind.BindPositionalArgument;
+
+import uk.org.cse.nhm.language.adapt.impl.Prop;
+import uk.org.cse.nhm.language.definition.Doc;
 
 @Bind("schedule.init")
 @Doc({"This scheduler exposes houses in the group to the action once at the start of the simulation."})

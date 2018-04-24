@@ -6,10 +6,10 @@ import static org.mockito.Mockito.when;
 import java.util.Collections;
 import java.util.List;
 
-import uk.org.cse.nhm.language.builder.batch.inputs.IBatchInputs;
-
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
+
+import uk.org.cse.nhm.language.builder.batch.inputs.IBatchInputs;
 
 abstract public class CombinatorTest {
 

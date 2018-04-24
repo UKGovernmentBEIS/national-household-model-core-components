@@ -8,6 +8,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.base.Optional;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Multimap;
+
 import uk.org.cse.nhm.language.definition.XCaseOtherwise;
 import uk.org.cse.nhm.language.definition.XCaseWhen;
 import uk.org.cse.nhm.language.definition.XElement;
@@ -23,11 +28,6 @@ import uk.org.cse.nhm.language.definition.sequence.XSnapshotAction;
 import uk.org.cse.nhm.language.definition.sequence.XVarSetAction;
 import uk.org.cse.nhm.language.definition.two.actions.XSetHookAction;
 import uk.org.cse.nhm.language.validate.NoCyclesValidatorWithDelegates.IDelegate;
-
-import com.google.common.base.Optional;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Multimap;
 
 /*
  * This is maybe due a rewrite.

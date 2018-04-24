@@ -20,9 +20,11 @@ import uk.org.cse.nhm.energycalculator.api.IHeatingSystem;
 import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
 import uk.org.cse.nhm.energycalculator.api.types.*;
 import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
+import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
 import uk.org.cse.nhm.hom.IHeatProportions;
 import uk.org.cse.nhm.hom.constants.PumpAndFanConstants;
 import uk.org.cse.nhm.hom.emf.technologies.EmitterType;
+import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
 import uk.org.cse.nhm.hom.emf.technologies.ICentralHeatingSystem;
 import uk.org.cse.nhm.hom.emf.technologies.IHeatSource;
@@ -273,6 +275,14 @@ public class CentralHeatingSystemImpl extends SpaceHeaterImpl implements ICentra
 			visitor.visitHeatingSystem(this, heatProportions.spaceHeatingProportion(this));
 			// we need to include the central heating pump
 
+			final double centralHeatingPumpGains;
+			if (getHeatSource().isCommunityHeating()) {
+				/* SAP Table 5a */
+				centralHeatingPumpGains = 0;
+			} else {
+				centralHeatingPumpGains = constants.get(PumpAndFanConstants.CENTRAL_HEATING_PUMP_GAINS);
+			}
+
 			visitor.visitEnergyTransducer(
 					/*
 					BEISDOC
@@ -291,9 +301,8 @@ public class CentralHeatingSystemImpl extends SpaceHeaterImpl implements ICentra
 					new Pump("CH", ServiceType.PRIMARY_SPACE_HEATING,
 					constants.get(PumpAndFanConstants.CENTRAL_HEATING_PUMP_WATTAGE)
 					* (getControls().contains(HeatingSystemControlType.ROOM_THERMOSTAT) ?
-							1 : constants.get(PumpAndFanConstants.NO_ROOM_THERMOSTAT_MULTIPLIER))
-					,
-					constants.get(PumpAndFanConstants.CENTRAL_HEATING_PUMP_GAINS),
+							1 : constants.get(PumpAndFanConstants.NO_ROOM_THERMOSTAT_MULTIPLIER)),
+                             centralHeatingPumpGains,
 							EnergyCalculationStep.PumpsFansAndKeepHot_WaterPump));
 		}
 	}
@@ -469,4 +478,13 @@ public class CentralHeatingSystemImpl extends SpaceHeaterImpl implements ICentra
 		return getHeatSource().getZoneTwoControlParameter(parameters, getControls(), getEmitterType());
 	}
 
+	@Override
+	public FuelType getFuel() {
+		if (getHeatSource() != null) {
+			return getHeatSource().getFuel();
+		} else {
+			return null;
+		}
+
+	}
 } //CentralHeatingSystemImpl

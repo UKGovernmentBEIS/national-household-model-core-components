@@ -6,12 +6,12 @@ import java.util.Random;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableList;
+
 import uk.org.cse.nhm.language.builder.batch.inputs.IBatchInputs;
 import uk.org.cse.nhm.language.builder.batch.inputs.RangeInput;
 import uk.org.cse.nhm.language.builder.batch.inputs.TableInput;
-
-import com.google.common.base.Optional;
-import com.google.common.collect.ImmutableList;
 
 public class RepetitionsInputTest {
 	@Test

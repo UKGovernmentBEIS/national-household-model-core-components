@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.parboiled.common.ImmutableList;
@@ -26,7 +27,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
 
-import org.junit.Assert;
 import uk.org.cse.nhm.spss.values.SpssValueReader;
 import uk.org.cse.stockimport.domain.AdditionalHousePropertiesDTO;
 import uk.org.cse.stockimport.repository.IHouseCaseSources;

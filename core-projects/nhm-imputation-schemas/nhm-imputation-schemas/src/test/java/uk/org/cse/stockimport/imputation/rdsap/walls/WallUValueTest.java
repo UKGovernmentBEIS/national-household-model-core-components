@@ -25,7 +25,7 @@ import static uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band.K;
 import java.util.Collections;
 import java.util.Set;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 import org.junit.Before;
 import org.junit.Test;

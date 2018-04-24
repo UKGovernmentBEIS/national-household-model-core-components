@@ -1,0 +1,28 @@
+(scenario
+ start-date:2014
+ end-date:2014
+ stock-id:../../stock.json
+
+ (template
+  verify-efficiency [@1:system]
+  (assert over:all-houses
+          capture:
+          [
+          (house.survey-code)
+          (house.heating-efficiency of:@system measurement:insitu)
+          (house.energy-use by-service:@system)
+          (house.heating-system-output of:@system)
+          ]
+          (< -0.05
+             (-
+
+              (* (house.heating-efficiency of:@system measurement:insitu)
+                 (house.energy-use by-service:@system))
+
+              (house.heating-system-output of:@system))
+             0.05)))
+
+ (on.dates
+  (scenario-start)
+  (verify-efficiency primaryspaceheating)
+  (verify-efficiency secondaryspaceheating)))

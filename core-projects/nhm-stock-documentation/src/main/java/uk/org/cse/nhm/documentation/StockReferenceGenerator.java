@@ -1,10 +1,10 @@
 package uk.org.cse.nhm.documentation;
 
 import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.io.IOException;
-import java.nio.file.Paths;
+import java.io.PrintWriter;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import org.reflections.Reflections;
 

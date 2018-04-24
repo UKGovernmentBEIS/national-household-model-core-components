@@ -1,12 +1,14 @@
 package uk.org.cse.nhm.clitools;
 
-import uk.org.cse.nhm.clitools.bundle.NationalHouseholdModel;
-import uk.org.cse.nhm.bundle.api.*;
-import uk.org.cse.nhm.bundle.api.IValidationResult.IValidationProblem;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.Files;
-import java.io.IOException;
+
+import uk.org.cse.nhm.bundle.api.ISimulationCallback;
+import uk.org.cse.nhm.bundle.api.IValidationResult;
+import uk.org.cse.nhm.bundle.api.IValidationResult.IValidationProblem;
+import uk.org.cse.nhm.clitools.bundle.NationalHouseholdModel;
 
 public class Runner {
     public static final String USAGE = "<scenario to run> <output zip file>\n\tRuns the given scenario, generating a report in the output zip file.";

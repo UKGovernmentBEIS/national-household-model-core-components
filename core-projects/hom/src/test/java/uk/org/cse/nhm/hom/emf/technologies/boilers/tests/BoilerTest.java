@@ -4,6 +4,7 @@ package uk.org.cse.nhm.hom.emf.technologies.boilers.tests;
 
 import junit.textui.TestRunner;
 import uk.org.cse.nhm.energycalculator.api.IConstants;
+import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoiler;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoilersFactory;
 import uk.org.cse.nhm.hom.emf.technologies.tests.HeatSourceTest;

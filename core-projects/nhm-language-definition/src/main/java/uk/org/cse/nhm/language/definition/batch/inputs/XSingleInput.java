@@ -6,10 +6,10 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import com.larkery.jasb.bind.BindNamedArgument;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Doc;
-
-import com.larkery.jasb.bind.BindNamedArgument;
 
 public abstract class XSingleInput extends XInputs {
 	public static final class P {

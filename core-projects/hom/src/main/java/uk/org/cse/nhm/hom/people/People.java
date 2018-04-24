@@ -1,17 +1,17 @@
 package uk.org.cse.nhm.hom.people;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import org.joda.time.DateTime;
-import org.pojomatic.annotations.AutoProperty;
 import org.pojomatic.Pojomatic;
+import org.pojomatic.annotations.AutoProperty;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import uk.org.cse.nhm.hom.ICopyable;
 import uk.org.cse.nhm.hom.types.SexType;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * People.

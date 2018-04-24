@@ -1,11 +1,11 @@
 package uk.org.cse.nhm.language.definition;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindNamedArgument;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.action.XAction;
 import uk.org.cse.nhm.language.definition.exposure.XExposure;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindNamedArgument;
 
 
 @Doc("This is the final condition for a case, which will be selected if none of the when conditions is appropriate.")

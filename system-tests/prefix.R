@@ -1,8 +1,7 @@
-any.failed <- FALSE
+any.failed <- character()
 
 fail.test <- function(msg) {
-    print(paste("ERROR:", msg))
-    any.failed <<- TRUE
+    any.failed <<- c(any.failed, msg)
 }
 
 trybrary <- function(symbol) {
@@ -18,21 +17,23 @@ trybrary <- function(symbol) {
 trybrary(stringr)
 trybrary(plyr)
 trybrary(data.table)
+trybrary(dplyr)
 
 fail.test.if <- function(cond, msg) {
-    if (cond) {
+    if (any(cond)) {
         fail.test(msg)
     }
 }
 
 fail.test.unless <- function(cond, msg) {
-    if (!cond) {
+    if (any(!cond)) {
         fail.test(msg)
     }
 }
 
 die.if.failed <- function() {
-    if (any.failed) {
+    if (length(any.failed) > 0) {
+        cat(paste(any.failed), collapse="\n")
         quit("no", 1, FALSE)
     } else {
         print("All the tests passed!")

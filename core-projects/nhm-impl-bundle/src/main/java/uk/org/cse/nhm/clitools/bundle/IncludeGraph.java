@@ -5,11 +5,11 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 
-import uk.org.cse.nhm.bundle.api.IIncludeGraph;
-
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.SetMultimap;
+
+import uk.org.cse.nhm.bundle.api.IIncludeGraph;
 
 public class IncludeGraph<P> implements IIncludeGraph<P> {
 	private SetMultimap<P, P> dependencies;

@@ -1,12 +1,12 @@
 package uk.org.cse.nhm.language.definition.action;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindNamedArgument;
+
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.validate.BoundedDouble;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindNamedArgument;
 
 @Doc({"Change the living area fraction of the house; BREDEM uses this to determine the mean internal",
 	"temperature, which is a weighted average of the mean internal temperature of the living area",

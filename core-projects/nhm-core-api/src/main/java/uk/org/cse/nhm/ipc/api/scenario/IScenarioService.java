@@ -7,12 +7,12 @@ import javax.xml.transform.TransformerException;
 
 import org.xml.sax.SAXException;
 
+import com.google.common.base.Optional;
+
 import uk.org.cse.nhm.ipc.api.tasks.IScenarioSnapshot;
 import uk.org.cse.nhm.ipc.api.tasks.sim.IScenario;
 import uk.org.cse.nhm.ipc.api.tasks.sim.IScenarioMetadata;
 import uk.org.cse.nhm.ipc.api.tasks.sim.IScenarioTree;
-
-import com.google.common.base.Optional;
 
 /**
  * 

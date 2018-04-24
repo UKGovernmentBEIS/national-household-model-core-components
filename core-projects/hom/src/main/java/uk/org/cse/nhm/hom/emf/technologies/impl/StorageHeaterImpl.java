@@ -10,11 +10,12 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import uk.org.cse.nhm.energycalculator.api.*;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.Zone2ControlParameter;
 import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
+import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
 import uk.org.cse.nhm.hom.IHeatProportions;
 import uk.org.cse.nhm.hom.constants.adjustments.TemperatureAdjustments;
+import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.IOperationalCost;
 import uk.org.cse.nhm.hom.emf.technologies.IStorageHeater;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
@@ -388,7 +389,7 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 		ID: storage-heater-responsiveness
 		CODSIEB
 		*/
-		switch(calculatorType) {
+		switch(calculatorType.heating) {
 		case BREDEM2012:
 			// Use the override if it has been specified, otherwise fall through to the SAP behaviour.
 			if (isHasResponsivenessOverride()) {
@@ -602,4 +603,8 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 		return Zone2ControlParameter.Three;
 	}
 
+	@Override
+	public FuelType getFuel() {
+		return FuelType.ELECTRICITY;
+	}
 } //StorageHeaterImpl

@@ -3,13 +3,13 @@ package uk.org.cse.nhm.clitools.bundle;
 import java.util.List;
 import java.util.Set;
 
+import com.google.common.base.Optional;
+
 import uk.org.cse.nhm.bundle.api.IDefinition;
 import uk.org.cse.nhm.bundle.api.IIncludeGraph;
 import uk.org.cse.nhm.bundle.api.IValidationResult;
 import uk.org.cse.nhm.ipc.api.tasks.impl.ScenarioSnapshot;
 import uk.org.cse.nhm.language.definition.XElement;
-
-import com.google.common.base.Optional;
 
 class ValidationResult<P> implements IValidationResult<P> {
 	private final boolean isScenario;

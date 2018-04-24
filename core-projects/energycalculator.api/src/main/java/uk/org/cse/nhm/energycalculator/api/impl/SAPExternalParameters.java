@@ -1,14 +1,16 @@
 package uk.org.cse.nhm.energycalculator.api.impl;
 
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
+import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
 
 public class SAPExternalParameters extends ExternalParameters {
 
 	private final double occupancy;
+	private EnergyCalculatorType calcType;
 
-	public SAPExternalParameters(final ElectricityTariffType tariffType, final double floorArea) {
+	public SAPExternalParameters(final EnergyCalculatorType calcType, final ElectricityTariffType tariffType, final double floorArea) {
 		super(tariffType);
+		this.calcType = calcType;
 
 		this.occupancy = SAPOccupancy.calculate(floorArea);
 	}
@@ -62,7 +64,7 @@ public class SAPExternalParameters extends ExternalParameters {
 
 	@Override
 	public EnergyCalculatorType getCalculatorType() {
-		return EnergyCalculatorType.SAP2012;
+		return calcType;
 	}
 
 	@Override

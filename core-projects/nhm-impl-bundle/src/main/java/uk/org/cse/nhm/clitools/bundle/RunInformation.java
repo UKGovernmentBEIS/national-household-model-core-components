@@ -1,7 +1,7 @@
 package uk.org.cse.nhm.clitools.bundle;
 
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 
 import uk.org.cse.nhm.bundle.api.IRunInformation;
 

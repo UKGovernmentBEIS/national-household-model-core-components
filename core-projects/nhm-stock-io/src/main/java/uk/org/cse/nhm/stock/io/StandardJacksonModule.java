@@ -2,11 +2,6 @@ package uk.org.cse.nhm.stock.io;
 
 import org.joda.time.DateTimeZone;
 
-import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
-import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
-import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoilersPackage;
-import uk.org.cse.nhm.hom.util.EObjectSerializer;
-
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,6 +11,11 @@ import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.AbstractModule;
+
+import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
+import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
+import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoilersPackage;
+import uk.org.cse.nhm.hom.util.EObjectSerializer;
 
 /**
  * A module which makes an objectmapper suitable for sending data over the

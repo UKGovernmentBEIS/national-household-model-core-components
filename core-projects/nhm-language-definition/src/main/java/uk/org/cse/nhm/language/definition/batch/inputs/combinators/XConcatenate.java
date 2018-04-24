@@ -2,12 +2,12 @@ package uk.org.cse.nhm.language.definition.batch.inputs.combinators;
 
 import java.util.List;
 
+import com.larkery.jasb.bind.Bind;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.batch.inputs.XInputs;
 import uk.org.cse.nhm.language.definition.batch.inputs.combinators.validation.DelegatePlaceholdersConsistent;
-
-import com.larkery.jasb.bind.Bind;
 
 
 @Bind("concat")

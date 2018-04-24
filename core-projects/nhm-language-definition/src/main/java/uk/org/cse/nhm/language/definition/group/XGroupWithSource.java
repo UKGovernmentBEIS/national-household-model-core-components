@@ -1,9 +1,9 @@
 package uk.org.cse.nhm.language.definition.group;
 
+import com.larkery.jasb.bind.BindNamedArgument;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Doc;
-
-import com.larkery.jasb.bind.BindNamedArgument;
 
 public abstract class XGroupWithSource extends XGroup {
 	public static final class P {

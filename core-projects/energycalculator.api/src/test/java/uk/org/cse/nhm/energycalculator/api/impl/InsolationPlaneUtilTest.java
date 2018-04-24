@@ -1,6 +1,6 @@
 package uk.org.cse.nhm.energycalculator.api.impl;
-import org.junit.Test;
 import org.junit.Assert;
+import org.junit.Test;
 
 public class InsolationPlaneUtilTest {
 	@Test

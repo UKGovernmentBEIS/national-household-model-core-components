@@ -1,7 +1,6 @@
 package uk.org.cse.nhm.bundle.api;
 
 import java.util.Set;
-import java.util.Map;
 
 /**
  * Presentation of an NHM version as an OSGi service.

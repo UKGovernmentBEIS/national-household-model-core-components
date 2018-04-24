@@ -1,12 +1,12 @@
 package uk.org.cse.nhm.clitools;
 
-import uk.org.cse.nhm.language.sexp.Defaults;
-
 import com.larkery.jasb.io.IModel;
 import com.larkery.jasb.io.IModel.IArgument;
 import com.larkery.jasb.io.IModel.IElement;
 import com.larkery.jasb.io.IModel.IInvocationModel;
 import com.larkery.jasb.io.impl.JASB;
+
+import uk.org.cse.nhm.language.sexp.Defaults;
 
 public class Helper {
     public static final String USAGE = "\n\tGenerate an s-expression description of the model language, for emacs";

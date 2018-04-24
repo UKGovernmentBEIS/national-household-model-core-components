@@ -12,15 +12,16 @@ import org.pojomatic.Pojomatic;
 import com.google.common.collect.ImmutableMap;
 
 import uk.org.cse.nhm.NHMException;
-import uk.org.cse.nhm.energycalculator.api.types.DoorType;
+
+import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
 import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
+import uk.org.cse.nhm.hom.components.fabric.types.DoorType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.structure.Door;
 import uk.org.cse.nhm.hom.structure.IWall;
 import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.hom.structure.impl.Elevation;
 import uk.org.cse.nhm.hom.structure.impl.Storey;
-import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
 import uk.org.cse.nhm.simulator.integration.tests.guice.IFunctionAssertion;
 import uk.org.cse.nhm.simulator.integration.tests.guice.IntegrationTestOutput;
 import uk.org.cse.nhm.simulator.let.ILets;
@@ -34,19 +35,19 @@ public class ResetTests extends SimulatorIntegrationTest {
 	@Test
 	public void reducingFloorUValueReducesEnergyUse() throws Exception{
 		final IntegrationTestOutput output = super.runSimulation(
-				dataService, 
+				dataService,
 				loadScenario("resetting/resetFloorsDown.s"),
 				true, Collections.<Class<?>>emptySet());
-		
+
 		for (final IDwelling d : output.state.getDwellings()) {
 			final IFlags f = output.state.get(output.flags, d);
-			
+
 			final double ubefore = f.getRegister("u-before").get();
 			final double uafter = f.getRegister("u-after").get();
-			
+
 			final double before = f.getRegister("energy-before").get();
 			final double after = f.getRegister("energy-after").get();
-			
+
 			if (ubefore < uafter) {
 				Assert.assertTrue("An increase in u-value should increase or not affect energy use", after >= before);
 			} else if (ubefore > uafter) {
@@ -54,7 +55,7 @@ public class ResetTests extends SimulatorIntegrationTest {
 			}
 		}
 	}
-	
+
 	private static final double MAX_DIFFERENCE = 0.1;
 
 	private boolean different(final IPowerTable n, final IPowerTable t) {
@@ -70,12 +71,12 @@ public class ResetTests extends SimulatorIntegrationTest {
 			return false;
 		}
 	}
-	
+
 	@Test
 	@Ignore("This is for debugging")
 	public void resetWithDiffs() throws Exception {
 		super.runSimulation(
-				dataService, 
+				dataService,
 				loadScenario("resetting/resetDiff.s"),
 				true,
 				Collections.<Class<?>>emptySet(), ImmutableMap.<String, IFunctionAssertion>of(
@@ -88,11 +89,11 @@ public class ResetTests extends SimulatorIntegrationTest {
 								final StructureModel now = scope.get(output.structure);
 								final StructureModel then = lets.get("before", IHypotheticalComponentsScope.class)
 										.get().get(output.structure);
-								
+
 								final IPowerTable powerNow = scope.get(output.power);
 								final IPowerTable powerThen = lets.get("before", IHypotheticalComponentsScope.class)
 										.get().get(output.power);
-								
+
 								if (different(powerNow, powerThen)) {
 									if (!s.contains(scope.get(output.basicAttributes).getAacode())) {
 										s.add(scope.get(output.basicAttributes).getAacode());
@@ -105,21 +106,21 @@ public class ResetTests extends SimulatorIntegrationTest {
 						}
 						));
 	}
-	
+
 	private void checkResetDoesNothing(final String scenario) throws Exception {
 		final IntegrationTestOutput output = super.runSimulation(dataService, loadScenario(scenario), true, Collections.<Class<?>>emptySet());
-		
+
 		final Set<String> badCodes = new HashSet<>();
 		double totalError = 0;
 		for (final IDwelling d : output.state.getDwellings()) {
 			final IFlags flags = output.state.get(output.flags, d);
-			
+
 			final Double before = flags.getRegister("new-energy").get();
 			final Double after = flags.getRegister("old-energy").get();
-			
+
 			final double error = Math.abs(before - after) / before;
 			totalError += error;
-			
+
 			if (error > MAX_DIFFERENCE) {
 				String wct = "";
 				final StructureModel sm = output.state.get(output.structure, d);
@@ -135,22 +136,22 @@ public class ResetTests extends SimulatorIntegrationTest {
 						) + wct);
 			}
 		}
-		
+
 		for (final String s : badCodes) {
 			System.out.println(s);
 		}
-		
+
 		System.out.println(badCodes.size());
-		
+
 		final double averageError = totalError / output.state.getDwellings().size();
-		Assert.assertTrue(averageError + " is too big", 
+		Assert.assertTrue(averageError + " is too big",
 				averageError < 0.015);
 		Assert.assertTrue(scenario, badCodes.isEmpty());
-		
+
 		System.out.println(String.format("Average error of %f%% for %s",
 				averageError * 100, scenario));
 	}
-	
+
 	@Test
 	public void resettingWithSapDoesVeryLittle() throws Exception {
 		checkResetDoesNothing("resetting/doResetDoors.s");
@@ -160,7 +161,7 @@ public class ResetTests extends SimulatorIntegrationTest {
 		checkResetDoesNothing("resetting/doResetWindows.s");
 		checkResetDoesNothing("resetting/doResetToSap.s");
 	}
-	
+
 	@Test
 	public void resettingDoorPropertiesWorks() throws Exception {
 		final IntegrationTestOutput output = super.runSimulation(dataService, loadScenario("resetting/resetDoors.s"), true, Collections.<Class<?>>emptySet());
@@ -179,7 +180,7 @@ public class ResetTests extends SimulatorIntegrationTest {
 			}
 		}
 	}
-	
+
 	@Test
 	public void resettingWallUValuesWorks() throws Exception {
 		final IntegrationTestOutput output = super.runSimulation(dataService, loadScenario("resetting/resetWalls.s"), true, Collections.<Class<?>>emptySet());
@@ -222,29 +223,29 @@ public class ResetTests extends SimulatorIntegrationTest {
 							break;
 						}
 						Assert.assertEquals(expecteduValue, wall.getUValue(), 0d);
-					}					
+					}
 				}
 			}
 		}
 	}
-	
+
 	@Test
 	public void canSetInterzoneSpecificHeatTransfer() throws NHMException, InterruptedException {
 		super.runSimulation(
-				dataService, 
-				loadScenario("resetting/doSetInterzoneSpecificHeatTransfer.s"), 
-				true, 
+				dataService,
+				loadScenario("resetting/doSetInterzoneSpecificHeatTransfer.s"),
+				true,
 				Collections.<Class<?>>emptySet()
 			);
 	}
-	
-	
+
+
 	@Test
 	public void canSetSiteExposure() throws NHMException, InterruptedException {
 		super.runSimulation(
-				dataService, 
-				loadScenario("resetting/doSetSiteExposure.s"), 
-				true, 
+				dataService,
+				loadScenario("resetting/doSetSiteExposure.s"),
+				true,
 				Collections.<Class<?>>emptySet()
 			);
 	}

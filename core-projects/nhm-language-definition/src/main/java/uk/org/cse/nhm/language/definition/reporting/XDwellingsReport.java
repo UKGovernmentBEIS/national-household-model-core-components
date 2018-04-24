@@ -5,6 +5,10 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindNamedArgument;
+import com.larkery.jasb.bind.BindRemainingArguments;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
@@ -19,10 +23,6 @@ import uk.org.cse.nhm.language.definition.reporting.modes.XReportMode;
 import uk.org.cse.nhm.language.definition.two.actions.XApplyHookAction;
 import uk.org.cse.nhm.language.definition.two.hooks.XDateHook;
 import uk.org.cse.nhm.language.validate.BatchForbidden;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindNamedArgument;
-import com.larkery.jasb.bind.BindRemainingArguments;
 
 
 @Doc({

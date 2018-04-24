@@ -7,18 +7,17 @@ import java.util.List;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.junit.Assert;
-
 import org.apache.commons.io.IOUtils;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.google.common.collect.ImmutableList;
+import com.larkery.jasb.sexp.SimplePrinter;
 
 import uk.org.cse.nhm.ipc.api.tasks.IScenarioSnapshot;
 import uk.org.cse.nhm.ipc.api.tasks.impl.ScenarioSnapshot;
 import uk.org.cse.nhm.language.sexp.ScenarioParserFactory;
-
-import com.google.common.collect.ImmutableList;
-import com.larkery.jasb.sexp.SimplePrinter;
 
 public class BatchTest {
 	private BatchExpander expander;

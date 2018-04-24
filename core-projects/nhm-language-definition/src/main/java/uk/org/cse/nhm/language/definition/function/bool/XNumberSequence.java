@@ -3,11 +3,11 @@ package uk.org.cse.nhm.language.definition.function.bool;
 import java.util.ArrayList;
 import java.util.List;
 
-import uk.org.cse.nhm.language.definition.Doc;
-import uk.org.cse.nhm.language.definition.function.num.XNumber;
-
 import com.larkery.jasb.bind.Bind;
 import com.larkery.jasb.bind.BindRemainingArguments;
+
+import uk.org.cse.nhm.language.definition.Doc;
+import uk.org.cse.nhm.language.definition.function.num.XNumber;
 
 public abstract class XNumberSequence extends XBoolean {
 	public static final String VALUES = "values";

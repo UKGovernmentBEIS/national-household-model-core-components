@@ -3,10 +3,10 @@ package uk.org.cse.boilermatcher.lucene;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.ImmutableMap;
+
 import uk.org.cse.boilermatcher.sedbuk.IBoilerTable;
 import uk.org.cse.boilermatcher.sedbuk.ISedbuk;
-
-import com.google.common.collect.ImmutableMap;
 
 /**
  * For some boilers we are failing to make a Sedbuk match. However, we have

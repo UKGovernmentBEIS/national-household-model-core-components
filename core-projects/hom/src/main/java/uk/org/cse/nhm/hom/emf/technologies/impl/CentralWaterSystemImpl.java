@@ -9,12 +9,13 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.EcoreUtil;
+
 import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
 import uk.org.cse.nhm.hom.IHeatProportions;
+import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.ICentralWaterHeater;
 import uk.org.cse.nhm.hom.emf.technologies.ICentralWaterSystem;
 import uk.org.cse.nhm.hom.emf.technologies.ISolarWaterHeater;
@@ -709,4 +710,28 @@ public class CentralWaterSystemImpl extends WaterHeaterImpl implements ICentralW
 		return getStore() != null && getStore().getImmersionHeater() != null;
 	}
 
+	@Override
+	public FuelType getFuel() {
+		FuelType type = null;
+		
+		type = getPrimaryFuel();
+		if (type == null) type = getSecondaryFuel();
+		if (type == null && hasImmersionHeater()) type = FuelType.ELECTRICITY;
+		
+		return type;
+	}
+
+	@Override
+	public FuelType getSecondaryFuel() {
+		final ICentralWaterHeater heater = getSecondaryWaterHeater();
+		if (heater == null) return null;
+		return heater.getFuel();
+	}
+	
+	@Override
+	public FuelType getPrimaryFuel() {
+		final ICentralWaterHeater heater = getPrimaryWaterHeater();
+		if (heater == null) return null;
+		return heater.getFuel();
+	}
 } //CentralWaterSystemImpl

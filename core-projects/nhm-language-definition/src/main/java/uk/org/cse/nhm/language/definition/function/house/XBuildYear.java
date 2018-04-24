@@ -1,12 +1,12 @@
 package uk.org.cse.nhm.language.definition.function.house;
 
+import com.larkery.jasb.bind.Bind;
+
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.Obsolete;
 import uk.org.cse.nhm.language.definition.SeeAlso;
 import uk.org.cse.nhm.language.definition.function.bool.house.XBuildYearIs;
 import uk.org.cse.nhm.language.definition.function.num.XHouseNumber;
-
-import com.larkery.jasb.bind.Bind;
 
 
 @Bind("house.buildyear")

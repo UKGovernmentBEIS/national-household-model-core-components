@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import uk.org.cse.nhm.energycalculator.api.IEnergyState;
 import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
+import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.IHeatSource;
 import uk.org.cse.nhm.hom.emf.technologies.IMainWaterHeater;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
@@ -243,5 +244,11 @@ public class MainWaterHeaterImpl extends CentralWaterHeaterImpl implements IMain
 	@Override
 	public boolean isCommunityHeating() {
 		return getHeatSource() != null && getHeatSource().isCommunityHeating();
+	}
+	
+	@Override
+	public FuelType getFuel() {
+		if (getHeatSource() != null) return getHeatSource().getFuel();
+		return null;
 	}
 } //MainWaterHeaterImpl

@@ -1,10 +1,10 @@
 package uk.org.cse.nhm.language.definition.function.num;
 
-import uk.org.cse.nhm.language.definition.Doc;
-import uk.org.cse.nhm.language.definition.action.XForesightLevel;
-
 import com.larkery.jasb.bind.Bind;
 import com.larkery.jasb.bind.BindNamedArgument;
+
+import uk.org.cse.nhm.language.definition.Doc;
+import uk.org.cse.nhm.language.definition.action.XForesightLevel;
 
 @Bind("sim.year")
 @Doc("The current simulation year.")

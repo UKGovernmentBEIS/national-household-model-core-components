@@ -1,14 +1,15 @@
 package uk.ac.ucl.hideem;
 
+import static uk.org.cse.nhm.energycalculator.api.types.RegionType.*;
+
 import java.util.EnumSet;
 import java.util.Set;
 
+import uk.ac.ucl.hideem.IExposure.OccupancyType;
+import uk.ac.ucl.hideem.IExposure.OverheatingAgeBands;
 import uk.ac.ucl.hideem.IExposure.Type;
 import uk.ac.ucl.hideem.Person.Sex;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType;
-import static uk.org.cse.nhm.energycalculator.api.types.RegionType.*;
-import uk.ac.ucl.hideem.IExposure.OccupancyType;
-import uk.ac.ucl.hideem.IExposure.OverheatingAgeBands;
 
 public class Constants {
 	/**

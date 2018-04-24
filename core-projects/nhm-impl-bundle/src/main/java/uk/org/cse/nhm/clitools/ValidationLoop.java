@@ -1,7 +1,6 @@
 package uk.org.cse.nhm.clitools;
 
 import java.io.IOException;
-import java.net.URI;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -18,12 +17,12 @@ import java.util.concurrent.TimeUnit;
 
 import javax.swing.table.AbstractTableModel;
 
-import uk.org.cse.nhm.ipc.api.tasks.IScenarioSnapshot;
-
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.larkery.jasb.sexp.errors.IErrorHandler.IError;
 import com.larkery.jasb.sexp.errors.JasbErrorException;
+
+import uk.org.cse.nhm.ipc.api.tasks.IScenarioSnapshot;
 
 
 public class ValidationLoop extends AbstractTableModel implements Runnable {

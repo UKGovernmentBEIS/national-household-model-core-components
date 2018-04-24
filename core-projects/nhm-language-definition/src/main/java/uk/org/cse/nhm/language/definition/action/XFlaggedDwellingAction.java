@@ -3,12 +3,11 @@ package uk.org.cse.nhm.language.definition.action;
 import java.util.ArrayList;
 import java.util.List;
 
-import uk.org.cse.nhm.language.definition.Doc;
-import uk.org.cse.nhm.language.definition.reporting.two.XReportDefinition;
+import com.larkery.jasb.bind.BindNamedArgument;
 
 import uk.org.cse.commons.Glob;
-
-import com.larkery.jasb.bind.BindNamedArgument;
+import uk.org.cse.nhm.language.definition.Doc;
+import uk.org.cse.nhm.language.definition.reporting.two.XReportDefinition;
 
 @Unsuitability(value = {
 		"lacks a flag specified by test-flags or has a flag forbidden by same",

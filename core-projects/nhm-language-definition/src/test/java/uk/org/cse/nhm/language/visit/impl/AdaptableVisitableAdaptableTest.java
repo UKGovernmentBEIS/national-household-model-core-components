@@ -10,10 +10,10 @@ import java.util.Collections;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.google.common.base.Optional;
+
 import uk.org.cse.nhm.language.adapt.IAdapter;
 import uk.org.cse.nhm.language.adapt.IAdaptingScope;
-
-import com.google.common.base.Optional;
 
 public class AdaptableVisitableAdaptableTest {
 	public static class AdaptableVisitableImpl extends AdaptableVisitable<AdaptableVisitableImpl> {

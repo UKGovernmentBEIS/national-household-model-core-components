@@ -5,8 +5,7 @@ import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
 import uk.org.cse.nhm.energycalculator.api.types.WindowGlazingAirGap;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
-import uk.org.cse.nhm.energycalculator.impl.IWindowUValues;
-import uk.org.cse.nhm.energycalculator.impl.WindowUValues;
+import uk.org.cse.nhm.energycalculator.mode.WindowUValues;
 
 /**
  * The RD SAP window property imputer.
@@ -18,7 +17,7 @@ public class WindowPropertyImputer implements IWindowPropertyImputer {
 	/**
 	 * The sublookup table for u values
 	 */
-	private final IWindowUValues uValues;
+	private final WindowUValues uValues;
 	/**
 	 * Sublookup for frame fractors
 	 */

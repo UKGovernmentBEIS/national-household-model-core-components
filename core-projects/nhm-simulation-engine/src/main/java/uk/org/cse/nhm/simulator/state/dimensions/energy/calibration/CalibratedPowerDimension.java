@@ -5,7 +5,7 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
+import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType.ECCalibration;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.simulator.IProfilingStack;
 import uk.org.cse.nhm.simulator.state.IBranch;
@@ -80,11 +80,9 @@ public class CalibratedPowerDimension extends DerivedDimensionWithCache<IPowerTa
 
     @Override
     public IPowerTable get(final IDwelling instance) {
-    	if (state.get(heatingBehaviour, instance).getEnergyCalculatorType() == EnergyCalculatorType.SAP2012) {
+    	if (cache.isEmpty() || (state.get(heatingBehaviour, instance).getEnergyCalculatorType().calibration == ECCalibration.DISABLED)) {
     		// In SAP 2012 mode, we don't apply the calibrations.
     		return state.get(uncalibrated, instance);
-    	} else if (cache.isEmpty()) {
-            return state.get(uncalibrated, instance);
         } else {
             return super.get(instance);
         }

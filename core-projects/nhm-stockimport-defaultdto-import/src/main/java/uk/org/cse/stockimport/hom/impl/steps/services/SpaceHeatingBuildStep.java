@@ -9,17 +9,7 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.ImmutableSet;
 
 import uk.org.cse.nhm.hom.SurveyCase;
-import uk.org.cse.nhm.hom.emf.technologies.EmitterType;
-import uk.org.cse.nhm.hom.emf.technologies.FuelType;
-import uk.org.cse.nhm.hom.emf.technologies.ICentralHeatingSystem;
-import uk.org.cse.nhm.hom.emf.technologies.ICommunityHeatSource;
-import uk.org.cse.nhm.hom.emf.technologies.IHeatSource;
-import uk.org.cse.nhm.hom.emf.technologies.IIndividualHeatSource;
-import uk.org.cse.nhm.hom.emf.technologies.IRoomHeater;
-import uk.org.cse.nhm.hom.emf.technologies.IStorageHeater;
-import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;
-import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
-import uk.org.cse.nhm.hom.emf.technologies.IWarmAirSystem;
+import uk.org.cse.nhm.hom.emf.technologies.*;
 import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.stockimport.domain.IBasicDTO;
 import uk.org.cse.stockimport.domain.services.ISpaceHeatingDTO;

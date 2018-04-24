@@ -68,7 +68,7 @@ public class SetAdjustmentTermsMeasure extends AbstractMeasure {
                 IEnergyUseAdjuster adjuster = ITechnologiesFactory.eINSTANCE.createEnergyUseAdjuster();
                 adjuster.setAdjustmentType(adjusterType);
                 adjuster.setConstantTerm(constantTermActual);
-                adjuster.setLinearFactor(linearFactorActual);
+                adjuster.setLinearTerm(linearFactorActual);
 
                 modifiable.getEnergyUseAdjusters().add(adjuster);
 

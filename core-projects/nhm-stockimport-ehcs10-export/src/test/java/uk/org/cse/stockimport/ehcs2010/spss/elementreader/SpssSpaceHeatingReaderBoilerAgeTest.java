@@ -3,12 +3,12 @@ package uk.org.cse.stockimport.ehcs2010.spss.elementreader;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.google.common.base.Optional;
 
-import org.junit.Assert;
 import uk.org.cse.nhm.ehcs10.physical.ServicesEntry;
 import uk.org.cse.stockimport.domain.impl.HouseCaseDTO;
 import uk.org.cse.stockimport.domain.services.SpaceHeatingSystemType;

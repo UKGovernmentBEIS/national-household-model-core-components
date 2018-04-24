@@ -1,4 +1,4 @@
-package uk.org.cse.nhm.energycalculator.impl;
+package uk.org.cse.nhm.energycalculator.mode;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.log;

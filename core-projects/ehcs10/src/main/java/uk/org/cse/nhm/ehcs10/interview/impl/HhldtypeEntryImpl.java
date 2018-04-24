@@ -3,21 +3,7 @@ package uk.org.cse.nhm.ehcs10.interview.impl;
 import uk.org.cse.nhm.ehcs10.derived.types.Enum30;
 import uk.org.cse.nhm.ehcs10.derived.types.Enum69;
 import uk.org.cse.nhm.ehcs10.interview.HhldtypeEntry;
-import uk.org.cse.nhm.ehcs10.interview.types.Enum229;
-import uk.org.cse.nhm.ehcs10.interview.types.Enum230;
-import uk.org.cse.nhm.ehcs10.interview.types.Enum453;
-import uk.org.cse.nhm.ehcs10.interview.types.Enum454;
-import uk.org.cse.nhm.ehcs10.interview.types.Enum455;
-import uk.org.cse.nhm.ehcs10.interview.types.Enum456;
-import uk.org.cse.nhm.ehcs10.interview.types.Enum458;
-import uk.org.cse.nhm.ehcs10.interview.types.Enum463;
-import uk.org.cse.nhm.ehcs10.interview.types.Enum464;
-import uk.org.cse.nhm.ehcs10.interview.types.Enum468;
-import uk.org.cse.nhm.ehcs10.interview.types.Enum469;
-import uk.org.cse.nhm.ehcs10.interview.types.Enum470;
-import uk.org.cse.nhm.ehcs10.interview.types.Enum472;
-import uk.org.cse.nhm.ehcs10.interview.types.Enum476;
-import uk.org.cse.nhm.ehcs10.interview.types.Enum477;
+import uk.org.cse.nhm.ehcs10.interview.types.*;
 import uk.org.cse.stockimport.spss.SurveyEntryImpl;
 
 public class HhldtypeEntryImpl extends SurveyEntryImpl implements HhldtypeEntry {

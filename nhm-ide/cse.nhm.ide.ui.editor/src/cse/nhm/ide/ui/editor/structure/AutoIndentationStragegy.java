@@ -1,19 +1,31 @@
 package cse.nhm.ide.ui.editor.structure;
 
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.DocumentCommand;
 import org.eclipse.jface.text.IAutoEditStrategy;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.TextUtilities;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 
+import cse.nhm.ide.ui.editor.NHMEditorPlugin;
+import cse.nhm.ide.ui.editor.preferences.PreferenceConstants;
 import cse.nhm.ide.ui.editor.structure.Indenter.Tabstops;
 
-public class AutoIndentationStragegy implements IAutoEditStrategy {
-
+public class AutoIndentationStragegy implements IAutoEditStrategy, IPropertyChangeListener {
+	boolean enabled = true;
+	
+	public AutoIndentationStragegy() {
+		final IPreferenceStore store = NHMEditorPlugin.getDefault().getPreferenceStore();
+		store.addPropertyChangeListener(this);
+		enabled = store.getBoolean(PreferenceConstants.AUTO_INDENT);
+	}
+	
 	@Override
 	public void customizeDocumentCommand(final IDocument d, final DocumentCommand c) {
-		if (c.length == 0 && c.text != null && TextUtilities.endsWith(d.getLegalLineDelimiters(), c.text) != -1)
+		if (enabled && c.length == 0 && c.text != null && TextUtilities.endsWith(d.getLegalLineDelimiters(), c.text) != -1)
 			autoIndentAfterNewLine(d, c);
 	}
 
@@ -38,5 +50,10 @@ public class AutoIndentationStragegy implements IAutoEditStrategy {
 		} catch (final BadLocationException excp) {
 			// stop work
 		}
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent event) {
+		enabled = NHMEditorPlugin.getDefault().getPreferenceStore().getBoolean(PreferenceConstants.AUTO_INDENT);
 	}
 }

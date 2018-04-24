@@ -1,8 +1,8 @@
 package uk.org.cse.nhm.reporting.repo;
 
-import uk.org.cse.nhm.ipc.api.reporting.IReportLocation;
-
 import com.google.common.base.Optional;
+
+import uk.org.cse.nhm.ipc.api.reporting.IReportLocation;
 
 /**
  * Provides methods to store and access reports

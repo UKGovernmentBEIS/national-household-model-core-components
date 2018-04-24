@@ -109,15 +109,15 @@ public class HotWaterDemand09 implements IEnergyTransducer {
      */
     protected double getHotWaterVolume(final IEnergyCalculatorHouseCase house, final IInternalParameters parameters) {
         final double result;
-	    switch (parameters.getCalculatorType()) {
-	    case SAP2012:
-            /*
-              BEISDOC
-              NAME: SAP Water volume
-              DESCRIPTION: The volume of hot water required by the house according to SAP, calculated as a base amount plus an amount per occupant.
-              TYPE: formula
-              UNIT: litres
-              SAP: (43)
+	switch (parameters.getCalculatorType().hotWater) {
+	case SAP2012:
+	    /*
+	      BEISDOC
+	      NAME: SAP Water volume
+	      DESCRIPTION: The volume of hot water required by the house according to SAP, calculated as a base amount plus an amount per occupant.
+	      TYPE: formula
+	      UNIT: litres
+	      SAP: (43)
               SAP_COMPLIANT: No, see note
               BREDEM_COMPLIANT: N/A - not used
               DEPS: base-hot-water-demand,person-hot-water-demand,occupancy

@@ -1,7 +1,6 @@
 package uk.org.cse.nhm.hom.structure.impl;
 
 import org.junit.Assert;
-
 import org.junit.Before;
 import org.junit.Test;
 

@@ -5,12 +5,6 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
-import uk.org.cse.nhm.language.definition.XElement;
-import uk.org.cse.nhm.language.definition.XScenario;
-import uk.org.cse.nhm.language.parse.LanguageElements;
-import uk.org.cse.nhm.language.validate.NoCyclesValidatorWithDelegates.IDelegate;
-import uk.org.cse.nhm.language.visit.IPropertyVisitor;
-
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -21,6 +15,12 @@ import com.google.common.collect.Multiset;
 import com.larkery.jasb.bind.Bind;
 import com.larkery.jasb.sexp.errors.BasicError;
 import com.larkery.jasb.sexp.errors.IErrorHandler.IError;
+
+import uk.org.cse.nhm.language.definition.XElement;
+import uk.org.cse.nhm.language.definition.XScenario;
+import uk.org.cse.nhm.language.parse.LanguageElements;
+import uk.org.cse.nhm.language.validate.NoCyclesValidatorWithDelegates.IDelegate;
+import uk.org.cse.nhm.language.visit.IPropertyVisitor;
 
 public class ContainmentValidator implements IPropertyVisitor<XElement>, IDelegate {
 	final Multiset<Class<?>> parentTypes = HashMultiset.create();

@@ -149,7 +149,7 @@ find binaries -iname \*.jar -exec cp '-p' '{}' p2/inputs/plugins/ ';'
 if [ ${steps["tests"]} == 1 ]; then
     green "Running system tests"
     pushd system-tests
-    ./run-tests.sh
+    Rscript run-tests.R
     popd
 fi
 
@@ -221,5 +221,7 @@ if [ ! -z "$ERRORS" ]; then
         red "   $e\n"
     done
 else
-    green "IDE built into nhm-ide/nhm-ide/cse.nhm.ide.build/target/products/"
+    if [ ${steps["ide"]} == 1 ]; then
+        green "IDE built into nhm-ide/cse.nhm.ide.build/target/products/"
+    fi
 fi

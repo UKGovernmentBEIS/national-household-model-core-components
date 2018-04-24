@@ -8,15 +8,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import uk.org.cse.nhm.bundle.api.IDefinition;
-import uk.org.cse.nhm.bundle.api.IDefinition.DefinitionType;
-import uk.org.cse.nhm.bundle.api.ILanguage;
-import uk.org.cse.nhm.language.definition.Category;
-import uk.org.cse.nhm.language.definition.Doc;
-import uk.org.cse.nhm.language.definition.Obsolete;
-import uk.org.cse.nhm.language.sexp.Defaults;
-import uk.org.cse.nhm.macros.ExtraMacros;
-
 import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
@@ -31,6 +22,15 @@ import com.larkery.jasb.io.IModel.IElement;
 import com.larkery.jasb.io.IModel.IInvocationModel;
 import com.larkery.jasb.sexp.parse.IMacro;
 import com.larkery.jasb.sexp.parse.MacroModel;
+
+import uk.org.cse.nhm.bundle.api.IDefinition;
+import uk.org.cse.nhm.bundle.api.IDefinition.DefinitionType;
+import uk.org.cse.nhm.bundle.api.ILanguage;
+import uk.org.cse.nhm.language.definition.Category;
+import uk.org.cse.nhm.language.definition.Doc;
+import uk.org.cse.nhm.language.definition.Obsolete;
+import uk.org.cse.nhm.language.sexp.Defaults;
+import uk.org.cse.nhm.macros.ExtraMacros;
 
 public class Language implements ILanguage {
 	enum SType {
@@ -145,7 +145,9 @@ public class Language implements ILanguage {
 			return new S(
 					SType.Argument,
 					argument + ": ",
-					macro.allowedKeys.get(argument),
+					(macro.allowedKeys.containsKey(argument)) ?
+					macro.allowedKeys.get(argument) : macro.requiredKeys.get(argument)
+					,
 					"keywords",
 					0, cursor.left().length(),
 					true);
@@ -281,6 +283,11 @@ public class Language implements ILanguage {
 			// this is a macro which matches where we are
 			// we ought to suggest keywords for it
 			for (final String s : mm.allowedKeys.keySet()) {
+				if (s.startsWith(cursor.left())) {
+					result.add(S.macroKeyword(cursor, mm, s));
+				}
+			}
+			for (final String s : mm.requiredKeys.keySet()) {
 				if (s.startsWith(cursor.left())) {
 					result.add(S.macroKeyword(cursor, mm, s));
 				}
@@ -500,7 +507,8 @@ public class Language implements ILanguage {
 		} else if (this.macroByName.containsKey(cursor.command())) {
 			final MacroModel mm = this.macroByName.get(cursor.command()).iterator().next();
 			if (cursor.argument().name().isPresent()) {
-				return Optional.fromNullable(mm.allowedKeys.get(cursor.argument().name().get()));
+				return Optional.fromNullable(mm.allowedKeys.get(cursor.argument().name().get()))
+						.or(Optional.fromNullable(mm.requiredKeys.get(cursor.argument().name().get())));
 			} else if (cursor.argument().position().isPresent()) {
 				final int i = cursor.argument().position().get();
 				if (i >= mm.allowedPos.size()) {

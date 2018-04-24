@@ -1,5 +1,6 @@
 package uk.org.cse.nhm.simulation.measure.factory;
 
+import java.util.List;
 import java.util.Set;
 
 import com.google.common.base.Optional;
@@ -8,6 +9,7 @@ import com.google.inject.assistedinject.Assisted;
 
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
+import uk.org.cse.nhm.energycalculator.api.types.LightType;
 import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
@@ -20,10 +22,8 @@ import uk.org.cse.nhm.hom.emf.technologies.IAdjuster;
 import uk.org.cse.nhm.hom.emf.technologies.StorageHeaterControlType;
 import uk.org.cse.nhm.hom.emf.technologies.StorageHeaterType;
 import uk.org.cse.nhm.hom.structure.IWall;
-import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.action.measure.adjust.XAdjustNumberOfAirChangeDevices;
 import uk.org.cse.nhm.language.definition.action.measure.adjust.XSetAdjustmentTerms;
-import uk.org.cse.nhm.language.definition.action.measure.lighting.XLightingProportionsMeasure;
 import uk.org.cse.nhm.language.definition.enums.XChangeDirection;
 import uk.org.cse.nhm.simulation.measure.HeatingControlMeasure;
 import uk.org.cse.nhm.simulation.measure.StorageHeaterMeasure;
@@ -224,8 +224,8 @@ public interface IMeasureFactory {
     public AddOrRemoveLoftAction createAddOrRemoveLoftAction(final boolean addLoft);
 
     public LowEnergyLightingMeasure createLowEnergyLightingMeasure(
-            @Assisted("threshold") final double threshold,
-            @Assisted("proportion") final double proportion,
+    		List<LightType> from,
+    		LightType to,
             @Assisted final IComponentsFunction<Number> capex);
 
     public SolarPhotovoltaicMeasure createSolarPhotovoltaicMeasure(
@@ -253,10 +253,12 @@ public interface IMeasureFactory {
             @Assisted("efficiency") final IComponentsFunction<Number> efficiency);
     
     public LightingProportionMeasure createLightingProportionMeasure(
-    		@Assisted("proportionOfCfl") @Prop(XLightingProportionsMeasure.P.proportionOfCfl) final IComponentsFunction<Number> proportionOfCfl,
-			@Assisted("proportionOfIcandescent") @Prop(XLightingProportionsMeasure.P.proportionOfIcandescent) final IComponentsFunction<Number> proportionOfIcandescent,
-			@Assisted("propotionOfHAL") @Prop(XLightingProportionsMeasure.P.proportionOfHAL) final IComponentsFunction<Number> propotionOfHAL,
-			@Assisted("proportionOfLED") @Prop(XLightingProportionsMeasure.P.proportionOfLED) final IComponentsFunction<Number> proportionOfLED
+    		@Assisted("proportionOfCfl") final IComponentsFunction<Number> proportionOfCfl,
+			@Assisted("proportionOfIcandescent") final IComponentsFunction<Number> proportionOfIcandescent,
+			@Assisted("propotionOfHAL") final IComponentsFunction<Number> propotionOfHAL,
+			@Assisted("proportionOfLED") final IComponentsFunction<Number> proportionOfLED,
+			@Assisted("proportionOfLVHAL") final IComponentsFunction<Number> proportionOfLVHAL,
+			@Assisted("proportionOfLA++") final IComponentsFunction<Number> proportionOfLApp
     		);
 
     public SetAdjustmentTermsMeasure createSetAdjustmentTermsMeasure(

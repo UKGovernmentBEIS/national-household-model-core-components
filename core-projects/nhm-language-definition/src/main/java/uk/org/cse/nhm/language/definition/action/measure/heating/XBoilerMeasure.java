@@ -1,13 +1,13 @@
 package uk.org.cse.nhm.language.definition.action.measure.heating;
 
+import com.larkery.jasb.bind.BindNamedArgument;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.enums.XFuelType;
 import uk.org.cse.nhm.language.definition.function.num.XNumber;
 import uk.org.cse.nhm.language.definition.function.num.XNumberConstant;
 import uk.org.cse.nhm.language.validate.efficiency.EfficiencyRequired;
-
-import com.larkery.jasb.bind.BindNamedArgument;
 
 @EfficiencyRequired
 public abstract class XBoilerMeasure extends XWetHeatingMeasure {

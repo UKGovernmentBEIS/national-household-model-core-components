@@ -2,15 +2,15 @@ package uk.org.cse.nhm.language.definition.sequence;
 
 import javax.validation.constraints.NotNull;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindPositionalArgument;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.function.num.XHouseWeight;
 import uk.org.cse.nhm.language.definition.function.num.XNumber;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindPositionalArgument;
 
 @Doc({"A shorthand for using action.case, action.fail, and decrease to simulate a having constrained quantity of something.",
 	  "The consume action computes the value of its second argument, and subtracts that quantity from the variable referred to in its first argument, so long as the effect of this does not make that variable negative.",

@@ -7,14 +7,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.google.common.base.Optional;
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Table;
+
 import uk.org.cse.nhm.spss.SavEntry;
 import uk.org.cse.nhm.spss.SavMetadata;
 import uk.org.cse.nhm.spss.SavVariable;
 import uk.org.cse.nhm.spss.impl.SavInputStreamImpl;
-
-import com.google.common.base.Optional;
-import com.google.common.collect.HashBasedTable;
-import com.google.common.collect.Table;
 
 /**
  * Class to load values from an SPSS file. Wraps the InputStream in

@@ -1,12 +1,12 @@
 package uk.org.cse.nhm.language.definition.function.bool.house;
 
+import com.larkery.jasb.bind.Bind;
+import com.larkery.jasb.bind.BindPositionalArgument;
+
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.enums.XTenureType;
 import uk.org.cse.nhm.language.definition.function.bool.XHouseBoolean;
-
-import com.larkery.jasb.bind.Bind;
-import com.larkery.jasb.bind.BindPositionalArgument;
 
 
 @Bind("house.tenure-is")

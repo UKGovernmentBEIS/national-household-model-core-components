@@ -1,18 +1,20 @@
 package uk.org.cse.nhm.clitools;
 
-import uk.org.cse.nhm.clitools.bundle.NationalHouseholdModel;
-import uk.org.cse.nhm.bundle.api.*;
-import uk.org.cse.nhm.bundle.api.IValidationResult.IValidationProblem;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.Files;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Map;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Collections;
+import java.util.Map;
+
+import uk.org.cse.nhm.bundle.api.IRunInformation;
+import uk.org.cse.nhm.bundle.api.ISimulationCallback;
+import uk.org.cse.nhm.bundle.api.IValidationResult;
+import uk.org.cse.nhm.bundle.api.IValidationResult.IValidationProblem;
+import uk.org.cse.nhm.clitools.bundle.NationalHouseholdModel;
 
 public class SnapshotRunner {
     public static final String USAGE = "<snapshot to run> [<stock-name> <path-to-stock>]+\n\tRuns the given scenario snapshot, generating a report in the results.zip file in the same directory as the snapshot. Any stock whose name is supplied name will be read from the path following the name. Snapshot path and stock paths can be relative to working directory or absolute.";

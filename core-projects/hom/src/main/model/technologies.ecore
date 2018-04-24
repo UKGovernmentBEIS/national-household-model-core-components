@@ -12,6 +12,26 @@
         <details key="documentation" value="Returns sum of {@link IOperationalCost#getAnnualOperationalCost()} for all contained objects which implement&#xA;{@link IOperationalCost}"/>
       </eAnnotations>
     </eOperations>
+    <eOperations name="getPrimaryHeatingFuel" eType="#//FuelType">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="final IPrimarySpaceHeater primary = getPrimarySpaceHeater();&#xA;&#xA;if (primary == null) return null;&#xA;&#xA;return primary.getFuel();"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getSecondaryHeatingFuel" eType="#//FuelType">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="final IRoomHeater secondary = getSecondarySpaceHeater();&#xA;if (secondary == null) return null;&#xA;return secondary.getFuel();"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getPrimaryHotWaterFuel" eType="#//FuelType">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="final ICentralWaterSystem central = getCentralWaterSystem();&#xA;&#xA;if (central == null) return null;&#xA;&#xA;return central.getPrimaryFuel();"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getSecondaryHotWaterFuel" eType="#//FuelType">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="final IWaterHeater secondary = getSecondaryWaterHeater();&#xA;if (secondary == null) return null;&#xA;return secondary.getFuel();"/>
+      </eAnnotations>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="appliances" upperBound="-1"
         eType="#//Appliance" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="lights" upperBound="-1"
@@ -91,6 +111,7 @@
         <details key="documentation" value="The fraction of total light demand that this light will emit"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//LightType"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SpaceHeater" abstract="true">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -522,6 +543,7 @@
     <eLiterals name="Appliance"/>
     <eLiterals name="Cooker"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="LightType" instanceClassName="uk.org.cse.nhm.energycalculator.api.types.LightType"/>
   <eSubpackages name="boilers" nsURI="http://www.cse.org.uk/nhm/schema/emf/technology/boilers/1/"
       nsPrefix="boilers">
     <eClassifiers xsi:type="ecore:EClass" name="Boiler" eSuperTypes="#//IndividualHeatSource #//VisitorAccepter #//FuelAndFlue">

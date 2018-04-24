@@ -4,12 +4,11 @@ package uk.org.cse.nhm.hom.emf.technologies;
 
 import org.eclipse.emf.common.util.EList;
 
-import uk.org.cse.nhm.hom.ICopyable;
-import uk.org.cse.nhm.hom.IHeatProportions;
-
-import uk.org.cse.nhm.hom.emf.technologies.IShower;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+
+import uk.org.cse.nhm.hom.ICopyable;
+import uk.org.cse.nhm.hom.IHeatProportions;
 
 /**
  * <!-- begin-user-doc -->
@@ -377,14 +376,52 @@ public interface ITechnologyModel extends IVisitorAccepter, ICopyable<ITechnolog
 	 * {@link IOperationalCost}
 	 * <!-- end-model-doc -->
 	 * @model kind="operation" required="true"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='if (operationalCostCache == null) {\n\tfinal TreeIterator<EObject> children = eAllContents();\n\tdouble accumulator = 0;\n\twhile (children.hasNext()) {\n\t\tfinal EObject child = children.next();\n\t\tif (child instanceof IOperationalCost) {\n\t\t\taccumulator += ((IOperationalCost)child).getAnnualOperationalCost();\n\t\t}\n\t}\n\toperationalCostCache = accumulator;\n\teAdapters().add(cacheEraser);\n}\n\t\t\nreturn operationalCostCache;'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='if (operationalCostCache == null) {\n\tfinal TreeIterator&lt;EObject&gt; children = eAllContents();\n\tdouble accumulator = 0;\n\twhile (children.hasNext()) {\n\t\tfinal EObject child = children.next();\n\t\tif (child instanceof IOperationalCost) {\n\t\t\taccumulator += ((IOperationalCost)child).getAnnualOperationalCost();\n\t\t}\n\t}\n\toperationalCostCache = accumulator;\n\teAdapters().add(cacheEraser);\n}\n\t\t\nreturn operationalCostCache;'"
 	 * @generated
 	 */
 	double getTotalOperationalCost();
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='final IPrimarySpaceHeater primary = getPrimarySpaceHeater();\n\nif (primary == null) return null;\n\nreturn primary.getFuel();'"
+	 * @generated
+	 */
+	FuelType getPrimaryHeatingFuel();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='final IRoomHeater secondary = getSecondarySpaceHeater();\nif (secondary == null) return null;\nreturn secondary.getFuel();'"
+	 * @generated
+	 */
+	FuelType getSecondaryHeatingFuel();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='final ICentralWaterSystem central = getCentralWaterSystem();\n\nif (central == null) return null;\n\nreturn central.getPrimaryFuel();'"
+	 * @generated
+	 */
+	FuelType getPrimaryHotWaterFuel();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='final IWaterHeater secondary = getSecondaryWaterHeater();\nif (secondary == null) return null;\nreturn secondary.getFuel();'"
+	 * @generated
+	 */
+	FuelType getSecondaryHotWaterFuel();
+
+	/**
 	 * @generated NO
 	 */
 	IHeatProportions getHeatProportions();
+
+	boolean isUsingAssumedElectricSpaceHeater();
 
 } // ITechnologyModel

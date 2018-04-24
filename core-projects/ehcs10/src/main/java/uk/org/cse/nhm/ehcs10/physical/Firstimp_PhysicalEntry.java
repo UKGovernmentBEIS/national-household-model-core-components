@@ -1,18 +1,7 @@
 package uk.org.cse.nhm.ehcs10.physical;
 
 import uk.org.cse.nhm.ehcs10.derived.types.Enum10;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1324;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1326;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1329;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1330;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1333;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1336;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1338;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1343;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1344;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1346;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1349;
-import uk.org.cse.nhm.ehcs10.physical.types.Enum1350;
+import uk.org.cse.nhm.ehcs10.physical.types.*;
 import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 

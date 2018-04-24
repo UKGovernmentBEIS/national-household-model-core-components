@@ -13,4 +13,6 @@ package uk.org.cse.nhm.hom.emf.technologies;
  * @generated
  */
 public interface IPrimarySpaceHeater extends ISpaceHeater {
+
+	FuelType getFuel();
 } // IPrimarySpaceHeater

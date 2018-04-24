@@ -2,11 +2,6 @@ package uk.org.cse.nhm.energycalculator.api.types;
 
 import org.junit.Test;
 
-import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
-import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
-import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
-import uk.org.cse.nhm.energycalculator.api.types.ZoneType;
-
 public class TypesCoveringTest {
 	@SuppressWarnings("unused")
 	@Test

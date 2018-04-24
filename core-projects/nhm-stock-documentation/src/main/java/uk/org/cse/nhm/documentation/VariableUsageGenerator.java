@@ -8,17 +8,15 @@ import java.io.PrintWriter;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.Files;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-
-import net.sf.cglib.asm.Type;
 
 import org.apache.commons.io.IOUtils;
 import org.objectweb.asm.ClassReader;
@@ -28,6 +26,13 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.reflections.Reflections;
 
+import com.google.common.base.Joiner;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSortedSet;
+import com.google.common.collect.Multimap;
+
+import net.sf.cglib.asm.Type;
 import uk.org.cse.nhm.spss.SavVariable;
 import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.domain.IBasicDTO;
@@ -36,12 +41,6 @@ import uk.org.cse.stockimport.domain.schema.DTOField;
 import uk.org.cse.stockimport.repository.IHouseCaseSources;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 import uk.org.cse.stockimport.spss.elementreader.ISpssReader;
-
-import com.google.common.base.Joiner;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSortedSet;
-import com.google.common.collect.Multimap;
 
 /**
  * Finds uses of SPSS variables in the codebase. This is not a lovely bit of code.

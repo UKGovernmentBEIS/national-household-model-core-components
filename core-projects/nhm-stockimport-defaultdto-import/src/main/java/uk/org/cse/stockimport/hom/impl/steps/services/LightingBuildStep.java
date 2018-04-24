@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 
+import uk.org.cse.nhm.energycalculator.api.types.LightType;
 import uk.org.cse.nhm.hom.SurveyCase;
 import uk.org.cse.nhm.hom.emf.technologies.ILight;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;
@@ -97,14 +98,14 @@ public class LightingBuildStep implements ISurveyCaseBuildStep {
 		*/
         if (lowEnergyLightsFraction > ZERO) {
             ILight light = ITechnologiesFactory.eINSTANCE.createLight();
-            light.setEfficiency(ILight.CFL_EFFICIENCY);
+            light.setType(LightType.CFL);
             light.setName(EFFICIENT_LIGHT);
             light.setProportion(lowEnergyLightsFraction);
             technologies.getLights().add(light);
         }
         if (lowEnergyLightsFraction < ONE) {
             ILight light = ITechnologiesFactory.eINSTANCE.createLight();
-            light.setEfficiency(ILight.INCANDESCENT_EFFICIENCY);
+            light.setType(LightType.Incandescent);
             light.setName(STDLIGHT_LIGHT);
             light.setProportion(ONE - lowEnergyLightsFraction);
             technologies.getLights().add(light);

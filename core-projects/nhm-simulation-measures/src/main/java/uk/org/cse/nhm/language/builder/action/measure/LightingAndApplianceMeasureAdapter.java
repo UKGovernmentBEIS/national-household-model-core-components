@@ -1,13 +1,13 @@
 package uk.org.cse.nhm.language.builder.action.measure;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import javax.inject.Inject;
 
-import com.google.inject.assistedinject.Assisted;
-
-import uk.org.cse.commons.names.Name;
+import uk.org.cse.nhm.energycalculator.api.types.LightType;
 import uk.org.cse.nhm.hom.emf.technologies.AdjusterType;
 import uk.org.cse.nhm.hom.emf.technologies.IAdjuster;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;
@@ -26,6 +26,7 @@ import uk.org.cse.nhm.language.definition.action.measure.adjust.XSetAdjustmentTe
 import uk.org.cse.nhm.language.definition.action.measure.lighting.XLightingMeasure;
 import uk.org.cse.nhm.language.definition.action.measure.lighting.XLightingProportionsMeasure;
 import uk.org.cse.nhm.language.definition.enums.XFuelType;
+import uk.org.cse.nhm.language.definition.enums.XLightType;
 import uk.org.cse.nhm.simulation.measure.adjustment.SetAdjustmentTermsMeasure;
 import uk.org.cse.nhm.simulation.measure.factory.IMeasureFactory;
 import uk.org.cse.nhm.simulation.measure.lighting.LightingProportionMeasure;
@@ -44,23 +45,25 @@ public class LightingAndApplianceMeasureAdapter extends ReflectingAdapter {
 	
 	@Adapt(XLightingMeasure.class)
 	public IComponentsAction buildLowEnergyLightingMeasure(
-		final Name id,
-		@Prop(XLightingMeasure.P.threshold) final double threshold,
-		@Prop(XLightingMeasure.P.proportion) final double proportion,
+		@Prop(XLightingMeasure.P.from) final List<XLightType> from,
+		@Prop(XLightingMeasure.P.to) final XLightType to,
 		@Prop(XLightingMeasure.P.capex) final IComponentsFunction<Number> capex) {
-		
-		return factory.createLowEnergyLightingMeasure(threshold, proportion, capex);
+		final List<LightType> mappedTypes = new ArrayList<>();
+		for (final XLightType type : from) mappedTypes.add(MapEnum.lightType(type));
+		return factory.createLowEnergyLightingMeasure(mappedTypes, MapEnum.lightType(to), capex);
 	}
 	
 	@Adapt(XLightingProportionsMeasure.class)
     public LightingProportionMeasure createLightingProportionMeasure(
-    		@Assisted("proportionOfCfl") @Prop(XLightingProportionsMeasure.P.proportionOfCfl) final IComponentsFunction<Number> proportionOfCfl,
-			@Assisted("proportionOfIcandescent") @Prop(XLightingProportionsMeasure.P.proportionOfIcandescent) final IComponentsFunction<Number> proportionOfIcandescent,
-			@Assisted("propotionOfHAL") @Prop(XLightingProportionsMeasure.P.proportionOfHAL) final IComponentsFunction<Number> propotionOfHAL,
-			@Assisted("proportionOfLED") @Prop(XLightingProportionsMeasure.P.proportionOfLED) final IComponentsFunction<Number> proportionOfLED
+    		@Prop(XLightingProportionsMeasure.P.proportionOfCfl) final IComponentsFunction<Number> proportionOfCfl,
+			@Prop(XLightingProportionsMeasure.P.proportionOfIcandescent) final IComponentsFunction<Number> proportionOfIcandescent,
+			@Prop(XLightingProportionsMeasure.P.proportionOfHAL) final IComponentsFunction<Number> propotionOfHAL,
+			@Prop(XLightingProportionsMeasure.P.proportionOfLED) final IComponentsFunction<Number> proportionOfLED,
+			@Prop(XLightingProportionsMeasure.P.proportionOfLVHAL) final IComponentsFunction<Number> proportionOfLVHAl,
+			@Prop(XLightingProportionsMeasure.P.proportionOfAPlusPlus) final IComponentsFunction<Number> proportionOfAPlusPlus
     		){
 				
-		return factory.createLightingProportionMeasure(proportionOfCfl, proportionOfIcandescent, propotionOfHAL, proportionOfLED);
+		return factory.createLightingProportionMeasure(proportionOfCfl, proportionOfIcandescent, propotionOfHAL, proportionOfLED, proportionOfLVHAl, proportionOfAPlusPlus);
 	}
 	
 	@Adapt(XSetAdjustmentTerms.class)

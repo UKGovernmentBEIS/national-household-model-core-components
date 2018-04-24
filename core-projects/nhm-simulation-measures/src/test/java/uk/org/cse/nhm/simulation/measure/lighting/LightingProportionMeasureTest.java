@@ -29,6 +29,8 @@ public class LightingProportionMeasureTest {
 	@Mock private IComponentsFunction<Number> proportionOfIcandescent;
 	@Mock private IComponentsFunction<Number> propotionOfHAL;
 	@Mock private IComponentsFunction<Number> proportionOfLED;
+	@Mock private IComponentsFunction<Number> proportionOfLVHal;
+	@Mock private IComponentsFunction<Number> proportionOfAPlusPlus;
 		
 	@Mock private ITechnologyModel techModel;
 	@Mock private StructureModel strModel;
@@ -40,7 +42,9 @@ public class LightingProportionMeasureTest {
 	    ISettableComponentsScope scope = Util.mockComponents(Util.getMockDimensions(), strModel, techModel);
 	    
 		final LightingProportionMeasure measure = new LightingProportionMeasure(proportionOfCfl,
-				proportionOfIcandescent, propotionOfHAL, proportionOfLED, techDimension);
+				proportionOfIcandescent, propotionOfHAL, proportionOfLED, 
+				proportionOfLVHal, proportionOfAPlusPlus,
+				techDimension);
 		
 		when(scope.get(techDimension)).thenReturn(techModel);
 		when(techModel.getLights()).thenReturn(lights);
@@ -49,7 +53,11 @@ public class LightingProportionMeasureTest {
 		when(proportionOfIcandescent.compute(scope, lets)).thenReturn(.25);
 		when(propotionOfHAL.compute(scope, lets)).thenReturn(.25);
 		when(proportionOfLED.compute(scope, lets)).thenReturn(.25);
-				
+		when(propotionOfHAL.compute(scope, lets)).thenReturn(0d);
+		when(proportionOfAPlusPlus.compute(scope, lets)).thenReturn(0d);
+		
 		measure.apply(scope, lets);
+		
+		org.junit.Assert.assertTrue(lights.size() == 4);
 	}
 }

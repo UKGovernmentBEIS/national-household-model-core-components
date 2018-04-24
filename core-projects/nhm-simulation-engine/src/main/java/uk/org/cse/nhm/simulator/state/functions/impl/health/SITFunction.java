@@ -7,6 +7,8 @@ import javax.inject.Inject;
 
 import org.joda.time.DateTime;
 
+import com.google.common.collect.ImmutableSet;
+
 import uk.ac.ucl.hideem.IHealthModule;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
 import uk.org.cse.nhm.language.definition.function.num.XEfficiencyMeasurement;
@@ -17,8 +19,6 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.dimensions.energy.IPowerTable;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.HeatingEfficiencyFunction;
-
-import com.google.common.collect.ImmutableSet;
 
 public class SITFunction extends AbstractNamed implements IComponentsFunction<Number> {
 	private final IDimension<IPowerTable> energy;

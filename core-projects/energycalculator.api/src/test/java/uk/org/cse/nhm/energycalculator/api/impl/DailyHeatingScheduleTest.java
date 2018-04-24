@@ -4,8 +4,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import uk.org.cse.nhm.energycalculator.api.impl.DailyHeatingSchedule;
-
 /**
  * Tests the behaviour of the {@link DailyHeatingSchedule}, using a heating profile that looks like this:
  *
