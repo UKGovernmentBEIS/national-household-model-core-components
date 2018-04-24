@@ -6,8 +6,6 @@ import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
 
-import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.LightType;
@@ -17,6 +15,7 @@ import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
 import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
 import uk.org.cse.nhm.energycalculator.api.types.WindowGlazingAirGap;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.constants.ApplianceConstants09;
 import uk.org.cse.nhm.energycalculator.constants.EnergyCalculatorConstants;
 import uk.org.cse.nhm.energycalculator.constants.GainsConstants;
@@ -40,7 +39,18 @@ import uk.org.cse.nhm.language.definition.action.XHeatingTemperaturesAction.XMon
 import uk.org.cse.nhm.language.definition.action.XSetSiteExposureAction;
 import uk.org.cse.nhm.language.definition.action.measure.insulation.XWallInsulationMeasure.XWallInsulationType;
 import uk.org.cse.nhm.language.definition.context.XEnergyConstantsContext.XEnergyConstantType;
-import uk.org.cse.nhm.language.definition.enums.*;
+import uk.org.cse.nhm.language.definition.enums.XBuiltFormType;
+import uk.org.cse.nhm.language.definition.enums.XEnergyCalculationStep;
+import uk.org.cse.nhm.language.definition.enums.XEnergyCalculatorType;
+import uk.org.cse.nhm.language.definition.enums.XFrameType;
+import uk.org.cse.nhm.language.definition.enums.XFuelType;
+import uk.org.cse.nhm.language.definition.enums.XGlazingType;
+import uk.org.cse.nhm.language.definition.enums.XLightType;
+import uk.org.cse.nhm.language.definition.enums.XMorphologyType;
+import uk.org.cse.nhm.language.definition.enums.XRegionType;
+import uk.org.cse.nhm.language.definition.enums.XTenureType;
+import uk.org.cse.nhm.language.definition.enums.XWindowGlazingAirGap;
+import uk.org.cse.nhm.language.definition.enums.XWindowInsulationType;
 
 public class MapEnum {
 	@Retention(RetentionPolicy.RUNTIME)

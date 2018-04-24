@@ -14,20 +14,29 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 
-import uk.org.cse.nhm.energycalculator.api.*;
+import uk.org.cse.nhm.energycalculator.api.IConstants;
+import uk.org.cse.nhm.energycalculator.api.IEnergyCalculationResult;
+import uk.org.cse.nhm.energycalculator.api.IEnergyCalculationResultWithSteps;
+import uk.org.cse.nhm.energycalculator.api.IEnergyCalculationSteps;
+import uk.org.cse.nhm.energycalculator.api.IEnergyCalculator;
+import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorHouseCase;
+import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
+import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
+import uk.org.cse.nhm.energycalculator.api.IEnergyState;
+import uk.org.cse.nhm.energycalculator.api.ISeasonalParameters;
+import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
+import uk.org.cse.nhm.energycalculator.api.IWeather;
 import uk.org.cse.nhm.energycalculator.api.impl.BredemExternalParameters;
 import uk.org.cse.nhm.energycalculator.api.impl.DailyHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.impl.SAPExternalParameters;
-
-import uk.org.cse.nhm.energycalculator.api.types.*;
-
+import uk.org.cse.nhm.energycalculator.api.impl.SAPOccupancy;
+import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
+import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
+import uk.org.cse.nhm.energycalculator.api.types.MonthType;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
-import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
-import uk.org.cse.nhm.energycalculator.impl.BredemSeasonalParameters;
-import uk.org.cse.nhm.energycalculator.impl.SAPSeasonalParameters;
-
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.impl.BREDEMHeatingSeasonalParameters;
 import uk.org.cse.nhm.energycalculator.impl.SAPHeatingSeasonalParameters;
 import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;

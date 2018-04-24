@@ -50,7 +50,7 @@ public class SAPUValuesTest {
 	private void assertUpperExternalFloor(final double expected, final SAPAgeBandValue.Band ageBand, final double insulationThickness) {
 		Assert.assertEquals("Non-ground floor u-value didn't match.",
 				expected,
-				SAPUValues.Floors.get(
+				SAPTables.Floors.get(
 						false,
 						false,
 						1,

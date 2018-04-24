@@ -191,8 +191,18 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 
 			if (includedAreas.contains(type)) {
 				totalA += area;
-
-				final double overrideU = calculatorType.uvalues.getFloor(uValue, type, isGroundFloor, area, exposedPerimeter, wallThickness, groundFloorConstructionType, insulationThickness, ageBand, country);
+				
+				final double overrideU = calculatorType.uvalues.
+						getFloor(uValue, 
+								type == AreaType.PartyFloor,
+							    type == AreaType.BasementFloor || type == AreaType.GroundFloor, 
+							    area,
+							    exposedPerimeter,
+							    wallThickness,
+							    groundFloorConstructionType,
+							    insulationThickness,
+							    ageBand,
+							    country);
 
 				totalU += overrideU * area;
 

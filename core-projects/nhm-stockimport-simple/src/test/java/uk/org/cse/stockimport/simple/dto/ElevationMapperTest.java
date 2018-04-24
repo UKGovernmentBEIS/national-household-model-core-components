@@ -11,9 +11,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 import com.google.common.base.Optional;
 import com.google.common.collect.Table;
 
+import uk.org.cse.nhm.energycalculator.api.types.DoorType;
 import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
-import uk.org.cse.nhm.hom.components.fabric.types.DoorType;
 import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
 import uk.org.cse.nhm.stockimport.simple.dto.MappableDTOReader;
 import uk.org.cse.stockimport.domain.IBasicDTO;

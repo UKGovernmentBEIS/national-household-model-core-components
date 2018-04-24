@@ -88,6 +88,8 @@ final class Visitor implements IEnergyCalculatorVisitor {
 	private final Country country;
 	private final Band band;
 
+	private ThermalMassLevel bestThermalMassLevel;
+
 	public static Visitor create(final IConstants constants, final IEnergyCalculatorParameters parameters, final int buildYear, final Country country, final List<IEnergyTransducer> defaultTransducers) {
 		return new Visitor(constants, parameters, defaultTransducers, country, SAPAgeBandValue.fromYear(buildYear, country).getName());
 	}
@@ -199,7 +201,7 @@ final class Visitor implements IEnergyCalculatorVisitor {
 		NOTES: Some doors may be omitted if the total area of doors is greater than the area allowed by the openingProportion.
 		CODSIEB
 		*/
-		visitArea(AreaType.Door, area, mode.uvalues.getOutsideDoor(uValue, band, country));
+		visitArea(doorType.getAreaType(), area, mode.uvalues.getOutsideDoor(uValue, band, country));
 	}
 
 	@Override
@@ -315,7 +317,16 @@ final class Visitor implements IEnergyCalculatorVisitor {
 		visitArea(
 				type,
 				area,
-				mode.uvalues.getFloor(uValue, type, isGroundFloor, area, exposedPerimeter, wallThickness, groundFloorConstructionType, floorInsulationThickness, band, country));
+				mode.uvalues.getFloor(uValue, 
+						type == AreaType.PartyFloor,
+					    type == AreaType.BasementFloor || type == AreaType.GroundFloor, 
+					    area,
+					    exposedPerimeter,
+					    wallThickness,
+					    groundFloorConstructionType,
+					    floorInsulationThickness,
+					    band,
+					    country));
 	}
 
 	public void visitArea(final AreaType type, final double area, final double uValue) {
