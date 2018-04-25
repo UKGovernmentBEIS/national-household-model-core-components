@@ -12,12 +12,11 @@ expected <- read.csv("./expectations.tab", sep="\t") %>%
     select(property, variable, expectation)
 
 joined <- full_join(model.out, expected, by=c("property", "variable")) %>%
-    filter(expectation != actual)
+    filter(expectation != actual) %>%
+    arrange(property, variable)
 
 print(joined)
 
 fail.test.if(nrow(joined) > 0,
-             sprintf("Differences in steps for %s",
-                     paste0(collapse=", ",
-                            sprintf("%s %s %s %s", joined$property, joined$variable,
-                                    joined$expectation, joined$value))))
+             with(joined,
+                  sprintf("%-10s %-6s %8.1f vs %-8.1f", property, variable, expectation, actual)))

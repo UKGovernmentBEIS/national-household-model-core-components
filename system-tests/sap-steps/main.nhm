@@ -243,7 +243,7 @@
 
    ;; Step 210 doesn't exist in the SAP worksheet
 
-   (mean-column name: v211 value: (house.energy-use by-service: MainSpaceHeating)) ; Space heating fuel (main heating system 1 -month
+   (mean-column name: v211 value: (house.energy-use by-service: PrimarySpaceHeating)) ; Space heating fuel (main heating system 1 -month
 
    ;; Step 212 doesn't exist in the SAP worksheet
 
