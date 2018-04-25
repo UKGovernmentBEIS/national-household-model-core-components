@@ -6,16 +6,13 @@ model.out <- load.probe("sap-steps") %>%
     gather(variable, actual, starts_with("v")) %>%
     select(property, variable, actual)
 
-expected <- read.csv("./expectations.tab", sep="\t") %>%
-    mutate(property = gsub(".+-(.+)$", "\\1", aacode)) %>%
-    gather(variable, expectation, starts_with("v")) %>%
-    select(property, variable, expectation)
+expected <- read.csv("./expectations.tab", sep="\t")
+## in case it's actually now more correct
+write.table(model.out, "./actuals.tab", sep="\t", row.names = FALSE, col.names = TRUE)
 
 joined <- full_join(model.out, expected, by=c("property", "variable")) %>%
     filter(expectation != actual) %>%
     arrange(property, variable)
-
-print(joined)
 
 fail.test.if(nrow(joined) > 0,
              with(joined,
