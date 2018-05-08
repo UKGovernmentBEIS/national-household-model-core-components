@@ -23,73 +23,77 @@ import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class ResetRoofsAction extends AbstractNamed implements IComponentsAction {
-	private final IDimension<StructureModel> structureDimension;
-	private final IComponentsFunction<Number> uValue;
-	
-	private final RoofPropertyFunction floorProperties;
-	
-	/**
-	 * A helper to work out the new properties for a given storey / floor.
-	 * @author hinton
-	 *
-	 */
-	class RoofPropertyFunction extends AbstractNamed implements IComponentsFunction<Number> {
-		@Override
-		public Number compute(final IComponentsScope scope, final ILets lets) {
-			final Storey s = lets.get(ResetFloorsAction.STOREY_SCOPE_KEY, Storey.class).get();
-			
-			return uValue == null ? s.getCeilingUValue() : uValue.compute(scope, lets);
-		}
 
-		@Override
-		public Set<IDimension<?>> getDependencies() {
-			return Collections.emptySet();
-		}
+    private final IDimension<StructureModel> structureDimension;
+    private final IComponentsFunction<Number> uValue;
 
-		@Override
-		public Set<DateTime> getChangeDates() {
-			return Collections.emptySet();
-		}
-	}
-	
-	@AssistedInject
-	public ResetRoofsAction(
-			final IDimension<StructureModel> structureDimension,
-			@Assisted("uValue") final Optional<IComponentsFunction<Number>> uValue
-			) {
-		this.structureDimension = structureDimension;
-		this.uValue = uValue.orNull();
-		this.floorProperties = new RoofPropertyFunction();
-	}	
-	
-	@Override
-	public StateChangeSourceType getSourceType() {
-		return StateChangeSourceType.ACTION;
-	}
+    private final RoofPropertyFunction floorProperties;
 
-	@Override
-	public boolean apply(final ISettableComponentsScope scope, final ILets lets) throws NHMException {
-		scope.modify(structureDimension, new IModifier<StructureModel>(){
-			@Override
-			public boolean modify(final StructureModel modifiable) {
-				for (final Storey storey : modifiable.getStoreys()) {
-					final Number result = 
-							floorProperties.compute(scope, 
-									lets.withBinding(ResetFloorsAction.STOREY_SCOPE_KEY, storey));
-					storey.setCeilingUValue(result.doubleValue());
-				}
-				return true;
-			}
-		});
-		return true;
-	}
+    /**
+     * A helper to work out the new properties for a given storey / floor.
+     *
+     * @author hinton
+     *
+     */
+    class RoofPropertyFunction extends AbstractNamed implements IComponentsFunction<Number> {
 
-	@Override
-	public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
-		return true;
-	}
-	@Override
-	public boolean isAlwaysSuitable() {
-		return true;
-	}
+        @Override
+        public Number compute(final IComponentsScope scope, final ILets lets) {
+            final Storey s = lets.get(ResetFloorsAction.STOREY_SCOPE_KEY, Storey.class).get();
+
+            return uValue == null ? s.getCeilingUValue() : uValue.compute(scope, lets);
+        }
+
+        @Override
+        public Set<IDimension<?>> getDependencies() {
+            return Collections.emptySet();
+        }
+
+        @Override
+        public Set<DateTime> getChangeDates() {
+            return Collections.emptySet();
+        }
+    }
+
+    @AssistedInject
+    public ResetRoofsAction(
+            final IDimension<StructureModel> structureDimension,
+            @Assisted("uValue") final Optional<IComponentsFunction<Number>> uValue
+    ) {
+        this.structureDimension = structureDimension;
+        this.uValue = uValue.orNull();
+        this.floorProperties = new RoofPropertyFunction();
+    }
+
+    @Override
+    public StateChangeSourceType getSourceType() {
+        return StateChangeSourceType.ACTION;
+    }
+
+    @Override
+    public boolean apply(final ISettableComponentsScope scope, final ILets lets) throws NHMException {
+        scope.modify(structureDimension, new IModifier<StructureModel>() {
+            @Override
+            public boolean modify(final StructureModel modifiable) {
+                for (final Storey storey : modifiable.getStoreys()) {
+                    final Number result
+                            = floorProperties.compute(scope,
+                                    lets.withBinding(ResetFloorsAction.STOREY_SCOPE_KEY, storey));
+                    storey.setCeilingUValue(result.doubleValue());
+                }
+                return true;
+            }
+        });
+        return true;
+    }
+
+    @Override
+    public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
+        return true;
+    }
+
+    @Override
+    public boolean isAlwaysSuitable() {
+        return true;
+    }
 }

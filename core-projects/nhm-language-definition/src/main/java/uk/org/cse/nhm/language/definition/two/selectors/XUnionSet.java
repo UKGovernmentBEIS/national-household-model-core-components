@@ -12,20 +12,22 @@ import uk.org.cse.nhm.language.definition.Doc;
 @Bind("union")
 @Doc("A set of houses which is computed by taking the union of some other sets.")
 public class XUnionSet extends XSetOfHouses {
-	private List<XSetOfHouses> contents = new ArrayList<>();
 
-	public static class P {
-		public static final String contents = "contents";
-	}
-	
-	@Prop(P.contents)
-	@Doc("The sets to take the union of; when this set is used, each of these sets will be sampled in order and combined")
-	@BindRemainingArguments
-	public List<XSetOfHouses> getContents() {
-		return contents;
-	}
+    private List<XSetOfHouses> contents = new ArrayList<>();
 
-	public void setContents(final List<XSetOfHouses> contents) {
-		this.contents = contents;
-	}
+    public static class P {
+
+        public static final String contents = "contents";
+    }
+
+    @Prop(P.contents)
+    @Doc("The sets to take the union of; when this set is used, each of these sets will be sampled in order and combined")
+    @BindRemainingArguments
+    public List<XSetOfHouses> getContents() {
+        return contents;
+    }
+
+    public void setContents(final List<XSetOfHouses> contents) {
+        this.contents = contents;
+    }
 }

@@ -15,26 +15,27 @@ import uk.org.cse.nhm.simulator.main.ISimulator;
 import uk.org.cse.nhm.simulator.state.ICanonicalState;
 
 public class GlobalAccountsReport implements ISimulationStepListener {
-	private final ICanonicalState state;
-	private final ILogEntryHandler loggingService;
 
-	@Inject
-	public GlobalAccountsReport(
-			ISimulator simulator, 
-			ICanonicalState state, 
-			ILogEntryHandler loggingService) {
-		this.state = state;
-		this.loggingService = loggingService;
-		simulator.addSimulationStepListener(this);
-	}
+    private final ICanonicalState state;
+    private final ILogEntryHandler loggingService;
 
-	@Override
-	public void simulationStepped(DateTime dateOfStep, DateTime nextDate, boolean isFinalStep) throws NHMException {
-		Builder<String, Double> accountBalances = ImmutableMap.builder();
-		for (String account : state.getGlobals().getGlobalAccountNames()) {
-			accountBalances.put(account, state.getGlobals().getGlobalAccount(account).getBalance());
-		}
+    @Inject
+    public GlobalAccountsReport(
+            ISimulator simulator,
+            ICanonicalState state,
+            ILogEntryHandler loggingService) {
+        this.state = state;
+        this.loggingService = loggingService;
+        simulator.addSimulationStepListener(this);
+    }
 
-		loggingService.acceptLogEntry(new GlobalAccountsLogEntry(dateOfStep, accountBalances.build()));
-	}
+    @Override
+    public void simulationStepped(DateTime dateOfStep, DateTime nextDate, boolean isFinalStep) throws NHMException {
+        Builder<String, Double> accountBalances = ImmutableMap.builder();
+        for (String account : state.getGlobals().getGlobalAccountNames()) {
+            accountBalances.put(account, state.getGlobals().getGlobalAccount(account).getBalance());
+        }
+
+        loggingService.acceptLogEntry(new GlobalAccountsLogEntry(dateOfStep, accountBalances.build()));
+    }
 }

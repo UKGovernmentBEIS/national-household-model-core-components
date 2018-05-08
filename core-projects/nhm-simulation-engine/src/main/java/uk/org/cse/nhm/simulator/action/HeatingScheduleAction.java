@@ -12,25 +12,26 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.dimensions.behaviour.IHeatingBehaviour;
 
 public class HeatingScheduleAction extends AbstractHeatingAction {
-	private final IHeatingSchedule schedule;
 
-	@Inject
-	public HeatingScheduleAction(
-			final IDimension<IHeatingBehaviour> heatingDimension,
-			@Assisted final IHeatingSchedule schedule) {
-		super(heatingDimension);
-		this.schedule = schedule;
-	}
+    private final IHeatingSchedule schedule;
 
-	@Override
-	protected void doApply(final ISettableComponentsScope scope, final ILets lets) {
-		scope.modify(heatingDimension, new IModifier<IHeatingBehaviour>(){
+    @Inject
+    public HeatingScheduleAction(
+            final IDimension<IHeatingBehaviour> heatingDimension,
+            @Assisted final IHeatingSchedule schedule) {
+        super(heatingDimension);
+        this.schedule = schedule;
+    }
 
-			@Override
-			public boolean modify(final IHeatingBehaviour current) {
-				current.setHeatingSchedule(schedule);
-				return true;
-			}
-		});
-	}
+    @Override
+    protected void doApply(final ISettableComponentsScope scope, final ILets lets) {
+        scope.modify(heatingDimension, new IModifier<IHeatingBehaviour>() {
+
+            @Override
+            public boolean modify(final IHeatingBehaviour current) {
+                current.setHeatingSchedule(schedule);
+                return true;
+            }
+        });
+    }
 }

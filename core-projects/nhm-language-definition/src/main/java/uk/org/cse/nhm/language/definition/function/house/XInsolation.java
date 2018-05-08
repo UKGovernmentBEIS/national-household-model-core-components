@@ -10,7 +10,9 @@ import uk.org.cse.nhm.language.definition.function.num.XHouseNumber;
 @Bind("house.insolation")
 @Doc("The total annual solar insolation per square meter for the house under the current weather conditions, in kWh.")
 public class XInsolation extends XHouseNumber {
+
     public static final class P {
+
         public static final String orientation = "orientation";
         public static final String inclination = "inclination";
     }

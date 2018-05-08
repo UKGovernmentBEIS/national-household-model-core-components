@@ -57,16 +57,16 @@ public class SpssElevationReaderTest extends Mockito {
 
     @Mock
     IHouseCaseSourcesRespository<Object> iteratorProvider;
-    
+
     /**
      * TODO.
-     * 
+     *
      * @throws java.lang.Exception
      * @since 0.0.1-SNAPSHOT
      */
     @Before
     public void setUp() throws Exception {
-        when(itrFactory.build(ImmutableSet.<Class<?>> of(
+        when(itrFactory.build(ImmutableSet.<Class<?>>of(
                 Physical_09Plus10EntryImpl.class,
                 ElevateEntryImpl.class,
                 FlatdetsEntryImpl.class,
@@ -76,7 +76,8 @@ public class SpssElevationReaderTest extends Mockito {
     }
 
     /**
-     * Test method for {@link uk.org.cse.stockimport.ehcs2010.spss.elementreader.SpssElevationReader#buildElevationsForHouse(java.lang.String)}.
+     * Test method for
+     * {@link uk.org.cse.stockimport.ehcs2010.spss.elementreader.SpssElevationReader#buildElevationsForHouse(java.lang.String)}.
      */
     @Ignore
     @Test
@@ -85,7 +86,8 @@ public class SpssElevationReaderTest extends Mockito {
     }
 
     /**
-     * Test method for {@link uk.org.cse.stockimport.ehcs2010.spss.elementreader.SpssElevationReader#addWindowConstructionData(uk.org.cse.stockimport.domain.geometry.IElevationDTO, uk.org.cse.nhm.ehcs10.derived.Physical_09Plus10Entry)}.
+     * Test method for
+     * {@link uk.org.cse.stockimport.ehcs2010.spss.elementreader.SpssElevationReader#addWindowConstructionData(uk.org.cse.stockimport.domain.geometry.IElevationDTO, uk.org.cse.nhm.ehcs10.derived.Physical_09Plus10Entry)}.
      */
     @Test
     public void testAddWindowConstructionData() {
@@ -115,7 +117,8 @@ public class SpssElevationReaderTest extends Mockito {
     }
 
     /**
-     * Test method for {@link uk.org.cse.stockimport.ehcs2010.spss.elementreader.SpssElevationReader#calculateGlazingPercentage(uk.org.cse.nhm.ehcs10.derived.types.Enum135, uk.org.cse.nhm.ehcs10.derived.types.Enum124)}.
+     * Test method for
+     * {@link uk.org.cse.stockimport.ehcs2010.spss.elementreader.SpssElevationReader#calculateGlazingPercentage(uk.org.cse.nhm.ehcs10.derived.types.Enum135, uk.org.cse.nhm.ehcs10.derived.types.Enum124)}.
      */
     @Test
     public void testCalculateGlazingPercentage() {
@@ -129,7 +132,8 @@ public class SpssElevationReaderTest extends Mockito {
     }
 
     /**
-     * Test method for {@link uk.org.cse.stockimport.ehcs2010.spss.elementreader.SpssElevationReader#addDoorConstructionData(uk.org.cse.stockimport.domain.geometry.IElevationDTO, java.util.List)}.
+     * Test method for
+     * {@link uk.org.cse.stockimport.ehcs2010.spss.elementreader.SpssElevationReader#addDoorConstructionData(uk.org.cse.stockimport.domain.geometry.IElevationDTO, java.util.List)}.
      */
     @Test
     public void testAddDoorConstructionDataBuildTheCorrectNumberOfDoorsForElevations() {
@@ -161,7 +165,7 @@ public class SpssElevationReaderTest extends Mockito {
         final IElevationDTO frontElevatioDTO = mock(IElevationDTO.class);
         when(frontElevatioDTO.getElevationType()).thenReturn(ElevationType.FRONT);
         elevationReader.addDoorConstructionData(frontElevatioDTO, caseDoorEntries);
-        
+
         verify(frontElevatioDTO).addDoors(SpssElevationReader.frameTypeConversion.get(Enum1289.Metal), numMetalDoors);
         verify(frontElevatioDTO).addDoors(SpssElevationReader.frameTypeConversion.get(Enum1289.UPVC), numUpvcDoors);
         verify(frontElevatioDTO).addDoors(SpssElevationReader.frameTypeConversion.get(Enum1289.Wood), numWoodDoors);
@@ -176,7 +180,8 @@ public class SpssElevationReaderTest extends Mockito {
     }
 
     /**
-     * Test method for {@link uk.org.cse.stockimport.ehcs2010.spss.elementreader.SpssElevationReader#addWallConstructionData(uk.org.cse.stockimport.domain.geometry.IElevationDTO, uk.org.cse.nhm.ehcs10.derived.types.Enum146, uk.org.cse.nhm.ehcs10.physical.ElevateEntry)}.
+     * Test method for
+     * {@link uk.org.cse.stockimport.ehcs2010.spss.elementreader.SpssElevationReader#addWallConstructionData(uk.org.cse.stockimport.domain.geometry.IElevationDTO, uk.org.cse.nhm.ehcs10.derived.types.Enum146, uk.org.cse.nhm.ehcs10.physical.ElevateEntry)}.
      */
     @Test
     public void testAddWallConstructionData() {
@@ -200,7 +205,8 @@ public class SpssElevationReaderTest extends Mockito {
     }
 
     /**
-     * Test method for {@link uk.org.cse.stockimport.ehcs2010.spss.elementreader.SpssElevationReader#buildExternalWall(uk.org.cse.stockimport.domain.geometry.IElevationDTO, uk.org.cse.nhm.ehcs10.derived.types.Enum146, uk.org.cse.nhm.ehcs10.physical.ElevateEntry)}.
+     * Test method for
+     * {@link uk.org.cse.stockimport.ehcs2010.spss.elementreader.SpssElevationReader#buildExternalWall(uk.org.cse.stockimport.domain.geometry.IElevationDTO, uk.org.cse.nhm.ehcs10.derived.types.Enum146, uk.org.cse.nhm.ehcs10.physical.ElevateEntry)}.
      */
     @Test
     public void testBuildExternalWallGetsCorrectInsulationInformationFromElevateEntryForEachElevation() {
@@ -230,7 +236,7 @@ public class SpssElevationReaderTest extends Mockito {
         elevationReader.buildExternalWall(dto, predominentWallStructure, elevateEntry);
         verify(elevateEntry).getRIGHTFACE_CavityWallInsulation();
         verify(elevateEntry).getRIGHTFACE_ExternalInsulation();
-        
+
         final InOrder inOrder = inOrder(dto);
         final IElevationDTO verify = inOrder.verify(dto, times(4));
 
@@ -241,7 +247,8 @@ public class SpssElevationReaderTest extends Mockito {
     }
 
     /**
-     * Test method for {@link uk.org.cse.stockimport.ehcs2010.spss.elementreader.SpssElevationReader#addElevationData(uk.org.cse.stockimport.domain.geometry.IElevationDTO, uk.org.cse.nhm.hom.components.fabric.types.ElevationType, uk.org.cse.nhm.ehcs10.physical.ElevateEntry, uk.org.cse.nhm.ehcs10.physical.FlatdetsEntry, boolean)}.
+     * Test method for
+     * {@link uk.org.cse.stockimport.ehcs2010.spss.elementreader.SpssElevationReader#addElevationData(uk.org.cse.stockimport.domain.geometry.IElevationDTO, uk.org.cse.nhm.hom.components.fabric.types.ElevationType, uk.org.cse.nhm.ehcs10.physical.ElevateEntry, uk.org.cse.nhm.ehcs10.physical.FlatdetsEntry, boolean)}.
      */
     @Test
     public void testAddElevationData() {

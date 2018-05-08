@@ -13,40 +13,41 @@ import uk.org.cse.nhm.simulator.state.dimensions.time.ITimeDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public abstract class AbstractCylinderBoilerMeasure extends AbstractBoilerMeasure {
-	private final IComponentsFunction<Number> cylinderVolume;
-	protected final double cylinderInsulationThickness;
-	
-	public AbstractCylinderBoilerMeasure(
-			final ITimeDimension time,
-			final IDimension<ITechnologyModel> technologies,
-			final ITechnologyOperations operations,
-			final IWetHeatingMeasureFactory factory,
-			final TechnologyType technology, 			
-			final ISizingFunction sizingFunction,
-			final IComponentsFunction<Number> capitalCostFunction,
-			final IComponentsFunction<Number> operationalCostFunction,
-			final IComponentsFunction<Number> whCapex,
-			final IComponentsFunction<Number> winterEfficiency,
-			final IComponentsFunction<Number> summerEfficiency,
+
+    private final IComponentsFunction<Number> cylinderVolume;
+    protected final double cylinderInsulationThickness;
+
+    public AbstractCylinderBoilerMeasure(
+            final ITimeDimension time,
+            final IDimension<ITechnologyModel> technologies,
+            final ITechnologyOperations operations,
+            final IWetHeatingMeasureFactory factory,
+            final TechnologyType technology,
+            final ISizingFunction sizingFunction,
+            final IComponentsFunction<Number> capitalCostFunction,
+            final IComponentsFunction<Number> operationalCostFunction,
+            final IComponentsFunction<Number> whCapex,
+            final IComponentsFunction<Number> winterEfficiency,
+            final IComponentsFunction<Number> summerEfficiency,
             final FuelType fuelType,
             final IComponentsFunction<Number> cylinderVolume,
-			final double cylinderInsulationThickness
-			) {
-		super(	time, 
-				technologies,
-				operations,
-				factory, 
-				technology, 
-				sizingFunction,
-				capitalCostFunction, 
-				operationalCostFunction, 
-				whCapex, 
-				winterEfficiency,
-				summerEfficiency,
-				fuelType);
-		this.cylinderVolume = cylinderVolume;
-		this.cylinderInsulationThickness = cylinderInsulationThickness;
-	}
+            final double cylinderInsulationThickness
+    ) {
+        super(time,
+                technologies,
+                operations,
+                factory,
+                technology,
+                sizingFunction,
+                capitalCostFunction,
+                operationalCostFunction,
+                whCapex,
+                winterEfficiency,
+                summerEfficiency,
+                fuelType);
+        this.cylinderVolume = cylinderVolume;
+        this.cylinderInsulationThickness = cylinderInsulationThickness;
+    }
 
     protected double getCylinderVolume(final IComponentsScope scope, final ILets lets) {
         return Math.max(0, this.cylinderVolume.compute(scope, lets).doubleValue());

@@ -12,23 +12,24 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public abstract class BasicAttributesFunction<T> extends AbstractNamed implements IComponentsFunction<T> {
-	final IDimension<BasicCaseAttributes> bad;
 
-	public BasicAttributesFunction(IDimension<BasicCaseAttributes> bad) {
-		this.bad = bad;
-	}
+    final IDimension<BasicCaseAttributes> bad;
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return Collections.<IDimension<?>>singleton(bad);
-	}
+    public BasicAttributesFunction(IDimension<BasicCaseAttributes> bad) {
+        this.bad = bad;
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return Collections.emptySet();
-	}
-	
-	protected BasicCaseAttributes getAttributes(final IComponents components) {
-		return components.get(bad);
-	}
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return Collections.<IDimension<?>>singleton(bad);
+    }
+
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return Collections.emptySet();
+    }
+
+    protected BasicCaseAttributes getAttributes(final IComponents components) {
+        return components.get(bad);
+    }
 }

@@ -12,14 +12,16 @@ import javax.validation.Payload;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 /**
- * Apply to a type which is fuel-consuming device. Guarantees that it has an efficiency unless it is using Electricity as a fuel.
+ * Apply to a type which is fuel-consuming device. Guarantees that it has an
+ * efficiency unless it is using Electricity as a fuel.
  */
 public @interface EfficiencyRequired {
-	String message() default "{uk.org.cse.nhm.language.validate.efficiency.EfficiencyRequired.nope}";
 
-	Class<?>[] groups() default { };
+    String message() default "{uk.org.cse.nhm.language.validate.efficiency.EfficiencyRequired.nope}";
 
-	Class<? extends Payload>[] payload() default {};
-	
-	String element() default "this element";
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
+
+    String element() default "this element";
 }

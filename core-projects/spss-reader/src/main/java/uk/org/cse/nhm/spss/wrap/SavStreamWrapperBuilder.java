@@ -25,12 +25,15 @@ import uk.org.cse.nhm.spss.SavVariable;
 import uk.org.cse.nhm.spss.SavVariableType;
 
 /**
- * Pass in an interface, and this will return an iterator that intelligently extracts implementations from the sav input
- * stream. Use {@link SavVariableMapping} to indicate on the interface what accessors go with what fields
+ * Pass in an interface, and this will return an iterator that intelligently
+ * extracts implementations from the sav input stream. Use
+ * {@link SavVariableMapping} to indicate on the interface what accessors go
+ * with what fields
  *
  * @author hinton
  */
 public class SavStreamWrapperBuilder {
+
     private static final Logger LOG = LoggerFactory.getLogger(SavStreamWrapperBuilder.class);
     Map<String, String> reportedMissingVars = new HashMap<>();
     Map<String, Map<String, String>> nonEnumMatches = new HashMap<>();
@@ -204,7 +207,9 @@ public class SavStreamWrapperBuilder {
                 }
             } else {
                 final SavVariable variable = metadata.getVariable(variableName);
-                if (variable != null) return variable;
+                if (variable != null) {
+                    return variable;
+                }
             }
         }
         return null;
@@ -232,10 +237,12 @@ public class SavStreamWrapperBuilder {
 
     /**
      * Wraps a bean class around a stream, using the same rules for stuff as
-     * {@link #wrapInterface(SavInputStream, Class)} that is to say, the getter methods ought to be annotated as though
-     * it was an interface, and this will use no-arg constructor + setter to create your bean for you. If you have a
-     * method setSavEntry which expects an instance of {@link SavEntry} on your bean, that will get called with the
-     * original entry for the bean as well.
+     * {@link #wrapInterface(SavInputStream, Class)} that is to say, the getter
+     * methods ought to be annotated as though it was an interface, and this
+     * will use no-arg constructor + setter to create your bean for you. If you
+     * have a method setSavEntry which expects an instance of {@link SavEntry}
+     * on your bean, that will get called with the original entry for the bean
+     * as well.
      *
      * @param stream
      * @param beanClass
@@ -345,8 +352,8 @@ public class SavStreamWrapperBuilder {
 
                     if ((variable == null) || (propertyValue == null)) {
                         final String savFile = bean.getClass().getName();
-                        final String varName = mapping.value().length == 1 ? mapping.value()[0] :
-                            Arrays.toString(mapping.value());
+                        final String varName = mapping.value().length == 1 ? mapping.value()[0]
+                                : Arrays.toString(mapping.value());
 
                         final String missingVarReport = savFile + varName;
 
@@ -462,7 +469,7 @@ public class SavStreamWrapperBuilder {
             if (!nonEnumMatches.isEmpty()) {
                 LOG.error("Enum error ct={}", nonEnumMatches.keySet().size());
             }
-            
+
             return null;
         }
     }
@@ -472,8 +479,7 @@ public class SavStreamWrapperBuilder {
         if (variable == null) {
             // LOG.error("Expected SPSS variable was null {} ", type);
             return null;
-        }
-        else if (type.isEnum()) {
+        } else if (type.isEnum()) {
             return getEnumValue((Class<? extends Enum<?>>) type, variable, entry);
         } else {
             if (entry.isMissing(variable)) {
@@ -517,11 +523,13 @@ public class SavStreamWrapperBuilder {
     }
 
     /**
-     * Wraps stream to return an iterator for things which implement the interface class passed in.
+     * Wraps stream to return an iterator for things which implement the
+     * interface class passed in.
      *
      * @param stream the stream to wrap
      * @param clazz the type of object to return
-     * @return an iterator where each entry will be a row from the sav file, represented using the class
+     * @return an iterator where each entry will be a row from the sav file,
+     * represented using the class
      */
     public <W> Iterator<W> wrapInterface(final SavInputStream stream, final Class<W> clazz) {
         final SavMetadata metadata = stream.getMetadata();
@@ -530,15 +538,15 @@ public class SavStreamWrapperBuilder {
 
         enhancer.setSuperclass(SavEntryWrapper.class);
 
-        enhancer.setInterfaces(new Class[] { clazz });
+        enhancer.setInterfaces(new Class[]{clazz});
 
         enhancer.setCallback(new MethodInterceptor() {
             public Object intercept(final Object obj, final Method method, final Object[] args, final MethodProxy proxy)
                     throws Throwable {
                 final SavEntryWrapper self = (SavEntryWrapper) obj;
 
-                if ((method.getParameterTypes().length == 0) &&
-                        (method.getName().equals("getEntry") || method.getName().equals("getMetadata"))) {
+                if ((method.getParameterTypes().length == 0)
+                        && (method.getName().equals("getEntry") || method.getName().equals("getMetadata"))) {
                     return proxy.invokeSuper(obj, args);
                 }
 
@@ -568,8 +576,8 @@ public class SavStreamWrapperBuilder {
             }
 
             public W next() {
-                return (W) enhancer.create(new Class[] { SavMetadata.class, SavEntry.class }, new Object[] { metadata,
-                        stream.next() });
+                return (W) enhancer.create(new Class[]{SavMetadata.class, SavEntry.class}, new Object[]{metadata,
+                    stream.next()});
             }
 
             public void remove() {

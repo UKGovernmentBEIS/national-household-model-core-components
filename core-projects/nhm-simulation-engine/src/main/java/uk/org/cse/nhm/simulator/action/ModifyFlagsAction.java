@@ -16,70 +16,71 @@ import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
 import uk.org.cse.nhm.simulator.state.components.IFlags;
 
 public class ModifyFlagsAction extends AbstractNamed implements IComponentsAction, IModifier<IFlags> {
-	private boolean removeFlag;
-	private String flag;
-	private final IDimension<IFlags> flagsDimension;
 
-	@Inject
-	public ModifyFlagsAction(
-			final IDimension<IFlags> flagsDimension,
-			@Assisted final boolean setFlag,
-			@Assisted final String flag
-			) {
-		this.flagsDimension = flagsDimension;
-		this.removeFlag = !setFlag;
-		this.flag = flag;
-	}
-	
-	public boolean isRemoveFlag() {
-		return removeFlag;
-	}
+    private boolean removeFlag;
+    private String flag;
+    private final IDimension<IFlags> flagsDimension;
 
-	public void setRemoveFlag(final boolean removeFlag) {
-		this.removeFlag = removeFlag;
-	}
+    @Inject
+    public ModifyFlagsAction(
+            final IDimension<IFlags> flagsDimension,
+            @Assisted final boolean setFlag,
+            @Assisted final String flag
+    ) {
+        this.flagsDimension = flagsDimension;
+        this.removeFlag = !setFlag;
+        this.flag = flag;
+    }
 
-	public String getFlag() {
-		return flag;
-	}
+    public boolean isRemoveFlag() {
+        return removeFlag;
+    }
 
-	public void setFlag(final String flag) {
-		this.flag = flag;
-	}
-	
-	@Override
-	public boolean modify(final IFlags flags) {
-		final boolean hasFlag = flags.testFlag(flag);
-		if (hasFlag && removeFlag) {
-			flags.removeFlag(flag);
-			return true;
-		} else if(!(hasFlag || removeFlag)) {
-			flags.addFlag(flag);
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	@Override
-	public boolean apply(final ISettableComponentsScope scope, final ILets lets) throws NHMException {
-		scope.modify(flagsDimension, this);
-		
-		return true;
-	}
-	
-	@Override
-	public boolean isAlwaysSuitable() {
-		return true;
-	}
+    public void setRemoveFlag(final boolean removeFlag) {
+        this.removeFlag = removeFlag;
+    }
 
-	@Override
-	public StateChangeSourceType getSourceType() {
-		return StateChangeSourceType.ACTION;
-	}
-	
-	@Override
-	public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
-		return true;
-	}
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(final String flag) {
+        this.flag = flag;
+    }
+
+    @Override
+    public boolean modify(final IFlags flags) {
+        final boolean hasFlag = flags.testFlag(flag);
+        if (hasFlag && removeFlag) {
+            flags.removeFlag(flag);
+            return true;
+        } else if (!(hasFlag || removeFlag)) {
+            flags.addFlag(flag);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean apply(final ISettableComponentsScope scope, final ILets lets) throws NHMException {
+        scope.modify(flagsDimension, this);
+
+        return true;
+    }
+
+    @Override
+    public boolean isAlwaysSuitable() {
+        return true;
+    }
+
+    @Override
+    public StateChangeSourceType getSourceType() {
+        return StateChangeSourceType.ACTION;
+    }
+
+    @Override
+    public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
+        return true;
+    }
 }

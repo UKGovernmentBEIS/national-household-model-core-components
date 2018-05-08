@@ -20,97 +20,100 @@ import uk.org.cse.nhm.simulator.state.IStateChangeSource;
 import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
 
 /**
- * This class provides wiring which connects a {@link Condition} up to the logger
- * and logs out messages which can be used in the reporting system to explain transitions
- * that happen to houses.
- * 
+ * This class provides wiring which connects a {@link Condition} up to the
+ * logger and logs out messages which can be used in the reporting system to
+ * explain transitions that happen to houses.
+ *
  * @author hinton
  *
  */
 public class Explain extends AbstractNamed implements IConditionListener {
-	private final List<String> caseNames = new ArrayList<String>();
-	private final ILogEntryHandler loggingService;
-	private int sequenceNumber = 0;
 
-	@Inject
-	public Explain(
-			final String executionID,
-			final ILogEntryHandler loggingService,
-			@Assisted final Condition condition,
-			@Assisted final List<String> conditionNames) {
-		this.loggingService = loggingService;
-		caseNames.addAll(conditionNames);
-		condition.addConditionListener(this);
-	}
+    private final List<String> caseNames = new ArrayList<String>();
+    private final ILogEntryHandler loggingService;
+    private int sequenceNumber = 0;
 
-	@Override
-	public void conditionMembershipChanged(final IStateChangeNotification cause,
-			final List<? extends IConditionGroup> groups, final float[] gained, final float[] lost) {
-		
-		final ImmutableList.Builder<ExplainArrow> arrows = ImmutableList.builder();
-		int index = 0;
-		for (final String caseName : caseNames) {
-			if (gained[index] > 0) {
-				final ExplainArrow arrow = new ExplainArrow(ExplainArrow.OUTSIDE, caseName, gained[index]);
-				arrows.add(arrow);
-			}
-			
-			if (lost[index] > 0) {
-				final ExplainArrow arrow = new ExplainArrow(caseName, ExplainArrow.OUTSIDE, lost[index]);
-				arrows.add(arrow);
-			}
-			
-			index++;
-		}
-		
-		final IStateChangeSource firstCause = cause.getRootScope().getTag();
-		final ExplainLogEntry ele = new ExplainLogEntry(
-				cause.getDate(), 
-				getIdentifier().getName(),
-				firstCause.getIdentifier().getPath(), 
-				isStockCreator(firstCause),
-				sequenceNumber++, 
-				arrows.build());
-		
-		log(ele);
-	}
+    @Inject
+    public Explain(
+            final String executionID,
+            final ILogEntryHandler loggingService,
+            @Assisted final Condition condition,
+            @Assisted final List<String> conditionNames) {
+        this.loggingService = loggingService;
+        caseNames.addAll(conditionNames);
+        condition.addConditionListener(this);
+    }
 
-	private void log(final ExplainLogEntry ele) {
-		if (ele.getArrows().isEmpty()) return;
-		loggingService.acceptLogEntry(ele);
-	}
+    @Override
+    public void conditionMembershipChanged(final IStateChangeNotification cause,
+            final List<? extends IConditionGroup> groups, final float[] gained, final float[] lost) {
 
-	@Override
-	public void conditionAssignmentChanged(
-			final IStateChangeNotification cause,
-			final List<? extends IConditionGroup> groups, final float[][] flows) {
-		
-		final ImmutableList.Builder<ExplainArrow> arrows = ImmutableList.builder();
-		int fromIndex = 0;
-		for (final String fromName : caseNames) {
-			int toIndex = 0;
-			for (final String toName : caseNames) {
-				if (flows[fromIndex][toIndex] > 0) {
-					arrows.add(new ExplainArrow(fromName, toName, flows[fromIndex][toIndex]));
-				}
-				toIndex++;
-			}
-			fromIndex++;
-		}
-		
-		final IStateChangeSource firstCause = cause.getRootScope().getTag();
-		final ExplainLogEntry ele = new ExplainLogEntry(
-				cause.getDate(), 
-				getIdentifier().getName(), 
-				firstCause.getIdentifier().getPath(),
-				isStockCreator(firstCause),
-				sequenceNumber++,
-				arrows.build());
-		
-		log(ele);
-	}
+        final ImmutableList.Builder<ExplainArrow> arrows = ImmutableList.builder();
+        int index = 0;
+        for (final String caseName : caseNames) {
+            if (gained[index] > 0) {
+                final ExplainArrow arrow = new ExplainArrow(ExplainArrow.OUTSIDE, caseName, gained[index]);
+                arrows.add(arrow);
+            }
 
-	private boolean isStockCreator(final IStateChangeSource firstCause) {
-		return firstCause.getSourceType() == StateChangeSourceType.CREATION;
-	}
+            if (lost[index] > 0) {
+                final ExplainArrow arrow = new ExplainArrow(caseName, ExplainArrow.OUTSIDE, lost[index]);
+                arrows.add(arrow);
+            }
+
+            index++;
+        }
+
+        final IStateChangeSource firstCause = cause.getRootScope().getTag();
+        final ExplainLogEntry ele = new ExplainLogEntry(
+                cause.getDate(),
+                getIdentifier().getName(),
+                firstCause.getIdentifier().getPath(),
+                isStockCreator(firstCause),
+                sequenceNumber++,
+                arrows.build());
+
+        log(ele);
+    }
+
+    private void log(final ExplainLogEntry ele) {
+        if (ele.getArrows().isEmpty()) {
+            return;
+        }
+        loggingService.acceptLogEntry(ele);
+    }
+
+    @Override
+    public void conditionAssignmentChanged(
+            final IStateChangeNotification cause,
+            final List<? extends IConditionGroup> groups, final float[][] flows) {
+
+        final ImmutableList.Builder<ExplainArrow> arrows = ImmutableList.builder();
+        int fromIndex = 0;
+        for (final String fromName : caseNames) {
+            int toIndex = 0;
+            for (final String toName : caseNames) {
+                if (flows[fromIndex][toIndex] > 0) {
+                    arrows.add(new ExplainArrow(fromName, toName, flows[fromIndex][toIndex]));
+                }
+                toIndex++;
+            }
+            fromIndex++;
+        }
+
+        final IStateChangeSource firstCause = cause.getRootScope().getTag();
+        final ExplainLogEntry ele = new ExplainLogEntry(
+                cause.getDate(),
+                getIdentifier().getName(),
+                firstCause.getIdentifier().getPath(),
+                isStockCreator(firstCause),
+                sequenceNumber++,
+                arrows.build());
+
+        log(ele);
+    }
+
+    private boolean isStockCreator(final IStateChangeSource firstCause) {
+        return firstCause.getSourceType() == StateChangeSourceType.CREATION;
+    }
 }

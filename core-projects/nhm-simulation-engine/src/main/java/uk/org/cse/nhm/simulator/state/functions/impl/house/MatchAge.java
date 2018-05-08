@@ -13,16 +13,17 @@ import uk.org.cse.nhm.simulator.state.dimensions.time.ITimeDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class MatchAge extends AgeFunction<Boolean> implements IComponentsFunction<Boolean> {
-	private final Predicate<Integer> test;
-	
-	@Inject
-	public MatchAge(final ITimeDimension time, final IDimension<BasicCaseAttributes> basic, @Assisted final Predicate<Integer> test) {
-		super(basic, time);
-		this.test = test;
-	}
 
-	@Override
-	public Boolean compute(final IComponentsScope scope, final ILets lets) {
-		return test.apply(getAge(scope, lets));
-	}
+    private final Predicate<Integer> test;
+
+    @Inject
+    public MatchAge(final ITimeDimension time, final IDimension<BasicCaseAttributes> basic, @Assisted final Predicate<Integer> test) {
+        super(basic, time);
+        this.test = test;
+    }
+
+    @Override
+    public Boolean compute(final IComponentsScope scope, final ILets lets) {
+        return test.apply(getAge(scope, lets));
+    }
 }

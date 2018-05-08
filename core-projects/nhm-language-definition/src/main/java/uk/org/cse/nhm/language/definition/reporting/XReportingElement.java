@@ -6,5 +6,5 @@ import uk.org.cse.nhm.language.definition.context.XExtraContextParameter;
 
 @Category(CategoryType.REPORTING)
 public abstract class XReportingElement extends XExtraContextParameter {
-	
+
 }

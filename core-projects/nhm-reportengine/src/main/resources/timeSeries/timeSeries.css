@@ -1,5 +1,5 @@
 div, span, p, td {
-	font-family: Arial, sans-serif;
+    font-family: Arial, sans-serif;
 }
 
 section {
@@ -17,7 +17,7 @@ section {
 }
 
 #legend {
-	background-color: white;
+    background-color: white;
     color: #404040;
     font-size:12pt;
 }
@@ -35,12 +35,12 @@ section {
 }
 
 #legend .action {
-	color: black;
-	opacity: 0.7;
+    color: black;
+    opacity: 0.7;
 }
 
 label.disabled {
-	opacity: 0.4;
+    opacity: 0.4;
 }
 
 .toggler input[type=radio] {
@@ -51,17 +51,17 @@ label.disabled {
     outline: 2px solid steelblue;
 }
 .toggler label {
-	display: inline-block;
-	padding: 27px 0 0 0;
-	width: 39px;
+    display: inline-block;
+    padding: 27px 0 0 0;
+    width: 39px;
     height: 0px;
-	text-align: center;
-	font-size: 10px;
-	color: #808080;
-	background-repeat: no-repeat;
-	position: relative;
-	margin: 0px 7px 0px 7px;
-	cursor: pointer;
+    text-align: center;
+    font-size: 10px;
+    color: #808080;
+    background-repeat: no-repeat;
+    position: relative;
+    margin: 0px 7px 0px 7px;
+    cursor: pointer;
 }
 
 label[for="identity"] {
@@ -81,9 +81,9 @@ span.disabled {
 }
 
 #chart path {
-	-webkit-transition: opacity 0.2s linear;
+    -webkit-transition: opacity 0.2s linear;
 }
 
 .rickshaw_annotation_timeline .annotation .content {
-	width:400px;
+    width:400px;
 }

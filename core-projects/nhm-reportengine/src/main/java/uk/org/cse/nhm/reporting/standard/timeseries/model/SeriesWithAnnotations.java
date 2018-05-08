@@ -5,22 +5,22 @@ import java.util.SortedSet;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-
 @JsonSerialize
 public class SeriesWithAnnotations {
-	private List<Series> series;
-	private SortedSet<Annotation> annotations;
 
-	public SeriesWithAnnotations(List<Series> series, SortedSet<Annotation> annotations) {
-		this.series = series;
-		this.annotations = annotations;
-	}
+    private List<Series> series;
+    private SortedSet<Annotation> annotations;
 
-	public List<Series> getSeries() {
-		return series;
-	}
+    public SeriesWithAnnotations(List<Series> series, SortedSet<Annotation> annotations) {
+        this.series = series;
+        this.annotations = annotations;
+    }
 
-	public SortedSet<Annotation> getAnnotations() {
-		return annotations;
-	}
+    public List<Series> getSeries() {
+        return series;
+    }
+
+    public SortedSet<Annotation> getAnnotations() {
+        return annotations;
+    }
 }

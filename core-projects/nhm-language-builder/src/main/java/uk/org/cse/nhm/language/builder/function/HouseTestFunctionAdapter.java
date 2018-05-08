@@ -29,6 +29,7 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
  * @author hinton
  */
 public class HouseTestFunctionAdapter extends ReflectingAdapter {
+
     final IBooleanFunctionFactory testFunctions;
 
     @Inject
@@ -55,7 +56,7 @@ public class HouseTestFunctionAdapter extends ReflectingAdapter {
             @Prop(XIntegerIs.P.ABOVE) final Optional<Integer> above,
             @Prop(XIntegerIs.P.EXACTLY) final Optional<Integer> exactly,
             @Prop(XIntegerIs.P.BELOW) final Optional<Integer> below
-            ) {
+    ) {
         return testFunctions.matchAge(new RangeTest(above, exactly, below));
     }
 
@@ -64,7 +65,7 @@ public class HouseTestFunctionAdapter extends ReflectingAdapter {
             @Prop(XIntegerIs.P.ABOVE) final Optional<Integer> above,
             @Prop(XIntegerIs.P.EXACTLY) final Optional<Integer> exactly,
             @Prop(XIntegerIs.P.BELOW) final Optional<Integer> below
-            ) {
+    ) {
         return testFunctions.matchBuildYear(new RangeTest(above, exactly, below));
     }
 
@@ -73,7 +74,7 @@ public class HouseTestFunctionAdapter extends ReflectingAdapter {
             @Prop(XIntegerIs.P.ABOVE) final Optional<Integer> above,
             @Prop(XIntegerIs.P.EXACTLY) final Optional<Integer> exactly,
             @Prop(XIntegerIs.P.BELOW) final Optional<Integer> below
-            ) {
+    ) {
         return testFunctions.matchLoftInsulationThickness(new RangeTest(above, exactly, below));
     }
 
@@ -99,7 +100,7 @@ public class HouseTestFunctionAdapter extends ReflectingAdapter {
     public IComponentsFunction<Boolean> buildAnyWalls(
             @Prop(XAnyWalls.P.WITH_CONSTRUCTION) final XWallConstructionTypeRule wallConstructionType,
             @Prop(XAnyWalls.P.WITH_INSULATION) final XWallInsulationRule insulation
-            ) {
+    ) {
         return testFunctions.matchSomeWalls(
                 MapWallTypes.getPredicateMatching(wallConstructionType),
                 MapWallTypes.getPredicateMatching(insulation),
@@ -112,7 +113,7 @@ public class HouseTestFunctionAdapter extends ReflectingAdapter {
             @Prop(XWallsTest.P.cavityInsulation) final Optional<Boolean> cavity,
             @Prop(XWallsTest.P.internalInsulation) final Optional<Boolean> internal,
             @Prop(XWallsTest.P.externalInsulation) final Optional<Boolean> external
-            ) {
+    ) {
         return testFunctions.matchSomeWalls(
                 MapWallTypes.getPredicateMatching(construction),
                 MapWallTypes.getPredicateMatching(cavity, internal, external),
@@ -125,7 +126,7 @@ public class HouseTestFunctionAdapter extends ReflectingAdapter {
             @Prop(XWallsTest.P.cavityInsulation) final Optional<Boolean> cavity,
             @Prop(XWallsTest.P.internalInsulation) final Optional<Boolean> internal,
             @Prop(XWallsTest.P.externalInsulation) final Optional<Boolean> external
-            ) {
+    ) {
         return testFunctions.matchSomeWalls(
                 MapWallTypes.getPredicateMatching(construction),
                 MapWallTypes.getPredicateMatching(cavity, internal, external),
@@ -138,41 +139,41 @@ public class HouseTestFunctionAdapter extends ReflectingAdapter {
             @Prop(XDoubleIs.P.EXACTLY) final Optional<Double> exactly,
             @Prop(XDoubleIs.P.BELOW) final Optional<Double> below,
             @Prop(XNumberFunctionIs.P.number) final IComponentsFunction<Number> delegate
-            ) {
+    ) {
         return testFunctions.matchNumberFunction(delegate, new DoubleRangeTest(above, exactly, below));
     }
-    
-    @Adapt(XHasHeatingControl.class)
-	public IComponentsFunction<Boolean> buildMatchHasHeatingControl(
-			@Prop(XHasHeatingControl.P.type) final XHasHeatingControl.XHeatingControlType type) {
 
-		HeatingSystemControlType internalType;
-		switch (type) {
-		case ApplianceThermostat:
-			internalType = HeatingSystemControlType.APPLIANCE_THERMOSTAT;
-			break;
-		case BypassValve:
-			internalType = HeatingSystemControlType.BYPASS;
-			break;
-		case DelayedStartThermostat:
-			internalType = HeatingSystemControlType.DELAYED_START_THERMOSTAT;
-			break;
-		case Programmer:
-			internalType = HeatingSystemControlType.PROGRAMMER;
-			break;
-		case RoomThermostat:
-			internalType = HeatingSystemControlType.ROOM_THERMOSTAT;
-			break;
-		case ThermostaticRadiatorValve:
-			internalType = HeatingSystemControlType.THERMOSTATIC_RADIATOR_VALVE;
-			break;
-		case TimeTemperatureZoneControl:
-			internalType = HeatingSystemControlType.TIME_TEMPERATURE_ZONE_CONTROL;
-			break;
-		default:
-			throw new IllegalArgumentException("Unknown heating system control type " + type);
-		}
-		
-		return testFunctions.createHasHeatingControlFunction(internalType);
-	}
+    @Adapt(XHasHeatingControl.class)
+    public IComponentsFunction<Boolean> buildMatchHasHeatingControl(
+            @Prop(XHasHeatingControl.P.type) final XHasHeatingControl.XHeatingControlType type) {
+
+        HeatingSystemControlType internalType;
+        switch (type) {
+            case ApplianceThermostat:
+                internalType = HeatingSystemControlType.APPLIANCE_THERMOSTAT;
+                break;
+            case BypassValve:
+                internalType = HeatingSystemControlType.BYPASS;
+                break;
+            case DelayedStartThermostat:
+                internalType = HeatingSystemControlType.DELAYED_START_THERMOSTAT;
+                break;
+            case Programmer:
+                internalType = HeatingSystemControlType.PROGRAMMER;
+                break;
+            case RoomThermostat:
+                internalType = HeatingSystemControlType.ROOM_THERMOSTAT;
+                break;
+            case ThermostaticRadiatorValve:
+                internalType = HeatingSystemControlType.THERMOSTATIC_RADIATOR_VALVE;
+                break;
+            case TimeTemperatureZoneControl:
+                internalType = HeatingSystemControlType.TIME_TEMPERATURE_ZONE_CONTROL;
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown heating system control type " + type);
+        }
+
+        return testFunctions.createHasHeatingControlFunction(internalType);
+    }
 }

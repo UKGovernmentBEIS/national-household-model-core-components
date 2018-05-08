@@ -34,175 +34,181 @@ import uk.org.cse.nhm.macros.ExtraMacros;
 
 @AutoProperty
 public class ScenarioSnapshot implements IScenarioSnapshot, IDataSource<String> {
-	private final DataSourceSnapshot snapshot;
-	
-	private final List<IError> problems;
-	
-	@JsonCreator
-	public ScenarioSnapshot(
-			@JsonProperty("fragments") final DataSourceSnapshot snapshot,
-			@JsonProperty("problems") final List<IError> problems) {
-		this.snapshot = snapshot;
-		this.problems = ImmutableList.copyOf(problems);
-	}
-	
-	public DataSourceSnapshot getSnapshot() {
-		return snapshot;
-	}
-	
-	@Override
-	public void accept(final ISExpressionVisitor visitor) {
-		get(root(), IErrorHandler.RAISE).accept(visitor);
-	}
-	
-	@Override
-	public List<IError> getProblems() {
-		return problems;
-	}
-	
-	@JsonIgnore
-	@Override
-	public ISExpression getUntemplated() {
-		return StandardSource.createUntemplated(this).get(root(), IErrorHandler.NOP);
-	}
-	
-	@JsonIgnore
-	public ISExpression get(final String address, final IErrorHandler errors) {
-		return StandardSource.create(this, ExtraMacros.DEFAULT).get(address, errors);
-	}
-	
-	@Override
-	public ISExpression withErrorHandler(final IErrorHandler collector) {
-		return get(root(), collector);
-	}
-	
-	@Override
-	public String toString() {
-		return Pojomatic.toString(this);
-	}
 
-	@Override
-	public boolean equals(final Object obj) {
-		return Pojomatic.equals(this, obj);
-	}
+    private final DataSourceSnapshot snapshot;
 
-	@Override
-	public int hashCode() {
-		return Pojomatic.hashCode(this);
-	}
+    private final List<IError> problems;
 
-	@JsonIgnore
-	@Override
-	public String resolve(Seq relation, IErrorHandler errors) {
-		return snapshot.resolve(relation, errors);
-	}
-	
-	@JsonIgnore
-	@Override
-	public String root() {
-		return snapshot.root();
-	}
-	
-	@JsonIgnore
-	@Override
-	public Reader open(String resolved) throws IOException {
-		return snapshot.open(resolved);
-	}
+    @JsonCreator
+    public ScenarioSnapshot(
+            @JsonProperty("fragments") final DataSourceSnapshot snapshot,
+            @JsonProperty("problems") final List<IError> problems) {
+        this.snapshot = snapshot;
+        this.problems = ImmutableList.copyOf(problems);
+    }
 
-	static class QuickReturn extends RuntimeException {
-		protected final String returnValue;
-		private static final long serialVersionUID = 1L;
-		QuickReturn(final String returnValue) {
-			super();
-			this.returnValue = returnValue;
-		}
-	}
-	
-	static class ExpansionWrapper implements IExpansion {
-		private Expansion expand;
+    public DataSourceSnapshot getSnapshot() {
+        return snapshot;
+    }
 
-		public ExpansionWrapper(Expansion expand) {
-			this.expand = expand;
-		}
+    @Override
+    public void accept(final ISExpressionVisitor visitor) {
+        get(root(), IErrorHandler.RAISE).accept(visitor);
+    }
 
-		@Override
-		public List<IMacro> macros() {
-			return expand.extraMacros;
-		}
+    @Override
+    public List<IError> getProblems() {
+        return problems;
+    }
 
-		@Override
-		public List<Node> nodes() {
-			return expand.nodes;
-		}
+    @JsonIgnore
+    @Override
+    public ISExpression getUntemplated() {
+        return StandardSource.createUntemplated(this).get(root(), IErrorHandler.NOP);
+    }
 
-		@Override
-		public List<IError> errors() {
-			return expand.errors;
-		}
-	}
-	
-	@JsonIgnore
-	@Override
-	public IExpansion expand() {
-		return new ExpansionWrapper(StandardSource.expand(root(), this, ExtraMacros.DEFAULT));
-	}
-	
-	@JsonIgnore
-	@Override
-	public Optional<String> getExpandedFirstElement() {
-		try {
-			// apologies here for using exceptions as flow control
-			accept(new ISExpressionVisitor(){
-				boolean afterHead = false;
-				
-				@Override
-				public void open(final Delim arg0) {
-					afterHead = arg0 == Delim.Paren;
-				}
-			
-				@Override
-				public void locate(final Location arg0) {}
-			
-				@Override
-				public void comment(final String arg0) {}
-			
-				@Override
-				public void close(final Delim arg0) {
-					afterHead = false;
-				}
-			
-				@Override
-				public void atom(final String arg0) {
-					if (afterHead) {
-						throw new QuickReturn(arg0); 
-					}
-				}
-			});
-		} catch (final QuickReturn qr) {
-			return Optional.of(qr.returnValue);
-		} catch (final JasbErrorException jee) {
-			throw jee;
-		} catch (final Exception e) {
-			return Optional.absent();
-		}
-		
-		return Optional.absent();
-	}
+    @JsonIgnore
+    public ISExpression get(final String address, final IErrorHandler errors) {
+        return StandardSource.create(this, ExtraMacros.DEFAULT).get(address, errors);
+    }
 
-	public static IScenarioSnapshot fromString(String string) {
-		return new ScenarioSnapshot(DataSourceSnapshot.just(string), Collections.<IError>emptyList());
-	}
-	
-	@Override
-	public DataSourceSnapshot contents() {
-		return snapshot;
-	}
+    @Override
+    public ISExpression withErrorHandler(final IErrorHandler collector) {
+        return get(root(), collector);
+    }
 
-	public static IScenarioSnapshot fromSExpression(ISExpression current) {
-		return new ScenarioSnapshot(
-				DataSourceSnapshot.just(
-						SimplePrinter.toString(current)
-						), 
-				Collections.<IError>emptyList());
-	}
+    @Override
+    public String toString() {
+        return Pojomatic.toString(this);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        return Pojomatic.equals(this, obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return Pojomatic.hashCode(this);
+    }
+
+    @JsonIgnore
+    @Override
+    public String resolve(Seq relation, IErrorHandler errors) {
+        return snapshot.resolve(relation, errors);
+    }
+
+    @JsonIgnore
+    @Override
+    public String root() {
+        return snapshot.root();
+    }
+
+    @JsonIgnore
+    @Override
+    public Reader open(String resolved) throws IOException {
+        return snapshot.open(resolved);
+    }
+
+    static class QuickReturn extends RuntimeException {
+
+        protected final String returnValue;
+        private static final long serialVersionUID = 1L;
+
+        QuickReturn(final String returnValue) {
+            super();
+            this.returnValue = returnValue;
+        }
+    }
+
+    static class ExpansionWrapper implements IExpansion {
+
+        private Expansion expand;
+
+        public ExpansionWrapper(Expansion expand) {
+            this.expand = expand;
+        }
+
+        @Override
+        public List<IMacro> macros() {
+            return expand.extraMacros;
+        }
+
+        @Override
+        public List<Node> nodes() {
+            return expand.nodes;
+        }
+
+        @Override
+        public List<IError> errors() {
+            return expand.errors;
+        }
+    }
+
+    @JsonIgnore
+    @Override
+    public IExpansion expand() {
+        return new ExpansionWrapper(StandardSource.expand(root(), this, ExtraMacros.DEFAULT));
+    }
+
+    @JsonIgnore
+    @Override
+    public Optional<String> getExpandedFirstElement() {
+        try {
+            // apologies here for using exceptions as flow control
+            accept(new ISExpressionVisitor() {
+                boolean afterHead = false;
+
+                @Override
+                public void open(final Delim arg0) {
+                    afterHead = arg0 == Delim.Paren;
+                }
+
+                @Override
+                public void locate(final Location arg0) {
+                }
+
+                @Override
+                public void comment(final String arg0) {
+                }
+
+                @Override
+                public void close(final Delim arg0) {
+                    afterHead = false;
+                }
+
+                @Override
+                public void atom(final String arg0) {
+                    if (afterHead) {
+                        throw new QuickReturn(arg0);
+                    }
+                }
+            });
+        } catch (final QuickReturn qr) {
+            return Optional.of(qr.returnValue);
+        } catch (final JasbErrorException jee) {
+            throw jee;
+        } catch (final Exception e) {
+            return Optional.absent();
+        }
+
+        return Optional.absent();
+    }
+
+    public static IScenarioSnapshot fromString(String string) {
+        return new ScenarioSnapshot(DataSourceSnapshot.just(string), Collections.<IError>emptyList());
+    }
+
+    @Override
+    public DataSourceSnapshot contents() {
+        return snapshot;
+    }
+
+    public static IScenarioSnapshot fromSExpression(ISExpression current) {
+        return new ScenarioSnapshot(
+                DataSourceSnapshot.just(
+                        SimplePrinter.toString(current)
+                ),
+                Collections.<IError>emptyList());
+    }
 }

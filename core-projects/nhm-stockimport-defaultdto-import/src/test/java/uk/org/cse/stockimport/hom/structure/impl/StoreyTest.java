@@ -35,7 +35,7 @@ public class StoreyTest {
 
     /**
      * TODO.
-     * 
+     *
      * @throws java.lang.Exception
      * @since 0.0.1-SNAPSHOT
      */
@@ -82,8 +82,9 @@ public class StoreyTest {
     }
 
     /**
-     * Helper test method, draws the floor as a jpg if there is an error in the expected geometry or elevations.
-     * 
+     * Helper test method, draws the floor as a jpg if there is an error in the
+     * expected geometry or elevations.
+     *
      * @param elevationPattern
      * @param expectedWalls
      * @param backElev - walls expected for back elevation

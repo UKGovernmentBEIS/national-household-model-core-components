@@ -8,5 +8,6 @@ import com.larkery.jasb.sexp.errors.IErrorHandler.IError;
 import uk.org.cse.nhm.language.definition.XElement;
 
 public interface ISelfValidating {
-	public List<IError> validate(final Deque<XElement> context);
+
+    public List<IError> validate(final Deque<XElement> context);
 }

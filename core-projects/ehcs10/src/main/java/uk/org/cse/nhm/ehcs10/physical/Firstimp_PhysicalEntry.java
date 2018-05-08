@@ -6,242 +6,242 @@ import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 
 public interface Firstimp_PhysicalEntry extends SurveyEntry {
-	@SavVariableMapping("FRENOSV")
-	public String getSection1_SurveyRecord_EnterReasonForNon_Survey();
 
-	@SavVariableMapping("FODOCOTH")
-	public String getOccupancy_VACANTOther_Specify();
+    @SavVariableMapping("FRENOSV")
+    public String getSection1_SurveyRecord_EnterReasonForNon_Survey();
 
-	@SavVariableMapping("FODSOTH")
-	public String getSourceOfInformationOnTenure_Other_Specify();
+    @SavVariableMapping("FODOCOTH")
+    public String getOccupancy_VACANTOther_Specify();
 
-	@SavVariableMapping("FRECL5MT")
-	public Integer getRecordMonthOfCall();
+    @SavVariableMapping("FODSOTH")
+    public String getSourceOfInformationOnTenure_Other_Specify();
 
-	@SavVariableMapping("FRECL2SM")
-	public Integer getStartTime_Minutes();
+    @SavVariableMapping("FRECL5MT")
+    public Integer getRecordMonthOfCall();
 
-	@SavVariableMapping("FRECL1FH")
-	public Integer getFinishTime_Hours();
+    @SavVariableMapping("FRECL2SM")
+    public Integer getStartTime_Minutes();
 
-	@SavVariableMapping("FRECL4SM")
-	public Integer getStartTime_Minutes_FRECL4SM();
+    @SavVariableMapping("FRECL1FH")
+    public Integer getFinishTime_Hours();
 
-	@SavVariableMapping("FODEXDAY")
-	public Integer getMovedInWithinLast6Months_Day();
+    @SavVariableMapping("FRECL4SM")
+    public Integer getStartTime_Minutes_FRECL4SM();
 
-	@SavVariableMapping("FRECL2MT")
-	public Integer getRecordMonthOfCall_FRECL2MT();
+    @SavVariableMapping("FODEXDAY")
+    public Integer getMovedInWithinLast6Months_Day();
 
-	@SavVariableMapping("FRECL4MT")
-	public Integer getRecordMonthOfCall_FRECL4MT();
+    @SavVariableMapping("FRECL2MT")
+    public Integer getRecordMonthOfCall_FRECL2MT();
 
-	@SavVariableMapping("FRECL1SH")
-	public Integer getStartTime_Hours();
+    @SavVariableMapping("FRECL4MT")
+    public Integer getRecordMonthOfCall_FRECL4MT();
 
-	@SavVariableMapping("FRECL5YR")
-	public Integer getRecordYearOfCall();
+    @SavVariableMapping("FRECL1SH")
+    public Integer getStartTime_Hours();
 
-	@SavVariableMapping("FRECL3MT")
-	public Integer getRecordMonthOfCall_FRECL3MT();
+    @SavVariableMapping("FRECL5YR")
+    public Integer getRecordYearOfCall();
 
-	@SavVariableMapping("FRECL3SM")
-	public Integer getStartTime_Minutes_FRECL3SM();
+    @SavVariableMapping("FRECL3MT")
+    public Integer getRecordMonthOfCall_FRECL3MT();
 
-	@SavVariableMapping("FRECL4FH")
-	public Integer getFinishTime_Hours_FRECL4FH();
+    @SavVariableMapping("FRECL3SM")
+    public Integer getStartTime_Minutes_FRECL3SM();
 
-	@SavVariableMapping("FADSAMB")
-	public Integer getMultipleDwellings_NumberOfDwellingsAtAddress();
+    @SavVariableMapping("FRECL4FH")
+    public Integer getFinishTime_Hours_FRECL4FH();
 
-	@SavVariableMapping("FODVACNY")
-	public Integer getVacant_HowLongHasTheDwellingBeenVacant_ENTERYEARS();
+    @SavVariableMapping("FADSAMB")
+    public Integer getMultipleDwellings_NumberOfDwellingsAtAddress();
 
-	@SavVariableMapping("FRECL2YR")
-	public Integer getRecordYearOfCall_FRECL2YR();
+    @SavVariableMapping("FODVACNY")
+    public Integer getVacant_HowLongHasTheDwellingBeenVacant_ENTERYEARS();
 
-	@SavVariableMapping("FRECL4DY")
-	public Integer getRecordDayOfCall();
+    @SavVariableMapping("FRECL2YR")
+    public Integer getRecordYearOfCall_FRECL2YR();
 
-	@SavVariableMapping("FRECL4FM")
-	public Integer getFinishTime_Minutes();
+    @SavVariableMapping("FRECL4DY")
+    public Integer getRecordDayOfCall();
 
-	@SavVariableMapping("FRECL1FM")
-	public Integer getFinishTime_Minutes_FRECL1FM();
+    @SavVariableMapping("FRECL4FM")
+    public Integer getFinishTime_Minutes();
 
-	@SavVariableMapping("FRECL1DY")
-	public Integer getRecordDayOfCall_FRECL1DY();
+    @SavVariableMapping("FRECL1FM")
+    public Integer getFinishTime_Minutes_FRECL1FM();
 
-	@SavVariableMapping("FADSAMA")
-	public Integer getPartDwelling_NumberOfAddressesAtDwelling();
+    @SavVariableMapping("FRECL1DY")
+    public Integer getRecordDayOfCall_FRECL1DY();
 
-	@SavVariableMapping("FRECL3SH")
-	public Integer getStartTime_Hours_FRECL3SH();
+    @SavVariableMapping("FADSAMA")
+    public Integer getPartDwelling_NumberOfAddressesAtDwelling();
 
-	@SavVariableMapping("FRECL5SM")
-	public Integer getStartTime_Minutes_FRECL5SM();
+    @SavVariableMapping("FRECL3SH")
+    public Integer getStartTime_Hours_FRECL3SH();
 
-	@SavVariableMapping("FRECL4YR")
-	public Integer getRecordYearOfCall_FRECL4YR();
+    @SavVariableMapping("FRECL5SM")
+    public Integer getStartTime_Minutes_FRECL5SM();
 
-	@SavVariableMapping("FRECL1MT")
-	public Integer getRecordMonthOfCall_FRECL1MT();
+    @SavVariableMapping("FRECL4YR")
+    public Integer getRecordYearOfCall_FRECL4YR();
 
-	@SavVariableMapping("FRECL5FM")
-	public Integer getFinishTime_Minutes_FRECL5FM();
+    @SavVariableMapping("FRECL1MT")
+    public Integer getRecordMonthOfCall_FRECL1MT();
 
-	@SavVariableMapping("FRECL3DY")
-	public Integer getRecordDayOfCall_FRECL3DY();
+    @SavVariableMapping("FRECL5FM")
+    public Integer getFinishTime_Minutes_FRECL5FM();
 
-	@SavVariableMapping("FRECL5DY")
-	public Integer getRecordDayOfCall_FRECL5DY();
+    @SavVariableMapping("FRECL3DY")
+    public Integer getRecordDayOfCall_FRECL3DY();
 
-	@SavVariableMapping("FODEXMON")
-	public Integer getMovedInWithinLast6Months_Month();
+    @SavVariableMapping("FRECL5DY")
+    public Integer getRecordDayOfCall_FRECL5DY();
 
-	@SavVariableMapping("FRECL1SM")
-	public Integer getStartTime_Minutes_FRECL1SM();
+    @SavVariableMapping("FODEXMON")
+    public Integer getMovedInWithinLast6Months_Month();
 
-	@SavVariableMapping("FRECL3FM")
-	public Integer getFinishTime_Minutes_FRECL3FM();
+    @SavVariableMapping("FRECL1SM")
+    public Integer getStartTime_Minutes_FRECL1SM();
 
-	@SavVariableMapping("FRECL1YR")
-	public Integer getRecordYearOfCall_FRECL1YR();
+    @SavVariableMapping("FRECL3FM")
+    public Integer getFinishTime_Minutes_FRECL3FM();
 
-	@SavVariableMapping("FRECL2FM")
-	public Integer getFinishTime_Minutes_FRECL2FM();
+    @SavVariableMapping("FRECL1YR")
+    public Integer getRecordYearOfCall_FRECL1YR();
 
-	@SavVariableMapping("FRECL2SH")
-	public Integer getStartTime_Hours_FRECL2SH();
+    @SavVariableMapping("FRECL2FM")
+    public Integer getFinishTime_Minutes_FRECL2FM();
 
-	@SavVariableMapping("FMODNON")
-	public Integer getNumberOfUnitsWhichShareAmenities();
+    @SavVariableMapping("FRECL2SH")
+    public Integer getStartTime_Hours_FRECL2SH();
 
-	@SavVariableMapping("FODLIVEM")
-	public Integer getOccupied_ENTERMONTHS();
+    @SavVariableMapping("FMODNON")
+    public Integer getNumberOfUnitsWhichShareAmenities();
 
-	@SavVariableMapping("FODEXYRS")
-	public Integer getMovedInWithinLast6Months_Year();
+    @SavVariableMapping("FODLIVEM")
+    public Integer getOccupied_ENTERMONTHS();
 
-	@SavVariableMapping("FODVACNM")
-	public Integer getVacant_ENTERMONTHS();
+    @SavVariableMapping("FODEXYRS")
+    public Integer getMovedInWithinLast6Months_Year();
 
-	@SavVariableMapping("FADSAMC")
-	public Integer getMixedWithNon_Residential_NumberOfDwellingsAtAddress();
+    @SavVariableMapping("FODVACNM")
+    public Integer getVacant_ENTERMONTHS();
 
-	@SavVariableMapping("FRECL2DY")
-	public Integer getRecordDayOfCall_FRECL2DY();
+    @SavVariableMapping("FADSAMC")
+    public Integer getMixedWithNon_Residential_NumberOfDwellingsAtAddress();
 
-	@SavVariableMapping("FODCONAC")
-	public Integer getActualDateOfConstruction();
+    @SavVariableMapping("FRECL2DY")
+    public Integer getRecordDayOfCall_FRECL2DY();
 
-	@SavVariableMapping("FRECL4SH")
-	public Integer getStartTime_Hours_FRECL4SH();
+    @SavVariableMapping("FODCONAC")
+    public Integer getActualDateOfConstruction();
 
-	@SavVariableMapping("FODLIVEY")
-	public Integer getOccupied_HowLongHaveTheCurrentOccupantsLivedHere_ENTERYEARS();
+    @SavVariableMapping("FRECL4SH")
+    public Integer getStartTime_Hours_FRECL4SH();
 
-	@SavVariableMapping("FRECL2FH")
-	public Integer getFinishTime_Hours_FRECL2FH();
+    @SavVariableMapping("FODLIVEY")
+    public Integer getOccupied_HowLongHaveTheCurrentOccupantsLivedHere_ENTERYEARS();
 
-	@SavVariableMapping("FMODSC")
-	public Integer getNumberOfUnitsWithExclusiveUseOfAmenities();
+    @SavVariableMapping("FRECL2FH")
+    public Integer getFinishTime_Hours_FRECL2FH();
 
-	@SavVariableMapping("FRECL3YR")
-	public Integer getRecordYearOfCall_FRECL3YR();
+    @SavVariableMapping("FMODSC")
+    public Integer getNumberOfUnitsWithExclusiveUseOfAmenities();
 
-	@SavVariableMapping("FRECL5FH")
-	public Integer getFinishTime_Hours_FRECL5FH();
+    @SavVariableMapping("FRECL3YR")
+    public Integer getRecordYearOfCall_FRECL3YR();
 
-	@SavVariableMapping("FRECL3FH")
-	public Integer getFinishTime_Hours_FRECL3FH();
+    @SavVariableMapping("FRECL5FH")
+    public Integer getFinishTime_Hours_FRECL5FH();
 
-	@SavVariableMapping("FRECL5SH")
-	public Integer getStartTime_Hours_FRECL5SH();
+    @SavVariableMapping("FRECL3FH")
+    public Integer getFinishTime_Hours_FRECL3FH();
 
-	@SavVariableMapping("FODISHMO")
-	public Enum1324 getTypeOfOccupancy();
+    @SavVariableMapping("FRECL5SH")
+    public Integer getStartTime_Hours_FRECL5SH();
 
-	@SavVariableMapping("FRECL5VM")
-	public Enum10 getVisitMade_();
+    @SavVariableMapping("FODISHMO")
+    public Enum1324 getTypeOfOccupancy();
 
-	@SavVariableMapping("FODDTYPE")
-	public Enum1326 getDwellingType();
+    @SavVariableMapping("FRECL5VM")
+    public Enum10 getVisitMade_();
 
-	@SavVariableMapping("FRECL2VM")
-	public Enum10 getVisitMade__FRECL2VM();
+    @SavVariableMapping("FODDTYPE")
+    public Enum1326 getDwellingType();
 
-	@SavVariableMapping("FRECL5AP")
-	public Enum10 getWasThisABookedAppointment_();
+    @SavVariableMapping("FRECL2VM")
+    public Enum10 getVisitMade__FRECL2VM();
 
-	@SavVariableMapping("FRECL3CO")
-	public Enum1329 getCodeOutcomeOfThisCall();
+    @SavVariableMapping("FRECL5AP")
+    public Enum10 getWasThisABookedAppointment_();
 
-	@SavVariableMapping("FODSORCE")
-	public Enum1330 getSourceOfInformationOnTenureAndOccupancy();
+    @SavVariableMapping("FRECL3CO")
+    public Enum1329 getCodeOutcomeOfThisCall();
 
-	@SavVariableMapping("FADINTV")
-	public Enum10 getAddressSurveyedSameAsFromInterviewer_();
+    @SavVariableMapping("FODSORCE")
+    public Enum1330 getSourceOfInformationOnTenureAndOccupancy();
 
-	@SavVariableMapping("FODBOARD")
-	public Enum10 getDwellingBoardedUp_Secured_();
+    @SavVariableMapping("FADINTV")
+    public Enum10 getAddressSurveyedSameAsFromInterviewer_();
 
-	@SavVariableMapping("FADSAM")
-	public Enum1333 getIsAddress____();
+    @SavVariableMapping("FODBOARD")
+    public Enum10 getDwellingBoardedUp_Secured_();
 
-	@SavVariableMapping("FRECL4CO")
-	public Enum1329 getCodeOutcomeOfThisCall_FRECL4CO();
+    @SavVariableMapping("FADSAM")
+    public Enum1333 getIsAddress____();
 
-	@SavVariableMapping("FRECL2CO")
-	public Enum1329 getCodeOutcomeOfThisCall_FRECL2CO();
+    @SavVariableMapping("FRECL4CO")
+    public Enum1329 getCodeOutcomeOfThisCall_FRECL4CO();
 
-	@SavVariableMapping("FADINTA")
-	public Enum1336 getIsAddressASingleDwelling_();
+    @SavVariableMapping("FRECL2CO")
+    public Enum1329 getCodeOutcomeOfThisCall_FRECL2CO();
 
-	@SavVariableMapping("FRECL4VM")
-	public Enum10 getVisitMade__FRECL4VM();
+    @SavVariableMapping("FADINTA")
+    public Enum1336 getIsAddressASingleDwelling_();
 
-	@SavVariableMapping("FODCONST")
-	public Enum1338 getConstructionDate();
+    @SavVariableMapping("FRECL4VM")
+    public Enum10 getVisitMade__FRECL4VM();
 
-	@SavVariableMapping("FRECL3VM")
-	public Enum10 getVisitMade__FRECL3VM();
+    @SavVariableMapping("FODCONST")
+    public Enum1338 getConstructionDate();
 
-	@SavVariableMapping("FRECL1CO")
-	public Enum1329 getCodeOutcomeOfThisCall_FRECL1CO();
+    @SavVariableMapping("FRECL3VM")
+    public Enum10 getVisitMade__FRECL3VM();
 
-	@SavVariableMapping("FRECL1AP")
-	public Enum10 getWasThisABookedAppointment__FRECL1AP();
+    @SavVariableMapping("FRECL1CO")
+    public Enum1329 getCodeOutcomeOfThisCall_FRECL1CO();
 
-	@SavVariableMapping("FRECL3AP")
-	public Enum10 getWasThisABookedAppointment__FRECL3AP();
+    @SavVariableMapping("FRECL1AP")
+    public Enum10 getWasThisABookedAppointment__FRECL1AP();
 
-	@SavVariableMapping("FMODISSC")
-	public Enum1343 getHaveAllAccommodationUnitsExclusiveUseOfKeyAmenities_();
+    @SavVariableMapping("FRECL3AP")
+    public Enum10 getWasThisABookedAppointment__FRECL3AP();
 
-	@SavVariableMapping("FODTENUR")
-	public Enum1344 getTenure();
+    @SavVariableMapping("FMODISSC")
+    public Enum1343 getHaveAllAccommodationUnitsExclusiveUseOfKeyAmenities_();
 
-	@SavVariableMapping("FRECL4AP")
-	public Enum10 getWasThisABookedAppointment__FRECL4AP();
+    @SavVariableMapping("FODTENUR")
+    public Enum1344 getTenure();
 
-	@SavVariableMapping("FODPERES")
-	public Enum1346 getPermanentResidence_();
+    @SavVariableMapping("FRECL4AP")
+    public Enum10 getWasThisABookedAppointment__FRECL4AP();
 
-	@SavVariableMapping("FRECL1VM")
-	public Enum10 getVisitMade__FRECL1VM();
+    @SavVariableMapping("FODPERES")
+    public Enum1346 getPermanentResidence_();
 
-	@SavVariableMapping("FRECL5CO")
-	public Enum1329 getCodeOutcomeOfThisCall_FRECL5CO();
+    @SavVariableMapping("FRECL1VM")
+    public Enum10 getVisitMade__FRECL1VM();
 
-	@SavVariableMapping("FMODULE")
-	public Enum1349 getTypeOfModule();
+    @SavVariableMapping("FRECL5CO")
+    public Enum1329 getCodeOutcomeOfThisCall_FRECL5CO();
 
-	@SavVariableMapping("FODOCCUP")
-	public Enum1350 getOccupancy();
+    @SavVariableMapping("FMODULE")
+    public Enum1349 getTypeOfModule();
 
-	@SavVariableMapping("FRECL2AP")
-	public Enum10 getWasThisABookedAppointment__FRECL2AP();
+    @SavVariableMapping("FODOCCUP")
+    public Enum1350 getOccupancy();
+
+    @SavVariableMapping("FRECL2AP")
+    public Enum10 getWasThisABookedAppointment__FRECL2AP();
 
 }
-

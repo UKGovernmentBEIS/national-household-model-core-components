@@ -6,80 +6,80 @@ import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 
 public interface FlatdetsEntry extends SurveyEntry {
-	@SavVariableMapping("FDFENTRY")
-	public String getEntryFloorToDwellingProper();
 
-	@SavVariableMapping("FDFMAINL")
-	public String getDIMENSIONSOfFlat_MainFloor_Level();
+    @SavVariableMapping("FDFENTRY")
+    public String getEntryFloorToDwellingProper();
 
-	@SavVariableMapping("FDFNEXTL")
-	public String getDIMENSIONSOfFlat_NextFloor_Level();
+    @SavVariableMapping("FDFMAINL")
+    public String getDIMENSIONSOfFlat_MainFloor_Level();
 
-	@SavVariableMapping("FDFBCKIA")
-	public Integer getTENTHSOFWALLEXPOSEDBackWall_ToInternalAccessways();
+    @SavVariableMapping("FDFNEXTL")
+    public String getDIMENSIONSOfFlat_NextFloor_Level();
 
-	@SavVariableMapping("FDFBCKOF")
-	public Integer getTENTHSOFWALLEXPOSEDBackWall_ToOtherFlats();
+    @SavVariableMapping("FDFBCKIA")
+    public Integer getTENTHSOFWALLEXPOSEDBackWall_ToInternalAccessways();
 
-	@SavVariableMapping("FDFNEXTN")
-	public Integer getNextFloorLevel_Numeric();
+    @SavVariableMapping("FDFBCKOF")
+    public Integer getTENTHSOFWALLEXPOSEDBackWall_ToOtherFlats();
 
-	@SavVariableMapping("FDFLFTOA")
-	public Integer getTENTHSOFWALLEXPOSEDLeftWall_ToOutsideAir();
+    @SavVariableMapping("FDFNEXTN")
+    public Integer getNextFloorLevel_Numeric();
 
-	@SavVariableMapping("FDFBCKOA")
-	public Integer getTENTHSOFWALLEXPOSEDBackWall_ToOutsideAir();
+    @SavVariableMapping("FDFLFTOA")
+    public Integer getTENTHSOFWALLEXPOSEDLeftWall_ToOutsideAir();
 
-	@SavVariableMapping("FDFLFTOF")
-	public Integer getTENTHSOFWALLEXPOSEDLeftWall_ToOtherFlats();
+    @SavVariableMapping("FDFBCKOA")
+    public Integer getTENTHSOFWALLEXPOSEDBackWall_ToOutsideAir();
 
-	@SavVariableMapping("FDFRIGIA")
-	public Integer getTENTHSOFWALLEXPOSEDRightWall_ToInternalAccessways();
+    @SavVariableMapping("FDFLFTOF")
+    public Integer getTENTHSOFWALLEXPOSEDLeftWall_ToOtherFlats();
 
-	@SavVariableMapping("FDFRIGOF")
-	public Integer getTENTHSOFWALLEXPOSEDRightWall_ToOtherFlats();
+    @SavVariableMapping("FDFRIGIA")
+    public Integer getTENTHSOFWALLEXPOSEDRightWall_ToInternalAccessways();
 
-	@SavVariableMapping("FDFENTYN")
-	public Integer getEntryFloorLevel_Numeric();
+    @SavVariableMapping("FDFRIGOF")
+    public Integer getTENTHSOFWALLEXPOSEDRightWall_ToOtherFlats();
 
-	@SavVariableMapping("FDFFROIA")
-	public Integer getTENTHSOFWALLEXPOSEDFrontWall_ToInternalAccessways();
+    @SavVariableMapping("FDFENTYN")
+    public Integer getEntryFloorLevel_Numeric();
 
-	@SavVariableMapping("FDFMAINN")
-	public Integer getMainFloorLevel_Numeric();
+    @SavVariableMapping("FDFFROIA")
+    public Integer getTENTHSOFWALLEXPOSEDFrontWall_ToInternalAccessways();
 
-	@SavVariableMapping("FDFFROOF")
-	public Integer getTENTHSOFWALLEXPOSEDFrontWall_ToOtherFlats();
+    @SavVariableMapping("FDFMAINN")
+    public Integer getMainFloorLevel_Numeric();
 
-	@SavVariableMapping("FDFLFTIA")
-	public Integer getTENTHSOFWALLEXPOSEDLeftWall_ToInternalAccessways();
+    @SavVariableMapping("FDFFROOF")
+    public Integer getTENTHSOFWALLEXPOSEDFrontWall_ToOtherFlats();
 
-	@SavVariableMapping("FDFFLOOR")
-	public Integer getDIMENSIONSOfFlat_NumberOfFloorsInFlat();
+    @SavVariableMapping("FDFLFTIA")
+    public Integer getTENTHSOFWALLEXPOSEDLeftWall_ToInternalAccessways();
 
-	@SavVariableMapping("FDFFROOA")
-	public Integer getTENTHSOFWALLEXPOSEDFrontWall_ToOutsideAir();
+    @SavVariableMapping("FDFFLOOR")
+    public Integer getDIMENSIONSOfFlat_NumberOfFloorsInFlat();
 
-	@SavVariableMapping("FDFRIGOA")
-	public Integer getTENTHSOFWALLEXPOSEDRightWall_ToOutsideAir();
+    @SavVariableMapping("FDFFROOA")
+    public Integer getTENTHSOFWALLEXPOSEDFrontWall_ToOutsideAir();
 
-	@SavVariableMapping("FDFNEXTD")
-	public Double getDIMENSIONSOfFlat_Depth_NextFloor_();
+    @SavVariableMapping("FDFRIGOA")
+    public Integer getTENTHSOFWALLEXPOSEDRightWall_ToOutsideAir();
 
-	@SavVariableMapping("FDFMAIND")
-	public Double getDIMENSIONSOfFlat_Depth_MainFloor_();
+    @SavVariableMapping("FDFNEXTD")
+    public Double getDIMENSIONSOfFlat_Depth_NextFloor_();
 
-	@SavVariableMapping("FDFMAINW")
-	public Double getDIMENSIONSOfFlat_Width_MainFloor_();
+    @SavVariableMapping("FDFMAIND")
+    public Double getDIMENSIONSOfFlat_Depth_MainFloor_();
 
-	@SavVariableMapping("FDFNEXTW")
-	public Double getDIMENSIONSOfFlat_Width_NextFloor_();
+    @SavVariableMapping("FDFMAINW")
+    public Double getDIMENSIONSOfFlat_Width_MainFloor_();
 
-	@SavVariableMapping("FDFPRIVT")
-	public Enum1352 getPrivateEntryStair();
+    @SavVariableMapping("FDFNEXTW")
+    public Double getDIMENSIONSOfFlat_Width_NextFloor_();
 
-	@SavVariableMapping("FDFSAMED")
-	public Enum10 getDIMENSIONSOfFlat_ExternalDimensionsSameAsModule();
+    @SavVariableMapping("FDFPRIVT")
+    public Enum1352 getPrivateEntryStair();
+
+    @SavVariableMapping("FDFSAMED")
+    public Enum10 getDIMENSIONSOfFlat_ExternalDimensionsSameAsModule();
 
 }
-

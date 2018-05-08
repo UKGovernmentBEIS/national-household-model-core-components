@@ -9,15 +9,17 @@ import uk.org.cse.nhm.ipc.api.scenario.IScenarioService;
 import uk.org.cse.nhm.ipc.api.tasks.ITaskService;
 
 /**
- * A handle onto the various services which allow communication between different NHM subsystems.
- * 
+ * A handle onto the various services which allow communication between
+ * different NHM subsystems.
+ *
  * @since 3.7.0
  *
  */
 public interface ICommsService extends Closeable {
-	public Optional<ITaskService> 		getTaskService();
-	
-	public Optional<IReportService>		getReportService();
-	
-	public Optional<IScenarioService> 	getScenarioService();
+
+    public Optional<ITaskService> getTaskService();
+
+    public Optional<IReportService> getReportService();
+
+    public Optional<IScenarioService> getScenarioService();
 }

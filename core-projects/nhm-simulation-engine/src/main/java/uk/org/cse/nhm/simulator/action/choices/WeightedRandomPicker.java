@@ -13,23 +13,24 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 import uk.org.cse.nhm.simulator.util.RandomSource;
 
 public class WeightedRandomPicker extends LettingPicker {
-	private final IComponentsFunction<Number> weight;
 
-	@AssistedInject
-	protected WeightedRandomPicker(
-			@Assisted final List<ISequenceSpecialAction> bindings,
-			@Assisted final IComponentsFunction<Number> weight) {
-		super(bindings);
-		this.weight = weight;
-	}
+    private final IComponentsFunction<Number> weight;
 
-	@Override
-	protected PickOption doPick(final RandomSource random, final Set<PickOption> options) {
-		final ImmutableList<PickOption> optionsInOrder = ImmutableList.copyOf(options);
-		final ImmutableList.Builder<Double> weights = ImmutableList.builder();
-		for (final PickOption o : optionsInOrder) {
-			weights.add(weight.compute(o.scope, o.lets).doubleValue());
-		}
-		return random.chooseOne(optionsInOrder, weights.build());
-	}
+    @AssistedInject
+    protected WeightedRandomPicker(
+            @Assisted final List<ISequenceSpecialAction> bindings,
+            @Assisted final IComponentsFunction<Number> weight) {
+        super(bindings);
+        this.weight = weight;
+    }
+
+    @Override
+    protected PickOption doPick(final RandomSource random, final Set<PickOption> options) {
+        final ImmutableList<PickOption> optionsInOrder = ImmutableList.copyOf(options);
+        final ImmutableList.Builder<Double> weights = ImmutableList.builder();
+        for (final PickOption o : optionsInOrder) {
+            weights.add(weight.compute(o.scope, o.lets).doubleValue());
+        }
+        return random.chooseOne(optionsInOrder, weights.build());
+    }
 }

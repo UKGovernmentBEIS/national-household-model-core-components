@@ -18,32 +18,33 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class HousePropertyFunction extends AbstractNamed implements IComponentsFunction<Boolean> {
-	private final IDimension<IHouseProperties> constants;
-	private final String variableName;
-	private final Predicate<String> test;
 
-	@Inject
-	public HousePropertyFunction(
-			final IDimension<IHouseProperties> constants, 
-			@Assisted final String variableName,
-			@Assisted final Predicate<String> test) {
-		this.constants = constants;
-		this.variableName = variableName;
-		this.test = test;
-	}
+    private final IDimension<IHouseProperties> constants;
+    private final String variableName;
+    private final Predicate<String> test;
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return Collections.<IDimension<?>> singleton(constants);
-	}
+    @Inject
+    public HousePropertyFunction(
+            final IDimension<IHouseProperties> constants,
+            @Assisted final String variableName,
+            @Assisted final Predicate<String> test) {
+        this.constants = constants;
+        this.variableName = variableName;
+        this.test = test;
+    }
 
-	@Override
-	public Boolean compute(final IComponentsScope scope, final ILets lets) {
-		return test.apply(scope.get(constants).get(variableName));
-	}
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return Collections.<IDimension<?>>singleton(constants);
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return Collections.emptySet();
-	}
+    @Override
+    public Boolean compute(final IComponentsScope scope, final ILets lets) {
+        return test.apply(scope.get(constants).get(variableName));
+    }
+
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return Collections.emptySet();
+    }
 }

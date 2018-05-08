@@ -15,37 +15,39 @@ import uk.org.cse.nhm.language.definition.function.num.IHouseContext;
 
 @Category(CategoryType.TARIFFS)
 abstract public class XTariffBase extends XElement implements IHouseContext {
-	private XMethodOfPayment methodOfPayment;
-	
-	public static final class P {
-		public static final String methodOfPayment = "methodOfPayment";
-	}
-	
-	@Prop(P.methodOfPayment)
-	@BindNamedArgument("payment-method")
-	@Doc({
-		"The payment method used when paying for fuel on this tariff."
-	})
-	public XMethodOfPayment getMethodOfPayment() {
-		return methodOfPayment;
-	}
 
-	public void setMethodOfPayment(final XMethodOfPayment methodOfPayment) {
-		this.methodOfPayment = methodOfPayment;
-	}
+    private XMethodOfPayment methodOfPayment;
 
-	@Override
-	@BindNamedArgument
-	@Identity
-	@Doc("The name for this tariff")
-	public String getName() {
-		return super.getName();
-	}
-	
-	@Override
-	public void setName(final String name) {
-		super.setName(name);
-	}
+    public static final class P {
 
-	public abstract List<XFuelType> getFuelTypes();
+        public static final String methodOfPayment = "methodOfPayment";
+    }
+
+    @Prop(P.methodOfPayment)
+    @BindNamedArgument("payment-method")
+    @Doc({
+        "The payment method used when paying for fuel on this tariff."
+    })
+    public XMethodOfPayment getMethodOfPayment() {
+        return methodOfPayment;
+    }
+
+    public void setMethodOfPayment(final XMethodOfPayment methodOfPayment) {
+        this.methodOfPayment = methodOfPayment;
+    }
+
+    @Override
+    @BindNamedArgument
+    @Identity
+    @Doc("The name for this tariff")
+    public String getName() {
+        return super.getName();
+    }
+
+    @Override
+    public void setName(final String name) {
+        super.setName(name);
+    }
+
+    public abstract List<XFuelType> getFuelTypes();
 }

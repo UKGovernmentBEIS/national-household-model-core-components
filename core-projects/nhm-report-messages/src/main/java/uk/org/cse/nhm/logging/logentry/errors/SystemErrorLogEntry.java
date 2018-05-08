@@ -10,39 +10,39 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import uk.org.cse.nhm.ipc.api.tasks.sim.ISimulationLogEntry;
 
 public class SystemErrorLogEntry implements ISimulationLogEntry {
-	
-	private final String message;
-	private final String stackTrace;
-	private final UUID uuid;
 
-	public SystemErrorLogEntry(Throwable t, UUID uuid) {
-		this.uuid = uuid;
-		message = t.getMessage();
-		StringWriter stringWriter = new StringWriter();
-		PrintWriter printWriter = new PrintWriter(stringWriter);
-		t.printStackTrace(printWriter);
-		stackTrace = stringWriter.toString();
-	}
-	
-	@JsonCreator
-	public SystemErrorLogEntry(
-			@JsonProperty("message") String message, 
-			@JsonProperty("stackTrace") String stackTrace, 
-			@JsonProperty("uuid") UUID uuid) {
-		this.message = message;
-		this.stackTrace = stackTrace;
-		this.uuid = uuid;
-	}
+    private final String message;
+    private final String stackTrace;
+    private final UUID uuid;
 
-	public String getMessage() {
-		return message;
-	}
+    public SystemErrorLogEntry(Throwable t, UUID uuid) {
+        this.uuid = uuid;
+        message = t.getMessage();
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(stringWriter);
+        t.printStackTrace(printWriter);
+        stackTrace = stringWriter.toString();
+    }
 
-	public String getStackTrace() {
-		return stackTrace;
-	}
+    @JsonCreator
+    public SystemErrorLogEntry(
+            @JsonProperty("message") String message,
+            @JsonProperty("stackTrace") String stackTrace,
+            @JsonProperty("uuid") UUID uuid) {
+        this.message = message;
+        this.stackTrace = stackTrace;
+        this.uuid = uuid;
+    }
 
-	public UUID getUuid() {
-		return uuid;
-	}
+    public String getMessage() {
+        return message;
+    }
+
+    public String getStackTrace() {
+        return stackTrace;
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
 }

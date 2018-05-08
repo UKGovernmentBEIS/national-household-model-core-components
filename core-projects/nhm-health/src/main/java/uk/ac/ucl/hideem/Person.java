@@ -6,6 +6,7 @@ import java.util.Map;
  * Everything HIDEEM needs to know about a person.
  */
 public class Person {
+
     public enum Sex {
         MALE, FEMALE
     }
@@ -28,10 +29,10 @@ public class Person {
 
     public static Person readPerson(final Map<String, String> stuff) {
         return new Person(
-            Integer.parseInt(stuff.get("age")),
-            Person.Sex.valueOf(stuff.get("sex")),
-            Boolean.valueOf(stuff.get("smokes")),
-            Integer.parseInt(stuff.get("samplesize")));
+                Integer.parseInt(stuff.get("age")),
+                Person.Sex.valueOf(stuff.get("sex")),
+                Boolean.valueOf(stuff.get("smokes")),
+                Integer.parseInt(stuff.get("samplesize")));
     }
-    
+
 }

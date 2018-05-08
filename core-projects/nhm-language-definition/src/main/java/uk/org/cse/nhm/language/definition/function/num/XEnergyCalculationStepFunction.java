@@ -14,10 +14,12 @@ import javax.validation.constraints.NotNull;
 
 @Bind("house.energy-calculation-step")
 @Doc({
-        "Returns an internal value from the energy calculator, corresponding to a cell in the SAP 2012 worksheet."
+    "Returns an internal value from the energy calculator, corresponding to a cell in the SAP 2012 worksheet."
 })
 public class XEnergyCalculationStepFunction extends XHouseNumber implements IEnergyFunction {
+
     public static final class P {
+
         public static final String month = "month";
         public static final String step = "step";
     }
@@ -42,9 +44,9 @@ public class XEnergyCalculationStepFunction extends XHouseNumber implements IEne
     @Max(12)
     @Min(1)
     @Doc({
-            "The number of the month to get the value for.",
-            "If this is omitted, the value will be reported in annual units instead, using the aggregation specified in the step's documentation.",
-            "The documentation for individual steps determines whether or not you can look at them on a monthly basis."
+        "The number of the month to get the value for.",
+        "If this is omitted, the value will be reported in annual units instead, using the aggregation specified in the step's documentation.",
+        "The documentation for individual steps determines whether or not you can look at them on a monthly basis."
     })
     public Integer getMonth() {
         return month;

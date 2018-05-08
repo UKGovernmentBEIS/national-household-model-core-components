@@ -10,14 +10,14 @@ import uk.org.cse.nhm.simulator.state.functions.impl.house.StructureFunction;
 
 public class FloorInsulationThicknessFunction extends StructureFunction<Number> {
 
-	@AssistedInject
-	public FloorInsulationThicknessFunction(
-			final IDimension<StructureModel> structure) {
-		super(structure);
-	}
+    @AssistedInject
+    public FloorInsulationThicknessFunction(
+            final IDimension<StructureModel> structure) {
+        super(structure);
+    }
 
-	@Override
-	public Double compute(final IComponentsScope scope, final ILets lets) {
-		return getStructure(scope).getFloorInsulationThickness();
-	}
+    @Override
+    public Double compute(final IComponentsScope scope, final ILets lets) {
+        return getStructure(scope).getFloorInsulationThickness();
+    }
 }

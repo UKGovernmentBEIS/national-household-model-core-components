@@ -10,79 +10,78 @@ import uk.org.cse.boilermatcher.sedbuk.ModelDescription.Type;
 /**
  * @since 1.0
  */
-@BuildParseTree 
+@BuildParseTree
 public class ModelGrammar extends BaseParser<ModelDescription> {
+
     /**
      * @since 1.0
      */
     public Rule Parse() {
-		return OneOrMore(Element());
-	}
-	
+        return OneOrMore(Element());
+    }
+
     /**
      * @since 1.0
      */
     public Rule Element() {
-		return FirstOf(
-				Identifiers(),
-				Sequence(Word(), Optional(Sep())));
-	}
-	
+        return FirstOf(
+                Identifiers(),
+                Sequence(Word(), Optional(Sep())));
+    }
+
     /**
      * @since 1.0
      */
     public Rule Identifiers() {
-		return OneOrMore(Identifier(), Optional(Sep()));
-	}
-	
+        return OneOrMore(Identifier(), Optional(Sep()));
+    }
+
     /**
      * @since 1.0
      */
     public Rule Identifier() {
-		return Sequence(
-				FirstOf(
-						Sequence(
-								ZeroOrMore(Letter()),
-								Digit(),
-								ZeroOrMore(FirstOf(Digit(), Letter()))						
-						),
-				
-						Sequence(
-								Letter(), 
-								Optional(Letter()), 
-								Optional(Letter()),
-								FirstOf(Sep(), EOI)
-						)
-				)
-				,
-				push(new ModelDescription(Type.QUALIFIER, match())));
-	}
-	
+        return Sequence(
+                FirstOf(
+                        Sequence(
+                                ZeroOrMore(Letter()),
+                                Digit(),
+                                ZeroOrMore(FirstOf(Digit(), Letter()))
+                        ),
+                        Sequence(
+                                Letter(),
+                                Optional(Letter()),
+                                Optional(Letter()),
+                                FirstOf(Sep(), EOI)
+                        )
+                ),
+                push(new ModelDescription(Type.QUALIFIER, match())));
+    }
+
     /**
      * @since 1.0
      */
     public Rule Word() {
-		return Sequence(OneOrMore(Letter()), push(new ModelDescription(Type.WORD, match())));
-	}
+        return Sequence(OneOrMore(Letter()), push(new ModelDescription(Type.WORD, match())));
+    }
 
     /**
      * @since 1.0
      */
     public Rule Sep() {
-		return OneOrMore(AnyOf(", "));
-	}
-	
+        return OneOrMore(AnyOf(", "));
+    }
+
     /**
      * @since 1.0
      */
     public Rule Digit() {
-		return FirstOf(AnyOf("/-()*.+"), CharRange('0', '9'));
-	}
-	
+        return FirstOf(AnyOf("/-()*.+"), CharRange('0', '9'));
+    }
+
     /**
      * @since 1.0
      */
     public Rule Letter() {
-		return CharRange('a', 'z');
-	}
+        return CharRange('a', 'z');
+    }
 }

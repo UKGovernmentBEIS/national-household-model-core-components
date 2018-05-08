@@ -17,23 +17,24 @@ import uk.org.cse.nhm.simulator.main.ISimulator;
 import uk.org.cse.nhm.simulator.main.Priority;
 
 public class FixedFrequencyTimedTriggerTest extends TimedTriggerTest {
-	@Test
-	public void initializeShouldDoSomething() throws NHMException {
-		((FixedFrequencyTimedTrigger) trigger).initialize();
-		
-		final ArgumentCaptor<IDateRunnable> captor = ArgumentCaptor.forClass(IDateRunnable.class);
-		final ArgumentCaptor<DateTime> dates = ArgumentCaptor.forClass(DateTime.class);
-		verify(sim, times(1)).schedule(dates.capture(), any(Priority.class), captor.capture());
 
-		final IDateRunnable callback = captor.getValue();
+    @Test
+    public void initializeShouldDoSomething() throws NHMException {
+        ((FixedFrequencyTimedTrigger) trigger).initialize();
 
-		callback.run(dates.getValue());
+        final ArgumentCaptor<IDateRunnable> captor = ArgumentCaptor.forClass(IDateRunnable.class);
+        final ArgumentCaptor<DateTime> dates = ArgumentCaptor.forClass(DateTime.class);
+        verify(sim, times(1)).schedule(dates.capture(), any(Priority.class), captor.capture());
 
-		verify(state, times(1)).apply(trigger, action, samplerResult, ILets.EMPTY);
-	}
+        final IDateRunnable callback = captor.getValue();
 
-	@Override
-	protected TimedTrigger buildTrigger(final ISimulator sim) {
-		return new FixedFrequencyTimedTrigger(sim, state, Name.of("test"), Period.years(1), group, sampler, action);
-	}
+        callback.run(dates.getValue());
+
+        verify(state, times(1)).apply(trigger, action, samplerResult, ILets.EMPTY);
+    }
+
+    @Override
+    protected TimedTrigger buildTrigger(final ISimulator sim) {
+        return new FixedFrequencyTimedTrigger(sim, state, Name.of("test"), Period.years(1), group, sampler, action);
+    }
 }

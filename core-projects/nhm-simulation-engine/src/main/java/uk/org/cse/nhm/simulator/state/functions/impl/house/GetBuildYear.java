@@ -8,14 +8,15 @@ import uk.org.cse.nhm.simulator.scope.IComponentsScope;
 import uk.org.cse.nhm.simulator.state.IDimension;
 
 public class GetBuildYear extends BasicAttributesFunction<Integer> {
-	@Inject
-	public GetBuildYear(
-			IDimension<BasicCaseAttributes> bad) {
-		super(bad);
-	}
 
-	@Override
-	public Integer compute(IComponentsScope scope, ILets lets) {
-		return getAttributes(scope).getBuildYear();
-	}
+    @Inject
+    public GetBuildYear(
+            IDimension<BasicCaseAttributes> bad) {
+        super(bad);
+    }
+
+    @Override
+    public Integer compute(IComponentsScope scope, ILets lets) {
+        return getAttributes(scope).getBuildYear();
+    }
 }

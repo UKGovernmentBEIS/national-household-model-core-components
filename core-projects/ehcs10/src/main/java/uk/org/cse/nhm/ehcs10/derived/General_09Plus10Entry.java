@@ -5,11 +5,12 @@ import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 
 public interface General_09Plus10Entry extends SurveyEntry {
-	@SavVariableMapping("~AAGPD\\d+")
-	public Integer getDwellWeight_PairedCases2009_10And2010_11();
 
-	@SavVariableMapping("~AAGPH\\d+")
-	public Double getHhldWeight_PairedCases2009_10And2010_11();
+    @SavVariableMapping("~AAGPD\\d+")
+    public Integer getDwellWeight_PairedCases2009_10And2010_11();
+
+    @SavVariableMapping("~AAGPH\\d+")
+    public Double getHhldWeight_PairedCases2009_10And2010_11();
 
     @SavVariableMapping("IMD1010")
     public Enum21 getIMD2010DecileRankingOfAreas_LowerLayerSOA_();

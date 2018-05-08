@@ -9,7 +9,9 @@ import com.larkery.jasb.io.impl.JASB;
 import uk.org.cse.nhm.language.sexp.Defaults;
 
 public class Helper {
+
     public static final String USAGE = "\n\tGenerate an s-expression description of the model language, for emacs";
+
     public static void main(String[] args) {
         Validator.disableLogging();
         final JASB jasb = Defaults.CONTEXT;
@@ -39,16 +41,16 @@ public class Helper {
                     sb.append("&rest");
                 }
 
-                sb.append(arg.isMultiple() ?
-                          " multiple" : " single");
-                
+                sb.append(arg.isMultiple()
+                        ? " multiple" : " single");
+
                 sb.append(" (");
 
                 for (final IElement element : arg.getLegalValues()) {
                     sb.append(element.getName().replace(" ", "-"));
                     sb.append(" ");
                 }
-                
+
                 sb.append("))");
             }
             sb.append(")");
@@ -58,4 +60,3 @@ public class Helper {
         System.out.println(")");
     }
 }
-

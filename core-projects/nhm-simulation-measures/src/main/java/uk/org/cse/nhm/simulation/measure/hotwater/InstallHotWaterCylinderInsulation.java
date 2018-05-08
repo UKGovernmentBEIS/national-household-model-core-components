@@ -16,15 +16,16 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 /**
- * InstallHotWateCylinderInsulation, tops up the insulation for a given hot-water cylinder to a given amount.
+ * InstallHotWateCylinderInsulation, tops up the insulation for a given
+ * hot-water cylinder to a given amount.
  *
  * @author richardTiffin
  */
 public class InstallHotWaterCylinderInsulation extends HotWaterCylinderMeasurer {
-    
+
     private final double maxCurrentFactoryInsulation = 25d;
     private final double maxJacketInsulation = 80d;
-    
+
     @AssistedInject
     public InstallHotWaterCylinderInsulation(
             final IDimension<ITechnologyModel> technologyDimension,
@@ -36,24 +37,26 @@ public class InstallHotWaterCylinderInsulation extends HotWaterCylinderMeasurer 
      * @param scope
      * @param lets
      * @return
-     * @see uk.org.cse.nhm.simulator.scope.IComponentsAction#isSuitable(uk.org.cse.nhm.simulator.scope.IComponentsScope, uk.org.cse.nhm.simulator.let.ILets)
+     * @see
+     * uk.org.cse.nhm.simulator.scope.IComponentsAction#isSuitable(uk.org.cse.nhm.simulator.scope.IComponentsScope,
+     * uk.org.cse.nhm.simulator.let.ILets)
      */
     @Override
     public boolean isSuitable(IComponentsScope scope, ILets lets) {
         final ITechnologyModel structure = scope.get(getTechnologyDimension());
-        
-        if(super.hasHotWaterCylinder(structure)){
-            IWaterTank hotWaterCylinder = ((ICentralWaterSystem)structure.getCentralWaterSystem()).getStore();
-            
+
+        if (super.hasHotWaterCylinder(structure)) {
+            IWaterTank hotWaterCylinder = ((ICentralWaterSystem) structure.getCentralWaterSystem()).getStore();
+
             //If is factory insulated then use max factory insulation, otherwise use max jacket insulation
-            final double maxAllowedThickness = 
-                    (hotWaterCylinder.isFactoryInsulation() ? getMaxCurrentFactoryInsulation() : getMaxJacketInsulation());
-            
-            if(hotWaterCylinder.getInsulation() < maxAllowedThickness){
+            final double maxAllowedThickness
+                    = (hotWaterCylinder.isFactoryInsulation() ? getMaxCurrentFactoryInsulation() : getMaxJacketInsulation());
+
+            if (hotWaterCylinder.getInsulation() < maxAllowedThickness) {
                 return true;
             }
         }
-                
+
         return false;
     }
 
@@ -79,19 +82,22 @@ public class InstallHotWaterCylinderInsulation extends HotWaterCylinderMeasurer 
      * @param components
      * @return
      * @throws NHMException
-     * @see uk.org.cse.nhm.simulation.measure.hotwater.HotWaterCylinderMeasurer#doApply(uk.org.cse.nhm.simulator.scope.ISettableComponentsScope)
+     * @see
+     * uk.org.cse.nhm.simulation.measure.hotwater.HotWaterCylinderMeasurer#doApply(uk.org.cse.nhm.simulator.scope.ISettableComponentsScope)
      */
     @Override
     public boolean doApply(ISettableComponentsScope components) throws NHMException {
         components.modify(getTechnologyDimension(), new Modifier());
         return true;
     }
-    
+
     protected class Modifier implements IModifier<ITechnologyModel> {
+
         /**
          * @param modifiable
          * @return
-         * @see uk.org.cse.nhm.simulator.state.IBranch.IModifier#modify(java.lang.Object)
+         * @see
+         * uk.org.cse.nhm.simulator.state.IBranch.IModifier#modify(java.lang.Object)
          */
         @Override
         public boolean modify(ITechnologyModel modifiable) {
@@ -100,7 +106,7 @@ public class InstallHotWaterCylinderInsulation extends HotWaterCylinderMeasurer 
             final IWaterTank waterTank = (centralWaterSystem != null) ? centralWaterSystem.getStore() : null;
 
             if ((centralWaterSystem != null) && (waterTank != null)) {
-                if(waterTank.isFactoryInsulation()){
+                if (waterTank.isFactoryInsulation()) {
                     waterTank.setInsulation(getMaxCurrentFactoryInsulation());
                 } else {
                     waterTank.setInsulation(getMaxJacketInsulation());
@@ -111,10 +117,10 @@ public class InstallHotWaterCylinderInsulation extends HotWaterCylinderMeasurer 
             return false;
         }
     }
-    
+
     /**
-     * @return
-     * @see uk.org.cse.nhm.simulation.measure.hotwater.HotWaterCylinderMeasurer#getTechnologyType()
+     * @return @see
+     * uk.org.cse.nhm.simulation.measure.hotwater.HotWaterCylinderMeasurer#getTechnologyType()
      */
     @Override
     public TechnologyType getTechnologyType() {

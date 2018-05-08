@@ -15,6 +15,7 @@ import uk.org.cse.nhm.simulator.scope.IStateScope;
 import uk.org.cse.nhm.simulator.state.IStateChangeSource;
 
 public class ProfiledHookAction implements IHookRunnable {
+
     private final IProfilingStack prof;
     private final IHookRunnable delegate;
 
@@ -31,9 +32,9 @@ public class ProfiledHookAction implements IHookRunnable {
 
     @Override
     public void run(final IStateScope state,
-                    final DateTime date, 
-                    final Set<IStateChangeSource> causes, 
-                    final ILets lets) {
+            final DateTime date,
+            final Set<IStateChangeSource> causes,
+            final ILets lets) {
         try {
             prof.push(this);
             delegate.run(state, date, causes, lets);
@@ -42,7 +43,6 @@ public class ProfiledHookAction implements IHookRunnable {
         }
     }
 
-    
     @Override
     public String toString() {
         return delegate.toString();

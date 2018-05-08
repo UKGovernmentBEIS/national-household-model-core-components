@@ -13,5 +13,5 @@ import uk.org.cse.nhm.ipc.api.tasks.sim.ISimulationLogEntry;
  */
 @AutoProperty
 public abstract class AbstractLogEntry implements ISimulationLogEntry {
-   
+
 }

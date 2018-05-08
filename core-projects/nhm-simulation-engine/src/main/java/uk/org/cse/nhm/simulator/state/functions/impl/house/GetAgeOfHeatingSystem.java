@@ -26,39 +26,40 @@ import uk.org.cse.nhm.simulator.state.dimensions.time.ITimeDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class GetAgeOfHeatingSystem extends AbstractNamed implements IComponentsFunction<Double> {
-	private final IDimension<BasicCaseAttributes> basicAttributes;
-	final private IDimension<ITechnologyModel> technologies;
-	final private ITimeDimension time;
-	final private ILogEntryHandler handler;
-	
-	@Inject
-	public GetAgeOfHeatingSystem(final IDimension<ITechnologyModel> technologies, final ITimeDimension time, 
-			final ILogEntryHandler handler, final IDimension<BasicCaseAttributes> basicAttributes){
-		this.technologies = technologies;
-		this.time = time;
-		this.handler = handler;
-		this.basicAttributes = basicAttributes;
-	}
-		
-	@Override
-	public Double compute(final IComponentsScope scope, final ILets lets){
-		final ITechnologyModel techModel = scope.get(technologies);
-		
-		return getHeatSourceAge(techModel, scope.get(time).get(lets), scope);
-	}
-	
-	/**
-	 * Returns the age of the Heat Source
-	 * 
-	 * @param technologyModel
-	 * @param simYear
-	 * @return
-	 */
-	protected double getHeatSourceAge(final ITechnologyModel technologyModel, final DateTime simYear, final IComponentsScope scope){
+
+    private final IDimension<BasicCaseAttributes> basicAttributes;
+    final private IDimension<ITechnologyModel> technologies;
+    final private ITimeDimension time;
+    final private ILogEntryHandler handler;
+
+    @Inject
+    public GetAgeOfHeatingSystem(final IDimension<ITechnologyModel> technologies, final ITimeDimension time,
+            final ILogEntryHandler handler, final IDimension<BasicCaseAttributes> basicAttributes) {
+        this.technologies = technologies;
+        this.time = time;
+        this.handler = handler;
+        this.basicAttributes = basicAttributes;
+    }
+
+    @Override
+    public Double compute(final IComponentsScope scope, final ILets lets) {
+        final ITechnologyModel techModel = scope.get(technologies);
+
+        return getHeatSourceAge(techModel, scope.get(time).get(lets), scope);
+    }
+
+    /**
+     * Returns the age of the Heat Source
+     *
+     * @param technologyModel
+     * @param simYear
+     * @return
+     */
+    protected double getHeatSourceAge(final ITechnologyModel technologyModel, final DateTime simYear, final IComponentsScope scope) {
         final IPrimarySpaceHeater primarySpaceHeater = technologyModel.getPrimarySpaceHeater();
 
         IHasInstallationYear thing = null;
-        
+
         if (primarySpaceHeater instanceof ICentralHeatingSystem) {
             final ICentralHeatingSystem ch = (ICentralHeatingSystem) primarySpaceHeater;
             final IHeatSource source = ch.getHeatSource();
@@ -77,21 +78,21 @@ public class GetAgeOfHeatingSystem extends AbstractNamed implements IComponentsF
         }
 
         handler.acceptLogEntry(new WarningLogEntry(
-                                   "Could not get installation year for heat source.",
-                                   ImmutableMap.of("aacode", scope.get(basicAttributes).getAacode())));
-        
+                "Could not get installation year for heat source.",
+                ImmutableMap.of("aacode", scope.get(basicAttributes).getAacode())));
+
         return 0;
-	}
+    }
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return ImmutableSet.<IDimension<?>>builder()
-            .add(technologies, time)
-            .build();
-	}
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return ImmutableSet.<IDimension<?>>builder()
+                .add(technologies, time)
+                .build();
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return Collections.emptySet();
-	}
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return Collections.emptySet();
+    }
 }

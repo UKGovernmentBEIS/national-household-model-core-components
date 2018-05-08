@@ -1,51 +1,50 @@
 package uk.org.cse.stockimport.imputation.walls;
 
-
 public class WallPropertyTables implements IWallPropertyTables {
-	
-	IWallInfiltrationImputer infiltrationImputer;
-	IWallThicknessImputer wallThicknessImputer;
-	IWallUValueImputer wallUValueImputer;
-	IWallKValueImputer wallKValueImputer;
 
-	@Override
-	public IWallInfiltrationImputer getWallInfiltrationImputer() {
-		return infiltrationImputer;
-	}
+    IWallInfiltrationImputer infiltrationImputer;
+    IWallThicknessImputer wallThicknessImputer;
+    IWallUValueImputer wallUValueImputer;
+    IWallKValueImputer wallKValueImputer;
 
-	@Override
-	public IWallKValueImputer getWallKValueImputer() {
-		return wallKValueImputer;
-	}
+    @Override
+    public IWallInfiltrationImputer getWallInfiltrationImputer() {
+        return infiltrationImputer;
+    }
 
-	@Override
-	public IWallUValueImputer getWallUValueImputer() {
-		return wallUValueImputer;
-	}
+    @Override
+    public IWallKValueImputer getWallKValueImputer() {
+        return wallKValueImputer;
+    }
 
-	@Override
-	public IWallThicknessImputer getWallThicknessImputer() {
-		return wallThicknessImputer;
-	}
+    @Override
+    public IWallUValueImputer getWallUValueImputer() {
+        return wallUValueImputer;
+    }
 
-	@Override
-	public void setWallInfiltrationImputer(
-			IWallInfiltrationImputer infiltrationImputer) {
-		this.infiltrationImputer = infiltrationImputer;
-	}
+    @Override
+    public IWallThicknessImputer getWallThicknessImputer() {
+        return wallThicknessImputer;
+    }
 
-	@Override
-	public void setWallThicknessImputer(IWallThicknessImputer imputer) {
-		wallThicknessImputer = imputer;
-	}
+    @Override
+    public void setWallInfiltrationImputer(
+            IWallInfiltrationImputer infiltrationImputer) {
+        this.infiltrationImputer = infiltrationImputer;
+    }
 
-	@Override
-	public void setWallUValueImputer(IWallUValueImputer wallIWallUValueImputer) {
-		this.wallUValueImputer = wallIWallUValueImputer;
-	}
+    @Override
+    public void setWallThicknessImputer(IWallThicknessImputer imputer) {
+        wallThicknessImputer = imputer;
+    }
 
-	@Override
-	public void setWallKValueImputer(IWallKValueImputer wallKValueImputer) {
-		this.wallKValueImputer = wallKValueImputer;
-	}
+    @Override
+    public void setWallUValueImputer(IWallUValueImputer wallIWallUValueImputer) {
+        this.wallUValueImputer = wallIWallUValueImputer;
+    }
+
+    @Override
+    public void setWallKValueImputer(IWallKValueImputer wallKValueImputer) {
+        this.wallKValueImputer = wallKValueImputer;
+    }
 }

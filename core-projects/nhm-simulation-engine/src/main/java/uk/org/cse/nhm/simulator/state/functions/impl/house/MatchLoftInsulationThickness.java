@@ -12,16 +12,17 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class MatchLoftInsulationThickness extends StructureFunction<Boolean> implements IComponentsFunction<Boolean> {
-	private final Predicate<Integer> test;
 
-	@Inject
-	public MatchLoftInsulationThickness(final IDimension<StructureModel> structure, @Assisted final Predicate<Integer> test) {
-		super(structure);
-		this.test = test;
-	}
+    private final Predicate<Integer> test;
 
-	@Override
-	public Boolean compute(final IComponentsScope scope, final ILets lets) {
-		return test.apply((int) getStructure(scope).getRoofInsulationThickness());
-	}
+    @Inject
+    public MatchLoftInsulationThickness(final IDimension<StructureModel> structure, @Assisted final Predicate<Integer> test) {
+        super(structure);
+        this.test = test;
+    }
+
+    @Override
+    public Boolean compute(final IComponentsScope scope, final ILets lets) {
+        return test.apply((int) getStructure(scope).getRoofInsulationThickness());
+    }
 }

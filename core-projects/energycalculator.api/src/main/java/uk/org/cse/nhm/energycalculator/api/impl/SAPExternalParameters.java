@@ -5,17 +5,17 @@ import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
 
 public class SAPExternalParameters extends ExternalParameters {
 
-	private final double occupancy;
-	private EnergyCalculatorType calcType;
+    private final double occupancy;
+    private EnergyCalculatorType calcType;
 
-	public SAPExternalParameters(final EnergyCalculatorType calcType, final ElectricityTariffType tariffType, final double floorArea) {
-		super(tariffType);
-		this.calcType = calcType;
+    public SAPExternalParameters(final EnergyCalculatorType calcType, final ElectricityTariffType tariffType, final double floorArea) {
+        super(tariffType);
+        this.calcType = calcType;
 
-		this.occupancy = SAPOccupancy.calculate(floorArea);
-	}
+        this.occupancy = SAPOccupancy.calculate(floorArea);
+    }
 
-	/*
+    /*
 	BEISDOC
 	NAME: SAP zone 1 demand temperature
 	DESCRIPTION: The zone 1 demand temperature under SAP 2012
@@ -27,23 +27,23 @@ public class SAPExternalParameters extends ExternalParameters {
     NOTES: 21℃
 	ID: sap-zone-1-demand-temperature
 	CODSIEB
-	*/
-	@Override
-	public double getZoneOneDemandTemperature() {
-		return 21;
-	}
+     */
+    @Override
+    public double getZoneOneDemandTemperature() {
+        return 21;
+    }
 
-	@Override
-	public boolean isZoneTwoDemandTemperatureSpecified() {
-		return false;
-	}
+    @Override
+    public boolean isZoneTwoDemandTemperatureSpecified() {
+        return false;
+    }
 
-	@Override
-	public double getZoneTwoDemandTemperature() {
-		throw new UnsupportedOperationException("In SAP 2012, the zone two demand temperature must be computed using the heat loss parameter.");
-	}
+    @Override
+    public double getZoneTwoDemandTemperature() {
+        throw new UnsupportedOperationException("In SAP 2012, the zone two demand temperature must be computed using the heat loss parameter.");
+    }
 
-	/*
+    /*
 	BEISDOC
 	NAME: SAP interzone temperature difference
 	DESCRIPTION: The difference in demand temperature between the living area and the rest of the dwelling.
@@ -56,19 +56,19 @@ public class SAPExternalParameters extends ExternalParameters {
     NOTES: we can see that SAP uses the BREDEM 2012 formula with 3℃ plugged in for the temperature difference.
 	ID: sap-interzone-temperature-difference
 	CODSIEB
-	*/
-	@Override
-	public double getInterzoneTemperatureDifference() {
-		return 3;
-	}
+     */
+    @Override
+    public double getInterzoneTemperatureDifference() {
+        return 3;
+    }
 
-	@Override
-	public EnergyCalculatorType getCalculatorType() {
-		return calcType;
-	}
+    @Override
+    public EnergyCalculatorType getCalculatorType() {
+        return calcType;
+    }
 
-	@Override
-	public double getNumberOfOccupants() {
-		return occupancy;
-	}
+    @Override
+    public double getNumberOfOccupants() {
+        return occupancy;
+    }
 }

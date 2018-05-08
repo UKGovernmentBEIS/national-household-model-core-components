@@ -10,5 +10,5 @@ import uk.org.cse.nhm.language.definition.action.XHeatingTemperaturesAction;
 @Bind("house.living-area-temperature")
 @SeeAlso(XHeatingTemperaturesAction.class)
 public class XMainHeatingTemperature extends XHouseNumber {
-	
+
 }

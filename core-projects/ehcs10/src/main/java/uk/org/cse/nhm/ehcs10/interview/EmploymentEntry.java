@@ -7,197 +7,197 @@ import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 
 public interface EmploymentEntry extends SurveyEntry {
-	@SavVariableMapping("HRP")
-	public Integer getPersonNumberOfHRP();
 
-	@SavVariableMapping("PERSNO")
-	public Integer getPersonIdentifier();
+    @SavVariableMapping("HRP")
+    public Integer getPersonNumberOfHRP();
 
-	@SavVariableMapping("LEFTYR")
-	public Integer getYearLeftLastPaidJob();
+    @SavVariableMapping("PERSNO")
+    public Integer getPersonIdentifier();
 
-	@SavVariableMapping("SEG")
-	public Double getSocio_EconomicGroup();
+    @SavVariableMapping("LEFTYR")
+    public Integer getYearLeftLastPaidJob();
 
-	@SavVariableMapping("NOLOOTHR")
-	public Enum69 getOtherReason();
+    @SavVariableMapping("SEG")
+    public Double getSocio_EconomicGroup();
 
-	@SavVariableMapping("NOLOLSCK")
-	public Enum69 getLong_TermSick_Disabled();
+    @SavVariableMapping("NOLOOTHR")
+    public Enum69 getOtherReason();
 
-	@SavVariableMapping("ISTATE")
-	public Enum385 getQuestionsReferringToTimeSpent();
+    @SavVariableMapping("NOLOLSCK")
+    public Enum69 getLong_TermSick_Disabled();
 
-	@SavVariableMapping("LEFTM")
-	public Enum386 getMonthLeftLastPaidJob();
+    @SavVariableMapping("ISTATE")
+    public Enum385 getQuestionsReferringToTimeSpent();
 
-	@SavVariableMapping("GOREHS")
-	public Enum30 getRegion_EHSOrder();
+    @SavVariableMapping("LEFTM")
+    public Enum386 getMonthLeftLastPaidJob();
 
-	@SavVariableMapping("SECTOR")
-	public Enum388 getSector();
+    @SavVariableMapping("GOREHS")
+    public Enum30 getRegion_EHSOrder();
 
-	@SavVariableMapping("NOLOAPPL")
-	public Enum69 getWaitingForResultsOfJobApplication_BeingAssessedByETTrainingAgent();
+    @SavVariableMapping("SECTOR")
+    public Enum388 getSector();
 
-	@SavVariableMapping("NOLONTST")
-	public Enum69 getNotYetStartedLookingForWork();
+    @SavVariableMapping("NOLOAPPL")
+    public Enum69 getWaitingForResultsOfJobApplication_BeingAssessedByETTrainingAgent();
 
-	@SavVariableMapping("NOLONOJB")
-	public Enum69 getBelievesNoJobsAvailable();
+    @SavVariableMapping("NOLONTST")
+    public Enum69 getNotYetStartedLookingForWork();
 
-	@SavVariableMapping("YPTJOB")
-	public Enum392 getWhyPart_TimeNotFull_TimeJob();
+    @SavVariableMapping("NOLONOJB")
+    public Enum69 getBelievesNoJobsAvailable();
 
-	@SavVariableMapping("ILODEFR")
-	public Enum393 getEconomicActivity_Reported();
+    @SavVariableMapping("YPTJOB")
+    public Enum392 getWhyPart_TimeNotFull_TimeJob();
 
-	@SavVariableMapping("YTETJB")
-	public Enum69 getOnGovernmentScheme_OtherPaidWork();
+    @SavVariableMapping("ILODEFR")
+    public Enum393 getEconomicActivity_Reported();
 
-	@SavVariableMapping("SELFSBCR")
-	public Enum69 getSub_Contractor();
+    @SavVariableMapping("YTETJB")
+    public Enum69 getOnGovernmentScheme_OtherPaidWork();
 
-	@SavVariableMapping("NOLONOND")
-	public Enum69 getDoesn_TNeedEmployment();
+    @SavVariableMapping("SELFSBCR")
+    public Enum69 getSub_Contractor();
 
-	@SavVariableMapping("SELFFREE")
-	public Enum69 getDoingFreelanceWork();
+    @SavVariableMapping("NOLONOND")
+    public Enum69 getDoesn_TNeedEmployment();
 
-	@SavVariableMapping("YSTRTF")
-	public Enum398 getMainReasonCouldNotStartWork();
+    @SavVariableMapping("SELFFREE")
+    public Enum69 getDoingFreelanceWork();
 
-	@SavVariableMapping("WAIT")
-	public Enum69 getWhetherWaitingToTakeUpAJobAlreadyObtained();
+    @SavVariableMapping("YSTRTF")
+    public Enum398 getMainReasonCouldNotStartWork();
 
-	@SavVariableMapping("INECACA")
-	public Enum400 getEconomicActivity_InternationalDefinition();
+    @SavVariableMapping("WAIT")
+    public Enum69 getWhetherWaitingToTakeUpAJobAlreadyObtained();
 
-	@SavVariableMapping("NOLOHOME")
-	public Enum69 getLookingAfterFamily_Home();
+    @SavVariableMapping("INECACA")
+    public Enum400 getEconomicActivity_InternationalDefinition();
 
-	@SavVariableMapping("LKYT4")
-	public Enum69 getWhetherLookingForAPlaceOnAGovernmentScheme();
+    @SavVariableMapping("NOLOHOME")
+    public Enum69 getLookingAfterFamily_Home();
 
-	@SavVariableMapping("LKTIMB")
-	public Enum403 getWaitingToTakeUpJob_GovernmentSchemePlacement_TimeSpentLooking();
+    @SavVariableMapping("LKYT4")
+    public Enum69 getWhetherLookingForAPlaceOnAGovernmentScheme();
 
-	@SavVariableMapping("STATR")
-	public Enum404 getEmploymentStatusInMainJob_Reported();
+    @SavVariableMapping("LKTIMB")
+    public Enum403 getWaitingToTakeUpJob_GovernmentSchemePlacement_TimeSpentLooking();
 
-	@SavVariableMapping("SELFPRAC")
-	public Enum69 getRunningBusiness_ProfessionalPractice();
+    @SavVariableMapping("STATR")
+    public Enum404 getEmploymentStatusInMainJob_Reported();
 
-	@SavVariableMapping("LIKEWK")
-	public Enum69 getWhetherWouldYouLikeToHaveARegularPaidJobAtTheMoment();
+    @SavVariableMapping("SELFPRAC")
+    public Enum69 getRunningBusiness_ProfessionalPractice();
 
-	@SavVariableMapping("START")
-	public Enum69 getWhetherCouldStartJob_GovernmentSchemeIn2Weeks();
+    @SavVariableMapping("LIKEWK")
+    public Enum69 getWhetherWouldYouLikeToHaveARegularPaidJobAtTheMoment();
 
-	@SavVariableMapping("SELFOWNS")
-	public Enum69 getWorkingForSelf();
+    @SavVariableMapping("START")
+    public Enum69 getWhetherCouldStartJob_GovernmentSchemeIn2Weeks();
 
-	@SavVariableMapping("NOLORTRE")
-	public Enum69 getRetiredFromPaidWork();
+    @SavVariableMapping("SELFOWNS")
+    public Enum69 getWorkingForSelf();
 
-	@SavVariableMapping("YSTART")
-	public Enum410 getReasonUnableToStartIn2Weeks();
+    @SavVariableMapping("NOLORTRE")
+    public Enum69 getRetiredFromPaidWork();
 
-	@SavVariableMapping("RELBUS")
-	public Enum69 getUnpaidWorkForRelative_SBusiness();
+    @SavVariableMapping("YSTART")
+    public Enum410 getReasonUnableToStartIn2Weeks();
 
-	@SavVariableMapping("JBAWAY")
-	public Enum69 getWhetherAwayFromAJobOrBusinessInTheLastWeek();
+    @SavVariableMapping("RELBUS")
+    public Enum69 getUnpaidWorkForRelative_SBusiness();
 
-	@SavVariableMapping("NOLWM")
-	public Enum413 getMainReasonDidNotLookForWork();
+    @SavVariableMapping("JBAWAY")
+    public Enum69 getWhetherAwayFromAJobOrBusinessInTheLastWeek();
 
-	@SavVariableMapping("SECTRO03")
-	public Enum414 getTypeOfNon_PrivateOrganisation();
+    @SavVariableMapping("NOLWM")
+    public Enum413 getMainReasonDidNotLookForWork();
 
-	@SavVariableMapping("STAT")
-	public Enum404 getEmployeeOrSelf_Employed();
+    @SavVariableMapping("SECTRO03")
+    public Enum414 getTypeOfNon_PrivateOrganisation();
 
-	@SavVariableMapping("WRKING")
-	public Enum69 getAnyPaidWorkInLast7Days();
+    @SavVariableMapping("STAT")
+    public Enum404 getEmployeeOrSelf_Employed();
 
-	@SavVariableMapping("NOLOTSCK")
-	public Enum69 getTemporarilySick_Injured();
+    @SavVariableMapping("WRKING")
+    public Enum69 getAnyPaidWorkInLast7Days();
 
-	@SavVariableMapping("EVERWK")
-	public Enum69 getEverHadPaidWork_ApartFromCasualOrHolidayWork();
+    @SavVariableMapping("NOLOTSCK")
+    public Enum69 getTemporarilySick_Injured();
 
-	@SavVariableMapping("SELFAGCY")
-	public Enum69 getPaidSalaryOrWageByAnAgency();
+    @SavVariableMapping("EVERWK")
+    public Enum69 getEverHadPaidWork_ApartFromCasualOrHolidayWork();
 
-	@SavVariableMapping("SUPVIS")
-	public Enum69 getWhetherSuperviseTheWorkOfOtherEmployees();
+    @SavVariableMapping("SELFAGCY")
+    public Enum69 getPaidSalaryOrWageByAnAgency();
 
-	@SavVariableMapping("SOLO")
-	public Enum421 getWhetherHaveEmployees();
+    @SavVariableMapping("SUPVIS")
+    public Enum69 getWhetherSuperviseTheWorkOfOtherEmployees();
 
-	@SavVariableMapping("FTPTWK")
-	public Enum422 getMainJob_FullOrPart_Time();
+    @SavVariableMapping("SOLO")
+    public Enum421 getWhetherHaveEmployees();
 
-	@SavVariableMapping("CASECAT")
-	public Enum229 getStatusOfCase();
+    @SavVariableMapping("FTPTWK")
+    public Enum422 getMainJob_FullOrPart_Time();
 
-	@SavVariableMapping("TECLEC4")
-	public Enum424 getTypeOfTrainingScheme();
+    @SavVariableMapping("CASECAT")
+    public Enum229 getStatusOfCase();
 
-	@SavVariableMapping("MANAGE")
-	public Enum425 getManagerialDuties_Type();
+    @SavVariableMapping("TECLEC4")
+    public Enum424 getTypeOfTrainingScheme();
 
-	@SavVariableMapping("LKTIMA")
-	public Enum403 getLookingForWork_PlaceOnGovernmentScheme_TimeSpentLooking();
+    @SavVariableMapping("MANAGE")
+    public Enum425 getManagerialDuties_Type();
 
-	@SavVariableMapping("SELFSOLE")
-	public Enum69 getSoleDirectorOfOwnLimitedBusiness();
+    @SavVariableMapping("LKTIMA")
+    public Enum403 getLookingForWork_PlaceOnGovernmentScheme_TimeSpentLooking();
 
-	@SavVariableMapping("PDWAGE")
-	public Enum69 getPaidSalaryOrWageByEmployer();
+    @SavVariableMapping("SELFSOLE")
+    public Enum69 getSoleDirectorOfOwnLimitedBusiness();
 
-	@SavVariableMapping("YTETMP")
-	public Enum429 getActivityOnGovernmentTrainingScheme();
+    @SavVariableMapping("PDWAGE")
+    public Enum69 getPaidSalaryOrWageByEmployer();
 
-	@SavVariableMapping("MPNE02")
-	public Enum430 getNumberOfEmployeesAtWorkplace();
+    @SavVariableMapping("YTETMP")
+    public Enum429 getActivityOnGovernmentTrainingScheme();
 
-	@SavVariableMapping("QUARTER")
-	public Enum230 getFieldworkQuarter();
+    @SavVariableMapping("MPNE02")
+    public Enum430 getNumberOfEmployeesAtWorkplace();
 
-	@SavVariableMapping("SELFPART")
-	public Enum69 getPartnerInBusiness_ProfessionalPractice();
+    @SavVariableMapping("QUARTER")
+    public Enum230 getFieldworkQuarter();
 
-	@SavVariableMapping("NOLOSTNT")
-	public Enum69 getStudent();
+    @SavVariableMapping("SELFPART")
+    public Enum69 getPartnerInBusiness_ProfessionalPractice();
 
-	@SavVariableMapping("SCHM08")
-	public Enum434 getOnGovtTrainingSchemeInLastWeek();
+    @SavVariableMapping("NOLOSTNT")
+    public Enum69 getStudent();
 
-	@SavVariableMapping("NEWDEA4")
-	public Enum435 getNewDealOptions();
+    @SavVariableMapping("SCHM08")
+    public Enum434 getOnGovtTrainingSchemeInLastWeek();
 
-	@SavVariableMapping("NSSEC")
-	public Enum436 getNationalStatisticsSocio_EconomicClassification_NS_SEC__LongVersion();
+    @SavVariableMapping("NEWDEA4")
+    public Enum435 getNewDealOptions();
 
-	@SavVariableMapping("SELFNONE")
-	public Enum69 getNoneOfTheAbove();
+    @SavVariableMapping("NSSEC")
+    public Enum436 getNationalStatisticsSocio_EconomicClassification_NS_SEC__LongVersion();
 
-	@SavVariableMapping("NDTYPE4")
-	public Enum438 getTypeOfNewDealScheme();
+    @SavVariableMapping("SELFNONE")
+    public Enum69 getNoneOfTheAbove();
 
-	@SavVariableMapping("ES2000")
-	public Enum439 getEmploymentStatus();
+    @SavVariableMapping("NDTYPE4")
+    public Enum438 getTypeOfNewDealScheme();
 
-	@SavVariableMapping("MPNS02")
-	public Enum430 getNumberOfPeopleEmploys();
+    @SavVariableMapping("ES2000")
+    public Enum439 getEmploymentStatus();
 
-	@SavVariableMapping("LOOK4")
-	public Enum69 getWhetherLookingForPaidWorkInTheLast4Weeks();
+    @SavVariableMapping("MPNS02")
+    public Enum430 getNumberOfPeopleEmploys();
 
-	@SavVariableMapping("OWNBUS")
-	public Enum69 getUnpaidWorkInThatWeekForOwnBusiness();
+    @SavVariableMapping("LOOK4")
+    public Enum69 getWhetherLookingForPaidWorkInTheLast4Weeks();
+
+    @SavVariableMapping("OWNBUS")
+    public Enum69 getUnpaidWorkInThatWeekForOwnBusiness();
 
 }
-

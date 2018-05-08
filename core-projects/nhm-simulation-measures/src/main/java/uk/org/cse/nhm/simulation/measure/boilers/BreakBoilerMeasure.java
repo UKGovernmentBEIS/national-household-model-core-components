@@ -16,47 +16,49 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
 
 public class BreakBoilerMeasure extends AbstractMeasure {
-	private final IDimension<ITechnologyModel> techDimension;
-	private final ITechnologyOperations operations;
 
-	@AssistedInject
-	public BreakBoilerMeasure(
-			final IDimension<ITechnologyModel> techDimension,
-			final ITechnologyOperations operations) {
-				this.techDimension = techDimension;
-				this.operations = operations;
-	}
+    private final IDimension<ITechnologyModel> techDimension;
+    private final ITechnologyOperations operations;
 
-	@Override
-	public boolean doApply(final ISettableComponentsScope scope, final ILets lets) throws NHMException {
-		scope.modify(techDimension, new IModifier<ITechnologyModel>(){
+    @AssistedInject
+    public BreakBoilerMeasure(
+            final IDimension<ITechnologyModel> techDimension,
+            final ITechnologyOperations operations) {
+        this.techDimension = techDimension;
+        this.operations = operations;
+    }
 
-			@Override
-			public boolean modify(final ITechnologyModel tech) {
-				final Optional<IBoiler> boiler = operations.getBoiler(tech);
-				if(!boiler.isPresent()) {
-					return false;
-				} else {
-					operations.removeHeatSource(boiler.get());
-					return true;
-				}
-			}});
-		return true;
-	}
-	
-	@Override
-	public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
-		final ITechnologyModel tech = scope.get(techDimension);
-		return operations.getBoiler(tech).isPresent();
-	}
-	
-	@Override
-	public boolean isAlwaysSuitable() {
-		return false;
-	}
+    @Override
+    public boolean doApply(final ISettableComponentsScope scope, final ILets lets) throws NHMException {
+        scope.modify(techDimension, new IModifier<ITechnologyModel>() {
 
-	@Override
-	public StateChangeSourceType getSourceType() {
-		return StateChangeSourceType.ACTION;
-		}
+            @Override
+            public boolean modify(final ITechnologyModel tech) {
+                final Optional<IBoiler> boiler = operations.getBoiler(tech);
+                if (!boiler.isPresent()) {
+                    return false;
+                } else {
+                    operations.removeHeatSource(boiler.get());
+                    return true;
+                }
+            }
+        });
+        return true;
+    }
+
+    @Override
+    public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
+        final ITechnologyModel tech = scope.get(techDimension);
+        return operations.getBoiler(tech).isPresent();
+    }
+
+    @Override
+    public boolean isAlwaysSuitable() {
+        return false;
+    }
+
+    @Override
+    public StateChangeSourceType getSourceType() {
+        return StateChangeSourceType.ACTION;
+    }
 }

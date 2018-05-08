@@ -1,6 +1,6 @@
-profiler = function() {
+profiler = function () {
     var items = [];
-    var tree = {children:{}};
+    var tree = {children: {}};
 
     var insert = function (trace) {
         var t = tree;
@@ -9,7 +9,7 @@ profiler = function() {
             if (key in t.children) {
                 t = t.children[key];
             } else {
-                var t2 = {key:key, children:{}};
+                var t2 = {key: key, children: {}};
                 t.children[key] = t2;
                 t = t2;
             }
@@ -19,43 +19,45 @@ profiler = function() {
     };
 
     var color = d3.scale.linear()
-        .domain([0, 1])
-        .range(["white", "pink"]);
-    
-    var display_info = function(infobox, tree, kids) {
+            .domain([0, 1])
+            .range(["white", "pink"]);
+
+    var display_info = function (infobox, tree, kids) {
         var item = items[tree.key];
         var name = infobox
-            .append("span")
-            .classed("element", true)
+                .append("span")
+                .classed("element", true)
                 .text(item.name);
-        
-        infobox
-            .append("span")
-            .classed("timing", true)
-            .text(tree.time + "s, " + tree.count + " time" + (tree.count > 1 ? "s" : ""));
 
-        infobox.on('mouseenter', function() {
+        infobox
+                .append("span")
+                .classed("timing", true)
+                .text(tree.time + "s, " + tree.count + " time" + (tree.count > 1 ? "s" : ""));
+
+        infobox.on('mouseenter', function () {
             d3.selectAll(".highlight")
-                .classed("highlight", false);
+                    .classed("highlight", false);
             infobox.classed("highlight", true);
             d3.select("#lines")
-                .selectAll("*").remove();
+                    .selectAll("*").remove();
             if (item.lines.length > 0) {
                 d3.select("#lines")
-                    .append("h3")
-                    .text(item.name + " defined at");
+                        .append("h3")
+                        .text(item.name + " defined at");
                 d3.select("#lines")
-                    .append("ul")
-                    .selectAll("li")
-                    .data(item.lines)
-                    .enter()
-                    .append("li")
-                    .text(function(l) {return l.uri + " : " + l.line;});
+                        .append("ul")
+                        .selectAll("li")
+                        .data(item.lines)
+                        .enter()
+                        .append("li")
+                        .text(function (l) {
+                            return l.uri + " : " + l.line;
+                        });
             }
         });
 
         if (kids) {
-            infobox.on('click', function() {
+            infobox.on('click', function () {
                 var d = kids.style("display");
                 if (d == 'none') {
                     kids.style("display", "");
@@ -66,11 +68,11 @@ profiler = function() {
                 }
             });
         }
-        
+
         return infobox;
     };
-    
-    var display_tree = function(ptime, container, tree) {
+
+    var display_tree = function (ptime, container, tree) {
         var div = container.append("div");
         var box = undefined;
         if (tree.key) {
@@ -81,31 +83,33 @@ profiler = function() {
         if (d3.keys(tree.children).length > 0) {
             kids = div.append("ul");
             kids.selectAll("li")
-                .data(d3.keys(tree.children))
-                .enter()
-                .append("li")
-                .each(function(d) {
-                    display_tree(ptime, d3.select(this), tree.children[d]);
-                });
+                    .data(d3.keys(tree.children))
+                    .enter()
+                    .append("li")
+                    .each(function (d) {
+                        display_tree(ptime, d3.select(this), tree.children[d]);
+                    });
         }
 
         if (tree.key) {
             display_info(box, tree, kids);
-                        
-            if (ptime != 0) 
-                box.style("background", color(tree.time/ptime));
+
+            if (ptime != 0)
+                box.style("background", color(tree.time / ptime));
         }
     };
-    
+
     return {
-        items: function(_items) {
+        items: function (_items) {
             items = items.concat(_items);
         },
-        log : function(log) {
+        log: function (log) {
             log.forEach(insert);
-            tree.time = d3.sum(d3.values(tree.children).map(function(t) {return t.time;}));
+            tree.time = d3.sum(d3.values(tree.children).map(function (t) {
+                return t.time;
+            }));
         },
-        display : function() {
+        display: function () {
             display_tree(tree.time, d3.select("#elements"), tree);
         }
     };

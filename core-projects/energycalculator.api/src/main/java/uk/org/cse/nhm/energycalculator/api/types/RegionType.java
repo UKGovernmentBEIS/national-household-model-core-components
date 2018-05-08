@@ -8,7 +8,7 @@ package uk.org.cse.nhm.energycalculator.api.types;
  * @since 0.0.1-SNAPSHOT
  */
 public enum RegionType {
-	/*
+    /*
 	BEISDOC
 	NAME: Latitude
 	DESCRIPTION: The latitude in degrees of a UK region
@@ -21,58 +21,58 @@ public enum RegionType {
         NOTES: In SAP 2012 mode, we use the UK average latitude for all dwellings.
 	ID: latitude
 	CODSIEB
-	*/
+     */
     WesternScotland("W. Scotland", 55.8, Country.Scotland),
     EasternScotland("E. Scotland", 56.4, Country.Scotland),
-    NorthEast("North East",55.5, Country.England),
-    YorkshireAndHumber("Yorkshire and The Humber",54.5, Country.England),
-    NorthWest("NorthWest",54.1, Country.England),
-    EastMidlands("East Midlands",53.4, Country.England),
-    WestMidlands("",52.7, Country.England),
-    SouthWest("",51.0, Country.England),
-    EastOfEngland("",52.3, Country.England),
-    SouthEast("",51.3, Country.England),
-    London("",51.5, Country.England),
-    NorthernScotland("",57.2, Country.Scotland),
-	Wales("Wales", 52.5, Country.Wales),
+    NorthEast("North East", 55.5, Country.England),
+    YorkshireAndHumber("Yorkshire and The Humber", 54.5, Country.England),
+    NorthWest("NorthWest", 54.1, Country.England),
+    EastMidlands("East Midlands", 53.4, Country.England),
+    WestMidlands("", 52.7, Country.England),
+    SouthWest("", 51.0, Country.England),
+    EastOfEngland("", 52.3, Country.England),
+    SouthEast("", 51.3, Country.England),
+    London("", 51.5, Country.England),
+    NorthernScotland("", 57.2, Country.Scotland),
+    Wales("Wales", 52.5, Country.Wales),
     NorthernIreland("Northern Ireland", 54.6, Country.NorthernIreland);
 
-	private static double UK_AVERAGE_LATITUDE_DEGS = 53.5;
-	public static double UK_AVERAGE_LATITUDE_RADIANS = UK_AVERAGE_LATITUDE_DEGS * Math.PI / 180;
+    private static double UK_AVERAGE_LATITUDE_DEGS = 53.5;
+    public static double UK_AVERAGE_LATITUDE_RADIANS = UK_AVERAGE_LATITUDE_DEGS * Math.PI / 180;
 
     @SuppressWarnings("unused")
-	private final String friendlyName;
+    private final String friendlyName;
     private final double latitude, latrads;
-	private final Country country;
+    private final Country country;
 
     private RegionType(final String friendlyName, final double latitude, final Country country) {
         this.friendlyName = friendlyName;
         this.latitude = latitude;
-		this.country = country;
+        this.country = country;
         this.latrads = latitude * Math.PI / 180;
     }
 
     @Override
-	public String toString() {
+    public String toString() {
         return super.toString();
     }
 
     public double getLatitudeDegrees() {
-		return latitude;
-	}
+        return latitude;
+    }
 
     public double getLatitudeRadians() {
-    	return latrads;
+        return latrads;
     }
 
     public Country getCountry() {
-		return country;
-	}
+        return country;
+    }
 
-	public enum Country {
-    	Scotland,
-    	England,
-    	Wales,
-    	NorthernIreland
+    public enum Country {
+        Scotland,
+        England,
+        Wales,
+        NorthernIreland
     }
 }

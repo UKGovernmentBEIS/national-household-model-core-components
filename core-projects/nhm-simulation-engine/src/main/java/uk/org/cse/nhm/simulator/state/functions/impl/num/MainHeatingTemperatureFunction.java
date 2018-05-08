@@ -17,27 +17,28 @@ import uk.org.cse.nhm.simulator.state.dimensions.behaviour.IHeatingBehaviour;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class MainHeatingTemperatureFunction extends AbstractNamed implements IComponentsFunction<Number> {
-	final IDimension<IHeatingBehaviour> heating;
-	
-	@Inject
-	public MainHeatingTemperatureFunction(final IDimension<IHeatingBehaviour> heating) {
-		super();
-		this.heating = heating;
-	}
 
-	@Override
-	public Number compute(final IComponentsScope scope, final ILets lets) {
-		return scope.get(heating).getLivingAreaDemandTemperature();
-	}
+    final IDimension<IHeatingBehaviour> heating;
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return ImmutableSet.<IDimension<?>>of(heating);
-	}
+    @Inject
+    public MainHeatingTemperatureFunction(final IDimension<IHeatingBehaviour> heating) {
+        super();
+        this.heating = heating;
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return Collections.<DateTime>emptySet();
-	}
+    @Override
+    public Number compute(final IComponentsScope scope, final ILets lets) {
+        return scope.get(heating).getLivingAreaDemandTemperature();
+    }
+
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return ImmutableSet.<IDimension<?>>of(heating);
+    }
+
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return Collections.<DateTime>emptySet();
+    }
 
 }

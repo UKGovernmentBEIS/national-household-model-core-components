@@ -13,10 +13,12 @@ import uk.org.cse.nhm.language.definition.function.num.XHouseNumber;
 @Bind("house.number-air-change-devices")
 @Doc("The number of air change devices within the dwelling.")
 public class XNumberOfAirChangeDevices extends XHouseNumber {
+
     public static final class P {
+
         public static final String airChangeDevice = "airChangeDevice";
     }
-            
+
     private XAdjustNumberOfAirChangeDevices.XAirChangeDevice airChangeDevice;
 
     /**
@@ -35,10 +37,10 @@ public class XNumberOfAirChangeDevices extends XHouseNumber {
     /**
      * Set the airChangeDevice.
      *
-     * @param airChangeDevice the airChangeDevice 
+     * @param airChangeDevice the airChangeDevice
      */
     public void setAirChangeDevice(XAdjustNumberOfAirChangeDevices.XAirChangeDevice airChangeDevice) {
         this.airChangeDevice = airChangeDevice;
     }
-    
+
 }

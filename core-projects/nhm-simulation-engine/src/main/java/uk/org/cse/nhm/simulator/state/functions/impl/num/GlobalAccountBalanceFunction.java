@@ -15,26 +15,27 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class GlobalAccountBalanceFunction extends AbstractNamed implements IComponentsFunction<Number> {
-	private final String accountName;
-	
-	@AssistedInject
-	GlobalAccountBalanceFunction(@Assisted final String accountName) {
-		super();
-		this.accountName = accountName;
-	}
 
-	@Override
-	public Number compute(final IComponentsScope scope, final ILets lets) {
-		return scope.getGlobalAccount(accountName).getBalance();
-	}
+    private final String accountName;
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return Collections.emptySet();
-	}
+    @AssistedInject
+    GlobalAccountBalanceFunction(@Assisted final String accountName) {
+        super();
+        this.accountName = accountName;
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return Collections.emptySet();
-	}
+    @Override
+    public Number compute(final IComponentsScope scope, final ILets lets) {
+        return scope.getGlobalAccount(accountName).getBalance();
+    }
+
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return Collections.emptySet();
+    }
+
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return Collections.emptySet();
+    }
 }

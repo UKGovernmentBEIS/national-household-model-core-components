@@ -15,6 +15,7 @@ import uk.org.cse.nhm.simulator.state.IDwelling;
 import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
 
 public class ProfiledStateAction implements IStateAction {
+
     private final IProfilingStack prof;
     private final IStateAction delegate;
 
@@ -48,11 +49,9 @@ public class ProfiledStateAction implements IStateAction {
     public Set<IDwelling> getSuitable(final IStateScope scope, final Set<IDwelling> dwellings, final ILets lets) {
         return delegate.getSuitable(scope, dwellings, lets);
     }
-    
+
     @Override
     public String toString() {
         return delegate.toString();
     }
 }
-
-

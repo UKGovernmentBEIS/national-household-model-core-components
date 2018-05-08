@@ -17,23 +17,24 @@ import uk.org.cse.nhm.language.definition.function.bool.house.XMainHeatingFuelIs
 @ReturnsEnum(XFuelType.class)
 @SeeAlso(XMainHeatingFuelIs.class)
 public class XMainHeatingFuel2 extends XCategoryFunction {
-	private XHeatingSystem of = XHeatingSystem.PrimarySpaceHeating;
 
-	@BindNamedArgument
-	@Doc({"The heating system or hot water system for which to get the fuel.",
-				"",
-				"Note that in houses with no primary heating system, the result will still be Electricity because of the use",
-				"of assumed direct electric heaters per SAP.",
-				"",
-				"Note also that a central hot water system may use other fuels than the fuel given here,",
-				"if it has an immersion heater as well as a boiler connected, or a solar thermal system.",
-				"This circumstance can be detected by looking at the fuel type breakdown for the water heating service."
-				})
-	public XHeatingSystem getOf() {
-		return of;
-	}
+    private XHeatingSystem of = XHeatingSystem.PrimarySpaceHeating;
 
-	public void setOf(XHeatingSystem of) {
-		this.of = of;
-	}
+    @BindNamedArgument
+    @Doc({"The heating system or hot water system for which to get the fuel.",
+        "",
+        "Note that in houses with no primary heating system, the result will still be Electricity because of the use",
+        "of assumed direct electric heaters per SAP.",
+        "",
+        "Note also that a central hot water system may use other fuels than the fuel given here,",
+        "if it has an immersion heater as well as a boiler connected, or a solar thermal system.",
+        "This circumstance can be detected by looking at the fuel type breakdown for the water heating service."
+    })
+    public XHeatingSystem getOf() {
+        return of;
+    }
+
+    public void setOf(XHeatingSystem of) {
+        this.of = of;
+    }
 }

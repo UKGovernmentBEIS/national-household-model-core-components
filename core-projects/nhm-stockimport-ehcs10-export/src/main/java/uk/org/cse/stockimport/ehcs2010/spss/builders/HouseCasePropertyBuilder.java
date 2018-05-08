@@ -9,41 +9,42 @@ import uk.org.cse.stockimport.domain.AdditionalHousePropertiesDTO;
 import uk.org.cse.stockimport.ehcs2010.spss.AbstractCSVHomElementBuilder;
 
 public class HouseCasePropertyBuilder extends AbstractCSVHomElementBuilder<AdditionalHousePropertiesDTO> {
+
     private final List<String> headers = new ArrayList<>();
 
     @Override
     public String getFileName() {
-	return "houseCaseProperties";
+        return "houseCaseProperties";
     }
 
     @Override
     public String[] buildHeader(AdditionalHousePropertiesDTO exampleElement) {
-	this.headers.clear();
+        this.headers.clear();
 
-	this.headers.addAll(exampleElement.getValuesByProperty().keySet());
-	Collections.sort(this.headers);
+        this.headers.addAll(exampleElement.getValuesByProperty().keySet());
+        Collections.sort(this.headers);
 
-	this.headers.add(0, "aacode");
+        this.headers.add(0, "aacode");
 
-	return this.headers.toArray(new String[0]);
+        return this.headers.toArray(new String[0]);
     }
 
     @Override
     public String getBuiltClassName() {
-	return AdditionalHousePropertiesDTO.class.getName();
+        return AdditionalHousePropertiesDTO.class.getName();
     }
 
     @Override
     public String[] buildRow(AdditionalHousePropertiesDTO element) {
-	final List<String> row = new ArrayList<String>();
-	final Map<String, String> valuesByProperty = element.getValuesByProperty();
-	
-	row.add(element.getAacode());
+        final List<String> row = new ArrayList<String>();
+        final Map<String, String> valuesByProperty = element.getValuesByProperty();
 
-	for (int i = 1; i<this.headers.size(); i++) {
-	    row.add(valuesByProperty.get(headers.get(i)));
-	}
+        row.add(element.getAacode());
 
-	return row.toArray(new String[0]);
+        for (int i = 1; i < this.headers.size(); i++) {
+            row.add(valuesByProperty.get(headers.get(i)));
+        }
+
+        return row.toArray(new String[0]);
     }
 }

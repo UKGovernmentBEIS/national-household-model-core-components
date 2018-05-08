@@ -28,13 +28,16 @@ import uk.org.cse.nhm.simulator.state.functions.impl.ConstantComponentsFunction;
 @RunWith(MockitoJUnitRunner.class)
 public class WarmAirMeasureTest {
 
-    @Mock private IComponentsScope components;
-    @Mock private IDimension<ITechnologyModel> techDimension;
-    @Mock private ITechnologyModel techModel;
+    @Mock
+    private IComponentsScope components;
+    @Mock
+    private IDimension<ITechnologyModel> techDimension;
+    @Mock
+    private ITechnologyModel techModel;
 
     private WarmAirMeasure createFuelTypeMeasure(final FuelType fuelType) {
         return new WarmAirMeasure(null, techDimension, fuelType, null, null, null,
-                                  new ConstantComponentsFunction<Number>(null, 0));
+                new ConstantComponentsFunction<Number>(null, 0));
     }
 
     @Test
@@ -47,7 +50,7 @@ public class WarmAirMeasureTest {
     @Test
     public void ShouldNotBeSuitableIfNot_LPG_Or_MainsGas() throws Exception {
         final EnumSet<FuelType> wrongFuelTypes = EnumSet.complementOf(EnumSet.of(FuelType.MAINS_GAS, FuelType.BOTTLED_LPG,
-                                                                           FuelType.BULK_LPG));
+                FuelType.BULK_LPG));
 
         for (final FuelType fuelType : wrongFuelTypes) {
             assertFalse(fuelType.toString(), createFuelTypeMeasure(fuelType).hasCorrectFuelType());
@@ -62,7 +65,7 @@ public class WarmAirMeasureTest {
     @Test
     public void ShouldNotBeSuitableIfEfficiencyIsTheSameOrLessThanCurrentlyInstalledSystem() throws Exception {
         final WarmAirMeasure measure = new WarmAirMeasure(null, null, null, null, null, null,
-                                                    new ConstantComponentsFunction<Number>(null, 0.5));
+                new ConstantComponentsFunction<Number>(null, 0.5));
 
         final IWarmAirSystem warmAirSystem = mock(IWarmAirSystem.class);
         when(techModel.getPrimarySpaceHeater()).thenReturn(warmAirSystem);

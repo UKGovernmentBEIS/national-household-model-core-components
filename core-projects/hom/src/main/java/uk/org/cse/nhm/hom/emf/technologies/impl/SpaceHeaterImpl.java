@@ -16,41 +16,41 @@ import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
  * @generated
  */
 public abstract class SpaceHeaterImpl extends MinimalEObjectImpl implements ISpaceHeater {
-	/**
-	 * A set of bit flags representing the values of boolean attributes and whether unsettable features have been set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	protected int flags = 0;
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected SpaceHeaterImpl() {
-		super();
-	}
+    /**
+     * A set of bit flags representing the values of boolean attributes and
+     * whether unsettable features have been set.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     *
+     * @generated
+     * @ordered
+     */
+    protected int flags = 0;
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected EClass eStaticClass() {
-		return ITechnologiesPackage.Literals.SPACE_HEATER;
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc --> @generated
+     */
+    protected SpaceHeaterImpl() {
+        super();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isBroken() {
-		return false;
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc --> @generated
+     */
+    @Override
+    protected EClass eStaticClass() {
+        return ITechnologiesPackage.Literals.SPACE_HEATER;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc --> @generated
+     */
+    public boolean isBroken() {
+        return false;
+    }
 
 } //SpaceHeaterImpl

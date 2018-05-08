@@ -8,5 +8,5 @@ import uk.org.cse.nhm.language.definition.action.XMeasure;
 @Doc("Remove all appliance adjustments from the energy calculator for a house.")
 @Bind("measure.remove-adjustments")
 public class XClearAdjustmentsAction extends XMeasure {
-	
+
 }

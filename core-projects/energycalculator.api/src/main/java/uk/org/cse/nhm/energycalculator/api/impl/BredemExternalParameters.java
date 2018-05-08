@@ -7,34 +7,34 @@ import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
 
 public class BredemExternalParameters extends ExternalParameters {
 
-	private final double zoneOneDemandTemperature;
-	private final Optional<Double> zoneTwoDemandTemperature;
-	private final Optional<Double> interzoneTemperatureDifference;
-	private final double numberOfOccupants;
-	private EnergyCalculatorType calcType;
+    private final double zoneOneDemandTemperature;
+    private final Optional<Double> zoneTwoDemandTemperature;
+    private final Optional<Double> interzoneTemperatureDifference;
+    private final double numberOfOccupants;
+    private EnergyCalculatorType calcType;
 
-	public BredemExternalParameters(
-			final EnergyCalculatorType calcType,
-			final ElectricityTariffType tariff,
-			final double zoneOneDemandTemperature,
-			final Optional<Double> zoneTwoDemandTemperature,
-			final Optional<Double> interzoneTemperatureDifference,
-			final double numberOfOccupants) {
-		super(tariff);
-		this.calcType = calcType;
+    public BredemExternalParameters(
+            final EnergyCalculatorType calcType,
+            final ElectricityTariffType tariff,
+            final double zoneOneDemandTemperature,
+            final Optional<Double> zoneTwoDemandTemperature,
+            final Optional<Double> interzoneTemperatureDifference,
+            final double numberOfOccupants) {
+        super(tariff);
+        this.calcType = calcType;
 
-		if (zoneTwoDemandTemperature.isPresent() == interzoneTemperatureDifference.isPresent()) {
-			throw new IllegalArgumentException("Either the zone two demand temperature, or the interzone temperature difference must be specified (but not both).");
-		}
+        if (zoneTwoDemandTemperature.isPresent() == interzoneTemperatureDifference.isPresent()) {
+            throw new IllegalArgumentException("Either the zone two demand temperature, or the interzone temperature difference must be specified (but not both).");
+        }
 
-		this.zoneOneDemandTemperature = zoneOneDemandTemperature;
-		this.zoneTwoDemandTemperature = zoneTwoDemandTemperature;
-		this.interzoneTemperatureDifference = interzoneTemperatureDifference;
+        this.zoneOneDemandTemperature = zoneOneDemandTemperature;
+        this.zoneTwoDemandTemperature = zoneTwoDemandTemperature;
+        this.interzoneTemperatureDifference = interzoneTemperatureDifference;
 
-		this.numberOfOccupants = numberOfOccupants;
-	}
+        this.numberOfOccupants = numberOfOccupants;
+    }
 
-	/*
+    /*
 	BEISDOC
 	NAME: BREDEM zone 1 demand temperature
 	DESCRIPTION: The zone 1 demand temperature under BREDEM 2012
@@ -46,28 +46,27 @@ public class BredemExternalParameters extends ExternalParameters {
     NOTES: Defaults to 19℃
 	ID: bredem-zone-1-demand-temperature
 	CODSIEB
-	*/
-	@Override
-	public double getZoneOneDemandTemperature() {
-		return zoneOneDemandTemperature;
-	}
+     */
+    @Override
+    public double getZoneOneDemandTemperature() {
+        return zoneOneDemandTemperature;
+    }
 
+    @Override
+    public boolean isZoneTwoDemandTemperatureSpecified() {
+        return zoneTwoDemandTemperature.isPresent();
+    }
 
-	@Override
-	public boolean isZoneTwoDemandTemperatureSpecified() {
-		return zoneTwoDemandTemperature.isPresent();
-	}
+    @Override
+    public double getZoneTwoDemandTemperature() {
+        if (isZoneTwoDemandTemperatureSpecified()) {
+            return zoneTwoDemandTemperature.get();
+        } else {
+            throw new RuntimeException("Zone two demand temperature is not specified");
+        }
+    }
 
-	@Override
-	public double getZoneTwoDemandTemperature() {
-		if (isZoneTwoDemandTemperatureSpecified()) {
-			return zoneTwoDemandTemperature.get();
-		} else {
-			throw new RuntimeException("Zone two demand temperature is not specified");
-		}
-	}
-
-	/*
+    /*
 	BEISDOC
 	NAME: BREDEM interzone temperature difference
 	DESCRIPTION: The difference in demand temperature between the living area and the rest of the dwelling.
@@ -79,23 +78,23 @@ public class BredemExternalParameters extends ExternalParameters {
     NOTES: Defaults to 3℃
 	ID: bredem-interzone-temperature-difference
 	CODSIEB
-	*/
-	@Override
-	public double getInterzoneTemperatureDifference() {
-		if (interzoneTemperatureDifference.isPresent()) {
-			return interzoneTemperatureDifference.get();
-		} else {
-			throw new RuntimeException("Interzone temperature difference is not specified");
-		}
-	}
+     */
+    @Override
+    public double getInterzoneTemperatureDifference() {
+        if (interzoneTemperatureDifference.isPresent()) {
+            return interzoneTemperatureDifference.get();
+        } else {
+            throw new RuntimeException("Interzone temperature difference is not specified");
+        }
+    }
 
-	@Override
-	public double getNumberOfOccupants() {
-		return numberOfOccupants;
-	}
+    @Override
+    public double getNumberOfOccupants() {
+        return numberOfOccupants;
+    }
 
-	@Override
-	public EnergyCalculatorType getCalculatorType() {
-		return calcType;
-	}
+    @Override
+    public EnergyCalculatorType getCalculatorType() {
+        return calcType;
+    }
 }

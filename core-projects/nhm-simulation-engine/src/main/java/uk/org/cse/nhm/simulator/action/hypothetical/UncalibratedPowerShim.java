@@ -8,64 +8,65 @@ import uk.org.cse.nhm.simulator.state.dimensions.energy.IPowerTable;
 import uk.org.cse.nhm.simulator.state.impl.IInternalDimension;
 
 class UncalibratedPowerShim implements IInternalDimension<IPowerTable> {
-	private final IHypotheticalBranch branch;
-	private final IDimension<IPowerTable> uncalibrated;
 
-	public UncalibratedPowerShim(
-			final IHypotheticalBranch branch,
-			final IDimension<IPowerTable> uncalibrated) {
-				this.branch = branch;
-				this.uncalibrated = uncalibrated;
-	}
-	
-	@Override
-	public int index() {
-		return uncalibrated.index();
-	}
+    private final IHypotheticalBranch branch;
+    private final IDimension<IPowerTable> uncalibrated;
 
-	@Override
-	public boolean isSettable() {
-		return uncalibrated.isSettable();
-	}
+    public UncalibratedPowerShim(
+            final IHypotheticalBranch branch,
+            final IDimension<IPowerTable> uncalibrated) {
+        this.branch = branch;
+        this.uncalibrated = uncalibrated;
+    }
 
-	@Override
-	public IPowerTable get(final IDwelling instance) {
-		return branch.get(uncalibrated, instance);
-	}
+    @Override
+    public int index() {
+        return uncalibrated.index();
+    }
 
-	@Override
-	public int getGeneration(final IDwelling instance) {
-		return branch.getGeneration(uncalibrated, instance);
-	}
+    @Override
+    public boolean isSettable() {
+        return uncalibrated.isSettable();
+    }
 
-	@Override
-	public IPowerTable copy(final IDwelling instance) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public IPowerTable get(final IDwelling instance) {
+        return branch.get(uncalibrated, instance);
+    }
 
-	@Override
-	public boolean set(final IDwelling instance, final IPowerTable value) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public int getGeneration(final IDwelling instance) {
+        return branch.getGeneration(uncalibrated, instance);
+    }
 
-	@Override
-	public void merge(final IDwelling instance, final IInternalDimension<IPowerTable> branch) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public IPowerTable copy(final IDwelling instance) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public IInternalDimension<IPowerTable> branch(final IBranch newBranch, final int capacity) {
-		if (newBranch instanceof IHypotheticalBranch) {
-			return new UncalibratedPowerShim(
-					(IHypotheticalBranch) newBranch, 
-					uncalibrated);
-		} else {
-			throw new IllegalArgumentException();
-		}
-	}
+    @Override
+    public boolean set(final IDwelling instance, final IPowerTable value) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public boolean isEqual(final IPowerTable a, final IPowerTable b) {
-		return (a == null && b == null) || (a != null && a.equals(b));
-	}
+    @Override
+    public void merge(final IDwelling instance, final IInternalDimension<IPowerTable> branch) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public IInternalDimension<IPowerTable> branch(final IBranch newBranch, final int capacity) {
+        if (newBranch instanceof IHypotheticalBranch) {
+            return new UncalibratedPowerShim(
+                    (IHypotheticalBranch) newBranch,
+                    uncalibrated);
+        } else {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    @Override
+    public boolean isEqual(final IPowerTable a, final IPowerTable b) {
+        return (a == null && b == null) || (a != null && a.equals(b));
+    }
 }

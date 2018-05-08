@@ -46,7 +46,7 @@ public class HealthImpacFunctionTests {
     @Mock
     IDimension<BasicCaseAttributes> attributes;
 
-    List<XDisease> diseases = ImmutableList.<XDisease> builder()
+    List<XDisease> diseases = ImmutableList.<XDisease>builder()
             .add(XDisease.CaV, XDisease.CP, XDisease.LC, XDisease.MI, XDisease.WCaV)
             .add(XDisease.WCV, XDisease.WMI)
             .build();
@@ -66,12 +66,12 @@ public class HealthImpacFunctionTests {
     @Before
     public void setUp() {
         List<Occupant> occupants = ImmutableList.<Occupant>builder()
-                .add(new Occupant(SexType.MALE,40,true))
+                .add(new Occupant(SexType.MALE, 40, true))
                 .build();
-        
+
         peopleModel = new People();
         peopleModel.setOccupants(occupants);
-                
+
         when(scope.get(structure)).thenReturn(structureModel);
         when(scope.get(attributes)).thenReturn(attributesModel);
         when(scope.get(people)).thenReturn(peopleModel);
@@ -83,27 +83,27 @@ public class HealthImpacFunctionTests {
         when(structureModel.getMainFloorLevel()).thenReturn(1);
         when(structureModel.getFloorArea()).thenReturn(100d);
         when(attributesModel.getRegionType()).thenReturn(RegionType.London);
-                
-        HealthImpactFunction function = new HealthImpactFunction(healthModule,structure,people,attributes,
-                num(10),num(10),num(18),num(18), num(20),num(19),num(1),num(0),bool(true),bool(true),bool(true),bool(true),
-                num(0.8),num(0.8),diseases, impact);
-        
+
+        HealthImpactFunction function = new HealthImpactFunction(healthModule, structure, people, attributes,
+                num(10), num(10), num(18), num(18), num(20), num(19), num(1), num(0), bool(true), bool(true), bool(true), bool(true),
+                num(0.8), num(0.8), diseases, impact);
+
         Number result = function.compute(scope, lets);
-        assertFalse("Result is NaN",Double.isNaN(result.doubleValue()));
+        assertFalse("Result is NaN", Double.isNaN(result.doubleValue()));
     }
 
     @SuppressWarnings("unchecked")
     private IComponentsFunction<Number> num(double value) {
         IComponentsFunction<Number> f = mock(IComponentsFunction.class);
         Number out = mock(Number.class);
-        
+
         when(f.compute(scope, lets)).thenReturn(out);
         when(out.doubleValue()).thenReturn(value);
         when(out.intValue()).thenReturn((int) value);
-        
+
         return f;
     }
-    
+
     @SuppressWarnings("unchecked")
     private IComponentsFunction<Boolean> bool(boolean value) {
         IComponentsFunction<Boolean> f = mock(IComponentsFunction.class);

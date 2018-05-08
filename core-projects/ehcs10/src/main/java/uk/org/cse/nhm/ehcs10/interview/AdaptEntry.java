@@ -8,53 +8,53 @@ import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 
 public interface AdaptEntry extends SurveyEntry {
-	@SavVariableMapping("DSMOBPB")
-	public Integer getPersonWithMostSevereProblemsGettingAroundHouse();
 
-	@SavVariableMapping("HASBCOST")
-	public Double getWouldCostMoreThanCanAfford();
+    @SavVariableMapping("DSMOBPB")
+    public Integer getPersonWithMostSevereProblemsGettingAroundHouse();
 
-	@SavVariableMapping("HASBLDPY")
-	public Double getLandlordWon_TPay();
+    @SavVariableMapping("HASBCOST")
+    public Double getWouldCostMoreThanCanAfford();
 
-	@SavVariableMapping("HASBOTHR")
-	public Double getOtherReasonForNoModification();
+    @SavVariableMapping("HASBLDPY")
+    public Double getLandlordWon_TPay();
 
-	@SavVariableMapping("HASBEXPT")
-	public Double getExpectModificationsWillBeMade_NotEnoughTimeYet();
+    @SavVariableMapping("HASBOTHR")
+    public Double getOtherReasonForNoModification();
 
-	@SavVariableMapping("HASBLDAW")
-	public Double getLandlordWon_TAllowIt();
+    @SavVariableMapping("HASBEXPT")
+    public Double getExpectModificationsWillBeMade_NotEnoughTimeYet();
 
-	@SavVariableMapping("HASBNWTH")
-	public Double getModificationsNotWorthDoing();
+    @SavVariableMapping("HASBLDAW")
+    public Double getLandlordWon_TAllowIt();
 
-	@SavVariableMapping("HAS443")
-	public Double getIsYourAccommodationSuitableForThePerson_S_WhoHas_HaveThisIllnessOrDisability();
+    @SavVariableMapping("HASBNWTH")
+    public Double getModificationsNotWorthDoing();
 
-	@SavVariableMapping("HASBNTKW")
-	public Double getWouldn_TKnowHowToGetSomethingDone();
+    @SavVariableMapping("HAS443")
+    public Double getIsYourAccommodationSuitableForThePerson_S_WhoHas_HaveThisIllnessOrDisability();
 
-	@SavVariableMapping("HASBGRNT")
-	public Double getCan_T_Wouldn_TGetAGrant();
+    @SavVariableMapping("HASBNTKW")
+    public Double getWouldn_TKnowHowToGetSomethingDone();
 
-	@SavVariableMapping("HASBTRST")
-	public Double getDoesn_TTrustBuilders();
+    @SavVariableMapping("HASBGRNT")
+    public Double getCan_T_Wouldn_TGetAGrant();
 
-	@SavVariableMapping("HAS443C")
-	public Enum69 getAreYouAttemptingToMoveInOrderToGetSomewhereMoreSuitableToCopeWithTheDisability_();
+    @SavVariableMapping("HASBTRST")
+    public Double getDoesn_TTrustBuilders();
 
-	@SavVariableMapping("DSADAPT")
-	public Enum69 getDisabilityOf_Most_DisabledPersonInHouseholdRequiresAdaptationToTheHome();
+    @SavVariableMapping("HAS443C")
+    public Enum69 getAreYouAttemptingToMoveInOrderToGetSomewhereMoreSuitableToCopeWithTheDisability_();
 
-	@SavVariableMapping("GOREHS")
-	public Enum30 getRegion_EHSOrder();
+    @SavVariableMapping("DSADAPT")
+    public Enum69 getDisabilityOf_Most_DisabledPersonInHouseholdRequiresAdaptationToTheHome();
 
-	@SavVariableMapping("CASECAT")
-	public Enum229 getStatusOfCase();
+    @SavVariableMapping("GOREHS")
+    public Enum30 getRegion_EHSOrder();
 
-	@SavVariableMapping("QUARTER")
-	public Enum230 getFieldworkQuarter();
+    @SavVariableMapping("CASECAT")
+    public Enum229 getStatusOfCase();
+
+    @SavVariableMapping("QUARTER")
+    public Enum230 getFieldworkQuarter();
 
 }
-

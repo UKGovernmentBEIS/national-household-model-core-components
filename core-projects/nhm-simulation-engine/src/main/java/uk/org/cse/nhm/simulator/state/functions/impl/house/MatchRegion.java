@@ -12,16 +12,17 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class MatchRegion extends BasicAttributesFunction<Boolean> implements IComponentsFunction<Boolean> {
-	private final RegionType region;
 
-	@Inject
-	public MatchRegion(final IDimension<BasicCaseAttributes> bad, @Assisted final RegionType region) {
-		super(bad);
-		this.region = region;
-	}
+    private final RegionType region;
 
-	@Override
-	public Boolean compute(final IComponentsScope scope, final ILets lets) {
-		return getAttributes(scope).getRegionType().equals(region);
-	}
+    @Inject
+    public MatchRegion(final IDimension<BasicCaseAttributes> bad, @Assisted final RegionType region) {
+        super(bad);
+        this.region = region;
+    }
+
+    @Override
+    public Boolean compute(final IComponentsScope scope, final ILets lets) {
+        return getAttributes(scope).getRegionType().equals(region);
+    }
 }

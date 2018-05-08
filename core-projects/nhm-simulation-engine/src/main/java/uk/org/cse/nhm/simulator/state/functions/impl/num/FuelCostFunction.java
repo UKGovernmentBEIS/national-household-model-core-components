@@ -28,36 +28,35 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 import uk.org.cse.nhm.simulator.transactions.IPayment;
 
 public class FuelCostFunction extends AbstractNamed implements IComponentsFunction<Double> {
-	private final IDimension<ITariffs> tariffs;
-	private final Optional<FuelType> fuelType;
-	private final Set<IDimension<?>> allDimensions;
-	private final IDimension<IEnergyMeter> meterDimension;
-	private final IDimension<IPowerTable> powerDimension;
-	private final Set<ServiceType> excludedServices;
 
+    private final IDimension<ITariffs> tariffs;
+    private final Optional<FuelType> fuelType;
+    private final Set<IDimension<?>> allDimensions;
+    private final IDimension<IEnergyMeter> meterDimension;
+    private final IDimension<IPowerTable> powerDimension;
+    private final Set<ServiceType> excludedServices;
 
-	@Inject
-	public FuelCostFunction(
-			final Set<IDimension<?>> allDimensions,
-			final IDimension<IEnergyMeter> meterDimension,
-			final IDimension<IPowerTable> powerDimension,
-			final IDimension<ITariffs> tariffs,
-			@Assisted final Optional<FuelType> fuelType,
-			@Assisted final Set<ServiceType> excludedServices
-			)
-			{
-		this.allDimensions = allDimensions;
-		this.meterDimension = meterDimension;
-		this.powerDimension = powerDimension;
-		this.tariffs = tariffs;
-		this.fuelType = fuelType;
-		this.excludedServices = excludedServices;
-	}
+    @Inject
+    public FuelCostFunction(
+            final Set<IDimension<?>> allDimensions,
+            final IDimension<IEnergyMeter> meterDimension,
+            final IDimension<IPowerTable> powerDimension,
+            final IDimension<ITariffs> tariffs,
+            @Assisted final Optional<FuelType> fuelType,
+            @Assisted final Set<ServiceType> excludedServices
+    ) {
+        this.allDimensions = allDimensions;
+        this.meterDimension = meterDimension;
+        this.powerDimension = powerDimension;
+        this.tariffs = tariffs;
+        this.fuelType = fuelType;
+        this.excludedServices = excludedServices;
+    }
 
     private static void runTariff(final ITariffs tariffs,
-                                  final IHypotheticalComponentsScope hypothesis,
-                                  final ILets lets,
-                                  final FuelType fuelType) {
+            final IHypotheticalComponentsScope hypothesis,
+            final ILets lets,
+            final FuelType fuelType) {
         final ITariff tariff = tariffs.getTariff(fuelType);
 
         tariff.apply(fuelType, hypothesis);
@@ -82,23 +81,23 @@ public class FuelCostFunction extends AbstractNamed implements IComponentsFuncti
 	NOTES: To use SAP Table 12 fuel prices, you must specify them as a tariff in your NHM scenario.
 	ID: fuel-cost
 	CODSIEB
-	*/
-	@Override
-	public Double compute(final IComponentsScope scope, final ILets lets) {
-		final ITariffs tariffs = scope.get(this.tariffs);
-		final IHypotheticalComponentsScope hypothesis = scope.createHypothesis();
+     */
+    @Override
+    public Double compute(final IComponentsScope scope, final ILets lets) {
+        final ITariffs tariffs = scope.get(this.tariffs);
+        final IHypotheticalComponentsScope hypothesis = scope.createHypothesis();
 
-		final IPowerTable power;
+        final IPowerTable power;
 
-		if (excludedServices.isEmpty()) {
-			power = scope.get(powerDimension);
-		} else {
-			power = ModifiedPowerTable.excludingEnergyServices(scope.get(powerDimension), excludedServices);
-		}
+        if (excludedServices.isEmpty()) {
+            power = scope.get(powerDimension);
+        } else {
+            power = ModifiedPowerTable.excludingEnergyServices(scope.get(powerDimension), excludedServices);
+        }
 
-		hypothesis.imagine(meterDimension, PretendEnergyMeter.of(power));
+        hypothesis.imagine(meterDimension, PretendEnergyMeter.of(power));
 
-		if (fuelType.isPresent()) {
+        if (fuelType.isPresent()) {
             final FuelType ft = fuelType.get();
             if (ft == FuelType.ELECTRICITY) {
                 runTariff(tariffs, hypothesis, lets, FuelType.PEAK_ELECTRICITY);
@@ -107,30 +106,30 @@ public class FuelCostFunction extends AbstractNamed implements IComponentsFuncti
                 runTariff(tariffs, hypothesis, lets, ft);
             }
 
-			double sum = 0;
-			for (final IPayment p : hypothesis.getAllNotes(IPayment.class)) {
-				sum += p.getAmount();
-			}
+            double sum = 0;
+            for (final IPayment p : hypothesis.getAllNotes(IPayment.class)) {
+                sum += p.getAmount();
+            }
 
-			return sum;
-		} else {
-			tariffs.computeCharges(hypothesis, lets);
+            return sum;
+        } else {
+            tariffs.computeCharges(hypothesis, lets);
 
-			double sum = 0;
-			for (final IPayment p : hypothesis.getAllNotes(IPayment.class)) {
-				sum += p.getAmount();
-			}
-			return sum;
-		}
-	}
+            double sum = 0;
+            for (final IPayment p : hypothesis.getAllNotes(IPayment.class)) {
+                sum += p.getAmount();
+            }
+            return sum;
+        }
+    }
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return allDimensions;
-	}
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return allDimensions;
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return Collections.emptySet();
-	}
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return Collections.emptySet();
+    }
 }

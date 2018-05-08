@@ -9,13 +9,14 @@ import uk.org.cse.stockimport.domain.services.ISpaceHeatingDTO;
  * @since 1.0
  */
 public class WarmAirSystemBuilder implements IWarmAirSystemBuilder {
-	private static final ITechnologiesFactory T = ITechnologiesFactory.eINSTANCE;
-	
-	@Override
-	public IWarmAirSystem buildWarmAirSystem(ISpaceHeatingDTO dto) {
-		final IWarmAirSystem was = T.createWarmAirSystem();
-		was.setFuelType(dto.getMainHeatingFuel());
-		was.setEfficiency(Efficiency.fromDouble(dto.getBasicEfficiency()));
-		return was;
-	}
+
+    private static final ITechnologiesFactory T = ITechnologiesFactory.eINSTANCE;
+
+    @Override
+    public IWarmAirSystem buildWarmAirSystem(ISpaceHeatingDTO dto) {
+        final IWarmAirSystem was = T.createWarmAirSystem();
+        was.setFuelType(dto.getMainHeatingFuel());
+        was.setEfficiency(Efficiency.fromDouble(dto.getBasicEfficiency()));
+        return was;
+    }
 }

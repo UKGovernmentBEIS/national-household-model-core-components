@@ -6,203 +6,203 @@ import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 
 public interface ElevateEntry extends SurveyEntry {
-	@SavVariableMapping("FELSUPRF")
-	public Integer getRIGHTFACE_MonoSupportingWalls();
 
-	@SavVariableMapping("FELFENLW")
-	public Integer getLEFTFACE_FenestrationWindow();
+    @SavVariableMapping("FELSUPRF")
+    public Integer getRIGHTFACE_MonoSupportingWalls();
 
-	@SavVariableMapping("FELGABLF")
-	public Integer getLEFTFACE_Gables();
+    @SavVariableMapping("FELFENLW")
+    public Integer getLEFTFACE_FenestrationWindow();
 
-	@SavVariableMapping("FELFENLN")
-	public Integer getLEFTFACE_FenestrationWall();
+    @SavVariableMapping("FELGABLF")
+    public Integer getLEFTFACE_Gables();
 
-	@SavVariableMapping("FELFENBW")
-	public Integer getBACKFACE_FenestrationWindow();
+    @SavVariableMapping("FELFENLN")
+    public Integer getLEFTFACE_FenestrationWall();
 
-	@SavVariableMapping("FELGABBF")
-	public Integer getBACKFACE_Gables();
+    @SavVariableMapping("FELFENBW")
+    public Integer getBACKFACE_FenestrationWindow();
 
-	@SavVariableMapping("FELMAWLF")
-	public Integer getLEFTFACE_MainWalls();
+    @SavVariableMapping("FELGABBF")
+    public Integer getBACKFACE_Gables();
 
-	@SavVariableMapping("FELMAWFF")
-	public Integer getFRONTFACE_MainWalls();
+    @SavVariableMapping("FELMAWLF")
+    public Integer getLEFTFACE_MainWalls();
 
-	@SavVariableMapping("FELFENFV")
-	public Integer getFRONTFACE_FenestrationVoid();
+    @SavVariableMapping("FELMAWFF")
+    public Integer getFRONTFACE_MainWalls();
 
-	@SavVariableMapping("FELMAWRF")
-	public Integer getRIGHTFACE_MainWalls();
+    @SavVariableMapping("FELFENFV")
+    public Integer getFRONTFACE_FenestrationVoid();
 
-	@SavVariableMapping("FELFENRN")
-	public Integer getRIGHTFACE_FenestrationWall();
+    @SavVariableMapping("FELMAWRF")
+    public Integer getRIGHTFACE_MainWalls();
 
-	@SavVariableMapping("FELPARFF")
-	public Integer getFRONTFACE_Parapets();
+    @SavVariableMapping("FELFENRN")
+    public Integer getRIGHTFACE_FenestrationWall();
 
-	@SavVariableMapping("FELSUPLF")
-	public Integer getLEFTFACE_MonoSupportingWalls();
+    @SavVariableMapping("FELPARFF")
+    public Integer getFRONTFACE_Parapets();
 
-	@SavVariableMapping("FELPARLF")
-	public Integer getLEFTFACE_Parapets();
+    @SavVariableMapping("FELSUPLF")
+    public Integer getLEFTFACE_MonoSupportingWalls();
 
-	@SavVariableMapping("FELGABFF")
-	public Integer getFRONTFACE_Gables();
+    @SavVariableMapping("FELPARLF")
+    public Integer getLEFTFACE_Parapets();
 
-	@SavVariableMapping("FELFENRW")
-	public Integer getRIGHTFACE_FenestrationWindow();
+    @SavVariableMapping("FELGABFF")
+    public Integer getFRONTFACE_Gables();
 
-	@SavVariableMapping("FVWTENLF")
-	public Integer getVIEWSLEFT_TenthsAttached();
+    @SavVariableMapping("FELFENRW")
+    public Integer getRIGHTFACE_FenestrationWindow();
 
-	@SavVariableMapping("FELFENFW")
-	public Integer getFRONTFACE_FenestrationWindow();
+    @SavVariableMapping("FVWTENLF")
+    public Integer getVIEWSLEFT_TenthsAttached();
 
-	@SavVariableMapping("FVWTENRF")
-	public Integer getVIEWSRIGHT_TenthsAttached();
+    @SavVariableMapping("FELFENFW")
+    public Integer getFRONTFACE_FenestrationWindow();
 
-	@SavVariableMapping("FELPARBF")
-	public Integer getBACKFACE_Parapets();
+    @SavVariableMapping("FVWTENRF")
+    public Integer getVIEWSRIGHT_TenthsAttached();
 
-	@SavVariableMapping("FELSUPBF")
-	public Integer getBACKFACE_MonoSupportingWalls();
+    @SavVariableMapping("FELPARBF")
+    public Integer getBACKFACE_Parapets();
 
-	@SavVariableMapping("FELBASBF")
-	public Integer getBACKFACE_BaseWalls();
+    @SavVariableMapping("FELSUPBF")
+    public Integer getBACKFACE_MonoSupportingWalls();
 
-	@SavVariableMapping("FVWTENFF")
-	public Integer getVIEWSFRONT_TenthsAttached();
+    @SavVariableMapping("FELBASBF")
+    public Integer getBACKFACE_BaseWalls();
 
-	@SavVariableMapping("FVWSPEFF")
-	public Integer getVIEWSFRONT_FrontFace();
+    @SavVariableMapping("FVWTENFF")
+    public Integer getVIEWSFRONT_TenthsAttached();
 
-	@SavVariableMapping("FVWTENBF")
-	public Integer getVIEWSBACK_TenthsAttached();
+    @SavVariableMapping("FVWSPEFF")
+    public Integer getVIEWSFRONT_FrontFace();
 
-	@SavVariableMapping("FELSUPFF")
-	public Integer getFRONTFACE_MonoSupportingWalls();
+    @SavVariableMapping("FVWTENBF")
+    public Integer getVIEWSBACK_TenthsAttached();
 
-	@SavVariableMapping("FELGABRF")
-	public Integer getRIGHTFACE_Gables();
+    @SavVariableMapping("FELSUPFF")
+    public Integer getFRONTFACE_MonoSupportingWalls();
 
-	@SavVariableMapping("FELBASLF")
-	public Integer getLEFTFACE_BaseWalls();
+    @SavVariableMapping("FELGABRF")
+    public Integer getRIGHTFACE_Gables();
 
-	@SavVariableMapping("FELFENLV")
-	public Integer getLEFTFACE_FenestrationVoid();
+    @SavVariableMapping("FELBASLF")
+    public Integer getLEFTFACE_BaseWalls();
 
-	@SavVariableMapping("FELBASRF")
-	public Integer getRIGHTFACE_BaseWalls();
+    @SavVariableMapping("FELFENLV")
+    public Integer getLEFTFACE_FenestrationVoid();
 
-	@SavVariableMapping("FELGUTFF")
-	public Integer getFRONTFACE_ValleyGutters();
+    @SavVariableMapping("FELBASRF")
+    public Integer getRIGHTFACE_BaseWalls();
 
-	@SavVariableMapping("FELFENBV")
-	public Integer getBACKFACE_FenestrationVoid();
+    @SavVariableMapping("FELGUTFF")
+    public Integer getFRONTFACE_ValleyGutters();
 
-	@SavVariableMapping("FELBASFF")
-	public Integer getFRONTFACE_BaseWalls();
+    @SavVariableMapping("FELFENBV")
+    public Integer getBACKFACE_FenestrationVoid();
 
-	@SavVariableMapping("FELGUTBF")
-	public Integer getBACKFACE_ValleyGutters();
+    @SavVariableMapping("FELBASFF")
+    public Integer getFRONTFACE_BaseWalls();
 
-	@SavVariableMapping("FELMAWBF")
-	public Integer getBACKFACE_MainWalls();
+    @SavVariableMapping("FELGUTBF")
+    public Integer getBACKFACE_ValleyGutters();
 
-	@SavVariableMapping("FELGUTLF")
-	public Integer getLEFTFACE_ValleyGutters();
+    @SavVariableMapping("FELMAWBF")
+    public Integer getBACKFACE_MainWalls();
 
-	@SavVariableMapping("FELFENBN")
-	public Integer getBACKFACE_FenestrationWall();
+    @SavVariableMapping("FELGUTLF")
+    public Integer getLEFTFACE_ValleyGutters();
 
-	@SavVariableMapping("FELPARRF")
-	public Integer getRIGHTFACE_Parapets();
+    @SavVariableMapping("FELFENBN")
+    public Integer getBACKFACE_FenestrationWall();
 
-	@SavVariableMapping("FELGUTRF")
-	public Integer getRIGHTFACE_ValleyGutters();
+    @SavVariableMapping("FELPARRF")
+    public Integer getRIGHTFACE_Parapets();
 
-	@SavVariableMapping("FELFENRV")
-	public Integer getRIGHTFACE_FenestrationVoid();
+    @SavVariableMapping("FELGUTRF")
+    public Integer getRIGHTFACE_ValleyGutters();
 
-	@SavVariableMapping("FELFENFN")
-	public Integer getFRONTFACE_FenestrationWall();
+    @SavVariableMapping("FELFENRV")
+    public Integer getRIGHTFACE_FenestrationVoid();
 
-	@SavVariableMapping("FELWTUR")
-	public Enum10 getWindTurbinePresent_();
+    @SavVariableMapping("FELFENFN")
+    public Integer getFRONTFACE_FenestrationWall();
 
-	@SavVariableMapping("FELEXPBF")
-	public Enum10 getBACKFACE_IsPartOfFaceUnattached_();
+    @SavVariableMapping("FELWTUR")
+    public Enum10 getWindTurbinePresent_();
 
-	@SavVariableMapping("FELPVLF")
-	public Enum10 getLEFTFACE_SolarPhotovoltaics();
+    @SavVariableMapping("FELEXPBF")
+    public Enum10 getBACKFACE_IsPartOfFaceUnattached_();
 
-	@SavVariableMapping("FELSOLLF")
-	public Enum10 getLEFTFACE_SolarPanels();
+    @SavVariableMapping("FELPVLF")
+    public Enum10 getLEFTFACE_SolarPhotovoltaics();
 
-	@SavVariableMapping("FVWSPERF")
-	public Enum1303 getVIEWSRIGHT_RightFace();
+    @SavVariableMapping("FELSOLLF")
+    public Enum10 getLEFTFACE_SolarPanels();
 
-	@SavVariableMapping("FELEXTBF")
-	public Enum10 getBACKFACE_ExternalInsulation();
+    @SavVariableMapping("FVWSPERF")
+    public Enum1303 getVIEWSRIGHT_RightFace();
 
-	@SavVariableMapping("FELEXTFF")
-	public Enum10 getFRONTFACE_ExternalInsulation();
+    @SavVariableMapping("FELEXTBF")
+    public Enum10 getBACKFACE_ExternalInsulation();
 
-	@SavVariableMapping("FVWSPELF")
-	public Enum1303 getVIEWSLEFT_LeftFace();
+    @SavVariableMapping("FELEXTFF")
+    public Enum10 getFRONTFACE_ExternalInsulation();
 
-	@SavVariableMapping("FELEXTRF")
-	public Enum10 getRIGHTFACE_ExternalInsulation();
+    @SavVariableMapping("FVWSPELF")
+    public Enum1303 getVIEWSLEFT_LeftFace();
 
-	@SavVariableMapping("FELPVRF")
-	public Enum10 getRIGHTFACE_SolarPhotovoltaics();
+    @SavVariableMapping("FELEXTRF")
+    public Enum10 getRIGHTFACE_ExternalInsulation();
 
-	@SavVariableMapping("FELEXPRF")
-	public Enum10 getRIGHTFACE_IsPartOfFaceUnattached_();
+    @SavVariableMapping("FELPVRF")
+    public Enum10 getRIGHTFACE_SolarPhotovoltaics();
 
-	@SavVariableMapping("FELCWIAB")
-	public Enum10 getEvidenceOfCWIFromTheAirBricks_();
+    @SavVariableMapping("FELEXPRF")
+    public Enum10 getRIGHTFACE_IsPartOfFaceUnattached_();
 
-	@SavVariableMapping("FELPVFF")
-	public Enum10 getFRONTFACE_SolarPhotovoltaics();
+    @SavVariableMapping("FELCWIAB")
+    public Enum10 getEvidenceOfCWIFromTheAirBricks_();
 
-	@SavVariableMapping("FELCAVFF")
-	public Enum10 getFRONTFACE_CavityWallInsulation();
+    @SavVariableMapping("FELPVFF")
+    public Enum10 getFRONTFACE_SolarPhotovoltaics();
 
-	@SavVariableMapping("FELEXPFF")
-	public Enum10 getFRONTFACE_IsPartOfFaceUnattached_();
+    @SavVariableMapping("FELCAVFF")
+    public Enum10 getFRONTFACE_CavityWallInsulation();
 
-	@SavVariableMapping("FELSOLFF")
-	public Enum10 getFRONTFACE_SolarPanels();
+    @SavVariableMapping("FELEXPFF")
+    public Enum10 getFRONTFACE_IsPartOfFaceUnattached_();
 
-	@SavVariableMapping("FELCAVBF")
-	public Enum10 getBACKFACE_CavityWallInsulation();
+    @SavVariableMapping("FELSOLFF")
+    public Enum10 getFRONTFACE_SolarPanels();
 
-	@SavVariableMapping("FELCAVLF")
-	public Enum10 getLEFTFACE_CavityWallInsulation();
+    @SavVariableMapping("FELCAVBF")
+    public Enum10 getBACKFACE_CavityWallInsulation();
 
-	@SavVariableMapping("FELPVBF")
-	public Enum10 getBACKFACE_SolarPhotovoltaics();
+    @SavVariableMapping("FELCAVLF")
+    public Enum10 getLEFTFACE_CavityWallInsulation();
 
-	@SavVariableMapping("FELSOLBF")
-	public Enum10 getBACKFACE_SolarPanels();
+    @SavVariableMapping("FELPVBF")
+    public Enum10 getBACKFACE_SolarPhotovoltaics();
 
-	@SavVariableMapping("FELEXPLF")
-	public Enum10 getLEFTFACE_IsPartOfFaceUnattached_();
+    @SavVariableMapping("FELSOLBF")
+    public Enum10 getBACKFACE_SolarPanels();
 
-	@SavVariableMapping("FELCAVRF")
-	public Enum10 getRIGHTFACE_CavityWallInsulation();
+    @SavVariableMapping("FELEXPLF")
+    public Enum10 getLEFTFACE_IsPartOfFaceUnattached_();
 
-	@SavVariableMapping("FVWSPEBF")
-	public Enum1303 getVIEWSBACK_BackFace();
+    @SavVariableMapping("FELCAVRF")
+    public Enum10 getRIGHTFACE_CavityWallInsulation();
 
-	@SavVariableMapping("FELEXTLF")
-	public Enum10 getLEFTFACE_ExternalInsulation();
+    @SavVariableMapping("FVWSPEBF")
+    public Enum1303 getVIEWSBACK_BackFace();
 
-	@SavVariableMapping("FELSOLRF")
-	public Enum10 getRIGHTFACE_SolarPanels();
+    @SavVariableMapping("FELEXTLF")
+    public Enum10 getLEFTFACE_ExternalInsulation();
+
+    @SavVariableMapping("FELSOLRF")
+    public Enum10 getRIGHTFACE_SolarPanels();
 
 }
-

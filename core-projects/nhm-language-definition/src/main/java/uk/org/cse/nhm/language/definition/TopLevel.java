@@ -7,10 +7,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Used to mark up an element as something which should be toplevel in the documentation
+ * Used to mark up an element as something which should be toplevel in the
+ * documentation
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE })
+@Target({ElementType.TYPE})
 @Inherited
 public @interface TopLevel {
 

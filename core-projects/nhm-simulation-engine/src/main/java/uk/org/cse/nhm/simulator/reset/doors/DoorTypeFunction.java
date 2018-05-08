@@ -10,20 +10,21 @@ import uk.org.cse.nhm.simulator.reset.AbstractScopedThingFunction;
 import uk.org.cse.nhm.simulator.state.IDimension;
 
 public class DoorTypeFunction extends AbstractScopedThingFunction<DoorType, Door> {
-	@Inject
-	protected DoorTypeFunction(
-			final ILogEntryHandler log, final IDimension<StructureModel> structureDimension) {
-		super(ResetDoorsAction.DOOR_SCOPE_KEY, Door.class, log, structureDimension);
-	}
 
-	@Override
-	protected DoorType doFail() {
-		return null;
-	}
+    @Inject
+    protected DoorTypeFunction(
+            final ILogEntryHandler log, final IDimension<StructureModel> structureDimension) {
+        super(ResetDoorsAction.DOOR_SCOPE_KEY, Door.class, log, structureDimension);
+    }
 
-	@Override
-	protected DoorType doCompute(final Door door) {
-		return door.getDoorType();
-	}
+    @Override
+    protected DoorType doFail() {
+        return null;
+    }
+
+    @Override
+    protected DoorType doCompute(final Door door) {
+        return door.getDoorType();
+    }
 
 }

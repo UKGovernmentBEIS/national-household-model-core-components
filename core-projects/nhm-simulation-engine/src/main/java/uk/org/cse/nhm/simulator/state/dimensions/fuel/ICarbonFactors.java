@@ -4,5 +4,5 @@ import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 
 public interface ICarbonFactors {
 
-	double getCarbonFactor(FuelType ft);
+    double getCarbonFactor(FuelType ft);
 }

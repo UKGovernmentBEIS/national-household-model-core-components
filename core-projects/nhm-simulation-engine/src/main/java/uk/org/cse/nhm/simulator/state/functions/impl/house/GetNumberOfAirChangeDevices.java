@@ -17,7 +17,7 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 public class GetNumberOfAirChangeDevices extends StructureFunction<Integer> {
 
     private final XAdjustNumberOfAirChangeDevices.XAirChangeDevice device;
-    
+
     @Inject
     protected GetNumberOfAirChangeDevices(IDimension<StructureModel> structure,
             @Assisted final XAdjustNumberOfAirChangeDevices.XAirChangeDevice device) {
@@ -29,7 +29,9 @@ public class GetNumberOfAirChangeDevices extends StructureFunction<Integer> {
      * @param scope
      * @param lets
      * @return
-     * @see uk.org.cse.nhm.simulator.state.functions.IComponentsFunction#compute(uk.org.cse.nhm.simulator.scope.IComponentsScope, uk.org.cse.nhm.simulator.let.ILets)
+     * @see
+     * uk.org.cse.nhm.simulator.state.functions.IComponentsFunction#compute(uk.org.cse.nhm.simulator.scope.IComponentsScope,
+     * uk.org.cse.nhm.simulator.let.ILets)
      */
     @SuppressWarnings("unchecked")
     @Override

@@ -6,17 +6,17 @@ package uk.org.cse.nhm.energycalculator.api.types;
  * Used to determine the zone 2 demand temperature and heating schedule.
  */
 public enum Zone2ControlParameter {
-	One(0),
-	Two(1),
-	Three(1);
+    One(0),
+    Two(1),
+    Three(1);
 
-	private final int controlledProportion;
+    private final int controlledProportion;
 
-	private Zone2ControlParameter(final int controlledProportion) {
-		this.controlledProportion = controlledProportion;
-	}
+    private Zone2ControlParameter(final int controlledProportion) {
+        this.controlledProportion = controlledProportion;
+    }
 
-	public double controlledProportion() {
-		return controlledProportion;
-	}
+    public double controlledProportion() {
+        return controlledProportion;
+    }
 }

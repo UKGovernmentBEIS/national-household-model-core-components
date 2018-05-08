@@ -8,14 +8,15 @@ import uk.org.cse.nhm.language.adapt.IAdapterInterceptor;
 import uk.org.cse.nhm.language.adapt.IConverter;
 
 public class ReflectingAdapterF<T> extends ReflectingAdapter {
-	@Inject
+
+    @Inject
     public ReflectingAdapterF(final Set<IConverter> delegates,
-                              final Set<IAdapterInterceptor> interceptors,
-                              final Class<T> clazz,
-                              final T target) {
+            final Set<IAdapterInterceptor> interceptors,
+            final Class<T> clazz,
+            final T target) {
         super(delegates,
-              interceptors,
-              clazz,
-              target);
+                interceptors,
+                clazz,
+                target);
     }
 }

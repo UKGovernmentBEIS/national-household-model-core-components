@@ -14,39 +14,39 @@ import uk.org.cse.nhm.simulator.state.functions.IAggregationFunction;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class Where extends AggregationFunction {
-	private final IComponentsFunction<Boolean> test;
-	private final IAggregationFunction delegate;
 
-	@AssistedInject
-	public Where(
-			@Assisted final IComponentsFunction<Boolean> test, 
-			@Assisted final IAggregationFunction delegate) {
-		super();
-		this.test = test;
-		this.delegate = delegate;
-	}
+    private final IComponentsFunction<Boolean> test;
+    private final IAggregationFunction delegate;
 
-
-	@Override
-	public double evaluate(final IState state, final ILets lets, final Set<IDwelling> dwellings) {
-		final Set<IDwelling> reduced = new LinkedHashSet<>();
-		for (final IDwelling d : dwellings) {
-			if (test.compute(state.detachedScope(d), lets)) {
-				reduced.add(d);
-			}
-		}
-		return delegate.evaluate(state, lets, reduced);
-	}
+    @AssistedInject
+    public Where(
+            @Assisted final IComponentsFunction<Boolean> test,
+            @Assisted final IAggregationFunction delegate) {
+        super();
+        this.test = test;
+        this.delegate = delegate;
+    }
 
     @Override
-	public double evaluate(final IStateScope scope, final ILets lets, final Set<IDwelling> dwellings) {
-		final Set<IDwelling> reduced = new LinkedHashSet<>();
+    public double evaluate(final IState state, final ILets lets, final Set<IDwelling> dwellings) {
+        final Set<IDwelling> reduced = new LinkedHashSet<>();
+        for (final IDwelling d : dwellings) {
+            if (test.compute(state.detachedScope(d), lets)) {
+                reduced.add(d);
+            }
+        }
+        return delegate.evaluate(state, lets, reduced);
+    }
+
+    @Override
+    public double evaluate(final IStateScope scope, final ILets lets, final Set<IDwelling> dwellings) {
+        final Set<IDwelling> reduced = new LinkedHashSet<>();
         final IState state = scope.getState();
-		for (final IDwelling d : dwellings) {
-			if (test.compute(scope.getComponentsScope(d).or(state.detachedScope(d)), lets)) {
-				reduced.add(d);
-			}
-		}
-		return delegate.evaluate(state, lets, reduced);
-	}
+        for (final IDwelling d : dwellings) {
+            if (test.compute(scope.getComponentsScope(d).or(state.detachedScope(d)), lets)) {
+                reduced.add(d);
+            }
+        }
+        return delegate.evaluate(state, lets, reduced);
+    }
 }

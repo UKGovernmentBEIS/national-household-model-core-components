@@ -35,116 +35,125 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.ConstantComponentsFunction;
 
 public class ModifyFloorInsulationMeasureTest {
-	private static final double thicknessBefore = 555d;
-	private static final double thicknessAfter = 999d;
-	private ModifyFloorInsulationMeasure measure;
-	private MockDimensions dims;
 
-	@Before
-	public void setup() {
-		this.dims = Util.getMockDimensions();
-		
-		this.measure = new ModifyFloorInsulationMeasure(
-				dims.structure,
-				ConstantComponentsFunction.<Double>of(Name.of("test"), thicknessAfter),
-				Optional.<IComponentsFunction<? extends Number>>absent()
-				);
-	}
-	
-	@Test
-	public void testSuitability() {
-		Assert.assertTrue(measure.isSuitable(makeComponents(new MockFloorProps(thicknessBefore, Optional.<Double>absent())), ILets.EMPTY));
-	}
-	
-	private ISettableComponentsScope makeComponents(final MockFloorProps p) {
-		final Elevation elevation = mock(Elevation.class);
-		when(elevation.copy()).thenReturn(elevation);
-		final Storey storey = mock(Storey.class);
-		when(storey.copy()).thenReturn(storey);
-		Mockito.doAnswer(new Answer<Double>() {
-			@Override
-			public Double answer(final InvocationOnMock invocation) throws Throwable {
-				p.setUvalue(Optional.of((Double) invocation.getArguments()[0]));
-				return null;
-			};
+    private static final double thicknessBefore = 555d;
+    private static final double thicknessAfter = 999d;
+    private ModifyFloorInsulationMeasure measure;
+    private MockDimensions dims;
+
+    @Before
+    public void setup() {
+        this.dims = Util.getMockDimensions();
+
+        this.measure = new ModifyFloorInsulationMeasure(
+                dims.structure,
+                ConstantComponentsFunction.<Double>of(Name.of("test"), thicknessAfter),
+                Optional.<IComponentsFunction<? extends Number>>absent()
+        );
+    }
+
+    @Test
+    public void testSuitability() {
+        Assert.assertTrue(measure.isSuitable(makeComponents(new MockFloorProps(thicknessBefore, Optional.<Double>absent())), ILets.EMPTY));
+    }
+
+    private ISettableComponentsScope makeComponents(final MockFloorProps p) {
+        final Elevation elevation = mock(Elevation.class);
+        when(elevation.copy()).thenReturn(elevation);
+        final Storey storey = mock(Storey.class);
+        when(storey.copy()).thenReturn(storey);
+        Mockito.doAnswer(new Answer<Double>() {
+            @Override
+            public Double answer(final InvocationOnMock invocation) throws Throwable {
+                p.setUvalue(Optional.of((Double) invocation.getArguments()[0]));
+                return null;
+            }
+        ;
 		}).when(storey).setFloorUValue(any(Double.class));
-		when(storey.getFloorUValue()).then(new Answer<Optional<Double>>() {
-			@Override
-			public Optional<Double> answer(final InvocationOnMock invocation)
-					throws Throwable {
-				return p.getUvalue();
-			}
-		});
-		
-		final ITechnologyModel technologies = new TechnologyModelImpl() {};
-		final StructureModel structure = new StructureModel() {
-			@Override
-			public List<Storey> getStoreys() {
-				return ImmutableList.of(storey);
-			}
+        when(storey.getFloorUValue()).then(new Answer<Optional<Double>>() {
+            @Override
+            public Optional<Double> answer(final InvocationOnMock invocation)
+                    throws Throwable {
+                return p.getUvalue();
+            }
+        });
 
-			@Override
-			public double getFloorInsulationThickness() {
-				return p.getThickness();
-			}
-			
-			@Override
-			public void setFloorInsulationThickness(
-					final double floorInsulationThickness) {
-				p.setThickness(floorInsulationThickness);
-			}
-			
-			@Override
-			public Map<ElevationType, Elevation> getElevations() {
-				final Builder<ElevationType, Elevation> b = ImmutableMap.<ElevationType, Elevation>builder();
-				for(final ElevationType t: ElevationType.values()) {
-					b.put(t, elevation);
-				}
-				return b.build();
-			}
-		};
+        final ITechnologyModel technologies = new TechnologyModelImpl() {
+        };
+        final StructureModel structure = new StructureModel() {
+            @Override
+            public List<Storey> getStoreys() {
+                return ImmutableList.of(storey);
+            }
 
-		final ISettableComponentsScope mockComponents = Util.mockComponents(dims, structure, technologies);
-		
-		return mockComponents;
-	}
+            @Override
+            public double getFloorInsulationThickness() {
+                return p.getThickness();
+            }
 
-	static class MockFloorProps {
-		double thickness = 0d;
-		Optional<Double> uvalue = Optional.absent();
-		public double getThickness() {
-			return thickness;
-		}
-		public void setThickness(final double thickness) {
-			this.thickness = thickness;
-		}
-		public Optional<Double> getUvalue() {
-			return uvalue;
-		}
-		public void setUvalue(final Optional<Double> uvalue) {
-			this.uvalue = uvalue;
-		}
-		public MockFloorProps(final double thickness, final Optional<Double> uvalue) {
-			super();
-			this.thickness = thickness;
-			this.uvalue = uvalue;
-		}
-	}
+            @Override
+            public void setFloorInsulationThickness(
+                    final double floorInsulationThickness) {
+                p.setThickness(floorInsulationThickness);
+            }
 
-	@Test
-	public void testApplicationOfMeasure() throws NHMException {
-		final ModifyFloorInsulationMeasure m = measure;
-		final MockFloorProps p = new MockFloorProps(thicknessBefore,Optional.<Double>absent());
-		
-		final ISettableComponentsScope house = makeComponents(p);
-		
-		Assert.assertTrue(m.isSuitable(house, ILets.EMPTY));
-			
-		final StructureModel modifiedStructure = Util.applyAndGetStructure(dims, m, house);
-			
-		Assert.assertEquals("Should still be a single storey house", 1, modifiedStructure.getStoreys().size());
-		Assert.assertEquals("Floor insulation thickness should match that of the measure", modifiedStructure.getFloorInsulationThickness(), 
-                            thicknessAfter, 0d);
-	}
-	
+            @Override
+            public Map<ElevationType, Elevation> getElevations() {
+                final Builder<ElevationType, Elevation> b = ImmutableMap.<ElevationType, Elevation>builder();
+                for (final ElevationType t : ElevationType.values()) {
+                    b.put(t, elevation);
+                }
+                return b.build();
+            }
+        };
+
+        final ISettableComponentsScope mockComponents = Util.mockComponents(dims, structure, technologies);
+
+        return mockComponents;
+    }
+
+    static class MockFloorProps {
+
+        double thickness = 0d;
+        Optional<Double> uvalue = Optional.absent();
+
+        public double getThickness() {
+            return thickness;
+        }
+
+        public void setThickness(final double thickness) {
+            this.thickness = thickness;
+        }
+
+        public Optional<Double> getUvalue() {
+            return uvalue;
+        }
+
+        public void setUvalue(final Optional<Double> uvalue) {
+            this.uvalue = uvalue;
+        }
+
+        public MockFloorProps(final double thickness, final Optional<Double> uvalue) {
+            super();
+            this.thickness = thickness;
+            this.uvalue = uvalue;
+        }
+    }
+
+    @Test
+    public void testApplicationOfMeasure() throws NHMException {
+        final ModifyFloorInsulationMeasure m = measure;
+        final MockFloorProps p = new MockFloorProps(thicknessBefore, Optional.<Double>absent());
+
+        final ISettableComponentsScope house = makeComponents(p);
+
+        Assert.assertTrue(m.isSuitable(house, ILets.EMPTY));
+
+        final StructureModel modifiedStructure = Util.applyAndGetStructure(dims, m, house);
+
+        Assert.assertEquals("Should still be a single storey house", 1, modifiedStructure.getStoreys().size());
+        Assert.assertEquals("Floor insulation thickness should match that of the measure", modifiedStructure.getFloorInsulationThickness(),
+                thicknessAfter, 0d);
+    }
+
 }

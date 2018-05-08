@@ -12,6 +12,7 @@ import uk.org.cse.nhm.simulator.scope.ISettableComponentsScope;
 import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
 
 public class ProfiledComponentsAction implements IComponentsAction {
+
     private final IProfilingStack prof;
     private final IComponentsAction delegate;
 
@@ -20,7 +21,7 @@ public class ProfiledComponentsAction implements IComponentsAction {
         this.prof = prof;
         this.delegate = delegate;
     }
-    
+
     @Override
     public boolean apply(final ISettableComponentsScope scope, final ILets lets) {
         try {
@@ -49,11 +50,8 @@ public class ProfiledComponentsAction implements IComponentsAction {
         return delegate.getIdentifier();
     }
 
-    
     @Override
     public String toString() {
         return delegate.toString();
     }
 }
-
-

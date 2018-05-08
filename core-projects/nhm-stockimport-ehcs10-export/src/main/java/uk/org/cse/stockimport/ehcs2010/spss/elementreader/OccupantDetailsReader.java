@@ -28,17 +28,19 @@ import uk.org.cse.stockimport.repository.IHouseCaseSourcesRepositoryFactory;
 
 /**
  * OccupantDetailsReader.
- * 
+ *
  * @author richardt
  * @version $Id: OccupantDetailsReader.java 94 2010-09-30 15:39:21Z richardt
  * @since 1.0.1
  */
 public class OccupantDetailsReader extends AbsSpssReader<IOccupantDetailsDTO> {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(OccupantDetailsReader.class);
     private final DateTime surveyDate;
 
     /**
      * Default Constructor.
+     *
      * @since 1.0
      */
     public OccupantDetailsReader(final String executionId, final IHouseCaseSourcesRepositoryFactory providerFactory,
@@ -64,26 +66,26 @@ public class OccupantDetailsReader extends AbsSpssReader<IOccupantDetailsDTO> {
         final Optional<PeopleEntryImpl> hrpPerson = getHRPersonEntry(provider);
 
         if (povertyEntry.isPresent()) {
-        	annualHouseholdIncome = povertyEntry.get().getAnnualFullHouseholdIncome___();
+            annualHouseholdIncome = povertyEntry.get().getAnnualFullHouseholdIncome___();
         } else {
-        	LOGGER.error("Fuel_Poverty_Dataset_2010Entry not found for aacode:{}", provider.getAacode());
+            LOGGER.error("Fuel_Poverty_Dataset_2010Entry not found for aacode:{}", provider.getAacode());
         }
 
         if (maybeInterview.isPresent()) {
-        	final Interview_09Plus10Entry interview = maybeInterview.get();
-        	
-        	dateMovedIn = calcDateMovedIn(interview.getLengthOfResidence_Years_());
+            final Interview_09Plus10Entry interview = maybeInterview.get();
+
+            dateMovedIn = calcDateMovedIn(interview.getLengthOfResidence_Years_());
             ageOfHrp = interview.getAgeOfHRP_Continuous();
 
             hasOccupantOnBenefits = getHasOccupantOnBenefits(
                     interview.getHouseholdVulnerable_OnMeansTestedOrCertainDisabilityRelatedBenefits_());
-                    
+
             hasDisabledOrSickOccupant = getHasDisabledOrSickOccupant(
                     interview.getAnyoneInHholdHaveLessThanIllnessOrDisability_());
         } else {
-        	LOGGER.error("Interview_09Plus10Entry not found for aacode:{}", provider.getAacode());
+            LOGGER.error("Interview_09Plus10Entry not found for aacode:{}", provider.getAacode());
         }
-        
+
         // Create DTO
         final IOccupantDetailsDTO occupantDetails = new OccupantDetailsDTO();
         occupantDetails.setAacode(provider.getAacode());
@@ -92,35 +94,35 @@ public class OccupantDetailsReader extends AbsSpssReader<IOccupantDetailsDTO> {
         occupantDetails.setHasOccupantOnBenefits(Optional.fromNullable(hasOccupantOnBenefits));
         occupantDetails.setHasDisabledOrSickOccupant(Optional.fromNullable(hasDisabledOrSickOccupant));
         occupantDetails.setDateMovedIn(Optional.fromNullable(dateMovedIn));
-        
-        if(hrpPerson.isPresent()) {
-        	final Enum752 hoursNormallyWorked_Wk = hrpPerson.get().getHoursNormallyWorked_Wk();
-			switch(hoursNormallyWorked_Wk) {
-			case UpTo15Hours_:
-			case _16_29Hours_:
-				SavEnumMapping enumMapping;
-				try {
-					enumMapping = Enum752.class.getField(hoursNormallyWorked_Wk.toString()).getAnnotation(SavEnumMapping.class);
-				} catch (final SecurityException e) {
-					throw new RuntimeException("Security exception looking up field on generated SPSS hoursNormallyWorked_wk enum.", e);
-				} catch (final NoSuchFieldException e) {
-					throw new RuntimeException("Exception looking up field on generated SPSS hoursNormallyWorked_wk enum.", e);
-				}
-				occupantDetails.setWorkingHours(enumMapping.value()[0].toString());
-			case DoesNotApply:
-			case NoAnswer:
-			default:
-				break;
-        	}
+
+        if (hrpPerson.isPresent()) {
+            final Enum752 hoursNormallyWorked_Wk = hrpPerson.get().getHoursNormallyWorked_Wk();
+            switch (hoursNormallyWorked_Wk) {
+                case UpTo15Hours_:
+                case _16_29Hours_:
+                    SavEnumMapping enumMapping;
+                    try {
+                        enumMapping = Enum752.class.getField(hoursNormallyWorked_Wk.toString()).getAnnotation(SavEnumMapping.class);
+                    } catch (final SecurityException e) {
+                        throw new RuntimeException("Security exception looking up field on generated SPSS hoursNormallyWorked_wk enum.", e);
+                    } catch (final NoSuchFieldException e) {
+                        throw new RuntimeException("Exception looking up field on generated SPSS hoursNormallyWorked_wk enum.", e);
+                    }
+                    occupantDetails.setWorkingHours(enumMapping.value()[0].toString());
+                case DoesNotApply:
+                case NoAnswer:
+                default:
+                    break;
+            }
         }
 
         return Arrays.asList(occupantDetails);
     }
 
     /**
-     * Maps from {@link Enum69} to either true,false or null. Returns true if {@link Enum69#Yes}, false if
-     * {@link Enum69#No} otherwise returns null.
-     * 
+     * Maps from {@link Enum69} to either true,false or null. Returns true if
+     * {@link Enum69#Yes}, false if {@link Enum69#No} otherwise returns null.
+     *
      * @param includesDisabled
      * @return
      * @since 1.0.1
@@ -144,9 +146,9 @@ public class OccupantDetailsReader extends AbsSpssReader<IOccupantDetailsDTO> {
     }
 
     /**
-     * Maps from {@link Enum10} to either true,false or null. Returns true if {@link Enum10#Yes}, false if
-     * {@link Enum10#No} otherwise returns null.
-     * 
+     * Maps from {@link Enum10} to either true,false or null. Returns true if
+     * {@link Enum10#Yes}, false if {@link Enum10#No} otherwise returns null.
+     *
      * @param onBenefits
      * @return
      * @since 1.0.1
@@ -170,9 +172,10 @@ public class OccupantDetailsReader extends AbsSpssReader<IOccupantDetailsDTO> {
     }
 
     /**
-     * 1. Takes survey date and subtracts lengthOfResidence from this to get moved in date.<br/><br/> <b>n.b. currently
-     * only supports years increments, returns null of lengthOfResidence is null.</b>
-     * 
+     * 1. Takes survey date and subtracts lengthOfResidence from this to get
+     * moved in date.<br/><br/> <b>n.b. currently only supports years
+     * increments, returns null of lengthOfResidence is null.</b>
+     *
      * @param lengthOfResidence
      * @return
      * @since 1.0.1
@@ -184,40 +187,40 @@ public class OccupantDetailsReader extends AbsSpssReader<IOccupantDetailsDTO> {
 
         return surveyDate.plusYears(-lengthOfResidence);
     }
-    
-	private Optional<PeopleEntryImpl> getHRPersonEntry(final IHouseCaseSources<Object> dtoProvider) {
-		final List<PeopleEntryImpl> people = dtoProvider.getAll(PeopleEntryImpl.class);
-		if (people.isEmpty()) {
-			return Optional.absent();
-		}
 
-		final List<PeopleEntryImpl> results = new ArrayList<PeopleEntryImpl>();
-		for (final PeopleEntryImpl p : people) {
-			if (p.getPersonIdentifier().equals(p.getPersonNumberOfHRP())) {
-				results.add(p);
-			}
-		}
-		if (results.size() == 1) {
-			return Optional.of(results.get(0));
-		}
-		throw new RuntimeException(String.format("Found %s HRP PeopleEntries out of %s for %s.", results.size(), people.size(), dtoProvider.getAacode()));
-	}
+    private Optional<PeopleEntryImpl> getHRPersonEntry(final IHouseCaseSources<Object> dtoProvider) {
+        final List<PeopleEntryImpl> people = dtoProvider.getAll(PeopleEntryImpl.class);
+        if (people.isEmpty()) {
+            return Optional.absent();
+        }
+
+        final List<PeopleEntryImpl> results = new ArrayList<PeopleEntryImpl>();
+        for (final PeopleEntryImpl p : people) {
+            if (p.getPersonIdentifier().equals(p.getPersonNumberOfHRP())) {
+                results.add(p);
+            }
+        }
+        if (results.size() == 1) {
+            return Optional.of(results.get(0));
+        }
+        throw new RuntimeException(String.format("Found %s HRP PeopleEntries out of %s for %s.", results.size(), people.size(), dtoProvider.getAacode()));
+    }
 
     /**
-     * @return
-     * @see uk.org.cse.stockimport.ehcs2010.spss.elementreader.AbsSpssReader#getSurveyEntryClasses()
+     * @return @see
+     * uk.org.cse.stockimport.ehcs2010.spss.elementreader.AbsSpssReader#getSurveyEntryClasses()
      */
     @Override
     protected Set<Class<?>> getSurveyEntryClasses() {
-        return ImmutableSet.<Class<?>> of(
+        return ImmutableSet.<Class<?>>of(
                 Fuel_Poverty_Dataset_2010EntryImpl.class,
                 Interview_09Plus10EntryImpl.class,
                 PeopleEntryImpl.class);
     }
 
     /**
-     * @return
-     * @see uk.org.cse.stockimport.ehcs2010.spss.elementreader.AbsSpssReader#readClass()
+     * @return @see
+     * uk.org.cse.stockimport.ehcs2010.spss.elementreader.AbsSpssReader#readClass()
      */
     @Override
     protected Class<?> readClass() {

@@ -11,8 +11,8 @@ import uk.org.cse.nhm.language.validate.contents.RequireParent;
 
 @Bind("house.survey-code")
 @Doc({"Returns the survey code (AACODE) that was associated with the DTO entries which defined this house.",
-	"Note that because of the quantum many houses may have the same survey code during a run, and can be ",
-	"in different states, so the survey code is not a good identifier."})
+    "Note that because of the quantum many houses may have the same survey code during a run, and can be ",
+    "in different states, so the survey code is not a good identifier."})
 @RequireParent(IHouseContext.class)
 @Category(CategoryType.HOUSEPROPERTIES)
 public class XSurveyCode extends XFunction {

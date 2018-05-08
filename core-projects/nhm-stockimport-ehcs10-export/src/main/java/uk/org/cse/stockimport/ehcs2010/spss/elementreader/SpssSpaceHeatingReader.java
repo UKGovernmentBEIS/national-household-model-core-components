@@ -66,10 +66,11 @@ import uk.org.cse.stockimport.repository.IHouseCaseSourcesRepositoryFactory;
  * @since 1.0
  */
 public class SpssSpaceHeatingReader extends AbsSpssReader<ISpaceHeatingDTO> {
+
     private static final Logger logger = LoggerFactory.getLogger(SpssSpaceHeatingReader.class);
 
     private final SedbukHelper sedbuk;
-    
+
     /**
      * @since 1.0
      */
@@ -82,8 +83,8 @@ public class SpssSpaceHeatingReader extends AbsSpssReader<ISpaceHeatingDTO> {
     @Override
     public List<ISpaceHeatingDTO> read(final IHouseCaseSources<Object> provider) {
         final IHouseCaseDTO houseCase = provider.requireOne(HouseCaseDTO.class);
-        if(houseCase == null) {
-        	throw new IllegalArgumentException("Could not find a house case for " + provider.getAacode());
+        if (houseCase == null) {
+            throw new IllegalArgumentException("Could not find a house case for " + provider.getAacode());
         }
 
         final List<ISpaceHeatingDTO> dtos = new ArrayList<ISpaceHeatingDTO>();
@@ -104,10 +105,10 @@ public class SpssSpaceHeatingReader extends AbsSpssReader<ISpaceHeatingDTO> {
         dto.setBoilerMatch(matchDetails);
 
         final Optional<IBoilerTableEntry> sedbukMatch = sedbuk.lookup(services.getBoiler_Code(),
-                                                                      services.getBoilerGroup(),
-                                                                      services.getMainHeatingFuel(),
-                                                                      services.getBackBoiler_Type_Fuel(),
-                                                                      manufacturer, model);
+                services.getBoilerGroup(),
+                services.getMainHeatingFuel(),
+                services.getBackBoiler_Type_Fuel(),
+                manufacturer, model);
 
         if (sedbukMatch.isPresent()) {
             setSebukDataOnDTO(dto, sedbukMatch.get());
@@ -124,7 +125,7 @@ public class SpssSpaceHeatingReader extends AbsSpssReader<ISpaceHeatingDTO> {
             }
 
             setStorageCombiDetailsAbsent(dto);
-            dto.setCondensing(Optional.<Boolean> absent());
+            dto.setCondensing(Optional.<Boolean>absent());
         }
 
         setCommonDataOnDTO(dto, services);
@@ -136,10 +137,12 @@ public class SpssSpaceHeatingReader extends AbsSpssReader<ISpaceHeatingDTO> {
     }
 
     /**
-     * Returns the boiler age. If the heating system is missing sets the age to absent. If a back boiler is present,
-     * attempts to use the back boiler age. If this fails, attempts to use the boiler age. If a boiler other than a back
-     * boiler is present, attempts to use the boiler age. If the appropriate data is missing, sets the age to absent.
-     * 
+     * Returns the boiler age. If the heating system is missing sets the age to
+     * absent. If a back boiler is present, attempts to use the back boiler age.
+     * If this fails, attempts to use the boiler age. If a boiler other than a
+     * back boiler is present, attempts to use the boiler age. If the
+     * appropriate data is missing, sets the age to absent.
+     *
      * @param dto
      * @param surveyYear
      * @param services
@@ -150,28 +153,30 @@ public class SpssSpaceHeatingReader extends AbsSpssReader<ISpaceHeatingDTO> {
     public Optional<Integer> getBoilerAge(final SpaceHeatingDTO dto, final int surveyYear, final ServicesEntry services,
             final IHouseCaseDTO houseCase) {
         if (dto.getSpaceHeatingSystemType() == SpaceHeatingSystemType.MISSING) {
-            return Optional.<Integer> absent();
+            return Optional.<Integer>absent();
         } else if (services.getBackBoiler_Age() != null
                 && (dto.getSpaceHeatingSystemType() == SpaceHeatingSystemType.BACK_BOILER || dto
-                        .getSpaceHeatingSystemType() == SpaceHeatingSystemType.BACK_BOILER_NO_CENTRAL_HEATING)) {
+                .getSpaceHeatingSystemType() == SpaceHeatingSystemType.BACK_BOILER_NO_CENTRAL_HEATING)) {
             return Optional.of(getBoilerInstallationDateOrFallbackToHouseConstructionDate(services.getBackBoiler_Age(),
                     surveyYear, houseCase));
         } else if (services.getBoiler_Age() != null) {
             return Optional.of(getBoilerInstallationDateOrFallbackToHouseConstructionDate(services.getBoiler_Age(),
                     surveyYear, houseCase));
         } else {
-            return Optional.<Integer> absent();
+            return Optional.<Integer>absent();
         }
     }
 
     /**
-     * Returns the boiler age, accounting for the special code 88 = set from house construction date. If age is not 88,
-     * it is subtracted from the survey year to give our result. If this is earlier than the earliest date the house
-     * could have been built, we use that date instead.
-     * 
-     * @assumption If boiler age is 88, it is the special value from the EHS which means 'use house construction year'.
-     *             We use the house construction date range end if it is present, otherwise we use the construction date
-     *             range start.
+     * Returns the boiler age, accounting for the special code 88 = set from
+     * house construction date. If age is not 88, it is subtracted from the
+     * survey year to give our result. If this is earlier than the earliest date
+     * the house could have been built, we use that date instead.
+     *
+     * @assumption If boiler age is 88, it is the special value from the EHS
+     * which means 'use house construction year'. We use the house construction
+     * date range end if it is present, otherwise we use the construction date
+     * range start.
      * @param age
      * @param surveyYear
      * @param houseCase
@@ -195,16 +200,19 @@ public class SpssSpaceHeatingReader extends AbsSpssReader<ISpaceHeatingDTO> {
         }
     }
 
-
     /**
-     * <p> Fills a SpaceHeatingDTO based on data looked up in the Sedbuk boiler tables. </p>
-     * 
-     * @assumption CHM appear to use winterEfficiency (the highest of the three efficiency values) from their Sedbuk
-     *             lookups, although they have not documented this. We are storing winter, summer and annual
-     *             efficiencies since we can make use of this data in our energy calculation.
+     * <p>
+     * Fills a SpaceHeatingDTO based on data looked up in the Sedbuk boiler
+     * tables. </p>
+     *
+     * @assumption CHM appear to use winterEfficiency (the highest of the three
+     * efficiency values) from their Sedbuk lookups, although they have not
+     * documented this. We are storing winter, summer and annual efficiencies
+     * since we can make use of this data in our energy calculation.
      * @param dto The SpaceHeatingDTO to fill with data.
      * @param boilerTable The Sedbuk boiler table.
-     * @param sedbukRow The row in the Sedbuk boiler table that the dto should be populated from.
+     * @param sedbukRow The row in the Sedbuk boiler table that the dto should
+     * be populated from.
      * @since 1.0
      */
     public void setSebukDataOnDTO(final SpaceHeatingDTO dto, final IBoilerTableEntry boilerEntry) {
@@ -216,9 +224,8 @@ public class SpssSpaceHeatingReader extends AbsSpssReader<ISpaceHeatingDTO> {
         dto.setSummerEfficiency(Optional.of(boilerEntry.getSummerEfficiency() / 100.0));
         dto.setWinterEfficiency(Optional.of(boilerEntry.getWinterEfficiency() / 100.0));
         dto.setBasicEfficiency(boilerEntry.getAnnualEfficiency() / 100.0);
-        		
-        
-        dto.setStorageHeaterType(Optional.<StorageHeaterType> absent());
+
+        dto.setStorageHeaterType(Optional.<StorageHeaterType>absent());
 
         dto.setCondensing(Optional.of(boilerEntry.isCondensing()));
 
@@ -242,25 +249,25 @@ public class SpssSpaceHeatingReader extends AbsSpssReader<ISpaceHeatingDTO> {
             dto.setStorageCombiSolarVolume(Optional.fromNullable(boilerEntry.getStoreSolarVolume()));
             dto.setStorageCombiCylinderInsulationThickness(Optional.fromNullable(boilerEntry
                     .getStoreInsulationThickness()));
-            dto.setStorageCombiCylinderThemostatPresent(Optional.<Boolean> absent());
-            dto.setStorageCombiCylinderFactoryInsulated(Optional.<Boolean> absent());
+            dto.setStorageCombiCylinderThemostatPresent(Optional.<Boolean>absent());
+            dto.setStorageCombiCylinderFactoryInsulated(Optional.<Boolean>absent());
         } else {
             setStorageCombiDetailsAbsent(dto);
         }
     }
 
     private void setStorageCombiDetailsAbsent(final SpaceHeatingDTO dto) {
-        dto.setStorageCombiCylinderVolume(Optional.<Double> absent());
-        dto.setStorageCombiSolarVolume(Optional.<Double> absent());
-        dto.setStorageCombiCylinderInsulationThickness(Optional.<Double> absent());
-        dto.setStorageCombiCylinderThemostatPresent(Optional.<Boolean> absent());
-        dto.setStorageCombiCylinderFactoryInsulated(Optional.<Boolean> absent());
+        dto.setStorageCombiCylinderVolume(Optional.<Double>absent());
+        dto.setStorageCombiSolarVolume(Optional.<Double>absent());
+        dto.setStorageCombiCylinderInsulationThickness(Optional.<Double>absent());
+        dto.setStorageCombiCylinderThemostatPresent(Optional.<Boolean>absent());
+        dto.setStorageCombiCylinderFactoryInsulated(Optional.<Boolean>absent());
     }
 
     /**
-     * Fills a SpaceHeatingDTO based on an EHCS primary heating code, with a potential adjustment based on the Spss
-     * boiler group.
-     * 
+     * Fills a SpaceHeatingDTO based on an EHCS primary heating code, with a
+     * potential adjustment based on the Spss boiler group.
+     *
      * @param dto
      * @param ehsCode
      * @param boilerGroup
@@ -271,7 +278,7 @@ public class SpssSpaceHeatingReader extends AbsSpssReader<ISpaceHeatingDTO> {
         dto.setSpaceHeatingSystemType(getMainHeatingSystemType(ehsCode, boilerGroup));
         dto.setMainHeatingFuel(fuelType);
         dto.setFlueType(Optional.of(ehsCode.getFlueType()));
-        
+
         dto.setSummerEfficiency(Optional.<Double>absent());
         dto.setWinterEfficiency(Optional.<Double>absent());
         dto.setBasicEfficiency(ehsCode.getEfficiency());
@@ -279,11 +286,13 @@ public class SpssSpaceHeatingReader extends AbsSpssReader<ISpaceHeatingDTO> {
     }
 
     /**
-     * <p> In some cases, neither of the methods specified by the Cambridge Architectural Research conversion document
-     * for identifying the primary heating system give results. </p>
-     * 
-     * @assumption If no main space heating system is present, put a back boiler is, we have used the back boiler as the
-     *             main space heating system.
+     * <p>
+     * In some cases, neither of the methods specified by the Cambridge
+     * Architectural Research conversion document for identifying the primary
+     * heating system give results. </p>
+     *
+     * @assumption If no main space heating system is present, put a back boiler
+     * is, we have used the back boiler as the main space heating system.
      * @param dto
      * @param services
      * @return whether a back boiler was found
@@ -293,9 +302,9 @@ public class SpssSpaceHeatingReader extends AbsSpssReader<ISpaceHeatingDTO> {
         if (services.getBackBoiler_Present() == Enum10.Yes) {
             dto.setSpaceHeatingSystemType(SpaceHeatingSystemType.BACK_BOILER);
             dto.setMainHeatingFuel(sedbuk.getMainHeatingFuelFromBackBoilerFuel(services.getBackBoiler_Type_Fuel()));
-            dto.setStorageHeaterType(Optional.<StorageHeaterType> absent());
+            dto.setStorageHeaterType(Optional.<StorageHeaterType>absent());
             dto.setFlueType(Optional.of(FlueType.OPEN_FLUE));
-            
+
             dto.setSummerEfficiency(Optional.<Double>absent());
             dto.setWinterEfficiency(Optional.<Double>absent());
             dto.setBasicEfficiency(SOLID_BACK_BOILER_CLOSED_FIRE.getEfficiency());
@@ -305,31 +314,34 @@ public class SpssSpaceHeatingReader extends AbsSpssReader<ISpaceHeatingDTO> {
     }
 
     /**
-     * <p> If both the CAR specified methods for finding a heating system fail, and there is not a back boiler, set the
-     * primary heating to be missing. </p>
-     * 
-     * @assumption CAR do not specify what to do when there are no heating systems present. The CHM model treats as
-     *             having standard gas boilers. The NHM instead treats these dwellings as having no primary heating,
-     *             because we have identified a number of cases where the house is likely being heated entirely by other
-     *             heating.
+     * <p>
+     * If both the CAR specified methods for finding a heating system fail, and
+     * there is not a back boiler, set the primary heating to be missing. </p>
+     *
+     * @assumption CAR do not specify what to do when there are no heating
+     * systems present. The CHM model treats as having standard gas boilers. The
+     * NHM instead treats these dwellings as having no primary heating, because
+     * we have identified a number of cases where the house is likely being
+     * heated entirely by other heating.
      * @param dto
      * @since 1.0
      */
     public void setNoPrimaryHeatingSystem(final SpaceHeatingDTO dto) {
         dto.setSpaceHeatingSystemType(SpaceHeatingSystemType.MISSING);
         dto.setMainHeatingFuel(FuelType.MAINS_GAS);
-        dto.setStorageHeaterType(Optional.<StorageHeaterType> absent());
-        dto.setFlueType(Optional.<FlueType> absent());
-        
+        dto.setStorageHeaterType(Optional.<StorageHeaterType>absent());
+        dto.setFlueType(Optional.<FlueType>absent());
+
         dto.setSummerEfficiency(Optional.<Double>absent());
         dto.setWinterEfficiency(Optional.<Double>absent());
         dto.setBasicEfficiency(0d);
     }
 
     /**
-     * Fills the DTO with data that is taken entirely from the Spss services data, regardless of which mechanism was
-     * used to identify the primary heating system.
-     * 
+     * Fills the DTO with data that is taken entirely from the Spss services
+     * data, regardless of which mechanism was used to identify the primary
+     * heating system.
+     *
      * @param dto
      * @param services
      * @since 1.0
@@ -338,7 +350,7 @@ public class SpssSpaceHeatingReader extends AbsSpssReader<ISpaceHeatingDTO> {
         dto.setHeatingSystemControlTypes(new ArrayList<>(getHeatingSystemControlTypes(services)));
         dto.setStorageHeaterControlType(getStorageHeaterControlType(dto.getSpaceHeatingSystemType(), services));
         dto.setSecondaryHeatingSystemType(getSecondaryHeatingSystemType(services));
-        
+
         final Optional<ElectricityTariffType> electricTariff = getElectricTariff(dto.getMainHeatingFuel(), services.getMainHeatingFuel());
         final Optional<Boolean> communityChargingUsageBased = getIsCommunityChargingUsageBased(dto.getSpaceHeatingSystemType());
         final Optional<Double> CHPFraction = getCHPFraction(dto.getSpaceHeatingSystemType());
@@ -348,7 +360,7 @@ public class SpssSpaceHeatingReader extends AbsSpssReader<ISpaceHeatingDTO> {
     }
 
     private final Map<Enum1776, SecondaryHeatingSystemType> otherHeatingMapping = ImmutableMap
-            .<Enum1776, SecondaryHeatingSystemType> builder().put(Enum1776.__MISSING, GAS_FIRE)
+            .<Enum1776, SecondaryHeatingSystemType>builder().put(Enum1776.__MISSING, GAS_FIRE)
             .put(Other, GAS_FIRE).put(Paraffin_PortableHeaters, GAS_FIRE).put(LPG_FixedHeaters, GAS_FIRE)
             .put(MainsGas_LiveEffect_SealedToChim, GAS_COAL_EFFECT_FIRE)
             .put(SolidFuelHeaters_OpenFire, OPEN_FIRE).put(SolidFuelHeaters_Stove_SpaceHeater, OPEN_FIRE)
@@ -361,13 +373,17 @@ public class SpssSpaceHeatingReader extends AbsSpssReader<ISpaceHeatingDTO> {
             .put(MainsGas_Decorative_OpenToChimney, GAS_COAL_EFFECT_FIRE).build();
 
     /**
-     * <p> Looks up whether a secondary heating system is present, and if so what type it is. </p>
-     * 
-     * @assumption The Cambridge Architectural Research document does not specify how to convert EHS other heating types
-     *             to their values. We have created a mapping which appears to fit with their data.
-     * @assumption CAR have no value we can map to for when EHS other heating type specifies electric storage heaters.
-     *             We are treating these as electric heaters, but this will result in a much higher electricity bill for
-     *             these dwellings.
+     * <p>
+     * Looks up whether a secondary heating system is present, and if so what
+     * type it is. </p>
+     *
+     * @assumption The Cambridge Architectural Research document does not
+     * specify how to convert EHS other heating types to their values. We have
+     * created a mapping which appears to fit with their data.
+     * @assumption CAR have no value we can map to for when EHS other heating
+     * type specifies electric storage heaters. We are treating these as
+     * electric heaters, but this will result in a much higher electricity bill
+     * for these dwellings.
      * @param services
      * @return
      * @since 1.0
@@ -382,7 +398,7 @@ public class SpssSpaceHeatingReader extends AbsSpssReader<ISpaceHeatingDTO> {
 
     /**
      * Looks up the heating system control types from the EHS services data.
-     * 
+     *
      * @param services
      * @return A set containing the heating control types found.
      * @since 1.0
@@ -410,12 +426,14 @@ public class SpssSpaceHeatingReader extends AbsSpssReader<ISpaceHeatingDTO> {
     }
 
     /**
-     * If a storage heater is present, looks through the possible types of storage heater control in the EHS services
-     * entry. If no special storage heater controls are found, returns manual control.
-     * 
+     * If a storage heater is present, looks through the possible types of
+     * storage heater control in the EHS services entry. If no special storage
+     * heater controls are found, returns manual control.
+     *
      * @param dto
      * @param services
-     * @return A storage heater control type if there is a storage heater, otherwise absent.
+     * @return A storage heater control type if there is a storage heater,
+     * otherwise absent.
      * @since 1.0
      */
     public Optional<StorageHeaterControlType> getStorageHeaterControlType(final SpaceHeatingSystemType heatingSystemType,
@@ -437,10 +455,11 @@ public class SpssSpaceHeatingReader extends AbsSpssReader<ISpaceHeatingDTO> {
             ELECTRIC_STORAGE_MODERN_SLIMLINE_WITH_FAN, FAN, ELECTRIC_STORAGE_OLD_LARGE_VOLUME, OLD_LARGE_VOLUME);
 
     /**
-     * Gets the type of storage heater from the EHS codes table. Returns absent if the system is not a storage heater,
-     * or if the type of storage heater is unknown. This is not specified by Cambridge Architectural Research, but is
-     * extra detail we use in our model.
-     * 
+     * Gets the type of storage heater from the EHS codes table. Returns absent
+     * if the system is not a storage heater, or if the type of storage heater
+     * is unknown. This is not specified by Cambridge Architectural Research,
+     * but is extra detail we use in our model.
+     *
      * @param ehsCode
      * @return
      * @since 1.0
@@ -453,9 +472,11 @@ public class SpssSpaceHeatingReader extends AbsSpssReader<ISpaceHeatingDTO> {
     }
 
     /**
-     * <p> Returns whether community charging is usage based. </p>
-     * 
-     * @assumption All community charging is usage based as specified by the CAR conversion document.
+     * <p>
+     * Returns whether community charging is usage based. </p>
+     *
+     * @assumption All community charging is usage based as specified by the CAR
+     * conversion document.
      * @param dto
      * @return
      * @since 1.0
@@ -469,14 +490,16 @@ public class SpssSpaceHeatingReader extends AbsSpssReader<ISpaceHeatingDTO> {
     }
 
     /**
-     * Looks up the electricity tariff based on the main heating fuel. Returns absent if the main heating fuel is not
-     * electric. The Cambridge Architectural Research conversion document specifies to do this for heat pumps. We have
-     * extended this approach to include all electric devices (storage heaters are probably the most important example
-     * here).
-     * 
-     * @param fuelType FuelType in our own format. (This is more convenient for checking whether or not it's
-     *        electricity).
-     * @param mainHeatingFuel the EHS field from which the tariff type will be extracted.
+     * Looks up the electricity tariff based on the main heating fuel. Returns
+     * absent if the main heating fuel is not electric. The Cambridge
+     * Architectural Research conversion document specifies to do this for heat
+     * pumps. We have extended this approach to include all electric devices
+     * (storage heaters are probably the most important example here).
+     *
+     * @param fuelType FuelType in our own format. (This is more convenient for
+     * checking whether or not it's electricity).
+     * @param mainHeatingFuel the EHS field from which the tariff type will be
+     * extracted.
      * @return
      * @since 1.0
      */
@@ -502,16 +525,21 @@ public class SpssSpaceHeatingReader extends AbsSpssReader<ISpaceHeatingDTO> {
         }
     }
 
-    private final List<Enum1713> combi = Arrays.asList(new Enum1713[] { Enum1713.Combination, Enum1713.CondensingCombi });
+    private final List<Enum1713> combi = Arrays.asList(new Enum1713[]{Enum1713.Combination, Enum1713.CondensingCombi});
 
     /**
-     * <p> Get the space heating system type based on the EHCS code. </p> <p> Uses EHCSPrimaryHeatingCode, which is
-     * lookup table 4 in the Cambridge Architectural Research conversion document. For standard boilers, it then checks
-     * if they should be classified as a combi or back boiler using the boiler group field from the EHS document. </p>
-     * 
-     * @assumption If the EHS specifies a boiler group of combi or back boiler and the EHS boiler type is a standard
-     *             boiler, the boiler group should take precedence. CAR specify this only for gas boilers, but we have
-     *             extended it to cover other fuel types.
+     * <p>
+     * Get the space heating system type based on the EHCS code. </p>
+     * <p>
+     * Uses EHCSPrimaryHeatingCode, which is lookup table 4 in the Cambridge
+     * Architectural Research conversion document. For standard boilers, it then
+     * checks if they should be classified as a combi or back boiler using the
+     * boiler group field from the EHS document. </p>
+     *
+     * @assumption If the EHS specifies a boiler group of combi or back boiler
+     * and the EHS boiler type is a standard boiler, the boiler group should
+     * take precedence. CAR specify this only for gas boilers, but we have
+     * extended it to cover other fuel types.
      * @param ehsCode
      * @param boilerGroup
      * @return
@@ -530,9 +558,12 @@ public class SpssSpaceHeatingReader extends AbsSpssReader<ISpaceHeatingDTO> {
     }
 
     /**
-     * <p> Returns the CHP fraction if the heating system is a CHP type, otherwise returns Absent. </p>
-     * 
-     * @assumption The CHP fraction of a CHP system is always 0.35 as specified by the CAR conversion document.
+     * <p>
+     * Returns the CHP fraction if the heating system is a CHP type, otherwise
+     * returns Absent. </p>
+     *
+     * @assumption The CHP fraction of a CHP system is always 0.35 as specified
+     * by the CAR conversion document.
      * @param heatingType The type of the main heating system.
      * @return A double between 0 and 1 if CHP is in use, or Absent if it isn't.
      * @since 1.0
@@ -546,7 +577,7 @@ public class SpssSpaceHeatingReader extends AbsSpssReader<ISpaceHeatingDTO> {
 
     @Override
     protected Set<Class<?>> getSurveyEntryClasses() {
-        return ImmutableSet.<Class<?>> of(ServicesEntryImpl.class, HouseCaseDTO.class);
+        return ImmutableSet.<Class<?>>of(ServicesEntryImpl.class, HouseCaseDTO.class);
     }
 
     @Override

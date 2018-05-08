@@ -68,10 +68,11 @@ import uk.org.cse.stockimport.spss.SurveyEntryImpl;
 import uk.org.cse.stockimport.spss.elementreader.ISpssReader;
 
 public class SPSSImportPhase {
+
     public static final String WARNINGS_CSV = "warnings.csv";
 
-    private static final Map<String, Class<? extends SurveyEntryImpl>> REQUIRED_SPSS_FILES =
-            ImmutableMap.<String, Class<? extends SurveyEntryImpl>> builder()
+    private static final Map<String, Class<? extends SurveyEntryImpl>> REQUIRED_SPSS_FILES
+            = ImmutableMap.<String, Class<? extends SurveyEntryImpl>>builder()
                     .put("derived/dimensions.sav", Dimensions_09Plus10EntryImpl.class)
                     .put("derived/general.sav", General_09Plus10EntryImpl.class)
                     .put("derived/interview.sav", Interview_09Plus10EntryImpl.class)
@@ -111,14 +112,14 @@ public class SPSSImportPhase {
         final Path output = Files.createTempDirectory("stock-dto-output");
         try {
             if (Util.unzip(zipPath, temporary, errors) && Util.checkfiles(temporary,
-                                                                          Sets.union(REQUIRED_SPSS_FILES.keySet(),
-                                                                                     ImmutableSet.of(DTOImportPhase.SCHEMA_FILE_NAME, Metadata.PATH))
-                                                                          , errors)) {
+                    Sets.union(REQUIRED_SPSS_FILES.keySet(),
+                            ImmutableSet.of(DTOImportPhase.SCHEMA_FILE_NAME, Metadata.PATH)),
+                    errors)) {
 
                 errors.update("Creating additional properties file");
 
                 AdditionalPropertiesTransfer.transfer(temporary,
-                                                      output.resolve(AdditionalPropertiesDTOReader.ADDITIONAL_PROPERTIES_FILE + ".csv"));
+                        output.resolve(AdditionalPropertiesDTOReader.ADDITIONAL_PROPERTIES_FILE + ".csv"));
 
                 errors.update("Loading SPSS files for DTO creation");
                 // load all the SPSS files that we care about
@@ -128,22 +129,22 @@ public class SPSSImportPhase {
                 final Path outputWarningsPath = output.resolve(WARNINGS_CSV);
 
                 try (final CSV.Writer errorWriter = CSV.writer(Files.newBufferedWriter(outputWarningsPath,
-                                                                                       StandardCharsets.UTF_8))) {
-                    errorWriter.write(new String[] { "aacode", "warning" });
+                        StandardCharsets.UTF_8))) {
+                    errorWriter.write(new String[]{"aacode", "warning"});
 
                     final CapturingAppender appender = new CapturingAppender(
-                        new CapturingAppender.IHandler() {
-                            @Override
-                            public void handle(final String code, final String warning) {
-                                try {
-                                    errorWriter.write(new String[] { code, warning });
-                                } catch (final IOException e) {
-                                    errors.handle(outputWarningsPath, 1, "n/a",
-                                                  "Error writing to warning log : " + e.getMessage());
-                                }
+                            new CapturingAppender.IHandler() {
+                        @Override
+                        public void handle(final String code, final String warning) {
+                            try {
+                                errorWriter.write(new String[]{code, warning});
+                            } catch (final IOException e) {
+                                errors.handle(outputWarningsPath, 1, "n/a",
+                                        "Error writing to warning log : " + e.getMessage());
                             }
                         }
-                        );
+                    }
+                    );
 
                     try {
                         final IHouseCaseSourcesRepositoryFactory mongoProviderFactory = createMongoProviderFactory(everything, appender);
@@ -187,23 +188,29 @@ public class SPSSImportPhase {
 
                 final Metadata metadata = Metadata.load(temporary.resolve(Metadata.PATH));
                 Files.copy(temporary.resolve(DTOImportPhase.SCHEMA_FILE_NAME),
-                           output.resolve(DTOImportPhase.SCHEMA_FILE_NAME));
+                        output.resolve(DTOImportPhase.SCHEMA_FILE_NAME));
                 // could enhance metadata here?
 
                 metadata
-                    .replace("original ", "type", "dto")
-                    .save(output.resolve(Metadata.PATH));
+                        .replace("original ", "type", "dto")
+                        .save(output.resolve(Metadata.PATH));
 
                 Util.createZipFile(output, resultPath);
             }
         } finally {
-            try {Util.destroy(output);} catch (final Exception e) {}
-            try {Util.destroy(temporary);} catch (final Exception e) {}
+            try {
+                Util.destroy(output);
+            } catch (final Exception e) {
+            }
+            try {
+                Util.destroy(temporary);
+            } catch (final Exception e) {
+            }
         }
     }
 
     private ImmutableList<MappableDTOWriter<?>> createWriters(final Path output) throws IOException {
-        return ImmutableList.<MappableDTOWriter<?>> of(
+        return ImmutableList.<MappableDTOWriter<?>>of(
                 new MappableDTOWriter<>(output, SpaceHeatingDTO.class),
                 new MappableDTOWriter<>(output, WaterHeatingDTO.class),
                 new MappableDTOWriter<>(output, ElevationDTO.class),
@@ -224,7 +231,7 @@ public class SPSSImportPhase {
         final SedbukFix sedbukFix = new SedbukFix(sedbuk);
         final ISedbukIndex index = new StopwordIndex(new SedbukIndexCache(new LuceneSedbukIndex(sedbuk)));
 
-        return ImmutableList.<ISpssReader<? extends IBasicDTO>> of(
+        return ImmutableList.<ISpssReader<? extends IBasicDTO>>of(
                 new SpssHouseCaseReader(executionId, mongoProviderFactory),
                 new SpssStoreyReader(executionId, mongoProviderFactory),
                 new SpssElevationReader(executionId, mongoProviderFactory),
@@ -235,7 +242,7 @@ public class SPSSImportPhase {
                 new SpssVentilationReader(executionId, mongoProviderFactory),
                 new OccupantDetailsReader(executionId, mongoProviderFactory, SURVEY_DATE),
                 new SpssPersonReader(executionId, mongoProviderFactory)
-                );
+        );
     }
 
     private IHouseCaseSourcesRepositoryFactory createMongoProviderFactory(
@@ -278,8 +285,8 @@ public class SPSSImportPhase {
     }
 
     /**
-     * Because our SPSS files are not in-order and I am too lazy to sort that out, we just load everything and then
-     * grind through one at a time
+     * Because our SPSS files are not in-order and I am too lazy to sort that
+     * out, we just load everything and then grind through one at a time
      *
      * @param temporary
      * @param errors
@@ -293,8 +300,8 @@ public class SPSSImportPhase {
             final SavStreamWrapperBuilder sswb = new SavStreamWrapperBuilder();
             for (final Map.Entry<String, Class<? extends SurveyEntryImpl>> c : REQUIRED_SPSS_FILES.entrySet()) {
                 try (final java.io.InputStream stream = Files.newInputStream(temporary.resolve(c.getKey()))) {
-                    final SavInputStreamImpl sis = new SavInputStreamImpl( stream );
-                            
+                    final SavInputStreamImpl sis = new SavInputStreamImpl(stream);
+
                     final Iterator<? extends SurveyEntryImpl> beans = sswb.wrapBean(sis, c.getValue());
                     while (beans.hasNext()) {
                         final SurveyEntryImpl bean = beans.next();

@@ -15,7 +15,7 @@ public class FloorLocationTypeTest {
 
     /**
      * TODO.
-     * 
+     *
      * @throws java.lang.Exception
      * @since 0.0.1-SNAPSHOT
      */
@@ -24,7 +24,8 @@ public class FloorLocationTypeTest {
     }
 
     /**
-     * Test method for {@link uk.org.cse.nhm.hom.components.fabric.types.FloorLocationType#getNextLevel(uk.org.cse.nhm.hom.components.fabric.types.FloorLocationType)}.
+     * Test method for
+     * {@link uk.org.cse.nhm.hom.components.fabric.types.FloorLocationType#getNextLevel(uk.org.cse.nhm.hom.components.fabric.types.FloorLocationType)}.
      */
     @Test
     public void testGetNextLevelReturnsHigherIfCurrentLevelIs2ND() {

@@ -23,50 +23,50 @@ import uk.org.cse.nhm.simulator.transactions.IPayment;
 
 public class AnnualMaintenanceFunction extends AbstractNamed implements IComponentsFunction<Double> {
 
-	private final IDimension<IObligationHistory> obligationsDimension;
-	private final ITimeDimension timeDimension;
+    private final IDimension<IObligationHistory> obligationsDimension;
+    private final ITimeDimension timeDimension;
 
-	@Inject
-	public AnnualMaintenanceFunction(final IDimension<IObligationHistory> obligationsDimension, final ITimeDimension timeDimension) {
-		this.obligationsDimension = obligationsDimension;
-		this.timeDimension = timeDimension;
-	}
-	
-	@Override
-	public Double compute(final IComponentsScope scope, final ILets lets) {
-		final IObligationHistory obligations = scope.get(obligationsDimension);
-		final DateTime now = scope.get(timeDimension).get(lets);
-		final Optional<AnnualMaintenanceObligation> obligation = obligations.getObligation(AnnualMaintenanceObligation.class);
-		
-		if(obligation.isPresent()) {
-			final AnnualMaintenanceObligation maintenance = obligation.get();
-			final Optional<DateTime> maintenanceDate = maintenance.getNextTransactionDate(now);
-			if(!maintenanceDate.isPresent()) {
-				return 0.0;
-			} else {
-				final Collection<IPayment> payments = maintenance.generatePayments(maintenanceDate.get(), scope);
-				return sumOverPayments(payments);
-			}
-		} else {
-			throw new IllegalStateException("Dwelling had no maintenance obligation: " + scope.getDwellingID()); 
-		}
-	}
+    @Inject
+    public AnnualMaintenanceFunction(final IDimension<IObligationHistory> obligationsDimension, final ITimeDimension timeDimension) {
+        this.obligationsDimension = obligationsDimension;
+        this.timeDimension = timeDimension;
+    }
 
-	private double sumOverPayments(final Collection<IPayment> payments) {
-		double accum = 0.0;
-		for(final IPayment payment : payments) {
-			accum += payment.getAmount();
-		}
-		return accum;
-	}
+    @Override
+    public Double compute(final IComponentsScope scope, final ILets lets) {
+        final IObligationHistory obligations = scope.get(obligationsDimension);
+        final DateTime now = scope.get(timeDimension).get(lets);
+        final Optional<AnnualMaintenanceObligation> obligation = obligations.getObligation(AnnualMaintenanceObligation.class);
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return ImmutableSet.of(obligationsDimension, timeDimension);
-	}
+        if (obligation.isPresent()) {
+            final AnnualMaintenanceObligation maintenance = obligation.get();
+            final Optional<DateTime> maintenanceDate = maintenance.getNextTransactionDate(now);
+            if (!maintenanceDate.isPresent()) {
+                return 0.0;
+            } else {
+                final Collection<IPayment> payments = maintenance.generatePayments(maintenanceDate.get(), scope);
+                return sumOverPayments(payments);
+            }
+        } else {
+            throw new IllegalStateException("Dwelling had no maintenance obligation: " + scope.getDwellingID());
+        }
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return Collections.emptySet();
-	}
+    private double sumOverPayments(final Collection<IPayment> payments) {
+        double accum = 0.0;
+        for (final IPayment payment : payments) {
+            accum += payment.getAmount();
+        }
+        return accum;
+    }
+
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return ImmutableSet.of(obligationsDimension, timeDimension);
+    }
+
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return Collections.emptySet();
+    }
 }

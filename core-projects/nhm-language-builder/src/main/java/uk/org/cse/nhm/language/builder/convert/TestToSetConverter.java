@@ -16,13 +16,18 @@ import uk.org.cse.nhm.simulator.hooks.FilterDwellings;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 /**
- * Converts boolean test commands into filter sets, so you can write
- * apply to: house.region-is rather than (filter house.region-is)
+ * Converts boolean test commands into filter sets, so you can write apply to:
+ * house.region-is rather than (filter house.region-is)
  */
 public class TestToSetConverter implements IConverter {
+
     protected static boolean isBooleanComponentsFunction(final Class<?> clazz) {
-        if (clazz == null) return false;
-        if (!IComponentsFunction.class.isAssignableFrom(clazz)) return false;
+        if (clazz == null) {
+            return false;
+        }
+        if (!IComponentsFunction.class.isAssignableFrom(clazz)) {
+            return false;
+        }
 
         final Type[] faces = clazz.getGenericInterfaces();
 
@@ -31,13 +36,14 @@ public class TestToSetConverter implements IConverter {
                 final ParameterizedType pt = (ParameterizedType) parent;
                 final Type raw = pt.getRawType();
                 final Type[] ps = pt.getActualTypeArguments();
-                if (raw instanceof Class<?> &&
-                    IComponentsFunction.class.isAssignableFrom((Class<?>) raw) &&
-                    ps != null && ps.length == 1) {
+                if (raw instanceof Class<?>
+                        && IComponentsFunction.class.isAssignableFrom((Class<?>) raw)
+                        && ps != null && ps.length == 1) {
                     final Type p0 = ps[0];
-                    if (p0 instanceof Class<?> &&
-                        Boolean.class.isAssignableFrom((Class<?>) p0))
+                    if (p0 instanceof Class<?>
+                            && Boolean.class.isAssignableFrom((Class<?>) p0)) {
                         return true;
+                    }
                 }
             }
         }
@@ -51,12 +57,12 @@ public class TestToSetConverter implements IConverter {
         this.factory = factory;
     }
 
-	@Override
+    @Override
     public boolean adapts(Object from) {
         return isBooleanComponentsFunction(from.getClass());
     }
 
-	@Override
+    @Override
     public Class<?> getAdaptableSupertype(Class<?> clazz) {
         if (isBooleanComponentsFunction(clazz)) {
             return IComponentsFunction.class;
@@ -65,33 +71,32 @@ public class TestToSetConverter implements IConverter {
         }
     }
 
-	@Override
-	public boolean adapts(Object from, Class<?> to) {
+    @Override
+    public boolean adapts(Object from, Class<?> to) {
         return adaptsType(from.getClass(), to) && isBooleanComponentsFunction(from.getClass());
     }
 
-	@Override
-	public boolean adaptsType(Class<?> from, Class<?> to) {
-        return (ISetOfHouses.class.isAssignableFrom(from) ||
-                IComponentsFunction.class.isAssignableFrom(from))
-            &&
-            to.isAssignableFrom(FilterDwellings.class);
-	}
+    @Override
+    public boolean adaptsType(Class<?> from, Class<?> to) {
+        return (ISetOfHouses.class.isAssignableFrom(from)
+                || IComponentsFunction.class.isAssignableFrom(from))
+                && to.isAssignableFrom(FilterDwellings.class);
+    }
 
-	@Override
-	public <T> T adapt(Object from, Class<T> to, IAdaptingScope scope) {
+    @Override
+    public <T> T adapt(Object from, Class<T> to, IAdaptingScope scope) {
         if (adapts(from, to)) {
             return to.cast(
-                factory.createFilterDwellings(
-                    (IComponentsFunction<Boolean>) from,
-                    factory.createAllDwellings()));
-		} else {
-			return null;
-		}
-	}
-	
-	@Override
-	public Set<Class<?>> getAdaptableClasses() {
+                    factory.createFilterDwellings(
+                            (IComponentsFunction<Boolean>) from,
+                            factory.createAllDwellings()));
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public Set<Class<?>> getAdaptableClasses() {
         return ImmutableSet.<Class<?>>of(IComponentsFunction.class, ISetOfHouses.class);
-	}
+    }
 }

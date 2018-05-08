@@ -7,21 +7,22 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @JsonSerialize
 public class NodesAndLinks {
-	private List<Node> nodes;
-	private List<Edge> links;
 
-	public NodesAndLinks(List<Node> nodes, List<Edge> links) {
-		this.nodes = nodes;
-		this.links = links;
-	}
+    private List<Node> nodes;
+    private List<Edge> links;
 
-	@JsonProperty("nodes")
-	public List<Node> getNodes() {
-		return nodes;
-	}
+    public NodesAndLinks(List<Node> nodes, List<Edge> links) {
+        this.nodes = nodes;
+        this.links = links;
+    }
 
-	@JsonProperty("links")
-	public List<Edge> getLinks() {
-		return links;
-	}
+    @JsonProperty("nodes")
+    public List<Node> getNodes() {
+        return nodes;
+    }
+
+    @JsonProperty("links")
+    public List<Edge> getLinks() {
+        return links;
+    }
 }

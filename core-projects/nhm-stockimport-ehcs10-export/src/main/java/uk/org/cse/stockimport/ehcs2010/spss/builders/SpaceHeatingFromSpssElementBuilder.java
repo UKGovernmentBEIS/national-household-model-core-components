@@ -8,7 +8,8 @@ import uk.org.cse.stockimport.ehcs2010.spss.AbstractAutoHomElementBuilder;
  * @since 1.0
  */
 public class SpaceHeatingFromSpssElementBuilder extends AbstractAutoHomElementBuilder<ISpaceHeatingDTO> {
+
     public SpaceHeatingFromSpssElementBuilder() {
-    	super(SpaceHeatingDTO.class);
-	}
+        super(SpaceHeatingDTO.class);
+    }
 }

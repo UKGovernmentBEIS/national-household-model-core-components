@@ -32,76 +32,76 @@ import uk.org.cse.nhm.simulator.state.dimensions.time.ITimeDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class StorageHeaterMeasureTest {
-	@Mock
-	private ITimeDimension time;
-	@Mock
-	private IDimension<ITechnologyModel> techs;
-	@Mock
-	private ITechnologyOperations operations;
-	@Mock
-	private ISizingFunction sizingFunction;
-	@Mock
-	private ISettableComponentsScope components;
-	@Mock
-	IComponentsFunction<Number> responsiveness;
 
-	@Mock
-	private IWetHeatingMeasureFactory whmf;
-	
-	@Before
-	public void setup() {
-		MockitoAnnotations.initMocks(this);
-	}
-	
-	@Test
-	public void isSuitable() {
-		final StorageHeaterMeasure measure = 
-				new StorageHeaterMeasure(
-						time, 
-						whmf,
-						techs, 
-						operations,
+    @Mock
+    private ITimeDimension time;
+    @Mock
+    private IDimension<ITechnologyModel> techs;
+    @Mock
+    private ITechnologyOperations operations;
+    @Mock
+    private ISizingFunction sizingFunction;
+    @Mock
+    private ISettableComponentsScope components;
+    @Mock
+    IComponentsFunction<Number> responsiveness;
+
+    @Mock
+    private IWetHeatingMeasureFactory whmf;
+
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+    }
+
+    @Test
+    public void isSuitable() {
+        final StorageHeaterMeasure measure
+                = new StorageHeaterMeasure(
+                        time,
+                        whmf,
+                        techs,
+                        operations,
                         mock(IProfilingStack.class),
-						StorageHeaterType.OLD_LARGE_VOLUME, 
-						StorageHeaterControlType.MANUAL_CHARGE_CONTROL, 
-						sizingFunction, 
-						null, 
-						null, 
-						null);
-		
-		when(sizingFunction.computeSize(components, ILets.EMPTY, Units.KILOWATTS)).thenReturn(
-				SizingResult.unsuitable(0, Units.KILOWATTS));
-		
-		Assert.assertFalse("Not suitable because of sizing", measure.isSuitable(components, ILets.EMPTY));
-		
+                        StorageHeaterType.OLD_LARGE_VOLUME,
+                        StorageHeaterControlType.MANUAL_CHARGE_CONTROL,
+                        sizingFunction,
+                        null,
+                        null,
+                        null);
 
-		when(sizingFunction.computeSize(components, ILets.EMPTY, Units.KILOWATTS)).thenReturn(
-				SizingResult.suitable(22, Units.KILOWATTS));
-		
-		Assert.assertTrue("Is suitable otherwise", measure.isSuitable(components, ILets.EMPTY));
-	}
-	
-	@Test
-	public void modifierInstallsAStorageHeater() {
-		final StorageHeaterMeasure.Modifier mod = 
-				new StorageHeaterMeasure.Modifier(operations, 
-				StorageHeaterType.FAN, 
-				Optional.of(0.5), 
-				StorageHeaterControlType.AUTOMATIC_CHARGE_CONTROL, 
-				123);
-		
-		final ITechnologyModel modifiable = mock(ITechnologyModel.class);
-		Assert.assertTrue(mod.modify(modifiable));
-		
-		final ArgumentCaptor<IPrimarySpaceHeater> ac = ArgumentCaptor.forClass(IPrimarySpaceHeater.class);
-		verify(operations).replacePrimarySpaceHeater(same(modifiable), ac.capture());
-		
-		final IPrimarySpaceHeater value = ac.getValue();
-		Assert.assertTrue(value instanceof IStorageHeater);
-		final IStorageHeater sh = (IStorageHeater) value;
-		
-		Assert.assertEquals(StorageHeaterType.FAN, sh.getType());
-		Assert.assertEquals(StorageHeaterControlType.AUTOMATIC_CHARGE_CONTROL, sh.getControlType());
-		//TODO opex is ignored
-	}
+        when(sizingFunction.computeSize(components, ILets.EMPTY, Units.KILOWATTS)).thenReturn(
+                SizingResult.unsuitable(0, Units.KILOWATTS));
+
+        Assert.assertFalse("Not suitable because of sizing", measure.isSuitable(components, ILets.EMPTY));
+
+        when(sizingFunction.computeSize(components, ILets.EMPTY, Units.KILOWATTS)).thenReturn(
+                SizingResult.suitable(22, Units.KILOWATTS));
+
+        Assert.assertTrue("Is suitable otherwise", measure.isSuitable(components, ILets.EMPTY));
+    }
+
+    @Test
+    public void modifierInstallsAStorageHeater() {
+        final StorageHeaterMeasure.Modifier mod
+                = new StorageHeaterMeasure.Modifier(operations,
+                        StorageHeaterType.FAN,
+                        Optional.of(0.5),
+                        StorageHeaterControlType.AUTOMATIC_CHARGE_CONTROL,
+                        123);
+
+        final ITechnologyModel modifiable = mock(ITechnologyModel.class);
+        Assert.assertTrue(mod.modify(modifiable));
+
+        final ArgumentCaptor<IPrimarySpaceHeater> ac = ArgumentCaptor.forClass(IPrimarySpaceHeater.class);
+        verify(operations).replacePrimarySpaceHeater(same(modifiable), ac.capture());
+
+        final IPrimarySpaceHeater value = ac.getValue();
+        Assert.assertTrue(value instanceof IStorageHeater);
+        final IStorageHeater sh = (IStorageHeater) value;
+
+        Assert.assertEquals(StorageHeaterType.FAN, sh.getType());
+        Assert.assertEquals(StorageHeaterControlType.AUTOMATIC_CHARGE_CONTROL, sh.getControlType());
+        //TODO opex is ignored
+    }
 }

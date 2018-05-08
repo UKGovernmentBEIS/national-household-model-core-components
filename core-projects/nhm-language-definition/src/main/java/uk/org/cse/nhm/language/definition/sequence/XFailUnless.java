@@ -15,21 +15,24 @@ import uk.org.cse.nhm.language.definition.function.bool.XBoolean;
 @Bind("fail-unless")
 @Category(CategoryType.ACTIONCOMBINATIONS)
 public class XFailUnless extends XBindingAction {
-	public static final class P {
+
+    public static final class P {
+
         public static final String condition = "condition";
     }
-	
+
     private XBoolean condition = null;
 
     @Prop(P.condition)
     @Doc({"The test condition to use. If this does not work out to be true, this action will fail.",
-                "If this action is used inside a do command, this will cause the do to fail as well."})
-    @NotNull(message="fail-unless must have a logical test for its first argument")
-	@BindPositionalArgument(0)
+        "If this action is used inside a do command, this will cause the do to fail as well."})
+    @NotNull(message = "fail-unless must have a logical test for its first argument")
+    @BindPositionalArgument(0)
     public XBoolean getCondition() {
         return condition;
-	}
+    }
+
     public void setCondition(XBoolean condition) {
         this.condition = condition;
-	}
+    }
 }

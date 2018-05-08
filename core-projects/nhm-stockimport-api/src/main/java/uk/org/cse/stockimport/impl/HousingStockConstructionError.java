@@ -1,39 +1,41 @@
 package uk.org.cse.stockimport.impl;
 
 public class HousingStockConstructionError {
-	private String id;
-	private String error;
-	private String details;
 
-	protected HousingStockConstructionError() {}
-	
-	public HousingStockConstructionError(final String id, final String err, String details) {
-		this.setDetails(details);
-		this.setId(id);
-		this.setError(err);
-	}
+    private String id;
+    private String error;
+    private String details;
 
-	public String getId() {
-		return id;
-	}
+    protected HousingStockConstructionError() {
+    }
 
-	public String getError() {
-		return error;
-	}
+    public HousingStockConstructionError(final String id, final String err, String details) {
+        this.setDetails(details);
+        this.setId(id);
+        this.setError(err);
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setError(String error) {
-		this.error = error;
-	}
+    public String getError() {
+        return error;
+    }
 
-	public String getDetails() {
-		return details;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setDetails(String details) {
-		this.details = details;
-	}
+    public void setError(String error) {
+        this.error = error;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
 }

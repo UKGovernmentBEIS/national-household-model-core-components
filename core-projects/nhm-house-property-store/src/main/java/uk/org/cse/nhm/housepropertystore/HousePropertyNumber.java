@@ -21,57 +21,57 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class HousePropertyNumber extends AbstractNamed implements IComponentsFunction<Number> {
 
-	private final IDimension<IHouseProperties> constants;
-	private final String name;
-	private final ILogEntryHandler log;
-	private final IDimension<BasicCaseAttributes> basic;
+    private final IDimension<IHouseProperties> constants;
+    private final String name;
+    private final ILogEntryHandler log;
+    private final IDimension<BasicCaseAttributes> basic;
 
-	@AssistedInject
-	public HousePropertyNumber(@Assisted final String name,
-			final IDimension<IHouseProperties> constants,
-			final IDimension<BasicCaseAttributes> basic,
-			final ILogEntryHandler log) {
-		this.name = name;
-		this.constants = constants;
-		this.basic = basic;
-		this.log = log;
-	}
+    @AssistedInject
+    public HousePropertyNumber(@Assisted final String name,
+            final IDimension<IHouseProperties> constants,
+            final IDimension<BasicCaseAttributes> basic,
+            final ILogEntryHandler log) {
+        this.name = name;
+        this.constants = constants;
+        this.basic = basic;
+        this.log = log;
+    }
 
-	@Override
-	public Number compute(final IComponentsScope scope, final ILets lets) {
-		final String var = scope.get(constants).get(name);
-		
-		try {
-			return Double.parseDouble(var);
-			
-		} catch (final NumberFormatException e) {
-			log.acceptLogEntry(new WarningLogEntry(
-					"Static property was not a number for this house. Using 0 instead.", 
-					ImmutableMap.of(
-							"aacode", scope.get(basic).getAacode(),
-							"property", name,
-							"value", var)));			
-			
-			return 0d;
-		} catch (final NullPointerException e) {
-			log.acceptLogEntry(new WarningLogEntry(
-					"Static property was not a number for this house. Using 0 instead.", 
-					ImmutableMap.of(
-							"aacode", scope.get(basic).getAacode(),
-							"property", name,
-							"value", "")));
-			
-			return 0d;
-		}
-	}
+    @Override
+    public Number compute(final IComponentsScope scope, final ILets lets) {
+        final String var = scope.get(constants).get(name);
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return Collections.<IDimension<?>>singleton(constants);
-	}
+        try {
+            return Double.parseDouble(var);
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return Collections.emptySet();
-	}
+        } catch (final NumberFormatException e) {
+            log.acceptLogEntry(new WarningLogEntry(
+                    "Static property was not a number for this house. Using 0 instead.",
+                    ImmutableMap.of(
+                            "aacode", scope.get(basic).getAacode(),
+                            "property", name,
+                            "value", var)));
+
+            return 0d;
+        } catch (final NullPointerException e) {
+            log.acceptLogEntry(new WarningLogEntry(
+                    "Static property was not a number for this house. Using 0 instead.",
+                    ImmutableMap.of(
+                            "aacode", scope.get(basic).getAacode(),
+                            "property", name,
+                            "value", "")));
+
+            return 0d;
+        }
+    }
+
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return Collections.<IDimension<?>>singleton(constants);
+    }
+
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return Collections.emptySet();
+    }
 }

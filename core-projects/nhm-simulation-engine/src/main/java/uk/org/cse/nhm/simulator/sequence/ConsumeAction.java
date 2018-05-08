@@ -17,54 +17,55 @@ import uk.org.cse.nhm.simulator.state.components.IFlags;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class ConsumeAction extends AbstractNamed implements IComponentsAction, ISequenceScopeAction {
-	private final IDimension<IFlags> flags;
-	private final IComponentsFunction<Number> amount;
-	private final ChangeValue.Variable variable;
-	
-	@AssistedInject
-	public ConsumeAction(
-			final IDimension<IFlags> flags,
-			@Assisted final IComponentsFunction<Number> amount, 
-			@Assisted final Variable variable) {
-		super();
-		this.flags = flags;
-		this.amount = amount;
-		this.variable = variable;
-	}
 
-	@Override
-	public StateChangeSourceType getSourceType() {
-		return StateChangeSourceType.ACTION;
-	}
+    private final IDimension<IFlags> flags;
+    private final IComponentsFunction<Number> amount;
+    private final ChangeValue.Variable variable;
 
-	@Override
-	public boolean apply(final ISettableComponentsScope scope, final ILets lets) throws NHMException {
-		final Optional<Number> currentAmount = variable.get(scope, flags);
-		if (currentAmount.isPresent()) {
-			final double removeAmount = amount.compute(scope, lets).doubleValue();
-			if (currentAmount.get().doubleValue() >= removeAmount) {
-				// modify state appropriately
-				variable.set(scope, flags, currentAmount.get().doubleValue() - removeAmount);
-				return true;
-			}
-		}
-		return false;
-	}
+    @AssistedInject
+    public ConsumeAction(
+            final IDimension<IFlags> flags,
+            @Assisted final IComponentsFunction<Number> amount,
+            @Assisted final Variable variable) {
+        super();
+        this.flags = flags;
+        this.amount = amount;
+        this.variable = variable;
+    }
 
-	@Override
-	public boolean isSuitable(IComponentsScope scope, ILets lets) {
-		final Optional<Number> currentAmount = variable.get(scope, flags);
-		if (currentAmount.isPresent()) {
-			final double removeAmount = amount.compute(scope, lets).doubleValue();
-			if (currentAmount.get().doubleValue() >= removeAmount) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	@Override
-	public boolean isAlwaysSuitable() {
-		return false;
-	}
+    @Override
+    public StateChangeSourceType getSourceType() {
+        return StateChangeSourceType.ACTION;
+    }
+
+    @Override
+    public boolean apply(final ISettableComponentsScope scope, final ILets lets) throws NHMException {
+        final Optional<Number> currentAmount = variable.get(scope, flags);
+        if (currentAmount.isPresent()) {
+            final double removeAmount = amount.compute(scope, lets).doubleValue();
+            if (currentAmount.get().doubleValue() >= removeAmount) {
+                // modify state appropriately
+                variable.set(scope, flags, currentAmount.get().doubleValue() - removeAmount);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isSuitable(IComponentsScope scope, ILets lets) {
+        final Optional<Number> currentAmount = variable.get(scope, flags);
+        if (currentAmount.isPresent()) {
+            final double removeAmount = amount.compute(scope, lets).doubleValue();
+            if (currentAmount.get().doubleValue() >= removeAmount) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isAlwaysSuitable() {
+        return false;
+    }
 }

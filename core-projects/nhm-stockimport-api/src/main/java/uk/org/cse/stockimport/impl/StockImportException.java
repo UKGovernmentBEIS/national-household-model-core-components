@@ -33,13 +33,13 @@ public class StockImportException extends Exception {
     }
 
     public StockImportException(String string, ImmutableList<Exception> of) {
-		super(string);
-		this.exceptions = of;
-	}
+        super(string);
+        this.exceptions = of;
+    }
 
-	/**
+    /**
      * Return the exceptions.
-     * 
+     *
      * @return the exceptions
      * @since 1.0
      */

@@ -10,66 +10,67 @@ import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.SeeAlso;
 
 @Doc({
-	"It is often useful to match a tag or flag, or to add or remove same.",
-	"Positive or negative flags are either ordinary flags (see the section on these",
-	"for the rules about naming flags), or they are ordinary flags prefixed with !, which we will call <emphasis>negated</emphasis> flags.",
-	"In contexts where flags are being tested, a normal (non-negated) flag is <emphasis>required</emphasis> to be present,",
-	"and a negated flag is <emphasis>forbidden</emphasis>.",
-	"When flags are being modified, a normal flag will be <emphasis>added</emphasis>, and a negated flag",
-	"<emphasis>removed</emphasis>."
-	})
+    "It is often useful to match a tag or flag, or to add or remove same.",
+    "Positive or negative flags are either ordinary flags (see the section on these",
+    "for the rules about naming flags), or they are ordinary flags prefixed with !, which we will call <emphasis>negated</emphasis> flags.",
+    "In contexts where flags are being tested, a normal (non-negated) flag is <emphasis>required</emphasis> to be present,",
+    "and a negated flag is <emphasis>forbidden</emphasis>.",
+    "When flags are being modified, a normal flag will be <emphasis>added</emphasis>, and a negated flag",
+    "<emphasis>removed</emphasis>."
+})
 @SeeAlso(Tag.class)
 public class TagState {
-	private final Tag tag;
-	private final boolean state;
-	
-	public TagState(final boolean state, final Tag tag) {
-		this.state = state;
-		this.tag = tag;
-	}
 
-	public static Optional<TagState> of(final String tag) {
-		final String tidied = tag.trim().toLowerCase();
-		final String tagOnly;
-		boolean state;
-		
-		if (tidied.startsWith("!")) {
-			tagOnly = tidied.substring(1);
-			state = false;
-		} else {
-			tagOnly = tidied;
-			state = true;
-		}
-		
-		final Optional<Tag> asTag = Tag.of(tagOnly);
-		if (asTag.isPresent()) {
-			return Optional.of(new TagState(state, asTag.get()));
-		} else {
-			return Optional.absent();
-		}
-	}
-	
-	@Override
-	public String toString() {
-		if (state) {
-			return tag.getTag();
-		} else {
-			return "!" + tag.getTag();
-		}
-	}
-	
-	public static Set<String> getTagsWithState(final List<TagState> tags, final boolean state) { 
-		final ImmutableSet.Builder<String> builder = ImmutableSet.builder();
-		
-		for (final TagState ts : tags) {
-			if (ts.state == state) {
-				builder.add(ts.tag.getTag());
-			}
-		}
-		
-		return builder.build();
-	}
-		
+    private final Tag tag;
+    private final boolean state;
+
+    public TagState(final boolean state, final Tag tag) {
+        this.state = state;
+        this.tag = tag;
+    }
+
+    public static Optional<TagState> of(final String tag) {
+        final String tidied = tag.trim().toLowerCase();
+        final String tagOnly;
+        boolean state;
+
+        if (tidied.startsWith("!")) {
+            tagOnly = tidied.substring(1);
+            state = false;
+        } else {
+            tagOnly = tidied;
+            state = true;
+        }
+
+        final Optional<Tag> asTag = Tag.of(tagOnly);
+        if (asTag.isPresent()) {
+            return Optional.of(new TagState(state, asTag.get()));
+        } else {
+            return Optional.absent();
+        }
+    }
+
+    @Override
+    public String toString() {
+        if (state) {
+            return tag.getTag();
+        } else {
+            return "!" + tag.getTag();
+        }
+    }
+
+    public static Set<String> getTagsWithState(final List<TagState> tags, final boolean state) {
+        final ImmutableSet.Builder<String> builder = ImmutableSet.builder();
+
+        for (final TagState ts : tags) {
+            if (ts.state == state) {
+                builder.add(ts.tag.getTag());
+            }
+        }
+
+        return builder.build();
+    }
+
 //	/**
 //	 * Return a predicate which will match any string which is required by a requiring tag and not forbidden by any forbidding tag
 //	 * @param tags

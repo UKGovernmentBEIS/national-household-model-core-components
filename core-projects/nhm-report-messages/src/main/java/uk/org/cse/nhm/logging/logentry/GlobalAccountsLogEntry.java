@@ -12,38 +12,38 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @AutoProperty
 public class GlobalAccountsLogEntry extends AbstractLogEntry {
-	private final Map<String, Double> accountBalances;
-	private final DateTime date;
-	
-	@JsonCreator
-	public GlobalAccountsLogEntry(
-			@JsonProperty("date") DateTime date, 
-			@JsonProperty("accountBalances") Map<String, Double> accountBalances) {
-		this.date = date;
-		this.accountBalances = new HashMap<String, Double>(accountBalances);
-	}
-	
-	public DateTime getDate() {
-		return date;
-	}
-	
-	public Map<String, Double> getAccountBalances() {
-		return accountBalances;
-	}
-	
 
-	@Override
-	public String toString() {
-		return Pojomatic.toString(this);
-	}
+    private final Map<String, Double> accountBalances;
+    private final DateTime date;
 
-	@Override
-	public boolean equals(Object obj) {
-		return Pojomatic.equals(this, obj);
-	}
+    @JsonCreator
+    public GlobalAccountsLogEntry(
+            @JsonProperty("date") DateTime date,
+            @JsonProperty("accountBalances") Map<String, Double> accountBalances) {
+        this.date = date;
+        this.accountBalances = new HashMap<String, Double>(accountBalances);
+    }
 
-	@Override
-	public int hashCode() {
-		return Pojomatic.hashCode(this);
-	}
+    public DateTime getDate() {
+        return date;
+    }
+
+    public Map<String, Double> getAccountBalances() {
+        return accountBalances;
+    }
+
+    @Override
+    public String toString() {
+        return Pojomatic.toString(this);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return Pojomatic.equals(this, obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return Pojomatic.hashCode(this);
+    }
 }

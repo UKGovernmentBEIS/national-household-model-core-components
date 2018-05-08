@@ -15,11 +15,12 @@ import uk.org.cse.nhm.language.validate.contents.ForbidChild;
 @ForbidChild({IEnergyFunction.class, XAction.class, ICalibratedEnergyFunction.class})
 @Category(CategoryType.WEATHER)
 public abstract class XWeather extends XElement {
-	@Override
-	@Identity
-	@BindNamedArgument
-	@Doc("A name for this element")
-	public String getName() {
-		return super.getName();
-	}
+
+    @Override
+    @Identity
+    @BindNamedArgument
+    @Doc("A name for this element")
+    public String getName() {
+        return super.getName();
+    }
 }

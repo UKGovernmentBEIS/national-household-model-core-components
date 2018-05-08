@@ -1,26 +1,26 @@
 @import	url(http://fonts.googleapis.com/css?family=PT+Serif|PT+Serif:b|PT+Serif:i|PT+Sans|PT+Sans:b);
 
 svg {
-	font: 10px sans-serif;
+    font: 10px sans-serif;
 }
 
 .node rect {
-  cursor: move;
-  fill-opacity: .9;
-  shape-rendering: crispEdges;
+    cursor: move;
+    fill-opacity: .9;
+    shape-rendering: crispEdges;
 }
 
 .node text {
-  pointer-events: none;
-  text-shadow: 0 1px 0 #fff;
+    pointer-events: none;
+    text-shadow: 0 1px 0 #fff;
 }
 
 .link {
-  fill: none;
-  stroke: #000;
-  stroke-opacity: .2;
+    fill: none;
+    stroke: #000;
+    stroke-opacity: .2;
 }
 
 .link:hover {
-  stroke-opacity: .5;
+    stroke-opacity: .5;
 }

@@ -18,48 +18,49 @@ import uk.org.cse.nhm.simulator.state.dimensions.energy.IPowerTable;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 /**
- * A function which computes peak heat load for a house, using the standard demand temperature and
- * coldest day temperature.
- * 
+ * A function which computes peak heat load for a house, using the standard
+ * demand temperature and coldest day temperature.
+ *
  * @author hinton
  *
  */
 public class PeakHeatLoadFunction extends AbstractNamed implements IComponentsFunction<Double> {
-	private final double demandTemperature;
-	private final double coldestDay;
-	private final IDimension<IPowerTable> energy;
-	private final double scale;
 
-	@Inject
-	public PeakHeatLoadFunction(
-			@Named("uncalibrated") final IDimension<IPowerTable> energy,
-			@Assisted("internal") final double internalTemperature,
-			@Assisted("external") final double externalTemperature,
-			@Assisted("scale") final double scale
-			) {
-		this.demandTemperature = internalTemperature;
-		this.coldestDay = externalTemperature;
-		this.energy = energy;
-		this.scale = scale;
-	}
-	
-	@Override
-	public Double compute(final IComponentsScope scope, final ILets lets) {
-		return compute(scope.get(energy).getSpecificHeatLoss());
-	}
+    private final double demandTemperature;
+    private final double coldestDay;
+    private final IDimension<IPowerTable> energy;
+    private final double scale;
 
-	private double compute(final double heatLoss) {
-		final double largestHeatDifference = demandTemperature - coldestDay;
-		return (largestHeatDifference * heatLoss) / scale;
-	}
-	
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return Collections.<IDimension<?>>singleton(energy);
-	}
+    @Inject
+    public PeakHeatLoadFunction(
+            @Named("uncalibrated") final IDimension<IPowerTable> energy,
+            @Assisted("internal") final double internalTemperature,
+            @Assisted("external") final double externalTemperature,
+            @Assisted("scale") final double scale
+    ) {
+        this.demandTemperature = internalTemperature;
+        this.coldestDay = externalTemperature;
+        this.energy = energy;
+        this.scale = scale;
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return Collections.emptySet();
-	}
+    @Override
+    public Double compute(final IComponentsScope scope, final ILets lets) {
+        return compute(scope.get(energy).getSpecificHeatLoss());
+    }
+
+    private double compute(final double heatLoss) {
+        final double largestHeatDifference = demandTemperature - coldestDay;
+        return (largestHeatDifference * heatLoss) / scale;
+    }
+
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return Collections.<IDimension<?>>singleton(energy);
+    }
+
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return Collections.emptySet();
+    }
 }

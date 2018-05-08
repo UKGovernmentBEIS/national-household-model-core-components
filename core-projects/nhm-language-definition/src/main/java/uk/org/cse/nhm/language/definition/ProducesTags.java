@@ -10,14 +10,17 @@ import java.lang.annotation.Target;
  * Used to describe the default transaction tags from a tag-producing thing
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE })
+@Target({ElementType.TYPE})
 @Inherited
 public @interface ProducesTags {
-	@Retention(RetentionPolicy.RUNTIME)
-	public @interface Tag {
-		public String value();
-		public String[] detail() default {};
-	}
-	
-	public Tag[] value();
+
+    @Retention(RetentionPolicy.RUNTIME)
+    public @interface Tag {
+
+        public String value();
+
+        public String[] detail() default {};
+    }
+
+    public Tag[] value();
 }

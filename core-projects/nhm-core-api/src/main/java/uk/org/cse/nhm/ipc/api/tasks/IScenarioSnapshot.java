@@ -13,23 +13,33 @@ import com.larkery.jasb.sexp.parse.DataSourceSnapshot;
 import com.larkery.jasb.sexp.parse.IDataSource;
 import com.larkery.jasb.sexp.parse.IMacro;
 
-@JsonTypeInfo(use=Id.CLASS)
+@JsonTypeInfo(use = Id.CLASS)
 public interface IScenarioSnapshot extends ISExpression, IDataSource<String> {
-	ISExpression getUntemplated();
-	/**
-	 * Try to get a string which is the head of the first
-	 * element in the fully expanded form of this scenario
-	 * @return
-	 */
-	public Optional<String> getExpandedFirstElement();
-	public List<IError> getProblems();
-	public ISExpression withErrorHandler(final IErrorHandler collector);
-	public DataSourceSnapshot contents();
-	public interface IExpansion {
-		public List<IMacro> macros();
-		public List<Node> nodes();
-		public List<IError> errors();
-	}
-	
-	public IExpansion expand();
+
+    ISExpression getUntemplated();
+
+    /**
+     * Try to get a string which is the head of the first element in the fully
+     * expanded form of this scenario
+     *
+     * @return
+     */
+    public Optional<String> getExpandedFirstElement();
+
+    public List<IError> getProblems();
+
+    public ISExpression withErrorHandler(final IErrorHandler collector);
+
+    public DataSourceSnapshot contents();
+
+    public interface IExpansion {
+
+        public List<IMacro> macros();
+
+        public List<Node> nodes();
+
+        public List<IError> errors();
+    }
+
+    public IExpansion expand();
 }

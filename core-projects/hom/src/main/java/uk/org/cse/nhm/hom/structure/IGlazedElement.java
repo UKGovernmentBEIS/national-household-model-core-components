@@ -4,19 +4,24 @@ import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 
 public interface IGlazedElement {
-	GlazingType getGlazingType();
-	void setGlazingType(GlazingType type);
 
-	double getLightTransmissionFactor();
-	void setLightTransmissionFactor(double lightTransmissionFactor);
+    GlazingType getGlazingType();
 
-	double getGainsTransmissionFactor();
-	void setGainsTransmissionFactor(double gainsTransmissionFactor);
+    void setGlazingType(GlazingType type);
 
-	FrameType getFrameType();
-	void setFrameType(FrameType frameType);
+    double getLightTransmissionFactor();
 
-	double getFrameFactor();
+    void setLightTransmissionFactor(double lightTransmissionFactor);
 
-	void setFrameFactor(double frameFactor);
+    double getGainsTransmissionFactor();
+
+    void setGainsTransmissionFactor(double gainsTransmissionFactor);
+
+    FrameType getFrameType();
+
+    void setFrameType(FrameType frameType);
+
+    double getFrameFactor();
+
+    void setFrameFactor(double frameFactor);
 }

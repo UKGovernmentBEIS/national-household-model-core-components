@@ -18,22 +18,22 @@ import uk.org.cse.nhm.ipc.api.scenario.IStockService;
 import uk.org.cse.nhm.simulation.cli.guice.CliSimulationExecutorModule;
 
 public class StockCreationFromJsonInputTest {
-	
-	private IStockService stockService;
-	
-	@Test
-	public void EnsureThaStockCanBeCreatedFromJsonFile() throws Exception {
-		Injector injector = Guice.createInjector(new CliSimulationExecutorModule("src/test/resources/singleHouseCase.json"));
-		stockService = injector.getInstance(IStockService.class);
-		
-		List<SurveyCase> houseCases = stockService.getSurveyCases(
-				"n/a", ImmutableSet.<String>builder().build());
-		
-		assertThat("No house cases returned", houseCases, notNullValue());
-		assertThat("Incorrect number of houseCases returned", houseCases.size(), equalTo(1));
-		
-		IEnergyCalculatorHouseCase houseCase = houseCases.get(0);
-		assertThat("No house case returned", houseCase, notNullValue());
-		assertThat("AACODE not set", ((SurveyCase)houseCase).getBasicAttributes().getAacode(), equalTo("H0011103"));
-	}
+
+    private IStockService stockService;
+
+    @Test
+    public void EnsureThaStockCanBeCreatedFromJsonFile() throws Exception {
+        Injector injector = Guice.createInjector(new CliSimulationExecutorModule("src/test/resources/singleHouseCase.json"));
+        stockService = injector.getInstance(IStockService.class);
+
+        List<SurveyCase> houseCases = stockService.getSurveyCases(
+                "n/a", ImmutableSet.<String>builder().build());
+
+        assertThat("No house cases returned", houseCases, notNullValue());
+        assertThat("Incorrect number of houseCases returned", houseCases.size(), equalTo(1));
+
+        IEnergyCalculatorHouseCase houseCase = houseCases.get(0);
+        assertThat("No house case returned", houseCase, notNullValue());
+        assertThat("AACODE not set", ((SurveyCase) houseCase).getBasicAttributes().getAacode(), equalTo("H0011103"));
+    }
 }

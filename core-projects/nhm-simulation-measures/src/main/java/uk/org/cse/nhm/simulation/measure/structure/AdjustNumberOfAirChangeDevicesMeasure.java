@@ -20,10 +20,11 @@ import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
  * @author trickyBytes
  */
 public class AdjustNumberOfAirChangeDevicesMeasure extends AbstractMeasure implements IModifier<StructureModel> {
+
     private final IDimension<StructureModel> structureDimension;
     private final int adjustment;
     private final XAdjustNumberOfAirChangeDevices.XAirChangeDevice device;
-    
+
     @Inject
     public AdjustNumberOfAirChangeDevicesMeasure(final IDimension<StructureModel> structureDimension,
             @Assisted int adjustment,
@@ -32,13 +33,15 @@ public class AdjustNumberOfAirChangeDevicesMeasure extends AbstractMeasure imple
         this.adjustment = adjustment;
         this.device = device;
     }
-    
+
     /**
      * @param scope
      * @param lets
      * @return
      * @throws NHMException
-     * @see uk.org.cse.nhm.simulator.scope.IComponentsAction#apply(uk.org.cse.nhm.simulator.scope.ISettableComponentsScope, uk.org.cse.nhm.simulator.let.ILets)
+     * @see
+     * uk.org.cse.nhm.simulator.scope.IComponentsAction#apply(uk.org.cse.nhm.simulator.scope.ISettableComponentsScope,
+     * uk.org.cse.nhm.simulator.let.ILets)
      */
     @Override
     public boolean doApply(ISettableComponentsScope scope, ILets lets) throws NHMException {
@@ -48,10 +51,13 @@ public class AdjustNumberOfAirChangeDevicesMeasure extends AbstractMeasure imple
 
     /**
      * Always suitable
+     *
      * @param scope
      * @param lets
      * @return
-     * @see uk.org.cse.nhm.simulator.scope.IComponentsAction#isSuitable(uk.org.cse.nhm.simulator.scope.IComponentsScope, uk.org.cse.nhm.simulator.let.ILets)
+     * @see
+     * uk.org.cse.nhm.simulator.scope.IComponentsAction#isSuitable(uk.org.cse.nhm.simulator.scope.IComponentsScope,
+     * uk.org.cse.nhm.simulator.let.ILets)
      */
     @Override
     public boolean isSuitable(IComponentsScope scope, ILets lets) {
@@ -59,8 +65,8 @@ public class AdjustNumberOfAirChangeDevicesMeasure extends AbstractMeasure imple
     }
 
     /**
-     * @return
-     * @see uk.org.cse.nhm.simulator.scope.IComponentsAction#isAlwaysSuitable()
+     * @return @see
+     * uk.org.cse.nhm.simulator.scope.IComponentsAction#isAlwaysSuitable()
      */
     @Override
     public boolean isAlwaysSuitable() {
@@ -68,8 +74,8 @@ public class AdjustNumberOfAirChangeDevicesMeasure extends AbstractMeasure imple
     }
 
     /**
-     * @return
-     * @see uk.org.cse.nhm.simulator.state.IStateChangeSource#getSourceType()
+     * @return @see
+     * uk.org.cse.nhm.simulator.state.IStateChangeSource#getSourceType()
      */
     @Override
     public StateChangeSourceType getSourceType() {
@@ -79,7 +85,8 @@ public class AdjustNumberOfAirChangeDevicesMeasure extends AbstractMeasure imple
     /**
      * @param modifiable
      * @return
-     * @see uk.org.cse.nhm.simulator.state.IBranch.IModifier#modify(java.lang.Object)
+     * @see
+     * uk.org.cse.nhm.simulator.state.IBranch.IModifier#modify(java.lang.Object)
      */
     @Override
     public boolean modify(StructureModel modifiable) {

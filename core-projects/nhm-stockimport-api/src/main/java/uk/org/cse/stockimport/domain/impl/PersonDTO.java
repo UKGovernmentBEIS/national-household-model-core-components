@@ -5,13 +5,14 @@ import uk.org.cse.stockimport.domain.IPersonDTO;
 import uk.org.cse.stockimport.domain.geometry.impl.AbsDTO;
 
 public class PersonDTO extends AbsDTO implements IPersonDTO {
+
     private SexType sex;
-    
+
     @Override
     public SexType getSex() {
         return sex;
     }
-    
+
     @Override
     public void setSex(SexType sex) {
         this.sex = sex;
@@ -19,12 +20,11 @@ public class PersonDTO extends AbsDTO implements IPersonDTO {
 
     private int age;
 
-    
     @Override
     public int getAge() {
         return age;
     }
-    
+
     @Override
     public void setAge(int age) {
         this.age = age;

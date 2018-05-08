@@ -16,30 +16,30 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class MatchHasLoft extends AbstractNamed implements
-		IComponentsFunction<Boolean> {
+        IComponentsFunction<Boolean> {
 
-	private final IDimension<StructureModel> structDimension;
+    private final IDimension<StructureModel> structDimension;
 
-	@Inject
-	public MatchHasLoft(
-			final IDimension<StructureModel> structDimension
-			) {
-				this.structDimension = structDimension;
-	}
-	
-	@Override
-	public Boolean compute(final IComponentsScope scope, final ILets lets) {
-		return scope.get(structDimension).getHasLoft();
-	}
+    @Inject
+    public MatchHasLoft(
+            final IDimension<StructureModel> structDimension
+    ) {
+        this.structDimension = structDimension;
+    }
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return ImmutableSet.<IDimension<?>>of(structDimension);
-	}
+    @Override
+    public Boolean compute(final IComponentsScope scope, final ILets lets) {
+        return scope.get(structDimension).getHasLoft();
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return ImmutableSet.of();
-	}
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return ImmutableSet.<IDimension<?>>of(structDimension);
+    }
+
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return ImmutableSet.of();
+    }
 
 }

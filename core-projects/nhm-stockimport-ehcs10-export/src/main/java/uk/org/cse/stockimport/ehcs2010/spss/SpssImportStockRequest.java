@@ -30,8 +30,8 @@ public class SpssImportStockRequest implements IStockImportRequest {
     private List<StockImportItem> importItems;
     private String[] houseCaseRef;
     private String userName;
-	private EHSStockImportSource importSource;
-	private String userDescription;
+    private EHSStockImportSource importSource;
+    private String userDescription;
 
     /**
      * @since 1.0
@@ -58,7 +58,7 @@ public class SpssImportStockRequest implements IStockImportRequest {
 
     /**
      * Return the jarLocation.
-     * 
+     *
      * @return the jarLocation
      * @since 1.0
      */
@@ -68,7 +68,7 @@ public class SpssImportStockRequest implements IStockImportRequest {
 
     /**
      * Set the jarLocation.
-     * 
+     *
      * @param jarLocation the jarLocation
      * @since 1.0
      */
@@ -78,7 +78,7 @@ public class SpssImportStockRequest implements IStockImportRequest {
 
     /**
      * Return the importItems.
-     * 
+     *
      * @return the importItems
      * @since 1.0
      */
@@ -90,7 +90,7 @@ public class SpssImportStockRequest implements IStockImportRequest {
 
     /**
      * Set the importItems.
-     * 
+     *
      * @param importItems the importItems
      * @since 1.0
      */
@@ -99,8 +99,8 @@ public class SpssImportStockRequest implements IStockImportRequest {
     }
 
     /**
-     * @return
-     * @see uk.org.cse.stockimport.request.IStockImportRequest#getExplodedImportItems()
+     * @return @see
+     * uk.org.cse.stockimport.request.IStockImportRequest#getExplodedImportItems()
      * @since 1.0
      */
     public List<IStockImportItem> getExplodedImportItems() {
@@ -108,41 +108,41 @@ public class SpssImportStockRequest implements IStockImportRequest {
     }
 
     /**
-     * @return
-     * @see uk.org.cse.stockimport.request.IStockImportRequest#getExecutionId()
+     * @return @see
+     * uk.org.cse.stockimport.request.IStockImportRequest#getExecutionId()
      * @since 1.0
      */
-    @javax.xml.bind.annotation.XmlAttribute(name="id", required=false)
+    @javax.xml.bind.annotation.XmlAttribute(name = "id", required = false)
     public String getExecutionId() {
         return executionId;
     }
 
     /**
      * Set the executionId.
-     * 
+     *
      * @param executionId the executionId
      * @since 1.0
      */
     public void setExecutionId(String executionId) {
         this.executionId = executionId;
     }
-    
+
     /**
      * @since 3.5.0
      * @return The data source for that we should import from.
      */
     @XmlElementRef
     public EHSStockImportSource getImportSource() {
-    	return importSource;
+        return importSource;
     }
-    
+
     public void setImportSource(EHSStockImportSource importSource) {
-    	this.importSource = importSource;
+        this.importSource = importSource;
     }
 
     /**
      * Return the houseCaseRef.
-     * 
+     *
      * @return the houseCaseRef
      * @since 1.0
      */
@@ -152,7 +152,7 @@ public class SpssImportStockRequest implements IStockImportRequest {
 
     /**
      * Set the houseCaseRef.
-     * 
+     *
      * @param houseCaseRef the houseCaseRef
      * @since 1.0
      */
@@ -160,25 +160,25 @@ public class SpssImportStockRequest implements IStockImportRequest {
         this.houseCaseRef = houseCaseRef;
     }
 
-	public String getUserName() {
-		return userName;
-	}
+    public String getUserName() {
+        return userName;
+    }
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
-	@XmlAttribute(name = "description")
-	public String getUserDescription() {
-		return userDescription;
-	}
+    @XmlAttribute(name = "description")
+    public String getUserDescription() {
+        return userDescription;
+    }
 
-	public void setUserDescription(String userDescription) {
-		this.userDescription = userDescription;
-	}
+    public void setUserDescription(String userDescription) {
+        this.userDescription = userDescription;
+    }
 
-	@Override
-	public void removeImportItem(IStockImportItem importItem) {
-		this.importItems.remove(importItem);
-	}
+    @Override
+    public void removeImportItem(IStockImportItem importItem) {
+        this.importItems.remove(importItem);
+    }
 }

@@ -9,15 +9,16 @@ import uk.org.cse.nhm.ipc.api.tasks.IScenarioSnapshot;
 
 @AutoProperty
 public class ScenarioSnapshotLogEntry extends AbstractLogEntry {
-	private final IScenarioSnapshot snapshot;
 
-	@JsonCreator
-	public ScenarioSnapshotLogEntry(@JsonProperty("snapshot") final IScenarioSnapshot snapshot) {
-		super();
-		this.snapshot = snapshot;
-	}
-	
-	public IScenarioSnapshot getSnapshot() {
-		return snapshot;
-	}
+    private final IScenarioSnapshot snapshot;
+
+    @JsonCreator
+    public ScenarioSnapshotLogEntry(@JsonProperty("snapshot") final IScenarioSnapshot snapshot) {
+        super();
+        this.snapshot = snapshot;
+    }
+
+    public IScenarioSnapshot getSnapshot() {
+        return snapshot;
+    }
 }

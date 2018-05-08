@@ -12,35 +12,37 @@ import com.google.common.collect.ImmutableMap;
 import uk.org.cse.stockimport.domain.AdditionalHousePropertiesDTO;
 
 public class HouseCasePropertyBuilderTest {
-	private HouseCasePropertyBuilder builder;
-	
-	String aacode = "TEST_AA_CODE";
-	ImmutableMap<String, String> properties = ImmutableMap.of(
-			"one", "one_value", 
-			"two", "two_value");
 
-	private AdditionalHousePropertiesDTO dto;
+    private HouseCasePropertyBuilder builder;
 
-	@Before
-	public void setUp() {
-		this.builder = new HouseCasePropertyBuilder();
-		dto = mock(AdditionalHousePropertiesDTO.class);
-		when(dto.getAacode()).thenReturn(aacode);
-		when(dto.getValuesByProperty()).thenReturn(properties);
-	}
+    String aacode = "TEST_AA_CODE";
+    ImmutableMap<String, String> properties = ImmutableMap.of(
+            "one", "one_value",
+            "two", "two_value");
 
-	@Test
-	public void shouldBuildHeaderRow() {
-		dto.setAacode(aacode);
-		dto.setValuesByProperty(properties);
-		
-		Assert.assertArrayEquals(new String[] { "aacode", "one", "two" }, builder.buildHeader(dto));
-	}
+    private AdditionalHousePropertiesDTO dto;
 
-	@Test
-	public void valuesShouldLineUpWithHeaders() {
-		builder.buildHeader(dto); /* There is some internal state here, which means you can only build the rows once you have already built the headers. */
-		final String[] result = builder.buildRow(dto);
-		Assert.assertArrayEquals(new String[]{aacode, "one_value", "two_value"}, result);
-	}
+    @Before
+    public void setUp() {
+        this.builder = new HouseCasePropertyBuilder();
+        dto = mock(AdditionalHousePropertiesDTO.class);
+        when(dto.getAacode()).thenReturn(aacode);
+        when(dto.getValuesByProperty()).thenReturn(properties);
+    }
+
+    @Test
+    public void shouldBuildHeaderRow() {
+        dto.setAacode(aacode);
+        dto.setValuesByProperty(properties);
+
+        Assert.assertArrayEquals(new String[]{"aacode", "one", "two"}, builder.buildHeader(dto));
+    }
+
+    @Test
+    public void valuesShouldLineUpWithHeaders() {
+        builder.buildHeader(dto);
+        /* There is some internal state here, which means you can only build the rows once you have already built the headers. */
+        final String[] result = builder.buildRow(dto);
+        Assert.assertArrayEquals(new String[]{aacode, "one_value", "two_value"}, result);
+    }
 }

@@ -12,10 +12,12 @@ import uk.org.cse.nhm.energycalculator.constants.HotWaterConstants09;
 
 /**
  * hot water demand
+ *
  * @author hinton
  *
  */
 public class HotWaterDemand09 implements IEnergyTransducer {
+
     private static final Logger log = LoggerFactory.getLogger(HotWaterDemand09.class);
     private final double CONSTANT;
     private final double PERSON;
@@ -32,36 +34,36 @@ public class HotWaterDemand09 implements IEnergyTransducer {
     private final IBredemShower shower;
 
     public HotWaterDemand09(final IConstants constants, IBredemShower shower) {
-	this.shower = shower;
-	this.CONSTANT = constants.get(HotWaterConstants09.BASE_VOLUME);
-	this.PERSON = constants.get(HotWaterConstants09.PERSON_DEPENDENT_VOLUME);
-	this.FACTOR = constants.get(HotWaterConstants09.ENERGY_PER_VOLUME);
+        this.shower = shower;
+        this.CONSTANT = constants.get(HotWaterConstants09.BASE_VOLUME);
+        this.PERSON = constants.get(HotWaterConstants09.PERSON_DEPENDENT_VOLUME);
+        this.FACTOR = constants.get(HotWaterConstants09.ENERGY_PER_VOLUME);
     }
 
     @Override
     public int getPriority() {
-	return 0;
+        return 0;
     }
 
     @Override
     public ServiceType getServiceType() {
-	return ServiceType.INTERNALS;
+        return ServiceType.INTERNALS;
     }
 
     @Override
     public void generate(final IEnergyCalculatorHouseCase house,
-			 final IInternalParameters parameters, final ISpecificHeatLosses losses,
-			 final IEnergyState state) {
-	final IConstants constants = parameters.getConstants();
-	/**
-	 * Zero-indexed month number
-	 */
-	final int monthNumber = parameters.getClimate().getMonthOfYear()-1;
+            final IInternalParameters parameters, final ISpecificHeatLosses losses,
+            final IEnergyState state) {
+        final IConstants constants = parameters.getConstants();
+        /**
+         * Zero-indexed month number
+         */
+        final int monthNumber = parameters.getClimate().getMonthOfYear() - 1;
 
-	final double USAGE_FACTOR = constants.get(HotWaterConstants09.USAGE_FACTOR, monthNumber);
-	final double RISE_TEMPERATURE = constants.get(HotWaterConstants09.RISE_TEMPERATURE, monthNumber);
+        final double USAGE_FACTOR = constants.get(HotWaterConstants09.USAGE_FACTOR, monthNumber);
+        final double RISE_TEMPERATURE = constants.get(HotWaterConstants09.RISE_TEMPERATURE, monthNumber);
 
-	/*
+        /*
 	  BEISDOC
 	  NAME: Usage Adjusted Water Volume
 	  DESCRIPTION: description
@@ -74,11 +76,11 @@ public class HotWaterDemand09 implements IEnergyTransducer {
 	  DEPS: sap-water-volume,bredem-water-volume,monthly-water-usage-factor
 	  ID: usage-adjusted-water-volume
 	  CODSIEB
-	*/
-	final double usageAdjustedVolume = getHotWaterVolume(house, parameters) * USAGE_FACTOR;
-	StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_Usage_MonthAdjusted, usageAdjustedVolume);
+         */
+        final double usageAdjustedVolume = getHotWaterVolume(house, parameters) * USAGE_FACTOR;
+        StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_Usage_MonthAdjusted, usageAdjustedVolume);
 
-	/*
+        /*
 	  BEISDOC
 	  NAME: Water heating power
 	  DESCRIPTION: The power required to provide hot water.
@@ -92,14 +94,14 @@ public class HotWaterDemand09 implements IEnergyTransducer {
 	  NOTES: SAP includes distribution losses in the amount demanded. We exclude that here and add it on later.
 	  ID: water-heating-power
 	  CODSIEB
-	*/
-	final double power = usageAdjustedVolume * RISE_TEMPERATURE * FACTOR;
-	StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_EnergyContent, power);
+         */
+        final double power = usageAdjustedVolume * RISE_TEMPERATURE * FACTOR;
+        StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_EnergyContent, power);
 
-	log.debug("Hot water demand: {} W, {} l", power, usageAdjustedVolume);
+        log.debug("Hot water demand: {} W, {} l", power, usageAdjustedVolume);
 
-	state.increaseDemand(EnergyType.DemandsHOT_WATER_VOLUME, usageAdjustedVolume);
-	state.increaseDemand(EnergyType.DemandsHOT_WATER, power);
+        state.increaseDemand(EnergyType.DemandsHOT_WATER_VOLUME, usageAdjustedVolume);
+        state.increaseDemand(EnergyType.DemandsHOT_WATER, power);
     }
 
     /**
@@ -109,9 +111,9 @@ public class HotWaterDemand09 implements IEnergyTransducer {
      */
     protected double getHotWaterVolume(final IEnergyCalculatorHouseCase house, final IInternalParameters parameters) {
         final double result;
-	switch (parameters.getCalculatorType().hotWater) {
-	case SAP2012:
-	    /*
+        switch (parameters.getCalculatorType().hotWater) {
+            case SAP2012:
+                /*
 	      BEISDOC
 	      NAME: SAP Water volume
 	      DESCRIPTION: The volume of hot water required by the house according to SAP, calculated as a base amount plus an amount per occupant.
@@ -124,11 +126,11 @@ public class HotWaterDemand09 implements IEnergyTransducer {
               NOTES: We omit the 5% reduction in hot water usage for dwellings with hot water targets. We have no information about this.
               ID: sap-water-volume
               CODSIEB
-            */
-            result = CONSTANT + (PERSON * parameters.getNumberOfOccupants());
-            break;
-	    case BREDEM2012:
-            /*
+                 */
+                result = CONSTANT + (PERSON * parameters.getNumberOfOccupants());
+                break;
+            case BREDEM2012:
+                /*
               BEISDOC
               NAME: BREDEM Water Volume
               DESCRIPTION: The volume of hot water required by the house according to BREDEM.
@@ -140,46 +142,46 @@ public class HotWaterDemand09 implements IEnergyTransducer {
               DEPS:
               ID: bredem-water-volume
               CODSIEB
-            */
+                 */
 
-            final double showerVolume;
-            final double numBaths;
+                final double showerVolume;
+                final double numBaths;
 
-            if (shower != null) {
-                final double numShowers = shower.numShowers(parameters.getNumberOfOccupants());
-                showerVolume = numShowers * shower.hotWaterVolumePerShower();
+                if (shower != null) {
+                    final double numShowers = shower.numShowers(parameters.getNumberOfOccupants());
+                    showerVolume = numShowers * shower.hotWaterVolumePerShower();
 
-                numBaths = BREDEM_BATHS_BASE +
-                    (BREDEM_BATHS_OCCUPANCY_FACTOR * parameters.getNumberOfOccupants());
-            } else {
-		showerVolume = 0;
+                    numBaths = BREDEM_BATHS_BASE
+                            + (BREDEM_BATHS_OCCUPANCY_FACTOR * parameters.getNumberOfOccupants());
+                } else {
+                    showerVolume = 0;
 
-                numBaths = BREDEM_BATHS_BASE_NO_SHOWER +
-                    (BREDEM_BATHS_OCCUPANCY_FACTOR_NO_SHOWER * parameters.getNumberOfOccupants());
-            }
+                    numBaths = BREDEM_BATHS_BASE_NO_SHOWER
+                            + (BREDEM_BATHS_OCCUPANCY_FACTOR_NO_SHOWER * parameters.getNumberOfOccupants());
+                }
 
-            final double bathVolume = numBaths * BREDEM_BATH_VOLUME;
+                final double bathVolume = numBaths * BREDEM_BATH_VOLUME;
 
-            final double otherVolume = BREDEM_OTHER_BASE +
-                (BREDEM_OTHER_OCCUPANCY_FACTOR * parameters.getNumberOfOccupants());
+                final double otherVolume = BREDEM_OTHER_BASE
+                        + (BREDEM_OTHER_OCCUPANCY_FACTOR * parameters.getNumberOfOccupants());
 
-	    result = showerVolume + bathVolume + otherVolume;
-	    break;
+                result = showerVolume + bathVolume + otherVolume;
+                break;
 
-        default:
-            throw new UnsupportedOperationException("Unknown energy calculator type when calculating hot water volume " + parameters.getCalculatorType());
+            default:
+                throw new UnsupportedOperationException("Unknown energy calculator type when calculating hot water volume " + parameters.getCalculatorType());
         }
         StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_Usage_Initial, result);
-	    return result;
+        return result;
     }
 
     @Override
     public String toString() {
-	return "Hot Water Demand";
+        return "Hot Water Demand";
     }
 
     @Override
     public TransducerPhaseType getPhase() {
-	return TransducerPhaseType.BeforeEverything;
+        return TransducerPhaseType.BeforeEverything;
     }
 }

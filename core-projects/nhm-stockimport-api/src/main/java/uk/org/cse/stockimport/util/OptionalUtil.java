@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 import com.google.common.base.Optional;
 
 public class OptionalUtil {
+
     public static <T> T get(final Optional<T> thing, final String name) {
         if (thing.isPresent()) {
             return thing.get();

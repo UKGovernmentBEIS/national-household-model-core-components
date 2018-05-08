@@ -11,32 +11,40 @@ import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
 
 /**
  * Represents a wall - part of the extrusion of this storey.
+ *
  * @author hinton
  *
  */
 public interface IWall {
-	public double getAirChangeRate();
 
-	public ElevationType getElevationType();
-	public boolean isPartyWall();
-	
-	public double getArea();
-	public double getUValue();
-	public double getThicknessWithInsulation();
-	public double getThicknessWithoutInsulation();
-	
-	public Optional<ThermalMassLevel> getThermalMassLevel();
-	
-	public WallConstructionType getWallConstructionType();
+    public double getAirChangeRate();
 
-	public double getLength();
+    public ElevationType getElevationType();
 
-	public Set<WallInsulationType> getWallInsulationTypes();
-	public boolean hasWallInsulation(WallInsulationType type);
+    public boolean isPartyWall();
 
-	double getWallInsulationThickness(WallInsulationType type);
-	/**
-	 * @return The sum of the wall insulation thickness for the given types.
-	 */
-	double getWallInsulationThickness(Set<WallInsulationType> types);
+    public double getArea();
+
+    public double getUValue();
+
+    public double getThicknessWithInsulation();
+
+    public double getThicknessWithoutInsulation();
+
+    public Optional<ThermalMassLevel> getThermalMassLevel();
+
+    public WallConstructionType getWallConstructionType();
+
+    public double getLength();
+
+    public Set<WallInsulationType> getWallInsulationTypes();
+
+    public boolean hasWallInsulation(WallInsulationType type);
+
+    double getWallInsulationThickness(WallInsulationType type);
+
+    /**
+     * @return The sum of the wall insulation thickness for the given types.
+     */
+    double getWallInsulationThickness(Set<WallInsulationType> types);
 }

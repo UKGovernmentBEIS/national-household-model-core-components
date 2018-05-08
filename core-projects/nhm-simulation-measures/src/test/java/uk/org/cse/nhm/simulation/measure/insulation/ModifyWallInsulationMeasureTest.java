@@ -34,113 +34,113 @@ import uk.org.cse.nhm.simulator.scope.ISettableComponentsScope;
 import uk.org.cse.nhm.simulator.state.functions.impl.ConstantComponentsFunction;
 
 public class ModifyWallInsulationMeasureTest {
-	
-	private static final double thicknessBefore = 555d;
-	private static final double thicknessAfter = 999d;
-	private ModifyWallInsulationMeasure measure;
-	private MockDimensions dims;
 
-	@Before
-	public void setup() {
-		this.dims = Util.getMockDimensions();
-		
-		this.measure = new ModifyWallInsulationMeasure(
-				dims.structure,
-				ConstantComponentsFunction.<Double>of(Name.of("test"), thicknessAfter)
-				);
-	}
-	
-	@Test
-	public void testSuitability() {
-		final IMutableWall wall = mock(IMutableWall.class);
-		Assert.assertTrue(measure.isSuitable(buildHouseIncludingWall(wall), ILets.EMPTY));
-	}
-	
-	static class MockWallProps {
-		Map<WallInsulationType, Double> thicknessByType = new HashMap<>();
+    private static final double thicknessBefore = 555d;
+    private static final double thicknessAfter = 999d;
+    private ModifyWallInsulationMeasure measure;
+    private MockDimensions dims;
 
-		public MockWallProps() {
-		}
+    @Before
+    public void setup() {
+        this.dims = Util.getMockDimensions();
 
-		public double getInsulationThickness(final WallInsulationType t) {
-			return thicknessByType.get(t);
-		}
+        this.measure = new ModifyWallInsulationMeasure(
+                dims.structure,
+                ConstantComponentsFunction.<Double>of(Name.of("test"), thicknessAfter)
+        );
+    }
 
-		public void setInsulationThickness(final WallInsulationType t, final double insulationThickness) {
-			thicknessByType.put(t, insulationThickness);
-		}
+    @Test
+    public void testSuitability() {
+        final IMutableWall wall = mock(IMutableWall.class);
+        Assert.assertTrue(measure.isSuitable(buildHouseIncludingWall(wall), ILets.EMPTY));
+    }
 
-		public Set<WallInsulationType> getWallInsulationTypes() {
-			return thicknessByType.keySet();
-		}
-	}
+    static class MockWallProps {
 
-	@Test
-	public void testApplicationOfMeasure() throws NHMException {
-		final ModifyWallInsulationMeasure m = measure;
+        Map<WallInsulationType, Double> thicknessByType = new HashMap<>();
 
-		final MockWallProps p = new MockWallProps();
-		final IMutableWall wall = mock(IMutableWall.class);
-		when(wall.getWallInsulationThickness(any(WallInsulationType.class))).then(new Answer<Double>() {
-			@Override
-			public Double answer(final InvocationOnMock invocation) throws Throwable {
-				return p.getInsulationThickness((WallInsulationType) invocation.getArguments()[0]);
-			}
-		});
-		Mockito.doAnswer(new Answer<Object>() {
-			@Override
-			public Object answer(final InvocationOnMock invocation) throws Throwable {
-				final Object[] arguments = invocation.getArguments();
-				p.setInsulationThickness((WallInsulationType) invocation.getArguments()[0], (Double) arguments[1]);
-				return null;
-			}
-		}).when(wall).setWallInsulationThicknessAndAddOrRemoveInsulation(any(WallInsulationType.class), any(Double.class));
-		when(wall.getWallInsulationTypes()).then(new Answer<Set<WallInsulationType>>() {
-			@Override
-			public Set<WallInsulationType> answer(final InvocationOnMock invocation)
-					throws Throwable {
-				return p.getWallInsulationTypes();
-			}
-		});
-		
-		wall.setWallInsulationThicknessAndAddOrRemoveInsulation(WallInsulationType.External, thicknessBefore);
-		wall.setWallInsulationThicknessAndAddOrRemoveInsulation(WallInsulationType.FilledCavity, thicknessBefore);
-		wall.setWallInsulationThicknessAndAddOrRemoveInsulation(WallInsulationType.Internal, thicknessBefore);
-		
-		final ISettableComponentsScope houseIncludingWall = buildHouseIncludingWall(wall);
+        public MockWallProps() {
+        }
 
-		Assert.assertTrue(m.isSuitable(houseIncludingWall, ILets.EMPTY));
-			
-		final StructureModel modifiedStructure = Util.applyAndGetStructure(dims, m, houseIncludingWall);
-			
-		Assert.assertEquals("Should still be a single storey house", 1, modifiedStructure.getStoreys().size());
-		for(final IWall w: modifiedStructure.getStoreys().get(0).getImmutableWalls()) {
-			for(final WallInsulationType type : w.getWallInsulationTypes()) {
-				Assert.assertEquals(String.format("Insulation thickness of walls should match the measure for insulation type %s",type.toString()), thicknessAfter,  w.getWallInsulationThickness(type), 0d);
-			}
-		}
-	}
-	
+        public double getInsulationThickness(final WallInsulationType t) {
+            return thicknessByType.get(t);
+        }
 
-	private ISettableComponentsScope buildHouseIncludingWall(final IMutableWall wall) {
-		final Storey storey = mock(Storey.class);
-		when(storey.getWalls()).thenReturn(Collections.singleton(wall));
-		when(storey.getImmutableWalls()).thenReturn(Collections.<IWall> singleton(wall));
-		when(storey.copy()).thenReturn(storey);
-		
-		final ITechnologyModel technologies = new TechnologyModelImpl() {
-		};
-		final Elevation dummy = mock(Elevation.class);
-		final StructureModel structure = new StructureModel() {
-			{
-				addStorey(storey);
-				setElevation(ElevationType.FRONT, dummy);
-				setElevation(ElevationType.BACK, dummy);
-				setElevation(ElevationType.LEFT, dummy);
-				setElevation(ElevationType.RIGHT, dummy);
-			}
-		};
+        public void setInsulationThickness(final WallInsulationType t, final double insulationThickness) {
+            thicknessByType.put(t, insulationThickness);
+        }
 
-		return Util.mockComponents(dims, structure, technologies);
-	}
+        public Set<WallInsulationType> getWallInsulationTypes() {
+            return thicknessByType.keySet();
+        }
+    }
+
+    @Test
+    public void testApplicationOfMeasure() throws NHMException {
+        final ModifyWallInsulationMeasure m = measure;
+
+        final MockWallProps p = new MockWallProps();
+        final IMutableWall wall = mock(IMutableWall.class);
+        when(wall.getWallInsulationThickness(any(WallInsulationType.class))).then(new Answer<Double>() {
+            @Override
+            public Double answer(final InvocationOnMock invocation) throws Throwable {
+                return p.getInsulationThickness((WallInsulationType) invocation.getArguments()[0]);
+            }
+        });
+        Mockito.doAnswer(new Answer<Object>() {
+            @Override
+            public Object answer(final InvocationOnMock invocation) throws Throwable {
+                final Object[] arguments = invocation.getArguments();
+                p.setInsulationThickness((WallInsulationType) invocation.getArguments()[0], (Double) arguments[1]);
+                return null;
+            }
+        }).when(wall).setWallInsulationThicknessAndAddOrRemoveInsulation(any(WallInsulationType.class), any(Double.class));
+        when(wall.getWallInsulationTypes()).then(new Answer<Set<WallInsulationType>>() {
+            @Override
+            public Set<WallInsulationType> answer(final InvocationOnMock invocation)
+                    throws Throwable {
+                return p.getWallInsulationTypes();
+            }
+        });
+
+        wall.setWallInsulationThicknessAndAddOrRemoveInsulation(WallInsulationType.External, thicknessBefore);
+        wall.setWallInsulationThicknessAndAddOrRemoveInsulation(WallInsulationType.FilledCavity, thicknessBefore);
+        wall.setWallInsulationThicknessAndAddOrRemoveInsulation(WallInsulationType.Internal, thicknessBefore);
+
+        final ISettableComponentsScope houseIncludingWall = buildHouseIncludingWall(wall);
+
+        Assert.assertTrue(m.isSuitable(houseIncludingWall, ILets.EMPTY));
+
+        final StructureModel modifiedStructure = Util.applyAndGetStructure(dims, m, houseIncludingWall);
+
+        Assert.assertEquals("Should still be a single storey house", 1, modifiedStructure.getStoreys().size());
+        for (final IWall w : modifiedStructure.getStoreys().get(0).getImmutableWalls()) {
+            for (final WallInsulationType type : w.getWallInsulationTypes()) {
+                Assert.assertEquals(String.format("Insulation thickness of walls should match the measure for insulation type %s", type.toString()), thicknessAfter, w.getWallInsulationThickness(type), 0d);
+            }
+        }
+    }
+
+    private ISettableComponentsScope buildHouseIncludingWall(final IMutableWall wall) {
+        final Storey storey = mock(Storey.class);
+        when(storey.getWalls()).thenReturn(Collections.singleton(wall));
+        when(storey.getImmutableWalls()).thenReturn(Collections.<IWall>singleton(wall));
+        when(storey.copy()).thenReturn(storey);
+
+        final ITechnologyModel technologies = new TechnologyModelImpl() {
+        };
+        final Elevation dummy = mock(Elevation.class);
+        final StructureModel structure = new StructureModel() {
+            {
+                addStorey(storey);
+                setElevation(ElevationType.FRONT, dummy);
+                setElevation(ElevationType.BACK, dummy);
+                setElevation(ElevationType.LEFT, dummy);
+                setElevation(ElevationType.RIGHT, dummy);
+            }
+        };
+
+        return Util.mockComponents(dims, structure, technologies);
+    }
 }

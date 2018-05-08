@@ -1,21 +1,22 @@
 package uk.org.cse.nhm.simulation.simulator.exceptions;
 
 public class InternalException extends RuntimeException {
-	private static final long serialVersionUID = 1L;
 
-	public InternalException() {
-		super();
-	}
+    private static final long serialVersionUID = 1L;
 
-	public InternalException(String message, Throwable cause) {
-		super(message, cause);
-	}
+    public InternalException() {
+        super();
+    }
 
-	public InternalException(String message) {
-		super(message);
-	}
+    public InternalException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
-	public InternalException(Throwable cause) {
-		super(cause);
-	}
+    public InternalException(String message) {
+        super(message);
+    }
+
+    public InternalException(Throwable cause) {
+        super(cause);
+    }
 }

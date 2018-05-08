@@ -23,29 +23,30 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
  * @since 3.4.0
  */
 public class SuitabilityTest extends AbstractNamed implements IComponentsFunction<Boolean> {
-	private final IComponentsAction action;
 
-	@Inject
-	public SuitabilityTest(@Assisted final IComponentsAction action) {
-		this.action = action;
-	}
+    private final IComponentsAction action;
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return Collections.emptySet(); // TODO: get the dependencies for the measure
-	}
+    @Inject
+    public SuitabilityTest(@Assisted final IComponentsAction action) {
+        this.action = action;
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		throw new UnsupportedOperationException("Not implemented.");
-	}
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return Collections.emptySet(); // TODO: get the dependencies for the measure
+    }
 
-	@Override
-	public Boolean compute(final IComponentsScope scope, final ILets lets) {
-		if (action != null) {
-			return action.isSuitable(scope, lets);
-		} else {
-			return true;
-		}
-	}
+    @Override
+    public Set<DateTime> getChangeDates() {
+        throw new UnsupportedOperationException("Not implemented.");
+    }
+
+    @Override
+    public Boolean compute(final IComponentsScope scope, final ILets lets) {
+        if (action != null) {
+            return action.isSuitable(scope, lets);
+        } else {
+            return true;
+        }
+    }
 }

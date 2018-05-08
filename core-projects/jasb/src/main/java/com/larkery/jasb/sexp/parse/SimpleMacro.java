@@ -13,111 +13,113 @@ import com.larkery.jasb.sexp.errors.BasicError;
 import com.larkery.jasb.sexp.errors.IErrorHandler;
 
 public abstract class SimpleMacro implements IMacro {
-	protected abstract Set<String> getRequiredArgumentNames();
-	protected abstract Set<String> getAllowedArgumentNames();
 
-	protected abstract int getMaximumArgumentCount();
+    protected abstract Set<String> getRequiredArgumentNames();
 
-	protected abstract int getMinimumArgumentCount();
-	
-	protected ISExpression expandResult(final IMacroExpander expander, final ISExpression transformed) {
-		return expander.expand(transformed);
-	}
-	
-	protected Set<String> getInvalidArguments(final Set<String> arguments) {
-		return Sets.difference(arguments, getAllowedArgumentNames());
-	}
-	
-	protected Set<String> getMissingArguments(final Set<String> arguments) {
-		return Sets.difference(getRequiredArgumentNames(), arguments);
-	}
-	
-	@Override
-	public ISExpression transform(
-			final Seq unexpanded,
-			final IMacroExpander expander, 
-			final IErrorHandler errors) {
-		if (unexpanded.isEmpty()) {
-			throw new RuntimeException("This should never happen - if pasting part of a macro, it should at least have a macro name");
-		} else {
+    protected abstract Set<String> getAllowedArgumentNames();
 
-			final Invocation inv = Invocation.of(unexpanded, errors);
+    protected abstract int getMaximumArgumentCount();
 
-			if (inv != null) {
-				if (validateMacroParameters(inv, errors)) {
-					return expandResult(expander, doTransform(inv, expander, errors));
-				}
-			}
-		}
-		
-		return SExpressions.empty();
-	}
-	
-	protected abstract ISExpression doTransform(final Invocation validated, final IMacroExpander expander, final IErrorHandler errors);
-	
-	protected boolean validateMacroParameters(final Invocation inv, final IErrorHandler errors) {
-		boolean valid = true;
+    protected abstract int getMinimumArgumentCount();
 
-		for (final String s : getMissingArguments(inv.arguments.keySet())) {
-			errors.handle(BasicError.at(inv.node, inv.name + " requires named argument " + s));
-			valid = false;
-		}
+    protected ISExpression expandResult(final IMacroExpander expander, final ISExpression transformed) {
+        return expander.expand(transformed);
+    }
 
-		for (final String s : getInvalidArguments(inv.arguments.keySet())) {
-			valid = false;
-			errors.handle(BasicError.at(inv.arguments.get(s), inv.name + " does not expect argument " + s));
-		}
+    protected Set<String> getInvalidArguments(final Set<String> arguments) {
+        return Sets.difference(arguments, getAllowedArgumentNames());
+    }
 
-		if (inv.remainder.size() < getMinimumArgumentCount()) {
-			errors.handle(BasicError.at(inv.node, 
-										inv.name + " expects at least " + 
-										getMinimumArgumentCount() + unnamedArgs(getMinimumArgumentCount())));
-			valid = false;
-		}
+    protected Set<String> getMissingArguments(final Set<String> arguments) {
+        return Sets.difference(getRequiredArgumentNames(), arguments);
+    }
 
-		if (inv.remainder.size() > getMaximumArgumentCount()) {
-			errors.handle(BasicError.at(inv.remainder.get(getMaximumArgumentCount()), inv.name + " expects at most " + getMaximumArgumentCount() + unnamedArgs(getMaximumArgumentCount()) + ", but there are " + inv.remainder.size()));
-			valid = false;
-		}
+    @Override
+    public ISExpression transform(
+            final Seq unexpanded,
+            final IMacroExpander expander,
+            final IErrorHandler errors) {
+        if (unexpanded.isEmpty()) {
+            throw new RuntimeException("This should never happen - if pasting part of a macro, it should at least have a macro name");
+        } else {
 
-		return valid;
-	}
-	
-	private String unnamedArgs(final int count) {
-		return count == 1 ? " unnamed argument" : " unnamed arguments";
-	}
-	
-	@Override
-	public MacroModel getModel() {
-		final MacroModel.Builder b = MacroModel.builder();
-		
-		b.desc("Undocumented");
-		
-		for (final String s : getAllowedArgumentNames()) {
-			b.keys().allow(s, "Undocumented");
-		}
-		
-		for (final String s : getRequiredArgumentNames()) {
-			b.keys().require(s, "Undocumented");
-		}
-		
-		for (int i = 0; i<getMinimumArgumentCount(); i++) {
-			b.pos().require("Undocumented");
-		}
-		
-		if (getMaximumArgumentCount() == Integer.MAX_VALUE) {
-			b.pos().remainder("Undocumented");	
-		} else {
-			for (int i = getMinimumArgumentCount(); i< getMaximumArgumentCount(); i++) {
-				b.pos().allow("Undocumented");
-			}
-		}
-		
-		return b.build();
-	}
-	
-	@Override
-	public Optional<Node> getDefiningNode() {
-		return Optional.absent();
-	}
+            final Invocation inv = Invocation.of(unexpanded, errors);
+
+            if (inv != null) {
+                if (validateMacroParameters(inv, errors)) {
+                    return expandResult(expander, doTransform(inv, expander, errors));
+                }
+            }
+        }
+
+        return SExpressions.empty();
+    }
+
+    protected abstract ISExpression doTransform(final Invocation validated, final IMacroExpander expander, final IErrorHandler errors);
+
+    protected boolean validateMacroParameters(final Invocation inv, final IErrorHandler errors) {
+        boolean valid = true;
+
+        for (final String s : getMissingArguments(inv.arguments.keySet())) {
+            errors.handle(BasicError.at(inv.node, inv.name + " requires named argument " + s));
+            valid = false;
+        }
+
+        for (final String s : getInvalidArguments(inv.arguments.keySet())) {
+            valid = false;
+            errors.handle(BasicError.at(inv.arguments.get(s), inv.name + " does not expect argument " + s));
+        }
+
+        if (inv.remainder.size() < getMinimumArgumentCount()) {
+            errors.handle(BasicError.at(inv.node,
+                    inv.name + " expects at least "
+                    + getMinimumArgumentCount() + unnamedArgs(getMinimumArgumentCount())));
+            valid = false;
+        }
+
+        if (inv.remainder.size() > getMaximumArgumentCount()) {
+            errors.handle(BasicError.at(inv.remainder.get(getMaximumArgumentCount()), inv.name + " expects at most " + getMaximumArgumentCount() + unnamedArgs(getMaximumArgumentCount()) + ", but there are " + inv.remainder.size()));
+            valid = false;
+        }
+
+        return valid;
+    }
+
+    private String unnamedArgs(final int count) {
+        return count == 1 ? " unnamed argument" : " unnamed arguments";
+    }
+
+    @Override
+    public MacroModel getModel() {
+        final MacroModel.Builder b = MacroModel.builder();
+
+        b.desc("Undocumented");
+
+        for (final String s : getAllowedArgumentNames()) {
+            b.keys().allow(s, "Undocumented");
+        }
+
+        for (final String s : getRequiredArgumentNames()) {
+            b.keys().require(s, "Undocumented");
+        }
+
+        for (int i = 0; i < getMinimumArgumentCount(); i++) {
+            b.pos().require("Undocumented");
+        }
+
+        if (getMaximumArgumentCount() == Integer.MAX_VALUE) {
+            b.pos().remainder("Undocumented");
+        } else {
+            for (int i = getMinimumArgumentCount(); i < getMaximumArgumentCount(); i++) {
+                b.pos().allow("Undocumented");
+            }
+        }
+
+        return b.build();
+    }
+
+    @Override
+    public Optional<Node> getDefiningNode() {
+        return Optional.absent();
+    }
 }

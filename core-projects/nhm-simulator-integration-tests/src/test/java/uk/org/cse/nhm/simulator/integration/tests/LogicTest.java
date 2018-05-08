@@ -8,8 +8,8 @@ import uk.org.cse.nhm.NHMException;
 
 public class LogicTest extends SimulatorIntegrationTest {
 
-	@Test
-	public void inequalities() throws NHMException, InterruptedException {
-		super.runSimulation(dataService, loadScenario("functions/logic/inequalities.s"), true, Collections.<Class<?>>emptySet());
-	}
+    @Test
+    public void inequalities() throws NHMException, InterruptedException {
+        super.runSimulation(dataService, loadScenario("functions/logic/inequalities.s"), true, Collections.<Class<?>>emptySet());
+    }
 }

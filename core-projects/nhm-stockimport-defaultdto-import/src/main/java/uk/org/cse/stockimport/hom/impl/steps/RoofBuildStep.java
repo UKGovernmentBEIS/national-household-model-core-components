@@ -24,14 +24,15 @@ import uk.org.cse.stockimport.repository.IHouseCaseSources;
  */
 public class RoofBuildStep implements ISurveyCaseBuildStep {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ElevationBuildStep.class);
-    /**@since 1.0 */
+    private static final Logger LOGGER = LoggerFactory.getLogger(ElevationBuildStep.class);
+    /**
+     * @since 1.0
+     */
     public static final String IDENTIFIER = RoofBuildStep.class.getCanonicalName();
 
-
     /**
-     * @return
-     * @see uk.org.cse.stockimport.hom.ISurveyCaseBuildStep#getIdentifier()
+     * @return @see
+     * uk.org.cse.stockimport.hom.ISurveyCaseBuildStep#getIdentifier()
      */
     @Override
     public String getIdentifier() {
@@ -39,8 +40,8 @@ public class RoofBuildStep implements ISurveyCaseBuildStep {
     }
 
     /**
-     * @return
-     * @see uk.org.cse.stockimport.hom.ISurveyCaseBuildStep#getDependencies()
+     * @return @see
+     * uk.org.cse.stockimport.hom.ISurveyCaseBuildStep#getDependencies()
      */
     @Override
     public Set<String> getDependencies() {
@@ -50,19 +51,23 @@ public class RoofBuildStep implements ISurveyCaseBuildStep {
     }
 
     /**
-     * Simply sets {@link StructureModel#getRoofConstructionType()} to {@link IRoofDTO#getRoofConstructionType()}
-     * 
+     * Simply sets {@link StructureModel#getRoofConstructionType()} to
+     * {@link IRoofDTO#getRoofConstructionType()}
+     *
      * @param model
      * @param dtoProvider
-     * @see uk.org.cse.stockimport.hom.ISurveyCaseBuildStep#build(uk.org.cse.nhm.hom.SurveyCase,
-     *      uk.org.cse.stockimport.repository.IHouseCaseSources) 
+     * @see
+     * uk.org.cse.stockimport.hom.ISurveyCaseBuildStep#build(uk.org.cse.nhm.hom.SurveyCase,
+     * uk.org.cse.stockimport.repository.IHouseCaseSources)
      */
     @Override
     public void build(final SurveyCase model, final IHouseCaseSources<IBasicDTO> dtoProvider) {
-    	if (LOGGER.isDebugEnabled()) LOGGER.debug("building roof");
-    	final IHouseCaseDTO houseCaseDto = dtoProvider.requireOne(IHouseCaseDTO.class);
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("building roof");
+        }
+        final IHouseCaseDTO houseCaseDto = dtoProvider.requireOne(IHouseCaseDTO.class);
         final IRoofDTO roofDTO = dtoProvider.requireOne(IRoofDTO.class);
-        
+
         final StructureModel structure = model.getStructure();
         structure.setRoofConstructionType(roofDTO.getRoofType());
         structure.setRoofInsulationThickness(roofDTO.getInsulationThickness().or(0d));

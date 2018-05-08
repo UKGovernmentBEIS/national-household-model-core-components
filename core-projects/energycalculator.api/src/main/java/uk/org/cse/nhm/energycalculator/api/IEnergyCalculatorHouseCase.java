@@ -4,91 +4,98 @@ import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
 
 /**
- * An interface which describes a house in sufficient detail for a energy calculator to operate on it.
+ * An interface which describes a house in sufficient detail for a energy
+ * calculator to operate on it.
+ *
  * @author hinton
  *
  */
 public interface IEnergyCalculatorHouseCase {
-	/**
-	 * Accept the given {@link IEnergyCalculatorVisitor}, presenting it with all of the things in this house that it is interested in.
-	 * 
-	 * See the visitor interface itself for more detail on what these are.
-	 * @param constants TODO
-	 * @param visitor
-	 */
-	public void accept(IConstants constants, final IEnergyCalculatorParameters parameters, final IEnergyCalculatorVisitor visitor);
 
-	/**
-	 * @param zone
-	 * @return the floor area in M2 of the given zone
-	 */
-	public double getFloorArea();
+    /**
+     * Accept the given {@link IEnergyCalculatorVisitor}, presenting it with all
+     * of the things in this house that it is interested in.
+     *
+     * See the visitor interface itself for more detail on what these are.
+     *
+     * @param constants TODO
+     * @param visitor
+     */
+    public void accept(IConstants constants, final IEnergyCalculatorParameters parameters, final IEnergyCalculatorVisitor visitor);
 
-	/**
-	 * The proportion of the floor area in the living area (zone 1)
-	 * @return
-	 */
-	public double getLivingAreaProportionOfFloorArea();
-	
-	/**
-	 * @return the specific heat loss between zones 1 and 2, in watts/m2
-	 */
-	public double getInterzoneSpecificHeatLoss();
+    /**
+     * @param zone
+     * @return the floor area in M2 of the given zone
+     */
+    public double getFloorArea();
 
-	/**
-	 */
-	public double getHouseVolume();
+    /**
+     * The proportion of the floor area in the living area (zone 1)
+     *
+     * @return
+     */
+    public double getLivingAreaProportionOfFloorArea();
 
-	/**
-	 * @return the number of storeys in this house (at least one)
-	 */
-	public int getNumberOfStoreys();
+    /**
+     * @return the specific heat loss between zones 1 and 2, in watts/m2
+     */
+    public double getInterzoneSpecificHeatLoss();
 
-	/**
-	 * A draught lobby is an unheated enclosed space outside the front door. For example, some houses have a secondary door enclosing an
-	 * unheated porch. Similarly most flats are connected to enclosed corridors.
-	 * 
-	 * @return whether the house has a draught lobby
-	 */
-	public boolean hasDraughtLobby();
+    /**
+     */
+    public double getHouseVolume();
 
-	/**
-	 * @return number of sheltered sides for this property
-	 */
-	public int getNumberOfShelteredSides();
+    /**
+     * @return the number of storeys in this house (at least one)
+     */
+    public int getNumberOfStoreys();
 
-	/**
-	 * @return the proportion (0-1) of zone two which is heated.
-	 */
-	public double getZoneTwoHeatedProportion();
+    /**
+     * A draught lobby is an unheated enclosed space outside the front door. For
+     * example, some houses have a secondary door enclosing an unheated porch.
+     * Similarly most flats are connected to enclosed corridors.
+     *
+     * @return whether the house has a draught lobby
+     */
+    public boolean hasDraughtLobby();
 
-	/**
-	 * @return The year when the house was constructed (e.g. 1950)
-	 */
-	public int getBuildYear();
+    /**
+     * @return number of sheltered sides for this property
+     */
+    public int getNumberOfShelteredSides();
 
-	/**
-	 * @return the proportion of windows & doors that have been draught stripped
-	 */
-	public double getDraughtStrippedProportion();
+    /**
+     * @return the proportion (0-1) of zone two which is heated.
+     */
+    public double getZoneTwoHeatedProportion();
 
-	/**
-	 * @since 6.4.0
-	 */
-	public SiteExposureType getSiteExposure();
+    /**
+     * @return The year when the house was constructed (e.g. 1950)
+     */
+    public int getBuildYear();
 
-	/**
-	 * @since 6.4.0
-	 */
-	public double getThermalBridgingCoefficient();
-	
-	/**
-	 * @since 6.4.0
-	 */
-	public boolean hasReducedInternalGains();
-	
-	/**
-	 * @since 6.4.0
-	 */
-	public RegionType.Country getCountry();
+    /**
+     * @return the proportion of windows & doors that have been draught stripped
+     */
+    public double getDraughtStrippedProportion();
+
+    /**
+     * @since 6.4.0
+     */
+    public SiteExposureType getSiteExposure();
+
+    /**
+     * @since 6.4.0
+     */
+    public double getThermalBridgingCoefficient();
+
+    /**
+     * @since 6.4.0
+     */
+    public boolean hasReducedInternalGains();
+
+    /**
+     * @since 6.4.0
+     */
+    public RegionType.Country getCountry();
 }

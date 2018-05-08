@@ -7,383 +7,383 @@ import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 
 public interface RenterEntry extends SurveyEntry {
-	@SavVariableMapping("REASTNO")
-	public String getReasonForTakingOver_AquiringTenancy();
 
-	@SavVariableMapping("TENSTRTY")
-	public Integer getStartOfPreviousTenancy();
+    @SavVariableMapping("REASTNO")
+    public String getReasonForTakingOver_AquiringTenancy();
 
-	@SavVariableMapping("LDRNTO12")
-	public Integer getTenants_PrtHB_FllAmtRentChrg();
+    @SavVariableMapping("TENSTRTY")
+    public Integer getStartOfPreviousTenancy();
 
-	@SavVariableMapping("TOTALB")
-	public Integer getTotalWeeklyRent_PartHB_();
+    @SavVariableMapping("LDRNTO12")
+    public Integer getTenants_PrtHB_FllAmtRentChrg();
 
-	@SavVariableMapping("LDRNHB1A")
-	public Integer getTenants_FllHB_AmtHB();
+    @SavVariableMapping("TOTALB")
+    public Integer getTotalWeeklyRent_PartHB_();
 
-	@SavVariableMapping("RENTHOLW")
-	public Integer getForHowManyWeeksDoYouHaveARentHoliday_();
+    @SavVariableMapping("LDRNHB1A")
+    public Integer getTenants_FllHB_AmtHB();
 
-	@SavVariableMapping("TENSTRT")
-	public Integer getYearTenancyStarted();
+    @SavVariableMapping("RENTHOLW")
+    public Integer getForHowManyWeeksDoYouHaveARentHoliday_();
 
-	@SavVariableMapping("LDRNHB1D")
-	public Integer getTenantsXsHB_AmtHBRcv();
+    @SavVariableMapping("TENSTRT")
+    public Integer getYearTenancyStarted();
 
-	@SavVariableMapping("LDRNTO3")
-	public Integer getTenants_UnsureHB_AmtRentChrg();
+    @SavVariableMapping("LDRNHB1D")
+    public Integer getTenantsXsHB_AmtHBRcv();
 
-	@SavVariableMapping("LDRNTO2")
-	public Integer getTenants_NoHB_AmtRentPd();
+    @SavVariableMapping("LDRNTO3")
+    public Integer getTenants_UnsureHB_AmtRentChrg();
 
-	@SavVariableMapping("V49_A")
-	public Integer getTenantsXsHB_FllRentChk();
+    @SavVariableMapping("LDRNTO2")
+    public Integer getTenants_NoHB_AmtRentPd();
 
-	@SavVariableMapping("NETRENT")
-	public Integer getRentExclServices_HB_LHA();
+    @SavVariableMapping("V49_A")
+    public Integer getTenantsXsHB_FllRentChk();
 
-	@SavVariableMapping("TOTALD")
-	public Integer getWeeklyExcessBenefit();
+    @SavVariableMapping("NETRENT")
+    public Integer getRentExclServices_HB_LHA();
 
-	@SavVariableMapping("FEEAMT")
-	public Integer getPrevTnncy_AmountOfFee();
+    @SavVariableMapping("TOTALD")
+    public Integer getWeeklyExcessBenefit();
 
-	@SavVariableMapping("LDRNAM1C")
-	public Integer getTenants_DKHB_AmtRentChrg();
+    @SavVariableMapping("FEEAMT")
+    public Integer getPrevTnncy_AmountOfFee();
 
-	@SavVariableMapping("LDRNHB1B")
-	public Integer getTenants_PrtHB_AmtHBRcv();
+    @SavVariableMapping("LDRNAM1C")
+    public Integer getTenants_DKHB_AmtRentChrg();
 
-	@SavVariableMapping("YRHA")
-	public Integer getYearBecameHATenant();
+    @SavVariableMapping("LDRNHB1B")
+    public Integer getTenants_PrtHB_AmtHBRcv();
 
-	@SavVariableMapping("TENENDY")
-	public Integer getWhenTenancyEnded();
+    @SavVariableMapping("YRHA")
+    public Integer getYearBecameHATenant();
 
-	@SavVariableMapping("LDRSEL3")
-	public Integer getTenants_UnsureHB_AmtRentPd();
+    @SavVariableMapping("TENENDY")
+    public Integer getWhenTenancyEnded();
 
-	@SavVariableMapping("NUMAGR")
-	public Integer getNo_OfAgreementsWithinHhld();
+    @SavVariableMapping("LDRSEL3")
+    public Integer getTenants_UnsureHB_AmtRentPd();
 
-	@SavVariableMapping("TOTAMT")
-	public Integer getTotalAmountOfRent();
+    @SavVariableMapping("NUMAGR")
+    public Integer getNo_OfAgreementsWithinHhld();
 
-	@SavVariableMapping("LDRSEL1C")
-	public Integer getTenants_DKHB_AmtRentPd();
+    @SavVariableMapping("TOTAMT")
+    public Integer getTotalAmountOfRent();
 
-	@SavVariableMapping("LDRSEL1D")
-	public Integer getTenantsXsHB_AmtRentPd();
+    @SavVariableMapping("LDRSEL1C")
+    public Integer getTenants_DKHB_AmtRentPd();
 
-	@SavVariableMapping("LDRSEL1B")
-	public Integer getTenants_PrtHB_AmtRentPd();
+    @SavVariableMapping("LDRSEL1D")
+    public Integer getTenantsXsHB_AmtRentPd();
 
-	@SavVariableMapping("DEPHLDR")
-	public Double getDepositWasHeldBy();
+    @SavVariableMapping("LDRSEL1B")
+    public Integer getTenants_PrtHB_AmtRentPd();
 
-	@SavVariableMapping("CDEPALT")
-	public Double getGuarantorRequired();
+    @SavVariableMapping("DEPHLDR")
+    public Double getDepositWasHeldBy();
 
-	@SavVariableMapping("CFEEADMN")
-	public Double getAdminFee_Non_Ret_();
+    @SavVariableMapping("CDEPALT")
+    public Double getGuarantorRequired();
 
-	@SavVariableMapping("CFEEHLDN")
-	public Double getHoldingFee_Non_Ret_();
+    @SavVariableMapping("CFEEADMN")
+    public Double getAdminFee_Non_Ret_();
 
-	@SavVariableMapping("CFEEFNDR")
-	public Double getFindersFee_Non_Ret_();
+    @SavVariableMapping("CFEEHLDN")
+    public Double getHoldingFee_Non_Ret_();
 
-	@SavVariableMapping("CFEEHLDR")
-	public Double getHoldingFee_Returnable_();
+    @SavVariableMapping("CFEEFNDR")
+    public Double getFindersFee_Non_Ret_();
 
-	@SavVariableMapping("CFEE")
-	public Double getThisTnncy_Landlord_AgencyFee();
+    @SavVariableMapping("CFEEHLDR")
+    public Double getHoldingFee_Returnable_();
 
-	@SavVariableMapping("V127_A")
-	public Double getIsYourDepositProtectedUnderOneOfTheGovernmentAuthorisedTenancyDepositSchemes();
+    @SavVariableMapping("CFEE")
+    public Double getThisTnncy_Landlord_AgencyFee();
 
-	@SavVariableMapping("CFEEAMT")
-	public Double getThisTnncy_AmountOfFee();
+    @SavVariableMapping("V127_A")
+    public Double getIsYourDepositProtectedUnderOneOfTheGovernmentAuthorisedTenancyDepositSchemes();
 
-	@SavVariableMapping("DEPHLDR2")
-	public Double getWasYourDepositProtectedUnderOneOfTheGovernmentAuthorisedTenancyDepositSchemes();
+    @SavVariableMapping("CFEEAMT")
+    public Double getThisTnncy_AmountOfFee();
 
-	@SavVariableMapping("CDEPHLDR")
-	public Double getDepositBeingHeldBy();
+    @SavVariableMapping("DEPHLDR2")
+    public Double getWasYourDepositProtectedUnderOneOfTheGovernmentAuthorisedTenancyDepositSchemes();
 
-	@SavVariableMapping("CFEEOTHR")
-	public Double getOtherFee();
+    @SavVariableMapping("CDEPHLDR")
+    public Double getDepositBeingHeldBy();
 
-	@SavVariableMapping("CDEPPROP")
-	public Double getDepositAsProportionOfRent();
+    @SavVariableMapping("CFEEOTHR")
+    public Double getOtherFee();
 
-	@SavVariableMapping("TENYTYPE")
-	public Enum813 getTenancyType();
+    @SavVariableMapping("CDEPPROP")
+    public Double getDepositAsProportionOfRent();
 
-	@SavVariableMapping("LLPERMIT")
-	public Enum69 getWithLandlord_SAgreement();
+    @SavVariableMapping("TENYTYPE")
+    public Enum813 getTenancyType();
 
-	@SavVariableMapping("WHOLSHAR")
-	public Enum815 getRent_HBAmountsGivenForWholeAccommodationOrJustYourShare();
+    @SavVariableMapping("LLPERMIT")
+    public Enum69 getWithLandlord_SAgreement();
 
-	@SavVariableMapping("SERIWTER")
-	public Enum69 getWaterAndSewerage();
+    @SavVariableMapping("WHOLSHAR")
+    public Enum815 getRent_HBAmountsGivenForWholeAccommodationOrJustYourShare();
 
-	@SavVariableMapping("LDPERD1C")
-	public Enum817 getTenants_DKHB_RentChrgPer();
+    @SavVariableMapping("SERIWTER")
+    public Enum69 getWaterAndSewerage();
 
-	@SavVariableMapping("LDPDTO1D")
-	public Enum817 getTenantsXsHB_RentChrgPer();
+    @SavVariableMapping("LDPERD1C")
+    public Enum817 getTenants_DKHB_RentChrgPer();
 
-	@SavVariableMapping("SERINONE")
-	public Enum69 getNoneOfThese();
+    @SavVariableMapping("LDPDTO1D")
+    public Enum817 getTenantsXsHB_RentChrgPer();
 
-	@SavVariableMapping("SERIHEAT")
-	public Enum69 getHeating();
+    @SavVariableMapping("SERINONE")
+    public Enum69 getNoneOfThese();
 
-	@SavVariableMapping("LDRNTO1B")
-	public Enum69 getTenants_PrtHB_FllRentChk();
+    @SavVariableMapping("SERIHEAT")
+    public Enum69 getHeating();
 
-	@SavVariableMapping("WHYNBLLS")
-	public Enum69 getUnpaidBills();
+    @SavVariableMapping("LDRNTO1B")
+    public Enum69 getTenants_PrtHB_FllRentChk();
 
-	@SavVariableMapping("SRWAITL")
-	public Enum823 getLengthOfWait();
+    @SavVariableMapping("WHYNBLLS")
+    public Enum69 getUnpaidBills();
 
-	@SavVariableMapping("RETRND")
-	public Enum824 getDepositReturned();
+    @SavVariableMapping("SRWAITL")
+    public Enum823 getLengthOfWait();
 
-	@SavVariableMapping("WHYNONE")
-	public Enum69 getNoReasonGiven();
+    @SavVariableMapping("RETRND")
+    public Enum824 getDepositReturned();
 
-	@SavVariableMapping("HBENA")
-	public Enum69 getAnyRentCoveredByHB_LHA();
+    @SavVariableMapping("WHYNONE")
+    public Enum69 getNoReasonGiven();
 
-	@SavVariableMapping("LDHSBAM3")
-	public Enum827 getAmountOfRentCovered();
+    @SavVariableMapping("HBENA")
+    public Enum69 getAnyRentCoveredByHB_LHA();
 
-	@SavVariableMapping("LIVTEN")
-	public Enum69 getAcquiredTenancyWhenLivingWithSomeoneWhoWasATenant();
+    @SavVariableMapping("LDHSBAM3")
+    public Enum827 getAmountOfRentCovered();
 
-	@SavVariableMapping("LDCMPSIT")
-	public Enum630 getComplexRentingSituation();
+    @SavVariableMapping("LIVTEN")
+    public Enum69 getAcquiredTenancyWhenLivingWithSomeoneWhoWasATenant();
 
-	@SavVariableMapping("SMAG1")
-	public Enum830 getNo_OfLodgerAgreements();
+    @SavVariableMapping("LDCMPSIT")
+    public Enum630 getComplexRentingSituation();
 
-	@SavVariableMapping("LNGTHTN")
-	public Enum831 getTimeAtPropertyBeforeAcquiringTenancy();
+    @SavVariableMapping("SMAG1")
+    public Enum830 getNo_OfLodgerAgreements();
 
-	@SavVariableMapping("RENTOWE")
-	public Enum69 getRentOwing();
+    @SavVariableMapping("LNGTHTN")
+    public Enum831 getTimeAtPropertyBeforeAcquiringTenancy();
 
-	@SavVariableMapping("ARRPR2")
-	public Enum69 getFallenBehindWithRentPaymentsOverTheLast12Months();
+    @SavVariableMapping("RENTOWE")
+    public Enum69 getRentOwing();
 
-	@SavVariableMapping("TOTPER")
-	public Enum501 getRentPaymentPeriod();
+    @SavVariableMapping("ARRPR2")
+    public Enum69 getFallenBehindWithRentPaymentsOverTheLast12Months();
 
-	@SavVariableMapping("DEPPROP")
-	public Enum835 getDepositAsProportionOfRent_DEPPROP();
+    @SavVariableMapping("TOTPER")
+    public Enum501 getRentPaymentPeriod();
 
-	@SavVariableMapping("GOREHS")
-	public Enum30 getRegion_EHSOrder();
+    @SavVariableMapping("DEPPROP")
+    public Enum835 getDepositAsProportionOfRent_DEPPROP();
 
-	@SavVariableMapping("LOWSHORT")
-	public Enum69 getLowSeasonLet();
+    @SavVariableMapping("GOREHS")
+    public Enum30 getRegion_EHSOrder();
 
-	@SavVariableMapping("WHYNOTHR")
-	public Enum69 getSomeOtherReason();
+    @SavVariableMapping("LOWSHORT")
+    public Enum69 getLowSeasonLet();
 
-	@SavVariableMapping("ARRUNEXP")
-	public Enum69 getUnexpectedCouncilTaxOrUtilityBills();
+    @SavVariableMapping("WHYNOTHR")
+    public Enum69 getSomeOtherReason();
 
-	@SavVariableMapping("WHYNCLNG")
-	public Enum69 getPropertyRequiredCleaning();
+    @SavVariableMapping("ARRUNEXP")
+    public Enum69 getUnexpectedCouncilTaxOrUtilityBills();
 
-	@SavVariableMapping("WHYNRENT")
-	public Enum69 getUnpaidRent();
+    @SavVariableMapping("WHYNCLNG")
+    public Enum69 getPropertyRequiredCleaning();
 
-	@SavVariableMapping("DEPALT")
-	public Enum69 getPrevTnncy_GuarantorRequired();
+    @SavVariableMapping("WHYNRENT")
+    public Enum69 getUnpaidRent();
 
-	@SavVariableMapping("ARRUNEMP")
-	public Enum69 getUnemployment();
+    @SavVariableMapping("DEPALT")
+    public Enum69 getPrevTnncy_GuarantorRequired();
 
-	@SavVariableMapping("DEPOSIT")
-	public Enum69 getPrevTnncy_PaidDeposit();
+    @SavVariableMapping("ARRUNEMP")
+    public Enum69 getUnemployment();
 
-	@SavVariableMapping("ARROTHER")
-	public Enum69 getOtherDebtsOrResponsibilities();
+    @SavVariableMapping("DEPOSIT")
+    public Enum69 getPrevTnncy_PaidDeposit();
 
-	@SavVariableMapping("INTHB")
-	public Enum251 getHousingBenefitAndRent();
+    @SavVariableMapping("ARROTHER")
+    public Enum69 getOtherDebtsOrResponsibilities();
 
-	@SavVariableMapping("EVERCLHA")
-	public Enum660 getEverCouncil_HAHouse_Flat();
+    @SavVariableMapping("INTHB")
+    public Enum251 getHousingBenefitAndRent();
 
-	@SavVariableMapping("FEEFOTHR")
-	public Enum69 getOtherFee_FEEFOTHR();
+    @SavVariableMapping("EVERCLHA")
+    public Enum660 getEverCouncil_HAHouse_Flat();
 
-	@SavVariableMapping("LDJOINT")
-	public Enum849 getTenants_DivisionOfRentPayment();
+    @SavVariableMapping("FEEFOTHR")
+    public Enum69 getOtherFee_FEEFOTHR();
 
-	@SavVariableMapping("DVDEPRET")
-	public Enum824 getComputed_DepositReturned();
+    @SavVariableMapping("LDJOINT")
+    public Enum849 getTenants_DivisionOfRentPayment();
 
-	@SavVariableMapping("DVPRNT")
-	public Enum69 getTreatedAsPrivateRentedHousehold();
+    @SavVariableMapping("DVDEPRET")
+    public Enum824 getComputed_DepositReturned();
 
-	@SavVariableMapping("SERITVLI")
-	public Enum69 getTVLicenceFee();
+    @SavVariableMapping("DVPRNT")
+    public Enum69 getTreatedAsPrivateRentedHousehold();
 
-	@SavVariableMapping("FEELNDEP")
-	public Enum853 getHowFelt();
+    @SavVariableMapping("SERITVLI")
+    public Enum69 getTVLicenceFee();
 
-	@SavVariableMapping("REASTEN")
-	public Enum854 getReasonBehindTenancyAcquisition();
+    @SavVariableMapping("FEELNDEP")
+    public Enum853 getHowFelt();
 
-	@SavVariableMapping("RENTHBAN")
-	public Enum855 getAnsweringHB_LHAForWholeHousehold();
+    @SavVariableMapping("REASTEN")
+    public Enum854 getReasonBehindTenancyAcquisition();
 
-	@SavVariableMapping("WHYNDMGE")
-	public Enum69 getDamageToProperty();
+    @SavVariableMapping("RENTHBAN")
+    public Enum855 getAnsweringHB_LHAForWholeHousehold();
 
-	@SavVariableMapping("FEEFFNDR")
-	public Enum69 getFindersFee_Non_Ret__FEEFFNDR();
+    @SavVariableMapping("WHYNDMGE")
+    public Enum69 getDamageToProperty();
 
-	@SavVariableMapping("PHA229")
-	public Enum314 getHowEasyIsItToPayYourRentAfterBenefits();
+    @SavVariableMapping("FEEFFNDR")
+    public Enum69 getFindersFee_Non_Ret__FEEFFNDR();
 
-	@SavVariableMapping("QUARTER")
-	public Enum230 getFieldworkQuarter();
+    @SavVariableMapping("PHA229")
+    public Enum314 getHowEasyIsItToPayYourRentAfterBenefits();
 
-	@SavVariableMapping("LDPDHB1D")
-	public Enum817 getTenantsXsHB_HBRcvPer();
+    @SavVariableMapping("QUARTER")
+    public Enum230 getFieldworkQuarter();
 
-	@SavVariableMapping("CAGREE")
-	public Enum69 getCouncil_HAAgreedToYourAcquiringTheTenancy();
+    @SavVariableMapping("LDPDHB1D")
+    public Enum817 getTenantsXsHB_HBRcvPer();
 
-	@SavVariableMapping("USEDEP")
-	public Enum862 getUsedDepositTowardsRent();
+    @SavVariableMapping("CAGREE")
+    public Enum69 getCouncil_HAAgreedToYourAcquiringTheTenancy();
 
-	@SavVariableMapping("LDRNTO1D")
-	public Enum69 getTenantsXsHB_XsBenefitChk();
+    @SavVariableMapping("USEDEP")
+    public Enum862 getUsedDepositTowardsRent();
 
-	@SavVariableMapping("LDPDTO1B")
-	public Enum817 getTenants_PrtHB_RentChrgPer();
+    @SavVariableMapping("LDRNTO1D")
+    public Enum69 getTenantsXsHB_XsBenefitChk();
 
-	@SavVariableMapping("SRCHECK2")
-	public Enum69 getAcceptedAsHomeless();
+    @SavVariableMapping("LDPDTO1B")
+    public Enum817 getTenants_PrtHB_RentChrgPer();
 
-	@SavVariableMapping("LDPDSE1D")
-	public Enum817 getTenantsXsHB_RentPdPer();
+    @SavVariableMapping("SRCHECK2")
+    public Enum69 getAcceptedAsHomeless();
 
-	@SavVariableMapping("ARRRENT")
-	public Enum69 getIncreaseInRent();
+    @SavVariableMapping("LDPDSE1D")
+    public Enum817 getTenantsXsHB_RentPdPer();
 
-	@SavVariableMapping("CDEPOSIT")
-	public Enum69 getThisTnncy_PaidDeposit();
+    @SavVariableMapping("ARRRENT")
+    public Enum69 getIncreaseInRent();
 
-	@SavVariableMapping("WHOPRTN")
-	public Enum869 getRelationshipOfPreviousTenant_PersonYouWereLivingWith();
+    @SavVariableMapping("CDEPOSIT")
+    public Enum69 getThisTnncy_PaidDeposit();
 
-	@SavVariableMapping("FEEFADMN")
-	public Enum69 getAdminFee_Non_Ret__FEEFADMN();
+    @SavVariableMapping("WHOPRTN")
+    public Enum869 getRelationshipOfPreviousTenant_PersonYouWereLivingWith();
 
-	@SavVariableMapping("LDPDSE1C")
-	public Enum817 getTenants_DKHB_RentPdPer();
+    @SavVariableMapping("FEEFADMN")
+    public Enum69 getAdminFee_Non_Ret__FEEFADMN();
 
-	@SavVariableMapping("SERIHWTR")
-	public Enum69 getHotWater();
+    @SavVariableMapping("LDPDSE1C")
+    public Enum817 getTenants_DKHB_RentPdPer();
 
-	@SavVariableMapping("RESTEN")
-	public Enum69 getResidentWhenTenancyAcquired();
+    @SavVariableMapping("SERIHWTR")
+    public Enum69 getHotWater();
 
-	@SavVariableMapping("FEEFHLDN")
-	public Enum69 getHoldingFee_Non_Ret__FEEFHLDN();
+    @SavVariableMapping("RESTEN")
+    public Enum69 getResidentWhenTenancyAcquired();
 
-	@SavVariableMapping("ARRILL")
-	public Enum69 getIllness();
+    @SavVariableMapping("FEEFHLDN")
+    public Enum69 getHoldingFee_Non_Ret__FEEFHLDN();
 
-	@SavVariableMapping("DEPRTN")
-	public Enum876 getDepositKeptAsPropnOfRent();
+    @SavVariableMapping("ARRILL")
+    public Enum69 getIllness();
 
-	@SavVariableMapping("LDPDSEL3")
-	public Enum817 getTenants_UnsureHB_RentPdPer();
+    @SavVariableMapping("DEPRTN")
+    public Enum876 getDepositKeptAsPropnOfRent();
 
-	@SavVariableMapping("NETPER")
-	public Enum817 getNetRentPeriod();
+    @SavVariableMapping("LDPDSEL3")
+    public Enum817 getTenants_UnsureHB_RentPdPer();
 
-	@SavVariableMapping("TRANSHA")
-	public Enum69 getTenancyTransferredFromLA();
+    @SavVariableMapping("NETPER")
+    public Enum817 getNetRentPeriod();
 
-	@SavVariableMapping("ARRLHOT")
-	public Enum69 getWorkingFewerHours_LessOvertime();
+    @SavVariableMapping("TRANSHA")
+    public Enum69 getTenancyTransferredFromLA();
 
-	@SavVariableMapping("ARRPR1")
-	public Enum69 getUpToDateWithRentPayments();
+    @SavVariableMapping("ARRLHOT")
+    public Enum69 getWorkingFewerHours_LessOvertime();
 
-	@SavVariableMapping("LDPDHB1A")
-	public Enum817 getTenants_FllHB_HBPer();
+    @SavVariableMapping("ARRPR1")
+    public Enum69 getUpToDateWithRentPayments();
 
-	@SavVariableMapping("RENTHOLA")
-	public Enum69 getRentHoliday();
+    @SavVariableMapping("LDPDHB1A")
+    public Enum817 getTenants_FllHB_HBPer();
 
-	@SavVariableMapping("CASECAT")
-	public Enum229 getStatusOfCase();
+    @SavVariableMapping("RENTHOLA")
+    public Enum69 getRentHoliday();
 
-	@SavVariableMapping("SERICTAX")
-	public Enum69 getCouncilTax();
+    @SavVariableMapping("CASECAT")
+    public Enum229 getStatusOfCase();
 
-	@SavVariableMapping("SERIMEAL")
-	public Enum69 getRegularMeals();
+    @SavVariableMapping("SERICTAX")
+    public Enum69 getCouncilTax();
 
-	@SavVariableMapping("ARRBEN")
-	public Enum69 getProblemsWithHousingBenefit_LocalHousingAllowance();
+    @SavVariableMapping("SERIMEAL")
+    public Enum69 getRegularMeals();
 
-	@SavVariableMapping("LDPDTO2")
-	public Enum817 getTenants_NoHB_RentPdPer();
+    @SavVariableMapping("ARRBEN")
+    public Enum69 getProblemsWithHousingBenefit_LocalHousingAllowance();
 
-	@SavVariableMapping("SERIFUEL")
-	public Enum69 getFuelForCooking();
+    @SavVariableMapping("LDPDTO2")
+    public Enum817 getTenants_NoHB_RentPdPer();
 
-	@SavVariableMapping("OTHTYPEA")
-	public Enum890 getLettingType();
+    @SavVariableMapping("SERIFUEL")
+    public Enum69 getFuelForCooking();
 
-	@SavVariableMapping("LDPDTO3")
-	public Enum817 getTenants_UnsureHB_RentChrgPer();
+    @SavVariableMapping("OTHTYPEA")
+    public Enum890 getLettingType();
 
-	@SavVariableMapping("FEE")
-	public Enum69 getPrevTnncy_Landlord_AgencyFee();
+    @SavVariableMapping("LDPDTO3")
+    public Enum817 getTenants_UnsureHB_RentChrgPer();
 
-	@SavVariableMapping("SERILGHT")
-	public Enum69 getLighting();
+    @SavVariableMapping("FEE")
+    public Enum69 getPrevTnncy_Landlord_AgencyFee();
 
-	@SavVariableMapping("FEEFHLDR")
-	public Enum69 getHoldingFee_Ret_();
+    @SavVariableMapping("SERILGHT")
+    public Enum69 getLighting();
 
-	@SavVariableMapping("SMAG")
-	public Enum830 getOneOrMoreAgreementsWithLandlord();
+    @SavVariableMapping("FEEFHLDR")
+    public Enum69 getHoldingFee_Ret_();
 
-	@SavVariableMapping("ARRDOM")
-	public Enum69 getDomesticProblems();
+    @SavVariableMapping("SMAG")
+    public Enum830 getOneOrMoreAgreementsWithLandlord();
 
-	@SavVariableMapping("LDPDHB1B")
-	public Enum817 getTenants_PrtHB_HBRcvPer();
+    @SavVariableMapping("ARRDOM")
+    public Enum69 getDomesticProblems();
 
-	@SavVariableMapping("LDACMOWN")
-	public Enum69 getRentPaidToOwner();
+    @SavVariableMapping("LDPDHB1B")
+    public Enum817 getTenants_PrtHB_HBRcvPer();
 
-	@SavVariableMapping("ARRNONE")
-	public Enum69 getNoneOfThese_ARRNONE();
+    @SavVariableMapping("LDACMOWN")
+    public Enum69 getRentPaidToOwner();
 
-	@SavVariableMapping("HBSTART")
-	public Enum69 getReceivingHB_LHAllowanceWhenCurrentTenancyStarted();
+    @SavVariableMapping("ARRNONE")
+    public Enum69 getNoneOfThese_ARRNONE();
 
-	@SavVariableMapping("LDPDSE1B")
-	public Enum817 getTenants_PrtHB_AmtRentPdPer();
+    @SavVariableMapping("HBSTART")
+    public Enum69 getReceivingHB_LHAllowanceWhenCurrentTenancyStarted();
+
+    @SavVariableMapping("LDPDSE1B")
+    public Enum817 getTenants_PrtHB_AmtRentPdPer();
 
 }
-

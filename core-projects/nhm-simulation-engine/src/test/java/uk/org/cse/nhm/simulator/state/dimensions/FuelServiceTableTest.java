@@ -7,6 +7,7 @@ import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 
 public class FuelServiceTableTest {
+
     @Test
     public void emptyTableIsAllZeroes() {
         final FuelServiceTable table = FuelServiceTable.builder().build();
@@ -32,22 +33,22 @@ public class FuelServiceTableTest {
         b.add(FuelType.MAINS_GAS, ServiceType.PRIMARY_SPACE_HEATING, 5d);
 
         final FuelServiceTable t = b.build();
-        
+
         Assert.assertEquals("mains gas for space heating is ten",
-                            10d, t.get(FuelType.MAINS_GAS, ServiceType.PRIMARY_SPACE_HEATING), 0);
+                10d, t.get(FuelType.MAINS_GAS, ServiceType.PRIMARY_SPACE_HEATING), 0);
         Assert.assertEquals("mains gas overall is ten",
-                            10d, t.get(FuelType.MAINS_GAS), 0);
+                10d, t.get(FuelType.MAINS_GAS), 0);
         Assert.assertEquals("space heating overall is ten",
-                            10d, t.get(ServiceType.PRIMARY_SPACE_HEATING), 0);
+                10d, t.get(ServiceType.PRIMARY_SPACE_HEATING), 0);
 
         Assert.assertEquals("no electric use for space",
-                            0d, t.get(FuelType.ELECTRICITY, ServiceType.PRIMARY_SPACE_HEATING), 0);
+                0d, t.get(FuelType.ELECTRICITY, ServiceType.PRIMARY_SPACE_HEATING), 0);
         Assert.assertEquals("no electric use at all",
-                            0d, t.get(FuelType.ELECTRICITY), 0);
+                0d, t.get(FuelType.ELECTRICITY), 0);
         Assert.assertEquals("no lighting use at all",
-                            0d, t.get(ServiceType.LIGHTING), 0);
+                0d, t.get(ServiceType.LIGHTING), 0);
 
         Assert.assertSame("identical table is same",
-                          t, b.build());
+                t, b.build());
     }
 }

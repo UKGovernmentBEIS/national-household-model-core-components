@@ -15,26 +15,27 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class MatchSolarThermal extends AbstractNamed implements IComponentsFunction<Boolean> {
-	private final IDimension<ITechnologyModel> techDimension;
 
-	@Inject
-	public MatchSolarThermal(final IDimension<ITechnologyModel> techDimension) {
-		this.techDimension = techDimension;
-	}
+    private final IDimension<ITechnologyModel> techDimension;
 
-	@Override
-	public Boolean compute(IComponentsScope scope, ILets lets) {
-		return scope.get(techDimension).getCentralWaterSystem() != null
-				&& scope.get(techDimension).getCentralWaterSystem().getSolarWaterHeater() != null;
-	}
+    @Inject
+    public MatchSolarThermal(final IDimension<ITechnologyModel> techDimension) {
+        this.techDimension = techDimension;
+    }
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return Collections.<IDimension<?>>singleton(techDimension);
-	}
+    @Override
+    public Boolean compute(IComponentsScope scope, ILets lets) {
+        return scope.get(techDimension).getCentralWaterSystem() != null
+                && scope.get(techDimension).getCentralWaterSystem().getSolarWaterHeater() != null;
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return Collections.emptySet();
-	}
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return Collections.<IDimension<?>>singleton(techDimension);
+    }
+
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return Collections.emptySet();
+    }
 }

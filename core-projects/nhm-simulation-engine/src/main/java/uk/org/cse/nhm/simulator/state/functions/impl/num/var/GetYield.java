@@ -15,38 +15,40 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 /**
- * Gets a yielded or let variable out of the scope using {@link IComponentsScope#getYieldedNumber(String)}
+ * Gets a yielded or let variable out of the scope using
+ * {@link IComponentsScope#getYieldedNumber(String)}
  */
 public class GetYield extends AbstractNamed implements IComponentsFunction<Number> {
+
     private final IProfilingStack profiler;
-	private final String var;
-	private final Optional<Double> defaultValue;
+    private final String var;
+    private final Optional<Double> defaultValue;
 
-	public GetYield(final IProfilingStack profiler, final String var, final Optional<Double> defaultValue) {
+    public GetYield(final IProfilingStack profiler, final String var, final Optional<Double> defaultValue) {
         this.profiler = profiler;
-		this.var = var;
-		this.defaultValue = defaultValue;
-	}
+        this.var = var;
+        this.defaultValue = defaultValue;
+    }
 
-	@Override
-	public Number compute(final IComponentsScope scope, final ILets lets) {
-		final Optional<Double> d = scope.getYielded(var);
-		if (d.isPresent()) {
-			return d.get();
-		} else if (defaultValue.isPresent()) {
-			return defaultValue.get();
-		} else {
-			throw profiler.die("Undefined value "+this, this, scope);
-		}
-	}
+    @Override
+    public Number compute(final IComponentsScope scope, final ILets lets) {
+        final Optional<Double> d = scope.getYielded(var);
+        if (d.isPresent()) {
+            return d.get();
+        } else if (defaultValue.isPresent()) {
+            return defaultValue.get();
+        } else {
+            throw profiler.die("Undefined value " + this, this, scope);
+        }
+    }
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return Collections.<IDimension<?>>emptySet();
-	}
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return Collections.<IDimension<?>>emptySet();
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		throw new UnsupportedOperationException("get should not be used within a time-sensitive location like weather or carbon");
-	}
+    @Override
+    public Set<DateTime> getChangeDates() {
+        throw new UnsupportedOperationException("get should not be used within a time-sensitive location like weather or carbon");
+    }
 }

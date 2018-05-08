@@ -11,42 +11,43 @@ import com.larkery.jasb.sexp.parse.IMacroExpander;
 import com.larkery.jasb.sexp.parse.MacroModel;
 
 public class ErrorMacro implements IMacro {
-	private final String name;
-	private final boolean isWarning;
 
-	public ErrorMacro(final String name, final boolean isWarning) {
-		this.name = name;
-		this.isWarning = isWarning;
-	}
-	
-	public ErrorMacro() {
-		this("macro.error", false);
-	}
+    private final String name;
+    private final boolean isWarning;
 
-	@Override
-	public String getName() {
-		return name;
-	}
+    public ErrorMacro(final String name, final boolean isWarning) {
+        this.name = name;
+        this.isWarning = isWarning;
+    }
 
-	@Override
-	public ISExpression transform(final Seq input, final IMacroExpander expander, final IErrorHandler errors) {
-		if (isWarning) {
-			return SExpressions.warning(input, String.valueOf(input).replace("%", "%%"), errors);
-		} else {
-			return SExpressions.error(input, String.valueOf(input).replace("%", "%%"), errors);
-		}
-	}
-	
-	@Override
-	public MacroModel getModel() {
-		return MacroModel.builder()
-				.desc(String.format("A special macro which produces %s if it appears in the final, expanded output.", isWarning ? "a warning" : "an error"))
-				.pos().remainder("Any arguments are emitted in the error message").and()
-				.build();
-	}
-	
-	@Override
-	public Optional<Node> getDefiningNode() {
-		return Optional.absent();
-	}
+    public ErrorMacro() {
+        this("macro.error", false);
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public ISExpression transform(final Seq input, final IMacroExpander expander, final IErrorHandler errors) {
+        if (isWarning) {
+            return SExpressions.warning(input, String.valueOf(input).replace("%", "%%"), errors);
+        } else {
+            return SExpressions.error(input, String.valueOf(input).replace("%", "%%"), errors);
+        }
+    }
+
+    @Override
+    public MacroModel getModel() {
+        return MacroModel.builder()
+                .desc(String.format("A special macro which produces %s if it appears in the final, expanded output.", isWarning ? "a warning" : "an error"))
+                .pos().remainder("Any arguments are emitted in the error message").and()
+                .build();
+    }
+
+    @Override
+    public Optional<Node> getDefiningNode() {
+        return Optional.absent();
+    }
 }

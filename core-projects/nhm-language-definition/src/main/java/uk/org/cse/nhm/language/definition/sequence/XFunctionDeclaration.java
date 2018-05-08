@@ -19,32 +19,33 @@ import uk.org.cse.nhm.language.validate.contents.Declaration;
 @Bind("def-function")
 @Category(CategoryType.DECLARATIONS)
 public class XFunctionDeclaration extends XNumber implements IScenarioElement<XElement> {
-	public static final String VALUE = "value";
-	private XNumber value;
-	
-	@Doc("The name of the function to declare")
-	@NotNull(message = "all declarations require a name, as their first unnamed argument")
-	@Identity
-	@BindPositionalArgument(0)
-	@Override
-	public String getName() {
-		return super.getName();
-	}
 
-	@Override
-	public void setName(final String name) {
-		super.setName(name);
-	}
+    public static final String VALUE = "value";
+    private XNumber value;
 
-	@BindPositionalArgument(1)
-	@NotNull(message = "def-function requires a function as its second argument")
-	@Doc("The function itself")
-	@Prop(VALUE)
-	public XNumber getValue() {
-		return value;
-	}
+    @Doc("The name of the function to declare")
+    @NotNull(message = "all declarations require a name, as their first unnamed argument")
+    @Identity
+    @BindPositionalArgument(0)
+    @Override
+    public String getName() {
+        return super.getName();
+    }
 
-	public void setValue(final XNumber value) {
-		this.value = value;
-	}
+    @Override
+    public void setName(final String name) {
+        super.setName(name);
+    }
+
+    @BindPositionalArgument(1)
+    @NotNull(message = "def-function requires a function as its second argument")
+    @Doc("The function itself")
+    @Prop(VALUE)
+    public XNumber getValue() {
+        return value;
+    }
+
+    public void setValue(final XNumber value) {
+        this.value = value;
+    }
 }

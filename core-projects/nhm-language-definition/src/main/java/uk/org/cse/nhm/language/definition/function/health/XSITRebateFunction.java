@@ -13,12 +13,14 @@ import uk.org.cse.nhm.language.definition.function.num.XNumberConstant;
 
 @Category(CategoryType.HEALTH)
 @Doc({"Computes an internal temperature with a fuel bill rebate applied.",
-            "",
-            "The resulting temperature is a function of the temperature expected without a rebate",
-            "and the rebate amount (as a rebate may not lead to increased temperatures if one is already warm enough)."})
+    "",
+    "The resulting temperature is a function of the temperature expected without a rebate",
+    "and the rebate amount (as a rebate may not lead to increased temperatures if one is already warm enough)."})
 @Bind("house.sit-rebate")
 public class XSITRebateFunction extends XHouseNumber {
+
     public static final class P {
+
         public static final String rebate = "rebate";
         public static final String temperature = "temperature";
     }

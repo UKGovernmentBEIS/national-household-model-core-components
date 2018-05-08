@@ -19,60 +19,62 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public abstract class AbstractScopedThingFunction<T, Q> extends AbstractNamed implements IComponentsFunction<T> {
-	/**
-	 * Although we aren't going to use the dimension, we need to have it around
-	 * because it is strictly a dependency.
-	 */
-	private final IDimension<StructureModel> structureDimension;
-	private final ILogEntryHandler log;
-	private final Object thingKey;
-	private final Class<Q> thingClass;
 
-	protected AbstractScopedThingFunction(
-			final Object thingKey,
-			final Class<Q> clazz,
-			final ILogEntryHandler log,
-			final IDimension<StructureModel> structureDimension) {
-		this.thingKey = thingKey;
-		this.structureDimension = structureDimension;
-		this.log = log;
-		this.thingClass = clazz;
-	}
+    /**
+     * Although we aren't going to use the dimension, we need to have it around
+     * because it is strictly a dependency.
+     */
+    private final IDimension<StructureModel> structureDimension;
+    private final ILogEntryHandler log;
+    private final Object thingKey;
+    private final Class<Q> thingClass;
 
-	protected abstract T doFail();
-	protected abstract T doCompute(final Q wall);
+    protected AbstractScopedThingFunction(
+            final Object thingKey,
+            final Class<Q> clazz,
+            final ILogEntryHandler log,
+            final IDimension<StructureModel> structureDimension) {
+        this.thingKey = thingKey;
+        this.structureDimension = structureDimension;
+        this.log = log;
+        this.thingClass = clazz;
+    }
 
-	protected <R> Optional<R> getAndWarn(final ILets lets, final Object key, final Class<R> thingType) {
-		final Optional<R> thing = lets.get(key, thingType);
-		
-		if (!thing.isPresent()) {
-			log.acceptLogEntry(new WarningLogEntry(
-					"Element used in an incorrect location (for example, using a wall function outside a per-wall action)",
-					ImmutableMap.of("element", this.getIdentifier().getName())));
-		}	
-				
-		return thing;
-	}
-	
-	@Override
-	public T compute(final IComponentsScope scope, final ILets lets) {
-		final Optional<Q> wall = 
-				getAndWarn(lets, thingKey, thingClass);
+    protected abstract T doFail();
 
-		if (wall.isPresent()) {
-			return doCompute(wall.get());
-		} else {			
-			return doFail();
-		}
-	}
-	
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return ImmutableSet.<IDimension<?>>of(structureDimension);
-	}
-	
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return Collections.<DateTime>emptySet();
-	}
+    protected abstract T doCompute(final Q wall);
+
+    protected <R> Optional<R> getAndWarn(final ILets lets, final Object key, final Class<R> thingType) {
+        final Optional<R> thing = lets.get(key, thingType);
+
+        if (!thing.isPresent()) {
+            log.acceptLogEntry(new WarningLogEntry(
+                    "Element used in an incorrect location (for example, using a wall function outside a per-wall action)",
+                    ImmutableMap.of("element", this.getIdentifier().getName())));
+        }
+
+        return thing;
+    }
+
+    @Override
+    public T compute(final IComponentsScope scope, final ILets lets) {
+        final Optional<Q> wall
+                = getAndWarn(lets, thingKey, thingClass);
+
+        if (wall.isPresent()) {
+            return doCompute(wall.get());
+        } else {
+            return doFail();
+        }
+    }
+
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return ImmutableSet.<IDimension<?>>of(structureDimension);
+    }
+
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return Collections.<DateTime>emptySet();
+    }
 }

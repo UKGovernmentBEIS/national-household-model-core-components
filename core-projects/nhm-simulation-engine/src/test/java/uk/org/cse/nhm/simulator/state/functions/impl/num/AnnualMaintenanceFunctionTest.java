@@ -26,68 +26,68 @@ import uk.org.cse.nhm.simulator.util.TimeUtil;
 
 public class AnnualMaintenanceFunctionTest {
 
-	private static final double ERROR_DELTA = 0.00001;
-	private ITimeDimension time;
-	private IDimension<IObligationHistory> obligations;
-	private AnnualMaintenanceFunction annualMaintenanceFunction;
-	private IComponentsScope scope;
-	private IObligationHistory obligationHistory;
-	private AnnualMaintenanceObligation maintenanceObligation;
+    private static final double ERROR_DELTA = 0.00001;
+    private ITimeDimension time;
+    private IDimension<IObligationHistory> obligations;
+    private AnnualMaintenanceFunction annualMaintenanceFunction;
+    private IComponentsScope scope;
+    private IObligationHistory obligationHistory;
+    private AnnualMaintenanceObligation maintenanceObligation;
 
-	@SuppressWarnings("unchecked")
-	@Before
-	public void setup() {
-		time = mock(ITimeDimension.class);
-		obligations = mock(IDimension.class);
-		scope = mock(IComponentsScope.class);
-		when(scope.get(time)).thenReturn(TimeUtil.mockTime(new DateTime()));
-		obligationHistory = mock(IObligationHistory.class);
-		when(scope.get(obligations)).thenReturn(obligationHistory);
-		
-		maintenanceObligation = mock(AnnualMaintenanceObligation.class);
-		
-		when(obligationHistory.getObligation(AnnualMaintenanceObligation.class)).thenReturn(Optional.of(maintenanceObligation));
-		
-		annualMaintenanceFunction = new AnnualMaintenanceFunction(obligations, time);
-	}
-	
-	@Test
-	public void shouldListDependencies() {
-		Assert.assertEquals("Should list dependencies.", ImmutableSet.of(time, obligations), annualMaintenanceFunction.getDependencies());
-	}
-	
-	@Test
-	public void returnsZeroIfNoFurtherMaintenanceDates() {
-		when(maintenanceObligation.getNextTransactionDate(any(DateTime.class))).thenReturn(Optional.<DateTime>absent());
-		Assert.assertEquals("Should return 0 if no further maintenance dates.",  0.0, annualMaintenanceFunction.compute(scope, ILets.EMPTY), ERROR_DELTA);
-	}
+    @SuppressWarnings("unchecked")
+    @Before
+    public void setup() {
+        time = mock(ITimeDimension.class);
+        obligations = mock(IDimension.class);
+        scope = mock(IComponentsScope.class);
+        when(scope.get(time)).thenReturn(TimeUtil.mockTime(new DateTime()));
+        obligationHistory = mock(IObligationHistory.class);
+        when(scope.get(obligations)).thenReturn(obligationHistory);
 
-	@Test
-	public void returnsSumOfMaintenancePaymentsOnNextDate() {
-		final DateTime nextPayment = new DateTime();
-		when(maintenanceObligation.getNextTransactionDate(any(DateTime.class))).thenReturn(Optional.of(nextPayment));
-		
-		final Set<IPayment> payments = generatePayments(1.0, 2.0);
-		when(maintenanceObligation.generatePayments(nextPayment, scope)).thenReturn(payments);
-		Assert.assertEquals("Should return the sum of the payments.", 3.0, annualMaintenanceFunction.compute(scope, ILets.EMPTY), ERROR_DELTA);
-		
-	}
-	
-	private Set<IPayment> generatePayments(final double...values) {
-		final Set<IPayment> result = new HashSet<IPayment>();
-		for(final double value : values) {
-			final IPayment payment = mock(IPayment.class);
-			when(payment.getAmount()).thenReturn(value);
-			result.add(payment);
-		}
-		return result;
-	}
-	
-	@Test(expected = IllegalStateException.class)
-	public void shouldAlwaysFindMaintenanceObligation() {
-		when(obligationHistory.getObligation(AnnualMaintenanceObligation.class)).thenReturn(Optional.<AnnualMaintenanceObligation>absent());
-		
-		annualMaintenanceFunction.compute(scope, ILets.EMPTY);
-	}
+        maintenanceObligation = mock(AnnualMaintenanceObligation.class);
+
+        when(obligationHistory.getObligation(AnnualMaintenanceObligation.class)).thenReturn(Optional.of(maintenanceObligation));
+
+        annualMaintenanceFunction = new AnnualMaintenanceFunction(obligations, time);
+    }
+
+    @Test
+    public void shouldListDependencies() {
+        Assert.assertEquals("Should list dependencies.", ImmutableSet.of(time, obligations), annualMaintenanceFunction.getDependencies());
+    }
+
+    @Test
+    public void returnsZeroIfNoFurtherMaintenanceDates() {
+        when(maintenanceObligation.getNextTransactionDate(any(DateTime.class))).thenReturn(Optional.<DateTime>absent());
+        Assert.assertEquals("Should return 0 if no further maintenance dates.", 0.0, annualMaintenanceFunction.compute(scope, ILets.EMPTY), ERROR_DELTA);
+    }
+
+    @Test
+    public void returnsSumOfMaintenancePaymentsOnNextDate() {
+        final DateTime nextPayment = new DateTime();
+        when(maintenanceObligation.getNextTransactionDate(any(DateTime.class))).thenReturn(Optional.of(nextPayment));
+
+        final Set<IPayment> payments = generatePayments(1.0, 2.0);
+        when(maintenanceObligation.generatePayments(nextPayment, scope)).thenReturn(payments);
+        Assert.assertEquals("Should return the sum of the payments.", 3.0, annualMaintenanceFunction.compute(scope, ILets.EMPTY), ERROR_DELTA);
+
+    }
+
+    private Set<IPayment> generatePayments(final double... values) {
+        final Set<IPayment> result = new HashSet<IPayment>();
+        for (final double value : values) {
+            final IPayment payment = mock(IPayment.class);
+            when(payment.getAmount()).thenReturn(value);
+            result.add(payment);
+        }
+        return result;
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void shouldAlwaysFindMaintenanceObligation() {
+        when(obligationHistory.getObligation(AnnualMaintenanceObligation.class)).thenReturn(Optional.<AnnualMaintenanceObligation>absent());
+
+        annualMaintenanceFunction.compute(scope, ILets.EMPTY);
+    }
 
 }

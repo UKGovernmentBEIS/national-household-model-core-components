@@ -21,39 +21,40 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.HeatingEfficiencyFunction;
 
 public class SITFunction extends AbstractNamed implements IComponentsFunction<Number> {
-	private final IDimension<IPowerTable> energy;
-	private final IDimension<ITechnologyModel> technologies;
-	private final IHealthModule health;
 
-	@Inject
-	public SITFunction(
-			final IHealthModule health,
-			final IDimension<IPowerTable> energy,
-			final IDimension<ITechnologyModel> technologies) {
-		super();
-		this.health = health;
-		this.energy = energy;
-		this.technologies = technologies;
-	}
+    private final IDimension<IPowerTable> energy;
+    private final IDimension<ITechnologyModel> technologies;
+    private final IHealthModule health;
 
-	@Override
-	public Number compute(final IComponentsScope scope, final ILets lets) {
-		final IPowerTable energy = scope.get(this.energy);
-		final ITechnologyModel technologies = scope.get(this.technologies);
+    @Inject
+    public SITFunction(
+            final IHealthModule health,
+            final IDimension<IPowerTable> energy,
+            final IDimension<ITechnologyModel> technologies) {
+        super();
+        this.health = health;
+        this.energy = energy;
+        this.technologies = technologies;
+    }
 
-		// watts / k
-		final double heatLoss = energy.getSpecificHeatLoss() + energy.getVentilationHeatLoss();
-		final double efficiency = HeatingEfficiencyFunction.getAnySpaceHeatingEfficiency(technologies, XEfficiencyMeasurement.Winter);
-		return health.getInternalTemperature(heatLoss, efficiency);
-	}
+    @Override
+    public Number compute(final IComponentsScope scope, final ILets lets) {
+        final IPowerTable energy = scope.get(this.energy);
+        final ITechnologyModel technologies = scope.get(this.technologies);
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return ImmutableSet.of(technologies, energy);
-	}
+        // watts / k
+        final double heatLoss = energy.getSpecificHeatLoss() + energy.getVentilationHeatLoss();
+        final double efficiency = HeatingEfficiencyFunction.getAnySpaceHeatingEfficiency(technologies, XEfficiencyMeasurement.Winter);
+        return health.getInternalTemperature(heatLoss, efficiency);
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return Collections.emptySet();
-	}
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return ImmutableSet.of(technologies, energy);
+    }
+
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return Collections.emptySet();
+    }
 }

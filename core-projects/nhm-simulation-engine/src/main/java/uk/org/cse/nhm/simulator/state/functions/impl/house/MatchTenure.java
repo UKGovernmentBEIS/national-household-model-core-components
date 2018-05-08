@@ -12,16 +12,17 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class MatchTenure extends BasicAttributesFunction<Boolean> implements IComponentsFunction<Boolean> {
-	final TenureType tenureType;
-	
-	@Inject
-	public MatchTenure(final IDimension<BasicCaseAttributes> bad, @Assisted final TenureType tenureType) {
-		super(bad);
-		this.tenureType = tenureType;
-	}
 
-	@Override
-	public Boolean compute(final IComponentsScope scope, final ILets lets) {
-		return getAttributes(scope).getTenureType().equals(tenureType);
-	}
+    final TenureType tenureType;
+
+    @Inject
+    public MatchTenure(final IDimension<BasicCaseAttributes> bad, @Assisted final TenureType tenureType) {
+        super(bad);
+        this.tenureType = tenureType;
+    }
+
+    @Override
+    public Boolean compute(final IComponentsScope scope, final ILets lets) {
+        return getAttributes(scope).getTenureType().equals(tenureType);
+    }
 }

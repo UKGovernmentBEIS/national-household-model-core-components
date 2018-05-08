@@ -13,39 +13,40 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
 
 public class ClearAdjustmentsMeasure extends AbstractMeasure implements IModifier<ITechnologyModel> {
-	private final IDimension<ITechnologyModel> technologies;
-	
-	@AssistedInject
-	public ClearAdjustmentsMeasure(
-			final IDimension<ITechnologyModel> technologies
-			) {
-		this.technologies = technologies;
-	}
 
-	@Override
-	public boolean modify(final ITechnologyModel modifiable) {
-		modifiable.getAdjusters().clear();
-		return true;
-	}
-	
-	@Override
-	public boolean doApply(final ISettableComponentsScope scope, final ILets lets) throws NHMException {
+    private final IDimension<ITechnologyModel> technologies;
+
+    @AssistedInject
+    public ClearAdjustmentsMeasure(
+            final IDimension<ITechnologyModel> technologies
+    ) {
+        this.technologies = technologies;
+    }
+
+    @Override
+    public boolean modify(final ITechnologyModel modifiable) {
+        modifiable.getAdjusters().clear();
+        return true;
+    }
+
+    @Override
+    public boolean doApply(final ISettableComponentsScope scope, final ILets lets) throws NHMException {
         scope.modify(technologies, this);
-        return true;		
-	}
+        return true;
+    }
 
-	@Override
-	public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
-		return true;
-	}
+    @Override
+    public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
+        return true;
+    }
 
-	@Override
-	public boolean isAlwaysSuitable() {
-		return true;
-	}
-	
-	@Override
-	public StateChangeSourceType getSourceType() {
-		return StateChangeSourceType.ACTION;
-	}
+    @Override
+    public boolean isAlwaysSuitable() {
+        return true;
+    }
+
+    @Override
+    public StateChangeSourceType getSourceType() {
+        return StateChangeSourceType.ACTION;
+    }
 }

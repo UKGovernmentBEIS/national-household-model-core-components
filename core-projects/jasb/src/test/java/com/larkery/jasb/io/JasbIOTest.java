@@ -15,21 +15,22 @@ import com.larkery.jasb.io.testmodel.Times;
 import com.larkery.jasb.io.testmodel.Value;
 
 public class JasbIOTest {
-	protected JASB context;
 
-	@Before
-	public void setup() {
-		context = JASB.of(
-				ImmutableSet.<Class<?>>of(
-						GetNode.class,
-						Div.class,
-						Plus.class,
-						ListOfStrings.class,
-						ListOfListsOfString.class,
-						Times.class,
-						Value.class),
-				ImmutableSet.of(
-						new StringAtomIO(),
-						new NumberAtomIO()));
-	}
+    protected JASB context;
+
+    @Before
+    public void setup() {
+        context = JASB.of(
+                ImmutableSet.<Class<?>>of(
+                        GetNode.class,
+                        Div.class,
+                        Plus.class,
+                        ListOfStrings.class,
+                        ListOfListsOfString.class,
+                        Times.class,
+                        Value.class),
+                ImmutableSet.of(
+                        new StringAtomIO(),
+                        new NumberAtomIO()));
+    }
 }

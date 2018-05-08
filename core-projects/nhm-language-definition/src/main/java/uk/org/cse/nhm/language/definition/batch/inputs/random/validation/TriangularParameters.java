@@ -12,7 +12,10 @@ import javax.validation.Payload;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = TriangularParameterValidator.class)
 public @interface TriangularParameters {
-	String message();
-	Class<?>[] groups() default {};
-	Class<? extends Payload>[] payload() default {};
+
+    String message();
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
 }

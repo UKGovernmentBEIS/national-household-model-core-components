@@ -37,64 +37,65 @@ import uk.org.cse.nhm.hom.util.EObjectSerializer;
 import java.util.EnumSet;
 
 /**
- * A simple main methody thing which lets you run the energy calculator on raw JSON input
- * with full debug logging on.
+ * A simple main methody thing which lets you run the energy calculator on raw
+ * JSON input with full debug logging on.
  */
 public class RunEnergyCalculator {
+
     public static void main(final String[] args) throws Exception {
         // setup energy calculator
         final ObjectMapper mapper = getMapper();
 
         final EnergyCalculatorCalculator calc = new EnergyCalculatorCalculator();
 
-        final IHeatingSchedule schedule =
-            new WeeklyHeatingSchedule(
-                DailyHeatingSchedule.fromHours(7, 8, 18, 23),
-                DailyHeatingSchedule.fromHours(7, 23));
+        final IHeatingSchedule schedule
+                = new WeeklyHeatingSchedule(
+                        DailyHeatingSchedule.fromHours(7, 8, 18, 23),
+                        DailyHeatingSchedule.fromHours(7, 23));
 
         // only running one month because we don't care
         final ISeasonalParameters climate = new BREDEMHeatingSeasonalParameters(MonthType.January,
-        		new IWeather() {
+                new IWeather() {
 
-					@Override
-					public double getWindSpeed(MonthType month) {
-						return 4;
-					}
+            @Override
+            public double getWindSpeed(MonthType month) {
+                return 4;
+            }
 
-					@Override
-					public double getHorizontalSolarFlux(MonthType month) {
-						return 25;
-					}
+            @Override
+            public double getHorizontalSolarFlux(MonthType month) {
+                return 25;
+            }
 
-					@Override
-					public double getExternalTemperature(MonthType month) {
-						return 5;
-					}
-				},
+            @Override
+            public double getExternalTemperature(MonthType month) {
+                return 5;
+            }
+        },
                 52.0 * Math.PI / 180, schedule);
 
         SurveyCase in = null;
         while ((in = mapper.readValue(System.in, SurveyCase.class)) != null) {
             final IEnergyCalculatorParameters parameters = new BredemExternalParameters(
-            		EnergyCalculatorType.BREDEM2012,
-            		ElectricityTariffType.FLAT_RATE,
-            		21,
-            		Optional.<Double>absent(),
-            		Optional.of(3.0),
-            		in.getPeople().getNumberOfPeople()
-        		);
+                    EnergyCalculatorType.BREDEM2012,
+                    ElectricityTariffType.FLAT_RATE,
+                    21,
+                    Optional.<Double>absent(),
+                    Optional.of(3.0),
+                    in.getPeople().getNumberOfPeople()
+            );
 
             final IEnergyCalculationResult x = calc.evaluate(
                     in,
                     parameters,
-                    new ISeasonalParameters[] {climate},
+                    new ISeasonalParameters[]{climate},
                     EnumSet.noneOf(EnergyCalculationStep.class)
             ).getResults()[0];
 
             for (final EnergyType et : EnergyType.values()) {
-            	System.out.println(String.format("%s\t%s\t%s", et, x.getEnergyState().getTotalDemand(et),
-            			x.getEnergyState().getTotalSupply(et)
-            			));
+                System.out.println(String.format("%s\t%s\t%s", et, x.getEnergyState().getTotalDemand(et),
+                        x.getEnergyState().getTotalSupply(et)
+                ));
             }
         }
     }
@@ -120,16 +121,16 @@ public class RunEnergyCalculator {
         final SimpleModule module = new SimpleModule();
 
         module.addSerializer(ITechnologyModel.class, new EObjectSerializer.Serializer<ITechnologyModel>(
-                                 ITechnologyModel.class
-                                 ));
+                ITechnologyModel.class
+        ));
 
         module.addDeserializer(ITechnologyModel.class, new EObjectSerializer.Deserializer<ITechnologyModel>(
-                                   ITechnologyModel.class,
-                                   ImmutableList.of(
-                                       ITechnologiesPackage.eINSTANCE,
-                                       IBoilersPackage.eINSTANCE
-                                       )
-                                   ));
+                ITechnologyModel.class,
+                ImmutableList.of(
+                        ITechnologiesPackage.eINSTANCE,
+                        IBoilersPackage.eINSTANCE
+                )
+        ));
         return module;
     }
 }

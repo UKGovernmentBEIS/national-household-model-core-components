@@ -28,8 +28,9 @@ import uk.org.cse.nhm.ipc.api.scenario.IStockService;
 import uk.org.cse.nhm.stock.io.StockJacksonModule;
 
 /**
- * Simple implementation of stock service, only holds one housing stock, builds stock from a file in Json format.
- * 
+ * Simple implementation of stock service, only holds one housing stock, builds
+ * stock from a file in Json format.
+ *
  * @author richardt
  * @since 4.0
  */
@@ -142,8 +143,7 @@ public class CliStockService implements IStockService {
         final BufferedReader reader = new BufferedReader(new InputStreamReader(streamProvider.get()));
 
         String line = null;
-        while ((line = reader.readLine()) != null)
-        {
+        while ((line = reader.readLine()) != null) {
             if (StringUtils.isEmpty(line) == false) {
                 surveyCaseCache.add(objectMapper.readValue(line, SurveyCase.class));
             }

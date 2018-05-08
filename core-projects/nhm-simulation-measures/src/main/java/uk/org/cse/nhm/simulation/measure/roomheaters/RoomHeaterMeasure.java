@@ -31,75 +31,74 @@ import uk.org.cse.nhm.simulator.state.functions.impl.Undefined;
 
 public class RoomHeaterMeasure extends AbstractHeatingMeasure {
 
-	private final IDimension<ITechnologyModel> techDimension;
-	private final ITechnologiesFactory techFactory;
-	
-	private final FuelType fuel;
-	private final double efficiency;
-	private final boolean replaceExisting;
-	
+    private final IDimension<ITechnologyModel> techDimension;
+    private final ITechnologiesFactory techFactory;
 
-	@AssistedInject
-	protected RoomHeaterMeasure(
-			final ITimeDimension time, 
-			final IWetHeatingMeasureFactory factory,
-			final IDimension<ITechnologyModel> techDimension,
-			final ITechnologyOperations operations,
+    private final FuelType fuel;
+    private final double efficiency;
+    private final boolean replaceExisting;
+
+    @AssistedInject
+    protected RoomHeaterMeasure(
+            final ITimeDimension time,
+            final IWetHeatingMeasureFactory factory,
+            final IDimension<ITechnologyModel> techDimension,
+            final ITechnologyOperations operations,
             final IProfilingStack stack,
-			@Assisted final ISizingFunction sizingFunction, 
-			@Assisted("capex") final IComponentsFunction<Number> capitalCostFunction,
-			@Assisted("opex") final IComponentsFunction<Number> opexCostFunction,
-			@Assisted final FuelType fuel,
-			@Assisted final Optional<Double> efficiency,
-			@Assisted("replaceExisting") final boolean replaceExisting) {
-		super(	time, 
-				techDimension,
-				operations,
-				factory,
-				TechnologyType.roomHeater(fuel),
-				sizingFunction, 
-				capitalCostFunction, opexCostFunction, Undefined.<Number>get(stack, "Room heater should not install wet central heating"));
-		this.techDimension = techDimension;
-		this.techFactory = ITechnologiesFactory.eINSTANCE;
-		this.fuel = fuel;
-		if(fuel == FuelType.ELECTRICITY) {
-			this.efficiency = 1.0;
-		} else {
-			if(efficiency.isPresent()) {
-				this.efficiency = efficiency.get();
-			} else {
-				throw new IllegalArgumentException("If Fuel is not electricity, then a value for efficiency is required.");
-			}
-		}
-		this.replaceExisting = replaceExisting;
-	}
+            @Assisted final ISizingFunction sizingFunction,
+            @Assisted("capex") final IComponentsFunction<Number> capitalCostFunction,
+            @Assisted("opex") final IComponentsFunction<Number> opexCostFunction,
+            @Assisted final FuelType fuel,
+            @Assisted final Optional<Double> efficiency,
+            @Assisted("replaceExisting") final boolean replaceExisting) {
+        super(time,
+                techDimension,
+                operations,
+                factory,
+                TechnologyType.roomHeater(fuel),
+                sizingFunction,
+                capitalCostFunction, opexCostFunction, Undefined.<Number>get(stack, "Room heater should not install wet central heating"));
+        this.techDimension = techDimension;
+        this.techFactory = ITechnologiesFactory.eINSTANCE;
+        this.fuel = fuel;
+        if (fuel == FuelType.ELECTRICITY) {
+            this.efficiency = 1.0;
+        } else {
+            if (efficiency.isPresent()) {
+                this.efficiency = efficiency.get();
+            } else {
+                throw new IllegalArgumentException("If Fuel is not electricity, then a value for efficiency is required.");
+            }
+        }
+        this.replaceExisting = replaceExisting;
+    }
 
-	@Override
-	protected boolean doApply(final ISettableComponentsScope components, final ILets lets, final double size, final double capex, final double opex) throws NHMException {
-		components.modify(techDimension, new IModifier<ITechnologyModel>(){
+    @Override
+    protected boolean doApply(final ISettableComponentsScope components, final ILets lets, final double size, final double capex, final double opex) throws NHMException {
+        components.modify(techDimension, new IModifier<ITechnologyModel>() {
 
-			@Override
-			public boolean modify(final ITechnologyModel modifiable) {
-				final IRoomHeater roomHeater = techFactory.createRoomHeater();
-				roomHeater.setEfficiency(Efficiency.fromDouble(efficiency));
-				roomHeater.setFuel(fuel);
+            @Override
+            public boolean modify(final ITechnologyModel modifiable) {
+                final IRoomHeater roomHeater = techFactory.createRoomHeater();
+                roomHeater.setEfficiency(Efficiency.fromDouble(efficiency));
+                roomHeater.setFuel(fuel);
 
-				modifiable.setSecondarySpaceHeater(roomHeater);
-				
-				return true;
-			}});
-		
-		
-		return true;
-	}
+                modifiable.setSecondarySpaceHeater(roomHeater);
 
-	@Override
-	protected boolean doIsSuitable(final IComponents components) {
-		return replaceExisting || components.get(techDimension).getSecondarySpaceHeater() == null;
-	}
+                return true;
+            }
+        });
 
-	@Override
-	protected Set<HeatingSystemControlType> getHeatingSystemControlTypes() {
-		return Collections.emptySet();
-	}
+        return true;
+    }
+
+    @Override
+    protected boolean doIsSuitable(final IComponents components) {
+        return replaceExisting || components.get(techDimension).getSecondarySpaceHeater() == null;
+    }
+
+    @Override
+    protected Set<HeatingSystemControlType> getHeatingSystemControlTypes() {
+        return Collections.emptySet();
+    }
 }

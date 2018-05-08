@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 class DefaultValue {
+
     static final DefaultValue None = new DefaultValue(0) {
         @Override
         public List<Double> getMonthly() {
@@ -32,17 +33,27 @@ class DefaultValue {
     private final List<Double> monthly;
     protected final double value;
 
-
     DefaultValue(double value) {
         this.value = value;
         this.annual = ImmutableList.of(value);
         this.monthly = Collections.nCopies(12, value);
     }
 
-    List<Double> getAnnual() { return annual; }
-    List<Double> getMonthly() { return monthly; }
-    boolean exists() { return true; }
-    boolean supportedInNHM() { return true; }
+    List<Double> getAnnual() {
+        return annual;
+    }
+
+    List<Double> getMonthly() {
+        return monthly;
+    }
+
+    boolean exists() {
+        return true;
+    }
+
+    boolean supportedInNHM() {
+        return true;
+    }
 
     @Override
     public String toString() {
@@ -54,6 +65,7 @@ class DefaultValue {
  * A default value for cases when this feature is not implemented in the NHM.
  */
 class NotSupportedValuePlaceholder extends DefaultValue {
+
     NotSupportedValuePlaceholder(double value) {
         super(value);
     }

@@ -20,7 +20,8 @@ import uk.org.cse.nhm.simulator.state.dimensions.energy.IPowerTable;
 import uk.org.cse.nhm.simulator.state.dimensions.fuel.cost.ITariffs;
 
 public class SapScoreFunction extends FuelCostFunction {
-	/*
+
+    /*
 	BEISDOC
 	NAME: Floor Area Offset
 	DESCRIPTION: This value is added to the floor area as part of the energy cost rating calculation
@@ -31,8 +32,8 @@ public class SapScoreFunction extends FuelCostFunction {
         BREDEM_COMPLIANT: N/A - out of scope
 	ID: floor-area-offset
 	CODSIEB
-	*/
-    /*
+     */
+ /*
      * @section energy cost rating
      * @item floor area offset
      * @reference SAP9.92 p35 equation (9)
@@ -50,8 +51,8 @@ public class SapScoreFunction extends FuelCostFunction {
         BREDEM_COMPLIANT: N/A - out of scope
 	ID: ecf-threshold
 	CODSIEB
-	*/
-    /*
+     */
+ /*
      * @section energy cost rating
      * @item ECF threshold
      * @reference SAP9.92 p35 equations (10) and (11)
@@ -69,8 +70,8 @@ public class SapScoreFunction extends FuelCostFunction {
         BREDEM_COMPLIANT: N/A - out of scope
 	ID: high-ecf-multiplier
 	CODSIEB
-	*/
-    /*
+     */
+ /*
      * @section energy cost rating
      * @item multiplier of log term for large ECF
      * @reference SAP2012 9.92 Section 13 equation (10)
@@ -88,8 +89,8 @@ public class SapScoreFunction extends FuelCostFunction {
         BREDEM_COMPLIANT: N/A - out of scope
 	ID: high-ecf-first-term
 	CODSIEB
-    */
-    /*
+     */
+ /*
      * @section energy cost rating
      * @item constant term for large ECF
      * @reference SAP9.92 p35 equation (10)
@@ -107,8 +108,8 @@ public class SapScoreFunction extends FuelCostFunction {
         BREDEM_COMPLIANT: N/A - out of scope
 	ID: low-ecf-first-term
 	CODSIEB
-    */
-    /*
+     */
+ /*
      * @section energy cost rating
      * @item constant term for small ECF
      * @reference SAP9.92 p35 equation (11)
@@ -151,7 +152,7 @@ public class SapScoreFunction extends FuelCostFunction {
                 tariffs,
                 Optional.<FuelType>absent(),
                 EnumSet.of(ServiceType.APPLIANCES, ServiceType.COOKING)
-                );
+        );
         structure = structureDimension;
         this.deflator = deflator;
     }
@@ -179,7 +180,7 @@ public class SapScoreFunction extends FuelCostFunction {
     }
 
     protected static double ecf(final double tfa, final double totalCost, final double deflator) {
-    	/*
+        /*
 		BEISDOC
 		NAME: ECF
 		DESCRIPTION: The ECF from the Energy Cost Rating calculation/
@@ -192,7 +193,7 @@ public class SapScoreFunction extends FuelCostFunction {
 		NOTES: The fuel cost used excludes the per-unit cost of energy for appliances and cooking.
 		ID: ecf
 		CODSIEB
-		*/
+         */
         return deflator * totalCost / (tfa + FLOOR_AREA_OFFSET);
     }
 
@@ -202,7 +203,7 @@ public class SapScoreFunction extends FuelCostFunction {
      * @reference SAP9.92 p35
      */
     protected static double score(final double ecf) {
-    	/*
+        /*
 		BEISDOC
 		NAME: Energy Cost Rating
 		DESCRIPTION: The Energy Cost Rating calculation.
@@ -216,7 +217,7 @@ public class SapScoreFunction extends FuelCostFunction {
 		NOTES: We don't implement the SAP band function in the NHM. To find the SAP band for a dwelling, take this number and perform the lookup in Table 14.
 		ID: energy-cost-rating
 		CODSIEB
-		*/
+         */
         if (ecf >= ECF_THRESHOLD) {
             return HIGH_ECF_FIRST_TERM - HIGH_ECF_MULTIPLIER * Math.log10(ecf);
         } else {
@@ -230,7 +231,10 @@ public class SapScoreFunction extends FuelCostFunction {
      * @reference SAP9.92 p35 section 13 paragraph 4
      */
     protected static double clamp(final double score) {
-        if (score < 1) return 1;
-        else return Math.round(score);
+        if (score < 1) {
+            return 1;
+        } else {
+            return Math.round(score);
+        }
     }
 }

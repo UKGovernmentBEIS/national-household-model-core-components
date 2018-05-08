@@ -8,9 +8,10 @@ import org.junit.Test;
 import com.google.common.collect.ImmutableMap;
 
 public class DeduplicatingMapTest {
+
     @Test
     public void canBuildEmpty() {
-        test(ImmutableMap.<String, String> of());
+        test(ImmutableMap.<String, String>of());
     }
 
     @Test
@@ -29,7 +30,7 @@ public class DeduplicatingMapTest {
                 "a_2", "a",
                 "b", "b",
                 "b_1", "b"
-                ));
+        ));
     }
 
     @Test
@@ -38,13 +39,13 @@ public class DeduplicatingMapTest {
                 "a", "a",
                 "a_1", "a",
                 "a_1_1", "a_1"
-                ));
-        
+        ));
+
         test(ImmutableMap.of(
                 "a", "a",
                 "a_1_1", "a_1",
                 "a_1", "a"
-                ));
+        ));
     }
 
     /*
@@ -62,9 +63,8 @@ public class DeduplicatingMapTest {
         Assert.assertEquals("Assertions and resulting map should be the same size.", assertions.size(), m.size());
         for (final String a : assertions.keySet()) {
             Assert.assertTrue("Resulting map should contain everything we asked for."
-            		+ m.keySet() + " / " + a
-            		, 
-            		m.containsKey(a));
+                    + m.keySet() + " / " + a,
+                    m.containsKey(a));
         }
     }
 }

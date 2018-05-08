@@ -8,13 +8,14 @@ import uk.org.cse.nhm.simulator.scope.ISettableComponentsScope;
 import uk.org.cse.nhm.simulator.state.IDimension;
 
 public interface ISequenceSpecialAction {
-	ILets reallyApply(final ISettableComponentsScope scope, final ILets lets);
-	
-	ILets reallyApply(final IComponentsScope scope, final ILets lets);
 
-	Iterable<? extends DateTime> getChangeDates();
+    ILets reallyApply(final ISettableComponentsScope scope, final ILets lets);
 
-	Iterable<? extends IDimension<?>> getDependencies();
+    ILets reallyApply(final IComponentsScope scope, final ILets lets);
 
-	boolean needsIsolation();
+    Iterable<? extends DateTime> getChangeDates();
+
+    Iterable<? extends IDimension<?>> getDependencies();
+
+    boolean needsIsolation();
 }

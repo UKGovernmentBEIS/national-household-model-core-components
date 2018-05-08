@@ -10,14 +10,14 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 
 public class GetRoofConstructionType extends StructureFunction<RoofConstructionType> {
 
-	@AssistedInject
-	public GetRoofConstructionType(
-			final IDimension<StructureModel> structureDimension) {
-		super(structureDimension);
-	}
+    @AssistedInject
+    public GetRoofConstructionType(
+            final IDimension<StructureModel> structureDimension) {
+        super(structureDimension);
+    }
 
-	@Override
-	public RoofConstructionType compute(final IComponentsScope scope, ILets lets) {
-		return getStructure(scope).getRoofConstructionType();
-	}
+    @Override
+    public RoofConstructionType compute(final IComponentsScope scope, ILets lets) {
+        return getStructure(scope).getRoofConstructionType();
+    }
 }

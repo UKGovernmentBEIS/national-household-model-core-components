@@ -11,21 +11,23 @@ import uk.org.cse.nhm.language.definition.function.num.XNumber;
 
 @Category(CategoryType.RESETACTIONS)
 public abstract class XModifyInsulationAction extends XFlaggedDwellingAction {
-	public static final class P {
-		public static final String insulationthickness = "insulationthickness";
-		public static final String uvalue = "uvalue";
-	}
-	private XNumber insulationThickness;
 
-	@BindNamedArgument("thickness")
-	@Doc("The new insulation thickness to set it to.")
-	@Prop(P.insulationthickness)
-	public XNumber getInsulationThickness() {
-		return insulationThickness;
-	}
+    public static final class P {
 
-	public void setInsulationThickness(final XNumber insulationThickness) {
-		this.insulationThickness = insulationThickness;
-	}
-	
+        public static final String insulationthickness = "insulationthickness";
+        public static final String uvalue = "uvalue";
+    }
+    private XNumber insulationThickness;
+
+    @BindNamedArgument("thickness")
+    @Doc("The new insulation thickness to set it to.")
+    @Prop(P.insulationthickness)
+    public XNumber getInsulationThickness() {
+        return insulationThickness;
+    }
+
+    public void setInsulationThickness(final XNumber insulationThickness) {
+        this.insulationThickness = insulationThickness;
+    }
+
 }

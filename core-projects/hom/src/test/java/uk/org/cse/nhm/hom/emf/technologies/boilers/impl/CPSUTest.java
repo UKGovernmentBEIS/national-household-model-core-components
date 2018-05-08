@@ -17,39 +17,40 @@ import uk.org.cse.nhm.hom.emf.technologies.boilers.ICPSU;
 import uk.org.cse.nhm.hom.emf.technologies.impl.WaterTankImpl;
 
 public class CPSUTest {
-	@Test
-	public void testTankLosses() {
-		final ICPSU cpsu = IBoilersFactory.eINSTANCE.createCPSU();
-		cpsu.setFuel(FuelType.MAINS_GAS);
-		final IWaterTank tank = mock(WaterTankImpl.class);
 
-		when(tank.getStandingLosses(any(IInternalParameters.class), eq(1.08d))).thenReturn(100d * 1.08d);
+    @Test
+    public void testTankLosses() {
+        final ICPSU cpsu = IBoilersFactory.eINSTANCE.createCPSU();
+        cpsu.setFuel(FuelType.MAINS_GAS);
+        final IWaterTank tank = mock(WaterTankImpl.class);
 
-		cpsu.setStore(tank);
+        when(tank.getStandingLosses(any(IInternalParameters.class), eq(1.08d))).thenReturn(100d * 1.08d);
 
-		final IInternalParameters parameters = mock(IInternalParameters.class);
-		when(parameters.getConstants()).thenReturn(DefaultConstants.INSTANCE);
+        cpsu.setStore(tank);
 
-		double d = cpsu.getContainedTankLosses(parameters);
+        final IInternalParameters parameters = mock(IInternalParameters.class);
+        when(parameters.getConstants()).thenReturn(DefaultConstants.INSTANCE);
 
-		Assert.assertEquals(100d * 1.08, d, 0d);
-	}
+        double d = cpsu.getContainedTankLosses(parameters);
 
-	// test disabled until functionality is implemented.
-	public void testTankLossesWithTimeControl() {
-		final ICPSU cpsu = IBoilersFactory.eINSTANCE.createCPSU();
-		cpsu.setFuel(FuelType.MAINS_GAS);
-		final IWaterTank tank = mock(WaterTankImpl.class);
+        Assert.assertEquals(100d * 1.08, d, 0d);
+    }
 
-		when(tank.getStandingLosses(any(IInternalParameters.class), 1.08d * 0.81d)).thenReturn(100d * 1.08d * 0.81d);
+    // test disabled until functionality is implemented.
+    public void testTankLossesWithTimeControl() {
+        final ICPSU cpsu = IBoilersFactory.eINSTANCE.createCPSU();
+        cpsu.setFuel(FuelType.MAINS_GAS);
+        final IWaterTank tank = mock(WaterTankImpl.class);
 
-		cpsu.setStore(tank);
+        when(tank.getStandingLosses(any(IInternalParameters.class), 1.08d * 0.81d)).thenReturn(100d * 1.08d * 0.81d);
 
-		final IInternalParameters parameters = mock(IInternalParameters.class);
-		when(parameters.getConstants()).thenReturn(DefaultConstants.INSTANCE);
+        cpsu.setStore(tank);
 
-		double d = cpsu.getContainedTankLosses(parameters);
+        final IInternalParameters parameters = mock(IInternalParameters.class);
+        when(parameters.getConstants()).thenReturn(DefaultConstants.INSTANCE);
 
-		Assert.assertEquals(100d * 1.08 * 0.81d, d, 0d);
-	}
+        double d = cpsu.getContainedTankLosses(parameters);
+
+        Assert.assertEquals(100d * 1.08 * 0.81d, d, 0d);
+    }
 }

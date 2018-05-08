@@ -12,7 +12,10 @@ import javax.validation.Payload;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = DependenciesCannotMixFuelTypesValidator.class)
 public @interface DependenciesCannotMixFuelTypes {
-	String message() default "The dependencies of an extra-charge must all have the same fuel type as the charge itself (or must all be empty if it is empty).";
-	Class<?>[] groups() default {};
-	Class<? extends Payload>[] payload() default {};
+
+    String message() default "The dependencies of an extra-charge must all have the same fuel type as the charge itself (or must all be empty if it is empty).";
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
 }

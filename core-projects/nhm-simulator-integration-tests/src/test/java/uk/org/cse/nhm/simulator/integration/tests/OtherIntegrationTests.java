@@ -101,13 +101,13 @@ public class OtherIntegrationTests extends SimulatorIntegrationTest {
 
         for (final IDwelling d : state.getDwellings()) {
             final IFlags flags = state.get(testExtension.flags, d);
-            final ImmutableMap<String, Boolean> condition =
-                    ImmutableMap.of(
+            final ImmutableMap<String, Boolean> condition
+                    = ImmutableMap.of(
                             "a", flags.testFlag("a"),
                             "b", flags.testFlag("b"));
 
-            final ImmutableMap<String, Boolean> consequence =
-                    ImmutableMap.of(
+            final ImmutableMap<String, Boolean> consequence
+                    = ImmutableMap.of(
                             "affected", flags.testFlag("affected"),
                             "c", flags.testFlag("c"));
             if (condition.equals(ImmutableMap.of("a", true, "b", false))) {
@@ -179,7 +179,7 @@ public class OtherIntegrationTests extends SimulatorIntegrationTest {
                 new DateTime(2013, 07, 01, 0, 0, DateTimeZone.UTC),
                 new DateTime(2013, 10, 01, 0, 0, DateTimeZone.UTC),
                 new DateTime(2014, 01, 01, 0, 0, DateTimeZone.UTC)
-                ), reportedOn);
+        ), reportedOn);
     }
 
     @Test
@@ -385,9 +385,10 @@ public class OtherIntegrationTests extends SimulatorIntegrationTest {
     }
 
     /**
-     * Builds and runs a simulator with the xml from scenario2.s and one house case (H0132105), which is known to be
-     * suitable for district heating. The scenario is modified to run for 1 year only. Tests that district heating was
-     * installed.
+     * Builds and runs a simulator with the xml from scenario2.s and one house
+     * case (H0132105), which is known to be suitable for district heating. The
+     * scenario is modified to run for 1 year only. Tests that district heating
+     * was installed.
      *
      * @throws JAXBException
      * @throws NHMException
@@ -453,8 +454,8 @@ public class OtherIntegrationTests extends SimulatorIntegrationTest {
                         .startsWith("install DH for all houses")) {
                     incrementChanges();
                     for (final IDwelling dwelling : state.getDwellings()) {
-                        final List<ITechnologyInstallationDetails> installLog =
-                                notification.getAllNotes(dwelling, ITechnologyInstallationDetails.class);
+                        final List<ITechnologyInstallationDetails> installLog
+                                = notification.getAllNotes(dwelling, ITechnologyInstallationDetails.class);
                         Assert.assertEquals("Should have installed a measure of small size due to small peak load.",
                                 0d, installLog.get(0).getInstalledQuantity(), 0.01);
                     }
@@ -517,7 +518,7 @@ public class OtherIntegrationTests extends SimulatorIntegrationTest {
 
         checkFlagCount(testExtension, "has-thermostat", 1301);
     }
-    
+
     @Test
     public void testInstallHotWaterCylinderInsulation() throws JAXBException, NHMException, InterruptedException {
         final XScenario scenario = loadScenario("hotwatercylinderinsulation.s");
@@ -525,7 +526,7 @@ public class OtherIntegrationTests extends SimulatorIntegrationTest {
 
         checkFlagCount(testExtension, "insulation-installed", 1301);
     }
-    
+
     @Test
     public void testInstallWarmAirHeatingSystem() throws JAXBException, NHMException, InterruptedException {
         final XScenario scenario = loadScenario("warmairheatingsystem.s");
@@ -538,6 +539,6 @@ public class OtherIntegrationTests extends SimulatorIntegrationTest {
     @Test
     public void housesAreConstructedOverTime() throws Exception {
         runSimulation(dataService, loadScenario("constructOverTime.s"),
-                      true, Collections.<Class<?>>emptySet());
+                true, Collections.<Class<?>>emptySet());
     }
 }

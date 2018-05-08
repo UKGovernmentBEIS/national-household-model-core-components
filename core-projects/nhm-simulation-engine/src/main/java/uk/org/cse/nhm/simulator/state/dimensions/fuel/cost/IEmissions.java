@@ -7,7 +7,8 @@ import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 
 public interface IEmissions {
 
-	float getAnnualEmissions(FuelType ft, ServiceType es);
-	float getAnnualEmissions(FuelType ft, List<ServiceType> es);
+    float getAnnualEmissions(FuelType ft, ServiceType es);
+
+    float getAnnualEmissions(FuelType ft, List<ServiceType> es);
 
 }

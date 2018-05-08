@@ -15,38 +15,38 @@ import uk.org.cse.nhm.language.visit.impl.AdaptableVisitable;
 
 /**
  * The base class for all elements in the language.
- * 
+ *
  * It is transient, since it has nothing in it.
- * 
+ *
  * @author hinton
  *
  */
-
 public abstract class XElement extends AdaptableVisitable<XElement> implements IIdentified {
-	private Path path = null;
 
-	private String name;
-	private Node node;
-	private Name myName = null;
-	private int sequence = 1;
-	
-	@Doc({"The command's name.",
-		"You might think of this as a 'caption' or 'title'.",
-		"",
-		"If this command produces output, the name will be used to refer to it in the output.",
-		"",
-		"For example, if this value is being captured in a probe, the name will title the column produced.",
-		"",
-		"Some elements can be referred to by name (for example definitions) by writing the name prefixed with the hash symbol."
-	})
-	@BindNamedArgument
-	public String getName() {
-		return name;
-	}
+    private Path path = null;
 
-	public void setName(final String name) {
-		this.name = name;
-	}
+    private String name;
+    private Node node;
+    private Name myName = null;
+    private int sequence = 1;
+
+    @Doc({"The command's name.",
+        "You might think of this as a 'caption' or 'title'.",
+        "",
+        "If this command produces output, the name will be used to refer to it in the output.",
+        "",
+        "For example, if this value is being captured in a probe, the name will title the column produced.",
+        "",
+        "Some elements can be referred to by name (for example definitions) by writing the name prefixed with the hash symbol."
+    })
+    @BindNamedArgument
+    public String getName() {
+        return name;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
 
     private String inventName() {
         String inventedName = "unknown";
@@ -67,52 +67,53 @@ public abstract class XElement extends AdaptableVisitable<XElement> implements I
                         }
                     }
                 }
-                    
+
                 if (complex && firstAtom != null) {
                     inventedName = firstAtom.getValue();
                 } else {
                     inventedName = String.valueOf(node);
                 }
-            } catch (final RuntimeException e) {}
+            } catch (final RuntimeException e) {
+            }
         }
         return inventedName;
     }
-    
-	@Override
-	public final Name getIdentifier() {
+
+    @Override
+    public final Name getIdentifier() {
         if (myName == null) {
             final String name = getName() == null ? inventName() : getName();
             myName = Name.of(name,
-                             Path.get(name, path),
-                             sequence,
-                             getLocation());
+                    Path.get(name, path),
+                    sequence,
+                    getLocation());
         }
-        return myName;	
-	}
-	
-	public final Location getLocation() {
-		return node == null ? null : node.getLocation();
-	}
-	
-	@AfterReading
-	public final void setSourceNode(final Node node) {
-		this.node = node;
-	}
-	
-	public final Node getSourceNode() {
-		return this.node;
-	}
-	
-	@Override
-	public String toString() {
-		return getIdentifier().toString();
-	}
+        return myName;
+    }
 
-	public final void setPath(final Path path) {
-		this.path = path;
-	}
-	
-	public void setSequence(final int sequence) {
-		this.sequence = sequence;
-	}
+    public final Location getLocation() {
+        return node == null ? null : node.getLocation();
+    }
+
+    @AfterReading
+    public final void setSourceNode(final Node node) {
+        this.node = node;
+    }
+
+    public final Node getSourceNode() {
+        return this.node;
+    }
+
+    @Override
+    public String toString() {
+        return getIdentifier().toString();
+    }
+
+    public final void setPath(final Path path) {
+        this.path = path;
+    }
+
+    public void setSequence(final int sequence) {
+        this.sequence = sequence;
+    }
 }

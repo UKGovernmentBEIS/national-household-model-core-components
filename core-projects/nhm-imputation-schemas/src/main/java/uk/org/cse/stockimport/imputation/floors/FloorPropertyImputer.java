@@ -12,53 +12,54 @@ import uk.org.cse.nhm.energycalculator.mode.GroundFloorUValues;
  * @since 1.0
  */
 public class FloorPropertyImputer implements IFloorPropertyImputer {
-	private final IFloorPropertyTables floorPropertyTables;
 
-	public FloorPropertyImputer(final IFloorPropertyTables floorPropertyTables){
-		super();
-		this.floorPropertyTables = floorPropertyTables;
-		this.uValues = new GroundFloorUValues()
-				.setRsi(floorPropertyTables.getRsi())
-				.setRse(floorPropertyTables.getRse())
-				.setSoilThermalConductivity(floorPropertyTables.getSoilThermalConductivity())
-				.setDeckThermalResistance(floorPropertyTables.getDeckThermalResistance())
-				.setOpeningsPerMeterOfExposedPerimeter(floorPropertyTables.getOpeningsPerMeterOfExposedPerimeter())
-				.setHeightAboveGroundLevel(floorPropertyTables.getHeightAboveGroundLevel())
-				.setuValueOfWallsToUnderfloorSpace(floorPropertyTables.getUValueOfWallsToUnderfloorSpace())
-				.setAverageWindSpeedAt10m(floorPropertyTables.getAverageWindSpeedAt10m())
-				.setWindShieldingFactor(floorPropertyTables.getWindShieldingFactor())
-				.setFloorInsulationConductivity(floorPropertyTables.getFloorInsulationConductivity());
-	}
+    private final IFloorPropertyTables floorPropertyTables;
 
-	private final GroundFloorUValues uValues;
+    public FloorPropertyImputer(final IFloorPropertyTables floorPropertyTables) {
+        super();
+        this.floorPropertyTables = floorPropertyTables;
+        this.uValues = new GroundFloorUValues()
+                .setRsi(floorPropertyTables.getRsi())
+                .setRse(floorPropertyTables.getRse())
+                .setSoilThermalConductivity(floorPropertyTables.getSoilThermalConductivity())
+                .setDeckThermalResistance(floorPropertyTables.getDeckThermalResistance())
+                .setOpeningsPerMeterOfExposedPerimeter(floorPropertyTables.getOpeningsPerMeterOfExposedPerimeter())
+                .setHeightAboveGroundLevel(floorPropertyTables.getHeightAboveGroundLevel())
+                .setuValueOfWallsToUnderfloorSpace(floorPropertyTables.getUValueOfWallsToUnderfloorSpace())
+                .setAverageWindSpeedAt10m(floorPropertyTables.getAverageWindSpeedAt10m())
+                .setWindShieldingFactor(floorPropertyTables.getWindShieldingFactor())
+                .setFloorInsulationConductivity(floorPropertyTables.getFloorInsulationConductivity());
+    }
 
-	@Override
-	public double getGroundFloorUValue(
-			final FloorConstructionType constructionType,
-			final double wallThickness,
-			final double insulationThickness,
-			final double exposedPerimeter,
-			final double area) {
-		return uValues.getU(
-				wallThickness,
-				area,
-				exposedPerimeter,
-				constructionType,
-				insulationThickness
-			);
-	}
+    private final GroundFloorUValues uValues;
 
-	/**
+    @Override
+    public double getGroundFloorUValue(
+            final FloorConstructionType constructionType,
+            final double wallThickness,
+            final double insulationThickness,
+            final double exposedPerimeter,
+            final double area) {
+        return uValues.getU(
+                wallThickness,
+                area,
+                exposedPerimeter,
+                constructionType,
+                insulationThickness
+        );
+    }
+
+    /**
      * @since 1.0
      */
     @Override
-	public double getFloorInsulationThickness(final Band sapAgeBand, final Country country, final FloorConstructionType constructionType) {
-		// TODO switch on country here
-		return floorPropertyTables.getEnglandInsulationBySapAgeBand()[sapAgeBand.ordinal()];
-	}
+    public double getFloorInsulationThickness(final Band sapAgeBand, final Country country, final FloorConstructionType constructionType) {
+        // TODO switch on country here
+        return floorPropertyTables.getEnglandInsulationBySapAgeBand()[sapAgeBand.ordinal()];
+    }
 
-	@Override
-	public double getExposedFloorUValue(final Band ageBand, final boolean isInsulated) {
-		return floorPropertyTables.getExposedFloorUValueBySapAgeBand()[isInsulated ? 1 : 0][ageBand.ordinal()];
-	}
+    @Override
+    public double getExposedFloorUValue(final Band ageBand, final boolean isInsulated) {
+        return floorPropertyTables.getExposedFloorUValueBySapAgeBand()[isInsulated ? 1 : 0][ageBand.ordinal()];
+    }
 }

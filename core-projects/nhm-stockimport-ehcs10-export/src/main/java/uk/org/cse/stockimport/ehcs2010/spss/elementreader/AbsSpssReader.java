@@ -23,102 +23,100 @@ import uk.org.cse.stockimport.spss.elementreader.ISpssReader;
 /**
  * Abstract SpssReader provides some helper methods for tasks commonly performed
  * by Spss readers.
- * 
+ *
  * @author glenns
  * @version 3.0.0
  * @since 1.0.2
  */
 public abstract class AbsSpssReader<DTO extends IBasicDTO> implements ISpssReader<DTO> {
-	protected final String executionId;
-	private Iterator<IHouseCaseSources<Object>> providerIterator;
-	private Iterator<Collection<DTO>> iterator;
-	private IHouseCaseSourcesRepositoryFactory houseCasesRepositoryFactory;
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(AbsSpssReader.class);
 
-	/**
-	 * Default Constructor.
-	 * 
-	 * @since 1.0.2
-	 */
-	public AbsSpssReader(String executionId, IHouseCaseSourcesRepositoryFactory mongoProviderFactory) {
-		this.executionId = executionId;
-		this.houseCasesRepositoryFactory = mongoProviderFactory;
-	}
+    protected final String executionId;
+    private Iterator<IHouseCaseSources<Object>> providerIterator;
+    private Iterator<Collection<DTO>> iterator;
+    private IHouseCaseSourcesRepositoryFactory houseCasesRepositoryFactory;
 
-	public String getName() {
-		return getCollectionName(executionId, readClass());
-	}
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbsSpssReader.class);
 
-	protected abstract Set<Class<?>> getSurveyEntryClasses();
+    /**
+     * Default Constructor.
+     *
+     * @since 1.0.2
+     */
+    public AbsSpssReader(String executionId, IHouseCaseSourcesRepositoryFactory mongoProviderFactory) {
+        this.executionId = executionId;
+        this.houseCasesRepositoryFactory = mongoProviderFactory;
+    }
 
-	/**
-	 * Converts an element of one type into another based on a supplied Map.
-	 * 
-	 * @param element
-	 *            element to be looked up
-	 * @param conversion
-	 *            Lookup table to be queried against
-	 * @throws IllegalArgumentException
-	 *             if element is not found in conversion
-	 * @return value found in the lookup table for the element
-	 */
-	protected <FROM, TO> TO Lookup(FROM element, Map<FROM, TO> conversion) {
-		if (!conversion.containsKey(element)) {
-			throw new IllegalArgumentException("Conversion case missing when converting " + element);
-		}
-		return conversion.get(element);
-	}
+    public String getName() {
+        return getCollectionName(executionId, readClass());
+    }
 
-	public abstract Collection<DTO> read(IHouseCaseSources<Object> provider);
+    protected abstract Set<Class<?>> getSurveyEntryClasses();
 
-	protected abstract Class<?> readClass();
+    /**
+     * Converts an element of one type into another based on a supplied Map.
+     *
+     * @param element element to be looked up
+     * @param conversion Lookup table to be queried against
+     * @throws IllegalArgumentException if element is not found in conversion
+     * @return value found in the lookup table for the element
+     */
+    protected <FROM, TO> TO Lookup(FROM element, Map<FROM, TO> conversion) {
+        if (!conversion.containsKey(element)) {
+            throw new IllegalArgumentException("Conversion case missing when converting " + element);
+        }
+        return conversion.get(element);
+    }
 
-	/**
-	 * Classes that this reader depends on must have been built and saved to the
-	 * database before this method is called.
-	 */
-	protected Iterator<IHouseCaseSources<Object>> getProviderIterator() {
-		if (providerIterator == null) {
-			providerIterator = houseCasesRepositoryFactory.build(getSurveyEntryClasses(), executionId).iterator();
-		}
-		return providerIterator;
-	}
+    public abstract Collection<DTO> read(IHouseCaseSources<Object> provider);
 
-	/**
-	 * Returns all the results in one chunk. Classes which inherit from this
-	 * have no need for streaming/lazy behaviour, but want to save in as a big a
-	 * batch as possible.
-	 */
-	protected Iterator<Collection<DTO>> getIterator() {
-		if (iterator == null) {
-			Builder<DTO> builder = ImmutableList.<DTO> builder();
+    protected abstract Class<?> readClass();
 
-			while (getProviderIterator().hasNext()) {
-				builder.addAll(read(getProviderIterator().next()));
-			}
-			List<DTO> results = builder.build();
-			LOGGER.debug("{} DTO's built by builder {}", results.size(), builder.getClass().getName());
+    /**
+     * Classes that this reader depends on must have been built and saved to the
+     * database before this method is called.
+     */
+    protected Iterator<IHouseCaseSources<Object>> getProviderIterator() {
+        if (providerIterator == null) {
+            providerIterator = houseCasesRepositoryFactory.build(getSurveyEntryClasses(), executionId).iterator();
+        }
+        return providerIterator;
+    }
 
-			List<Collection<DTO>> resultCollection = new ArrayList<Collection<DTO>>();
-			resultCollection.add(results);
-			iterator = resultCollection.iterator();
-		}
-		return iterator;
-	}
+    /**
+     * Returns all the results in one chunk. Classes which inherit from this
+     * have no need for streaming/lazy behaviour, but want to save in as a big a
+     * batch as possible.
+     */
+    protected Iterator<Collection<DTO>> getIterator() {
+        if (iterator == null) {
+            Builder<DTO> builder = ImmutableList.<DTO>builder();
 
-	@Override
-	public boolean hasNext() {
-		return getIterator().hasNext();
-	}
+            while (getProviderIterator().hasNext()) {
+                builder.addAll(read(getProviderIterator().next()));
+            }
+            List<DTO> results = builder.build();
+            LOGGER.debug("{} DTO's built by builder {}", results.size(), builder.getClass().getName());
 
-	@Override
-	public Collection<DTO> next() {
-		return getIterator().next();
-	}
+            List<Collection<DTO>> resultCollection = new ArrayList<Collection<DTO>>();
+            resultCollection.add(results);
+            iterator = resultCollection.iterator();
+        }
+        return iterator;
+    }
 
-	@Override
-	public void remove() {
-		throw new UnsupportedOperationException("Cannot remove from an Spss reader.");
-	}
+    @Override
+    public boolean hasNext() {
+        return getIterator().hasNext();
+    }
+
+    @Override
+    public Collection<DTO> next() {
+        return getIterator().next();
+    }
+
+    @Override
+    public void remove() {
+        throw new UnsupportedOperationException("Cannot remove from an Spss reader.");
+    }
 }

@@ -9,13 +9,13 @@ import uk.org.cse.nhm.simulator.guice.SimulationScoped;
 
 public class IntegrationTestModule extends AbstractModule {
 
-	@Override
-	protected void configure() {
-		// make our integration test outputs singleton per sim
-		bind(IntegrationTestOutput.class).in(SimulationScoped.class);
-		install(new FactoryModuleBuilder().build(ITestingFactory.class));
-		// add our adapter
-		Multibinder.newSetBinder(binder(), IAdapter.class).addBinding().to(IntegrationAdapter.class);
-	}
+    @Override
+    protected void configure() {
+        // make our integration test outputs singleton per sim
+        bind(IntegrationTestOutput.class).in(SimulationScoped.class);
+        install(new FactoryModuleBuilder().build(ITestingFactory.class));
+        // add our adapter
+        Multibinder.newSetBinder(binder(), IAdapter.class).addBinding().to(IntegrationAdapter.class);
+    }
 
 }

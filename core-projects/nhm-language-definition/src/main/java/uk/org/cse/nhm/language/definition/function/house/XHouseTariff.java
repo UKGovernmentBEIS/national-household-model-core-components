@@ -16,29 +16,30 @@ import uk.org.cse.nhm.language.definition.function.bool.house.XHouseIsOnTariff;
 import uk.org.cse.nhm.language.definition.function.num.IHouseContext;
 import uk.org.cse.nhm.language.validate.contents.RequireParent;
 
-
 @Bind("house.tariff")
 @Doc(value = "The tariff that a house uses for a given fuel type.")
 @SeeAlso(XHouseIsOnTariff.class)
 @RequireParent(IHouseContext.class)
 @Category(CategoryType.TARIFFS)
 public class XHouseTariff extends XFunction {
-	public static class P {
-		public static final String fuel = "fuel"; 
-	}
-	
-	private XFuelType fuel;
 
-	@Prop(P.fuel)
-	
-@BindNamedArgument
-	@NotNull(message = "house.tariff function must specify a fuel")
-	@Doc("The fuel type to look up the tariff for.")
-	public XFuelType getFuel() {
-		return fuel;
-	}
+    public static class P {
 
-	public void setFuel(final XFuelType fuel) {
-		this.fuel = fuel;
-	}
+        public static final String fuel = "fuel";
+    }
+
+    private XFuelType fuel;
+
+    @Prop(P.fuel)
+
+    @BindNamedArgument
+    @NotNull(message = "house.tariff function must specify a fuel")
+    @Doc("The fuel type to look up the tariff for.")
+    public XFuelType getFuel() {
+        return fuel;
+    }
+
+    public void setFuel(final XFuelType fuel) {
+        this.fuel = fuel;
+    }
 }

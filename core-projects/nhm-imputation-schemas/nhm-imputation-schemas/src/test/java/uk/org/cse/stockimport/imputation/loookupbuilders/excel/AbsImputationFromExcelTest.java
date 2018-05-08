@@ -10,22 +10,22 @@ import uk.org.cse.stockimport.util.Path;
 
 public abstract class AbsImputationFromExcelTest {
 
-	private final String defaultSchemaFile = Path.file("src", "test", "resources", "default_schema.xlsx");
-	private FileInputStream excelFileStream;
-	private XSSFWorkbook workBook;
-	
-	@Before
-	public void openExcelWorkBook() throws Exception {
-		excelFileStream = new FileInputStream(defaultSchemaFile);
-		workBook = new XSSFWorkbook(excelFileStream);
-	}
-	
-	@After
-	public void closeOpenObjects() throws Exception {
-		excelFileStream.close();
-	}
+    private final String defaultSchemaFile = Path.file("src", "test", "resources", "default_schema.xlsx");
+    private FileInputStream excelFileStream;
+    private XSSFWorkbook workBook;
 
-	protected XSSFWorkbook getExcelWorkBook() {
-		return workBook;
-	}
+    @Before
+    public void openExcelWorkBook() throws Exception {
+        excelFileStream = new FileInputStream(defaultSchemaFile);
+        workBook = new XSSFWorkbook(excelFileStream);
+    }
+
+    @After
+    public void closeOpenObjects() throws Exception {
+        excelFileStream.close();
+    }
+
+    protected XSSFWorkbook getExcelWorkBook() {
+        return workBook;
+    }
 }

@@ -8,6 +8,8 @@ import org.joda.time.DateTime;
 import uk.org.cse.nhm.reporting.standard.IReporterFactory.IOutputStreamFactory;
 
 public interface IZippingFileStreamFactory extends Closeable, IOutputStreamFactory {
-	public abstract Path getZipFilePath() throws IllegalStateException;
-	public abstract void setStartAndEndDates(DateTime creationDate, DateTime endDate);
+
+    public abstract Path getZipFilePath() throws IllegalStateException;
+
+    public abstract void setStartAndEndDates(DateTime creationDate, DateTime endDate);
 }

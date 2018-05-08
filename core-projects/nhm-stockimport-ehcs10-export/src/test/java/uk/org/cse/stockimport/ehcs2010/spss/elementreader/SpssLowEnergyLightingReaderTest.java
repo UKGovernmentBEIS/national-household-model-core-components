@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package uk.org.cse.stockimport.ehcs2010.spss.elementreader;
 
@@ -46,7 +46,7 @@ public class SpssLowEnergyLightingReaderTest {
 
     @Before
     public void setUp() {
-        when(itrFactory.build(ImmutableSet.<Class<?>> of(IntroomsEntryImpl.class), "")).thenReturn(iteratorProvider);
+        when(itrFactory.build(ImmutableSet.<Class<?>>of(IntroomsEntryImpl.class), "")).thenReturn(iteratorProvider);
         reader = new SpssLowEnergyLightingReader("", itrFactory);
 
         missing = mock(IntroomsEntry.class);

@@ -6,5 +6,6 @@ import java.nio.file.Path;
 import uk.org.cse.nhm.ipc.api.tasks.report.ILogEntryHandler;
 
 public interface IReportingSession extends ILogEntryHandler, Closeable {
-	public Path getResultPath();
+
+    public Path getResultPath();
 }

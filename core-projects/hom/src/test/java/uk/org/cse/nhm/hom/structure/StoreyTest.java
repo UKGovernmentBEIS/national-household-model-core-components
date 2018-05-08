@@ -25,11 +25,12 @@ import uk.org.cse.nhm.hom.structure.impl.Elevation.IDoorVisitor;
 import uk.org.cse.nhm.hom.structure.impl.Storey;
 
 public class StoreyTest {
+
     @Test
     public void testArea() {
         final Polygon p = new Polygon(
-                new int[] { 0, 10, 10, 0 },
-                new int[] { 0, 0, 10, 10 },
+                new int[]{0, 10, 10, 0},
+                new int[]{0, 0, 10, 10},
                 4);
 
         final Storey s = new Storey();
@@ -41,8 +42,8 @@ public class StoreyTest {
     @Test
     public void testVolume() {
         final Polygon p = new Polygon(
-                new int[] { 0, 10, 10, 0 },
-                new int[] { 0, 0, 10, 10 },
+                new int[]{0, 10, 10, 0},
+                new int[]{0, 0, 10, 10},
                 4);
 
         final Storey s = new Storey();
@@ -55,8 +56,8 @@ public class StoreyTest {
     @Test
     public void testWallsInRightPlaces() {
         final Polygon p = new Polygon(
-                new int[] { 0, 10, 10, 0 },
-                new int[] { 0, 0, 10, 10 },
+                new int[]{0, 10, 10, 0},
+                new int[]{0, 0, 10, 10},
                 4);
 
         final Storey s = new Storey();
@@ -90,8 +91,8 @@ public class StoreyTest {
     @Test
     public void testVisitorWorks() {
         final Polygon p = new Polygon(
-                new int[] { 0, 10, 10, 0 },
-                new int[] { 0, 0, 10, 10 },
+                new int[]{0, 10, 10, 0},
+                new int[]{0, 0, 10, 10},
                 4);
 
         final Storey s = new Storey();
@@ -136,7 +137,6 @@ public class StoreyTest {
 
         s.accept(visitor, els, null, 50, 50);
 
-
         // should visit:
         // four walls
         verify(visitor, times(1)).visitWall(eq(WallConstructionType.Party_MetalFrame), eq(0d), eq(false), eq(10d * 10d), eq(2d), eq(0d), eq(Optional.<ThermalMassLevel>absent()));
@@ -144,23 +144,23 @@ public class StoreyTest {
 
         // floor
         verify(visitor, times(1)).visitFloor(eq(AreaType.ExposedUpperFloor),
-        		eq(50d), // heat loss area below the dwelling (argument to s.accept)
-        		eq(2d), // u value for floor
-        		eq(3d * 10d), // external perimeter excluding the party wall
-        		eq(0d));
+                eq(50d), // heat loss area below the dwelling (argument to s.accept)
+                eq(2d), // u value for floor
+                eq(3d * 10d), // external perimeter excluding the party wall
+                eq(0d));
 
         // ceiling
         verify(visitor, times(1)).visitCeiling(
-        		eq(RoofType.ExternalHeatLoss),
-        		eq(50d), // heat loss area above the dwelling (argument to s.accept)
-        		eq(2d)); // u value for ceiling
+                eq(RoofType.ExternalHeatLoss),
+                eq(50d), // heat loss area above the dwelling (argument to s.accept)
+                eq(2d)); // u value for ceiling
     }
 
     @Test
     public void testSplit() {
         final Polygon p = new Polygon(
-                new int[] { 0, 10, 10, 0 },
-                new int[] { 0, 0, 10, 10 },
+                new int[]{0, 10, 10, 0},
+                new int[]{0, 0, 10, 10},
                 4);
 
         final Storey s = new Storey();
@@ -177,8 +177,8 @@ public class StoreyTest {
                 onSplitWall = false;
             } else {
                 wall.setWallConstructionType(WallConstructionType.Cavity);
-                    wall.split(0.5);
-                    onSplitWall = true;
+                wall.split(0.5);
+                onSplitWall = true;
             }
             counter++;
         }
@@ -199,8 +199,8 @@ public class StoreyTest {
     @Test
     public void testPerimeter() {
         final Polygon p = new Polygon(
-                new int[] { 0, 10, 10, 0 },
-                new int[] { 0, 0, 10, 10 },
+                new int[]{0, 10, 10, 0},
+                new int[]{0, 0, 10, 10},
                 4);
 
         final Storey s = new Storey();

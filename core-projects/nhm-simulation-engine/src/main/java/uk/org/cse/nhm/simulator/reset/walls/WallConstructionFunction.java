@@ -10,19 +10,20 @@ import uk.org.cse.nhm.simulator.reset.AbstractScopedThingFunction;
 import uk.org.cse.nhm.simulator.state.IDimension;
 
 public class WallConstructionFunction extends AbstractScopedThingFunction<WallConstructionType, IWall> {
-	@AssistedInject
-	WallConstructionFunction(final ILogEntryHandler log,
-						   final IDimension<StructureModel> structureDimension) {
-		super(ResetWallsAction.CURRENT_WALL_LET_IDENTITY, IWall.class, log, structureDimension);
-	}
-	
-	@Override
-	protected WallConstructionType doFail() {
-		return null;
-	}
-	
-	@Override
-	protected WallConstructionType doCompute(final IWall wall) {
-		return wall.getWallConstructionType();
-	}
+
+    @AssistedInject
+    WallConstructionFunction(final ILogEntryHandler log,
+            final IDimension<StructureModel> structureDimension) {
+        super(ResetWallsAction.CURRENT_WALL_LET_IDENTITY, IWall.class, log, structureDimension);
+    }
+
+    @Override
+    protected WallConstructionType doFail() {
+        return null;
+    }
+
+    @Override
+    protected WallConstructionType doCompute(final IWall wall) {
+        return wall.getWallConstructionType();
+    }
 }

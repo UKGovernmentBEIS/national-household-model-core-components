@@ -13,30 +13,30 @@ import uk.org.cse.nhm.language.builder.batch.inputs.IBatchInputs;
 
 abstract public class CombinatorTest {
 
-	IBatchInputs combinator;
+    IBatchInputs combinator;
 
-	protected final IBatchInputs getCombinator(IBatchInputs... delegates) {
-		return getCombinator(ImmutableList.copyOf(delegates));
-	}
-	
-	abstract protected IBatchInputs getCombinator(List<IBatchInputs> delegates);
-	
-	protected IBatchInputs makeDelegate(Integer bound, String... placeholders) {
-		IBatchInputs delegate = mock(IBatchInputs.class);
-		when(delegate.getBound()).thenReturn(Optional.fromNullable(bound));
-		when(delegate.getPlaceholders()).thenReturn(ImmutableList.copyOf(placeholders));
-		when(delegate.iterator()).thenReturn(Collections.singletonList(Collections.emptyList()).iterator());
-		return delegate;
-	}
+    protected final IBatchInputs getCombinator(IBatchInputs... delegates) {
+        return getCombinator(ImmutableList.copyOf(delegates));
+    }
 
-	protected void addDataToMock(IBatchInputs mock, Object... data) {
-		ImmutableList.Builder<List<Object>> dataInLists = ImmutableList.builder();
-		for (Object o : data) {
-			dataInLists.add(Collections.singletonList(o));
-		}
+    abstract protected IBatchInputs getCombinator(List<IBatchInputs> delegates);
 
-		ImmutableList<List<Object>> built = dataInLists.build();
+    protected IBatchInputs makeDelegate(Integer bound, String... placeholders) {
+        IBatchInputs delegate = mock(IBatchInputs.class);
+        when(delegate.getBound()).thenReturn(Optional.fromNullable(bound));
+        when(delegate.getPlaceholders()).thenReturn(ImmutableList.copyOf(placeholders));
+        when(delegate.iterator()).thenReturn(Collections.singletonList(Collections.emptyList()).iterator());
+        return delegate;
+    }
 
-		when(mock.iterator()).thenReturn(built.iterator());
-	}
+    protected void addDataToMock(IBatchInputs mock, Object... data) {
+        ImmutableList.Builder<List<Object>> dataInLists = ImmutableList.builder();
+        for (Object o : data) {
+            dataInLists.add(Collections.singletonList(o));
+        }
+
+        ImmutableList<List<Object>> built = dataInLists.build();
+
+        when(mock.iterator()).thenReturn(built.iterator());
+    }
 }

@@ -5,191 +5,191 @@ import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 
 public interface Interview_09Plus10Entry extends SurveyEntry {
-	@SavVariableMapping("AGEOLDX")
-	public Integer getAgeOfOldestPersonInHousehold();
 
-	@SavVariableMapping("HHSIZEX")
-	public Integer getNumberOfPersonsInTheHousehold();
+    @SavVariableMapping("AGEOLDX")
+    public Integer getAgeOfOldestPersonInHousehold();
 
-	@SavVariableMapping("AGEPARTX")
-	public Integer getAgeOfPartner_Continuous();
+    @SavVariableMapping("HHSIZEX")
+    public Integer getNumberOfPersonsInTheHousehold();
 
-	@SavVariableMapping("OLDERX")
-	public Integer getNoOfPeopleAged60PlusWhoAreHRPOrPartner();
+    @SavVariableMapping("AGEPARTX")
+    public Integer getAgeOfPartner_Continuous();
 
-	@SavVariableMapping("PYNGX")
-	public Integer getAgeOfYoungestPersonInHousehold();
+    @SavVariableMapping("OLDERX")
+    public Integer getNoOfPeopleAged60PlusWhoAreHRPOrPartner();
 
-	@SavVariableMapping("LENRES")
-	public Integer getLengthOfResidence_Years_();
+    @SavVariableMapping("PYNGX")
+    public Integer getAgeOfYoungestPersonInHousehold();
 
-	@SavVariableMapping("NDEPCHIL")
-	public Integer getNumberOfDependentChildrenInHousehold();
+    @SavVariableMapping("LENRES")
+    public Integer getLengthOfResidence_Years_();
 
-	@SavVariableMapping("AGEHRPX")
-	public Integer getAgeOfHRP_Continuous();
+    @SavVariableMapping("NDEPCHIL")
+    public Integer getNumberOfDependentChildrenInHousehold();
 
-	@SavVariableMapping("FAMNUMX")
-	public Integer getNumberOfFamilyUnitsInHhold();
+    @SavVariableMapping("AGEHRPX")
+    public Integer getAgeOfHRP_Continuous();
 
-	@SavVariableMapping("LENOWN")
-	public Integer getLengthOfOwnership_Years_();
+    @SavVariableMapping("FAMNUMX")
+    public Integer getNumberOfFamilyUnitsInHhold();
 
-	@SavVariableMapping("NBEDSX")
-	public Integer getTotalNoOfBedroomsHouseholdActuallyHas();
+    @SavVariableMapping("LENOWN")
+    public Integer getLengthOfOwnership_Years_();
 
-	@SavVariableMapping("BEDRQX")
-	public Integer getNo_OfBedroomsRequiredByTheHousehold();
+    @SavVariableMapping("NBEDSX")
+    public Integer getTotalNoOfBedroomsHouseholdActuallyHas();
 
-	@SavVariableMapping("MORTWKX")
-	public Double getWeeklyMortgagePayments();
+    @SavVariableMapping("BEDRQX")
+    public Integer getNo_OfBedroomsRequiredByTheHousehold();
 
-	@SavVariableMapping("BHCINCEQ")
-	public Double getBHCEquivalisedWeeklyIncome_ModifiedOECDScale_();
+    @SavVariableMapping("MORTWKX")
+    public Double getWeeklyMortgagePayments();
 
-	@SavVariableMapping("AMTHBENX")
-	public Double getWeeklyHousingBenefit();
+    @SavVariableMapping("BHCINCEQ")
+    public Double getBHCEquivalisedWeeklyIncome_ModifiedOECDScale_();
 
-	@SavVariableMapping("EQUITYR")
-	public Double getEquityInHome_BasedOnRespondentValuationOnly_();
+    @SavVariableMapping("AMTHBENX")
+    public Double getWeeklyHousingBenefit();
 
-	@SavVariableMapping("RENTEXS")
-	public Double getTotalWeeklyRentExcludingTheCostOfServices();
+    @SavVariableMapping("EQUITYR")
+    public Double getEquityInHome_BasedOnRespondentValuationOnly_();
 
-	@SavVariableMapping("HHINCX")
-	public Double getEHSBasicIncome_AnnualNetHouseholdIncome_HRP_Partner_IncludingSavings_();
+    @SavVariableMapping("RENTEXS")
+    public Double getTotalWeeklyRentExcludingTheCostOfServices();
 
-	@SavVariableMapping("RENTWKX")
-	public Double getTotalWeeklyRentPayable_RentPlusHousingBenefit_();
+    @SavVariableMapping("HHINCX")
+    public Double getEHSBasicIncome_AnnualNetHouseholdIncome_HRP_Partner_IncludingSavings_();
 
-	@SavVariableMapping("AHCINCEQ")
-	public Double getAHCEquivalisedWeeklyIncome_ModifiedOECDScale_();
+    @SavVariableMapping("RENTWKX")
+    public Double getTotalWeeklyRentPayable_RentPlusHousingBenefit_();
 
-	@SavVariableMapping("HHTYPE7")
-	public Enum59 getHouseholdType_7Categories();
+    @SavVariableMapping("AHCINCEQ")
+    public Double getAHCEquivalisedWeeklyIncome_ModifiedOECDScale_();
 
-	@SavVariableMapping("AGEHRP4X")
-	public Enum60 getAgeOfHouseholdReferencePerson_4Band();
+    @SavVariableMapping("HHTYPE7")
+    public Enum59 getHouseholdType_7Categories();
 
-	@SavVariableMapping("V59_A")
-	public Enum8 getAHCEquivalisedIncomeQuintiles_WeightedByPeoplegross_();
+    @SavVariableMapping("AGEHRP4X")
+    public Enum60 getAgeOfHouseholdReferencePerson_4Band();
 
-	@SavVariableMapping("TENEX")
-	public Enum62 getExtendedTenureOfHousehold();
+    @SavVariableMapping("V59_A")
+    public Enum8 getAHCEquivalisedIncomeQuintiles_WeightedByPeoplegross_();
 
-	@SavVariableMapping("RENTEXSF")
-	public Enum63 getRentExcludingServicesChanged_Imputed();
+    @SavVariableMapping("TENEX")
+    public Enum62 getExtendedTenureOfHousehold();
 
-	@SavVariableMapping("OTHFAMLP")
-	public Enum64 getTypeOfAdditionalFamiliesInHousehold();
+    @SavVariableMapping("RENTEXSF")
+    public Enum63 getRentExcludingServicesChanged_Imputed();
 
-	@SavVariableMapping("V60_A")
-	public Enum0 getAHC_Below60_OfMedianIncome_WeightedByPeoplegross_();
+    @SavVariableMapping("OTHFAMLP")
+    public Enum64 getTypeOfAdditionalFamiliesInHousehold();
 
-	@SavVariableMapping("AGEHRP6X")
-	public Enum66 getAgeOfHouseholdReferencePerson_6Band();
+    @SavVariableMapping("V60_A")
+    public Enum0 getAHC_Below60_OfMedianIncome_WeightedByPeoplegross_();
 
-	@SavVariableMapping("EQUITYR5")
-	public Enum67 getEquityInHome_BasedOnRespondentValuationOnly__EQUITYR5();
+    @SavVariableMapping("AGEHRP6X")
+    public Enum66 getAgeOfHouseholdReferencePerson_6Band();
 
-	@SavVariableMapping("EMPPRTX")
-	public Enum68 getEmploymentStatus_Primary_OfPartner();
+    @SavVariableMapping("EQUITYR5")
+    public Enum67 getEquityInHome_BasedOnRespondentValuationOnly__EQUITYR5();
 
-	@SavVariableMapping("OTHERFAM")
-	public Enum69 getAdditionalFamiliesPresentInHousehold();
+    @SavVariableMapping("EMPPRTX")
+    public Enum68 getEmploymentStatus_Primary_OfPartner();
 
-	@SavVariableMapping("LONCOUPX")
-	public Enum70 getSingleHouseholderOrWithPartner();
+    @SavVariableMapping("OTHERFAM")
+    public Enum69 getAdditionalFamiliesPresentInHousehold();
 
-	@SavVariableMapping("SEXHRP")
-	public Enum71 getSexOfHouseholdReferencePerson();
+    @SavVariableMapping("LONCOUPX")
+    public Enum70 getSingleHouseholderOrWithPartner();
 
-	@SavVariableMapping("HHINC5X")
-	public Enum72 getAllHouseholds_IncomeIn5Bands();
+    @SavVariableMapping("SEXHRP")
+    public Enum71 getSexOfHouseholdReferencePerson();
 
-	@SavVariableMapping("FREELEAS")
-	public Enum73 getFreeholdOrLeasehold();
+    @SavVariableMapping("HHINC5X")
+    public Enum72 getAllHouseholds_IncomeIn5Bands();
 
-	@SavVariableMapping("HHBENSX")
-	public Enum10 getHouseholdOnMeansTestedBensOrTaxCreditsWithARelevantIncomeBelowTheThreshold();
+    @SavVariableMapping("FREELEAS")
+    public Enum73 getFreeholdOrLeasehold();
 
-	@SavVariableMapping("HOUSBENX")
-	public Enum10 getHousehold_HRP_Partner_ReceivesAnyHousingBenefit_();
+    @SavVariableMapping("HHBENSX")
+    public Enum10 getHouseholdOnMeansTestedBensOrTaxCreditsWithARelevantIncomeBelowTheThreshold();
 
-	@SavVariableMapping("OWNTYPE")
-	public Enum76 getTypeOfOwnership();
+    @SavVariableMapping("HOUSBENX")
+    public Enum10 getHousehold_HRP_Partner_ReceivesAnyHousingBenefit_();
 
-	@SavVariableMapping("HHTYPE11")
-	public Enum77 getHousehldType_Full11Categories();
+    @SavVariableMapping("OWNTYPE")
+    public Enum76 getTypeOfOwnership();
 
-	@SavVariableMapping("HHLTSICK")
-	public Enum69 getAnyoneInHholdHaveLessThanIllnessOrDisability_();
+    @SavVariableMapping("HHTYPE11")
+    public Enum77 getHousehldType_Full11Categories();
 
-	@SavVariableMapping("EMPHRPX")
-	public Enum68 getEmploymentStatus_Primary_OfHRP();
+    @SavVariableMapping("HHLTSICK")
+    public Enum69 getAnyoneInHholdHaveLessThanIllnessOrDisability_();
 
-	@SavVariableMapping("HHINCFLG")
-	public Enum80 getImputationsUsedToCreateNetTotalHholdIncome();
+    @SavVariableMapping("EMPHRPX")
+    public Enum68 getEmploymentStatus_Primary_OfHRP();
 
-	@SavVariableMapping("V62_A")
-	public Enum8 getBHCEquivalisedIncomeQuintiles_WeightedByPeoplegross_();
+    @SavVariableMapping("HHINCFLG")
+    public Enum80 getImputationsUsedToCreateNetTotalHholdIncome();
 
-	@SavVariableMapping("EMPHRP3X")
-	public Enum82 getWorkingStatusOfHRP_Primary__3Categories();
+    @SavVariableMapping("V62_A")
+    public Enum8 getBHCEquivalisedIncomeQuintiles_WeightedByPeoplegross_();
 
-	@SavVariableMapping("LENRESB")
-	public Enum83 getLengthOfResidence();
+    @SavVariableMapping("EMPHRP3X")
+    public Enum82 getWorkingStatusOfHRP_Primary__3Categories();
 
-	@SavVariableMapping("HHCOMPX")
-	public Enum84 getHouseholdComposition();
+    @SavVariableMapping("LENRESB")
+    public Enum83 getLengthOfResidence();
 
-	@SavVariableMapping("HHVULX")
-	public Enum10 getHouseholdVulnerable_OnMeansTestedOrCertainDisabilityRelatedBenefits_();
+    @SavVariableMapping("HHCOMPX")
+    public Enum84 getHouseholdComposition();
 
-	@SavVariableMapping("ETHHRP4X")
-	public Enum86 getEthnicOriginOfHRP_4Categories();
+    @SavVariableMapping("HHVULX")
+    public Enum10 getHouseholdVulnerable_OnMeansTestedOrCertainDisabilityRelatedBenefits_();
 
-	@SavVariableMapping("ETHHRP8X")
-	public Enum87 getEthnicOriginOfHRP_8Categories();
+    @SavVariableMapping("ETHHRP4X")
+    public Enum86 getEthnicOriginOfHRP_4Categories();
 
-	@SavVariableMapping("HHEMPX")
-	public Enum88 getEmploymentStatusOfHRPAndPartnerCombined();
+    @SavVariableMapping("ETHHRP8X")
+    public Enum87 getEthnicOriginOfHRP_8Categories();
 
-	@SavVariableMapping("EMPPRT3X")
-	public Enum82 getWorkingStatusOfPartner_Primary__3Categories();
+    @SavVariableMapping("HHEMPX")
+    public Enum88 getEmploymentStatusOfHRPAndPartnerCombined();
 
-	@SavVariableMapping("PYNGBX")
-	public Enum90 getAgeBandOfYoungestPersonInHousehold();
+    @SavVariableMapping("EMPPRT3X")
+    public Enum82 getWorkingStatusOfPartner_Primary__3Categories();
 
-	@SavVariableMapping("LENOWNB")
-	public Enum83 getLengthOfOwnershipToDateOfSurvey();
+    @SavVariableMapping("PYNGBX")
+    public Enum90 getAgeBandOfYoungestPersonInHousehold();
 
-	@SavVariableMapping("V63_A")
-	public Enum0 getBHC_Below60_OfMedianIncome_WeightedByPeoplegross_();
+    @SavVariableMapping("LENOWNB")
+    public Enum83 getLengthOfOwnershipToDateOfSurvey();
 
-	@SavVariableMapping("HPREGDIS")
-	public Enum69 getHRPOrPartnerRegisteredDisabled_();
+    @SavVariableMapping("V63_A")
+    public Enum0 getBHC_Below60_OfMedianIncome_WeightedByPeoplegross_();
 
-	@SavVariableMapping("HHTYPE6")
-	public Enum94 getHouseholdType_6Categories();
+    @SavVariableMapping("HPREGDIS")
+    public Enum69 getHRPOrPartnerRegisteredDisabled_();
 
-	@SavVariableMapping("AGEHRP2X")
-	public Enum95 getAgeOfHouseholdReferencePerson_2Band();
+    @SavVariableMapping("HHTYPE6")
+    public Enum94 getHouseholdType_6Categories();
 
-	@SavVariableMapping("AGEOLDBX")
-	public Enum96 getAgeOfOldestPersonInHousehold_Banded();
+    @SavVariableMapping("AGEHRP2X")
+    public Enum95 getAgeOfHouseholdReferencePerson_2Band();
 
-	@SavVariableMapping("WORKLESS")
-	public Enum97 getHouseholdWithNoOneOfWorkingAgeEmployed_ILODefn();
+    @SavVariableMapping("AGEOLDBX")
+    public Enum96 getAgeOfOldestPersonInHousehold_Banded();
 
-	@SavVariableMapping("ETHHRP2X")
-	public Enum98 getEthnicOriginOfHRP_2Categories();
+    @SavVariableMapping("WORKLESS")
+    public Enum97 getHouseholdWithNoOneOfWorkingAgeEmployed_ILODefn();
 
-	@SavVariableMapping("BEDSTDX")
-	public Enum99 getBedroomStandard();
+    @SavVariableMapping("ETHHRP2X")
+    public Enum98 getEthnicOriginOfHRP_2Categories();
 
-	@SavVariableMapping("RENTFLG")
-	public Enum100 getRent_HousingBenefitChanged_Imputed();
+    @SavVariableMapping("BEDSTDX")
+    public Enum99 getBedroomStandard();
+
+    @SavVariableMapping("RENTFLG")
+    public Enum100 getRent_HousingBenefitChanged_Imputed();
 
 }
-

@@ -29,116 +29,118 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.Undefined;
 
 public class StorageHeaterMeasure extends AbstractHeatingMeasure {
-	private final IDimension<ITechnologyModel> techs;
-	private final ITechnologyOperations operations;
-	private final StorageHeaterType type;
-	private final StorageHeaterControlType controlType;
-	private final Optional<IComponentsFunction<Number>> responsivenessFunction;
 
-	@AssistedInject
-	protected StorageHeaterMeasure(
-			final ITimeDimension time,
-			final IWetHeatingMeasureFactory wetHeatingFactory,
-			final IDimension<ITechnologyModel> techs,
-			final ITechnologyOperations operations,
+    private final IDimension<ITechnologyModel> techs;
+    private final ITechnologyOperations operations;
+    private final StorageHeaterType type;
+    private final StorageHeaterControlType controlType;
+    private final Optional<IComponentsFunction<Number>> responsivenessFunction;
+
+    @AssistedInject
+    protected StorageHeaterMeasure(
+            final ITimeDimension time,
+            final IWetHeatingMeasureFactory wetHeatingFactory,
+            final IDimension<ITechnologyModel> techs,
+            final ITechnologyOperations operations,
             final IProfilingStack stack,
-			@Assisted final StorageHeaterType type,
-			@Assisted final StorageHeaterControlType controlType,
-			@Assisted final ISizingFunction sizingFunction,
-			@Assisted("capex") final IComponentsFunction<Number> capitalCostFunction,
-			@Assisted("opex") final IComponentsFunction<Number> operationalCostFunction,
-			@Assisted("responsiveness") final Optional<IComponentsFunction<Number>> responsivenessFunction) {
-		super(time,
-				techs,
-				operations,
-				wetHeatingFactory,
-				TechnologyType.storageHeater(),
-				sizingFunction,
-              capitalCostFunction, operationalCostFunction, Undefined.<Number>get(stack, "Storage heaters should not install wet central heating"));
-		this.techs = techs;
-		this.operations = operations;
-		this.type = type;
-		this.controlType = controlType;
-		this.responsivenessFunction = responsivenessFunction;
-	}
+            @Assisted final StorageHeaterType type,
+            @Assisted final StorageHeaterControlType controlType,
+            @Assisted final ISizingFunction sizingFunction,
+            @Assisted("capex") final IComponentsFunction<Number> capitalCostFunction,
+            @Assisted("opex") final IComponentsFunction<Number> operationalCostFunction,
+            @Assisted("responsiveness") final Optional<IComponentsFunction<Number>> responsivenessFunction) {
+        super(time,
+                techs,
+                operations,
+                wetHeatingFactory,
+                TechnologyType.storageHeater(),
+                sizingFunction,
+                capitalCostFunction, operationalCostFunction, Undefined.<Number>get(stack, "Storage heaters should not install wet central heating"));
+        this.techs = techs;
+        this.operations = operations;
+        this.type = type;
+        this.controlType = controlType;
+        this.responsivenessFunction = responsivenessFunction;
+    }
 
-	static class Modifier implements IModifier<ITechnologyModel> {
-		private final double opex;
-		private final ITechnologyOperations operations;
-		private final StorageHeaterType type;
-		private final Optional<Double> responsiveness;
-		private final StorageHeaterControlType controlType;
+    static class Modifier implements IModifier<ITechnologyModel> {
 
-		public Modifier(final ITechnologyOperations operations,
-				final StorageHeaterType type,
-				final Optional<Double> responsiveness,
-				final StorageHeaterControlType controlType,
-				final double opex) {
-			this.operations = operations;
-			this.type = type;
-			this.controlType = controlType;
-			this.responsiveness = responsiveness;
-			this.opex = opex;
-		}
+        private final double opex;
+        private final ITechnologyOperations operations;
+        private final StorageHeaterType type;
+        private final Optional<Double> responsiveness;
+        private final StorageHeaterControlType controlType;
 
-		@Override
-		public boolean modify(final ITechnologyModel modifiable) {
-			final IStorageHeater storageHeater = ITechnologiesFactory.eINSTANCE.createStorageHeater();
+        public Modifier(final ITechnologyOperations operations,
+                final StorageHeaterType type,
+                final Optional<Double> responsiveness,
+                final StorageHeaterControlType controlType,
+                final double opex) {
+            this.operations = operations;
+            this.type = type;
+            this.controlType = controlType;
+            this.responsiveness = responsiveness;
+            this.opex = opex;
+        }
 
-			storageHeater.setControlType(controlType);
+        @Override
+        public boolean modify(final ITechnologyModel modifiable) {
+            final IStorageHeater storageHeater = ITechnologiesFactory.eINSTANCE.createStorageHeater();
 
-			if (responsiveness.isPresent()) {
-				storageHeater.setHasResponsivenessOverride(true);
-				storageHeater.setResponsivenessOverride(responsiveness.get());
-			}
-			storageHeater.setType(type);
-			storageHeater.setAnnualOperationalCost(opex);
+            storageHeater.setControlType(controlType);
 
-			operations.replacePrimarySpaceHeater(modifiable, storageHeater);
+            if (responsiveness.isPresent()) {
+                storageHeater.setHasResponsivenessOverride(true);
+                storageHeater.setResponsivenessOverride(responsiveness.get());
+            }
+            storageHeater.setType(type);
+            storageHeater.setAnnualOperationalCost(opex);
 
-			return true;
-		}
-	}
+            operations.replacePrimarySpaceHeater(modifiable, storageHeater);
 
-	@Override
-	protected boolean doApply(
-			final ISettableComponentsScope components,
-			final ILets lets,
-			final double size,
-			final double capex, final double opex) throws NHMException {
-		final Optional<Double> responsiveness;
-		if (responsivenessFunction.isPresent()) {
-			responsiveness = Optional.of(
-					responsivenessFunction.get().compute(components, lets).doubleValue());
+            return true;
+        }
+    }
 
-			if (responsiveness.get() < 0 || responsiveness.get() > 1) {
-				throw new RuntimeException("Responsiveness should be between 0 and 1, but was " + responsiveness.get());
-			}
-		} else {
-			responsiveness = Optional.absent();
-		}
-		components.modify(techs,
-				new Modifier(operations,
-						type,
-						responsiveness,
-						controlType,
-						opex
-						));
-		return true;
-	}
+    @Override
+    protected boolean doApply(
+            final ISettableComponentsScope components,
+            final ILets lets,
+            final double size,
+            final double capex, final double opex) throws NHMException {
+        final Optional<Double> responsiveness;
+        if (responsivenessFunction.isPresent()) {
+            responsiveness = Optional.of(
+                    responsivenessFunction.get().compute(components, lets).doubleValue());
 
-	@Override
-	protected boolean doIsSuitable(final IComponents components) {
-		return true;
-	}
+            if (responsiveness.get() < 0 || responsiveness.get() > 1) {
+                throw new RuntimeException("Responsiveness should be between 0 and 1, but was " + responsiveness.get());
+            }
+        } else {
+            responsiveness = Optional.absent();
+        }
+        components.modify(techs,
+                new Modifier(operations,
+                        type,
+                        responsiveness,
+                        controlType,
+                        opex
+                ));
+        return true;
+    }
 
-	@Override
-	protected Set<HeatingSystemControlType> getHeatingSystemControlTypes() {
-		return Collections.emptySet();
-	}
+    @Override
+    protected boolean doIsSuitable(final IComponents components) {
+        return true;
+    }
 
-	@Override
-	protected boolean isCentralHeatingSystemRequired() {
-		return false;
-	}
+    @Override
+    protected Set<HeatingSystemControlType> getHeatingSystemControlTypes() {
+        return Collections.emptySet();
+    }
+
+    @Override
+    protected boolean isCentralHeatingSystemRequired() {
+        return false;
+    }
 }

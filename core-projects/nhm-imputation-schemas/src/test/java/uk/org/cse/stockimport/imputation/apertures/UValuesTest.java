@@ -10,55 +10,56 @@ import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
 import uk.org.cse.nhm.energycalculator.mode.WindowUValues;
 
 public class UValuesTest {
-	@Test
-	public void testUValues() {
-		final WindowUValues uvalues = new WindowUValues();
 
-		testSingleGlazing(uvalues);
+    @Test
+    public void testUValues() {
+        final WindowUValues uvalues = new WindowUValues();
 
-		testDoubleGlazing(uvalues);
+        testSingleGlazing(uvalues);
 
-		testTripleGlazing(uvalues);
+        testDoubleGlazing(uvalues);
 
-		testSecondaryGlazing(uvalues);
-	}
+        testTripleGlazing(uvalues);
 
-	private void testSecondaryGlazing(WindowUValues uvalues) {
-		Assert.assertEquals(2.2, uvalues.getUValue(FrameType.Wood, GlazingType.Secondary, null, WindowGlazingAirGap.gapOf6mm), 0.05);
-		Assert.assertEquals(2.2, uvalues.getUValue(FrameType.uPVC, GlazingType.Secondary, null, WindowGlazingAirGap.gapOf6mm), 0.05);
-	}
+        testSecondaryGlazing(uvalues);
+    }
 
-	private void testDoubleGlazing(final WindowUValues uvalues) {
-		Assert.assertEquals(2.8, uvalues.getUValue(FrameType.Wood, GlazingType.Double, WindowInsulationType.Air, WindowGlazingAirGap.gapOf6mm), 0.05);
-		Assert.assertEquals(2.4, uvalues.getUValue(FrameType.Wood, GlazingType.Double, WindowInsulationType.LowEHardCoat, WindowGlazingAirGap.gapOf6mm), 0.05);
-		Assert.assertEquals(2.4, uvalues.getUValue(FrameType.Wood, GlazingType.Double, WindowInsulationType.LowESoftCoat, WindowGlazingAirGap.gapOf6mm), 0.05);
+    private void testSecondaryGlazing(WindowUValues uvalues) {
+        Assert.assertEquals(2.2, uvalues.getUValue(FrameType.Wood, GlazingType.Secondary, null, WindowGlazingAirGap.gapOf6mm), 0.05);
+        Assert.assertEquals(2.2, uvalues.getUValue(FrameType.uPVC, GlazingType.Secondary, null, WindowGlazingAirGap.gapOf6mm), 0.05);
+    }
 
-		Assert.assertEquals(3.2, uvalues.getUValue(FrameType.Metal, GlazingType.Double, WindowInsulationType.Air, WindowGlazingAirGap.gapOf6mm), 0.05);
-		Assert.assertEquals(2.9, uvalues.getUValue(FrameType.Metal, GlazingType.Double, WindowInsulationType.LowEHardCoat, WindowGlazingAirGap.gapOf6mm), 0.05);
-		Assert.assertEquals(2.8, uvalues.getUValue(FrameType.Metal, GlazingType.Double, WindowInsulationType.LowESoftCoat, WindowGlazingAirGap.gapOf6mm), 0.05);
+    private void testDoubleGlazing(final WindowUValues uvalues) {
+        Assert.assertEquals(2.8, uvalues.getUValue(FrameType.Wood, GlazingType.Double, WindowInsulationType.Air, WindowGlazingAirGap.gapOf6mm), 0.05);
+        Assert.assertEquals(2.4, uvalues.getUValue(FrameType.Wood, GlazingType.Double, WindowInsulationType.LowEHardCoat, WindowGlazingAirGap.gapOf6mm), 0.05);
+        Assert.assertEquals(2.4, uvalues.getUValue(FrameType.Wood, GlazingType.Double, WindowInsulationType.LowESoftCoat, WindowGlazingAirGap.gapOf6mm), 0.05);
 
-		Assert.assertEquals(2.8, uvalues.getUValue(FrameType.uPVC, GlazingType.Double, WindowInsulationType.Air, WindowGlazingAirGap.gapOf6mm), 0.05);
-		Assert.assertEquals(2.4, uvalues.getUValue(FrameType.uPVC, GlazingType.Double, WindowInsulationType.LowEHardCoat, WindowGlazingAirGap.gapOf6mm), 0.05);
-		Assert.assertEquals(2.4, uvalues.getUValue(FrameType.uPVC, GlazingType.Double, WindowInsulationType.LowESoftCoat, WindowGlazingAirGap.gapOf6mm), 0.05);
-	}
+        Assert.assertEquals(3.2, uvalues.getUValue(FrameType.Metal, GlazingType.Double, WindowInsulationType.Air, WindowGlazingAirGap.gapOf6mm), 0.05);
+        Assert.assertEquals(2.9, uvalues.getUValue(FrameType.Metal, GlazingType.Double, WindowInsulationType.LowEHardCoat, WindowGlazingAirGap.gapOf6mm), 0.05);
+        Assert.assertEquals(2.8, uvalues.getUValue(FrameType.Metal, GlazingType.Double, WindowInsulationType.LowESoftCoat, WindowGlazingAirGap.gapOf6mm), 0.05);
 
-	private void testTripleGlazing(final WindowUValues uvalues) {
-		Assert.assertEquals(2.2, uvalues.getUValue(FrameType.Wood, GlazingType.Triple, WindowInsulationType.Air, WindowGlazingAirGap.gapOf6mm), 0.05);
-		Assert.assertEquals(1.9, uvalues.getUValue(FrameType.Wood, GlazingType.Triple, WindowInsulationType.LowEHardCoat, WindowGlazingAirGap.gapOf6mm), 0.05);
-		Assert.assertEquals(1.9, uvalues.getUValue(FrameType.Wood, GlazingType.Triple, WindowInsulationType.LowESoftCoat, WindowGlazingAirGap.gapOf6mm), 0.05);
+        Assert.assertEquals(2.8, uvalues.getUValue(FrameType.uPVC, GlazingType.Double, WindowInsulationType.Air, WindowGlazingAirGap.gapOf6mm), 0.05);
+        Assert.assertEquals(2.4, uvalues.getUValue(FrameType.uPVC, GlazingType.Double, WindowInsulationType.LowEHardCoat, WindowGlazingAirGap.gapOf6mm), 0.05);
+        Assert.assertEquals(2.4, uvalues.getUValue(FrameType.uPVC, GlazingType.Double, WindowInsulationType.LowESoftCoat, WindowGlazingAirGap.gapOf6mm), 0.05);
+    }
 
-		Assert.assertEquals(2.6, uvalues.getUValue(FrameType.Metal, GlazingType.Triple, WindowInsulationType.Air, WindowGlazingAirGap.gapOf6mm), 0.05);
-		Assert.assertEquals(2.4, uvalues.getUValue(FrameType.Metal, GlazingType.Triple, WindowInsulationType.LowEHardCoat, WindowGlazingAirGap.gapOf6mm), 0.05);
-		Assert.assertEquals(2.3, uvalues.getUValue(FrameType.Metal, GlazingType.Triple, WindowInsulationType.LowESoftCoat, WindowGlazingAirGap.gapOf6mm), 0.05);
+    private void testTripleGlazing(final WindowUValues uvalues) {
+        Assert.assertEquals(2.2, uvalues.getUValue(FrameType.Wood, GlazingType.Triple, WindowInsulationType.Air, WindowGlazingAirGap.gapOf6mm), 0.05);
+        Assert.assertEquals(1.9, uvalues.getUValue(FrameType.Wood, GlazingType.Triple, WindowInsulationType.LowEHardCoat, WindowGlazingAirGap.gapOf6mm), 0.05);
+        Assert.assertEquals(1.9, uvalues.getUValue(FrameType.Wood, GlazingType.Triple, WindowInsulationType.LowESoftCoat, WindowGlazingAirGap.gapOf6mm), 0.05);
 
-		Assert.assertEquals(2.2, uvalues.getUValue(FrameType.uPVC, GlazingType.Triple, WindowInsulationType.Air, WindowGlazingAirGap.gapOf6mm), 0.05);
-		Assert.assertEquals(1.9, uvalues.getUValue(FrameType.uPVC, GlazingType.Triple, WindowInsulationType.LowEHardCoat, WindowGlazingAirGap.gapOf6mm), 0.05);
-		Assert.assertEquals(1.9, uvalues.getUValue(FrameType.uPVC, GlazingType.Triple, WindowInsulationType.LowESoftCoat, WindowGlazingAirGap.gapOf6mm), 0.05);
-	}
+        Assert.assertEquals(2.6, uvalues.getUValue(FrameType.Metal, GlazingType.Triple, WindowInsulationType.Air, WindowGlazingAirGap.gapOf6mm), 0.05);
+        Assert.assertEquals(2.4, uvalues.getUValue(FrameType.Metal, GlazingType.Triple, WindowInsulationType.LowEHardCoat, WindowGlazingAirGap.gapOf6mm), 0.05);
+        Assert.assertEquals(2.3, uvalues.getUValue(FrameType.Metal, GlazingType.Triple, WindowInsulationType.LowESoftCoat, WindowGlazingAirGap.gapOf6mm), 0.05);
 
-	private void testSingleGlazing(final WindowUValues uvalues) {
-		Assert.assertEquals(4.0, uvalues.getUValue(FrameType.Wood, GlazingType.Single, null, WindowGlazingAirGap.gapOf6mm), 0.05);
-		Assert.assertEquals(4.6, uvalues.getUValue(FrameType.Metal, GlazingType.Single, null, WindowGlazingAirGap.gapOf6mm), 0.05);
-		Assert.assertEquals(4.0, uvalues.getUValue(FrameType.uPVC, GlazingType.Single, null, WindowGlazingAirGap.gapOf6mm), 0.05);
-	}
+        Assert.assertEquals(2.2, uvalues.getUValue(FrameType.uPVC, GlazingType.Triple, WindowInsulationType.Air, WindowGlazingAirGap.gapOf6mm), 0.05);
+        Assert.assertEquals(1.9, uvalues.getUValue(FrameType.uPVC, GlazingType.Triple, WindowInsulationType.LowEHardCoat, WindowGlazingAirGap.gapOf6mm), 0.05);
+        Assert.assertEquals(1.9, uvalues.getUValue(FrameType.uPVC, GlazingType.Triple, WindowInsulationType.LowESoftCoat, WindowGlazingAirGap.gapOf6mm), 0.05);
+    }
+
+    private void testSingleGlazing(final WindowUValues uvalues) {
+        Assert.assertEquals(4.0, uvalues.getUValue(FrameType.Wood, GlazingType.Single, null, WindowGlazingAirGap.gapOf6mm), 0.05);
+        Assert.assertEquals(4.6, uvalues.getUValue(FrameType.Metal, GlazingType.Single, null, WindowGlazingAirGap.gapOf6mm), 0.05);
+        Assert.assertEquals(4.0, uvalues.getUValue(FrameType.uPVC, GlazingType.Single, null, WindowGlazingAirGap.gapOf6mm), 0.05);
+    }
 }

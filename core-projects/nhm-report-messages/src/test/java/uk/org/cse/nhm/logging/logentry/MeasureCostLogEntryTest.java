@@ -12,13 +12,12 @@ import uk.org.cse.nhm.logging.logentry.MeasureCostLogEntry.Stats;
 
 public class MeasureCostLogEntryTest {
 
-
-	@Test
-	public void test() throws JsonGenerationException, JsonMappingException, IOException {
-		final MeasureCostLogEntry logEntry =
-				new MeasureCostLogEntry("a", "b", new Stats(1, 2, 4, 5, 6), new Stats(1, 2, 4, 5, 2),
-						new Stats(1, 2, 4, 5, 2),
-						1, new DateTime(), "things");
-		LogEntryTestUtility.testLogDeSerialisation(logEntry, MeasureCostLogEntry.class);
-	}
+    @Test
+    public void test() throws JsonGenerationException, JsonMappingException, IOException {
+        final MeasureCostLogEntry logEntry
+                = new MeasureCostLogEntry("a", "b", new Stats(1, 2, 4, 5, 6), new Stats(1, 2, 4, 5, 2),
+                        new Stats(1, 2, 4, 5, 2),
+                        1, new DateTime(), "things");
+        LogEntryTestUtility.testLogDeSerialisation(logEntry, MeasureCostLogEntry.class);
+    }
 }

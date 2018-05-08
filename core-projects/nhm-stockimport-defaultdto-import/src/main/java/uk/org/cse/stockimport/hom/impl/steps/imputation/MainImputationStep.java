@@ -48,142 +48,146 @@ import uk.org.cse.stockimport.repository.IHouseCaseSources;
  * @since 1.0
  */
 public class MainImputationStep implements ISurveyCaseBuildStep {
-    /** @since 1.0 */
+
+    /**
+     * @since 1.0
+     */
     public static final String IDENTIFIER = MainImputationStep.class.getCanonicalName();
 
-	private ICeilingPropertyImputer ceilings = new CeilingPropertyImputer(new RdSAPCeilingUValues());
-	private IFloorPropertyImputer floors = new FloorPropertyImputer(new RdSAPFloorPropertyTables());
-	private IWallPropertyImputer walls = new WallPropertyImputer();
-	private IDoorPropertyImputer doors = new DoorPropertyImputer();
-	private IWindowPropertyImputer windows = new WindowPropertyImputer();
+    private ICeilingPropertyImputer ceilings = new CeilingPropertyImputer(new RdSAPCeilingUValues());
+    private IFloorPropertyImputer floors = new FloorPropertyImputer(new RdSAPFloorPropertyTables());
+    private IWallPropertyImputer walls = new WallPropertyImputer();
+    private IDoorPropertyImputer doors = new DoorPropertyImputer();
+    private IWindowPropertyImputer windows = new WindowPropertyImputer();
 
-	@Override
-	public String getIdentifier() {
-		return IDENTIFIER;
-	}
+    @Override
+    public String getIdentifier() {
+        return IDENTIFIER;
+    }
 
-	@Override
-	public Set<String> getDependencies() {
-		return ImmutableSet.of(
+    @Override
+    public Set<String> getDependencies() {
+        return ImmutableSet.of(
                 BasicAttributesBuildStep.IDENTIFIER,
                 ElevationBuildStep.IDENTIFIER,
                 RoofBuildStep.IDENTIFIER,
-				StructureInitializingBuildStep.IDENTIFIER,
-				StoreyBuildStep.IDENTIFIER);
-	}
+                StructureInitializingBuildStep.IDENTIFIER,
+                StoreyBuildStep.IDENTIFIER);
+    }
 
-	public MainImputationStep(){
+    public MainImputationStep() {
 
-	}
+    }
 
-	public MainImputationStep(final ISchemaForImputation schemaForImputation){
-		this.ceilings = new CeilingPropertyImputer(schemaForImputation.getCeilingUValueTables());
-		this.floors = new FloorPropertyImputer(schemaForImputation.getFloorPropertyTables());
-		this.walls = new WallPropertyImputer(schemaForImputation.getWallPropertyTables());
-		this.doors = schemaForImputation.getDoorPropertyImputer();
-		this.windows = new WindowPropertyImputer(schemaForImputation.getWindowPropertyTables());
-	}
+    public MainImputationStep(final ISchemaForImputation schemaForImputation) {
+        this.ceilings = new CeilingPropertyImputer(schemaForImputation.getCeilingUValueTables());
+        this.floors = new FloorPropertyImputer(schemaForImputation.getFloorPropertyTables());
+        this.walls = new WallPropertyImputer(schemaForImputation.getWallPropertyTables());
+        this.doors = schemaForImputation.getDoorPropertyImputer();
+        this.windows = new WindowPropertyImputer(schemaForImputation.getWindowPropertyTables());
+    }
 
-	@Override
+    @Override
     /**
-     * @assumption The thickness used for floor u value calculation should be that of the thickest wall.
-     * @assumption If the ground floor is insulated, exposed floors will be too. otherwise, they will not be.
+     * @assumption The thickness used for floor u value calculation should be
+     * that of the thickest wall.
+     * @assumption If the ground floor is insulated, exposed floors will be too.
+     * otherwise, they will not be.
      * @assumption Floor air change rate is zero for internal floors.
      */
-	public void build(final SurveyCase sc, final IHouseCaseSources<IBasicDTO> dtos) {
-		final StructureModel sm = sc.getStructure();
-		final HouseCaseDTO caseDTO = dtos.requireOne(HouseCaseDTO.class);
-		final Country country = caseDTO.getRegionType().getCountry();
+    public void build(final SurveyCase sc, final IHouseCaseSources<IBasicDTO> dtos) {
+        final StructureModel sm = sc.getStructure();
+        final HouseCaseDTO caseDTO = dtos.requireOne(HouseCaseDTO.class);
+        final Country country = caseDTO.getRegionType().getCountry();
 
-		final SAPAgeBandValue ageBand = SAPAgeBandValue.fromYear(caseDTO.getBuildYear(),
-                                                           country,
-                                                           SAPAgeBandValue.Band.K);
+        final SAPAgeBandValue ageBand = SAPAgeBandValue.fromYear(caseDTO.getBuildYear(),
+                country,
+                SAPAgeBandValue.Band.K);
 
-		final FloorConstructionType groundFloorConstructionType = sm.getGroundFloorConstructionType();
-		final RoofConstructionType roofConstructionType = sm.getRoofConstructionType();
-		final double roofInsulationThickness = sm.getRoofInsulationThickness();
-		final double floorInsulationThickness = floors.getFloorInsulationThickness(ageBand.getName(), country, sm.getGroundFloorConstructionType());
-		sm.setFloorInsulationThickness(floorInsulationThickness);
+        final FloorConstructionType groundFloorConstructionType = sm.getGroundFloorConstructionType();
+        final RoofConstructionType roofConstructionType = sm.getRoofConstructionType();
+        final double roofInsulationThickness = sm.getRoofInsulationThickness();
+        final double floorInsulationThickness = floors.getFloorInsulationThickness(ageBand.getName(), country, sm.getGroundFloorConstructionType());
+        sm.setFloorInsulationThickness(floorInsulationThickness);
 
-		double areaBelow = 0;
-		for (final Storey storey : sm.getStoreys()) {
-			// impute wall properties
-			for (final IMutableWall wall : storey.getWalls()) {
-				final WallConstructionType wallConstructionType = wall.getWallConstructionType();
+        double areaBelow = 0;
+        for (final Storey storey : sm.getStoreys()) {
+            // impute wall properties
+            for (final IMutableWall wall : storey.getWalls()) {
+                final WallConstructionType wallConstructionType = wall.getWallConstructionType();
 
-				final double uValue = walls.getUValue(ageBand.getName(), country,
-						wallConstructionType, wall.getWallInsulationTypes());
+                final double uValue = walls.getUValue(ageBand.getName(), country,
+                        wallConstructionType, wall.getWallInsulationTypes());
 
-				wall.setUValue(uValue);
-				wall.setThicknessWithExistingInsulation(
-						walls.getWallThickness(ageBand.getName(), country, wallConstructionType, wall.getWallInsulationTypes())
-						);
-				wall.setAirChangeRate(walls.getAirChangeRate(wallConstructionType));
-			}
+                wall.setUValue(uValue);
+                wall.setThicknessWithExistingInsulation(
+                        walls.getWallThickness(ageBand.getName(), country, wallConstructionType, wall.getWallInsulationTypes())
+                );
+                wall.setAirChangeRate(walls.getAirChangeRate(wallConstructionType));
+            }
 
-			final FloorLocationType location = storey.getFloorLocationType();
-			final boolean isInContactWithGround =
-					location == FloorLocationType.BASEMENT || location == FloorLocationType.GROUND;
+            final FloorLocationType location = storey.getFloorLocationType();
+            final boolean isInContactWithGround
+                    = location == FloorLocationType.BASEMENT || location == FloorLocationType.GROUND;
 
-			final double lowerUValue;
+            final double lowerUValue;
 
-			if (isInContactWithGround) {
-				// we work out the area of this floor that is actually in contact with the ground
-				// by subtracting the area below
-				final double contactArea = Math.max(0, storey.getArea() - areaBelow);
-				lowerUValue = floors.getGroundFloorUValue(
-						groundFloorConstructionType,
-						storey.getAverageWallThicknessWithInsulation(),
-						floorInsulationThickness,
-						storey.getExposedPerimeter(),
-						contactArea);
+            if (isInContactWithGround) {
+                // we work out the area of this floor that is actually in contact with the ground
+                // by subtracting the area below
+                final double contactArea = Math.max(0, storey.getArea() - areaBelow);
+                lowerUValue = floors.getGroundFloorUValue(
+                        groundFloorConstructionType,
+                        storey.getAverageWallThicknessWithInsulation(),
+                        floorInsulationThickness,
+                        storey.getExposedPerimeter(),
+                        contactArea);
 
-			} else {
-				lowerUValue = floors.getExposedFloorUValue(ageBand.getName(), floorInsulationThickness > 0);
-			}
+            } else {
+                lowerUValue = floors.getExposedFloorUValue(ageBand.getName(), floorInsulationThickness > 0);
+            }
 
-			storey.setFloorUValue(lowerUValue);
+            storey.setFloorUValue(lowerUValue);
 
-			// impute ceiling properties using the global information about the top of the house.
-			//TODO should we infer something about flat roofs on additional modules differently from the top floor?
-			if (roofConstructionType == RoofConstructionType.Flat) {
-				storey.setCeilingUValue(ceilings.getRoofUValue(ageBand.getName(), roofConstructionType, location == FloorLocationType.ROOM_IN_ROOF));
-			} else {
-				storey.setCeilingUValue(ceilings.getRoofUValue(roofConstructionType,
-						roofInsulationThickness,
-						location == FloorLocationType.ROOM_IN_ROOF));
-			}
+            // impute ceiling properties using the global information about the top of the house.
+            //TODO should we infer something about flat roofs on additional modules differently from the top floor?
+            if (roofConstructionType == RoofConstructionType.Flat) {
+                storey.setCeilingUValue(ceilings.getRoofUValue(ageBand.getName(), roofConstructionType, location == FloorLocationType.ROOM_IN_ROOF));
+            } else {
+                storey.setCeilingUValue(ceilings.getRoofUValue(roofConstructionType,
+                        roofInsulationThickness,
+                        location == FloorLocationType.ROOM_IN_ROOF));
+            }
 
-			areaBelow = storey.getArea();
-		}
+            areaBelow = storey.getArea();
+        }
 
-		// impute window and door properties.
+        // impute window and door properties.
+        for (final Elevation e : sm.getElevations().values()) {
+            for (final Glazing g : e.getGlazings()) {
+                final FrameType ft = g.getFrameType();
+                final GlazingType gt = g.getGlazingType();
+                final WindowInsulationType it = g.getInsulationType();
+                g.setFrameFactor(windows.getFrameFactor(ageBand, ft, gt, it));
+                g.setGainsTransmissionFactor(windows.getGainsTransmittance(ageBand, ft, gt, it));
+                g.setLightTransmissionFactor(windows.getLightTransmittance(ageBand, ft, gt, it));
+                g.setUValue(windows.getUValue(ageBand, ft, gt, it));
+            }
 
-		for (final Elevation e : sm.getElevations().values()) {
-			for (final Glazing g : e.getGlazings()) {
-				final FrameType ft = g.getFrameType();
-				final GlazingType gt = g.getGlazingType();
-				final WindowInsulationType it = g.getInsulationType();
-				g.setFrameFactor(windows.getFrameFactor(ageBand, ft, gt, it));
-				g.setGainsTransmissionFactor(windows.getGainsTransmittance(ageBand, ft, gt, it));
-				g.setLightTransmissionFactor(windows.getLightTransmittance(ageBand, ft, gt, it));
-				g.setUValue(windows.getUValue(ageBand, ft, gt, it));
-			}
+            for (final Door d : e.getDoors()) {
+                final DoorType doorType = d.getDoorType();
 
-			for (final Door d : e.getDoors()) {
-				final DoorType doorType = d.getDoorType();
+                d.setArea(doors.getArea(doorType));
+                d.setuValue(doors.getUValue(ageBand.getName(), doorType));
 
-				d.setArea(doors.getArea(doorType));
-				d.setuValue(doors.getUValue(ageBand.getName(), doorType));
-
-				if (doorType == DoorType.Glazed) {
-					final FrameType ft = d.getFrameType();
-					final GlazingType gt = d.getGlazingType();
-					d.setFrameFactor(windows.getFrameFactor(ageBand, ft, gt, WindowInsulationType.Air));
-					d.setGainsTransmissionFactor(windows.getGainsTransmittance(ageBand, ft, gt, WindowInsulationType.Air));
-					d.setLightTransmissionFactor(windows.getLightTransmittance(ageBand, ft, gt, WindowInsulationType.Air));
-				}
-			}
-		}
-	}
+                if (doorType == DoorType.Glazed) {
+                    final FrameType ft = d.getFrameType();
+                    final GlazingType gt = d.getGlazingType();
+                    d.setFrameFactor(windows.getFrameFactor(ageBand, ft, gt, WindowInsulationType.Air));
+                    d.setGainsTransmissionFactor(windows.getGainsTransmittance(ageBand, ft, gt, WindowInsulationType.Air));
+                    d.setLightTransmissionFactor(windows.getLightTransmittance(ageBand, ft, gt, WindowInsulationType.Air));
+                }
+            }
+        }
+    }
 }

@@ -63,6 +63,7 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.HeatingEfficiencyFunction;
 
 public interface IMeasureFactory {
+
     public StandardBoilerMeasure createStandardBoilerMeasure(
             @Assisted final FuelType fuelType,
             @Assisted final ISizingFunction sizingFunction,
@@ -75,7 +76,7 @@ public interface IMeasureFactory {
             @Assisted("cylinderInsulation") final double cylinderInsulationThickness,
             @Assisted("floorArea") final double minimumFloorArea,
             @Assisted("externalSpace") final double minimumExternalSpace
-            );
+    );
 
     public CombiBoilerMeasure createCombiBoilerMeasure(
             @Assisted final FuelType fuelType,
@@ -86,7 +87,7 @@ public interface IMeasureFactory {
             @Assisted("winterEfficiency") final IComponentsFunction<Number> winterEfficiency,
             @Assisted("summerEfficiency") final IComponentsFunction<Number> summerEfficiency,
             @Assisted("storageVolume") final IComponentsFunction<Number> storageVolume
-            );
+    );
 
     public GroundSourceHeatPumpMeasure createGroundSourceHeatPumpMeasure(
             @Assisted final ISizingFunction sizingFunction,
@@ -99,7 +100,7 @@ public interface IMeasureFactory {
             @Assisted("space") final double minimumSpace,
             @Assisted("fuel") final FuelType fuel,
             @Assisted final Optional<Hybrid> hybrid
-            );
+    );
 
     public AirSourceHeatPumpMeasure createAirSourceHeatPumpMeasure(
             @Assisted final ISizingFunction sizingFunction,
@@ -111,7 +112,7 @@ public interface IMeasureFactory {
             @Assisted("volume") final IComponentsFunction<Number> cylinderVolume,
             @Assisted("fuel") final FuelType fuel,
             @Assisted final Optional<Hybrid> hybrid
-            );
+    );
 
     public WallInsulationMeasure createWallInsulationMeasure(
             @Assisted("capex") final IComponentsFunction<Number> capitalCostFunction,
@@ -120,7 +121,7 @@ public interface IMeasureFactory {
             @Assisted("uvalue") final Optional<IComponentsFunction<Number>> uValueOverride,
             @Assisted final Predicate<IWall> suitability,
             @Assisted final WallInsulationType insulationType
-            );
+    );
 
     public RoofInsulationMeasure createRoofInsulationMeasure(
             @Assisted("thickness") final double insulationThickness,
@@ -129,7 +130,7 @@ public interface IMeasureFactory {
             @Assisted("capex") final IComponentsFunction<Number> capitalCostFunction,
             @Assisted final Set<RoofConstructionType> suitableRoofConstructionTypes,
             @Assisted final boolean topup
-            );
+    );
 
     public GlazingMeasure createGlazingInsulationMeasure(
             @Assisted("capex") final IComponentsFunction<Number> capitalCostFunction,
@@ -141,19 +142,19 @@ public interface IMeasureFactory {
             @Assisted final GlazingType glazingType,
             @Assisted final WindowInsulationType windowInsulationType,
             @Assisted final WindowGlazingAirGap airGap
-            );
+    );
 
     public DraughtProofingMeasure createDraughtProofingMeasure(
             @Assisted("capex") final IComponentsFunction<Number> capitalCostFunction,
             @Assisted("proportion") final double proportion
-            );
+    );
 
     public SolarHotWaterMeasure createSolarHotWaterMeasure(
-            @Assisted("area")   final IComponentsFunction<Number> installedArea,
-            @Assisted("cost")   final IComponentsFunction<Number> installationCost,
+            @Assisted("area") final IComponentsFunction<Number> installedArea,
+            @Assisted("cost") final IComponentsFunction<Number> installationCost,
             @Assisted("volume") final IComponentsFunction<Number> cylinderVolume,
-            @Assisted("zle")    final IComponentsFunction<Number> zle,
-            @Assisted("lhlc")   final IComponentsFunction<Number> lhlc);
+            @Assisted("zle") final IComponentsFunction<Number> zle,
+            @Assisted("lhlc") final IComponentsFunction<Number> lhlc);
 
     public AlterWallHeatLossMeasure createUValueModifier(
             final double uValue);
@@ -174,7 +175,6 @@ public interface IMeasureFactory {
             @Assisted final ISizingFunction sizingFunction,
             @Assisted("capex") final IComponentsFunction<Number> capitalCostFunction,
             @Assisted("opex") final IComponentsFunction<Number> opexFunction,
-
             @Assisted final FuelType fuel,
             @Assisted final Optional<Double> efficiency,
             @Assisted("replaceExisting") final boolean replaceExisting);
@@ -212,25 +212,24 @@ public interface IMeasureFactory {
             @Assisted("insulationthickness") final IComponentsFunction<? extends Number> thickness,
             @Assisted("uvalue") final Optional<IComponentsFunction<? extends Number>> uvalue);
 
-    public FloorInsulationMeasure createFloorInsulationMeasure
-            (
-                    @Assisted("capex") final IComponentsFunction<Number> capex,
-                    @Assisted("resistance") final Optional<IComponentsFunction<Number>> resistance,
-                    @Assisted("uvalue") final Optional<IComponentsFunction<Number>> uValue,
-                    @Assisted final double thickness,
-                    @Assisted final boolean isSolidFloor
-            );
+    public FloorInsulationMeasure createFloorInsulationMeasure(
+            @Assisted("capex") final IComponentsFunction<Number> capex,
+            @Assisted("resistance") final Optional<IComponentsFunction<Number>> resistance,
+            @Assisted("uvalue") final Optional<IComponentsFunction<Number>> uValue,
+            @Assisted final double thickness,
+            @Assisted final boolean isSolidFloor
+    );
 
     public AddOrRemoveLoftAction createAddOrRemoveLoftAction(final boolean addLoft);
 
     public LowEnergyLightingMeasure createLowEnergyLightingMeasure(
-    		List<LightType> from,
-    		LightType to,
+            List<LightType> from,
+            LightType to,
             @Assisted final IComponentsFunction<Number> capex);
 
     public SolarPhotovoltaicMeasure createSolarPhotovoltaicMeasure(
-    		@Assisted("sizing") final ISizingFunction sizing,
-            @Assisted("capex") final IComponentsFunction<Number> capex, 
+            @Assisted("sizing") final ISizingFunction sizing,
+            @Assisted("capex") final IComponentsFunction<Number> capex,
             @Assisted("ownUse") final IComponentsFunction<Number> ownUse);
 
     public AdjustmentMeasure createAdjustmentMeasure(
@@ -241,31 +240,31 @@ public interface IMeasureFactory {
 
     public FitStorageTankThermostat createHotWaterTankThermostat(
             @Assisted("capex") final IComponentsFunction<Number> capitalCostFunction);
-    
+
     public InstallHotWaterCylinderInsulation createInstallHotWateCylinderInsulation(
             @Assisted("capex") final IComponentsFunction<Number> capitalCostFunction);
-    
+
     public WarmAirMeasure createWarmAirMeasure(
             @Assisted final FuelType fuelType,
             @Assisted final ISizingFunction sizingFunction,
             @Assisted("capex") final IComponentsFunction<Number> capitalCostFunction,
             @Assisted("opex") final IComponentsFunction<Number> operationalCostFunction,
             @Assisted("efficiency") final IComponentsFunction<Number> efficiency);
-    
+
     public LightingProportionMeasure createLightingProportionMeasure(
-    		@Assisted("proportionOfCfl") final IComponentsFunction<Number> proportionOfCfl,
-			@Assisted("proportionOfIcandescent") final IComponentsFunction<Number> proportionOfIcandescent,
-			@Assisted("propotionOfHAL") final IComponentsFunction<Number> propotionOfHAL,
-			@Assisted("proportionOfLED") final IComponentsFunction<Number> proportionOfLED,
-			@Assisted("proportionOfLVHAL") final IComponentsFunction<Number> proportionOfLVHAL,
-			@Assisted("proportionOfLA++") final IComponentsFunction<Number> proportionOfLApp
-    		);
+            @Assisted("proportionOfCfl") final IComponentsFunction<Number> proportionOfCfl,
+            @Assisted("proportionOfIcandescent") final IComponentsFunction<Number> proportionOfIcandescent,
+            @Assisted("propotionOfHAL") final IComponentsFunction<Number> propotionOfHAL,
+            @Assisted("proportionOfLED") final IComponentsFunction<Number> proportionOfLED,
+            @Assisted("proportionOfLVHAL") final IComponentsFunction<Number> proportionOfLVHAL,
+            @Assisted("proportionOfLA++") final IComponentsFunction<Number> proportionOfLApp
+    );
 
     public SetAdjustmentTermsMeasure createSetAdjustmentTermsMeasure(
             @Assisted final AdjusterType adjuster,
             @Assisted(XSetAdjustmentTerms.P.constantTerm) final IComponentsFunction<Number> constantTerm,
             @Assisted(XSetAdjustmentTerms.P.linearFactor) final IComponentsFunction<Number> linearFactor);
-    
+
     public AdjustNumberOfAirChangeDevicesMeasure createAdjustNumberOfAirChangeDevicesMeasure(
             final int adjustment,
             final XAdjustNumberOfAirChangeDevices.XAirChangeDevice device);

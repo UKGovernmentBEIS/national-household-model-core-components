@@ -10,6 +10,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RequireParent {
-	public Class<?>[] value() default {};
+
+    public Class<?>[] value() default {};
+
     public String message() default "";
 }

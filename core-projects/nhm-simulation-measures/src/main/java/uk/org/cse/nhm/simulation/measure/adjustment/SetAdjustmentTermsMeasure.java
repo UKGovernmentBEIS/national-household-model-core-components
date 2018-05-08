@@ -26,29 +26,32 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
  * @author trickyBytes
  */
 public class SetAdjustmentTermsMeasure extends AbstractMeasure {
+
     private final IDimension<ITechnologyModel> technologies;
     private final IComponentsFunction<Number> constantTerm;
     private final IComponentsFunction<Number> linearFactor;
     private final AdjusterType adjusterType;
-    
+
     @AssistedInject
     public SetAdjustmentTermsMeasure(
             final IDimension<ITechnologyModel> technologies,
             @Assisted(XSetAdjustmentTerms.P.constantTerm) final IComponentsFunction<Number> constantTerm,
             @Assisted(XSetAdjustmentTerms.P.linearFactor) final IComponentsFunction<Number> linearFactor,
-            @Assisted final AdjusterType adjusterType){
+            @Assisted final AdjusterType adjusterType) {
         this.technologies = technologies;
         this.constantTerm = constantTerm;
         this.linearFactor = linearFactor;
         this.adjusterType = adjusterType;
     }
-    
+
     /**
      * @param scope
      * @param lets
      * @return
      * @throws NHMException
-     * @see uk.org.cse.nhm.simulator.scope.IComponentsAction#apply(uk.org.cse.nhm.simulator.scope.ISettableComponentsScope, uk.org.cse.nhm.simulator.let.ILets)
+     * @see
+     * uk.org.cse.nhm.simulator.scope.IComponentsAction#apply(uk.org.cse.nhm.simulator.scope.ISettableComponentsScope,
+     * uk.org.cse.nhm.simulator.let.ILets)
      */
     @Override
     public boolean doApply(ISettableComponentsScope scope, ILets lets) throws NHMException {
@@ -82,7 +85,9 @@ public class SetAdjustmentTermsMeasure extends AbstractMeasure {
      * @param scope
      * @param lets
      * @return
-     * @see uk.org.cse.nhm.simulator.scope.IComponentsAction#isSuitable(uk.org.cse.nhm.simulator.scope.IComponentsScope, uk.org.cse.nhm.simulator.let.ILets)
+     * @see
+     * uk.org.cse.nhm.simulator.scope.IComponentsAction#isSuitable(uk.org.cse.nhm.simulator.scope.IComponentsScope,
+     * uk.org.cse.nhm.simulator.let.ILets)
      */
     @Override
     public boolean isSuitable(IComponentsScope scope, ILets lets) {
@@ -90,8 +95,8 @@ public class SetAdjustmentTermsMeasure extends AbstractMeasure {
     }
 
     /**
-     * @return
-     * @see uk.org.cse.nhm.simulator.scope.IComponentsAction#isAlwaysSuitable()
+     * @return @see
+     * uk.org.cse.nhm.simulator.scope.IComponentsAction#isAlwaysSuitable()
      */
     @Override
     public boolean isAlwaysSuitable() {
@@ -99,8 +104,8 @@ public class SetAdjustmentTermsMeasure extends AbstractMeasure {
     }
 
     /**
-     * @return
-     * @see uk.org.cse.nhm.simulator.state.IStateChangeSource#getSourceType()
+     * @return @see
+     * uk.org.cse.nhm.simulator.state.IStateChangeSource#getSourceType()
      */
     @Override
     public StateChangeSourceType getSourceType() {

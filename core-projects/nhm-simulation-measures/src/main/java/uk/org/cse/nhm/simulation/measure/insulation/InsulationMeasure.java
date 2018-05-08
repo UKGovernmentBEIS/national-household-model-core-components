@@ -11,30 +11,31 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 import uk.org.cse.nhm.simulator.transactions.Payment;
 
 public abstract class InsulationMeasure extends AbstractMeasure {
-	private final IComponentsFunction<Number> capitalCostFunction;
-	
-	private final TechnologyType technology;
-	
-	protected InsulationMeasure(
-			final IComponentsFunction<Number> capitalCostFunction,
-			final TechnologyType technology) {
-		this.capitalCostFunction = capitalCostFunction;
-		this.technology = technology;
-	}
 
-	/**
-	 * @param components
-	 * @param lets TODO
-	 * @param quantityInstalled
-	 * @Assumption Operational expenditure of instalation measures is zero.
-	 */
-	protected void addCapitalCosts(final ISettableComponentsScope components, final ILets lets, final double quantityInstalled) {
-		components.addNote(SizingResult.suitable(quantityInstalled, Units.SQUARE_METRES));
-		final double opex = 0;
-		final double capex = capitalCostFunction.compute(components, lets).doubleValue();
-		components.addNote(new TechnologyInstallationDetails(this, technology, quantityInstalled,
-															 Units.SQUARE_METRES,
-															 capex, opex));
-		components.addTransaction(Payment.capexToMarket(capex));
-	}
+    private final IComponentsFunction<Number> capitalCostFunction;
+
+    private final TechnologyType technology;
+
+    protected InsulationMeasure(
+            final IComponentsFunction<Number> capitalCostFunction,
+            final TechnologyType technology) {
+        this.capitalCostFunction = capitalCostFunction;
+        this.technology = technology;
+    }
+
+    /**
+     * @param components
+     * @param lets TODO
+     * @param quantityInstalled
+     * @Assumption Operational expenditure of instalation measures is zero.
+     */
+    protected void addCapitalCosts(final ISettableComponentsScope components, final ILets lets, final double quantityInstalled) {
+        components.addNote(SizingResult.suitable(quantityInstalled, Units.SQUARE_METRES));
+        final double opex = 0;
+        final double capex = capitalCostFunction.compute(components, lets).doubleValue();
+        components.addNote(new TechnologyInstallationDetails(this, technology, quantityInstalled,
+                Units.SQUARE_METRES,
+                capex, opex));
+        components.addTransaction(Payment.capexToMarket(capex));
+    }
 }

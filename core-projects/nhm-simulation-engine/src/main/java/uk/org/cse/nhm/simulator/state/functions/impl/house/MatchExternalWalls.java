@@ -18,41 +18,44 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class MatchExternalWalls extends StructureFunction<Boolean> implements IComponentsFunction<Boolean> {
-	private final Predicate<WallConstructionType> wallTypeMatcher;
-	private final Predicate<Set<WallInsulationType>> insulationMatcher;
-	private final boolean allWalls;
-	
-	@Inject
-	public MatchExternalWalls(final IDimension<StructureModel> structure,
-			@Assisted final Predicate<WallConstructionType> wallTypeMatcher,
-			@Assisted final Predicate<Set<WallInsulationType>> insulationMatcher,
-			@Assisted final boolean allWalls) {
-		super(structure);
-		this.wallTypeMatcher = wallTypeMatcher;
-		this.insulationMatcher = insulationMatcher;
-		this.allWalls = allWalls;
-	}
 
-	@Override
-	public Boolean compute(final IComponentsScope scope, final ILets lets) {
-		for (final Storey s : getStructure(scope).getStoreys()) {
-			for (final IWall w : s.getImmutableWalls()) {
-				if (w.isPartyWall()) continue;
-				final boolean typeMatches = wallTypeMatcher.apply(w.getWallConstructionType());
-				final boolean insMatches = insulationMatcher.apply(w.getWallInsulationTypes());
-				
-				if (allWalls) {
-					if (!(typeMatches && insMatches)) {
-						return false; // at least one wall is bad
-					}
-				} else {
-					if (typeMatches && insMatches) {
-						return true; // at least one wall is good
-					}
-				}
-			}
-		}
-		
-		return allWalls; // either all walls were good, or no walls were good
-	}
+    private final Predicate<WallConstructionType> wallTypeMatcher;
+    private final Predicate<Set<WallInsulationType>> insulationMatcher;
+    private final boolean allWalls;
+
+    @Inject
+    public MatchExternalWalls(final IDimension<StructureModel> structure,
+            @Assisted final Predicate<WallConstructionType> wallTypeMatcher,
+            @Assisted final Predicate<Set<WallInsulationType>> insulationMatcher,
+            @Assisted final boolean allWalls) {
+        super(structure);
+        this.wallTypeMatcher = wallTypeMatcher;
+        this.insulationMatcher = insulationMatcher;
+        this.allWalls = allWalls;
+    }
+
+    @Override
+    public Boolean compute(final IComponentsScope scope, final ILets lets) {
+        for (final Storey s : getStructure(scope).getStoreys()) {
+            for (final IWall w : s.getImmutableWalls()) {
+                if (w.isPartyWall()) {
+                    continue;
+                }
+                final boolean typeMatches = wallTypeMatcher.apply(w.getWallConstructionType());
+                final boolean insMatches = insulationMatcher.apply(w.getWallInsulationTypes());
+
+                if (allWalls) {
+                    if (!(typeMatches && insMatches)) {
+                        return false; // at least one wall is bad
+                    }
+                } else {
+                    if (typeMatches && insMatches) {
+                        return true; // at least one wall is good
+                    }
+                }
+            }
+        }
+
+        return allWalls; // either all walls were good, or no walls were good
+    }
 }

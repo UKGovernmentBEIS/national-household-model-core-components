@@ -5,5 +5,6 @@ import java.util.SortedSet;
 import org.joda.time.DateTime;
 
 public interface ITimeSequence {
-	public SortedSet<DateTime> getDateTimes();
+
+    public SortedSet<DateTime> getDateTimes();
 }

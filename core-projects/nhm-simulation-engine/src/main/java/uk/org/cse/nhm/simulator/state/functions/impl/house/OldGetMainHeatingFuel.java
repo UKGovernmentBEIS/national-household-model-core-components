@@ -10,13 +10,14 @@ import uk.org.cse.nhm.simulator.scope.IComponentsScope;
 import uk.org.cse.nhm.simulator.state.IDimension;
 
 public class OldGetMainHeatingFuel extends MainHeatingFuelFunction<FuelType> {
-	@Inject
-	public OldGetMainHeatingFuel(ITechnologyOperations operations, IDimension<ITechnologyModel> bad) {
-		super(operations, bad);
-	}
 
-	@Override
-	public FuelType compute(IComponentsScope scope, ILets lets) {
-		return getMainHeatingFuel(scope);		
-	}
+    @Inject
+    public OldGetMainHeatingFuel(ITechnologyOperations operations, IDimension<ITechnologyModel> bad) {
+        super(operations, bad);
+    }
+
+    @Override
+    public FuelType compute(IComponentsScope scope, ILets lets) {
+        return getMainHeatingFuel(scope);
+    }
 }

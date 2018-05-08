@@ -21,41 +21,42 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 import uk.org.cse.nhm.simulator.transactions.ITransaction;
 
 /**
- * Sums all @{link ICost} results of the given name which have been stored on the {@link IComponents}.
- * 
+ * Sums all @{link ICost} results of the given name which have been stored on
+ * the {@link IComponents}.
+ *
  * @author glenns
  * @since 3.4.0
  */
 public class CostResultFunction extends AbstractNamed implements IComponentsFunction<Double> {
-	private final Predicate<Collection<String>> tagged;
 
-	@Inject
-	public CostResultFunction(@Assisted final Predicate<Collection<String>> tagged) {
-		this.tagged = tagged;
-	}
-	
-	
-	@Override
-	public Double compute(final IComponentsScope scope, final ILets lets) {
-		final List<ITransaction> costs = scope.getAllNotes(ITransaction.class);
-		
-		double total = 0d;
-		for(final ITransaction cost : costs) {
-			if (tagged.apply(cost.getTags())) {
-				total += cost.getAmount();
-			}
-		}
-		
-		return total;
-	}
+    private final Predicate<Collection<String>> tagged;
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return Collections.emptySet();
-	}
+    @Inject
+    public CostResultFunction(@Assisted final Predicate<Collection<String>> tagged) {
+        this.tagged = tagged;
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return Collections.emptySet();
-	}
-} 
+    @Override
+    public Double compute(final IComponentsScope scope, final ILets lets) {
+        final List<ITransaction> costs = scope.getAllNotes(ITransaction.class);
+
+        double total = 0d;
+        for (final ITransaction cost : costs) {
+            if (tagged.apply(cost.getTags())) {
+                total += cost.getAmount();
+            }
+        }
+
+        return total;
+    }
+
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return Collections.emptySet();
+    }
+
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return Collections.emptySet();
+    }
+}

@@ -8,14 +8,15 @@ import com.larkery.jasb.bind.BindNamedArgument;
 
 @Bind("strings")
 public class ListOfStrings {
-	private List<String> strings = new ArrayList<>();
 
-	@BindNamedArgument("values")
-	public List<String> getStrings() {
-		return strings;
-	}
+    private List<String> strings = new ArrayList<>();
 
-	public void setStrings(final List<String> strings) {
-		this.strings = strings;
-	}
+    @BindNamedArgument("values")
+    public List<String> getStrings() {
+        return strings;
+    }
+
+    public void setStrings(final List<String> strings) {
+        this.strings = strings;
+    }
 }

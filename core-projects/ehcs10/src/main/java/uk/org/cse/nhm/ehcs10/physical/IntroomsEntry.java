@@ -6,110 +6,110 @@ import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 
 public interface IntroomsEntry extends SurveyEntry {
-	@SavVariableMapping("FINDRSRP")
-	public Integer getDOORS_Repair_Rehang();
 
-	@SavVariableMapping("FINFLRLV")
-	public Integer getFLOORS_Leave();
+    @SavVariableMapping("FINDRSRP")
+    public Integer getDOORS_Repair_Rehang();
 
-	@SavVariableMapping("FINWLSRN")
-	public Integer getWALLS_RebuildPartitionWall();
+    @SavVariableMapping("FINFLRLV")
+    public Integer getFLOORS_Leave();
 
-	@SavVariableMapping("FINFLRRP")
-	public Integer getFLOORS_ReplaceOnlyBoardsOrScreed();
+    @SavVariableMapping("FINWLSRN")
+    public Integer getWALLS_RebuildPartitionWall();
 
-	@SavVariableMapping("FINDRSRN")
-	public Integer getDOORS_Renew();
+    @SavVariableMapping("FINFLRRP")
+    public Integer getFLOORS_ReplaceOnlyBoardsOrScreed();
 
-	@SavVariableMapping("FINWLSLV")
-	public Integer getWALLS_Leave();
+    @SavVariableMapping("FINDRSRN")
+    public Integer getDOORS_Renew();
 
-	@SavVariableMapping("FINWLSRP")
-	public Integer getWALLS_IsolatedRepair_FillCracks();
+    @SavVariableMapping("FINWLSLV")
+    public Integer getWALLS_Leave();
 
-	@SavVariableMapping("FINFLRRN")
-	public Integer getFLOORS_ReplaceStructure();
+    @SavVariableMapping("FINWLSRP")
+    public Integer getWALLS_IsolatedRepair_FillCracks();
 
-	@SavVariableMapping("FINCLGLV")
-	public Integer getCEILINGS_Leave();
+    @SavVariableMapping("FINFLRRN")
+    public Integer getFLOORS_ReplaceStructure();
 
-	@SavVariableMapping("FINWLSPL")
-	public Integer getWALLS_HackOff_Replaster();
+    @SavVariableMapping("FINCLGLV")
+    public Integer getCEILINGS_Leave();
 
-	@SavVariableMapping("FINCLGRP")
-	public Integer getCEILINGS_IsolatedRepair();
+    @SavVariableMapping("FINWLSPL")
+    public Integer getWALLS_HackOff_Replaster();
 
-	@SavVariableMapping("FINCLGRN")
-	public Integer getCEILINGS_TakeDownAndRenew();
+    @SavVariableMapping("FINCLGRP")
+    public Integer getCEILINGS_IsolatedRepair();
 
-	@SavVariableMapping("FINDFXMO")
-	public Enum10 getDEFECTS_SeriousCondensation();
+    @SavVariableMapping("FINCLGRN")
+    public Integer getCEILINGS_TakeDownAndRenew();
 
-	@SavVariableMapping("FINWNDFL")
-	public Enum10 getWINDOWS_Faults();
+    @SavVariableMapping("FINDFXMO")
+    public Enum10 getDEFECTS_SeriousCondensation();
 
-	@SavVariableMapping("FINDFXRV")
-	public Enum10 getDEFECTS_InadequateRoomVentilation();
+    @SavVariableMapping("FINWNDFL")
+    public Enum10 getWINDOWS_Faults();
 
-	@SavVariableMapping("FINHTGFX")
-	public Enum10 getHEATING_SERVICES_FixedOtherHeater();
+    @SavVariableMapping("FINDFXRV")
+    public Enum10 getDEFECTS_InadequateRoomVentilation();
 
-	@SavVariableMapping("FINWLSDL")
-	public Enum10 getWALLS_DryLiningPresent();
+    @SavVariableMapping("FINHTGFX")
+    public Enum10 getHEATING_SERVICES_FixedOtherHeater();
 
-	@SavVariableMapping("FINDRSFL")
-	public Enum10 getDOORS_Faults();
+    @SavVariableMapping("FINWLSDL")
+    public Enum10 getWALLS_DryLiningPresent();
 
-	@SavVariableMapping("FINCLGFL")
-	public Enum10 getCEILINGS_Faults();
+    @SavVariableMapping("FINDRSFL")
+    public Enum10 getDOORS_Faults();
 
-	@SavVariableMapping("FINDFXRT")
-	public Enum10 getDEFECTS_Dry_WetRot();
+    @SavVariableMapping("FINCLGFL")
+    public Enum10 getCEILINGS_Faults();
 
-	@SavVariableMapping("FINFLRSF")
-	public Enum10 getFLOORS_SolidFloors();
+    @SavVariableMapping("FINDFXRT")
+    public Enum10 getDEFECTS_Dry_WetRot();
 
-	@SavVariableMapping("FINWLSII")
-	public Enum10 getWALLS_InternalInsulationPresent();
+    @SavVariableMapping("FINFLRSF")
+    public Enum10 getFLOORS_SolidFloors();
 
-	@SavVariableMapping("FINDFXPD")
-	public Enum10 getDEFECTS_PenetratingDamp();
+    @SavVariableMapping("FINWLSII")
+    public Enum10 getWALLS_InternalInsulationPresent();
 
-	@SavVariableMapping("FINWNDES")
-	public Enum10 getWINDOWS_MeansOfEscape();
+    @SavVariableMapping("FINDFXPD")
+    public Enum10 getDEFECTS_PenetratingDamp();
 
-	@SavVariableMapping("FINDFXIN")
-	public Enum10 getDEFECTS_WoodBoringInsectAttack();
+    @SavVariableMapping("FINWNDES")
+    public Enum10 getWINDOWS_MeansOfEscape();
 
-	@SavVariableMapping("FINDFXAL")
-	public Enum10 getDEFECTS_InadequateArtificialLight();
+    @SavVariableMapping("FINDFXIN")
+    public Enum10 getDEFECTS_WoodBoringInsectAttack();
 
-	@SavVariableMapping("FINDFXVT")
-	public Enum10 getDEFECTS_InadequateApplianceVentilation();
+    @SavVariableMapping("FINDFXAL")
+    public Enum10 getDEFECTS_InadequateArtificialLight();
 
-	@SavVariableMapping("FINFLRFL")
-	public Enum10 getFLOORS_Faults();
+    @SavVariableMapping("FINDFXVT")
+    public Enum10 getDEFECTS_InadequateApplianceVentilation();
 
-	@SavVariableMapping("FINWLSFL")
-	public Enum10 getWALLS_Faults();
+    @SavVariableMapping("FINFLRFL")
+    public Enum10 getFLOORS_Faults();
 
-	@SavVariableMapping("FINWNDSI")
-	public Enum10 getWINDOWS_SecondaryGlazing();
+    @SavVariableMapping("FINWLSFL")
+    public Enum10 getWALLS_Faults();
 
-	@SavVariableMapping("TYPE")
-	public Enum1650 getRoom();
+    @SavVariableMapping("FINWNDSI")
+    public Enum10 getWINDOWS_SecondaryGlazing();
 
-	@SavVariableMapping("FINHTGLG")
-	public Enum10 getHEATING_SERVICES_FlourescentLowEnergyLighting();
+    @SavVariableMapping("TYPE")
+    public Enum1650 getRoom();
 
-	@SavVariableMapping("FINDFXNL")
-	public Enum10 getDEFECTS_InadequateNaturalLight();
+    @SavVariableMapping("FINHTGLG")
+    public Enum10 getHEATING_SERVICES_FlourescentLowEnergyLighting();
 
-	@SavVariableMapping("FINHTGCH")
-	public Enum10 getHEATING_SERVICES_CHProgAppliance();
+    @SavVariableMapping("FINDFXNL")
+    public Enum10 getDEFECTS_InadequateNaturalLight();
 
-	@SavVariableMapping("FINDFXRD")
-	public Enum10 getDEFECTS_RisingDamp();
+    @SavVariableMapping("FINHTGCH")
+    public Enum10 getHEATING_SERVICES_CHProgAppliance();
+
+    @SavVariableMapping("FINDFXRD")
+    public Enum10 getDEFECTS_RisingDamp();
 
 }
-

@@ -54,83 +54,85 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.HouseWeightFunction;
 
 public class StockCreator implements Initializable {
-	private static final Logger log = LoggerFactory.getLogger(StockCreator.class);
-	
-	private static final IStateChangeSource NO_REASON = new IStateChangeSource() {
-		
-		@Override
-		public Name getIdentifier() {
-			return null;
-		}
-		
-		@Override
-		public StateChangeSourceType getSourceType() {
-			return null;
-		}
-	};
-	
+
+    private static final Logger log = LoggerFactory.getLogger(StockCreator.class);
+
+    private static final IStateChangeSource NO_REASON = new IStateChangeSource() {
+
+        @Override
+        public Name getIdentifier() {
+            return null;
+        }
+
+        @Override
+        public StateChangeSourceType getSourceType() {
+            return null;
+        }
+    };
+
     private final Set<String> importIDs;
-	
-	private final RequestedHouseProperties requestedHouseProperties;
-	private final IStockService surveyCaseDataService;
-	
-	private final IDimension<StructureModel> structure;
-	private final IDimension<BasicCaseAttributes> attributes;
-	private final IDimension<ITechnologyModel> technologies;
-	private final IDimension<People> people;
-	private final IDimension<FinancialAttributes> finance;
-	private final IDimension<IHouseProperties> additional;
-	
-	private final ICanonicalState state;
-	private final ISimulator simulator;
-	private final StockLogger stockLogger;
-	private final Function<Double, List<Double>> weighting;
+
+    private final RequestedHouseProperties requestedHouseProperties;
+    private final IStockService surveyCaseDataService;
+
+    private final IDimension<StructureModel> structure;
+    private final IDimension<BasicCaseAttributes> attributes;
+    private final IDimension<ITechnologyModel> technologies;
+    private final IDimension<People> people;
+    private final IDimension<FinancialAttributes> finance;
+    private final IDimension<IHouseProperties> additional;
+
+    private final ICanonicalState state;
+    private final ISimulator simulator;
+    private final StockLogger stockLogger;
+    private final Function<Double, List<Double>> weighting;
     private final IComponentsFunction<Number> surveyWeightFunction;
-    
-	@Inject
+
+    @Inject
     public StockCreator(
-        @Named(SimulatorConfigurationConstants.STOCK_ID) final List<String> importIDs,
-        @Named(SimulatorConfigurationConstants.WEIGHTING) final Function<Double, List<Double>> weighting,
-        @Named(SimulatorConfigurationConstants.SURVEY_WEIGHT_FUNCTION) final IComponentsFunction<Number> surveyWeightFunction,
-        final RequestedHouseProperties requestedHouseProperties,
-        final IStockService surveyCaseDataService,
-        final StockLogger stockLogger,
-        final IDimension<StructureModel> structure,
-        final IDimension<BasicCaseAttributes> attributes,
-        final IDimension<ITechnologyModel> technologies,
-        final IDimension<People> people, final IDimension<FinancialAttributes> finance,
-        final IDimension<IHouseProperties> additional,
-        final ICanonicalState state,
-        final ISimulator simulator) {
-		super();
-		
+            @Named(SimulatorConfigurationConstants.STOCK_ID) final List<String> importIDs,
+            @Named(SimulatorConfigurationConstants.WEIGHTING) final Function<Double, List<Double>> weighting,
+            @Named(SimulatorConfigurationConstants.SURVEY_WEIGHT_FUNCTION) final IComponentsFunction<Number> surveyWeightFunction,
+            final RequestedHouseProperties requestedHouseProperties,
+            final IStockService surveyCaseDataService,
+            final StockLogger stockLogger,
+            final IDimension<StructureModel> structure,
+            final IDimension<BasicCaseAttributes> attributes,
+            final IDimension<ITechnologyModel> technologies,
+            final IDimension<People> people, final IDimension<FinancialAttributes> finance,
+            final IDimension<IHouseProperties> additional,
+            final ICanonicalState state,
+            final ISimulator simulator) {
+        super();
+
         this.importIDs = ImmutableSet.copyOf(importIDs);
-		this.weighting = weighting;
-		this.surveyWeightFunction = surveyWeightFunction;
-		
-		this.requestedHouseProperties = requestedHouseProperties;
-		this.surveyCaseDataService = surveyCaseDataService;
-		this.stockLogger = stockLogger;
-		this.structure = structure;
-		this.attributes = attributes;
-		this.technologies = technologies;
-		this.people = people;
-		this.finance = finance;
-		this.additional = additional;
-		this.state = state;
-		this.simulator = simulator;
-	}
+        this.weighting = weighting;
+        this.surveyWeightFunction = surveyWeightFunction;
+
+        this.requestedHouseProperties = requestedHouseProperties;
+        this.surveyCaseDataService = surveyCaseDataService;
+        this.stockLogger = stockLogger;
+        this.structure = structure;
+        this.attributes = attributes;
+        this.technologies = technologies;
+        this.people = people;
+        this.finance = finance;
+        this.additional = additional;
+        this.state = state;
+        this.simulator = simulator;
+    }
 
     private class ConstructionEvent implements IDateRunnable, IStateAction {
-		final Collection<SurveyCase> cases;
+
+        final Collection<SurveyCase> cases;
         final Name identifier;
 
         ConstructionEvent(final int year,
-                          final Collection<SurveyCase> cases) {
+                final Collection<SurveyCase> cases) {
             this.cases = ImmutableList.copyOf(cases);
             this.identifier = Name.of(String.format("New Build (%d)", year));
         }
-        
+
         @Override
         public void run(final DateTime date) {
             state.apply(this, this, Collections.<IDwelling>emptySet(), ILets.EMPTY);
@@ -138,14 +140,14 @@ public class StockCreator implements Initializable {
 
         @Override
         public Set<IDwelling> apply(final IStateScope scope, final Set<IDwelling> dwellings, final ILets lets) throws NHMException {
-        	// This branch will be discarded at the end.
-        	final IBranch temp = scope.branch(NO_REASON).getState();
-        	
-        	// This state will become real.
-        	final IBranch change = scope.getState();
-                
+            // This branch will be discarded at the end.
+            final IBranch temp = scope.branch(NO_REASON).getState();
+
+            // This state will become real.
+            final IBranch change = scope.getState();
+
             final ImmutableSet.Builder<IDwelling> builder = ImmutableSet.builder();
-        
+
             for (final SurveyCase hc : cases) {
                 stockLogger.acceptCase(new SurveyCaseLogEntry(hc));
 
@@ -158,38 +160,38 @@ public class StockCreator implements Initializable {
                      * Compute the survey weight from it.
                      */
                     IComponentsScope tempDwellingScope = temp.detachedScope(
-                        createInState(temp, (float) hc.getBasicAttributes().getDwellingCaseWeight(), hc)
-                        );
-                     surveyWeight = surveyWeightFunction.compute(tempDwellingScope, lets);
+                            createInState(temp, (float) hc.getBasicAttributes().getDwellingCaseWeight(), hc)
+                    );
+                    surveyWeight = surveyWeightFunction.compute(tempDwellingScope, lets);
                 }
 
-				/*
+                /*
 				 * Obviously a house can't have a negative weight...
-				 */
-				if (surveyWeight > 0) {
-		            /*
+                 */
+                if (surveyWeight > 0) {
+                    /*
 		             * Based on the survey weight and the weighting type, 
 		             * cut the case up into multiple dwellings with smaller weights.
-		             */
-		            for (final double d : weighting.apply(surveyWeight)) {
-						builder.add(createInState(change, (float) d, hc));
-		            }
-				}
+                     */
+                    for (final double d : weighting.apply(surveyWeight)) {
+                        builder.add(createInState(change, (float) d, hc));
+                    }
+                }
             }
-        
+
             return builder.build();
         }
-        
+
         private IDwelling createInState(IBranch branch, float weight, SurveyCase hc) {
             final IDwelling dwelling = branch.createDwelling(weight);
-            
+
             branch.set(structure, dwelling, hc.getStructure().copy());
             branch.set(attributes, dwelling, hc.getBasicAttributes().copy());
             branch.set(technologies, dwelling, hc.getTechnologies().copy());
             branch.set(people, dwelling, hc.getPeople().copy());
             branch.set(finance, dwelling, hc.getFinancialAttributes().copy());
             branch.set(additional, dwelling, new HouseProperties(hc.getAdditionalProperties()));
-            
+
             return dwelling;
         }
 
@@ -197,30 +199,31 @@ public class StockCreator implements Initializable {
         public Set<IDwelling> getSuitable(final IStateScope scope, final Set<IDwelling> dwellings, final ILets lets) {
             return dwellings;
         }
-        
+
         @Override
         public StateChangeSourceType getSourceType() {
             return StateChangeSourceType.CREATION;
         }
-        
+
         @Override
         public Name getIdentifier() {
             return identifier;
         }
-	
+
         @Override
         public String toString() {
             return String.valueOf(getIdentifier());
         }
     }
 
-    private static final Function<SurveyCase, Integer> BY_BUILD_YEAR =
-        new Function<SurveyCase, Integer>() {
-            @Override public Integer apply(final SurveyCase input) {
-                return input.getBasicAttributes().getBuildYear();
-            }
-        };
-    
+    private static final Function<SurveyCase, Integer> BY_BUILD_YEAR
+            = new Function<SurveyCase, Integer>() {
+        @Override
+        public Integer apply(final SurveyCase input) {
+            return input.getBasicAttributes().getBuildYear();
+        }
+    };
+
     @Override
     public void initialize() throws NHMException {
         log.debug("Loading stocks {}", importIDs);
@@ -235,10 +238,10 @@ public class StockCreator implements Initializable {
 
         // 1: group houses by their build year
         final Multimap<Integer, SurveyCase> byBuildYear = Multimaps.index(allHouses, BY_BUILD_YEAR);
-            
+
         // 2: put years in order
         final SortedSet<Integer> buildYears = ImmutableSortedSet.copyOf(byBuildYear.keySet());
-        
+
         final int startYear = simulator.getCurrentDate().getYear();
 
         // 3: schedule immediate construction for all houses up to the current year
@@ -252,23 +255,25 @@ public class StockCreator implements Initializable {
 
             final List<SurveyCase> cases = existingCases.build();
 
-            if (!cases.isEmpty())
+            if (!cases.isEmpty()) {
                 simulator.schedule(simulator.getCurrentDate(),
-                                   Priority.ofStockCreator(),
-                                   new ConstructionEvent(startYear, cases));
+                        Priority.ofStockCreator(),
+                        new ConstructionEvent(startYear, cases));
+            }
         }
-        
+
         // 4: schedule deferred construction for the later houses
-        for (final int year : buildYears.tailSet(startYear+1)) {
+        for (final int year : buildYears.tailSet(startYear + 1)) {
             final Collection<SurveyCase> cases = byBuildYear.get(year);
             final DateTime when = new DateTime(year, DateTimeConstants.JANUARY,
-                                               1, 0, 0,
-                                               DateTimeZone.UTC);
+                    1, 0, 0,
+                    DateTimeZone.UTC);
 
-            if (!cases.isEmpty())
+            if (!cases.isEmpty()) {
                 simulator.schedule(when,
-                                   Priority.ofStockCreator(),
-                                   new ConstructionEvent(year, cases));
+                        Priority.ofStockCreator(),
+                        new ConstructionEvent(year, cases));
+            }
         }
     }
 }

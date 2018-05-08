@@ -17,18 +17,20 @@ import uk.org.cse.stockimport.hom.impl.steps.services.heating.WarmAirSystemBuild
 import uk.org.cse.stockimport.imputation.ISchemaForImputation;
 import uk.org.cse.stockimport.imputation.house.HousePropertyImputer;
 
-public class DefaultSurveyCaseBuilderFactory implements ISurveyCaseBuilderFactory {    
+public class DefaultSurveyCaseBuilderFactory implements ISurveyCaseBuilderFactory {
+
     /**
-     * Returns an instance of an {@link ISurveyCaseBuilder} set up with the default build steps.
-     * 
+     * Returns an instance of an {@link ISurveyCaseBuilder} set up with the
+     * default build steps.
+     *
      * @return
      * @since 1.5.0
      */
     @Override
-	public ISurveyCaseBuilder getSurveyCaseBuilder(final ISchemaForImputation imputationSchema) {
+    public ISurveyCaseBuilder getSurveyCaseBuilder(final ISchemaForImputation imputationSchema) {
         //TODO: Should be initialise SurveyCaseBuilder via spring ctx.
         final SurveyCaseBuilder caseBuilder = new SurveyCaseBuilder();
-        
+
         caseBuilder.addStep(new BasicAttributesBuildStep());
         caseBuilder.addStep(new AdditionalHouseCasePropertyStep());
         caseBuilder.addStep(new StructureInitializingBuildStep(new HousePropertyImputer(imputationSchema.getHousePropertyTables())));
@@ -37,32 +39,32 @@ public class DefaultSurveyCaseBuilderFactory implements ISurveyCaseBuilderFactor
         caseBuilder.addStep(new ElevationBuildStep());
         caseBuilder.addStep(new RoofBuildStep());
         caseBuilder.addStep(new DoorWranglingStep());
-        caseBuilder.addStep(new MainImputationStep(imputationSchema)); 
+        caseBuilder.addStep(new MainImputationStep(imputationSchema));
         caseBuilder.addStep(new LightingBuildStep());
         caseBuilder.addStep(new CookerBuildStep());
         caseBuilder.addStep(new InternalWallBuildStep());
         caseBuilder.addStep(new FinancialAttributesBuilderStep());
         caseBuilder.addStep(new PeopleBuildStep());
         caseBuilder.addStep(new WarningsStep(caseBuilder.getExistingStepIdentifiers()));
-        
+
         {
             final SpaceHeatingBuildStep spaceHeating = new SpaceHeatingBuildStep();
-            
+
             spaceHeating.setHeatSourceBuilder(new HeatSourceBuilder());
             spaceHeating.setRoomHeaterBuilder(new RoomHeaterBuilder());
             spaceHeating.setSecondaryBuilder(new SecondaryHeatingSystemBuilder());
             spaceHeating.setStorageHeaterBuilder(new StorageHeaterBuilder());
             spaceHeating.setWarmAirBuilder(new WarmAirSystemBuilder());
-            
+
             final HotWaterBuildStep waterHeating = new HotWaterBuildStep();
             waterHeating.setHeatSourceBuilder(spaceHeating.getHeatSourceBuilder());
-            
+
             caseBuilder.addStep(spaceHeating);
             caseBuilder.addStep(waterHeating);
         }
 
         caseBuilder.initialize();
-        
+
         return caseBuilder;
     }
 }

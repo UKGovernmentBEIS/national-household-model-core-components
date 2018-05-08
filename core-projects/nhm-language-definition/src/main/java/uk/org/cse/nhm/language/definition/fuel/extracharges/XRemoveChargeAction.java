@@ -13,27 +13,29 @@ import uk.org.cse.nhm.language.definition.action.XFlaggedDwellingAction;
 
 @Bind("action.remove-fuel-charge")
 @Doc({
-	"Removes an extra charge which was previously added to a dwelling.", 
-	"Cannot be used to remove charges from tariffs."
-	})
+    "Removes an extra charge which was previously added to a dwelling.",
+    "Cannot be used to remove charges from tariffs."
+})
 @SeeAlso(XExtraChargeAction.class)
 @Unsuitability({"The dwelling is not currently paying the extra charge we are trying to remove."})
 @Category(CategoryType.TARIFFS)
 public class XRemoveChargeAction extends XFlaggedDwellingAction {
-	public static class P {
-		public static final String charge = "charge";
-	}
-	
-	private XExtraCharge charge;
 
-	@Doc("The extra charge which should be removed from the dwelling. If not specified, all charges will be removed.")
-	@BindPositionalArgument(0)
-	@Prop(P.charge)
-	public XExtraCharge getCharge() {
-		return charge;
-	}
+    public static class P {
 
-	public void setCharge(final XExtraCharge charge) {
-		this.charge = charge;
-	}
+        public static final String charge = "charge";
+    }
+
+    private XExtraCharge charge;
+
+    @Doc("The extra charge which should be removed from the dwelling. If not specified, all charges will be removed.")
+    @BindPositionalArgument(0)
+    @Prop(P.charge)
+    public XExtraCharge getCharge() {
+        return charge;
+    }
+
+    public void setCharge(final XExtraCharge charge) {
+        this.charge = charge;
+    }
 }

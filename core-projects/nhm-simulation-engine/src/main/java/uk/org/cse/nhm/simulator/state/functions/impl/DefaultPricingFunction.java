@@ -18,39 +18,40 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class DefaultPricingFunction implements IComponentsFunction<Number> {
-	private final Name measure;
-	private final ILogEntryHandler log;
-	private boolean warned = false;
-	
-	@AssistedInject
-	DefaultPricingFunction(@Assisted final Name measure, final ILogEntryHandler log) {
-		super();
-		this.measure = measure;
-		this.log = log;
-	}
 
-	@Override
-	public Name getIdentifier() {
-		return measure;
-	}
+    private final Name measure;
+    private final ILogEntryHandler log;
+    private boolean warned = false;
 
-	@Override
-	public Double compute(final IComponentsScope scope, final ILets lets) {
-		if (!warned) {
-			warned = true;
-			log.acceptLogEntry(new WarningLogEntry("Using default pricing function.", ImmutableMap.of("measure", this.getIdentifier().getName())));
-		}
-		return 0d;
-	}
+    @AssistedInject
+    DefaultPricingFunction(@Assisted final Name measure, final ILogEntryHandler log) {
+        super();
+        this.measure = measure;
+        this.log = log;
+    }
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return Collections.emptySet();
-	}
+    @Override
+    public Name getIdentifier() {
+        return measure;
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return Collections.emptySet();
-	}
+    @Override
+    public Double compute(final IComponentsScope scope, final ILets lets) {
+        if (!warned) {
+            warned = true;
+            log.acceptLogEntry(new WarningLogEntry("Using default pricing function.", ImmutableMap.of("measure", this.getIdentifier().getName())));
+        }
+        return 0d;
+    }
+
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return Collections.emptySet();
+    }
+
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return Collections.emptySet();
+    }
 
 }

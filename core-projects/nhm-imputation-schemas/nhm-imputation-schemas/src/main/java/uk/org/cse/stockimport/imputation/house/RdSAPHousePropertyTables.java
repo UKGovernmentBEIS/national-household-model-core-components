@@ -5,8 +5,8 @@ import java.util.Map;
 import com.google.common.collect.ImmutableMap;
 
 public class RdSAPHousePropertyTables implements IHousePropertyTables {
-	
-	private final Map<Integer, Double> livingAreaFactions = ImmutableMap.<Integer, Double> builder()
+
+    private final Map<Integer, Double> livingAreaFactions = ImmutableMap.<Integer, Double>builder()
             .put(1, 0.75)
             .put(2, 0.50)
             .put(3, 0.30)
@@ -25,14 +25,14 @@ public class RdSAPHousePropertyTables implements IHousePropertyTables {
 
     private final double defaultFactor = 0.09;
 
-	@Override
-	public Map<Integer, Double> getlivingAreaFactions() {
-		// TODO Auto-generated method stub
-		return livingAreaFactions;
-	}
+    @Override
+    public Map<Integer, Double> getlivingAreaFactions() {
+        // TODO Auto-generated method stub
+        return livingAreaFactions;
+    }
 
-	@Override
-	public double getDefaultFraction() {
-		return defaultFactor;
-	}
+    @Override
+    public double getDefaultFraction() {
+        return defaultFactor;
+    }
 }

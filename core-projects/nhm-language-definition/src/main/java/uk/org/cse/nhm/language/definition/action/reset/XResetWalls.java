@@ -12,49 +12,54 @@ import uk.org.cse.nhm.language.definition.function.num.XNumber;
 
 @Bind("action.reset-walls")
 @Doc({
-		"Reset the properties of all the external walls in a house according to some lookup functions.",
-		"When the energy calculator is in SAP 2012 mode, these values will be ignored and the relevant SAP tables will be used instead."
-	 })
+    "Reset the properties of all the external walls in a house according to some lookup functions.",
+    "When the energy calculator is in SAP 2012 mode, these values will be ignored and the relevant SAP tables will be used instead."
+})
 @Category(CategoryType.RESETACTIONS)
 public class XResetWalls extends XFlaggedDwellingAction {
-	public static final class P {
-		public static final String uvalue = "uValue";
-		public static final String infiltration = "infiltration";
-		public static final String thickness = "thickness";
-		
-	}
-	
-	private XNumber uValue;
-	private XNumber infiltration;
-	private XNumber thickness;
-	
-	@Prop(P.uvalue)
-	@Doc("A function which will be evaluated once for each wall to compute a new u-value for the wall. Applied for external walls.")
-	@BindNamedArgument("u-values")
-	public XNumber getuValue() {
-		return uValue;
-	}
-	public void setuValue(final XNumber uValue) {
-		this.uValue = uValue;
-	}
 
-	@Prop(P.thickness)
-	@BindNamedArgument("thicknesses")
-	@Doc("A function which will be evaluated once for each wall to compute the new thickness for the wall. Applied for external walls.")
-	public XNumber getThickness() {
-		return thickness;
-	}
-	public void setThickness(final XNumber thickness) {
-		this.thickness = thickness;
-	}
-	
-	@Prop(P.infiltration)
-	@Doc("A function which will be evaluated once for each wall to compute a new infiltration rate for the wall. Applied for external walls.")
-	@BindNamedArgument("infiltrations")
-	public XNumber getInfiltration() {
-		return infiltration;
-	}
-	public void setInfiltration(final XNumber infiltration) {
-		this.infiltration = infiltration;
-	}
+    public static final class P {
+
+        public static final String uvalue = "uValue";
+        public static final String infiltration = "infiltration";
+        public static final String thickness = "thickness";
+
+    }
+
+    private XNumber uValue;
+    private XNumber infiltration;
+    private XNumber thickness;
+
+    @Prop(P.uvalue)
+    @Doc("A function which will be evaluated once for each wall to compute a new u-value for the wall. Applied for external walls.")
+    @BindNamedArgument("u-values")
+    public XNumber getuValue() {
+        return uValue;
+    }
+
+    public void setuValue(final XNumber uValue) {
+        this.uValue = uValue;
+    }
+
+    @Prop(P.thickness)
+    @BindNamedArgument("thicknesses")
+    @Doc("A function which will be evaluated once for each wall to compute the new thickness for the wall. Applied for external walls.")
+    public XNumber getThickness() {
+        return thickness;
+    }
+
+    public void setThickness(final XNumber thickness) {
+        this.thickness = thickness;
+    }
+
+    @Prop(P.infiltration)
+    @Doc("A function which will be evaluated once for each wall to compute a new infiltration rate for the wall. Applied for external walls.")
+    @BindNamedArgument("infiltrations")
+    public XNumber getInfiltration() {
+        return infiltration;
+    }
+
+    public void setInfiltration(final XNumber infiltration) {
+        this.infiltration = infiltration;
+    }
 }

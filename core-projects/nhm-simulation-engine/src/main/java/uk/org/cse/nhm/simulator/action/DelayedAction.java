@@ -25,103 +25,105 @@ import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
 import uk.org.cse.nhm.simulator.trigger.StateActionAdapter;
 
 public class DelayedAction extends AbstractNamed implements IComponentsAction {
-	private final IComponentsAction action;
-	private final Period delay;
-	private final ISimulator simulator;
-	private final ICanonicalState state;
 
-	@AssistedInject
-	public DelayedAction(
-		@Assisted final IComponentsAction action,
-		@Assisted final Period delay,
-		final ISimulator simulator,
-		final ICanonicalState state
-			) {
-				this.action = action;
-				this.delay = delay;
-				this.simulator = simulator;
-				this.state = state;
-			}
-	
-	@Override
-	public StateChangeSourceType getSourceType() {
-		return StateChangeSourceType.ACTION;
-	}
+    private final IComponentsAction action;
+    private final Period delay;
+    private final ISimulator simulator;
+    private final ICanonicalState state;
 
-	@Override
-	public boolean apply(final ISettableComponentsScope scope, final ILets lets) throws NHMException {
-		final IDwelling d = scope.getDwelling();
-		final ILets captured = lets.assignableTo(Number.class);
-		final Map<String, Double> yields = scope.getYieldedValues();
-		
-		scope.getState().schedule(
-				simulator.getCurrentDate().plus(delay), 
-				Priority.ofIdentifier(action.getIdentifier()), 
-				new IDateRunnable() {
-					@Override
-					public void run(final DateTime date) {
-						if (state.getDwellings().contains(d)) {
-							state.apply(DelayedAction.this, 
-									new StateActionAdapter(new PreCalculatedLet(captured, yields, action)), ImmutableSet.of(d), 
-									ILets.EMPTY
-									);	
-						}
-					}
-				});
-		
-		return true;
-	}
+    @AssistedInject
+    public DelayedAction(
+            @Assisted final IComponentsAction action,
+            @Assisted final Period delay,
+            final ISimulator simulator,
+            final ICanonicalState state
+    ) {
+        this.action = action;
+        this.delay = delay;
+        this.simulator = simulator;
+        this.state = state;
+    }
 
-	@Override
-	public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
-		return true;
-	}
-	
-	@Override
-	public boolean isAlwaysSuitable() {
-		return true;
-	}
-	
-	static class PreCalculatedLet implements IComponentsAction {
-		private final IComponentsAction delegate;
-		private final ILets letParams;
-		private final Map<String, Double> yields;
+    @Override
+    public StateChangeSourceType getSourceType() {
+        return StateChangeSourceType.ACTION;
+    }
 
-		PreCalculatedLet(final ILets letParams, final Map<String, Double> yields, final IComponentsAction delegate) {
-			this.letParams = letParams;
-			this.yields = yields;
-			this.delegate = delegate;
-		}
-		
-		@Override
-		public StateChangeSourceType getSourceType() {
-			return delegate.getSourceType();
-		}
+    @Override
+    public boolean apply(final ISettableComponentsScope scope, final ILets lets) throws NHMException {
+        final IDwelling d = scope.getDwelling();
+        final ILets captured = lets.assignableTo(Number.class);
+        final Map<String, Double> yields = scope.getYieldedValues();
 
-		@Override
-		public Name getIdentifier() {
-			return delegate.getIdentifier();
-		}
+        scope.getState().schedule(
+                simulator.getCurrentDate().plus(delay),
+                Priority.ofIdentifier(action.getIdentifier()),
+                new IDateRunnable() {
+            @Override
+            public void run(final DateTime date) {
+                if (state.getDwellings().contains(d)) {
+                    state.apply(DelayedAction.this,
+                            new StateActionAdapter(new PreCalculatedLet(captured, yields, action)), ImmutableSet.of(d),
+                            ILets.EMPTY
+                    );
+                }
+            }
+        });
 
-		@Override
-		public boolean apply(final ISettableComponentsScope scope, final ILets lets)
-				throws NHMException {
-			
-			for (final Map.Entry<String,Double> e : yields.entrySet()) {
-				scope.yield(e.getKey(), e.getValue());
-			}
-			
-			return scope.apply(delegate, lets.withLets(letParams));
-		}
+        return true;
+    }
 
-		@Override
-		public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
-			return delegate.isSuitable(scope, lets);
-		}
-		
-		@Override
-		public boolean isAlwaysSuitable() {
-			return delegate.isAlwaysSuitable();
-		}
-	}
+    @Override
+    public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
+        return true;
+    }
+
+    @Override
+    public boolean isAlwaysSuitable() {
+        return true;
+    }
+
+    static class PreCalculatedLet implements IComponentsAction {
+
+        private final IComponentsAction delegate;
+        private final ILets letParams;
+        private final Map<String, Double> yields;
+
+        PreCalculatedLet(final ILets letParams, final Map<String, Double> yields, final IComponentsAction delegate) {
+            this.letParams = letParams;
+            this.yields = yields;
+            this.delegate = delegate;
+        }
+
+        @Override
+        public StateChangeSourceType getSourceType() {
+            return delegate.getSourceType();
+        }
+
+        @Override
+        public Name getIdentifier() {
+            return delegate.getIdentifier();
+        }
+
+        @Override
+        public boolean apply(final ISettableComponentsScope scope, final ILets lets)
+                throws NHMException {
+
+            for (final Map.Entry<String, Double> e : yields.entrySet()) {
+                scope.yield(e.getKey(), e.getValue());
+            }
+
+            return scope.apply(delegate, lets.withLets(letParams));
+        }
+
+        @Override
+        public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
+            return delegate.isSuitable(scope, lets);
+        }
+
+        @Override
+        public boolean isAlwaysSuitable() {
+            return delegate.isAlwaysSuitable();
+        }
+    }
 }

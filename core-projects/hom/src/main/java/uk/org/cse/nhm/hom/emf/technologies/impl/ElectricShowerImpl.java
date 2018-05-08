@@ -21,59 +21,56 @@ import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
  * @generated
  */
 public class ElectricShowerImpl extends ShowerImpl implements IElectricShower {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected ElectricShowerImpl() {
-		super();
-	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected EClass eStaticClass() {
-		return ITechnologiesPackage.Literals.ELECTRIC_SHOWER;
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc --> @generated
+     */
+    protected ElectricShowerImpl() {
+        super();
+    }
 
-	@Override
-	public double hotWaterVolumePerShower() {
-		return 0;
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc --> @generated
+     */
+    @Override
+    protected EClass eStaticClass() {
+        return ITechnologiesPackage.Literals.ELECTRIC_SHOWER;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated no
-	 */
-	@Override
-	public double solarAdjustment() {
-		return 0.64;
-	}
+    @Override
+    public double hotWaterVolumePerShower() {
+        return 0;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated no
-	 */
-	@Override
-	public void accept(final IConstants constants, final IEnergyCalculatorParameters parameters, final IEnergyCalculatorVisitor visitor, final AtomicInteger heatingSystemCounter, final IHeatProportions heatProportions) {
-		// get number of showers
-		// make a special Sink
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc --> @generated no
+     */
+    @Override
+    public double solarAdjustment() {
+        return 0.64;
+    }
 
-		switch (parameters.getCalculatorType().hotWater) {
-		case SAP2012:
-			break;
-		case BREDEM2012:
-			visitor.visitEnergyTransducer(new ElectricShowerTransducer(numShowers(parameters.getNumberOfOccupants())));
-			break;
-		default:
-			throw new UnsupportedOperationException("Unknown energy calculator type when visiting electric shower " + parameters.getCalculatorType());
-		}
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc --> @generated no
+     */
+    @Override
+    public void accept(final IConstants constants, final IEnergyCalculatorParameters parameters, final IEnergyCalculatorVisitor visitor, final AtomicInteger heatingSystemCounter, final IHeatProportions heatProportions) {
+        // get number of showers
+        // make a special Sink
+
+        switch (parameters.getCalculatorType().hotWater) {
+            case SAP2012:
+                break;
+            case BREDEM2012:
+                visitor.visitEnergyTransducer(new ElectricShowerTransducer(numShowers(parameters.getNumberOfOccupants())));
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown energy calculator type when visiting electric shower " + parameters.getCalculatorType());
+        }
+    }
 
 } //ElectricShowerImpl

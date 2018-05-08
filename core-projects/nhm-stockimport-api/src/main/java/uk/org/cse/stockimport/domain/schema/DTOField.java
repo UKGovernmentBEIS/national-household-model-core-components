@@ -7,7 +7,10 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 public @interface DTOField {
-	String[] value();
-	String description() default "Mysteriously undocumented";
-	Constraint constraint() default @Constraint();
+
+    String[] value();
+
+    String description() default "Mysteriously undocumented";
+
+    Constraint constraint() default @Constraint();
 }

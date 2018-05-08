@@ -15,12 +15,14 @@ import uk.org.cse.nhm.language.definition.two.selectors.XAffectedHouses;
 
 @Bind("on.flag")
 @Doc(
-{ "A hook which will trigger when some houses have had a set of flags added or removed.",
-        "This hook will be prevented from triggering itself either directly or indirectly."
-})
+        {"A hook which will trigger when some houses have had a set of flags added or removed.",
+            "This hook will be prevented from triggering itself either directly or indirectly."
+        })
 @SeeAlso(XAffectedHouses.class)
 public class XFlagHook extends XHook {
+
     public static class P {
+
         public static final String match = "match";
         public static final String flags = "flags";
     }
@@ -31,9 +33,9 @@ public class XFlagHook extends XHook {
 
     @Prop(P.match)
     @BindNamedArgument
-    @Doc({ "If true, the hook will fire when some houses change to match the set of flags specified.",
-            "If false, the hook will fire when some houses change to no longer match the set of flags specified.",
-            "If not set, the hook will fire in both cases."
+    @Doc({"If true, the hook will fire when some houses change to match the set of flags specified.",
+        "If false, the hook will fire when some houses change to no longer match the set of flags specified.",
+        "If not set, the hook will fire in both cases."
     })
     public Boolean getMatch() {
         return match;

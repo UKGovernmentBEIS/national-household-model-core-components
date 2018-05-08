@@ -15,45 +15,45 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 
 public class RoofAreaFunctionTest {
 
-	private StructureModel structure;
-	private IDimension<StructureModel> structureDim;
-	private ILets lets;
-	private IComponentsScope scope;
+    private StructureModel structure;
+    private IDimension<StructureModel> structureDim;
+    private ILets lets;
+    private IComponentsScope scope;
 
-	@SuppressWarnings("unchecked")
-	@Before
-	public void setup() {
-		structure = mock(StructureModel.class);
-		structureDim = mock(IDimension.class);
-		lets = mock(ILets.class);
-		scope = mock(IComponentsScope.class);
+    @SuppressWarnings("unchecked")
+    @Before
+    public void setup() {
+        structure = mock(StructureModel.class);
+        structureDim = mock(IDimension.class);
+        lets = mock(ILets.class);
+        scope = mock(IComponentsScope.class);
 
-		when(scope.get(structureDim)).thenReturn(structure);
-		when(structure.getExternalRoofArea()).thenReturn(1d);
-	}
+        when(scope.get(structureDim)).thenReturn(structure);
+        when(structure.getExternalRoofArea()).thenReturn(1d);
+    }
 
-	@Test
-	public void returnsExternalRoofArea() {
-		Assert.assertEquals(
-				1d,
-				new RoofAreaFunction(structureDim, false).compute(scope, lets),
-				0d
-			);
-	}
+    @Test
+    public void returnsExternalRoofArea() {
+        Assert.assertEquals(
+                1d,
+                new RoofAreaFunction(structureDim, false).compute(scope, lets),
+                0d
+        );
+    }
 
-	@Test
-	public void pitchCorrection() {
-		when(structure.getRoofConstructionType()).thenReturn(RoofConstructionType.Flat);
+    @Test
+    public void pitchCorrection() {
+        when(structure.getRoofConstructionType()).thenReturn(RoofConstructionType.Flat);
 
-		for (final RoofConstructionType roofType : RoofConstructionType.values()) {
-			when(structure.getRoofConstructionType()).thenReturn(roofType);
+        for (final RoofConstructionType roofType : RoofConstructionType.values()) {
+            when(structure.getRoofConstructionType()).thenReturn(roofType);
 
-			Assert.assertEquals(
-					roofType.toString(),
-					roofType.isPitched() ? 1.22d : 1d,
-					new RoofAreaFunction(structureDim, true).compute(scope, lets),
-					0.01d
-				);
-		}
-	}
+            Assert.assertEquals(
+                    roofType.toString(),
+                    roofType.isPitched() ? 1.22d : 1d,
+                    new RoofAreaFunction(structureDim, true).compute(scope, lets),
+                    0.01d
+            );
+        }
+    }
 }

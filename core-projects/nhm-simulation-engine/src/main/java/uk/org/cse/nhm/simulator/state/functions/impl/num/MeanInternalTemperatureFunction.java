@@ -16,34 +16,35 @@ import uk.org.cse.nhm.simulator.state.dimensions.energy.IPowerTable;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 /**
- * A function which computes peak heat load for a house, using the standard demand temperature and
- * coldest day temperature.
- * 
+ * A function which computes peak heat load for a house, using the standard
+ * demand temperature and coldest day temperature.
+ *
  * @author hinton
  *
  */
 public class MeanInternalTemperatureFunction extends AbstractNamed implements IComponentsFunction<Number> {
-	private final IDimension<IPowerTable> energy;
 
-	@Inject
-	public MeanInternalTemperatureFunction(
-			@Named("uncalibrated") final IDimension<IPowerTable> energy
-			) {
-		this.energy = energy;
-	}
-	
-	@Override
-	public Double compute(final IComponentsScope scope, final ILets lets) {
-		return (double)scope.get(energy).getMeanInternalTemperature();
-	}
+    private final IDimension<IPowerTable> energy;
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return Collections.<IDimension<?>>singleton(energy);
-	}
+    @Inject
+    public MeanInternalTemperatureFunction(
+            @Named("uncalibrated") final IDimension<IPowerTable> energy
+    ) {
+        this.energy = energy;
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return Collections.emptySet();
-	}
+    @Override
+    public Double compute(final IComponentsScope scope, final ILets lets) {
+        return (double) scope.get(energy).getMeanInternalTemperature();
+    }
+
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return Collections.<IDimension<?>>singleton(energy);
+    }
+
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return Collections.emptySet();
+    }
 }

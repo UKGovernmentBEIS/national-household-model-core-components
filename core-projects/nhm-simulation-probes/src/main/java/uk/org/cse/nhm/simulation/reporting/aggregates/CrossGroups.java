@@ -31,113 +31,116 @@ import uk.org.cse.nhm.simulator.state.IStateListener;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 /**
- * A grouping mechanism which finds cross products of a list of functions which it runs.
- * 
+ * A grouping mechanism which finds cross products of a list of functions which
+ * it runs.
+ *
  * Presently this is not efficient
- * 
+ *
  * @author hinton
  *
  */
 public class CrossGroups extends AbstractNamed implements IGroups, IDwellingGroupListener, IStateListener, ISimulationStepListener {
-	private final IDwellingGroup source;
-	private final List<IComponentsFunction<?>> divisions;
-	private final List<String> names;
-	private final IState state;
-	private final List<IListener> listeners = new ArrayList<IGroups.IListener>();
-	private Set<String> causes = new HashSet<String>();
-	
-	/**
-	 * Stores all of the combinations we have seen so far, so that if they are not present in a particular sequence
-	 * we can present them as the empty set.
-	 */
-	private final Set<List<Object>> existing = new HashSet<List<Object>>();
-	private boolean upToDate = true;
-	
-	@Inject
-	public CrossGroups(
-			final ICanonicalState state,
-			final ISimulator simulator,
-			@Assisted final IDwellingGroup source,
-			@Assisted final List<IComponentsFunction<?>> divisions) {
-		this.source = source;
-		this.divisions = divisions;
-		this.state = state;
-		
-		state.addStateListener(this);
-		simulator.addSimulationStepListener(this);
-		source.addListener(this);
-		
-		final ImmutableList.Builder<String> nb = ImmutableList.builder();
-		
-		for (final IComponentsFunction<?> cf : divisions) {
-			nb.add(cf.toString());
-		}
-		
-		names = nb.build();
-	}
 
-	@Override
-	public void addListener(final IListener listener) {
-		listeners.add(listener);
-	}
+    private final IDwellingGroup source;
+    private final List<IComponentsFunction<?>> divisions;
+    private final List<String> names;
+    private final IState state;
+    private final List<IListener> listeners = new ArrayList<IGroups.IListener>();
+    private Set<String> causes = new HashSet<String>();
 
-	@Override
-	public void stateChanged(final ICanonicalState state, final IStateChangeNotification notification) {
-		if(!Collections.disjoint(notification.getAllChangedDwellings(), source.getContents())) {
-			upToDate = false;
-			causes.add(notification.getRootScope().getTag().getIdentifier().getPath());
-		}
-	}
+    /**
+     * Stores all of the combinations we have seen so far, so that if they are
+     * not present in a particular sequence we can present them as the empty
+     * set.
+     */
+    private final Set<List<Object>> existing = new HashSet<List<Object>>();
+    private boolean upToDate = true;
 
-	@Override
-	public void dwellingGroupChanged(final IStateChangeNotification cause,final IDwellingGroup source, final Set<IDwelling> added, final Set<IDwelling> removed) {
-		upToDate = false;
-		causes.add(cause.getRootScope().getTag().getIdentifier().getPath());
-	}
+    @Inject
+    public CrossGroups(
+            final ICanonicalState state,
+            final ISimulator simulator,
+            @Assisted final IDwellingGroup source,
+            @Assisted final List<IComponentsFunction<?>> divisions) {
+        this.source = source;
+        this.divisions = divisions;
+        this.state = state;
 
-	@Override
-	public void simulationStepped(final DateTime dateOfStep, final DateTime nextDate, final boolean isFinalStep) throws NHMException {
-		if(!upToDate) {
-			final HashMultimap<List<Object>, IDwelling> groups = HashMultimap.create();
-			for (final IDwelling d : source.getContents()) {
-				final List<Object> v = evaluate(d);
-				
-				existing.add(v);
-				
-				groups.put(v, d);
-			}
-			
-			for (final List<Object> key : existing) {
-				final ImmutableMap.Builder<String, String> divisions = ImmutableMap.builder();
-				
-				final Iterator<String> ni = names.iterator();
-				final Iterator<Object> vi = key.iterator();
-				while (ni.hasNext() && vi.hasNext()) {
-					Object k = vi.next();
-					divisions.put(ni.next(), k == null ? "n/a" : k.toString());
-				}
-				
-				for (final IListener l : listeners) {
-					l.groupChanged(divisions.build(), groups.get(key), causes, isFinalStep);
-				}
-			}
-			causes = new HashSet<String>();
-			upToDate = true;
-		}
-	}
+        state.addStateListener(this);
+        simulator.addSimulationStepListener(this);
+        source.addListener(this);
 
-	private List<Object> evaluate(final IDwelling d) {
-		final List<Object> values = new ArrayList<Object>();
-		
-		for (final IComponentsFunction<?> division: divisions) {
-			values.add(division.compute(state.detachedScope(d), ILets.EMPTY));
-		}
-		
-		return values;
-	}
+        final ImmutableList.Builder<String> nb = ImmutableList.builder();
 
-	@Override
-	public void triggerManually() {
-		upToDate = false;
-	}
+        for (final IComponentsFunction<?> cf : divisions) {
+            nb.add(cf.toString());
+        }
+
+        names = nb.build();
+    }
+
+    @Override
+    public void addListener(final IListener listener) {
+        listeners.add(listener);
+    }
+
+    @Override
+    public void stateChanged(final ICanonicalState state, final IStateChangeNotification notification) {
+        if (!Collections.disjoint(notification.getAllChangedDwellings(), source.getContents())) {
+            upToDate = false;
+            causes.add(notification.getRootScope().getTag().getIdentifier().getPath());
+        }
+    }
+
+    @Override
+    public void dwellingGroupChanged(final IStateChangeNotification cause, final IDwellingGroup source, final Set<IDwelling> added, final Set<IDwelling> removed) {
+        upToDate = false;
+        causes.add(cause.getRootScope().getTag().getIdentifier().getPath());
+    }
+
+    @Override
+    public void simulationStepped(final DateTime dateOfStep, final DateTime nextDate, final boolean isFinalStep) throws NHMException {
+        if (!upToDate) {
+            final HashMultimap<List<Object>, IDwelling> groups = HashMultimap.create();
+            for (final IDwelling d : source.getContents()) {
+                final List<Object> v = evaluate(d);
+
+                existing.add(v);
+
+                groups.put(v, d);
+            }
+
+            for (final List<Object> key : existing) {
+                final ImmutableMap.Builder<String, String> divisions = ImmutableMap.builder();
+
+                final Iterator<String> ni = names.iterator();
+                final Iterator<Object> vi = key.iterator();
+                while (ni.hasNext() && vi.hasNext()) {
+                    Object k = vi.next();
+                    divisions.put(ni.next(), k == null ? "n/a" : k.toString());
+                }
+
+                for (final IListener l : listeners) {
+                    l.groupChanged(divisions.build(), groups.get(key), causes, isFinalStep);
+                }
+            }
+            causes = new HashSet<String>();
+            upToDate = true;
+        }
+    }
+
+    private List<Object> evaluate(final IDwelling d) {
+        final List<Object> values = new ArrayList<Object>();
+
+        for (final IComponentsFunction<?> division : divisions) {
+            values.add(division.compute(state.detachedScope(d), ILets.EMPTY));
+        }
+
+        return values;
+    }
+
+    @Override
+    public void triggerManually() {
+        upToDate = false;
+    }
 }

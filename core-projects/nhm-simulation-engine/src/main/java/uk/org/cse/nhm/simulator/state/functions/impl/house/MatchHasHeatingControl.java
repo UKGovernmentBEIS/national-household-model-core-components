@@ -22,42 +22,43 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class MatchHasHeatingControl extends AbstractNamed implements IComponentsFunction<Boolean> {
-	private final IDimension<ITechnologyModel> technologies;
-	private final HeatingSystemControlType controlType;
-	
-	@AssistedInject
-	public MatchHasHeatingControl(
-			final IDimension<ITechnologyModel> technologies,
-			@Assisted final HeatingSystemControlType controlType) {
-		super();
-		this.technologies = technologies;
-		this.controlType = controlType;
-	}
 
-	@Override
-	public Boolean compute(IComponentsScope scope, ILets lets) {
-		IPrimarySpaceHeater primary = scope.get(technologies).getPrimarySpaceHeater();
-		
-		EList<HeatingSystemControlType> controls = null;
-		StorageHeaterControlType control;
-		if(primary instanceof ICentralHeatingSystem) {
-			controls = ((ICentralHeatingSystem)primary).getControls();
-		} else if (primary instanceof IWarmAirSystem){
-			controls = ((IWarmAirSystem)primary).getControls();
-		}
-		//TODO: Secondary space heater - 
-		//scope.get(technologies).getSecondarySpaceHeater().isThermostatFitted();
-		
-		return controls != null ? controls.contains(controlType) : false;
-	}
+    private final IDimension<ITechnologyModel> technologies;
+    private final HeatingSystemControlType controlType;
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return Collections.<IDimension<?>>singleton(technologies);
-	}
+    @AssistedInject
+    public MatchHasHeatingControl(
+            final IDimension<ITechnologyModel> technologies,
+            @Assisted final HeatingSystemControlType controlType) {
+        super();
+        this.technologies = technologies;
+        this.controlType = controlType;
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return Collections.emptySet();
-	}
+    @Override
+    public Boolean compute(IComponentsScope scope, ILets lets) {
+        IPrimarySpaceHeater primary = scope.get(technologies).getPrimarySpaceHeater();
+
+        EList<HeatingSystemControlType> controls = null;
+        StorageHeaterControlType control;
+        if (primary instanceof ICentralHeatingSystem) {
+            controls = ((ICentralHeatingSystem) primary).getControls();
+        } else if (primary instanceof IWarmAirSystem) {
+            controls = ((IWarmAirSystem) primary).getControls();
+        }
+        //TODO: Secondary space heater - 
+        //scope.get(technologies).getSecondarySpaceHeater().isThermostatFitted();
+
+        return controls != null ? controls.contains(controlType) : false;
+    }
+
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return Collections.<IDimension<?>>singleton(technologies);
+    }
+
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return Collections.emptySet();
+    }
 }

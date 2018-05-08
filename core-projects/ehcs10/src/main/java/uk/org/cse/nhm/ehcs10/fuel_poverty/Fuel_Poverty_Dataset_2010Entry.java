@@ -9,53 +9,53 @@ import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 
 public interface Fuel_Poverty_Dataset_2010Entry extends SurveyEntry {
-	@SavVariableMapping("AAGPH910")
-	public Integer getHouseholdWeight_CoreCases2009_10_2010_11_();
 
-	@SavVariableMapping("WATHCOST")
-	public Double getCostOfEnergyToHeatWater___();
+    @SavVariableMapping("AAGPH910")
+    public Integer getHouseholdWeight_CoreCases2009_10_2010_11_();
 
-	@SavVariableMapping("COOKCOST")
-	public Double getTotalEnergyCostForCooking___();
+    @SavVariableMapping("WATHCOST")
+    public Double getCostOfEnergyToHeatWater___();
 
-	@SavVariableMapping("FPBASINC")
-	public Double getAnnualBasicHouseholdIncome___();
+    @SavVariableMapping("COOKCOST")
+    public Double getTotalEnergyCostForCooking___();
 
-	@SavVariableMapping("SPAHCOST")
-	public Double getTotalSpaceHeatingCost___();
+    @SavVariableMapping("FPBASINC")
+    public Double getAnnualBasicHouseholdIncome___();
 
-	@SavVariableMapping("FPFULLIN")
-	public Double getAnnualFullHouseholdIncome___();
+    @SavVariableMapping("SPAHCOST")
+    public Double getTotalSpaceHeatingCost___();
 
-	@SavVariableMapping("LITECOST")
-	public Double getTotalCostForLightsAndApplianceUse___();
+    @SavVariableMapping("FPFULLIN")
+    public Double getAnnualFullHouseholdIncome___();
 
-	@SavVariableMapping("FPINDF")
-	public Double getFuelPovertyIndex_FullIncomeDefinition();
+    @SavVariableMapping("LITECOST")
+    public Double getTotalCostForLightsAndApplianceUse___();
 
-	@SavVariableMapping("FPINDB")
-	public Double getFuelPovertyIndex_BasicIncomeDefinition();
+    @SavVariableMapping("FPINDF")
+    public Double getFuelPovertyIndex_FullIncomeDefinition();
 
-	@SavVariableMapping("FUELEXPN")
-	public Double getTotalFuelCosts___();
+    @SavVariableMapping("FPINDB")
+    public Double getFuelPovertyIndex_BasicIncomeDefinition();
 
-	@SavVariableMapping("FPVULN")
-	public Enum220 getVulnerableFlag_FuelPovertyDefinition();
+    @SavVariableMapping("FUELEXPN")
+    public Double getTotalFuelCosts___();
 
-	@SavVariableMapping("FPFLGB")
-	public Enum221 getFuelPovertyFlag_BasicIncomeDefinition();
+    @SavVariableMapping("FPVULN")
+    public Enum220 getVulnerableFlag_FuelPovertyDefinition();
 
-	@SavVariableMapping("UNOC")
-	public Enum222 getUnderOccupancy();
+    @SavVariableMapping("FPFLGB")
+    public Enum221 getFuelPovertyFlag_BasicIncomeDefinition();
 
-	@SavVariableMapping("FPFLGF")
-	public Enum223 getFuelPovertyFlag_FullIncomeDefinition();
+    @SavVariableMapping("UNOC")
+    public Enum222 getUnderOccupancy();
 
-	@SavVariableMapping("GASMOP")
-	public Enum224 getMethodOfPayment_Gas();
+    @SavVariableMapping("FPFLGF")
+    public Enum223 getFuelPovertyFlag_FullIncomeDefinition();
 
-	@SavVariableMapping("ELECMOP")
-	public Enum224 getMethodOfPayment_Electricity();
+    @SavVariableMapping("GASMOP")
+    public Enum224 getMethodOfPayment_Gas();
+
+    @SavVariableMapping("ELECMOP")
+    public Enum224 getMethodOfPayment_Electricity();
 
 }
-

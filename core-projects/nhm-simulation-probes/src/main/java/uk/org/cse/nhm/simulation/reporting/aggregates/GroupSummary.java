@@ -19,33 +19,35 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 /**
  * Use this to supply a group for one of the aggregate functions to work on.
- * computing this repeatedly seems to be extraordinarily expensive, which is not a huge suprise.
+ * computing this repeatedly seems to be extraordinarily expensive, which is not
+ * a huge suprise.
  */
 public class GroupSummary extends AbstractNamed implements IComponentsFunction<Number> {
-	private final IDwellingSet group;
-	private final IAggregationFunction aggregate;
 
-	@AssistedInject
-	public GroupSummary(
-			@Assisted final IDwellingSet group,
-			@Assisted final IAggregationFunction aggregate) {
-		this.group = group;
-		this.aggregate = aggregate;
-	}
+    private final IDwellingSet group;
+    private final IAggregationFunction aggregate;
 
-	@Override
-	public Number compute(final IComponentsScope scope, final ILets lets) {
+    @AssistedInject
+    public GroupSummary(
+            @Assisted final IDwellingSet group,
+            @Assisted final IAggregationFunction aggregate) {
+        this.group = group;
+        this.aggregate = aggregate;
+    }
+
+    @Override
+    public Number compute(final IComponentsScope scope, final ILets lets) {
         final IState state = scope.getState();
-		return aggregate.evaluate(state, lets, group.get(state, lets));
-	}
+        return aggregate.evaluate(state, lets, group.get(state, lets));
+    }
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return ImmutableSet.of();
-	}
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return ImmutableSet.of();
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return ImmutableSet.of();
-	}
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return ImmutableSet.of();
+    }
 }

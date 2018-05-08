@@ -11,44 +11,45 @@ import com.google.common.collect.ImmutableMap;
 
 @AutoProperty
 public class GroupAndVariable {
-	private ImmutableMap<String, String> group;
-	private String variable;
 
-	public GroupAndVariable(ImmutableMap<String, String> groupParts, String variable) {
-		this.group = groupParts;
-		this.variable = variable;
-	}
+    private ImmutableMap<String, String> group;
+    private String variable;
 
-	public ImmutableMap<String, String> getGroup() {
-		return group;
-	}
+    public GroupAndVariable(ImmutableMap<String, String> groupParts, String variable) {
+        this.group = groupParts;
+        this.variable = variable;
+    }
 
-	public String getVariable() {
-		return variable;
-	}
+    public ImmutableMap<String, String> getGroup() {
+        return group;
+    }
 
-	@Override
-	public String toString() {
-		return String.format("%s for %s", variable, stringifyGroup());
-	}
+    public String getVariable() {
+        return variable;
+    }
 
-	private String stringifyGroup() {
-		ImmutableList.Builder<String> groupValues = ImmutableList.builder();
-		
-		for (Entry<String, String> e : group.entrySet()) {
-			groupValues.add(e.getValue());
-		}
-		
-		return Joiner.on('-').join(groupValues.build());
-	}
+    @Override
+    public String toString() {
+        return String.format("%s for %s", variable, stringifyGroup());
+    }
 
-	@Override
-	public int hashCode() {
-		return Pojomatic.hashCode(this);
-	}
+    private String stringifyGroup() {
+        ImmutableList.Builder<String> groupValues = ImmutableList.builder();
 
-	@Override
-	public boolean equals(Object obj) {
-		return Pojomatic.equals(this, obj);
-	}
+        for (Entry<String, String> e : group.entrySet()) {
+            groupValues.add(e.getValue());
+        }
+
+        return Joiner.on('-').join(groupValues.build());
+    }
+
+    @Override
+    public int hashCode() {
+        return Pojomatic.hashCode(this);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return Pojomatic.equals(this, obj);
+    }
 }

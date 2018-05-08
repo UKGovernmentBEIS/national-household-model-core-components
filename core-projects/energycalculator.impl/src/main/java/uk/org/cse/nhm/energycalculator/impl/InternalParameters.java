@@ -10,74 +10,75 @@ import uk.org.cse.nhm.energycalculator.api.types.Zone2ControlParameter;
 import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
 
 public class InternalParameters implements IInternalParameters {
-	private final IEnergyCalculatorParameters externalParameters;
 
-	private final IConstants constants;
-	private final ISeasonalParameters climate;
+    private final IEnergyCalculatorParameters externalParameters;
 
-	public InternalParameters(final IEnergyCalculatorParameters externalParameters, final IConstants constants, final ISeasonalParameters climate) {
-		this.externalParameters = externalParameters;
-		this.constants = constants;
-		this.climate = climate;
-	}
+    private final IConstants constants;
+    private final ISeasonalParameters climate;
 
-	@Override
-	public double getTemperatureAdjustment() {
-		return 0;
-	}
+    public InternalParameters(final IEnergyCalculatorParameters externalParameters, final IConstants constants, final ISeasonalParameters climate) {
+        this.externalParameters = externalParameters;
+        this.constants = constants;
+        this.climate = climate;
+    }
 
-	@Override
-	public ISeasonalParameters getClimate() {
-		return climate;
-	}
+    @Override
+    public double getTemperatureAdjustment() {
+        return 0;
+    }
 
-	@Override
-	public double getZoneOneDemandTemperature() {
-		return externalParameters.getZoneOneDemandTemperature();
-	}
+    @Override
+    public ISeasonalParameters getClimate() {
+        return climate;
+    }
 
-	@Override
-	public boolean isZoneTwoDemandTemperatureSpecified() {
-		return externalParameters.isZoneTwoDemandTemperatureSpecified();
-	}
+    @Override
+    public double getZoneOneDemandTemperature() {
+        return externalParameters.getZoneOneDemandTemperature();
+    }
 
-	@Override
-	public double getZoneTwoDemandTemperature() {
-		return externalParameters.getZoneTwoDemandTemperature();
-	}
+    @Override
+    public boolean isZoneTwoDemandTemperatureSpecified() {
+        return externalParameters.isZoneTwoDemandTemperatureSpecified();
+    }
 
-	@Override
-	public double getInterzoneTemperatureDifference() {
-		return externalParameters.getInterzoneTemperatureDifference();
-	}
+    @Override
+    public double getZoneTwoDemandTemperature() {
+        return externalParameters.getZoneTwoDemandTemperature();
+    }
 
-	@Override
-	public double getNumberOfOccupants() {
-		return externalParameters.getNumberOfOccupants();
-	}
+    @Override
+    public double getInterzoneTemperatureDifference() {
+        return externalParameters.getInterzoneTemperatureDifference();
+    }
 
-	@Override
-	public ElectricityTariffType getTarrifType() {
-		return externalParameters.getTarrifType();
-	}
+    @Override
+    public double getNumberOfOccupants() {
+        return externalParameters.getNumberOfOccupants();
+    }
 
-	@Override
-	public IConstants getConstants() {
-		return constants;
-	}
+    @Override
+    public ElectricityTariffType getTarrifType() {
+        return externalParameters.getTarrifType();
+    }
 
-	@Override
-	public EnergyType getInternalEnergyType(final Object object) {
-		return externalParameters.getInternalEnergyType(object);
-	}
+    @Override
+    public IConstants getConstants() {
+        return constants;
+    }
 
-	@Override
-	public EnergyCalculatorType getCalculatorType() {
-		return externalParameters.getCalculatorType();
-	}
+    @Override
+    public EnergyType getInternalEnergyType(final Object object) {
+        return externalParameters.getInternalEnergyType(object);
+    }
 
-	@Override
-	public Zone2ControlParameter getZone2ControlParameter() {
-		throw new UnsupportedOperationException("You need to get an AdjustedParameters to find out the zone 2 control parameter");
-	}
+    @Override
+    public EnergyCalculatorType getCalculatorType() {
+        return externalParameters.getCalculatorType();
+    }
+
+    @Override
+    public Zone2ControlParameter getZone2ControlParameter() {
+        throw new UnsupportedOperationException("You need to get an AdjustedParameters to find out the zone 2 control parameter");
+    }
 }

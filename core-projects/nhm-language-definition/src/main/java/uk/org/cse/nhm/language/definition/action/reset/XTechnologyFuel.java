@@ -13,7 +13,7 @@ import uk.org.cse.nhm.language.definition.function.num.IHouseContext;
 import uk.org.cse.nhm.language.validate.contents.RequireParent;
 
 @Doc({"When used within reset.opex, produces the fuel of the technology being ",
-"considered."})
+    "considered."})
 @Bind("technology.fuel")
 @SeeAlso(XResetOpex.class)
 @RequireParent({XResetOpex.class, IHouseContext.class})

@@ -4,11 +4,13 @@ import java.util.Map;
 
 /**
  * An interface for things which can provide about information
- * 
+ *
  * @author hinton
  *
  */
 public interface IAboutable {
-	public String getName();
-	public Map<String, Class<?>> getDependencyIndicators();
+
+    public String getName();
+
+    public Map<String, Class<?>> getDependencyIndicators();
 }

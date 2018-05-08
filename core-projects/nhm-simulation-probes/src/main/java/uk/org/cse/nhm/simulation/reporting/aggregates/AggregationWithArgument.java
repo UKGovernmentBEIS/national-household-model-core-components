@@ -12,14 +12,15 @@ import uk.org.cse.nhm.simulator.state.IState;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 abstract class AggregationWithArgument extends AggregationFunction {
+
     private final IComponentsFunction<Number> argument;
-	
-	protected AggregationWithArgument(final IComponentsFunction<Number> argument) {
-		this.argument = argument;
-	}
+
+    protected AggregationWithArgument(final IComponentsFunction<Number> argument) {
+        this.argument = argument;
+    }
 
     protected abstract double evaluate(final double[][] wvalues);
-    
+
     public double evaluate(final IState state, final ILets lets, final Set<IDwelling> dwellings) {
         final double[][] map = new double[dwellings.size()][2];
         int i = 0;

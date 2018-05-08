@@ -24,14 +24,15 @@ import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
  * @author trickyBytes
  */
 public class CombinationChoiceAction extends AbstractNamed implements IComponentsAction {
+
     private final IPicker selector;
     private final Set<IComponentsAction> packages;
-    
+
     @AssistedInject
     public CombinationChoiceAction(
             @Assisted final IPicker selector,
             @Assisted final List<Set<IComponentsAction>> groups) {
-        
+
         final ImmutableSet.Builder<IComponentsAction> packageBuilder = ImmutableSet.builder();
         for (final List<IComponentsAction> packageList : Sets.cartesianProduct(groups)) {
             packageBuilder.add(new SequenceAction(packageList, true, Sets.newHashSet()));
@@ -39,11 +40,11 @@ public class CombinationChoiceAction extends AbstractNamed implements IComponent
 
         this.packages = packageBuilder.build();
         this.selector = selector;
-    }    
-    
+    }
+
     /**
-     * @return
-     * @see uk.org.cse.nhm.simulator.state.IStateChangeSource#getSourceType()
+     * @return @see
+     * uk.org.cse.nhm.simulator.state.IStateChangeSource#getSourceType()
      */
     @Override
     public StateChangeSourceType getSourceType() {
@@ -55,7 +56,9 @@ public class CombinationChoiceAction extends AbstractNamed implements IComponent
      * @param lets
      * @return
      * @throws NHMException
-     * @see uk.org.cse.nhm.simulator.scope.IComponentsAction#apply(uk.org.cse.nhm.simulator.scope.ISettableComponentsScope, uk.org.cse.nhm.simulator.let.ILets)
+     * @see
+     * uk.org.cse.nhm.simulator.scope.IComponentsAction#apply(uk.org.cse.nhm.simulator.scope.ISettableComponentsScope,
+     * uk.org.cse.nhm.simulator.let.ILets)
      */
     @Override
     public boolean apply(ISettableComponentsScope scope, ILets lets) throws NHMException {
@@ -66,21 +69,23 @@ public class CombinationChoiceAction extends AbstractNamed implements IComponent
      * @param scope
      * @param lets
      * @return
-     * @see uk.org.cse.nhm.simulator.scope.IComponentsAction#isSuitable(uk.org.cse.nhm.simulator.scope.IComponentsScope, uk.org.cse.nhm.simulator.let.ILets)
+     * @see
+     * uk.org.cse.nhm.simulator.scope.IComponentsAction#isSuitable(uk.org.cse.nhm.simulator.scope.IComponentsScope,
+     * uk.org.cse.nhm.simulator.let.ILets)
      */
     @Override
     public boolean isSuitable(IComponentsScope scope, ILets lets) {
         for (final IComponentsAction p : this.packages) {
             if (p.isSuitable(scope, lets)) {
-               return true;
+                return true;
             }
         }
         return false; // no packages are suitable
     }
 
     /**
-     * @return
-     * @see uk.org.cse.nhm.simulator.scope.IComponentsAction#isAlwaysSuitable()
+     * @return @see
+     * uk.org.cse.nhm.simulator.scope.IComponentsAction#isAlwaysSuitable()
      */
     @Override
     public boolean isAlwaysSuitable() {

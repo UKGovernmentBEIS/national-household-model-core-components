@@ -16,6 +16,6 @@ public enum XRegionType {
     SouthEast,
     London,
     NorthernScotland,
-	Wales,
-	NorthernIreland;
+    Wales,
+    NorthernIreland;
 }

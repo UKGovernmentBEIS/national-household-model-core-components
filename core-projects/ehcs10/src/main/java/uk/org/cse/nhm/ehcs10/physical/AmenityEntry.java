@@ -9,305 +9,305 @@ import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 
 public interface AmenityEntry extends SurveyEntry {
-	@SavVariableMapping("FINBATFL")
-	public String getBathroomBathShower_Floor();
 
-	@SavVariableMapping("FINWHBFL")
-	public String getBathroomWashHandBasin_Floor();
+    @SavVariableMapping("FINBATFL")
+    public String getBathroomBathShower_Floor();
 
-	@SavVariableMapping("FINLOOFL")
-	public String getWC_Floor();
+    @SavVariableMapping("FINWHBFL")
+    public String getBathroomWashHandBasin_Floor();
 
-	@SavVariableMapping("FIN2KIFL")
-	public String getSecondKitchen_Floor();
+    @SavVariableMapping("FINLOOFL")
+    public String getWC_Floor();
 
-	@SavVariableMapping("FIN2BTFL")
-	public String getSecondBathShower_Floor();
+    @SavVariableMapping("FIN2KIFL")
+    public String getSecondKitchen_Floor();
 
-	@SavVariableMapping("FIN2WHFL")
-	public String getSecondWashHandBasin_Floor();
+    @SavVariableMapping("FIN2BTFL")
+    public String getSecondBathShower_Floor();
 
-	@SavVariableMapping("FIN2LOFL")
-	public String getSecondWC_Floor();
+    @SavVariableMapping("FIN2WHFL")
+    public String getSecondWashHandBasin_Floor();
 
-	@SavVariableMapping("FINKITRE")
-	public Integer getKITCHENActualDateOfRefurbishment();
+    @SavVariableMapping("FIN2LOFL")
+    public String getSecondWC_Floor();
 
-	@SavVariableMapping("FINBATRE")
-	public Integer getBathroomAmenitiesActualDateOfRefurbishment();
+    @SavVariableMapping("FINKITRE")
+    public Integer getKITCHENActualDateOfRefurbishment();
 
-	@SavVariableMapping("FINSURFA")
-	public Integer getBathroomAmenities_NumberOfExternalSurfaces();
+    @SavVariableMapping("FINBATRE")
+    public Integer getBathroomAmenitiesActualDateOfRefurbishment();
 
-	@SavVariableMapping("FINLOOAC")
-	public Enum1060 getWC_Action();
+    @SavVariableMapping("FINSURFA")
+    public Integer getBathroomAmenities_NumberOfExternalSurfaces();
 
-	@SavVariableMapping("FINWRKPR")
-	public Enum10 getKITCHENWorktop_Present();
+    @SavVariableMapping("FINLOOAC")
+    public Enum1060 getWC_Action();
 
-	@SavVariableMapping("FINBXTPR")
-	public Enum10 getBathroomExtractorFan_Present();
+    @SavVariableMapping("FINWRKPR")
+    public Enum10 getKITCHENWorktop_Present();
 
-	@SavVariableMapping("FINWMWK")
-	public Enum10 getKITCHENWashingMachine_Working();
+    @SavVariableMapping("FINBXTPR")
+    public Enum10 getBathroomExtractorFan_Present();
 
-	@SavVariableMapping("FINCUPAC")
-	public Enum1060 getKITCHENCupboards_Action();
+    @SavVariableMapping("FINWMWK")
+    public Enum10 getKITCHENWashingMachine_Working();
 
-	@SavVariableMapping("FINKXTPR")
-	public Enum10 getKITCHENExtractorFan_Present();
+    @SavVariableMapping("FINCUPAC")
+    public Enum1060 getKITCHENCupboards_Action();
 
-	@SavVariableMapping("FINHSFBA")
-	public Enum1066 getHEALTHANDSAFETY_FallsAsstdWithBaths();
+    @SavVariableMapping("FINKXTPR")
+    public Enum10 getKITCHENExtractorFan_Present();
 
-	@SavVariableMapping("FINCOKPR")
-	public Enum10 getKITCHENCookingProvision_Present();
+    @SavVariableMapping("FINHSFBA")
+    public Enum1066 getHEALTHANDSAFETY_FallsAsstdWithBaths();
 
-	@SavVariableMapping("FINKXTWK")
-	public Enum10 getKITCHENExtractorFan_Working();
+    @SavVariableMapping("FINCOKPR")
+    public Enum10 getKITCHENCookingProvision_Present();
 
-	@SavVariableMapping("FINBATLR")
-	public Enum1069 getBathroomAmenitiesLastRefurbished();
+    @SavVariableMapping("FINKXTWK")
+    public Enum10 getKITCHENExtractorFan_Working();
 
-	@SavVariableMapping("FINLOOWH")
-	public Enum10 getWC_CloseToWashHandBasin();
+    @SavVariableMapping("FINBATLR")
+    public Enum1069 getBathroomAmenitiesLastRefurbished();
 
-	@SavVariableMapping("FIN2BTAC")
-	public Enum1060 getSecondBathShower_Action();
+    @SavVariableMapping("FINLOOWH")
+    public Enum10 getWC_CloseToWashHandBasin();
 
-	@SavVariableMapping("FINBDFSP")
-	public Enum10 getBATHROOMAMENITIESSignificantProblemsWithSpace();
+    @SavVariableMapping("FIN2BTAC")
+    public Enum1060 getSecondBathShower_Action();
 
-	@SavVariableMapping("FINCUPUN")
-	public Enum10 getKITCHENAdequateCupboardUnits();
+    @SavVariableMapping("FINBDFSP")
+    public Enum10 getBATHROOMAMENITIESSignificantProblemsWithSpace();
 
-	@SavVariableMapping("FINBATAC")
-	public Enum1060 getBathroomBathShower_Action();
+    @SavVariableMapping("FINCUPUN")
+    public Enum10 getKITCHENAdequateCupboardUnits();
 
-	@SavVariableMapping("FINBADLO")
-	public Enum10 getBathroomAmenities_BadlyLocated();
+    @SavVariableMapping("FINBATAC")
+    public Enum1060 getBathroomBathShower_Action();
 
-	@SavVariableMapping("FINWHBAC")
-	public Enum1060 getBathroomWashHandBasin_Action();
+    @SavVariableMapping("FINBADLO")
+    public Enum10 getBathroomAmenities_BadlyLocated();
 
-	@SavVariableMapping("FINKDFCB")
-	public Enum10 getKITCHENDefectiveOnCleanability();
+    @SavVariableMapping("FINWHBAC")
+    public Enum1060 getBathroomWashHandBasin_Action();
 
-	@SavVariableMapping("FINLOOBA")
-	public Enum10 getWC_InBathroom();
+    @SavVariableMapping("FINKDFCB")
+    public Enum10 getKITCHENDefectiveOnCleanability();
 
-	@SavVariableMapping("FINHSFOD")
-	public Enum1066 getHEALTHANDSAFETY_FoodSafety();
+    @SavVariableMapping("FINLOOBA")
+    public Enum10 getWC_InBathroom();
 
-	@SavVariableMapping("FINLEADA")
-	public Enum10 getDrinkingWater_SupplyPipeworkAfterStopcock_LeadPresent();
+    @SavVariableMapping("FINHSFOD")
+    public Enum1066 getHEALTHANDSAFETY_FoodSafety();
 
-	@SavVariableMapping("FIN2WHAC")
-	public Enum1060 getSecondWashHandBasin_Action();
+    @SavVariableMapping("FINLEADA")
+    public Enum10 getDrinkingWater_SupplyPipeworkAfterStopcock_LeadPresent();
 
-	@SavVariableMapping("FINWSTAC")
-	public Enum1060 getKITCHENFixedWaste_Action();
+    @SavVariableMapping("FIN2WHAC")
+    public Enum1060 getSecondWashHandBasin_Action();
 
-	@SavVariableMapping("FINHOTPR")
-	public Enum10 getKITCHENHotWater_Present();
+    @SavVariableMapping("FINWSTAC")
+    public Enum1060 getKITCHENFixedWaste_Action();
 
-	@SavVariableMapping("FINLOOEX")
-	public Enum10 getWC_ExtractorFan();
+    @SavVariableMapping("FINHOTPR")
+    public Enum10 getKITCHENHotWater_Present();
 
-	@SavVariableMapping("FINCLDAC")
-	public Enum1060 getKITCHENColdWaterSupply_Action();
+    @SavVariableMapping("FINLOOEX")
+    public Enum10 getWC_ExtractorFan();
 
-	@SavVariableMapping("FINCOOKR")
-	public Enum10 getKITCHENAdequateCookerSpace();
+    @SavVariableMapping("FINCLDAC")
+    public Enum1060 getKITCHENColdWaterSupply_Action();
 
-	@SavVariableMapping("FINBATHC")
-	public Enum10 getBathroomBathShower_Hot_Cold();
+    @SavVariableMapping("FINCOOKR")
+    public Enum10 getKITCHENAdequateCookerSpace();
 
-	@SavVariableMapping("FIN2LOIN")
-	public Enum10 getSecondWC_Internal();
+    @SavVariableMapping("FINBATHC")
+    public Enum10 getBathroomBathShower_Hot_Cold();
 
-	@SavVariableMapping("FINSNKPR")
-	public Enum10 getKITCHENSink_Present();
+    @SavVariableMapping("FIN2LOIN")
+    public Enum10 getSecondWC_Internal();
 
-	@SavVariableMapping("FINPIPEA")
-	public Enum10 getDrinkingWater_SupplyPipeworkAfterStopcock_PipeworkSeen();
+    @SavVariableMapping("FINSNKPR")
+    public Enum10 getKITCHENSink_Present();
 
-	@SavVariableMapping("FINCUPWK")
-	public Enum10 getKITCHENCupboards_Working();
+    @SavVariableMapping("FINPIPEA")
+    public Enum10 getDrinkingWater_SupplyPipeworkAfterStopcock_PipeworkSeen();
 
-	@SavVariableMapping("FINKITLR")
-	public Enum1069 getKITCHENAmenitiesLastRefurbished();
+    @SavVariableMapping("FINCUPWK")
+    public Enum10 getKITCHENCupboards_Working();
 
-	@SavVariableMapping("FINHOTWK")
-	public Enum10 getKITCHENHotWater_Working();
+    @SavVariableMapping("FINKITLR")
+    public Enum1069 getKITCHENAmenitiesLastRefurbished();
 
-	@SavVariableMapping("FINBDFCB")
-	public Enum10 getBATHROOMAMENITIESSignificantProblemsWithCleanability();
+    @SavVariableMapping("FINHOTWK")
+    public Enum10 getKITCHENHotWater_Working();
 
-	@SavVariableMapping("FINRFPR")
-	public Enum10 getKITCHENRefrigerator_Present();
+    @SavVariableMapping("FINBDFCB")
+    public Enum10 getBATHROOMAMENITIESSignificantProblemsWithCleanability();
 
-	@SavVariableMapping("FIN2WHES")
-	public Enum10 getSecondWashHandBasin_InBedroom_En_Suite_();
+    @SavVariableMapping("FINRFPR")
+    public Enum10 getKITCHENRefrigerator_Present();
 
-	@SavVariableMapping("FINHSPOA")
-	public Enum1066 getHEALTHANDSAFETY_PositionAndOperabilityAmenities();
+    @SavVariableMapping("FIN2WHES")
+    public Enum10 getSecondWashHandBasin_InBedroom_En_Suite_();
 
-	@SavVariableMapping("FIN2WHPR")
-	public Enum10 getSecondWashHandBasin_Present();
+    @SavVariableMapping("FINHSPOA")
+    public Enum1066 getHEALTHANDSAFETY_PositionAndOperabilityAmenities();
 
-	@SavVariableMapping("FINCLDWK")
-	public Enum10 getKITCHENColdWaterSupply_Working();
+    @SavVariableMapping("FIN2WHPR")
+    public Enum10 getSecondWashHandBasin_Present();
 
-	@SavVariableMapping("FINWRKAC")
-	public Enum1060 getKITCHENWorktop_Action();
+    @SavVariableMapping("FINCLDWK")
+    public Enum10 getKITCHENColdWaterSupply_Working();
 
-	@SavVariableMapping("FINBATPR")
-	public Enum10 getBathroomBathShower_Present();
+    @SavVariableMapping("FINWRKAC")
+    public Enum1060 getKITCHENWorktop_Action();
 
-	@SavVariableMapping("FINBXTWK")
-	public Enum10 getBathroomExtractorFan_Working();
+    @SavVariableMapping("FINBATPR")
+    public Enum10 getBathroomBathShower_Present();
 
-	@SavVariableMapping("FINWHBWK")
-	public Enum10 getBathroomWashHandBasin_Working();
+    @SavVariableMapping("FINBXTWK")
+    public Enum10 getBathroomExtractorFan_Working();
 
-	@SavVariableMapping("FINKDFSP")
-	public Enum10 getKITCHENDefectiveOnSpace();
+    @SavVariableMapping("FINWHBWK")
+    public Enum10 getBathroomWashHandBasin_Working();
 
-	@SavVariableMapping("FINWORKT")
-	public Enum1105 getKITCHENWorktop_Metres_();
+    @SavVariableMapping("FINKDFSP")
+    public Enum10 getKITCHENDefectiveOnSpace();
 
-	@SavVariableMapping("FINCLDPR")
-	public Enum10 getKITCHENColdWaterDrinkingSupply_Present();
+    @SavVariableMapping("FINWORKT")
+    public Enum1105 getKITCHENWorktop_Metres_();
 
-	@SavVariableMapping("FIN2WHHC")
-	public Enum10 getSecondWashHandBasin_HotAndColdWater();
+    @SavVariableMapping("FINCLDPR")
+    public Enum10 getKITCHENColdWaterDrinkingSupply_Present();
 
-	@SavVariableMapping("FINBATWA")
-	public Enum10 getBathroomWheelchairAccessible_();
+    @SavVariableMapping("FIN2WHHC")
+    public Enum10 getSecondWashHandBasin_HotAndColdWater();
 
-	@SavVariableMapping("FINLEADB")
-	public Enum10 getDrinkingWater_SupplyPipeworkBeforeStopcock_LeadPresent();
+    @SavVariableMapping("FINBATWA")
+    public Enum10 getBathroomWheelchairAccessible_();
 
-	@SavVariableMapping("FINRFWK")
-	public Enum10 getKITCHENRefrigerator_Working();
+    @SavVariableMapping("FINLEADB")
+    public Enum10 getDrinkingWater_SupplyPipeworkBeforeStopcock_LeadPresent();
 
-	@SavVariableMapping("FINWHBHC")
-	public Enum10 getBathroomWashHandBasin_Hot_ColdWater();
+    @SavVariableMapping("FINRFWK")
+    public Enum10 getKITCHENRefrigerator_Working();
 
-	@SavVariableMapping("FINWHBPR")
-	public Enum10 getBathroomWashHandBasin_Present();
+    @SavVariableMapping("FINWHBHC")
+    public Enum10 getBathroomWashHandBasin_Hot_ColdWater();
 
-	@SavVariableMapping("FINCOKAC")
-	public Enum1060 getKITCHENCookingProvision_Action();
+    @SavVariableMapping("FINWHBPR")
+    public Enum10 getBathroomWashHandBasin_Present();
 
-	@SavVariableMapping("FIN2LOWK")
-	public Enum10 getSecondWC_Working();
+    @SavVariableMapping("FINCOKAC")
+    public Enum1060 getKITCHENCookingProvision_Action();
 
-	@SavVariableMapping("FINLOOPR")
-	public Enum10 getWC_Present();
+    @SavVariableMapping("FIN2LOWK")
+    public Enum10 getSecondWC_Working();
 
-	@SavVariableMapping("FIN2BTES")
-	public Enum10 getSecondBathShower_InBedroom_En_Suite_();
+    @SavVariableMapping("FINLOOPR")
+    public Enum10 getWC_Present();
 
-	@SavVariableMapping("FINBDFLO")
-	public Enum10 getBATHROOMAMENITIESSignificantProblemsWithLocation();
+    @SavVariableMapping("FIN2BTES")
+    public Enum10 getSecondBathShower_InBedroom_En_Suite_();
 
-	@SavVariableMapping("FINCUPPR")
-	public Enum10 getKITCHENCupboards_Present();
+    @SavVariableMapping("FINBDFLO")
+    public Enum10 getBATHROOMAMENITIESSignificantProblemsWithLocation();
 
-	@SavVariableMapping("FINSNKAC")
-	public Enum1060 getKITCHENSink_Action();
+    @SavVariableMapping("FINCUPPR")
+    public Enum10 getKITCHENCupboards_Present();
 
-	@SavVariableMapping("FINHSPHY")
-	public Enum1066 getHEALTHANDSAFETY_PersonalHygiene();
+    @SavVariableMapping("FINSNKAC")
+    public Enum1060 getKITCHENSink_Action();
 
-	@SavVariableMapping("FIN2LOPR")
-	public Enum10 getSecondWC_Present();
+    @SavVariableMapping("FINHSPHY")
+    public Enum1066 getHEALTHANDSAFETY_PersonalHygiene();
 
-	@SavVariableMapping("FINMAINS")
-	public Enum10 getDrinkingWater_SupplyPipeworkBeforeStopcock_Mains();
+    @SavVariableMapping("FIN2LOPR")
+    public Enum10 getSecondWC_Present();
 
-	@SavVariableMapping("FINWSTWK")
-	public Enum10 getKITCHENFixedWaste_Working();
+    @SavVariableMapping("FINMAINS")
+    public Enum10 getDrinkingWater_SupplyPipeworkBeforeStopcock_Mains();
 
-	@SavVariableMapping("FINBATWK")
-	public Enum10 getBathroomBathShower_Working();
+    @SavVariableMapping("FINWSTWK")
+    public Enum10 getKITCHENFixedWaste_Working();
 
-	@SavVariableMapping("FINBDFLA")
-	public Enum10 getBATHROOMAMENITIESSignificantProblemsWithLayout();
+    @SavVariableMapping("FINBATWK")
+    public Enum10 getBathroomBathShower_Working();
 
-	@SavVariableMapping("FIN2BTWK")
-	public Enum10 getSecondBathShower_Working();
+    @SavVariableMapping("FINBDFLA")
+    public Enum10 getBATHROOMAMENITIESSignificantProblemsWithLayout();
 
-	@SavVariableMapping("FINTDPR")
-	public Enum10 getKITCHENTumbleDryer_Present();
+    @SavVariableMapping("FIN2BTWK")
+    public Enum10 getSecondBathShower_Working();
 
-	@SavVariableMapping("FINLOOWK")
-	public Enum10 getWC_Working();
+    @SavVariableMapping("FINTDPR")
+    public Enum10 getKITCHENTumbleDryer_Present();
 
-	@SavVariableMapping("FINWSTPR")
-	public Enum10 getKITCHENFixedWaste_Present();
+    @SavVariableMapping("FINLOOWK")
+    public Enum10 getWC_Working();
 
-	@SavVariableMapping("FIN2LOES")
-	public Enum10 getSecondWC_InBedroom_En_Suite_();
+    @SavVariableMapping("FINWSTPR")
+    public Enum10 getKITCHENFixedWaste_Present();
 
-	@SavVariableMapping("FINTDWK")
-	public Enum10 getKITCHENTumbleDryer_Working();
+    @SavVariableMapping("FIN2LOES")
+    public Enum10 getSecondWC_InBedroom_En_Suite_();
 
-	@SavVariableMapping("FINKITDU")
-	public Enum10 getKITCHENAdaptedForDisabledUse();
+    @SavVariableMapping("FINTDWK")
+    public Enum10 getKITCHENTumbleDryer_Working();
 
-	@SavVariableMapping("FINKDFLA")
-	public Enum10 getKITCHENDefectiveOnLayout();
+    @SavVariableMapping("FINKITDU")
+    public Enum10 getKITCHENAdaptedForDisabledUse();
 
-	@SavVariableMapping("FIN2BTPR")
-	public Enum10 getSecondBathShower_Present();
+    @SavVariableMapping("FINKDFLA")
+    public Enum10 getKITCHENDefectiveOnLayout();
 
-	@SavVariableMapping("FIN2KIAC")
-	public Enum1060 getSecondKitchen_Action();
+    @SavVariableMapping("FIN2BTPR")
+    public Enum10 getSecondBathShower_Present();
 
-	@SavVariableMapping("FIN2LOAC")
-	public Enum1060 getSecondWC_Action();
+    @SavVariableMapping("FIN2KIAC")
+    public Enum1060 getSecondKitchen_Action();
 
-	@SavVariableMapping("FINHOTAC")
-	public Enum1060 getKITCHENHotWater_Action();
+    @SavVariableMapping("FIN2LOAC")
+    public Enum1060 getSecondWC_Action();
 
-	@SavVariableMapping("FINCOKWK")
-	public Enum10 getKITCHENCookingProvision_Working();
+    @SavVariableMapping("FINHOTAC")
+    public Enum1060 getKITCHENHotWater_Action();
 
-	@SavVariableMapping("FINWRKWK")
-	public Enum10 getKITCHENWorktop_Working();
+    @SavVariableMapping("FINCOKWK")
+    public Enum10 getKITCHENCookingProvision_Working();
 
-	@SavVariableMapping("FINBATDU")
-	public Enum10 getBathroomAdaptedForDisabledUse();
+    @SavVariableMapping("FINWRKWK")
+    public Enum10 getKITCHENWorktop_Working();
 
-	@SavVariableMapping("FIN2BTHC")
-	public Enum10 getSecondBathShower_HotAndColdWater();
+    @SavVariableMapping("FINBATDU")
+    public Enum10 getBathroomAdaptedForDisabledUse();
 
-	@SavVariableMapping("FINHSWAT")
-	public Enum1066 getHEALTHANDSAFETY_WaterSupply();
+    @SavVariableMapping("FIN2BTHC")
+    public Enum10 getSecondBathShower_HotAndColdWater();
 
-	@SavVariableMapping("FINSNKWK")
-	public Enum10 getKITCHENSink_Working();
+    @SavVariableMapping("FINHSWAT")
+    public Enum1066 getHEALTHANDSAFETY_WaterSupply();
 
-	@SavVariableMapping("FINWMPR")
-	public Enum10 getKITCHENWashingMachine_Present();
+    @SavVariableMapping("FINSNKWK")
+    public Enum10 getKITCHENSink_Working();
 
-	@SavVariableMapping("FIN2WHWK")
-	public Enum10 getSecondWashHandBasin_Working();
+    @SavVariableMapping("FINWMPR")
+    public Enum10 getKITCHENWashingMachine_Present();
 
-	@SavVariableMapping("FIN2KIHC")
-	public Enum10 getSecondKitchen_Hot_ColdWater();
+    @SavVariableMapping("FIN2WHWK")
+    public Enum10 getSecondWashHandBasin_Working();
 
-	@SavVariableMapping("FINLOOIN")
-	public Enum10 getWC_Internal();
+    @SavVariableMapping("FIN2KIHC")
+    public Enum10 getSecondKitchen_Hot_ColdWater();
 
-	@SavVariableMapping("FINPIPEB")
-	public Enum10 getDrinkingWater_SupplyPipeworkBeforeStopcock_PipeworkSeen();
+    @SavVariableMapping("FINLOOIN")
+    public Enum10 getWC_Internal();
 
-	@SavVariableMapping("FIN2KIPR")
-	public Enum10 getSecondKitchen_Present();
+    @SavVariableMapping("FINPIPEB")
+    public Enum10 getDrinkingWater_SupplyPipeworkBeforeStopcock_PipeworkSeen();
+
+    @SavVariableMapping("FIN2KIPR")
+    public Enum10 getSecondKitchen_Present();
 
 }
-

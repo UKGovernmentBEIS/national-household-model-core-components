@@ -30,12 +30,12 @@ public class SpssVentilationReaderTest {
     @Mock
     IHouseCaseSourcesRespository<Object> iteratorProvider;
 
-	@SuppressWarnings("unchecked")
-	@Before
+    @SuppressWarnings("unchecked")
+    @Before
     public void setUp() {
-		when(itrFactory.build((Iterable<Class<?>>) any(), anyString())).thenReturn(
+        when(itrFactory.build((Iterable<Class<?>>) any(), anyString())).thenReturn(
                 iteratorProvider);
-        
+
         reader = new SpssVentilationReader("", itrFactory);
     }
 

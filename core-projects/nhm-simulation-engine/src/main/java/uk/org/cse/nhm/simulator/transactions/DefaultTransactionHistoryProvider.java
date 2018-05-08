@@ -4,16 +4,17 @@ import javax.inject.Inject;
 
 import com.google.inject.Provider;
 
-public class DefaultTransactionHistoryProvider implements Provider<DwellingTransactionHistory>{
-	private final ITransactionRunningTotal runningTotals;
+public class DefaultTransactionHistoryProvider implements Provider<DwellingTransactionHistory> {
 
-	@Inject
-	public DefaultTransactionHistoryProvider(final ITransactionRunningTotal runningTotals) {
-		this.runningTotals = runningTotals;
-	}
+    private final ITransactionRunningTotal runningTotals;
 
-	@Override
-	public DwellingTransactionHistory get() {
-		return new DwellingTransactionHistory(runningTotals);
-	}
+    @Inject
+    public DefaultTransactionHistoryProvider(final ITransactionRunningTotal runningTotals) {
+        this.runningTotals = runningTotals;
+    }
+
+    @Override
+    public DwellingTransactionHistory get() {
+        return new DwellingTransactionHistory(runningTotals);
+    }
 }

@@ -19,6 +19,7 @@ import uk.org.cse.nhm.simulator.state.functions.IAggregationFunction;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class ProfilingInterceptor implements IAdapterInterceptor {
+
     private final IProfilingFactory profile;
     private boolean enabled = false;
 
@@ -30,7 +31,7 @@ public class ProfilingInterceptor implements IAdapterInterceptor {
     public void setEnabled(final boolean enabled) {
         this.enabled = enabled;
     }
-    
+
     @Override
     public <T> boolean transforms(final Object input, final T adapted, final Class<T> clazz) {
         if (enabled) {
@@ -42,7 +43,7 @@ public class ProfilingInterceptor implements IAdapterInterceptor {
     }
 
     @SuppressWarnings("unchecked")
-	@Override
+    @Override
     public <T> T transform(final Object input, final T adapted, final Class<T> clazz, final IAdaptingScope scope) {
         if (adapted instanceof IComponentsAction && clazz.isAssignableFrom(ProfiledComponentsAction.class)) {
             return clazz.cast(profile.componentsAction((IComponentsAction) adapted));
@@ -62,21 +63,21 @@ public class ProfilingInterceptor implements IAdapterInterceptor {
             return clazz.cast(profile.hookAction((IHookRunnable) adapted));
         } else if (adapted instanceof IAggregationFunction && clazz.isAssignableFrom(ProfiledAggregation.class)) {
             return clazz.cast(profile.aggregation((IAggregationFunction) adapted));
-        } else if (adapted instanceof IDateRunnable &&
-                   adapted instanceof IIdentified &&
-                   adapted instanceof Initializable &&
-                   clazz.isAssignableFrom(ProfiledDateRunnable.class)) {
+        } else if (adapted instanceof IDateRunnable
+                && adapted instanceof IIdentified
+                && adapted instanceof Initializable
+                && clazz.isAssignableFrom(ProfiledDateRunnable.class)) {
             return clazz.cast(dateRunnable(adapted));
         }
         return adapted;
     }
 
     private <Q extends IDateRunnable & IIdentified & Initializable>
-        ProfiledDateRunnable dateRunnable(final Object delegate) {
+            ProfiledDateRunnable dateRunnable(final Object delegate) {
         // hack types
         return profile.dateRunnable(delegate);
     }
-    
+
     @SuppressWarnings("rawtypes")
     private boolean isFn(final Object fn, final Class<?> param) {
         if (fn instanceof IComponentsFunction) {
@@ -87,7 +88,7 @@ public class ProfilingInterceptor implements IAdapterInterceptor {
             return false;
         }
     }
-    
+
     private <T> boolean isProfilable(final T adapted, final Class<T> clazz) {
         if (adapted instanceof ISequenceSpecialAction || adapted instanceof ConstructHousesAction) {
             // both of these have some special handling and break stuff if we proxy them.
@@ -111,13 +112,12 @@ public class ProfilingInterceptor implements IAdapterInterceptor {
             return true;
         } else if (adapted instanceof IAggregationFunction && clazz.isAssignableFrom(ProfiledAggregation.class)) {
             return true;
-        } else if (adapted instanceof IDateRunnable &&
-                   adapted instanceof IIdentified &&
-                   adapted instanceof Initializable &&
-                   clazz.isAssignableFrom(ProfiledDateRunnable.class)) {
+        } else if (adapted instanceof IDateRunnable
+                && adapted instanceof IIdentified
+                && adapted instanceof Initializable
+                && clazz.isAssignableFrom(ProfiledDateRunnable.class)) {
             return true;
         }
         return false;
     }
 }
-

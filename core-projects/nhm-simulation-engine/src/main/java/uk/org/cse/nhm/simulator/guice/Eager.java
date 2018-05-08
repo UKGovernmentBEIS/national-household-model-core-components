@@ -6,7 +6,8 @@ import java.lang.annotation.RetentionPolicy;
 import com.google.inject.BindingAnnotation;
 
 /**
- * Use this with a multibinder to require things to be constructed by the injector
+ * Use this with a multibinder to require things to be constructed by the
+ * injector
  *
  * @author hinton
  *

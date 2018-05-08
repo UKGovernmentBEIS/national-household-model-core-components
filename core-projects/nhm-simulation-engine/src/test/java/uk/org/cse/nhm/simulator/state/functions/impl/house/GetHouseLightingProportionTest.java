@@ -27,18 +27,24 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 @RunWith(MockitoJUnitRunner.class)
 public class GetHouseLightingProportionTest {
 
-	@Mock IDimension<ITechnologyModel> techDimension;
-    @Mock IComponentsFunction<Number> min;
-	@Mock IComponentsFunction<Number> max;
-	
-	
-	@Mock ITechnologyModel techModel;
-	@Mock IComponentsScope scope;
-	@Mock ILets lets;
-	
-	EList<ILight> lights;
-	@Mock ILight lowEnergy;
-	
+    @Mock
+    IDimension<ITechnologyModel> techDimension;
+    @Mock
+    IComponentsFunction<Number> min;
+    @Mock
+    IComponentsFunction<Number> max;
+
+    @Mock
+    ITechnologyModel techModel;
+    @Mock
+    IComponentsScope scope;
+    @Mock
+    ILets lets;
+
+    EList<ILight> lights;
+    @Mock
+    ILight lowEnergy;
+
     @Before
     public void setUp() {
         when(lowEnergy.getType()).thenReturn(LightType.CFL);
@@ -48,7 +54,7 @@ public class GetHouseLightingProportionTest {
         when(standard.getType()).thenReturn(LightType.Incandescent);
         when(standard.getProportion()).thenReturn(0.25d);
 
-        lights = new BasicEList<ILight>(ImmutableList.<ILight> builder()
+        lights = new BasicEList<ILight>(ImmutableList.<ILight>builder()
                 .add(lowEnergy)
                 .add(standard)
                 .build());
@@ -56,10 +62,10 @@ public class GetHouseLightingProportionTest {
         when(scope.get(techDimension)).thenReturn(techModel);
         when(techModel.getLights()).thenReturn(lights);
     }
-	
+
     @Test
     public void testComputeMethodWillReturnProportionForMaxMin() throws Exception {
-        GetHouseLightingProportion measure = new GetHouseLightingProportion(Collections.singletonList(LightType.CFL),techDimension);
+        GetHouseLightingProportion measure = new GetHouseLightingProportion(Collections.singletonList(LightType.CFL), techDimension);
         Double result = measure.compute(scope, lets);
         assertEquals(0.75d, result.doubleValue(), 0d);
     }

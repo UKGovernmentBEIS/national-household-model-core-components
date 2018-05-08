@@ -34,103 +34,112 @@ import uk.org.cse.nhm.simulator.state.dimensions.time.ITimeDimension;
 import uk.org.cse.nhm.simulator.transactions.IPayment;
 
 public abstract class BaseObligation extends AbstractNamed implements IObligation, IStateAction, IDateRunnable {
-	private static final Logger log = LoggerFactory.getLogger(BaseObligation.class);
-	final ITimeDimension time;
-	final ICanonicalState state;
-	
-	@Inject
-	private IProfiler profiler;
-	
-	/**
-	 * The set of dates we have already scheduled on the queue
-	 */
-	final Set<DateTime> scheduledTimes = new HashSet<DateTime>();
-	
-	/**
-	 * The list of dwellings we are scheduled to apply to.
-	 */
-	final LinkedHashSet<IDwelling> activeDwellings = new LinkedHashSet<>();
-	
-	private final ISimulator simulator;
-	private final int index;
-	
-	protected BaseObligation(final ITimeDimension time, final ICanonicalState state, final ISimulator simulator, final int index) {
-		this.time = time;
-		this.state = state;
-		this.simulator = simulator;
-		this.index = index;
-	}
 
-	@Override
-	public final StateChangeSourceType getSourceType() {
-		return StateChangeSourceType.OBLIGATION;
-	}
-	
-	@Override
-	public boolean apply(final ISettableComponentsScope scope, final ILets lets) throws NHMException {
-		for (final IPayment p : generatePayments(scope.get(time).get(XForesightLevel.Always), scope)) {
-			scope.addTransaction(p);
-		}
-		return true;
-	}
+    private static final Logger log = LoggerFactory.getLogger(BaseObligation.class);
+    final ITimeDimension time;
+    final ICanonicalState state;
 
-	@Override
-	public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
-		return true;
-	}
-	
-	@Override
-	public boolean isAlwaysSuitable() {
-		return true;
-	}
-	
-	@Override
-	public void handle(final IDwelling dwelling) {
-        activeDwellings.add(dwelling);		
-		reschedule(state.get(time, null).get(XForesightLevel.Always));
-	}
-	
-	@Override
-	public Set<IDwelling> apply(final IStateScope scope, final Set<IDwelling> dwellings, final ILets lets) throws NHMException {
-        
-		if (profiler != null) profiler.start("eval " + this, "OBL");
-		
-		for (final IDwelling d : dwellings) {
-			scope.apply(((IComponentsAction)this), Collections.singleton(d), lets);
-		}
-		
-		reschedule(scope.getState().get(time, null).get(XForesightLevel.Always));
-		if (profiler != null) profiler.stop();
-		return dwellings;
-	}
-    
+    @Inject
+    private IProfiler profiler;
+
+    /**
+     * The set of dates we have already scheduled on the queue
+     */
+    final Set<DateTime> scheduledTimes = new HashSet<DateTime>();
+
+    /**
+     * The list of dwellings we are scheduled to apply to.
+     */
+    final LinkedHashSet<IDwelling> activeDwellings = new LinkedHashSet<>();
+
+    private final ISimulator simulator;
+    private final int index;
+
+    protected BaseObligation(final ITimeDimension time, final ICanonicalState state, final ISimulator simulator, final int index) {
+        this.time = time;
+        this.state = state;
+        this.simulator = simulator;
+        this.index = index;
+    }
+
+    @Override
+    public final StateChangeSourceType getSourceType() {
+        return StateChangeSourceType.OBLIGATION;
+    }
+
+    @Override
+    public boolean apply(final ISettableComponentsScope scope, final ILets lets) throws NHMException {
+        for (final IPayment p : generatePayments(scope.get(time).get(XForesightLevel.Always), scope)) {
+            scope.addTransaction(p);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
+        return true;
+    }
+
+    @Override
+    public boolean isAlwaysSuitable() {
+        return true;
+    }
+
+    @Override
+    public void handle(final IDwelling dwelling) {
+        activeDwellings.add(dwelling);
+        reschedule(state.get(time, null).get(XForesightLevel.Always));
+    }
+
+    @Override
+    public Set<IDwelling> apply(final IStateScope scope, final Set<IDwelling> dwellings, final ILets lets) throws NHMException {
+
+        if (profiler != null) {
+            profiler.start("eval " + this, "OBL");
+        }
+
+        for (final IDwelling d : dwellings) {
+            scope.apply(((IComponentsAction) this), Collections.singleton(d), lets);
+        }
+
+        reschedule(scope.getState().get(time, null).get(XForesightLevel.Always));
+        if (profiler != null) {
+            profiler.stop();
+        }
+        return dwellings;
+    }
+
     @Override
     public Set<IDwelling> getSuitable(final IStateScope scope, final Set<IDwelling> dwellings, final ILets lets) {
         return dwellings;
     }
-    
-	private void reschedule(final DateTime now) {
-		final Optional<DateTime> nextTransactionDate = getNextTransactionDate(now);
-		if (nextTransactionDate.isPresent()) {
-			scheduleFiring(nextTransactionDate.get());
-		} else {
+
+    private void reschedule(final DateTime now) {
+        final Optional<DateTime> nextTransactionDate = getNextTransactionDate(now);
+        if (nextTransactionDate.isPresent()) {
+            scheduleFiring(nextTransactionDate.get());
+        } else {
             activeDwellings.clear();
-		}
-	}
-   
-	private void scheduleFiring(final DateTime dateTime) {
-		if (scheduledTimes.contains(dateTime)) return;
-		log.trace("scheduling {} on {}", this, dateTime);
-		scheduledTimes.add(dateTime);
-		final Priority priority = Priority.ofObligation(index);
-		simulator.schedule(dateTime, priority, this);
-	}
-	
-	@Override
-	public void run(final DateTime date) {
-        if (activeDwellings.isEmpty()) return;
-		state.apply(this, this, this.activeDwellings, ILets.EMPTY);
-	}
+        }
+    }
+
+    private void scheduleFiring(final DateTime dateTime) {
+        if (scheduledTimes.contains(dateTime)) {
+            return;
+        }
+        log.trace("scheduling {} on {}", this, dateTime);
+        scheduledTimes.add(dateTime);
+        final Priority priority = Priority.ofObligation(index);
+        simulator.schedule(dateTime, priority, this);
+    }
+
+    @Override
+    public void run(final DateTime date) {
+        if (activeDwellings.isEmpty()) {
+            return;
+        }
+        state.apply(this, this, this.activeDwellings, ILets.EMPTY);
+    }
 
     @Override
     public void forget(final IDwelling dwelling) {

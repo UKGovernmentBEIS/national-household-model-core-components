@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package uk.org.cse.stockimport.ehcs2010.spss.elementreader;
 
@@ -59,10 +59,10 @@ public class SpssHouseCaseReaderTest extends Mockito {
     @Mock
     IHouseCaseSourcesRespository<Object> iteratorProvider;
 
-	@SuppressWarnings("unchecked")
-	@Before
+    @SuppressWarnings("unchecked")
+    @Before
     public void initialiseTests() {
-    	when(itrFactory.build((Iterable<Class<?>>) any(), anyString())).thenReturn(iteratorProvider);
+        when(itrFactory.build((Iterable<Class<?>>) any(), anyString())).thenReturn(iteratorProvider);
         houseCaseReader = new SpssHouseCaseReader("", itrFactory);
     }
 
@@ -243,46 +243,46 @@ public class SpssHouseCaseReaderTest extends Mockito {
         assertEquals("when plot=private & frontplot area == 0", false,
                 houseCaseReader.hasAccessToOutsideSpace(aroundEntry, houseCase));
     }
-    
+
     @Test
-	public void testGetOwnsPartOfRoofReturnsTrueForExpectedValues() throws Exception {
-    	when(interviewOption.isPresent()).thenReturn(true);
-    	when(interviewOption.get()).thenReturn(interview);
-    	
-    	when(interview.getTypeOfOwnership()).thenReturn(Enum76.FreeholderOfHouse);
-    	assertTrue("ownType=FreeholderOfHouse",houseCaseReader.getOwnsPartOfRoof(interviewOption));
-    	
-    	when(interview.getTypeOfOwnership()).thenReturn(Enum76.LeaseholderOwningFHCollectively);
-    	assertTrue("ownType=LeaseholderOwningFHCollectively",houseCaseReader.getOwnsPartOfRoof(interviewOption));
-    	
-    	when(interview.getTypeOfOwnership()).thenReturn(Enum76.LeaseholderOwningFHOfWholeBldg);
-    	assertTrue("ownType=LeaseholderOwningFHOfWholeBldg",houseCaseReader.getOwnsPartOfRoof(interviewOption));
-    	
-    	when(interview.getTypeOfOwnership()).thenReturn(Enum76.Commonholder_PropertyBuiltAsCH_);
-    	assertTrue("ownType=Commonholder_PropertyBuiltAsCH_",houseCaseReader.getOwnsPartOfRoof(interviewOption));
-    	
-    	when(interview.getTypeOfOwnership()).thenReturn(Enum76.Commonholder_PropertyConvertedToCH_);
-    	assertTrue("ownType=Commonholder_PropertyConvertedToCH_",houseCaseReader.getOwnsPartOfRoof(interviewOption));
-	}
-    
+    public void testGetOwnsPartOfRoofReturnsTrueForExpectedValues() throws Exception {
+        when(interviewOption.isPresent()).thenReturn(true);
+        when(interviewOption.get()).thenReturn(interview);
+
+        when(interview.getTypeOfOwnership()).thenReturn(Enum76.FreeholderOfHouse);
+        assertTrue("ownType=FreeholderOfHouse", houseCaseReader.getOwnsPartOfRoof(interviewOption));
+
+        when(interview.getTypeOfOwnership()).thenReturn(Enum76.LeaseholderOwningFHCollectively);
+        assertTrue("ownType=LeaseholderOwningFHCollectively", houseCaseReader.getOwnsPartOfRoof(interviewOption));
+
+        when(interview.getTypeOfOwnership()).thenReturn(Enum76.LeaseholderOwningFHOfWholeBldg);
+        assertTrue("ownType=LeaseholderOwningFHOfWholeBldg", houseCaseReader.getOwnsPartOfRoof(interviewOption));
+
+        when(interview.getTypeOfOwnership()).thenReturn(Enum76.Commonholder_PropertyBuiltAsCH_);
+        assertTrue("ownType=Commonholder_PropertyBuiltAsCH_", houseCaseReader.getOwnsPartOfRoof(interviewOption));
+
+        when(interview.getTypeOfOwnership()).thenReturn(Enum76.Commonholder_PropertyConvertedToCH_);
+        assertTrue("ownType=Commonholder_PropertyConvertedToCH_", houseCaseReader.getOwnsPartOfRoof(interviewOption));
+    }
+
     @Test
-	public void testGetOwnsPartOfRoofReturnsFalseForExpectedValues() throws Exception {
-    	when(interviewOption.isPresent()).thenReturn(true);
-    	when(interviewOption.get()).thenReturn(interview);
-    	    	
-    	when(interview.getTypeOfOwnership()).thenReturn(Enum76.DoesNotApply);
-    	assertFalse("ownType=DoesNotApply",houseCaseReader.getOwnsPartOfRoof(interviewOption));
-    
-    	when(interview.getTypeOfOwnership()).thenReturn(Enum76.NoAnswer);
-    	assertFalse("ownType=NoAnswer",houseCaseReader.getOwnsPartOfRoof(interviewOption));
-    	
-    	when(interview.getTypeOfOwnership()).thenReturn(Enum76.Leaseholder_NoShareOfFH);
-    	assertFalse("ownType=Leaseholder_NoShareOfFH",houseCaseReader.getOwnsPartOfRoof(interviewOption));
-    	
-    	when(interview.getTypeOfOwnership()).thenReturn(Enum76.FreeholderOfFlat_OwningFHOfFlatOnly);
-    	assertFalse("ownType=FreeholderOfFlat_OwningFHOfFlatOnly",houseCaseReader.getOwnsPartOfRoof(interviewOption));
-    	
-    	when(interview.getTypeOfOwnership()).thenReturn(null);
-    	assertFalse("ownType=null",houseCaseReader.getOwnsPartOfRoof(interviewOption));
+    public void testGetOwnsPartOfRoofReturnsFalseForExpectedValues() throws Exception {
+        when(interviewOption.isPresent()).thenReturn(true);
+        when(interviewOption.get()).thenReturn(interview);
+
+        when(interview.getTypeOfOwnership()).thenReturn(Enum76.DoesNotApply);
+        assertFalse("ownType=DoesNotApply", houseCaseReader.getOwnsPartOfRoof(interviewOption));
+
+        when(interview.getTypeOfOwnership()).thenReturn(Enum76.NoAnswer);
+        assertFalse("ownType=NoAnswer", houseCaseReader.getOwnsPartOfRoof(interviewOption));
+
+        when(interview.getTypeOfOwnership()).thenReturn(Enum76.Leaseholder_NoShareOfFH);
+        assertFalse("ownType=Leaseholder_NoShareOfFH", houseCaseReader.getOwnsPartOfRoof(interviewOption));
+
+        when(interview.getTypeOfOwnership()).thenReturn(Enum76.FreeholderOfFlat_OwningFHOfFlatOnly);
+        assertFalse("ownType=FreeholderOfFlat_OwningFHOfFlatOnly", houseCaseReader.getOwnsPartOfRoof(interviewOption));
+
+        when(interview.getTypeOfOwnership()).thenReturn(null);
+        assertFalse("ownType=null", houseCaseReader.getOwnsPartOfRoof(interviewOption));
     }
 }

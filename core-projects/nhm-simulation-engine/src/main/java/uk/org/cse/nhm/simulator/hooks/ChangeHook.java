@@ -23,88 +23,91 @@ import uk.org.cse.nhm.simulator.state.IStateListener;
 import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
 
 public class ChangeHook extends AbstractHook implements IStateListener, IDateRunnable, Initializable, IStateChangeSource {
-	/**
-	 * Dates on which we are scheduled to go off
-	 */
-	private final Set<DateTime> scheduledDates = new HashSet<>();
-	/**
-	 * Houses which have been affected since we last went off
-	 */
-	private final LinkedHashSet<IDwelling> affectedHouses = new LinkedHashSet<>();
-	/**
-	 * Causes of us going off
-	 */
-	private final LinkedHashSet<IStateChangeSource> causes = new LinkedHashSet<>();
 
-	/**
-	 * If false, don't go off for stock creator
-	 */
-	private final boolean includeStockCreator;
-	
-	private final ISimulator simulator;
-	final ICanonicalState state;
-	
-	@AssistedInject
-	protected ChangeHook(
-			final ISimulator simulator,
-			final ICanonicalState state,
-			@Assisted final boolean includeStockCreator,
-			@Assisted final List<IHookRunnable> delegates) {
-		super(delegates, simulator);
-		this.simulator = simulator;
-		this.state = state;
-		this.includeStockCreator = includeStockCreator;
-	}
-	
-	@Override
-	public StateChangeSourceType getSourceType() {
-		return StateChangeSourceType.TRIGGER;
-	}
-	
-	@Override
-	public void initialize() throws NHMException {
-		state.addStateListener(this);
-	}
-	
-	@Override
-	public void stateChanged(final ICanonicalState state, final IStateChangeNotification notification) {
-		if (!includeStockCreator) {
-			for (final IStateChangeSource s : notification.getCauses()) {
-				if (s.getSourceType() == StateChangeSourceType.CREATION) return;
-			}
-		}
-		// if one of the accumulated causes of this notification is this hook
-		// just bail as we would be recursive otherwise
-		if (notification.getCauses().contains(this)) {
+    /**
+     * Dates on which we are scheduled to go off
+     */
+    private final Set<DateTime> scheduledDates = new HashSet<>();
+    /**
+     * Houses which have been affected since we last went off
+     */
+    private final LinkedHashSet<IDwelling> affectedHouses = new LinkedHashSet<>();
+    /**
+     * Causes of us going off
+     */
+    private final LinkedHashSet<IStateChangeSource> causes = new LinkedHashSet<>();
+
+    /**
+     * If false, don't go off for stock creator
+     */
+    private final boolean includeStockCreator;
+
+    private final ISimulator simulator;
+    final ICanonicalState state;
+
+    @AssistedInject
+    protected ChangeHook(
+            final ISimulator simulator,
+            final ICanonicalState state,
+            @Assisted final boolean includeStockCreator,
+            @Assisted final List<IHookRunnable> delegates) {
+        super(delegates, simulator);
+        this.simulator = simulator;
+        this.state = state;
+        this.includeStockCreator = includeStockCreator;
+    }
+
+    @Override
+    public StateChangeSourceType getSourceType() {
+        return StateChangeSourceType.TRIGGER;
+    }
+
+    @Override
+    public void initialize() throws NHMException {
+        state.addStateListener(this);
+    }
+
+    @Override
+    public void stateChanged(final ICanonicalState state, final IStateChangeNotification notification) {
+        if (!includeStockCreator) {
+            for (final IStateChangeSource s : notification.getCauses()) {
+                if (s.getSourceType() == StateChangeSourceType.CREATION) {
+                    return;
+                }
+            }
+        }
+        // if one of the accumulated causes of this notification is this hook
+        // just bail as we would be recursive otherwise
+        if (notification.getCauses().contains(this)) {
             affectedHouses.clear();
-			return;
-		}
-		
-		getAffectedHouses(notification, affectedHouses);
-		
-		// finally consider scheduling an event
-		if (!affectedHouses.isEmpty() && !scheduledDates.contains(notification.getDate())) {
-			simulator.schedule(notification.getDate(), Priority.ofIdentifier(getIdentifier()), this);
-			scheduledDates.add(notification.getDate());
-		}
-	}
+            return;
+        }
 
-	void getAffectedHouses(final IStateChangeNotification notification, final Set<IDwelling> affectedHouses) {
-		// if anything is changed, record the fact
-		if (!notification.getAllChangedDwellings().isEmpty() ||
-				!notification.getCreatedDwellings().isEmpty()) {
-			affectedHouses.addAll(notification.getAllChangedDwellings());
-			affectedHouses.addAll(notification.getCreatedDwellings());
-			causes.addAll(notification.getCauses());
-		}
-	}
-	
-	@Override
-	public void run(final DateTime date) {
-		causes.add(this);
-		super.runDelegates(state, date, causes, affectedHouses);
-		scheduledDates.remove(date);
-		affectedHouses.clear();
-		causes.clear();
-	}
+        getAffectedHouses(notification, affectedHouses);
+
+        // finally consider scheduling an event
+        if (!affectedHouses.isEmpty() && !scheduledDates.contains(notification.getDate())) {
+            simulator.schedule(notification.getDate(), Priority.ofIdentifier(getIdentifier()), this);
+            scheduledDates.add(notification.getDate());
+        }
+    }
+
+    void getAffectedHouses(final IStateChangeNotification notification, final Set<IDwelling> affectedHouses) {
+        // if anything is changed, record the fact
+        if (!notification.getAllChangedDwellings().isEmpty()
+                || !notification.getCreatedDwellings().isEmpty()) {
+            affectedHouses.addAll(notification.getAllChangedDwellings());
+            affectedHouses.addAll(notification.getCreatedDwellings());
+            causes.addAll(notification.getCauses());
+        }
+    }
+
+    @Override
+    public void run(final DateTime date) {
+        causes.add(this);
+        super.runDelegates(state, date, causes, affectedHouses);
+        scheduledDates.remove(date);
+        affectedHouses.clear();
+        causes.clear();
+    }
 }

@@ -9,13 +9,14 @@ import uk.org.cse.nhm.simulator.scope.IComponentsScope;
 import uk.org.cse.nhm.simulator.state.IDimension;
 
 public class GetMorphology extends BasicAttributesFunction<MorphologyType> {
-	@Inject
-	public GetMorphology(IDimension<BasicCaseAttributes> bad) {
-		super(bad);
-	}
 
-	@Override
-	public MorphologyType compute(IComponentsScope scope, ILets lets) {
-		return getAttributes(scope).getMorphologyType();
-	}
+    @Inject
+    public GetMorphology(IDimension<BasicCaseAttributes> bad) {
+        super(bad);
+    }
+
+    @Override
+    public MorphologyType compute(IComponentsScope scope, ILets lets) {
+        return getAttributes(scope).getMorphologyType();
+    }
 }

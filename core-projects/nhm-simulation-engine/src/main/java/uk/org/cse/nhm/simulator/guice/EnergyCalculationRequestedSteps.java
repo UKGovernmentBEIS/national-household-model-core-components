@@ -6,6 +6,7 @@ import java.util.EnumSet;
 import java.util.Set;
 
 public class EnergyCalculationRequestedSteps {
+
     Set<EnergyCalculationStep> requestedSteps = EnumSet.noneOf(EnergyCalculationStep.class);
     // Not thread safe.
     boolean closed = false;
@@ -23,7 +24,8 @@ public class EnergyCalculationRequestedSteps {
         }
         /**
          * We could take a defensive copy here, but it shouldn't be needed,
-         * because registering all the scenario elements should happen before the energy calculator is ever run.
+         * because registering all the scenario elements should happen before
+         * the energy calculator is ever run.
          */
         return requestedSteps;
     }

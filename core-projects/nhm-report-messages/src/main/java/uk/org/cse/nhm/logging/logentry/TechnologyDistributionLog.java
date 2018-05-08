@@ -11,42 +11,43 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableMap;
 
 /**
- * A log entry which records the number of houses with each technology installed at each date.
- * 
+ * A log entry which records the number of houses with each technology installed
+ * at each date.
+ *
  * TODO should this just be a date-value series for each technology?
- * 
+ *
  * @author hinton
  *
  */
 @AutoProperty
 public class TechnologyDistributionLog extends AbstractDatedLogEntry {
-	private final Map<String, Integer> caseWeightByTechnology;
-	
-	@JsonCreator
-	public TechnologyDistributionLog(
-			@JsonProperty("date") final DateTime date, 
-			@JsonProperty("caseWeightByTechnology") final Map<String, Integer> caseWeights) {
-		super(date);
-		this.caseWeightByTechnology = ImmutableMap.copyOf(caseWeights);
-	}
 
+    private final Map<String, Integer> caseWeightByTechnology;
 
-	public Map<String, Integer> getCaseWeightByTechnology() {
-		return caseWeightByTechnology;
-	}
+    @JsonCreator
+    public TechnologyDistributionLog(
+            @JsonProperty("date") final DateTime date,
+            @JsonProperty("caseWeightByTechnology") final Map<String, Integer> caseWeights) {
+        super(date);
+        this.caseWeightByTechnology = ImmutableMap.copyOf(caseWeights);
+    }
 
-	@Override
-	public String toString() {
-		return Pojomatic.toString(this);
-	}
+    public Map<String, Integer> getCaseWeightByTechnology() {
+        return caseWeightByTechnology;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		return Pojomatic.equals(this, obj);
-	}
+    @Override
+    public String toString() {
+        return Pojomatic.toString(this);
+    }
 
-	@Override
-	public int hashCode() {
-		return Pojomatic.hashCode(this);
-	}
+    @Override
+    public boolean equals(Object obj) {
+        return Pojomatic.equals(this, obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return Pojomatic.hashCode(this);
+    }
 }

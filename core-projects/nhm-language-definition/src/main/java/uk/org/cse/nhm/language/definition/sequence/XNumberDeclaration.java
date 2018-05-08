@@ -26,52 +26,53 @@ import uk.org.cse.nhm.language.validate.contents.ISpecialContentsForValidation;
 @Doc("Declares a variable; can also be used to get its value")
 @Bind("def")
 public class XNumberDeclaration extends XNumber implements IScenarioElement<XElement>, ISpecialContentsForValidation {
-	private XScope on = XScope.Event;
-	private Double defaultValue;
-	
-	@Doc("The name of the variable to declare")
-	@NotNull(message = "all declarations require a name, as their first unnamed argument")
-	@Identity
-	@BindPositionalArgument(0)
-	@Override
-	public String getName() {
-		return super.getName();
-	}
 
-	@Override
-	public void setName(final String name) {
-		super.setName(name);
-	}
+    private XScope on = XScope.Event;
+    private Double defaultValue;
 
-	@Doc({"The scope in which the variable should be declared"})
-	@BindNamedArgument
-	public XScope getOn() {
-		return on;
-	}
+    @Doc("The name of the variable to declare")
+    @NotNull(message = "all declarations require a name, as their first unnamed argument")
+    @Identity
+    @BindPositionalArgument(0)
+    @Override
+    public String getName() {
+        return super.getName();
+    }
 
-	public void setOn(final XScope scope) {
-		this.on = scope;
-	}
+    @Override
+    public void setName(final String name) {
+        super.setName(name);
+    }
 
-	// TODO this could be an error-number 
-	@Doc("The value to use if the variable is accessed when it has never been set.")
-	@BindNamedArgument("default")
-	public Double getDefaultValue() {
-		return defaultValue;
-	}
+    @Doc({"The scope in which the variable should be declared"})
+    @BindNamedArgument
+    public XScope getOn() {
+        return on;
+    }
 
-	public void setDefaultValue(final Double defaultValue) {
-		this.defaultValue = defaultValue;
-	}
-	
-	@Override
-	public Set<Class<?>> getAdditionalRequirements() {
-		if (on == XScope.House) {
-			return ImmutableSet.<Class<?>>of(IHouseContext.class);
-		} else {
-			return Collections.emptySet();
-		}
-	}
+    public void setOn(final XScope scope) {
+        this.on = scope;
+    }
+
+    // TODO this could be an error-number 
+    @Doc("The value to use if the variable is accessed when it has never been set.")
+    @BindNamedArgument("default")
+    public Double getDefaultValue() {
+        return defaultValue;
+    }
+
+    public void setDefaultValue(final Double defaultValue) {
+        this.defaultValue = defaultValue;
+    }
+
+    @Override
+    public Set<Class<?>> getAdditionalRequirements() {
+        if (on == XScope.House) {
+            return ImmutableSet.<Class<?>>of(IHouseContext.class);
+        } else {
+            return Collections.emptySet();
+        }
+    }
 
     @Override
     public Set<Class<?>> getAdditionalProvisions() {

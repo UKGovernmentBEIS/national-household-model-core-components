@@ -3,16 +3,16 @@ body {
 }
 
 .logo {
-	float:right;
-	padding:10px;
+    float:right;
+    padding:10px;
 }
 
 h1 {
-	size: 1.5ex;
+    size: 1.5ex;
 }
 
 h1 {
-	size: 1.2ex;
+    size: 1.2ex;
 }
 
 h1, h2 {
@@ -25,7 +25,7 @@ li {
 }
 
 ul {
-	padding:0;
+    padding:0;
 }
 
 li:before {
@@ -43,19 +43,19 @@ a:hover {
 }
 
 div.help {
-	background: #EEE;
-	display:none;
-	margin-left:5%;
-	margin-right:5%;
-	margin-top:1em;
-	margin-bottom:1em;
-	border: thin grey solid;
+    background: #EEE;
+    display:none;
+    margin-left:5%;
+    margin-right:5%;
+    margin-top:1em;
+    margin-bottom:1em;
+    border: thin grey solid;
 }
 
 span.description {
     display:block;
-	padding:1em;
-	border-bottom:1px grey solid;
+    padding:1em;
+    border-bottom:1px grey solid;
 }
 
 div.help table {
@@ -66,7 +66,7 @@ div.help table {
 }
 
 thead {
-	font-weight:bold;
+    font-weight:bold;
 }
 
 thead td {
@@ -74,70 +74,70 @@ thead td {
 }
 
 span.size {
-	font-size: 80%;
-	font-style: italic;
-	color: #aaa;
+    font-size: 80%;
+    font-style: italic;
+    color: #aaa;
 }
 
 .error {
-	color:RED;
+    color:RED;
     font-weight: bold;
     font-size: 2em;
 }
 
 table.stats td:first-child {
-	text-align:right;
-	padding-right:6px;
-	font-weight:bold;
+    text-align:right;
+    padding-right:6px;
+    font-weight:bold;
 }
 
 table {
-	border-collapse: collapse;
+    border-collapse: collapse;
 }
 
 table.stats {
-	border:none;
+    border:none;
 }
 
 table.stats td {
-	border:none;
+    border:none;
 }
 
 table.stats th {
-	border:none;'
-}
+    border:none;'
+    }
 
 
-td, th
-{
-	border:1px solid grey;
-	text-align:center;
-	padding-left:5px;
-	padding-right:5px;
-}
+    td, th
+    {
+    border:1px solid grey;
+    text-align:center;
+    padding-left:5px;
+    padding-right:5px;
+    }
 
-td:first-child, th:first-child {
-	text-align:right;
-}
+    td:first-child, th:first-child {
+    text-align:right;
+    }
 
-table.stats td:nth-child(2) {
-	text-align:left;
-}
+    table.stats td:nth-child(2) {
+    text-align:left;
+    }
 
-tr:hover
-{
-	background:#CCC;
-}
+    tr:hover
+    {
+    background:#CCC;
+    }
 
-.comment
-{
-	font-style: italic;
-	text-align:left;
-	background:#eee;
-}
+    .comment
+    {
+    font-style: italic;
+    text-align:left;
+    background:#eee;
+    }
 
-div.warning {
-	margin-top:15px;
-	border-top: 2px #920 solid;
-	color:#920;
-}
+    div.warning {
+    margin-top:15px;
+    border-top: 2px #920 solid;
+    color:#920;
+    }

@@ -14,6 +14,6 @@ public class ProductsPolicyApplicanceTests extends SimulatorIntegrationTest {
     @Test
     public void testScenarioCompiles() throws Exception {
         runSimulation(super.restrictHouseCases(dataService, "K5072323"),
-                loadScenario("adjusting/adjustappliances.s"), true, Collections.<Class<?>> emptySet());
+                loadScenario("adjusting/adjustappliances.s"), true, Collections.<Class<?>>emptySet());
     }
 }

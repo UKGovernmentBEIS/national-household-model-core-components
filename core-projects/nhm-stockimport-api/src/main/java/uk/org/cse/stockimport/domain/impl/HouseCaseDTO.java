@@ -17,11 +17,13 @@ import uk.org.cse.stockimport.domain.types.DTOFloorConstructionType;
  * HouseCaseDTO.
  *
  * @author richardt
- * @version $Id: cse-eclipse-codetemplates.xml 94 2010-09-30 15:39:21Z richardt $
+ * @version $Id: cse-eclipse-codetemplates.xml 94 2010-09-30 15:39:21Z richardt
+ * $
  * @since 1.0
  */
 @AutoProperty
 public class HouseCaseDTO extends AbsDTO implements IHouseCaseDTO {
+
     double householdCaseWeight;
     double dwellingCaseWeight;
     RegionType regionType = RegionType.London;
@@ -38,14 +40,14 @@ public class HouseCaseDTO extends AbsDTO implements IHouseCaseDTO {
     boolean hasAccessToOutsideSpace;
     boolean ownsPartOfRoof;
     boolean hasLoft;
-   
-	double area;
+
+    double area;
     int numberOfBedrooms;
 
     private double frontPlotDepth, frontPlotWidth;
     private double backPlotDepth, backPlotWidth;
-	private int buildYear;
-	
+    private int buildYear;
+
     private int mainFloorLevel;
 
     @Override
@@ -57,242 +59,244 @@ public class HouseCaseDTO extends AbsDTO implements IHouseCaseDTO {
     public void setMainFloorLevel(int mainFloorLevel) {
         this.mainFloorLevel = mainFloorLevel;
     }
-    
-	@Override
-	public double getHouseholdCaseWeight() {
-		return householdCaseWeight;
-	}
-	@Override
-	public void setHouseholdCaseWeight(final double householdCaseWeight) {
-		this.householdCaseWeight = householdCaseWeight;
-	}
-	@Override
-	public double getDwellingCaseWeight() {
-		return dwellingCaseWeight;
-	}
-	@Override
-	public void setDwellingCaseWeight(final double dwellingCaseWeight) {
-		this.dwellingCaseWeight = dwellingCaseWeight;
-	}
 
-	@Override
-	public RegionType getRegionType() {
-		return regionType;
-	}
+    @Override
+    public double getHouseholdCaseWeight() {
+        return householdCaseWeight;
+    }
 
-	@Override
-	public void setRegionType(final RegionType regionType) {
-		this.regionType = regionType;
-	}
+    @Override
+    public void setHouseholdCaseWeight(final double householdCaseWeight) {
+        this.householdCaseWeight = householdCaseWeight;
+    }
 
-	@Override
-	public TenureType getTenureType() {
-		return tenureType;
-	}
+    @Override
+    public double getDwellingCaseWeight() {
+        return dwellingCaseWeight;
+    }
 
-	@Override
-	public void setTenureType(final TenureType tenureType) {
-		this.tenureType = tenureType;
-	}
+    @Override
+    public void setDwellingCaseWeight(final double dwellingCaseWeight) {
+        this.dwellingCaseWeight = dwellingCaseWeight;
+    }
 
-	@Override
-	public BuiltFormType getBuiltFormType() {
-		return builtFormType;
-	}
+    @Override
+    public RegionType getRegionType() {
+        return regionType;
+    }
 
-	@Override
-	public void setBuiltFormType(final BuiltFormType builtFormType) {
-		this.builtFormType = builtFormType;
-	}
+    @Override
+    public void setRegionType(final RegionType regionType) {
+        this.regionType = regionType;
+    }
 
-	@Override
-	public Optional<Integer> getAdultOccupants() {
-		return adultOccupants;
-	}
+    @Override
+    public TenureType getTenureType() {
+        return tenureType;
+    }
 
-	@Override
-	public void setAdultOccupants(final Optional<Integer> adultOccupants) {
-		this.adultOccupants = adultOccupants;
-	}
+    @Override
+    public void setTenureType(final TenureType tenureType) {
+        this.tenureType = tenureType;
+    }
 
-	@Override
-	public Optional<Integer> getChildOccupants() {
-		return childOccupants;
-	}
+    @Override
+    public BuiltFormType getBuiltFormType() {
+        return builtFormType;
+    }
 
-	@Override
-	public void setChildOccupants(final Optional<Integer> childOccupants) {
-		this.childOccupants = childOccupants;
-	}
+    @Override
+    public void setBuiltFormType(final BuiltFormType builtFormType) {
+        this.builtFormType = builtFormType;
+    }
 
-	@Override
-	public DTOFloorConstructionType getFloorConstructionType() {
-		return floorConstructionType;
-	}
+    @Override
+    public Optional<Integer> getAdultOccupants() {
+        return adultOccupants;
+    }
 
-	@Override
-	public void setFloorConstructionType(final DTOFloorConstructionType floorConstructionType) {
-		this.floorConstructionType = floorConstructionType;
-	}
+    @Override
+    public void setAdultOccupants(final Optional<Integer> adultOccupants) {
+        this.adultOccupants = adultOccupants;
+    }
 
-	@Override
-	public double getLivingAreaFaction() {
-		return livingAreaFaction;
-	}
+    @Override
+    public Optional<Integer> getChildOccupants() {
+        return childOccupants;
+    }
 
-	@Override
-	public void setLivingAreaFaction(final double livingAreaFaction) {
-		this.livingAreaFaction = livingAreaFaction;
-	}
+    @Override
+    public void setChildOccupants(final Optional<Integer> childOccupants) {
+        this.childOccupants = childOccupants;
+    }
 
-	@Override
-	public int getNumOfHabitalRooms() {
-		return numOfHabitalRooms;
-	}
+    @Override
+    public DTOFloorConstructionType getFloorConstructionType() {
+        return floorConstructionType;
+    }
 
-	@Override
-	public void setNumOfHabitalRooms(final int numOfHabitalRooms) {
-		this.numOfHabitalRooms = numOfHabitalRooms;
-	}
+    @Override
+    public void setFloorConstructionType(final DTOFloorConstructionType floorConstructionType) {
+        this.floorConstructionType = floorConstructionType;
+    }
 
-	@Override
-	public boolean isHasDraftLoby() {
-		return hasDraftLoby;
-	}
+    @Override
+    public double getLivingAreaFaction() {
+        return livingAreaFaction;
+    }
 
-	@Override
-	public void setHasDraftLoby(final boolean hasDraftLoby) {
-		this.hasDraftLoby = hasDraftLoby;
-	}
+    @Override
+    public void setLivingAreaFaction(final double livingAreaFaction) {
+        this.livingAreaFaction = livingAreaFaction;
+    }
 
-	@Override
-	public MorphologyType getMorphologyType() {
-		return morphologyType;
-	}
+    @Override
+    public int getNumOfHabitalRooms() {
+        return numOfHabitalRooms;
+    }
 
-	@Override
-	public void setMorphologyType(final MorphologyType morphologyType) {
-		this.morphologyType = morphologyType;
-	}
+    @Override
+    public void setNumOfHabitalRooms(final int numOfHabitalRooms) {
+        this.numOfHabitalRooms = numOfHabitalRooms;
+    }
 
-	@Override
-	public boolean isOnGasGrid() {
-		return onGasGrid;
-	}
+    @Override
+    public boolean isHasDraftLoby() {
+        return hasDraftLoby;
+    }
 
-	@Override
-	public void setOnGasGrid(final boolean onGasGrid) {
-		this.onGasGrid = onGasGrid;
-	}
+    @Override
+    public void setHasDraftLoby(final boolean hasDraftLoby) {
+        this.hasDraftLoby = hasDraftLoby;
+    }
 
-	@Override
-	public boolean isHasAccessToOutsideSpace() {
-		return hasAccessToOutsideSpace;
-	}
+    @Override
+    public MorphologyType getMorphologyType() {
+        return morphologyType;
+    }
 
-	@Override
-	public void setHasAccessToOutsideSpace(final boolean hasAccessToOutsideSpace) {
-		this.hasAccessToOutsideSpace = hasAccessToOutsideSpace;
-	}
+    @Override
+    public void setMorphologyType(final MorphologyType morphologyType) {
+        this.morphologyType = morphologyType;
+    }
 
-	@Override
-	public boolean isOwnsPartOfRoof() {
-		return ownsPartOfRoof;
-	}
+    @Override
+    public boolean isOnGasGrid() {
+        return onGasGrid;
+    }
 
-	@Override
-	public void setOwnsPartOfRoof(final boolean ownsPartOfRoof) {
-		this.ownsPartOfRoof = ownsPartOfRoof;
-	}
+    @Override
+    public void setOnGasGrid(final boolean onGasGrid) {
+        this.onGasGrid = onGasGrid;
+    }
 
-	@Override
-	public boolean isHasLoft() {
-		return hasLoft;
-	}
+    @Override
+    public boolean isHasAccessToOutsideSpace() {
+        return hasAccessToOutsideSpace;
+    }
 
-	@Override
-	public void setHasLoft(final boolean hasLoft) {
-		this.hasLoft = hasLoft;
-	}
+    @Override
+    public void setHasAccessToOutsideSpace(final boolean hasAccessToOutsideSpace) {
+        this.hasAccessToOutsideSpace = hasAccessToOutsideSpace;
+    }
 
-	@Override
-	public double getArea() {
-		return area;
-	}
+    @Override
+    public boolean isOwnsPartOfRoof() {
+        return ownsPartOfRoof;
+    }
 
-	@Override
-	public void setArea(final double area) {
-		this.area = area;
-	}
+    @Override
+    public void setOwnsPartOfRoof(final boolean ownsPartOfRoof) {
+        this.ownsPartOfRoof = ownsPartOfRoof;
+    }
 
-	@Override
-	public int getNumberOfBedrooms() {
-		return numberOfBedrooms;
-	}
+    @Override
+    public boolean isHasLoft() {
+        return hasLoft;
+    }
 
-	@Override
-	public void setNumberOfBedrooms(final int numberOfBedrooms) {
-		this.numberOfBedrooms = numberOfBedrooms;
-	}
+    @Override
+    public void setHasLoft(final boolean hasLoft) {
+        this.hasLoft = hasLoft;
+    }
 
-	@Override
-	public double getFrontPlotDepth() {
-		return frontPlotDepth;
-	}
+    @Override
+    public double getArea() {
+        return area;
+    }
 
-	@Override
-	public void setFrontPlotDepth(final double frontPlotDepth) {
-		this.frontPlotDepth = frontPlotDepth;
-	}
+    @Override
+    public void setArea(final double area) {
+        this.area = area;
+    }
 
-	@Override
-	public double getFrontPlotWidth() {
-		return frontPlotWidth;
-	}
+    @Override
+    public int getNumberOfBedrooms() {
+        return numberOfBedrooms;
+    }
 
-	@Override
-	public void setFrontPlotWidth(final double frontPlotWidth) {
-		this.frontPlotWidth = frontPlotWidth;
-	}
+    @Override
+    public void setNumberOfBedrooms(final int numberOfBedrooms) {
+        this.numberOfBedrooms = numberOfBedrooms;
+    }
 
-	@Override
-	public double getBackPlotDepth() {
-		return backPlotDepth;
-	}
+    @Override
+    public double getFrontPlotDepth() {
+        return frontPlotDepth;
+    }
 
-	@Override
-	public void setBackPlotDepth(final double backPlotDepth) {
-		this.backPlotDepth = backPlotDepth;
-	}
+    @Override
+    public void setFrontPlotDepth(final double frontPlotDepth) {
+        this.frontPlotDepth = frontPlotDepth;
+    }
 
-	@Override
-	public double getBackPlotWidth() {
-		return backPlotWidth;
-	}
+    @Override
+    public double getFrontPlotWidth() {
+        return frontPlotWidth;
+    }
 
-	@Override
-	public void setBackPlotWidth(final double backPlotWidth) {
-		this.backPlotWidth = backPlotWidth;
-	}
+    @Override
+    public void setFrontPlotWidth(final double frontPlotWidth) {
+        this.frontPlotWidth = frontPlotWidth;
+    }
 
-	@Override
-	public int getBuildYear() {
-		return buildYear;
-	}
+    @Override
+    public double getBackPlotDepth() {
+        return backPlotDepth;
+    }
 
-	@Override
-	public void setBuildYear(final int buildYear) {
-		this.buildYear = buildYear;
-	}
+    @Override
+    public void setBackPlotDepth(final double backPlotDepth) {
+        this.backPlotDepth = backPlotDepth;
+    }
 
+    @Override
+    public double getBackPlotWidth() {
+        return backPlotWidth;
+    }
 
-	@Override
-	public String toString() {
-		return Pojomatic.toString(this);
-	}
+    @Override
+    public void setBackPlotWidth(final double backPlotWidth) {
+        this.backPlotWidth = backPlotWidth;
+    }
 
-	@Override
-	public boolean equals(final Object obj) {
-		return Pojomatic.equals(this, obj);
-	}
+    @Override
+    public int getBuildYear() {
+        return buildYear;
+    }
+
+    @Override
+    public void setBuildYear(final int buildYear) {
+        this.buildYear = buildYear;
+    }
+
+    @Override
+    public String toString() {
+        return Pojomatic.toString(this);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        return Pojomatic.equals(this, obj);
+    }
 }

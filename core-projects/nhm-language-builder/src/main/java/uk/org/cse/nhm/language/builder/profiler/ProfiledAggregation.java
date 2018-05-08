@@ -14,15 +14,16 @@ import uk.org.cse.nhm.simulator.state.IState;
 import uk.org.cse.nhm.simulator.state.functions.IAggregationFunction;
 
 public class ProfiledAggregation implements IAggregationFunction {
+
     final IProfilingStack prof;
     final IAggregationFunction delegate;
 
     @AssistedInject
-    public ProfiledAggregation(final IProfilingStack prof,@Assisted final IAggregationFunction delegate) {
+    public ProfiledAggregation(final IProfilingStack prof, @Assisted final IAggregationFunction delegate) {
         this.prof = prof;
         this.delegate = delegate;
     }
-    
+
     @Override
     public double evaluate(final IState state, final ILets lets, final Set<IDwelling> dwellings) {
         try {
@@ -42,7 +43,7 @@ public class ProfiledAggregation implements IAggregationFunction {
             prof.pop(this);
         }
     }
-    
+
     @Override
     public Name getIdentifier() {
         return delegate.getIdentifier();
@@ -53,5 +54,3 @@ public class ProfiledAggregation implements IAggregationFunction {
         return delegate.toString();
     }
 }
-
-

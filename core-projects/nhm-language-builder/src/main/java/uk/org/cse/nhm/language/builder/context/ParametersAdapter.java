@@ -12,20 +12,21 @@ import uk.org.cse.nhm.language.definition.context.XEnergyConstantsContext;
 import uk.org.cse.nhm.simulator.main.Initializable;
 
 /**
- * Adapter which reads {@link XEnergyConstantsContext}, and does 
- * nothing with it. This is just to allow the simulation to work.
- * 
+ * Adapter which reads {@link XEnergyConstantsContext}, and does nothing with
+ * it. This is just to allow the simulation to work.
+ *
  * @author hinton
  *
  */
 public class ParametersAdapter extends ReflectingAdapter {
-	@Inject
-	public ParametersAdapter(Set<IConverter> delegates, Set<IAdapterInterceptor> interceptors) {
-		super(delegates, interceptors);
-	}
 
-	@Adapt(XEnergyConstantsContext.class)
-	public Initializable ignoreParametersContext() {
-		return Initializable.NOP;
-	}
+    @Inject
+    public ParametersAdapter(Set<IConverter> delegates, Set<IAdapterInterceptor> interceptors) {
+        super(delegates, interceptors);
+    }
+
+    @Adapt(XEnergyConstantsContext.class)
+    public Initializable ignoreParametersContext() {
+        return Initializable.NOP;
+    }
 }

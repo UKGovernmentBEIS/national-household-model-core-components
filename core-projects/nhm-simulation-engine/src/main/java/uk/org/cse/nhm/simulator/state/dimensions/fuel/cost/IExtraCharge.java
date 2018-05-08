@@ -9,25 +9,30 @@ import uk.org.cse.nhm.simulator.let.ILets;
 import uk.org.cse.nhm.simulator.scope.ISettableComponentsScope;
 
 public interface IExtraCharge {
-	Optional<FuelType> getFuel();
-	void apply(ISettableComponentsScope scope, ILets lets);
-	Set<IExtraCharge> getDependencies();
 
-	public static class CircularDependencyException extends Exception {
-		private final IExtraCharge head;
+    Optional<FuelType> getFuel();
 
-		CircularDependencyException(IExtraCharge head) {
-			this.head = head;
-		}
-	}
+    void apply(ISettableComponentsScope scope, ILets lets);
 
-	public static class DependencyWrongFuelTypeException extends RuntimeException {
-		private final IExtraCharge parent;
-		private final Set<IExtraCharge> deps;
+    Set<IExtraCharge> getDependencies();
 
-		public DependencyWrongFuelTypeException(IExtraCharge parent, Set<IExtraCharge> deps) {
-			this.parent = parent;
-			this.deps = deps;
-		}
-	}
+    public static class CircularDependencyException extends Exception {
+
+        private final IExtraCharge head;
+
+        CircularDependencyException(IExtraCharge head) {
+            this.head = head;
+        }
+    }
+
+    public static class DependencyWrongFuelTypeException extends RuntimeException {
+
+        private final IExtraCharge parent;
+        private final Set<IExtraCharge> deps;
+
+        public DependencyWrongFuelTypeException(IExtraCharge parent, Set<IExtraCharge> deps) {
+            this.parent = parent;
+            this.deps = deps;
+        }
+    }
 }

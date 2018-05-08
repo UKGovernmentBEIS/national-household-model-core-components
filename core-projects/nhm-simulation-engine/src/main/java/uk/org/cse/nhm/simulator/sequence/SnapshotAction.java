@@ -19,65 +19,65 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
 
 public class SnapshotAction extends AbstractNamed implements IComponentsAction, ISequenceSpecialAction {
-	private final String name;
-	private final List<IComponentsAction> delegates;
-	
-	@AssistedInject
-	public
-	SnapshotAction(@Assisted final String name, @Assisted final List<IComponentsAction> delegates) {
-		super();
-		this.name = name;
-		this.delegates = delegates;
-	}
 
-	@Override
-	public StateChangeSourceType getSourceType() {
-		return StateChangeSourceType.ACTION;
-	}
+    private final String name;
+    private final List<IComponentsAction> delegates;
 
-	@Override
-	public boolean apply(final ISettableComponentsScope scope, final ILets lets) throws NHMException {
-		return true;
-	}
+    @AssistedInject
+    public SnapshotAction(@Assisted final String name, @Assisted final List<IComponentsAction> delegates) {
+        super();
+        this.name = name;
+        this.delegates = delegates;
+    }
 
-	@Override
-	public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
-		return true;
-	}
-	
-	@Override
-	public boolean isAlwaysSuitable() {
-		return true;
-	}
+    @Override
+    public StateChangeSourceType getSourceType() {
+        return StateChangeSourceType.ACTION;
+    }
 
-	@Override
-	public ILets reallyApply(final IComponentsScope scope, final ILets lets) {
-		final IHypotheticalComponentsScope h = scope.createHypothesis();
-		
-		for (final IComponentsAction d : delegates) {
-			h.apply(d, lets);
-		}
-		
-		return lets.withBinding(name, h);
-	}
-	
-	@Override
-	public ILets reallyApply(final ISettableComponentsScope scope, final ILets lets) {
-		return reallyApply((IComponentsScope) scope, lets);
-	}
-	
-	@Override
-	public Iterable<? extends DateTime> getChangeDates() {
-		return Collections.emptySet();
-	}
-	
-	@Override
-	public Iterable<? extends IDimension<?>> getDependencies() {
-		return Collections.emptySet();
-	}
-	
-	@Override
-	public boolean needsIsolation() {
-		return true;
-	}
+    @Override
+    public boolean apply(final ISettableComponentsScope scope, final ILets lets) throws NHMException {
+        return true;
+    }
+
+    @Override
+    public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
+        return true;
+    }
+
+    @Override
+    public boolean isAlwaysSuitable() {
+        return true;
+    }
+
+    @Override
+    public ILets reallyApply(final IComponentsScope scope, final ILets lets) {
+        final IHypotheticalComponentsScope h = scope.createHypothesis();
+
+        for (final IComponentsAction d : delegates) {
+            h.apply(d, lets);
+        }
+
+        return lets.withBinding(name, h);
+    }
+
+    @Override
+    public ILets reallyApply(final ISettableComponentsScope scope, final ILets lets) {
+        return reallyApply((IComponentsScope) scope, lets);
+    }
+
+    @Override
+    public Iterable<? extends DateTime> getChangeDates() {
+        return Collections.emptySet();
+    }
+
+    @Override
+    public Iterable<? extends IDimension<?>> getDependencies() {
+        return Collections.emptySet();
+    }
+
+    @Override
+    public boolean needsIsolation() {
+        return true;
+    }
 }

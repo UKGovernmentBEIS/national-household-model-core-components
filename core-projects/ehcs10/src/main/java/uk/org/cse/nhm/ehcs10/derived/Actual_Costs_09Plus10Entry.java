@@ -4,206 +4,206 @@ import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 
 public interface Actual_Costs_09Plus10Entry extends SurveyEntry {
-	@SavVariableMapping("NDOORF")
-	public Double getInternalDoorCosts();
 
-	@SavVariableMapping("XNOMUF")
-	public Double getUrgentExternalCosts();
+    @SavVariableMapping("NDOORF")
+    public Double getInternalDoorCosts();
 
-	@SavVariableMapping("XDAMBF")
-	public Double getDpcBasicCosts();
+    @SavVariableMapping("XNOMUF")
+    public Double getUrgentExternalCosts();
 
-	@SavVariableMapping("XRUSRF")
-	public Double getRoofStructureComprehensiveCosts();
+    @SavVariableMapping("XDAMBF")
+    public Double getDpcBasicCosts();
 
-	@SavVariableMapping("CLITCF")
-	public Double getCommonPartsLightingRepairCosts();
+    @SavVariableMapping("XRUSRF")
+    public Double getRoofStructureComprehensiveCosts();
 
-	@SavVariableMapping("XCHIRF")
-	public Double getChimneysComprehensiveCosts();
+    @SavVariableMapping("CLITCF")
+    public Double getCommonPartsLightingRepairCosts();
 
-	@SavVariableMapping("XDOORF")
-	public Double getExternalDoorsComprehensiveCosts();
+    @SavVariableMapping("XCHIRF")
+    public Double getChimneysComprehensiveCosts();
 
-	@SavVariableMapping("XWASUF")
-	public Double getWallStructureUrgentCosts();
+    @SavVariableMapping("XDOORF")
+    public Double getExternalDoorsComprehensiveCosts();
 
-	@SavVariableMapping("CWINCF")
-	public Double getCommonPartsWindowsRepairCosts();
+    @SavVariableMapping("XWASUF")
+    public Double getWallStructureUrgentCosts();
 
-	@SavVariableMapping("PRERF")
-	public Double getPrelimCostsForComprehensiveRepairs();
+    @SavVariableMapping("CWINCF")
+    public Double getCommonPartsWindowsRepairCosts();
 
-	@SavVariableMapping("NSTAF")
-	public Double getInternalStairCosts();
+    @SavVariableMapping("PRERF")
+    public Double getPrelimCostsForComprehensiveRepairs();
 
-	@SavVariableMapping("XWINBF")
-	public Double getWindowsBasicCosts();
+    @SavVariableMapping("NSTAF")
+    public Double getInternalStairCosts();
 
-	@SavVariableMapping("XNOMBF")
-	public Double getBasicExternalCosts();
+    @SavVariableMapping("XWINBF")
+    public Double getWindowsBasicCosts();
 
-	@SavVariableMapping("PREBF")
-	public Double getPrelimCostsForBasicRepairs();
+    @SavVariableMapping("XNOMBF")
+    public Double getBasicExternalCosts();
 
-	@SavVariableMapping("XRUFBF")
-	public Double getRoofFeaturesBasicCosts();
+    @SavVariableMapping("PREBF")
+    public Double getPrelimCostsForBasicRepairs();
 
-	@SavVariableMapping("CCEICF")
-	public Double getCommonPartsCeilingRepairCosts();
+    @SavVariableMapping("XRUFBF")
+    public Double getRoofFeaturesBasicCosts();
 
-	@SavVariableMapping("AXCBF")
-	public Double getAccessCostsForBasicRepairs();
+    @SavVariableMapping("CCEICF")
+    public Double getCommonPartsCeilingRepairCosts();
 
-	@SavVariableMapping("XWINUF")
-	public Double getWindowsUrgentCosts();
+    @SavVariableMapping("AXCBF")
+    public Double getAccessCostsForBasicRepairs();
 
-	@SavVariableMapping("XRUFRF")
-	public Double getRoofFeaturesComprehensiveCosts();
+    @SavVariableMapping("XWINUF")
+    public Double getWindowsUrgentCosts();
 
-	@SavVariableMapping("CDOOCF")
-	public Double getCommonPartsDoorsRepairCosts();
+    @SavVariableMapping("XRUFRF")
+    public Double getRoofFeaturesComprehensiveCosts();
 
-	@SavVariableMapping("XRUCRF")
-	public Double getRoofCoveringComprehensiveCosts();
+    @SavVariableMapping("CDOOCF")
+    public Double getCommonPartsDoorsRepairCosts();
 
-	@SavVariableMapping("XCHIUF")
-	public Double getChimneysUrgentCosts();
+    @SavVariableMapping("XRUCRF")
+    public Double getRoofCoveringComprehensiveCosts();
 
-	@SavVariableMapping("XWAFRF")
-	public Double getWallFinishComprehensiveCosts();
+    @SavVariableMapping("XCHIUF")
+    public Double getChimneysUrgentCosts();
 
-	@SavVariableMapping("KAMCF")
-	public Double getKitchenCosts();
+    @SavVariableMapping("XWAFRF")
+    public Double getWallFinishComprehensiveCosts();
 
-	@SavVariableMapping("XBAYBF")
-	public Double getDormers_BaysBasicCosts();
+    @SavVariableMapping("KAMCF")
+    public Double getKitchenCosts();
 
-	@SavVariableMapping("CNOMF")
-	public Double getTotalCommonPartsAndSharedFacilitiesCosts();
+    @SavVariableMapping("XBAYBF")
+    public Double getDormers_BaysBasicCosts();
 
-	@SavVariableMapping("XWASBF")
-	public Double getWallStrucBasicCosts();
+    @SavVariableMapping("CNOMF")
+    public Double getTotalCommonPartsAndSharedFacilitiesCosts();
 
-	@SavVariableMapping("ANOMF")
-	public Double getTotalAmenitiesCosts();
+    @SavVariableMapping("XWASBF")
+    public Double getWallStrucBasicCosts();
 
-	@SavVariableMapping("XWINRF")
-	public Double getWindowsComprehensiveCosts();
+    @SavVariableMapping("ANOMF")
+    public Double getTotalAmenitiesCosts();
 
-	@SavVariableMapping("AXCUF")
-	public Double getAccessCostsForUrgentRepairs();
+    @SavVariableMapping("XWINRF")
+    public Double getWindowsComprehensiveCosts();
 
-	@SavVariableMapping("SRVRF")
-	public Double getServicesCosts();
+    @SavVariableMapping("AXCUF")
+    public Double getAccessCostsForUrgentRepairs();
 
-	@SavVariableMapping("NCEIF")
-	public Double getInternalCeilingCosts();
+    @SavVariableMapping("SRVRF")
+    public Double getServicesCosts();
 
-	@SavVariableMapping("XWASRF")
-	public Double getWallStructureComprehensiveCosts();
+    @SavVariableMapping("NCEIF")
+    public Double getInternalCeilingCosts();
 
-	@SavVariableMapping("STRUCF")
-	public Double getStructuralWorksCosts();
+    @SavVariableMapping("XWASRF")
+    public Double getWallStructureComprehensiveCosts();
 
-	@SavVariableMapping("XRUCUF")
-	public Double getRoofCoveringUrgentCosts();
+    @SavVariableMapping("STRUCF")
+    public Double getStructuralWorksCosts();
 
-	@SavVariableMapping("SHARCF")
-	public Double getSharedFacilitiesCosts();
+    @SavVariableMapping("XRUCUF")
+    public Double getRoofCoveringUrgentCosts();
 
-	@SavVariableMapping("CWALCF")
-	public Double getCommonPartsWallRepairCosts();
+    @SavVariableMapping("SHARCF")
+    public Double getSharedFacilitiesCosts();
 
-	@SavVariableMapping("XRUFUF")
-	public Double getRoofFeaturesUrgentCosts();
+    @SavVariableMapping("CWALCF")
+    public Double getCommonPartsWallRepairCosts();
 
-	@SavVariableMapping("PREUF")
-	public Double getPrelimCostsForUrgentRepairs();
+    @SavVariableMapping("XRUFUF")
+    public Double getRoofFeaturesUrgentCosts();
 
-	@SavVariableMapping("XPLOBF")
-	public Double getPlotLevelsBasicCosts();
+    @SavVariableMapping("PREUF")
+    public Double getPrelimCostsForUrgentRepairs();
 
-	@SavVariableMapping("XCHIBF")
-	public Double getChimneysBasicCosts();
+    @SavVariableMapping("XPLOBF")
+    public Double getPlotLevelsBasicCosts();
 
-	@SavVariableMapping("UPCUF")
-	public Double getUpliftCostsForUrgentRepairs();
+    @SavVariableMapping("XCHIBF")
+    public Double getChimneysBasicCosts();
 
-	@SavVariableMapping("XDOOUF")
-	public Double getExternalDoorsUrgentCosts();
+    @SavVariableMapping("UPCUF")
+    public Double getUpliftCostsForUrgentRepairs();
 
-	@SavVariableMapping("XDOOBF")
-	public Double getExternalDoorsBasicCosts();
+    @SavVariableMapping("XDOOUF")
+    public Double getExternalDoorsUrgentCosts();
 
-	@SavVariableMapping("BAMCF")
-	public Double getBathroomCosts();
+    @SavVariableMapping("XDOOBF")
+    public Double getExternalDoorsBasicCosts();
 
-	@SavVariableMapping("XRUSBF")
-	public Double getRoofStructureBasicCosts();
+    @SavVariableMapping("BAMCF")
+    public Double getBathroomCosts();
 
-	@SavVariableMapping("XDAMRF")
-	public Double getDpcComprehensiveCosts();
+    @SavVariableMapping("XRUSBF")
+    public Double getRoofStructureBasicCosts();
 
-	@SavVariableMapping("CFLOCF")
-	public Double getCommonPartsFloorRepairCosts();
+    @SavVariableMapping("XDAMRF")
+    public Double getDpcComprehensiveCosts();
 
-	@SavVariableMapping("TECOBF")
-	public Double getTotalBasicCosts();
+    @SavVariableMapping("CFLOCF")
+    public Double getCommonPartsFloorRepairCosts();
 
-	@SavVariableMapping("XRUCBF")
-	public Double getRoofCoveringBasicCosts();
+    @SavVariableMapping("TECOBF")
+    public Double getTotalBasicCosts();
 
-	@SavVariableMapping("XWAFBF")
-	public Double getWallFinishBasicCosts();
+    @SavVariableMapping("XRUCBF")
+    public Double getRoofCoveringBasicCosts();
 
-	@SavVariableMapping("TECORF")
-	public Double getTotalComprehensiveCosts();
+    @SavVariableMapping("XWAFBF")
+    public Double getWallFinishBasicCosts();
 
-	@SavVariableMapping("XNOMCF")
-	public Double getComprehensiveExternalCosts();
+    @SavVariableMapping("TECORF")
+    public Double getTotalComprehensiveCosts();
 
-	@SavVariableMapping("TECOUF")
-	public Double getTotalUrgentCosts();
+    @SavVariableMapping("XNOMCF")
+    public Double getComprehensiveExternalCosts();
 
-	@SavVariableMapping("XBAYRF")
-	public Double getDormers_BaysComprehensiveCosts();
+    @SavVariableMapping("TECOUF")
+    public Double getTotalUrgentCosts();
 
-	@SavVariableMapping("XBAYUF")
-	public Double getDormers_BaysUrgentCosts();
+    @SavVariableMapping("XBAYRF")
+    public Double getDormers_BaysComprehensiveCosts();
 
-	@SavVariableMapping("AXCRF")
-	public Double getAccessCostsForComprehensiveRepairs();
+    @SavVariableMapping("XBAYUF")
+    public Double getDormers_BaysUrgentCosts();
 
-	@SavVariableMapping("XDAMUF")
-	public Double getDpcUrgentCosts();
+    @SavVariableMapping("AXCRF")
+    public Double getAccessCostsForComprehensiveRepairs();
 
-	@SavVariableMapping("XWAFUF")
-	public Double getWallFinishUrgentCosts();
+    @SavVariableMapping("XDAMUF")
+    public Double getDpcUrgentCosts();
 
-	@SavVariableMapping("UPCRF")
-	public Double getUpliftCostsForComprehensiveRepairs();
+    @SavVariableMapping("XWAFUF")
+    public Double getWallFinishUrgentCosts();
 
-	@SavVariableMapping("NFLOF")
-	public Double getInternalFloorCosts();
+    @SavVariableMapping("UPCRF")
+    public Double getUpliftCostsForComprehensiveRepairs();
 
-	@SavVariableMapping("NWALF")
-	public Double getInternalWallsCosts();
+    @SavVariableMapping("NFLOF")
+    public Double getInternalFloorCosts();
 
-	@SavVariableMapping("XRUSUF")
-	public Double getRoofStructureUrgentCosts();
+    @SavVariableMapping("NWALF")
+    public Double getInternalWallsCosts();
 
-	@SavVariableMapping("CBALCF")
-	public Double getCommonPartsBalustradesRepairCosts();
+    @SavVariableMapping("XRUSUF")
+    public Double getRoofStructureUrgentCosts();
 
-	@SavVariableMapping("CFIRCF")
-	public Double getFirePrecautionsToCommonPartsCosts();
+    @SavVariableMapping("CBALCF")
+    public Double getCommonPartsBalustradesRepairCosts();
 
-	@SavVariableMapping("UPCBF")
-	public Double getUpliftCostsForBasicRepairs();
+    @SavVariableMapping("CFIRCF")
+    public Double getFirePrecautionsToCommonPartsCosts();
 
-	@SavVariableMapping("NNOMF")
-	public Double getTotalInternalFabricCosts();
+    @SavVariableMapping("UPCBF")
+    public Double getUpliftCostsForBasicRepairs();
+
+    @SavVariableMapping("NNOMF")
+    public Double getTotalInternalFabricCosts();
 
 }
-

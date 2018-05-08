@@ -35,177 +35,184 @@ import uk.org.cse.nhm.simulator.state.dimensions.energy.IPowerTable;
 
 /**
  * Tests the suitability constraints in the abstract gas boiler measure;
- * 
- * tests for subclasses might want to use the static methods, if they are still suitable tests.
- * 
+ *
+ * tests for subclasses might want to use the static methods, if they are still
+ * suitable tests.
+ *
  * @author hinton
  *
  */
 public class AbstractGasBoilerMeasureTest {
-	protected final ITechnologyOperations operations = new TechnologyOperations();
-	protected final MockDimensions dims = Util.getMockDimensions();
-	/**
-	 * Creates a mock IComponents with real StructureModel and TechnologyModel. These will have nothing in them by default.
-	 * 
-	 * @return
-	 */
-	protected ISettableComponentsScope mockComponents() {
-		StructureModel structure = new StructureModel();
-		ITechnologyModel technologies = new TechnologyModelImpl() {
-		};
 
-		IPowerTable ecr = mock(IPowerTable.class);
+    protected final ITechnologyOperations operations = new TechnologyOperations();
+    protected final MockDimensions dims = Util.getMockDimensions();
 
-		return Util.mockComponents(dims, structure, technologies, ecr);
-	}
-	
-	protected ITechnologyModel applyAndGetResult(final IComponentsAction act) throws NHMException {
-		return Util.applyAndGetTech(dims, act, mockComponents());
-	}
-	
-	protected void assertBoilerBasics(ITechnologyModel technologies, double efficiency, FuelType fuel, EmitterType emitters, boolean condensing, int installationYear,
-			double cylinderInsulationThickness, double cylinderVolume) {
-		assertBoilerBasics(technologies, Efficiency.fromDouble(efficiency),
-				fuel, emitters, condensing, installationYear, cylinderInsulationThickness, cylinderVolume);
-	}
-	protected void assertBoilerBasics(ITechnologyModel technologies, Efficiency efficiency, FuelType fuel, EmitterType emitters, boolean condensing, int installationYear,
-			double cylinderInsulationThickness, double cylinderVolume) {
-		IHeatSource heatSource = technologies.getIndividualHeatSource();
-		Assert.assertTrue(heatSource instanceof IBoiler);
-		IBoiler boiler = (IBoiler) heatSource;
-		Assert.assertEquals(efficiency, boiler.getSummerEfficiency());
-		Assert.assertEquals(efficiency, boiler.getWinterEfficiency());
-		Assert.assertEquals(fuel, boiler.getFuel());
-		Assert.assertEquals(condensing, boiler.isCondensing());
-		Assert.assertEquals(installationYear, boiler.getInstallationYear());
+    /**
+     * Creates a mock IComponents with real StructureModel and TechnologyModel.
+     * These will have nothing in them by default.
+     *
+     * @return
+     */
+    protected ISettableComponentsScope mockComponents() {
+        StructureModel structure = new StructureModel();
+        ITechnologyModel technologies = new TechnologyModelImpl() {
+        };
 
-		final ISpaceHeater main = technologies.getPrimarySpaceHeater();
-		Assert.assertTrue(main instanceof ICentralHeatingSystem);
-		ICentralHeatingSystem centralHeating = (ICentralHeatingSystem) main;
+        IPowerTable ecr = mock(IPowerTable.class);
 
-		Assert.assertTrue(centralHeating.getControls().contains(HeatingSystemControlType.PROGRAMMER));
-		Assert.assertTrue(centralHeating.getControls().contains(HeatingSystemControlType.THERMOSTATIC_RADIATOR_VALVE));
-		Assert.assertTrue(centralHeating.getControls().contains(HeatingSystemControlType.ROOM_THERMOSTAT));
-		Assert.assertEquals(3000d, boiler.getAnnualOperationalCost(), 0d);
-		
-		WaterHeatingSystemTestUtil.testCombinedWaterHeatingSystem(technologies);
-		
-		WaterHeatingSystemTestUtil.testStandardHotWaterCylinderPresent(technologies, cylinderInsulationThickness, cylinderVolume);
-	}
+        return Util.mockComponents(dims, structure, technologies, ecr);
+    }
 
-	/**
-	 * Check that the on/off gas flag sets or breaks suitability OK
-	 * 
-	 * @param m
-	 */
-	public static void testSuitabilityOnGas(final MockDimensions dims, final AbstractBoilerMeasure m) {
-		StructureModel structure = new StructureModel() {
-			{
-				setOnGasGrid(false);
-			}
-		};
-		ITechnologyModel tech = new TechnologyModelImpl() {
-		};
+    protected ITechnologyModel applyAndGetResult(final IComponentsAction act) throws NHMException {
+        return Util.applyAndGetTech(dims, act, mockComponents());
+    }
 
+    protected void assertBoilerBasics(ITechnologyModel technologies, double efficiency, FuelType fuel, EmitterType emitters, boolean condensing, int installationYear,
+            double cylinderInsulationThickness, double cylinderVolume) {
+        assertBoilerBasics(technologies, Efficiency.fromDouble(efficiency),
+                fuel, emitters, condensing, installationYear, cylinderInsulationThickness, cylinderVolume);
+    }
 
-		final IComponentsScope c = Util.mockComponents(dims, structure, tech);
+    protected void assertBoilerBasics(ITechnologyModel technologies, Efficiency efficiency, FuelType fuel, EmitterType emitters, boolean condensing, int installationYear,
+            double cylinderInsulationThickness, double cylinderVolume) {
+        IHeatSource heatSource = technologies.getIndividualHeatSource();
+        Assert.assertTrue(heatSource instanceof IBoiler);
+        IBoiler boiler = (IBoiler) heatSource;
+        Assert.assertEquals(efficiency, boiler.getSummerEfficiency());
+        Assert.assertEquals(efficiency, boiler.getWinterEfficiency());
+        Assert.assertEquals(fuel, boiler.getFuel());
+        Assert.assertEquals(condensing, boiler.isCondensing());
+        Assert.assertEquals(installationYear, boiler.getInstallationYear());
 
-		Assert.assertFalse("Not suitable when not on gas grid", m.isSuitable(c, ILets.EMPTY));
-		structure.setOnGasGrid(true);
-		Assert.assertTrue("Suitable when on gas grid", m.isSuitable(c, ILets.EMPTY));
-	}
-	
-	/**
-	 * Check that community space heating makes gas boiler measure not suitable
-	 * @param m
-	 */
-	public static void testSuitabilityFalseGivenExistingCommunitySpaceHeating(final MockDimensions dims, final AbstractBoilerMeasure m) {
-		final ICommunityHeatSource community = new CommunityHeatSourceImpl() {
-		};
+        final ISpaceHeater main = technologies.getPrimarySpaceHeater();
+        Assert.assertTrue(main instanceof ICentralHeatingSystem);
+        ICentralHeatingSystem centralHeating = (ICentralHeatingSystem) main;
 
-		StructureModel structure = new StructureModel() {
-			{
-				setOnGasGrid(true);
-			}
-		};
-		ITechnologyModel technologies = new TechnologyModelImpl() {
-			{
-				setCommunityHeatSource(community);
-				setPrimarySpaceHeater(new CentralHeatingSystemImpl() {
-					{
-						setHeatSource(community);
-					}
-				});
-			}
-		};
-		IComponentsScope components = Util.mockComponents(dims, structure, technologies);
-		Assert.assertFalse(m.isSuitable(components, ILets.EMPTY));
-	}
+        Assert.assertTrue(centralHeating.getControls().contains(HeatingSystemControlType.PROGRAMMER));
+        Assert.assertTrue(centralHeating.getControls().contains(HeatingSystemControlType.THERMOSTATIC_RADIATOR_VALVE));
+        Assert.assertTrue(centralHeating.getControls().contains(HeatingSystemControlType.ROOM_THERMOSTAT));
+        Assert.assertEquals(3000d, boiler.getAnnualOperationalCost(), 0d);
 
-	/**
-	 * Check that community water heating makes gas boiler measure unsuitable.
-	 * 
-	 * @param m
-	 */
-	public static void testSuitabilityFalseGivenExistingCommunityWaterHeating(final MockDimensions dims, final AbstractBoilerMeasure m) {
-		final ICommunityHeatSource community = new CommunityHeatSourceImpl() {
-		};
+        WaterHeatingSystemTestUtil.testCombinedWaterHeatingSystem(technologies);
 
-		StructureModel structure = new StructureModel() {
-			{
-				setOnGasGrid(true);
-			}
-		};
-		ITechnologyModel technologies = new TechnologyModelImpl() {
-			{
-				setCommunityHeatSource(community);
-				setCentralWaterSystem(new CentralWaterSystemImpl() {
-					{
-						setPrimaryWaterHeater(new MainWaterHeaterImpl() {
-							{
-								setHeatSource(community);
-							}
-						});
-					}
-				});
-			}
-		};
+        WaterHeatingSystemTestUtil.testStandardHotWaterCylinderPresent(technologies, cylinderInsulationThickness, cylinderVolume);
+    }
 
-		IComponentsScope components = Util.mockComponents(dims,structure, technologies);
-		Assert.assertFalse(m.isSuitable(components, ILets.EMPTY));
-	}
+    /**
+     * Check that the on/off gas flag sets or breaks suitability OK
+     *
+     * @param m
+     */
+    public static void testSuitabilityOnGas(final MockDimensions dims, final AbstractBoilerMeasure m) {
+        StructureModel structure = new StructureModel() {
+            {
+                setOnGasGrid(false);
+            }
+        };
+        ITechnologyModel tech = new TechnologyModelImpl() {
+        };
 
-	/**
-	 * Check that an existing standard boiler does not make gas boiler measure
-	 * unsuitable.
-	 */
-	public static void testSuitabilityWithStandardHeatingSystemInstalledPreviously(final MockDimensions dims, final AbstractBoilerMeasure m) {
-		final IBoiler boiler = new BoilerImpl() {
-		};
+        final IComponentsScope c = Util.mockComponents(dims, structure, tech);
 
-		StructureModel structure = new StructureModel() {
-			{
-				setOnGasGrid(true);
-			}
-		};
-		ITechnologyModel technologies = new TechnologyModelImpl() {
-			{
-				setIndividualHeatSource(boiler);
-				setPrimarySpaceHeater(new CentralHeatingSystemImpl() {
-					{
-						setHeatSource(boiler);
-					}
-				});
-				setCentralWaterSystem(new CentralWaterSystemImpl() {
-					{
-						setPrimaryWaterHeater(new MainWaterHeaterImpl(){{
-								setHeatSource(boiler);
-						}});
-					}
-				});
-			}
-		};
-		IComponentsScope components = Util.mockComponents(dims, structure, technologies);
-		Assert.assertTrue(m.isSuitable(components, ILets.EMPTY));
-	}
+        Assert.assertFalse("Not suitable when not on gas grid", m.isSuitable(c, ILets.EMPTY));
+        structure.setOnGasGrid(true);
+        Assert.assertTrue("Suitable when on gas grid", m.isSuitable(c, ILets.EMPTY));
+    }
+
+    /**
+     * Check that community space heating makes gas boiler measure not suitable
+     *
+     * @param m
+     */
+    public static void testSuitabilityFalseGivenExistingCommunitySpaceHeating(final MockDimensions dims, final AbstractBoilerMeasure m) {
+        final ICommunityHeatSource community = new CommunityHeatSourceImpl() {
+        };
+
+        StructureModel structure = new StructureModel() {
+            {
+                setOnGasGrid(true);
+            }
+        };
+        ITechnologyModel technologies = new TechnologyModelImpl() {
+            {
+                setCommunityHeatSource(community);
+                setPrimarySpaceHeater(new CentralHeatingSystemImpl() {
+                    {
+                        setHeatSource(community);
+                    }
+                });
+            }
+        };
+        IComponentsScope components = Util.mockComponents(dims, structure, technologies);
+        Assert.assertFalse(m.isSuitable(components, ILets.EMPTY));
+    }
+
+    /**
+     * Check that community water heating makes gas boiler measure unsuitable.
+     *
+     * @param m
+     */
+    public static void testSuitabilityFalseGivenExistingCommunityWaterHeating(final MockDimensions dims, final AbstractBoilerMeasure m) {
+        final ICommunityHeatSource community = new CommunityHeatSourceImpl() {
+        };
+
+        StructureModel structure = new StructureModel() {
+            {
+                setOnGasGrid(true);
+            }
+        };
+        ITechnologyModel technologies = new TechnologyModelImpl() {
+            {
+                setCommunityHeatSource(community);
+                setCentralWaterSystem(new CentralWaterSystemImpl() {
+                    {
+                        setPrimaryWaterHeater(new MainWaterHeaterImpl() {
+                            {
+                                setHeatSource(community);
+                            }
+                        });
+                    }
+                });
+            }
+        };
+
+        IComponentsScope components = Util.mockComponents(dims, structure, technologies);
+        Assert.assertFalse(m.isSuitable(components, ILets.EMPTY));
+    }
+
+    /**
+     * Check that an existing standard boiler does not make gas boiler measure
+     * unsuitable.
+     */
+    public static void testSuitabilityWithStandardHeatingSystemInstalledPreviously(final MockDimensions dims, final AbstractBoilerMeasure m) {
+        final IBoiler boiler = new BoilerImpl() {
+        };
+
+        StructureModel structure = new StructureModel() {
+            {
+                setOnGasGrid(true);
+            }
+        };
+        ITechnologyModel technologies = new TechnologyModelImpl() {
+            {
+                setIndividualHeatSource(boiler);
+                setPrimarySpaceHeater(new CentralHeatingSystemImpl() {
+                    {
+                        setHeatSource(boiler);
+                    }
+                });
+                setCentralWaterSystem(new CentralWaterSystemImpl() {
+                    {
+                        setPrimaryWaterHeater(new MainWaterHeaterImpl() {
+                            {
+                                setHeatSource(boiler);
+                            }
+                        });
+                    }
+                });
+            }
+        };
+        IComponentsScope components = Util.mockComponents(dims, structure, technologies);
+        Assert.assertTrue(m.isSuitable(components, ILets.EMPTY));
+    }
 }

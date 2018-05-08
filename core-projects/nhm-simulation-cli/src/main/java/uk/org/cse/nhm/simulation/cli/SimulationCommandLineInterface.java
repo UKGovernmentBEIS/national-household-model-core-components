@@ -46,6 +46,7 @@ import uk.org.cse.nhm.simulation.cli.guice.CliSimulationExecutorModule;
 import uk.org.cse.nhm.stock.io.StandardJacksonModule;
 
 public class SimulationCommandLineInterface {
+
     public static final FileSystem FILESYSTEM = FileSystems.getDefault();
 
     public static void main(final String[] args) throws Exception {
@@ -85,20 +86,23 @@ public class SimulationCommandLineInterface {
         simulationSession.close();
 
         if (!problems.isEmpty()) {
-        	boolean errors = false;
+            boolean errors = false;
             for (final IError p : problems) {
-            	Location loc = null;
-            	try {
-            		loc = p.getLocation().sourceLocation;
-            	} catch (Exception e) {}
+                Location loc = null;
+                try {
+                    loc = p.getLocation().sourceLocation;
+                } catch (Exception e) {
+                }
                 System.err
-                        .println(String.format("File: %s; Line: %d; %s;", loc == null ? "unknown" : loc.name, 
-                        		loc == null ? 1 : loc.line, p.getMessage()));
-                if (p.getType().isFatal()) errors = true;
+                        .println(String.format("File: %s; Line: %d; %s;", loc == null ? "unknown" : loc.name,
+                                loc == null ? 1 : loc.line, p.getMessage()));
+                if (p.getType().isFatal()) {
+                    errors = true;
+                }
             }
             if (errors) {
-            	final int ERROR = -1;
-            	System.exit(ERROR);
+                final int ERROR = -1;
+                System.exit(ERROR);
             }
         }
 
@@ -170,8 +174,9 @@ public class SimulationCommandLineInterface {
     }
 
     /**
-     * Attempts to find a given scenario name, if it does not find the file under root, attempts to use fall-back, when
-     * using the fall back both "name/" and "id/" are stripped from the file name.
+     * Attempts to find a given scenario name, if it does not find the file
+     * under root, attempts to use fall-back, when using the fall back both
+     * "name/" and "id/" are stripped from the file name.
      *
      * @param root
      * @param fallback
@@ -194,9 +199,11 @@ public class SimulationCommandLineInterface {
     }
 
     /**
-     * Creates a scenario snapshot from the given scenarioFilePath, if includeFilePath is not a null value uses this as
-     * a folder which contains the physical files for any xi:includes referenced in the scenario. If this value is not
-     * included and includes are in the scenario then will use the default folder /scenario root folder/"names".
+     * Creates a scenario snapshot from the given scenarioFilePath, if
+     * includeFilePath is not a null value uses this as a folder which contains
+     * the physical files for any xi:includes referenced in the scenario. If
+     * this value is not included and includes are in the scenario then will use
+     * the default folder /scenario root folder/"names".
      *
      * @param scenarioAbsoluteFilePath
      * @param scenarioRootDirectory
@@ -209,21 +216,21 @@ public class SimulationCommandLineInterface {
     public static ISExpression loadScenario(final Path scenarioRootDirectory, final Path includeDirectory,
             final String scenarioNameOrId) throws IOException, TransformerException, SAXException {
         return new ScenarioSnapshot(DataSourceSnapshot.copy(new IDataSource<URI>() {
-			@Override
-			public URI root() {
-				return resolveWithFallback(scenarioRootDirectory, includeDirectory, scenarioNameOrId);
-			}
+            @Override
+            public URI root() {
+                return resolveWithFallback(scenarioRootDirectory, includeDirectory, scenarioNameOrId);
+            }
 
-			@Override
-			public URI resolve(Seq relation, final IErrorHandler errors) {
-				return resolveWithFallback(scenarioRootDirectory, includeDirectory, 
-						IncludeAddress.parse(relation).makeFileName());
-			}
+            @Override
+            public URI resolve(Seq relation, final IErrorHandler errors) {
+                return resolveWithFallback(scenarioRootDirectory, includeDirectory,
+                        IncludeAddress.parse(relation).makeFileName());
+            }
 
-			@Override
-			public Reader open(URI resolved) throws IOException {
-				return Files.newBufferedReader(Paths.get(resolved), StandardCharsets.UTF_8);
-			}
-		}, IErrorHandler.RAISE), ImmutableList.<IError>of());
+            @Override
+            public Reader open(URI resolved) throws IOException {
+                return Files.newBufferedReader(Paths.get(resolved), StandardCharsets.UTF_8);
+            }
+        }, IErrorHandler.RAISE), ImmutableList.<IError>of());
     }
 }

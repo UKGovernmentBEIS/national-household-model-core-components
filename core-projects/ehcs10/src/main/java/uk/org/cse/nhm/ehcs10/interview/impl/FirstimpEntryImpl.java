@@ -13,68 +13,87 @@ import uk.org.cse.nhm.ehcs10.interview.types.Enum451;
 import uk.org.cse.stockimport.spss.SurveyEntryImpl;
 
 public class FirstimpEntryImpl extends SurveyEntryImpl implements FirstimpEntry {
-	private Enum69 WhetherSampleAddressContainsNon_ResidentialUnits;
-	private Enum444 AddressEligibility;
-	private Enum445 FirstImpressions_Building;
-	private Enum229 StatusOfCase;
-	private Enum447 NumberOfFloorsInBuilding;
-	private Enum448 PropertyType_FirstImpressions;
-	private Enum230 FieldworkQuarter;
-	private Enum30 Region_EHSOrder;
-	private Enum451 FirstImpressions_Neighbourhood;
-	public Enum69 getWhetherSampleAddressContainsNon_ResidentialUnits() {
-		return WhetherSampleAddressContainsNon_ResidentialUnits;	}
 
-	public void setWhetherSampleAddressContainsNon_ResidentialUnits(final Enum69 WhetherSampleAddressContainsNon_ResidentialUnits) {
-		this.WhetherSampleAddressContainsNon_ResidentialUnits = WhetherSampleAddressContainsNon_ResidentialUnits;	}
+    private Enum69 WhetherSampleAddressContainsNon_ResidentialUnits;
+    private Enum444 AddressEligibility;
+    private Enum445 FirstImpressions_Building;
+    private Enum229 StatusOfCase;
+    private Enum447 NumberOfFloorsInBuilding;
+    private Enum448 PropertyType_FirstImpressions;
+    private Enum230 FieldworkQuarter;
+    private Enum30 Region_EHSOrder;
+    private Enum451 FirstImpressions_Neighbourhood;
 
-	public Enum444 getAddressEligibility() {
-		return AddressEligibility;	}
+    public Enum69 getWhetherSampleAddressContainsNon_ResidentialUnits() {
+        return WhetherSampleAddressContainsNon_ResidentialUnits;
+    }
 
-	public void setAddressEligibility(final Enum444 AddressEligibility) {
-		this.AddressEligibility = AddressEligibility;	}
+    public void setWhetherSampleAddressContainsNon_ResidentialUnits(final Enum69 WhetherSampleAddressContainsNon_ResidentialUnits) {
+        this.WhetherSampleAddressContainsNon_ResidentialUnits = WhetherSampleAddressContainsNon_ResidentialUnits;
+    }
 
-	public Enum445 getFirstImpressions_Building() {
-		return FirstImpressions_Building;	}
+    public Enum444 getAddressEligibility() {
+        return AddressEligibility;
+    }
 
-	public void setFirstImpressions_Building(final Enum445 FirstImpressions_Building) {
-		this.FirstImpressions_Building = FirstImpressions_Building;	}
+    public void setAddressEligibility(final Enum444 AddressEligibility) {
+        this.AddressEligibility = AddressEligibility;
+    }
 
-	public Enum229 getStatusOfCase() {
-		return StatusOfCase;	}
+    public Enum445 getFirstImpressions_Building() {
+        return FirstImpressions_Building;
+    }
 
-	public void setStatusOfCase(final Enum229 StatusOfCase) {
-		this.StatusOfCase = StatusOfCase;	}
+    public void setFirstImpressions_Building(final Enum445 FirstImpressions_Building) {
+        this.FirstImpressions_Building = FirstImpressions_Building;
+    }
 
-	public Enum447 getNumberOfFloorsInBuilding() {
-		return NumberOfFloorsInBuilding;	}
+    public Enum229 getStatusOfCase() {
+        return StatusOfCase;
+    }
 
-	public void setNumberOfFloorsInBuilding(final Enum447 NumberOfFloorsInBuilding) {
-		this.NumberOfFloorsInBuilding = NumberOfFloorsInBuilding;	}
+    public void setStatusOfCase(final Enum229 StatusOfCase) {
+        this.StatusOfCase = StatusOfCase;
+    }
 
-	public Enum448 getPropertyType_FirstImpressions() {
-		return PropertyType_FirstImpressions;	}
+    public Enum447 getNumberOfFloorsInBuilding() {
+        return NumberOfFloorsInBuilding;
+    }
 
-	public void setPropertyType_FirstImpressions(final Enum448 PropertyType_FirstImpressions) {
-		this.PropertyType_FirstImpressions = PropertyType_FirstImpressions;	}
+    public void setNumberOfFloorsInBuilding(final Enum447 NumberOfFloorsInBuilding) {
+        this.NumberOfFloorsInBuilding = NumberOfFloorsInBuilding;
+    }
 
-	public Enum230 getFieldworkQuarter() {
-		return FieldworkQuarter;	}
+    public Enum448 getPropertyType_FirstImpressions() {
+        return PropertyType_FirstImpressions;
+    }
 
-	public void setFieldworkQuarter(final Enum230 FieldworkQuarter) {
-		this.FieldworkQuarter = FieldworkQuarter;	}
+    public void setPropertyType_FirstImpressions(final Enum448 PropertyType_FirstImpressions) {
+        this.PropertyType_FirstImpressions = PropertyType_FirstImpressions;
+    }
 
-	public Enum30 getRegion_EHSOrder() {
-		return Region_EHSOrder;	}
+    public Enum230 getFieldworkQuarter() {
+        return FieldworkQuarter;
+    }
 
-	public void setRegion_EHSOrder(final Enum30 Region_EHSOrder) {
-		this.Region_EHSOrder = Region_EHSOrder;	}
+    public void setFieldworkQuarter(final Enum230 FieldworkQuarter) {
+        this.FieldworkQuarter = FieldworkQuarter;
+    }
 
-	public Enum451 getFirstImpressions_Neighbourhood() {
-		return FirstImpressions_Neighbourhood;	}
+    public Enum30 getRegion_EHSOrder() {
+        return Region_EHSOrder;
+    }
 
-	public void setFirstImpressions_Neighbourhood(final Enum451 FirstImpressions_Neighbourhood) {
-		this.FirstImpressions_Neighbourhood = FirstImpressions_Neighbourhood;	}
+    public void setRegion_EHSOrder(final Enum30 Region_EHSOrder) {
+        this.Region_EHSOrder = Region_EHSOrder;
+    }
+
+    public Enum451 getFirstImpressions_Neighbourhood() {
+        return FirstImpressions_Neighbourhood;
+    }
+
+    public void setFirstImpressions_Neighbourhood(final Enum451 FirstImpressions_Neighbourhood) {
+        this.FirstImpressions_Neighbourhood = FirstImpressions_Neighbourhood;
+    }
 
 }
-

@@ -14,22 +14,23 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class HouseWeightFunction extends AbstractNamed implements IComponentsFunction<Number> {
-	@AssistedInject
-	public HouseWeightFunction() {
-	}
 
-	@Override
-	public Double compute(final IComponentsScope scope, final ILets lets) {
-		return Double.valueOf(scope.getDwelling().getWeight());
-	}
+    @AssistedInject
+    public HouseWeightFunction() {
+    }
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return ImmutableSet.<IDimension<?>>of();
-	}
+    @Override
+    public Double compute(final IComponentsScope scope, final ILets lets) {
+        return Double.valueOf(scope.getDwelling().getWeight());
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return ImmutableSet.of();
-	}
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return ImmutableSet.<IDimension<?>>of();
+    }
+
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return ImmutableSet.of();
+    }
 }

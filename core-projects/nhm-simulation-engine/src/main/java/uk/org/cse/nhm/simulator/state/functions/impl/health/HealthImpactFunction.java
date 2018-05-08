@@ -34,115 +34,107 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class HealthImpactFunction extends AbstractNamed implements IComponentsFunction<Number> {
-	private static final Map<XDisease, Set<Disease.Type>> DISEASES =
-			ImmutableMap.
-					<XDisease, Set<Disease.Type>>
-					builder()
-					.put(XDisease.CaV, 	    EnumSet.of(Disease.Type.cerebrovascular))
-				    .put(XDisease.CP,	    EnumSet.of(Disease.Type.cardiopulmonary))
-				    .put(XDisease.LC,	    EnumSet.of(Disease.Type.lungcancer))
-				    .put(XDisease.MI,	    EnumSet.of(Disease.Type.myocardialinfarction))
-				    .put(XDisease.WCaV,	    EnumSet.of(Disease.Type.wincerebrovascular))
-				    .put(XDisease.WCV,	    EnumSet.of(Disease.Type.wincardiovascular))
-				    .put(XDisease.WMI,	    EnumSet.of(Disease.Type.winmyocardialinfarction))
-				    .put(XDisease.CMD,	    EnumSet.of(Disease.Type.commonmentaldisorder))
-				    .put(XDisease.Asthma,   EnumSet.of(Disease.Type.asthma1, Disease.Type.asthma2, Disease.Type.asthma3))
-				    .put(XDisease.COPD,     EnumSet.of(Disease.Type.copd))
-				    .put(XDisease.OvHeat,   EnumSet.of(Disease.Type.overheating))
-				    .build();
 
-	private final IHealthModule healthModule;
-	private final IDimension<StructureModel> structure;
-	private final IDimension<People> people;
-	private final IDimension<BasicCaseAttributes> attributes;
+    private static final Map<XDisease, Set<Disease.Type>> DISEASES
+            = ImmutableMap.
+                    <XDisease, Set<Disease.Type>>builder()
+                    .put(XDisease.CaV, EnumSet.of(Disease.Type.cerebrovascular))
+                    .put(XDisease.CP, EnumSet.of(Disease.Type.cardiopulmonary))
+                    .put(XDisease.LC, EnumSet.of(Disease.Type.lungcancer))
+                    .put(XDisease.MI, EnumSet.of(Disease.Type.myocardialinfarction))
+                    .put(XDisease.WCaV, EnumSet.of(Disease.Type.wincerebrovascular))
+                    .put(XDisease.WCV, EnumSet.of(Disease.Type.wincardiovascular))
+                    .put(XDisease.WMI, EnumSet.of(Disease.Type.winmyocardialinfarction))
+                    .put(XDisease.CMD, EnumSet.of(Disease.Type.commonmentaldisorder))
+                    .put(XDisease.Asthma, EnumSet.of(Disease.Type.asthma1, Disease.Type.asthma2, Disease.Type.asthma3))
+                    .put(XDisease.COPD, EnumSet.of(Disease.Type.copd))
+                    .put(XDisease.OvHeat, EnumSet.of(Disease.Type.overheating))
+                    .build();
 
-	private final IComponentsFunction<Number> h1, h2, p1, p2, t1, t2, g1, g2;
-	private final IComponentsFunction<Number> horizon, offset;
+    private final IHealthModule healthModule;
+    private final IDimension<StructureModel> structure;
+    private final IDimension<People> people;
+    private final IDimension<BasicCaseAttributes> attributes;
+
+    private final IComponentsFunction<Number> h1, h2, p1, p2, t1, t2, g1, g2;
+    private final IComponentsFunction<Number> horizon, offset;
     private final IComponentsFunction<Boolean> hadFans, hadVents, fans, vents;
-	private final Set<XDisease> diseases;
-	private final XImpact impact;
+    private final Set<XDisease> diseases;
+    private final XImpact impact;
 
-	@Inject
-	public HealthImpactFunction(
-			final IHealthModule healthModule,
-			final IDimension<StructureModel> structure,
-			final IDimension<People> people,
-			final IDimension<BasicCaseAttributes> attributes,
-
-			// these are required for overheating risk
-            @Assisted("h1") 	 final IComponentsFunction<Number> h1,
-            @Assisted("h2") 	 final IComponentsFunction<Number> h2,
-
+    @Inject
+    public HealthImpactFunction(
+            final IHealthModule healthModule,
+            final IDimension<StructureModel> structure,
+            final IDimension<People> people,
+            final IDimension<BasicCaseAttributes> attributes,
+            // these are required for overheating risk
+            @Assisted("h1") final IComponentsFunction<Number> h1,
+            @Assisted("h2") final IComponentsFunction<Number> h2,
             // delta T for health impacts
-            @Assisted("t1") 	 final IComponentsFunction<Number> t1,
-            @Assisted("t2") 	 final IComponentsFunction<Number> t2,
-
+            @Assisted("t1") final IComponentsFunction<Number> t1,
+            @Assisted("t2") final IComponentsFunction<Number> t2,
             // delta permeability
-			@Assisted("p1") 	 final IComponentsFunction<Number> p1,
-			@Assisted("p2") 	 final IComponentsFunction<Number> p2,
-
-			@Assisted("horizon") final IComponentsFunction<Number> horizon,
-			@Assisted("offset")  final IComponentsFunction<Number> offset,
-			
-			@Assisted("had-vents") final IComponentsFunction<Boolean> hadVents,
-			@Assisted("had-fans") final IComponentsFunction<Boolean> hadFans,
-
-			@Assisted("has-fans") final IComponentsFunction<Boolean> fans,
-			@Assisted("has-vents") final IComponentsFunction<Boolean> vents,
-
-            @Assisted("g1") 	 final IComponentsFunction<Number> g1,
-            @Assisted("g2")	     final IComponentsFunction<Number> g2,
-
-			@Assisted			 final List<XDisease> diseases,
-			@Assisted			 final XImpact impact
-			) {
-		super();
-		this.healthModule = healthModule;
-		this.structure = structure;
+            @Assisted("p1") final IComponentsFunction<Number> p1,
+            @Assisted("p2") final IComponentsFunction<Number> p2,
+            @Assisted("horizon") final IComponentsFunction<Number> horizon,
+            @Assisted("offset") final IComponentsFunction<Number> offset,
+            @Assisted("had-vents") final IComponentsFunction<Boolean> hadVents,
+            @Assisted("had-fans") final IComponentsFunction<Boolean> hadFans,
+            @Assisted("has-fans") final IComponentsFunction<Boolean> fans,
+            @Assisted("has-vents") final IComponentsFunction<Boolean> vents,
+            @Assisted("g1") final IComponentsFunction<Number> g1,
+            @Assisted("g2") final IComponentsFunction<Number> g2,
+            @Assisted final List<XDisease> diseases,
+            @Assisted final XImpact impact
+    ) {
+        super();
+        this.healthModule = healthModule;
+        this.structure = structure;
         this.people = people;
         this.attributes = attributes;
 
-		this.h1 = h1;
-		this.h2 = h2;
+        this.h1 = h1;
+        this.h2 = h2;
 
-		this.t1 = t1;
-		this.t2 = t2;
+        this.t1 = t1;
+        this.t2 = t2;
 
-		this.p1 = p1;
-		this.p2 = p2;
+        this.p1 = p1;
+        this.p2 = p2;
 
-		this.g1 = g1;
-		this.g2 = g2;
+        this.g1 = g1;
+        this.g2 = g2;
 
-		this.horizon = horizon;
-		this.offset = offset;
-		this.diseases = EnumSet.copyOf(diseases);
-		this.impact = impact;
+        this.horizon = horizon;
+        this.offset = offset;
+        this.diseases = EnumSet.copyOf(diseases);
+        this.impact = impact;
 
-		this.hadFans = hadFans;
-		this.hadVents = hadVents;
+        this.hadFans = hadFans;
+        this.hadVents = hadVents;
         this.fans = fans;
         this.vents = vents;
-	}
+    }
 
-	@SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
     @Override
-	public Number compute(final IComponentsScope scope, final ILets lets) {
-		final BasicCaseAttributes basic = scope.get(attributes);
-		final StructureModel structureModel = scope.get(structure);
-		final BuiltFormType builtFormType = structureModel.getBuiltFormType();
-		final List<Person> people = getPeople(scope);
-		final int horizon = this.horizon.compute(scope, lets).intValue();
-		final int offset = this.offset.compute(scope, lets).intValue();
+    public Number compute(final IComponentsScope scope, final ILets lets) {
+        final BasicCaseAttributes basic = scope.get(attributes);
+        final StructureModel structureModel = scope.get(structure);
+        final BuiltFormType builtFormType = structureModel.getBuiltFormType();
+        final List<Person> people = getPeople(scope);
+        final int horizon = this.horizon.compute(scope, lets).intValue();
+        final int offset = this.offset.compute(scope, lets).intValue();
 
-		final int mainFloorLevel = structureModel.getMainFloorLevel();
+        final int mainFloorLevel = structureModel.getMainFloorLevel();
 
-		final boolean hadWorkingExtractors = this.hadFans.compute(scope, lets);
-		final boolean hadTrickleVents = this.hadVents.compute(scope, lets);
-		
-		final boolean hasWorkingExtractors = this.fans.compute(scope, lets);
-		final boolean hasTrickleVents = this.vents.compute(scope, lets);
-		
+        final boolean hadWorkingExtractors = this.hadFans.compute(scope, lets);
+        final boolean hadTrickleVents = this.hadVents.compute(scope, lets);
+
+        final boolean hasWorkingExtractors = this.fans.compute(scope, lets);
+        final boolean hasTrickleVents = this.vents.compute(scope, lets);
+
         final double _h1 = h1.compute(scope, lets).doubleValue();
         final double _h2 = h2.compute(scope, lets).doubleValue();
 
@@ -157,99 +149,95 @@ public class HealthImpactFunction extends AbstractNamed implements IComponentsFu
 
         // work out some health impacts
         final CumulativeHealthOutcome outcome = healthModule.effectOf(
-        	CumulativeHealthOutcome.factory(horizon),
-            _t1, _t2,
-            _p1, _p2,
-            _h1, _h2,
+                CumulativeHealthOutcome.factory(horizon),
+                _t1, _t2,
+                _p1, _p2,
+                _h1, _h2,
+                builtFormType,
+                structureModel.getFloorArea(),
+                basic.getRegionType(),
+                mainFloorLevel,
+                hadWorkingExtractors,
+                hadTrickleVents,
+                hasWorkingExtractors,
+                hasTrickleVents,
+                _g1, _g2, // has double glazing, had double glazing?
 
-            builtFormType,
-            structureModel.getFloorArea(),
-            basic.getRegionType(),
-            mainFloorLevel,
+                people
+        );
 
-            hadWorkingExtractors,
-            hadTrickleVents,
+        return totalImpact(outcome, offset, horizon);
+    }
 
-            hasWorkingExtractors,
-            hasTrickleVents,
-
-            _g1, _g2, // has double glazing, had double glazing?
-
-            people
-            );
-
-		return totalImpact(outcome, offset, horizon);
-	}
-
-	private List<Person> getPeople(final IComponentsScope scope) {
-		final People people = scope.get(this.people);
+    private List<Person> getPeople(final IComponentsScope scope) {
+        final People people = scope.get(this.people);
 
         // this data may not be available in all stocks, so there ought to be a warning of some sort.
         final ImmutableList.Builder<Person> builder = ImmutableList.builder();
         for (final People.Occupant o : people.getOccupants()) {
             builder.add(new Person(o.getAge(),
-                                   o.getSex() == SexType.MALE ? Sex.MALE : Sex.FEMALE,
-                        		   o.isSmoker()));
+                    o.getSex() == SexType.MALE ? Sex.MALE : Sex.FEMALE,
+                    o.isSmoker()));
         }
 
-		return builder.build();
-	}
+        return builder.build();
+    }
 
-	private double totalImpact(final CumulativeHealthOutcome outcome, final int offset, final int horizon) {
-		// TODO support discounting in some efficient way.
-		double acc = 0;
-		for (final XDisease disease : diseases) {
-			for (final Disease.Type d : DISEASES.get(disease)) {
-				for (int i = offset; i<horizon; i++) {
-					switch (impact) {
-					case Cost:
-					    acc += getCost(outcome,d,i);
-						break;
-					case Morbidity:
-					    acc += getMorbidity(outcome,d,i);
-                        break;
-					case Mortality:
-					    acc += getMortality(outcome,d,i);
-                        break;
-					}
-				}
-			}
-		}
-		return acc;
-	}
+    private double totalImpact(final CumulativeHealthOutcome outcome, final int offset, final int horizon) {
+        // TODO support discounting in some efficient way.
+        double acc = 0;
+        for (final XDisease disease : diseases) {
+            for (final Disease.Type d : DISEASES.get(disease)) {
+                for (int i = offset; i < horizon; i++) {
+                    switch (impact) {
+                        case Cost:
+                            acc += getCost(outcome, d, i);
+                            break;
+                        case Morbidity:
+                            acc += getMorbidity(outcome, d, i);
+                            break;
+                        case Mortality:
+                            acc += getMortality(outcome, d, i);
+                            break;
+                    }
+                }
+            }
+        }
+        return acc;
+    }
 
-	/**
-	 * Return cost from outcome, if the value is NaN then return 0 instead.
-	 * 
-	 * @param outcome
-	 * @param d
-	 * @param year
-	 * @return
-	 */
-	protected double getCost(final CumulativeHealthOutcome outcome, final Disease.Type disease, int year){
-	    double cost =  outcome.cost(disease, year);
-	    return Double.isNaN(cost) ? 0 : cost;
-	}
-	
-	protected double getMortality(final CumulativeHealthOutcome outcome, final Disease.Type disease, int year){
-	    double cost =  outcome.mortality(disease, year);
-	    return Double.isNaN(cost) ? 0 : cost;
-	}
-	
-	protected double getMorbidity(final CumulativeHealthOutcome outcome, final Disease.Type disease, int year){
-        double cost =  outcome.morbidity(disease, year);
+    /**
+     * Return cost from outcome, if the value is NaN then return 0 instead.
+     *
+     * @param outcome
+     * @param d
+     * @param year
+     * @return
+     */
+    protected double getCost(final CumulativeHealthOutcome outcome, final Disease.Type disease, int year) {
+        double cost = outcome.cost(disease, year);
         return Double.isNaN(cost) ? 0 : cost;
     }
-		
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		// parts of the house that are important for health impact
-		return ImmutableSet.<IDimension<?>>of(structure, people);
-	}
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		// This is not a function of the simulation year, so it has no change dates.
-		return Collections.emptySet();
-	}
+    protected double getMortality(final CumulativeHealthOutcome outcome, final Disease.Type disease, int year) {
+        double cost = outcome.mortality(disease, year);
+        return Double.isNaN(cost) ? 0 : cost;
+    }
+
+    protected double getMorbidity(final CumulativeHealthOutcome outcome, final Disease.Type disease, int year) {
+        double cost = outcome.morbidity(disease, year);
+        return Double.isNaN(cost) ? 0 : cost;
+    }
+
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        // parts of the house that are important for health impact
+        return ImmutableSet.<IDimension<?>>of(structure, people);
+    }
+
+    @Override
+    public Set<DateTime> getChangeDates() {
+        // This is not a function of the simulation year, so it has no change dates.
+        return Collections.emptySet();
+    }
 }

@@ -25,35 +25,36 @@ import uk.org.cse.nhm.simulator.transactions.IPayment;
 import uk.org.cse.nhm.simulator.transactions.ITransaction;
 
 public class FunctionTariffTest {
-	@SuppressWarnings("unchecked")
-	@Test
-	public void transactorInRuleInTariffMakesTransactions() {
-		final IComponentsFunction<Number> fn = mock(IComponentsFunction.class);
-		
-		final Transactor t = new FunctionTariff.FuelRule.Transactor(fn, "steve", ImmutableSet.of("hello"));
-		
-		final FuelRule fr = new FuelRule(FuelType.MAINS_GAS, ImmutableList.of(t));
-		
-		final FunctionTariff ft = new FunctionTariff(XMethodOfPayment.DirectDebit, ImmutableList.of(fr));
-		
-		ft.setIdentifier(Name.of("test"));
-		
-		final ISettableComponentsScope scope = mock(ISettableComponentsScope.class);
-		
-		when(fn.compute(same(scope), any(ILets.class))).thenReturn(123d);
-		
-		ft.apply(FuelType.MAINS_GAS, scope);
-		
-		final ArgumentCaptor<IPayment> p = ArgumentCaptor.forClass(IPayment.class);
-		
-		verify(scope).addTransaction(p.capture());
-		
-		final IPayment payment = p.getValue();
-		
-		Assert.assertEquals(123d, payment.getAmount(), 0.01);
-		Assert.assertEquals("steve", payment.getPayee());
-		Assert.assertEquals(ImmutableSet.of("hello", ITransaction.Tags.FUEL, ITransaction.Tags.FUEL.substring(1)), payment.getTags());
-		
-		Assert.assertEquals(ImmutableSet.of(FuelType.MAINS_GAS), ft.getFuelTypes());
-	}
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void transactorInRuleInTariffMakesTransactions() {
+        final IComponentsFunction<Number> fn = mock(IComponentsFunction.class);
+
+        final Transactor t = new FunctionTariff.FuelRule.Transactor(fn, "steve", ImmutableSet.of("hello"));
+
+        final FuelRule fr = new FuelRule(FuelType.MAINS_GAS, ImmutableList.of(t));
+
+        final FunctionTariff ft = new FunctionTariff(XMethodOfPayment.DirectDebit, ImmutableList.of(fr));
+
+        ft.setIdentifier(Name.of("test"));
+
+        final ISettableComponentsScope scope = mock(ISettableComponentsScope.class);
+
+        when(fn.compute(same(scope), any(ILets.class))).thenReturn(123d);
+
+        ft.apply(FuelType.MAINS_GAS, scope);
+
+        final ArgumentCaptor<IPayment> p = ArgumentCaptor.forClass(IPayment.class);
+
+        verify(scope).addTransaction(p.capture());
+
+        final IPayment payment = p.getValue();
+
+        Assert.assertEquals(123d, payment.getAmount(), 0.01);
+        Assert.assertEquals("steve", payment.getPayee());
+        Assert.assertEquals(ImmutableSet.of("hello", ITransaction.Tags.FUEL, ITransaction.Tags.FUEL.substring(1)), payment.getTags());
+
+        Assert.assertEquals(ImmutableSet.of(FuelType.MAINS_GAS), ft.getFuelTypes());
+    }
 }

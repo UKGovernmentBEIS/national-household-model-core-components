@@ -10,29 +10,30 @@ import uk.org.cse.nhm.hom.SurveyCase;
 
 @AutoProperty
 public class SurveyCaseLogEntry extends AbstractLogEntry {
-	private SurveyCase surveyCase;
-	
-	@JsonCreator
-	public SurveyCaseLogEntry(@JsonProperty("surveyCase") final SurveyCase sc) {
-		this.surveyCase = sc;
-	}
 
-	public SurveyCase getSurveyCase() {
-		return surveyCase;
-	}
+    private SurveyCase surveyCase;
 
-	@Override
-	public String toString() {
-		return Pojomatic.toString(this);
-	}
+    @JsonCreator
+    public SurveyCaseLogEntry(@JsonProperty("surveyCase") final SurveyCase sc) {
+        this.surveyCase = sc;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		return Pojomatic.equals(this, obj);
-	}
+    public SurveyCase getSurveyCase() {
+        return surveyCase;
+    }
 
-	@Override
-	public int hashCode() {
-		return Pojomatic.hashCode(this);
-	}
+    @Override
+    public String toString() {
+        return Pojomatic.toString(this);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return Pojomatic.equals(this, obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return Pojomatic.hashCode(this);
+    }
 }

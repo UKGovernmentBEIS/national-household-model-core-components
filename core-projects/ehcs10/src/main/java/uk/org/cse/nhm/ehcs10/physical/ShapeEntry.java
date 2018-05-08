@@ -9,131 +9,131 @@ import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 
 public interface ShapeEntry extends SurveyEntry {
-	@SavVariableMapping("FSHENTRY")
-	public String getHOUSEMODULESHAPE_EntryFloorToHouseModule();
 
-	@SavVariableMapping("FDHMLEV1")
-	public String getMAIN1STLEVEL_Level();
+    @SavVariableMapping("FSHENTRY")
+    public String getHOUSEMODULESHAPE_EntryFloorToHouseModule();
 
-	@SavVariableMapping("FDHMLEV2")
-	public String getMAIN2NDLEVEL_Level();
+    @SavVariableMapping("FDHMLEV1")
+    public String getMAIN1STLEVEL_Level();
 
-	@SavVariableMapping("FDHMLEV3")
-	public String getMAIN3RDLEVEL_Level();
+    @SavVariableMapping("FDHMLEV2")
+    public String getMAIN2NDLEVEL_Level();
 
-	@SavVariableMapping("FDHAFLRS")
-	public String getADDITIONALPART_AdditionalPart_NumberOfFloors();
+    @SavVariableMapping("FDHMLEV3")
+    public String getMAIN3RDLEVEL_Level();
 
-	@SavVariableMapping("FDHALEV1")
-	public String getADDITIONAL1STLEVEL_Level();
+    @SavVariableMapping("FDHAFLRS")
+    public String getADDITIONALPART_AdditionalPart_NumberOfFloors();
 
-	@SavVariableMapping("FDHALEV2")
-	public String getADDITIONAL2NDLEVEL_Level();
+    @SavVariableMapping("FDHALEV1")
+    public String getADDITIONAL1STLEVEL_Level();
 
-	@SavVariableMapping("FDHALEV3")
-	public String getADDITIONAL3RDLEVEL_Level();
+    @SavVariableMapping("FDHALEV2")
+    public String getADDITIONAL2NDLEVEL_Level();
 
-	@SavVariableMapping("FMTCOOTH")
-	public String getSpecifyOtherConstruction();
+    @SavVariableMapping("FDHALEV3")
+    public String getADDITIONAL3RDLEVEL_Level();
 
-	@SavVariableMapping("FMTDESCR")
-	public String getMATERIALCONSTRUCTION__Name();
+    @SavVariableMapping("FMTCOOTH")
+    public String getSpecifyOtherConstruction();
 
-	@SavVariableMapping("FALYELCO")
-	public Integer getIMPROVEMENTSALTERATIONSExactYearOfLoftConversion();
+    @SavVariableMapping("FMTDESCR")
+    public String getMATERIALCONSTRUCTION__Name();
 
-	@SavVariableMapping("FDHMFLRS")
-	public Integer getEXTERNALDIMENSIONSOFHOUSEMODULEMainStructure_NumberOfFloors();
+    @SavVariableMapping("FALYELCO")
+    public Integer getIMPROVEMENTSALTERATIONSExactYearOfLoftConversion();
 
-	@SavVariableMapping("FDHMWID1")
-	public Double getMAIN1STLEVEL_Width();
+    @SavVariableMapping("FDHMFLRS")
+    public Integer getEXTERNALDIMENSIONSOFHOUSEMODULEMainStructure_NumberOfFloors();
 
-	@SavVariableMapping("FDHAWID1")
-	public Double getADDITIONAL1STLEVEL_Width();
+    @SavVariableMapping("FDHMWID1")
+    public Double getMAIN1STLEVEL_Width();
 
-	@SavVariableMapping("FDHMWID3")
-	public Double getMAIN3RDLEVEL_Width();
+    @SavVariableMapping("FDHAWID1")
+    public Double getADDITIONAL1STLEVEL_Width();
 
-	@SavVariableMapping("FDHAWID3")
-	public Double getADDITIONAL3RDLEVEL_Width();
+    @SavVariableMapping("FDHMWID3")
+    public Double getMAIN3RDLEVEL_Width();
 
-	@SavVariableMapping("FDHMDEP1")
-	public Double getMAIN1STLEVEL_Depth();
+    @SavVariableMapping("FDHAWID3")
+    public Double getADDITIONAL3RDLEVEL_Width();
 
-	@SavVariableMapping("FDHADEP2")
-	public Double getADDITIONAL2NDLEVEL_Depth();
+    @SavVariableMapping("FDHMDEP1")
+    public Double getMAIN1STLEVEL_Depth();
 
-	@SavVariableMapping("FDHADEP1")
-	public Double getADDITIONAL1STLEVEL_Depth();
+    @SavVariableMapping("FDHADEP2")
+    public Double getADDITIONAL2NDLEVEL_Depth();
 
-	@SavVariableMapping("FDHAWID2")
-	public Double getADDITIONAL2NDLEVEL_Width();
+    @SavVariableMapping("FDHADEP1")
+    public Double getADDITIONAL1STLEVEL_Depth();
 
-	@SavVariableMapping("FDHMDEP2")
-	public Double getMAIN2NDLEVEL_Depth();
+    @SavVariableMapping("FDHAWID2")
+    public Double getADDITIONAL2NDLEVEL_Width();
 
-	@SavVariableMapping("FDHADEP3")
-	public Double getADDITIONAL3RDLEVEL_Depth();
+    @SavVariableMapping("FDHMDEP2")
+    public Double getMAIN2NDLEVEL_Depth();
 
-	@SavVariableMapping("FDHMWID2")
-	public Double getMAIN2NDLEVEL_Width();
+    @SavVariableMapping("FDHADEP3")
+    public Double getADDITIONAL3RDLEVEL_Depth();
 
-	@SavVariableMapping("FDHMDEP3")
-	public Double getMAIN3RDLEVEL_Depth();
+    @SavVariableMapping("FDHMWID2")
+    public Double getMAIN2NDLEVEL_Width();
 
-	@SavVariableMapping("FALSPACE")
-	public Enum1789 getIMPROVEMENTSALTERATIONSRearrangementOfInternalSpace();
+    @SavVariableMapping("FDHMDEP3")
+    public Double getMAIN3RDLEVEL_Depth();
 
-	@SavVariableMapping("FALEXLIV")
-	public Enum1789 getIMPROVEMENTSALTERATIONSExtensionAddedForLivingSpace();
+    @SavVariableMapping("FALSPACE")
+    public Enum1789 getIMPROVEMENTSALTERATIONSRearrangementOfInternalSpace();
 
-	@SavVariableMapping("FALLRAD")
-	public Enum1789 getIMPROVEMENTSALTERATIONSRadonRemedialWorks();
+    @SavVariableMapping("FALEXLIV")
+    public Enum1789 getIMPROVEMENTSALTERATIONSExtensionAddedForLivingSpace();
 
-	@SavVariableMapping("FALOROOF")
-	public Enum1789 getIMPROVEMENTSALTERATIONSOver_Roofing();
+    @SavVariableMapping("FALLRAD")
+    public Enum1789 getIMPROVEMENTSALTERATIONSRadonRemedialWorks();
 
-	@SavVariableMapping("FSHADDIT")
-	public Enum1677 getMODULESHAPEAdditionalPart_Location();
+    @SavVariableMapping("FALOROOF")
+    public Enum1789 getIMPROVEMENTSALTERATIONSOver_Roofing();
 
-	@SavVariableMapping("FMTPROPS")
-	public Enum1282 getMATERIALCONSTRUCTION_ProprietarySystem();
+    @SavVariableMapping("FSHADDIT")
+    public Enum1677 getMODULESHAPEAdditionalPart_Location();
 
-	@SavVariableMapping("FALREFUR")
-	public Enum1789 getIMPROVEMENTSALTERATIONSCompleteRefurbishment();
+    @SavVariableMapping("FMTPROPS")
+    public Enum1282 getMATERIALCONSTRUCTION_ProprietarySystem();
 
-	@SavVariableMapping("FALCOMBI")
-	public Enum1789 getIMPROVEMENTSALTERATIONSTwoOrMoreDwellingsCombined();
+    @SavVariableMapping("FALREFUR")
+    public Enum1789 getIMPROVEMENTSALTERATIONSCompleteRefurbishment();
 
-	@SavVariableMapping("FALEXTAM")
-	public Enum1789 getIMPROVEMENTSALTERATIONSExtensionAddedForAmenities();
+    @SavVariableMapping("FALCOMBI")
+    public Enum1789 getIMPROVEMENTSALTERATIONSTwoOrMoreDwellingsCombined();
 
-	@SavVariableMapping("FALAPEAR")
-	public Enum1789 getIMPROVEMENTSALTERATIONSAlterationOfExternalAppearance();
+    @SavVariableMapping("FALEXTAM")
+    public Enum1789 getIMPROVEMENTSALTERATIONSExtensionAddedForAmenities();
 
-	@SavVariableMapping("FALOCLAD")
-	public Enum1789 getIMPROVEMENTSALTERATIONSOver_Cladding();
+    @SavVariableMapping("FALAPEAR")
+    public Enum1789 getIMPROVEMENTSALTERATIONSAlterationOfExternalAppearance();
 
-	@SavVariableMapping("FMTCONST")
-	public Enum1671 getMATERIALANDCONSTRUCTIONOFHOUSEMODULE();
+    @SavVariableMapping("FALOCLAD")
+    public Enum1789 getIMPROVEMENTSALTERATIONSOver_Cladding();
 
-	@SavVariableMapping("FALMORED")
-	public Enum1789 getIMPROVEMENTSALTERATIONSConversionToMoreThan1Dwelling();
+    @SavVariableMapping("FMTCONST")
+    public Enum1671 getMATERIALANDCONSTRUCTIONOFHOUSEMODULE();
 
-	@SavVariableMapping("FALLOFTS")
-	public Enum1789 getIMPROVEMENTSALTERATIONSLoftConversion();
+    @SavVariableMapping("FALMORED")
+    public Enum1789 getIMPROVEMENTSALTERATIONSConversionToMoreThan1Dwelling();
 
-	@SavVariableMapping("FSHATTIC")
-	public Enum1668 getHOUSEMODULESHAPE_AtticBasementInHouseModule();
+    @SavVariableMapping("FALLOFTS")
+    public Enum1789 getIMPROVEMENTSALTERATIONSLoftConversion();
 
-	@SavVariableMapping("FALNORES")
-	public Enum1789 getIMPROVEMENTSALTERATIONSConversionFromNon_ResidentialUse();
+    @SavVariableMapping("FSHATTIC")
+    public Enum1668 getHOUSEMODULESHAPE_AtticBasementInHouseModule();
 
-	@SavVariableMapping("FALSTRUC")
-	public Enum1789 getIMPROVEMENTSALTERATIONSStructureReplaced();
+    @SavVariableMapping("FALNORES")
+    public Enum1789 getIMPROVEMENTSALTERATIONSConversionFromNon_ResidentialUse();
 
-	@SavVariableMapping("FALHMOED")
-	public Enum1789 getIMPROVEMENTSALTERATIONSConversionToHMOUse();
+    @SavVariableMapping("FALSTRUC")
+    public Enum1789 getIMPROVEMENTSALTERATIONSStructureReplaced();
+
+    @SavVariableMapping("FALHMOED")
+    public Enum1789 getIMPROVEMENTSALTERATIONSConversionToHMOUse();
 
 }
-

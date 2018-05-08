@@ -8,9 +8,10 @@ import uk.org.cse.nhm.language.definition.XScenario;
 import uk.org.cse.nhm.simulator.main.ISimulator;
 
 public interface ISimulatorBuilder {
-	ISimulator build(XScenario scenario, String executionID,
-			IStockService dataService,
-			final SimulationParameter<?>... additionalParameters) throws NHMException;
 
-	public Set<Class<?>> getAdaptableClasses();
+    ISimulator build(XScenario scenario, String executionID,
+            IStockService dataService,
+            final SimulationParameter<?>... additionalParameters) throws NHMException;
+
+    public Set<Class<?>> getAdaptableClasses();
 }

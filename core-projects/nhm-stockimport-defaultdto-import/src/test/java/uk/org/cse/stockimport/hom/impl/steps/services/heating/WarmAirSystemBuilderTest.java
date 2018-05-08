@@ -12,15 +12,16 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
 import uk.org.cse.stockimport.domain.services.ISpaceHeatingDTO;
 
 public class WarmAirSystemBuilderTest {
-	@Test
-	public void testBuildWarmAirSystem() {
-		final IWarmAirSystemBuilder builder = new WarmAirSystemBuilder();
-		final ISpaceHeatingDTO dto = mock(ISpaceHeatingDTO.class);
-		when(dto.getBasicEfficiency()).thenReturn(0.33);
-		when(dto.getMainHeatingFuel()).thenReturn(FuelType.ELECTRICITY);
-		IWarmAirSystem was = builder.buildWarmAirSystem(dto);
 
-		Assert.assertEquals(Efficiency.fromDouble(0.33), was.getEfficiency());
-		Assert.assertEquals(FuelType.ELECTRICITY, was.getFuelType());
-	}
+    @Test
+    public void testBuildWarmAirSystem() {
+        final IWarmAirSystemBuilder builder = new WarmAirSystemBuilder();
+        final ISpaceHeatingDTO dto = mock(ISpaceHeatingDTO.class);
+        when(dto.getBasicEfficiency()).thenReturn(0.33);
+        when(dto.getMainHeatingFuel()).thenReturn(FuelType.ELECTRICITY);
+        IWarmAirSystem was = builder.buildWarmAirSystem(dto);
+
+        Assert.assertEquals(Efficiency.fromDouble(0.33), was.getEfficiency());
+        Assert.assertEquals(FuelType.ELECTRICITY, was.getFuelType());
+    }
 }

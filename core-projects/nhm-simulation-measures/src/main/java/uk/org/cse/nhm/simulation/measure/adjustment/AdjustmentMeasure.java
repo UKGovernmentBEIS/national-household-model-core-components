@@ -19,6 +19,7 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
 
 public class AdjustmentMeasure extends AbstractMeasure implements IModifier<ITechnologyModel> {
+
     private final IDimension<ITechnologyModel> technologies;
     private final IAdjuster prototype;
     private final boolean add;
@@ -40,9 +41,11 @@ public class AdjustmentMeasure extends AbstractMeasure implements IModifier<ITec
             modifiable.getAdjusters().add(EcoreUtil.copy(prototype));
         } else {
             final Iterator<IAdjuster> it = modifiable.getAdjusters().iterator();
-            while (it.hasNext())
-                if (it.next().getName().equals(prototype.getName()))
+            while (it.hasNext()) {
+                if (it.next().getName().equals(prototype.getName())) {
                     it.remove();
+                }
+            }
         }
         return true;
     }
@@ -58,10 +61,11 @@ public class AdjustmentMeasure extends AbstractMeasure implements IModifier<ITec
         final ITechnologyModel tech = scope.get(technologies);
         for (final IAdjuster adj : tech.getAdjusters()) {
             if (adj.getName().equals(prototype.getName())) {
-                if (add)
+                if (add) {
                     return false;
-                else
+                } else {
                     return true;
+                }
             }
         }
 

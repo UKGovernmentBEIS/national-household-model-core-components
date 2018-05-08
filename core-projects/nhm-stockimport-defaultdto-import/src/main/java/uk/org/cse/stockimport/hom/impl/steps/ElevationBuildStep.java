@@ -31,30 +31,45 @@ import uk.org.cse.stockimport.repository.IHouseCaseSources;
  * @since 0.0.1-SNAPSHOT
  */
 public class ElevationBuildStep implements ISurveyCaseBuildStep {
-	/**
-	 * The number of tenths attached above which a side is considered sheltered
-	 */
+
+    /**
+     * The number of tenths attached above which a side is considered sheltered
+     */
     private static final int SHELTERED_SIDE_THRESHOLD = 5;
 
-	private static final Logger logger = LoggerFactory.getLogger(ElevationBuildStep.class);
-	/** @since 1.0 */
+    private static final Logger logger = LoggerFactory.getLogger(ElevationBuildStep.class);
+    /**
+     * @since 1.0
+     */
     public static final String IDENTIFIER = ElevationBuildStep.class.getCanonicalName();
 
-    /** @since 1.0 */
+    /**
+     * @since 1.0
+     */
     public static final double _100_PERCENT = 100.00;
-    /** @since 1.0 */
+    /**
+     * @since 1.0
+     */
     public static final double ONE = 1.00;
 
-    /** Default door area is as per SAP 2005 RdSAP S3.4 of 1.852m&sup2; height set to 1.85
-     * @since 1.0*/
+    /**
+     * Default door area is as per SAP 2005 RdSAP S3.4 of 1.852m&sup2; height
+     * set to 1.85
+     *
+     * @since 1.0
+     */
     public static final double STD_DOOR_HEIGHT = 1.85;
-    /** Default door area is as per SAP 2005 RdSAP S3.4 of 1.852m&sup2; width set to 1.0
-     * @since 1.0*/
+    /**
+     * Default door area is as per SAP 2005 RdSAP S3.4 of 1.852m&sup2; width set
+     * to 1.0
+     *
+     * @since 1.0
+     */
     public static final double STD_DOOR_WIDTH = ONE;
 
     /**
-     * @return
-     * @see uk.org.cse.stockimport.hom.ISurveyCaseBuildStep#getIdentifier()
+     * @return @see
+     * uk.org.cse.stockimport.hom.ISurveyCaseBuildStep#getIdentifier()
      */
     @Override
     public String getIdentifier() {
@@ -62,8 +77,8 @@ public class ElevationBuildStep implements ISurveyCaseBuildStep {
     }
 
     /**
-     * @return
-     * @see uk.org.cse.stockimport.hom.ISurveyCaseBuildStep#getDependencies()
+     * @return @see
+     * uk.org.cse.stockimport.hom.ISurveyCaseBuildStep#getDependencies()
      */
     @Override
     public Set<String> getDependencies() {
@@ -74,8 +89,9 @@ public class ElevationBuildStep implements ISurveyCaseBuildStep {
     /**
      * @param model
      * @param dtoProvider
-     * @see uk.org.cse.stockimport.hom.ISurveyCaseBuildStep#build(uk.org.cse.nhm.hom.SurveyCase,
-     *      uk.org.cse.stockimport.repository.IHouseCaseSources)
+     * @see
+     * uk.org.cse.stockimport.hom.ISurveyCaseBuildStep#build(uk.org.cse.nhm.hom.SurveyCase,
+     * uk.org.cse.stockimport.repository.IHouseCaseSources)
      */
     @Override
     public void build(final SurveyCase model, final IHouseCaseSources<IBasicDTO> dtoProvider) {
@@ -90,7 +106,7 @@ public class ElevationBuildStep implements ISurveyCaseBuildStep {
         for (final IElevationDTO elevationDTO : elevations) {
             elevation = new Elevation();
 
-            elevation.setAngleFromNorth(elevationDTO.getAngleFromNorth().or(Math.PI/2));
+            elevation.setAngleFromNorth(elevationDTO.getAngleFromNorth().or(Math.PI / 2));
             // this is east/west, which is the angle we set for all walls in the absence of more information
 
             structure.setElevation(elevationDTO.getElevationType(), elevation);
@@ -100,7 +116,7 @@ public class ElevationBuildStep implements ISurveyCaseBuildStep {
             buildGlazing(elevationDTO, elevation);
 
             if (isSheltered(elevationDTO)) {
-            	numberOfShelteredSides++;
+                numberOfShelteredSides++;
             }
         }
 
@@ -112,16 +128,19 @@ public class ElevationBuildStep implements ISurveyCaseBuildStep {
      * @return true if the side should be considered sheltered, per CAR p.11
      */
     private boolean isSheltered(final IElevationDTO elevationDTO) {
-		return elevationDTO.getTenthsAttached() > SHELTERED_SIDE_THRESHOLD;
-	}
+        return elevationDTO.getTenthsAttached() > SHELTERED_SIDE_THRESHOLD;
+    }
 
-	/**
-     * <p> 1. Iterate through all {@link FrameType}, then through each {@link DoorType}, get the number of doors for a
-     * specific frame/door type from {@link IElevationDTO#getNumOfDoors(FrameType, DoorType)}.<br/><br/>
+    /**
+     * <p>
+     * 1. Iterate through all {@link FrameType}, then through each
+     * {@link DoorType}, get the number of doors for a specific frame/door type
+     * from {@link IElevationDTO#getNumOfDoors(FrameType, DoorType)}.<br/><br/>
      *
-     * 2. Create the doors of that type for the elevation, with a standard area.<br/><br/>
+     * 2. Create the doors of that type for the elevation, with a standard
+     * area.<br/><br/>
      *
-     * 3. Set's the area of all doors to  1.852m&sup2.<br/><br/>
+     * 3. Set's the area of all doors to 1.852m&sup2.<br/><br/>
      *
      * 4. Adds the door to the elevation.</p>
      *
@@ -145,7 +164,7 @@ public class ElevationBuildStep implements ISurveyCaseBuildStep {
                         door.setArea(doorArea);
 
                         if (doorType == DoorType.Glazed) {
-                        	door.setGlazingType(doorGlazingType);
+                            door.setGlazingType(doorGlazingType);
                         }
 
                         elevation.addDoor(door);
@@ -156,9 +175,11 @@ public class ElevationBuildStep implements ISurveyCaseBuildStep {
     }
 
     /**
-     * The final total area for glazing will be dependent on the area of unattached opening that is not doors available,
-     * this final setting of the area will be done in the imputation phase so all we need to to is create windows of the
-     * specific type in the correct proportion, i.e summing to an area of 1.
+     * The final total area for glazing will be dependent on the area of
+     * unattached opening that is not doors available, this final setting of the
+     * area will be done in the imputation phase so all we need to to is create
+     * windows of the specific type in the correct proportion, i.e summing to an
+     * area of 1.
      *
      * @param dto
      * @param elevation
@@ -186,13 +207,13 @@ public class ElevationBuildStep implements ISurveyCaseBuildStep {
                     areaOfDoubleGlazedWindow,
                     GlazingType.Double,
                     get(dto.getDoubleGlazedWindowFrame(), "double glazing frame type")
-                    ));
+            ));
         } else {
             elevation.addGlazing(new Glazing(
                     ONE,
                     GlazingType.Single,
                     get(dto.getSingleGlazedWindowFrame(), "single glazing frame type")
-                    ));
+            ));
         }
     }
 }

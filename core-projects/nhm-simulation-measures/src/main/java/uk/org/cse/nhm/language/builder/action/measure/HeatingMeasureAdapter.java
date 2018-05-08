@@ -34,23 +34,24 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.num.HeatingEfficiencyFunction;
 
 public class HeatingMeasureAdapter extends ReflectingAdapter {
+
     private final IMeasureFactory factory;
     private final BoundedFunctions wrap;
     private final IDefaultFunctionFactory functions;
-	private IObjectFunctionFactory functionFactory;
-    
+    private IObjectFunctionFactory functionFactory;
+
     @Inject
     public HeatingMeasureAdapter(final Set<IConverter> delegates, final IDefaultFunctionFactory functions,
-    							 final IObjectFunctionFactory functionFactory,
-                                 final IMeasureFactory factory, final Set<IAdapterInterceptor> interceptors,
-                                 final BoundedFunctions wrap) {
+            final IObjectFunctionFactory functionFactory,
+            final IMeasureFactory factory, final Set<IAdapterInterceptor> interceptors,
+            final BoundedFunctions wrap) {
         super(delegates, interceptors);
         this.functions = functions;
-		this.functionFactory = functionFactory;
+        this.functionFactory = functionFactory;
         this.factory = factory;
         this.wrap = wrap;
     }
-    
+
     @Adapt(XStandardBoilerMeasure.class)
     public IComponentsAction buildStandardBoilerMeasure(
             final Name identifier,
@@ -65,26 +66,25 @@ public class HeatingMeasureAdapter extends ReflectingAdapter {
             @Prop(XHeatingMeasure.P.CAPEX) final Optional<IComponentsFunction<Number>> capexFunction,
             @Prop(XHeatingMeasure.P.OPEX) final Optional<IComponentsFunction<Number>> opexFunction,
             @Prop(XWetHeatingMeasure.P.WET_HEATING_CAPEX) final Optional<IComponentsFunction<Number>> wetHeatingCapex
-            ) {
+    ) {
         // the question here is, how do we get hold of the right technology?
         // presumably we have multiple factory methods, which invoke constructors
         // that are annotated with different technology identifiers?
 
         // or inject multiple technologies into the standard boiler constructor
         // and put the logic inside the constructor. that seems more sensible
-
         return factory.createStandardBoilerMeasure(
-            MapEnum.fuel(fuel),
-            wrap.sizing(identifier, sizingFunction),
-            wrap.capex(identifier, capexFunction),
-            wrap.opex(identifier, opexFunction),
-            wrap.systemCapex(identifier, wetHeatingCapex),
-            wrap.winterEfficiency(identifier, winterEfficiency),
-            wrap.summerEfficiency(identifier, summerEfficiency),
-            wrap.tank(identifier, cylVol),
-            cylIns,
-            interiorArea,
-            exteriorArea);
+                MapEnum.fuel(fuel),
+                wrap.sizing(identifier, sizingFunction),
+                wrap.capex(identifier, capexFunction),
+                wrap.opex(identifier, opexFunction),
+                wrap.systemCapex(identifier, wetHeatingCapex),
+                wrap.winterEfficiency(identifier, winterEfficiency),
+                wrap.summerEfficiency(identifier, summerEfficiency),
+                wrap.tank(identifier, cylVol),
+                cylIns,
+                interiorArea,
+                exteriorArea);
     }
 
     @Adapt(XCombiBoilerMeasure.class)
@@ -98,7 +98,7 @@ public class HeatingMeasureAdapter extends ReflectingAdapter {
             @Prop(XHeatingMeasure.P.CAPEX) final Optional<IComponentsFunction<Number>> capexFunction,
             @Prop(XHeatingMeasure.P.OPEX) final Optional<IComponentsFunction<Number>> opexFunction,
             @Prop(XWetHeatingMeasure.P.WET_HEATING_CAPEX) final Optional<IComponentsFunction<Number>> whCapexFunction
-            ) {
+    ) {
         return factory.createCombiBoilerMeasure(
                 MapEnum.fuel(fuel),
                 wrap.sizing(identifier, sizingFunction),
@@ -108,12 +108,12 @@ public class HeatingMeasureAdapter extends ReflectingAdapter {
                 wrap.winterEfficiency(identifier, winterEfficiency),
                 wrap.summerEfficiency(identifier, summerEfficiency),
                 functions.createWarningFunction(identifier,
-                                                "store volume",
-                                                storageVolume,
-                                                0,
-                                                1000,
-                                                true, true)
-                );
+                        "store volume",
+                        storageVolume,
+                        0,
+                        1000,
+                        true, true)
+        );
     }
 
     @Adapt(XHeatPumpMeasure.class)
@@ -128,37 +128,37 @@ public class HeatingMeasureAdapter extends ReflectingAdapter {
             @Prop(XWetHeatingMeasure.P.WET_HEATING_CAPEX) final Optional<IComponentsFunction<Number>> whCapexFunction,
             @Prop(XHeatingMeasure.P.OPEX) final Optional<IComponentsFunction<Number>> opexFunction,
             @Prop(XHeatPumpMeasure.P.fuel) final XFuelType mainFuel,
-        	@Prop(XHeatPumpMeasure.P.hybridFuel) final Optional<XFuelType> hybridFuel,
-    		@Prop(XHeatPumpMeasure.P.hybridEfficiency) final IComponentsFunction<Number> hybridEfficiency,
+            @Prop(XHeatPumpMeasure.P.hybridFuel) final Optional<XFuelType> hybridFuel,
+            @Prop(XHeatPumpMeasure.P.hybridEfficiency) final IComponentsFunction<Number> hybridEfficiency,
             @Prop(XHeatPumpMeasure.P.requiredExteriorArea) final double requiredExteriorArea,
-    		@Prop(XHeatPumpMeasure.P.hybridRatio) final List<Double> hybridRatios) {
-    	Preconditions.checkNotNull(mainFuel, "Main fuel should never be null for a heat pump");
-        final ISizingFunction size                    = wrap.sizing(identifier, sizingFunction);
-        final IComponentsFunction<Number> capex       = wrap.capex(identifier, capexFunction);
-        final IComponentsFunction<Number> opex        = wrap.opex(identifier, opexFunction);
+            @Prop(XHeatPumpMeasure.P.hybridRatio) final List<Double> hybridRatios) {
+        Preconditions.checkNotNull(mainFuel, "Main fuel should never be null for a heat pump");
+        final ISizingFunction size = wrap.sizing(identifier, sizingFunction);
+        final IComponentsFunction<Number> capex = wrap.capex(identifier, capexFunction);
+        final IComponentsFunction<Number> opex = wrap.opex(identifier, opexFunction);
         final IComponentsFunction<Number> copFunction = wrap.cop(identifier, cop);
-        final IComponentsFunction<Number> tank        = wrap.tank(identifier, cylinderVolume);
+        final IComponentsFunction<Number> tank = wrap.tank(identifier, cylinderVolume);
         final IComponentsFunction<Number> systemCapex = wrap.systemCapex(identifier, whCapexFunction);
-        
+
         final Optional<Hybrid> hybrid;
-        
+
         if (hybridFuel.isPresent()) {
-        	hybrid = Optional.of(new Hybrid(wrap.efficiency(identifier, hybridEfficiency), hybridRatios, MapEnum.fuel(hybridFuel.get())));
+            hybrid = Optional.of(new Hybrid(wrap.efficiency(identifier, hybridEfficiency), hybridRatios, MapEnum.fuel(hybridFuel.get())));
         } else {
-        	hybrid = Optional.absent();
+            hybrid = Optional.absent();
         }
-        
+
         if (type == XHeatPumpType.AirSource) {
             return factory.createAirSourceHeatPumpMeasure(size, capex, opex, systemCapex, copFunction,
-                                                          cylinderInsulation, tank,
-                                                          MapEnum.fuel(mainFuel),
-                                                          hybrid
-            		);
+                    cylinderInsulation, tank,
+                    MapEnum.fuel(mainFuel),
+                    hybrid
+            );
         } else {
             return factory.createGroundSourceHeatPumpMeasure(size, capex, opex, systemCapex, copFunction,
-                                                             cylinderInsulation, tank, requiredExteriorArea,
-                                                             MapEnum.fuel(mainFuel),
-                                                             hybrid);
+                    cylinderInsulation, tank, requiredExteriorArea,
+                    MapEnum.fuel(mainFuel),
+                    hybrid);
         }
     }
 
@@ -173,16 +173,16 @@ public class HeatingMeasureAdapter extends ReflectingAdapter {
             @Prop(XDistrictHeatingMeasure.P.cylinderVolume) final IComponentsFunction<Number> volume,
             @Prop(XDistrictHeatingMeasure.P.efficiency) final IComponentsFunction<Number> efficiency,
             @Prop(XDistrictHeatingMeasure.P.chargingUsageBased) final boolean chargingUsageBased
-            ) {
-        return factory.createDistrictHeatingMeasure(wrap.sizing (identifier, sizingFunction),
-                                                    wrap.capex(identifier, capexFunction),
-                                                    wrap.opex(identifier, opexFunction),
-                                                    wrap.systemCapex(identifier, whCapexFunction),
-                                                    insulation,
-                                                    wrap.tank(identifier, volume),
-                                                    wrap.efficiency(identifier, efficiency),
-                                                    chargingUsageBased
-                                                    );
+    ) {
+        return factory.createDistrictHeatingMeasure(wrap.sizing(identifier, sizingFunction),
+                wrap.capex(identifier, capexFunction),
+                wrap.opex(identifier, opexFunction),
+                wrap.systemCapex(identifier, whCapexFunction),
+                insulation,
+                wrap.tank(identifier, volume),
+                wrap.efficiency(identifier, efficiency),
+                chargingUsageBased
+        );
     }
 
     @Adapt(XBreakBoilerMeasure.class)
@@ -200,11 +200,11 @@ public class HeatingMeasureAdapter extends ReflectingAdapter {
             @Prop(XRoomHeaterMeasure.P.EFFICIENCY) final Optional<Double> efficiency,
             @Prop(XRoomHeaterMeasure.P.REPLACE_EXISTING) final boolean replaceExisting) {
         return factory.createRoomHeaterMeasure(wrap.sizing(identifier, sizingFunction),
-                                               wrap.capex(identifier, capexFunction),
-                                               wrap.opex(identifier, opexFunction),
-                                               MapEnum.fuel(fuel),
-                                               efficiency,
-                                               replaceExisting);
+                wrap.capex(identifier, capexFunction),
+                wrap.opex(identifier, opexFunction),
+                MapEnum.fuel(fuel),
+                efficiency,
+                replaceExisting);
     }
 
     @Adapt(XEfficiencyAction.class)
@@ -212,20 +212,18 @@ public class HeatingMeasureAdapter extends ReflectingAdapter {
             @Prop(XBoilerMeasure.P.WINTER_EFFICIENCY) final IComponentsFunction<Number> winterEfficiency,
             @Prop(XBoilerMeasure.P.SUMMER_EFFICIENCY) final IComponentsFunction<Number> summerEfficiency,
             @Prop(XEfficiencyAction.P.DIRECTION) final XChangeDirection direction) {
-    	
-        return factory.createBoilerEfficiencyMeasure(
-        		Optional.fromNullable(winterEfficiency), 
-        		Optional.fromNullable(summerEfficiency), 
-        		direction,
-        		
-        		winterEfficiency == null ? 
-        				Optional.of(functionFactory.createHeatingEfficiency(XHeatingSystem.PrimarySpaceHeating, XEfficiencyMeasurement.Winter)) : 
-        					Optional.<HeatingEfficiencyFunction>absent(),
 
-        		summerEfficiency == null ?
-        				Optional.of(functionFactory.createHeatingEfficiency(XHeatingSystem.PrimarySpaceHeating,  XEfficiencyMeasurement.Summer)) :
-        					Optional.<HeatingEfficiencyFunction>absent()
-			);
+        return factory.createBoilerEfficiencyMeasure(
+                Optional.fromNullable(winterEfficiency),
+                Optional.fromNullable(summerEfficiency),
+                direction,
+                winterEfficiency == null
+                        ? Optional.of(functionFactory.createHeatingEfficiency(XHeatingSystem.PrimarySpaceHeating, XEfficiencyMeasurement.Winter))
+                        : Optional.<HeatingEfficiencyFunction>absent(),
+                summerEfficiency == null
+                        ? Optional.of(functionFactory.createHeatingEfficiency(XHeatingSystem.PrimarySpaceHeating, XEfficiencyMeasurement.Summer))
+                        : Optional.<HeatingEfficiencyFunction>absent()
+        );
     }
 
     @Adapt(XStorageHeaterMeasure.class)
@@ -236,7 +234,7 @@ public class HeatingMeasureAdapter extends ReflectingAdapter {
             @Prop(XHeatingMeasure.P.SIZING) final Optional<ISizingFunction> size,
             @Prop(XStorageHeaterMeasure.P.responsiveness) final Optional<IComponentsFunction<Number>> responsiveness,
             @Prop(XStorageHeaterMeasure.P.type) final XStorageHeaterType type
-            ) {
+    ) {
         StorageHeaterType internalType;
         StorageHeaterControlType controlType = StorageHeaterControlType.AUTOMATIC_CHARGE_CONTROL;
 
@@ -277,7 +275,6 @@ public class HeatingMeasureAdapter extends ReflectingAdapter {
 
     @Adapt(XHeatingControlMeasure.class)
     public IComponentsAction buildHeatingControlMeasure(final Name identifier,
-                                                        
             @Prop(XHeatingControlMeasure.P.capex) final IComponentsFunction<Number> capex,
             @Prop(XHeatingControlMeasure.P.type) final XHeatingControlMeasure.XHeatingControlType type) {
 
@@ -310,25 +307,24 @@ public class HeatingMeasureAdapter extends ReflectingAdapter {
         }
 
         return factory.createHeatingControlMeasure(internalType,
-                                                   wrap.capex(identifier, capex)
-                                                   );
+                wrap.capex(identifier, capex)
+        );
     }
 
     @Adapt(XHotWaterTankThermostat.class)
     public IComponentsAction buildHotWaterTankThermostat(
-                                                         final Name identifier,
-            
+            final Name identifier,
             @Prop(XHotWaterTankThermostat.P.capex) final IComponentsFunction<Number> capex) {
 
         return factory.createHotWaterTankThermostat(wrap.capex(identifier, capex));
     }
-    
+
     @Adapt(XInstallHotWaterCylinderInsulation.class)
     public IComponentsAction buildInstallHotWaterCylinderInsulation(final Name identifier,
             @Prop(XHotWaterTankThermostat.P.capex) final IComponentsFunction<Number> capex) {
         return factory.createInstallHotWateCylinderInsulation(wrap.capex(identifier, capex));
     }
-    
+
     @Adapt(XWarmAirMeasure.class)
     public IComponentsAction buildWarmAirMeasure(
             final Name identifier,
@@ -337,12 +333,12 @@ public class HeatingMeasureAdapter extends ReflectingAdapter {
             @Prop(XHeatingMeasure.P.CAPEX) final Optional<IComponentsFunction<Number>> capexFunction,
             @Prop(XHeatingMeasure.P.OPEX) final Optional<IComponentsFunction<Number>> opexFunction,
             @Prop(XWarmAirMeasure.P.EFFICIENCY) final IComponentsFunction<Number> efficiency
-            ){
+    ) {
         return factory.createWarmAirMeasure(
                 MapEnum.fuel(fuel),
-                wrap.sizing (identifier, sizingFunction),
+                wrap.sizing(identifier, sizingFunction),
                 wrap.capex(identifier, capexFunction),
-                wrap.opex (identifier, opexFunction),
+                wrap.opex(identifier, opexFunction),
                 wrap.efficiency(identifier, efficiency));
     }
 }

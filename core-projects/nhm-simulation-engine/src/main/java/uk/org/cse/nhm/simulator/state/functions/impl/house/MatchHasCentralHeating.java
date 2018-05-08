@@ -18,40 +18,40 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class MatchHasCentralHeating extends AbstractNamed implements IComponentsFunction<Boolean> {
-	
-	private final IDimension<ITechnologyModel> techDimension;
-	private final boolean includeBroken;
 
-	@AssistedInject
-	public MatchHasCentralHeating(
-			@Assisted final boolean includeBroken,
-			final IDimension<ITechnologyModel> techDimension
-			) {
-		this.includeBroken = includeBroken;
-		this.techDimension = techDimension;
-	}
+    private final IDimension<ITechnologyModel> techDimension;
+    private final boolean includeBroken;
 
-	@Override
-	public Boolean compute(final IComponentsScope scope, final ILets lets) {
-		final IPrimarySpaceHeater primarySpaceHeater = scope.get(techDimension).getPrimarySpaceHeater();
-		if (primarySpaceHeater instanceof ICentralHeatingSystem) {
-			if(includeBroken) {
-				return true;
-			} else {
-				return  !((ICentralHeatingSystem)primarySpaceHeater).isBroken();
-			}
-		}
-		return false;
-	}
+    @AssistedInject
+    public MatchHasCentralHeating(
+            @Assisted final boolean includeBroken,
+            final IDimension<ITechnologyModel> techDimension
+    ) {
+        this.includeBroken = includeBroken;
+        this.techDimension = techDimension;
+    }
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return ImmutableSet.<IDimension<?>>of(techDimension);
-	}
+    @Override
+    public Boolean compute(final IComponentsScope scope, final ILets lets) {
+        final IPrimarySpaceHeater primarySpaceHeater = scope.get(techDimension).getPrimarySpaceHeater();
+        if (primarySpaceHeater instanceof ICentralHeatingSystem) {
+            if (includeBroken) {
+                return true;
+            } else {
+                return !((ICentralHeatingSystem) primarySpaceHeater).isBroken();
+            }
+        }
+        return false;
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return ImmutableSet.of();
-	}
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return ImmutableSet.<IDimension<?>>of(techDimension);
+    }
+
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return ImmutableSet.of();
+    }
 
 }

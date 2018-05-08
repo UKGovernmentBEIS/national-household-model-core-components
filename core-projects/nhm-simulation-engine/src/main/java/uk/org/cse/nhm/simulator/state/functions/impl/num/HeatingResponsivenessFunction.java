@@ -19,45 +19,46 @@ import uk.org.cse.nhm.simulator.state.dimensions.behaviour.IHeatingBehaviour;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class HeatingResponsivenessFunction extends AbstractNamed implements IComponentsFunction<Double> {
-	private final IDimension<ITechnologyModel> techDimension;
-	private final IConstants constants;
-	private final IDimension<IHeatingBehaviour> behaviourDimension;
 
-	@AssistedInject
-	public HeatingResponsivenessFunction(
-			final IConstants constants,
-			final IDimension<ITechnologyModel> techDimension,
-			final IDimension<IHeatingBehaviour> behaviourDimension) {
-				this.constants = constants;
-				this.techDimension = techDimension;
-				this.behaviourDimension = behaviourDimension;
-	}
+    private final IDimension<ITechnologyModel> techDimension;
+    private final IConstants constants;
+    private final IDimension<IHeatingBehaviour> behaviourDimension;
 
-	@Override
-	public Double compute(final IComponentsScope scope, final ILets lets) {
-		final ITechnologyModel tech = scope.get(techDimension);
-		final IHeatingBehaviour heatingBehaviour = scope.get(behaviourDimension);
-		
-		if (tech.getPrimarySpaceHeater() == null) {
-			return 1.0;
-		} else {
-			IHeatingSystem heatingSystem = (IHeatingSystem) tech.getPrimarySpaceHeater();
-			
-			return heatingSystem.getResponsiveness(
-					constants,
-					heatingBehaviour.getEnergyCalculatorType(), 
-					ElectricityTariffType.ECONOMY_7
-				);
-		}
-	}
+    @AssistedInject
+    public HeatingResponsivenessFunction(
+            final IConstants constants,
+            final IDimension<ITechnologyModel> techDimension,
+            final IDimension<IHeatingBehaviour> behaviourDimension) {
+        this.constants = constants;
+        this.techDimension = techDimension;
+        this.behaviourDimension = behaviourDimension;
+    }
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return ImmutableSet.<IDimension<?>>of(techDimension);
-	}
+    @Override
+    public Double compute(final IComponentsScope scope, final ILets lets) {
+        final ITechnologyModel tech = scope.get(techDimension);
+        final IHeatingBehaviour heatingBehaviour = scope.get(behaviourDimension);
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return ImmutableSet.of();
-	}
+        if (tech.getPrimarySpaceHeater() == null) {
+            return 1.0;
+        } else {
+            IHeatingSystem heatingSystem = (IHeatingSystem) tech.getPrimarySpaceHeater();
+
+            return heatingSystem.getResponsiveness(
+                    constants,
+                    heatingBehaviour.getEnergyCalculatorType(),
+                    ElectricityTariffType.ECONOMY_7
+            );
+        }
+    }
+
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return ImmutableSet.<IDimension<?>>of(techDimension);
+    }
+
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return ImmutableSet.of();
+    }
 }

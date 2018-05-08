@@ -25,38 +25,41 @@ import uk.org.cse.nhm.simulator.state.functions.impl.house.GetHouseLightingPropo
 
 /**
  * Adapts the things which actually get enum values out of houses.
+ *
  * @author hinton
  *
  */
 public class HouseValueFunctionAdapter extends ReflectingAdapter {
-	final IHouseValueFunctionFactory factory;
-	@Inject
-	public HouseValueFunctionAdapter(final Set<IConverter> delegates, final IHouseValueFunctionFactory factory, final Set<IAdapterInterceptor> interceptors) {
-		super(delegates, interceptors);
-		this.factory = factory;
-	}
 
-	@Adapt(XInsolation.class)
-	public IComponentsFunction<Number> buildInsolation(@Prop(XInsolation.P.orientation) final double orientation, 
-                                                       @Prop(XInsolation.P.inclination) final double inclination) {
-		return factory.getGetInsolation(orientation, inclination);
-	}
-	
-	@Adapt(XGetMethodOfPayment.class)
-	public IComponentsFunction<XMethodOfPayment> buildHouseMethodOfPayment(
-			@Prop(XGetMethodOfPayment.P.fuel) final XFuelType fuelType
-			) {
-		return factory.createMethodOfPayment(MapEnum.fuel(fuelType));
-	}
-	
+    final IHouseValueFunctionFactory factory;
 
-	@Adapt(XHouseLightingProportion.class)
-	public GetHouseLightingProportion getGetHouseLightingProportion(
-			@Prop("types") @Assisted List<XLightType> xlightTypes) {
-		List<uk.org.cse.nhm.energycalculator.api.types.LightType> lightTypes = new ArrayList<>();
-		for (final uk.org.cse.nhm.language.definition.enums.XLightType x : xlightTypes)
-			lightTypes.add(MapEnum.lightType(x));
-		return factory.getGetHouseLightingProportion(lightTypes);
-	}
+    @Inject
+    public HouseValueFunctionAdapter(final Set<IConverter> delegates, final IHouseValueFunctionFactory factory, final Set<IAdapterInterceptor> interceptors) {
+        super(delegates, interceptors);
+        this.factory = factory;
+    }
+
+    @Adapt(XInsolation.class)
+    public IComponentsFunction<Number> buildInsolation(@Prop(XInsolation.P.orientation) final double orientation,
+            @Prop(XInsolation.P.inclination) final double inclination) {
+        return factory.getGetInsolation(orientation, inclination);
+    }
+
+    @Adapt(XGetMethodOfPayment.class)
+    public IComponentsFunction<XMethodOfPayment> buildHouseMethodOfPayment(
+            @Prop(XGetMethodOfPayment.P.fuel) final XFuelType fuelType
+    ) {
+        return factory.createMethodOfPayment(MapEnum.fuel(fuelType));
+    }
+
+    @Adapt(XHouseLightingProportion.class)
+    public GetHouseLightingProportion getGetHouseLightingProportion(
+            @Prop("types") @Assisted List<XLightType> xlightTypes) {
+        List<uk.org.cse.nhm.energycalculator.api.types.LightType> lightTypes = new ArrayList<>();
+        for (final uk.org.cse.nhm.language.definition.enums.XLightType x : xlightTypes) {
+            lightTypes.add(MapEnum.lightType(x));
+        }
+        return factory.getGetHouseLightingProportion(lightTypes);
+    }
 
 }

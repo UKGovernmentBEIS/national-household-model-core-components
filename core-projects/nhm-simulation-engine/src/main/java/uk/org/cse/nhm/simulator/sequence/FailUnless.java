@@ -13,31 +13,32 @@ import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class FailUnless extends AbstractNamed implements IComponentsAction, ISequenceScopeAction {
+
     private final IComponentsFunction<Boolean> condition;
-	
-	@AssistedInject
-    public FailUnless( @Assisted final IComponentsFunction<Boolean> condition ) {
-		super();
+
+    @AssistedInject
+    public FailUnless(@Assisted final IComponentsFunction<Boolean> condition) {
+        super();
         this.condition = condition;
-	}
+    }
 
-	@Override
-	public StateChangeSourceType getSourceType() {
-		return StateChangeSourceType.ACTION;
-	}
+    @Override
+    public StateChangeSourceType getSourceType() {
+        return StateChangeSourceType.ACTION;
+    }
 
-	@Override
+    @Override
     public boolean apply(final ISettableComponentsScope scope, final ILets lets) throws NHMException {
         return condition.compute(scope, lets);
     }
 
-	@Override
-	public boolean isSuitable(IComponentsScope scope, ILets lets) {
+    @Override
+    public boolean isSuitable(IComponentsScope scope, ILets lets) {
         return condition.compute(scope, lets);
-	}
-	
-	@Override
-	public boolean isAlwaysSuitable() {
-		return false;
-	}
+    }
+
+    @Override
+    public boolean isAlwaysSuitable() {
+        return false;
+    }
 }

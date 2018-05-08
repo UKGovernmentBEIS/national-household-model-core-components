@@ -18,27 +18,28 @@ import uk.org.cse.nhm.simulator.state.dimensions.fuel.ICarbonFactors;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 class CarbonFactorFunction extends AbstractNamed implements IComponentsFunction<ICarbonFactors> {
-	final Multimap<IComponentsFunction<Number>, FuelType> mm = HashMultimap.create();
-	final Set<IDimension<?>> deps;
-	final Set<DateTime> changeDates;
 
-	CarbonFactorFunction(final Multimap<IComponentsFunction<Number>, FuelType> mm) {
-		this.mm.putAll(mm);
-		final ImmutableSet.Builder<IDimension<?>> dims = ImmutableSet.builder();
-		final ImmutableSet.Builder<DateTime> dates = ImmutableSet.builder();
+    final Multimap<IComponentsFunction<Number>, FuelType> mm = HashMultimap.create();
+    final Set<IDimension<?>> deps;
+    final Set<DateTime> changeDates;
 
-		for (final IComponentsFunction<Number> cf : mm.keySet()) {
-			dims.addAll(cf.getDependencies());
-			dates.addAll(cf.getChangeDates());
-		}
+    CarbonFactorFunction(final Multimap<IComponentsFunction<Number>, FuelType> mm) {
+        this.mm.putAll(mm);
+        final ImmutableSet.Builder<IDimension<?>> dims = ImmutableSet.builder();
+        final ImmutableSet.Builder<DateTime> dates = ImmutableSet.builder();
 
-		this.deps = dims.build();
-		this.changeDates = dates.build();
-	}
+        for (final IComponentsFunction<Number> cf : mm.keySet()) {
+            dims.addAll(cf.getDependencies());
+            dates.addAll(cf.getChangeDates());
+        }
 
-	@Override
-	public ICarbonFactors compute(final IComponentsScope scope, final ILets lets) {
-		/*
+        this.deps = dims.build();
+        this.changeDates = dates.build();
+    }
+
+    @Override
+    public ICarbonFactors compute(final IComponentsScope scope, final ILets lets) {
+        /*
 		BEISDOC
 		NAME: Carbon Factors
 		DESCRIPTION: A table mapping fuel types to functions which calculate the carbon factors for those fuels. Includes CH4 and N2O emissions.
@@ -52,27 +53,27 @@ class CarbonFactorFunction extends AbstractNamed implements IComponentsFunction<
 		NOTES: The default values for counterfactual.carbon are the SAP 2012 carbon factors.
 		ID: carbon-factors
 		CODSIEB
-		*/
-		CarbonFactors cf = new CarbonFactors();
-		for (final IComponentsFunction<Number> f : mm.keySet()) {
-			final Double value = f.compute(scope, lets).doubleValue();
+         */
+        CarbonFactors cf = new CarbonFactors();
+        for (final IComponentsFunction<Number> f : mm.keySet()) {
+            final Double value = f.compute(scope, lets).doubleValue();
 
-			if (value != null) {
-				for (final FuelType ft : mm.get(f)) {
-					cf.setCarbonFactor(ft, value);
-				}
-			}
-		}
-		return cf;
-	}
+            if (value != null) {
+                for (final FuelType ft : mm.get(f)) {
+                    cf.setCarbonFactor(ft, value);
+                }
+            }
+        }
+        return cf;
+    }
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return deps;
-	}
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return deps;
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return changeDates;
-	}
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return changeDates;
+    }
 }

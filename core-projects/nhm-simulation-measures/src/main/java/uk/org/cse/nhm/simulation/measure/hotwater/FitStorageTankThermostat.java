@@ -37,8 +37,9 @@ public class FitStorageTankThermostat extends HotWaterCylinderMeasurer {
      * @param opex
      * @return
      * @throws NHMException
-     * @see uk.org.cse.nhm.simulation.measure.AbstractHeatingMeasure#doApply(uk.org.cse.nhm.simulator.scope.ISettableComponentsScope,
-     *      uk.org.cse.nhm.simulator.let.ILets, double, double, double)
+     * @see
+     * uk.org.cse.nhm.simulation.measure.AbstractHeatingMeasure#doApply(uk.org.cse.nhm.simulator.scope.ISettableComponentsScope,
+     * uk.org.cse.nhm.simulator.let.ILets, double, double, double)
      */
     public boolean doApply(ISettableComponentsScope components)
             throws NHMException {
@@ -47,10 +48,12 @@ public class FitStorageTankThermostat extends HotWaterCylinderMeasurer {
     }
 
     private class Modifier implements IModifier<ITechnologyModel> {
+
         /**
          * @param modifiable
          * @return
-         * @see uk.org.cse.nhm.simulator.state.IBranch.IModifier#modify(java.lang.Object)
+         * @see
+         * uk.org.cse.nhm.simulator.state.IBranch.IModifier#modify(java.lang.Object)
          */
         @Override
         public boolean modify(ITechnologyModel modifiable) {
@@ -71,24 +74,25 @@ public class FitStorageTankThermostat extends HotWaterCylinderMeasurer {
      * @param scope
      * @param lets
      * @return
-     * @see uk.org.cse.nhm.simulator.scope.IComponentsAction#isSuitable(uk.org.cse.nhm.simulator.scope.IComponentsScope,
-     *      uk.org.cse.nhm.simulator.let.ILets)
+     * @see
+     * uk.org.cse.nhm.simulator.scope.IComponentsAction#isSuitable(uk.org.cse.nhm.simulator.scope.IComponentsScope,
+     * uk.org.cse.nhm.simulator.let.ILets)
      */
     @Override
     public boolean isSuitable(IComponentsScope components, ILets lets) {
         final ITechnologyModel structure = components.get(getTechnologyDimension());
 
         if (hasHotWaterCylinder(structure)
-                && ((ICentralWaterSystem)structure.getCentralWaterSystem()).getStore().isThermostatFitted() == false){
-                return true;
+                && ((ICentralWaterSystem) structure.getCentralWaterSystem()).getStore().isThermostatFitted() == false) {
+            return true;
         }
 
         return false;
     }
 
     /**
-     * @return
-     * @see uk.org.cse.nhm.simulation.measure.hotwater.HotWaterCylinderMeasurer#getTechnologyType()
+     * @return @see
+     * uk.org.cse.nhm.simulation.measure.hotwater.HotWaterCylinderMeasurer#getTechnologyType()
      */
     @Override
     public TechnologyType getTechnologyType() {

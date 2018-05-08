@@ -7,164 +7,164 @@ import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 
 public interface AttitudesEntry extends SurveyEntry {
-	@SavVariableMapping("IFCARNEW")
-	public Integer getNumberOfCarsOwned_Available();
 
-	@SavVariableMapping("FREWKSAT")
-	public Double getHowSatisfiedWereYouWithTheWorkThatWasUndertaken();
+    @SavVariableMapping("IFCARNEW")
+    public Integer getNumberOfCarsOwned_Available();
 
-	@SavVariableMapping("FREWKCON")
-	public Double getWereYouConsultedAboutThisWorkByYourFreeholderBeforeTheWorkWasUndertaken();
+    @SavVariableMapping("FREWKSAT")
+    public Double getHowSatisfiedWereYouWithTheWorkThatWasUndertaken();
 
-	@SavVariableMapping("FRWKSOWN")
-	public Double getBecameASharedOwnerAfterFreeholderPurchasedAShareOfProperty();
+    @SavVariableMapping("FREWKCON")
+    public Double getWereYouConsultedAboutThisWorkByYourFreeholderBeforeTheWorkWasUndertaken();
 
-	@SavVariableMapping("HAS238N")
-	public Double getTakingEverythingIntoAccount_HowSatisfiedAreYouWithTheHousingServicesProvidedByYourLandlord_Freeholder();
+    @SavVariableMapping("FRWKSOWN")
+    public Double getBecameASharedOwnerAfterFreeholderPurchasedAShareOfProperty();
 
-	@SavVariableMapping("FRWKPAY")
-	public Double getHowEasyDidYouFindItToSettleThis_TheseBills();
+    @SavVariableMapping("HAS238N")
+    public Double getTakingEverythingIntoAccount_HowSatisfiedAreYouWithTheHousingServicesProvidedByYourLandlord_Freeholder();
 
-	@SavVariableMapping("FRWKLOAN")
-	public Double getLoan();
+    @SavVariableMapping("FRWKPAY")
+    public Double getHowEasyDidYouFindItToSettleThis_TheseBills();
 
-	@SavVariableMapping("FREMAJWK")
-	public Double getOverTheLast3YearsHasYourFreeholderUndertakenAnyMajorWorkToTheShared_CommonAreasOfThisBlockOfFlats_EgTheRoof_Lifts_CommunalHeatingSystem();
+    @SavVariableMapping("FRWKLOAN")
+    public Double getLoan();
 
-	@SavVariableMapping("FRWKDISC")
-	public Double getEarlyPaymentDiscount();
+    @SavVariableMapping("FREMAJWK")
+    public Double getOverTheLast3YearsHasYourFreeholderUndertakenAnyMajorWorkToTheShared_CommonAreasOfThisBlockOfFlats_EgTheRoof_Lifts_CommunalHeatingSystem();
 
-	@SavVariableMapping("FRWKTEN")
-	public Double getBecameATenantAfterFreeholderPurchasedProperty();
+    @SavVariableMapping("FRWKDISC")
+    public Double getEarlyPaymentDiscount();
 
-	@SavVariableMapping("FRWKSPRD")
-	public Double getSpreadCostOverASpecifiedPeriod();
+    @SavVariableMapping("FRWKTEN")
+    public Double getBecameATenantAfterFreeholderPurchasedProperty();
 
-	@SavVariableMapping("FRWKBILL")
-	public Double getDidYouReceiveABill_S_FromYourFreeholderForTheseWorks();
+    @SavVariableMapping("FRWKSPRD")
+    public Double getSpreadCostOverASpecifiedPeriod();
 
-	@SavVariableMapping("FRWKINFO")
-	public Double getInformationOnGovernmentSchemeToWaive_ReduceBill();
+    @SavVariableMapping("FRWKBILL")
+    public Double getDidYouReceiveABill_S_FromYourFreeholderForTheseWorks();
 
-	@SavVariableMapping("FRWKCOST")
-	public Double getHowMuchInTotalWasYourHouseholdChargedForThisWork();
+    @SavVariableMapping("FRWKINFO")
+    public Double getInformationOnGovernmentSchemeToWaive_ReduceBill();
 
-	@SavVariableMapping("NHALARMS")
-	public Enum69 getCar_BurglarAlarms();
+    @SavVariableMapping("FRWKCOST")
+    public Double getHowMuchInTotalWasYourHouseholdChargedForThisWork();
 
-	@SavVariableMapping("NHSTREET")
-	public Enum69 getOtherNeighboursOrPeopleInStreet();
+    @SavVariableMapping("NHALARMS")
+    public Enum69 getCar_BurglarAlarms();
 
-	@SavVariableMapping("NHSFNTE")
-	public Enum233 getFeelSafeAlone_OutsideAtNight();
+    @SavVariableMapping("NHSTREET")
+    public Enum69 getOtherNeighboursOrPeopleInStreet();
 
-	@SavVariableMapping("NHROAD")
-	public Enum69 getRoadTraffic();
+    @SavVariableMapping("NHSFNTE")
+    public Enum233 getFeelSafeAlone_OutsideAtNight();
 
-	@SavVariableMapping("HAS44")
-	public Enum235 getSatisfiedWithArea();
+    @SavVariableMapping("NHROAD")
+    public Enum69 getRoadTraffic();
 
-	@SavVariableMapping("NHANIM")
-	public Enum69 getAnimals_E_G_Dogs_();
+    @SavVariableMapping("HAS44")
+    public Enum235 getSatisfiedWithArea();
 
-	@SavVariableMapping("NHNONE")
-	public Enum69 getNoise_NoneOfThese();
+    @SavVariableMapping("NHANIM")
+    public Enum69 getAnimals_E_G_Dogs_();
 
-	@SavVariableMapping("NHSHOPS")
-	public Enum69 getFactories_Workshops();
+    @SavVariableMapping("NHNONE")
+    public Enum69 getNoise_NoneOfThese();
 
-	@SavVariableMapping("NHCOMMON")
-	public Enum69 getImmediateNeighbours_CommonAreasOfFlats();
+    @SavVariableMapping("NHSHOPS")
+    public Enum69 getFactories_Workshops();
 
-	@SavVariableMapping("QUARTER")
-	public Enum230 getFieldworkQuarter();
+    @SavVariableMapping("NHCOMMON")
+    public Enum69 getImmediateNeighbours_CommonAreasOfFlats();
 
-	@SavVariableMapping("HASC2AL")
-	public Enum241 getVandalism_GraffitiOrOtherDeliberateDamageToProperty();
+    @SavVariableMapping("QUARTER")
+    public Enum230 getFieldworkQuarter();
 
-	@SavVariableMapping("NHSITES")
-	public Enum69 getBuildingSites();
+    @SavVariableMapping("HASC2AL")
+    public Enum241 getVandalism_GraffitiOrOtherDeliberateDamageToProperty();
 
-	@SavVariableMapping("HSATIS")
-	public Enum235 getSatisfactionWithAccommodation();
+    @SavVariableMapping("NHSITES")
+    public Enum69 getBuildingSites();
 
-	@SavVariableMapping("HASC2KL")
-	public Enum241 getPeopleUsingOrDealingDrugs();
+    @SavVariableMapping("HSATIS")
+    public Enum235 getSatisfactionWithAccommodation();
 
-	@SavVariableMapping("HASC2JL")
-	public Enum241 getTroublesomeTeenagers();
+    @SavVariableMapping("HASC2KL")
+    public Enum241 getPeopleUsingOrDealingDrugs();
 
-	@SavVariableMapping("NHRDWKS")
-	public Enum69 getRoadworks();
+    @SavVariableMapping("HASC2JL")
+    public Enum241 getTroublesomeTeenagers();
 
-	@SavVariableMapping("HASC2LL")
-	public Enum241 getFearOfBeingBurgled();
+    @SavVariableMapping("NHRDWKS")
+    public Enum69 getRoadworks();
 
-	@SavVariableMapping("NHENT")
-	public Enum69 getPubs_ClubsOrEntertainment();
+    @SavVariableMapping("HASC2LL")
+    public Enum241 getFearOfBeingBurgled();
 
-	@SavVariableMapping("NHHMSF1")
-	public Enum249 getFeelSafeAlone_InHome();
+    @SavVariableMapping("NHENT")
+    public Enum69 getPubs_ClubsOrEntertainment();
 
-	@SavVariableMapping("LLDSAT")
-	public Enum235 getSatisfactionWithRepairs_Maintenance();
+    @SavVariableMapping("NHHMSF1")
+    public Enum249 getFeelSafeAlone_InHome();
 
-	@SavVariableMapping("HASINTR")
-	public Enum251 getIntroductionToAccommodationSatisfactionQuestions();
+    @SavVariableMapping("LLDSAT")
+    public Enum235 getSatisfactionWithRepairs_Maintenance();
 
-	@SavVariableMapping("CASECAT")
-	public Enum229 getStatusOfCase();
+    @SavVariableMapping("HASINTR")
+    public Enum251 getIntroductionToAccommodationSatisfactionQuestions();
 
-	@SavVariableMapping("LLDSATRE")
-	public Enum253 getReasonForDissatisfaction();
+    @SavVariableMapping("CASECAT")
+    public Enum229 getStatusOfCase();
 
-	@SavVariableMapping("NHSFDAY")
-	public Enum233 getFeelSafeAlone_OutsideDuringDay();
+    @SavVariableMapping("LLDSATRE")
+    public Enum253 getReasonForDissatisfaction();
 
-	@SavVariableMapping("SATTEN")
-	public Enum255 getSatisfiedWithCurrentTenure();
+    @SavVariableMapping("NHSFDAY")
+    public Enum233 getFeelSafeAlone_OutsideDuringDay();
 
-	@SavVariableMapping("NHPLANES")
-	public Enum69 getAeroplanes();
+    @SavVariableMapping("SATTEN")
+    public Enum255 getSatisfiedWithCurrentTenure();
 
-	@SavVariableMapping("NHBLDD")
-	public Enum257 getCauseOfNeighbour_CommonAreasNoise();
+    @SavVariableMapping("NHPLANES")
+    public Enum69 getAeroplanes();
 
-	@SavVariableMapping("BETWORS")
-	public Enum258 getChangeInArea();
+    @SavVariableMapping("NHBLDD")
+    public Enum257 getCauseOfNeighbour_CommonAreasNoise();
 
-	@SavVariableMapping("HASC2ML")
-	public Enum241 getPeopleBeingDrunkOrRowdyInPublic();
+    @SavVariableMapping("BETWORS")
+    public Enum258 getChangeInArea();
 
-	@SavVariableMapping("HASC2FL")
-	public Enum241 getNoisyNeighboursOrLoudParties();
+    @SavVariableMapping("HASC2ML")
+    public Enum241 getPeopleBeingDrunkOrRowdyInPublic();
 
-	@SavVariableMapping("HASC2CL")
-	public Enum241 getGeneralLevelOfCrime();
+    @SavVariableMapping("HASC2FL")
+    public Enum241 getNoisyNeighboursOrLoudParties();
 
-	@SavVariableMapping("TENBW")
-	public Enum262 getChangeInHousingService();
+    @SavVariableMapping("HASC2CL")
+    public Enum241 getGeneralLevelOfCrime();
 
-	@SavVariableMapping("NHOTHR")
-	public Enum69 getOtherNoiseSources();
+    @SavVariableMapping("TENBW")
+    public Enum262 getChangeInHousingService();
 
-	@SavVariableMapping("HASINT")
-	public Enum251 getIntroductionToProblemsInTheArea();
+    @SavVariableMapping("NHOTHR")
+    public Enum69 getOtherNoiseSources();
 
-	@SavVariableMapping("MANINTR")
-	public Enum265 getOpinionAboutHowAccommodationIsManagedByLandlord();
+    @SavVariableMapping("HASINT")
+    public Enum251 getIntroductionToProblemsInTheArea();
 
-	@SavVariableMapping("HASC2EL")
-	public Enum241 getLitterOrRubbishLyingAround();
+    @SavVariableMapping("MANINTR")
+    public Enum265 getOpinionAboutHowAccommodationIsManagedByLandlord();
 
-	@SavVariableMapping("HASC2GL")
-	public Enum241 getRacialOrReligiousHarassment();
+    @SavVariableMapping("HASC2EL")
+    public Enum241 getLitterOrRubbishLyingAround();
 
-	@SavVariableMapping("GOREHS")
-	public Enum30 getRegion_EHSOrder();
+    @SavVariableMapping("HASC2GL")
+    public Enum241 getRacialOrReligiousHarassment();
 
-	@SavVariableMapping("NHTRAINS")
-	public Enum69 getTrains();
+    @SavVariableMapping("GOREHS")
+    public Enum30 getRegion_EHSOrder();
+
+    @SavVariableMapping("NHTRAINS")
+    public Enum69 getTrains();
 
 }
-

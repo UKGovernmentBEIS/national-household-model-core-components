@@ -14,21 +14,22 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 import uk.org.cse.nhm.simulator.util.RandomSource;
 
 abstract class RandomFunction extends AbstractNamed implements IComponentsFunction<Double> {
-	@Override
-	public final Set<IDimension<?>> getDependencies() {
-		return ImmutableSet.of();
-	}
 
-	@Override
-	public final Set<DateTime> getChangeDates() {
-		return ImmutableSet.of();
-	}
-	
-	@Override
-	public final Double compute(final IComponentsScope scope, final ILets lets) {
-		scope.getState().getRandom().consumeRandomness(scope.getDwellingID());
-		return doCompute(scope.getState().getRandom());
-	}
+    @Override
+    public final Set<IDimension<?>> getDependencies() {
+        return ImmutableSet.of();
+    }
 
-	protected abstract double doCompute(RandomSource random);
+    @Override
+    public final Set<DateTime> getChangeDates() {
+        return ImmutableSet.of();
+    }
+
+    @Override
+    public final Double compute(final IComponentsScope scope, final ILets lets) {
+        scope.getState().getRandom().consumeRandomness(scope.getDwellingID());
+        return doCompute(scope.getState().getRandom());
+    }
+
+    protected abstract double doCompute(RandomSource random);
 }

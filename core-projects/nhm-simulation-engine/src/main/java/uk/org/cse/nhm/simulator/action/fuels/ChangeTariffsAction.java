@@ -20,44 +20,45 @@ import uk.org.cse.nhm.simulator.state.dimensions.fuel.cost.ITariff;
 import uk.org.cse.nhm.simulator.state.dimensions.fuel.cost.ITariffs;
 
 public class ChangeTariffsAction extends AbstractNamed implements IComponentsAction, IModifier<ITariffs> {
-	private final Set<ITariff> tariffs;
-	private final IDimension<ITariffs> tariffsDimension;
 
-	@AssistedInject
-	public ChangeTariffsAction(
-			@Assisted final List<ITariff> tariffs, final IDimension<ITariffs> tariffsDimension) {
-		this.tariffs = ImmutableSet.copyOf(tariffs);
-		this.tariffsDimension = tariffsDimension;
-	}
+    private final Set<ITariff> tariffs;
+    private final IDimension<ITariffs> tariffsDimension;
 
-	@Override
-	public StateChangeSourceType getSourceType() {
-		return StateChangeSourceType.ACTION;
-	}
+    @AssistedInject
+    public ChangeTariffsAction(
+            @Assisted final List<ITariff> tariffs, final IDimension<ITariffs> tariffsDimension) {
+        this.tariffs = ImmutableSet.copyOf(tariffs);
+        this.tariffsDimension = tariffsDimension;
+    }
 
-	@Override
-	public boolean apply(final ISettableComponentsScope scope, final ILets lets) throws NHMException {
-		try {
-			scope.modify(tariffsDimension, this);
-			return true;
-		} catch (final IllegalArgumentException e) {
-			return false;
-		}
-	}
+    @Override
+    public StateChangeSourceType getSourceType() {
+        return StateChangeSourceType.ACTION;
+    }
 
-	@Override
-	public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
-		return scope.createHypothesis().apply(this, ILets.EMPTY);
-	}
-	
-	@Override
-	public boolean isAlwaysSuitable() {
-		return false;
-	}
+    @Override
+    public boolean apply(final ISettableComponentsScope scope, final ILets lets) throws NHMException {
+        try {
+            scope.modify(tariffsDimension, this);
+            return true;
+        } catch (final IllegalArgumentException e) {
+            return false;
+        }
+    }
 
-	@Override
-	public boolean modify(final ITariffs modifiable) {
-		modifiable.adoptTariffs(tariffs);
-		return true;
-	}
+    @Override
+    public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
+        return scope.createHypothesis().apply(this, ILets.EMPTY);
+    }
+
+    @Override
+    public boolean isAlwaysSuitable() {
+        return false;
+    }
+
+    @Override
+    public boolean modify(final ITariffs modifiable) {
+        modifiable.adoptTariffs(tariffs);
+        return true;
+    }
 }

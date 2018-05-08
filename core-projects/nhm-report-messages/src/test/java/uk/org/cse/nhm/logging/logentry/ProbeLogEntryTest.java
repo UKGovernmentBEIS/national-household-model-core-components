@@ -11,10 +11,10 @@ import com.google.common.collect.ImmutableMap;
 
 public class ProbeLogEntryTest {
 
-	@Test
-	public void test() throws JsonGenerationException, JsonMappingException, IOException {
-		final ProbeLogEntry logEntry = new ProbeLogEntry("name", 33f, new DateTime(), 123, 456, new ImmutableMap.Builder<String,Object>().build());
-		LogEntryTestUtility.testLogDeSerialisation(logEntry, ProbeLogEntry.class);
-	}
+    @Test
+    public void test() throws JsonGenerationException, JsonMappingException, IOException {
+        final ProbeLogEntry logEntry = new ProbeLogEntry("name", 33f, new DateTime(), 123, 456, new ImmutableMap.Builder<String, Object>().build());
+        LogEntryTestUtility.testLogDeSerialisation(logEntry, ProbeLogEntry.class);
+    }
 
 }

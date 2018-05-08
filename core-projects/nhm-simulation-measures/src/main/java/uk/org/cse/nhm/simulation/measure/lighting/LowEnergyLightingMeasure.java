@@ -29,123 +29,125 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 import uk.org.cse.nhm.simulator.transactions.Payment;
 
 public class LowEnergyLightingMeasure extends AbstractMeasure {
-	private final IDimension<ITechnologyModel> techDimension;
-	private final IDimension<StructureModel> structureDimension;
-	private final ITechnologiesFactory techFactory;
-	private final IComponentsFunction<Number> capex;
-	private EnumSet<LightType> from;
-	private LightType to;
 
-	@AssistedInject
-	public LowEnergyLightingMeasure(
-			@Assisted final List<LightType> from,
-			@Assisted final LightType to,
-			@Assisted final IComponentsFunction<Number> capex,
-			final IDimension<ITechnologyModel> techDimension,
-			final IDimension<StructureModel> structureDimension
-			) {
-		this.structureDimension = structureDimension;
-		this.techFactory = ITechnologiesFactory.eINSTANCE;;
-		this.capex = capex;
-		this.techDimension = techDimension;
-		
-		this.to = to;
-		this.from = EnumSet.copyOf(from);
-	}
+    private final IDimension<ITechnologyModel> techDimension;
+    private final IDimension<StructureModel> structureDimension;
+    private final ITechnologiesFactory techFactory;
+    private final IComponentsFunction<Number> capex;
+    private EnumSet<LightType> from;
+    private LightType to;
 
-	@Override
-	public boolean doApply(final ISettableComponentsScope scope, final ILets lets)
-			throws NHMException {
+    @AssistedInject
+    public LowEnergyLightingMeasure(
+            @Assisted final List<LightType> from,
+            @Assisted final LightType to,
+            @Assisted final IComponentsFunction<Number> capex,
+            final IDimension<ITechnologyModel> techDimension,
+            final IDimension<StructureModel> structureDimension
+    ) {
+        this.structureDimension = structureDimension;
+        this.techFactory = ITechnologiesFactory.eINSTANCE;;
+        this.capex = capex;
+        this.techDimension = techDimension;
 
-		final double floorArea = scope.get(structureDimension).getFloorArea();
+        this.to = to;
+        this.from = EnumSet.copyOf(from);
+    }
 
-		scope.modify(techDimension, new Modifier(scope, lets, floorArea));
-		return true;
-	}
+    @Override
+    public boolean doApply(final ISettableComponentsScope scope, final ILets lets)
+            throws NHMException {
 
-	@Override
-	public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
-		final ITechnologyModel tech = scope.get(techDimension);
+        final double floorArea = scope.get(structureDimension).getFloorArea();
 
-		for (final ILight l : tech.getLights()) {
-			if (l.getProportion() > 0 && this.from.contains(l.getType())) {
-				return true;
-			}
-		}
-		
-		return false;
-	}
+        scope.modify(techDimension, new Modifier(scope, lets, floorArea));
+        return true;
+    }
 
-	@Override
-	public boolean isAlwaysSuitable() {
-		return false;
-	}
+    @Override
+    public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
+        final ITechnologyModel tech = scope.get(techDimension);
 
-	@Override
-	public StateChangeSourceType getSourceType() {
-		return StateChangeSourceType.ACTION;
-	}
+        for (final ILight l : tech.getLights()) {
+            if (l.getProportion() > 0 && this.from.contains(l.getType())) {
+                return true;
+            }
+        }
 
-	/*
+        return false;
+    }
+
+    @Override
+    public boolean isAlwaysSuitable() {
+        return false;
+    }
+
+    @Override
+    public StateChangeSourceType getSourceType() {
+        return StateChangeSourceType.ACTION;
+    }
+
+    /*
 	 * This method just exists for testing.
-	 */
-	public Modifier createModifier(final ISettableComponentsScope scope, final ILets lets, final double floorArea) {
-		return new Modifier(scope, lets, floorArea);
-	}
+     */
+    public Modifier createModifier(final ISettableComponentsScope scope, final ILets lets, final double floorArea) {
+        return new Modifier(scope, lets, floorArea);
+    }
 
-	public final class Modifier implements IModifier<ITechnologyModel> {
-		private final ISettableComponentsScope scope;
-		private final ILets lets;
-		private final double floorArea;
+    public final class Modifier implements IModifier<ITechnologyModel> {
 
-		public Modifier(final ISettableComponentsScope scope, final ILets lets, final double floorArea) {
-			this.scope = scope;
-			this.lets = lets;
-			this.floorArea = floorArea;
-		}
+        private final ISettableComponentsScope scope;
+        private final ILets lets;
+        private final double floorArea;
 
-		@Override
-		public boolean modify(final ITechnologyModel tech) {
-			ILight existing = null;
-			double missing = 0;
-			double total = 0;
-			Iterator<ILight> iterator = tech.getLights().iterator();
-			
-			while (iterator.hasNext()) {
-				final ILight l = iterator.next();
-				if (from.contains(l.getType())) {
-					iterator.remove();
-					missing += l.getProportion();
-				} else if (l.getType() == to) {
-					existing = l;
-				}
-				total += l.getProportion();
-			}
-			
-			if (existing == null) {
-				existing = techFactory.createLight();
-				existing.setName(to.name());
-				existing.setType(to);
-				existing.setProportion(missing);
-				tech.getLights().add(existing);
-			} else {
-				existing.setProportion(existing.getProportion() + missing);
-			}
+        public Modifier(final ISettableComponentsScope scope, final ILets lets, final double floorArea) {
+            this.scope = scope;
+            this.lets = lets;
+            this.floorArea = floorArea;
+        }
 
-			final double size = (missing / total) * floorArea;
-			final ISizingResult sizingResult = SizingResult.suitable(size, Units.SQUARE_METRES);
-			scope.addNote(sizingResult);
+        @Override
+        public boolean modify(final ITechnologyModel tech) {
+            ILight existing = null;
+            double missing = 0;
+            double total = 0;
+            Iterator<ILight> iterator = tech.getLights().iterator();
 
-			final double capexResult = capex.compute(scope, lets).doubleValue();
+            while (iterator.hasNext()) {
+                final ILight l = iterator.next();
+                if (from.contains(l.getType())) {
+                    iterator.remove();
+                    missing += l.getProportion();
+                } else if (l.getType() == to) {
+                    existing = l;
+                }
+                total += l.getProportion();
+            }
 
-			scope.addNote(new TechnologyInstallationDetails(LowEnergyLightingMeasure.this, TechnologyType.lowEnergyLighting(), sizingResult.getSize(), sizingResult.getUnits(), capexResult, 0));
-			scope.addTransaction(Payment.capexToMarket(capexResult));
-			
-			if (tech.getLights().isEmpty()) {
-				throw new RuntimeException("measure.replace-lighting has left a house with no lights; this should never happen");
-			}
-			
-			return true;
-		}
-	}
+            if (existing == null) {
+                existing = techFactory.createLight();
+                existing.setName(to.name());
+                existing.setType(to);
+                existing.setProportion(missing);
+                tech.getLights().add(existing);
+            } else {
+                existing.setProportion(existing.getProportion() + missing);
+            }
+
+            final double size = (missing / total) * floorArea;
+            final ISizingResult sizingResult = SizingResult.suitable(size, Units.SQUARE_METRES);
+            scope.addNote(sizingResult);
+
+            final double capexResult = capex.compute(scope, lets).doubleValue();
+
+            scope.addNote(new TechnologyInstallationDetails(LowEnergyLightingMeasure.this, TechnologyType.lowEnergyLighting(), sizingResult.getSize(), sizingResult.getUnits(), capexResult, 0));
+            scope.addTransaction(Payment.capexToMarket(capexResult));
+
+            if (tech.getLights().isEmpty()) {
+                throw new RuntimeException("measure.replace-lighting has left a house with no lights; this should never happen");
+            }
+
+            return true;
+        }
+    }
 }

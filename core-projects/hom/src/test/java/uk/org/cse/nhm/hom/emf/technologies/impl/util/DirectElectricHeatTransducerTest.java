@@ -18,27 +18,28 @@ import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.hom.constants.SplitRateConstants;
 
 public class DirectElectricHeatTransducerTest {
-	@Test
-	public void testTransduction() {
-		final DirectElectricHeatTransducer transducer = new DirectElectricHeatTransducer(1, 1);
-		final IEnergyState state = mock(IEnergyState.class);
-		final IEnergyCalculatorHouseCase hc = mock(IEnergyCalculatorHouseCase.class);
-		final IInternalParameters p = mock(IInternalParameters.class);
-		final ISpecificHeatLosses sh = mock(ISpecificHeatLosses.class);
-		
-		final IConstants constants = mock(IConstants.class);
-		when(constants.get(SplitRateConstants.DIRECT_ELECTRIC_FRACTIONS,ElectricityTariffType.FLAT_RATE)).thenReturn(0.5);
-		when(p.getTarrifType()).thenReturn(ElectricityTariffType.FLAT_RATE);
-		when(p.getConstants()).thenReturn(constants);
-		when(state.getBoundedTotalHeatDemand(1d)).thenReturn(100.0);
 
-		transducer.generate(hc, p, sh, state);
-	
-		verify(state).getBoundedTotalHeatDemand(1);
-		verify(state).increaseSupply(EnergyType.DemandsHEAT, 100.0);
-		
-		verify(state, atLeastOnce()).increaseElectricityDemand(0.5, 100d);
-		
-		verifyNoMoreInteractions(state);
-	}
+    @Test
+    public void testTransduction() {
+        final DirectElectricHeatTransducer transducer = new DirectElectricHeatTransducer(1, 1);
+        final IEnergyState state = mock(IEnergyState.class);
+        final IEnergyCalculatorHouseCase hc = mock(IEnergyCalculatorHouseCase.class);
+        final IInternalParameters p = mock(IInternalParameters.class);
+        final ISpecificHeatLosses sh = mock(ISpecificHeatLosses.class);
+
+        final IConstants constants = mock(IConstants.class);
+        when(constants.get(SplitRateConstants.DIRECT_ELECTRIC_FRACTIONS, ElectricityTariffType.FLAT_RATE)).thenReturn(0.5);
+        when(p.getTarrifType()).thenReturn(ElectricityTariffType.FLAT_RATE);
+        when(p.getConstants()).thenReturn(constants);
+        when(state.getBoundedTotalHeatDemand(1d)).thenReturn(100.0);
+
+        transducer.generate(hc, p, sh, state);
+
+        verify(state).getBoundedTotalHeatDemand(1);
+        verify(state).increaseSupply(EnergyType.DemandsHEAT, 100.0);
+
+        verify(state, atLeastOnce()).increaseElectricityDemand(0.5, 100d);
+
+        verifyNoMoreInteractions(state);
+    }
 }

@@ -19,10 +19,11 @@ import uk.org.cse.nhm.energycalculator.api.types.TransducerPhaseType;
  * @author trickyBytes
  */
 public class EnergyUseTransducer implements IEnergyTransducer {
+
     private final ServiceType serviceType;
     private final double linearTerm;
     private final double constantTerm;
-        
+
     /**
      * @param appliances
      * @param linearTerm
@@ -36,8 +37,8 @@ public class EnergyUseTransducer implements IEnergyTransducer {
     }
 
     /**
-     * @return
-     * @see uk.org.cse.nhm.energycalculator.api.IEnergyTransducer#getServiceType()
+     * @return @see
+     * uk.org.cse.nhm.energycalculator.api.IEnergyTransducer#getServiceType()
      */
     @Override
     public ServiceType getServiceType() {
@@ -49,9 +50,11 @@ public class EnergyUseTransducer implements IEnergyTransducer {
      * @param parameters
      * @param losses
      * @param state
-     * @see uk.org.cse.nhm.energycalculator.api.IEnergyTransducer#generate(uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorHouseCase,
-     *      uk.org.cse.nhm.energycalculator.api.IInternalParameters,
-     *      uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses, uk.org.cse.nhm.energycalculator.api.IEnergyState)
+     * @see
+     * uk.org.cse.nhm.energycalculator.api.IEnergyTransducer#generate(uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorHouseCase,
+     * uk.org.cse.nhm.energycalculator.api.IInternalParameters,
+     * uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses,
+     * uk.org.cse.nhm.energycalculator.api.IEnergyState)
      */
     @Override
     public void generate(IEnergyCalculatorHouseCase house, IInternalParameters parameters, ISpecificHeatLosses losses,
@@ -74,8 +77,9 @@ public class EnergyUseTransducer implements IEnergyTransducer {
                 totalDemands[0] += Ea;
                 totalDemands[1] += (Ea + delta);
 
-                if (delta != 0)
+                if (delta != 0) {
                     state.increaseDemand(t, delta);
+                }
             }
         });
 
@@ -109,8 +113,8 @@ public class EnergyUseTransducer implements IEnergyTransducer {
     }
 
     /**
-     * @return
-     * @see uk.org.cse.nhm.energycalculator.api.IEnergyTransducer#getPriority()
+     * @return @see
+     * uk.org.cse.nhm.energycalculator.api.IEnergyTransducer#getPriority()
      */
     @Override
     public int getPriority() {
@@ -118,8 +122,8 @@ public class EnergyUseTransducer implements IEnergyTransducer {
     }
 
     /**
-     * @return
-     * @see uk.org.cse.nhm.energycalculator.api.IEnergyTransducer#getPhase()
+     * @return @see
+     * uk.org.cse.nhm.energycalculator.api.IEnergyTransducer#getPhase()
      */
     @Override
     public TransducerPhaseType getPhase() {

@@ -1,6 +1,5 @@
 package uk.org.cse.nhm.hom.emf.technologies.boilers.impl;
 
-
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.doubleThat;
 import static org.mockito.Matchers.eq;
@@ -41,172 +40,170 @@ import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoilersFactory;
 import uk.org.cse.nhm.hom.emf.util.Efficiency;
 
 public class BoilerTest {
-	private BoilerImpl boiler;
 
-	@Before
-	public void create() {
-		boiler = (BoilerImpl) IBoilersFactory.eINSTANCE.createBoiler();
-		boiler.setFuel(FuelType.MAINS_GAS);
+    private BoilerImpl boiler;
 
-		final ICentralWaterSystem system = ITechnologiesFactory.eINSTANCE.createCentralWaterSystem();
-		final IMainWaterHeater heater = ITechnologiesFactory.eINSTANCE.createMainWaterHeater();
+    @Before
+    public void create() {
+        boiler = (BoilerImpl) IBoilersFactory.eINSTANCE.createBoiler();
+        boiler.setFuel(FuelType.MAINS_GAS);
 
-		heater.setHeatSource(boiler);
-		system.setPrimaryWaterHeater(heater);
+        final ICentralWaterSystem system = ITechnologiesFactory.eINSTANCE.createCentralWaterSystem();
+        final IMainWaterHeater heater = ITechnologiesFactory.eINSTANCE.createMainWaterHeater();
 
-		final ICentralHeatingSystem hs = ITechnologiesFactory.eINSTANCE.createCentralHeatingSystem();
-		boiler.setSpaceHeater(hs);
-	}
+        heater.setHeatSource(boiler);
+        system.setPrimaryWaterHeater(heater);
 
-	@After
-	public void clear() {
-		boiler = null;
-	}
+        final ICentralHeatingSystem hs = ITechnologiesFactory.eINSTANCE.createCentralHeatingSystem();
+        boiler.setSpaceHeater(hs);
+    }
 
-	private double around(final double value, final double margin) {
-		return doubleThat(new BaseMatcher<Double>() {
-			@Override
-			public boolean matches(final Object arg0) {
-				if (arg0 instanceof Double) {
-					return Math.abs(((Double) arg0).doubleValue() - value) < margin;
-				}
-				return false;
-			}
+    @After
+    public void clear() {
+        boiler = null;
+    }
 
-			@Override
-			public void describeTo(final Description arg0) {
-				arg0.appendText(String.format("%f +/- %f", value, margin));
-			}
-		});
-	}
+    private double around(final double value, final double margin) {
+        return doubleThat(new BaseMatcher<Double>() {
+            @Override
+            public boolean matches(final Object arg0) {
+                if (arg0 instanceof Double) {
+                    return Math.abs(((Double) arg0).doubleValue() - value) < margin;
+                }
+                return false;
+            }
 
-	private double around(final double value) {
-		return around(value, 0.00001);
-	}
+            @Override
+            public void describeTo(final Description arg0) {
+                arg0.appendText(String.format("%f +/- %f", value, margin));
+            }
+        });
+    }
 
-	@Test
-	public void testGenerateHotWater() {
-		boiler.setSummerEfficiency(Efficiency.fromDouble(1.0));
-		boiler.setWinterEfficiency(Efficiency.fromDouble(1.0));
+    private double around(final double value) {
+        return around(value, 0.00001);
+    }
 
-		boiler.getWaterHeater().getSystem().setPrimaryPipeworkInsulated(true);
+    @Test
+    public void testGenerateHotWater() {
+        boiler.setSummerEfficiency(Efficiency.fromDouble(1.0));
+        boiler.setWinterEfficiency(Efficiency.fromDouble(1.0));
 
-		final IEnergyState state = mock(IEnergyState.class);
-		final IInternalParameters parameters = mock(IInternalParameters.class);
+        boiler.getWaterHeater().getSystem().setPrimaryPipeworkInsulated(true);
 
-		when(parameters.getConstants()).thenReturn(DefaultConstants.INSTANCE);
+        final IEnergyState state = mock(IEnergyState.class);
+        final IInternalParameters parameters = mock(IInternalParameters.class);
 
-		final ArgumentCaptor<EnergyType> fuelTypeCaptor = ArgumentCaptor.forClass(EnergyType.class);
+        when(parameters.getConstants()).thenReturn(DefaultConstants.INSTANCE);
 
-		when(state.getUnsatisfiedDemand(EnergyType.DemandsHOT_WATER)).thenReturn(100.0);
-		when(state.getTotalDemand(EnergyType.DemandsHOT_WATER)).thenReturn(100.0);
+        final ArgumentCaptor<EnergyType> fuelTypeCaptor = ArgumentCaptor.forClass(EnergyType.class);
 
-		final IWaterTank tank = mock(IWaterTank.class);
-		when(tank.isThermostatFitted()).thenReturn(true);
+        when(state.getUnsatisfiedDemand(EnergyType.DemandsHOT_WATER)).thenReturn(100.0);
+        when(state.getTotalDemand(EnergyType.DemandsHOT_WATER)).thenReturn(100.0);
 
-		final double generated = boiler.generateHotWaterAndPrimaryGains(parameters, state,
-				tank, false, 1, 1, 0.5);
+        final IWaterTank tank = mock(IWaterTank.class);
+        when(tank.isThermostatFitted()).thenReturn(true);
 
-		// 50 W of demand met, plus 1 W of primary pipework losses
-		verify(state).increaseDemand(fuelTypeCaptor.capture(), around(50 + 1));
+        final double generated = boiler.generateHotWaterAndPrimaryGains(parameters, state,
+                tank, false, 1, 1, 0.5);
 
-		// 50 W of demand met
-		verify(state).increaseSupply(eq(EnergyType.DemandsHOT_WATER), around(50));
+        // 50 W of demand met, plus 1 W of primary pipework losses
+        verify(state).increaseDemand(fuelTypeCaptor.capture(), around(50 + 1));
 
-		// 1 W of primary pipework losses
-		verify(state).increaseSupply(eq(EnergyType.GainsHOT_WATER_SYSTEM_GAINS), around(1));
+        // 50 W of demand met
+        verify(state).increaseSupply(eq(EnergyType.DemandsHOT_WATER), around(50));
 
-		assertEquals(50d, generated, 0d);
-	}
+        // 1 W of primary pipework losses
+        verify(state).increaseSupply(eq(EnergyType.GainsHOT_WATER_SYSTEM_GAINS), around(1));
 
-	@Test
-	public void testGenerateSystemLosses() {
-		boiler.setSummerEfficiency(Efficiency.fromDouble(1.0));
-		boiler.setWinterEfficiency(Efficiency.fromDouble(1.0));
+        assertEquals(50d, generated, 0d);
+    }
 
-		final IWaterTank tank = mock(IWaterTank.class);
-		when(tank.isThermostatFitted()).thenReturn(true);
+    @Test
+    public void testGenerateSystemLosses() {
+        boiler.setSummerEfficiency(Efficiency.fromDouble(1.0));
+        boiler.setWinterEfficiency(Efficiency.fromDouble(1.0));
 
-		final IEnergyState state = mock(IEnergyState.class);
-		final IInternalParameters parameters = mock(IInternalParameters.class);
-		boiler.generateHotWaterSystemGains(parameters, state, tank, false, 50);
+        final IWaterTank tank = mock(IWaterTank.class);
+        when(tank.isThermostatFitted()).thenReturn(true);
 
-		final ArgumentCaptor<EnergyType> fuelTypeCaptor = ArgumentCaptor.forClass(EnergyType.class);
+        final IEnergyState state = mock(IEnergyState.class);
+        final IInternalParameters parameters = mock(IInternalParameters.class);
+        boiler.generateHotWaterSystemGains(parameters, state, tank, false, 50);
 
-		verify(state).increaseDemand(fuelTypeCaptor.capture(), around(50));
-		verify(state).increaseSupply(eq(EnergyType.GainsHOT_WATER_SYSTEM_GAINS), around(50));
-	}
+        final ArgumentCaptor<EnergyType> fuelTypeCaptor = ArgumentCaptor.forClass(EnergyType.class);
 
-	/**
-	 * Check that the whole thing works: the
-	 */
-	@Test
-	public void testGenerateSpaceAndWaterHeat() {
-		final IInternalParameters parameters = mock(IInternalParameters.class);
-		final IEnergyCalculatorVisitor visitor = mock(IEnergyCalculatorVisitor.class);
+        verify(state).increaseDemand(fuelTypeCaptor.capture(), around(50));
+        verify(state).increaseSupply(eq(EnergyType.GainsHOT_WATER_SYSTEM_GAINS), around(50));
+    }
 
-		when(parameters.getConstants()).thenReturn(DefaultConstants.INSTANCE);
+    /**
+     * Check that the whole thing works: the
+     */
+    @Test
+    public void testGenerateSpaceAndWaterHeat() {
+        final IInternalParameters parameters = mock(IInternalParameters.class);
+        final IEnergyCalculatorVisitor visitor = mock(IEnergyCalculatorVisitor.class);
 
-		when(parameters.getInternalEnergyType(boiler)).thenReturn(EnergyType.FuelINTERNAL1);
-		final double summerEfficiency = 0.8, winterEfficiency = 0.7;
-		boiler.setSummerEfficiency(Efficiency.fromDouble(summerEfficiency));
-		boiler.setWinterEfficiency(Efficiency.fromDouble(winterEfficiency));
-		final double adjustedWinterEfficiency = winterEfficiency - 0.05;
-		final double adjustedSummerEfficiency = summerEfficiency - 0.05;
-		boiler.acceptFromHeating(DefaultConstants.INSTANCE, parameters, visitor, 1.0, 0);
+        when(parameters.getConstants()).thenReturn(DefaultConstants.INSTANCE);
 
-		boiler.accept(DefaultConstants.INSTANCE, parameters, visitor, new AtomicInteger(), DummyHeatProportions.instance);
+        when(parameters.getInternalEnergyType(boiler)).thenReturn(EnergyType.FuelINTERNAL1);
+        final double summerEfficiency = 0.8, winterEfficiency = 0.7;
+        boiler.setSummerEfficiency(Efficiency.fromDouble(summerEfficiency));
+        boiler.setWinterEfficiency(Efficiency.fromDouble(winterEfficiency));
+        final double adjustedWinterEfficiency = winterEfficiency - 0.05;
+        final double adjustedSummerEfficiency = summerEfficiency - 0.05;
+        boiler.acceptFromHeating(DefaultConstants.INSTANCE, parameters, visitor, 1.0, 0);
 
-		final ArgumentCaptor<IEnergyTransducer> transducerCaptor = ArgumentCaptor.forClass(IEnergyTransducer.class);
+        boiler.accept(DefaultConstants.INSTANCE, parameters, visitor, new AtomicInteger(), DummyHeatProportions.instance);
 
-		verify(visitor, Mockito.atLeastOnce()).visitEnergyTransducer(transducerCaptor.capture());
+        final ArgumentCaptor<IEnergyTransducer> transducerCaptor = ArgumentCaptor.forClass(IEnergyTransducer.class);
 
-		final List<IEnergyTransducer> transducers = transducerCaptor.getAllValues();
+        verify(visitor, Mockito.atLeastOnce()).visitEnergyTransducer(transducerCaptor.capture());
 
-		// The test is overly restrictive here; going to assume that the transducers are already in the right order
-		// which they don't have to be really.
+        final List<IEnergyTransducer> transducers = transducerCaptor.getAllValues();
 
-		final IEnergyCalculatorHouseCase house = mock(IEnergyCalculatorHouseCase.class);
-		final ISpecificHeatLosses losses = mock(ISpecificHeatLosses.class);
-		final ClassEnergyState state = new ClassEnergyState();
+        // The test is overly restrictive here; going to assume that the transducers are already in the right order
+        // which they don't have to be really.
+        final IEnergyCalculatorHouseCase house = mock(IEnergyCalculatorHouseCase.class);
+        final ISpecificHeatLosses losses = mock(ISpecificHeatLosses.class);
+        final ClassEnergyState state = new ClassEnergyState();
 
-		state.setCurrentServiceType(ServiceType.SINKS, "Test Case");
+        state.setCurrentServiceType(ServiceType.SINKS, "Test Case");
 
-		final double qHeat = 100, qWater = 100;
-		final double qSystem = 30;
+        final double qHeat = 100, qWater = 100;
+        final double qSystem = 30;
 
-		state.increaseDemand(EnergyType.DemandsHEAT, qHeat);
-		state.increaseDemand(EnergyType.DemandsHOT_WATER, qWater);
+        state.increaseDemand(EnergyType.DemandsHEAT, qHeat);
+        state.increaseDemand(EnergyType.DemandsHOT_WATER, qWater);
 
-		state.setCurrentServiceType(ServiceType.WATER_HEATING, "Test Case");
+        state.setCurrentServiceType(ServiceType.WATER_HEATING, "Test Case");
 
-		final IWaterTank store = mock(IWaterTank.class);
-		when(store.isThermostatFitted()).thenReturn(true);
+        final IWaterTank store = mock(IWaterTank.class);
+        when(store.isThermostatFitted()).thenReturn(true);
 
+        boiler.generateHotWaterAndPrimaryGains(parameters, state, store, false, 0, 1, 1);
+        boiler.generateHotWaterSystemGains(parameters, state, store, false, qSystem);
 
-		boiler.generateHotWaterAndPrimaryGains(parameters, state, store, false, 0, 1, 1);
-		boiler.generateHotWaterSystemGains(parameters, state, store, false, qSystem);
+        final ArgumentCaptor<IEnergyTransducer> captor2 = ArgumentCaptor.forClass(IEnergyTransducer.class);
 
-		final ArgumentCaptor<IEnergyTransducer> captor2 = ArgumentCaptor.forClass(IEnergyTransducer.class);
+        verify(visitor, Mockito.atLeastOnce()).visitEnergyTransducer(captor2.capture());
 
-		verify(visitor, Mockito.atLeastOnce()).visitEnergyTransducer(captor2.capture());
+        for (final IEnergyTransducer transducer : transducers) {
+            state.setCurrentServiceType(transducer.getServiceType(), transducer.toString());
 
-		for (final IEnergyTransducer transducer : transducers) {
-			state.setCurrentServiceType(transducer.getServiceType(), transducer.toString());
+            transducer.generate(house, parameters, losses, state);
+        }
 
-			transducer.generate(house, parameters, losses, state);
-		}
+        // system efficiency should be (qheat + qwater) / (qwinter / qheat + qsummer / qheat)
+        final double systemEfficiency = (qHeat + qWater + qSystem) / ((qHeat / adjustedWinterEfficiency) + ((qWater + qSystem) / adjustedSummerEfficiency));
 
-		// system efficiency should be (qheat + qwater) / (qwinter / qheat + qsummer / qheat)
+        final double gasRequiredForWater = (qWater + qSystem) / systemEfficiency;
+        final double gasRequiredForHeat = qHeat / adjustedWinterEfficiency;
 
-		final double systemEfficiency = (qHeat + qWater + qSystem) / ( (qHeat/adjustedWinterEfficiency) + ((qWater + qSystem) / adjustedSummerEfficiency) );
-
-		final double gasRequiredForWater = (qWater + qSystem) / systemEfficiency;
-		final double gasRequiredForHeat = qHeat / adjustedWinterEfficiency;
-
-		Assert.assertEquals(gasRequiredForHeat + gasRequiredForWater, state.getTotalDemand(EnergyType.FuelGAS), 0.1);
-		Assert.assertEquals(gasRequiredForHeat, state.getTotalDemand(EnergyType.FuelGAS, ServiceType.PRIMARY_SPACE_HEATING), 0.1);
-		Assert.assertEquals(gasRequiredForWater, state.getTotalDemand(EnergyType.FuelGAS, ServiceType.WATER_HEATING), 0.1);
-		Assert.assertEquals(qSystem, state.getTotalSupply(EnergyType.GainsHOT_WATER_SYSTEM_GAINS), 0.1);
-	}
+        Assert.assertEquals(gasRequiredForHeat + gasRequiredForWater, state.getTotalDemand(EnergyType.FuelGAS), 0.1);
+        Assert.assertEquals(gasRequiredForHeat, state.getTotalDemand(EnergyType.FuelGAS, ServiceType.PRIMARY_SPACE_HEATING), 0.1);
+        Assert.assertEquals(gasRequiredForWater, state.getTotalDemand(EnergyType.FuelGAS, ServiceType.WATER_HEATING), 0.1);
+        Assert.assertEquals(qSystem, state.getTotalSupply(EnergyType.GainsHOT_WATER_SYSTEM_GAINS), 0.1);
+    }
 }

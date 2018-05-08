@@ -18,24 +18,31 @@ import uk.org.cse.stockimport.domain.schema.DTOField;
  * @version $Id: IRoof.java 94 2010-09-30 15:39:21Z richardt
  * @since 0.0.1-SNAPSHOT
  */
-
 @DTO("roofs")
 public interface IRoofDTO extends IBasicDTO {
-	public static final String INSULATION_THICKNESS_FIELD = "insulationThickness";
-	public static final String CONSTRUCTION_TYPE_FIELD = "contructionType";
-	public static final String COVERING_TYPE_FIELD = "coveringType";
-	public static final String STRUCTURE_TYPE = "structureType";
-	
-	@DTOField(CONSTRUCTION_TYPE_FIELD)
-	public RoofConstructionType getRoofType();
-	public void setRoofType(RoofConstructionType roofType);
-	@DTOField(STRUCTURE_TYPE)
-	public RoofStructureType getStructureType();
-	public void setStructureType(RoofStructureType structureType);
-	@DTOField(COVERING_TYPE_FIELD)
-	public CoveringType getCoveringType();
-	public void setCoveringType(CoveringType coveringType);
-	@DTOField(value=INSULATION_THICKNESS_FIELD, constraint=@Constraint(value=Type.OPTIONAL, missing="null"))
-	public Optional<Double> getInsulationThickness();
-	public void setInsulationThickness(Optional<Double> insulationThickness);
+
+    public static final String INSULATION_THICKNESS_FIELD = "insulationThickness";
+    public static final String CONSTRUCTION_TYPE_FIELD = "contructionType";
+    public static final String COVERING_TYPE_FIELD = "coveringType";
+    public static final String STRUCTURE_TYPE = "structureType";
+
+    @DTOField(CONSTRUCTION_TYPE_FIELD)
+    public RoofConstructionType getRoofType();
+
+    public void setRoofType(RoofConstructionType roofType);
+
+    @DTOField(STRUCTURE_TYPE)
+    public RoofStructureType getStructureType();
+
+    public void setStructureType(RoofStructureType structureType);
+
+    @DTOField(COVERING_TYPE_FIELD)
+    public CoveringType getCoveringType();
+
+    public void setCoveringType(CoveringType coveringType);
+
+    @DTOField(value = INSULATION_THICKNESS_FIELD, constraint = @Constraint(value = Type.OPTIONAL, missing = "null"))
+    public Optional<Double> getInsulationThickness();
+
+    public void setInsulationThickness(Optional<Double> insulationThickness);
 }

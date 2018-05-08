@@ -21,89 +21,106 @@ import uk.org.cse.stockimport.domain.schema.DTOField;
  * @since 0.0.1-SNAPSHOT
  */
 @DTO(
-		description = "Used to define each dimension for a house case, it's expected that each house case would have 4 dimensions (FRONT, BACK, LEFT, and RIGHT).",
-		value = "elevations",
-		required=true
-	)
+        description = "Used to define each dimension for a house case, it's expected that each house case would have 4 dimensions (FRONT, BACK, LEFT, and RIGHT).",
+        value = "elevations",
+        required = true
+)
 public interface IElevationDTO extends IBasicDTO {
-	public static final String ELEVATIONTYPE_FIELD = "elevationType";
-	public static final String ATTACHED_FIELD = "tenthsAttached";
-	public static final String OPEN_FIELD = "tenthsOpening";
-	public static final String PARTY_FIELD = "tenthsPartyWall";
-	public static final String EXTERNAL_WALL_TYPE_FIELD = "externalWallConstructionType";
-	public static final String CAVITYINSULATED_FIELD = "cavityWallInsulation";
-	public static final String INTERNALINSULATED_FIELD = "internalInsulation";
-	public static final String EXTERNALINSULATED_FIELD = "externalWallInsulation";
-	public static final String PERCENTAGE_DBLGLZD_FIELD = "percentageDoubleGlazed";
-	public static final String FRAME_DBLGLZD_FIELD = "doubleGlazedWindowFrame";
-	public static final String FRAME_SNGLGLZD_FIELD = "singleGlazedWindowFrame";
-	public static final String NUM_WOOD_SOLID_DOOR = "doorFrame:Wood,doorType:Solid";
-	public static final String NUM_WOOD_GLAZED_DOOR = "doorFrame:Wood,doorType:Glazed";
-	public static final String NUM_METAL_SOLID_DOOR = "doorFrame:Metal,doorType:Solid";
-	public static final String NUM_METAL_GLAZED_DOOR = "doorFrame:Metal,doorType:Glazed";
-	public static final String NUM_UPVC_SOLID_DOOR = "doorFrame:uPVC,doorType:Solid";
-	public static final String NUM_UPVC_GLAZED_DOOR = "doorFrame:uPVC,doorType:Glazed";
-	public static final String ANGLE_FROM_NORTH_FIELD = "angleFromNorth";
 
-	@DTOField(ELEVATIONTYPE_FIELD)
-	public ElevationType getElevationType();
-	public void setElevationType(final ElevationType elevationType);
+    public static final String ELEVATIONTYPE_FIELD = "elevationType";
+    public static final String ATTACHED_FIELD = "tenthsAttached";
+    public static final String OPEN_FIELD = "tenthsOpening";
+    public static final String PARTY_FIELD = "tenthsPartyWall";
+    public static final String EXTERNAL_WALL_TYPE_FIELD = "externalWallConstructionType";
+    public static final String CAVITYINSULATED_FIELD = "cavityWallInsulation";
+    public static final String INTERNALINSULATED_FIELD = "internalInsulation";
+    public static final String EXTERNALINSULATED_FIELD = "externalWallInsulation";
+    public static final String PERCENTAGE_DBLGLZD_FIELD = "percentageDoubleGlazed";
+    public static final String FRAME_DBLGLZD_FIELD = "doubleGlazedWindowFrame";
+    public static final String FRAME_SNGLGLZD_FIELD = "singleGlazedWindowFrame";
+    public static final String NUM_WOOD_SOLID_DOOR = "doorFrame:Wood,doorType:Solid";
+    public static final String NUM_WOOD_GLAZED_DOOR = "doorFrame:Wood,doorType:Glazed";
+    public static final String NUM_METAL_SOLID_DOOR = "doorFrame:Metal,doorType:Solid";
+    public static final String NUM_METAL_GLAZED_DOOR = "doorFrame:Metal,doorType:Glazed";
+    public static final String NUM_UPVC_SOLID_DOOR = "doorFrame:uPVC,doorType:Solid";
+    public static final String NUM_UPVC_GLAZED_DOOR = "doorFrame:uPVC,doorType:Glazed";
+    public static final String ANGLE_FROM_NORTH_FIELD = "angleFromNorth";
 
-	@DTOField(EXTERNAL_WALL_TYPE_FIELD)
-	public Optional<WallConstructionType> getExternalWallConstructionType();
-	public void setExternalWallConstructionType(final Optional<WallConstructionType> externalWallConstructionType);
+    @DTOField(ELEVATIONTYPE_FIELD)
+    public ElevationType getElevationType();
 
-	@DTOField(INTERNALINSULATED_FIELD)
-	public Optional<Boolean> getInternalInsulation();
-	public void setInternalInsulation(final Optional<Boolean> internalInsulation);
+    public void setElevationType(final ElevationType elevationType);
 
-	@DTOField(EXTERNALINSULATED_FIELD)
-	public Optional<Boolean> getExternalInsulation();
-	public void setExternalInsulation(final Optional<Boolean> externalInsulation);
+    @DTOField(EXTERNAL_WALL_TYPE_FIELD)
+    public Optional<WallConstructionType> getExternalWallConstructionType();
 
-	@DTOField(CAVITYINSULATED_FIELD)
-	public Optional<Boolean> getCavityInsulation();
-	public void setCavityInsulation(final Optional<Boolean> cavityInsulation);
+    public void setExternalWallConstructionType(final Optional<WallConstructionType> externalWallConstructionType);
 
-	@DTOField(ATTACHED_FIELD)
-	public double getTenthsAttached();
-	public void setTenthsAttached(final double tenthsAttached);
+    @DTOField(INTERNALINSULATED_FIELD)
+    public Optional<Boolean> getInternalInsulation();
 
-	@DTOField(OPEN_FIELD)
-	public double getTenthsOpening();
-	public void setTenthsOpening(final double tenthsOpening);
+    public void setInternalInsulation(final Optional<Boolean> internalInsulation);
 
-	@DTOField(PARTY_FIELD)
-	public double getTenthsPartyWall();
-	public void setTenthsPartyWall(final double tenthsPartyWall);
+    @DTOField(EXTERNALINSULATED_FIELD)
+    public Optional<Boolean> getExternalInsulation();
 
-	@DTOField(PERCENTAGE_DBLGLZD_FIELD)
-	public double getPercentageWindowDblGlazed();
-	public void setPercentageWindowDblGlazed(final double percentageWindowDblGlazed);
+    public void setExternalInsulation(final Optional<Boolean> externalInsulation);
 
-	@DTOField(FRAME_SNGLGLZD_FIELD)
-	public Optional<FrameType> getSingleGlazedWindowFrame();
-	public void setSingleGlazedWindowFrame(final Optional<FrameType> singleGlazedWindowFrame);
+    @DTOField(CAVITYINSULATED_FIELD)
+    public Optional<Boolean> getCavityInsulation();
 
-	@DTOField(value = FRAME_DBLGLZD_FIELD, constraint=@Constraint(value=Type.OPTIONAL, missing="null"))
-	public Optional<FrameType> getDoubleGlazedWindowFrame();
-	public void setDoubleGlazedWindowFrame(final Optional<FrameType> doubleGlazedWindowFrame);
+    public void setCavityInsulation(final Optional<Boolean> cavityInsulation);
 
-	@DTOField({"doorFrame", "doorType"})
-	public Table<FrameType, DoorType, Integer> getDoors();
-	public void setDoors(final Table<FrameType, DoorType, Integer> doors);
+    @DTOField(ATTACHED_FIELD)
+    public double getTenthsAttached();
 
-	public int getNumberOfDoors(final FrameType ft, final DoorType dt);
-	public void setNumberOfDoors(final FrameType frameType, final int numOfDoors);
-	public void addDoors(final FrameType frameType, final int count);
+    public void setTenthsAttached(final double tenthsAttached);
+
+    @DTOField(OPEN_FIELD)
+    public double getTenthsOpening();
+
+    public void setTenthsOpening(final double tenthsOpening);
+
+    @DTOField(PARTY_FIELD)
+    public double getTenthsPartyWall();
+
+    public void setTenthsPartyWall(final double tenthsPartyWall);
+
+    @DTOField(PERCENTAGE_DBLGLZD_FIELD)
+    public double getPercentageWindowDblGlazed();
+
+    public void setPercentageWindowDblGlazed(final double percentageWindowDblGlazed);
+
+    @DTOField(FRAME_SNGLGLZD_FIELD)
+    public Optional<FrameType> getSingleGlazedWindowFrame();
+
+    public void setSingleGlazedWindowFrame(final Optional<FrameType> singleGlazedWindowFrame);
+
+    @DTOField(value = FRAME_DBLGLZD_FIELD, constraint = @Constraint(value = Type.OPTIONAL, missing = "null"))
+    public Optional<FrameType> getDoubleGlazedWindowFrame();
+
+    public void setDoubleGlazedWindowFrame(final Optional<FrameType> doubleGlazedWindowFrame);
+
+    @DTOField({"doorFrame", "doorType"})
+    public Table<FrameType, DoorType, Integer> getDoors();
+
+    public void setDoors(final Table<FrameType, DoorType, Integer> doors);
+
+    public int getNumberOfDoors(final FrameType ft, final DoorType dt);
+
+    public void setNumberOfDoors(final FrameType frameType, final int numOfDoors);
+
+    public void addDoors(final FrameType frameType, final int count);
+
     /**
      * TODO.
      *
      * @return
      */
-	@DTOField(value = ANGLE_FROM_NORTH_FIELD,
-	        constraint=@Constraint(value=Type.OPTIONAL,missing="null"),
-	        description="The angle from north that this elevation is facing.")
+    @DTOField(value = ANGLE_FROM_NORTH_FIELD,
+            constraint = @Constraint(value = Type.OPTIONAL, missing = "null"),
+            description = "The angle from north that this elevation is facing.")
     public Optional<Double> getAngleFromNorth();
+
     public void setAngleFromNorth(final Optional<Double> angleFromNorth);
 }

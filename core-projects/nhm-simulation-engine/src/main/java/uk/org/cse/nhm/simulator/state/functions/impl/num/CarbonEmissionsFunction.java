@@ -22,25 +22,25 @@ import uk.org.cse.nhm.simulator.state.dimensions.fuel.cost.IEmissions;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class CarbonEmissionsFunction extends AbstractNamed implements IComponentsFunction<Double> {
-	private final IDimension<IEmissions> costs;
-	private final Optional<FuelType> fuelType;
-	private final Optional<List<ServiceType>> serviceType;
 
-	@Inject
-	public CarbonEmissionsFunction(
-			final IDimension<IEmissions> costs,
-			@Assisted final Optional<FuelType> fuelType,
-			@Assisted final Optional<List<ServiceType>> serviceType
-			)
-			{
-		this.costs = costs;
-		this.fuelType = fuelType;
-		this.serviceType = serviceType;
-	}
+    private final IDimension<IEmissions> costs;
+    private final Optional<FuelType> fuelType;
+    private final Optional<List<ServiceType>> serviceType;
 
-	@Override
-	public Double compute(final IComponentsScope scope, final ILets lets) {
-		/*
+    @Inject
+    public CarbonEmissionsFunction(
+            final IDimension<IEmissions> costs,
+            @Assisted final Optional<FuelType> fuelType,
+            @Assisted final Optional<List<ServiceType>> serviceType
+    ) {
+        this.costs = costs;
+        this.fuelType = fuelType;
+        this.serviceType = serviceType;
+    }
+
+    @Override
+    public Double compute(final IComponentsScope scope, final ILets lets) {
+        /*
 		BEISDOC
 		NAME: Emissions
 		DESCRIPTION: The CO2 equivalent emissions produced by the dwelling.
@@ -53,24 +53,23 @@ public class CarbonEmissionsFunction extends AbstractNamed implements IComponent
 		GET: house.emissions
 		ID: carbon-emissions
 		CODSIEB
-		*/
+         */
 
-		final IEmissions calc = scope.get(costs);
+        final IEmissions calc = scope.get(costs);
 
-		if (fuelType.isPresent()) {
+        if (fuelType.isPresent()) {
             final FuelType ft = fuelType.get();
             if (ft == FuelType.ELECTRICITY) {
                 if (serviceType.isPresent()) {
-                    return
-                        new Double(calc.getAnnualEmissions(FuelType.PEAK_ELECTRICITY, serviceType.get()) +
-                                   calc.getAnnualEmissions(FuelType.OFF_PEAK_ELECTRICITY, serviceType.get()));
+                    return new Double(calc.getAnnualEmissions(FuelType.PEAK_ELECTRICITY, serviceType.get())
+                            + calc.getAnnualEmissions(FuelType.OFF_PEAK_ELECTRICITY, serviceType.get()));
                 } else {
                     double acc = 0;
 
                     for (final ServiceType st : ServiceType.values()) {
-                        acc +=
-                            calc.getAnnualEmissions(FuelType.PEAK_ELECTRICITY, st) +
-                            calc.getAnnualEmissions(FuelType.OFF_PEAK_ELECTRICITY, st);
+                        acc
+                                += calc.getAnnualEmissions(FuelType.PEAK_ELECTRICITY, st)
+                                + calc.getAnnualEmissions(FuelType.OFF_PEAK_ELECTRICITY, st);
                     }
 
                     return acc;
@@ -88,31 +87,31 @@ public class CarbonEmissionsFunction extends AbstractNamed implements IComponent
                     return acc;
                 }
             }
-		} else if (serviceType.isPresent()) {
-			double acc = 0;
-			final List<ServiceType> st = serviceType.get();
-			for (final FuelType ft : FuelType.values()) {
-				acc += calc.getAnnualEmissions(ft, st);
-			}
-			return acc;
-		} else {
-			double acc = 0;
-			for (final FuelType ft : FuelType.values()) {
-				for (final ServiceType st : ServiceType.values()) {
-					acc += calc.getAnnualEmissions(ft, st);
-				}
-			}
-			return acc;
-		}
-	}
+        } else if (serviceType.isPresent()) {
+            double acc = 0;
+            final List<ServiceType> st = serviceType.get();
+            for (final FuelType ft : FuelType.values()) {
+                acc += calc.getAnnualEmissions(ft, st);
+            }
+            return acc;
+        } else {
+            double acc = 0;
+            for (final FuelType ft : FuelType.values()) {
+                for (final ServiceType st : ServiceType.values()) {
+                    acc += calc.getAnnualEmissions(ft, st);
+                }
+            }
+            return acc;
+        }
+    }
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return ImmutableSet.<IDimension<?>>of(costs);
-	}
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return ImmutableSet.<IDimension<?>>of(costs);
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return Collections.emptySet();
-	}
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return Collections.emptySet();
+    }
 }

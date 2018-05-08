@@ -8,8 +8,8 @@ import uk.org.cse.nhm.language.definition.two.hooks.XDateHook;
 
 @Category(CategoryType.OBSOLETE)
 @Obsolete(
-		reason = XDateHook.SCHEDULING_OBSOLESCENCE,
-		inFavourOf = {XDateHook.class}
-		)
+        reason = XDateHook.SCHEDULING_OBSOLESCENCE,
+        inFavourOf = {XDateHook.class}
+)
 abstract public class XReportMode extends XElement {
 }

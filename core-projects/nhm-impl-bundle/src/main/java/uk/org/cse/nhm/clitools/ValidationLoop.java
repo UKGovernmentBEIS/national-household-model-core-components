@@ -24,13 +24,13 @@ import com.larkery.jasb.sexp.errors.JasbErrorException;
 
 import uk.org.cse.nhm.ipc.api.tasks.IScenarioSnapshot;
 
-
 public class ValidationLoop extends AbstractTableModel implements Runnable {
+
     private int generation = 0;
     private final Thread myThread;
     private Path scenario;
     private String[][] data = new String[0][0];
-    
+
     public ValidationLoop() {
         myThread = new Thread(this);
         myThread.start();
@@ -57,14 +57,19 @@ public class ValidationLoop extends AbstractTableModel implements Runnable {
     public int getColumnCount() {
         return 4;
     }
-    
+
     public String getColumnName(final int i) {
         switch (i) {
-        case 0:return "File";
-        case 1:return "Line";
-        case 2:return "Type";
-        case 3:return "Message";
-        default: return "";
+            case 0:
+                return "File";
+            case 1:
+                return "Line";
+            case 2:
+                return "Type";
+            case 3:
+                return "Message";
+            default:
+                return "";
         }
     }
 
@@ -84,17 +89,17 @@ public class ValidationLoop extends AbstractTableModel implements Runnable {
         String[][] lastOutputs = outputs;
         int runGeneration = 0;
         final WatchService watcher;
-        
+
         try {
             watcher = FileSystems.getDefault().newWatchService();
         } catch (final IOException ie) {
             throw new RuntimeException(ie);
         }
-        
+
         final Map<Path, WatchKey> watches = new HashMap<>();
         final Map<WatchKey, Path> watches_ = new HashMap<>();
         final Set<Path> filesOfInterest = new HashSet<>();
-        
+
         while (true) {
             try {
                 if (runGeneration < generation) {
@@ -102,7 +107,6 @@ public class ValidationLoop extends AbstractTableModel implements Runnable {
                     runGeneration = generation;
 
                     // run validation here
-
                     try {
                         final Path path = scenario;
                         final Path base = path.toAbsolutePath().getParent();
@@ -125,16 +129,15 @@ public class ValidationLoop extends AbstractTableModel implements Runnable {
 
                         for (final Path p : ImmutableSet.copyOf(Sets.difference(filePaths, watches.keySet()))) {
                             final WatchKey key = p.register(watcher,
-                                                            StandardWatchEventKinds.ENTRY_MODIFY,
-                                                            StandardWatchEventKinds.ENTRY_CREATE,
-                                                            StandardWatchEventKinds.ENTRY_DELETE);
+                                    StandardWatchEventKinds.ENTRY_MODIFY,
+                                    StandardWatchEventKinds.ENTRY_CREATE,
+                                    StandardWatchEventKinds.ENTRY_DELETE);
                             System.out.println("Watching " + p);
                             watches.put(p, key);
                             watches_.put(key, p);
                         }
-                        
+
                         // at this point, we can setup some watches
-                        
                         final List<? extends IError> problems = validator.validate(snapshot);
                         outputs = new String[problems.size()][];
 
@@ -147,19 +150,19 @@ public class ValidationLoop extends AbstractTableModel implements Runnable {
                                 errpath = String.valueOf(relPath);
                             } catch (Exception e) {
                             }
-                            final String[] row = new String [] {
+                            final String[] row = new String[]{
                                 errpath,
                                 String.valueOf(p.getLocation().sourceLocation.line),
                                 String.valueOf(p.getType()),
                                 p.getMessage()
                             };
-                            outputs[i++]=row;
+                            outputs[i++] = row;
                         }
                     } catch (final JasbErrorException jee) {
                         outputs = new String[jee.getErrors().size()][];
                         int i = 0;
                         for (final IError e : jee.getErrors()) {
-                            outputs[i++] = new String [] {
+                            outputs[i++] = new String[]{
                                 "?",
                                 "?",
                                 "Error",
@@ -168,7 +171,7 @@ public class ValidationLoop extends AbstractTableModel implements Runnable {
                         }
                     }
                 }
-                
+
                 if (runGeneration == generation) {
                     if (lastOutputs != outputs) {
                         send(outputs);
@@ -197,4 +200,3 @@ public class ValidationLoop extends AbstractTableModel implements Runnable {
         }
     }
 }
-

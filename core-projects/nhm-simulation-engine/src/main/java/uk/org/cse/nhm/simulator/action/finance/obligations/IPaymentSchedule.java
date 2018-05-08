@@ -9,11 +9,13 @@ import uk.org.cse.nhm.simulator.state.ICanonicalState;
 import uk.org.cse.nhm.simulator.state.IDwelling;
 
 public interface IPaymentSchedule {
-	Optional<DateTime> getNextTransactionDate(DateTime currentDate);
 
-	boolean transactionStillValid(DateTime date);
-	
-	public interface IFactory {
-		IPaymentSchedule getSchedule(ICanonicalState state, DateTime currentDate, ILets lets, IDwelling dwelling);
-	}
+    Optional<DateTime> getNextTransactionDate(DateTime currentDate);
+
+    boolean transactionStillValid(DateTime date);
+
+    public interface IFactory {
+
+        IPaymentSchedule getSchedule(ICanonicalState state, DateTime currentDate, ILets lets, IDwelling dwelling);
+    }
 }

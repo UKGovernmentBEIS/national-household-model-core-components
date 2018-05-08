@@ -15,26 +15,26 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class GetNumberOfOccupants extends AbstractNamed implements IComponentsFunction<Integer> {
-	
-	private final IDimension<People> peopleDimension;
-	
-	@Inject
-	public GetNumberOfOccupants(final IDimension<People> peopleDimension) {
-		this.peopleDimension = peopleDimension;
-	}
 
-	@Override
-	public Integer compute(IComponentsScope scope, ILets lets) {
-		return scope.get(peopleDimension).getNumberOfPeople();
-	}
+    private final IDimension<People> peopleDimension;
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return ImmutableSet.<IDimension<?>>of(peopleDimension);
-	}
+    @Inject
+    public GetNumberOfOccupants(final IDimension<People> peopleDimension) {
+        this.peopleDimension = peopleDimension;
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return ImmutableSet.of();
-	}
+    @Override
+    public Integer compute(IComponentsScope scope, ILets lets) {
+        return scope.get(peopleDimension).getNumberOfPeople();
+    }
+
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return ImmutableSet.<IDimension<?>>of(peopleDimension);
+    }
+
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return ImmutableSet.of();
+    }
 }

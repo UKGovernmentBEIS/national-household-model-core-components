@@ -13,22 +13,23 @@ import uk.org.cse.nhm.language.definition.two.selectors.XFilteredSet;
 
 @Category(CategoryType.OBSOLETE)
 @Obsolete(
-	reason = "Groups are being removed in favour of sets of houses.",
-	inFavourOf = {XAllTheHouses.class, XFilteredSet.class}
-		)
+        reason = "Groups are being removed in favour of sets of houses.",
+        inFavourOf = {XAllTheHouses.class, XFilteredSet.class}
+)
 public abstract class XGroup extends XElement {
-	@Override
-	@Doc("A unique name for this group")
-	
-	@BindNamedArgument
-	
-	@Identity
-	public String getName() {
-		return super.getName();
-	}
 
-	@Override
-	public void setName(final String name) {
-		super.setName(name);
-	}
+    @Override
+    @Doc("A unique name for this group")
+
+    @BindNamedArgument
+
+    @Identity
+    public String getName() {
+        return super.getName();
+    }
+
+    @Override
+    public void setName(final String name) {
+        super.setName(name);
+    }
 }

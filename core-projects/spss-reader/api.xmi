@@ -1,339 +1,339 @@
 <?xml version="1.0" encoding="ASCII"?>
 <api:API xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:api="http://www.larkery.com/basic-baselines/api/1/">
-  <types name="uk.org.cse.nhm.spss.SavEntry" firstCharacter="32" lastCharacter="1277" sinceTag="">
-    <methods name="getValue" dynamic="true" firstCharacter="126" lastCharacter="422" sinceTag="">
-      <parameterTypes>uk.org.cse.nhm.spss.SavVariable</parameterTypes>
-      <parameterTypes>java.lang.Class</parameterTypes>
-    </methods>
-    <methods name="getValue" dynamic="true" firstCharacter="425" lastCharacter="742" sinceTag="">
-      <parameterTypes>int</parameterTypes>
-      <parameterTypes>java.lang.Class</parameterTypes>
-    </methods>
-    <methods name="isMissing" type="boolean" dynamic="true" firstCharacter="748" lastCharacter="926" sinceTag="">
-      <parameterTypes>int</parameterTypes>
-    </methods>
-    <methods name="isMissing" type="boolean" dynamic="true" firstCharacter="932" lastCharacter="1089" sinceTag="">
-      <parameterTypes>uk.org.cse.nhm.spss.SavVariable</parameterTypes>
-    </methods>
-    <methods name="isPredefinedValue" type="boolean" dynamic="true" firstCharacter="1092" lastCharacter="1274" sinceTag="">
-      <parameterTypes>uk.org.cse.nhm.spss.SavVariable</parameterTypes>
-    </methods>
-  </types>
-  <types name="uk.org.cse.nhm.spss.SavInputStream" firstCharacter="91" lastCharacter="528" sinceTag="">
-    <methods name="getMetadata" type="uk.org.cse.nhm.spss.SavMetadata" dynamic="true" firstCharacter="428" lastCharacter="525" sinceTag=""/>
-  </types>
-  <types name="uk.org.cse.nhm.spss.SavVariable" firstCharacter="86" lastCharacter="1317" sinceTag="">
-    <methods name="getType" type="uk.org.cse.nhm.spss.SavVariableType" dynamic="true" firstCharacter="289" lastCharacter="372" sinceTag=""/>
-    <methods name="getName" type="java.lang.String" dynamic="true" firstCharacter="375" lastCharacter="470" sinceTag=""/>
-    <methods name="getLabel" type="java.lang.String" dynamic="true" firstCharacter="473" lastCharacter="561" sinceTag=""/>
-    <methods name="getVariableTypeCode" type="int" dynamic="true" firstCharacter="564" lastCharacter="722" sinceTag=""/>
-    <methods name="getIndex" type="int" dynamic="true" firstCharacter="725" lastCharacter="852" sinceTag=""/>
-    <methods name="decode" type="java.lang.String" dynamic="true" firstCharacter="855" lastCharacter="1035" sinceTag="">
-      <parameterTypes>double</parameterTypes>
-    </methods>
-    <methods name="isMissingValue" type="boolean" dynamic="true" firstCharacter="1041" lastCharacter="1179" sinceTag="">
-      <parameterTypes>double</parameterTypes>
-    </methods>
-    <methods name="getValueLabel" type="java.lang.String" dynamic="true" firstCharacter="1185" lastCharacter="1227" sinceTag="">
-      <parameterTypes>java.lang.Double</parameterTypes>
-    </methods>
-    <methods name="getVariableValues" type="uk.org.cse.nhm.spss.impl.SavVariableValues" dynamic="true" firstCharacter="1233" lastCharacter="1278" sinceTag=""/>
-    <methods name="isRestricted" type="boolean" dynamic="true" firstCharacter="1284" lastCharacter="1314" sinceTag=""/>
-  </types>
-  <types name="uk.org.cse.nhm.spss.SavVariableType" firstCharacter="32" lastCharacter="394" sinceTag="" type="Enumeration"/>
-  <types name="uk.org.cse.nhm.spss.SavMetadata" firstCharacter="112" lastCharacter="602" sinceTag="">
-    <methods name="getVariables" type="java.util.List" dynamic="true" firstCharacter="228" lastCharacter="355" sinceTag=""/>
-    <methods name="getEntryCount" type="int" dynamic="true" firstCharacter="361" lastCharacter="388" sinceTag=""/>
-    <methods name="getVariable" type="uk.org.cse.nhm.spss.SavVariable" dynamic="true" firstCharacter="393" lastCharacter="542" sinceTag="">
-      <parameterTypes>java.lang.String</parameterTypes>
-    </methods>
-    <methods name="getVariableValues" type="java.util.List" dynamic="true" firstCharacter="548" lastCharacter="599" sinceTag=""/>
-  </types>
-  <types name="uk.org.cse.nhm.spss.codegen.EnumDescriptor" firstCharacter="306" lastCharacter="3059" sinceTag="" type="Class">
-    <methods name="EnumDescriptor" type="void" dynamic="true" firstCharacter="583" lastCharacter="995" sinceTag="">
-      <parameterTypes>java.lang.String</parameterTypes>
-      <parameterTypes>uk.org.cse.nhm.spss.SavVariable</parameterTypes>
-    </methods>
-    <methods name="isSubEnumeration" type="boolean" dynamic="true" firstCharacter="1136" lastCharacter="1425" sinceTag="">
-      <parameterTypes>uk.org.cse.nhm.spss.codegen.EnumDescriptor</parameterTypes>
-    </methods>
-    <methods name="getPackage" type="java.lang.String" dynamic="true" firstCharacter="1431" lastCharacter="1478" sinceTag=""/>
-    <methods name="getName" type="java.lang.String" dynamic="true" firstCharacter="1483" lastCharacter="1528" sinceTag=""/>
-    <methods name="use" type="void" dynamic="true" firstCharacter="1534" lastCharacter="1573" sinceTag=""/>
-    <methods name="isUsed" type="boolean" dynamic="true" firstCharacter="1578" lastCharacter="1623" sinceTag=""/>
-    <methods name="generate" type="void" dynamic="true" firstCharacter="1628" lastCharacter="2710" sinceTag="">
-      <parameterTypes>java.io.File</parameterTypes>
-      <parameterTypes>uk.org.cse.nhm.spss.codegen.CodeGenerator</parameterTypes>
-    </methods>
-    <methods name="merge" type="void" dynamic="true" firstCharacter="2892" lastCharacter="3056" sinceTag="">
-      <parameterTypes>uk.org.cse.nhm.spss.codegen.EnumDescriptor</parameterTypes>
-    </methods>
-  </types>
-  <types name="uk.org.cse.nhm.spss.codegen.RecordDescriptor" firstCharacter="278" lastCharacter="4565" sinceTag="" type="Class">
-    <methods name="RecordDescriptor" type="void" dynamic="true" firstCharacter="618" lastCharacter="1045" sinceTag="">
-      <parameterTypes>java.lang.String</parameterTypes>
-    </methods>
-    <methods name="addField" type="void" dynamic="true" firstCharacter="1050" lastCharacter="1195" sinceTag="">
-      <parameterTypes>uk.org.cse.nhm.spss.SavVariable</parameterTypes>
-      <parameterTypes>uk.org.cse.nhm.spss.codegen.TypeDescriptor</parameterTypes>
-    </methods>
-    <methods name="getPackage" type="java.lang.String" dynamic="true" firstCharacter="1200" lastCharacter="1247" sinceTag=""/>
-    <methods name="getName" type="java.lang.String" dynamic="true" firstCharacter="1252" lastCharacter="1297" sinceTag=""/>
-    <methods name="use" type="void" dynamic="true" firstCharacter="1302" lastCharacter="1329" sinceTag=""/>
-    <methods name="generate" type="void" dynamic="true" firstCharacter="1334" lastCharacter="1662" sinceTag="">
-      <parameterTypes>java.io.File</parameterTypes>
-      <parameterTypes>uk.org.cse.nhm.spss.codegen.CodeGenerator</parameterTypes>
-      <parameterTypes>java.lang.String</parameterTypes>
-      <parameterTypes>java.util.Set</parameterTypes>
-    </methods>
-    <methods name="getOrginalFileName" type="java.lang.String" dynamic="true" firstCharacter="4306" lastCharacter="4481" sinceTag=""/>
-    <methods name="getGeneratedClassName" type="java.lang.String" dynamic="true" firstCharacter="4489" lastCharacter="4562" sinceTag=""/>
-  </types>
-  <types name="uk.org.cse.nhm.spss.codegen.FieldDescriptor" firstCharacter="108" lastCharacter="1653" sinceTag="" type="Class">
-    <methods name="FieldDescriptor" type="void" dynamic="true" firstCharacter="170" lastCharacter="633" sinceTag="">
-      <parameterTypes>uk.org.cse.nhm.spss.SavVariable</parameterTypes>
-      <parameterTypes>uk.org.cse.nhm.spss.codegen.TypeDescriptor</parameterTypes>
-      <parameterTypes>java.util.Set</parameterTypes>
-    </methods>
-    <methods name="generateDefinition" type="java.lang.String" dynamic="true" firstCharacter="733" lastCharacter="941" sinceTag=""/>
-    <methods name="getImport" type="java.lang.String" dynamic="true" firstCharacter="947" lastCharacter="1030" sinceTag=""/>
-    <methods name="generateGetter" type="java.lang.String" dynamic="true" firstCharacter="1035" lastCharacter="1233" sinceTag=""/>
-    <methods name="generateSetter" type="java.lang.String" dynamic="true" firstCharacter="1238" lastCharacter="1472" sinceTag=""/>
-    <methods name="generateField" type="java.lang.String" dynamic="true" firstCharacter="1478" lastCharacter="1584" sinceTag=""/>
-    <methods name="getVariableName" type="java.lang.String" dynamic="true" firstCharacter="1589" lastCharacter="1650" sinceTag=""/>
-  </types>
-  <types name="uk.org.cse.nhm.spss.codegen.TypeDescriptor" firstCharacter="40" lastCharacter="805" sinceTag="">
-    <methods name="getPackage" type="java.lang.String" dynamic="true" firstCharacter="727" lastCharacter="754" sinceTag=""/>
-    <methods name="getName" type="java.lang.String" dynamic="true" firstCharacter="757" lastCharacter="781" sinceTag=""/>
-    <methods name="use" type="void" dynamic="true" firstCharacter="784" lastCharacter="802" sinceTag=""/>
-  </types>
-  <types name="uk.org.cse.nhm.spss.codegen.CodeGenerator" firstCharacter="774" lastCharacter="7670" sinceTag="" type="Class">
-    <methods name="CodeGenerator" type="void" dynamic="true" firstCharacter="1395" lastCharacter="1488" sinceTag="">
-      <parameterTypes>java.lang.String</parameterTypes>
-    </methods>
-    <methods name="loadDirectory" type="void" dynamic="true" firstCharacter="1494" lastCharacter="1857" sinceTag="">
-      <parameterTypes>java.io.File</parameterTypes>
-    </methods>
-    <methods name="getEnumTypeDescriptor" type="uk.org.cse.nhm.spss.codegen.TypeDescriptor" dynamic="true" firstCharacter="4391" lastCharacter="4865" sinceTag="">
-      <parameterTypes>uk.org.cse.nhm.spss.codegen.EnumDescriptor</parameterTypes>
-    </methods>
-    <methods name="generate" type="void" dynamic="true" firstCharacter="4871" lastCharacter="5807" sinceTag="">
-      <parameterTypes>java.io.File</parameterTypes>
-      <parameterTypes>java.lang.String</parameterTypes>
-      <parameterTypes>java.util.Set</parameterTypes>
-    </methods>
-    <methods name="createStream" type="java.io.PrintStream" dynamic="true" firstCharacter="5812" lastCharacter="6089" sinceTag="">
-      <parameterTypes>java.io.File</parameterTypes>
-      <parameterTypes>java.lang.String</parameterTypes>
-    </methods>
-    <methods name="saveInputLog" type="void" dynamic="true" firstCharacter="6098" lastCharacter="6406" sinceTag="">
-      <parameterTypes>uk.org.cse.stockimport.SpssImportRequest</parameterTypes>
-      <parameterTypes>java.io.FileOutputStream</parameterTypes>
-    </methods>
-    <methods name="updateImportLog" type="void" dynamic="true" firstCharacter="6414" lastCharacter="6730" sinceTag="">
-      <parameterTypes>uk.org.cse.stockimport.SpssImportRequest</parameterTypes>
-      <parameterTypes>uk.org.cse.nhm.spss.codegen.RecordDescriptor</parameterTypes>
-    </methods>
-    <methods name="makeNiceName" type="java.lang.String" firstCharacter="6735" lastCharacter="7667" sinceTag="">
-      <parameterTypes>java.lang.String</parameterTypes>
-    </methods>
-  </types>
-  <types name="uk.org.cse.nhm.spss.impl.SavInputStreamImpl" firstCharacter="222" lastCharacter="1248" sinceTag="" type="Class">
-    <methods name="SavInputStreamImpl" type="void" dynamic="true" firstCharacter="387" lastCharacter="757" sinceTag="">
-      <parameterTypes>java.io.InputStream</parameterTypes>
-    </methods>
-    <methods name="getMetadata" type="uk.org.cse.nhm.spss.SavMetadata" dynamic="true" firstCharacter="765" lastCharacter="823" sinceTag=""/>
-    <methods name="hasNext" type="boolean" dynamic="true" firstCharacter="828" lastCharacter="910" sinceTag=""/>
-    <methods name="next" type="uk.org.cse.nhm.spss.SavEntry" dynamic="true" firstCharacter="915" lastCharacter="1127" sinceTag=""/>
-    <methods name="remove" type="void" dynamic="true" firstCharacter="1132" lastCharacter="1245" sinceTag=""/>
-  </types>
-  <types name="uk.org.cse.nhm.spss.impl.SavMetadataImpl" firstCharacter="470" lastCharacter="6145" sinceTag="" type="Class">
-    <methods name="SavMetadataImpl" type="void" dynamic="true" firstCharacter="1455" lastCharacter="5667" sinceTag="">
-      <parameterTypes>uk.org.cse.nhm.spss.impl.SavDataStream</parameterTypes>
-    </methods>
-    <methods name="getVariables" type="java.util.List" dynamic="true" firstCharacter="5672" lastCharacter="5748" sinceTag=""/>
-    <methods name="isCompressed" type="boolean" dynamic="true" firstCharacter="5837" lastCharacter="5900" sinceTag=""/>
-    <methods name="getEntryCount" type="int" dynamic="true" firstCharacter="5905" lastCharacter="5958" sinceTag=""/>
-    <methods name="getVariable" type="uk.org.cse.nhm.spss.SavVariable" dynamic="true" firstCharacter="5963" lastCharacter="6055" sinceTag="">
-      <parameterTypes>java.lang.String</parameterTypes>
-    </methods>
-    <methods name="getVariableValues" type="java.util.List" dynamic="true" firstCharacter="6060" lastCharacter="6142" sinceTag=""/>
-  </types>
-  <types name="uk.org.cse.nhm.spss.impl.SavVariableImpl" firstCharacter="266" lastCharacter="2956" sinceTag="" type="Class">
-    <methods name="SavVariableImpl" type="void" dynamic="true" firstCharacter="662" lastCharacter="1820" sinceTag="">
-      <parameterTypes>uk.org.cse.nhm.spss.impl.SavDataStream</parameterTypes>
-      <parameterTypes>int</parameterTypes>
-    </methods>
-    <methods name="getType" type="uk.org.cse.nhm.spss.SavVariableType" dynamic="true" firstCharacter="1908" lastCharacter="1970" sinceTag=""/>
-    <methods name="getName" type="java.lang.String" dynamic="true" firstCharacter="1975" lastCharacter="2020" sinceTag=""/>
-    <methods name="getLabel" type="java.lang.String" dynamic="true" firstCharacter="2025" lastCharacter="2072" sinceTag=""/>
-    <methods name="setValues" type="void" dynamic="true" firstCharacter="2077" lastCharacter="2155" sinceTag="">
-      <parameterTypes>uk.org.cse.nhm.spss.impl.SavVariableValues</parameterTypes>
-    </methods>
-    <methods name="getVariableTypeCode" type="int" dynamic="true" firstCharacter="2160" lastCharacter="2226" sinceTag=""/>
-    <methods name="getIndex" type="int" dynamic="true" firstCharacter="2231" lastCharacter="2275" sinceTag=""/>
-    <methods name="decode" type="java.lang.String" dynamic="true" firstCharacter="2280" lastCharacter="2418" sinceTag="">
-      <parameterTypes>double</parameterTypes>
-    </methods>
-    <methods name="isMissingValue" type="boolean" dynamic="true" firstCharacter="2423" lastCharacter="2577" sinceTag="">
-      <parameterTypes>double</parameterTypes>
-    </methods>
-    <methods name="getValueLabel" type="java.lang.String" dynamic="true" firstCharacter="2582" lastCharacter="2721" sinceTag="">
-      <parameterTypes>java.lang.Double</parameterTypes>
-    </methods>
-    <methods name="getVariableValues" type="uk.org.cse.nhm.spss.impl.SavVariableValues" dynamic="true" firstCharacter="2726" lastCharacter="2794" sinceTag=""/>
-    <methods name="isRestricted" type="boolean" dynamic="true" firstCharacter="2800" lastCharacter="2857" sinceTag=""/>
-    <methods name="setRestricted" type="void" dynamic="true" firstCharacter="2863" lastCharacter="2953" sinceTag="">
-      <parameterTypes>boolean</parameterTypes>
-    </methods>
-  </types>
-  <types name="uk.org.cse.nhm.spss.impl.SavEntryImpl" firstCharacter="338" lastCharacter="2714" sinceTag="" type="Class">
-    <methods name="SavEntryImpl" type="void" dynamic="true" firstCharacter="495" lastCharacter="940" sinceTag="">
-      <parameterTypes>uk.org.cse.nhm.spss.SavMetadata</parameterTypes>
-      <parameterTypes>uk.org.cse.nhm.spss.impl.SavDataStream</parameterTypes>
-    </methods>
-    <methods name="getValue" dynamic="true" firstCharacter="1229" lastCharacter="1342" sinceTag="">
-      <parameterTypes>uk.org.cse.nhm.spss.SavVariable</parameterTypes>
-      <parameterTypes>java.lang.Class</parameterTypes>
-    </methods>
-    <methods name="getValue" dynamic="true" firstCharacter="1979" lastCharacter="2080" sinceTag="">
-      <parameterTypes>int</parameterTypes>
-      <parameterTypes>java.lang.Class</parameterTypes>
-    </methods>
-    <methods name="isMissing" type="boolean" dynamic="true" firstCharacter="2085" lastCharacter="2322" sinceTag="">
-      <parameterTypes>int</parameterTypes>
-    </methods>
-    <methods name="isMissing" type="boolean" dynamic="true" firstCharacter="2327" lastCharacter="2421" sinceTag="">
-      <parameterTypes>uk.org.cse.nhm.spss.SavVariable</parameterTypes>
-    </methods>
-    <methods name="isPredefinedValue" type="boolean" dynamic="true" firstCharacter="2426" lastCharacter="2711" sinceTag="">
-      <parameterTypes>uk.org.cse.nhm.spss.SavVariable</parameterTypes>
-    </methods>
-  </types>
-  <types name="uk.org.cse.nhm.spss.impl.SavVariableValuesImpl" firstCharacter="201" lastCharacter="1409" sinceTag="" type="Class">
-    <methods name="getValues" type="java.util.Map" dynamic="true" firstCharacter="443" lastCharacter="505" sinceTag=""/>
-    <methods name="getAntiValues" type="java.util.Map" dynamic="true" firstCharacter="510" lastCharacter="580" sinceTag=""/>
-    <methods name="SavVariableValuesImpl" type="void" dynamic="true" firstCharacter="585" lastCharacter="977" sinceTag="">
-      <parameterTypes>uk.org.cse.nhm.spss.impl.SavDataStream</parameterTypes>
-    </methods>
-    <methods name="decode" type="java.lang.String" dynamic="true" firstCharacter="1066" lastCharacter="1313" sinceTag="">
-      <parameterTypes>double</parameterTypes>
-    </methods>
-    <methods name="isPredefined" type="boolean" dynamic="true" firstCharacter="1318" lastCharacter="1406" sinceTag="">
-      <parameterTypes>java.lang.Double</parameterTypes>
-    </methods>
-  </types>
-  <types name="uk.org.cse.nhm.spss.impl.SavVariableValues" firstCharacter="62" lastCharacter="316" sinceTag="">
-    <methods name="decode" type="java.lang.String" dynamic="true" firstCharacter="103" lastCharacter="147" sinceTag="">
-      <parameterTypes>double</parameterTypes>
-    </methods>
-    <methods name="isPredefined" type="boolean" dynamic="true" firstCharacter="152" lastCharacter="203" sinceTag="">
-      <parameterTypes>java.lang.Double</parameterTypes>
-    </methods>
-    <methods name="getValues" type="java.util.Map" dynamic="true" firstCharacter="208" lastCharacter="256" sinceTag=""/>
-    <methods name="getAntiValues" type="java.util.Map" dynamic="true" firstCharacter="261" lastCharacter="313" sinceTag=""/>
-  </types>
-  <types name="uk.org.cse.nhm.spss.impl.SavDataStream" firstCharacter="156" lastCharacter="7029" sinceTag="" type="Class">
-    <methods name="SavDataStream" type="void" dynamic="true" firstCharacter="818" lastCharacter="898" sinceTag="">
-      <parameterTypes>java.io.InputStream</parameterTypes>
-    </methods>
-    <methods name="readVarString" type="java.lang.String" dynamic="true" firstCharacter="904" lastCharacter="1489" sinceTag="">
-      <parameterTypes>int</parameterTypes>
-    </methods>
-    <methods name="readString" type="java.lang.String" dynamic="true" firstCharacter="1495" lastCharacter="1920" sinceTag="">
-      <parameterTypes>int</parameterTypes>
-    </methods>
-    <methods name="readByte" type="int" dynamic="true" firstCharacter="1926" lastCharacter="2102" sinceTag=""/>
-    <methods name="readInt" type="int" dynamic="true" firstCharacter="2108" lastCharacter="2541" sinceTag=""/>
-    <methods name="readDouble" type="double" dynamic="true" firstCharacter="2858" lastCharacter="3622" sinceTag=""/>
-    <methods name="setBigEndian" type="void" dynamic="true" firstCharacter="3892" lastCharacter="4004" sinceTag=""/>
-    <methods name="skip" type="void" dynamic="true" firstCharacter="4010" lastCharacter="4175" sinceTag="">
-      <parameterTypes>int</parameterTypes>
-    </methods>
-    <methods name="pushBack" type="void" dynamic="true" firstCharacter="4181" lastCharacter="4262" sinceTag="">
-      <parameterTypes>int</parameterTypes>
-    </methods>
-    <methods name="setCompressedData" type="void" dynamic="true" firstCharacter="4268" lastCharacter="4644" sinceTag="">
-      <parameterTypes>boolean</parameterTypes>
-      <parameterTypes>double</parameterTypes>
-    </methods>
-    <methods name="readNumericData" type="double" dynamic="true" firstCharacter="4732" lastCharacter="5451" sinceTag=""/>
-    <methods name="readStringData" type="java.lang.String" dynamic="true" firstCharacter="5457" lastCharacter="5843" sinceTag="">
-      <parameterTypes>int</parameterTypes>
-    </methods>
-  </types>
-  <types name="uk.org.cse.nhm.spss.impl.format.SavIntegerTypeInformation" firstCharacter="208" lastCharacter="1128" sinceTag="" type="Class">
-    <methods name="SavIntegerTypeInformation" type="void" dynamic="true" firstCharacter="492" lastCharacter="1041" sinceTag="">
-      <parameterTypes>uk.org.cse.nhm.spss.impl.SavDataStream</parameterTypes>
-    </methods>
-  </types>
-  <types name="uk.org.cse.nhm.spss.impl.format.SavFloatTypeInformation" firstCharacter="206" lastCharacter="792" sinceTag="" type="Class">
-    <methods name="SavFloatTypeInformation" type="void" dynamic="true" firstCharacter="348" lastCharacter="705" sinceTag="">
-      <parameterTypes>uk.org.cse.nhm.spss.impl.SavDataStream</parameterTypes>
-    </methods>
-  </types>
-  <types name="uk.org.cse.nhm.spss.main.DumpMetadata" firstCharacter="363" lastCharacter="952" sinceTag="" type="Class">
-    <methods name="main" type="void" firstCharacter="395" lastCharacter="947" sinceTag="">
-      <parameterTypes>java.lang.String</parameterTypes>
-    </methods>
-  </types>
-  <types name="uk.org.cse.nhm.spss.main.SPSSCodeGenerator" firstCharacter="213" lastCharacter="762" sinceTag="" type="Class">
-    <methods name="main" type="void" firstCharacter="320" lastCharacter="759" sinceTag="">
-      <parameterTypes>java.lang.String</parameterTypes>
-    </methods>
-  </types>
-  <types name="uk.org.cse.nhm.spss.values.SpssValueReader" firstCharacter="521" lastCharacter="2614" sinceTag="" type="Class">
-    <methods name="load" type="com.google.common.base.Optional" dynamic="true" firstCharacter="554" lastCharacter="721" sinceTag="">
-      <parameterTypes>java.io.InputStream</parameterTypes>
-    </methods>
-  </types>
-  <types name="uk.org.cse.nhm.spss.wrap.SavStreamWrapperBuilder" firstCharacter="660" lastCharacter="10602" sinceTag="" type="Class">
-    <methods name="wrapBean" type="java.util.Iterator" dynamic="true" firstCharacter="1502" lastCharacter="5490" sinceTag="">
-      <parameterTypes>uk.org.cse.nhm.spss.SavInputStream</parameterTypes>
-      <parameterTypes>java.lang.Class</parameterTypes>
-    </methods>
-    <methods name="wrapInterface" type="java.util.Iterator" dynamic="true" firstCharacter="8776" lastCharacter="10599" sinceTag="">
-      <parameterTypes>uk.org.cse.nhm.spss.SavInputStream</parameterTypes>
-      <parameterTypes>java.lang.Class</parameterTypes>
-    </methods>
-  </types>
-  <types name="uk.org.cse.nhm.spss.wrap.SavVariableMapping" firstCharacter="204" lastCharacter="718" sinceTag="">
-    <methods name="value" type="java.lang.String" dynamic="true" firstCharacter="559" lastCharacter="715" sinceTag=""/>
-  </types>
-  <types name="uk.org.cse.nhm.spss.wrap.SavEnumMapping" firstCharacter="204" lastCharacter="866" sinceTag="">
-    <methods name="value" type="java.lang.String" dynamic="true" firstCharacter="586" lastCharacter="863" sinceTag=""/>
-  </types>
-  <types name="uk.org.cse.nhm.spss.wrap.SavEntryWrapper" firstCharacter="118" lastCharacter="947" sinceTag="" type="Class">
-    <methods name="SavEntryWrapper" type="void" dynamic="true" firstCharacter="573" lastCharacter="827" sinceTag="">
-      <parameterTypes>uk.org.cse.nhm.spss.SavMetadata</parameterTypes>
-      <parameterTypes>uk.org.cse.nhm.spss.SavEntry</parameterTypes>
-    </methods>
-    <methods name="getEntry" type="uk.org.cse.nhm.spss.SavEntry" dynamic="true" firstCharacter="832" lastCharacter="881" sinceTag=""/>
-    <methods name="getMetadata" type="uk.org.cse.nhm.spss.SavMetadata" dynamic="true" firstCharacter="886" lastCharacter="944" sinceTag=""/>
-  </types>
-  <types name="uk.org.cse.stockimport.StockImportItem" firstCharacter="168" lastCharacter="1125" sinceTag="0.0.1-SNAPSHOT" type="Class">
-    <methods name="StockImportItem" type="void" dynamic="true" firstCharacter="528" lastCharacter="579" sinceTag=""/>
-    <methods name="StockImportItem" type="void" dynamic="true" firstCharacter="587" lastCharacter="743" sinceTag="">
-      <parameterTypes>java.lang.String</parameterTypes>
-    </methods>
-    <methods name="getFileName" type="java.lang.String" dynamic="true" firstCharacter="751" lastCharacter="931" sinceTag=""/>
-    <methods name="getClassName" type="java.lang.String" dynamic="true" firstCharacter="939" lastCharacter="1122" sinceTag=""/>
-  </types>
-  <types name="uk.org.cse.stockimport.IStockImportRequest" firstCharacter="37" lastCharacter="232" sinceTag="0.0.1-SNAPSHOT"/>
-  <types name="uk.org.cse.stockimport.SpssImportRequest" firstCharacter="241" lastCharacter="1537" sinceTag="0.0.1-SNAPSHOT" type="Class">
-    <methods name="SpssImportRequest" type="void" dynamic="true" firstCharacter="592" lastCharacter="702" sinceTag=""/>
-    <methods name="getJarLocation" type="java.lang.String" dynamic="true" firstCharacter="710" lastCharacter="869" sinceTag=""/>
-    <methods name="setJarLocation" type="void" dynamic="true" firstCharacter="877" lastCharacter="1072" sinceTag="">
-      <parameterTypes>java.lang.String</parameterTypes>
-    </methods>
-    <methods name="getImportItems" type="java.util.List" dynamic="true" firstCharacter="1080" lastCharacter="1316" sinceTag=""/>
-    <methods name="setImportItems" type="void" dynamic="true" firstCharacter="1324" lastCharacter="1534" sinceTag="">
-      <parameterTypes>java.util.List</parameterTypes>
-    </methods>
-  </types>
-  <types name="uk.org.cse.stockimport.IStockImportItem" firstCharacter="35" lastCharacter="284" sinceTag="0.0.1-SNAPSHOT">
-    <methods name="getFileName" type="java.lang.String" dynamic="true" firstCharacter="232" lastCharacter="253" sinceTag=""/>
-    <methods name="getClassName" type="java.lang.String" dynamic="true" firstCharacter="259" lastCharacter="281" sinceTag=""/>
-  </types>
-  <types name="uk.org.cse.stockimport.StockImportException" firstCharacter="35" lastCharacter="313" sinceTag="0.0.1-SNAPSHOT" type="Class"/>
+    <types name="uk.org.cse.nhm.spss.SavEntry" firstCharacter="32" lastCharacter="1277" sinceTag="">
+        <methods name="getValue" dynamic="true" firstCharacter="126" lastCharacter="422" sinceTag="">
+            <parameterTypes>uk.org.cse.nhm.spss.SavVariable</parameterTypes>
+            <parameterTypes>java.lang.Class</parameterTypes>
+        </methods>
+        <methods name="getValue" dynamic="true" firstCharacter="425" lastCharacter="742" sinceTag="">
+            <parameterTypes>int</parameterTypes>
+            <parameterTypes>java.lang.Class</parameterTypes>
+        </methods>
+        <methods name="isMissing" type="boolean" dynamic="true" firstCharacter="748" lastCharacter="926" sinceTag="">
+            <parameterTypes>int</parameterTypes>
+        </methods>
+        <methods name="isMissing" type="boolean" dynamic="true" firstCharacter="932" lastCharacter="1089" sinceTag="">
+            <parameterTypes>uk.org.cse.nhm.spss.SavVariable</parameterTypes>
+        </methods>
+        <methods name="isPredefinedValue" type="boolean" dynamic="true" firstCharacter="1092" lastCharacter="1274" sinceTag="">
+            <parameterTypes>uk.org.cse.nhm.spss.SavVariable</parameterTypes>
+        </methods>
+    </types>
+    <types name="uk.org.cse.nhm.spss.SavInputStream" firstCharacter="91" lastCharacter="528" sinceTag="">
+        <methods name="getMetadata" type="uk.org.cse.nhm.spss.SavMetadata" dynamic="true" firstCharacter="428" lastCharacter="525" sinceTag=""/>
+    </types>
+    <types name="uk.org.cse.nhm.spss.SavVariable" firstCharacter="86" lastCharacter="1317" sinceTag="">
+        <methods name="getType" type="uk.org.cse.nhm.spss.SavVariableType" dynamic="true" firstCharacter="289" lastCharacter="372" sinceTag=""/>
+        <methods name="getName" type="java.lang.String" dynamic="true" firstCharacter="375" lastCharacter="470" sinceTag=""/>
+        <methods name="getLabel" type="java.lang.String" dynamic="true" firstCharacter="473" lastCharacter="561" sinceTag=""/>
+        <methods name="getVariableTypeCode" type="int" dynamic="true" firstCharacter="564" lastCharacter="722" sinceTag=""/>
+        <methods name="getIndex" type="int" dynamic="true" firstCharacter="725" lastCharacter="852" sinceTag=""/>
+        <methods name="decode" type="java.lang.String" dynamic="true" firstCharacter="855" lastCharacter="1035" sinceTag="">
+            <parameterTypes>double</parameterTypes>
+        </methods>
+        <methods name="isMissingValue" type="boolean" dynamic="true" firstCharacter="1041" lastCharacter="1179" sinceTag="">
+            <parameterTypes>double</parameterTypes>
+        </methods>
+        <methods name="getValueLabel" type="java.lang.String" dynamic="true" firstCharacter="1185" lastCharacter="1227" sinceTag="">
+            <parameterTypes>java.lang.Double</parameterTypes>
+        </methods>
+        <methods name="getVariableValues" type="uk.org.cse.nhm.spss.impl.SavVariableValues" dynamic="true" firstCharacter="1233" lastCharacter="1278" sinceTag=""/>
+        <methods name="isRestricted" type="boolean" dynamic="true" firstCharacter="1284" lastCharacter="1314" sinceTag=""/>
+    </types>
+    <types name="uk.org.cse.nhm.spss.SavVariableType" firstCharacter="32" lastCharacter="394" sinceTag="" type="Enumeration"/>
+    <types name="uk.org.cse.nhm.spss.SavMetadata" firstCharacter="112" lastCharacter="602" sinceTag="">
+        <methods name="getVariables" type="java.util.List" dynamic="true" firstCharacter="228" lastCharacter="355" sinceTag=""/>
+        <methods name="getEntryCount" type="int" dynamic="true" firstCharacter="361" lastCharacter="388" sinceTag=""/>
+        <methods name="getVariable" type="uk.org.cse.nhm.spss.SavVariable" dynamic="true" firstCharacter="393" lastCharacter="542" sinceTag="">
+            <parameterTypes>java.lang.String</parameterTypes>
+        </methods>
+        <methods name="getVariableValues" type="java.util.List" dynamic="true" firstCharacter="548" lastCharacter="599" sinceTag=""/>
+    </types>
+    <types name="uk.org.cse.nhm.spss.codegen.EnumDescriptor" firstCharacter="306" lastCharacter="3059" sinceTag="" type="Class">
+        <methods name="EnumDescriptor" type="void" dynamic="true" firstCharacter="583" lastCharacter="995" sinceTag="">
+            <parameterTypes>java.lang.String</parameterTypes>
+            <parameterTypes>uk.org.cse.nhm.spss.SavVariable</parameterTypes>
+        </methods>
+        <methods name="isSubEnumeration" type="boolean" dynamic="true" firstCharacter="1136" lastCharacter="1425" sinceTag="">
+            <parameterTypes>uk.org.cse.nhm.spss.codegen.EnumDescriptor</parameterTypes>
+        </methods>
+        <methods name="getPackage" type="java.lang.String" dynamic="true" firstCharacter="1431" lastCharacter="1478" sinceTag=""/>
+        <methods name="getName" type="java.lang.String" dynamic="true" firstCharacter="1483" lastCharacter="1528" sinceTag=""/>
+        <methods name="use" type="void" dynamic="true" firstCharacter="1534" lastCharacter="1573" sinceTag=""/>
+        <methods name="isUsed" type="boolean" dynamic="true" firstCharacter="1578" lastCharacter="1623" sinceTag=""/>
+        <methods name="generate" type="void" dynamic="true" firstCharacter="1628" lastCharacter="2710" sinceTag="">
+            <parameterTypes>java.io.File</parameterTypes>
+            <parameterTypes>uk.org.cse.nhm.spss.codegen.CodeGenerator</parameterTypes>
+        </methods>
+        <methods name="merge" type="void" dynamic="true" firstCharacter="2892" lastCharacter="3056" sinceTag="">
+            <parameterTypes>uk.org.cse.nhm.spss.codegen.EnumDescriptor</parameterTypes>
+        </methods>
+    </types>
+    <types name="uk.org.cse.nhm.spss.codegen.RecordDescriptor" firstCharacter="278" lastCharacter="4565" sinceTag="" type="Class">
+        <methods name="RecordDescriptor" type="void" dynamic="true" firstCharacter="618" lastCharacter="1045" sinceTag="">
+            <parameterTypes>java.lang.String</parameterTypes>
+        </methods>
+        <methods name="addField" type="void" dynamic="true" firstCharacter="1050" lastCharacter="1195" sinceTag="">
+            <parameterTypes>uk.org.cse.nhm.spss.SavVariable</parameterTypes>
+            <parameterTypes>uk.org.cse.nhm.spss.codegen.TypeDescriptor</parameterTypes>
+        </methods>
+        <methods name="getPackage" type="java.lang.String" dynamic="true" firstCharacter="1200" lastCharacter="1247" sinceTag=""/>
+        <methods name="getName" type="java.lang.String" dynamic="true" firstCharacter="1252" lastCharacter="1297" sinceTag=""/>
+        <methods name="use" type="void" dynamic="true" firstCharacter="1302" lastCharacter="1329" sinceTag=""/>
+        <methods name="generate" type="void" dynamic="true" firstCharacter="1334" lastCharacter="1662" sinceTag="">
+            <parameterTypes>java.io.File</parameterTypes>
+            <parameterTypes>uk.org.cse.nhm.spss.codegen.CodeGenerator</parameterTypes>
+            <parameterTypes>java.lang.String</parameterTypes>
+            <parameterTypes>java.util.Set</parameterTypes>
+        </methods>
+        <methods name="getOrginalFileName" type="java.lang.String" dynamic="true" firstCharacter="4306" lastCharacter="4481" sinceTag=""/>
+        <methods name="getGeneratedClassName" type="java.lang.String" dynamic="true" firstCharacter="4489" lastCharacter="4562" sinceTag=""/>
+    </types>
+    <types name="uk.org.cse.nhm.spss.codegen.FieldDescriptor" firstCharacter="108" lastCharacter="1653" sinceTag="" type="Class">
+        <methods name="FieldDescriptor" type="void" dynamic="true" firstCharacter="170" lastCharacter="633" sinceTag="">
+            <parameterTypes>uk.org.cse.nhm.spss.SavVariable</parameterTypes>
+            <parameterTypes>uk.org.cse.nhm.spss.codegen.TypeDescriptor</parameterTypes>
+            <parameterTypes>java.util.Set</parameterTypes>
+        </methods>
+        <methods name="generateDefinition" type="java.lang.String" dynamic="true" firstCharacter="733" lastCharacter="941" sinceTag=""/>
+        <methods name="getImport" type="java.lang.String" dynamic="true" firstCharacter="947" lastCharacter="1030" sinceTag=""/>
+        <methods name="generateGetter" type="java.lang.String" dynamic="true" firstCharacter="1035" lastCharacter="1233" sinceTag=""/>
+        <methods name="generateSetter" type="java.lang.String" dynamic="true" firstCharacter="1238" lastCharacter="1472" sinceTag=""/>
+        <methods name="generateField" type="java.lang.String" dynamic="true" firstCharacter="1478" lastCharacter="1584" sinceTag=""/>
+        <methods name="getVariableName" type="java.lang.String" dynamic="true" firstCharacter="1589" lastCharacter="1650" sinceTag=""/>
+    </types>
+    <types name="uk.org.cse.nhm.spss.codegen.TypeDescriptor" firstCharacter="40" lastCharacter="805" sinceTag="">
+        <methods name="getPackage" type="java.lang.String" dynamic="true" firstCharacter="727" lastCharacter="754" sinceTag=""/>
+        <methods name="getName" type="java.lang.String" dynamic="true" firstCharacter="757" lastCharacter="781" sinceTag=""/>
+        <methods name="use" type="void" dynamic="true" firstCharacter="784" lastCharacter="802" sinceTag=""/>
+    </types>
+    <types name="uk.org.cse.nhm.spss.codegen.CodeGenerator" firstCharacter="774" lastCharacter="7670" sinceTag="" type="Class">
+        <methods name="CodeGenerator" type="void" dynamic="true" firstCharacter="1395" lastCharacter="1488" sinceTag="">
+            <parameterTypes>java.lang.String</parameterTypes>
+        </methods>
+        <methods name="loadDirectory" type="void" dynamic="true" firstCharacter="1494" lastCharacter="1857" sinceTag="">
+            <parameterTypes>java.io.File</parameterTypes>
+        </methods>
+        <methods name="getEnumTypeDescriptor" type="uk.org.cse.nhm.spss.codegen.TypeDescriptor" dynamic="true" firstCharacter="4391" lastCharacter="4865" sinceTag="">
+            <parameterTypes>uk.org.cse.nhm.spss.codegen.EnumDescriptor</parameterTypes>
+        </methods>
+        <methods name="generate" type="void" dynamic="true" firstCharacter="4871" lastCharacter="5807" sinceTag="">
+            <parameterTypes>java.io.File</parameterTypes>
+            <parameterTypes>java.lang.String</parameterTypes>
+            <parameterTypes>java.util.Set</parameterTypes>
+        </methods>
+        <methods name="createStream" type="java.io.PrintStream" dynamic="true" firstCharacter="5812" lastCharacter="6089" sinceTag="">
+            <parameterTypes>java.io.File</parameterTypes>
+            <parameterTypes>java.lang.String</parameterTypes>
+        </methods>
+        <methods name="saveInputLog" type="void" dynamic="true" firstCharacter="6098" lastCharacter="6406" sinceTag="">
+            <parameterTypes>uk.org.cse.stockimport.SpssImportRequest</parameterTypes>
+            <parameterTypes>java.io.FileOutputStream</parameterTypes>
+        </methods>
+        <methods name="updateImportLog" type="void" dynamic="true" firstCharacter="6414" lastCharacter="6730" sinceTag="">
+            <parameterTypes>uk.org.cse.stockimport.SpssImportRequest</parameterTypes>
+            <parameterTypes>uk.org.cse.nhm.spss.codegen.RecordDescriptor</parameterTypes>
+        </methods>
+        <methods name="makeNiceName" type="java.lang.String" firstCharacter="6735" lastCharacter="7667" sinceTag="">
+            <parameterTypes>java.lang.String</parameterTypes>
+        </methods>
+    </types>
+    <types name="uk.org.cse.nhm.spss.impl.SavInputStreamImpl" firstCharacter="222" lastCharacter="1248" sinceTag="" type="Class">
+        <methods name="SavInputStreamImpl" type="void" dynamic="true" firstCharacter="387" lastCharacter="757" sinceTag="">
+            <parameterTypes>java.io.InputStream</parameterTypes>
+        </methods>
+        <methods name="getMetadata" type="uk.org.cse.nhm.spss.SavMetadata" dynamic="true" firstCharacter="765" lastCharacter="823" sinceTag=""/>
+        <methods name="hasNext" type="boolean" dynamic="true" firstCharacter="828" lastCharacter="910" sinceTag=""/>
+        <methods name="next" type="uk.org.cse.nhm.spss.SavEntry" dynamic="true" firstCharacter="915" lastCharacter="1127" sinceTag=""/>
+        <methods name="remove" type="void" dynamic="true" firstCharacter="1132" lastCharacter="1245" sinceTag=""/>
+    </types>
+    <types name="uk.org.cse.nhm.spss.impl.SavMetadataImpl" firstCharacter="470" lastCharacter="6145" sinceTag="" type="Class">
+        <methods name="SavMetadataImpl" type="void" dynamic="true" firstCharacter="1455" lastCharacter="5667" sinceTag="">
+            <parameterTypes>uk.org.cse.nhm.spss.impl.SavDataStream</parameterTypes>
+        </methods>
+        <methods name="getVariables" type="java.util.List" dynamic="true" firstCharacter="5672" lastCharacter="5748" sinceTag=""/>
+        <methods name="isCompressed" type="boolean" dynamic="true" firstCharacter="5837" lastCharacter="5900" sinceTag=""/>
+        <methods name="getEntryCount" type="int" dynamic="true" firstCharacter="5905" lastCharacter="5958" sinceTag=""/>
+        <methods name="getVariable" type="uk.org.cse.nhm.spss.SavVariable" dynamic="true" firstCharacter="5963" lastCharacter="6055" sinceTag="">
+            <parameterTypes>java.lang.String</parameterTypes>
+        </methods>
+        <methods name="getVariableValues" type="java.util.List" dynamic="true" firstCharacter="6060" lastCharacter="6142" sinceTag=""/>
+    </types>
+    <types name="uk.org.cse.nhm.spss.impl.SavVariableImpl" firstCharacter="266" lastCharacter="2956" sinceTag="" type="Class">
+        <methods name="SavVariableImpl" type="void" dynamic="true" firstCharacter="662" lastCharacter="1820" sinceTag="">
+            <parameterTypes>uk.org.cse.nhm.spss.impl.SavDataStream</parameterTypes>
+            <parameterTypes>int</parameterTypes>
+        </methods>
+        <methods name="getType" type="uk.org.cse.nhm.spss.SavVariableType" dynamic="true" firstCharacter="1908" lastCharacter="1970" sinceTag=""/>
+        <methods name="getName" type="java.lang.String" dynamic="true" firstCharacter="1975" lastCharacter="2020" sinceTag=""/>
+        <methods name="getLabel" type="java.lang.String" dynamic="true" firstCharacter="2025" lastCharacter="2072" sinceTag=""/>
+        <methods name="setValues" type="void" dynamic="true" firstCharacter="2077" lastCharacter="2155" sinceTag="">
+            <parameterTypes>uk.org.cse.nhm.spss.impl.SavVariableValues</parameterTypes>
+        </methods>
+        <methods name="getVariableTypeCode" type="int" dynamic="true" firstCharacter="2160" lastCharacter="2226" sinceTag=""/>
+        <methods name="getIndex" type="int" dynamic="true" firstCharacter="2231" lastCharacter="2275" sinceTag=""/>
+        <methods name="decode" type="java.lang.String" dynamic="true" firstCharacter="2280" lastCharacter="2418" sinceTag="">
+            <parameterTypes>double</parameterTypes>
+        </methods>
+        <methods name="isMissingValue" type="boolean" dynamic="true" firstCharacter="2423" lastCharacter="2577" sinceTag="">
+            <parameterTypes>double</parameterTypes>
+        </methods>
+        <methods name="getValueLabel" type="java.lang.String" dynamic="true" firstCharacter="2582" lastCharacter="2721" sinceTag="">
+            <parameterTypes>java.lang.Double</parameterTypes>
+        </methods>
+        <methods name="getVariableValues" type="uk.org.cse.nhm.spss.impl.SavVariableValues" dynamic="true" firstCharacter="2726" lastCharacter="2794" sinceTag=""/>
+        <methods name="isRestricted" type="boolean" dynamic="true" firstCharacter="2800" lastCharacter="2857" sinceTag=""/>
+        <methods name="setRestricted" type="void" dynamic="true" firstCharacter="2863" lastCharacter="2953" sinceTag="">
+            <parameterTypes>boolean</parameterTypes>
+        </methods>
+    </types>
+    <types name="uk.org.cse.nhm.spss.impl.SavEntryImpl" firstCharacter="338" lastCharacter="2714" sinceTag="" type="Class">
+        <methods name="SavEntryImpl" type="void" dynamic="true" firstCharacter="495" lastCharacter="940" sinceTag="">
+            <parameterTypes>uk.org.cse.nhm.spss.SavMetadata</parameterTypes>
+            <parameterTypes>uk.org.cse.nhm.spss.impl.SavDataStream</parameterTypes>
+        </methods>
+        <methods name="getValue" dynamic="true" firstCharacter="1229" lastCharacter="1342" sinceTag="">
+            <parameterTypes>uk.org.cse.nhm.spss.SavVariable</parameterTypes>
+            <parameterTypes>java.lang.Class</parameterTypes>
+        </methods>
+        <methods name="getValue" dynamic="true" firstCharacter="1979" lastCharacter="2080" sinceTag="">
+            <parameterTypes>int</parameterTypes>
+            <parameterTypes>java.lang.Class</parameterTypes>
+        </methods>
+        <methods name="isMissing" type="boolean" dynamic="true" firstCharacter="2085" lastCharacter="2322" sinceTag="">
+            <parameterTypes>int</parameterTypes>
+        </methods>
+        <methods name="isMissing" type="boolean" dynamic="true" firstCharacter="2327" lastCharacter="2421" sinceTag="">
+            <parameterTypes>uk.org.cse.nhm.spss.SavVariable</parameterTypes>
+        </methods>
+        <methods name="isPredefinedValue" type="boolean" dynamic="true" firstCharacter="2426" lastCharacter="2711" sinceTag="">
+            <parameterTypes>uk.org.cse.nhm.spss.SavVariable</parameterTypes>
+        </methods>
+    </types>
+    <types name="uk.org.cse.nhm.spss.impl.SavVariableValuesImpl" firstCharacter="201" lastCharacter="1409" sinceTag="" type="Class">
+        <methods name="getValues" type="java.util.Map" dynamic="true" firstCharacter="443" lastCharacter="505" sinceTag=""/>
+        <methods name="getAntiValues" type="java.util.Map" dynamic="true" firstCharacter="510" lastCharacter="580" sinceTag=""/>
+        <methods name="SavVariableValuesImpl" type="void" dynamic="true" firstCharacter="585" lastCharacter="977" sinceTag="">
+            <parameterTypes>uk.org.cse.nhm.spss.impl.SavDataStream</parameterTypes>
+        </methods>
+        <methods name="decode" type="java.lang.String" dynamic="true" firstCharacter="1066" lastCharacter="1313" sinceTag="">
+            <parameterTypes>double</parameterTypes>
+        </methods>
+        <methods name="isPredefined" type="boolean" dynamic="true" firstCharacter="1318" lastCharacter="1406" sinceTag="">
+            <parameterTypes>java.lang.Double</parameterTypes>
+        </methods>
+    </types>
+    <types name="uk.org.cse.nhm.spss.impl.SavVariableValues" firstCharacter="62" lastCharacter="316" sinceTag="">
+        <methods name="decode" type="java.lang.String" dynamic="true" firstCharacter="103" lastCharacter="147" sinceTag="">
+            <parameterTypes>double</parameterTypes>
+        </methods>
+        <methods name="isPredefined" type="boolean" dynamic="true" firstCharacter="152" lastCharacter="203" sinceTag="">
+            <parameterTypes>java.lang.Double</parameterTypes>
+        </methods>
+        <methods name="getValues" type="java.util.Map" dynamic="true" firstCharacter="208" lastCharacter="256" sinceTag=""/>
+        <methods name="getAntiValues" type="java.util.Map" dynamic="true" firstCharacter="261" lastCharacter="313" sinceTag=""/>
+    </types>
+    <types name="uk.org.cse.nhm.spss.impl.SavDataStream" firstCharacter="156" lastCharacter="7029" sinceTag="" type="Class">
+        <methods name="SavDataStream" type="void" dynamic="true" firstCharacter="818" lastCharacter="898" sinceTag="">
+            <parameterTypes>java.io.InputStream</parameterTypes>
+        </methods>
+        <methods name="readVarString" type="java.lang.String" dynamic="true" firstCharacter="904" lastCharacter="1489" sinceTag="">
+            <parameterTypes>int</parameterTypes>
+        </methods>
+        <methods name="readString" type="java.lang.String" dynamic="true" firstCharacter="1495" lastCharacter="1920" sinceTag="">
+            <parameterTypes>int</parameterTypes>
+        </methods>
+        <methods name="readByte" type="int" dynamic="true" firstCharacter="1926" lastCharacter="2102" sinceTag=""/>
+        <methods name="readInt" type="int" dynamic="true" firstCharacter="2108" lastCharacter="2541" sinceTag=""/>
+        <methods name="readDouble" type="double" dynamic="true" firstCharacter="2858" lastCharacter="3622" sinceTag=""/>
+        <methods name="setBigEndian" type="void" dynamic="true" firstCharacter="3892" lastCharacter="4004" sinceTag=""/>
+        <methods name="skip" type="void" dynamic="true" firstCharacter="4010" lastCharacter="4175" sinceTag="">
+            <parameterTypes>int</parameterTypes>
+        </methods>
+        <methods name="pushBack" type="void" dynamic="true" firstCharacter="4181" lastCharacter="4262" sinceTag="">
+            <parameterTypes>int</parameterTypes>
+        </methods>
+        <methods name="setCompressedData" type="void" dynamic="true" firstCharacter="4268" lastCharacter="4644" sinceTag="">
+            <parameterTypes>boolean</parameterTypes>
+            <parameterTypes>double</parameterTypes>
+        </methods>
+        <methods name="readNumericData" type="double" dynamic="true" firstCharacter="4732" lastCharacter="5451" sinceTag=""/>
+        <methods name="readStringData" type="java.lang.String" dynamic="true" firstCharacter="5457" lastCharacter="5843" sinceTag="">
+            <parameterTypes>int</parameterTypes>
+        </methods>
+    </types>
+    <types name="uk.org.cse.nhm.spss.impl.format.SavIntegerTypeInformation" firstCharacter="208" lastCharacter="1128" sinceTag="" type="Class">
+        <methods name="SavIntegerTypeInformation" type="void" dynamic="true" firstCharacter="492" lastCharacter="1041" sinceTag="">
+            <parameterTypes>uk.org.cse.nhm.spss.impl.SavDataStream</parameterTypes>
+        </methods>
+    </types>
+    <types name="uk.org.cse.nhm.spss.impl.format.SavFloatTypeInformation" firstCharacter="206" lastCharacter="792" sinceTag="" type="Class">
+        <methods name="SavFloatTypeInformation" type="void" dynamic="true" firstCharacter="348" lastCharacter="705" sinceTag="">
+            <parameterTypes>uk.org.cse.nhm.spss.impl.SavDataStream</parameterTypes>
+        </methods>
+    </types>
+    <types name="uk.org.cse.nhm.spss.main.DumpMetadata" firstCharacter="363" lastCharacter="952" sinceTag="" type="Class">
+        <methods name="main" type="void" firstCharacter="395" lastCharacter="947" sinceTag="">
+            <parameterTypes>java.lang.String</parameterTypes>
+        </methods>
+    </types>
+    <types name="uk.org.cse.nhm.spss.main.SPSSCodeGenerator" firstCharacter="213" lastCharacter="762" sinceTag="" type="Class">
+        <methods name="main" type="void" firstCharacter="320" lastCharacter="759" sinceTag="">
+            <parameterTypes>java.lang.String</parameterTypes>
+        </methods>
+    </types>
+    <types name="uk.org.cse.nhm.spss.values.SpssValueReader" firstCharacter="521" lastCharacter="2614" sinceTag="" type="Class">
+        <methods name="load" type="com.google.common.base.Optional" dynamic="true" firstCharacter="554" lastCharacter="721" sinceTag="">
+            <parameterTypes>java.io.InputStream</parameterTypes>
+        </methods>
+    </types>
+    <types name="uk.org.cse.nhm.spss.wrap.SavStreamWrapperBuilder" firstCharacter="660" lastCharacter="10602" sinceTag="" type="Class">
+        <methods name="wrapBean" type="java.util.Iterator" dynamic="true" firstCharacter="1502" lastCharacter="5490" sinceTag="">
+            <parameterTypes>uk.org.cse.nhm.spss.SavInputStream</parameterTypes>
+            <parameterTypes>java.lang.Class</parameterTypes>
+        </methods>
+        <methods name="wrapInterface" type="java.util.Iterator" dynamic="true" firstCharacter="8776" lastCharacter="10599" sinceTag="">
+            <parameterTypes>uk.org.cse.nhm.spss.SavInputStream</parameterTypes>
+            <parameterTypes>java.lang.Class</parameterTypes>
+        </methods>
+    </types>
+    <types name="uk.org.cse.nhm.spss.wrap.SavVariableMapping" firstCharacter="204" lastCharacter="718" sinceTag="">
+        <methods name="value" type="java.lang.String" dynamic="true" firstCharacter="559" lastCharacter="715" sinceTag=""/>
+    </types>
+    <types name="uk.org.cse.nhm.spss.wrap.SavEnumMapping" firstCharacter="204" lastCharacter="866" sinceTag="">
+        <methods name="value" type="java.lang.String" dynamic="true" firstCharacter="586" lastCharacter="863" sinceTag=""/>
+    </types>
+    <types name="uk.org.cse.nhm.spss.wrap.SavEntryWrapper" firstCharacter="118" lastCharacter="947" sinceTag="" type="Class">
+        <methods name="SavEntryWrapper" type="void" dynamic="true" firstCharacter="573" lastCharacter="827" sinceTag="">
+            <parameterTypes>uk.org.cse.nhm.spss.SavMetadata</parameterTypes>
+            <parameterTypes>uk.org.cse.nhm.spss.SavEntry</parameterTypes>
+        </methods>
+        <methods name="getEntry" type="uk.org.cse.nhm.spss.SavEntry" dynamic="true" firstCharacter="832" lastCharacter="881" sinceTag=""/>
+        <methods name="getMetadata" type="uk.org.cse.nhm.spss.SavMetadata" dynamic="true" firstCharacter="886" lastCharacter="944" sinceTag=""/>
+    </types>
+    <types name="uk.org.cse.stockimport.StockImportItem" firstCharacter="168" lastCharacter="1125" sinceTag="0.0.1-SNAPSHOT" type="Class">
+        <methods name="StockImportItem" type="void" dynamic="true" firstCharacter="528" lastCharacter="579" sinceTag=""/>
+        <methods name="StockImportItem" type="void" dynamic="true" firstCharacter="587" lastCharacter="743" sinceTag="">
+            <parameterTypes>java.lang.String</parameterTypes>
+        </methods>
+        <methods name="getFileName" type="java.lang.String" dynamic="true" firstCharacter="751" lastCharacter="931" sinceTag=""/>
+        <methods name="getClassName" type="java.lang.String" dynamic="true" firstCharacter="939" lastCharacter="1122" sinceTag=""/>
+    </types>
+    <types name="uk.org.cse.stockimport.IStockImportRequest" firstCharacter="37" lastCharacter="232" sinceTag="0.0.1-SNAPSHOT"/>
+    <types name="uk.org.cse.stockimport.SpssImportRequest" firstCharacter="241" lastCharacter="1537" sinceTag="0.0.1-SNAPSHOT" type="Class">
+        <methods name="SpssImportRequest" type="void" dynamic="true" firstCharacter="592" lastCharacter="702" sinceTag=""/>
+        <methods name="getJarLocation" type="java.lang.String" dynamic="true" firstCharacter="710" lastCharacter="869" sinceTag=""/>
+        <methods name="setJarLocation" type="void" dynamic="true" firstCharacter="877" lastCharacter="1072" sinceTag="">
+            <parameterTypes>java.lang.String</parameterTypes>
+        </methods>
+        <methods name="getImportItems" type="java.util.List" dynamic="true" firstCharacter="1080" lastCharacter="1316" sinceTag=""/>
+        <methods name="setImportItems" type="void" dynamic="true" firstCharacter="1324" lastCharacter="1534" sinceTag="">
+            <parameterTypes>java.util.List</parameterTypes>
+        </methods>
+    </types>
+    <types name="uk.org.cse.stockimport.IStockImportItem" firstCharacter="35" lastCharacter="284" sinceTag="0.0.1-SNAPSHOT">
+        <methods name="getFileName" type="java.lang.String" dynamic="true" firstCharacter="232" lastCharacter="253" sinceTag=""/>
+        <methods name="getClassName" type="java.lang.String" dynamic="true" firstCharacter="259" lastCharacter="281" sinceTag=""/>
+    </types>
+    <types name="uk.org.cse.stockimport.StockImportException" firstCharacter="35" lastCharacter="313" sinceTag="0.0.1-SNAPSHOT" type="Class"/>
 </api:API>

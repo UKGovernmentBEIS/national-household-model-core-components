@@ -7,131 +7,131 @@ import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 
 public interface VacantEntry extends SurveyEntry {
-	@SavVariableMapping("VNLSTYR")
-	public Integer getYearLastOccupied();
 
-	@SavVariableMapping("VNCRFRMV")
-	public Enum69 getWaitingForOwnersFriends_RelsToMoveIn();
+    @SavVariableMapping("VNLSTYR")
+    public Integer getYearLastOccupied();
 
-	@SavVariableMapping("VNCRLET")
-	public Enum69 getLet_ButNewTenantsNotMovedIn();
+    @SavVariableMapping("VNCRFRMV")
+    public Enum69 getWaitingForOwnersFriends_RelsToMoveIn();
 
-	@SavVariableMapping("VNCRDKRF")
-	public Enum69 getCurrentlyUnoccupied_Refused_DK();
+    @SavVariableMapping("VNCRLET")
+    public Enum69 getLet_ButNewTenantsNotMovedIn();
 
-	@SavVariableMapping("VNMVHCI")
-	public Enum69 getWentIntoHospital_Care_Institution();
+    @SavVariableMapping("VNCRDKRF")
+    public Enum69 getCurrentlyUnoccupied_Refused_DK();
 
-	@SavVariableMapping("VNMVEVIC")
-	public Enum69 getEvicted_PropertyReposessed();
+    @SavVariableMapping("VNMVHCI")
+    public Enum69 getWentIntoHospital_Care_Institution();
 
-	@SavVariableMapping("VNSTRNMD")
-	public Enum69 getUndergoingRenovation_Modernisation();
+    @SavVariableMapping("VNMVEVIC")
+    public Enum69 getEvicted_PropertyReposessed();
 
-	@SavVariableMapping("VNCRAWLT")
-	public Enum69 getAwaitingLetting();
+    @SavVariableMapping("VNSTRNMD")
+    public Enum69 getUndergoingRenovation_Modernisation();
 
-	@SavVariableMapping("VNMVDKMV")
-	public Enum69 getMoved_Don_TKnowReason();
+    @SavVariableMapping("VNCRAWLT")
+    public Enum69 getAwaitingLetting();
 
-	@SavVariableMapping("VNSTOTHR")
-	public Enum69 getCurrentStatus_Other();
+    @SavVariableMapping("VNMVDKMV")
+    public Enum69 getMoved_Don_TKnowReason();
 
-	@SavVariableMapping("VNSTDKRF")
-	public Enum69 getCurrentStatus_Don_TKnow_Refused();
+    @SavVariableMapping("VNSTOTHR")
+    public Enum69 getCurrentStatus_Other();
 
-	@SavVariableMapping("QUARTER")
-	public Enum230 getFieldworkQuarter();
+    @SavVariableMapping("VNSTDKRF")
+    public Enum69 getCurrentStatus_Don_TKnow_Refused();
 
-	@SavVariableMapping("VNMVOTHR")
-	public Enum69 getWhyMoved_Other();
+    @SavVariableMapping("QUARTER")
+    public Enum230 getFieldworkQuarter();
 
-	@SavVariableMapping("VNMVDAMG")
-	public Enum69 getPropertyDamaged_EgFire_Flood_();
+    @SavVariableMapping("VNMVOTHR")
+    public Enum69 getWhyMoved_Other();
 
-	@SavVariableMapping("VNCRNEVR")
-	public Enum69 getWillNeverBeReOccupiedAgain_E_G_Derelict_();
+    @SavVariableMapping("VNMVDAMG")
+    public Enum69 getPropertyDamaged_EgFire_Flood_();
 
-	@SavVariableMapping("VNCRSOLD")
-	public Enum69 getSold_NewOwnersNotYetMovedIn();
+    @SavVariableMapping("VNCRNEVR")
+    public Enum69 getWillNeverBeReOccupiedAgain_E_G_Derelict_();
 
-	@SavVariableMapping("VNMVOTMV")
-	public Enum69 getMoved_OtherReason();
+    @SavVariableMapping("VNCRSOLD")
+    public Enum69 getSold_NewOwnersNotYetMovedIn();
 
-	@SavVariableMapping("VNLSTTEN")
-	public Enum1003 getTenureWhenLastOccupied();
+    @SavVariableMapping("VNMVOTMV")
+    public Enum69 getMoved_OtherReason();
 
-	@SavVariableMapping("VNLSTUSE")
-	public Enum1004 getLastUse();
+    @SavVariableMapping("VNLSTTEN")
+    public Enum1003 getTenureWhenLastOccupied();
 
-	@SavVariableMapping("VNCRMDRQ")
-	public Enum69 getRepairs_ModsRequired();
+    @SavVariableMapping("VNLSTUSE")
+    public Enum1004 getLastUse();
 
-	@SavVariableMapping("VNCRAWSL")
-	public Enum69 getAwaitingSale();
+    @SavVariableMapping("VNCRMDRQ")
+    public Enum69 getRepairs_ModsRequired();
 
-	@SavVariableMapping("VNCRRMR")
-	public Enum69 getBeingRepaired_Mod_Renovated();
+    @SavVariableMapping("VNCRAWSL")
+    public Enum69 getAwaitingSale();
 
-	@SavVariableMapping("VNSTAWLT")
-	public Enum69 getAwaitingLetting_VNSTAWLT();
+    @SavVariableMapping("VNCRRMR")
+    public Enum69 getBeingRepaired_Mod_Renovated();
 
-	@SavVariableMapping("VNSTSDNO")
-	public Enum69 getSold_AwaitingNewOccupants();
+    @SavVariableMapping("VNSTAWLT")
+    public Enum69 getAwaitingLetting_VNSTAWLT();
 
-	@SavVariableMapping("VNSTAWNW")
-	public Enum69 getAwaiting_New_Tenants();
+    @SavVariableMapping("VNSTSDNO")
+    public Enum69 getSold_AwaitingNewOccupants();
 
-	@SavVariableMapping("VNSTNONE")
-	public Enum69 getCurrentStatus_NoneOfThese();
+    @SavVariableMapping("VNSTAWNW")
+    public Enum69 getAwaiting_New_Tenants();
 
-	@SavVariableMapping("VNSEAS")
-	public Enum1012 getMonthLastOccupied();
+    @SavVariableMapping("VNSTNONE")
+    public Enum69 getCurrentStatus_NoneOfThese();
 
-	@SavVariableMapping("VNSTDRDM")
-	public Enum69 getDerelictOrAwaitingDemolition();
+    @SavVariableMapping("VNSEAS")
+    public Enum1012 getMonthLastOccupied();
 
-	@SavVariableMapping("VNCRNTON")
-	public Enum1014 getCurrentOwner();
+    @SavVariableMapping("VNSTDRDM")
+    public Enum69 getDerelictOrAwaitingDemolition();
 
-	@SavVariableMapping("VNMVRPMD")
-	public Enum69 getPropertyNeededRepair_Mod_Renovation();
+    @SavVariableMapping("VNCRNTON")
+    public Enum1014 getCurrentOwner();
 
-	@SavVariableMapping("VNCROWMB")
-	public Enum69 getWaitingForOwnerToMoveBackIn();
+    @SavVariableMapping("VNMVRPMD")
+    public Enum69 getPropertyNeededRepair_Mod_Renovation();
 
-	@SavVariableMapping("VNMVDIED")
-	public Enum69 getDied();
+    @SavVariableMapping("VNCROWMB")
+    public Enum69 getWaitingForOwnerToMoveBackIn();
 
-	@SavVariableMapping("VNCHANGE")
-	public Enum1018 getChangedOwnership();
+    @SavVariableMapping("VNMVDIED")
+    public Enum69 getDied();
 
-	@SavVariableMapping("CASECAT")
-	public Enum229 getStatusOfCase();
+    @SavVariableMapping("VNCHANGE")
+    public Enum1018 getChangedOwnership();
 
-	@SavVariableMapping("GOREHS")
-	public Enum30 getRegion_EHSOrder();
+    @SavVariableMapping("CASECAT")
+    public Enum229 getStatusOfCase();
 
-	@SavVariableMapping("VNEVER")
-	public Enum1021 getEverOccupied();
+    @SavVariableMapping("GOREHS")
+    public Enum30 getRegion_EHSOrder();
 
-	@SavVariableMapping("VNLLRD2")
-	public Enum1022 getLandlordWhenLastOccupied();
+    @SavVariableMapping("VNEVER")
+    public Enum1021 getEverOccupied();
 
-	@SavVariableMapping("VNTENIN")
-	public Enum1023 getLikelyTenureWhenLastOccupied();
+    @SavVariableMapping("VNLLRD2")
+    public Enum1022 getLandlordWhenLastOccupied();
 
-	@SavVariableMapping("VNCRNGEQ")
-	public Enum69 getInNegEquity_WaitingForValueToRise();
+    @SavVariableMapping("VNTENIN")
+    public Enum1023 getLikelyTenureWhenLastOccupied();
 
-	@SavVariableMapping("VNMVDKRF")
-	public Enum69 getWhyMoved_Refused_DontKnow();
+    @SavVariableMapping("VNCRNGEQ")
+    public Enum69 getInNegEquity_WaitingForValueToRise();
 
-	@SavVariableMapping("VNCROTHR")
-	public Enum69 getCurrentlyUnoccupied_Other();
+    @SavVariableMapping("VNMVDKRF")
+    public Enum69 getWhyMoved_Refused_DontKnow();
 
-	@SavVariableMapping("VNSTAWSL")
-	public Enum69 getAwaitingSale_VNSTAWSL();
+    @SavVariableMapping("VNCROTHR")
+    public Enum69 getCurrentlyUnoccupied_Other();
+
+    @SavVariableMapping("VNSTAWSL")
+    public Enum69 getAwaitingSale_VNSTAWSL();
 
 }
-

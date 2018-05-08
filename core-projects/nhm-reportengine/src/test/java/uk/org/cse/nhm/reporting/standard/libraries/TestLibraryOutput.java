@@ -7,11 +7,11 @@ import com.google.common.collect.ImmutableSet;
 
 public class TestLibraryOutput {
 
-	@Test
-	public void testResolvesDependencies() {
-		Assert.assertEquals(ImmutableSet.of(LibraryOutput.D3, LibraryOutput.JQUERY), LibraryOutput.RICKSHAW.getDependencies());
-		Assert.assertEquals(ImmutableSet.of(), LibraryOutput.D3.getDependencies());
-		Assert.assertEquals(ImmutableSet.of(LibraryOutput.D3), LibraryOutput.D3Plugins.getDependencies());
-		Assert.assertEquals(ImmutableSet.of(), LibraryOutput.JQUERY.getDependencies());
-	}
+    @Test
+    public void testResolvesDependencies() {
+        Assert.assertEquals(ImmutableSet.of(LibraryOutput.D3, LibraryOutput.JQUERY), LibraryOutput.RICKSHAW.getDependencies());
+        Assert.assertEquals(ImmutableSet.of(), LibraryOutput.D3.getDependencies());
+        Assert.assertEquals(ImmutableSet.of(LibraryOutput.D3), LibraryOutput.D3Plugins.getDependencies());
+        Assert.assertEquals(ImmutableSet.of(), LibraryOutput.JQUERY.getDependencies());
+    }
 }

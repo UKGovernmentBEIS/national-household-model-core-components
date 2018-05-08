@@ -14,27 +14,29 @@ import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.Obsolete;
 
 @Bind("cost.sum")
-@Doc({ "Used inside a choice, measure or action: yields the sum of all transactions which the dwelling has been involved in as part of that action.", })
+@Doc({"Used inside a choice, measure or action: yields the sum of all transactions which the dwelling has been involved in as part of that action.",})
 @Category(CategoryType.MONEY)
 @Obsolete(
-		reason="cost.sum has been renamed to net-cost, to make it clearer what it does.",
-		version="5.1.4",
-		inFavourOf=XNetCost.class)
+        reason = "cost.sum has been renamed to net-cost, to make it clearer what it does.",
+        version = "5.1.4",
+        inFavourOf = XNetCost.class)
 public class XSumOfCosts extends XHouseNumber {
-	public static class P {
-		public static final String tagged = "tagged";
-	}
 
-	private List<Glob> tagged = new ArrayList<>();
+    public static class P {
 
-	@BindNamedArgument(P.tagged)
-	@Doc("Filters the transactions which will be included in the sum to only those which contain this tag.")
-	public List<Glob> getTagged() {
-		return tagged;
-	}
+        public static final String tagged = "tagged";
+    }
 
-	@Prop(P.tagged)
-	public void setTagged(final List<Glob> tagged) {
-		this.tagged = tagged;
-	}
+    private List<Glob> tagged = new ArrayList<>();
+
+    @BindNamedArgument(P.tagged)
+    @Doc("Filters the transactions which will be included in the sum to only those which contain this tag.")
+    public List<Glob> getTagged() {
+        return tagged;
+    }
+
+    @Prop(P.tagged)
+    public void setTagged(final List<Glob> tagged) {
+        this.tagged = tagged;
+    }
 }

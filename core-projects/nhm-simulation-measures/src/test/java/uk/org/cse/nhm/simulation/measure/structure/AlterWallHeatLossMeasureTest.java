@@ -26,57 +26,59 @@ import uk.org.cse.nhm.simulator.state.IDimension;
  * AlterWallHeatLossMeasurureTest.
  *
  * @author richardt
- * @version $Id: cse-eclipse-codetemplates.xml 94 2010-09-30 15:39:21Z richardt $
+ * @version $Id: cse-eclipse-codetemplates.xml 94 2010-09-30 15:39:21Z richardt
+ * $
  * @since 3.2.0
  */
 @RunWith(MockitoJUnitRunner.class)
-public class AlterWallHeatLossMeasureTest extends Mockito{
+public class AlterWallHeatLossMeasureTest extends Mockito {
+
     private AlterWallHeatLossMeasure measure;
-    
+
     @Mock
     private IComponentsScope components;
-    
+
     @Mock
     private ISettableComponentsScope settableComponents;
-    
+
     @Mock
     private IDimension<StructureModel> dimension;
-    
+
     private final double expectedUValue = 1.00;
-    
+
     @Before
-    public void initialiseTests(){
-       measure = new AlterWallHeatLossMeasure(dimension, expectedUValue);
+    public void initialiseTests() {
+        measure = new AlterWallHeatLossMeasure(dimension, expectedUValue);
     }
-    
+
     @Test
     public void testIsSuitableOnlyReturnsTrueForStructureComponents() throws Exception {
-    	        assertTrue("isSuitable should always return true", measure.isSuitable(components, ILets.EMPTY));        
+        assertTrue("isSuitable should always return true", measure.isSuitable(components, ILets.EMPTY));
     }
-    
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-	@Test
+
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    @Test
     public void testApplyModifiesUValueForEachWallInProperty() throws Exception {
-		final StructureModel structureModel = mock(StructureModel.class);
+        final StructureModel structureModel = mock(StructureModel.class);
         final Storey storey = mock(Storey.class);
         final IMutableWall wallToChange = mock(IMutableWall.class);
-        
+
         final List<Storey> storyList = Arrays.asList(storey);
         final List<IMutableWall> walls = Arrays.asList(wallToChange);
-        
+
         when(structureModel.getStoreys()).thenReturn(storyList);
         when(storey.getWalls()).thenReturn(walls);
-        
+
         measure.apply(settableComponents, ILets.EMPTY);
-        
+
         final ArgumentCaptor<IModifier> captor = ArgumentCaptor.forClass(IModifier.class);
-        
+
         verify(settableComponents).modify(eq(dimension), captor.capture());
-        
+
         for (final IModifier mod : captor.getAllValues()) {
-        	mod.modify(structureModel);
+            mod.modify(structureModel);
         }
-        
+
         verify(wallToChange).setUValue(expectedUValue);
     }
 }

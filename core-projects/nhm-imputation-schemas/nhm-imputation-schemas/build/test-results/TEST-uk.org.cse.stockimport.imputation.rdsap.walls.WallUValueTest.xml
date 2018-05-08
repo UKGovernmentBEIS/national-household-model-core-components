@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuite name="uk.org.cse.stockimport.imputation.rdsap.walls.WallUValueTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2016-05-03T08:17:30" hostname="rich-Latitude-E6320" time="0.021">
-  <properties/>
-  <testcase name="testCobUValues" classname="uk.org.cse.stockimport.imputation.rdsap.walls.WallUValueTest" time="0.002"/>
-  <testcase name="testInsulatedCavityUValues" classname="uk.org.cse.stockimport.imputation.rdsap.walls.WallUValueTest" time="0.002"/>
-  <testcase name="testSolidBrickUValues" classname="uk.org.cse.stockimport.imputation.rdsap.walls.WallUValueTest" time="0.001"/>
-  <testcase name="testInsulatedCobUValues" classname="uk.org.cse.stockimport.imputation.rdsap.walls.WallUValueTest" time="0.002"/>
-  <testcase name="testTimberFrameUValues" classname="uk.org.cse.stockimport.imputation.rdsap.walls.WallUValueTest" time="0.0"/>
-  <testcase name="testCavityUValues" classname="uk.org.cse.stockimport.imputation.rdsap.walls.WallUValueTest" time="0.0"/>
-  <testcase name="testInsulatedSystemBuildUValues" classname="uk.org.cse.stockimport.imputation.rdsap.walls.WallUValueTest" time="0.004"/>
-  <testcase name="testMetalFrameUValues" classname="uk.org.cse.stockimport.imputation.rdsap.walls.WallUValueTest" time="0.001"/>
-  <testcase name="testSandstoneUValues" classname="uk.org.cse.stockimport.imputation.rdsap.walls.WallUValueTest" time="0.001"/>
-  <testcase name="testGraniteUValues" classname="uk.org.cse.stockimport.imputation.rdsap.walls.WallUValueTest" time="0.0"/>
-  <testcase name="testSystemBuildUValues" classname="uk.org.cse.stockimport.imputation.rdsap.walls.WallUValueTest" time="0.001"/>
-  <testcase name="testInsulatedBrickOrStoneUValues" classname="uk.org.cse.stockimport.imputation.rdsap.walls.WallUValueTest" time="0.004"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
+    <properties/>
+    <testcase name="testCobUValues" classname="uk.org.cse.stockimport.imputation.rdsap.walls.WallUValueTest" time="0.002"/>
+    <testcase name="testInsulatedCavityUValues" classname="uk.org.cse.stockimport.imputation.rdsap.walls.WallUValueTest" time="0.002"/>
+    <testcase name="testSolidBrickUValues" classname="uk.org.cse.stockimport.imputation.rdsap.walls.WallUValueTest" time="0.001"/>
+    <testcase name="testInsulatedCobUValues" classname="uk.org.cse.stockimport.imputation.rdsap.walls.WallUValueTest" time="0.002"/>
+    <testcase name="testTimberFrameUValues" classname="uk.org.cse.stockimport.imputation.rdsap.walls.WallUValueTest" time="0.0"/>
+    <testcase name="testCavityUValues" classname="uk.org.cse.stockimport.imputation.rdsap.walls.WallUValueTest" time="0.0"/>
+    <testcase name="testInsulatedSystemBuildUValues" classname="uk.org.cse.stockimport.imputation.rdsap.walls.WallUValueTest" time="0.004"/>
+    <testcase name="testMetalFrameUValues" classname="uk.org.cse.stockimport.imputation.rdsap.walls.WallUValueTest" time="0.001"/>
+    <testcase name="testSandstoneUValues" classname="uk.org.cse.stockimport.imputation.rdsap.walls.WallUValueTest" time="0.001"/>
+    <testcase name="testGraniteUValues" classname="uk.org.cse.stockimport.imputation.rdsap.walls.WallUValueTest" time="0.0"/>
+    <testcase name="testSystemBuildUValues" classname="uk.org.cse.stockimport.imputation.rdsap.walls.WallUValueTest" time="0.001"/>
+    <testcase name="testInsulatedBrickOrStoneUValues" classname="uk.org.cse.stockimport.imputation.rdsap.walls.WallUValueTest" time="0.004"/>
+    <system-out><![CDATA[]]></system-out>
+    <system-err><![CDATA[]]></system-err>
 </testsuite>

@@ -17,7 +17,8 @@ import uk.org.cse.stockimport.domain.IOccupantDetailsDTO;
  * OccupantDetailsFromSpssElementBuilderTest.
  *
  * @author richardt
- * @version $Id: OccupantDetailsFromSpssElementBuilderTest.java 94 2010-09-30 15:39:21Z richardt
+ * @version $Id: OccupantDetailsFromSpssElementBuilderTest.java 94 2010-09-30
+ * 15:39:21Z richardt
  * @since 0.0.1-SNAPSHOT
  */
 @RunWith(MockitoJUnitRunner.class)

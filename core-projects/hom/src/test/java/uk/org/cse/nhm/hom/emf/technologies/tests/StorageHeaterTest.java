@@ -15,76 +15,85 @@ import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;
  * <p>
  * The following operations are tested:
  * <ul>
- *   <li>{@link uk.org.cse.nhm.hom.emf.technologies.IVisitorAccepter#accept(IConstants, IEnergyCalculatorParameters, uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor, java.util.concurrent.atomic.AtomicInteger, double, double) <em>Accept</em>}</li>
+ * <li>{@link uk.org.cse.nhm.hom.emf.technologies.IVisitorAccepter#accept(IConstants, IEnergyCalculatorParameters, uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor, java.util.concurrent.atomic.AtomicInteger, double, double)
+ * <em>Accept</em>}</li>
  * </ul>
  * </p>
+ *
  * @generated
  */
 public class StorageHeaterTest extends SpaceHeaterTest {
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public static void main(String[] args) {
-		TestRunner.run(StorageHeaterTest.class);
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc --> @generated
+     */
+    public static void main(String[] args) {
+        TestRunner.run(StorageHeaterTest.class);
+    }
 
-	/**
-	 * Constructs a new Storage Heater test case with the given name.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public StorageHeaterTest(String name) {
-		super(name);
-	}
+    /**
+     * Constructs a new Storage Heater test case with the given name.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     *
+     * @generated
+     */
+    public StorageHeaterTest(String name) {
+        super(name);
+    }
 
-	/**
-	 * Returns the fixture for this Storage Heater test case.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected IStorageHeater getFixture() {
-		return (IStorageHeater)fixture;
-	}
+    /**
+     * Returns the fixture for this Storage Heater test case.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     *
+     * @generated
+     */
+    @Override
+    protected IStorageHeater getFixture() {
+        return (IStorageHeater) fixture;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see junit.framework.TestCase#setUp()
-	 * @generated
-	 */
-	@Override
-	protected void setUp() throws Exception {
-		setFixture(ITechnologiesFactory.eINSTANCE.createStorageHeater());
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc --> @see junit.framework.TestCase#setUp()
+     *
+     * @generated
+     */
+    @Override
+    protected void setUp() throws Exception {
+        setFixture(ITechnologiesFactory.eINSTANCE.createStorageHeater());
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see junit.framework.TestCase#tearDown()
-	 * @generated
-	 */
-	@Override
-	protected void tearDown() throws Exception {
-		setFixture(null);
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc --> @see junit.framework.TestCase#tearDown()
+     *
+     * @generated
+     */
+    @Override
+    protected void tearDown() throws Exception {
+        setFixture(null);
+    }
 
-	/**
-	 * Tests the '{@link uk.org.cse.nhm.hom.emf.technologies.IVisitorAccepter#accept(IConstants, IEnergyCalculatorParameters, uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor, java.util.concurrent.atomic.AtomicInteger, double, double) <em>Accept</em>}' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see uk.org.cse.nhm.hom.emf.technologies.IVisitorAccepter#accept(IConstants, IEnergyCalculatorParameters, uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor, java.util.concurrent.atomic.AtomicInteger, double, double)
-	 * @generated no
-	 */
-	public void testAccept__IInternalParameters_IEnergyCalculatorVisitor_AtomicInteger() {
-		// TODO: implement this operation test method
-		// Ensure that you remove @generated or mark it @generated NOT
+    /**
+     * Tests the '{@link uk.org.cse.nhm.hom.emf.technologies.IVisitorAccepter#accept(IConstants, IEnergyCalculatorParameters, uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor, java.util.concurrent.atomic.AtomicInteger, double, double)
+     * <em>Accept</em>}' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     *
+     * @see
+     * uk.org.cse.nhm.hom.emf.technologies.IVisitorAccepter#accept(IConstants,
+     * IEnergyCalculatorParameters,
+     * uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor,
+     * java.util.concurrent.atomic.AtomicInteger, double, double)
+     * @generated no
+     */
+    public void testAccept__IInternalParameters_IEnergyCalculatorVisitor_AtomicInteger() {
+        // TODO: implement this operation test method
+        // Ensure that you remove @generated or mark it @generated NOT
 //		fail();
-	}
+    }
 
 } //StorageHeaterTest

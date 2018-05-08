@@ -18,31 +18,32 @@ import uk.org.cse.nhm.simulator.state.components.IFlags;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class MatchFlag extends AbstractNamed implements IComponentsFunction<Boolean> {
-	private final IDimension<IFlags> flags;
-	private final String flag;
-	private final boolean requiredState;
-	
-	@Inject
-	public MatchFlag(final IDimension<IFlags> flags, 
-			@Assisted final String flag,
-			@Assisted final boolean requiredState) {
-		this.flags = flags;
-		this.flag = flag;
-		this.requiredState = requiredState;
-	}
 
-	@Override
-	public Boolean compute(final IComponentsScope scope, final ILets lets) {
-		return scope.get(flags).testFlag(flag) == requiredState;
-	}
+    private final IDimension<IFlags> flags;
+    private final String flag;
+    private final boolean requiredState;
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return ImmutableSet.<IDimension<?>>of(flags);
-	}
+    @Inject
+    public MatchFlag(final IDimension<IFlags> flags,
+            @Assisted final String flag,
+            @Assisted final boolean requiredState) {
+        this.flags = flags;
+        this.flag = flag;
+        this.requiredState = requiredState;
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return Collections.emptySet();
-	}
+    @Override
+    public Boolean compute(final IComponentsScope scope, final ILets lets) {
+        return scope.get(flags).testFlag(flag) == requiredState;
+    }
+
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return ImmutableSet.<IDimension<?>>of(flags);
+    }
+
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return Collections.emptySet();
+    }
 }

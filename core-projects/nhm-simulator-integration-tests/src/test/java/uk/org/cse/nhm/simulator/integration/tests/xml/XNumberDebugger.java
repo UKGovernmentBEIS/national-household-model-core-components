@@ -12,33 +12,33 @@ import uk.org.cse.nhm.language.definition.function.num.XNumber;
 @Bind("debug/function")
 
 public class XNumberDebugger extends XNumber {
-	private XNumber delegate;
-	private String name;
 
-	@Doc("debug")
-	@BindNamedArgument
-	
-	@NotNull(message="required")
-	public XNumber getDelegate() {
-		return delegate;
-	}
+    private XNumber delegate;
+    private String name;
 
-	public void setDelegate(final XNumber delegate) {
-		this.delegate = delegate;
-	}
+    @Doc("debug")
+    @BindNamedArgument
 
-	@Override
-	@Doc("debug")
-	
-	@BindNamedArgument
-	public String getName() {
-		return name;
-	}
+    @NotNull(message = "required")
+    public XNumber getDelegate() {
+        return delegate;
+    }
 
-	@Override
-	public void setName(final String name) {
-		this.name = name;
-	}
-	
-	
+    public void setDelegate(final XNumber delegate) {
+        this.delegate = delegate;
+    }
+
+    @Override
+    @Doc("debug")
+
+    @BindNamedArgument
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(final String name) {
+        this.name = name;
+    }
+
 }

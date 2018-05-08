@@ -10,10 +10,12 @@ import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
  * @since 1.0
  */
 public interface IDoorPropertyImputer {
+
     /**
      * @since 1.0
      */
     public double getArea(final DoorType doorType);
+
     /**
      * @since 1.0
      */

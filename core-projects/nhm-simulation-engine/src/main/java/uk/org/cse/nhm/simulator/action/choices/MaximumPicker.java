@@ -13,28 +13,28 @@ import uk.org.cse.nhm.simulator.util.RandomSource;
 
 public class MaximumPicker extends LettingPicker {
 
-	private final IComponentsFunction<Number> objective;
+    private final IComponentsFunction<Number> objective;
 
-	@AssistedInject
-	public MaximumPicker(
-			@Assisted final List<ISequenceSpecialAction> bindings,
-			@Assisted final IComponentsFunction<Number> objective) {
-		super(bindings);
-		this.objective = objective;
-	}
+    @AssistedInject
+    public MaximumPicker(
+            @Assisted final List<ISequenceSpecialAction> bindings,
+            @Assisted final IComponentsFunction<Number> objective) {
+        super(bindings);
+        this.objective = objective;
+    }
 
-	@Override
-	protected PickOption doPick(final RandomSource random, final Set<PickOption> options) {
-		PickOption best = null;
-		double max = Double.NEGATIVE_INFINITY;
-		for (final PickOption option : options) {
-			final double current = objective.compute(option.scope, option.lets).doubleValue();
-			if (current > max) {
-				max = current;
-				best = option;
-			}
-		}
-		
-		return best;
-	}
+    @Override
+    protected PickOption doPick(final RandomSource random, final Set<PickOption> options) {
+        PickOption best = null;
+        double max = Double.NEGATIVE_INFINITY;
+        for (final PickOption option : options) {
+            final double current = objective.compute(option.scope, option.lets).doubleValue();
+            if (current > max) {
+                max = current;
+                best = option;
+            }
+        }
+
+        return best;
+    }
 }

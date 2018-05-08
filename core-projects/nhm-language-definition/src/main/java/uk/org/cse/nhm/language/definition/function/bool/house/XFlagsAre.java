@@ -16,20 +16,22 @@ import uk.org.cse.nhm.language.definition.function.bool.XHouseBoolean;
 @Category(CategoryType.SETSANDFLAGS)
 @Bind("house.flags-match")
 public class XFlagsAre extends XHouseBoolean {
-	public static final class P {
-		public static final String match = "match";
-	}
-	
-	private List<Glob> match = new ArrayList<>();
-	
-	@Doc("A sequence of tags to match; no tags prefixed with ! may be present and all other tags must be present.")
-	
-	@BindRemainingArguments
-	public List<Glob> getMatch() {
-		return match;
-	}
 
-	public void setMatch(final List<Glob> match) {
-		this.match = match;
-	}
+    public static final class P {
+
+        public static final String match = "match";
+    }
+
+    private List<Glob> match = new ArrayList<>();
+
+    @Doc("A sequence of tags to match; no tags prefixed with ! may be present and all other tags must be present.")
+
+    @BindRemainingArguments
+    public List<Glob> getMatch() {
+        return match;
+    }
+
+    public void setMatch(final List<Glob> match) {
+        this.match = match;
+    }
 }

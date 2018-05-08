@@ -42,229 +42,231 @@ import uk.org.cse.nhm.simulator.state.functions.IAggregationFunction;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class ReportingAdapter extends ReflectingAdapter {
-	private final IReportingFactory reportFactory;
-	private final IGroupFactory groupFactory;
-	private final Provider<StockLogger> stockLogger;
 
-	@Inject
-	public ReportingAdapter(final Provider<StockLogger> stockLogger, final Set<IConverter> delegates, final IReportingFactory probeFactory, final IGroupFactory groupFactory, final Set<IAdapterInterceptor> interceptors) {
-		super(delegates, interceptors);
-		this.stockLogger = stockLogger;
-		this.reportFactory = probeFactory;
-		this.groupFactory = groupFactory;
-	}
+    private final IReportingFactory reportFactory;
+    private final IGroupFactory groupFactory;
+    private final Provider<StockLogger> stockLogger;
 
-	@Adapt(XGroupTransitionReport.class)
-	public Initializable buildExplain(
-			final Name newName,
-			@Prop(XGroupTransitionReport.P.group) final IDwellingGroup source,
-			@Prop(XGroupTransitionReport.P.cases) final List<ExplainCase> cases
-			) {
-		final List<String> conditionNames = new ArrayList<String>();
-		final List<IComponentsFunction<Boolean>> tests = new ArrayList<IComponentsFunction<Boolean>>();
+    @Inject
+    public ReportingAdapter(final Provider<StockLogger> stockLogger, final Set<IConverter> delegates, final IReportingFactory probeFactory, final IGroupFactory groupFactory, final Set<IAdapterInterceptor> interceptors) {
+        super(delegates, interceptors);
+        this.stockLogger = stockLogger;
+        this.reportFactory = probeFactory;
+        this.groupFactory = groupFactory;
+    }
 
-		for (final ExplainCase ec : cases) {
-			conditionNames.add(ec.getIdentifier().getName());
-			tests.add(ec.test);
-		}
+    @Adapt(XGroupTransitionReport.class)
+    public Initializable buildExplain(
+            final Name newName,
+            @Prop(XGroupTransitionReport.P.group) final IDwellingGroup source,
+            @Prop(XGroupTransitionReport.P.cases) final List<ExplainCase> cases
+    ) {
+        final List<String> conditionNames = new ArrayList<String>();
+        final List<IComponentsFunction<Boolean>> tests = new ArrayList<IComponentsFunction<Boolean>>();
 
-		reportFactory.createExplain(
-				conditionNames,
-				groupFactory.createCondition(source, tests)
-				).setIdentifier(newName);
+        for (final ExplainCase ec : cases) {
+            conditionNames.add(ec.getIdentifier().getName());
+            tests.add(ec.test);
+        }
 
-		return Initializable.NOP;
-	}
+        reportFactory.createExplain(
+                conditionNames,
+                groupFactory.createCondition(source, tests)
+        ).setIdentifier(newName);
 
-	@Adapt(XGroupTransitionCase.class)
-	public ExplainCase buildExplainCase(
-			final Name name,
-			@Prop(XGroupTransitionCase.P.test) final IComponentsFunction<Boolean> test
-			) {
-		return new ExplainCase(test);
-	}
+        return Initializable.NOP;
+    }
 
-	public static class ExplainCase extends AbstractNamed {
-		public final IComponentsFunction<Boolean> test;
+    @Adapt(XGroupTransitionCase.class)
+    public ExplainCase buildExplainCase(
+            final Name name,
+            @Prop(XGroupTransitionCase.P.test) final IComponentsFunction<Boolean> test
+    ) {
+        return new ExplainCase(test);
+    }
 
-		public ExplainCase(final IComponentsFunction<Boolean> test) {
-			this.test = test;
-		}
-	}
+    public static class ExplainCase extends AbstractNamed {
 
-	@Adapt(XNumberProbe.class)
-	public IComponentsFunction<Number> buildNumberProbe(
-			@Prop(XNumberProbe.P.delegate) final IComponentsFunction<Number> delegate,
-			@Prop(XNumberProbe.P.probedValues) final List<IComponentsFunction<?>> capture
-			) {
-		return reportFactory.createNumberProbe(delegate, capture);
-	}
+        public final IComponentsFunction<Boolean> test;
 
-	@Adapt(XProbedNetPresentValue.class)
-	public IProbingFunction buildNetPresentValueProbe() {
-		return reportFactory.createNetPresentValueProbingFunction();
-	}
+        public ExplainCase(final IComponentsFunction<Boolean> test) {
+            this.test = test;
+        }
+    }
 
-	@Adapt(XDwellingActionProbe.class)
-	public IComponentsAction buildDwellingActionProbe(
-			@Prop(XDwellingActionProbe.P.delegate) final Optional<IComponentsAction> delegate,
-			@Prop(XDwellingActionProbe.P.probedValues) final List<IComponentsFunction<?>> capture) {
-		return reportFactory.createComponentsActionProbe(
-				delegate,
-				capture);
-	}
+    @Adapt(XNumberProbe.class)
+    public IComponentsFunction<Number> buildNumberProbe(
+            @Prop(XNumberProbe.P.delegate) final IComponentsFunction<Number> delegate,
+            @Prop(XNumberProbe.P.probedValues) final List<IComponentsFunction<?>> capture
+    ) {
+        return reportFactory.createNumberProbe(delegate, capture);
+    }
 
-	@Adapt(XAggregateActionProbe.class)
-	public IStateAction buildAggregateActionProbe(
-			@Prop(XAggregateActionProbe.P.delegate) final IStateAction delegate,
-			@Prop(XAggregateActionProbe.P.divisions) final List<IComponentsFunction<?>> divisions,
-			@Prop(XAggregateActionProbe.P.aggregations) final List<IAggregationFunction> aggregations) {
-		return reportFactory.createAggregateActionProbe(delegate, divisions, aggregations);
-	}
+    @Adapt(XProbedNetPresentValue.class)
+    public IProbingFunction buildNetPresentValueProbe() {
+        return reportFactory.createNetPresentValueProbingFunction();
+    }
 
-	@Adapt(XGlobalAccountReport.class)
-	public Initializable buildGlobalAccountReport() {
-		reportFactory.createGlobalAccounReport();
-		return Initializable.NOP;
-	}
+    @Adapt(XDwellingActionProbe.class)
+    public IComponentsAction buildDwellingActionProbe(
+            @Prop(XDwellingActionProbe.P.delegate) final Optional<IComponentsAction> delegate,
+            @Prop(XDwellingActionProbe.P.probedValues) final List<IComponentsFunction<?>> capture) {
+        return reportFactory.createComponentsActionProbe(
+                delegate,
+                capture);
+    }
 
-	@Adapt(XTransactionReport.class)
-	public Initializable buildDwellingTransactionReport(
-			final Name newName,
-			@Prop(XTransactionReport.P.group) final IDwellingSet group,
-			@Prop(XTransactionReport.P.tags) final List<Tag> tags
-			) {
-		reportFactory.createTransactionReport(group,
-				Tag.asSet(tags))
-			.setIdentifier(newName);
-		return Initializable.NOP;
-	}
+    @Adapt(XAggregateActionProbe.class)
+    public IStateAction buildAggregateActionProbe(
+            @Prop(XAggregateActionProbe.P.delegate) final IStateAction delegate,
+            @Prop(XAggregateActionProbe.P.divisions) final List<IComponentsFunction<?>> divisions,
+            @Prop(XAggregateActionProbe.P.aggregations) final List<IAggregationFunction> aggregations) {
+        return reportFactory.createAggregateActionProbe(delegate, divisions, aggregations);
+    }
 
-	@Adapt(XFuelCostsReport.class)
-	public Initializable buildFuelCostsReport() {
-		reportFactory.createFuelCostsReport();
-		return Initializable.NOP;
-	}
+    @Adapt(XGlobalAccountReport.class)
+    public Initializable buildGlobalAccountReport() {
+        reportFactory.createGlobalAccounReport();
+        return Initializable.NOP;
+    }
 
-	@Adapt(XHouseCountReport.class)
-	public Initializable buildHouseCountReport() {
-		reportFactory.createHouseCountReport();
-		return Initializable.NOP;
-	}
+    @Adapt(XTransactionReport.class)
+    public Initializable buildDwellingTransactionReport(
+            final Name newName,
+            @Prop(XTransactionReport.P.group) final IDwellingSet group,
+            @Prop(XTransactionReport.P.tags) final List<Tag> tags
+    ) {
+        reportFactory.createTransactionReport(group,
+                Tag.asSet(tags))
+                .setIdentifier(newName);
+        return Initializable.NOP;
+    }
 
-	@Adapt(XInstallationLogReport.class)
-	public Initializable buildInstallationLogReport() {
-		reportFactory.createInstallationLogReport();
-		return Initializable.NOP;
-	}
+    @Adapt(XFuelCostsReport.class)
+    public Initializable buildFuelCostsReport() {
+        reportFactory.createFuelCostsReport();
+        return Initializable.NOP;
+    }
 
-	@Adapt(XMeasureCostsReport.class)
-	public Initializable buildMeasureCostsReport() {
-		reportFactory.createMeasureCostsReport();
-		return Initializable.NOP;
-	}
+    @Adapt(XHouseCountReport.class)
+    public Initializable buildHouseCountReport() {
+        reportFactory.createHouseCountReport();
+        return Initializable.NOP;
+    }
 
-	@Adapt(XNationalPowerReport.class)
-	public Initializable buildNationalPowerReport() {
-		reportFactory.createNationalPowerReport();
-		return Initializable.NOP;
-	}
+    @Adapt(XInstallationLogReport.class)
+    public Initializable buildInstallationLogReport() {
+        reportFactory.createInstallationLogReport();
+        return Initializable.NOP;
+    }
 
-	@Adapt(XStateReport.class)
-	public Initializable buildStateReport() {
-		reportFactory.createStateReport();
-		return Initializable.NOP;
-	}
+    @Adapt(XMeasureCostsReport.class)
+    public Initializable buildMeasureCostsReport() {
+        reportFactory.createMeasureCostsReport();
+        return Initializable.NOP;
+    }
 
-	@Adapt(XDwellingsReport.class)
-	public Initializable buildDwellingsReport(
-			final Name name,
-			@Prop(XDwellingsReport.P.GROUP) final IDwellingGroup group,
-			@Prop(XDwellingsReport.P.MODE) final IReportMode mode,
-			@Prop(XDwellingsReport.P.FIELDS) final List<IComponentsFunction<?>> fields) {
+    @Adapt(XNationalPowerReport.class)
+    public Initializable buildNationalPowerReport() {
+        reportFactory.createNationalPowerReport();
+        return Initializable.NOP;
+    }
 
-		reportFactory.createDwellingsReport(group, mode, fields).setIdentifier(name);
-		return Initializable.NOP;
-	}
+    @Adapt(XStateReport.class)
+    public Initializable buildStateReport() {
+        reportFactory.createStateReport();
+        return Initializable.NOP;
+    }
 
-	@Adapt(XStockReport.class)
-	public Initializable buildStockReport() {
-		stockLogger.get().shouldLog();
+    @Adapt(XDwellingsReport.class)
+    public Initializable buildDwellingsReport(
+            final Name name,
+            @Prop(XDwellingsReport.P.GROUP) final IDwellingGroup group,
+            @Prop(XDwellingsReport.P.MODE) final IReportMode mode,
+            @Prop(XDwellingsReport.P.FIELDS) final List<IComponentsFunction<?>> fields) {
 
-		return Initializable.NOP;
-	}
+        reportFactory.createDwellingsReport(group, mode, fields).setIdentifier(name);
+        return Initializable.NOP;
+    }
 
-	@Adapt(XSequenceReport.class)
-	public Initializable createSequenceReport() {
-		reportFactory.createSequenceLogger();
-		return Initializable.NOP;
-	}
+    @Adapt(XStockReport.class)
+    public Initializable buildStockReport() {
+        stockLogger.get().shouldLog();
 
-	@Adapt(value = XReportDefinition.class, cache = true)
-	public UnifiedReport createReportDefinition(
-			@Prop(XReportDefinition.P.recordChange) final boolean recordChange,
-			@Prop(XReportDefinition.P.contents) final List<IReportPart> parts
-			) {
-		return reportFactory.createUnifiedReport(recordChange, parts);
-	}
+        return Initializable.NOP;
+    }
 
-	@Adapt(XReportColumn.class)
-	public IReportPart createUnifiedColumn(
-			@Prop(XReportColumn.P.value) IComponentsFunction<?> value,
-			@Prop(XReportColumn.P.aggregations) List<Accumulator> accumulators
-			) {
-		return new Column(value, accumulators);
-	}
+    @Adapt(XSequenceReport.class)
+    public Initializable createSequenceReport() {
+        reportFactory.createSequenceLogger();
+        return Initializable.NOP;
+    }
 
-	@Adapt(XReportCut.class)
-	public IReportPart createUnifiedCut(final XReportCut input) {
-		return new Cut(input.getValues());
-	}
+    @Adapt(value = XReportDefinition.class, cache = true)
+    public UnifiedReport createReportDefinition(
+            @Prop(XReportDefinition.P.recordChange) final boolean recordChange,
+            @Prop(XReportDefinition.P.contents) final List<IReportPart> parts
+    ) {
+        return reportFactory.createUnifiedReport(recordChange, parts);
+    }
 
-	@Adapt(XSendToReport.class)
-	public IComponentsAction createSendToReport(
-			@Prop(XSendToReport.P.reports) final List<UnifiedReport> reports
-			) {
-		return new SendToReportAction(reports);
-	}
+    @Adapt(XReportColumn.class)
+    public IReportPart createUnifiedColumn(
+            @Prop(XReportColumn.P.value) IComponentsFunction<?> value,
+            @Prop(XReportColumn.P.aggregations) List<Accumulator> accumulators
+    ) {
+        return new Column(value, accumulators);
+    }
 
-	@Adapt(XColumnAggregation.XMax.class)
-	public Accumulator createMax(XColumnAggregation.XMax m) {
-		return new Accumulator.Max(m.hasName());
-	}
+    @Adapt(XReportCut.class)
+    public IReportPart createUnifiedCut(final XReportCut input) {
+        return new Cut(input.getValues());
+    }
 
-	@Adapt(XColumnAggregation.XMin.class)
-	public Accumulator createMin(XColumnAggregation.XMin m) {
-		return new Accumulator.Min(m.hasName());
-	}
+    @Adapt(XSendToReport.class)
+    public IComponentsAction createSendToReport(
+            @Prop(XSendToReport.P.reports) final List<UnifiedReport> reports
+    ) {
+        return new SendToReportAction(reports);
+    }
 
-	@Adapt(XColumnAggregation.XMean.class)
-	public Accumulator createMean(XColumnAggregation.XMean m) {
-		return new Accumulator.Mean(m.hasName());
-	}
+    @Adapt(XColumnAggregation.XMax.class)
+    public Accumulator createMax(XColumnAggregation.XMax m) {
+        return new Accumulator.Max(m.hasName());
+    }
 
-	@Adapt(XColumnAggregation.XSum.class)
-	public Accumulator createSum(XColumnAggregation.XSum m) {
-		return new Accumulator.Sum(m.hasName());
-	}
+    @Adapt(XColumnAggregation.XMin.class)
+    public Accumulator createMin(XColumnAggregation.XMin m) {
+        return new Accumulator.Min(m.hasName());
+    }
 
-	@Adapt(XColumnAggregation.XVariance.class)
-	public Accumulator createVariance(XColumnAggregation.XVariance m) {
-		return new Accumulator.Variance(m.hasName());
-	}
+    @Adapt(XColumnAggregation.XMean.class)
+    public Accumulator createMean(XColumnAggregation.XMean m) {
+        return new Accumulator.Mean(m.hasName());
+    }
 
-	@Adapt(XColumnAggregation.XTile.class)
-	public Accumulator createTile(final XColumnAggregation.XTile in) {
-		return new Accumulator.Tile(in.hasName(), Math.min(Math.max(0, in.getP()), 1));
-	}
+    @Adapt(XColumnAggregation.XSum.class)
+    public Accumulator createSum(XColumnAggregation.XSum m) {
+        return new Accumulator.Sum(m.hasName());
+    }
 
-	@Adapt(XColumnAggregation.XCount.class)
-	public Accumulator createCount(final XColumnAggregation.XCount in) {
-		return new Accumulator.Count(in.hasName());
-	}
+    @Adapt(XColumnAggregation.XVariance.class)
+    public Accumulator createVariance(XColumnAggregation.XVariance m) {
+        return new Accumulator.Variance(m.hasName());
+    }
 
-	@Adapt(XColumnAggregation.XIs.class)
-	public Accumulator createIn(final XColumnAggregation.XIs in) {
-		return new Accumulator.CountIs(in.hasName(), in.getValue());
-	}
+    @Adapt(XColumnAggregation.XTile.class)
+    public Accumulator createTile(final XColumnAggregation.XTile in) {
+        return new Accumulator.Tile(in.hasName(), Math.min(Math.max(0, in.getP()), 1));
+    }
+
+    @Adapt(XColumnAggregation.XCount.class)
+    public Accumulator createCount(final XColumnAggregation.XCount in) {
+        return new Accumulator.Count(in.hasName());
+    }
+
+    @Adapt(XColumnAggregation.XIs.class)
+    public Accumulator createIn(final XColumnAggregation.XIs in) {
+        return new Accumulator.CountIs(in.hasName(), in.getValue());
+    }
 }

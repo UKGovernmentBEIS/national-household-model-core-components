@@ -10,6 +10,7 @@ import uk.org.cse.boilermatcher.types.FuelType;
  * @since 1.0
  */
 public interface IBoilerTableEntry {
+
     /**
      * @since 1.0
      */

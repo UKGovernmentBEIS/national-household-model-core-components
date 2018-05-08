@@ -20,48 +20,48 @@ import uk.org.cse.nhm.simulator.transactions.Payment;
 
 class UserDefinedObligation extends BaseObligation {
 
-	private final IComponentsFunction<? extends Number> amount;
-	private final IPaymentSchedule schedule;
-	private final String payee;
-	private final Set<String> tags;
-	private final ILets lets;
+    private final IComponentsFunction<? extends Number> amount;
+    private final IPaymentSchedule schedule;
+    private final String payee;
+    private final Set<String> tags;
+    private final ILets lets;
 
-	protected UserDefinedObligation(
-			final ITimeDimension time, 
-			final ICanonicalState state,
-			final ISimulator simulator, 
-			final int index,
-			final IComponentsFunction<? extends Number> amount,
-			final IPaymentSchedule schedule,
-			final String payee,
-			final Set<String> tags, 
-			final ILets lets
-			) {
-		super(time, state, simulator, index);
-		
-		this.amount = amount;
-		this.schedule = schedule;
-		this.payee = payee;
-		this.tags = tags;
-		this.lets = lets;
-	}
+    protected UserDefinedObligation(
+            final ITimeDimension time,
+            final ICanonicalState state,
+            final ISimulator simulator,
+            final int index,
+            final IComponentsFunction<? extends Number> amount,
+            final IPaymentSchedule schedule,
+            final String payee,
+            final Set<String> tags,
+            final ILets lets
+    ) {
+        super(time, state, simulator, index);
 
-	@Override
-	public Optional<DateTime> getNextTransactionDate(final DateTime currentDate) {
-		return schedule.getNextTransactionDate(currentDate);
-	}
+        this.amount = amount;
+        this.schedule = schedule;
+        this.payee = payee;
+        this.tags = tags;
+        this.lets = lets;
+    }
 
-	@Override
-	public Collection<IPayment> generatePayments(final DateTime date, final IComponentsScope state) {
-		if (schedule.transactionStillValid(date)) {
-			return ImmutableSet.of(
-					Payment.of(payee, 
-							amount.compute(state, lets).doubleValue(),
-							tags
-							));
-		} else {
-			return ImmutableSet.of();
-		}
-	}
+    @Override
+    public Optional<DateTime> getNextTransactionDate(final DateTime currentDate) {
+        return schedule.getNextTransactionDate(currentDate);
+    }
+
+    @Override
+    public Collection<IPayment> generatePayments(final DateTime date, final IComponentsScope state) {
+        if (schedule.transactionStillValid(date)) {
+            return ImmutableSet.of(
+                    Payment.of(payee,
+                            amount.compute(state, lets).doubleValue(),
+                            tags
+                    ));
+        } else {
+            return ImmutableSet.of();
+        }
+    }
 
 }

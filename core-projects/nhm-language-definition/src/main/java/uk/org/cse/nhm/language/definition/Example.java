@@ -5,8 +5,11 @@ import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Example {
-	public String title();
-	public String[] doc() default {};
-	public String[] source();
-	
+
+    public String title();
+
+    public String[] doc() default {};
+
+    public String[] source();
+
 }

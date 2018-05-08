@@ -19,32 +19,33 @@ import uk.org.cse.nhm.language.validate.contents.Declaration;
 @Bind("def-action")
 @Category(CategoryType.DECLARATIONS)
 public class XActionDeclaration extends XDwellingAction implements IScenarioElement<XElement> {
-	public static final String VALUE = "value";
-	private XDwellingAction value;
-	
-	@Doc("The name of the action to declare")
-	@NotNull(message = "all declarations require a name, as their first unnamed argument")
-	@Identity
-	@BindPositionalArgument(0)
-	@Override
-	public String getName() {
-		return super.getName();
-	}
 
-	@Override
-	public void setName(final String name) {
-		super.setName(name);
-	}
+    public static final String VALUE = "value";
+    private XDwellingAction value;
 
-	@BindPositionalArgument(1)
-	@NotNull(message = "def-action requires an action as its second argument")
-	@Doc("The action itself")
-	@Prop(VALUE)
-	public XDwellingAction getValue() {
-		return value;
-	}
+    @Doc("The name of the action to declare")
+    @NotNull(message = "all declarations require a name, as their first unnamed argument")
+    @Identity
+    @BindPositionalArgument(0)
+    @Override
+    public String getName() {
+        return super.getName();
+    }
 
-	public void setValue(final XDwellingAction value) {
-		this.value = value;
-	}
+    @Override
+    public void setName(final String name) {
+        super.setName(name);
+    }
+
+    @BindPositionalArgument(1)
+    @NotNull(message = "def-action requires an action as its second argument")
+    @Doc("The action itself")
+    @Prop(VALUE)
+    public XDwellingAction getValue() {
+        return value;
+    }
+
+    public void setValue(final XDwellingAction value) {
+        this.value = value;
+    }
 }

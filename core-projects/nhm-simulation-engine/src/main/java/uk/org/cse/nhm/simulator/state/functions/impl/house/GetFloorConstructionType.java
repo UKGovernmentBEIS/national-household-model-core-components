@@ -9,14 +9,15 @@ import uk.org.cse.nhm.simulator.scope.IComponentsScope;
 import uk.org.cse.nhm.simulator.state.IDimension;
 
 public class GetFloorConstructionType extends StructureFunction<FloorConstructionType> {
-	@AssistedInject
-	public GetFloorConstructionType(
-			final IDimension<StructureModel> dim) {
-		super(dim);
-	}
 
-	@Override
-	public FloorConstructionType compute(final IComponentsScope scope, ILets lets) {
-		return getStructure(scope).getGroundFloorConstructionType();
-	}
+    @AssistedInject
+    public GetFloorConstructionType(
+            final IDimension<StructureModel> dim) {
+        super(dim);
+    }
+
+    @Override
+    public FloorConstructionType compute(final IComponentsScope scope, ILets lets) {
+        return getStructure(scope).getGroundFloorConstructionType();
+    }
 }

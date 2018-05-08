@@ -16,35 +16,35 @@ import uk.org.cse.stockimport.imputation.lookupbuilders.excel.DoorPropertyTables
 
 public class CreationOfDoorImputationDataFromExcelTest extends AbsImputationFromExcelTest {
 
-	final ImputationSchema imputationSchema = new ImputationSchema("123123");
-	DoorPropertyTablesBuilder builder = new DoorPropertyTablesBuilder();
+    final ImputationSchema imputationSchema = new ImputationSchema("123123");
+    DoorPropertyTablesBuilder builder = new DoorPropertyTablesBuilder();
 
-	@Before
-	public void initialiseTests() throws Exception {
-		imputationSchema.setDoorPropertyImputer(builder.buildTables(getExcelWorkBook()));
-	}
+    @Before
+    public void initialiseTests() throws Exception {
+        imputationSchema.setDoorPropertyImputer(builder.buildTables(getExcelWorkBook()));
+    }
 
-	@Test
-	public void EnsureDoorPropertyImputerIsCreated() throws Exception {
-		assertThat("property table", imputationSchema.getDoorPropertyImputer(), is(notNullValue()));
-	}
+    @Test
+    public void EnsureDoorPropertyImputerIsCreated() throws Exception {
+        assertThat("property table", imputationSchema.getDoorPropertyImputer(), is(notNullValue()));
+    }
 
-	@Test
-	public void DoorAreaShouldMatchThoseInExcelSheet() throws Exception {
-		final IDoorPropertyImputer doorPropertyImputer = imputationSchema.getDoorPropertyImputer();
+    @Test
+    public void DoorAreaShouldMatchThoseInExcelSheet() throws Exception {
+        final IDoorPropertyImputer doorPropertyImputer = imputationSchema.getDoorPropertyImputer();
 
-		assertThat("glazed door area", doorPropertyImputer.getArea(DoorType.Glazed), equalTo(1.85d));
-		assertThat("glazed door area", doorPropertyImputer.getArea(DoorType.Solid), equalTo(1.85d));
-	}
+        assertThat("glazed door area", doorPropertyImputer.getArea(DoorType.Glazed), equalTo(1.85d));
+        assertThat("glazed door area", doorPropertyImputer.getArea(DoorType.Solid), equalTo(1.85d));
+    }
 
-	@Test
-	public void DoorUValuesByAgeBandShouldMAtchThoseInExcelSheet(){
-		final IDoorPropertyImputer doorPropertyImputer = imputationSchema.getDoorPropertyImputer();
+    @Test
+    public void DoorUValuesByAgeBandShouldMAtchThoseInExcelSheet() {
+        final IDoorPropertyImputer doorPropertyImputer = imputationSchema.getDoorPropertyImputer();
 
-		assertThat("glazed u value age band A", doorPropertyImputer.getUValue(SAPAgeBandValue.Band.A, DoorType.Glazed), equalTo(3.00d));
-		assertThat("glazed u value age band K", doorPropertyImputer.getUValue(SAPAgeBandValue.Band.K, DoorType.Glazed), equalTo(2.00d));
+        assertThat("glazed u value age band A", doorPropertyImputer.getUValue(SAPAgeBandValue.Band.A, DoorType.Glazed), equalTo(3.00d));
+        assertThat("glazed u value age band K", doorPropertyImputer.getUValue(SAPAgeBandValue.Band.K, DoorType.Glazed), equalTo(2.00d));
 
-		assertThat("solid u value age band A", doorPropertyImputer.getUValue(SAPAgeBandValue.Band.A, DoorType.Solid), equalTo(3.00d));
-		assertThat("solid u value age band K", doorPropertyImputer.getUValue(SAPAgeBandValue.Band.K, DoorType.Solid), equalTo(2.00d));
-	}
+        assertThat("solid u value age band A", doorPropertyImputer.getUValue(SAPAgeBandValue.Band.A, DoorType.Solid), equalTo(3.00d));
+        assertThat("solid u value age band K", doorPropertyImputer.getUValue(SAPAgeBandValue.Band.K, DoorType.Solid), equalTo(2.00d));
+    }
 }

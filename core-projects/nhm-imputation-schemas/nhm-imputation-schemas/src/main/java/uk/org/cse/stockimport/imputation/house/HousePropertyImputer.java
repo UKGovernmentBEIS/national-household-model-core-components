@@ -1,6 +1,5 @@
 package uk.org.cse.stockimport.imputation.house;
 
-
 /**
  * HousePropertyImputer.
  *
@@ -11,17 +10,19 @@ package uk.org.cse.stockimport.imputation.house;
 public class HousePropertyImputer implements IHousePropertyImputer {
 
     private IHousePropertyTables housePropertyTables;
-    
-    public HousePropertyImputer(IHousePropertyTables housePropertyTables){
-		this.housePropertyTables = housePropertyTables;
-	}
+
+    public HousePropertyImputer(IHousePropertyTables housePropertyTables) {
+        this.housePropertyTables = housePropertyTables;
+    }
 
     /**
-     * Returns factor storied in livingAreaFactions map, other wise returns default value
-     * 
+     * Returns factor storied in livingAreaFactions map, other wise returns
+     * default value
+     *
      * @param numberOfRooms
      * @return
-     * @see uk.org.cse.stockimport.imputation.house.IHousePropertyImputer#getLivingAreaFraction(int)
+     * @see
+     * uk.org.cse.stockimport.imputation.house.IHousePropertyImputer#getLivingAreaFraction(int)
      */
     @Override
     public double getLivingAreaFraction(int numberOfRooms) {

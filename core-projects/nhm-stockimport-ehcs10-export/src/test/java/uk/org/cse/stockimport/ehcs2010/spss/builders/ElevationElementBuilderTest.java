@@ -15,7 +15,8 @@ import uk.org.cse.stockimport.domain.geometry.impl.ElevationDTO;
  * ElevationElementBuilderTest.
  *
  * @author richardt
- * @version $Id: ElevationElementBuilderTest.java 94 2010-09-30 15:39:21Z richardt
+ * @version $Id: ElevationElementBuilderTest.java 94 2010-09-30 15:39:21Z
+ * richardt
  * @since 0.0.1-SNAPSHOT
  */
 public class ElevationElementBuilderTest {
@@ -34,7 +35,8 @@ public class ElevationElementBuilderTest {
     }
 
     /**
-     * Test method for {@link uk.org.cse.stockimport.ehcs2010.spss.builders.ElevationElementBuilder#buildRow(uk.org.cse.stockimport.domain.geometry.IElevationDTO)}.
+     * Test method for
+     * {@link uk.org.cse.stockimport.ehcs2010.spss.builders.ElevationElementBuilder#buildRow(uk.org.cse.stockimport.domain.geometry.IElevationDTO)}.
      */
     @Test
     public void testBuildRowContatainCorrectDoorInformationForMetalSolid() {

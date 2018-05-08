@@ -14,18 +14,20 @@ import uk.org.cse.nhm.language.definition.function.num.XNumberConstant;
 @Bind("action.reset-opex")
 @Category(CategoryType.RESETACTIONS)
 public class XResetOpex extends XDwellingAction {
-	public static final class P {
-		public static final String opex = "opex";
-	}
-	private XNumber opex = new XNumberConstant();
 
-	@Doc("The function to use to recompute the opex for each part of the house.")
-	@BindPositionalArgument(0)
-	public XNumber getOpex() {
-		return opex;
-	}
+    public static final class P {
 
-	public void setOpex(final XNumber opex) {
-		this.opex = opex;
-	}
+        public static final String opex = "opex";
+    }
+    private XNumber opex = new XNumberConstant();
+
+    @Doc("The function to use to recompute the opex for each part of the house.")
+    @BindPositionalArgument(0)
+    public XNumber getOpex() {
+        return opex;
+    }
+
+    public void setOpex(final XNumber opex) {
+        this.opex = opex;
+    }
 }

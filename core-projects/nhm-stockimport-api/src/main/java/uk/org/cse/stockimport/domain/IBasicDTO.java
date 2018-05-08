@@ -12,16 +12,19 @@ import uk.org.cse.stockimport.domain.schema.DTOField;
  * @since 0.0.1-SNAPSHOT
  */
 public interface IBasicDTO {
+
     public static final String AACODE = "aacode";
-	/**
+
+    /**
      * @since 1.0
      */
-	@DTOField(AACODE)
+    @DTOField(AACODE)
     String getAacode();
+
     /**
      * @since 2.0
      */
     void setAacode(String aacode);
-    
+
     List<String> validate();
 }

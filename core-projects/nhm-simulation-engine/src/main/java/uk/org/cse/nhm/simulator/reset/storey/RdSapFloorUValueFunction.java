@@ -21,78 +21,78 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 /**
  * Computes a floor u-value according to RDSAP rules.
+ *
  * @author hinton
  *
  */
 public class RdSapFloorUValueFunction extends AbstractNamed implements IComponentsFunction<Double> {
-	private final IDimension<StructureModel> structureDimension;
-	private final GroundFloorUValues uValues;
 
+    private final IDimension<StructureModel> structureDimension;
+    private final GroundFloorUValues uValues;
 
+    @AssistedInject
+    RdSapFloorUValueFunction(
+            final IDimension<StructureModel> structureDimension,
+            @Assisted("rsi") final double rsi,
+            @Assisted("rse") final double rse,
+            @Assisted("soilThermalConductivity") final double soilThermalConductivity,
+            @Assisted("deckThermalResistance") final double deckThermalResistance,
+            @Assisted("openingsPerMeterOfExposedPerimeter") final double openingsPerMeterOfExposedPerimeter,
+            @Assisted("heightAboveGroundLevel") final double heightAboveGroundLevel,
+            @Assisted("uValueOfWallsToUnderfloorSpace") final double uValueOfWallsToUnderfloorSpace,
+            @Assisted("averageWindSpeedAt10m") final double averageWindSpeedAt10m,
+            @Assisted("windShieldingFactor") final double windShieldingFactor,
+            @Assisted("floorInsulationConductivity") final double floorInsulationConductivity) {
+        this.structureDimension = structureDimension;
 
-	@AssistedInject
-	RdSapFloorUValueFunction(
-			final IDimension<StructureModel> structureDimension,
-			@Assisted("rsi") final double rsi,
-			@Assisted("rse") final double rse,
-			@Assisted("soilThermalConductivity") final double soilThermalConductivity,
-			@Assisted("deckThermalResistance") final double deckThermalResistance,
-			@Assisted("openingsPerMeterOfExposedPerimeter") final double openingsPerMeterOfExposedPerimeter,
-			@Assisted("heightAboveGroundLevel") final double heightAboveGroundLevel,
-			@Assisted("uValueOfWallsToUnderfloorSpace") final double uValueOfWallsToUnderfloorSpace,
-			@Assisted("averageWindSpeedAt10m") final double averageWindSpeedAt10m,
-			@Assisted("windShieldingFactor") final double windShieldingFactor,
-			@Assisted("floorInsulationConductivity") final double floorInsulationConductivity) {
-		this.structureDimension = structureDimension;
+        this.uValues = new GroundFloorUValues()
+                .setRsi(rsi)
+                .setRse(rse)
+                .setSoilThermalConductivity(soilThermalConductivity)
+                .setDeckThermalResistance(deckThermalResistance)
+                .setOpeningsPerMeterOfExposedPerimeter(openingsPerMeterOfExposedPerimeter)
+                .setHeightAboveGroundLevel(heightAboveGroundLevel)
+                .setuValueOfWallsToUnderfloorSpace(uValueOfWallsToUnderfloorSpace)
+                .setAverageWindSpeedAt10m(averageWindSpeedAt10m)
+                .setWindShieldingFactor(windShieldingFactor)
+                .setFloorInsulationConductivity(floorInsulationConductivity);
+    }
 
-		this.uValues = new GroundFloorUValues()
-				.setRsi(rsi)
-				.setRse(rse)
-				.setSoilThermalConductivity(soilThermalConductivity)
-				.setDeckThermalResistance(deckThermalResistance)
-				.setOpeningsPerMeterOfExposedPerimeter(openingsPerMeterOfExposedPerimeter)
-				.setHeightAboveGroundLevel(heightAboveGroundLevel)
-				.setuValueOfWallsToUnderfloorSpace(uValueOfWallsToUnderfloorSpace)
-				.setAverageWindSpeedAt10m(averageWindSpeedAt10m)
-				.setWindShieldingFactor(windShieldingFactor)
-				.setFloorInsulationConductivity(floorInsulationConductivity);
-	}
+    @SuppressWarnings("unchecked")
+    @Override
+    public Double compute(final IComponentsScope scope, final ILets lets) {
+        final StructureModel structure = scope.get(structureDimension);
+        final Optional<Storey> storey = lets.get(ResetFloorsAction.STOREY_SCOPE_KEY, Storey.class);
+        final Optional<Double> areaBelow = lets.get(ResetFloorsAction.STOREY_GROUND_AREA_KEY, Double.class);
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public Double compute(final IComponentsScope scope, final ILets lets) {
-		final StructureModel structure = scope.get(structureDimension);
-		final Optional<Storey> storey = lets.get(ResetFloorsAction.STOREY_SCOPE_KEY, Storey.class);
-		final Optional<Double> areaBelow = lets.get(ResetFloorsAction.STOREY_GROUND_AREA_KEY, Double.class);
+        if (storey.isPresent() && areaBelow.isPresent()) {
+            return compute(structure, storey.get(), areaBelow.get());
+        } else {
+            // error
+            return 0d;
+        }
+    }
 
-		if (storey.isPresent() && areaBelow.isPresent()) {
-			return compute(structure, storey.get(), areaBelow.get());
-		} else {
-			// error
-			return 0d;
-		}
-	}
+    private double compute(final StructureModel structure, final Storey storey,
+            final double areaBelow) {
 
-	private double compute(final StructureModel structure, final Storey storey,
-			final double areaBelow) {
+        return uValues.getU(
+                storey.getAverageWallThicknessWithInsulation(),
+                Math.max(0, storey.getArea() - areaBelow),
+                storey.getExposedPerimeter(),
+                structure.getGroundFloorConstructionType(),
+                structure.getFloorInsulationThickness()
+        );
+    }
 
-		return uValues.getU(
-				storey.getAverageWallThicknessWithInsulation(),
-				Math.max(0, storey.getArea() - areaBelow),
-				storey.getExposedPerimeter(),
-				structure.getGroundFloorConstructionType(),
-				structure.getFloorInsulationThickness()
-			);
-	}
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return ImmutableSet.<IDimension<?>>of(structureDimension);
+    }
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return ImmutableSet.<IDimension<?>>of(structureDimension);
-	}
-
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return Collections.emptySet();
-	}
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return Collections.emptySet();
+    }
 
 }

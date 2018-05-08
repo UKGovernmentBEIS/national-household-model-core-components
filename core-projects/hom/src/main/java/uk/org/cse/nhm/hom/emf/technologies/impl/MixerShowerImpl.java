@@ -24,62 +24,59 @@ import uk.org.cse.nhm.hom.emf.technologies.boilers.ICombiBoiler;
  * @generated
  */
 public class MixerShowerImpl extends ShowerImpl implements IMixerShower {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected MixerShowerImpl() {
-		super();
-	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected EClass eStaticClass() {
-		return ITechnologiesPackage.Literals.MIXER_SHOWER;
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc --> @generated
+     */
+    protected MixerShowerImpl() {
+        super();
+    }
 
-	@Override
-	public double hotWaterVolumePerShower() {
-		final ICentralWaterSystem waterSystem = getTechnologyModel().getCentralWaterSystem();
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc --> @generated
+     */
+    @Override
+    protected EClass eStaticClass() {
+        return ITechnologiesPackage.Literals.MIXER_SHOWER;
+    }
 
-		if (waterSystem != null) {
-			final ICentralWaterHeater waterHeater = waterSystem.getPrimaryWaterHeater();
+    @Override
+    public double hotWaterVolumePerShower() {
+        final ICentralWaterSystem waterSystem = getTechnologyModel().getCentralWaterSystem();
+
+        if (waterSystem != null) {
+            final ICentralWaterHeater waterHeater = waterSystem.getPrimaryWaterHeater();
 
             if (waterHeater != null && waterHeater instanceof IMainWaterHeater) {
-                final IHeatSource heatSource = ((IMainWaterHeater)waterHeater).getHeatSource();
+                final IHeatSource heatSource = ((IMainWaterHeater) waterHeater).getHeatSource();
 
-				if (heatSource != null && heatSource instanceof ICombiBoiler) {
-					return 44.4;
-				}
-			}
-		}
+                if (heatSource != null && heatSource instanceof ICombiBoiler) {
+                    return 44.4;
+                }
+            }
+        }
 
-		return 28.8;
-	}
+        return 28.8;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated no
-	 */
-	@Override
-	public double solarAdjustment() {
-		return 1.29;
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc --> @generated no
+     */
+    @Override
+    public double solarAdjustment() {
+        return 1.29;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated no
-	 */
-	@Override
-	public void accept(final IConstants constants, final IEnergyCalculatorParameters parameters, final IEnergyCalculatorVisitor visitor, final AtomicInteger heatingSystemCounter, final IHeatProportions heatProportions) {
-		// Mixer shower does not have anything to do here.
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc --> @generated no
+     */
+    @Override
+    public void accept(final IConstants constants, final IEnergyCalculatorParameters parameters, final IEnergyCalculatorVisitor visitor, final AtomicInteger heatingSystemCounter, final IHeatProportions heatProportions) {
+        // Mixer shower does not have anything to do here.
+    }
 
 } //MixerShowerImpl

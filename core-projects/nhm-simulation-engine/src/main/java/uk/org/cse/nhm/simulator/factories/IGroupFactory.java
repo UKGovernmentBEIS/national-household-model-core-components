@@ -12,23 +12,23 @@ import uk.org.cse.nhm.simulator.groups.impl.SetOperationDwellingGroups;
 import uk.org.cse.nhm.simulator.groups.impl.SetOperationDwellingGroups.Operation;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
-
 public interface IGroupFactory {
-	public Condition createCondition(final IDwellingGroup source, final List<IComponentsFunction<Boolean>> tests);
-	
-	public AllHousesGroupWrapper getAllHouses();
 
-	public RandomDwellingGroup createRandomSamplingGroup(
-			final IDwellingGroup source,
-			final IComponentsFunction<Number> function);
-	
-	public ChoiceDwellingGroup createRandomSubsetGroup(
-			final IDwellingGroup source,
-			final double size);
-	
-	public FunctionDwellingGroup createFilteredGroup(
-			final IDwellingGroup source,
-			final IComponentsFunction<Boolean> function);
-	
-	public SetOperationDwellingGroups createOperationGroup(final List<IDwellingGroup> sources, final Operation operation);
+    public Condition createCondition(final IDwellingGroup source, final List<IComponentsFunction<Boolean>> tests);
+
+    public AllHousesGroupWrapper getAllHouses();
+
+    public RandomDwellingGroup createRandomSamplingGroup(
+            final IDwellingGroup source,
+            final IComponentsFunction<Number> function);
+
+    public ChoiceDwellingGroup createRandomSubsetGroup(
+            final IDwellingGroup source,
+            final double size);
+
+    public FunctionDwellingGroup createFilteredGroup(
+            final IDwellingGroup source,
+            final IComponentsFunction<Boolean> function);
+
+    public SetOperationDwellingGroups createOperationGroup(final List<IDwellingGroup> sources, final Operation operation);
 }

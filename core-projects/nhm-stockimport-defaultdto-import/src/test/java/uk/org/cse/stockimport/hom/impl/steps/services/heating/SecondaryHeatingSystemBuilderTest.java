@@ -11,86 +11,87 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
 import uk.org.cse.stockimport.domain.services.SecondaryHeatingSystemType;
 
 public class SecondaryHeatingSystemBuilderTest {
-	@Test
-	public void testBuildNullSecondaryHeatingSystem() {
-		final SecondaryHeatingSystemBuilder builder = new SecondaryHeatingSystemBuilder();
 
-		Assert.assertNull(builder.createSecondaryHeatingSystem(SecondaryHeatingSystemType.NOT_KNOWN));
-		Assert.assertNull(builder.createSecondaryHeatingSystem(SecondaryHeatingSystemType.NO_SECONDARY_SYSTEM));
-	}
+    @Test
+    public void testBuildNullSecondaryHeatingSystem() {
+        final SecondaryHeatingSystemBuilder builder = new SecondaryHeatingSystemBuilder();
 
-	@Test
-	public void testBuildElectricSHS() {
-		final SecondaryHeatingSystemBuilder builder = new SecondaryHeatingSystemBuilder();
+        Assert.assertNull(builder.createSecondaryHeatingSystem(SecondaryHeatingSystemType.NOT_KNOWN));
+        Assert.assertNull(builder.createSecondaryHeatingSystem(SecondaryHeatingSystemType.NO_SECONDARY_SYSTEM));
+    }
 
-		ISpaceHeater heater = builder.createSecondaryHeatingSystem(SecondaryHeatingSystemType.ELECTRIC_ROOM_HEATERS);
+    @Test
+    public void testBuildElectricSHS() {
+        final SecondaryHeatingSystemBuilder builder = new SecondaryHeatingSystemBuilder();
 
-		Assert.assertTrue(heater instanceof IRoomHeater);
+        ISpaceHeater heater = builder.createSecondaryHeatingSystem(SecondaryHeatingSystemType.ELECTRIC_ROOM_HEATERS);
 
-		final IRoomHeater rh = (IRoomHeater) heater;
+        Assert.assertTrue(heater instanceof IRoomHeater);
 
-		Assert.assertEquals(FuelType.ELECTRICITY, rh.getFuel());
-		Assert.assertEquals(Efficiency.fromDouble(1d), rh.getEfficiency());
-		Assert.assertEquals(FlueType.NOT_APPLICABLE, rh.getFlueType());
-	}
+        final IRoomHeater rh = (IRoomHeater) heater;
 
-	@Test
-	public void testBuildLPGHeater() {
-		final SecondaryHeatingSystemBuilder builder = new SecondaryHeatingSystemBuilder();
+        Assert.assertEquals(FuelType.ELECTRICITY, rh.getFuel());
+        Assert.assertEquals(Efficiency.fromDouble(1d), rh.getEfficiency());
+        Assert.assertEquals(FlueType.NOT_APPLICABLE, rh.getFlueType());
+    }
 
-		ISpaceHeater heater = builder.createSecondaryHeatingSystem(SecondaryHeatingSystemType.LPG_HEATER);
+    @Test
+    public void testBuildLPGHeater() {
+        final SecondaryHeatingSystemBuilder builder = new SecondaryHeatingSystemBuilder();
 
-		Assert.assertTrue(heater instanceof IRoomHeater);
+        ISpaceHeater heater = builder.createSecondaryHeatingSystem(SecondaryHeatingSystemType.LPG_HEATER);
 
-		final IRoomHeater rh = (IRoomHeater) heater;
+        Assert.assertTrue(heater instanceof IRoomHeater);
 
-		Assert.assertEquals(FuelType.BOTTLED_LPG, rh.getFuel());
-		Assert.assertEquals(Efficiency.fromDouble(0.58), rh.getEfficiency());
-		Assert.assertEquals(FlueType.NOT_APPLICABLE, rh.getFlueType());
-	}
+        final IRoomHeater rh = (IRoomHeater) heater;
 
-	@Test
-	public void testBuildGasFire() {
-		final SecondaryHeatingSystemBuilder builder = new SecondaryHeatingSystemBuilder();
+        Assert.assertEquals(FuelType.BOTTLED_LPG, rh.getFuel());
+        Assert.assertEquals(Efficiency.fromDouble(0.58), rh.getEfficiency());
+        Assert.assertEquals(FlueType.NOT_APPLICABLE, rh.getFlueType());
+    }
 
-		ISpaceHeater heater = builder.createSecondaryHeatingSystem(SecondaryHeatingSystemType.GAS_FIRE);
+    @Test
+    public void testBuildGasFire() {
+        final SecondaryHeatingSystemBuilder builder = new SecondaryHeatingSystemBuilder();
 
-		Assert.assertTrue(heater instanceof IRoomHeater);
+        ISpaceHeater heater = builder.createSecondaryHeatingSystem(SecondaryHeatingSystemType.GAS_FIRE);
 
-		final IRoomHeater rh = (IRoomHeater) heater;
+        Assert.assertTrue(heater instanceof IRoomHeater);
 
-		Assert.assertEquals(FuelType.MAINS_GAS, rh.getFuel());
-		Assert.assertEquals(Efficiency.fromDouble(0.58), rh.getEfficiency());
-		Assert.assertEquals(FlueType.BALANCED_FLUE, rh.getFlueType());
-	}
+        final IRoomHeater rh = (IRoomHeater) heater;
 
-	@Test
-	public void testBuildGasCEFire() {
-		final SecondaryHeatingSystemBuilder builder = new SecondaryHeatingSystemBuilder();
+        Assert.assertEquals(FuelType.MAINS_GAS, rh.getFuel());
+        Assert.assertEquals(Efficiency.fromDouble(0.58), rh.getEfficiency());
+        Assert.assertEquals(FlueType.BALANCED_FLUE, rh.getFlueType());
+    }
 
-		ISpaceHeater heater = builder.createSecondaryHeatingSystem(SecondaryHeatingSystemType.GAS_COAL_EFFECT_FIRE);
+    @Test
+    public void testBuildGasCEFire() {
+        final SecondaryHeatingSystemBuilder builder = new SecondaryHeatingSystemBuilder();
 
-		Assert.assertTrue(heater instanceof IRoomHeater);
+        ISpaceHeater heater = builder.createSecondaryHeatingSystem(SecondaryHeatingSystemType.GAS_COAL_EFFECT_FIRE);
 
-		final IRoomHeater rh = (IRoomHeater) heater;
+        Assert.assertTrue(heater instanceof IRoomHeater);
 
-		Assert.assertEquals(FuelType.MAINS_GAS, rh.getFuel());
-		Assert.assertEquals(Efficiency.fromDouble(0.4), rh.getEfficiency());
-		Assert.assertEquals(FlueType.BALANCED_FLUE, rh.getFlueType());
-	}
+        final IRoomHeater rh = (IRoomHeater) heater;
 
-	@Test
-	public void testBuildOpenFire() {
-		final SecondaryHeatingSystemBuilder builder = new SecondaryHeatingSystemBuilder();
+        Assert.assertEquals(FuelType.MAINS_GAS, rh.getFuel());
+        Assert.assertEquals(Efficiency.fromDouble(0.4), rh.getEfficiency());
+        Assert.assertEquals(FlueType.BALANCED_FLUE, rh.getFlueType());
+    }
 
-		ISpaceHeater heater = builder.createSecondaryHeatingSystem(SecondaryHeatingSystemType.OPEN_FIRE);
+    @Test
+    public void testBuildOpenFire() {
+        final SecondaryHeatingSystemBuilder builder = new SecondaryHeatingSystemBuilder();
 
-		Assert.assertTrue(heater instanceof IRoomHeater);
+        ISpaceHeater heater = builder.createSecondaryHeatingSystem(SecondaryHeatingSystemType.OPEN_FIRE);
 
-		final IRoomHeater rh = (IRoomHeater) heater;
+        Assert.assertTrue(heater instanceof IRoomHeater);
 
-		Assert.assertEquals(FuelType.MAINS_GAS, rh.getFuel());
-		Assert.assertEquals(Efficiency.fromDouble(0.45), rh.getEfficiency());
-		Assert.assertEquals(FlueType.CHIMNEY, rh.getFlueType());
-	}
+        final IRoomHeater rh = (IRoomHeater) heater;
+
+        Assert.assertEquals(FuelType.MAINS_GAS, rh.getFuel());
+        Assert.assertEquals(Efficiency.fromDouble(0.45), rh.getEfficiency());
+        Assert.assertEquals(FlueType.CHIMNEY, rh.getFlueType());
+    }
 }

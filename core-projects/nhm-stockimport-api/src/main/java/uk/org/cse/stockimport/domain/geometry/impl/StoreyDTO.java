@@ -19,7 +19,9 @@ import uk.org.cse.stockimport.domain.geometry.SimplePolygon;
 @AutoProperty
 public class StoreyDTO extends AbsDTO implements IStoreyDTO {
 
-    /** @since 1.0 */
+    /**
+     * @since 1.0
+     */
     public static final Comparator<IStoreyDTO> StoreyLocationTypeComparator = new StoreyLocationTypeComparator();
 
     private static class StoreyLocationTypeComparator implements Comparator<IStoreyDTO> {
@@ -31,89 +33,89 @@ public class StoreyDTO extends AbsDTO implements IStoreyDTO {
          * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
          */
         @Override
-		public int compare(final IStoreyDTO o1, final IStoreyDTO o2) {
+        public int compare(final IStoreyDTO o1, final IStoreyDTO o2) {
             if ((o1 == null) && (o2 == null)) {
-              return 0;
-          } else if (o2 == null) {
-              return 0;
-          } else {
-              final FloorLocationType o1Location = o1.getLocationType();
-              final FloorLocationType o2Location = o2.getLocationType();
+                return 0;
+            } else if (o2 == null) {
+                return 0;
+            } else {
+                final FloorLocationType o1Location = o1.getLocationType();
+                final FloorLocationType o2Location = o2.getLocationType();
 
-              if ((o1Location == null) && (o2Location == null)) {
-                  return 0;
-              } else if (o2Location == null) {
-                  return 0;
-              } else {
-                  return o1Location.getLevel() < o2Location.getLevel() ? -1 : 1;
-              }
-          }
+                if ((o1Location == null) && (o2Location == null)) {
+                    return 0;
+                } else if (o2Location == null) {
+                    return 0;
+                } else {
+                    return o1Location.getLevel() < o2Location.getLevel() ? -1 : 1;
+                }
+            }
         }
-        
+
     }
-    
+
     private FloorLocationType locationType;
 
     private double ceilingHeight = 0.0d;
     private double storeyHeight = 0.0d;
 
     private SimplePolygon polygon;
-    
-	public StoreyDTO() {
-	}
 
-	@Override
-	public FloorLocationType getLocationType() {
-		return locationType;
-	}
+    public StoreyDTO() {
+    }
 
-	@Override
-	public void setLocationType(final FloorLocationType locationType) {
-		this.locationType = locationType;
-	}
+    @Override
+    public FloorLocationType getLocationType() {
+        return locationType;
+    }
 
-	@Override
-	public double getCeilingHeight() {
-		return ceilingHeight;
-	}
+    @Override
+    public void setLocationType(final FloorLocationType locationType) {
+        this.locationType = locationType;
+    }
 
-	@Override
-	public void setCeilingHeight(final double ceilingHeight) {
-		this.ceilingHeight = ceilingHeight;
-	}
+    @Override
+    public double getCeilingHeight() {
+        return ceilingHeight;
+    }
 
-	@Override
-	public double getStoreyHeight() {
-		return storeyHeight;
-	}
+    @Override
+    public void setCeilingHeight(final double ceilingHeight) {
+        this.ceilingHeight = ceilingHeight;
+    }
 
-	@Override
-	public void setStoreyHeight(final double storeyHeight) {
-		this.storeyHeight = storeyHeight;
-	}
+    @Override
+    public double getStoreyHeight() {
+        return storeyHeight;
+    }
 
-	@Override
-	public SimplePolygon getPolygon() {
-		return polygon;
-	}
+    @Override
+    public void setStoreyHeight(final double storeyHeight) {
+        this.storeyHeight = storeyHeight;
+    }
 
-	@Override
-	public void setPolygon(final SimplePolygon polygon) {
-		this.polygon = polygon;
-	}
+    @Override
+    public SimplePolygon getPolygon() {
+        return polygon;
+    }
 
-	@Override
-	public int hashCode() {
-		return Pojomatic.hashCode(this);
-	}
+    @Override
+    public void setPolygon(final SimplePolygon polygon) {
+        this.polygon = polygon;
+    }
 
-	@Override
-	public boolean equals(final Object other) {
-		return Pojomatic.equals(this, other);
-	}
+    @Override
+    public int hashCode() {
+        return Pojomatic.hashCode(this);
+    }
 
-	@Override
-	public String toString() {
-		return Pojomatic.toString(this);
-	}
+    @Override
+    public boolean equals(final Object other) {
+        return Pojomatic.equals(this, other);
+    }
+
+    @Override
+    public String toString() {
+        return Pojomatic.toString(this);
+    }
 }

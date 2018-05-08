@@ -8,16 +8,18 @@ import java.lang.annotation.Target;
 import uk.org.cse.nhm.language.adapt.IAdaptingScope;
 
 /**
- * Indicates that the parameter value should be retrieved from the {@link IAdaptingScope}; this
- * is sugar for having the scope itself as a parameter
- * 
+ * Indicates that the parameter value should be retrieved from the
+ * {@link IAdaptingScope}; this is sugar for having the scope itself as a
+ * parameter
+ *
  * See also {@link PutScope}
- * 
+ *
  * @author hinton
  *
  */
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface FromScope {
-	public String value();
+
+    public String value();
 }

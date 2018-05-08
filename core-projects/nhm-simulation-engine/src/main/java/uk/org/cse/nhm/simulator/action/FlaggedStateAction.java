@@ -28,129 +28,135 @@ import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
 import uk.org.cse.nhm.simulator.state.components.IFlags;
 
 public class FlaggedStateAction implements IStateAction, IModifier<IFlags> {
-	private final IDimension<IFlags> flags;
-	private final IStateAction delegate;
+
+    private final IDimension<IFlags> flags;
+    private final IStateAction delegate;
 
     private final List<Glob> preconditions;
     private final List<Glob> postactions;
-    
-	private final List<IUnifiedReport> reports;
-	
-	@AssistedInject
-	public FlaggedStateAction(
-			IDimension<IFlags> flags, 
-			@Assisted IStateAction delegate,
-			@Assisted("test") final List<Glob> testFlags, 
-			@Assisted("update") final List<Glob> updateFlags,
-			@Assisted final List<IUnifiedReport> reports) {
-		this.flags = flags;
-		this.delegate = delegate;
-		this.preconditions = testFlags;
+
+    private final List<IUnifiedReport> reports;
+
+    @AssistedInject
+    public FlaggedStateAction(
+            IDimension<IFlags> flags,
+            @Assisted IStateAction delegate,
+            @Assisted("test") final List<Glob> testFlags,
+            @Assisted("update") final List<Glob> updateFlags,
+            @Assisted final List<IUnifiedReport> reports) {
+        this.flags = flags;
+        this.delegate = delegate;
+        this.preconditions = testFlags;
         this.postactions = updateFlags;
-		this.reports = reports;
-	}
+        this.reports = reports;
+    }
 
-	@Override
-	public StateChangeSourceType getSourceType() {
-		return StateChangeSourceType.ACTION;
-	}
+    @Override
+    public StateChangeSourceType getSourceType() {
+        return StateChangeSourceType.ACTION;
+    }
 
-	@Override
-	public Set<IDwelling> apply(IStateScope scope, Set<IDwelling> dwellings, ILets lets) throws NHMException {
-		final Multimap<IDwelling, IUnifiedReport.IRecord> records = ArrayListMultimap.create();
+    @Override
+    public Set<IDwelling> apply(IStateScope scope, Set<IDwelling> dwellings, ILets lets) throws NHMException {
+        final Multimap<IDwelling, IUnifiedReport.IRecord> records = ArrayListMultimap.create();
 
         scope.apply(new IComponentsAction() {
-                @Override
-                public Name getIdentifier() {
-                    return FlaggedStateAction.this.getIdentifier();
-                }
-			
-                @Override
-                public StateChangeSourceType getSourceType() {
-                    return StateChangeSourceType.ACTION;
-                }
-			
-                @Override
-                public boolean isSuitable(IComponentsScope scope, ILets lets) {
-                    return true;
-                }
-			
-                @Override
-                public boolean isAlwaysSuitable() {
-                    return true;
-                }
-			
-                @Override
-                public boolean apply(ISettableComponentsScope scope, ILets lets) throws NHMException {
-                    for (final IUnifiedReport report : reports) {
-                        records.put(scope.getDwelling(), report.before(getIdentifier().getName(), scope, lets));
-                    }
-                    return true;
-                }
+            @Override
+            public Name getIdentifier() {
+                return FlaggedStateAction.this.getIdentifier();
+            }
 
-                @Override
-                public String toString() {
-                    return String.format("%s [to reports %s]", delegate, reports);
+            @Override
+            public StateChangeSourceType getSourceType() {
+                return StateChangeSourceType.ACTION;
+            }
+
+            @Override
+            public boolean isSuitable(IComponentsScope scope, ILets lets) {
+                return true;
+            }
+
+            @Override
+            public boolean isAlwaysSuitable() {
+                return true;
+            }
+
+            @Override
+            public boolean apply(ISettableComponentsScope scope, ILets lets) throws NHMException {
+                for (final IUnifiedReport report : reports) {
+                    records.put(scope.getDwelling(), report.before(getIdentifier().getName(), scope, lets));
                 }
-            }, dwellings, lets);
-		
-        
-		final Set<IDwelling> affected = delegate.apply(scope, suitable(scope.getState(), dwellings), lets);
+                return true;
+            }
+
+            @Override
+            public String toString() {
+                return String.format("%s [to reports %s]", delegate, reports);
+            }
+        }, dwellings, lets);
+
+        final Set<IDwelling> affected = delegate.apply(scope, suitable(scope.getState(), dwellings), lets);
 
         changeFlags(scope.getState(), affected);
-		
-		if (!records.isEmpty()) {
-			for (final IDwelling d : affected) {
+
+        if (!records.isEmpty()) {
+            for (final IDwelling d : affected) {
                 final Optional<IComponentsScope> componentsScope_ = scope.getComponentsScope(d);
-                final IComponentsScope componentsScope = componentsScope_.isPresent() ? 
-                    componentsScope_.get():
-                    scope.getState().detachedScope(d);
-                    
-                for (final IRecord record : records.get(d)) record.after(componentsScope, lets);
-			}
-		}
-						
-		return affected;
-	}
+                final IComponentsScope componentsScope = componentsScope_.isPresent()
+                        ? componentsScope_.get()
+                        : scope.getState().detachedScope(d);
 
-	private void changeFlags(IBranch state, Set<IDwelling> affected) {
-		if (postactions.isEmpty()) return;
-		
-		for (final IDwelling d : affected) {
-			state.modify(flags, d, this);
-		}
-	}
+                for (final IRecord record : records.get(d)) {
+                    record.after(componentsScope, lets);
+                }
+            }
+        }
 
-	private Set<IDwelling> suitable(IBranch branch, Set<IDwelling> dwellings) {
-		if (preconditions.isEmpty()) return dwellings;
-		
-		final LinkedHashSet<IDwelling> subset = new LinkedHashSet<IDwelling>();
-		for (final IDwelling d : dwellings) {
-			if (testFlags(branch, d)) {
-				subset.add(d);
-			}
-		}
-		return subset;
-	}
+        return affected;
+    }
 
-	private boolean testFlags(IBranch branch, IDwelling d) {
+    private void changeFlags(IBranch state, Set<IDwelling> affected) {
+        if (postactions.isEmpty()) {
+            return;
+        }
+
+        for (final IDwelling d : affected) {
+            state.modify(flags, d, this);
+        }
+    }
+
+    private Set<IDwelling> suitable(IBranch branch, Set<IDwelling> dwellings) {
+        if (preconditions.isEmpty()) {
+            return dwellings;
+        }
+
+        final LinkedHashSet<IDwelling> subset = new LinkedHashSet<IDwelling>();
+        for (final IDwelling d : dwellings) {
+            if (testFlags(branch, d)) {
+                subset.add(d);
+            }
+        }
+        return subset;
+    }
+
+    private boolean testFlags(IBranch branch, IDwelling d) {
         return branch.get(flags, d).flagsMatch(preconditions);
-	}
+    }
 
-	@Override
-	public Set<IDwelling> getSuitable(IStateScope scope, Set<IDwelling> dwellings, ILets lets) {
-		return suitable(scope.getState(), delegate.getSuitable(scope, dwellings, lets));
-	}
-	
-	@Override
-	public Name getIdentifier() {
-		return delegate.getIdentifier();
-	}
-	
-	@Override
-	public boolean modify(final IFlags modifiable) {
+    @Override
+    public Set<IDwelling> getSuitable(IStateScope scope, Set<IDwelling> dwellings, ILets lets) {
+        return suitable(scope.getState(), delegate.getSuitable(scope, dwellings, lets));
+    }
+
+    @Override
+    public Name getIdentifier() {
+        return delegate.getIdentifier();
+    }
+
+    @Override
+    public boolean modify(final IFlags modifiable) {
         return modifiable.modifyFlagsWith(postactions);
-	}
+    }
 
     public String toString() {
         return delegate.toString();

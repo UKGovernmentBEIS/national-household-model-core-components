@@ -18,30 +18,31 @@ import uk.org.cse.nhm.simulator.state.components.IFlags;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class MatchMultipleFlags extends AbstractNamed implements IComponentsFunction<Boolean> {
-	private final IDimension<IFlags> flags;
+
+    private final IDimension<IFlags> flags;
     private final List<Glob> preconditions;
-		
-	@AssistedInject
-	public MatchMultipleFlags(
-			final IDimension<IFlags> flags,
-			@Assisted final List<Glob> preconditions) {
-		super();
-		this.flags = flags;
+
+    @AssistedInject
+    public MatchMultipleFlags(
+            final IDimension<IFlags> flags,
+            @Assisted final List<Glob> preconditions) {
+        super();
+        this.flags = flags;
         this.preconditions = preconditions;
-	}
+    }
 
-	@Override
-	public Boolean compute(final IComponentsScope scope, final ILets lets) {
+    @Override
+    public Boolean compute(final IComponentsScope scope, final ILets lets) {
         return scope.get(flags).flagsMatch(preconditions);
-	}
+    }
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return Collections.<IDimension<?>>singleton(flags);
-	}
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return Collections.<IDimension<?>>singleton(flags);
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return Collections.<DateTime>emptySet();
-	}
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return Collections.<DateTime>emptySet();
+    }
 }

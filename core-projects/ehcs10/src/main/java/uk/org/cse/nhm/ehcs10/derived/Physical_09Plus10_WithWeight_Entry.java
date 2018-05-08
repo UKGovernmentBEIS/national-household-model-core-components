@@ -5,218 +5,218 @@ import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 
 public interface Physical_09Plus10_WithWeight_Entry extends SurveyEntry {
-	@SavVariableMapping("AAGPD910")
-	public Integer getDwellWeight_PairedCases2009_10And2010_11();
 
-	@SavVariableMapping("LOFTINSX")
-	public Integer getLoftInsulationThickness();
+    @SavVariableMapping("AAGPD910")
+    public Integer getDwellWeight_PairedCases2009_10And2010_11();
 
-	@SavVariableMapping("STOREYX")
-	public Integer getNumberOfFloorsAboveGround();
+    @SavVariableMapping("LOFTINSX")
+    public Integer getLoftInsulationThickness();
 
-	@SavVariableMapping("LVNUMX")
-	public Integer getNumberOfLiveabilityProblemsPresent();
+    @SavVariableMapping("STOREYX")
+    public Integer getNumberOfFloorsAboveGround();
 
-	@SavVariableMapping("CSTACTBX")
-	public Double getBasicRepairCosts_Actual_();
+    @SavVariableMapping("LVNUMX")
+    public Integer getNumberOfLiveabilityProblemsPresent();
 
-	@SavVariableMapping("CSTACTCX")
-	public Double getComprehensiveRepairCosts_Actual_();
+    @SavVariableMapping("CSTACTBX")
+    public Double getBasicRepairCosts_Actual_();
 
-	@SavVariableMapping("CSTSTDBX")
-	public Double getBasicRepairCosts_PerSquareMetre_();
+    @SavVariableMapping("CSTACTCX")
+    public Double getComprehensiveRepairCosts_Actual_();
 
-	@SavVariableMapping("FLOORX")
-	public Double getUseableFloorArea_Sqm_();
+    @SavVariableMapping("CSTSTDBX")
+    public Double getBasicRepairCosts_PerSquareMetre_();
 
-	@SavVariableMapping("CSTSTDUX")
-	public Double getUrgentRepairCosts_PerSquareMetre_();
+    @SavVariableMapping("FLOORX")
+    public Double getUseableFloorArea_Sqm_();
 
-	@SavVariableMapping("CSTSTDCX")
-	public Double getComprehensiveRepairCosts_PerSquareMetre_();
+    @SavVariableMapping("CSTSTDUX")
+    public Double getUrgentRepairCosts_PerSquareMetre_();
 
-	@SavVariableMapping("CSTACTUX")
-	public Double getUrgentRepairCosts_Actual_();
+    @SavVariableMapping("CSTSTDCX")
+    public Double getComprehensiveRepairCosts_PerSquareMetre_();
 
-	@SavVariableMapping("EPCEIR09")
-	public Double getEnvironmentalImpactRating_EhsSAP2009_();
+    @SavVariableMapping("CSTACTUX")
+    public Double getUrgentRepairCosts_Actual_();
 
-	@SavVariableMapping("AAGPH910")
-	public Double getHhldWeight_PairedCases2009_10And2010_11();
+    @SavVariableMapping("EPCEIR09")
+    public Double getEnvironmentalImpactRating_EhsSAP2009_();
 
-	@SavVariableMapping("DHCOSTY")
-	public Double getCostToMakeDecent_Hhsrs15Model_();
+    @SavVariableMapping("AAGPH910")
+    public Double getHhldWeight_PairedCases2009_10And2010_11();
 
-	@SavVariableMapping("SAP09")
-	public Double getEnergyEfficiency_SAP09_Rating();
+    @SavVariableMapping("DHCOSTY")
+    public Double getCostToMakeDecent_Hhsrs15Model_();
 
-	@SavVariableMapping("DWTYPE3X")
-	public Enum101 getDwellingType();
+    @SavVariableMapping("SAP09")
+    public Double getEnergyEfficiency_SAP09_Rating();
 
-	@SavVariableMapping("NEIVISX")
-	public Enum102 getAppearanceOfArea();
+    @SavVariableMapping("DWTYPE3X")
+    public Enum101 getDwellingType();
 
-	@SavVariableMapping("TYPEWIN")
-	public Enum103 getPredominantTypeOfWindow();
+    @SavVariableMapping("NEIVISX")
+    public Enum102 getAppearanceOfArea();
 
-	@SavVariableMapping("LVANYX")
-	public Enum69 getPoorQualityEnvironment();
+    @SavVariableMapping("TYPEWIN")
+    public Enum103 getPredominantTypeOfWindow();
 
-	@SavVariableMapping("DWAGE4X")
-	public Enum105 getDwellingAge();
+    @SavVariableMapping("LVANYX")
+    public Enum69 getPoorQualityEnvironment();
 
-	@SavVariableMapping("LOFTINS6")
-	public Enum106 getLoftInsulationThickness_LOFTINS6();
+    @SavVariableMapping("DWAGE4X")
+    public Enum105 getDwellingAge();
 
-	@SavVariableMapping("DHREASNY")
-	public Enum107 getDecentHomesCriteriaNotMet_Hhsrs15Model_();
+    @SavVariableMapping("LOFTINS6")
+    public Enum106 getLoftInsulationThickness_LOFTINS6();
 
-	@SavVariableMapping("EPCEEB09")
-	public Enum16 getEnergyEfficiencyRatingBand_EhsSAP2009_();
+    @SavVariableMapping("DHREASNY")
+    public Enum107 getDecentHomesCriteriaNotMet_Hhsrs15Model_();
 
-	@SavVariableMapping("DHNUMZ")
-	public Enum109 getDecentHomes_NumberOfCriteriaFailed_Hhsrs26Model_();
+    @SavVariableMapping("EPCEEB09")
+    public Enum16 getEnergyEfficiencyRatingBand_EhsSAP2009_();
 
-	@SavVariableMapping("TYPERCOV")
-	public Enum110 getPredominantTypeOfRoofCovering();
+    @SavVariableMapping("DHNUMZ")
+    public Enum109 getDecentHomes_NumberOfCriteriaFailed_Hhsrs26Model_();
 
-	@SavVariableMapping("DHTCREAS")
-	public Enum111 getReasonForFailingDecentHomesOnThermalComfort_HhsrsModel__();
+    @SavVariableMapping("TYPERCOV")
+    public Enum110 getPredominantTypeOfRoofCovering();
 
-	@SavVariableMapping("DHREASNZ")
-	public Enum107 getDecentHomesCriteriaNotMet_Hhsrs26Model_();
+    @SavVariableMapping("DHTCREAS")
+    public Enum111 getReasonForFailingDecentHomesOnThermalComfort_HhsrsModel__();
 
-	@SavVariableMapping("SECURE")
-	public Enum113 getSecureWindowsAndDoors();
+    @SavVariableMapping("DHREASNZ")
+    public Enum107 getDecentHomesCriteriaNotMet_Hhsrs26Model_();
 
-	@SavVariableMapping("FLOOR5X")
-	public Enum114 getUseableFloorArea();
+    @SavVariableMapping("SECURE")
+    public Enum113 getSecureWindowsAndDoors();
 
-	@SavVariableMapping("BASEMENT")
-	public Enum69 getBasementPresentInDwelling();
+    @SavVariableMapping("FLOOR5X")
+    public Enum114 getUseableFloorArea();
 
-	@SavVariableMapping("HEAT7X")
-	public Enum116 getMainHeatingSystem();
+    @SavVariableMapping("BASEMENT")
+    public Enum69 getBasementPresentInDwelling();
 
-	@SavVariableMapping("SAP409")
-	public Enum117 getEnergyEfficiency_SAP09_Rating_SAP409();
+    @SavVariableMapping("HEAT7X")
+    public Enum116 getMainHeatingSystem();
 
-	@SavVariableMapping("FUELX")
-	public Enum118 getMainFuelType();
+    @SavVariableMapping("SAP409")
+    public Enum117 getEnergyEfficiency_SAP09_Rating_SAP409();
 
-	@SavVariableMapping("TYPEWFIN")
-	public Enum119 getPredominantTypeOfWallFinish();
+    @SavVariableMapping("FUELX")
+    public Enum118 getMainFuelType();
 
-	@SavVariableMapping("DHOMESZ")
-	public Enum120 getDecentHomes_HHSRS26Model();
+    @SavVariableMapping("TYPEWFIN")
+    public Enum119 getPredominantTypeOfWallFinish();
 
-	@SavVariableMapping("PARKING")
-	public Enum121 getParkingProvisionOfSurveyDwelling();
+    @SavVariableMapping("DHOMESZ")
+    public Enum120 getDecentHomes_HHSRS26Model();
 
-	@SavVariableMapping("WALLINSX")
-	public Enum122 getTypeOfWallAndInsulation();
+    @SavVariableMapping("PARKING")
+    public Enum121 getParkingProvisionOfSurveyDwelling();
 
-	@SavVariableMapping("DHDISRX")
-	public Enum123 getDecentHomesRepairCriterion();
+    @SavVariableMapping("WALLINSX")
+    public Enum122 getTypeOfWallAndInsulation();
 
-	@SavVariableMapping("DBLGLAZ4")
-	public Enum124 getExtentOfDoubleGlazing();
+    @SavVariableMapping("DHDISRX")
+    public Enum123 getDecentHomesRepairCriterion();
 
-	@SavVariableMapping("ALLTYPEX")
-	public Enum125 getDwellingAgeAndType();
+    @SavVariableMapping("DBLGLAZ4")
+    public Enum124 getExtentOfDoubleGlazing();
 
-	@SavVariableMapping("LOFTINS4")
-	public Enum126 getLoftInsulationThickness_LOFTINS4();
+    @SavVariableMapping("ALLTYPEX")
+    public Enum125 getDwellingAgeAndType();
 
-	@SavVariableMapping("DHOMESY")
-	public Enum120 getDecentHomes_HHSRS15Model();
+    @SavVariableMapping("LOFTINS4")
+    public Enum126 getLoftInsulationThickness_LOFTINS4();
 
-	@SavVariableMapping("DWAGE5X")
-	public Enum128 getDwellingAge_DWAGE5X();
+    @SavVariableMapping("DHOMESY")
+    public Enum120 getDecentHomes_HHSRS15Model();
 
-	@SavVariableMapping("DWTYPENX")
-	public Enum129 getDwellingType_DWTYPENX();
+    @SavVariableMapping("DWAGE5X")
+    public Enum128 getDwellingAge_DWAGE5X();
 
-	@SavVariableMapping("EPCEIB09")
-	public Enum16 getEnvironmentalImpactRatingBand_EhsSAP2009_();
+    @SavVariableMapping("DWTYPENX")
+    public Enum129 getDwellingType_DWTYPENX();
 
-	@SavVariableMapping("TYPERSTR")
-	public Enum131 getPredominantTypeOfRoofStucture();
+    @SavVariableMapping("EPCEIB09")
+    public Enum16 getEnvironmentalImpactRatingBand_EhsSAP2009_();
 
-	@SavVariableMapping("DHHHSRSX")
-	public Enum123 getDecentHomesHhsrs_15Hazards();
+    @SavVariableMapping("TYPERSTR")
+    public Enum131 getPredominantTypeOfRoofStucture();
 
-	@SavVariableMapping("DWTYPE7X")
-	public Enum133 getDwellingType_DWTYPE7X();
+    @SavVariableMapping("DHHHSRSX")
+    public Enum123 getDecentHomesHhsrs_15Hazards();
 
-	@SavVariableMapping("ATTIC")
-	public Enum69 getAtticPresentInDwelling();
+    @SavVariableMapping("DWTYPE7X")
+    public Enum133 getDwellingType_DWTYPE7X();
 
-	@SavVariableMapping("DBLGLAZ2")
-	public Enum135 getExtentOfDoubleGlazing_DBLGLAZ2();
+    @SavVariableMapping("ATTIC")
+    public Enum69 getAtticPresentInDwelling();
 
-	@SavVariableMapping("DWTYPE8X")
-	public Enum136 getDwellingType_DWTYPE8X();
+    @SavVariableMapping("DBLGLAZ2")
+    public Enum135 getExtentOfDoubleGlazing_DBLGLAZ2();
 
-	@SavVariableMapping("LV2TRAFX")
-	public Enum69 getPoorQualityEnvironment_TrafficProblems();
+    @SavVariableMapping("DWTYPE8X")
+    public Enum136 getDwellingType_DWTYPE8X();
 
-	@SavVariableMapping("WALLCAVX")
-	public Enum138 getTypeOfWall();
+    @SavVariableMapping("LV2TRAFX")
+    public Enum69 getPoorQualityEnvironment_TrafficProblems();
 
-	@SavVariableMapping("DWAGE6X")
-	public Enum139 getDwellingAge_DWAGE6X();
+    @SavVariableMapping("WALLCAVX")
+    public Enum138 getTypeOfWall();
 
-	@SavVariableMapping("AREA3X")
-	public Enum140 getTypeOfArea();
+    @SavVariableMapping("DWAGE6X")
+    public Enum139 getDwellingAge_DWAGE6X();
 
-	@SavVariableMapping("DHTHERMY")
-	public Enum123 getDecentHomesThermalComfortCriterion();
+    @SavVariableMapping("AREA3X")
+    public Enum140 getTypeOfArea();
 
-	@SavVariableMapping("LV3UTILX")
-	public Enum69 getPoorQualityEnvironment_UtilisationProblems();
+    @SavVariableMapping("DHTHERMY")
+    public Enum123 getDecentHomesThermalComfortCriterion();
 
-	@SavVariableMapping("HEAT4X")
-	public Enum143 getMainHeatingSystem_HEAT4X();
+    @SavVariableMapping("LV3UTILX")
+    public Enum69 getPoorQualityEnvironment_UtilisationProblems();
 
-	@SavVariableMapping("DWAGE9X")
-	public Enum144 getDwellingAge_DWAGE9X();
+    @SavVariableMapping("HEAT4X")
+    public Enum143 getMainHeatingSystem_HEAT4X();
 
-	@SavVariableMapping("SYSAGE")
-	public Enum145 getAgeOfHeatingSystem();
+    @SavVariableMapping("DWAGE9X")
+    public Enum144 getDwellingAge_DWAGE9X();
 
-	@SavVariableMapping("TYPEWSTR")
-	public Enum146 getPredominantTypeOfWallStucture();
+    @SavVariableMapping("SYSAGE")
+    public Enum145 getAgeOfHeatingSystem();
 
-	@SavVariableMapping("DHTCACTY")
-	public Enum147 getRequirementToPassDecentHomesThermalComfortCriterion_HhsrsModel_();
+    @SavVariableMapping("TYPEWSTR")
+    public Enum146 getPredominantTypeOfWallStucture();
 
-	@SavVariableMapping("LV1UPKPX")
-	public Enum69 getPoorQualityEnvironment_UpkeepProblems();
+    @SavVariableMapping("DHTCACTY")
+    public Enum147 getRequirementToPassDecentHomesThermalComfortCriterion_HhsrsModel_();
 
-	@SavVariableMapping("DHMODX")
-	public Enum123 getDecentHomesModernFacilitiesCriterion();
+    @SavVariableMapping("LV1UPKPX")
+    public Enum69 getPoorQualityEnvironment_UpkeepProblems();
 
-	@SavVariableMapping("ARNATX")
-	public Enum150 getNatureOfArea();
+    @SavVariableMapping("DHMODX")
+    public Enum123 getDecentHomesModernFacilitiesCriterion();
 
-	@SavVariableMapping("MAINFUEL")
-	public Enum151 getMainHeatingFuel();
+    @SavVariableMapping("ARNATX")
+    public Enum150 getNatureOfArea();
 
-	@SavVariableMapping("DHNUMY")
-	public Enum109 getDecentHomes_NumberOfCriteriaFailed_Hhsrs15Model_();
+    @SavVariableMapping("MAINFUEL")
+    public Enum151 getMainHeatingFuel();
 
-	@SavVariableMapping("WATERSYS")
-	public Enum153 getWaterHeatingSystem();
+    @SavVariableMapping("DHNUMY")
+    public Enum109 getDecentHomes_NumberOfCriteriaFailed_Hhsrs15Model_();
 
-	@SavVariableMapping("BOILER")
-	public Enum154 getTypeOfBoiler();
+    @SavVariableMapping("WATERSYS")
+    public Enum153 getWaterHeatingSystem();
 
-	@SavVariableMapping("HOUSEX")
-	public Enum155 getDwellingType_HOUSEX();
+    @SavVariableMapping("BOILER")
+    public Enum154 getTypeOfBoiler();
 
-	@SavVariableMapping("DHHHSRSY")
-	public Enum123 getDecentHomesHhsrs_26Hazards();
+    @SavVariableMapping("HOUSEX")
+    public Enum155 getDwellingType_HOUSEX();
+
+    @SavVariableMapping("DHHHSRSY")
+    public Enum123 getDecentHomesHhsrs_26Hazards();
 
 }
-

@@ -8,10 +8,11 @@ import uk.org.cse.stockimport.ehcs2010.spss.AbstractAutoHomElementBuilder;
  * @since 1.0
  */
 public class VentilationFromSpssElementBuilder extends AbstractAutoHomElementBuilder<IVentilationDTO> {
+
     /**
      * @since 1.0
      */
     public VentilationFromSpssElementBuilder() {
-		super(VentilationDTO.class);
-	}
+        super(VentilationDTO.class);
+    }
 }

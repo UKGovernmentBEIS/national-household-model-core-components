@@ -11,13 +11,13 @@ import uk.org.cse.nhm.logging.logentry.BasicAttributesLogEntry.Details;
 
 public class BasicAttributesLogEntryTest {
 
-	@Test
-	public void testSerialisations() throws JsonGenerationException, JsonMappingException, IOException {
-		Details details = new Details();
-		
-		details.setAacode("hello");
-		final BasicAttributesLogEntry  logEntry = new BasicAttributesLogEntry(1, details);
-		LogEntryTestUtility.testLogDeSerialisation(logEntry, BasicAttributesLogEntry.class);
-	}
+    @Test
+    public void testSerialisations() throws JsonGenerationException, JsonMappingException, IOException {
+        Details details = new Details();
+
+        details.setAacode("hello");
+        final BasicAttributesLogEntry logEntry = new BasicAttributesLogEntry(1, details);
+        LogEntryTestUtility.testLogDeSerialisation(logEntry, BasicAttributesLogEntry.class);
+    }
 
 }

@@ -22,18 +22,19 @@ import uk.org.cse.nhm.language.definition.function.num.XNumberConstant;
         + "Please note that it is possible for insulation to be fitted and energy use then go-up due to edige cases where"
         + "the efficiency of space heating systems is so low the un-insulated cylinder is contributing heat to the dwelling")
 @Unsuitability({
-        "Dwelling does not have central hot water system with a hot water storage cylinder",
-        "Dwelling has a hot water cylinder with factory insulation of less than 25mm",
-        "Dwelling has a hot water cylinder with jacket insualtion of less than 80mm"
+    "Dwelling does not have central hot water system with a hot water storage cylinder",
+    "Dwelling has a hot water cylinder with factory insulation of less than 25mm",
+    "Dwelling has a hot water cylinder with jacket insualtion of less than 80mm"
 })
 public class XInstallHotWaterCylinderInsulation extends XMeasure {
 
     private XNumber capex = new XNumberConstant();
-    
+
     public static final class P {
+
         public static final String capex = "capex";
     }
-    
+
     @Prop(P.capex)
     @BindNamedArgument
     @Doc("A function for computing the capital cost of installing the insulation")

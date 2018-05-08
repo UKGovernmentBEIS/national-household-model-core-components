@@ -15,39 +15,39 @@ import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
 
 public class ReducedInternalGainsAction extends AbstractNamed implements IComponentsAction, IModifier<StructureModel> {
 
-	private final IDimension<StructureModel> structureDimension;
+    private final IDimension<StructureModel> structureDimension;
 
-	@AssistedInject
-	public ReducedInternalGainsAction(
-			final IDimension<StructureModel> structureDimension
-			) {
-				this.structureDimension = structureDimension;
-	}
+    @AssistedInject
+    public ReducedInternalGainsAction(
+            final IDimension<StructureModel> structureDimension
+    ) {
+        this.structureDimension = structureDimension;
+    }
 
-	@Override
-	public StateChangeSourceType getSourceType() {
-		return StateChangeSourceType.ACTION;
-	}
+    @Override
+    public StateChangeSourceType getSourceType() {
+        return StateChangeSourceType.ACTION;
+    }
 
-	@Override
-	public boolean modify(StructureModel structure) {
-		structure.setReducedInternalGains(true);
-		return true;
-	}
+    @Override
+    public boolean modify(StructureModel structure) {
+        structure.setReducedInternalGains(true);
+        return true;
+    }
 
-	@Override
-	public boolean apply(ISettableComponentsScope scope, ILets lets) throws NHMException {
-		scope.modify(structureDimension, this);
-		return true;
-	}
+    @Override
+    public boolean apply(ISettableComponentsScope scope, ILets lets) throws NHMException {
+        scope.modify(structureDimension, this);
+        return true;
+    }
 
-	@Override
-	public boolean isSuitable(IComponentsScope scope, ILets lets) {
-		return true;
-	}
+    @Override
+    public boolean isSuitable(IComponentsScope scope, ILets lets) {
+        return true;
+    }
 
-	@Override
-	public boolean isAlwaysSuitable() {
-		return true;
-	}
+    @Override
+    public boolean isAlwaysSuitable() {
+        return true;
+    }
 }

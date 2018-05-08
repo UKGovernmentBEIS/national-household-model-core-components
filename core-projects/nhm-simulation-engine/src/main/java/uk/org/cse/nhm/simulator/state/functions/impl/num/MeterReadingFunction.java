@@ -17,27 +17,28 @@ import uk.org.cse.nhm.simulator.state.dimensions.energy.IEnergyMeter;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class MeterReadingFunction extends AbstractNamed implements IComponentsFunction<Double> {
-	final IDimension<IEnergyMeter> meter;
-	final FuelType fuelType;
-	
-	@AssistedInject
-	public MeterReadingFunction(final IDimension<IEnergyMeter> meter, @Assisted final FuelType fuelType) {
-		this.meter = meter;
-		this.fuelType = fuelType;
-	}
 
-	@Override
-	public Double compute(final IComponentsScope scope, final ILets lets) {
-		return scope.get(meter).getEnergyUseByFuel(fuelType);
-	}
+    final IDimension<IEnergyMeter> meter;
+    final FuelType fuelType;
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return ImmutableSet.<IDimension<?>>of(meter);
-	}
+    @AssistedInject
+    public MeterReadingFunction(final IDimension<IEnergyMeter> meter, @Assisted final FuelType fuelType) {
+        this.meter = meter;
+        this.fuelType = fuelType;
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		throw new UnsupportedOperationException("The meter reading should not be used in a time-sensitive function (like the weather definition).");
-	}
+    @Override
+    public Double compute(final IComponentsScope scope, final ILets lets) {
+        return scope.get(meter).getEnergyUseByFuel(fuelType);
+    }
+
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return ImmutableSet.<IDimension<?>>of(meter);
+    }
+
+    @Override
+    public Set<DateTime> getChangeDates() {
+        throw new UnsupportedOperationException("The meter reading should not be used in a time-sensitive function (like the weather definition).");
+    }
 }

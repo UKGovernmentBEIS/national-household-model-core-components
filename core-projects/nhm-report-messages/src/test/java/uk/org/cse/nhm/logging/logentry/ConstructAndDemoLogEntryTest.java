@@ -13,9 +13,9 @@ import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 
 public class ConstructAndDemoLogEntryTest {
 
-	@Test
-	public void testRiceCrispies() throws JsonGenerationException, JsonMappingException, IOException {
-		final ConstructAndDemoLogEntry logEntry = new ConstructAndDemoLogEntry(new DateTime(), new ImmutableMap.Builder<RegionType, Integer>().put(RegionType.London, 9).build());
-		LogEntryTestUtility.testLogDeSerialisation(logEntry, ConstructAndDemoLogEntry.class);
-	}
+    @Test
+    public void testRiceCrispies() throws JsonGenerationException, JsonMappingException, IOException {
+        final ConstructAndDemoLogEntry logEntry = new ConstructAndDemoLogEntry(new DateTime(), new ImmutableMap.Builder<RegionType, Integer>().put(RegionType.London, 9).build());
+        LogEntryTestUtility.testLogDeSerialisation(logEntry, ConstructAndDemoLogEntry.class);
+    }
 }

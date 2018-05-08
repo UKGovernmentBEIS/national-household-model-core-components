@@ -7,6 +7,7 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.logic.LogicalCombination;
 
 public class TestToSetConverterTest {
+
     @Test
     public void isBooleanComponentsFunctionWorks() {
         Assert.assertFalse(TestToSetConverter.isBooleanComponentsFunction(Object.class));

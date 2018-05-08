@@ -15,39 +15,48 @@ import uk.org.cse.nhm.NHMException;
  * @since 1.3.0-CONSTITUTION
  */
 public interface ISimulator extends AutoCloseable {
+
     /**
-     * Step the simulation; this runs a batch of events from the queue. If you want to see how the simulation is
-     * getting along, you can use {@link #getCurrentDate()} to see what the simulation time is at the moment.
-     * 
-     * @return true if the simulation has more events to run before the end date ({@link #setEndDate(Date)})
+     * Step the simulation; this runs a batch of events from the queue. If you
+     * want to see how the simulation is getting along, you can use
+     * {@link #getCurrentDate()} to see what the simulation time is at the
+     * moment.
+     *
+     * @return true if the simulation has more events to run before the end date
+     * ({@link #setEndDate(Date)})
      * @throws NHMException
      */
     public abstract int step() throws NHMException;
+
     /**
      * @return The date of the event at the front of the simulation event queue.
      */
     public abstract DateTime getCurrentDate();
-    
+
     public void addSimulationStepListener(ISimulationStepListener listener);
-    
+
     public void removeSimulationStepListener(ISimulationStepListener listener);
-    
+
     /**
-	 * Schedule the given event for despatch at the given date.
+     * Schedule the given event for despatch at the given date.
+     *
      * @param priority TODO
      * @param callback TODO
-	 */
-	public void schedule(final DateTime dateTime, Priority priority, IDateRunnable callback);
-	
-	/**
-     * Add a checkpoint to the queue - this is an event which will wake the simulator, but not do anything.
+     */
+    public void schedule(final DateTime dateTime, Priority priority, IDateRunnable callback);
+
+    /**
+     * Add a checkpoint to the queue - this is an event which will wake the
+     * simulator, but not do anything.
+     *
      * @param dt
      */
-	public void addCheckpoint(DateTime dt);
-    
+    public void addCheckpoint(DateTime dt);
+
     @Override
-	public void close();
-	long getStartTime();
+    public void close();
+
+    long getStartTime();
 
     public void dieIfStopped();
 

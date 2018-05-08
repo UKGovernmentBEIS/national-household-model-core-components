@@ -24,260 +24,266 @@ import uk.org.cse.nhm.language.definition.function.num.XNumberConstant;
 import uk.org.cse.nhm.language.definition.function.num.XPrior;
 
 @Category(CategoryType.HEALTH)
-@Doc({ "Computes the health impact of a change in e-value and permeability." })
+@Doc({"Computes the health impact of a change in e-value and permeability."})
 @Bind("health-impact-of")
-@SeeAlso({ XSITFunction.class, XPermeabilityFunction.class })
+@SeeAlso({XSITFunction.class, XPermeabilityFunction.class})
 public class XHealthImpactFunction extends XHouseNumber {
-	public static final class P {
-		public static final String fromTemperature = "fromTemperature";
-		public static final String toTemperature = "toTemperature";
-		public static final String fromH = "fromHeatLoss";
-		public static final String toH = "toHeatLoss";
-		public static final String fromPermeability = "fromPermeability";
-		public static final String toPermeability = "toPermeability";
-		public static final String toYear = "toYear";
-		public static final String fromYear = "fromYear";
-		public static final String diseases = "diseases";
-		public static final String impact = "impact";
-		public static final String hadTrickleVents = "hadTrickleVents";
-		public static String getHadtricklevents() {
-			return hadTrickleVents;
-		}
-		public static String getHadextractfans() {
-			return hadExtractFans;
-		}
-		public static final String hadExtractFans = "hadExtractFans";
-		public static final String hasTrickleVents = "hasTrickleVents";
-		public static final String hasExtractFans = "hasExtractFans";
-		public static final String fromG = "fromDoubleGlazing";
-		public static final String toG = "toDoubleGlazing";
-	}
 
-	@Doc("A type of disease")
-	public enum XDisease {
-		@Doc("Cerebrovascular")
-		CaV, @Doc("Cardiopulmonary")
-		CP, @Doc("Lung cancers")
-		LC, @Doc("Myocardial infarction")
-		MI, @Doc("Winter cerebrovascular")
-		WCaV, @Doc("Winter cardiovascular")
-		WCV, @Doc("Winter myocardial infarction")
-		WMI, @Doc("Common mental disorders")
-		CMD, @Doc("Athsma")
-		Asthma,
-		@Doc("Common mental disorder") COPD,
-		@Doc("Over heating") OvHeat
-	}
+    public static final class P {
 
-	@Doc("One of the types of impact a disease may have")
-	public enum XImpact {
-		@Doc("Disease effect on life years (in QALYs)")
-		Morbidity, @Doc("Life years lost due to excess deaths (in QALYs)")
-		Mortality, @Doc("Cost in pounds from healthcare to the NHS")
-		Cost
-	}
+        public static final String fromTemperature = "fromTemperature";
+        public static final String toTemperature = "toTemperature";
+        public static final String fromH = "fromHeatLoss";
+        public static final String toH = "toHeatLoss";
+        public static final String fromPermeability = "fromPermeability";
+        public static final String toPermeability = "toPermeability";
+        public static final String toYear = "toYear";
+        public static final String fromYear = "fromYear";
+        public static final String diseases = "diseases";
+        public static final String impact = "impact";
+        public static final String hadTrickleVents = "hadTrickleVents";
 
-	private XImpact impact = XImpact.Cost;
-	private List<XDisease> diseases = new ArrayList<XDisease>(Arrays.asList(XDisease.values()));
+        public static String getHadtricklevents() {
+            return hadTrickleVents;
+        }
 
-	private XNumber fromTemperature;
-	private XNumber toTemperature = XPrior.valueOf(new XSITFunction());
+        public static String getHadextractfans() {
+            return hadExtractFans;
+        }
+        public static final String hadExtractFans = "hadExtractFans";
+        public static final String hasTrickleVents = "hasTrickleVents";
+        public static final String hasExtractFans = "hasExtractFans";
+        public static final String fromG = "fromDoubleGlazing";
+        public static final String toG = "toDoubleGlazing";
+    }
 
-	private XNumber fromPermeability;
-	private XNumber toPermeability = XPrior.valueOf(new XPermeabilityFunction());
+    @Doc("A type of disease")
+    public enum XDisease {
+        @Doc("Cerebrovascular")
+        CaV, @Doc("Cardiopulmonary")
+        CP, @Doc("Lung cancers")
+        LC, @Doc("Myocardial infarction")
+        MI, @Doc("Winter cerebrovascular")
+        WCaV, @Doc("Winter cardiovascular")
+        WCV, @Doc("Winter myocardial infarction")
+        WMI, @Doc("Common mental disorders")
+        CMD, @Doc("Athsma")
+        Asthma,
+        @Doc("Common mental disorder")
+        COPD,
+        @Doc("Over heating")
+        OvHeat
+    }
 
-	private XNumber fromYear = XNumberConstant.create(0);
-	private XNumber toYear = XNumberConstant.create(10);
+    @Doc("One of the types of impact a disease may have")
+    public enum XImpact {
+        @Doc("Disease effect on life years (in QALYs)")
+        Morbidity, @Doc("Life years lost due to excess deaths (in QALYs)")
+        Mortality, @Doc("Cost in pounds from healthcare to the NHS")
+        Cost
+    }
 
-	private XBoolean hadTrickleVents = new XAny();
+    private XImpact impact = XImpact.Cost;
+    private List<XDisease> diseases = new ArrayList<XDisease>(Arrays.asList(XDisease.values()));
 
-	@Prop(P.hadTrickleVents)
-	@Doc("A function to test whether the house had trickle vents")
-	@BindNamedArgument("had-trickle-vents")
-	public XBoolean getHadTrickleVents() {
-		return hadTrickleVents;
-	}
+    private XNumber fromTemperature;
+    private XNumber toTemperature = XPrior.valueOf(new XSITFunction());
 
-	@Prop(P.hadExtractFans)
-	@Doc("A function to test whether the house had extractor fans")
-	@BindNamedArgument("had-extract-fans")
-	public XBoolean getHadExtractFans() {
-		return hadExtractFans;
-	}
+    private XNumber fromPermeability;
+    private XNumber toPermeability = XPrior.valueOf(new XPermeabilityFunction());
 
-	private XBoolean hadExtractFans = new XAny();
+    private XNumber fromYear = XNumberConstant.create(0);
+    private XNumber toYear = XNumberConstant.create(10);
 
-	private XBoolean hasTrickleVents = new XAny();
-	private XBoolean hasExtractFans = new XAny();
+    private XBoolean hadTrickleVents = new XAny();
 
-	private XNumber fromHeatLoss = XPrior.valueOf(new XHeatLoss());
-	private XNumber toHeatLoss = new XHeatLoss();
+    @Prop(P.hadTrickleVents)
+    @Doc("A function to test whether the house had trickle vents")
+    @BindNamedArgument("had-trickle-vents")
+    public XBoolean getHadTrickleVents() {
+        return hadTrickleVents;
+    }
 
-	private XNumber fromDoubleGlazing = XPrior.valueOf(new XGetProportionOfDoubleGlazedWindows());
-	private XNumber toDoubleGlazing = new XGetProportionOfDoubleGlazedWindows();
+    @Prop(P.hadExtractFans)
+    @Doc("A function to test whether the house had extractor fans")
+    @BindNamedArgument("had-extract-fans")
+    public XBoolean getHadExtractFans() {
+        return hadExtractFans;
+    }
 
-	@Prop(P.fromG)
-	@BindNamedArgument("double-glazed-before")
-	@Doc({ "A function or boolean to indicate whether the house was mostly double glazed before the intervention.", "",
-			"The default is to test whether the proportion double glazed is at least 80%." })
-	public XNumber getFromDoubleGlazing() {
-		return fromDoubleGlazing;
-	}
+    private XBoolean hadExtractFans = new XAny();
 
-	public void setFromDoubleGlazing(final XNumber fromDoubleGlazing) {
-		this.fromDoubleGlazing = fromDoubleGlazing;
-	}
+    private XBoolean hasTrickleVents = new XAny();
+    private XBoolean hasExtractFans = new XAny();
 
-	@Prop(P.toG)
-	@BindNamedArgument("double-glazed-after")
-	@Doc({ "A function or boolean to indicate whether the house is mostly double glazed after the intervention.", "",
-			"The default is to test whether the proportion double glazed was at least 80%." })
-	public XNumber getToDoubleGlazing() {
-		return toDoubleGlazing;
-	}
+    private XNumber fromHeatLoss = XPrior.valueOf(new XHeatLoss());
+    private XNumber toHeatLoss = new XHeatLoss();
 
-	public void setToDoubleGlazing(final XNumber toDoubleGlazing) {
-		this.toDoubleGlazing = toDoubleGlazing;
-	}
+    private XNumber fromDoubleGlazing = XPrior.valueOf(new XGetProportionOfDoubleGlazedWindows());
+    private XNumber toDoubleGlazing = new XGetProportionOfDoubleGlazedWindows();
 
-	@Prop(P.toH)
-	@BindNamedArgument("heat-loss-after")
-	@Doc({ "The house's specific heat loss after the intervention.", "",
-			"This affects the health impact associated with overheating." })
-	public XNumber getToHeatLoss() {
-		return toHeatLoss;
-	}
+    @Prop(P.fromG)
+    @BindNamedArgument("double-glazed-before")
+    @Doc({"A function or boolean to indicate whether the house was mostly double glazed before the intervention.", "",
+        "The default is to test whether the proportion double glazed is at least 80%."})
+    public XNumber getFromDoubleGlazing() {
+        return fromDoubleGlazing;
+    }
 
-	public void setToHeatLoss(final XNumber toHeatLoss) {
-		this.toHeatLoss = toHeatLoss;
-	}
+    public void setFromDoubleGlazing(final XNumber fromDoubleGlazing) {
+        this.fromDoubleGlazing = fromDoubleGlazing;
+    }
 
-	@Prop(P.fromH)
-	@BindNamedArgument("heat-loss-before")
-	@Doc({ "The house's specific heat loss before the intervention.", "",
-			"This affects the health impact associated with overheating." })
-	public XNumber getFromHeatLoss() {
-		return fromHeatLoss;
-	}
+    @Prop(P.toG)
+    @BindNamedArgument("double-glazed-after")
+    @Doc({"A function or boolean to indicate whether the house is mostly double glazed after the intervention.", "",
+        "The default is to test whether the proportion double glazed was at least 80%."})
+    public XNumber getToDoubleGlazing() {
+        return toDoubleGlazing;
+    }
 
-	public void setFromHeatLoss(final XNumber fromHeatLoss) {
-		this.fromHeatLoss = fromHeatLoss;
-	}
+    public void setToDoubleGlazing(final XNumber toDoubleGlazing) {
+        this.toDoubleGlazing = toDoubleGlazing;
+    }
 
-	@Doc("A function to test whether the house has extractor fans")
-	@BindNamedArgument("has-extract-fans")
-	public XBoolean getHasExtractFans() {
-		return hasExtractFans;
-	}
+    @Prop(P.toH)
+    @BindNamedArgument("heat-loss-after")
+    @Doc({"The house's specific heat loss after the intervention.", "",
+        "This affects the health impact associated with overheating."})
+    public XNumber getToHeatLoss() {
+        return toHeatLoss;
+    }
 
-	public void setHasExtractFans(final XBoolean hasExtractFans) {
-		this.hasExtractFans = hasExtractFans;
-	}
+    public void setToHeatLoss(final XNumber toHeatLoss) {
+        this.toHeatLoss = toHeatLoss;
+    }
 
-	@Doc("A function to test whether the house has trickle vents")
-	@BindNamedArgument("has-trickle-vents")
-	public XBoolean getHasTrickleVents() {
-		return hasTrickleVents;
-	}
+    @Prop(P.fromH)
+    @BindNamedArgument("heat-loss-before")
+    @Doc({"The house's specific heat loss before the intervention.", "",
+        "This affects the health impact associated with overheating."})
+    public XNumber getFromHeatLoss() {
+        return fromHeatLoss;
+    }
 
-	public void setHasTrickleVents(final XBoolean hasTrickleVents) {
-		this.hasTrickleVents = hasTrickleVents;
-	}
+    public void setFromHeatLoss(final XNumber fromHeatLoss) {
+        this.fromHeatLoss = fromHeatLoss;
+    }
 
-	@Doc("The internal temperature of the house before the change; you probably want to record this in a variable.")
-	@BindNamedArgument("temperature-before")
-	@NotNull(message = "health-impact-of requires the temperature-before argument")
-	@Prop(P.fromTemperature)
-	public XNumber getFromTemperature() {
-		return fromTemperature;
-	}
+    @Doc("A function to test whether the house has extractor fans")
+    @BindNamedArgument("has-extract-fans")
+    public XBoolean getHasExtractFans() {
+        return hasExtractFans;
+    }
 
-	public void setFromTemperature(final XNumber fromEValue) {
-		this.fromTemperature = fromEValue;
-	}
+    public void setHasExtractFans(final XBoolean hasExtractFans) {
+        this.hasExtractFans = hasExtractFans;
+    }
 
-	@Doc("The internal temperature of the house after the change.")
-	@BindNamedArgument("temperature-after")
-	@Prop(P.toTemperature)
-	public XNumber getToTemperature() {
-		return toTemperature;
-	}
+    @Doc("A function to test whether the house has trickle vents")
+    @BindNamedArgument("has-trickle-vents")
+    public XBoolean getHasTrickleVents() {
+        return hasTrickleVents;
+    }
 
-	public void setToTemperature(final XNumber toEValue) {
-		this.toTemperature = toEValue;
-	}
+    public void setHasTrickleVents(final XBoolean hasTrickleVents) {
+        this.hasTrickleVents = hasTrickleVents;
+    }
 
-	@Doc("The permeability of the house before the change; you probably want to record this in a variable.")
-	@BindNamedArgument("permeability-before")
-	@NotNull(message = "health-impact-of requires the permeability-before argument")
-	@Prop(P.fromPermeability)
-	public XNumber getFromPermeability() {
-		return fromPermeability;
-	}
+    @Doc("The internal temperature of the house before the change; you probably want to record this in a variable.")
+    @BindNamedArgument("temperature-before")
+    @NotNull(message = "health-impact-of requires the temperature-before argument")
+    @Prop(P.fromTemperature)
+    public XNumber getFromTemperature() {
+        return fromTemperature;
+    }
 
-	public void setFromPermeability(final XNumber fromPermeability) {
-		this.fromPermeability = fromPermeability;
-	}
+    public void setFromTemperature(final XNumber fromEValue) {
+        this.fromTemperature = fromEValue;
+    }
 
-	@Doc("The permeability of the house after the change.")
-	@BindNamedArgument("permeability-after")
-	@Prop(P.toPermeability)
-	public XNumber getToPermeability() {
-		return toPermeability;
-	}
+    @Doc("The internal temperature of the house after the change.")
+    @BindNamedArgument("temperature-after")
+    @Prop(P.toTemperature)
+    public XNumber getToTemperature() {
+        return toTemperature;
+    }
 
-	public void setToPermeability(final XNumber toPermeability) {
-		this.toPermeability = toPermeability;
-	}
+    public void setToTemperature(final XNumber toEValue) {
+        this.toTemperature = toEValue;
+    }
 
-	@Doc("The first year from now to include in the health impact (0 will include every year from now until now+horizon).")
-	@BindNamedArgument("offset")
-	@Prop(P.fromYear)
-	public XNumber getFromYear() {
-		return fromYear;
-	}
+    @Doc("The permeability of the house before the change; you probably want to record this in a variable.")
+    @BindNamedArgument("permeability-before")
+    @NotNull(message = "health-impact-of requires the permeability-before argument")
+    @Prop(P.fromPermeability)
+    public XNumber getFromPermeability() {
+        return fromPermeability;
+    }
 
-	public void setFromYear(final XNumber fromYear) {
-		this.fromYear = fromYear;
-	}
+    public void setFromPermeability(final XNumber fromPermeability) {
+        this.fromPermeability = fromPermeability;
+    }
 
-	@Doc("The number of years over which to sum the health impact.")
-	@BindNamedArgument("horizon")
-	@Prop(P.toYear)
-	public XNumber getToYear() {
-		return toYear;
-	}
+    @Doc("The permeability of the house after the change.")
+    @BindNamedArgument("permeability-after")
+    @Prop(P.toPermeability)
+    public XNumber getToPermeability() {
+        return toPermeability;
+    }
 
-	public void setToYear(final XNumber toYear) {
-		this.toYear = toYear;
-	}
+    public void setToPermeability(final XNumber toPermeability) {
+        this.toPermeability = toPermeability;
+    }
 
-	@Doc("The type of impact to compute.")
-	@BindNamedArgument("on")
-	@Prop(P.impact)
-	public XImpact getImpact() {
-		return impact;
-	}
+    @Doc("The first year from now to include in the health impact (0 will include every year from now until now+horizon).")
+    @BindNamedArgument("offset")
+    @Prop(P.fromYear)
+    public XNumber getFromYear() {
+        return fromYear;
+    }
 
-	public void setImpact(final XImpact impact) {
-		this.impact = impact;
-	}
+    public void setFromYear(final XNumber fromYear) {
+        this.fromYear = fromYear;
+    }
 
-	@BindNamedArgument("due-to")
-	@Doc("The kinds of disease to consider.")
-	@Prop(P.diseases)
-	public List<XDisease> getDiseases() {
-		return diseases;
-	}
+    @Doc("The number of years over which to sum the health impact.")
+    @BindNamedArgument("horizon")
+    @Prop(P.toYear)
+    public XNumber getToYear() {
+        return toYear;
+    }
 
-	public void setDiseases(final List<XDisease> diseases) {
-		this.diseases = diseases;
-	}
+    public void setToYear(final XNumber toYear) {
+        this.toYear = toYear;
+    }
+
+    @Doc("The type of impact to compute.")
+    @BindNamedArgument("on")
+    @Prop(P.impact)
+    public XImpact getImpact() {
+        return impact;
+    }
+
+    public void setImpact(final XImpact impact) {
+        this.impact = impact;
+    }
+
+    @BindNamedArgument("due-to")
+    @Doc("The kinds of disease to consider.")
+    @Prop(P.diseases)
+    public List<XDisease> getDiseases() {
+        return diseases;
+    }
+
+    public void setDiseases(final List<XDisease> diseases) {
+        this.diseases = diseases;
+    }
 
     /**
      * Set the hadExtractFans.
      *
-     * @param hadExtractFans the hadExtractFans 
+     * @param hadExtractFans the hadExtractFans
      */
     public void setHadExtractFans(XBoolean hadExtractFans) {
         this.hadExtractFans = hadExtractFans;
@@ -286,7 +292,7 @@ public class XHealthImpactFunction extends XHouseNumber {
     /**
      * Set the hadTrickleVents.
      *
-     * @param hadTrickleVents the hadTrickleVents 
+     * @param hadTrickleVents the hadTrickleVents
      */
     public void setHadTrickleVents(XBoolean hadTrickleVents) {
         this.hadTrickleVents = hadTrickleVents;

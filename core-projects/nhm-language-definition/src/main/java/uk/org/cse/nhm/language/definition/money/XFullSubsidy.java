@@ -10,16 +10,16 @@ import uk.org.cse.nhm.language.definition.ProducesTags.Tag;
 import uk.org.cse.nhm.language.definition.SeeAlso;
 import uk.org.cse.nhm.language.definition.function.num.XSumOfCosts;
 
-
 @Bind("finance.fully")
 @Doc({
-	"Subsidises another action for the entireity of its cost.",
-	"This action first performs the action written inside of it. It then works out the net cost to the house of that action, and pays it back.",
-	"No subsidy will be applied if the cost to the house was less than or equal to 0."
+    "Subsidises another action for the entireity of its cost.",
+    "This action first performs the action written inside of it. It then works out the net cost to the house of that action, and pays it back.",
+    "No subsidy will be applied if the cost to the house was less than or equal to 0."
 })
-@ProducesTags(value = { @Tag(
-		value = TransactionTags.Internal.subsidy, 
-		detail = "When this action is applied, it will produce a single transaction with this tag.") })
+@ProducesTags(value = {
+    @Tag(
+            value = TransactionTags.Internal.subsidy,
+            detail = "When this action is applied, it will produce a single transaction with this tag.")})
 @Category(CategoryType.MONEY)
 @SeeAlso({XSubsidy.class, XAdditionalCost.class, XSumOfCosts.class})
 public class XFullSubsidy extends XFinanceAction {

@@ -6,272 +6,272 @@ import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 
 public interface AroundEntry extends SurveyEntry {
-	@SavVariableMapping("FCUOTHSP")
-	public String getDRAINAGE_OtherFaultSpecified();
 
-	@SavVariableMapping("FARCOND")
-	public Integer getPROBLEMSINLOCALAREAConditionOfDwellings();
+    @SavVariableMapping("FCUOTHSP")
+    public String getDRAINAGE_OtherFaultSpecified();
 
-	@SavVariableMapping("FCUDETSP")
-	public Integer getPARKING_CarSpaces();
+    @SavVariableMapping("FARCOND")
+    public Integer getPROBLEMSINLOCALAREAConditionOfDwellings();
 
-	@SavVariableMapping("FBLDEFEC")
-	public Integer getApproxNumberOfHouses_ModulesInDisrepairInBlock();
+    @SavVariableMapping("FCUDETSP")
+    public Integer getPARKING_CarSpaces();
 
-	@SavVariableMapping("FCUPORSP")
-	public Integer getPARKING_CarSpaces_FCUPORSP();
+    @SavVariableMapping("FBLDEFEC")
+    public Integer getApproxNumberOfHouses_ModulesInDisrepairInBlock();
 
-	@SavVariableMapping("FARMOTOR")
-	public Integer getPROBLEMSINLOCALAREAIntrusionFromMotorwaysArterialRoads();
+    @SavVariableMapping("FCUPORSP")
+    public Integer getPARKING_CarSpaces_FCUPORSP();
 
-	@SavVariableMapping("FEXP1FDP")
-	public Integer getFrontPlotDepth();
+    @SavVariableMapping("FARMOTOR")
+    public Integer getPROBLEMSINLOCALAREAIntrusionFromMotorwaysArterialRoads();
 
-	@SavVariableMapping("FARROADS")
-	public Integer getPROBLEMSINLOCALAREAConditionOfRoad_PavementsAndStreetFurniture();
+    @SavVariableMapping("FEXP1FDP")
+    public Integer getFrontPlotDepth();
 
-	@SavVariableMapping("FARPARKS")
-	public Integer getPROBLEMSINLOCALAREANuisanceFromStreetParking();
+    @SavVariableMapping("FARROADS")
+    public Integer getPROBLEMSINLOCALAREAConditionOfRoad_PavementsAndStreetFurniture();
 
-	@SavVariableMapping("FEXP2FDP")
-	public Integer getRearPlotDepth();
+    @SavVariableMapping("FARPARKS")
+    public Integer getPROBLEMSINLOCALAREANuisanceFromStreetParking();
 
-	@SavVariableMapping("FCUINTSP")
-	public Integer getPARKINGPROVISIONOFSURVEYDWELLINGCarSpaces();
+    @SavVariableMapping("FEXP2FDP")
+    public Integer getRearPlotDepth();
 
-	@SavVariableMapping("FARINDUS")
-	public Integer getPROBLEMSINLOCALAREAIntrusiveIndustry();
+    @SavVariableMapping("FCUINTSP")
+    public Integer getPARKINGPROVISIONOFSURVEYDWELLINGCarSpaces();
 
-	@SavVariableMapping("FEXWIDTH")
-	public Integer getWidthOfPlot();
+    @SavVariableMapping("FARINDUS")
+    public Integer getPROBLEMSINLOCALAREAIntrusiveIndustry();
 
-	@SavVariableMapping("FARBLDGS")
-	public Integer getPROBLEMSINLOCALAREAScruffyNeglectedBuildings();
+    @SavVariableMapping("FEXWIDTH")
+    public Integer getWidthOfPlot();
 
-	@SavVariableMapping("FAREXCRE")
-	public Integer getPROBLEMSINLOCALAREADogOtherExcrement();
+    @SavVariableMapping("FARBLDGS")
+    public Integer getPROBLEMSINLOCALAREAScruffyNeglectedBuildings();
 
-	@SavVariableMapping("FBLBLOCK")
-	public Integer getNumberOfHousesModulesInBlock();
+    @SavVariableMapping("FAREXCRE")
+    public Integer getPROBLEMSINLOCALAREADogOtherExcrement();
 
-	@SavVariableMapping("FARVACNT")
-	public Integer getPROBLEMSINLOCALAREAVacantBoarded_UpBuildings();
+    @SavVariableMapping("FBLBLOCK")
+    public Integer getNumberOfHousesModulesInBlock();
 
-	@SavVariableMapping("FARLITTR")
-	public Integer getPROBLEMSINLOCALAREALitterRubblish();
+    @SavVariableMapping("FARVACNT")
+    public Integer getPROBLEMSINLOCALAREAVacantBoarded_UpBuildings();
 
-	@SavVariableMapping("FARGRAFF")
-	public Integer getPROBLEMSINLOCALAREAGraffiti();
+    @SavVariableMapping("FARLITTR")
+    public Integer getPROBLEMSINLOCALAREALitterRubblish();
 
-	@SavVariableMapping("FARRAILS")
-	public Integer getPROBLEMSINLOCALAREARailwayAircraftNoise();
+    @SavVariableMapping("FARGRAFF")
+    public Integer getPROBLEMSINLOCALAREAGraffiti();
 
-	@SavVariableMapping("FARGRDNS")
-	public Integer getPROBLEMSINLOCALAREAScruffyGardensLandscaping();
+    @SavVariableMapping("FARRAILS")
+    public Integer getPROBLEMSINLOCALAREARailwayAircraftNoise();
 
-	@SavVariableMapping("FARTRAFF")
-	public Integer getPROBLEMSINLOCALAREAHeavyTraffic();
+    @SavVariableMapping("FARGRDNS")
+    public Integer getPROBLEMSINLOCALAREAScruffyGardensLandscaping();
 
-	@SavVariableMapping("FCUATTSP")
-	public Integer getPARKING_CarSpaces_FCUATTSP();
+    @SavVariableMapping("FARTRAFF")
+    public Integer getPROBLEMSINLOCALAREAHeavyTraffic();
 
-	@SavVariableMapping("FARQUALI")
-	public Integer getVisualQualityOfLocalArea();
+    @SavVariableMapping("FCUATTSP")
+    public Integer getPARKING_CarSpaces_FCUATTSP();
 
-	@SavVariableMapping("FARNOCON")
-	public Integer getPROBLEMSINLOCALAREANon_ConformingUses();
+    @SavVariableMapping("FARQUALI")
+    public Integer getVisualQualityOfLocalArea();
 
-	@SavVariableMapping("FARVANDA")
-	public Integer getPROBLEMSINLOCALAREAVandalism();
+    @SavVariableMapping("FARNOCON")
+    public Integer getPROBLEMSINLOCALAREANon_ConformingUses();
 
-	@SavVariableMapping("FCUSPASP")
-	public Integer getPARKING_CarSpaces_FCUSPASP();
+    @SavVariableMapping("FARVANDA")
+    public Integer getPROBLEMSINLOCALAREAVandalism();
 
-	@SavVariableMapping("FARSITES")
-	public Integer getPROBLEMSINLOCALAREAVacantSites();
+    @SavVariableMapping("FCUSPASP")
+    public Integer getPARKING_CarSpaces_FCUSPASP();
 
-	@SavVariableMapping("FARAIRQU")
-	public Integer getPROBLEMSINLOCALAREAAmbientAirQuality();
+    @SavVariableMapping("FARSITES")
+    public Integer getPROBLEMSINLOCALAREAVacantSites();
 
-	@SavVariableMapping("FARESTAT")
-	public Enum1150 getNumberOfDwellingsOnEstate();
+    @SavVariableMapping("FARAIRQU")
+    public Integer getPROBLEMSINLOCALAREAAmbientAirQuality();
 
-	@SavVariableMapping("FEXDSTEP")
-	public Enum1151 getACCESSIBILITY_NumberOfStepsFromPavement_GateToEntrance();
+    @SavVariableMapping("FARESTAT")
+    public Enum1150 getNumberOfDwellingsOnEstate();
 
-	@SavVariableMapping("FARTENUR")
-	public Enum1152 getPredominantTenure();
+    @SavVariableMapping("FEXDSTEP")
+    public Enum1151 getACCESSIBILITY_NumberOfStepsFromPavement_GateToEntrance();
 
-	@SavVariableMapping("FEXHSDAM")
-	public Enum1153 getHHSRS_DampAndMould();
+    @SavVariableMapping("FARTENUR")
+    public Enum1152 getPredominantTenure();
 
-	@SavVariableMapping("FARTYPES")
-	public Enum1154 getPredominantResidentialBuildingType();
+    @SavVariableMapping("FEXHSDAM")
+    public Enum1153 getHHSRS_DampAndMould();
 
-	@SavVariableMapping("FCUBLOCK")
-	public Enum10 getDRAINAGE_Blockage();
+    @SavVariableMapping("FARTYPES")
+    public Enum1154 getPredominantResidentialBuildingType();
 
-	@SavVariableMapping("FCUINTPR")
-	public Enum10 getPARKINGPROVISIONOFSURVEYDWELLINGIntegralGarage_Present();
+    @SavVariableMapping("FCUBLOCK")
+    public Enum10 getDRAINAGE_Blockage();
 
-	@SavVariableMapping("FCUDETPR")
-	public Enum10 getPARKING_DetachedGarage_Present();
+    @SavVariableMapping("FCUINTPR")
+    public Enum10 getPARKINGPROVISIONOFSURVEYDWELLINGIntegralGarage_Present();
 
-	@SavVariableMapping("FEXDFIRM")
-	public Enum10 getACCESSIBILITY_IsPathFirmAndEven_();
+    @SavVariableMapping("FCUDETPR")
+    public Enum10 getPARKING_DetachedGarage_Present();
 
-	@SavVariableMapping("FEXHSBTW")
-	public Enum1159 getHHSRS_FallsBetweenLevel();
+    @SavVariableMapping("FEXDFIRM")
+    public Enum10 getACCESSIBILITY_IsPathFirmAndEven_();
 
-	@SavVariableMapping("FCUPORPR")
-	public Enum10 getPARKING_CarPort_Present();
+    @SavVariableMapping("FEXHSBTW")
+    public Enum1159 getHHSRS_FallsBetweenLevel();
 
-	@SavVariableMapping("FCUPOROW")
-	public Enum1161 getPARKING_WhoOwnsCarPlotParking();
+    @SavVariableMapping("FCUPORPR")
+    public Enum10 getPARKING_CarPort_Present();
 
-	@SavVariableMapping("FCWICHLS")
-	public Enum10 getCWICheck_LoftSpace();
+    @SavVariableMapping("FCUPOROW")
+    public Enum1161 getPARKING_WhoOwnsCarPlotParking();
 
-	@SavVariableMapping("FARDWELL")
-	public Enum1163 getNumberOfDwellingsInArea();
+    @SavVariableMapping("FCWICHLS")
+    public Enum10 getCWICheck_LoftSpace();
 
-	@SavVariableMapping("FARPRAGE")
-	public Enum1164 getPredominantAge();
+    @SavVariableMapping("FARDWELL")
+    public Enum1163 getNumberOfDwellingsInArea();
 
-	@SavVariableMapping("FBLSITUA")
-	public Enum1165 getSituationOfBlock();
+    @SavVariableMapping("FARPRAGE")
+    public Enum1164 getPredominantAge();
 
-	@SavVariableMapping("FEXDESWI")
-	public Enum10 getACCESSIBILITY_IsPathAtLeast900MmWide();
+    @SavVariableMapping("FBLSITUA")
+    public Enum1165 getSituationOfBlock();
 
-	@SavVariableMapping("FCUDRAIN")
-	public Enum1167 getUNDERGROUNDDRAINAGE_DrainageSystem();
+    @SavVariableMapping("FEXDESWI")
+    public Enum10 getACCESSIBILITY_IsPathAtLeast900MmWide();
 
-	@SavVariableMapping("FCUDETOW")
-	public Enum1161 getPARKING_WhoOwnsDetachedGarageParking();
+    @SavVariableMapping("FCUDRAIN")
+    public Enum1167 getUNDERGROUNDDRAINAGE_DrainageSystem();
 
-	@SavVariableMapping("FEXDESGR")
-	public Enum10 getACCESSIBILITY_IsGradientLessThan1In12();
+    @SavVariableMapping("FCUDETOW")
+    public Enum1161 getPARKING_WhoOwnsDetachedGarageParking();
 
-	@SavVariableMapping("FARNATUR")
-	public Enum1170 getNatureOfArea();
+    @SavVariableMapping("FEXDESGR")
+    public Enum10 getACCESSIBILITY_IsGradientLessThan1In12();
 
-	@SavVariableMapping("FCUOTHER")
-	public Enum10 getDRAINAGE_Other();
+    @SavVariableMapping("FARNATUR")
+    public Enum1170 getNatureOfArea();
 
-	@SavVariableMapping("FCWICHME")
-	public Enum10 getCWICheck_AreaAroundMeters();
+    @SavVariableMapping("FCUOTHER")
+    public Enum10 getDRAINAGE_Other();
 
-	@SavVariableMapping("FEXPLOTF")
-	public Enum10 getDoesFrontPlotExist_();
+    @SavVariableMapping("FCWICHME")
+    public Enum10 getCWICheck_AreaAroundMeters();
 
-	@SavVariableMapping("FCUSPAPR")
-	public Enum10 getPARKING_DesignatedParking_Present();
+    @SavVariableMapping("FEXPLOTF")
+    public Enum10 getDoesFrontPlotExist_();
 
-	@SavVariableMapping("FEXHSDHY")
-	public Enum1153 getHHSRS_DomesticHygiene();
+    @SavVariableMapping("FCUSPAPR")
+    public Enum10 getPARKING_DesignatedParking_Present();
 
-	@SavVariableMapping("FCWICHAB")
-	public Enum10 getCWICheck_AirBricks();
+    @SavVariableMapping("FEXHSDHY")
+    public Enum1153 getHHSRS_DomesticHygiene();
 
-	@SavVariableMapping("FEXHSSTR")
-	public Enum1159 getHHSRS_FallsOnStairs_Steps();
+    @SavVariableMapping("FCWICHAB")
+    public Enum10 getCWICheck_AirBricks();
 
-	@SavVariableMapping("FCWICHEF")
-	public Enum10 getCWICheck_ElevationFeatures();
+    @SavVariableMapping("FEXHSSTR")
+    public Enum1159 getHHSRS_FallsOnStairs_Steps();
 
-	@SavVariableMapping("FCWICHOR")
-	public Enum10 getCWICheck_OccupantResponse();
+    @SavVariableMapping("FCWICHEF")
+    public Enum10 getCWICheck_ElevationFeatures();
 
-	@SavVariableMapping("FCUSTR")
-	public Enum1180 getPARKING_SteetParking();
+    @SavVariableMapping("FCWICHOR")
+    public Enum10 getCWICheck_OccupantResponse();
 
-	@SavVariableMapping("FCWIPRES")
-	public Enum10 getIsCavityWallInsulationPresent_();
+    @SavVariableMapping("FCUSTR")
+    public Enum1180 getPARKING_SteetParking();
 
-	@SavVariableMapping("FCUSPALO")
-	public Enum10 getPARKING_OnPlot();
+    @SavVariableMapping("FCWIPRES")
+    public Enum10 getIsCavityWallInsulationPresent_();
 
-	@SavVariableMapping("FCUSPAOW")
-	public Enum1161 getPARKING_WhoOwnsDesignatedParkingSpace();
+    @SavVariableMapping("FCUSPALO")
+    public Enum10 getPARKING_OnPlot();
 
-	@SavVariableMapping("FCUATTOW")
-	public Enum1161 getPARKING_WhoOwnsAttachedGarageParking();
+    @SavVariableMapping("FCUSPAOW")
+    public Enum1161 getPARKING_WhoOwnsDesignatedParkingSpace();
 
-	@SavVariableMapping("FCUDETAC")
-	public Enum1185 getPARKING_Action();
+    @SavVariableMapping("FCUATTOW")
+    public Enum1161 getPARKING_WhoOwnsAttachedGarageParking();
 
-	@SavVariableMapping("FEXPLTYP")
-	public Enum1186 getTypeOfPlot();
+    @SavVariableMapping("FCUDETAC")
+    public Enum1185 getPARKING_Action();
 
-	@SavVariableMapping("FEXHSLVL")
-	public Enum1159 getHHSRS_FallsOnTheLevel();
+    @SavVariableMapping("FEXPLTYP")
+    public Enum1186 getTypeOfPlot();
 
-	@SavVariableMapping("FCUFAULT")
-	public Enum10 getDRAINAGE_Faults();
+    @SavVariableMapping("FEXHSLVL")
+    public Enum1159 getHHSRS_FallsOnTheLevel();
 
-	@SavVariableMapping("FEXHSCEN")
-	public Enum1153 getHHSRS_CollisionAndEntrapment();
+    @SavVariableMapping("FCUFAULT")
+    public Enum10 getDRAINAGE_Faults();
 
-	@SavVariableMapping("FARRTB")
-	public Enum1190 getIfAreaIsLAEstate__OfRTBDwellings();
+    @SavVariableMapping("FEXHSCEN")
+    public Enum1153 getHHSRS_CollisionAndEntrapment();
 
-	@SavVariableMapping("FCULITTR")
-	public Enum1185 getLitterRubbishAroundHouseModule();
+    @SavVariableMapping("FARRTB")
+    public Enum1190 getIfAreaIsLAEstate__OfRTBDwellings();
 
-	@SavVariableMapping("FEXDRAMP")
-	public Enum1192 getACCESSIBILITY_SpaceForRamp();
+    @SavVariableMapping("FCULITTR")
+    public Enum1185 getLitterRubbishAroundHouseModule();
 
-	@SavVariableMapping("FCUINTAC")
-	public Enum1185 getPARKING_Action_FCUINTAC();
+    @SavVariableMapping("FEXDRAMP")
+    public Enum1192 getACCESSIBILITY_SpaceForRamp();
 
-	@SavVariableMapping("FCUPORLO")
-	public Enum10 getPARKING_OnPlot_FCUPORLO();
+    @SavVariableMapping("FCUINTAC")
+    public Enum1185 getPARKING_Action_FCUINTAC();
 
-	@SavVariableMapping("FEXHSPHY")
-	public Enum1153 getHHSRS_PersonalHygiene();
+    @SavVariableMapping("FCUPORLO")
+    public Enum10 getPARKING_OnPlot_FCUPORLO();
 
-	@SavVariableMapping("FEXDESFE")
-	public Enum10 getACCESSIBILITY_IsEntranceAdequatelyLit();
+    @SavVariableMapping("FEXHSPHY")
+    public Enum1153 getHHSRS_PersonalHygiene();
 
-	@SavVariableMapping("FCUINTOW")
-	public Enum1161 getPARKING_WhoOwnsGarageParking_();
+    @SavVariableMapping("FEXDESFE")
+    public Enum10 getACCESSIBILITY_IsEntranceAdequatelyLit();
 
-	@SavVariableMapping("FCUATTPR")
-	public Enum10 getPARKING_AttachedGarage_Present();
+    @SavVariableMapping("FCUINTOW")
+    public Enum1161 getPARKING_WhoOwnsGarageParking_();
 
-	@SavVariableMapping("FEXHSENT")
-	public Enum1153 getHHSRS_EntryByIntruders();
+    @SavVariableMapping("FCUATTPR")
+    public Enum10 getPARKING_AttachedGarage_Present();
 
-	@SavVariableMapping("FEXDCOVR")
-	public Enum10 getACCESSIBILITY_IsEntranceCovered();
+    @SavVariableMapping("FEXHSENT")
+    public Enum1153 getHHSRS_EntryByIntruders();
 
-	@SavVariableMapping("FCUPORAC")
-	public Enum1185 getPARKING_Action_FCUPORAC();
+    @SavVariableMapping("FEXDCOVR")
+    public Enum10 getACCESSIBILITY_IsEntranceCovered();
 
-	@SavVariableMapping("FCUEXPOS")
-	public Enum1202 getEXPOSUREIsTheDwellingInAnExposedPosition_();
+    @SavVariableMapping("FCUPORAC")
+    public Enum1185 getPARKING_Action_FCUPORAC();
 
-	@SavVariableMapping("FEXPLOTR")
-	public Enum10 getDoesRearPlotExist_();
+    @SavVariableMapping("FCUEXPOS")
+    public Enum1202 getEXPOSUREIsTheDwellingInAnExposedPosition_();
 
-	@SavVariableMapping("FCUATTAC")
-	public Enum1185 getPARKING_Action_FCUATTAC();
+    @SavVariableMapping("FEXPLOTR")
+    public Enum10 getDoesRearPlotExist_();
 
-	@SavVariableMapping("FCUINTLO")
-	public Enum10 getPARKINGPROVISIONOFSURVEYDWELLINGOnPlot();
+    @SavVariableMapping("FCUATTAC")
+    public Enum1185 getPARKING_Action_FCUATTAC();
 
-	@SavVariableMapping("FCUDETLO")
-	public Enum10 getPARKING_OnPlot_FCUDETLO();
+    @SavVariableMapping("FCUINTLO")
+    public Enum10 getPARKINGPROVISIONOFSURVEYDWELLINGOnPlot();
 
-	@SavVariableMapping("FCUOPP")
-	public Enum10 getPARKING_IsOff_PlotParkingWithin30MOfEntrance_EvenAccessRoute_();
+    @SavVariableMapping("FCUDETLO")
+    public Enum10 getPARKING_OnPlot_FCUDETLO();
 
-	@SavVariableMapping("FCUATTLO")
-	public Enum10 getPARKING_OnPlot_FCUATTLO();
+    @SavVariableMapping("FCUOPP")
+    public Enum10 getPARKING_IsOff_PlotParkingWithin30MOfEntrance_EvenAccessRoute_();
 
-	@SavVariableMapping("FCUSPAAC")
-	public Enum1185 getPARKING_Action_FCUSPAAC();
+    @SavVariableMapping("FCUATTLO")
+    public Enum10 getPARKING_OnPlot_FCUATTLO();
+
+    @SavVariableMapping("FCUSPAAC")
+    public Enum1185 getPARKING_Action_FCUSPAAC();
 
 }
-

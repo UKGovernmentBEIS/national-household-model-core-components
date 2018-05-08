@@ -12,41 +12,42 @@ import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
 import uk.org.cse.nhm.simulator.transactions.Payment;
 
 abstract class AbsFinanceAction extends AbstractNamed implements IComponentsAction {
-	protected final Set<String> tags;
-	protected final IComponentsAction action;
-	protected final String counterparty;
 
-	protected AbsFinanceAction (final Set<String> tags, final IComponentsAction action, final String counterparty) {
-		this.tags = tags;
-		this.action = action;
-		this.counterparty = counterparty;
-	}
+    protected final Set<String> tags;
+    protected final IComponentsAction action;
+    protected final String counterparty;
 
-	@Override
-	public final StateChangeSourceType getSourceType() {
-		return StateChangeSourceType.ACTION;
-	}
+    protected AbsFinanceAction(final Set<String> tags, final IComponentsAction action, final String counterparty) {
+        this.tags = tags;
+        this.action = action;
+        this.counterparty = counterparty;
+    }
 
-	@Override
-	public final boolean apply(final ISettableComponentsScope scope, final ILets lets) throws NHMException {
-		if (scope.apply(action, lets)) {
-			final double value = compute(scope, lets);
-			scope.addTransaction(Payment.of(counterparty, value, tags));
-			return true;
-		} else {
-			return false;
-		}
-	}
+    @Override
+    public final StateChangeSourceType getSourceType() {
+        return StateChangeSourceType.ACTION;
+    }
 
-	abstract protected double compute(final ISettableComponentsScope scope, final ILets lets);
+    @Override
+    public final boolean apply(final ISettableComponentsScope scope, final ILets lets) throws NHMException {
+        if (scope.apply(action, lets)) {
+            final double value = compute(scope, lets);
+            scope.addTransaction(Payment.of(counterparty, value, tags));
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-	@Override
-	public final boolean isSuitable(final IComponentsScope scope, final ILets lets) {
-		return action.isSuitable(scope, lets);
-	}
-	
-	@Override
-	public boolean isAlwaysSuitable() {
-		return action.isAlwaysSuitable();
-	}
+    abstract protected double compute(final ISettableComponentsScope scope, final ILets lets);
+
+    @Override
+    public final boolean isSuitable(final IComponentsScope scope, final ILets lets) {
+        return action.isSuitable(scope, lets);
+    }
+
+    @Override
+    public boolean isAlwaysSuitable() {
+        return action.isAlwaysSuitable();
+    }
 }

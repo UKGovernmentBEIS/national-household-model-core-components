@@ -7,8 +7,12 @@ import uk.org.cse.nhm.simulator.trigger.exposure.impl.FixedQuantityHouseInstance
 import uk.org.cse.nhm.simulator.trigger.exposure.impl.ProportionateHouseInstanceGroupSampler;
 
 public interface ISamplerFactory {
-	public FixedQuantityHouseInstanceGroupSampler createCountingSampler(int count);
-	public ProportionateHouseInstanceGroupSampler createProportionSampler(double proportion);
-	public BernoulliSampler createBernoulliSampler(IComponentsFunction<Number> parameter);
-	public EverythingSampler createEverythingSampler();
+
+    public FixedQuantityHouseInstanceGroupSampler createCountingSampler(int count);
+
+    public ProportionateHouseInstanceGroupSampler createProportionSampler(double proportion);
+
+    public BernoulliSampler createBernoulliSampler(IComponentsFunction<Number> parameter);
+
+    public EverythingSampler createEverythingSampler();
 }

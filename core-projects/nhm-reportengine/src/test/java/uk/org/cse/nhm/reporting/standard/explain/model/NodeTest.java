@@ -10,50 +10,51 @@ import org.junit.Test;
 import com.google.common.collect.ImmutableList;
 
 public class NodeTest {
-	private Edge eSize1;
-	private Node n;
 
-	@Before
-	public void setUp() {
-		n = new Node("test");
-		eSize1 = mock(Edge.class);
-		when(eSize1.getValue()).thenReturn(1d);
-	}
+    private Edge eSize1;
+    private Node n;
 
-	@Test
-	public void totalSizeShoudlBeDeterminedByParentEdges() {
-		Assert.assertEquals(0d, n.getTotalSize(), 0.1);
+    @Before
+    public void setUp() {
+        n = new Node("test");
+        eSize1 = mock(Edge.class);
+        when(eSize1.getValue()).thenReturn(1d);
+    }
 
-		n.addParentEdge(eSize1);
-		Assert.assertEquals(1d, n.getTotalSize(), 0.1);
-	}
+    @Test
+    public void totalSizeShoudlBeDeterminedByParentEdges() {
+        Assert.assertEquals(0d, n.getTotalSize(), 0.1);
 
-	@Test
-	public void remainingSizeShouldBeDeterminedByParentEdgesMinusChildEdges() {
-		n.addParentEdge(eSize1);
-		n.addChildEdge(eSize1);
+        n.addParentEdge(eSize1);
+        Assert.assertEquals(1d, n.getTotalSize(), 0.1);
+    }
 
-		Assert.assertEquals(0d, n.calcRemainingSizeToAllocateToChildren(), 0.1);
-	}
+    @Test
+    public void remainingSizeShouldBeDeterminedByParentEdgesMinusChildEdges() {
+        n.addParentEdge(eSize1);
+        n.addChildEdge(eSize1);
 
-	@Test(expected = IllegalArgumentException.class)
-	public void addingChildWhichWouldMakeRemainingSizeNegativeShouldNotBePossible() {
-		when(eSize1.getTarget()).thenReturn(mock(Node.class));
-		n.addChildEdge(eSize1);
-	}
+        Assert.assertEquals(0d, n.calcRemainingSizeToAllocateToChildren(), 0.1);
+    }
 
-	@Test
-	public void remainingSizeSpeculativeShouldIgnoreEdgesSourcedForOtherNodes() {
-		Assert.assertEquals(0d, n.getRemainingSizeToAllocateToChildrenSpeculative(ImmutableList.of(eSize1)), 0.1);
-	}
+    @Test(expected = IllegalArgumentException.class)
+    public void addingChildWhichWouldMakeRemainingSizeNegativeShouldNotBePossible() {
+        when(eSize1.getTarget()).thenReturn(mock(Node.class));
+        n.addChildEdge(eSize1);
+    }
 
-	@Test
-	public void remainingSizeSpeculativeShouldBeDeterminedByParentEdgesMinusChildEdgesMinusNewPotentialChildEdges() {
-		n.addParentEdge(eSize1);
-		n.addParentEdge(eSize1);
-		n.addChildEdge(eSize1);
+    @Test
+    public void remainingSizeSpeculativeShouldIgnoreEdgesSourcedForOtherNodes() {
+        Assert.assertEquals(0d, n.getRemainingSizeToAllocateToChildrenSpeculative(ImmutableList.of(eSize1)), 0.1);
+    }
 
-		when(eSize1.getSource()).thenReturn(n);
-		Assert.assertEquals(0d, n.getRemainingSizeToAllocateToChildrenSpeculative(ImmutableList.of(eSize1)), 0.1);
-	}
+    @Test
+    public void remainingSizeSpeculativeShouldBeDeterminedByParentEdgesMinusChildEdgesMinusNewPotentialChildEdges() {
+        n.addParentEdge(eSize1);
+        n.addParentEdge(eSize1);
+        n.addChildEdge(eSize1);
+
+        when(eSize1.getSource()).thenReturn(n);
+        Assert.assertEquals(0d, n.getRemainingSizeToAllocateToChildrenSpeculative(ImmutableList.of(eSize1)), 0.1);
+    }
 }

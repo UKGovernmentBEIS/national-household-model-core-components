@@ -30,7 +30,7 @@ import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
 
 /**
  * StockSizeAggregator2.
- * 
+ *
  * @author richardt
  * @version $Id: StockSizeAggregator2.java 94 2010-09-30 15:39:21Z richardt
  * @since 0.0.1-SNAPSHOT
@@ -38,7 +38,7 @@ import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
 public class StockSizeAggregator implements ISimulationStepListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(StockSizeAggregator.class);
-    
+
     private final ILogEntryHandler loggingService;
 
     private final Map<RegionType, AtomicInteger> dwellingWeights = new HashMap<RegionType, AtomicInteger>();
@@ -46,17 +46,16 @@ public class StockSizeAggregator implements ISimulationStepListener {
 
     @Inject
     protected StockSizeAggregator(
-    		final IDimension<BasicCaseAttributes> attributes,
+            final IDimension<BasicCaseAttributes> attributes,
             final ILogEntryHandler loggingService, final ISimulator simulator, final ICanonicalState state) {
 
         this.loggingService = loggingService;
-        
+
         for (final RegionType t : RegionType.values()) {
             dwellingWeights.put(t, new AtomicInteger(0));
         }
 
         simulator.addSimulationStepListener(this);
-
 
         state.addStateListener(new IStateListener() {
             @Override
@@ -65,7 +64,7 @@ public class StockSizeAggregator implements ISimulationStepListener {
                 for (final IDwelling d : notification.getCreatedDwellings()) {
                     caseAttributes = state.get(attributes, d);
                     caseAttributes.getRegionType();
-                    
+
                     dwellingWeights.get(caseAttributes.getRegionType()).addAndGet((int) d.getWeight());
                     logOutOfDate = true;
                 }
@@ -74,7 +73,7 @@ public class StockSizeAggregator implements ISimulationStepListener {
                     caseAttributes = state.get(attributes, d);
                     caseAttributes.getRegionType();
 
-                    dwellingWeights.get(caseAttributes.getRegionType()).addAndGet((int)-d.getWeight());
+                    dwellingWeights.get(caseAttributes.getRegionType()).addAndGet((int) -d.getWeight());
                     logOutOfDate = true;
                 }
 
@@ -89,7 +88,7 @@ public class StockSizeAggregator implements ISimulationStepListener {
                 }
             }
         });
-        
+
         loggingService.acceptLogEntry(new ReportHeaderLogEntry(Type.HouseCount));
     }
 
@@ -98,12 +97,13 @@ public class StockSizeAggregator implements ISimulationStepListener {
      * @param nextDate
      * @param isFinalStep
      * @throws NHMException
-     * @see uk.org.cse.nhm.simulator.main.ISimulationStepListener#simulationStepped(org.joda.time.DateTime,
-     *      org.joda.time.DateTime, boolean)
+     * @see
+     * uk.org.cse.nhm.simulator.main.ISimulationStepListener#simulationStepped(org.joda.time.DateTime,
+     * org.joda.time.DateTime, boolean)
      */
     @Override
     public void simulationStepped(final DateTime dateOfStep, final DateTime nextDate, final boolean isFinalStep)
-        throws NHMException {
+            throws NHMException {
         if (logOutOfDate) {
             storeUpdatedCounts(dateOfStep);
         }
@@ -111,16 +111,16 @@ public class StockSizeAggregator implements ISimulationStepListener {
     }
 
     protected void storeUpdatedCounts(final DateTime modificationDate)
-        throws NHMException {
-    	
-    	final ImmutableMap.Builder<RegionType, Integer> builder = ImmutableMap.builder();
-    	
+            throws NHMException {
+
+        final ImmutableMap.Builder<RegionType, Integer> builder = ImmutableMap.builder();
+
         LOGGER.debug("Updating technology distribution log");
 
         for (final RegionType t : RegionType.values()) {
             builder.put(t, dwellingWeights.get(t).get());
         }
-        
+
         loggingService.acceptLogEntry(new ConstructAndDemoLogEntry(
                 modificationDate, builder.build()));
     }

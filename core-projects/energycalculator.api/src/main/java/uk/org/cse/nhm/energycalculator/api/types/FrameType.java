@@ -14,8 +14,7 @@ import static uk.org.cse.nhm.energycalculator.api.types.AreaType.GlazingWood;
 public enum FrameType {
     Wood(GlazingWood),
     Metal(GlazingMetal),
-    uPVC(GlazingUPVC)
-    ;
+    uPVC(GlazingUPVC);
 
     private AreaType areaType;
 

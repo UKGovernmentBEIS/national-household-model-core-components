@@ -11,11 +11,15 @@ import uk.org.cse.nhm.bundle.api.IRunInformation;
 import uk.org.cse.nhm.clitools.bundle.NationalHouseholdModel;
 
 public class SnapshotGenerator {
+
     public static final String USAGE = "<scenario to snapshot> <output snapshot> <output stock list>\n\tProduces a snapshot which contains all includes of the given scenario, and a list of stock names to absolute stock file paths.";
+
     public static void main(String[] args) throws Exception {
         final NationalHouseholdModel nhm = NationalHouseholdModel.create();
 
-        if (args.length != 3) throw new IllegalArgumentException(USAGE);
+        if (args.length != 3) {
+            throw new IllegalArgumentException(USAGE);
+        }
 
         final Path scenario = Paths.get(args[0]);
         final Path stocklist = Paths.get(args[2]);

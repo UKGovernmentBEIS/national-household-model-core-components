@@ -12,14 +12,16 @@ import javax.validation.Payload;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 /**
- * Applied to an @{link XCombinator}, ensures that all its delegate inputs produce the same placeholders.  
+ * Applied to an @{link XCombinator}, ensures that all its delegate inputs
+ * produce the same placeholders.
  */
 public @interface DelegatePlaceholdersConsistent {
-	String message() default "{uk.org.cse.nhm.language.definition.batch.inputs.combinators.validation.DelegatePlaceholdersConsistent.nope}";
 
-	Class<?>[] groups() default { };
+    String message() default "{uk.org.cse.nhm.language.definition.batch.inputs.combinators.validation.DelegatePlaceholdersConsistent.nope}";
 
-	Class<? extends Payload>[] payload() default {};
-	
-	String element() default "this element";
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
+
+    String element() default "this element";
 }

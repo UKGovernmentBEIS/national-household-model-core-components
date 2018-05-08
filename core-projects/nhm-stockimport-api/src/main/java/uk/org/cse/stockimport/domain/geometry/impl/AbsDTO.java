@@ -20,8 +20,8 @@ public abstract class AbsDTO implements IBasicDTO {
     private String aaCode;
 
     /**
-     * @return
-     * @see uk.org.cse.stockimport.domain.geometry.IElementDTO#getAacode()
+     * @return @see
+     * uk.org.cse.stockimport.domain.geometry.IElementDTO#getAacode()
      */
     @Override
     public String getAacode() {
@@ -32,9 +32,9 @@ public abstract class AbsDTO implements IBasicDTO {
     public void setAacode(final String aaCode) {
         this.aaCode = aaCode;
     }
-    
+
     @Override
     public List<String> validate() {
-    	return Collections.emptyList();
+        return Collections.emptyList();
     }
 }

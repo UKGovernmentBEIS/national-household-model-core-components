@@ -43,84 +43,85 @@ import uk.org.cse.nhm.simulator.state.functions.IAggregationFunction;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public interface IReportingFactory {
-	public Explain createExplain(final List<String> conditionNames, final Condition condition);
 
-	public NumberProbe createNumberProbe(
-			final IComponentsFunction<Number> delegate,
-			final List<IComponentsFunction<? extends Object>> probeFunctions
-			);
+    public Explain createExplain(final List<String> conditionNames, final Condition condition);
 
-	public NetPresentValueProbingFunction createNetPresentValueProbingFunction();
+    public NumberProbe createNumberProbe(
+            final IComponentsFunction<Number> delegate,
+            final List<IComponentsFunction<? extends Object>> probeFunctions
+    );
 
-	public ActionProbe createComponentsActionProbe(
-			final Optional<IComponentsAction> delegate,
-			final List<IComponentsFunction<? extends Object>> probeFunctions);
+    public NetPresentValueProbingFunction createNetPresentValueProbingFunction();
 
-	public AggregateActionProbe createAggregateActionProbe(
-			@Assisted final IStateAction delegate,
-			@Assisted final List<IComponentsFunction<?>> cuts,
-			@Assisted final List<IAggregationFunction> values);
+    public ActionProbe createComponentsActionProbe(
+            final Optional<IComponentsAction> delegate,
+            final List<IComponentsFunction<? extends Object>> probeFunctions);
 
-	public AggregateReport createAggregateReport(final IReportMode mode, final List<IAggregationFunction> functions);
+    public AggregateActionProbe createAggregateActionProbe(
+            @Assisted final IStateAction delegate,
+            @Assisted final List<IComponentsFunction<?>> cuts,
+            @Assisted final List<IAggregationFunction> values);
+
+    public AggregateReport createAggregateReport(final IReportMode mode, final List<IAggregationFunction> functions);
 
     @Adapt(XGroupDivision.class)
-	public GroupGroups createGroupDivision(@Prop(XGroupDivision.P.groups)
-                                           final List<IDwellingGroup> groups);
+    public GroupGroups createGroupDivision(@Prop(XGroupDivision.P.groups)
+            final List<IDwellingGroup> groups);
 
     @Adapt(XCountAggregation.class)
-	public Count createCount();
+    public Count createCount();
 
     @Adapt(XSumAggregation.class)
-	public Sum createSum(@Prop(XSumAggregation.P.value) final IComponentsFunction<Number> fn);
+    public Sum createSum(@Prop(XSumAggregation.P.value) final IComponentsFunction<Number> fn);
 
     @Adapt(XMeanAggregation.class)
-	public Mean createMean(@Prop(XMeanAggregation.P.value) final IComponentsFunction<Number> fn);
+    public Mean createMean(@Prop(XMeanAggregation.P.value) final IComponentsFunction<Number> fn);
 
     @Adapt(XWhereAggregation.class)
-	public Where createWhere(@Prop(XWhereAggregation.P.test) final IComponentsFunction<Boolean> fn,
-                             @Prop(XWhereAggregation.P.aggregation) final IAggregationFunction delegate);
+    public Where createWhere(@Prop(XWhereAggregation.P.test) final IComponentsFunction<Boolean> fn,
+            @Prop(XWhereAggregation.P.aggregation) final IAggregationFunction delegate);
 
-	public CrossGroups createCross(final IDwellingGroup source,
-			final List<IComponentsFunction<?>> categories);
+    public CrossGroups createCross(final IDwellingGroup source,
+            final List<IComponentsFunction<?>> categories);
 
-	public GlobalAccountsReport createGlobalAccounReport();
+    public GlobalAccountsReport createGlobalAccounReport();
 
-	public TransactionReport createTransactionReport(
-			@Assisted final IDwellingSet group,
-			@Assisted final Set<String> requiredTags);
+    public TransactionReport createTransactionReport(
+            @Assisted final IDwellingSet group,
+            @Assisted final Set<String> requiredTags);
 
-	public FuelCostsReport createFuelCostsReport();
+    public FuelCostsReport createFuelCostsReport();
 
-	public StockSizeAggregator createHouseCountReport();
+    public StockSizeAggregator createHouseCountReport();
 
-	public InstallationDetailsLogger createInstallationLogReport();
+    public InstallationDetailsLogger createInstallationLogReport();
 
-	public MeasureCostLogger createMeasureCostsReport();
+    public MeasureCostLogger createMeasureCostsReport();
 
-	public EnergyAggregator createNationalPowerReport();
+    public EnergyAggregator createNationalPowerReport();
 
-	public StateChangeLogger createStateReport();
+    public StateChangeLogger createStateReport();
 
-	public ReportTrigger createReportTrigger(final IReportMode mode, final IGroups division);
+    public ReportTrigger createReportTrigger(final IReportMode mode, final IGroups division);
 
-	public DwellingsReport createDwellingsReport(
-			@Assisted final IDwellingGroup group,
-			@Assisted final IReportMode mode,
-			@Assisted final List<IComponentsFunction<?>> fields);
+    public DwellingsReport createDwellingsReport(
+            @Assisted final IDwellingGroup group,
+            @Assisted final IReportMode mode,
+            @Assisted final List<IComponentsFunction<?>> fields);
 
     @Adapt(XNTileAggregation.class)
-	public NTile createNTile(
-        @Prop(XNTileAggregation.P.function) final IComponentsFunction<Number> function,
-        @Prop(XNTileAggregation.P.n) final double tile);
+    public NTile createNTile(
+            @Prop(XNTileAggregation.P.function) final IComponentsFunction<Number> function,
+            @Prop(XNTileAggregation.P.n) final double tile);
 
     @Adapt(XSummaryFunction.class)
-	public GroupSummary createSummaryFunction(
-        @Prop(XSummaryFunction.P.group)
-        @Assisted final IDwellingSet group,
-        @Prop(XSummaryFunction.P.aggregation)
-        @Assisted final IAggregationFunction aggregation);
+    public GroupSummary createSummaryFunction(
+            @Prop(XSummaryFunction.P.group)
+            @Assisted final IDwellingSet group,
+            @Prop(XSummaryFunction.P.aggregation)
+            @Assisted final IAggregationFunction aggregation);
 
-	public SequenceLogger createSequenceLogger();
+    public SequenceLogger createSequenceLogger();
 
-	public UnifiedReport createUnifiedReport(final boolean recordChange, final List<IReportPart> contents);
+    public UnifiedReport createUnifiedReport(final boolean recordChange, final List<IReportPart> contents);
 }

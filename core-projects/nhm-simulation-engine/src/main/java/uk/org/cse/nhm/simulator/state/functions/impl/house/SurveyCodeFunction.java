@@ -8,13 +8,14 @@ import uk.org.cse.nhm.simulator.scope.IComponentsScope;
 import uk.org.cse.nhm.simulator.state.IDimension;
 
 public class SurveyCodeFunction extends BasicAttributesFunction<String> {
-	@Inject
-	public SurveyCodeFunction(final IDimension<BasicCaseAttributes> bad) {
-		super(bad);
-	}
 
-	@Override
-	public String compute(final IComponentsScope scope, final ILets lets) {
-		return getAttributes(scope).getAacode();
-	}
+    @Inject
+    public SurveyCodeFunction(final IDimension<BasicCaseAttributes> bad) {
+        super(bad);
+    }
+
+    @Override
+    public String compute(final IComponentsScope scope, final ILets lets) {
+        return getAttributes(scope).getAacode();
+    }
 }

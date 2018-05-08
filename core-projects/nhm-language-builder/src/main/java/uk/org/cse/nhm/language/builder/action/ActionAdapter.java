@@ -59,319 +59,326 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.ConstantComponentsFunction;
 
 public class ActionAdapter extends ReflectingAdapter {
-	final IActionFactory measureFactory;
 
-	@Inject
-	public ActionAdapter(final Set<IConverter> delegates, final IActionFactory measureFactory, final Set<IAdapterInterceptor> interceptors) {
-		super(delegates, interceptors);
-		this.measureFactory = measureFactory;
-	}
+    final IActionFactory measureFactory;
 
-	@Adapt(XDoNothingAction.class)
-	public IComponentsAction buildDoNothing() {
-		return new DoNothingAction();
-	}
+    @Inject
+    public ActionAdapter(final Set<IConverter> delegates, final IActionFactory measureFactory, final Set<IAdapterInterceptor> interceptors) {
+        super(delegates, interceptors);
+        this.measureFactory = measureFactory;
+    }
 
-	@Adapt(XConstructAction.class)
-	public IStateAction buildConstructAction() {
-		return measureFactory.createConstructAction();
-	}
+    @Adapt(XDoNothingAction.class)
+    public IComponentsAction buildDoNothing() {
+        return new DoNothingAction();
+    }
 
-	@Adapt(XDestroyAction.class)
-	public IStateAction buildDestroyAction() {
-		return measureFactory.createDestroyAction();
-	}
+    @Adapt(XConstructAction.class)
+    public IStateAction buildConstructAction() {
+        return measureFactory.createConstructAction();
+    }
 
-	 @Adapt(XHeatingTemperaturesAction.class)
-	 public IComponentsAction buildHeatingTemperatureAction(
-			 @Prop(XHeatingTemperaturesAction.P.livingAreaTemperature) final Optional<IComponentsFunction<Number>> livingAreaTemperature,
-			 @Prop(XHeatingTemperaturesAction.P.temperatureDifference) final Optional<IComponentsFunction<Number>> deltaTemperature,
-			 @Prop(XHeatingTemperaturesAction.P.restofDwellingTemperature) final Optional<IComponentsFunction<Number>> restTemperature,
-			 @Prop(XHeatingTemperaturesAction.P.restOfDwellingHeatedProportion) final Optional<IComponentsFunction<Number>> restHeatedProportion,
-			 @Prop(XHeatingTemperaturesAction.P.desiredHeatingMonths) final List<XMonth> heatingMonths
-					 ) {
+    @Adapt(XDestroyAction.class)
+    public IStateAction buildDestroyAction() {
+        return measureFactory.createDestroyAction();
+    }
 
-		 final Set<MonthType> months;
-		 if (heatingMonths.isEmpty()) {
-			 months = null;
-		 } else {
+    @Adapt(XHeatingTemperaturesAction.class)
+    public IComponentsAction buildHeatingTemperatureAction(
+            @Prop(XHeatingTemperaturesAction.P.livingAreaTemperature) final Optional<IComponentsFunction<Number>> livingAreaTemperature,
+            @Prop(XHeatingTemperaturesAction.P.temperatureDifference) final Optional<IComponentsFunction<Number>> deltaTemperature,
+            @Prop(XHeatingTemperaturesAction.P.restofDwellingTemperature) final Optional<IComponentsFunction<Number>> restTemperature,
+            @Prop(XHeatingTemperaturesAction.P.restOfDwellingHeatedProportion) final Optional<IComponentsFunction<Number>> restHeatedProportion,
+            @Prop(XHeatingTemperaturesAction.P.desiredHeatingMonths) final List<XMonth> heatingMonths
+    ) {
 
-			 final Builder<MonthType> builder = ImmutableSet.<MonthType>builder();
-			 for (final XMonth m : heatingMonths) {
-				 builder.add(MapEnum.month(m));
-			 }
-			 months = builder.build();
-		 }
+        final Set<MonthType> months;
+        if (heatingMonths.isEmpty()) {
+            months = null;
+        } else {
 
-		 return measureFactory.createTemperaturesAction(
-				 livingAreaTemperature,
-				 deltaTemperature,
-				 restTemperature,
-				 restHeatedProportion,
-				 Optional.fromNullable(months)
-				 );
-	 }
+            final Builder<MonthType> builder = ImmutableSet.<MonthType>builder();
+            for (final XMonth m : heatingMonths) {
+                builder.add(MapEnum.month(m));
+            }
+            months = builder.build();
+        }
 
-	 @Adapt(XSetLivingAreaFractionAction.class)
-	 public IComponentsAction buildSetLivingAreaFractionAction(@Prop(XSetLivingAreaFractionAction.P.fraction) final double value) {
-		 return measureFactory.createLivingAreaFractionAction(value);
-	 }
+        return measureFactory.createTemperaturesAction(
+                livingAreaTemperature,
+                deltaTemperature,
+                restTemperature,
+                restHeatedProportion,
+                Optional.fromNullable(months)
+        );
+    }
 
-	 @Adapt(XSetSiteExposureAction.class)
-	 public IComponentsAction buildSetSiteExposureAction(
-			 @Prop(XSetSiteExposureAction.P.siteExposure) final XSetSiteExposureAction.XSiteExposureType siteExposure
-			 ) {
-		 return measureFactory.createSiteExposureAction(MapEnum.siteExposure(siteExposure));
-	 }
+    @Adapt(XSetLivingAreaFractionAction.class)
+    public IComponentsAction buildSetLivingAreaFractionAction(@Prop(XSetLivingAreaFractionAction.P.fraction) final double value) {
+        return measureFactory.createLivingAreaFractionAction(value);
+    }
 
-	 @Adapt(XSetThermalBridgingFactorAction.class)
-	 public IComponentsAction buildSetThermalBridgingFactorAction(
-			 @Prop(XSetThermalBridgingFactorAction.P.thermalBridgingFactor) final IComponentsFunction<Number> factor
-			 ) {
-		 return measureFactory.createThermalBridgingFactorAction(factor);
-	 }
+    @Adapt(XSetSiteExposureAction.class)
+    public IComponentsAction buildSetSiteExposureAction(
+            @Prop(XSetSiteExposureAction.P.siteExposure) final XSetSiteExposureAction.XSiteExposureType siteExposure
+    ) {
+        return measureFactory.createSiteExposureAction(MapEnum.siteExposure(siteExposure));
+    }
 
-	 @Adapt(XSetInterzoneSpecificHeatTransferAction.class)
-	 public IComponentsAction buildSetInterzoneSpecificHeatTransferAction(
-			 @Prop(XSetInterzoneSpecificHeatTransferAction.P.interzoneSpecificHeatTransfer) final IComponentsFunction<Number> interzoneSpecificHeatTransfer
-			 ) {
-		 return measureFactory.createInterzoneSpecificHeatTransferAction(interzoneSpecificHeatTransfer);
-	 }
+    @Adapt(XSetThermalBridgingFactorAction.class)
+    public IComponentsAction buildSetThermalBridgingFactorAction(
+            @Prop(XSetThermalBridgingFactorAction.P.thermalBridgingFactor) final IComponentsFunction<Number> factor
+    ) {
+        return measureFactory.createThermalBridgingFactorAction(factor);
+    }
 
-	 @Adapt(XReducedInternalGainsAction.class)
-	 public IComponentsAction buildReducedInternalGainsAction() {
-		 return measureFactory.createReducedInternalGainsAction();
-	 }
+    @Adapt(XSetInterzoneSpecificHeatTransferAction.class)
+    public IComponentsAction buildSetInterzoneSpecificHeatTransferAction(
+            @Prop(XSetInterzoneSpecificHeatTransferAction.P.interzoneSpecificHeatTransfer) final IComponentsFunction<Number> interzoneSpecificHeatTransfer
+    ) {
+        return measureFactory.createInterzoneSpecificHeatTransferAction(interzoneSpecificHeatTransfer);
+    }
 
-	 @Adapt(XHeatingScheduleAction.class)
-	 public IComponentsAction buildHeatingScheduleAction(final Name id, final XHeatingScheduleAction x) {
-		 return measureFactory.createHeatingScheduleAction(buildHeatingSchedule(id, x.getSchedule()));
-	 }
+    @Adapt(XReducedInternalGainsAction.class)
+    public IComponentsAction buildReducedInternalGainsAction() {
+        return measureFactory.createReducedInternalGainsAction();
+    }
 
-	static IHeatingSchedule buildHeatingSchedule(final Name name, final List<XHeatingDays> schedule) {
-		final DailyHeatingSchedule[] days = new DailyHeatingSchedule[7];
-		// initialize to the off schedule
-		for (int i = 0; i<days.length; i++) {
-			days[i] = new DailyHeatingSchedule();
-		}
+    @Adapt(XHeatingScheduleAction.class)
+    public IComponentsAction buildHeatingScheduleAction(final Name id, final XHeatingScheduleAction x) {
+        return measureFactory.createHeatingScheduleAction(buildHeatingSchedule(id, x.getSchedule()));
+    }
 
-		for (final XHeatingDays d : schedule) {
-			switch (d.getOn()) {
-			case Monday:
-			case Tuesday:
-			case Wednesday:
-			case Thursday:
-			case Friday:
-			case Saturday:
-			case Sunday:
-				unionDaySchedule(d.getHeating(), days[d.getOn().ordinal()]);
-				break;
-			case Weekdays:
-				for (int i = 0; i<5; i++) unionDaySchedule(d.getHeating(), days[i]);;
-				break;
-			case Weekends:
-				unionDaySchedule(d.getHeating(), days[5]);
-				unionDaySchedule(d.getHeating(), days[6]);
-				break;
-			case AllDays:
-				for (int i = 0; i<7; i++) unionDaySchedule(d.getHeating(), days[i]);
-				break;
-			default:
-				throw new RuntimeException("Do not know how to handle "+d + ". This should never happen");
-			}
-		}
+    static IHeatingSchedule buildHeatingSchedule(final Name name, final List<XHeatingDays> schedule) {
+        final DailyHeatingSchedule[] days = new DailyHeatingSchedule[7];
+        // initialize to the off schedule
+        for (int i = 0; i < days.length; i++) {
+            days[i] = new DailyHeatingSchedule();
+        }
 
-		return new SevenDayHeatingSchedule(name.getName(), days);
-	}
+        for (final XHeatingDays d : schedule) {
+            switch (d.getOn()) {
+                case Monday:
+                case Tuesday:
+                case Wednesday:
+                case Thursday:
+                case Friday:
+                case Saturday:
+                case Sunday:
+                    unionDaySchedule(d.getHeating(), days[d.getOn().ordinal()]);
+                    break;
+                case Weekdays:
+                    for (int i = 0; i < 5; i++) {
+                        unionDaySchedule(d.getHeating(), days[i]);
+                    }
+                    ;
+                    break;
+                case Weekends:
+                    unionDaySchedule(d.getHeating(), days[5]);
+                    unionDaySchedule(d.getHeating(), days[6]);
+                    break;
+                case AllDays:
+                    for (int i = 0; i < 7; i++) {
+                        unionDaySchedule(d.getHeating(), days[i]);
+                    }
+                    break;
+                default:
+                    throw new RuntimeException("Do not know how to handle " + d + ". This should never happen");
+            }
+        }
 
-	static void unionDaySchedule(final List<HeatingInterval> heating, final DailyHeatingSchedule dhs) {
-		// construct the array of on/off times from the list of heating intervals.
-		final boolean[] hours = new boolean[24];
-		for (final HeatingInterval hi : heating) {
-			final int on = Math.min(hi.getBetween(), hi.getAnd());
-			final int off = Math.max(hi.getBetween(), hi.getAnd());
-			for (int i = on; i<off; i++) {
-				hours[i] = true;
-			}
-		}
-		boolean wasOn = false;
-		int lastSwitchOn = 0;
-		for (int i = 0; i<hours.length; i++) {
-			if (hours[i] != wasOn) {
-				if (wasOn == true) {
-					dhs.addHeatingPeriod(60d*lastSwitchOn, 60d * i);
-				} else {
-					lastSwitchOn = i;
-				}
-			}
-			wasOn = hours[i];
-		}
-		if (wasOn) {
-			dhs.addHeatingPeriod(60d*lastSwitchOn, 60d*24);
-		}
-	}
+        return new SevenDayHeatingSchedule(name.getName(), days);
+    }
 
-	@Adapt(XChangeTariffsAction.class)
-	public IComponentsAction buildChangeTariffsAction(
-			@Prop(XChangeTariffsAction.P.tariffs) final List<ITariff> tariffs
-			) {
-		return measureFactory.createChangeTariffsAction(tariffs);
-	}
+    static void unionDaySchedule(final List<HeatingInterval> heating, final DailyHeatingSchedule dhs) {
+        // construct the array of on/off times from the list of heating intervals.
+        final boolean[] hours = new boolean[24];
+        for (final HeatingInterval hi : heating) {
+            final int on = Math.min(hi.getBetween(), hi.getAnd());
+            final int off = Math.max(hi.getBetween(), hi.getAnd());
+            for (int i = on; i < off; i++) {
+                hours[i] = true;
+            }
+        }
+        boolean wasOn = false;
+        int lastSwitchOn = 0;
+        for (int i = 0; i < hours.length; i++) {
+            if (hours[i] != wasOn) {
+                if (wasOn == true) {
+                    dhs.addHeatingPeriod(60d * lastSwitchOn, 60d * i);
+                } else {
+                    lastSwitchOn = i;
+                }
+            }
+            wasOn = hours[i];
+        }
+        if (wasOn) {
+            dhs.addHeatingPeriod(60d * lastSwitchOn, 60d * 24);
+        }
+    }
 
-	@Adapt(XCounterfactualCarbon.class)
-	public IComponentsAction buildCounterfactualCarbonAction(final XCounterfactualCarbon carbon) {
-		final EnumMap<FuelType, Double> m = new EnumMap<>(FuelType.class);
+    @Adapt(XChangeTariffsAction.class)
+    public IComponentsAction buildChangeTariffsAction(
+            @Prop(XChangeTariffsAction.P.tariffs) final List<ITariff> tariffs
+    ) {
+        return measureFactory.createChangeTariffsAction(tariffs);
+    }
 
-		m.put(FuelType.MAINS_GAS, 			carbon.getMainsGas());
-		m.put(FuelType.BULK_LPG,  			carbon.getBulkLPG());
-		m.put(FuelType.BOTTLED_LPG, 		carbon.getBottledLPG());
-		// Electricity is already counted under PEAK and OFFPEAK, although 0 units should have been used anyway.
-		m.put(FuelType.ELECTRICITY,			0d);
-		m.put(FuelType.EXPORTED_ELECTRICITY,carbon.getExportedElectricity());
-		m.put(FuelType.PEAK_ELECTRICITY, 	carbon.getPeakElectricity());
-		m.put(FuelType.OFF_PEAK_ELECTRICITY,carbon.getOffPeakElectricity());
-		m.put(FuelType.OIL, 				carbon.getOil());
-		m.put(FuelType.HOUSE_COAL, 			carbon.getHouseCoal());
-		m.put(FuelType.BIOMASS_WOOD, 		carbon.getBiomassWood());
-		m.put(FuelType.BIOMASS_PELLETS, 	carbon.getBiomassPellets());
-		m.put(FuelType.BIOMASS_WOODCHIP,	carbon.getBiomassWoodchip());
-		m.put(FuelType.COMMUNITY_HEAT, 		carbon.getCommunityHeat());
-		m.put(FuelType.PHOTONS, 			carbon.getPhotons());
+    @Adapt(XCounterfactualCarbon.class)
+    public IComponentsAction buildCounterfactualCarbonAction(final XCounterfactualCarbon carbon) {
+        final EnumMap<FuelType, Double> m = new EnumMap<>(FuelType.class);
 
-		return measureFactory.createSetCarbon(CarbonFactors.of(m));
-	}
+        m.put(FuelType.MAINS_GAS, carbon.getMainsGas());
+        m.put(FuelType.BULK_LPG, carbon.getBulkLPG());
+        m.put(FuelType.BOTTLED_LPG, carbon.getBottledLPG());
+        // Electricity is already counted under PEAK and OFFPEAK, although 0 units should have been used anyway.
+        m.put(FuelType.ELECTRICITY, 0d);
+        m.put(FuelType.EXPORTED_ELECTRICITY, carbon.getExportedElectricity());
+        m.put(FuelType.PEAK_ELECTRICITY, carbon.getPeakElectricity());
+        m.put(FuelType.OFF_PEAK_ELECTRICITY, carbon.getOffPeakElectricity());
+        m.put(FuelType.OIL, carbon.getOil());
+        m.put(FuelType.HOUSE_COAL, carbon.getHouseCoal());
+        m.put(FuelType.BIOMASS_WOOD, carbon.getBiomassWood());
+        m.put(FuelType.BIOMASS_PELLETS, carbon.getBiomassPellets());
+        m.put(FuelType.BIOMASS_WOODCHIP, carbon.getBiomassWoodchip());
+        m.put(FuelType.COMMUNITY_HEAT, carbon.getCommunityHeat());
+        m.put(FuelType.PHOTONS, carbon.getPhotons());
 
-	@Adapt(XCounterfactualCalculator.class)
-	public IComponentsAction buildCounterFactualEnergyCalculatorAction(final XCounterfactualCalculator calculator) {
-		return measureFactory.createEnergyCalculatorAction(
-				MapEnum.energyCalc(calculator.getCalculatorType()));
-	}
+        return measureFactory.createSetCarbon(CarbonFactors.of(m));
+    }
 
-	@Adapt(XSapOccupancyAction.class)
-	public IComponentsAction buildSapOccupancyAction() {
-		return measureFactory.createSapOccupancy();
-	}
+    @Adapt(XCounterfactualCalculator.class)
+    public IComponentsAction buildCounterFactualEnergyCalculatorAction(final XCounterfactualCalculator calculator) {
+        return measureFactory.createEnergyCalculatorAction(
+                MapEnum.energyCalc(calculator.getCalculatorType()));
+    }
 
-	@Adapt(XDecalibrateEnergyAction.class)
-	public IComponentsAction buildDecalibrateEnergyAction() {
-		return measureFactory.createDecalibrationAction();
-	}
+    @Adapt(XSapOccupancyAction.class)
+    public IComponentsAction buildSapOccupancyAction() {
+        return measureFactory.createSapOccupancy();
+    }
 
-	@Adapt(XCounterfactualWeather.class)
-	public IComponentsAction buildCounterfactualWeatherAction(
-			@Prop(XCounterfactualWeather.P.weather) final ConstantComponentsFunction<IWeather> weather) {
-		return measureFactory.createSetWeather(weather.getValue());
-	}
+    @Adapt(XDecalibrateEnergyAction.class)
+    public IComponentsAction buildDecalibrateEnergyAction() {
+        return measureFactory.createDecalibrationAction();
+    }
 
-	@Adapt(XDelayedAction.class)
-	public IComponentsAction adaptDelayedAction(
-			@Prop(XDelayedAction.P.action) final IComponentsAction action,
-			@Prop(XDelayedAction.P.delay) final Period delay) {
-		return measureFactory.createDelayedAction(action, delay);
-	}
+    @Adapt(XCounterfactualWeather.class)
+    public IComponentsAction buildCounterfactualWeatherAction(
+            @Prop(XCounterfactualWeather.P.weather) final ConstantComponentsFunction<IWeather> weather) {
+        return measureFactory.createSetWeather(weather.getValue());
+    }
 
-	@Adapt(XSometimesAction.class)
-	public IComponentsAction adaptSometimesAction(
-			@Prop(XSometimesAction.P.chance) final IComponentsFunction<Number> chance,
-			@Prop(XSometimesAction.P.delegate) final IComponentsAction delegate) {
-		return measureFactory.createSometimesAction(chance, delegate);
-	}
+    @Adapt(XDelayedAction.class)
+    public IComponentsAction adaptDelayedAction(
+            @Prop(XDelayedAction.P.action) final IComponentsAction action,
+            @Prop(XDelayedAction.P.delay) final Period delay) {
+        return measureFactory.createDelayedAction(action, delay);
+    }
 
-	@Adapt(XCaseAction.XCaseActionWhen.class)
-	public CaseAction.Case adaptCaseActionCase(
-			@Prop(XCaseActionWhen.P.test) final IComponentsFunction<Boolean> test,
-			@Prop(XCaseActionWhen.P.action) final IComponentsAction action
-			) {
-		return new CaseAction.Case(test, action);
-	}
+    @Adapt(XSometimesAction.class)
+    public IComponentsAction adaptSometimesAction(
+            @Prop(XSometimesAction.P.chance) final IComponentsFunction<Number> chance,
+            @Prop(XSometimesAction.P.delegate) final IComponentsAction delegate) {
+        return measureFactory.createSometimesAction(chance, delegate);
+    }
 
-	@Adapt(XCaseAction.class)
-	public IComponentsAction adaptCaseAction(
-			@Prop(XCaseAction.P.whens) final List<Case> cases,
-			@Prop(XCaseAction.P.defaultAction) final IComponentsAction defaultAction) {
-		return measureFactory.createCaseAction(cases, defaultAction);
-	}
+    @Adapt(XCaseAction.XCaseActionWhen.class)
+    public CaseAction.Case adaptCaseActionCase(
+            @Prop(XCaseActionWhen.P.test) final IComponentsFunction<Boolean> test,
+            @Prop(XCaseActionWhen.P.action) final IComponentsAction action
+    ) {
+        return new CaseAction.Case(test, action);
+    }
 
-	@Adapt(XRepeatAction.class)
-	public IComponentsAction buildRepeatAction(
-			@Prop(XRepeatAction.P.times) final int times,
-			@Prop(XRepeatAction.P.untilCondition) final Optional<IComponentsFunction<Boolean>> until,
-			@Prop(XRepeatAction.P.whileCondition) final Optional<IComponentsFunction<Boolean>> whilst,
-			@Prop(XRepeatAction.P.delegate) final IComponentsAction delegate
-			) {
-		return measureFactory.createRepeatAction(
-				times,
-				whilst,
-				delegate,
-				until
-				);
-	}
+    @Adapt(XCaseAction.class)
+    public IComponentsAction adaptCaseAction(
+            @Prop(XCaseAction.P.whens) final List<Case> cases,
+            @Prop(XCaseAction.P.defaultAction) final IComponentsAction defaultAction) {
+        return measureFactory.createCaseAction(cases, defaultAction);
+    }
 
-	@Adapt(XOrderedAction.class)
-	public IStateAction buildOrderedAction(
-			@Prop(XOrderedAction.P.objective) final IComponentsFunction<Number> objective,
-			@Prop(XOrderedAction.P.ascending) final boolean ascending,
-			@Prop(XOrderedAction.P.DELEGATES) final List<IComponentsAction> actions,
-			@Prop(XOrderedAction.P.packages) final boolean packages
-			) {
-		if (packages) {
-			return measureFactory.createOrderedPackageAction(objective, ascending, actions);
-		} else {
-			return measureFactory.createOrderedChoiceAction(objective, ascending, actions);
-		}
-	}
+    @Adapt(XRepeatAction.class)
+    public IComponentsAction buildRepeatAction(
+            @Prop(XRepeatAction.P.times) final int times,
+            @Prop(XRepeatAction.P.untilCondition) final Optional<IComponentsFunction<Boolean>> until,
+            @Prop(XRepeatAction.P.whileCondition) final Optional<IComponentsFunction<Boolean>> whilst,
+            @Prop(XRepeatAction.P.delegate) final IComponentsAction delegate
+    ) {
+        return measureFactory.createRepeatAction(
+                times,
+                whilst,
+                delegate,
+                until
+        );
+    }
 
-	@Adapt(XActionDeclaration.class)
-	public Initializable ignoreActionDeclaration() {
-		return Initializable.NOP;
-	}
+    @Adapt(XOrderedAction.class)
+    public IStateAction buildOrderedAction(
+            @Prop(XOrderedAction.P.objective) final IComponentsFunction<Number> objective,
+            @Prop(XOrderedAction.P.ascending) final boolean ascending,
+            @Prop(XOrderedAction.P.DELEGATES) final List<IComponentsAction> actions,
+            @Prop(XOrderedAction.P.packages) final boolean packages
+    ) {
+        if (packages) {
+            return measureFactory.createOrderedPackageAction(objective, ascending, actions);
+        } else {
+            return measureFactory.createOrderedChoiceAction(objective, ascending, actions);
+        }
+    }
 
-	@Adapt(value = XActionDeclaration.class, cache = true)
-	public IComponentsAction buildActionDeclaration(
-			@Prop(XFunctionDeclaration.VALUE) final IComponentsAction fn
-			) {
-		return new Wrapper(fn);
-	}
+    @Adapt(XActionDeclaration.class)
+    public Initializable ignoreActionDeclaration() {
+        return Initializable.NOP;
+    }
 
-	static class Wrapper extends AbstractNamed implements IComponentsAction {
-		private final IComponentsAction fn;
+    @Adapt(value = XActionDeclaration.class, cache = true)
+    public IComponentsAction buildActionDeclaration(
+            @Prop(XFunctionDeclaration.VALUE) final IComponentsAction fn
+    ) {
+        return new Wrapper(fn);
+    }
 
-		public Wrapper(final IComponentsAction fn) {
-			this.fn = fn;
-		}
+    static class Wrapper extends AbstractNamed implements IComponentsAction {
 
-		@Override
-		public void setIdentifier(final Name newName) {
-			super.setIdentifier(newName);
-			if (!(fn instanceof Wrapper) && fn instanceof ISettableIdentified) {
-				((ISettableIdentified) fn).setIdentifier(newName);
-			}
-		}
+        private final IComponentsAction fn;
 
-		@Override
-		public StateChangeSourceType getSourceType() {
-			return fn.getSourceType();
-		}
+        public Wrapper(final IComponentsAction fn) {
+            this.fn = fn;
+        }
 
-		@Override
-		public boolean apply(final ISettableComponentsScope scope, final ILets lets)
-				throws NHMException {
-			return fn.apply(scope, lets);
-		}
+        @Override
+        public void setIdentifier(final Name newName) {
+            super.setIdentifier(newName);
+            if (!(fn instanceof Wrapper) && fn instanceof ISettableIdentified) {
+                ((ISettableIdentified) fn).setIdentifier(newName);
+            }
+        }
 
-		@Override
-		public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
-			return fn.isSuitable(scope, lets);
-		}
+        @Override
+        public StateChangeSourceType getSourceType() {
+            return fn.getSourceType();
+        }
 
-		@Override
-		public boolean isAlwaysSuitable() {
-			return fn.isAlwaysSuitable();
-		}
-	}
+        @Override
+        public boolean apply(final ISettableComponentsScope scope, final ILets lets)
+                throws NHMException {
+            return fn.apply(scope, lets);
+        }
 
-	@Adapt(XFailAction.class)
-	public IComponentsAction buildFailAction() {
-		return new FailAction();
-	}
+        @Override
+        public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
+            return fn.isSuitable(scope, lets);
+        }
+
+        @Override
+        public boolean isAlwaysSuitable() {
+            return fn.isAlwaysSuitable();
+        }
+    }
+
+    @Adapt(XFailAction.class)
+    public IComponentsAction buildFailAction() {
+        return new FailAction();
+    }
 }

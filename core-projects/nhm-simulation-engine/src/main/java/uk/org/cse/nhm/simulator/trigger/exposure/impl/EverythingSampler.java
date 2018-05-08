@@ -9,14 +9,14 @@ import uk.org.cse.nhm.simulator.trigger.exposure.IDwellingGroupSampler;
 import uk.org.cse.nhm.simulator.util.RandomSource;
 
 public class EverythingSampler implements IDwellingGroupSampler {
-	
-	@AssistedInject
-	public EverythingSampler() {
-	}
 
-	@Override
-	public Set<IDwelling> sample(final RandomSource random, final Set<IDwelling> sampleFrom) {
-		return sampleFrom;
-	}
+    @AssistedInject
+    public EverythingSampler() {
+    }
+
+    @Override
+    public Set<IDwelling> sample(final RandomSource random, final Set<IDwelling> sampleFrom) {
+        return sampleFrom;
+    }
 
 }

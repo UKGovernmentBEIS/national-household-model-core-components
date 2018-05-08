@@ -8,8 +8,8 @@ import uk.org.cse.nhm.bundle.api.IStockImportCallback;
 import uk.org.cse.nhm.clitools.LogHelper;
 import uk.org.cse.nhm.stockimport.simple.ImportErrorHandler;
 
-
 class StockCallbackConnector extends LogHelper implements ImportErrorHandler {
+
     private final IStockImportCallback cb;
 
     public StockCallbackConnector(final IStockImportCallback cb) {

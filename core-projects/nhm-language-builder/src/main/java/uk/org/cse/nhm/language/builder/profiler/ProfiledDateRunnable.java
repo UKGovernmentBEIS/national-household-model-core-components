@@ -24,13 +24,13 @@ public class ProfiledDateRunnable implements IIdentified, IDateRunnable, Initial
     }
 
     @Override
-	public void initialize() throws NHMException {
+    public void initialize() throws NHMException {
         // never delegate initializability
     }
 
     @Override
     public void run(final DateTime date) {
-        if (delegate instanceof IDateRunnable)  {
+        if (delegate instanceof IDateRunnable) {
             try {
                 prof.push(this);
                 ((IDateRunnable) delegate).run(date);
@@ -50,4 +50,3 @@ public class ProfiledDateRunnable implements IIdentified, IDateRunnable, Initial
         return delegate.toString();
     }
 }
-

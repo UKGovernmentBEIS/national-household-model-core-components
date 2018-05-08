@@ -14,19 +14,22 @@ import uk.org.cse.nhm.language.definition.function.num.XNumber;
 @Bind("action.reset-roofs")
 @Category(CategoryType.RESETACTIONS)
 public class XResetRoofs extends XFlaggedDwellingAction {
-	public static final class P {
-		public static final String uValue = "uValue";
-	}
-	
-	private XNumber uValue;
-	
-	@Prop(P.uValue)
-	@BindNamedArgument("u-values")
-	@Doc("A function which will be used to compute the u-value for the external area of each roof.")
-	public XNumber getuValue() {
-		return uValue;
-	}
-	public void setuValue(final XNumber uValue) {
-		this.uValue = uValue;
-	}
+
+    public static final class P {
+
+        public static final String uValue = "uValue";
+    }
+
+    private XNumber uValue;
+
+    @Prop(P.uValue)
+    @BindNamedArgument("u-values")
+    @Doc("A function which will be used to compute the u-value for the external area of each roof.")
+    public XNumber getuValue() {
+        return uValue;
+    }
+
+    public void setuValue(final XNumber uValue) {
+        this.uValue = uValue;
+    }
 }

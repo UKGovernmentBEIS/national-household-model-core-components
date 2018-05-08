@@ -29,7 +29,9 @@ import uk.org.cse.nhm.spss.SavVariableType;
 import uk.org.cse.nhm.spss.impl.SavInputStreamImpl;
 
 public class AdditionalPropertiesTransfer {
+
     static class LoadedSavFile {
+
         public final String[] header;
         public final Map<String, String[]> rows;
 
@@ -139,7 +141,7 @@ public class AdditionalPropertiesTransfer {
                 }
             } else {
                 for (@SuppressWarnings("unused")
-                final String ignore : header) {
+                        final String ignore : header) {
                     header2.add("");
                 }
             }

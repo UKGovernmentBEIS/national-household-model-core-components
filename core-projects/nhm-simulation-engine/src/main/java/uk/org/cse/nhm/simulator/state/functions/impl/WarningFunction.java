@@ -17,6 +17,7 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class WarningFunction implements IComponentsFunction<Number> {
+
     final ILogEntryHandler log;
     final Name owner;
     final IComponentsFunction<Number> delegate;
@@ -26,31 +27,31 @@ public class WarningFunction implements IComponentsFunction<Number> {
 
     @AssistedInject
     public WarningFunction(final ILogEntryHandler log,
-                           @Assisted final Name owner,
-                           @Assisted final String description,
-                           @Assisted final IComponentsFunction<Number> delegate,
-                           @Assisted("lowerBound") final double lowerBound,
-                           @Assisted("upperBound") final double upperBound,
-                           @Assisted("lowerClamp") final boolean lowerClamp,
-                           @Assisted("upperClamp") final boolean upperClamp) {
-        this.log         = log;
-        this.owner       = owner;
-        this.delegate    = delegate;
+            @Assisted final Name owner,
+            @Assisted final String description,
+            @Assisted final IComponentsFunction<Number> delegate,
+            @Assisted("lowerBound") final double lowerBound,
+            @Assisted("upperBound") final double upperBound,
+            @Assisted("lowerClamp") final boolean lowerClamp,
+            @Assisted("upperClamp") final boolean upperClamp) {
+        this.log = log;
+        this.owner = owner;
+        this.delegate = delegate;
         this.description = description;
-        this.lowerBound  = lowerBound;
-        this.upperBound  = upperBound;
-        this.lowerClamp  = lowerClamp;
-        this.upperClamp  = upperClamp;
+        this.lowerBound = lowerBound;
+        this.upperBound = upperBound;
+        this.lowerClamp = lowerClamp;
+        this.upperClamp = upperClamp;
     }
 
     private void warn(final double d, final boolean clamped, final boolean bound) {
         log.acceptLogEntry(new WarningLogEntry(description + " out of bounds",
-                                               ImmutableMap.of("location", String.valueOf(owner),
-                                                               "value", String.valueOf(d),
-                                                               "clamped", String.valueOf(clamped),
-                                                               "bound", bound ? "upper":"lower")));
+                ImmutableMap.of("location", String.valueOf(owner),
+                        "value", String.valueOf(d),
+                        "clamped", String.valueOf(clamped),
+                        "bound", bound ? "upper" : "lower")));
     }
-    
+
     private double checkUpper(final double d) {
         if (d > upperBound) {
             if (upperClamp) {
@@ -75,7 +76,6 @@ public class WarningFunction implements IComponentsFunction<Number> {
         return d;
     }
 
-    
     @Override
     public Number compute(IComponentsScope scope, ILets lets) {
         final Number value = delegate.compute(scope, lets);
@@ -91,7 +91,7 @@ public class WarningFunction implements IComponentsFunction<Number> {
     public Name getIdentifier() {
         return delegate.getIdentifier();
     }
-    
+
     @Override
     public Set<IDimension<?>> getDependencies() {
         return delegate.getDependencies();
@@ -102,4 +102,3 @@ public class WarningFunction implements IComponentsFunction<Number> {
         return delegate.getChangeDates();
     }
 }
-

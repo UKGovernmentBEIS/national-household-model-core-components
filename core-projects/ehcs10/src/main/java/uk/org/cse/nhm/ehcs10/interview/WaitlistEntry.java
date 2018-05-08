@@ -12,137 +12,137 @@ import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 
 public interface WaitlistEntry extends SurveyEntry {
-	@SavVariableMapping("FUNO2")
-	public Integer getFUOfPersonOnW_List();
 
-	@SavVariableMapping("FUNO1")
-	public Integer getFUOfPersonOnW_List_FUNO1();
+    @SavVariableMapping("FUNO2")
+    public Integer getFUOfPersonOnW_List();
 
-	@SavVariableMapping("WILANUM")
-	public Integer getHowManyLAWaitingListsPersonIsOn();
+    @SavVariableMapping("FUNO1")
+    public Integer getFUOfPersonOnW_List_FUNO1();
 
-	@SavVariableMapping("NAMEL1")
-	public Integer getPersonNoOnW_List1();
+    @SavVariableMapping("WILANUM")
+    public Integer getHowManyLAWaitingListsPersonIsOn();
 
-	@SavVariableMapping("WILANUM2")
-	public Integer getHowManyLAWaitingListsPersonIsOn_WILANUM2();
+    @SavVariableMapping("NAMEL1")
+    public Integer getPersonNoOnW_List1();
 
-	@SavVariableMapping("WIHANUM2")
-	public Integer getHowManyHAWaitingListsPersonIsOn();
+    @SavVariableMapping("WILANUM2")
+    public Integer getHowManyLAWaitingListsPersonIsOn_WILANUM2();
 
-	@SavVariableMapping("NAMEL2")
-	public Integer getPersonNoOnW_List2();
+    @SavVariableMapping("WIHANUM2")
+    public Integer getHowManyHAWaitingListsPersonIsOn();
 
-	@SavVariableMapping("NAMEL3")
-	public Integer getPersonNoOnW_List3();
+    @SavVariableMapping("NAMEL2")
+    public Integer getPersonNoOnW_List2();
 
-	@SavVariableMapping("NOLIST")
-	public Integer getNoInHhldOnW_List();
+    @SavVariableMapping("NAMEL3")
+    public Integer getPersonNoOnW_List3();
 
-	@SavVariableMapping("WIHANUM")
-	public Integer getHowManyHAWaitingListsPersonIsOn_WIHANUM();
+    @SavVariableMapping("NOLIST")
+    public Integer getNoInHhldOnW_List();
 
-	@SavVariableMapping("FUNO3")
-	public Integer getFUOfPersonOnW_List_FUNO3();
+    @SavVariableMapping("WIHANUM")
+    public Integer getHowManyHAWaitingListsPersonIsOn_WIHANUM();
 
-	@SavVariableMapping("WILANUM3")
-	public Integer getHowManyLAWaitingListsPersonIsOn_WILANUM3();
+    @SavVariableMapping("FUNO3")
+    public Integer getFUOfPersonOnW_List_FUNO3();
 
-	@SavVariableMapping("TIMEW01")
-	public Enum823 getTimeOnW_List();
+    @SavVariableMapping("WILANUM3")
+    public Integer getHowManyLAWaitingListsPersonIsOn_WILANUM3();
 
-	@SavVariableMapping("WLISTCH5")
-	public Enum69 getApplBy_WithANon_HhldMember();
+    @SavVariableMapping("TIMEW01")
+    public Enum823 getTimeOnW_List();
 
-	@SavVariableMapping("WLISTB4")
-	public Enum69 getAnotherHhldMemberOnW_List();
+    @SavVariableMapping("WLISTCH5")
+    public Enum69 getApplBy_WithANon_HhldMember();
 
-	@SavVariableMapping("WLISTB1")
-	public Enum69 getAnotherHhldMemberOnW_List_WLISTB1();
+    @SavVariableMapping("WLISTB4")
+    public Enum69 getAnotherHhldMemberOnW_List();
 
-	@SavVariableMapping("WLISTCH4")
-	public Enum69 getApplBy_WithANon_HhldMember_WLISTCH4();
+    @SavVariableMapping("WLISTB1")
+    public Enum69 getAnotherHhldMemberOnW_List_WLISTB1();
 
-	@SavVariableMapping("FUNO5")
-	public Enum24 getFUOfPersonOnW_List_FUNO5();
+    @SavVariableMapping("WLISTCH4")
+    public Enum69 getApplBy_WithANon_HhldMember_WLISTCH4();
 
-	@SavVariableMapping("CASECAT")
-	public Enum229 getStatusOfCase();
+    @SavVariableMapping("FUNO5")
+    public Enum24 getFUOfPersonOnW_List_FUNO5();
 
-	@SavVariableMapping("TYPEW3")
-	public Enum1035 getLAOrHA();
+    @SavVariableMapping("CASECAT")
+    public Enum229 getStatusOfCase();
 
-	@SavVariableMapping("WLISTB3")
-	public Enum69 getAnotherHhldMemberOnW_List_WLISTB3();
+    @SavVariableMapping("TYPEW3")
+    public Enum1035 getLAOrHA();
 
-	@SavVariableMapping("TIMEW04")
-	public Enum823 getTimeOnW_List_TIMEW04();
+    @SavVariableMapping("WLISTB3")
+    public Enum69 getAnotherHhldMemberOnW_List_WLISTB3();
 
-	@SavVariableMapping("WIHANUM4")
-	public Enum24 getHowManyHAWaitingListsPersonIsOn_WIHANUM4();
+    @SavVariableMapping("TIMEW04")
+    public Enum823 getTimeOnW_List_TIMEW04();
 
-	@SavVariableMapping("TYPEW4")
-	public Enum1035 getLAOrHA_TYPEW4();
+    @SavVariableMapping("WIHANUM4")
+    public Enum24 getHowManyHAWaitingListsPersonIsOn_WIHANUM4();
 
-	@SavVariableMapping("WLISTCH1")
-	public Enum1040 getApplBy_WithANon_HhldMember_WLISTCH1();
+    @SavVariableMapping("TYPEW4")
+    public Enum1035 getLAOrHA_TYPEW4();
 
-	@SavVariableMapping("TIMEW03")
-	public Enum823 getTimeOnW_List_TIMEW03();
+    @SavVariableMapping("WLISTCH1")
+    public Enum1040 getApplBy_WithANon_HhldMember_WLISTCH1();
 
-	@SavVariableMapping("GOREHS")
-	public Enum30 getRegion_EHSOrder();
+    @SavVariableMapping("TIMEW03")
+    public Enum823 getTimeOnW_List_TIMEW03();
 
-	@SavVariableMapping("TIMEW02")
-	public Enum823 getTimeOnW_List_TIMEW02();
+    @SavVariableMapping("GOREHS")
+    public Enum30 getRegion_EHSOrder();
 
-	@SavVariableMapping("FUNO4")
-	public Enum24 getFUOfPersonOnW_List_FUNO4();
+    @SavVariableMapping("TIMEW02")
+    public Enum823 getTimeOnW_List_TIMEW02();
 
-	@SavVariableMapping("WIHANUM3")
-	public Enum24 getHowManyHAWaitingListsPersonIsOn_WIHANUM3();
+    @SavVariableMapping("FUNO4")
+    public Enum24 getFUOfPersonOnW_List_FUNO4();
 
-	@SavVariableMapping("TYPEW2")
-	public Enum1035 getLAOrHA_TYPEW2();
+    @SavVariableMapping("WIHANUM3")
+    public Enum24 getHowManyHAWaitingListsPersonIsOn_WIHANUM3();
 
-	@SavVariableMapping("WILANUM5")
-	public Enum24 getHowManyLAWaitingListsPersonIsOn_WILANUM5();
+    @SavVariableMapping("TYPEW2")
+    public Enum1035 getLAOrHA_TYPEW2();
 
-	@SavVariableMapping("QUARTER")
-	public Enum230 getFieldworkQuarter();
+    @SavVariableMapping("WILANUM5")
+    public Enum24 getHowManyLAWaitingListsPersonIsOn_WILANUM5();
 
-	@SavVariableMapping("TYPEW1")
-	public Enum1035 getLAOrHA_TYPEW1();
+    @SavVariableMapping("QUARTER")
+    public Enum230 getFieldworkQuarter();
 
-	@SavVariableMapping("WLISTB2")
-	public Enum69 getAnotherHhldMemberOnW_List_WLISTB2();
+    @SavVariableMapping("TYPEW1")
+    public Enum1035 getLAOrHA_TYPEW1();
 
-	@SavVariableMapping("WLISTCH2")
-	public Enum69 getApplBy_WithANon_HhldMember_WLISTCH2();
+    @SavVariableMapping("WLISTB2")
+    public Enum69 getAnotherHhldMemberOnW_List_WLISTB2();
 
-	@SavVariableMapping("WLISTCH3")
-	public Enum69 getApplBy_WithANon_HhldMember_WLISTCH3();
+    @SavVariableMapping("WLISTCH2")
+    public Enum69 getApplBy_WithANon_HhldMember_WLISTCH2();
 
-	@SavVariableMapping("TYPEW5")
-	public Enum1035 getLAOrHA_TYPEW5();
+    @SavVariableMapping("WLISTCH3")
+    public Enum69 getApplBy_WithANon_HhldMember_WLISTCH3();
 
-	@SavVariableMapping("WLISTB5")
-	public Enum69 getAnotherHhldMemberOnW_List_WLISTB5();
+    @SavVariableMapping("TYPEW5")
+    public Enum1035 getLAOrHA_TYPEW5();
 
-	@SavVariableMapping("TIMEW05")
-	public Enum823 getTimeOnW_List_TIMEW05();
+    @SavVariableMapping("WLISTB5")
+    public Enum69 getAnotherHhldMemberOnW_List_WLISTB5();
 
-	@SavVariableMapping("NAMEL5")
-	public Enum24 getPersonNoOnW_List5();
+    @SavVariableMapping("TIMEW05")
+    public Enum823 getTimeOnW_List_TIMEW05();
 
-	@SavVariableMapping("WILANUM4")
-	public Enum24 getHowManyLAWaitingListsPersonIsOn_WILANUM4();
+    @SavVariableMapping("NAMEL5")
+    public Enum24 getPersonNoOnW_List5();
 
-	@SavVariableMapping("WIHANUM5")
-	public Enum24 getHowManyHAWaitingListsPersonIsOn_WIHANUM5();
+    @SavVariableMapping("WILANUM4")
+    public Enum24 getHowManyLAWaitingListsPersonIsOn_WILANUM4();
 
-	@SavVariableMapping("NAMEL4")
-	public Enum24 getPersonNoOnW_List4();
+    @SavVariableMapping("WIHANUM5")
+    public Enum24 getHowManyHAWaitingListsPersonIsOn_WIHANUM5();
+
+    @SavVariableMapping("NAMEL4")
+    public Enum24 getPersonNoOnW_List4();
 
 }
-

@@ -6,11 +6,12 @@ import uk.org.cse.nhm.ipc.api.reporting.IReportLocation;
 
 /**
  * Provides methods to store and access reports
- * 
+ *
  * @since 3.7.0
  */
 public interface IReportRepository {
-	boolean getAndStoreReport(String reportURL, String scenarioID);
 
-	Optional<IReportLocation> locateReport(String scenarioID);
+    boolean getAndStoreReport(String reportURL, String scenarioID);
+
+    Optional<IReportLocation> locateReport(String scenarioID);
 }

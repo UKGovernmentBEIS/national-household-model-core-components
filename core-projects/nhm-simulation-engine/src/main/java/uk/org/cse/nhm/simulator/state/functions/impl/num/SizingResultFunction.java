@@ -20,22 +20,23 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 /**
  * A function which gets the last {@link ISizingResult}'s size, where the result
  * matches a specified unit.
- * 
+ *
  * @author hinton
  *
  */
 public class SizingResultFunction extends AbstractNamed implements IComponentsFunction<Double> {
-	private final Units unit;
-	
-	@Inject
-	public SizingResultFunction(@Assisted final Units unit) {
-		this.unit = unit;
-	}
 
-	@Override
-	public Double compute(final IComponentsScope scope, final ILets lets) {
+    private final Units unit;
+
+    @Inject
+    public SizingResultFunction(@Assisted final Units unit) {
+        this.unit = unit;
+    }
+
+    @Override
+    public Double compute(final IComponentsScope scope, final ILets lets) {
         return findTotalSizingResult(scope, lets);
-	}
+    }
 
     private double findTotalSizingResult(final IComponentsScope scope, final ILets lets) {
         double acc = 0;
@@ -47,13 +48,13 @@ public class SizingResultFunction extends AbstractNamed implements IComponentsFu
         return acc;
     }
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return Collections.emptySet();
-	}
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return Collections.emptySet();
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return Collections.emptySet();
-	}
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return Collections.emptySet();
+    }
 }

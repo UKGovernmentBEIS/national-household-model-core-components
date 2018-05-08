@@ -1,4 +1,5 @@
 package uk.org.cse.stockimport.ehcs2010.spss.elementreader;
+
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -39,9 +40,10 @@ import uk.org.cse.stockimport.repository.IHouseCaseSourcesRespository;
 
 /**
  * FloorFromSpssElementBuilderTest.
- * 
+ *
  * @author richardt
- * @version $Id: FloorFromSpssElementBuilderTest.java 94 2010-09-30 15:39:21Z richardt
+ * @version $Id: FloorFromSpssElementBuilderTest.java 94 2010-09-30 15:39:21Z
+ * richardt
  * @since 0.0.1-SNAPSHOT
  */
 @RunWith(MockitoJUnitRunner.class)
@@ -60,7 +62,7 @@ public class SpssStoreyReaderTest extends Mockito {
     public void setUp() {
         final String executionId = "";
 
-        when(itrFactory.build(ImmutableSet.<Class<?>> of(
+        when(itrFactory.build(ImmutableSet.<Class<?>>of(
                 ShapeEntryImpl.class,
                 Physical_09Plus10EntryImpl.class,
                 Dimensions_09Plus10EntryImpl.class,
@@ -136,17 +138,17 @@ public class SpssStoreyReaderTest extends Mockito {
     }
 
     private static BuiltStorey createSquareStorey(final double area, final FloorLocationType type) {
-    	final StoreyDTO dto = new StoreyDTO();
-    	dto.setAacode("");
-    	dto.setLocationType(type);
-    	
-    	final double d = Math.sqrt(area);
-    	
-    	dto.setPolygon(SimplePolygon.builder().add(0, 0).add(d, 0).add(d, d).add(0,d).build());
-    	
-    	return new BuiltStorey(area, dto);
+        final StoreyDTO dto = new StoreyDTO();
+        dto.setAacode("");
+        dto.setLocationType(type);
+
+        final double d = Math.sqrt(area);
+
+        dto.setPolygon(SimplePolygon.builder().add(0, 0).add(d, 0).add(d, d).add(0, d).build());
+
+        return new BuiltStorey(area, dto);
     }
-    
+
     @Test
     public void testAdjustFloorDimensionseEnsuresTFAAcrossFloorsMatchesDerivedTFA() throws Exception {
         final List<BuiltStorey> floors = new ArrayList<BuiltStorey>();
@@ -155,13 +157,12 @@ public class SpssStoreyReaderTest extends Mockito {
         floors.add(createSquareStorey(4, FloorLocationType.BASEMENT));
 
         // actual area is 4 + 4 + 16 = 24
-        
         // scale up by 2
         builder.adjustStoreyDimensions(floors, 24 * 4);
         Assert.assertEquals(16, floors.get(0).dto.getPolygon().area(), 0.001);
         Assert.assertEquals(64, floors.get(1).dto.getPolygon().area(), 0.001);
         Assert.assertEquals(16, floors.get(2).dto.getPolygon().area(), 0.001);
-        
+
         // scale down again
         // our target area is now a lie, because the area of the built storey
         // will not match the area in the poly.
@@ -187,7 +188,7 @@ public class SpssStoreyReaderTest extends Mockito {
         builder.buildStoreysForHouse(floors, shapeEntry, "AACODE", 1, true, false);
 
         assertEquals("Room in roof not added", 2, floors.size());
-        
+
         final IStoreyDTO roofInRoof = floors.get(1).dto;
         assertEquals("Roof Location incorrect", FloorLocationType.ROOM_IN_ROOF, roofInRoof.getLocationType());
         assertEquals("Height(length) not set correctly", floors.get(0).area / 2, floors.get(1).area,
@@ -203,7 +204,7 @@ public class SpssStoreyReaderTest extends Mockito {
         final List<BuiltStorey> floors = new ArrayList<>(ImmutableList.of(f1, f0, f2));
         Collections.shuffle(floors);
         Collections.sort(floors);
-        
+
         assertEquals("Floor 0", FloorLocationType.BASEMENT, floors.get(0).dto.getLocationType());
         assertEquals("Floor 1", FloorLocationType.FIRST_FLOOR, floors.get(1).dto.getLocationType());
         assertEquals("Floor 2", FloorLocationType.SECOND_FLOOR, floors.get(2).dto.getLocationType());
@@ -220,7 +221,7 @@ public class SpssStoreyReaderTest extends Mockito {
         when(interiorEntry.getBathroomCeilingHeight_Metres_()).thenReturn(averageHeight);
 
         // Test basement as lowest
-        BuiltStorey basement = createSquareStorey(0, FloorLocationType.BASEMENT); 
+        BuiltStorey basement = createSquareStorey(0, FloorLocationType.BASEMENT);
         List<BuiltStorey> floors = Arrays.asList(basement);
 
         builder.adjustCeilingHeights(floors, interiorEntry);

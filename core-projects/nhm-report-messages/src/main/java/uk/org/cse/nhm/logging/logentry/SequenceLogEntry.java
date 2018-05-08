@@ -6,61 +6,63 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * A log entry which is generated for each simulation step of state change notification.
+ * A log entry which is generated for each simulation step of state change
+ * notification.
  */
 public class SequenceLogEntry implements IDatedLogEntry {
-	private final DateTime date;
-	private final String cause;
-	private final int created;
-	private final int destroyed;
-	private final int modified;
-	private final long duration;
-	private final long randomState;
 
-	@JsonCreator
-	public SequenceLogEntry(
-			@JsonProperty("randomState") final long randomState,
-			@JsonProperty("date") final DateTime date,
-			@JsonProperty("duration") final long duration,
-			@JsonProperty("cause") final String cause,
-			@JsonProperty("created") final int created,
-			@JsonProperty("destroyed") final int destroyed,
-			@JsonProperty("modified") final int modified) {
-		this.randomState = randomState;
-		this.date = date;
-		this.duration = duration;
-		this.cause = cause;
-		this.created = created;
-		this.destroyed = destroyed;
-		this.modified = modified;
-	}
+    private final DateTime date;
+    private final String cause;
+    private final int created;
+    private final int destroyed;
+    private final int modified;
+    private final long duration;
+    private final long randomState;
 
-	@Override
-	public DateTime getDate() {
-		return date;
-	}
+    @JsonCreator
+    public SequenceLogEntry(
+            @JsonProperty("randomState") final long randomState,
+            @JsonProperty("date") final DateTime date,
+            @JsonProperty("duration") final long duration,
+            @JsonProperty("cause") final String cause,
+            @JsonProperty("created") final int created,
+            @JsonProperty("destroyed") final int destroyed,
+            @JsonProperty("modified") final int modified) {
+        this.randomState = randomState;
+        this.date = date;
+        this.duration = duration;
+        this.cause = cause;
+        this.created = created;
+        this.destroyed = destroyed;
+        this.modified = modified;
+    }
 
-	public String getCause() {
-		return cause;
-	}
+    @Override
+    public DateTime getDate() {
+        return date;
+    }
 
-	public int getCreated() {
-		return created;
-	}
+    public String getCause() {
+        return cause;
+    }
 
-	public int getDestroyed() {
-		return destroyed;
-	}
+    public int getCreated() {
+        return created;
+    }
 
-	public int getModified() {
-		return modified;
-	}
+    public int getDestroyed() {
+        return destroyed;
+    }
 
-	public long getDuration() {
-		return duration;
-	}
-	
-	public long getRandomState() {
-		return randomState;
-	}
+    public int getModified() {
+        return modified;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    public long getRandomState() {
+        return randomState;
+    }
 }

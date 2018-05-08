@@ -16,32 +16,32 @@ import uk.org.cse.nhm.hom.emf.technologies.boilers.ICombiBoiler;
  * @generated
  */
 public abstract class CombiBoilerImpl extends BoilerImpl implements ICombiBoiler {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected CombiBoilerImpl() {
-		super();
-	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected EClass eStaticClass() {
-		return IBoilersPackage.Literals.COMBI_BOILER;
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc --> @generated
+     */
+    protected CombiBoilerImpl() {
+        super();
+    }
 
-	/**
-	 * Because in SAP table 4c (efficiency adjustments) combi water efficiency is not affected by presence
-	 * of interlock, we override the method from the basic boiler here.
-	 */
-	@Override
-	protected double getWaterHeatingEfficiency(final IConstants constants, final double qWater, final double qSpace) {
-		/*
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc --> @generated
+     */
+    @Override
+    protected EClass eStaticClass() {
+        return IBoilersPackage.Literals.COMBI_BOILER;
+    }
+
+    /**
+     * Because in SAP table 4c (efficiency adjustments) combi water efficiency
+     * is not affected by presence of interlock, we override the method from the
+     * basic boiler here.
+     */
+    @Override
+    protected double getWaterHeatingEfficiency(final IConstants constants, final double qWater, final double qSpace) {
+        /*
 		BEISDOC
 		NAME: Combi Boiler Water Heating Efficiency
 		DESCRIPTION: Because in SAP table 4c (efficiency adjustments) combi water efficiency is not affected by presence of interlock, we override the method from the basic boiler here.
@@ -52,8 +52,8 @@ public abstract class CombiBoilerImpl extends BoilerImpl implements ICombiBoiler
                 BREDEM_COMPLIANT: N/A - out of scope
 		ID: combi-boiler-hot-water-efficiency
 		CODSIEB
-		*/
+         */
 
-		return getSeasonalEfficiency(qWater, qSpace);
-	}
+        return getSeasonalEfficiency(qWater, qSpace);
+    }
 } //CombiBoilerImpl

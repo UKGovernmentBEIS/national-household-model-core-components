@@ -51,7 +51,7 @@ public class StoreyBuildStepTest extends Mockito {
                 __MISSING);
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({"rawtypes", "unchecked"})
     @Test
     public void testBuildBuildsForEachStoreyGivenToItFromADTOProvider() throws Exception {
         final SurveyCase model = mock(SurveyCase.class);
@@ -119,14 +119,14 @@ public class StoreyBuildStepTest extends Mockito {
      * so this method is just to replace the default nulls with default absent.
      */
     private void whenInsulation(final IElevationDTO dto) {
-    	when(dto.getCavityInsulation()).thenReturn(Optional.<Boolean>absent());
-    	when(dto.getInternalInsulation()).thenReturn(Optional.<Boolean>absent());
-    	when(dto.getExternalInsulation()).thenReturn(Optional.<Boolean>absent());
+        when(dto.getCavityInsulation()).thenReturn(Optional.<Boolean>absent());
+        when(dto.getInternalInsulation()).thenReturn(Optional.<Boolean>absent());
+        when(dto.getExternalInsulation()).thenReturn(Optional.<Boolean>absent());
     }
 
     @Test
     public void testInsulationIsAppliedToWallForElevation() throws Exception {
-    	final Storey storey = new Storey();
+        final Storey storey = new Storey();
         storey.setPerimeter(FloorPoylgonBuilder.createFloorPolygon(9.8, 6.3, 0.00, 0.00, __MISSING).toSillyPolygon());
 
         final Iterable<IMutableWall> walls = storey.getWalls();
@@ -136,14 +136,14 @@ public class StoreyBuildStepTest extends Mockito {
         whenInsulation(front);
         when(front.getElevationType()).thenReturn(ElevationType.FRONT);
         when(front.getInternalInsulation()).thenReturn(Optional.of(true));
-		when(front.getExternalWallConstructionType()).thenReturn(Optional.of(WallConstructionType.Cavity));
+        when(front.getExternalWallConstructionType()).thenReturn(Optional.of(WallConstructionType.Cavity));
         elevationDTOs.add(front);
 
         final IElevationDTO back = mock(IElevationDTO.class, "back");
         whenInsulation(back);
         when(back.getElevationType()).thenReturn(ElevationType.BACK);
         when(back.getExternalInsulation()).thenReturn(Optional.of(true));
-		when(back.getExternalWallConstructionType()).thenReturn(Optional.of(WallConstructionType.Cavity));
+        when(back.getExternalWallConstructionType()).thenReturn(Optional.of(WallConstructionType.Cavity));
         elevationDTOs.add(back);
 
         final IElevationDTO left = mock(IElevationDTO.class, "left");
@@ -157,29 +157,28 @@ public class StoreyBuildStepTest extends Mockito {
         whenInsulation(right);
         when(right.getElevationType()).thenReturn(ElevationType.RIGHT);
 
-		when(right.getExternalWallConstructionType()).thenReturn(Optional.of(WallConstructionType.Cavity));
+        when(right.getExternalWallConstructionType()).thenReturn(Optional.of(WallConstructionType.Cavity));
         elevationDTOs.add(right);
-
 
         step.buildExternalWallConstructionType(walls, elevationDTOs);
 
         for (final IMutableWall wall : storey.getWalls()) {
-        	switch (wall.getElevationType()) {
-			case BACK:
-				Assert.assertEquals(EnumSet.of(WallInsulationType.External), wall.getWallInsulationTypes());
-				break;
-			case FRONT:
-				Assert.assertEquals(EnumSet.of(WallInsulationType.Internal), wall.getWallInsulationTypes());
-				break;
-			case LEFT:
-				Assert.assertEquals(EnumSet.of(WallInsulationType.FilledCavity), wall.getWallInsulationTypes());
-				break;
-			case RIGHT:
-				Assert.assertEquals(EnumSet.noneOf(WallInsulationType.class), wall.getWallInsulationTypes());
-				break;
-			default:
-				break;
-        	}
+            switch (wall.getElevationType()) {
+                case BACK:
+                    Assert.assertEquals(EnumSet.of(WallInsulationType.External), wall.getWallInsulationTypes());
+                    break;
+                case FRONT:
+                    Assert.assertEquals(EnumSet.of(WallInsulationType.Internal), wall.getWallInsulationTypes());
+                    break;
+                case LEFT:
+                    Assert.assertEquals(EnumSet.of(WallInsulationType.FilledCavity), wall.getWallInsulationTypes());
+                    break;
+                case RIGHT:
+                    Assert.assertEquals(EnumSet.noneOf(WallInsulationType.class), wall.getWallInsulationTypes());
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -208,16 +207,16 @@ public class StoreyBuildStepTest extends Mockito {
         elevationDTOs.add(right);
 
         for (final IMutableWall wall : storey.getWalls()) {
-        	// Walls need to have a type for them to be split.
-        	wall.setWallConstructionType(WallConstructionType.Cavity);
+            // Walls need to have a type for them to be split.
+            wall.setWallConstructionType(WallConstructionType.Cavity);
         }
 
         step.buildAttachedWalls(storey.getWalls(), elevationDTOs);
 
         int numPartyWalls = 0;
         for (final IMutableWall wall : storey.getWalls()) {
-            if (wall.getWallConstructionType() != null &&
-                    wall.getWallConstructionType().getWallType() == WallType.Party) {
+            if (wall.getWallConstructionType() != null
+                    && wall.getWallConstructionType().getWallType() == WallType.Party) {
                 Assert.assertEquals("Incorrect party wall length", 3.15d * FloorPoylgonBuilder.SCALING_FACTOR,
                         wall.getLength(),
                         0);

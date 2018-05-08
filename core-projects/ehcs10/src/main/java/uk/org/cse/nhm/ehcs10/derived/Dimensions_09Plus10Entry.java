@@ -4,86 +4,86 @@ import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 
 public interface Dimensions_09Plus10Entry extends SurveyEntry {
-	@SavVariableMapping("FLMLOW")
-	public Integer getLowestFloorOfMainPart();
 
-	@SavVariableMapping("FLOORSTR")
-	public Integer getFloorAreaOccupiedByStairs();
+    @SavVariableMapping("FLMLOW")
+    public Integer getLowestFloorOfMainPart();
 
-	@SavVariableMapping("FLMHIGH")
-	public Integer getHighestFloorOfMainPart();
+    @SavVariableMapping("FLOORSTR")
+    public Integer getFloorAreaOccupiedByStairs();
 
-	@SavVariableMapping("NFLORA")
-	public Integer getNumberOfFloorsInTheAdditionalPart();
+    @SavVariableMapping("FLMHIGH")
+    public Integer getHighestFloorOfMainPart();
 
-	@SavVariableMapping("FLOORBAL")
-	public Integer getFloorAreaOccupiedByBalconies();
+    @SavVariableMapping("NFLORA")
+    public Integer getNumberOfFloorsInTheAdditionalPart();
 
-	@SavVariableMapping("FLAHIGH")
-	public Integer getHighestFloorOfAdditionalPart();
+    @SavVariableMapping("FLOORBAL")
+    public Integer getFloorAreaOccupiedByBalconies();
 
-	@SavVariableMapping("NFLORM")
-	public Integer getNumberOfFloorsInTheMainPart();
+    @SavVariableMapping("FLAHIGH")
+    public Integer getHighestFloorOfAdditionalPart();
 
-	@SavVariableMapping("FLOORGAR")
-	public Integer getFloorAreaOccupiedByGarages();
+    @SavVariableMapping("NFLORM")
+    public Integer getNumberOfFloorsInTheMainPart();
 
-	@SavVariableMapping("FLALOW")
-	public Integer getLowestFloorOfAdditionalPart();
+    @SavVariableMapping("FLOORGAR")
+    public Integer getFloorAreaOccupiedByGarages();
 
-	@SavVariableMapping("EFRFPAR")
-	public Double getExternalFrontRoofPlanArea();
+    @SavVariableMapping("FLALOW")
+    public Integer getLowestFloorOfAdditionalPart();
 
-	@SavVariableMapping("FLOORPAR")
-	public Double getFloorAreaOccupiedByPartitionWalls();
+    @SavVariableMapping("EFRFPAR")
+    public Double getExternalFrontRoofPlanArea();
 
-	@SavVariableMapping("EBRFPAR")
-	public Double getExternalBackRoofPlanArea();
+    @SavVariableMapping("FLOORPAR")
+    public Double getFloorAreaOccupiedByPartitionWalls();
 
-	@SavVariableMapping("EMEVEHT")
-	public Double getExternalMainEavesHeight();
+    @SavVariableMapping("EBRFPAR")
+    public Double getExternalBackRoofPlanArea();
 
-	@SavVariableMapping("EFRFSAR")
-	public Double getExternalFrontRoofSlopeArea();
+    @SavVariableMapping("EMEVEHT")
+    public Double getExternalMainEavesHeight();
 
-	@SavVariableMapping("EBWALAR")
-	public Double getExternalBackWallArea();
+    @SavVariableMapping("EFRFSAR")
+    public Double getExternalFrontRoofSlopeArea();
 
-	@SavVariableMapping("EFEVEPE")
-	public Double getExternalFrontEavesPerimeter();
+    @SavVariableMapping("EBWALAR")
+    public Double getExternalBackWallArea();
 
-	@SavVariableMapping("EBWINAR")
-	public Double getExternalBackWindowArea();
+    @SavVariableMapping("EFEVEPE")
+    public Double getExternalFrontEavesPerimeter();
 
-	@SavVariableMapping("EFWINAR")
-	public Double getExternalFrontWindowArea();
+    @SavVariableMapping("EBWINAR")
+    public Double getExternalBackWindowArea();
 
-	@SavVariableMapping("INTWALAR")
-	public Double getInternalWallArea();
+    @SavVariableMapping("EFWINAR")
+    public Double getExternalFrontWindowArea();
 
-	@SavVariableMapping("EAEVEHT")
-	public Double getExternalBackEavesHeight();
+    @SavVariableMapping("INTWALAR")
+    public Double getInternalWallArea();
 
-	@SavVariableMapping("EFDPCPE")
-	public Double getExternalFrontDPCPerimeter();
+    @SavVariableMapping("EAEVEHT")
+    public Double getExternalBackEavesHeight();
 
-	@SavVariableMapping("EFWALAR")
-	public Double getExternalFrontWallArea();
+    @SavVariableMapping("EFDPCPE")
+    public Double getExternalFrontDPCPerimeter();
 
-	@SavVariableMapping("EBEVEPE")
-	public Double getExternalBackEavesPerimeter();
+    @SavVariableMapping("EFWALAR")
+    public Double getExternalFrontWallArea();
 
-	@SavVariableMapping("FLOORARE")
-	public Double getTotalFloorArea();
+    @SavVariableMapping("EBEVEPE")
+    public Double getExternalBackEavesPerimeter();
 
-	@SavVariableMapping("EBDPCPE")
-	public Double getExternalBackDPCPerimeter();
+    @SavVariableMapping("FLOORARE")
+    public Double getTotalFloorArea();
 
-	@SavVariableMapping("V3_A")
-	public Double getTotalFloorArea_50_ExternalWall();
+    @SavVariableMapping("EBDPCPE")
+    public Double getExternalBackDPCPerimeter();
 
-	@SavVariableMapping("EBRFSAR")
-	public Double getExternalBackroofSlopeArea();
+    @SavVariableMapping("V3_A")
+    public Double getTotalFloorArea_50_ExternalWall();
+
+    @SavVariableMapping("EBRFSAR")
+    public Double getExternalBackroofSlopeArea();
 
 }
-

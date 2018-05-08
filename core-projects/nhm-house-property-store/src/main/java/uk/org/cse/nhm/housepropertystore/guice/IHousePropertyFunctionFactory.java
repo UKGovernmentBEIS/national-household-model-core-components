@@ -8,10 +8,11 @@ import uk.org.cse.nhm.housepropertystore.HousePropertyFunction;
 import uk.org.cse.nhm.housepropertystore.HousePropertyNumber;
 
 public interface IHousePropertyFunctionFactory {
-	public HousePropertyFunction createFunction(final String variable, final Predicate<String> test);
 
-	public HousePropertyNumber createNumber(
-			@Assisted String name);
+    public HousePropertyFunction createFunction(final String variable, final Predicate<String> test);
 
-	public HouseProperty createCategory(String name);
+    public HousePropertyNumber createNumber(
+            @Assisted String name);
+
+    public HouseProperty createCategory(String name);
 }

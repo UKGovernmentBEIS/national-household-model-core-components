@@ -20,8 +20,7 @@ public enum BREDEMSection {
     ExternalTemperatureAndSolarRadiation("Appendix A"),
     EfficiencyAndRepsonsiveness("Appendix B"),
     ThermalBridgingValues("Appendix C"),
-    ThermalMassOfBuildingElements("Appendix D")
-    ;
+    ThermalMassOfBuildingElements("Appendix D");
 
     private final String id;
 

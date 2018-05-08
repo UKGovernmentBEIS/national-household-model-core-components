@@ -13,160 +13,160 @@ import uk.org.cse.stockimport.domain.types.DTOFloorConstructionType;
 
 /**
  * IHouseCaseDTO.
- * 
+ *
  * @author richardt
  * @version $Id: IHouseCaseDTO.java 94 2010-09-30 15:39:21Z richardt
  * @since 0.0.1-SNAPSHOT
- * 
+ *
  */
 @DTO(value = "cases", required = true, description = "This data file holds what we consider headline information for a survey case, this file needs to present for in every import package as it is the first one processed by the system and thus provides the dictionary of all house cases and AACODES (Unique reference) which should be imported into the housing stock.")
 public interface IHouseCaseDTO extends IBasicDTO {
-	public static final String FRONT_PLOT_WIDTH = "frontPlotWidth";
-	public static final String BACK_PLOT_DEPTH = "backPlotDepth";
-	public static final String FRONT_PLOT_DEPTH = "frontPlotDepth";
-	public static final String NUM_OF_BEDROOMS = "numOfBedrooms";
-	public static final String HAS_LOFT = "hasLoft";
-	public static final String PARTLY_OWNS_ROOF = "partlyOwnsRoof";
-	public static final String HAS_ACCESS_TO_OUTSIDE_SPACE = "hasAccessToOutsideSpace";
-	public static final String ON_GAS_GRID = "onGasGrid";
-	public static final String MORPHOLOGY_TYPE = "morphologyType";
-	public static final String BACK_PLOT_WIDTH = "backPlotWidth";
-	public static final String BUILD_YEAR = "buildYear";
-	public static final String HAS_DRAFT_LOBBY = "hasDraftLobby";
-	public static final String NUM_OF_HABITAL_ROOMS = "numOfHabitalRooms";
-	public static final String LIVING_AREA_FACTION = "livingAreaFaction";
-	public static final String GRND_FLOOR_TYPE = "grndFloorType";
-	public static final String CHILDREN = "children";
-	public static final String ADULTS = "adults";
-	public static final String BUILT_FORM_TYPE = "builtFormType";
-	public static final String TENURE_TYPE = "tenureType";
-	public static final String REGION_TYPE = "regionType";
-	public static final String DWELLING_CASE_WEIGHT = "dwellingCaseWeight";
-	public static final String HOUSEHOLD_CASE_WEIGHT = "householdCaseWeight";
+
+    public static final String FRONT_PLOT_WIDTH = "frontPlotWidth";
+    public static final String BACK_PLOT_DEPTH = "backPlotDepth";
+    public static final String FRONT_PLOT_DEPTH = "frontPlotDepth";
+    public static final String NUM_OF_BEDROOMS = "numOfBedrooms";
+    public static final String HAS_LOFT = "hasLoft";
+    public static final String PARTLY_OWNS_ROOF = "partlyOwnsRoof";
+    public static final String HAS_ACCESS_TO_OUTSIDE_SPACE = "hasAccessToOutsideSpace";
+    public static final String ON_GAS_GRID = "onGasGrid";
+    public static final String MORPHOLOGY_TYPE = "morphologyType";
+    public static final String BACK_PLOT_WIDTH = "backPlotWidth";
+    public static final String BUILD_YEAR = "buildYear";
+    public static final String HAS_DRAFT_LOBBY = "hasDraftLobby";
+    public static final String NUM_OF_HABITAL_ROOMS = "numOfHabitalRooms";
+    public static final String LIVING_AREA_FACTION = "livingAreaFaction";
+    public static final String GRND_FLOOR_TYPE = "grndFloorType";
+    public static final String CHILDREN = "children";
+    public static final String ADULTS = "adults";
+    public static final String BUILT_FORM_TYPE = "builtFormType";
+    public static final String TENURE_TYPE = "tenureType";
+    public static final String REGION_TYPE = "regionType";
+    public static final String DWELLING_CASE_WEIGHT = "dwellingCaseWeight";
+    public static final String HOUSEHOLD_CASE_WEIGHT = "householdCaseWeight";
     public static final String MAIN_FLOOR_LEVEL = "mainFloorLevel";
 
     @DTOField(value = MAIN_FLOOR_LEVEL,
-              constraint = @Constraint(value = Constraint.Type.OPTIONAL,
-                                       missing = "0"))
+            constraint = @Constraint(value = Constraint.Type.OPTIONAL,
+                    missing = "0"))
     public int getMainFloorLevel();
+
     public void setMainFloorLevel(final int mainFloorLevel);
-    
-	@DTOField(HOUSEHOLD_CASE_WEIGHT)
-	public double getHouseholdCaseWeight();
 
-	public void setHouseholdCaseWeight(final double householdCaseWeight);
+    @DTOField(HOUSEHOLD_CASE_WEIGHT)
+    public double getHouseholdCaseWeight();
 
-	@DTOField(DWELLING_CASE_WEIGHT)
-	public double getDwellingCaseWeight();
+    public void setHouseholdCaseWeight(final double householdCaseWeight);
 
-	public void setDwellingCaseWeight(final double dwellingCaseWeight);
+    @DTOField(DWELLING_CASE_WEIGHT)
+    public double getDwellingCaseWeight();
 
-	@DTOField(REGION_TYPE)
-	public RegionType getRegionType();
+    public void setDwellingCaseWeight(final double dwellingCaseWeight);
 
-	public void setRegionType(final RegionType regionType);
+    @DTOField(REGION_TYPE)
+    public RegionType getRegionType();
 
-	@DTOField(TENURE_TYPE)
-	public TenureType getTenureType();
+    public void setRegionType(final RegionType regionType);
 
-	public void setTenureType(final TenureType tenureType);
+    @DTOField(TENURE_TYPE)
+    public TenureType getTenureType();
 
-	@DTOField(BUILT_FORM_TYPE)
-	public BuiltFormType getBuiltFormType();
+    public void setTenureType(final TenureType tenureType);
 
-	public void setBuiltFormType(final BuiltFormType builtFormType);
+    @DTOField(BUILT_FORM_TYPE)
+    public BuiltFormType getBuiltFormType();
 
-	@DTOField(ADULTS)
-	public Optional<Integer> getAdultOccupants();
+    public void setBuiltFormType(final BuiltFormType builtFormType);
 
-	public void setAdultOccupants(final Optional<Integer> adultOccupants);
+    @DTOField(ADULTS)
+    public Optional<Integer> getAdultOccupants();
 
-	@DTOField(CHILDREN)
-	public Optional<Integer> getChildOccupants();
+    public void setAdultOccupants(final Optional<Integer> adultOccupants);
 
-	public void setChildOccupants(final Optional<Integer> childOccupants);
+    @DTOField(CHILDREN)
+    public Optional<Integer> getChildOccupants();
 
-	@DTOField(GRND_FLOOR_TYPE)
-	public DTOFloorConstructionType getFloorConstructionType();
+    public void setChildOccupants(final Optional<Integer> childOccupants);
 
-	public void setFloorConstructionType(
-			final DTOFloorConstructionType floorConstructionType);
+    @DTOField(GRND_FLOOR_TYPE)
+    public DTOFloorConstructionType getFloorConstructionType();
 
-	@DTOField(LIVING_AREA_FACTION)
-	public double getLivingAreaFaction();
+    public void setFloorConstructionType(
+            final DTOFloorConstructionType floorConstructionType);
 
-	public void setLivingAreaFaction(final double livingAreaFaction);
+    @DTOField(LIVING_AREA_FACTION)
+    public double getLivingAreaFaction();
 
-	@DTOField(NUM_OF_HABITAL_ROOMS)
-	public int getNumOfHabitalRooms();
+    public void setLivingAreaFaction(final double livingAreaFaction);
 
-	public void setNumOfHabitalRooms(final int numOfHabitalRooms);
+    @DTOField(NUM_OF_HABITAL_ROOMS)
+    public int getNumOfHabitalRooms();
 
-	@DTOField(HAS_DRAFT_LOBBY)
-	public boolean isHasDraftLoby();
+    public void setNumOfHabitalRooms(final int numOfHabitalRooms);
 
-	public void setHasDraftLoby(final boolean hasDraftLoby);
+    @DTOField(HAS_DRAFT_LOBBY)
+    public boolean isHasDraftLoby();
 
-	@DTOField(MORPHOLOGY_TYPE)
-	public MorphologyType getMorphologyType();
+    public void setHasDraftLoby(final boolean hasDraftLoby);
 
-	public void setMorphologyType(final MorphologyType morphologyType);
+    @DTOField(MORPHOLOGY_TYPE)
+    public MorphologyType getMorphologyType();
 
-	@DTOField(ON_GAS_GRID)
-	public boolean isOnGasGrid();
+    public void setMorphologyType(final MorphologyType morphologyType);
 
-	public void setOnGasGrid(final boolean onGasGrid);
+    @DTOField(ON_GAS_GRID)
+    public boolean isOnGasGrid();
 
-	@DTOField(HAS_ACCESS_TO_OUTSIDE_SPACE)
-	public boolean isHasAccessToOutsideSpace();
+    public void setOnGasGrid(final boolean onGasGrid);
 
-	public void setHasAccessToOutsideSpace(final boolean hasAccessToOutsideSpace);
+    @DTOField(HAS_ACCESS_TO_OUTSIDE_SPACE)
+    public boolean isHasAccessToOutsideSpace();
 
-	@DTOField(PARTLY_OWNS_ROOF)
-	public boolean isOwnsPartOfRoof();
+    public void setHasAccessToOutsideSpace(final boolean hasAccessToOutsideSpace);
 
-	public void setOwnsPartOfRoof(final boolean ownsPartOfRoof);
+    @DTOField(PARTLY_OWNS_ROOF)
+    public boolean isOwnsPartOfRoof();
 
-	@DTOField(HAS_LOFT)
-	public boolean isHasLoft();
+    public void setOwnsPartOfRoof(final boolean ownsPartOfRoof);
 
-	public void setHasLoft(final boolean hasLoft);
+    @DTOField(HAS_LOFT)
+    public boolean isHasLoft();
 
-	@DTOField(NUM_OF_BEDROOMS)
-	public int getNumberOfBedrooms();
+    public void setHasLoft(final boolean hasLoft);
 
-	public void setNumberOfBedrooms(final int numberOfBedrooms);
+    @DTOField(NUM_OF_BEDROOMS)
+    public int getNumberOfBedrooms();
 
-	@DTOField(FRONT_PLOT_DEPTH)
-	public double getFrontPlotDepth();
+    public void setNumberOfBedrooms(final int numberOfBedrooms);
 
-	public void setFrontPlotDepth(final double frontPlotDepth);
+    @DTOField(FRONT_PLOT_DEPTH)
+    public double getFrontPlotDepth();
 
-	@DTOField(FRONT_PLOT_WIDTH)
-	public double getFrontPlotWidth();
+    public void setFrontPlotDepth(final double frontPlotDepth);
 
-	public void setFrontPlotWidth(final double frontPlotWidth);
+    @DTOField(FRONT_PLOT_WIDTH)
+    public double getFrontPlotWidth();
 
-	@DTOField(BACK_PLOT_DEPTH)
-	public double getBackPlotDepth();
+    public void setFrontPlotWidth(final double frontPlotWidth);
 
-	public void setBackPlotDepth(final double backPlotDepth);
+    @DTOField(BACK_PLOT_DEPTH)
+    public double getBackPlotDepth();
 
-	@DTOField(BACK_PLOT_WIDTH)
-	public double getBackPlotWidth();
+    public void setBackPlotDepth(final double backPlotDepth);
 
-	public void setBackPlotWidth(final double backPlotWidth);
+    @DTOField(BACK_PLOT_WIDTH)
+    public double getBackPlotWidth();
 
-	@DTOField(BUILD_YEAR)
-	public int getBuildYear();
+    public void setBackPlotWidth(final double backPlotWidth);
 
-	public void setBuildYear(final int buildYear);
-	
-	
-	// WAT
+    @DTOField(BUILD_YEAR)
+    public int getBuildYear();
 
-	public double getArea();
+    public void setBuildYear(final int buildYear);
 
-	public void setArea(final double area);
+    // WAT
+    public double getArea();
+
+    public void setArea(final double area);
 
 }

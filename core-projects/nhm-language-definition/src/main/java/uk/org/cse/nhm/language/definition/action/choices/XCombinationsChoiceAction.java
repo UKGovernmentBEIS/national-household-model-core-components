@@ -30,13 +30,15 @@ import uk.org.cse.nhm.language.definition.sequence.IScopingElement;
 @Bind("combination.choice")
 @Doc("An action tries combinations of one action from each group of actions and choices whichever matches the select rule")
 public class XCombinationsChoiceAction extends XFlaggedDwellingAction implements IScopingElement {
+
     public static final String CATEGORY = "Choices and packages";
 
     public static final class P {
+
         public static final String SELECTOR = "selector";
         public static final String DELEGATES = "delegates";
     }
-    
+
     private XChoiceSelector selector;
     private List<List<XDwellingAction>> delegates = new ArrayList<List<XDwellingAction>>();
 
@@ -52,11 +54,11 @@ public class XCombinationsChoiceAction extends XFlaggedDwellingAction implements
     public void setDelegates(final List<List<XDwellingAction>> delegates) {
         this.delegates = delegates;
     }
-    
+
     public Iterable<XDwellingAction> getAllChildren() {
         return Iterables.concat(delegates);
     }
-    
+
     @NotNull(message = "choice element must always contain a selector.")
     @BindNamedArgument("select")
     @Prop(P.SELECTOR)
@@ -64,7 +66,7 @@ public class XCombinationsChoiceAction extends XFlaggedDwellingAction implements
     public XChoiceSelector getSelector() {
         return selector;
     }
-    
+
     public void setSelector(final XChoiceSelector selector) {
         this.selector = selector;
     }

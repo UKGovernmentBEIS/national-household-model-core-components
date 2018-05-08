@@ -13,7 +13,9 @@ import uk.org.cse.nhm.language.definition.function.XCategoryFunction;
 @Doc("The SAP age band of the house, derived from its build year.")
 @ReturnsEnum(SAPAgeBandValue.Band.class)
 public class XSAPAgeBand extends XCategoryFunction {
+
     public static class P {
+
         public static final String year = "year";
     }
 
@@ -25,7 +27,7 @@ public class XSAPAgeBand extends XCategoryFunction {
     public int getYear() {
         return year;
     }
-    
+
     public void setYear(int year) {
         this.year = year;
     }

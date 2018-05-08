@@ -22,36 +22,37 @@ import uk.org.cse.nhm.language.sexp.IScenarioParser.IResult;
 import uk.org.cse.nhm.language.visit.impl.AdapterInstaller;
 
 public class BatchExpander {
-	private final IScenarioParser<XBatch> parser;
 
-	public BatchExpander(final IScenarioParser<XBatch> parser) {
-		this.parser = parser;
-	}
-	
-	public Batch expandAll(final IScenarioSnapshot source) {
-		final IResult<XBatch> parsed = parser.parse(source);
-		if (!parsed.getOutput().isPresent()) {
-			return new Batch(parsed.getErrors(), new IBatchInputs() {
-				
-				@Override
-				public Iterator<List<Object>> iterator() {
-					return Collections.<List<Object>>emptyList().iterator();
-				}
-				
-				@Override
-				public List<String> getPlaceholders() {
-					return null;
-				}
-				
-				@Override
-				public Optional<Integer> getBound() {
-					return Optional.of(0);
-				}
-			}, 
-			null);
-		}
-		return expandXBatch(parsed);
-	}
+    private final IScenarioParser<XBatch> parser;
+
+    public BatchExpander(final IScenarioParser<XBatch> parser) {
+        this.parser = parser;
+    }
+
+    public Batch expandAll(final IScenarioSnapshot source) {
+        final IResult<XBatch> parsed = parser.parse(source);
+        if (!parsed.getOutput().isPresent()) {
+            return new Batch(parsed.getErrors(), new IBatchInputs() {
+
+                @Override
+                public Iterator<List<Object>> iterator() {
+                    return Collections.<List<Object>>emptyList().iterator();
+                }
+
+                @Override
+                public List<String> getPlaceholders() {
+                    return null;
+                }
+
+                @Override
+                public Optional<Integer> getBound() {
+                    return Optional.of(0);
+                }
+            },
+                    null);
+        }
+        return expandXBatch(parsed);
+    }
 
     public Batch expandXBatch(final IResult<XBatch> parsed) {
         return expandXBatch(parsed.getOutput().get(), parsed.getErrors());

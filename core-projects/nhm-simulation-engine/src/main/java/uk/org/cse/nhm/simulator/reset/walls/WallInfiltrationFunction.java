@@ -8,21 +8,21 @@ import uk.org.cse.nhm.ipc.api.tasks.report.ILogEntryHandler;
 import uk.org.cse.nhm.simulator.reset.AbstractScopedThingFunction;
 import uk.org.cse.nhm.simulator.state.IDimension;
 
-
 public class WallInfiltrationFunction extends AbstractScopedThingFunction<Double, IWall> {
-	@AssistedInject
-	WallInfiltrationFunction(final ILogEntryHandler log,
-							 final IDimension<StructureModel> structureDimension) {
-		super(ResetWallsAction.CURRENT_WALL_LET_IDENTITY, IWall.class, log, structureDimension);
-	}
 
-	@Override
-	protected Double doFail() {
-		return 0d;
-	}
+    @AssistedInject
+    WallInfiltrationFunction(final ILogEntryHandler log,
+            final IDimension<StructureModel> structureDimension) {
+        super(ResetWallsAction.CURRENT_WALL_LET_IDENTITY, IWall.class, log, structureDimension);
+    }
 
-	@Override
-	protected Double doCompute(final IWall wall) {
-		return wall.getAirChangeRate();
-	}
+    @Override
+    protected Double doFail() {
+        return 0d;
+    }
+
+    @Override
+    protected Double doCompute(final IWall wall) {
+        return wall.getAirChangeRate();
+    }
 }

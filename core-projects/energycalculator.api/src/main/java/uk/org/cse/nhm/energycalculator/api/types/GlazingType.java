@@ -2,8 +2,9 @@ package uk.org.cse.nhm.energycalculator.api.types;
 
 /**
  * GlazingType.
- * 
- * Do not reorder these enum values; they are used as indices into arrays elsewhere.
+ *
+ * Do not reorder these enum values; they are used as indices into arrays
+ * elsewhere.
  *
  * @author richardt
  * @version $Id: GlazingType.java 94 2010-09-30 15:39:21Z richardt

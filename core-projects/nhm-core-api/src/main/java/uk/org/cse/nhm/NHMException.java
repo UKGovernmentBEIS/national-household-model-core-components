@@ -8,6 +8,7 @@ import com.larkery.jasb.sexp.Location;
 import uk.org.cse.commons.names.Name;
 
 public class NHMException extends RuntimeException {
+
     private static final long serialVersionUID = 1L;
     private final List<Name> names;
 
@@ -15,7 +16,7 @@ public class NHMException extends RuntimeException {
         super(message);
         this.names = ImmutableList.copyOf(names);
     }
-    
+
     public String getModelStackTrace() {
         final StringBuffer sb = new StringBuffer();
         for (final Name name : names) {
@@ -28,16 +29,16 @@ public class NHMException extends RuntimeException {
                     final Location.Via via = loc.via.get();
                     loc = via.location;
                     switch (via.type) {
-                    default:
-                    case Normal:
-                        how = "defined at";
-                        break;
-                    case Include:
-                        how = "from include";
-                        break;
-                    case Template:
-                        how = "in template";
-                        break;
+                        default:
+                        case Normal:
+                            how = "defined at";
+                            break;
+                        case Include:
+                            how = "from include";
+                            break;
+                        case Template:
+                            how = "in template";
+                            break;
                     }
                 } else {
                     loc = null;
@@ -47,4 +48,3 @@ public class NHMException extends RuntimeException {
         return sb.toString();
     }
 }
-

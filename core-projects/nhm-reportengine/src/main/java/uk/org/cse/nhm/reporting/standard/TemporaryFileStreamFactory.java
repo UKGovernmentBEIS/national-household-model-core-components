@@ -33,233 +33,241 @@ import uk.org.cse.nhm.reporting.standard.IReporterFactory.IReportDescriptor;
 import uk.org.cse.nhm.reporting.standard.libraries.ILibrariesOutput;
 
 public class TemporaryFileStreamFactory implements IOutputStreamFactory, Closeable {
-	private final Path temporary;
-	private final Map<Path, TrackedStream> streams = new HashMap<>();
-	private final Map<Path, IReportDescriptor> descriptors = new HashMap<>();
 
-	private static final Logger log = LoggerFactory.getLogger(TemporaryFileStreamFactory.class);
-	
-	public TemporaryFileStreamFactory() {
-		try {
-			temporary = createNewTemporaryDirectory();
-			log.debug("Creating report in {}", temporary);
-		} catch (final IOException e) {
-			throw new RuntimeException(
-					"Unable to create temporary directory for report construction",
-					e);
-		}
-	}
-	
-	/**
-	 * A helper which tracks bytes written and whether the delegate stream has been closed.
-	 *
-	 */
-	static class TrackedStream extends FilterOutputStream {
-		private long count;
-		private boolean closed = false;
+    private final Path temporary;
+    private final Map<Path, TrackedStream> streams = new HashMap<>();
+    private final Map<Path, IReportDescriptor> descriptors = new HashMap<>();
 
-		/**
-		 * Wraps another output stream, counting the number of bytes written.
-		 * 
-		 * @param out
-		 *            the output stream to be wrapped
-		 */
-		public TrackedStream(@Nullable final OutputStream out) {
-			super(out);
-		}
+    private static final Logger log = LoggerFactory.getLogger(TemporaryFileStreamFactory.class);
 
-		/** Returns the number of bytes written. */
-		public long getCount() {
-			return count;
-		}
+    public TemporaryFileStreamFactory() {
+        try {
+            temporary = createNewTemporaryDirectory();
+            log.debug("Creating report in {}", temporary);
+        } catch (final IOException e) {
+            throw new RuntimeException(
+                    "Unable to create temporary directory for report construction",
+                    e);
+        }
+    }
 
-		@Override
-		public void write(final byte[] b, final int off, final int len) throws IOException {
-			out.write(b, off, len);
-			count += len;
-		}
+    /**
+     * A helper which tracks bytes written and whether the delegate stream has
+     * been closed.
+     *
+     */
+    static class TrackedStream extends FilterOutputStream {
 
-		@Override
-		public void write(final int b) throws IOException {
-			out.write(b);
-			count++;
-		}
-		
-		@Override
-		public void close() throws IOException {
-			closed = true;
-			super.close();
-		}
+        private long count;
+        private boolean closed = false;
 
-		public boolean isClosed() {
-			return closed;
-		}
-	}
+        /**
+         * Wraps another output stream, counting the number of bytes written.
+         *
+         * @param out the output stream to be wrapped
+         */
+        public TrackedStream(@Nullable final OutputStream out) {
+            super(out);
+        }
 
-	protected Path createNewTemporaryDirectory() throws IOException {
-		return Files.createTempDirectory("nhm-report");
-	}
-	
-	protected Path getTemporaryDirectory() {
-		return temporary;
-	}
-	
-	@Override
-	public OutputStream createReportFile(final String name, final Optional<IReportDescriptor> descriptor) {
-		final Path outputFile = temporary.resolve(removeInvalidCharacters(name));
+        /**
+         * Returns the number of bytes written.
+         */
+        public long getCount() {
+            return count;
+        }
 
-		if (streams.containsKey(outputFile))
-			throw new IllegalArgumentException("The report output " + name
-					+ " has already been created by another reporter");
+        @Override
+        public void write(final byte[] b, final int off, final int len) throws IOException {
+            out.write(b, off, len);
+            count += len;
+        }
 
-		if (descriptor.isPresent()) {
-			descriptors.put(outputFile, descriptor.get());
-		}
+        @Override
+        public void write(final int b) throws IOException {
+            out.write(b);
+            count++;
+        }
 
-		try {
-			mkdirs(outputFile);
-			streams.put(outputFile, createStream(outputFile));
-		} catch (final IOException e) {
-			throw new RuntimeException("IO Exception creating report output "
-					+ name, e);
-		}
+        @Override
+        public void close() throws IOException {
+            closed = true;
+            super.close();
+        }
 
-		return streams.get(outputFile);
-	}
+        public boolean isClosed() {
+            return closed;
+        }
+    }
 
-	private static String removeInvalidCharacters(final String name) {
-		return name.replaceAll("[<>:\"\\|\\?\\*]", "-");
-	}
+    protected Path createNewTemporaryDirectory() throws IOException {
+        return Files.createTempDirectory("nhm-report");
+    }
 
-	private TrackedStream createStream(final Path outputFile) throws IOException {
-		log.debug("Creating stream for {}", outputFile);
-		return new TrackedStream(Files.newOutputStream(outputFile));
-	}
+    protected Path getTemporaryDirectory() {
+        return temporary;
+    }
 
-	private void mkdirs(final Path outputFile) throws IOException {
-		if (!Files.exists(outputFile)) {
-			Files.createDirectories(outputFile.getParent());
-		}
-	}
+    @Override
+    public OutputStream createReportFile(final String name, final Optional<IReportDescriptor> descriptor) {
+        final Path outputFile = temporary.resolve(removeInvalidCharacters(name));
 
-	private void eraseTemporaryFiles() {
-		final SimpleFileVisitor<Path> deleter = new SimpleFileVisitor<Path>() {
-			@Override
-			public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs) throws IOException {
-				log.debug("delete {}", file);
-				Files.delete(file);
-				return FileVisitResult.CONTINUE;
-			}
-			
-			@Override
-			public FileVisitResult postVisitDirectory(final Path dir,final IOException exc) throws IOException {
-				if (exc != null) throw exc;
-				log.debug("delete {}", dir);
-				try {
-					Files.delete(dir);
-				} catch (final IOException ex) {
-					log.debug("Could not delete temporary directory {}", dir);
-				}
-				return FileVisitResult.CONTINUE;
-			}
-		};
-		
-		log.debug("erasing {}", temporary);
-		
-		try {
-			Files.walkFileTree(temporary, EnumSet.noneOf(FileVisitOption.class), Integer.MAX_VALUE, deleter);
-		} catch (final IOException e) {
-			//log.error("unable to clean up temp dir {}", temporary, e);
-		}
-	}
+        if (streams.containsKey(outputFile)) {
+            throw new IllegalArgumentException("The report output " + name
+                    + " has already been created by another reporter");
+        }
 
-	@Override
-	public void close() throws IOException {
-		eraseTemporaryFiles();
-	}
+        if (descriptor.isPresent()) {
+            descriptors.put(outputFile, descriptor.get());
+        }
 
-	protected List<CompletedOutput> getOutputs() throws IOException {
-		final ArrayList<CompletedOutput> result = new ArrayList<>();
+        try {
+            mkdirs(outputFile);
+            streams.put(outputFile, createStream(outputFile));
+        } catch (final IOException e) {
+            throw new RuntimeException("IO Exception creating report output "
+                    + name, e);
+        }
 
-		for (final Map.Entry<Path, TrackedStream> entry : streams
-				.entrySet()) {
-			
-			if (!entry.getValue().isClosed()) {
-				throw new IOException(
-						String.format("The report outputstream at %s has not been closed, but the report is being built", entry.getKey()));
-			}
-			
-			final IReportDescriptor descriptor = descriptors.get(entry.getKey());
-			final Set<ILibrariesOutput> libraries;
-			if (descriptor == null) {
-				libraries = Collections.emptySet();
-			} else {
-				libraries = descriptor.getLibraries();
-			}
-			
-			final Path path = entry.getKey();
-			
-			result.add(new CompletedOutput(
-						path,
-						temporary.relativize(path).toString().replace('\\', '/'),
-						descriptor,
-						entry.getValue().getCount(),
-						libraries
-					));
-		}
+        return streams.get(outputFile);
+    }
 
-		return result;
-	}
+    private static String removeInvalidCharacters(final String name) {
+        return name.replaceAll("[<>:\"\\|\\?\\*]", "-");
+    }
 
-	public static class CompletedOutput {
-		public final Path path;
-		public final String name;
-		public final IReportDescriptor descriptor;
-		public final long size;
-		public final Set<ILibrariesOutput> dependencies;
+    private TrackedStream createStream(final Path outputFile) throws IOException {
+        log.debug("Creating stream for {}", outputFile);
+        return new TrackedStream(Files.newOutputStream(outputFile));
+    }
 
-		public CompletedOutput(final Path path, final String name,
-				final IReportDescriptor descriptor, final long size,
-				final Set<ILibrariesOutput> dependencies) {
-			super();
-			this.path = path;
-			this.name = name;
-			this.descriptor = descriptor;
-			this.size = size;
-			this.dependencies = ImmutableSet.copyOf(dependencies);
-		}
+    private void mkdirs(final Path outputFile) throws IOException {
+        if (!Files.exists(outputFile)) {
+            Files.createDirectories(outputFile.getParent());
+        }
+    }
 
-		public Path getPath() {
-			return path;
-		}
+    private void eraseTemporaryFiles() {
+        final SimpleFileVisitor<Path> deleter = new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs) throws IOException {
+                log.debug("delete {}", file);
+                Files.delete(file);
+                return FileVisitResult.CONTINUE;
+            }
 
-		public String getName() {
-			return name;
-		}
+            @Override
+            public FileVisitResult postVisitDirectory(final Path dir, final IOException exc) throws IOException {
+                if (exc != null) {
+                    throw exc;
+                }
+                log.debug("delete {}", dir);
+                try {
+                    Files.delete(dir);
+                } catch (final IOException ex) {
+                    log.debug("Could not delete temporary directory {}", dir);
+                }
+                return FileVisitResult.CONTINUE;
+            }
+        };
 
-		public IReportDescriptor getDescriptor() {
-			return descriptor;
-		}
+        log.debug("erasing {}", temporary);
 
-		public long getSize() {
-			return size;
-		}
+        try {
+            Files.walkFileTree(temporary, EnumSet.noneOf(FileVisitOption.class), Integer.MAX_VALUE, deleter);
+        } catch (final IOException e) {
+            //log.error("unable to clean up temp dir {}", temporary, e);
+        }
+    }
 
-		public Set<ILibrariesOutput> getDependencies() {
-			return dependencies;
-		}
-		
-		public Set<ILibrariesOutput> getDependencyClosure() {
-			final HashSet<ILibrariesOutput> sum = new HashSet<>();
-			for (final ILibrariesOutput d : dependencies) {
-				sum.add(d);
-				sum.addAll(d.getDependencies());
-			}
-			return sum;
-		}
-		
-		public String getHumanReadableSize() {
-			return FileUtils.byteCountToDisplaySize(size);
-		}
-	}
+    @Override
+    public void close() throws IOException {
+        eraseTemporaryFiles();
+    }
+
+    protected List<CompletedOutput> getOutputs() throws IOException {
+        final ArrayList<CompletedOutput> result = new ArrayList<>();
+
+        for (final Map.Entry<Path, TrackedStream> entry : streams
+                .entrySet()) {
+
+            if (!entry.getValue().isClosed()) {
+                throw new IOException(
+                        String.format("The report outputstream at %s has not been closed, but the report is being built", entry.getKey()));
+            }
+
+            final IReportDescriptor descriptor = descriptors.get(entry.getKey());
+            final Set<ILibrariesOutput> libraries;
+            if (descriptor == null) {
+                libraries = Collections.emptySet();
+            } else {
+                libraries = descriptor.getLibraries();
+            }
+
+            final Path path = entry.getKey();
+
+            result.add(new CompletedOutput(
+                    path,
+                    temporary.relativize(path).toString().replace('\\', '/'),
+                    descriptor,
+                    entry.getValue().getCount(),
+                    libraries
+            ));
+        }
+
+        return result;
+    }
+
+    public static class CompletedOutput {
+
+        public final Path path;
+        public final String name;
+        public final IReportDescriptor descriptor;
+        public final long size;
+        public final Set<ILibrariesOutput> dependencies;
+
+        public CompletedOutput(final Path path, final String name,
+                final IReportDescriptor descriptor, final long size,
+                final Set<ILibrariesOutput> dependencies) {
+            super();
+            this.path = path;
+            this.name = name;
+            this.descriptor = descriptor;
+            this.size = size;
+            this.dependencies = ImmutableSet.copyOf(dependencies);
+        }
+
+        public Path getPath() {
+            return path;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public IReportDescriptor getDescriptor() {
+            return descriptor;
+        }
+
+        public long getSize() {
+            return size;
+        }
+
+        public Set<ILibrariesOutput> getDependencies() {
+            return dependencies;
+        }
+
+        public Set<ILibrariesOutput> getDependencyClosure() {
+            final HashSet<ILibrariesOutput> sum = new HashSet<>();
+            for (final ILibrariesOutput d : dependencies) {
+                sum.add(d);
+                sum.addAll(d.getDependencies());
+            }
+            return sum;
+        }
+
+        public String getHumanReadableSize() {
+            return FileUtils.byteCountToDisplaySize(size);
+        }
+    }
 }

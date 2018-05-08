@@ -12,20 +12,21 @@ import javax.validation.Payload;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 /**
- * Applied to enums, this takes a list of enum names written as strings.
- * Only enum names that are specified are allowed when in batch mode.
- * 
+ * Applied to enums, this takes a list of enum names written as strings. Only
+ * enum names that are specified are allowed when in batch mode.
+ *
  * @author hinton
  *
  */
 public @interface BatchRestricted {
-	public Class<?>[] value() default {};
-	
-	String message() default "{uk.org.cse.nhm.language.validate.BatchRestricted.nope}";
 
-	Class<?>[] groups() default { };
+    public Class<?>[] value() default {};
 
-	Class<? extends Payload>[] payload() default {};
-	
-	String attribute();
+    String message() default "{uk.org.cse.nhm.language.validate.BatchRestricted.nope}";
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
+
+    String attribute();
 }

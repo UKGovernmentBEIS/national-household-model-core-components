@@ -45,7 +45,7 @@ public class LightingBuildStepTest extends Mockito {
 
     /**
      * TODO.
-     * 
+     *
      * @throws java.lang.Exception
      * @since 0.0.1-SNAPSHOT
      */
@@ -55,7 +55,8 @@ public class LightingBuildStepTest extends Mockito {
     }
 
     /**
-     * Test method for {@link uk.org.cse.stockimport.hom.impl.steps.services.LightingBuildStep#getIdentifier()}.
+     * Test method for
+     * {@link uk.org.cse.stockimport.hom.impl.steps.services.LightingBuildStep#getIdentifier()}.
      */
     @Test
     public void testGetIdentifier() {
@@ -63,7 +64,8 @@ public class LightingBuildStepTest extends Mockito {
     }
 
     /**
-     * Test method for {@link uk.org.cse.stockimport.hom.impl.steps.services.LightingBuildStep#getDependencies()}.
+     * Test method for
+     * {@link uk.org.cse.stockimport.hom.impl.steps.services.LightingBuildStep#getDependencies()}.
      */
     @Test
     public void testGetDependencies() {
@@ -73,7 +75,8 @@ public class LightingBuildStepTest extends Mockito {
     }
 
     /**
-     * Test method for {@link uk.org.cse.stockimport.hom.impl.steps.services.LightingBuildStep#build(uk.org.cse.nhm.hom.SurveyCase, uk.org.cse.stockimport.repository.IHouseCaseSources)}.
+     * Test method for
+     * {@link uk.org.cse.stockimport.hom.impl.steps.services.LightingBuildStep#build(uk.org.cse.nhm.hom.SurveyCase, uk.org.cse.stockimport.repository.IHouseCaseSources)}.
      */
     @Test
     public void testBuildLightsAddCorrectProportionOfEnergyEfficientLightsIf50PercentLowEnergy() {

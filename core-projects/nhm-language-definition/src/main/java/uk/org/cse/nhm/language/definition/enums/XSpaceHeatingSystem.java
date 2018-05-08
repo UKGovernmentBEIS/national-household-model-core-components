@@ -5,6 +5,6 @@ import uk.org.cse.nhm.language.definition.Category.CategoryType;
 
 @Category(CategoryType.CATEGORIES)
 public enum XSpaceHeatingSystem {
-	PrimarySpaceHeating,
-	SecondarySpaceHeating
+    PrimarySpaceHeating,
+    SecondarySpaceHeating
 }

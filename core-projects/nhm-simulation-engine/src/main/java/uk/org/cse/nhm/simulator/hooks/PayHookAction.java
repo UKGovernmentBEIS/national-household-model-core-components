@@ -23,61 +23,62 @@ import uk.org.cse.nhm.simulator.transactions.ITransaction;
 import uk.org.cse.nhm.simulator.transactions.Transaction;
 
 public class PayHookAction extends AbstractNamed implements IHookRunnable, IStateChangeSource {
-	private final String from;
-	private final String to;
-	private final IComponentsFunction<? extends Number> amount;
-	private final Set<String> tags;
 
-	@AssistedInject
-	public PayHookAction(@Assisted("from") final String from,
-                         @Assisted("to") final String to,
-                         @Assisted final Set<String> tags,
-                         @Assisted final IComponentsFunction<? extends Number> amount) {
-		this.from = from;
-		this.to = to;
-		this.tags = tags;
-		this.amount = amount;
-	}
+    private final String from;
+    private final String to;
+    private final IComponentsFunction<? extends Number> amount;
+    private final Set<String> tags;
 
-	@Override
-	public StateChangeSourceType getSourceType() {
-		return StateChangeSourceType.TRIGGER;
-	}
+    @AssistedInject
+    public PayHookAction(@Assisted("from") final String from,
+            @Assisted("to") final String to,
+            @Assisted final Set<String> tags,
+            @Assisted final IComponentsFunction<? extends Number> amount) {
+        this.from = from;
+        this.to = to;
+        this.tags = tags;
+        this.amount = amount;
+    }
 
-	@Override
-	public void run(final IStateScope state, final DateTime date, final Set<IStateChangeSource> causes, final ILets lets) {
-		state.apply(new IStateAction() {
-                @Override
-                public StateChangeSourceType getSourceType() {
-                    return PayHookAction.this.getSourceType();
-                }
+    @Override
+    public StateChangeSourceType getSourceType() {
+        return StateChangeSourceType.TRIGGER;
+    }
 
-                @Override
-                public Name getIdentifier() {
-                    return PayHookAction.this.getIdentifier();
-                }
+    @Override
+    public void run(final IStateScope state, final DateTime date, final Set<IStateChangeSource> causes, final ILets lets) {
+        state.apply(new IStateAction() {
+            @Override
+            public StateChangeSourceType getSourceType() {
+                return PayHookAction.this.getSourceType();
+            }
 
-                @Override
-                public Set<IDwelling> apply(final IStateScope scope, final Set<IDwelling> dwellings,
-                                            final ILets lets) throws NHMException {
-                    final ITransaction t = Transaction.global(
-                                                              from, 
-                                                              to, 
-                                                              amount.compute(scope.getState().detachedScope(null), lets).doubleValue(), 
-                                                              date,
-                                                              tags);
-				
-                    scope.addNote(t);
-				
-                    scope.getState().getGlobals().getGlobalAccount(from).pay(t);
-                    scope.getState().getGlobals().getGlobalAccount(to).receive(t);
-                    return Collections.emptySet();
-                }
+            @Override
+            public Name getIdentifier() {
+                return PayHookAction.this.getIdentifier();
+            }
 
-                @Override
-                public Set<IDwelling> getSuitable(final IStateScope scope, final Set<IDwelling> dwellings, final ILets lets) {
-                    return dwellings;
-                }
-            }, ImmutableSet.<IDwelling>of(), lets);
-	}
+            @Override
+            public Set<IDwelling> apply(final IStateScope scope, final Set<IDwelling> dwellings,
+                    final ILets lets) throws NHMException {
+                final ITransaction t = Transaction.global(
+                        from,
+                        to,
+                        amount.compute(scope.getState().detachedScope(null), lets).doubleValue(),
+                        date,
+                        tags);
+
+                scope.addNote(t);
+
+                scope.getState().getGlobals().getGlobalAccount(from).pay(t);
+                scope.getState().getGlobals().getGlobalAccount(to).receive(t);
+                return Collections.emptySet();
+            }
+
+            @Override
+            public Set<IDwelling> getSuitable(final IStateScope scope, final Set<IDwelling> dwellings, final ILets lets) {
+                return dwellings;
+            }
+        }, ImmutableSet.<IDwelling>of(), lets);
+    }
 }

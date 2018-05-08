@@ -12,23 +12,24 @@ import uk.org.cse.nhm.simulator.main.ISimulator;
 import uk.org.cse.nhm.simulator.main.Priority;
 
 public class ReportTrigger {
-	@Inject
-	public ReportTrigger(
-		final ISimulator simulator,
-		@Assisted final IReportMode mode,
-		@Assisted final IGroups division
-			) {
-		
-		final IDateRunnable fire = new IDateRunnable() {
-			
-			@Override
-			public void run(DateTime date) {
-				division.triggerManually();
-			}
-		};
-		
-		for(final DateTime date : mode.extraDates()) {
-			simulator.schedule(date, Priority.ofReports(), fire);
-		}
-	}
+
+    @Inject
+    public ReportTrigger(
+            final ISimulator simulator,
+            @Assisted final IReportMode mode,
+            @Assisted final IGroups division
+    ) {
+
+        final IDateRunnable fire = new IDateRunnable() {
+
+            @Override
+            public void run(DateTime date) {
+                division.triggerManually();
+            }
+        };
+
+        for (final DateTime date : mode.extraDates()) {
+            simulator.schedule(date, Priority.ofReports(), fire);
+        }
+    }
 }

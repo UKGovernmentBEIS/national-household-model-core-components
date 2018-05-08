@@ -16,27 +16,28 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class MatchBoiler extends AbstractNamed implements IComponentsFunction<Boolean> {
-	private final IDimension<ITechnologyModel> techDimension;
-	private final ITechnologyOperations operations;
 
-	@Inject
-	public MatchBoiler(final IDimension<ITechnologyModel> techDimension, final ITechnologyOperations operations) {
-		this.techDimension = techDimension;
-		this.operations = operations;
-	}
+    private final IDimension<ITechnologyModel> techDimension;
+    private final ITechnologyOperations operations;
 
-	@Override
-	public Boolean compute(final IComponentsScope scope, final ILets lets) {
-		return operations.getBoiler(scope.get(techDimension)).isPresent();
-	}
+    @Inject
+    public MatchBoiler(final IDimension<ITechnologyModel> techDimension, final ITechnologyOperations operations) {
+        this.techDimension = techDimension;
+        this.operations = operations;
+    }
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return Collections.<IDimension<?>> singleton(techDimension);
-	}
+    @Override
+    public Boolean compute(final IComponentsScope scope, final ILets lets) {
+        return operations.getBoiler(scope.get(techDimension)).isPresent();
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return Collections.emptySet();
-	}
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return Collections.<IDimension<?>>singleton(techDimension);
+    }
+
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return Collections.emptySet();
+    }
 }

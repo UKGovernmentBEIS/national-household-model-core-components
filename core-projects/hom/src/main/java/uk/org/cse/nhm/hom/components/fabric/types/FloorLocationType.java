@@ -9,11 +9,13 @@ import java.util.List;
 /**
  * FloorLocationType, as specified in CARS conversion document.
  *
- * For flats, this refers to the location of the floor within the whole building.
- * For example: a top-floor flat with 3 floors would have two higher floors and one top floor.
- * (We don't have any information about the total number of floors in a building, but this shouldn't matter.)
+ * For flats, this refers to the location of the floor within the whole
+ * building. For example: a top-floor flat with 3 floors would have two higher
+ * floors and one top floor. (We don't have any information about the total
+ * number of floors in a building, but this shouldn't matter.)
  *
- * For other buildings it refers to the location of the floor within the dwelling.
+ * For other buildings it refers to the location of the floor within the
+ * dwelling.
  *
  * @author richardt
  * @version $Id: FloorLocationType.java 94 2010-09-30 15:39:21Z richardt
@@ -66,12 +68,12 @@ public enum FloorLocationType {
         }
     }
 
-	public boolean isInContactWithGround() {
-		return this == BASEMENT || this == GROUND;
-	}
+    public boolean isInContactWithGround() {
+        return this == BASEMENT || this == GROUND;
+    }
 
     public AreaType getExternalAreaType() {
-        switch(this) {
+        switch (this) {
             case BASEMENT:
                 return AreaType.BasementFloor;
             case GROUND:

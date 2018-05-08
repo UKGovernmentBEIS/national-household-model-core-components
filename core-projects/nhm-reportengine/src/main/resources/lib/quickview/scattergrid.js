@@ -1,25 +1,26 @@
 var scattergrid = function () {
-    var isNumber = function(n) {
+    var isNumber = function (n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
     };
 
-    var isDate = function(d) {
+    var isDate = function (d) {
         return false;
     };
 
-    var get_keys = function(data) {
+    var get_keys = function (data) {
         var metadata = {};
 
         var counter = 0;
-        
-        data.forEach(function(datum) {
-            d3.keys(datum).forEach(function(key) {
-                if (key === 'weight') return;
+
+        data.forEach(function (datum) {
+            d3.keys(datum).forEach(function (key) {
+                if (key === 'weight')
+                    return;
                 var value = datum[key];
                 metadata[key] = metadata[key] || {
-                    'numeric':false, 
-                    'range':[+Infinity,-Infinity], 'categories':d3.set(), 
-                    'date':false};
+                    'numeric': false,
+                    'range': [+Infinity, -Infinity], 'categories': d3.set(),
+                    'date': false};
                 var md = metadata[key];
                 if (isNumber(value)) {
                     value = +value;
@@ -41,12 +42,12 @@ var scattergrid = function () {
 
         return metadata;
     };
-  
-    var make_handler = function(data, metadata) {
+
+    var make_handler = function (data, metadata) {
         var displayed_numbers = d3.set();
         var displayed_categories = d3.set();
 
-        var toggle = function(s, v) {
+        var toggle = function (s, v) {
             if (s.has(v)) {
                 s.remove(v);
             } else {
@@ -54,44 +55,44 @@ var scattergrid = function () {
             }
         };
 
-        var cut_data = function() {
+        var cut_data = function () {
             // this will be a sequence of maps, one for each categorical variable
             // whose leaves will contain arrays of rows from the relevant subset
             var output = {};
 
-            var output_cell = function(path) {
+            var output_cell = function (path) {
                 var cell = output;
-                for (var i = 0; i<path.length; i++) {
+                for (var i = 0; i < path.length; i++) {
                     var category = path[i];
                     cell = (cell[category] = cell[category] || {});
                 }
                 return cell;
             };
 
-            var reduce = function(datum) {
+            var reduce = function (datum) {
                 var result = {
-                    '__counter':datum.__counter,
-                    'weight':datum.weight || 1.0
+                    '__counter': datum.__counter,
+                    'weight': datum.weight || 1.0
                 };
-                displayed_numbers.values().forEach(function(n) {
+                displayed_numbers.values().forEach(function (n) {
                     if (isNumber(datum[n])) {
                         result[n] = datum[n];
                     }
                 });
-                
+
                 return result;
             };
 
-            data.forEach(function(datum) {
+            data.forEach(function (datum) {
                 var categories = displayed_categories.values().map(
-                    function (category) {
-                        var val = datum[category];
-                        if (isNumber(val)) {
-                            return '(number)';
-                        } else {
-                            return val;
+                        function (category) {
+                            var val = datum[category];
+                            if (isNumber(val)) {
+                                return '(number)';
+                            } else {
+                                return val;
+                            }
                         }
-                    }
                 );
 
                 var cell = output_cell(categories);
@@ -103,14 +104,14 @@ var scattergrid = function () {
         };
 
         var result = {
-            redisplay: function() {},
+            redisplay: function () {},
 
-            toggle_numeric: function(variable) {
+            toggle_numeric: function (variable) {
                 toggle(displayed_numbers, variable);
                 result.data = cut_data();
                 result.redisplay(result.data);
             },
-            toggle_category: function(variable) {
+            toggle_category: function (variable) {
                 toggle(displayed_categories, variable);
                 result.data = cut_data();
                 result.redisplay(result.data);
@@ -120,11 +121,11 @@ var scattergrid = function () {
         return result;
     };
 
-    var make_checkboxes = function(container, metadata, handler) {
+    var make_checkboxes = function (container, metadata, handler) {
         var categories = [];
         var numbers = [];
 
-        d3.keys(metadata).forEach(function(variable) {
+        d3.keys(metadata).forEach(function (variable) {
             if (metadata[variable].numeric) {
                 numbers.push(variable);
             }
@@ -133,7 +134,7 @@ var scattergrid = function () {
             }
         });
 
-        var make_elements = function(cap, names, callback) {
+        var make_elements = function (cap, names, callback) {
             var checkboxes = container.append("div");
             checkboxes.append("span").text(cap);
             var labels = checkboxes
@@ -142,10 +143,10 @@ var scattergrid = function () {
                     .data(names)
                     .enter()
                     .append("label");
-            
+
             labels.append("input")
-                .attr("type", "checkbox")
-                .on('change', callback);
+                    .attr("type", "checkbox")
+                    .on('change', callback);
             labels.append("span").text(String);
         };
 
@@ -154,15 +155,15 @@ var scattergrid = function () {
     };
 
     return {
-        display: function(element, data) {
+        display: function (element, data) {
             var metadata = get_keys(data);
             var handler = make_handler(data, metadata);
-            
+
             make_checkboxes(element, metadata, handler);
             var display = element.append("div");
 
             // add redisplay hook which draws the big display
-            handler.redisplay = function(result) {
+            handler.redisplay = function (result) {
                 display.selectAll("*").remove();
                 drawgrid.within(display, result);
             };

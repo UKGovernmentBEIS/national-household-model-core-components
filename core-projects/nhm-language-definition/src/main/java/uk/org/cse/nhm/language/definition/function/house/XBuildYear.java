@@ -8,7 +8,6 @@ import uk.org.cse.nhm.language.definition.SeeAlso;
 import uk.org.cse.nhm.language.definition.function.bool.house.XBuildYearIs;
 import uk.org.cse.nhm.language.definition.function.num.XHouseNumber;
 
-
 @Bind("house.buildyear")
 @Doc("The year of construction of the house.")
 @SeeAlso(XBuildYearIs.class)

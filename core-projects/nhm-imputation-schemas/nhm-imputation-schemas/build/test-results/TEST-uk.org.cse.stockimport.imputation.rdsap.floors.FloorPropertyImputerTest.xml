@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuite name="uk.org.cse.stockimport.imputation.rdsap.floors.FloorPropertyImputerTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2016-05-03T08:17:30" hostname="rich-Latitude-E6320" time="0.005">
-  <properties/>
-  <testcase name="testFloorConstructionType" classname="uk.org.cse.stockimport.imputation.rdsap.floors.FloorPropertyImputerTest" time="0.002"/>
-  <testcase name="testSuspendedFloorUValues" classname="uk.org.cse.stockimport.imputation.rdsap.floors.FloorPropertyImputerTest" time="0.0"/>
-  <testcase name="testFloorInfiltration" classname="uk.org.cse.stockimport.imputation.rdsap.floors.FloorPropertyImputerTest" time="0.001"/>
-  <testcase name="testSolidFloorUValues" classname="uk.org.cse.stockimport.imputation.rdsap.floors.FloorPropertyImputerTest" time="0.0"/>
-  <testcase name="testPartyFloorKValue" classname="uk.org.cse.stockimport.imputation.rdsap.floors.FloorPropertyImputerTest" time="0.0"/>
-  <testcase name="testInsulationThickness" classname="uk.org.cse.stockimport.imputation.rdsap.floors.FloorPropertyImputerTest" time="0.0"/>
-  <testcase name="testExposedFloorKValue" classname="uk.org.cse.stockimport.imputation.rdsap.floors.FloorPropertyImputerTest" time="0.0"/>
-  <testcase name="testExposedFloorUValue" classname="uk.org.cse.stockimport.imputation.rdsap.floors.FloorPropertyImputerTest" time="0.0"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
+    <properties/>
+    <testcase name="testFloorConstructionType" classname="uk.org.cse.stockimport.imputation.rdsap.floors.FloorPropertyImputerTest" time="0.002"/>
+    <testcase name="testSuspendedFloorUValues" classname="uk.org.cse.stockimport.imputation.rdsap.floors.FloorPropertyImputerTest" time="0.0"/>
+    <testcase name="testFloorInfiltration" classname="uk.org.cse.stockimport.imputation.rdsap.floors.FloorPropertyImputerTest" time="0.001"/>
+    <testcase name="testSolidFloorUValues" classname="uk.org.cse.stockimport.imputation.rdsap.floors.FloorPropertyImputerTest" time="0.0"/>
+    <testcase name="testPartyFloorKValue" classname="uk.org.cse.stockimport.imputation.rdsap.floors.FloorPropertyImputerTest" time="0.0"/>
+    <testcase name="testInsulationThickness" classname="uk.org.cse.stockimport.imputation.rdsap.floors.FloorPropertyImputerTest" time="0.0"/>
+    <testcase name="testExposedFloorKValue" classname="uk.org.cse.stockimport.imputation.rdsap.floors.FloorPropertyImputerTest" time="0.0"/>
+    <testcase name="testExposedFloorUValue" classname="uk.org.cse.stockimport.imputation.rdsap.floors.FloorPropertyImputerTest" time="0.0"/>
+    <system-out><![CDATA[]]></system-out>
+    <system-err><![CDATA[]]></system-err>
 </testsuite>

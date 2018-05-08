@@ -8,455 +8,455 @@ import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 
 public interface OwnerEntry extends SurveyEntry {
-	@SavVariableMapping("ONPURPC")
-	public Integer getPurchasePriceOfHome();
 
-	@SavVariableMapping("OTHLOAN")
-	public Integer getAmountBorrowedInAdditionToMainMortgage();
+    @SavVariableMapping("ONPURPC")
+    public Integer getPurchasePriceOfHome();
 
-	@SavVariableMapping("RYGRDAMT")
-	public Integer getTotalGroundRent();
+    @SavVariableMapping("OTHLOAN")
+    public Integer getAmountBorrowedInAdditionToMainMortgage();
 
-	@SavVariableMapping("OUTSTAND")
-	public Integer getAmountOutstandingOnMainMortgage_Loan();
+    @SavVariableMapping("RYGRDAMT")
+    public Integer getTotalGroundRent();
 
-	@SavVariableMapping("MORGPAYU")
-	public Integer getUsualPaymentOnAllMortgages_Loans();
+    @SavVariableMapping("OUTSTAND")
+    public Integer getAmountOutstandingOnMainMortgage_Loan();
 
-	@SavVariableMapping("PRPTVAL2")
-	public Integer getHouseholder_SViewOnPropertyValue();
+    @SavVariableMapping("MORGPAYU")
+    public Integer getUsualPaymentOnAllMortgages_Loans();
 
-	@SavVariableMapping("PRPTVAL1")
-	public Integer getPropertyValuedAt();
+    @SavVariableMapping("PRPTVAL2")
+    public Integer getHouseholder_SViewOnPropertyValue();
 
-	@SavVariableMapping("SOEQSHR2")
-	public Integer getPercentageEquityShareNow();
+    @SavVariableMapping("PRPTVAL1")
+    public Integer getPropertyValuedAt();
 
-	@SavVariableMapping("ONDEPPND")
-	public Integer getDeposit_In_S_();
+    @SavVariableMapping("SOEQSHR2")
+    public Integer getPercentageEquityShareNow();
 
-	@SavVariableMapping("RYSVAMT")
-	public Integer getTotalServiceCharge();
+    @SavVariableMapping("ONDEPPND")
+    public Integer getDeposit_In_S_();
 
-	@SavVariableMapping("SOEQSHR1")
-	public Integer getPercentageEquityShareAtTimeOfPurchase();
+    @SavVariableMapping("RYSVAMT")
+    public Integer getTotalServiceCharge();
 
-	@SavVariableMapping("ONDEPPER")
-	public Integer getDeposit_AsA_();
+    @SavVariableMapping("SOEQSHR1")
+    public Integer getPercentageEquityShareAtTimeOfPurchase();
 
-	@SavVariableMapping("MORGLNTH")
-	public Integer getLengthOfMortgage_Years();
+    @SavVariableMapping("ONDEPPER")
+    public Integer getDeposit_AsA_();
 
-	@SavVariableMapping("CURRBAL")
-	public Integer getAmountOfNegativeBalance_OverdraftOnCurrentA_CMortgage();
+    @SavVariableMapping("MORGLNTH")
+    public Integer getLengthOfMortgage_Years();
 
-	@SavVariableMapping("ONMNTRPY")
-	public Integer getFlexibleMortgage_AverageMonthlyPayment();
+    @SavVariableMapping("CURRBAL")
+    public Integer getAmountOfNegativeBalance_OverdraftOnCurrentA_CMortgage();
 
-	@SavVariableMapping("ONBYYEAR")
-	public Integer getAcquiredHome_Year();
+    @SavVariableMapping("ONMNTRPY")
+    public Integer getFlexibleMortgage_AverageMonthlyPayment();
 
-	@SavVariableMapping("YRMORGST")
-	public Integer getYearCurrentMortgageTakenOut();
+    @SavVariableMapping("ONBYYEAR")
+    public Integer getAcquiredHome_Year();
 
-	@SavVariableMapping("ONORGMRG")
-	public Integer getCurrentMortgage_OriginalAmount();
+    @SavVariableMapping("YRMORGST")
+    public Integer getYearCurrentMortgageTakenOut();
 
-	@SavVariableMapping("INTTYPE2")
-	public Double getCurrentInterestRateDeal();
+    @SavVariableMapping("ONORGMRG")
+    public Integer getCurrentMortgage_OriginalAmount();
 
-	@SavVariableMapping("MRGLHDD")
-	public Double getSpouse_PartnerLeft_Died();
+    @SavVariableMapping("INTTYPE2")
+    public Double getCurrentInterestRateDeal();
 
-	@SavVariableMapping("RYSVWK")
-	public Double getServiceChargeWeeklyAmount();
+    @SavVariableMapping("MRGLHDD")
+    public Double getSpouse_PartnerLeft_Died();
 
-	@SavVariableMapping("MRGDIED")
-	public Double getSpouse_PartnerDied();
+    @SavVariableMapping("RYSVWK")
+    public Double getServiceChargeWeeklyAmount();
 
-	@SavVariableMapping("INTTYPE3")
-	public Double getCurrentInterestRateDeal_INTTYPE3();
+    @SavVariableMapping("MRGDIED")
+    public Double getSpouse_PartnerDied();
 
-	@SavVariableMapping("OUTSTA_1")
-	public Double getAmountOutstandingOnOtherLoans();
+    @SavVariableMapping("INTTYPE3")
+    public Double getCurrentInterestRateDeal_INTTYPE3();
 
-	@SavVariableMapping("INTCHNGE")
-	public Double getHowDoYouExpectTheInterestRateForTheMortgageOnYourHomeToChangeOverTheNext12Months();
+    @SavVariableMapping("OUTSTA_1")
+    public Double getAmountOutstandingOnOtherLoans();
 
-	@SavVariableMapping("V149_A")
-	public Double getAmountOutstandingOnOtherLoans_V149_A();
+    @SavVariableMapping("INTCHNGE")
+    public Double getHowDoYouExpectTheInterestRateForTheMortgageOnYourHomeToChangeOverTheNext12Months();
 
-	@SavVariableMapping("RYGRDWK")
-	public Double getGroundRentWeeklyAmount();
+    @SavVariableMapping("V149_A")
+    public Double getAmountOutstandingOnOtherLoans_V149_A();
 
-	@SavVariableMapping("PRPCHNG1")
-	public Double getByHowMuchDoYouThinkYourHomeHasChangedInValueOverThePastYear();
+    @SavVariableMapping("RYGRDWK")
+    public Double getGroundRentWeeklyAmount();
 
-	@SavVariableMapping("PRPCHNG2")
-	public Double getByHowMuchDoYouThinkYourHomeWillChangeInValueOverTheNext12Months();
+    @SavVariableMapping("PRPCHNG1")
+    public Double getByHowMuchDoYouThinkYourHomeHasChangedInValueOverThePastYear();
 
-	@SavVariableMapping("MRGLHOM")
-	public Double getSpouse_PartnerLeftHome();
+    @SavVariableMapping("PRPCHNG2")
+    public Double getByHowMuchDoYouThinkYourHomeWillChangeInValueOverTheNext12Months();
 
-	@SavVariableMapping("MRGLESPA")
-	public Enum69 getSameHoursForLessPay();
+    @SavVariableMapping("MRGLHOM")
+    public Double getSpouse_PartnerLeftHome();
 
-	@SavVariableMapping("QUARTER")
-	public Enum230 getFieldworkQuarter();
+    @SavVariableMapping("MRGLESPA")
+    public Enum69 getSameHoursForLessPay();
 
-	@SavVariableMapping("REPANONE")
-	public Enum69 getRepay_NoneOfThese();
+    @SavVariableMapping("QUARTER")
+    public Enum230 getFieldworkQuarter();
 
-	@SavVariableMapping("ONCHMRG")
-	public Enum602 getChangedTypeOfMortgageOnTheProperty();
+    @SavVariableMapping("REPANONE")
+    public Enum69 getRepay_NoneOfThese();
 
-	@SavVariableMapping("SOURLLRD")
-	public Enum69 getMoneyFromPrivateLandlordToEncourageMove();
+    @SavVariableMapping("ONCHMRG")
+    public Enum602 getChangedTypeOfMortgageOnTheProperty();
 
-	@SavVariableMapping("MRGNOACT")
-	public Enum69 getNoActionTaken();
+    @SavVariableMapping("SOURLLRD")
+    public Enum69 getMoneyFromPrivateLandlordToEncourageMove();
 
-	@SavVariableMapping("RENDPNSN")
-	public Enum69 getPaymentsIntoPensionMortgage();
+    @SavVariableMapping("MRGNOACT")
+    public Enum69 getNoActionTaken();
 
-	@SavVariableMapping("EQSDBUSI")
-	public Enum69 getStartedBusiness();
+    @SavVariableMapping("RENDPNSN")
+    public Enum69 getPaymentsIntoPensionMortgage();
 
-	@SavVariableMapping("REPASCHM")
-	public Enum69 getPaymentsIntoOtherSavings_InvestmentScheme();
+    @SavVariableMapping("EQSDBUSI")
+    public Enum69 getStartedBusiness();
 
-	@SavVariableMapping("FREEHLD1")
-	public Enum608 getExtentOfFreehold();
+    @SavVariableMapping("REPASCHM")
+    public Enum69 getPaymentsIntoOtherSavings_InvestmentScheme();
 
-	@SavVariableMapping("CURRACC")
-	public Enum69 getAll_In_OneAccountMortgage();
+    @SavVariableMapping("FREEHLD1")
+    public Enum608 getExtentOfFreehold();
 
-	@SavVariableMapping("ONGIFT")
-	public Enum69 getAcquiredAsAGift();
+    @SavVariableMapping("CURRACC")
+    public Enum69 getAll_In_OneAccountMortgage();
 
-	@SavVariableMapping("ONSELLR")
-	public Enum611 getPropertyBoughtFrom();
+    @SavVariableMapping("ONGIFT")
+    public Enum69 getAcquiredAsAGift();
 
-	@SavVariableMapping("MRGLEFT")
-	public Enum69 getContributorLeftHome();
+    @SavVariableMapping("ONSELLR")
+    public Enum611 getPropertyBoughtFrom();
 
-	@SavVariableMapping("MRGNONE")
-	public Enum69 getNoneOfThese();
+    @SavVariableMapping("MRGLEFT")
+    public Enum69 getContributorLeftHome();
 
-	@SavVariableMapping("MRGARN2")
-	public Enum614 getHowMortgagePaid_1StOptionThatApplies_();
+    @SavVariableMapping("MRGNONE")
+    public Enum69 getNoneOfThese();
 
-	@SavVariableMapping("EQSDOTHR")
-	public Enum69 getSpentEquity_Other();
+    @SavVariableMapping("MRGARN2")
+    public Enum614 getHowMortgagePaid_1StOptionThatApplies_();
 
-	@SavVariableMapping("MORGPERL")
-	public Enum616 getMortgagePaymentPeriod();
+    @SavVariableMapping("EQSDOTHR")
+    public Enum69 getSpentEquity_Other();
 
-	@SavVariableMapping("ONDTKNOW")
-	public Enum69 getDon_TKnow();
+    @SavVariableMapping("MORGPERL")
+    public Enum616 getMortgagePaymentPeriod();
 
-	@SavVariableMapping("REPARMRG")
-	public Enum69 getPaymentsOnRepaymentMortgage();
+    @SavVariableMapping("ONDTKNOW")
+    public Enum69 getDon_TKnow();
 
-	@SavVariableMapping("POLSKUN")
-	public Enum69 getHaveAnInsurancePolicyToPayMortgageInEventOfAccident_SicknessOrUnemployment_Redundancy();
+    @SavVariableMapping("REPARMRG")
+    public Enum69 getPaymentsOnRepaymentMortgage();
 
-	@SavVariableMapping("REPAPNSN")
-	public Enum69 getPaymentsIntoPensionMortgage_REPAPNSN();
+    @SavVariableMapping("POLSKUN")
+    public Enum69 getHaveAnInsurancePolicyToPayMortgageInEventOfAccident_SicknessOrUnemployment_Redundancy();
 
-	@SavVariableMapping("EQSDGOOD")
-	public Enum69 getNewGoodsForTheProperty();
+    @SavVariableMapping("REPAPNSN")
+    public Enum69 getPaymentsIntoPensionMortgage_REPAPNSN();
 
-	@SavVariableMapping("DSSMORG")
-	public Enum622 getAmountOfMortgageInterestPaidByDWP();
+    @SavVariableMapping("EQSDGOOD")
+    public Enum69 getNewGoodsForTheProperty();
 
-	@SavVariableMapping("LEASE")
-	public Enum73 getOwnershipType();
+    @SavVariableMapping("DSSMORG")
+    public Enum622 getAmountOfMortgageInterestPaidByDWP();
 
-	@SavVariableMapping("MRGINT")
-	public Enum69 getInterestOnlyPaymentsAgreed();
+    @SavVariableMapping("LEASE")
+    public Enum73 getOwnershipType();
 
-	@SavVariableMapping("MRGPPLOW")
-	public Enum69 getMortgageProtectionPlanInsufficient();
+    @SavVariableMapping("MRGINT")
+    public Enum69 getInterestOnlyPaymentsAgreed();
 
-	@SavVariableMapping("SOURWIND")
-	public Enum69 getWindfall();
+    @SavVariableMapping("MRGPPLOW")
+    public Enum69 getMortgageProtectionPlanInsufficient();
 
-	@SavVariableMapping("MRGNAGRE")
-	public Enum69 getNoAgreementMade();
+    @SavVariableMapping("SOURWIND")
+    public Enum69 getWindfall();
 
-	@SavVariableMapping("SOURLOAN")
-	public Enum69 getLoanForDeposit_BridgingLoan();
+    @SavVariableMapping("MRGNAGRE")
+    public Enum69 getNoAgreementMade();
 
-	@SavVariableMapping("MRGRGMIS")
-	public Enum69 getOneOrMoreRegularPaymentsMissed();
+    @SavVariableMapping("SOURLOAN")
+    public Enum69 getLoanForDeposit_BridgingLoan();
 
-	@SavVariableMapping("ONCMPSIT")
-	public Enum630 getComplexTenureStatus();
+    @SavVariableMapping("MRGRGMIS")
+    public Enum69 getOneOrMoreRegularPaymentsMissed();
 
-	@SavVariableMapping("MRGAR21")
-	public Enum631 getAnyDifficultiesKeepingUpWithMortgagePaymentsInTheLast12Months();
+    @SavVariableMapping("ONCMPSIT")
+    public Enum630 getComplexTenureStatus();
 
-	@SavVariableMapping("EQSDHOME")
-	public Enum69 getHomeImprovements_Renovations();
+    @SavVariableMapping("MRGAR21")
+    public Enum631 getAnyDifficultiesKeepingUpWithMortgagePaymentsInTheLast12Months();
 
-	@SavVariableMapping("ALLONE")
-	public Enum633 getCurrentAccountOrOffsetMortgage();
+    @SavVariableMapping("EQSDHOME")
+    public Enum69 getHomeImprovements_Renovations();
 
-	@SavVariableMapping("MRGARN2A")
-	public Enum69 getHaveYouBeenAbleToPayTheMortgageInterestNotPaidByDWP();
+    @SavVariableMapping("ALLONE")
+    public Enum633 getCurrentAccountOrOffsetMortgage();
 
-	@SavVariableMapping("ONBYSEAS")
-	public Enum635 getAcquiredHome_Month();
+    @SavVariableMapping("MRGARN2A")
+    public Enum69 getHaveYouBeenAbleToPayTheMortgageInterestNotPaidByDWP();
 
-	@SavVariableMapping("MRGLEGAL")
-	public Enum69 getIsYourMortgageLenderCurrentlyTakingLegalActionToRepossessYourHome();
+    @SavVariableMapping("ONBYSEAS")
+    public Enum635 getAcquiredHome_Month();
 
-	@SavVariableMapping("MRGMOVED")
-	public Enum69 getMovedToNewLender();
+    @SavVariableMapping("MRGLEGAL")
+    public Enum69 getIsYourMortgageLenderCurrentlyTakingLegalActionToRepossessYourHome();
 
-	@SavVariableMapping("MRGBABY")
-	public Enum69 getContributorPregnant_Baby();
+    @SavVariableMapping("MRGMOVED")
+    public Enum69 getMovedToNewLender();
 
-	@SavVariableMapping("SOURFMLY")
-	public Enum69 getGift_LoanFromFamily_Friend();
+    @SavVariableMapping("MRGBABY")
+    public Enum69 getContributorPregnant_Baby();
 
-	@SavVariableMapping("ONNONE")
-	public Enum69 getNoneOfThese_ONNONE();
+    @SavVariableMapping("SOURFMLY")
+    public Enum69 getGift_LoanFromFamily_Friend();
 
-	@SavVariableMapping("MRGARR")
-	public Enum641 getCurrentMortgageRepaymentSituation();
+    @SavVariableMapping("ONNONE")
+    public Enum69 getNoneOfThese_ONNONE();
 
-	@SavVariableMapping("MRGARN2C")
-	public Enum69 getAreThereAnyMortgagePaymentsOutstandingFromBeforeDWPStartedContributing();
+    @SavVariableMapping("MRGARR")
+    public Enum641 getCurrentMortgageRepaymentSituation();
 
-	@SavVariableMapping("REPAEDMT")
-	public Enum69 getPaymentsIntoAnEndowmentPolicy();
+    @SavVariableMapping("MRGARN2C")
+    public Enum69 getAreThereAnyMortgagePaymentsOutstandingFromBeforeDWPStartedContributing();
 
-	@SavVariableMapping("FRHLDER")
-	public Enum644 getFreeholdOwnedBy();
+    @SavVariableMapping("REPAEDMT")
+    public Enum69 getPaymentsIntoAnEndowmentPolicy();
 
-	@SavVariableMapping("MRGHOL")
-	public Enum69 getMortgageHolidayAgreed();
+    @SavVariableMapping("FRHLDER")
+    public Enum644 getFreeholdOwnedBy();
 
-	@SavVariableMapping("RENDSVGS")
-	public Enum69 getPaymentsIntoOtherSavings_InvestmentScheme_RENDSVGS();
+    @SavVariableMapping("MRGHOL")
+    public Enum69 getMortgageHolidayAgreed();
 
-	@SavVariableMapping("REPATRST")
-	public Enum69 getPaymentsIntoUnit_InvestmentTrust();
+    @SavVariableMapping("RENDSVGS")
+    public Enum69 getPaymentsIntoOtherSavings_InvestmentScheme_RENDSVGS();
 
-	@SavVariableMapping("RENDPEP")
-	public Enum69 getPaymentsIntoPep_ISA();
+    @SavVariableMapping("REPATRST")
+    public Enum69 getPaymentsIntoUnit_InvestmentTrust();
 
-	@SavVariableMapping("MPOLCOV")
-	public Enum649 getWhatDoesTheInsurancePolicyCover();
+    @SavVariableMapping("RENDPEP")
+    public Enum69 getPaymentsIntoPep_ISA();
 
-	@SavVariableMapping("SOURSALE")
-	public Enum69 getSaleOfPreviousHome();
+    @SavVariableMapping("MPOLCOV")
+    public Enum649 getWhatDoesTheInsurancePolicyCover();
 
-	@SavVariableMapping("PURCLOAN")
-	public Enum651 getNumberOfMortgages_LoansOnProperty();
+    @SavVariableMapping("SOURSALE")
+    public Enum69 getSaleOfPreviousHome();
 
-	@SavVariableMapping("ONBLDINS")
-	public Enum69 getBuildingInsurance();
+    @SavVariableMapping("PURCLOAN")
+    public Enum651 getNumberOfMortgages_LoansOnProperty();
 
-	@SavVariableMapping("ONDOWNPM")
-	public Enum653 getOriginalCashPayment_Pounds_Percent();
+    @SavVariableMapping("ONBLDINS")
+    public Enum69 getBuildingInsurance();
 
-	@SavVariableMapping("MRGRDUEM")
-	public Enum69 getRedundancy_Unemployment();
+    @SavVariableMapping("ONDOWNPM")
+    public Enum653 getOriginalCashPayment_Pounds_Percent();
 
-	@SavVariableMapping("MRGOTHER")
-	public Enum69 getOtherReason();
+    @SavVariableMapping("MRGRDUEM")
+    public Enum69 getRedundancy_Unemployment();
 
-	@SavVariableMapping("MRGAR4")
-	public Enum69 getAnyEarlierMortgagePaymentsOutstanding();
+    @SavVariableMapping("MRGOTHER")
+    public Enum69 getOtherReason();
 
-	@SavVariableMapping("MRGFALSE")
-	public Enum69 getMortgageAcctShowsBehind_NotTrue();
+    @SavVariableMapping("MRGAR4")
+    public Enum69 getAnyEarlierMortgagePaymentsOutstanding();
 
-	@SavVariableMapping("SOURNONE")
-	public Enum69 get_100_Mortgage();
+    @SavVariableMapping("MRGFALSE")
+    public Enum69 getMortgageAcctShowsBehind_NotTrue();
 
-	@SavVariableMapping("ONOTHR")
-	public Enum69 getAcquired_Other();
+    @SavVariableMapping("SOURNONE")
+    public Enum69 get_100_Mortgage();
 
-	@SavVariableMapping("EVERCLHA")
-	public Enum660 getEverCouncil_HAHouse_Flat();
+    @SavVariableMapping("ONOTHR")
+    public Enum69 getAcquired_Other();
 
-	@SavVariableMapping("ONCONINS")
-	public Enum69 getContentsInsurance();
+    @SavVariableMapping("EVERCLHA")
+    public Enum660 getEverCouncil_HAHouse_Flat();
 
-	@SavVariableMapping("CASECAT")
-	public Enum229 getStatusOfCase();
+    @SavVariableMapping("ONCONINS")
+    public Enum69 getContentsInsurance();
 
-	@SavVariableMapping("RENDTRST")
-	public Enum69 getPaymentsIntoUnit_InvestmentTrust_RENDTRST();
+    @SavVariableMapping("CASECAT")
+    public Enum229 getStatusOfCase();
 
-	@SavVariableMapping("EQSDSAVD")
-	public Enum69 getInvested_SavedTheMoney();
+    @SavVariableMapping("RENDTRST")
+    public Enum69 getPaymentsIntoUnit_InvestmentTrust_RENDTRST();
 
-	@SavVariableMapping("MRGOTRH")
-	public Enum69 getLostOvertime_WorkedReducedHours();
+    @SavVariableMapping("EQSDSAVD")
+    public Enum69 getInvested_SavedTheMoney();
 
-	@SavVariableMapping("MRGSKINJ")
-	public Enum69 getLostEarningsFromSickness_Injury();
+    @SavVariableMapping("MRGOTRH")
+    public Enum69 getLostOvertime_WorkedReducedHours();
 
-	@SavVariableMapping("MRGEXT")
-	public Enum69 getExtensionToLoanPeriodAgreed();
+    @SavVariableMapping("MRGSKINJ")
+    public Enum69 getLostEarningsFromSickness_Injury();
 
-	@SavVariableMapping("SOURINHR")
-	public Enum69 getInheritedMoney();
+    @SavVariableMapping("MRGEXT")
+    public Enum69 getExtensionToLoanPeriodAgreed();
 
-	@SavVariableMapping("SOUROTHR")
-	public Enum69 getOtherSource();
+    @SavVariableMapping("SOURINHR")
+    public Enum69 getInheritedMoney();
 
-	@SavVariableMapping("EQSDVHCL")
-	public Enum69 getBoughtCar_OtherVehicle();
+    @SavVariableMapping("SOUROTHR")
+    public Enum69 getOtherSource();
 
-	@SavVariableMapping("EQSDDKNW")
-	public Enum69 getSpentEquity_Don_TKnowHow();
+    @SavVariableMapping("EQSDVHCL")
+    public Enum69 getBoughtCar_OtherVehicle();
 
-	@SavVariableMapping("RYSVCCHG")
-	public Enum69 getServiceChargePaid();
+    @SavVariableMapping("EQSDDKNW")
+    public Enum69 getSpentEquity_Don_TKnowHow();
 
-	@SavVariableMapping("MRGRED")
-	public Enum69 getReducedMonthlyPaymentAgreed();
+    @SavVariableMapping("RYSVCCHG")
+    public Enum69 getServiceChargePaid();
 
-	@SavVariableMapping("ONMORG")
-	public Enum69 getBoughtWithMortgage_Loan_S_();
+    @SavVariableMapping("MRGRED")
+    public Enum69 getReducedMonthlyPaymentAgreed();
 
-	@SavVariableMapping("RYGRDRNT")
-	public Enum69 getPaysGroundRent();
+    @SavVariableMapping("ONMORG")
+    public Enum69 getBoughtWithMortgage_Loan_S_();
 
-	@SavVariableMapping("MRGDISC")
-	public Enum69 getDiscussionsWithLender();
+    @SavVariableMapping("RYGRDRNT")
+    public Enum69 getPaysGroundRent();
 
-	@SavVariableMapping("SOURSVGS")
-	public Enum69 getSavings();
+    @SavVariableMapping("MRGDISC")
+    public Enum69 getDiscussionsWithLender();
 
-	@SavVariableMapping("MRGAR6")
-	public Enum69 getWereYouBehindWithPaymentsForThisPropertyBeforeThePresentArrears();
+    @SavVariableMapping("SOURSVGS")
+    public Enum69 getSavings();
 
-	@SavVariableMapping("ONMRTPP")
-	public Enum69 getMortgageProtectionPlan();
+    @SavVariableMapping("MRGAR6")
+    public Enum69 getWereYouBehindWithPaymentsForThisPropertyBeforeThePresentArrears();
 
-	@SavVariableMapping("SOURLAHA")
-	public Enum69 getMoneyPaidByLA_HAToEncourageMove();
+    @SavVariableMapping("ONMRTPP")
+    public Enum69 getMortgageProtectionPlan();
 
-	@SavVariableMapping("EQSDHLDY")
-	public Enum69 getPaidForHoliday();
+    @SavVariableMapping("SOURLAHA")
+    public Enum69 getMoneyPaidByLA_HAToEncourageMove();
 
-	@SavVariableMapping("RYCONRPR")
-	public Enum69 getContributesToOne_OffRepair_MaintenanceCosts();
+    @SavVariableMapping("EQSDHLDY")
+    public Enum69 getPaidForHoliday();
 
-	@SavVariableMapping("EQSDUNIV")
-	public Enum69 getPaidForUniversityCosts();
+    @SavVariableMapping("RYCONRPR")
+    public Enum69 getContributesToOne_OffRepair_MaintenanceCosts();
 
-	@SavVariableMapping("EQSDDEBT")
-	public Enum69 getPayingOffDebts();
+    @SavVariableMapping("EQSDUNIV")
+    public Enum69 getPaidForUniversityCosts();
 
-	@SavVariableMapping("VALUED")
-	public Enum69 getValuedInLast12Months();
+    @SavVariableMapping("EQSDDEBT")
+    public Enum69 getPayingOffDebts();
 
-	@SavVariableMapping("MRGARN4")
-	public Enum686 getHowAreYouCopingWithPaymentsAtTheMoment();
+    @SavVariableMapping("VALUED")
+    public Enum69 getValuedInLast12Months();
 
-	@SavVariableMapping("HOWPAYM")
-	public Enum687 getInterestOnly_ExpectedRepaymentMethod();
+    @SavVariableMapping("MRGARN4")
+    public Enum686 getHowAreYouCopingWithPaymentsAtTheMoment();
 
-	@SavVariableMapping("ONENDPOL")
-	public Enum69 getEndowmentPolicyPremium();
+    @SavVariableMapping("HOWPAYM")
+    public Enum687 getInterestOnly_ExpectedRepaymentMethod();
 
-	@SavVariableMapping("COMMH")
-	public Enum689 getCommonholdType();
+    @SavVariableMapping("ONENDPOL")
+    public Enum69 getEndowmentPolicyPremium();
 
-	@SavVariableMapping("MRGAR5")
-	public Enum690 getHowLongAgoDidYouFirstFallBehindWithRepayments();
+    @SavVariableMapping("COMMH")
+    public Enum689 getCommonholdType();
 
-	@SavVariableMapping("MORGTYP1")
-	public Enum691 getTypeOfMortgage_Loan();
+    @SavVariableMapping("MRGAR5")
+    public Enum690 getHowLongAgoDidYouFirstFallBehindWithRepayments();
 
-	@SavVariableMapping("ONINHRT")
-	public Enum69 getInheritedProperty();
+    @SavVariableMapping("MORGTYP1")
+    public Enum691 getTypeOfMortgage_Loan();
 
-	@SavVariableMapping("ONOUTMRG")
-	public Enum693 getWhetherOutstandingMortgage_Loan();
+    @SavVariableMapping("ONINHRT")
+    public Enum69 getInheritedProperty();
 
-	@SavVariableMapping("REPAPEP")
-	public Enum69 getPaymentsIntoPEP_ISA();
+    @SavVariableMapping("ONOUTMRG")
+    public Enum693 getWhetherOutstandingMortgage_Loan();
 
-	@SavVariableMapping("MRGAR21C")
-	public Enum69 getAreYouConsideringContactingYourLenderForHelp();
+    @SavVariableMapping("REPAPEP")
+    public Enum69 getPaymentsIntoPEP_ISA();
 
-	@SavVariableMapping("RENDSALE")
-	public Enum69 getSaleOfExistingHouseOnly();
+    @SavVariableMapping("MRGAR21C")
+    public Enum69 getAreYouConsideringContactingYourLenderForHelp();
 
-	@SavVariableMapping("FREEHL_1")
-	public Enum697 getNameInWhichFreeholdHeld();
+    @SavVariableMapping("RENDSALE")
+    public Enum69 getSaleOfExistingHouseOnly();
 
-	@SavVariableMapping("MRGPRTPD")
-	public Enum69 getOnlyPartOfRegularMorgagePaid();
+    @SavVariableMapping("FREEHL_1")
+    public Enum697 getNameInWhichFreeholdHeld();
 
-	@SavVariableMapping("ONPAID")
-	public Enum69 getBoughtWithCash_PaidOutright();
+    @SavVariableMapping("MRGPRTPD")
+    public Enum69 getOnlyPartOfRegularMorgagePaid();
 
-	@SavVariableMapping("EQSDFEES")
-	public Enum69 getPaidForSchoolFees();
+    @SavVariableMapping("ONPAID")
+    public Enum69 getBoughtWithCash_PaidOutright();
 
-	@SavVariableMapping("LGTHLN")
-	public Enum701 getLengthOfRemainingLease();
+    @SavVariableMapping("EQSDFEES")
+    public Enum69 getPaidForSchoolFees();
 
-	@SavVariableMapping("EQSDBTAD")
-	public Enum69 getPurchaseOfAnotherPropertyAbroad();
+    @SavVariableMapping("LGTHLN")
+    public Enum701 getLengthOfRemainingLease();
 
-	@SavVariableMapping("MRGSEINC")
-	public Enum69 getSelfEmployedIncomeReduced();
+    @SavVariableMapping("EQSDBTAD")
+    public Enum69 getPurchaseOfAnotherPropertyAbroad();
 
-	@SavVariableMapping("CHLEASE")
-	public Enum704 getFreeholdOwnership();
+    @SavVariableMapping("MRGSEINC")
+    public Enum69 getSelfEmployedIncomeReduced();
 
-	@SavVariableMapping("EQSDMEDI")
-	public Enum69 getPaidForMedicalFees_NursingHome();
+    @SavVariableMapping("CHLEASE")
+    public Enum704 getFreeholdOwnership();
 
-	@SavVariableMapping("MRGARN2B")
-	public Enum69 getHaveYouBeenAbleToPayTheRestOfTheMortgagePayment();
+    @SavVariableMapping("EQSDMEDI")
+    public Enum69 getPaidForMedicalFees_NursingHome();
 
-	@SavVariableMapping("GOREHS")
-	public Enum30 getRegion_EHSOrder();
+    @SavVariableMapping("MRGARN2B")
+    public Enum69 getHaveYouBeenAbleToPayTheRestOfTheMortgagePayment();
 
-	@SavVariableMapping("ONDIVRC")
-	public Enum69 getGivenPropertyInDivorceSettlement();
+    @SavVariableMapping("GOREHS")
+    public Enum30 getRegion_EHSOrder();
 
-	@SavVariableMapping("EQSDBTFY")
-	public Enum69 getPurchaseOfPropertyForFamilyMember();
+    @SavVariableMapping("ONDIVRC")
+    public Enum69 getGivenPropertyInDivorceSettlement();
 
-	@SavVariableMapping("LGTHLF")
-	public Enum701 getLengthOfFullLeaseOnThisProperty();
+    @SavVariableMapping("EQSDBTFY")
+    public Enum69 getPurchaseOfPropertyForFamilyMember();
 
-	@SavVariableMapping("MRGINCOT")
-	public Enum69 getOtherPaymentsIncreased();
+    @SavVariableMapping("LGTHLF")
+    public Enum701 getLengthOfFullLeaseOnThisProperty();
 
-	@SavVariableMapping("EQSDBTUK")
-	public Enum69 getPurchaseOfAnotherPropertyInUK();
+    @SavVariableMapping("MRGINCOT")
+    public Enum69 getOtherPaymentsIncreased();
 
-	@SavVariableMapping("RYSVPER")
-	public Enum501 getServiceChargePeriod();
+    @SavVariableMapping("EQSDBTUK")
+    public Enum69 getPurchaseOfAnotherPropertyInUK();
 
-	@SavVariableMapping("ONARREAR")
-	public Enum69 getRepaymentOfArrears();
+    @SavVariableMapping("RYSVPER")
+    public Enum501 getServiceChargePeriod();
 
-	@SavVariableMapping("RENDNONE")
-	public Enum69 getEndowment_NoneOfThese();
+    @SavVariableMapping("ONARREAR")
+    public Enum69 getRepaymentOfArrears();
 
-	@SavVariableMapping("RYGRDPER")
-	public Enum501 getGroundRentPeriod();
+    @SavVariableMapping("RENDNONE")
+    public Enum69 getEndowment_NoneOfThese();
 
-	@SavVariableMapping("ONOTHER")
-	public Enum69 getOtherPayment();
+    @SavVariableMapping("RYGRDPER")
+    public Enum501 getGroundRentPeriod();
 
-	@SavVariableMapping("MRGINCPT")
-	public Enum69 getMortgagePaymentsIncreased();
+    @SavVariableMapping("ONOTHER")
+    public Enum69 getOtherPayment();
+
+    @SavVariableMapping("MRGINCPT")
+    public Enum69 getMortgagePaymentsIncreased();
 
 }
-

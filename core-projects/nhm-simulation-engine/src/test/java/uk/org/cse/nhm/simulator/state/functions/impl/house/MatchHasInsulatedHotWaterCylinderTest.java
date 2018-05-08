@@ -25,10 +25,14 @@ public class MatchHasInsulatedHotWaterCylinderTest {
 
     private MatchHasInsulateHotWaterCylinder function;
 
-    @Mock IDimension<ITechnologyModel> techDimension;
-    @Mock ITechnologyModel technologies;
-    @Mock ICentralWaterSystem centralWaterHeatingSystem;
-    @Mock IWaterTank store;
+    @Mock
+    IDimension<ITechnologyModel> techDimension;
+    @Mock
+    ITechnologyModel technologies;
+    @Mock
+    ICentralWaterSystem centralWaterHeatingSystem;
+    @Mock
+    IWaterTank store;
 
     @Before
     public void initialiseTests() {

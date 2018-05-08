@@ -19,63 +19,64 @@ import uk.org.cse.stockimport.domain.geometry.IRoofDTO;
  */
 @AutoProperty
 public class RoofDTO extends AbsDTO implements IRoofDTO {
+
     private RoofConstructionType roofType;
     private RoofStructureType structureType;
     private CoveringType coveringType;
     private Optional<Double> insulationThickness = Optional.absent();
 
     @Override
-	public RoofConstructionType getRoofType() {
-		return roofType;
-	}
+    public RoofConstructionType getRoofType() {
+        return roofType;
+    }
 
-	@Override
-	public void setRoofType(final RoofConstructionType roofType) {
-		this.roofType = roofType;
-	}
+    @Override
+    public void setRoofType(final RoofConstructionType roofType) {
+        this.roofType = roofType;
+    }
 
-	@Override
-	public RoofStructureType getStructureType() {
-		return structureType;
-	}
+    @Override
+    public RoofStructureType getStructureType() {
+        return structureType;
+    }
 
-	@Override
-	public void setStructureType(final RoofStructureType structureType) {
-		this.structureType = structureType;
-	}
+    @Override
+    public void setStructureType(final RoofStructureType structureType) {
+        this.structureType = structureType;
+    }
 
-	@Override
-	public CoveringType getCoveringType() {
-		return coveringType;
-	}
+    @Override
+    public CoveringType getCoveringType() {
+        return coveringType;
+    }
 
-	@Override
-	public void setCoveringType(final CoveringType coveringType) {
-		this.coveringType = coveringType;
-	}
+    @Override
+    public void setCoveringType(final CoveringType coveringType) {
+        this.coveringType = coveringType;
+    }
 
-	@Override
-	public Optional<Double> getInsulationThickness() {
-		return insulationThickness;
-	}
+    @Override
+    public Optional<Double> getInsulationThickness() {
+        return insulationThickness;
+    }
 
-	@Override
-	public void setInsulationThickness(final Optional<Double> insulationThickness) {
-		this.insulationThickness = insulationThickness;
-	}
+    @Override
+    public void setInsulationThickness(final Optional<Double> insulationThickness) {
+        this.insulationThickness = insulationThickness;
+    }
 
-	@Override
-	public int hashCode() {
-		return Pojomatic.hashCode(this);
-	}
+    @Override
+    public int hashCode() {
+        return Pojomatic.hashCode(this);
+    }
 
-	@Override
-	public boolean equals(final Object other) {
-		return Pojomatic.equals(this, other);
-	}
+    @Override
+    public boolean equals(final Object other) {
+        return Pojomatic.equals(this, other);
+    }
 
-	@Override
-	public String toString() {
-		return Pojomatic.toString(this);
-	}
+    @Override
+    public String toString() {
+        return Pojomatic.toString(this);
+    }
 }

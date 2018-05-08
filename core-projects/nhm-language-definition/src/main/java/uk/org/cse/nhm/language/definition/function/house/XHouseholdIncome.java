@@ -12,5 +12,4 @@ import uk.org.cse.nhm.language.definition.function.num.XHouseNumber;
 @Category(CategoryType.MONEY)
 public class XHouseholdIncome extends XHouseNumber {
 
-	
 }

@@ -12,9 +12,10 @@ import javax.validation.Payload;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UniqueDates {
-	String message() default "{uk.org.cse.nhm.language.validate.timeseries.UniqueDates.nope}";
 
-	Class<?>[] groups() default { };
+    String message() default "{uk.org.cse.nhm.language.validate.timeseries.UniqueDates.nope}";
 
-	Class<? extends Payload>[] payload() default {};
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
 }

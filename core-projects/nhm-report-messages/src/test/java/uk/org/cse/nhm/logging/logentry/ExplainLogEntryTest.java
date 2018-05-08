@@ -11,10 +11,10 @@ import com.google.common.collect.ImmutableList;
 
 public class ExplainLogEntryTest {
 
-	@Test
-	public void test() throws JsonGenerationException, JsonMappingException, IOException {
-		final ExplainLogEntry logEntry = new ExplainLogEntry(new DateTime(), "name", "cause", false, 123, ImmutableList.of(
-				new ExplainArrow("from", "to", 50)));
-		LogEntryTestUtility.testLogDeSerialisation(logEntry, ExplainLogEntry.class);
-	}
+    @Test
+    public void test() throws JsonGenerationException, JsonMappingException, IOException {
+        final ExplainLogEntry logEntry = new ExplainLogEntry(new DateTime(), "name", "cause", false, 123, ImmutableList.of(
+                new ExplainArrow("from", "to", 50)));
+        LogEntryTestUtility.testLogDeSerialisation(logEntry, ExplainLogEntry.class);
+    }
 }

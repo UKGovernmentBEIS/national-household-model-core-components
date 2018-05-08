@@ -13,6 +13,7 @@ import uk.org.cse.nhm.simulator.state.IDwelling;
 import uk.org.cse.nhm.simulator.state.IState;
 
 public class ProfiledDwellingSet implements IDwellingSet {
+
     private final IProfilingStack prof;
     private final IDwellingSet delegate;
 
@@ -21,7 +22,7 @@ public class ProfiledDwellingSet implements IDwellingSet {
         this.prof = prof;
         this.delegate = delegate;
     }
-    
+
     @Override
     public Set<IDwelling> get(final IState state, ILets lets) {
         try {
@@ -37,11 +38,8 @@ public class ProfiledDwellingSet implements IDwellingSet {
         return delegate.getIdentifier();
     }
 
-    
     @Override
     public String toString() {
         return delegate.toString();
     }
 }
-
-

@@ -27,61 +27,63 @@ import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 @RunWith(MockitoJUnitRunner.class)
 public class SAP2012LightEfficiencyTests {
 
-    @Mock IEnergyCalculatorHouseCase house;
-    @Mock IInternalParameters parameters;
-    @Mock ISpecificHeatLosses losses;
-    @Mock IEnergyState state;
-    
+    @Mock
+    IEnergyCalculatorHouseCase house;
+    @Mock
+    IInternalParameters parameters;
+    @Mock
+    ISpecificHeatLosses losses;
+    @Mock
+    IEnergyState state;
+
     @Before
-    public void setUpTests(){
+    public void setUpTests() {
         when(state.getBoundedTotalDemand(EnergyType.DemandsVISIBLE_LIGHT, 1d)).thenReturn(1d);
     }
-    
-    
+
     @Test
     public void testIfMoreEfficiencyThanIncandescentThenCFL() throws Exception {
         double multiplier = INCANDESCENT_EFFICIENCY - 0.1;
         double proportion = 1;
         double expectedMultiplier = CFL_EFFICIENCY;
-        
+
         when(state.getBoundedTotalDemand(EnergyType.DemandsVISIBLE_LIGHT, 1d)).thenReturn(1d);
         when(parameters.getTarrifType()).thenReturn(ElectricityTariffType.FLAT_RATE);
-        
+
         SAP2012LightingTransducer lightTransducer = build(proportion, multiplier);
         lightTransducer.generate(house, parameters, losses, state);
-        verify(state).increaseElectricityDemand(12, proportion*expectedMultiplier);
+        verify(state).increaseElectricityDemand(12, proportion * expectedMultiplier);
     }
-    
-    
+
     @Test
     public void testShouldClampEfficiencyToIncandescentfficiencyIfLower() throws Exception {
         double multiplier = INCANDESCENT_EFFICIENCY + 1;
         double proportion = 1;
         double expectedMultiplier = INCANDESCENT_EFFICIENCY;
-                
+
         when(state.getBoundedTotalDemand(EnergyType.DemandsVISIBLE_LIGHT, 1d)).thenReturn(1d);
         when(parameters.getTarrifType()).thenReturn(ElectricityTariffType.FLAT_RATE);
-                
+
         SAP2012LightingTransducer lightTransducer = build(proportion, multiplier);
         lightTransducer.generate(house, parameters, losses, state);
-        verify(state).increaseElectricityDemand(12, proportion*expectedMultiplier);
+        verify(state).increaseElectricityDemand(12, proportion * expectedMultiplier);
     }
-    
+
     @Test
     public void testShouldClampEfficiencyToCFLIfHigher() throws Exception {
         double multiplier = CFL_EFFICIENCY - 1;
         double proportion = 1;
         double expectedMultiplier = CFL_EFFICIENCY;
-                
+
         when(state.getBoundedTotalDemand(EnergyType.DemandsVISIBLE_LIGHT, 1d)).thenReturn(1d);
         when(parameters.getTarrifType()).thenReturn(ElectricityTariffType.FLAT_RATE);
-                
+
         SAP2012LightingTransducer lightTransducer = build(proportion, multiplier);
         lightTransducer.generate(house, parameters, losses, state);
-        verify(state).increaseElectricityDemand(12, proportion*expectedMultiplier);
+        verify(state).increaseElectricityDemand(12, proportion * expectedMultiplier);
     }
-    
-    protected SAP2012LightingTransducer build(double proportion, double multiplier){
-        return new SAP2012LightingTransducer("xx", proportion, multiplier, new double[] {12,12});
+
+    protected SAP2012LightingTransducer build(double proportion, double multiplier) {
+        return new SAP2012LightingTransducer("xx", proportion, multiplier, new double[]{12, 12});
     }
 }

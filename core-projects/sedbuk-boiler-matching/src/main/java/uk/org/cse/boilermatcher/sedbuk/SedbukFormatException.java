@@ -12,20 +12,20 @@ public class SedbukFormatException extends IOException {
      * @since 1.0
      */
     public SedbukFormatException(String string) {
-		super(string);
-	}
+        super(string);
+    }
 
     /**
      * @since 1.0
      */
     public void setInputLine(String thisLine) {
-		
-	}
+
+    }
 
     /**
      * @since 1.0
      */
     public void setLineNumber(int lineCounter) {
-		
-	}
+
+    }
 }

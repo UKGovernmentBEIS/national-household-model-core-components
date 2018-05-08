@@ -1,24 +1,24 @@
 label[for=area] {
-	background-image: url(./images/om_stack.png);
+    background-image: url(./images/om_stack.png);
 }
 label[for=line] {
-	background-image: url(./images/om_lines.png);
+    background-image: url(./images/om_lines.png);
 }
 label[for=bar] {
-	background-image: url(./images/om_bar.png);
+    background-image: url(./images/om_bar.png);
 }
 label[for=scatter] {
-	background-image: url(./images/om_scatter.png);
+    background-image: url(./images/om_scatter.png);
 }
 label[for=stack] {
-	background-image: url(./images/om_stack.png);
+    background-image: url(./images/om_stack.png);
 }
 label[for=pct] {
-	background-image: url(./images/om_percent.png);
+    background-image: url(./images/om_percent.png);
 }
 label[for=stream] {
-	background-image: url(./images/om_stream.png);
+    background-image: url(./images/om_stream.png);
 }
 label[for=value] {
-	background-image: url(./images/offset_value_larger.png);
+    background-image: url(./images/offset_value_larger.png);
 }

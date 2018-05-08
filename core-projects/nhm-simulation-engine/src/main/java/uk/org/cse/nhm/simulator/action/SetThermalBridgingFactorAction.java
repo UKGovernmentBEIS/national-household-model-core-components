@@ -17,59 +17,60 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class SetThermalBridgingFactorAction extends AbstractNamed implements IComponentsAction {
 
-	private final IDimension<StructureModel> structureDimension;
-	private final IComponentsFunction<Number> thermalBridgingFactorFunction;
+    private final IDimension<StructureModel> structureDimension;
+    private final IComponentsFunction<Number> thermalBridgingFactorFunction;
 
-	@AssistedInject
-	public SetThermalBridgingFactorAction(
-			IDimension<StructureModel> structureDimension,
-			@Assisted IComponentsFunction<Number> thermalBridgingFactorFunction
-			) {
-				this.structureDimension = structureDimension;
-				this.thermalBridgingFactorFunction = thermalBridgingFactorFunction;
-	}
-	
-	@Override
-	public StateChangeSourceType getSourceType() {
-		return StateChangeSourceType.ACTION;
-	}
+    @AssistedInject
+    public SetThermalBridgingFactorAction(
+            IDimension<StructureModel> structureDimension,
+            @Assisted IComponentsFunction<Number> thermalBridgingFactorFunction
+    ) {
+        this.structureDimension = structureDimension;
+        this.thermalBridgingFactorFunction = thermalBridgingFactorFunction;
+    }
 
-	@Override
-	public boolean apply(ISettableComponentsScope scope, ILets lets) throws NHMException {
-		scope.modify(
-			structureDimension, 
-			new Modifier(
-				thermalBridgingFactorFunction.compute(scope, lets).doubleValue()
-			)
-		);
-		
-		return true;
-	}
+    @Override
+    public StateChangeSourceType getSourceType() {
+        return StateChangeSourceType.ACTION;
+    }
 
-	@Override
-	public boolean isSuitable(IComponentsScope scope, ILets lets) {
-		return true;
-	}
+    @Override
+    public boolean apply(ISettableComponentsScope scope, ILets lets) throws NHMException {
+        scope.modify(
+                structureDimension,
+                new Modifier(
+                        thermalBridgingFactorFunction.compute(scope, lets).doubleValue()
+                )
+        );
 
-	@Override
-	public boolean isAlwaysSuitable() {
-		return true;
-	}
+        return true;
+    }
 
-	static class Modifier implements IModifier<StructureModel> {
-		private final double thermalBridgingFactor;
+    @Override
+    public boolean isSuitable(IComponentsScope scope, ILets lets) {
+        return true;
+    }
 
-		Modifier(final double thermalBridgingFactor) {
+    @Override
+    public boolean isAlwaysSuitable() {
+        return true;
+    }
+
+    static class Modifier implements IModifier<StructureModel> {
+
+        private final double thermalBridgingFactor;
+
+        Modifier(final double thermalBridgingFactor) {
             if (thermalBridgingFactor < 0) {
                 throw new IllegalArgumentException(String.format("Illegal thermal briding factor %g - should not be a negative number", thermalBridgingFactor));
             }
             this.thermalBridgingFactor = thermalBridgingFactor;
-		}
-		
-		@Override
-		public boolean modify(StructureModel modifiable) {
-			modifiable.setThermalBridigingCoefficient(thermalBridgingFactor);
-			return true;
-		}
-	}
+        }
+
+        @Override
+        public boolean modify(StructureModel modifiable) {
+            modifiable.setThermalBridigingCoefficient(thermalBridgingFactor);
+            return true;
+        }
+    }
 }

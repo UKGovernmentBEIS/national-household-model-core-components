@@ -13,30 +13,31 @@ import uk.org.cse.nhm.simulator.main.Initializable;
 
 @SimulationScoped
 public class InitializableListener implements TypeListener {
-	private static final org.slf4j.Logger log = org.slf4j.LoggerFactory
-			.getLogger(InitializableListener.class);
-	private List<Initializable> contents = new ArrayList<Initializable>();
 
-	@Override
-	public <I> void hear(TypeLiteral<I> type, TypeEncounter<I> encounter) {
-		if (Initializable.class.isAssignableFrom(type.getRawType())) {
-			encounter.register(new InjectionListener<I>() {
-				@Override
-				public void afterInjection(I injectee) {
-					if (injectee instanceof Initializable) {
-						log.debug("will initialize {}", injectee);
-						contents.add((Initializable) injectee);
-					}
-				}
-			});
-		}
-	}
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory
+            .getLogger(InitializableListener.class);
+    private List<Initializable> contents = new ArrayList<Initializable>();
 
-	public List<Initializable> getInitializables() {
-		return contents ;
-	}
+    @Override
+    public <I> void hear(TypeLiteral<I> type, TypeEncounter<I> encounter) {
+        if (Initializable.class.isAssignableFrom(type.getRawType())) {
+            encounter.register(new InjectionListener<I>() {
+                @Override
+                public void afterInjection(I injectee) {
+                    if (injectee instanceof Initializable) {
+                        log.debug("will initialize {}", injectee);
+                        contents.add((Initializable) injectee);
+                    }
+                }
+            });
+        }
+    }
 
-	public void clear() {
-		contents.clear();
-	}
+    public List<Initializable> getInitializables() {
+        return contents;
+    }
+
+    public void clear() {
+        contents.clear();
+    }
 }

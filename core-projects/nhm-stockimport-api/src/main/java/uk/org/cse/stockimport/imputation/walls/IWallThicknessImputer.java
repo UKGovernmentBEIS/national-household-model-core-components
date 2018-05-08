@@ -9,11 +9,11 @@ import uk.org.cse.nhm.energycalculator.api.types.WallInsulationType;
 
 public interface IWallThicknessImputer {
 
-	/**
-	 * @since 1.0
-	 */
-	public abstract double getWallThickness(Band ageBand,
-			Country country, WallConstructionType construction,
-			Set<WallInsulationType> insulations);
+    /**
+     * @since 1.0
+     */
+    public abstract double getWallThickness(Band ageBand,
+            Country country, WallConstructionType construction,
+            Set<WallInsulationType> insulations);
 
 }

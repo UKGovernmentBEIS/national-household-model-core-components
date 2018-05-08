@@ -6,305 +6,305 @@ import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 
 public interface ServicesEntry extends SurveyEntry {
-	@SavVariableMapping("FINCHBMA")
-	public String getBoiler_ManufacturerName();
 
-	@SavVariableMapping("FINCHBMO")
-	public String getBoiler_ModelName_Number();
+    @SavVariableMapping("FINCHBMA")
+    public String getBoiler_ManufacturerName();
 
-	@SavVariableMapping("FINWOTTY")
-	public String getOther_Type_Fuel_Specify();
+    @SavVariableMapping("FINCHBMO")
+    public String getBoiler_ModelName_Number();
 
-	@SavVariableMapping("FLIDESC")
-	public String getLoft_DescribeProblems();
+    @SavVariableMapping("FINWOTTY")
+    public String getOther_Type_Fuel_Specify();
 
-	@SavVariableMapping("FINWMPAG")
-	public Integer getSeparateInstantaneousHeaterMultiPoin();
+    @SavVariableMapping("FLIDESC")
+    public String getLoft_DescribeProblems();
 
-	@SavVariableMapping("FINWDIAG")
-	public Integer getDualImmersionHeater_Age();
+    @SavVariableMapping("FINWMPAG")
+    public Integer getSeparateInstantaneousHeaterMultiPoin();
 
-	@SavVariableMapping("FINWSIAG")
-	public Integer getSingleImmersionHeater_Age();
+    @SavVariableMapping("FINWDIAG")
+    public Integer getDualImmersionHeater_Age();
 
-	@SavVariableMapping("FINWHXAG")
-	public Integer getBackBoiler_Age();
+    @SavVariableMapping("FINWSIAG")
+    public Integer getSingleImmersionHeater_Age();
 
-	@SavVariableMapping("FINCHNOD")
-	public Integer getPrimaryHeatingSystem_NumberOfDwell();
+    @SavVariableMapping("FINWHXAG")
+    public Integer getBackBoiler_Age();
 
-	@SavVariableMapping("FINWHLAG")
-	public Integer getCommunal_Age();
+    @SavVariableMapping("FINCHNOD")
+    public Integer getPrimaryHeatingSystem_NumberOfDwell();
 
-	@SavVariableMapping("FINWOTAG")
-	public Integer getOther_Age();
+    @SavVariableMapping("FINWHLAG")
+    public Integer getCommunal_Age();
 
-	@SavVariableMapping("FINCHBAG")
-	public Integer getBoiler_Age();
+    @SavVariableMapping("FINWOTAG")
+    public Integer getOther_Age();
 
-	@SavVariableMapping("FINWHOAG")
-	public Integer getBoiler_WaterHeatingOnly__Age();
+    @SavVariableMapping("FINCHBAG")
+    public Integer getBoiler_Age();
 
-	@SavVariableMapping("FINNOFIR")
-	public Integer getTotalNumberOfOpenFireplaces();
+    @SavVariableMapping("FINWHOAG")
+    public Integer getBoiler_WaterHeatingOnly__Age();
 
-	@SavVariableMapping("FINCHBCD")
-	public Integer getBoiler_Code();
+    @SavVariableMapping("FINNOFIR")
+    public Integer getTotalNumberOfOpenFireplaces();
 
-	@SavVariableMapping("FINOHAGE")
-	public Integer getOtherHeating_Age();
+    @SavVariableMapping("FINCHBCD")
+    public Integer getBoiler_Code();
 
-	@SavVariableMapping("FINCHDAG")
-	public Integer getCentralHeatingDistribution_Age();
+    @SavVariableMapping("FINOHAGE")
+    public Integer getOtherHeating_Age();
 
-	@SavVariableMapping("FINWOTFU")
-	public Integer getHotWaterSystem_OtherFuelCode();
+    @SavVariableMapping("FINCHDAG")
+    public Integer getCentralHeatingDistribution_Age();
 
-	@SavVariableMapping("FINWSPAG")
-	public Integer getSeparateInstantaneousHeaterSinglePoi();
+    @SavVariableMapping("FINWOTFU")
+    public Integer getHotWaterSystem_OtherFuelCode();
 
-	@SavVariableMapping("FINCHEAT")
-	public Enum10 getINTERIORSPACEHEATING_PrimaryHeating();
+    @SavVariableMapping("FINWSPAG")
+    public Integer getSeparateInstantaneousHeaterSinglePoi();
 
-	@SavVariableMapping("FINCHCTC")
-	public Enum1282 getPrimaryHeatingControls_CelectTypeC();
+    @SavVariableMapping("FINCHEAT")
+    public Enum10 getINTERIORSPACEHEATING_PrimaryHeating();
 
-	@SavVariableMapping("FINCHTYP")
-	public Enum1710 getPrimaryHeatingSystem_TypeOfSystem();
+    @SavVariableMapping("FINCHCTC")
+    public Enum1282 getPrimaryHeatingControls_CelectTypeC();
 
-	@SavVariableMapping("FINCHLOC")
-	public Enum1711 getPrimaryHeatingSystem_LocationOfSys();
+    @SavVariableMapping("FINCHTYP")
+    public Enum1710 getPrimaryHeatingSystem_TypeOfSystem();
 
-	@SavVariableMapping("FINHSEXP")
-	public Enum1233 getHEALTHANDSAFETY_Explosions();
+    @SavVariableMapping("FINCHLOC")
+    public Enum1711 getPrimaryHeatingSystem_LocationOfSys();
 
-	@SavVariableMapping("FINMHBOI")
-	public Enum1713 getBoilerGroup();
+    @SavVariableMapping("FINHSEXP")
+    public Enum1233 getHEALTHANDSAFETY_Explosions();
 
-	@SavVariableMapping("FINWSIAC")
-	public Enum1060 getSingleImmersionHeater_Action();
+    @SavVariableMapping("FINMHBOI")
+    public Enum1713 getBoilerGroup();
 
-	@SavVariableMapping("FINCHOFF")
-	public Enum1282 getPrimaryHeatingControls_OverallOn_Of();
+    @SavVariableMapping("FINWSIAC")
+    public Enum1060 getSingleImmersionHeater_Action();
 
-	@SavVariableMapping("FINCHROM")
-	public Enum1282 getPrimaryHeatingControls_RoomThermost();
+    @SavVariableMapping("FINCHOFF")
+    public Enum1282 getPrimaryHeatingControls_OverallOn_Of();
 
-	@SavVariableMapping("FINWHOPR")
-	public Enum10 getBoiler_WaterHeatingOnly__Present();
+    @SavVariableMapping("FINCHROM")
+    public Enum1282 getPrimaryHeatingControls_RoomThermost();
 
-	@SavVariableMapping("FINELEPP")
-	public Enum1718 getElectricalSystems_PersonalProtection();
+    @SavVariableMapping("FINWHOPR")
+    public Enum10 getBoiler_WaterHeatingOnly__Present();
 
-	@SavVariableMapping("FINWDITY")
-	public Enum1719 getDualImmersionHeater_Type_Fuel();
+    @SavVariableMapping("FINELEPP")
+    public Enum1718 getElectricalSystems_PersonalProtection();
 
-	@SavVariableMapping("FINCHTZC")
-	public Enum1282 getPrimaryHeatingControls_TimeAndTemp();
+    @SavVariableMapping("FINWDITY")
+    public Enum1719 getDualImmersionHeater_Type_Fuel();
 
-	@SavVariableMapping("FINWHLTY")
-	public Enum1721 getCommunal_Type_Fuel();
+    @SavVariableMapping("FINCHTZC")
+    public Enum1282 getPrimaryHeatingControls_TimeAndTemp();
 
-	@SavVariableMapping("FINLOPOS")
-	public Enum1722 getDwellingType();
+    @SavVariableMapping("FINWHLTY")
+    public Enum1721 getCommunal_Type_Fuel();
 
-	@SavVariableMapping("FINCHACC")
-	public Enum1282 getPrimaryHeatingControls_AutomaticCha();
+    @SavVariableMapping("FINLOPOS")
+    public Enum1722 getDwellingType();
 
-	@SavVariableMapping("FINOHACT")
-	public Enum1060 getOtherHeating_Action();
+    @SavVariableMapping("FINCHACC")
+    public Enum1282 getPrimaryHeatingControls_AutomaticCha();
 
-	@SavVariableMapping("FINWHEAT")
-	public Enum10 getSECTION5INTERIORWATERHEATING_HotWa();
+    @SavVariableMapping("FINOHACT")
+    public Enum1060 getOtherHeating_Action();
 
-	@SavVariableMapping("FLICWIEV")
-	public Enum10 getEvidenceOfCWIInTheLoft_();
+    @SavVariableMapping("FINWHEAT")
+    public Enum10 getSECTION5INTERIORWATERHEATING_HotWa();
 
-	@SavVariableMapping("FINWHSIZ")
-	public Enum1727 getCylinder_Size_Volume();
+    @SavVariableMapping("FLICWIEV")
+    public Enum10 getEvidenceOfCWIInTheLoft_();
 
-	@SavVariableMapping("FINGASMS")
-	public Enum10 getGasSystem_MainsSupply();
+    @SavVariableMapping("FINWHSIZ")
+    public Enum1727 getCylinder_Size_Volume();
 
-	@SavVariableMapping("FINELEPS")
-	public Enum1729 getElectricalSystem_PowerSockets();
+    @SavVariableMapping("FINGASMS")
+    public Enum10 getGasSystem_MainsSupply();
 
-	@SavVariableMapping("FINELECU")
-	public Enum1730 getElectricalSystem_ConsumerUnitArrang();
+    @SavVariableMapping("FINELEPS")
+    public Enum1729 getElectricalSystem_PowerSockets();
 
-	@SavVariableMapping("FINWHTHE")
-	public Enum1282 getWaterHeatingControls_CylinderThermos();
+    @SavVariableMapping("FINELECU")
+    public Enum1730 getElectricalSystem_ConsumerUnitArrang();
 
-	@SavVariableMapping("FINELEAC")
-	public Enum1060 getElectricalSystem_Action();
+    @SavVariableMapping("FINWHTHE")
+    public Enum1282 getWaterHeatingControls_CylinderThermos();
 
-	@SavVariableMapping("FINCHDST")
-	public Enum1282 getPrimaryHeatingControls_DelayedTime();
+    @SavVariableMapping("FINELEAC")
+    public Enum1060 getElectricalSystem_Action();
 
-	@SavVariableMapping("FINOHEAT")
-	public Enum10 getOtherHeating_Present();
+    @SavVariableMapping("FINCHDST")
+    public Enum1282 getPrimaryHeatingControls_DelayedTime();
 
-	@SavVariableMapping("FINCHCON")
-	public Enum1282 getPrimaryHeatingControls_RadiatorCont();
+    @SavVariableMapping("FINOHEAT")
+    public Enum10 getOtherHeating_Present();
 
-	@SavVariableMapping("FINWDIAC")
-	public Enum1060 getDualImmersionHeater_Action();
+    @SavVariableMapping("FINCHCON")
+    public Enum1282 getPrimaryHeatingControls_RadiatorCont();
 
-	@SavVariableMapping("FINCHTHE")
-	public Enum1282 getPrimaryHeatingControls_BoilerThermo();
+    @SavVariableMapping("FINWDIAC")
+    public Enum1060 getDualImmersionHeater_Action();
 
-	@SavVariableMapping("FINWSIPR")
-	public Enum10 getSingleImmersionHeater_Present();
+    @SavVariableMapping("FINCHTHE")
+    public Enum1282 getPrimaryHeatingControls_BoilerThermo();
 
-	@SavVariableMapping("FINWHCEN")
-	public Enum1282 getWaterHeatingControls_TimeClockForW();
+    @SavVariableMapping("FINWSIPR")
+    public Enum10 getSingleImmersionHeater_Present();
 
-	@SavVariableMapping("FINWHOAC")
-	public Enum1060 getBoiler_WaterHeatingOnly__Action();
+    @SavVariableMapping("FINWHCEN")
+    public Enum1282 getWaterHeatingControls_TimeClockForW();
 
-	@SavVariableMapping("FINGASPR")
-	public Enum10 getGasSystem_Present();
+    @SavVariableMapping("FINWHOAC")
+    public Enum1060 getBoiler_WaterHeatingOnly__Action();
 
-	@SavVariableMapping("FINWMPTY")
-	public Enum1742 getSeparateInstantaneousHeaterMultiPoin_FINWMPTY();
+    @SavVariableMapping("FINGASPR")
+    public Enum10 getGasSystem_Present();
 
-	@SavVariableMapping("FINWSPAC")
-	public Enum1060 getSeparateInstantaneousHeaterSinglePoi_FINWSPAC();
+    @SavVariableMapping("FINWMPTY")
+    public Enum1742 getSeparateInstantaneousHeaterMultiPoin_FINWMPTY();
 
-	@SavVariableMapping("FINWHXPR")
-	public Enum10 getBackBoiler_Present();
+    @SavVariableMapping("FINWSPAC")
+    public Enum1060 getSeparateInstantaneousHeaterSinglePoi_FINWSPAC();
 
-	@SavVariableMapping("FINWHCPR")
-	public Enum10 getBoilerWithCentralHeating_Present();
+    @SavVariableMapping("FINWHXPR")
+    public Enum10 getBackBoiler_Present();
 
-	@SavVariableMapping("FINOHPHS")
-	public Enum10 getOtherHeating_MainHeatSourceInWint();
+    @SavVariableMapping("FINWHCPR")
+    public Enum10 getBoilerWithCentralHeating_Present();
 
-	@SavVariableMapping("FINWOTPR")
-	public Enum10 getOther_Present_();
+    @SavVariableMapping("FINOHPHS")
+    public Enum10 getOtherHeating_MainHeatSourceInWint();
 
-	@SavVariableMapping("FININTYP")
-	public Enum1748 getTypeOfLoftInsulation();
+    @SavVariableMapping("FINWOTPR")
+    public Enum10 getOther_Present_();
 
-	@SavVariableMapping("FINELEMS")
-	public Enum10 getElectricalSystem_NormalMainsSupply();
+    @SavVariableMapping("FININTYP")
+    public Enum1748 getTypeOfLoftInsulation();
 
-	@SavVariableMapping("FINCHBAC")
-	public Enum1060 getBoiler_Action();
+    @SavVariableMapping("FINELEMS")
+    public Enum10 getElectricalSystem_NormalMainsSupply();
 
-	@SavVariableMapping("FINELEDC")
-	public Enum1751 getElectricalSystem_LocationOfDistribu();
+    @SavVariableMapping("FINCHBAC")
+    public Enum1060 getBoiler_Action();
 
-	@SavVariableMapping("FINCWIME")
-	public Enum10 getEvidenceOfCWIInElectricyOrGasMeters_();
+    @SavVariableMapping("FINELEDC")
+    public Enum1751 getElectricalSystem_LocationOfDistribu();
 
-	@SavVariableMapping("FINELELC")
-	public Enum1753 getElectricalSystem_LightingCircuits();
+    @SavVariableMapping("FINCWIME")
+    public Enum10 getEvidenceOfCWIInElectricyOrGasMeters_();
 
-	@SavVariableMapping("FINWSITY")
-	public Enum1719 getSingleImmersionHeater_Type_Fuel();
+    @SavVariableMapping("FINELELC")
+    public Enum1753 getElectricalSystem_LightingCircuits();
 
-	@SavVariableMapping("FLIINFOR")
-	public Enum1755 getLoft_InformationFrom();
+    @SavVariableMapping("FINWSITY")
+    public Enum1719 getSingleImmersionHeater_Type_Fuel();
 
-	@SavVariableMapping("FLIPROBS")
-	public Enum10 getLoft_AnyRoofStructureProblems();
+    @SavVariableMapping("FLIINFOR")
+    public Enum1755 getLoft_InformationFrom();
 
-	@SavVariableMapping("FLITHICK")
-	public Enum1757 getLoft_ApproxThickness();
+    @SavVariableMapping("FLIPROBS")
+    public Enum10 getLoft_AnyRoofStructureProblems();
 
-	@SavVariableMapping("FLITYPES")
-	public Enum1758 getLoft_Type();
+    @SavVariableMapping("FLITHICK")
+    public Enum1757 getLoft_ApproxThickness();
 
-	@SavVariableMapping("FINCHDAC")
-	public Enum1060 getCentralHeatingDistribution_Action();
+    @SavVariableMapping("FLITYPES")
+    public Enum1758 getLoft_Type();
 
-	@SavVariableMapping("FINCHMCC")
-	public Enum1282 getPRIMARYHEATINGCONTROLS_STORGAEHEATER();
+    @SavVariableMapping("FINCHDAC")
+    public Enum1060 getCentralHeatingDistribution_Action();
 
-	@SavVariableMapping("FINWMPAC")
-	public Enum1060 getSeparateInstantaneousHeaterMultiPoin_FINWMPAC();
+    @SavVariableMapping("FINCHMCC")
+    public Enum1282 getPRIMARYHEATINGCONTROLS_STORGAEHEATER();
 
-	@SavVariableMapping("FINCHPHS")
-	public Enum10 getPrimaryHeatingSystem_MainHeatSourc();
+    @SavVariableMapping("FINWMPAC")
+    public Enum1060 getSeparateInstantaneousHeaterMultiPoin_FINWMPAC();
 
-	@SavVariableMapping("FINWSPTY")
-	public Enum1742 getSeparateInstantaneousHeaterSinglePoi_FINWSPTY();
+    @SavVariableMapping("FINCHPHS")
+    public Enum10 getPrimaryHeatingSystem_MainHeatSourc();
 
-	@SavVariableMapping("FINELEWI")
-	public Enum1764 getElectricalSystem_TypeOfWiring();
+    @SavVariableMapping("FINWSPTY")
+    public Enum1742 getSeparateInstantaneousHeaterSinglePoi_FINWSPTY();
 
-	@SavVariableMapping("FINHSUNG")
-	public Enum1233 getHEALTHANDSAFETY_UncombustedGas();
+    @SavVariableMapping("FINELEWI")
+    public Enum1764 getElectricalSystem_TypeOfWiring();
 
-	@SavVariableMapping("FINWHINS")
-	public Enum1766 getHotWaterCylinder_Insulation();
+    @SavVariableMapping("FINHSUNG")
+    public Enum1233 getHEALTHANDSAFETY_UncombustedGas();
 
-	@SavVariableMapping("FINHSELS")
-	public Enum1233 getHEALTHANDSAFETY_ElectricalSafety();
+    @SavVariableMapping("FINWHINS")
+    public Enum1766 getHotWaterCylinder_Insulation();
 
-	@SavVariableMapping("FINCHTIM")
-	public Enum1282 getPrimaryHeatingControls_CentralTimer();
+    @SavVariableMapping("FINHSELS")
+    public Enum1233 getHEALTHANDSAFETY_ElectricalSafety();
 
-	@SavVariableMapping("FINOPELE")
-	public Enum10 getElectricalSystem_OffPeakSupply();
+    @SavVariableMapping("FINCHTIM")
+    public Enum1282 getPrimaryHeatingControls_CentralTimer();
 
-	@SavVariableMapping("FINELEOP")
-	public Enum1770 getElectricalSystem_OverloadProtection();
+    @SavVariableMapping("FINOPELE")
+    public Enum10 getElectricalSystem_OffPeakSupply();
 
-	@SavVariableMapping("FINWHMMS")
-	public Enum1771 getHotWaterCylinder_Thickness_Mms_();
+    @SavVariableMapping("FINELEOP")
+    public Enum1770 getElectricalSystem_OverloadProtection();
 
-	@SavVariableMapping("FINWSPPR")
-	public Enum10 getSeparateInstantaneousHeaterSinglePoi_FINWSPPR();
+    @SavVariableMapping("FINWHMMS")
+    public Enum1771 getHotWaterCylinder_Thickness_Mms_();
 
-	@SavVariableMapping("FINWHCYL")
-	public Enum1282 getCylinder_Present();
+    @SavVariableMapping("FINWSPPR")
+    public Enum10 getSeparateInstantaneousHeaterSinglePoi_FINWSPPR();
 
-	@SavVariableMapping("FINHSCO")
-	public Enum1233 getHEALTHANDSAFETY_CarbonMonoxide();
+    @SavVariableMapping("FINWHCYL")
+    public Enum1282 getCylinder_Present();
 
-	@SavVariableMapping("FINWDIPR")
-	public Enum10 getDualImmersionHeater_Present();
+    @SavVariableMapping("FINHSCO")
+    public Enum1233 getHEALTHANDSAFETY_CarbonMonoxide();
 
-	@SavVariableMapping("FINOHTYP")
-	public Enum1776 getOtherHeating_TypeOfSystem();
+    @SavVariableMapping("FINWDIPR")
+    public Enum10 getDualImmersionHeater_Present();
 
-	@SavVariableMapping("FINMHFUE")
-	public Enum1777 getMainHeatingFuel();
+    @SavVariableMapping("FINOHTYP")
+    public Enum1776 getOtherHeating_TypeOfSystem();
 
-	@SavVariableMapping("FINWMPPR")
-	public Enum10 getSeparateInstantaneousHeaterMultiPoin_FINWMPPR();
+    @SavVariableMapping("FINMHFUE")
+    public Enum1777 getMainHeatingFuel();
 
-	@SavVariableMapping("FINWHOTY")
-	public Enum1779 getBoiler_WaterHeatingOnly__Type_Fuel();
+    @SavVariableMapping("FINWMPPR")
+    public Enum10 getSeparateInstantaneousHeaterMultiPoin_FINWMPPR();
 
-	@SavVariableMapping("FINELEPR")
-	public Enum10 getElectricalSystem_Present();
+    @SavVariableMapping("FINWHOTY")
+    public Enum1779 getBoiler_WaterHeatingOnly__Type_Fuel();
 
-	@SavVariableMapping("FINWHLPR")
-	public Enum10 getCommunal_Present_();
+    @SavVariableMapping("FINELEPR")
+    public Enum10 getElectricalSystem_Present();
 
-	@SavVariableMapping("FINWHXTY")
-	public Enum1779 getBackBoiler_Type_Fuel();
+    @SavVariableMapping("FINWHLPR")
+    public Enum10 getCommunal_Present_();
 
-	@SavVariableMapping("FINCHTRV")
-	public Enum1282 getPrimaryHeatingControls_Thermostatic();
+    @SavVariableMapping("FINWHXTY")
+    public Enum1779 getBackBoiler_Type_Fuel();
 
-	@SavVariableMapping("FINELEEA")
-	public Enum1784 getElectricalSystem_EarthingOfWires();
+    @SavVariableMapping("FINCHTRV")
+    public Enum1282 getPrimaryHeatingControls_Thermostatic();
 
-	@SavVariableMapping("FINWHXAC")
-	public Enum1060 getBackBoiler_Action();
+    @SavVariableMapping("FINELEEA")
+    public Enum1784 getElectricalSystem_EarthingOfWires();
 
-	@SavVariableMapping("FINCHOVE")
-	public Enum1282 getPrimaryHeatingControls_ManualOverri();
+    @SavVariableMapping("FINWHXAC")
+    public Enum1060 getBackBoiler_Action();
 
-	@SavVariableMapping("FLIINSUL")
-	public Enum1282 getRoofInsulationAboveLivingSpace();
+    @SavVariableMapping("FINCHOVE")
+    public Enum1282 getPrimaryHeatingControls_ManualOverri();
 
-	@SavVariableMapping("FINGASAC")
-	public Enum1060 getGasSystem_Action();
+    @SavVariableMapping("FLIINSUL")
+    public Enum1282 getRoofInsulationAboveLivingSpace();
+
+    @SavVariableMapping("FINGASAC")
+    public Enum1060 getGasSystem_Action();
 
 }
-

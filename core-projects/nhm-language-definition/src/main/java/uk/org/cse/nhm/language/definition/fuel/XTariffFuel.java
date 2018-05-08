@@ -21,38 +21,39 @@ import uk.org.cse.nhm.language.definition.enums.XFuelType;
 @Bind("fuel")
 @Category(CategoryType.TARIFFS)
 public class XTariffFuel extends XElement {
-	public static class P {
-		public static final String fuel = "fuel";
-		public static final String components = "components";
-	}
 
-	private XFuelType fuel;
-	private List<XTariffCharge> components = new ArrayList<XTariffCharge>();
+    public static class P {
 
-	
-@BindNamedArgument("type")
-	@Prop(P.fuel)
-	@NotNull(message = "fuel element must specify which fuel is being charged for.")
-	@Doc({ "The fuel to charge for." })
-	public XFuelType getFuel() {
-		return fuel;
-	}
+        public static final String fuel = "fuel";
+        public static final String components = "components";
+    }
 
-	public void setFuel(final XFuelType fuel) {
-		this.fuel = fuel;
-	}
+    private XFuelType fuel;
+    private List<XTariffCharge> components = new ArrayList<XTariffCharge>();
 
-	@BindRemainingArguments
-	
-	@Prop(P.components)
-	@Doc({ "The component parts which determine the charge for this fuel. Each component produces a separate transaction.",
-			"The components will be applied in the order they are written, so a later component may use the result of an earlier one." })
-	@Size(min = 1, message = "fuel must contain at least one component.")
-	public List<XTariffCharge> getComponents() {
-		return components;
-	}
+    @BindNamedArgument("type")
+    @Prop(P.fuel)
+    @NotNull(message = "fuel element must specify which fuel is being charged for.")
+    @Doc({"The fuel to charge for."})
+    public XFuelType getFuel() {
+        return fuel;
+    }
 
-	public void setComponents(final List<XTariffCharge> components) {
-		this.components = components;
-	}
+    public void setFuel(final XFuelType fuel) {
+        this.fuel = fuel;
+    }
+
+    @BindRemainingArguments
+
+    @Prop(P.components)
+    @Doc({"The component parts which determine the charge for this fuel. Each component produces a separate transaction.",
+        "The components will be applied in the order they are written, so a later component may use the result of an earlier one."})
+    @Size(min = 1, message = "fuel must contain at least one component.")
+    public List<XTariffCharge> getComponents() {
+        return components;
+    }
+
+    public void setComponents(final List<XTariffCharge> components) {
+        this.components = components;
+    }
 }

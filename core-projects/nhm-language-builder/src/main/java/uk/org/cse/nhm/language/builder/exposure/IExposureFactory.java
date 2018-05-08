@@ -6,6 +6,6 @@ import uk.org.cse.nhm.simulator.scope.IStateAction;
 
 public interface IExposureFactory {
 
-	Object create(final Name id, IDwellingGroup group, IStateAction action);
+    Object create(final Name id, IDwellingGroup group, IStateAction action);
 
 }

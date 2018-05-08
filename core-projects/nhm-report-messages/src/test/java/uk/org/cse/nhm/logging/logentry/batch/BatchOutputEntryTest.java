@@ -13,9 +13,9 @@ import uk.org.cse.nhm.logging.logentry.LogEntryTestUtility;
 
 public class BatchOutputEntryTest {
 
-	@Test
-	public void test() throws JsonGenerationException, JsonMappingException, IOException {
-		final BatchOutputEntry logEntry = new BatchOutputEntry(UUID.randomUUID(), ImmutableMap.of("category", "value from category"), ImmutableMap.of("function result", 5d));
-		LogEntryTestUtility.testLogDeSerialisation(logEntry, BatchOutputEntry.class);
-	}
+    @Test
+    public void test() throws JsonGenerationException, JsonMappingException, IOException {
+        final BatchOutputEntry logEntry = new BatchOutputEntry(UUID.randomUUID(), ImmutableMap.of("category", "value from category"), ImmutableMap.of("function result", 5d));
+        LogEntryTestUtility.testLogDeSerialisation(logEntry, BatchOutputEntry.class);
+    }
 }

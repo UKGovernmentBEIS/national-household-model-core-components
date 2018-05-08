@@ -14,50 +14,50 @@ import com.google.common.collect.ImmutableMap;
 
 /**
  * A log entry which contains some batch outputs
- * 
+ *
  * @since 4.0.0
  */
 @AutoProperty
 public class BatchOutputEntry extends AbstractBatchEntry<Double> implements IKeyValueLogEntry {
-	
-	private final ImmutableMap<String, String> reducedRowKey;
-	
-	@JsonCreator
-	public BatchOutputEntry(
-			@JsonProperty("runID") UUID runID,
-			@JsonProperty("reducedRowKey") ImmutableMap<String, String> reducedRowKey,
-			@JsonProperty("columns") ImmutableMap<String, Double> columns) {
-		super(runID, columns);
-		this.reducedRowKey = reducedRowKey;
-	}
-	
-	@Override
-	public ImmutableMap<String, String> getReducedRowKey() {
-		return reducedRowKey;
-	}
-	
-	@Override
-	@JsonIgnore
-	@Property(policy = PojomaticPolicy.NONE)
-	public ImmutableMap<String, String> getFullRowKey() {
-		return ImmutableMap.<String, String>builder()
-				.put("runID", getRunID().toString())
-				.putAll(reducedRowKey)
-				.build();
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		return Pojomatic.equals(this, obj);
-	}
-	
-	@Override
-	public String toString() {
-		return Pojomatic.toString(this);
-	}
-	
-	@Override
-	public int hashCode() {
-		return Pojomatic.hashCode(this);
-	}
+
+    private final ImmutableMap<String, String> reducedRowKey;
+
+    @JsonCreator
+    public BatchOutputEntry(
+            @JsonProperty("runID") UUID runID,
+            @JsonProperty("reducedRowKey") ImmutableMap<String, String> reducedRowKey,
+            @JsonProperty("columns") ImmutableMap<String, Double> columns) {
+        super(runID, columns);
+        this.reducedRowKey = reducedRowKey;
+    }
+
+    @Override
+    public ImmutableMap<String, String> getReducedRowKey() {
+        return reducedRowKey;
+    }
+
+    @Override
+    @JsonIgnore
+    @Property(policy = PojomaticPolicy.NONE)
+    public ImmutableMap<String, String> getFullRowKey() {
+        return ImmutableMap.<String, String>builder()
+                .put("runID", getRunID().toString())
+                .putAll(reducedRowKey)
+                .build();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return Pojomatic.equals(this, obj);
+    }
+
+    @Override
+    public String toString() {
+        return Pojomatic.toString(this);
+    }
+
+    @Override
+    public int hashCode() {
+        return Pojomatic.hashCode(this);
+    }
 }

@@ -1,12 +1,12 @@
 dl {
-	max-width: 90vw;	
+    max-width: 90vw;	
 }
 
 dd {
-	display: inline-block;
+    display: inline-block;
 }
 
 .summary:hover {
-	text-decoration: underline;
-	cursor: pointer;
+    text-decoration: underline;
+    cursor: pointer;
 }

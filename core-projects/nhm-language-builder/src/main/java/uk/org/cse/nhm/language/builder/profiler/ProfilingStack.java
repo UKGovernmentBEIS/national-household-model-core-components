@@ -32,13 +32,14 @@ import uk.org.cse.nhm.simulator.main.Initializable;
 import uk.org.cse.nhm.simulator.scope.IComponentsScope;
 
 /**
- * Keeps track of time spent in different parts of the scenario. Each identifier has a
- * name and a path, but lacks the full source location that was used to construct it
- * (i.e. the many lines of a template that may have been involved).
+ * Keeps track of time spent in different parts of the scenario. Each identifier
+ * has a name and a path, but lacks the full source location that was used to
+ * construct it (i.e. the many lines of a template that may have been involved).
  *
  * At the moment, this just maps each thing to how much time it ran for
  */
 public class ProfilingStack implements IProfilingStack, ISimulationStepListener, Initializable {
+
     /**
      * this is a stack of clock start times.
      */
@@ -50,51 +51,55 @@ public class ProfilingStack implements IProfilingStack, ISimulationStepListener,
     private final ILogEntryHandler log;
     private final int profilingDepth;
     private final Provider<ISimulator> simulator;
-    
+
     @Inject
     public ProfilingStack(final Provider<ISimulator> simulator, final ILogEntryHandler log,
-                          @Named(SimulatorConfigurationConstants.PROFILING_DEPTH) final int profilingDepth) {
+            @Named(SimulatorConfigurationConstants.PROFILING_DEPTH) final int profilingDepth) {
         this.log = log;
         this.profilingDepth = profilingDepth;
         this.simulator = simulator;
     }
-    
+
     @Override
     public void initialize() {
         simulator.get().addSimulationStepListener(this);
     }
-    
-    private long time () {
-    	return 0;
+
+    private long time() {
+        return 0;
         //return mx.getProcessCpuTime();
     }
-    
+
     @Override
-	public void push(final IIdentified thing) {
+    public void push(final IIdentified thing) {
         path.push(thing.getIdentifier());
-        if (path.size() > profilingDepth) return;
+        if (path.size() > profilingDepth) {
+            return;
+        }
         clocks.push(time());
     }
-    
+
     @Override
-	public void pop(final IIdentified thing) {
-        if (clocks.isEmpty()) return;
+    public void pop(final IIdentified thing) {
+        if (clocks.isEmpty()) {
+            return;
+        }
         if (path.size() > profilingDepth) {
             path.pop();
             return;
         }
-        
+
         final long delta = time() - clocks.pop();
         final List<Name> path = ImmutableList.copyOf(this.path);
 
         this.path.pop();
-        
+
         timers.putOrAdd(path, delta, delta);
         hits.putOrAdd(path, 1, 1);
     }
 
     @Override
-	public NHMException die(final String message, final IIdentified thing, final IComponentsScope scope) {
+    public NHMException die(final String message, final IIdentified thing, final IComponentsScope scope) {
         final ImmutableList.Builder<Name> builder = ImmutableList.builder();
 
         final Name top = thing == null ? null : thing.getIdentifier();
@@ -109,24 +114,26 @@ public class ProfilingStack implements IProfilingStack, ISimulationStepListener,
         }
 
         builder.addAll(path);
-        
+
         return new NHMException(builder.build(),
-                                message +
-                                (profilingDepth == 0 ? " (for more location information, increase the profiling depth on the scenario element)" : ""));
+                message
+                + (profilingDepth == 0 ? " (for more location information, increase the profiling depth on the scenario element)" : ""));
     }
-    
+
     @Override
-	public void simulationStepped(final DateTime dateOfStep,
-                                  final DateTime nextDate,
-                                  final boolean isFinalStep) {
+    public void simulationStepped(final DateTime dateOfStep,
+            final DateTime nextDate,
+            final boolean isFinalStep) {
         if (isFinalStep) {
             final Map<Name, Integer> dedup = new HashMap<>();
-            
+
             for (final ObjectLongCursor<List<Name>> c : timers) {
                 final double time = c.value / 1000000000.0;
 
-                if (time < 0.5) continue;
-                
+                if (time < 0.5) {
+                    continue;
+                }
+
                 final List<Name> stack = c.key;
                 final ImmutableList.Builder<Integer> ddstack = ImmutableList.builder();
 
@@ -138,10 +145,10 @@ public class ProfilingStack implements IProfilingStack, ISimulationStepListener,
                     }
                     ddstack.add(dedup.get(n));
                 }
-                
+
                 final ProfilerLogEntry ple = new ProfilerLogEntry(ddstack.build(),
-                                                                  time,
-                                                                  hits.get(c.key));
+                        time,
+                        hits.get(c.key));
 
                 log.acceptLogEntry(ple);
             }

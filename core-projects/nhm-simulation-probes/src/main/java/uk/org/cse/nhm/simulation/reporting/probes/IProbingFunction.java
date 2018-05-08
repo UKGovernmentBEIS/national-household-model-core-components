@@ -8,9 +8,11 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 /**
  * Marker interface for probing functions.
+ *
  * @author hinton
  *
  */
 public interface IProbingFunction extends IComponentsFunction<Map<String, Object>> {
-	ImmutableSet<String> getHeaders();
+
+    ImmutableSet<String> getHeaders();
 }

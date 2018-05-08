@@ -58,8 +58,9 @@ import uk.org.cse.stockimport.repository.IHouseCaseSources;
 import uk.org.cse.stockimport.repository.IHouseCaseSourcesRepositoryFactory;
 
 /**
- * SpssHouseCaseReader. Retrieves SurveyEntry collections containing EHS survey data from the database. Builds a
- * HouseCaseDTO for every aacode found in the data.
+ * SpssHouseCaseReader. Retrieves SurveyEntry collections containing EHS survey
+ * data from the database. Builds a HouseCaseDTO for every aacode found in the
+ * data.
  *
  * @author richardt
  * @version $Id: SpssHouseCaseReader.java 94 2010-09-30 15:39:21Z richardt
@@ -74,27 +75,28 @@ public class SpssHouseCaseReader extends AbsSpssReader<IHouseCaseDTO> {
             MorphologyType.Village, Enum28.TownAndFringe, MorphologyType.TownAndFringe, Enum28.UrbanGreaterThan10K,
             MorphologyType.Urban);
 
-    protected Map<String, FloorLocationType> roomLevelConversion = ImmutableMap.<String, FloorLocationType> builder()
+    protected Map<String, FloorLocationType> roomLevelConversion = ImmutableMap.<String, FloorLocationType>builder()
             .put("bb", FloorLocationType.BASEMENT)
             .put("BB", FloorLocationType.BASEMENT).put("gg", FloorLocationType.GROUND)
             .put("GG", FloorLocationType.GROUND).build();
 
-    /** @since 1.0 */
+    /**
+     * @since 1.0
+     */
     public SpssHouseCaseReader(final String executionId, final IHouseCaseSourcesRepositoryFactory mongoProviderFactory) {
         super(executionId, mongoProviderFactory);
     }
 
     @Override
     protected Set<Class<?>> getSurveyEntryClasses() {
-        return ImmutableSet.<Class<?>> of(General_09Plus10EntryImpl.class, Firstimp_PhysicalEntryImpl.class,
-                                          Interview_09Plus10EntryImpl.class, Physical_09Plus10EntryImpl.class,
-                                          IntroomsEntryImpl.class, InteriorEntryImpl.class, Dimensions_09Plus10EntryImpl.class,
-                                          ServicesEntryImpl.class, AroundEntryImpl.class, FlatdetsEntryImpl.class);
+        return ImmutableSet.<Class<?>>of(General_09Plus10EntryImpl.class, Firstimp_PhysicalEntryImpl.class,
+                Interview_09Plus10EntryImpl.class, Physical_09Plus10EntryImpl.class,
+                IntroomsEntryImpl.class, InteriorEntryImpl.class, Dimensions_09Plus10EntryImpl.class,
+                ServicesEntryImpl.class, AroundEntryImpl.class, FlatdetsEntryImpl.class);
     }
 
     /**
-     * @return
-     * @since 1.0
+     * @return @since 1.0
      */
     @Override
     public List<IHouseCaseDTO> read(final IHouseCaseSources<Object> provider) {
@@ -117,20 +119,22 @@ public class SpssHouseCaseReader extends AbsSpssReader<IHouseCaseDTO> {
         final Optional<FlatdetsEntry> flatDets = provider.getOne(FlatdetsEntry.class);
 
         final ServicesEntry services = provider.requireOne(ServicesEntry.class);
-        
+
         final Enum1758 loftType = services.getLoft_Type();
 
-        if (loftType == Enum1758.NoBoardingOrPartialBoarding ||
-            loftType == Enum1758.FullyBoarded ||
-            services.getLoft_ApproxThickness() == Enum1757.NoInsulation) {
+        if (loftType == Enum1758.NoBoardingOrPartialBoarding
+                || loftType == Enum1758.FullyBoarded
+                || services.getLoft_ApproxThickness() == Enum1757.NoInsulation) {
             houseCase.setHasLoft(true);
         }
 
         if (flatDets.isPresent()) {
             final Integer level = flatDets.get().getMainFloorLevel_Numeric();
-            if (level != null) houseCase.setMainFloorLevel(level.intValue());
+            if (level != null) {
+                houseCase.setMainFloorLevel(level.intValue());
+            }
         }
-        
+
         houseCase.setDwellingCaseWeight(general.getDwellWeight_PairedCases2009_10And2010_11());
         houseCase.setRegionType(governmentOfficeRegionToSAPRegion(general.getRegion()));
 
@@ -142,7 +146,7 @@ public class SpssHouseCaseReader extends AbsSpssReader<IHouseCaseDTO> {
                 .setMorphologyType(rumorphToMorphologyType(provider.getAacode(), general.getRurality_Morphology_COA_()));
 
         houseCase.setBuildYear(getBuildYear(houseCase.getAacode(), firstImp));
-        
+
         houseCase.setAdultOccupants(Optional.fromNullable(getAdultOccupants(interview)));
         if (interview.isPresent()) {
             houseCase.setChildOccupants(Optional
@@ -172,11 +176,13 @@ public class SpssHouseCaseReader extends AbsSpssReader<IHouseCaseDTO> {
     }
 
     /**
-     * @assumption The CAR conversion document specifies to use the EHS age bands. We are using the actual construction
-     *             year instead since we believe it gives more precise data.
-     * @assumption If the EHS does not specify the actual construction date, fall back to start date of its age band
-     *             (most pessimistic choice). In practice, only H0821202 ('Pre 1850') is missing an actual construction
-     *             date.
+     * @assumption The CAR conversion document specifies to use the EHS age
+     * bands. We are using the actual construction year instead since we believe
+     * it gives more precise data.
+     * @assumption If the EHS does not specify the actual construction date,
+     * fall back to start date of its age band (most pessimistic choice). In
+     * practice, only H0821202 ('Pre 1850') is missing an actual construction
+     * date.
      */
     private int getBuildYear(final String aacode, final Firstimp_PhysicalEntryImpl firstImp) {
         Integer buildYear = firstImp.getActualDateOfConstruction();
@@ -190,9 +196,9 @@ public class SpssHouseCaseReader extends AbsSpssReader<IHouseCaseDTO> {
     }
 
     /**
-     * Use {@link AroundEntry#getWidthOfPlot()} and other similar variables to set the front/back plot size for the
-     * given case
-     * 
+     * Use {@link AroundEntry#getWidthOfPlot()} and other similar variables to
+     * set the front/back plot size for the given case
+     *
      * @param provider
      * @param houseCase
      */
@@ -221,7 +227,7 @@ public class SpssHouseCaseReader extends AbsSpssReader<IHouseCaseDTO> {
 
     /**
      * Use FINGASMS to determine whether the given case is on the gas grid
-     * 
+     *
      * @param provider
      * @param houseCase
      */
@@ -236,7 +242,7 @@ public class SpssHouseCaseReader extends AbsSpssReader<IHouseCaseDTO> {
 
     /**
      * Convert the EHS RUMORPH variable to a {@link MorphologyType} variable.
-     * 
+     *
      * @param rurality_Morphology_COA_
      * @return
      */
@@ -250,17 +256,18 @@ public class SpssHouseCaseReader extends AbsSpssReader<IHouseCaseDTO> {
     }
 
     /**
-     * 1. If neither {@link InteriorEntry#getKitchenLevel()} or {@link InteriorEntry#getLivingRoomLevel()} are at
-     * basement or ground level then floor type is set to solid.<br/> <br/> 2. Look at
-     * {@link IntroomsEntry#getFLOORS_SolidFloors()}, if either kitchen or living room floors are solid then return
-     * solid otherwise return timber
-     * 
+     * 1. If neither {@link InteriorEntry#getKitchenLevel()} or
+     * {@link InteriorEntry#getLivingRoomLevel()} are at basement or ground
+     * level then floor type is set to solid.<br/> <br/> 2. Look at
+     * {@link IntroomsEntry#getFLOORS_SolidFloors()}, if either kitchen or
+     * living room floors are solid then return solid otherwise return timber
+     *
      * @param interiorEntry
      * @since 0.0.1-SNAPSHOT
      */
     protected DTOFloorConstructionType getGroundFloorConstrutionType(final InteriorEntry interiorEntry,
             final List<IntroomsEntry> rooms) {
-    	DTOFloorConstructionType floorContructionType = DTOFloorConstructionType.Solid;
+        DTOFloorConstructionType floorContructionType = DTOFloorConstructionType.Solid;
 
         final FloorLocationType kitchenFloorLevel = roomLevelConversion.get(interiorEntry.getKitchenLevel());
         final FloorLocationType livingRoomLevel = roomLevelConversion.get(interiorEntry.getLivingRoomLevel());
@@ -288,9 +295,11 @@ public class SpssHouseCaseReader extends AbsSpssReader<IHouseCaseDTO> {
     }
 
     /**
-     * Returns null if room is null or {@link IntroomsEntry#getFLOORS_SolidFloors()} is null<br/> <br/> Returns false if
-     * {@link IntroomsEntry#getFLOORS_SolidFloors()} equals {@link Enum10#No}<br/> <br/> Returns true otherwise.
-     * 
+     * Returns null if room is null or
+     * {@link IntroomsEntry#getFLOORS_SolidFloors()} is null<br/> <br/> Returns
+     * false if {@link IntroomsEntry#getFLOORS_SolidFloors()} equals
+     * {@link Enum10#No}<br/> <br/> Returns true otherwise.
+     *
      * @param room
      * @return
      * @since 0.0.1-SNAPSHOT
@@ -307,10 +316,12 @@ public class SpssHouseCaseReader extends AbsSpssReader<IHouseCaseDTO> {
     }
 
     /**
-     * Returns true if {@link Enum76} equals FreeholderOfHouse,LeaseholderOwningFHCollectively
-     * ,LeaseholderOwningFHOfWholeBldg, Commonholder_PropertyBuiltAsCH_ or Commonholder_PropertyConvertedToCH_.
-     * Otherwise it returns false, this is also the case for any nulls.
-     * 
+     * Returns true if {@link Enum76} equals
+     * FreeholderOfHouse,LeaseholderOwningFHCollectively
+     * ,LeaseholderOwningFHOfWholeBldg, Commonholder_PropertyBuiltAsCH_ or
+     * Commonholder_PropertyConvertedToCH_. Otherwise it returns false, this is
+     * also the case for any nulls.
+     *
      * @param interview
      * @return
      * @since 1.0
@@ -332,7 +343,7 @@ public class SpssHouseCaseReader extends AbsSpssReader<IHouseCaseDTO> {
         }
     }
 
-    private final Map<Enum24, RegionType> regionTypeConversion = ImmutableMap.<Enum24, RegionType> builder()
+    private final Map<Enum24, RegionType> regionTypeConversion = ImmutableMap.<Enum24, RegionType>builder()
             .put(Enum24.NorthWest, RegionType.NorthWest)
             .put(Enum24.NorthEast, RegionType.NorthEast)
             .put(Enum24.YorkshireAndTheHumber, RegionType.YorkshireAndHumber)
@@ -342,19 +353,27 @@ public class SpssHouseCaseReader extends AbsSpssReader<IHouseCaseDTO> {
             .put(Enum24.SouthEast, RegionType.SouthEast).put(Enum24.London, RegionType.London).build();
 
     /**
-     * Maps EHS Government Office Regions to SAP regions. Returns null for 'DoesNotApply' and 'NoAnswer' survey data.
-     * Multiple possible SAP regions exist for some EHS Government Regions. We have chosen one region from each, and
-     * documented the alternatives we could have chosen here. We have assumed that the EHS Government Office Regions map
-     * to SAP regions as follows:
-     * 
-     * @assumption EHS region NorthWest mapped to SAP region WestPennines (not NorthWestEngland)
-     * @assumption EHS region NorthEast mapped to SAP region Borders (not NorthEastEngland)
-     * @assumption EHS region YorkshireAndTheHumber mapped to SAP region NorthEastEngland (not EastPennines)
+     * Maps EHS Government Office Regions to SAP regions. Returns null for
+     * 'DoesNotApply' and 'NoAnswer' survey data. Multiple possible SAP regions
+     * exist for some EHS Government Regions. We have chosen one region from
+     * each, and documented the alternatives we could have chosen here. We have
+     * assumed that the EHS Government Office Regions map to SAP regions as
+     * follows:
+     *
+     * @assumption EHS region NorthWest mapped to SAP region WestPennines (not
+     * NorthWestEngland)
+     * @assumption EHS region NorthEast mapped to SAP region Borders (not
+     * NorthEastEngland)
+     * @assumption EHS region YorkshireAndTheHumber mapped to SAP region
+     * NorthEastEngland (not EastPennines)
      * @assumption EHS region WestMidlands mapped to SAP region Midlands
      * @assumption EHS region EastEngland mapped to SAP region EastAnglia
-     * @assumption EHS region EastMidlands mapped to SAP region EastPennines (not Midlands)
-     * @assumption EHS region SouthWest mapped to SAP region Severn (not SouthWestEngland)
-     * @assumption EHS region SouthEast mapped to SAP region SouthEastEngland (not SouthEngland or Thames)
+     * @assumption EHS region EastMidlands mapped to SAP region EastPennines
+     * (not Midlands)
+     * @assumption EHS region SouthWest mapped to SAP region Severn (not
+     * SouthWestEngland)
+     * @assumption EHS region SouthEast mapped to SAP region SouthEastEngland
+     * (not SouthEngland or Thames)
      * @assumption EHS region London mapped to SAP region Thames
      * @param governmentOfficeRegion An EHS Government Office Region.
      * @return An SAP RegionType.
@@ -368,7 +387,7 @@ public class SpssHouseCaseReader extends AbsSpssReader<IHouseCaseDTO> {
         return Lookup(governmentOfficeRegion, regionTypeConversion);
     }
 
-    private final Map<Enum23, TenureType> tenureTypeConversion = ImmutableMap.<Enum23, TenureType> builder()
+    private final Map<Enum23, TenureType> tenureTypeConversion = ImmutableMap.<Enum23, TenureType>builder()
             .put(Enum23.RSL_Vacant, TenureType.HousingAssociation)
             .put(Enum23.RSL_Occupied, TenureType.HousingAssociation)
             .put(Enum23.LocalAuthority_Vacant, TenureType.LocalAuthority)
@@ -379,9 +398,10 @@ public class SpssHouseCaseReader extends AbsSpssReader<IHouseCaseDTO> {
             .put(Enum23.PrivateRented_Vacant, TenureType.PrivateRented).build();
 
     /**
-     * Maps EHS tenure types to SAP tenure types. We are using the tenure8x field as recommended by the CAR document.
-     * The tenure4x field looks like a better fit for SAP, however.
-     * 
+     * Maps EHS tenure types to SAP tenure types. We are using the tenure8x
+     * field as recommended by the CAR document. The tenure4x field looks like a
+     * better fit for SAP, however.
+     *
      * @param ehsTenureType An EHS Tenure Type.
      * @return An SAP TenureType.
      * @since 1.0
@@ -390,7 +410,7 @@ public class SpssHouseCaseReader extends AbsSpssReader<IHouseCaseDTO> {
         return Lookup(ehsTenureType, tenureTypeConversion);
     }
 
-    private final Map<Enum129, BuiltFormType> builtFormTypeConversion = ImmutableMap.<Enum129, BuiltFormType> builder()
+    private final Map<Enum129, BuiltFormType> builtFormTypeConversion = ImmutableMap.<Enum129, BuiltFormType>builder()
             .put(Enum129.ConvertedFlat, BuiltFormType.ConvertedFlat)
             .put(Enum129.SemiDetached, BuiltFormType.SemiDetached)
             .put(Enum129.PurposeBuiltFlat_LowRise, BuiltFormType.PurposeBuiltLowRiseFlat)
@@ -400,10 +420,12 @@ public class SpssHouseCaseReader extends AbsSpssReader<IHouseCaseDTO> {
             .put(Enum129.Bungalow, BuiltFormType.Bungalow).build();
 
     /**
-     * Maps EHS dwelling type to BuiltFormType. Missing dwelling type returns null.
-     * 
-     * @assumption To calculate built form type, we use the field dwtypeNx instead of dwtype7x (the field recommended by
-     *             CAR), because we require the extra information about high-rise and low-rise flats.
+     * Maps EHS dwelling type to BuiltFormType. Missing dwelling type returns
+     * null.
+     *
+     * @assumption To calculate built form type, we use the field dwtypeNx
+     * instead of dwtype7x (the field recommended by CAR), because we require
+     * the extra information about high-rise and low-rise flats.
      * @param ehsDwellingType An EHS dwelling type
      * @return A BuiltFormType
      * @since 1.0
@@ -416,7 +438,7 @@ public class SpssHouseCaseReader extends AbsSpssReader<IHouseCaseDTO> {
     }
 
     private final Map<Enum1338, DateRange> ehsAgeBandConversion = ImmutableMap
-            .<Enum1338, DateRange> builder()
+            .<Enum1338, DateRange>builder()
             .put(Enum1338.Pre1850, new DateRange((DateTime) null, new DateTime(1850, 1, 1, 0, 0, 0, 0)))
             .put(Enum1338._1850_1899,
                     new DateRange(new DateTime(1850, 1, 1, 0, 0, 0, 0), new DateTime(1900, 1, 1, 0, 0, 0, 0)))
@@ -439,6 +461,7 @@ public class SpssHouseCaseReader extends AbsSpssReader<IHouseCaseDTO> {
             .put(Enum1338.Post2002, new DateRange(new DateTime(2003, 1, 1, 0, 0, 0, 0), (DateTime) null)).build();
 
     class DateRange {
+
         private final DateTime start;
         private final DateTime end;
 
@@ -457,10 +480,11 @@ public class SpssHouseCaseReader extends AbsSpssReader<IHouseCaseDTO> {
     }
 
     /**
-     * Calculates the number of adult occupants in the house based on survey questions. This is the total number of
-     * people minus the number of dependent children. Returns 0 and logs an error if the result of this calculation is
-     * negative.
-     * 
+     * Calculates the number of adult occupants in the house based on survey
+     * questions. This is the total number of people minus the number of
+     * dependent children. Returns 0 and logs an error if the result of this
+     * calculation is negative.
+     *
      * @param interview The interview entry for this house.
      * @return The number of adult occupants.
      * @since 1.0
@@ -484,11 +508,13 @@ public class SpssHouseCaseReader extends AbsSpssReader<IHouseCaseDTO> {
 
     /**
      * Calculates living area faction as follows:<br/> <br/> 1. If values for
-     * {@link InteriorEntry#getLivingRoomDepth_Metres_()} and {@link InteriorEntry#getLivingRoomWidth_Metres_()} and
-     * {@link Dimensions_09Plus10Entry#getTotalFloorArea()} exists then living area faction is living room area / total
-     * floor area, otherwise sets this value to zero.<br/> <br/> 2. Looks up the number of habitable rooms for property
-     * and sets this value on the DTO
-     * 
+     * {@link InteriorEntry#getLivingRoomDepth_Metres_()} and
+     * {@link InteriorEntry#getLivingRoomWidth_Metres_()} and
+     * {@link Dimensions_09Plus10Entry#getTotalFloorArea()} exists then living
+     * area faction is living room area / total floor area, otherwise sets this
+     * value to zero.<br/> <br/> 2. Looks up the number of habitable rooms for
+     * property and sets this value on the DTO
+     *
      * @param interior
      * @param dimensions
      * @return
@@ -519,7 +545,7 @@ public class SpssHouseCaseReader extends AbsSpssReader<IHouseCaseDTO> {
 
     /**
      * TODO
-     * 
+     *
      * @param interview
      * @param interior
      * @return
@@ -568,10 +594,12 @@ public class SpssHouseCaseReader extends AbsSpssReader<IHouseCaseDTO> {
     }
 
     /**
-     * 1. If plot type is {@link Enum1186#PrivatePlot} or {@link Enum1186#SharedPlotOnly} then if
-     * {@link HouseCaseDTO#getBackPlotDepth()} and {@link HouseCaseDTO#getBackPlotWidth()} are greated than zero (same
-     * for front) then has acess to outside space, otherwise it's false.
-     * 
+     * 1. If plot type is {@link Enum1186#PrivatePlot} or
+     * {@link Enum1186#SharedPlotOnly} then if
+     * {@link HouseCaseDTO#getBackPlotDepth()} and
+     * {@link HouseCaseDTO#getBackPlotWidth()} are greated than zero (same for
+     * front) then has acess to outside space, otherwise it's false.
+     *
      * @param provider
      * @param houseCase
      * @return

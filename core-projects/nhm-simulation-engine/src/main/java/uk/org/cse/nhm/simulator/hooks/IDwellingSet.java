@@ -8,5 +8,6 @@ import uk.org.cse.nhm.simulator.state.IDwelling;
 import uk.org.cse.nhm.simulator.state.IState;
 
 public interface IDwellingSet extends IIdentified {
-	public Set<IDwelling> get(final IState state, ILets lets);
+
+    public Set<IDwelling> get(final IState state, ILets lets);
 }

@@ -1,6 +1,5 @@
 package uk.org.cse.nhm.simulation.scenario;
 
-
 /**
  * ScenarioBuildException.
  *

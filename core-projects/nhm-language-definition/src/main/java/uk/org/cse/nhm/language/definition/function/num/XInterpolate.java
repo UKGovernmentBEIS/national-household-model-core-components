@@ -19,36 +19,39 @@ import uk.org.cse.nhm.language.definition.Doc;
 @Doc("A simple interpolation function, which maps a value from one range to another range by reading off a piecewise linear curve. If you would prefer to write the coordinates as a long list, see the ~transpose macro.")
 @Category(CategoryType.ARITHMETIC)
 public class XInterpolate extends XNumber {
-	public static final class P {
-		public static final String x="x";
+
+    public static final class P {
+
+        public static final String x = "x";
         public static final String xCoordinates = "xCoordinates";
         public static final String yCoordinates = "yCoordinates";
         public static final String extrapolate = "extrapolate";
-	}
-	
-	private XNumber x;
-	
-	@Prop(P.x)
-	@BindPositionalArgument(0)
-	@Doc("The value to interpolate")
-    @NotNull(message="no value to interpolate was supplied")
-	public XNumber getX() {
-		return x;
-	}
-	public void setX(final XNumber x) {
-		this.x = x;
-	}
-	
+    }
+
+    private XNumber x;
+
+    @Prop(P.x)
+    @BindPositionalArgument(0)
+    @Doc("The value to interpolate")
+    @NotNull(message = "no value to interpolate was supplied")
+    public XNumber getX() {
+        return x;
+    }
+
+    public void setX(final XNumber x) {
+        this.x = x;
+    }
+
     private List<Double> xCoordinates = new ArrayList<>();
 
     @Doc("The x-coordinates of the interpolation points; these should be in the same order as the y-coordinates.")
-    @Size(min = 2, message="the x-coordinates of at least two points are required for interpolation")
+    @Size(min = 2, message = "the x-coordinates of at least two points are required for interpolation")
     @BindPositionalArgument(1)
     @Prop(P.xCoordinates)
     public List<Double> getXCoordinates() {
         return xCoordinates;
     }
-    
+
     public void setXCoordinates(List<Double> xCoordinates) {
         this.xCoordinates = xCoordinates;
     }
@@ -57,12 +60,12 @@ public class XInterpolate extends XNumber {
 
     @Doc("The y-coordinates of the interpolation points; these should be in the same order as the x-coordinates.")
     @BindPositionalArgument(2)
-    @Size(min = 2, message="the y-coordinates of at least two points are required for interpolation")
+    @Size(min = 2, message = "the y-coordinates of at least two points are required for interpolation")
     @Prop(P.yCoordinates)
     public List<Double> getYCoordinates() {
         return yCoordinates;
     }
-    
+
     public void setYCoordinates(List<Double> yCoordinates) {
         this.yCoordinates = yCoordinates;
     }
@@ -75,7 +78,7 @@ public class XInterpolate extends XNumber {
     public boolean isExtrapolate() {
         return extrapolate;
     }
-    
+
     public void setExtrapolate(boolean extrapolate) {
         this.extrapolate = extrapolate;
     }

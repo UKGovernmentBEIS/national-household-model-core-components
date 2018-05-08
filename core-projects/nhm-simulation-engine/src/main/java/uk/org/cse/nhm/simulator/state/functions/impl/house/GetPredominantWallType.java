@@ -16,42 +16,43 @@ import uk.org.cse.nhm.simulator.scope.IComponentsScope;
 import uk.org.cse.nhm.simulator.state.IDimension;
 
 public class GetPredominantWallType extends StructureFunction<WallConstructionType> {
-	private final ILogEntryHandler log;
 
-	@Inject
-	public GetPredominantWallType(final IDimension<StructureModel> structure, final ILogEntryHandler log) {
-		super(structure);
-		this.log = log;
-	}
+    private final ILogEntryHandler log;
 
-	@Override
-	public WallConstructionType compute(final IComponentsScope scope, final ILets lets) {
-		final StructureModel structure = getStructure(scope);
+    @Inject
+    public GetPredominantWallType(final IDimension<StructureModel> structure, final ILogEntryHandler log) {
+        super(structure);
+        this.log = log;
+    }
 
-		final double[] accumulators = new double[WallConstructionType.values().length];
-		double maximum = Double.NEGATIVE_INFINITY;
-		WallConstructionType maxType = null;
+    @Override
+    public WallConstructionType compute(final IComponentsScope scope, final ILets lets) {
+        final StructureModel structure = getStructure(scope);
 
-		for (final Storey storey : structure.getStoreys()) {
-			for (final IWall wall : storey.getImmutableWalls()) {
-				final WallConstructionType constructionTypeOfThisWall = wall.getWallConstructionType();
-				if (constructionTypeOfThisWall.getWallType() == WallType.External) {
-					final int ord = constructionTypeOfThisWall.ordinal();
-					accumulators[ord] += wall.getArea();
-					if (accumulators[ord] > maximum) {
-						maxType = constructionTypeOfThisWall;
-						maximum = accumulators[ord];
-					}
-				}
-			}
-		}
+        final double[] accumulators = new double[WallConstructionType.values().length];
+        double maximum = Double.NEGATIVE_INFINITY;
+        WallConstructionType maxType = null;
 
-		if (maxType == null) {
-			log.acceptLogEntry(new WarningLogEntry("Dwelling has no external walls. Predominant wall type will be Internal.",
-					ImmutableMap.of("dwelling-id", String.valueOf(scope.getDwellingID()))));
-			return WallConstructionType.Internal_Any;
-		}
+        for (final Storey storey : structure.getStoreys()) {
+            for (final IWall wall : storey.getImmutableWalls()) {
+                final WallConstructionType constructionTypeOfThisWall = wall.getWallConstructionType();
+                if (constructionTypeOfThisWall.getWallType() == WallType.External) {
+                    final int ord = constructionTypeOfThisWall.ordinal();
+                    accumulators[ord] += wall.getArea();
+                    if (accumulators[ord] > maximum) {
+                        maxType = constructionTypeOfThisWall;
+                        maximum = accumulators[ord];
+                    }
+                }
+            }
+        }
 
-		return maxType;
-	}
+        if (maxType == null) {
+            log.acceptLogEntry(new WarningLogEntry("Dwelling has no external walls. Predominant wall type will be Internal.",
+                    ImmutableMap.of("dwelling-id", String.valueOf(scope.getDwellingID()))));
+            return WallConstructionType.Internal_Any;
+        }
+
+        return maxType;
+    }
 }

@@ -22,50 +22,51 @@ import uk.org.cse.nhm.simulator.transactions.ITransactionRunningTotal;
 import uk.org.cse.nhm.simulator.transactions.ITransactionRunningTotal.ITransactionAccumulator;
 
 public class SumOfTransactionsFunction extends AbstractNamed implements
-		IComponentsFunction<Double> {
-	private final ITransactionRunningTotal runningTotal;
-	private ITransactionAccumulator accumulator;
+        IComponentsFunction<Double> {
 
-	@AssistedInject
-	public SumOfTransactionsFunction(
-			final ITransactionRunningTotal runningTotal,
-			@Assisted final Optional<Glob> counterparty,
-			@Assisted final Predicate<Collection<String>> requiredTags) {
-		
-		this.runningTotal = runningTotal;
+    private final ITransactionRunningTotal runningTotal;
+    private ITransactionAccumulator accumulator;
 
-		accumulator = new ITransactionRunningTotal.ITransactionAccumulator() {
-			@Override
-			public double accum(final double existingValue,
-					final ITransaction transaction) {
-				final boolean counterpartyMatches = 
-						counterparty.isPresent() ? 
-								counterparty.get().matches(transaction.getPayee()) : true;
-				if (counterpartyMatches) {
-					if (requiredTags.apply(transaction.getTags())) {
-						return existingValue + transaction.getAmount();
-					}
-				}
-				
-				return existingValue;
-			}
-		};
+    @AssistedInject
+    public SumOfTransactionsFunction(
+            final ITransactionRunningTotal runningTotal,
+            @Assisted final Optional<Glob> counterparty,
+            @Assisted final Predicate<Collection<String>> requiredTags) {
 
-		runningTotal.registerAccumulator(accumulator);
-	}
+        this.runningTotal = runningTotal;
 
-	@Override
-	public Double compute(final IComponentsScope scope, final ILets lets) {
-		return runningTotal.getAccumulatedValue(accumulator, scope);
-	}
+        accumulator = new ITransactionRunningTotal.ITransactionAccumulator() {
+            @Override
+            public double accum(final double existingValue,
+                    final ITransaction transaction) {
+                final boolean counterpartyMatches
+                        = counterparty.isPresent()
+                        ? counterparty.get().matches(transaction.getPayee()) : true;
+                if (counterpartyMatches) {
+                    if (requiredTags.apply(transaction.getTags())) {
+                        return existingValue + transaction.getAmount();
+                    }
+                }
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return runningTotal.getDependencies();
-	}
+                return existingValue;
+            }
+        };
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return ImmutableSet.of();
-	}
+        runningTotal.registerAccumulator(accumulator);
+    }
+
+    @Override
+    public Double compute(final IComponentsScope scope, final ILets lets) {
+        return runningTotal.getAccumulatedValue(accumulator, scope);
+    }
+
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return runningTotal.getDependencies();
+    }
+
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return ImmutableSet.of();
+    }
 }

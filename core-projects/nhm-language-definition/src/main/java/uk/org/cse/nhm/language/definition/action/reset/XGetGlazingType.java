@@ -10,6 +10,7 @@ import uk.org.cse.nhm.language.definition.ReturnsEnum;
 import uk.org.cse.nhm.language.definition.SeeAlso;
 import uk.org.cse.nhm.language.definition.function.XCategoryFunction;
 import uk.org.cse.nhm.language.validate.contents.RequireParent;
+
 @RequireParent(XResetGlazing.class)
 @Bind("glazing.type")
 @SeeAlso(XResetGlazing.class)

@@ -1,9 +1,12 @@
 package uk.org.cse.nhm.energycalculator.api.types.steps;
 
 class BREDEMLocation {
+
     static final BREDEMLocation NotDetermined = new BREDEMLocation(null, null, null) {
         @Override
-        boolean exists() { return false; }
+        boolean exists() {
+            return false;
+        }
 
         @Override
         public String toString() {
@@ -12,7 +15,9 @@ class BREDEMLocation {
     };
     public static BREDEMLocation None = new BREDEMLocation(null, null, null) {
         @Override
-        boolean exists() { return false; }
+        boolean exists() {
+            return false;
+        }
 
         @Override
         public String toString() {
@@ -24,7 +29,9 @@ class BREDEMLocation {
     private final Character step;
     private final String variable;
 
-    boolean exists() { return true; }
+    boolean exists() {
+        return true;
+    }
 
     BREDEMLocation(BREDEMSection section, Character step, String variable) {
         this.section = section;
@@ -32,4 +39,3 @@ class BREDEMLocation {
         this.variable = variable;
     }
 }
-

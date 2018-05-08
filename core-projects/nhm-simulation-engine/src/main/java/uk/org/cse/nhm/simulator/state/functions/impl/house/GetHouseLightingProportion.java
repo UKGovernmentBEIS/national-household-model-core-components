@@ -15,25 +15,27 @@ import uk.org.cse.nhm.simulator.scope.IComponentsScope;
 import uk.org.cse.nhm.simulator.state.IDimension;
 
 public class GetHouseLightingProportion extends TechnologyFunction<Double> {
-	
-	private Set<LightType> types;
 
-	@AssistedInject
-	public GetHouseLightingProportion(
-			@Assisted List<LightType> types,
-			IDimension<ITechnologyModel> technologies) {
-		
-		super(technologies);
-		this.types = EnumSet.copyOf(types);
-	}
+    private Set<LightType> types;
 
-	@SuppressWarnings("unchecked")
+    @AssistedInject
+    public GetHouseLightingProportion(
+            @Assisted List<LightType> types,
+            IDimension<ITechnologyModel> technologies) {
+
+        super(technologies);
+        this.types = EnumSet.copyOf(types);
+    }
+
+    @SuppressWarnings("unchecked")
     @Override
-	public Double compute(IComponentsScope scope, ILets lets) {
-		double totalProportion = 0;
-		for (final ILight light : getTechnologies(scope).getLights()) {
-			if (types.contains(light.getType())) totalProportion += light.getProportion();
-		}
-		return totalProportion;
-	}
+    public Double compute(IComponentsScope scope, ILets lets) {
+        double totalProportion = 0;
+        for (final ILight light : getTechnologies(scope).getLights()) {
+            if (types.contains(light.getType())) {
+                totalProportion += light.getProportion();
+            }
+        }
+        return totalProportion;
+    }
 }

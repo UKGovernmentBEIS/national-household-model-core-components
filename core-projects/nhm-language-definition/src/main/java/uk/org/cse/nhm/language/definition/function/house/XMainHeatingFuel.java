@@ -13,9 +13,9 @@ import uk.org.cse.nhm.language.definition.function.bool.house.XMainHeatingFuelIs
 @Doc("The main heating fuel of the house (using a different, unhelpful coding)")
 @Bind("house.main-heating-fuel")
 @ReturnsEnum(FuelType.class)
-@Obsolete(inFavourOf=XMainHeatingFuel2.class, 
-	reason="The enumeration values produced by this function are different from all other places where fuels are used in the model.",
-	version="5.1.4")
+@Obsolete(inFavourOf = XMainHeatingFuel2.class,
+        reason = "The enumeration values produced by this function are different from all other places where fuels are used in the model.",
+        version = "5.1.4")
 @SeeAlso(XMainHeatingFuelIs.class)
 public class XMainHeatingFuel extends XCategoryFunction {
 

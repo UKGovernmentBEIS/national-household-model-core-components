@@ -10,16 +10,17 @@ import uk.org.cse.nhm.hom.constants.PumpAndFanConstants;
 import uk.org.cse.nhm.hom.constants.SplitRateConstants;
 
 public class WarmAirFans extends EnergyTransducer {
-	/**
-	 * Warm air fans which depend on volume of house
-	 */
-	public WarmAirFans() {
-		super(ServiceType.PRIMARY_SPACE_HEATING, 0);
-	}
 
-	@Override
-	public void generate(final IEnergyCalculatorHouseCase house,final IInternalParameters parameters, final ISpecificHeatLosses losses,final IEnergyState state) {
-		/*
+    /**
+     * Warm air fans which depend on volume of house
+     */
+    public WarmAirFans() {
+        super(ServiceType.PRIMARY_SPACE_HEATING, 0);
+    }
+
+    @Override
+    public void generate(final IEnergyCalculatorHouseCase house, final IInternalParameters parameters, final ISpecificHeatLosses losses, final IEnergyState state) {
+        /*
 		BEISDOC
 		NAME: Warm air fan electricity
 		DESCRIPTION: The average power use of a warm air system's fan.
@@ -32,24 +33,24 @@ public class WarmAirFans extends EnergyTransducer {
 		DEPS: warm-air-system-volume-multiplier
 		ID: warm-air-fan-electricity
 		CODSIEB
-		*/
-		final double power = parameters.getConstants().get(PumpAndFanConstants.WARM_AIR_SYSTEM_VOLUME_MULTIPLIER) *
-				house.getHouseVolume();
+         */
+        final double power = parameters.getConstants().get(PumpAndFanConstants.WARM_AIR_SYSTEM_VOLUME_MULTIPLIER)
+                * house.getHouseVolume();
 
-		StepRecorder.recordStep(EnergyCalculationStep.PumpsFansAndKeepHot_WarmAirFans, power);
+        StepRecorder.recordStep(EnergyCalculationStep.PumpsFansAndKeepHot_WarmAirFans, power);
 
-		state.increaseElectricityDemand(parameters.getConstants().get(SplitRateConstants.DEFAULT_FRACTIONS, parameters.getTarrifType()),
-				power);
-		state.increaseSupply(EnergyType.GainsPUMP_AND_FAN_GAINS, power);
-	}
+        state.increaseElectricityDemand(parameters.getConstants().get(SplitRateConstants.DEFAULT_FRACTIONS, parameters.getTarrifType()),
+                power);
+        state.increaseSupply(EnergyType.GainsPUMP_AND_FAN_GAINS, power);
+    }
 
-	@Override
-	public String toString() {
-		return "Warm Air Fans";
-	}
+    @Override
+    public String toString() {
+        return "Warm Air Fans";
+    }
 
-	@Override
-	public TransducerPhaseType getPhase() {
-		return TransducerPhaseType.BeforeGains;
-	}
+    @Override
+    public TransducerPhaseType getPhase() {
+        return TransducerPhaseType.BeforeGains;
+    }
 }

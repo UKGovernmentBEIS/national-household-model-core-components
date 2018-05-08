@@ -13,33 +13,34 @@ import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.action.Unsuitability;
 import uk.org.cse.nhm.language.definition.action.XFlaggedDwellingAction;
 
-
 @Bind("action.set-tariffs")
 @Unsuitability({
-	"The measure would leave the house without a tariff for any fuel (for example, if a dual-fuel tariff was removed and replaced with a single-fuel tariff)."
+    "The measure would leave the house without a tariff for any fuel (for example, if a dual-fuel tariff was removed and replaced with a single-fuel tariff)."
 })
 @Doc({
-	"Each tariff listed will be added to the house.",
-	"When a tariff is added, any existing tariffs for the same fuel types as the new tariff will be replaced.",
-	"Other existing tariffs will remain in effect."
+    "Each tariff listed will be added to the house.",
+    "When a tariff is added, any existing tariffs for the same fuel types as the new tariff will be replaced.",
+    "Other existing tariffs will remain in effect."
 })
 @Category(CategoryType.TARIFFS)
 public class XChangeTariffsAction extends XFlaggedDwellingAction {
-	public static class P {
-		public static final String tariffs = "tariffs";
-	}
-	
-	private List<XTariffBase> tariffs = new ArrayList<>();
 
-	@Doc("The tariffs to add to the house.")
-	@BindRemainingArguments
-	@Prop(P.tariffs)
-	
-	public List<XTariffBase> getTariffs() {
-		return tariffs;
-	}
+    public static class P {
 
-	public void setTariffs(final List<XTariffBase> tariffs) {
-		this.tariffs = tariffs;
-	}
+        public static final String tariffs = "tariffs";
+    }
+
+    private List<XTariffBase> tariffs = new ArrayList<>();
+
+    @Doc("The tariffs to add to the house.")
+    @BindRemainingArguments
+    @Prop(P.tariffs)
+
+    public List<XTariffBase> getTariffs() {
+        return tariffs;
+    }
+
+    public void setTariffs(final List<XTariffBase> tariffs) {
+        this.tariffs = tariffs;
+    }
 }

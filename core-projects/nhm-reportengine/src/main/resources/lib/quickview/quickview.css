@@ -7,7 +7,7 @@ h1, h2 {
 }
 
 h1 {
-	size: 1.5ex;
+    size: 1.5ex;
 }
 
 td {
@@ -47,25 +47,25 @@ div.variable {
 }
 
 .hexagon {
-  fill: none;
-  stroke: #000;
-  stroke-width: .5px;
+    fill: none;
+    stroke: #000;
+    stroke-width: .5px;
 }
 
 .bar rect {
-  fill: steelblue;
-  shape-rendering: crispEdges;
+    fill: steelblue;
+    shape-rendering: crispEdges;
 }
 
 .axis path, .axis line {
-  fill: none;
-  stroke: grey;
-  shape-rendering: crispEdges;
+    fill: none;
+    stroke: grey;
+    shape-rendering: crispEdges;
 }
 
 svg text {
-  font: 10px sans-serif;
-  fill: grey;
+    font: 10px sans-serif;
+    fill: grey;
 }
 
 .bar text {

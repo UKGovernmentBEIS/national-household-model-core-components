@@ -19,62 +19,64 @@ import uk.org.cse.nhm.language.definition.function.num.XNumberConstant;
 
 @Bind("measure.replace-lighting")
 @Doc({
-	"Replace lighting in a dwelling with another type of lighting."
+    "Replace lighting in a dwelling with another type of lighting."
 })
 @Unsuitability("The house has no lights of the type that are to be replaced.")
 @SeeAlso(XLightingProportionsMeasure.class)
 public class XLightingMeasure extends XMeasure {
-	public static final class P {
-		public static final String from = "from";
-		public static final String to = "to";
-		public static final String capex = "capex";
-	}
-	
-	XNumber capex = XNumberConstant.create(0);
 
-	@BindNamedArgument
-	@Prop(P.capex)
-	@Doc({
-		"The capital cost of installing the low energy lighting.", 
-		"This may be a function of the quantity of lights installed, which is measured as the part of the floor area serviced by those lights (size.m2)."
-	})
-	public XNumber getCapex() {
-		return capex;
-	}
+    public static final class P {
 
-	public void setCapex(final XNumber capex) {
-		this.capex = capex;
-	}
-	
-	private List<XLightType> from = incandescent();
-	private XLightType to = XLightType.CFL;
+        public static final String from = "from";
+        public static final String to = "to";
+        public static final String capex = "capex";
+    }
 
-	@Prop(P.from)
-	@Doc("All lights in this list will be replaced with the type given by the with: argument.")
-	@BindNamedArgument("replace")
-	@Size(min = 1, message = "At least one type of light has to be specified to replace")
-	public List<XLightType> getFrom() {
-		return from;
-	}
+    XNumber capex = XNumberConstant.create(0);
 
-	private List<XLightType> incandescent() {
-		final List<XLightType> out = new ArrayList<>();
-		out.add(XLightType.Incandescent);
-		return out;
-	}
+    @BindNamedArgument
+    @Prop(P.capex)
+    @Doc({
+        "The capital cost of installing the low energy lighting.",
+        "This may be a function of the quantity of lights installed, which is measured as the part of the floor area serviced by those lights (size.m2)."
+    })
+    public XNumber getCapex() {
+        return capex;
+    }
 
-	public void setFrom(List<XLightType> from) {
-		this.from = from;
-	}
+    public void setCapex(final XNumber capex) {
+        this.capex = capex;
+    }
 
-	@Prop(P.to)
-	@Doc("The type of light to replace the existing lights with.")
-	@BindNamedArgument("with")
-	public XLightType getTo() {
-		return to;
-	}
+    private List<XLightType> from = incandescent();
+    private XLightType to = XLightType.CFL;
 
-	public void setTo(XLightType to) {
-		this.to = to;
-	}
+    @Prop(P.from)
+    @Doc("All lights in this list will be replaced with the type given by the with: argument.")
+    @BindNamedArgument("replace")
+    @Size(min = 1, message = "At least one type of light has to be specified to replace")
+    public List<XLightType> getFrom() {
+        return from;
+    }
+
+    private List<XLightType> incandescent() {
+        final List<XLightType> out = new ArrayList<>();
+        out.add(XLightType.Incandescent);
+        return out;
+    }
+
+    public void setFrom(List<XLightType> from) {
+        this.from = from;
+    }
+
+    @Prop(P.to)
+    @Doc("The type of light to replace the existing lights with.")
+    @BindNamedArgument("with")
+    public XLightType getTo() {
+        return to;
+    }
+
+    public void setTo(XLightType to) {
+        this.to = to;
+    }
 }

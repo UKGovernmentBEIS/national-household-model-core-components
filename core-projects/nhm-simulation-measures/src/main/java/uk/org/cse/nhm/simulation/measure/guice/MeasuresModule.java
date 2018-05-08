@@ -16,20 +16,21 @@ import uk.org.cse.nhm.simulation.measure.factory.IMeasureFactory;
 import uk.org.cse.nhm.simulator.guice.SimulationScoped;
 
 public class MeasuresModule extends AbstractModule {
-	@Override
-	protected void configure() {
-		final Multibinder<IAdapter> adapters = Multibinder.newSetBinder(binder(), IAdapter.class);
-		final FactoryModuleBuilder factoryModuleBuilder = new FactoryModuleBuilder();
-		
-		install(factoryModuleBuilder.build(IMeasureFactory.class));
-		
-		adapters.addBinding().to(HeatingMeasureAdapter.class);
-		adapters.addBinding().to(InsulationMeasureAdapter.class);
-		adapters.addBinding().to(RenewablesMeasureAdapter.class);
-		adapters.addBinding().to(LightingAndApplianceMeasureAdapter.class);
-		
-		bind(ITechnologyOperations.class).to(TechnologyOperations.class).in(SimulationScoped.class);
-		
-		install(new FactoryModuleBuilder().build(IWetHeatingMeasureFactory.class));
-	}
+
+    @Override
+    protected void configure() {
+        final Multibinder<IAdapter> adapters = Multibinder.newSetBinder(binder(), IAdapter.class);
+        final FactoryModuleBuilder factoryModuleBuilder = new FactoryModuleBuilder();
+
+        install(factoryModuleBuilder.build(IMeasureFactory.class));
+
+        adapters.addBinding().to(HeatingMeasureAdapter.class);
+        adapters.addBinding().to(InsulationMeasureAdapter.class);
+        adapters.addBinding().to(RenewablesMeasureAdapter.class);
+        adapters.addBinding().to(LightingAndApplianceMeasureAdapter.class);
+
+        bind(ITechnologyOperations.class).to(TechnologyOperations.class).in(SimulationScoped.class);
+
+        install(new FactoryModuleBuilder().build(IWetHeatingMeasureFactory.class));
+    }
 }

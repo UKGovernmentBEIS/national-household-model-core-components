@@ -8,11 +8,12 @@ package uk.org.cse.nhm.hom.emf.technologies;
  * <!-- end-user-doc -->
  *
  *
- * @see uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getPrimarySpaceHeater()
+ * @see
+ * uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage#getPrimarySpaceHeater()
  * @model interface="true" abstract="true"
  * @generated
  */
 public interface IPrimarySpaceHeater extends ISpaceHeater {
 
-	FuelType getFuel();
+    FuelType getFuel();
 } // IPrimarySpaceHeater

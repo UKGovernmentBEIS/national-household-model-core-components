@@ -11,13 +11,13 @@ public enum RoofType {
     ExternalHeatLoss(AreaType.ExternalCeiling),
     Party(AreaType.PartyCeiling);
 
-	private final AreaType areaType;
+    private final AreaType areaType;
 
-	private RoofType(AreaType areaType) {
-		this.areaType = areaType;
-	}
+    private RoofType(AreaType areaType) {
+        this.areaType = areaType;
+    }
 
-	public AreaType getAreaType() {
-		return areaType;
-	}
+    public AreaType getAreaType() {
+        return areaType;
+    }
 }

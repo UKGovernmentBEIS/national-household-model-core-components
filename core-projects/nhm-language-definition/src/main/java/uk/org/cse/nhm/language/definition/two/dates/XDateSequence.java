@@ -13,5 +13,6 @@ import uk.org.cse.nhm.language.two.build.IBuilder;
 @Category(CategoryType.SCHEDULING)
 @TopLevel
 public abstract class XDateSequence extends XElement {
-	public abstract List<DateTime> asDates(final IBuilder builder);
+
+    public abstract List<DateTime> asDates(final IBuilder builder);
 }

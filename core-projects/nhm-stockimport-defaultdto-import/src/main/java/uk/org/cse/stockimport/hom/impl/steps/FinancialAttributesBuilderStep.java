@@ -18,20 +18,24 @@ import uk.org.cse.stockimport.repository.IHouseCaseSources;
 
 /**
  * FinancialAttributesBuilderStep.
- * 
+ *
  * @author richardt
- * @version $Id: FinancialAttributesBuilderStep.java 94 2010-09-30 15:39:21Z richardt
+ * @version $Id: FinancialAttributesBuilderStep.java 94 2010-09-30 15:39:21Z
+ * richardt
  * @since 0.0.1-SNAPSHOT
  */
 public class FinancialAttributesBuilderStep implements ISurveyCaseBuildStep {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(FinancialAttributesBuilderStep.class);
-    /** @since 1.0 */
+    /**
+     * @since 1.0
+     */
     public static final String IDENTIFIER = FinancialAttributesBuilderStep.class.getCanonicalName();
     private final AtomicInteger ctNullOccupantDetails = new AtomicInteger(0);
 
     /**
-     * @return
-     * @see uk.org.cse.stockimport.hom.ISurveyCaseBuildStep#getIdentifier()
+     * @return @see
+     * uk.org.cse.stockimport.hom.ISurveyCaseBuildStep#getIdentifier()
      */
     @Override
     public String getIdentifier() {
@@ -39,8 +43,8 @@ public class FinancialAttributesBuilderStep implements ISurveyCaseBuildStep {
     }
 
     /**
-     * @return
-     * @see uk.org.cse.stockimport.hom.ISurveyCaseBuildStep#getDependencies()
+     * @return @see
+     * uk.org.cse.stockimport.hom.ISurveyCaseBuildStep#getDependencies()
      */
     @Override
     public Set<String> getDependencies() {
@@ -50,8 +54,9 @@ public class FinancialAttributesBuilderStep implements ISurveyCaseBuildStep {
     /**
      * @param model
      * @param dtoProvider
-     * @see uk.org.cse.stockimport.hom.ISurveyCaseBuildStep#build(uk.org.cse.nhm.hom.SurveyCase,
-     *      uk.org.cse.stockimport.repository.IHouseCaseSources)
+     * @see
+     * uk.org.cse.stockimport.hom.ISurveyCaseBuildStep#build(uk.org.cse.nhm.hom.SurveyCase,
+     * uk.org.cse.stockimport.repository.IHouseCaseSources)
      */
     @Override
     public void build(final SurveyCase model, final IHouseCaseSources<IBasicDTO> dtoProvider) {
@@ -59,9 +64,9 @@ public class FinancialAttributesBuilderStep implements ISurveyCaseBuildStep {
 
         final FinancialAttributes attributes;
         if (maybeDto.isPresent()) {
-        	final OccupantDetailsDTO dto = maybeDto.get();
-			attributes = new FinancialAttributes(
-            		dto.getChiefIncomeEarnersAge().orNull(),
+            final OccupantDetailsDTO dto = maybeDto.get();
+            attributes = new FinancialAttributes(
+                    dto.getChiefIncomeEarnersAge().orNull(),
                     dto.getHouseHoldIncomeBeforeTax().orNull());
         } else {
             ctNullOccupantDetails.incrementAndGet();

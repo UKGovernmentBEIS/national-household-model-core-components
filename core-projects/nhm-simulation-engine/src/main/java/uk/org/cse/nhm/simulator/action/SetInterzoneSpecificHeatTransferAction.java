@@ -17,59 +17,60 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class SetInterzoneSpecificHeatTransferAction extends AbstractNamed implements IComponentsAction {
 
-	private final IComponentsFunction<Number> interzoneSpecificHeatTransfer;
-	private final IDimension<StructureModel> structureDimension;
+    private final IComponentsFunction<Number> interzoneSpecificHeatTransfer;
+    private final IDimension<StructureModel> structureDimension;
 
-	@AssistedInject
-	public SetInterzoneSpecificHeatTransferAction(
-			final IDimension<StructureModel> structureDimension,
-			@Assisted("interzoneSpecificHeatTransfer") final IComponentsFunction<Number> interzoneSpecificHeatTransfer
-			) {
-				this.structureDimension = structureDimension;
-				this.interzoneSpecificHeatTransfer = interzoneSpecificHeatTransfer;
-	}
-	
-	@Override
-	public StateChangeSourceType getSourceType() {
-		return StateChangeSourceType.ACTION;
-	}
+    @AssistedInject
+    public SetInterzoneSpecificHeatTransferAction(
+            final IDimension<StructureModel> structureDimension,
+            @Assisted("interzoneSpecificHeatTransfer") final IComponentsFunction<Number> interzoneSpecificHeatTransfer
+    ) {
+        this.structureDimension = structureDimension;
+        this.interzoneSpecificHeatTransfer = interzoneSpecificHeatTransfer;
+    }
 
-	@Override
-	public boolean apply(ISettableComponentsScope scope, ILets lets) throws NHMException {
-		final Number value = interzoneSpecificHeatTransfer.compute(scope, lets);
-		
-		if (value.doubleValue() < 0) {
-			throw new RuntimeException("Interzone specific heat transfer must be at least 0 " + value.doubleValue());
-		}
-		
-		scope.modify(
-				structureDimension, 
-				new SetInterzoneSpecificHeatTransferAction.Modifier(value)
-				);
-		return true;
-	}
+    @Override
+    public StateChangeSourceType getSourceType() {
+        return StateChangeSourceType.ACTION;
+    }
 
-	@Override
-	public boolean isSuitable(IComponentsScope scope, ILets lets) {
-		return true;
-	}
+    @Override
+    public boolean apply(ISettableComponentsScope scope, ILets lets) throws NHMException {
+        final Number value = interzoneSpecificHeatTransfer.compute(scope, lets);
 
-	@Override
-	public boolean isAlwaysSuitable() {
-		return true;
-	}
-	
-	private static final class Modifier implements IModifier<StructureModel> {
-		private final Number interzoneSpecificHeatTransfer;
+        if (value.doubleValue() < 0) {
+            throw new RuntimeException("Interzone specific heat transfer must be at least 0 " + value.doubleValue());
+        }
 
-		public Modifier(final Number interzoneSpecificHeatTransfer) {
-			this.interzoneSpecificHeatTransfer = interzoneSpecificHeatTransfer;
-		}
+        scope.modify(
+                structureDimension,
+                new SetInterzoneSpecificHeatTransferAction.Modifier(value)
+        );
+        return true;
+    }
 
-		@Override
-		public boolean modify(StructureModel modifiable) {
-			modifiable.setInterzoneSpecificHeatLoss(interzoneSpecificHeatTransfer.doubleValue());
-			return true;
-		}
-	}
+    @Override
+    public boolean isSuitable(IComponentsScope scope, ILets lets) {
+        return true;
+    }
+
+    @Override
+    public boolean isAlwaysSuitable() {
+        return true;
+    }
+
+    private static final class Modifier implements IModifier<StructureModel> {
+
+        private final Number interzoneSpecificHeatTransfer;
+
+        public Modifier(final Number interzoneSpecificHeatTransfer) {
+            this.interzoneSpecificHeatTransfer = interzoneSpecificHeatTransfer;
+        }
+
+        @Override
+        public boolean modify(StructureModel modifiable) {
+            modifiable.setInterzoneSpecificHeatLoss(interzoneSpecificHeatTransfer.doubleValue());
+            return true;
+        }
+    }
 }

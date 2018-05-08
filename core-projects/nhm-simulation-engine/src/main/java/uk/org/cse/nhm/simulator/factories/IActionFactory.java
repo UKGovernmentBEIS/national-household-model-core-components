@@ -44,142 +44,144 @@ import uk.org.cse.nhm.simulator.state.dimensions.fuel.cost.ITariff;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public interface IActionFactory {
-	public ModifyFlagsAction createFlagsAction(final boolean setFlag,
-			final String name);
 
-	public DemolishHousesAction createDestroyAction();
+    public ModifyFlagsAction createFlagsAction(final boolean setFlag,
+            final String name);
 
-	public ConstructHousesAction createConstructAction();
+    public DemolishHousesAction createDestroyAction();
 
-	public TemperaturesAction createTemperaturesAction(
-			@Assisted("livingArea") final Optional<IComponentsFunction<Number>> livingAreaTemperature,
-			@Assisted("delta") final Optional<IComponentsFunction<Number>> deltaTemperature,
-			@Assisted("rest") final Optional<IComponentsFunction<Number>> restTemperature,
-			@Assisted("restHeatedProportion") final Optional<IComponentsFunction<Number>> restHeatedProportion,
-			@Assisted final Optional<Set<MonthType>> heatingMonths
-			);
+    public ConstructHousesAction createConstructAction();
 
-	public HeatingScheduleAction createHeatingScheduleAction(final IHeatingSchedule iHeatingSchedule);
+    public TemperaturesAction createTemperaturesAction(
+            @Assisted("livingArea") final Optional<IComponentsFunction<Number>> livingAreaTemperature,
+            @Assisted("delta") final Optional<IComponentsFunction<Number>> deltaTemperature,
+            @Assisted("rest") final Optional<IComponentsFunction<Number>> restTemperature,
+            @Assisted("restHeatedProportion") final Optional<IComponentsFunction<Number>> restHeatedProportion,
+            @Assisted final Optional<Set<MonthType>> heatingMonths
+    );
 
-	public SetLivingAreaFractionAction createLivingAreaFractionAction(final double fraction);
+    public HeatingScheduleAction createHeatingScheduleAction(final IHeatingSchedule iHeatingSchedule);
 
-	public SetSiteExposureAction createSiteExposureAction(
-			@Assisted("siteExposure") SiteExposureType siteExposure
-			);
+    public SetLivingAreaFractionAction createLivingAreaFractionAction(final double fraction);
 
-	public SetInterzoneSpecificHeatTransferAction createInterzoneSpecificHeatTransferAction(
-			@Assisted("interzoneSpecificHeatTransfer") IComponentsFunction<Number> interzoneSpecificHeatTransfer
-			);
+    public SetSiteExposureAction createSiteExposureAction(
+            @Assisted("siteExposure") SiteExposureType siteExposure
+    );
 
-	public ChangeTariffsAction createChangeTariffsAction(@Assisted final List<ITariff> tariffs);
+    public SetInterzoneSpecificHeatTransferAction createInterzoneSpecificHeatTransferAction(
+            @Assisted("interzoneSpecificHeatTransfer") IComponentsFunction<Number> interzoneSpecificHeatTransfer
+    );
 
-	public FlaggedComponentsAction createFlaggedComponentsAction(
-			@Assisted("test") final List<Glob> testFlags,
-			@Assisted("update") final List<Glob> updateFlags,
-			@Assisted final List<IUnifiedReport> reports,
-			@Assisted final IComponentsAction delegate
-			);
+    public ChangeTariffsAction createChangeTariffsAction(@Assisted final List<ITariff> tariffs);
 
-	public FlaggedStateAction createFlaggedStateAction(
-		@Assisted("test") final List<Glob> testFlags,
-		@Assisted("update") final List<Glob> updateFlags,
-		@Assisted final List<IUnifiedReport> reports,
-		@Assisted final IStateAction delegate);
+    public FlaggedComponentsAction createFlaggedComponentsAction(
+            @Assisted("test") final List<Glob> testFlags,
+            @Assisted("update") final List<Glob> updateFlags,
+            @Assisted final List<IUnifiedReport> reports,
+            @Assisted final IComponentsAction delegate
+    );
 
-	public HypotheticalSetAction<IWeather> createSetWeather(
-			@Assisted final IWeather weather
-			);
+    public FlaggedStateAction createFlaggedStateAction(
+            @Assisted("test") final List<Glob> testFlags,
+            @Assisted("update") final List<Glob> updateFlags,
+            @Assisted final List<IUnifiedReport> reports,
+            @Assisted final IStateAction delegate);
 
-	public HypotheticalSetAction<ICarbonFactors> createSetCarbon(
-			@Assisted final ICarbonFactors factors
-			);
+    public HypotheticalSetAction<IWeather> createSetWeather(
+            @Assisted final IWeather weather
+    );
 
-	public SapOccupancyAction createSapOccupancy();
+    public HypotheticalSetAction<ICarbonFactors> createSetCarbon(
+            @Assisted final ICarbonFactors factors
+    );
 
-	public ChoiceAction createChoice(
-			@Assisted final IPicker selector,
-			@Assisted final List<IComponentsAction> alternatives);
+    public SapOccupancyAction createSapOccupancy();
 
-	public FilterPicker createSelectByFilter(
-			@Assisted final List<ISequenceSpecialAction> bindings,
-			@Assisted final IComponentsFunction<Boolean> test,
-			@Assisted final IPicker delegate);
+    public ChoiceAction createChoice(
+            @Assisted final IPicker selector,
+            @Assisted final List<IComponentsAction> alternatives);
 
-	public MaximumPicker createSelectMaximum(
-			@Assisted final List<ISequenceSpecialAction> bindings,
-			@Assisted final IComponentsFunction<Number> objective);
+    public FilterPicker createSelectByFilter(
+            @Assisted final List<ISequenceSpecialAction> bindings,
+            @Assisted final IComponentsFunction<Boolean> test,
+            @Assisted final IPicker delegate);
 
-	public WeightedRandomPicker createSelectRandomWeighted(
-			@Assisted final List<ISequenceSpecialAction> bindings,
-			@Assisted final IComponentsFunction<Number> weight);
+    public MaximumPicker createSelectMaximum(
+            @Assisted final List<ISequenceSpecialAction> bindings,
+            @Assisted final IComponentsFunction<Number> objective);
 
-	public DelayedAction createDelayedAction(
-			@Assisted final IComponentsAction action,
-			@Assisted final Period delay);
+    public WeightedRandomPicker createSelectRandomWeighted(
+            @Assisted final List<ISequenceSpecialAction> bindings,
+            @Assisted final IComponentsFunction<Number> weight);
 
-	public RemoveChargeAction createRemoveChargeAction(
-			@Assisted final Optional<IExtraCharge> extraCharge);
+    public DelayedAction createDelayedAction(
+            @Assisted final IComponentsAction action,
+            @Assisted final Period delay);
 
-	public ExtraChargeAction createExtraChargeAction(
-			@Assisted final IExtraCharge charge);
+    public RemoveChargeAction createRemoveChargeAction(
+            @Assisted final Optional<IExtraCharge> extraCharge);
 
-	public FallbackPicker createSelectFallback(
-			@Assisted final List<ISequenceSpecialAction> bindings,
-			@Assisted final List<IPicker> delegates);
+    public ExtraChargeAction createExtraChargeAction(
+            @Assisted final IExtraCharge charge);
 
-	public SometimesAction createSometimesAction(
-			@Assisted final IComponentsFunction<Number> chance,
-			@Assisted final IComponentsAction delegate);
+    public FallbackPicker createSelectFallback(
+            @Assisted final List<ISequenceSpecialAction> bindings,
+            @Assisted final List<IPicker> delegates);
 
-	public UseUncalibratedEnergyAction createDecalibrationAction();
+    public SometimesAction createSometimesAction(
+            @Assisted final IComponentsFunction<Number> chance,
+            @Assisted final IComponentsAction delegate);
 
-	public CaseAction createCaseAction(
-			@Assisted final List<Case> cases,
-			@Assisted final IComponentsAction defaultAction
-			);
+    public UseUncalibratedEnergyAction createDecalibrationAction();
 
-	public SequenceAction createSequenceAction(final List<IComponentsAction> delegates, @Assisted("all") final boolean allMode, @Assisted("hide") final Set<String> immutableSet);
+    public CaseAction createCaseAction(
+            @Assisted final List<Case> cases,
+            @Assisted final IComponentsAction defaultAction
+    );
 
-	public ChangeValue.Setter createValueSetter(@Assisted final List<Variable> variables,
-                                                @Assisted final List<IComponentsFunction<Number>> values,
-                                                @Assisted final List<IComponentsAction> hypotheses);
+    public SequenceAction createSequenceAction(final List<IComponentsAction> delegates, @Assisted("all") final boolean allMode, @Assisted("hide") final Set<String> immutableSet);
 
-	public ChangeValue.Increaser createValueIncreaser(@Assisted final List<Variable> variables,
-                                                        @Assisted final List<IComponentsFunction<Number>> values,
-                                                        @Assisted final List<IComponentsAction> hypotheses);
+    public ChangeValue.Setter createValueSetter(@Assisted final List<Variable> variables,
+            @Assisted final List<IComponentsFunction<Number>> values,
+            @Assisted final List<IComponentsAction> hypotheses);
 
-	public ChangeValue.Decreaser createValueDecreaser(@Assisted final List<Variable> variables,
-                                                        @Assisted final List<IComponentsFunction<Number>> values,
-                                                        @Assisted final List<IComponentsAction> hypotheses);
+    public ChangeValue.Increaser createValueIncreaser(@Assisted final List<Variable> variables,
+            @Assisted final List<IComponentsFunction<Number>> values,
+            @Assisted final List<IComponentsAction> hypotheses);
 
-	public SnapshotAction createSnapshotAction(final String name,
-			final List<IComponentsAction> changes);
+    public ChangeValue.Decreaser createValueDecreaser(@Assisted final List<Variable> variables,
+            @Assisted final List<IComponentsFunction<Number>> values,
+            @Assisted final List<IComponentsAction> hypotheses);
 
-	public RepeatAction createRepeatAction(@Assisted final int times,
-			@Assisted("while") final Optional<IComponentsFunction<Boolean>> whilst,
-			@Assisted final IComponentsAction delegate,
-			@Assisted("until") final Optional<IComponentsFunction<Boolean>> until);
+    public SnapshotAction createSnapshotAction(final String name,
+            final List<IComponentsAction> changes);
 
-	public OrderedPackageAction createOrderedPackageAction(
-			@Assisted final IComponentsFunction<Number> objective,
-			@Assisted final boolean ascending,
-			@Assisted final List<IComponentsAction> actions
-			);
+    public RepeatAction createRepeatAction(@Assisted final int times,
+            @Assisted("while") final Optional<IComponentsFunction<Boolean>> whilst,
+            @Assisted final IComponentsAction delegate,
+            @Assisted("until") final Optional<IComponentsFunction<Boolean>> until);
 
-	public OrderedChoiceAction createOrderedChoiceAction(
-			@Assisted final IComponentsFunction<Number> objective,
-			@Assisted final boolean ascending,
-			@Assisted final List<IComponentsAction> actions
-			);
+    public OrderedPackageAction createOrderedPackageAction(
+            @Assisted final IComponentsFunction<Number> objective,
+            @Assisted final boolean ascending,
+            @Assisted final List<IComponentsAction> actions
+    );
+
+    public OrderedChoiceAction createOrderedChoiceAction(
+            @Assisted final IComponentsFunction<Number> objective,
+            @Assisted final boolean ascending,
+            @Assisted final List<IComponentsAction> actions
+    );
 
     public ConsumeAction createConsumeAction(Variable variable, IComponentsFunction<Number> amount);
+
     public FailUnless createFailUnless(IComponentsFunction<Boolean> amount);
 
     public EnergyCalculatorAction createEnergyCalculatorAction(
-    		@Assisted final EnergyCalculatorType calculatorType);
+            @Assisted final EnergyCalculatorType calculatorType);
 
-	public SetThermalBridgingFactorAction createThermalBridgingFactorAction(
-			@Assisted IComponentsFunction<Number> thermalBridgingFactor);
+    public SetThermalBridgingFactorAction createThermalBridgingFactorAction(
+            @Assisted IComponentsFunction<Number> thermalBridgingFactor);
 
-	public ReducedInternalGainsAction createReducedInternalGainsAction();
+    public ReducedInternalGainsAction createReducedInternalGainsAction();
 }

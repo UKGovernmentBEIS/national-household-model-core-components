@@ -11,16 +11,18 @@ import java.util.Set;
  *
  */
 public interface IEnergyCalculator {
-	/**
-	 * Evaluate the condition of the given house case with the supplied parameters
-	 *
-	 * @param houseCase
-	 * @param externalParameters
-	 * @return an {@link IEnergyCalculationResultWithSteps} for the house
-	 */
-	public abstract IEnergyCalculationResultWithSteps evaluate(
-			IEnergyCalculatorHouseCase houseCase,
-			IEnergyCalculatorParameters externalParameters,
-			final ISeasonalParameters[] climate,
-			final Set<EnergyCalculationStep> requestedSteps);
+
+    /**
+     * Evaluate the condition of the given house case with the supplied
+     * parameters
+     *
+     * @param houseCase
+     * @param externalParameters
+     * @return an {@link IEnergyCalculationResultWithSteps} for the house
+     */
+    public abstract IEnergyCalculationResultWithSteps evaluate(
+            IEnergyCalculatorHouseCase houseCase,
+            IEnergyCalculatorParameters externalParameters,
+            final ISeasonalParameters[] climate,
+            final Set<EnergyCalculationStep> requestedSteps);
 }

@@ -7,116 +7,116 @@ import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 
 public interface IdentityEntry extends SurveyEntry {
-	@SavVariableMapping("HRP")
-	public Integer getPersonNumberOfHRP();
 
-	@SavVariableMapping("CAMEY2")
-	public Integer getYearLastArrivedInTheUK();
+    @SavVariableMapping("HRP")
+    public Integer getPersonNumberOfHRP();
 
-	@SavVariableMapping("ETHMX")
-	public Integer getEthnicity_IfMixed_();
+    @SavVariableMapping("CAMEY2")
+    public Integer getYearLastArrivedInTheUK();
 
-	@SavVariableMapping("RESMTH")
-	public Integer getMonthsAtThisAddress();
+    @SavVariableMapping("ETHMX")
+    public Integer getEthnicity_IfMixed_();
 
-	@SavVariableMapping("RESTME2")
-	public Integer getYearsAtThisAddress();
+    @SavVariableMapping("RESMTH")
+    public Integer getMonthsAtThisAddress();
 
-	@SavVariableMapping("ETHWH")
-	public Integer getEthnicity_IfWhite_();
+    @SavVariableMapping("RESTME2")
+    public Integer getYearsAtThisAddress();
 
-	@SavVariableMapping("PROXYNUM")
-	public Integer getPersonNoOfRespondent();
+    @SavVariableMapping("ETHWH")
+    public Integer getEthnicity_IfWhite_();
 
-	@SavVariableMapping("ETHAS")
-	public Integer getEthnicity_IfAsian_AsianBritish_();
+    @SavVariableMapping("PROXYNUM")
+    public Integer getPersonNoOfRespondent();
 
-	@SavVariableMapping("ETHBL")
-	public Integer getEthnicity_IfBlack_BlackBritish_();
+    @SavVariableMapping("ETHAS")
+    public Integer getEthnicity_IfAsian_AsianBritish_();
 
-	@SavVariableMapping("NTIDIRSH")
-	public Integer getIrish();
+    @SavVariableMapping("ETHBL")
+    public Integer getEthnicity_IfBlack_BlackBritish_();
 
-	@SavVariableMapping("RELIG")
-	public Integer getReligion();
+    @SavVariableMapping("NTIDIRSH")
+    public Integer getIrish();
 
-	@SavVariableMapping("CAMEYR")
-	public Integer getYearArrivedInUK();
+    @SavVariableMapping("RELIG")
+    public Integer getReligion();
 
-	@SavVariableMapping("PERSNO")
-	public Integer getPersonIdentifier();
+    @SavVariableMapping("CAMEYR")
+    public Integer getYearArrivedInUK();
 
-	@SavVariableMapping("ETH01")
-	public Integer getEthnicGroup();
+    @SavVariableMapping("PERSNO")
+    public Integer getPersonIdentifier();
 
-	@SavVariableMapping("RELIGE")
-	public Double getReligion_RELIGE();
+    @SavVariableMapping("ETH01")
+    public Integer getEthnicGroup();
 
-	@SavVariableMapping("ETHE")
-	public Double getEthnicGroup_ETHE();
+    @SavVariableMapping("RELIGE")
+    public Double getReligion_RELIGE();
 
-	@SavVariableMapping("NTIDNI")
-	public Double getNorthernIrish();
+    @SavVariableMapping("ETHE")
+    public Double getEthnicGroup_ETHE();
 
-	@SavVariableMapping("NTIDOTHR")
-	public Enum69 getOtherNationalIdentity();
+    @SavVariableMapping("NTIDNI")
+    public Double getNorthernIrish();
 
-	@SavVariableMapping("DUALINT")
-	public Enum385 getIntroductionToDualNationality();
+    @SavVariableMapping("NTIDOTHR")
+    public Enum69 getOtherNationalIdentity();
 
-	@SavVariableMapping("OTHNAT")
-	public Enum69 getDualNationality();
+    @SavVariableMapping("DUALINT")
+    public Enum385 getIntroductionToDualNationality();
 
-	@SavVariableMapping("NTIDSCOT")
-	public Enum69 getScottish();
+    @SavVariableMapping("OTHNAT")
+    public Enum69 getDualNationality();
 
-	@SavVariableMapping("GOREHS")
-	public Enum30 getRegion_EHSOrder();
+    @SavVariableMapping("NTIDSCOT")
+    public Enum69 getScottish();
 
-	@SavVariableMapping("DVHLONG1")
-	public Enum486 getTimeAtThisAddress();
+    @SavVariableMapping("GOREHS")
+    public Enum30 getRegion_EHSOrder();
 
-	@SavVariableMapping("M3CRY")
-	public Enum487 getWhereLiving3MonthsAgo();
+    @SavVariableMapping("DVHLONG1")
+    public Enum486 getTimeAtThisAddress();
 
-	@SavVariableMapping("PERSPROX")
-	public Enum488 getInterviewInPerson_Proxy();
+    @SavVariableMapping("M3CRY")
+    public Enum487 getWhereLiving3MonthsAgo();
 
-	@SavVariableMapping("RESBBY")
-	public Enum69 getBabyBornInLast3Mths();
+    @SavVariableMapping("PERSPROX")
+    public Enum488 getInterviewInPerson_Proxy();
 
-	@SavVariableMapping("NTIDWLSH")
-	public Enum69 getWelsh();
+    @SavVariableMapping("RESBBY")
+    public Enum69 getBabyBornInLast3Mths();
 
-	@SavVariableMapping("OYCRY")
-	public Enum491 getWhereLiving12MonthsAgo();
+    @SavVariableMapping("NTIDWLSH")
+    public Enum69 getWelsh();
 
-	@SavVariableMapping("CONTUK")
-	public Enum69 getLivedInUKContinuously();
+    @SavVariableMapping("OYCRY")
+    public Enum491 getWhereLiving12MonthsAgo();
 
-	@SavVariableMapping("DVRESTME")
-	public Enum493 getYearsAtThisAddress_DVRESTME();
+    @SavVariableMapping("CONTUK")
+    public Enum69 getLivedInUKContinuously();
 
-	@SavVariableMapping("NTIDBRIT")
-	public Enum69 getBritish();
+    @SavVariableMapping("DVRESTME")
+    public Enum493 getYearsAtThisAddress_DVRESTME();
 
-	@SavVariableMapping("CRY01")
-	public Enum495 getCountryOfBirth();
+    @SavVariableMapping("NTIDBRIT")
+    public Enum69 getBritish();
 
-	@SavVariableMapping("QUARTER")
-	public Enum230 getFieldworkQuarter();
+    @SavVariableMapping("CRY01")
+    public Enum495 getCountryOfBirth();
 
-	@SavVariableMapping("CASECAT")
-	public Enum229 getStatusOfCase();
+    @SavVariableMapping("QUARTER")
+    public Enum230 getFieldworkQuarter();
 
-	@SavVariableMapping("CAMEMT")
-	public Enum386 getMonthArrivedInTheUK();
+    @SavVariableMapping("CASECAT")
+    public Enum229 getStatusOfCase();
 
-	@SavVariableMapping("OYEQM3")
-	public Enum499 getLivingAtSameAddressAsM3Cry12MonthsAgo();
+    @SavVariableMapping("CAMEMT")
+    public Enum386 getMonthArrivedInTheUK();
 
-	@SavVariableMapping("NTIDENGH")
-	public Enum69 getEnglish();
+    @SavVariableMapping("OYEQM3")
+    public Enum499 getLivingAtSameAddressAsM3Cry12MonthsAgo();
+
+    @SavVariableMapping("NTIDENGH")
+    public Enum69 getEnglish();
 
 }
-

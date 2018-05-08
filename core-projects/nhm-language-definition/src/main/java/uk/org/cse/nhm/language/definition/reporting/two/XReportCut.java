@@ -25,60 +25,61 @@ import uk.org.cse.nhm.language.validate.ISelfValidating;
 @Bind("cut")
 @Doc("Each cut adds an extra summary output to a report, in which each columns summaries' are computed for subsets of houses broken down by the values of the functions in the cut.")
 public class XReportCut extends XReportPart implements ISelfValidating {
-	private List<String> values = new ArrayList<>();
 
-	@Doc("This is used to name the summary table that is produced; in a report called MY-REPORT, a cut named MY-CUT will produce a summary table called MY-CUT-OF-MY-REPORT.")
-	@Override
-	@BindNamedArgument
-	public String getName() {
-		return super.getName();
-	}
+    private List<String> values = new ArrayList<>();
 
-	@Doc({"These should be the name:s of columns in the report; the summary outputs of the report will be broken down by their distinct combinations.",
-		"You can also cut by the special columns 'selected' and 'sent-from', which determine whether the state of the house was chosen to become the truth, where in the scenario the house has been sent from",
-		"and whether the house was sent to the report by an action before it succeeded, after it succeeded, or before it failed."
-	})
-	@BindRemainingArguments
-	public List<String> getValues() {
-		return values;
-	}
+    @Doc("This is used to name the summary table that is produced; in a report called MY-REPORT, a cut named MY-CUT will produce a summary table called MY-CUT-OF-MY-REPORT.")
+    @Override
+    @BindNamedArgument
+    public String getName() {
+        return super.getName();
+    }
 
-	public void setValues(List<String> values) {
-		this.values = values;
-	}
-	
-	@Override
-	public List<IError> validate(final Deque<XElement> context) {
-		final Iterator<XElement> it = context.descendingIterator();
-		while (it.hasNext()) {
-			final XElement e = it.next();
-			if (e instanceof XReportDefinition) {
-				final XReportDefinition xrd = (XReportDefinition) e;
-				
-				final Set<String> knownColumns = new HashSet<>();
-				knownColumns.add("selected");
-				knownColumns.add("sent-from");
-				knownColumns.add("suitable");
-				
-				for (final XReportPart xrp : xrd.getContents()) {
-					if (xrp instanceof XReportColumn) {
-						knownColumns.add(xrp.getIdentifier().getName());
-					}
-				}
-				
-				final SetView<String> difference = Sets.difference(ImmutableSet.copyOf(values), knownColumns);
-				if (difference.isEmpty()) {
-					break;
-				} else {
-					return Collections.singletonList(
-							BasicError.at(getSourceNode(), 
-									"This report does not contain the column(s) " + Joiner.on(", ").join(difference) +
-									", so they cannot be used in a cut. The cut must use the name: values of columns in the same report."
-									)
-							);
-				}
-			}
-		}
-		return Collections.emptyList();
-	}
+    @Doc({"These should be the name:s of columns in the report; the summary outputs of the report will be broken down by their distinct combinations.",
+        "You can also cut by the special columns 'selected' and 'sent-from', which determine whether the state of the house was chosen to become the truth, where in the scenario the house has been sent from",
+        "and whether the house was sent to the report by an action before it succeeded, after it succeeded, or before it failed."
+    })
+    @BindRemainingArguments
+    public List<String> getValues() {
+        return values;
+    }
+
+    public void setValues(List<String> values) {
+        this.values = values;
+    }
+
+    @Override
+    public List<IError> validate(final Deque<XElement> context) {
+        final Iterator<XElement> it = context.descendingIterator();
+        while (it.hasNext()) {
+            final XElement e = it.next();
+            if (e instanceof XReportDefinition) {
+                final XReportDefinition xrd = (XReportDefinition) e;
+
+                final Set<String> knownColumns = new HashSet<>();
+                knownColumns.add("selected");
+                knownColumns.add("sent-from");
+                knownColumns.add("suitable");
+
+                for (final XReportPart xrp : xrd.getContents()) {
+                    if (xrp instanceof XReportColumn) {
+                        knownColumns.add(xrp.getIdentifier().getName());
+                    }
+                }
+
+                final SetView<String> difference = Sets.difference(ImmutableSet.copyOf(values), knownColumns);
+                if (difference.isEmpty()) {
+                    break;
+                } else {
+                    return Collections.singletonList(
+                            BasicError.at(getSourceNode(),
+                                    "This report does not contain the column(s) " + Joiner.on(", ").join(difference)
+                                    + ", so they cannot be used in a cut. The cut must use the name: values of columns in the same report."
+                            )
+                    );
+                }
+            }
+        }
+        return Collections.emptyList();
+    }
 }

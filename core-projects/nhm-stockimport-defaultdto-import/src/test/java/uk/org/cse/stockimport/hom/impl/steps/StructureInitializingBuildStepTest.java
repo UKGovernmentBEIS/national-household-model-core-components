@@ -29,7 +29,8 @@ import uk.org.cse.stockimport.repository.IHouseCaseSources;
  * StructureInitializingBuildStepTest.
  *
  * @author richardt
- * @version $Id: StructureInitializingBuildStepTest.java 94 2010-09-30 15:39:21Z richardt
+ * @version $Id: StructureInitializingBuildStepTest.java 94 2010-09-30 15:39:21Z
+ * richardt
  * @since 0.0.1-SNAPSHOT
  */
 @RunWith(MockitoJUnitRunner.class)
@@ -50,8 +51,10 @@ public class StructureInitializingBuildStepTest extends Mockito {
     public void initaliseTests() {
         step = new StructureInitializingBuildStep(housePropertyImputer);
     }
+
     /**
-     * Test method for {@link uk.org.cse.stockimport.hom.impl.steps.StructureInitializingBuildStep#getIdentifier()}.
+     * Test method for
+     * {@link uk.org.cse.stockimport.hom.impl.steps.StructureInitializingBuildStep#getIdentifier()}.
      */
     @Test
     public void testGetIdentifier() {
@@ -59,7 +62,8 @@ public class StructureInitializingBuildStepTest extends Mockito {
     }
 
     /**
-     * Test method for {@link uk.org.cse.stockimport.hom.impl.steps.StructureInitializingBuildStep#getDependencies()}.
+     * Test method for
+     * {@link uk.org.cse.stockimport.hom.impl.steps.StructureInitializingBuildStep#getDependencies()}.
      */
     @Test
     public void testGetDependencies() {
@@ -68,7 +72,8 @@ public class StructureInitializingBuildStepTest extends Mockito {
     }
 
     /**
-     * Test method for {@link uk.org.cse.stockimport.hom.impl.steps.StructureInitializingBuildStep#getLivingAreaFaction(uk.org.cse.stockimport.domain.impl.HouseCaseDTO)}.
+     * Test method for
+     * {@link uk.org.cse.stockimport.hom.impl.steps.StructureInitializingBuildStep#getLivingAreaFaction(uk.org.cse.stockimport.domain.impl.HouseCaseDTO)}.
      */
     @Test
     public void testGetLivingAreaFactionReturnsLivingAreaFactionFromHouseCaseDTOIfNotNull() {

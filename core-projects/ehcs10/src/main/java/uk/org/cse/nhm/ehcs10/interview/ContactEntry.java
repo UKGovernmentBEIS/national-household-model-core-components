@@ -10,26 +10,26 @@ import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 
 public interface ContactEntry extends SurveyEntry {
-	@SavVariableMapping("HMOREM")
-	public Integer getHMOHousehold();
 
-	@SavVariableMapping("NUMHRES")
-	public Enum270 getWhetherMoreThanOneHousehold();
+    @SavVariableMapping("HMOREM")
+    public Integer getHMOHousehold();
 
-	@SavVariableMapping("RESP")
-	public Enum271 getWhoInterviewed();
+    @SavVariableMapping("NUMHRES")
+    public Enum270 getWhetherMoreThanOneHousehold();
 
-	@SavVariableMapping("GOREHS")
-	public Enum30 getRegion_EHSOrder();
+    @SavVariableMapping("RESP")
+    public Enum271 getWhoInterviewed();
 
-	@SavVariableMapping("CASECAT")
-	public Enum229 getStatusOfCase();
+    @SavVariableMapping("GOREHS")
+    public Enum30 getRegion_EHSOrder();
 
-	@SavVariableMapping("WILLING")
-	public Enum69 getWillingToAgreeToSurveyorVisit();
+    @SavVariableMapping("CASECAT")
+    public Enum229 getStatusOfCase();
 
-	@SavVariableMapping("QUARTER")
-	public Enum230 getFieldworkQuarter();
+    @SavVariableMapping("WILLING")
+    public Enum69 getWillingToAgreeToSurveyorVisit();
+
+    @SavVariableMapping("QUARTER")
+    public Enum230 getFieldworkQuarter();
 
 }
-

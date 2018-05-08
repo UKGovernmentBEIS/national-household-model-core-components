@@ -12,16 +12,17 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class MatchBuildYear extends BasicAttributesFunction<Boolean> implements IComponentsFunction<Boolean> {
-	final Predicate<Integer> test;
-	
-	@Inject
-	public MatchBuildYear(final IDimension<BasicCaseAttributes> bad, @Assisted final Predicate<Integer> test) {
-		super(bad);
-		this.test = test;
-	}
 
-	@Override
-	public Boolean compute(final IComponentsScope scope, final ILets lets) {
-		return test.apply(getAttributes(scope).getBuildYear());
-	}
+    final Predicate<Integer> test;
+
+    @Inject
+    public MatchBuildYear(final IDimension<BasicCaseAttributes> bad, @Assisted final Predicate<Integer> test) {
+        super(bad);
+        this.test = test;
+    }
+
+    @Override
+    public Boolean compute(final IComponentsScope scope, final ILets lets) {
+        return test.apply(getAttributes(scope).getBuildYear());
+    }
 }

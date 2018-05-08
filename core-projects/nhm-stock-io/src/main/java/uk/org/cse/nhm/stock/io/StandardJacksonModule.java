@@ -20,46 +20,47 @@ import uk.org.cse.nhm.hom.util.EObjectSerializer;
 /**
  * A module which makes an objectmapper suitable for sending data over the
  * logging queue. This still uses a special serializer for handling EObjects.
- * 
- * It is the default mapper which you will get if you don't ask for anything special.
- * 
+ *
+ * It is the default mapper which you will get if you don't ask for anything
+ * special.
+ *
  * @author hinton
- * 
+ *
  */
 public class StandardJacksonModule extends AbstractModule {
-	@Override
-	protected void configure() {
-		final ObjectMapper mapper = new ObjectMapper();		
-		mapper.registerModule(new JodaModule());
-		mapper.registerModule(new GuavaModule());
 
-		mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-		
+    @Override
+    protected void configure() {
+        final ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JodaModule());
+        mapper.registerModule(new GuavaModule());
+
+        mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+
 //		mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-		
-		mapper.setTimeZone(DateTimeZone.getDefault().toTimeZone());
+        mapper.setTimeZone(DateTimeZone.getDefault().toTimeZone());
 
-		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-		mapper.registerModule(createExtraMappingModule());
-		bind(ObjectMapper.class).toInstance(mapper);
-	}
+        mapper.registerModule(createExtraMappingModule());
+        bind(ObjectMapper.class).toInstance(mapper);
+    }
 
-	private Module createExtraMappingModule() {
-		final SimpleModule module = new SimpleModule();
-		
-		module.addSerializer(ITechnologyModel.class, new EObjectSerializer.Serializer<ITechnologyModel>(
-				ITechnologyModel.class
-				));
-		
-		module.addDeserializer(ITechnologyModel.class, new EObjectSerializer.Deserializer<ITechnologyModel>(
-				ITechnologyModel.class,
-				ImmutableList.of(
-						ITechnologiesPackage.eINSTANCE,
-						IBoilersPackage.eINSTANCE
-						)
-				));
-		return module;
-	}
+    private Module createExtraMappingModule() {
+        final SimpleModule module = new SimpleModule();
+
+        module.addSerializer(ITechnologyModel.class, new EObjectSerializer.Serializer<ITechnologyModel>(
+                ITechnologyModel.class
+        ));
+
+        module.addDeserializer(ITechnologyModel.class, new EObjectSerializer.Deserializer<ITechnologyModel>(
+                ITechnologyModel.class,
+                ImmutableList.of(
+                        ITechnologiesPackage.eINSTANCE,
+                        IBoilersPackage.eINSTANCE
+                )
+        ));
+        return module;
+    }
 
 }

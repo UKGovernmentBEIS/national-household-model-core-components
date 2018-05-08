@@ -8,222 +8,221 @@ import uk.org.cse.stockimport.util.FloorPoylgonBuilder;
  * Creates a floor from the given dimension and additional module information,
  * uses {@link Enum1677} to determine the pattern to which the floor is created,
  * then the dimensions supplied to construct the floor.
- * 
+ *
  * TODO this appears to be a duplicate of {@link FloorPoylgonBuilder}
- * 
+ *
  * @author richardt
  * @version $Id: FloorPolygonBuilder.java 94 2010-09-30 15:39:21Z richardt
  * @since 0.0.1-SNAPSHOT
  */
 public final class SpssFloorPolygonBuilder {
 
-	/**
-	 * Used to convert meter dimensions into CMS
-	 * @since 1.0
-	 */
-	public static final int SCALING_FACTOR = 100;
+    /**
+     * Used to convert meter dimensions into CMS
+     *
+     * @since 1.0
+     */
+    public static final int SCALING_FACTOR = 100;
 
-	/**
-	 * <p>
-	 * Always builds floors in clockwise direction starting from 0,0 (x,y), with
-	 * the next point always being a positive x value.
-	 * </p>
-	 * 
-	 * @assumption If additional module exists but there is no dimension data
-	 * for it, build floor as a square.
-	 * 
-	 * @param mainDepth
-	 * @param mainWidth
-	 * @param additionalDepth
-	 * @param additionalWidth
-	 * @param addionalModuleLocation
-	 * @return
-	 * @since 0.0.1-SNAPSHOT
-	 */
-	public static final SimplePolygon createFloorPolygon(final Double mainDepth, final Double mainWidth, final Double additionalDepth, final Double additionalWidth, Enum1677 addionalModuleLocation) {
+    /**
+     * <p>
+     * Always builds floors in clockwise direction starting from 0,0 (x,y), with
+     * the next point always being a positive x value.
+     * </p>
+     *
+     * @assumption If additional module exists but there is no dimension data
+     * for it, build floor as a square.
+     *
+     * @param mainDepth
+     * @param mainWidth
+     * @param additionalDepth
+     * @param additionalWidth
+     * @param addionalModuleLocation
+     * @return
+     * @since 0.0.1-SNAPSHOT
+     */
+    public static final SimplePolygon createFloorPolygon(final Double mainDepth, final Double mainWidth, final Double additionalDepth, final Double additionalWidth, Enum1677 addionalModuleLocation) {
 
-		int mainDepthInMilli = 0;
-		int mainWidthInMilli = 0;
-		int addDepthInMilli = 0;
-		int addWidthInMilli = 0;
-		int centerPoint;
-		int addCenterPoint;
+        int mainDepthInMilli = 0;
+        int mainWidthInMilli = 0;
+        int addDepthInMilli = 0;
+        int addWidthInMilli = 0;
+        int centerPoint;
+        int addCenterPoint;
 
-		
-		final SimplePolygon.Builder floor = SimplePolygon.builder();
-		floor.add(0, 0);
+        final SimplePolygon.Builder floor = SimplePolygon.builder();
+        floor.add(0, 0);
 
-		if ((mainWidth != null && mainDepth != null)) {
-			mainDepthInMilli = (int) (mainDepth * SCALING_FACTOR);
-			mainWidthInMilli = (int) (mainWidth * SCALING_FACTOR);
+        if ((mainWidth != null && mainDepth != null)) {
+            mainDepthInMilli = (int) (mainDepth * SCALING_FACTOR);
+            mainWidthInMilli = (int) (mainWidth * SCALING_FACTOR);
 
-			addionalModuleLocation = (addionalModuleLocation == null ? Enum1677.__MISSING : addionalModuleLocation);
+            addionalModuleLocation = (addionalModuleLocation == null ? Enum1677.__MISSING : addionalModuleLocation);
 
-			if (hasAdditionalModule(addionalModuleLocation)) {
-				if ((additionalDepth != null && additionalDepth > 0) && (additionalWidth != null && additionalWidth > 0)) {
-					addDepthInMilli = (int) (additionalDepth * SCALING_FACTOR);
-					addWidthInMilli = (int) (additionalWidth * SCALING_FACTOR);
-				} else {
-					// Has no data for additional module so assume no additional
-					// module
-					addionalModuleLocation = Enum1677.__MISSING;
-				}
-			}
+            if (hasAdditionalModule(addionalModuleLocation)) {
+                if ((additionalDepth != null && additionalDepth > 0) && (additionalWidth != null && additionalWidth > 0)) {
+                    addDepthInMilli = (int) (additionalDepth * SCALING_FACTOR);
+                    addWidthInMilli = (int) (additionalWidth * SCALING_FACTOR);
+                } else {
+                    // Has no data for additional module so assume no additional
+                    // module
+                    addionalModuleLocation = Enum1677.__MISSING;
+                }
+            }
 
-			switch (addionalModuleLocation) {
+            switch (addionalModuleLocation) {
 
-			case RightElevation_Front:
-				floor.add(mainDepthInMilli, 0);
-				floor.add(mainDepthInMilli, mainWidthInMilli);
-				floor.add(addDepthInMilli, mainWidthInMilli);
-				floor.add(addDepthInMilli, mainWidthInMilli + addWidthInMilli);
-				floor.add(0, mainWidthInMilli + addWidthInMilli);
+                case RightElevation_Front:
+                    floor.add(mainDepthInMilli, 0);
+                    floor.add(mainDepthInMilli, mainWidthInMilli);
+                    floor.add(addDepthInMilli, mainWidthInMilli);
+                    floor.add(addDepthInMilli, mainWidthInMilli + addWidthInMilli);
+                    floor.add(0, mainWidthInMilli + addWidthInMilli);
 
-				break;
-			case RightElevation_Centre:
-				centerPoint = mainDepthInMilli / 2;
-				addCenterPoint = addDepthInMilli / 2;
+                    break;
+                case RightElevation_Centre:
+                    centerPoint = mainDepthInMilli / 2;
+                    addCenterPoint = addDepthInMilli / 2;
 
-				floor.add(mainDepthInMilli, 0);
-				floor.add(mainDepthInMilli, mainWidthInMilli);
-				floor.add(centerPoint + addCenterPoint, mainWidthInMilli);
-				floor.add(centerPoint + addCenterPoint, mainWidthInMilli + addWidthInMilli);
-				floor.add(centerPoint - addCenterPoint, mainWidthInMilli + addWidthInMilli);
-				floor.add(centerPoint - addCenterPoint, mainWidthInMilli);
-				floor.add(0, mainWidthInMilli);
+                    floor.add(mainDepthInMilli, 0);
+                    floor.add(mainDepthInMilli, mainWidthInMilli);
+                    floor.add(centerPoint + addCenterPoint, mainWidthInMilli);
+                    floor.add(centerPoint + addCenterPoint, mainWidthInMilli + addWidthInMilli);
+                    floor.add(centerPoint - addCenterPoint, mainWidthInMilli + addWidthInMilli);
+                    floor.add(centerPoint - addCenterPoint, mainWidthInMilli);
+                    floor.add(0, mainWidthInMilli);
 
-				break;
-			case RightElevation_Back:
-				floor.add(mainDepthInMilli, 0);
-				floor.add(mainDepthInMilli, mainWidthInMilli + addWidthInMilli);
-				floor.add(mainDepthInMilli - addDepthInMilli, mainWidthInMilli + addWidthInMilli);
-				floor.add(mainDepthInMilli - addDepthInMilli, mainWidthInMilli);
-				floor.add(0, mainWidthInMilli);
+                    break;
+                case RightElevation_Back:
+                    floor.add(mainDepthInMilli, 0);
+                    floor.add(mainDepthInMilli, mainWidthInMilli + addWidthInMilli);
+                    floor.add(mainDepthInMilli - addDepthInMilli, mainWidthInMilli + addWidthInMilli);
+                    floor.add(mainDepthInMilli - addDepthInMilli, mainWidthInMilli);
+                    floor.add(0, mainWidthInMilli);
 
-				break;
-			case FrontElevation_Left:
-				floor.add(mainDepthInMilli + addDepthInMilli, 0);
-				floor.add(mainDepthInMilli + addDepthInMilli, mainWidthInMilli);
-				floor.add(addDepthInMilli, mainWidthInMilli);
-				floor.add(addDepthInMilli, addWidthInMilli);
-				floor.add(0, addWidthInMilli);
+                    break;
+                case FrontElevation_Left:
+                    floor.add(mainDepthInMilli + addDepthInMilli, 0);
+                    floor.add(mainDepthInMilli + addDepthInMilli, mainWidthInMilli);
+                    floor.add(addDepthInMilli, mainWidthInMilli);
+                    floor.add(addDepthInMilli, addWidthInMilli);
+                    floor.add(0, addWidthInMilli);
 
-				break;
-			case FrontElevation_Centre:
-				centerPoint = mainWidthInMilli / 2;
-				addCenterPoint = addWidthInMilli / 2;
+                    break;
+                case FrontElevation_Centre:
+                    centerPoint = mainWidthInMilli / 2;
+                    addCenterPoint = addWidthInMilli / 2;
 
-				floor.add(mainDepthInMilli, 0);
-				floor.add(mainDepthInMilli, mainWidthInMilli);
-				floor.add(0, mainWidthInMilli);
-				floor.add(0, centerPoint + addCenterPoint);
-				floor.add(0 - addDepthInMilli, centerPoint + addCenterPoint);
-				floor.add(0 - addDepthInMilli, centerPoint - addCenterPoint);
-				floor.add(0, centerPoint - addCenterPoint);
+                    floor.add(mainDepthInMilli, 0);
+                    floor.add(mainDepthInMilli, mainWidthInMilli);
+                    floor.add(0, mainWidthInMilli);
+                    floor.add(0, centerPoint + addCenterPoint);
+                    floor.add(0 - addDepthInMilli, centerPoint + addCenterPoint);
+                    floor.add(0 - addDepthInMilli, centerPoint - addCenterPoint);
+                    floor.add(0, centerPoint - addCenterPoint);
 
-				break;
-			case FrontElevation_Right:
-				floor.add(mainDepthInMilli, 0);
-				floor.add(mainDepthInMilli, mainWidthInMilli);
-				floor.add(0 - addDepthInMilli, mainWidthInMilli);
-				floor.add(0 - addDepthInMilli, mainWidthInMilli - addWidthInMilli);
-				floor.add(0, mainWidthInMilli - addWidthInMilli);
+                    break;
+                case FrontElevation_Right:
+                    floor.add(mainDepthInMilli, 0);
+                    floor.add(mainDepthInMilli, mainWidthInMilli);
+                    floor.add(0 - addDepthInMilli, mainWidthInMilli);
+                    floor.add(0 - addDepthInMilli, mainWidthInMilli - addWidthInMilli);
+                    floor.add(0, mainWidthInMilli - addWidthInMilli);
 
-				break;
-			case LeftElevation_Back:
-				floor.add(mainDepthInMilli - addDepthInMilli, 0);
-				floor.add(mainDepthInMilli - addDepthInMilli, 0 - addWidthInMilli);
-				floor.add(mainDepthInMilli, 0 - addWidthInMilli);
-				floor.add(mainDepthInMilli, mainWidthInMilli);
-				floor.add(0, mainWidthInMilli);
+                    break;
+                case LeftElevation_Back:
+                    floor.add(mainDepthInMilli - addDepthInMilli, 0);
+                    floor.add(mainDepthInMilli - addDepthInMilli, 0 - addWidthInMilli);
+                    floor.add(mainDepthInMilli, 0 - addWidthInMilli);
+                    floor.add(mainDepthInMilli, mainWidthInMilli);
+                    floor.add(0, mainWidthInMilli);
 
-				break;
-			case LeftElevation_Front:
-				floor.add(addDepthInMilli, 0);
-				floor.add(addDepthInMilli, addWidthInMilli);
-				floor.add(mainDepthInMilli, addWidthInMilli);
-				floor.add(mainDepthInMilli, mainWidthInMilli + addWidthInMilli);
-				floor.add(0, mainWidthInMilli + addWidthInMilli);
+                    break;
+                case LeftElevation_Front:
+                    floor.add(addDepthInMilli, 0);
+                    floor.add(addDepthInMilli, addWidthInMilli);
+                    floor.add(mainDepthInMilli, addWidthInMilli);
+                    floor.add(mainDepthInMilli, mainWidthInMilli + addWidthInMilli);
+                    floor.add(0, mainWidthInMilli + addWidthInMilli);
 
-				break;
-			case LeftElevation_Centre:
-				centerPoint = mainDepthInMilli / 2;
-				addCenterPoint = addDepthInMilli / 2;
+                    break;
+                case LeftElevation_Centre:
+                    centerPoint = mainDepthInMilli / 2;
+                    addCenterPoint = addDepthInMilli / 2;
 
-				floor.add(centerPoint - addCenterPoint, 0);
-				floor.add(centerPoint - addCenterPoint, 0 - addWidthInMilli);
-				floor.add(centerPoint + addCenterPoint, 0 - addWidthInMilli);
-				floor.add(centerPoint + addCenterPoint, 0);
-				floor.add(mainDepthInMilli, 0);
-				floor.add(mainDepthInMilli, mainWidthInMilli);
-				floor.add(0, mainWidthInMilli);
+                    floor.add(centerPoint - addCenterPoint, 0);
+                    floor.add(centerPoint - addCenterPoint, 0 - addWidthInMilli);
+                    floor.add(centerPoint + addCenterPoint, 0 - addWidthInMilli);
+                    floor.add(centerPoint + addCenterPoint, 0);
+                    floor.add(mainDepthInMilli, 0);
+                    floor.add(mainDepthInMilli, mainWidthInMilli);
+                    floor.add(0, mainWidthInMilli);
 
-				break;
-			case BackElevation_Left:
-				floor.add(mainDepthInMilli + addDepthInMilli, 0);
-				floor.add(mainDepthInMilli + addDepthInMilli, addWidthInMilli);
-				floor.add(mainDepthInMilli, addWidthInMilli);
-				floor.add(mainDepthInMilli, mainWidthInMilli);
-				floor.add(0, mainWidthInMilli);
+                    break;
+                case BackElevation_Left:
+                    floor.add(mainDepthInMilli + addDepthInMilli, 0);
+                    floor.add(mainDepthInMilli + addDepthInMilli, addWidthInMilli);
+                    floor.add(mainDepthInMilli, addWidthInMilli);
+                    floor.add(mainDepthInMilli, mainWidthInMilli);
+                    floor.add(0, mainWidthInMilli);
 
-				break;
-			case BackElevation_Centre:
-				centerPoint = mainWidthInMilli / 2;
-				addCenterPoint = addWidthInMilli / 2;
+                    break;
+                case BackElevation_Centre:
+                    centerPoint = mainWidthInMilli / 2;
+                    addCenterPoint = addWidthInMilli / 2;
 
-				floor.add(mainDepthInMilli, 0);
-				floor.add(mainDepthInMilli, centerPoint - addCenterPoint);
-				floor.add(mainDepthInMilli + addDepthInMilli, centerPoint - addCenterPoint);
-				floor.add(mainDepthInMilli + addDepthInMilli, centerPoint + addCenterPoint);
-				floor.add(mainDepthInMilli, centerPoint + addCenterPoint);
-				floor.add(mainDepthInMilli, mainWidthInMilli);
-				floor.add(0, mainWidthInMilli);
+                    floor.add(mainDepthInMilli, 0);
+                    floor.add(mainDepthInMilli, centerPoint - addCenterPoint);
+                    floor.add(mainDepthInMilli + addDepthInMilli, centerPoint - addCenterPoint);
+                    floor.add(mainDepthInMilli + addDepthInMilli, centerPoint + addCenterPoint);
+                    floor.add(mainDepthInMilli, centerPoint + addCenterPoint);
+                    floor.add(mainDepthInMilli, mainWidthInMilli);
+                    floor.add(0, mainWidthInMilli);
 
-				break;
-			case BackElevation_Right:
-				floor.add(mainDepthInMilli, 0);
-				floor.add(mainDepthInMilli, mainWidthInMilli - addWidthInMilli);
-				floor.add(mainDepthInMilli + addDepthInMilli, mainWidthInMilli - addWidthInMilli);
-				floor.add(mainDepthInMilli + addDepthInMilli, mainWidthInMilli);
-				floor.add(0, mainWidthInMilli);
+                    break;
+                case BackElevation_Right:
+                    floor.add(mainDepthInMilli, 0);
+                    floor.add(mainDepthInMilli, mainWidthInMilli - addWidthInMilli);
+                    floor.add(mainDepthInMilli + addDepthInMilli, mainWidthInMilli - addWidthInMilli);
+                    floor.add(mainDepthInMilli + addDepthInMilli, mainWidthInMilli);
+                    floor.add(0, mainWidthInMilli);
 
-				break;
-			case __MISSING:
-			case Unknown:
-			case NoAdditionalPart:
-			default:
-				// Square
-				floor.add(mainDepthInMilli, 0);
-				floor.add(mainDepthInMilli, mainWidthInMilli);
-				floor.add(0, mainWidthInMilli);
+                    break;
+                case __MISSING:
+                case Unknown:
+                case NoAdditionalPart:
+                default:
+                    // Square
+                    floor.add(mainDepthInMilli, 0);
+                    floor.add(mainDepthInMilli, mainWidthInMilli);
+                    floor.add(0, mainWidthInMilli);
 
-				break;
-			}
-		}
+                    break;
+            }
+        }
 
-		return floor.build();
-	}
+        return floor.build();
+    }
 
-	/**
-	 * Returns false if {@link Enum1677} equals {@link Enum1677#__MISSING},
-	 * {@link Enum1677#NoAdditionalPart} or {@link Enum1677#Unknown}, otherwise
-	 * returns true.
-	 * 
-	 * @param addionalModuleLocation
-	 *            {@link Enum1677}
-	 * @return boolean true if has an additional module
-	 * @since 0.0.1-SNAPSHOT
-	 */
-	public static final boolean hasAdditionalModule(Enum1677 addionalModuleLocation) {
-		addionalModuleLocation = (addionalModuleLocation == null ? Enum1677.__MISSING : addionalModuleLocation);
+    /**
+     * Returns false if {@link Enum1677} equals {@link Enum1677#__MISSING},
+     * {@link Enum1677#NoAdditionalPart} or {@link Enum1677#Unknown}, otherwise
+     * returns true.
+     *
+     * @param addionalModuleLocation {@link Enum1677}
+     * @return boolean true if has an additional module
+     * @since 0.0.1-SNAPSHOT
+     */
+    public static final boolean hasAdditionalModule(Enum1677 addionalModuleLocation) {
+        addionalModuleLocation = (addionalModuleLocation == null ? Enum1677.__MISSING : addionalModuleLocation);
 
-		switch (addionalModuleLocation) {
-		case __MISSING:
-		case NoAdditionalPart:
-		case Unknown:
-			return false;
-		default:
-			return true;
-		}
-	}
+        switch (addionalModuleLocation) {
+            case __MISSING:
+            case NoAdditionalPart:
+            case Unknown:
+                return false;
+            default:
+                return true;
+        }
+    }
 }

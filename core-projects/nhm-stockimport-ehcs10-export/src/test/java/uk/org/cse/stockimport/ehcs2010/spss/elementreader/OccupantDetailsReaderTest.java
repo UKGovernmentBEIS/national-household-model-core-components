@@ -19,7 +19,7 @@ import uk.org.cse.stockimport.repository.IHouseCaseSourcesRespository;
 
 /**
  * OccupantDetailsReaderTest.
- * 
+ *
  * @author richardt
  * @version $Id: OccupantDetailsReaderTest.java 94 2010-09-30 15:39:21Z richardt
  * @since 1.0.1
@@ -40,7 +40,7 @@ public class OccupantDetailsReaderTest extends Mockito {
     public void setUp() throws Exception {
         DateTime surveyDate = new DateTime(2010, 1, 1, 0, 0);
 
-        when(itrFactory.build(ImmutableSet.<Class<?>> of(
+        when(itrFactory.build(ImmutableSet.<Class<?>>of(
                 Fuel_Poverty_Dataset_2010EntryImpl.class,
                 Interview_09Plus10EntryImpl.class), "")).thenReturn(iteratorProvider);
 

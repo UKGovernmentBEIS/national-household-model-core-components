@@ -62,6 +62,7 @@ public class WarmAirMeasure extends AbstractMeasure {
     }
 
     protected class Modifier implements IModifier<ITechnologyModel> {
+
         private final double efficiency;
 
         public Modifier(final double efficiency) {
@@ -71,7 +72,8 @@ public class WarmAirMeasure extends AbstractMeasure {
         /**
          * @param modifiable
          * @return
-         * @see uk.org.cse.nhm.simulator.state.IBranch.IModifier#modify(java.lang.Object)
+         * @see
+         * uk.org.cse.nhm.simulator.state.IBranch.IModifier#modify(java.lang.Object)
          */
         @Override
         public boolean modify(ITechnologyModel modifiable) {
@@ -93,19 +95,20 @@ public class WarmAirMeasure extends AbstractMeasure {
      * @param lets
      * @return
      * @throws NHMException
-     * @see uk.org.cse.nhm.simulator.scope.IComponentsAction#apply(uk.org.cse.nhm.simulator.scope.ISettableComponentsScope,
-     *      uk.org.cse.nhm.simulator.let.ILets)
+     * @see
+     * uk.org.cse.nhm.simulator.scope.IComponentsAction#apply(uk.org.cse.nhm.simulator.scope.ISettableComponentsScope,
+     * uk.org.cse.nhm.simulator.let.ILets)
      */
     @Override
     public boolean doApply(final ISettableComponentsScope components, ILets lets) throws NHMException {
         final ISizingResult result = sizingFunction.computeSize(components, ILets.EMPTY, Units.KILOWATTS);
         components.addNote(result);
 
-        if(result.isSuitable() && isSuitable(components, lets)){
+        if (result.isSuitable() && isSuitable(components, lets)) {
             final double capex = capitalCostFunction.compute(components, lets).doubleValue();
             final double opex = operationalCostFunction.compute(components, lets).doubleValue();
-            
-            if(makeItSo(components, lets)){
+
+            if (makeItSo(components, lets)) {
                 components.addNote(new TechnologyInstallationDetails(
                         this, TechnologyType.warmAirHeatingSystem(), result.getSize(), result.getUnits(), capex, opex));
                 components.addTransaction(Payment.capexToMarket(capex));
@@ -116,10 +119,10 @@ public class WarmAirMeasure extends AbstractMeasure {
 
         return false;
     }
-    
-    protected boolean makeItSo(final ISettableComponentsScope components, final ILets lets){
+
+    protected boolean makeItSo(final ISettableComponentsScope components, final ILets lets) {
         components.modify(technologyDimension,
-                          new Modifier(getEfficiency(components, lets)));
+                new Modifier(getEfficiency(components, lets)));
         return true;
     }
 
@@ -127,15 +130,16 @@ public class WarmAirMeasure extends AbstractMeasure {
      * @param scope
      * @param lets
      * @return
-     * @see uk.org.cse.nhm.simulator.scope.IComponentsAction#isSuitable(uk.org.cse.nhm.simulator.scope.IComponentsScope,
-     *      uk.org.cse.nhm.simulator.let.ILets)
+     * @see
+     * uk.org.cse.nhm.simulator.scope.IComponentsAction#isSuitable(uk.org.cse.nhm.simulator.scope.IComponentsScope,
+     * uk.org.cse.nhm.simulator.let.ILets)
      */
     @Override
     public boolean isSuitable(IComponentsScope scope, ILets lets) {
-        return (hasCorrectFuelType() &&
-                hasValidWarmAirSystemFitted(scope.get(technologyDimension),
-                                            scope,
-                                            lets));
+        return (hasCorrectFuelType()
+                && hasValidWarmAirSystemFitted(scope.get(technologyDimension),
+                        scope,
+                        lets));
     }
 
     protected boolean hasCorrectFuelType() {
@@ -151,7 +155,9 @@ public class WarmAirMeasure extends AbstractMeasure {
     }
 
     /**
-     * Is valid if a warm air system is already fitted and the efficiency of this is less than the new one being fitted.
+     * Is valid if a warm air system is already fitted and the efficiency of
+     * this is less than the new one being fitted.
+     *
      * @param technologyModel
      * @param basicCaseAttributesModel
      * @return
@@ -159,7 +165,7 @@ public class WarmAirMeasure extends AbstractMeasure {
     protected boolean hasValidWarmAirSystemFitted(final ITechnologyModel technologyModel, final IComponentsScope scope, final ILets lets) {
         if (technologyModel.getPrimarySpaceHeater() instanceof IWarmAirSystem) {
             IWarmAirSystem system = (IWarmAirSystem) technologyModel.getPrimarySpaceHeater();
-            if (system.getEfficiency().value < getEfficiency(scope, lets)){
+            if (system.getEfficiency().value < getEfficiency(scope, lets)) {
                 return true;
             }
         }
@@ -168,8 +174,8 @@ public class WarmAirMeasure extends AbstractMeasure {
     }
 
     /**
-     * @return
-     * @see uk.org.cse.nhm.simulator.scope.IComponentsAction#isAlwaysSuitable()
+     * @return @see
+     * uk.org.cse.nhm.simulator.scope.IComponentsAction#isAlwaysSuitable()
      */
     @Override
     public boolean isAlwaysSuitable() {
@@ -177,8 +183,8 @@ public class WarmAirMeasure extends AbstractMeasure {
     }
 
     /**
-     * @return
-     * @see uk.org.cse.nhm.simulator.state.IStateChangeSource#getSourceType()
+     * @return @see
+     * uk.org.cse.nhm.simulator.state.IStateChangeSource#getSourceType()
      */
     @Override
     public StateChangeSourceType getSourceType() {

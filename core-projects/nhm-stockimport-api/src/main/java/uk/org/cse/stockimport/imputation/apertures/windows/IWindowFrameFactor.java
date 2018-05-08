@@ -4,11 +4,11 @@ import uk.org.cse.nhm.energycalculator.api.types.FrameType;
 
 public interface IWindowFrameFactor {
 
-	/**
-	 * @since 1.0
-	 */
-	public abstract double getFrameFactor(FrameType frameType);
+    /**
+     * @since 1.0
+     */
+    public abstract double getFrameFactor(FrameType frameType);
 
-	public abstract void setFrameFactor(FrameType frameType, Double factor);
+    public abstract void setFrameFactor(FrameType frameType, Double factor);
 
 }

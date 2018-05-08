@@ -12,15 +12,15 @@ import uk.org.cse.nhm.language.definition.enums.XEnergyCalculatorType;
 @Bind("counterfactual.energy-calculator")
 public class XCounterfactualCalculator extends XCounterfactualAction {
 
-	private XEnergyCalculatorType calculatorType = XEnergyCalculatorType.SAP2012;
+    private XEnergyCalculatorType calculatorType = XEnergyCalculatorType.SAP2012;
 
-	@Prop(XScenario.P.CALCULATOR_TYPE)
-	@BindPositionalArgument(value = 0)
-	public XEnergyCalculatorType getCalculatorType() {
-		return calculatorType;
-	}
+    @Prop(XScenario.P.CALCULATOR_TYPE)
+    @BindPositionalArgument(value = 0)
+    public XEnergyCalculatorType getCalculatorType() {
+        return calculatorType;
+    }
 
-	public void setCalculatorType(final XEnergyCalculatorType type) {
-		this.calculatorType = type;
-	}
+    public void setCalculatorType(final XEnergyCalculatorType type) {
+        this.calculatorType = type;
+    }
 }

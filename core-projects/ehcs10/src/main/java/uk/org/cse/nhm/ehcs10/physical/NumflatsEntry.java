@@ -8,32 +8,32 @@ import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 
 public interface NumflatsEntry extends SurveyEntry {
-	@SavVariableMapping("FNOLOWES")
-	public String getLevelOfLowestFlat();
 
-	@SavVariableMapping("FNOVACNT")
-	public Integer getOTHERFLATSINMODULEApprox_NumberOfVacantFlatsInModule();
+    @SavVariableMapping("FNOLOWES")
+    public String getLevelOfLowestFlat();
 
-	@SavVariableMapping("FNOFLATS")
-	public Integer getNumberOfFlatsInModule();
+    @SavVariableMapping("FNOVACNT")
+    public Integer getOTHERFLATSINMODULEApprox_NumberOfVacantFlatsInModule();
 
-	@SavVariableMapping("FNORESAR")
-	public Integer getNONRESIDENTIALUSEIfNon_Residential__TotalFloorAreaInNon_ResidentialUse();
+    @SavVariableMapping("FNOFLATS")
+    public Integer getNumberOfFlatsInModule();
 
-	@SavVariableMapping("FNOGRUSE")
-	public Enum1655 getUseOfGroundFloor();
+    @SavVariableMapping("FNORESAR")
+    public Integer getNONRESIDENTIALUSEIfNon_Residential__TotalFloorAreaInNon_ResidentialUse();
 
-	@SavVariableMapping("FNOOTHER")
-	public Enum1656 getOTHERFLATSINMODULEAreThey____();
+    @SavVariableMapping("FNOGRUSE")
+    public Enum1655 getUseOfGroundFloor();
 
-	@SavVariableMapping("FNOREUSE")
-	public Enum1657 getIfDwellingWithNon_Residential_Non_ResidentialUse();
+    @SavVariableMapping("FNOOTHER")
+    public Enum1656 getOTHERFLATSINMODULEAreThey____();
 
-	@SavVariableMapping("FNOBSUSE")
-	public Enum1655 getUseOfBasement();
+    @SavVariableMapping("FNOREUSE")
+    public Enum1657 getIfDwellingWithNon_Residential_Non_ResidentialUse();
 
-	@SavVariableMapping("FNORESFD")
-	public Enum1282 getDoesNon_ResidentialUseIncludeHandlingOfFood_();
+    @SavVariableMapping("FNOBSUSE")
+    public Enum1655 getUseOfBasement();
+
+    @SavVariableMapping("FNORESFD")
+    public Enum1282 getDoesNon_ResidentialUseIncludeHandlingOfFood_();
 
 }
-

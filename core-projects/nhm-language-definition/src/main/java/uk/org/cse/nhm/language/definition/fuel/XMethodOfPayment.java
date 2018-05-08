@@ -7,8 +7,8 @@ import uk.org.cse.nhm.language.definition.Doc;
 @Category(CategoryType.TARIFFS)
 @Doc("Defines a method of payment")
 public enum XMethodOfPayment {
-	DirectDebit,
-	PrepayMeter,
-	StandardCredit,
-	Free
+    DirectDebit,
+    PrepayMeter,
+    StandardCredit,
+    Free
 }

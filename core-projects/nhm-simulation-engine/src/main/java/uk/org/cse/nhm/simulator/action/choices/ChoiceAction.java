@@ -17,41 +17,42 @@ import uk.org.cse.nhm.simulator.scope.ISettableComponentsScope.IPicker;
 import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
 
 public class ChoiceAction extends AbstractNamed implements IComponentsAction {
-	private final IPicker selector;
-	private final Set<IComponentsAction> alternatives;
-	
-	@AssistedInject
-	public ChoiceAction(
-			@Assisted final IPicker selector,
-			@Assisted final List<IComponentsAction> alternatives) {
-		this.selector = selector;
-		this.alternatives = ImmutableSet.copyOf(alternatives);
-	}
-	
-	@Override
-	public StateChangeSourceType getSourceType() {
-		return StateChangeSourceType.ACTION;
-	}
 
-	@Override
-	public boolean apply(final ISettableComponentsScope scope, final ILets lets)
-			throws NHMException {
-		return scope.apply(alternatives, lets, selector);
-	}
+    private final IPicker selector;
+    private final Set<IComponentsAction> alternatives;
 
-	@Override
-	public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
-		for (final IComponentsAction a : alternatives) {
-			if (a.isSuitable(scope, lets)) {
-				return true;
-			}
-		}
-		return false;
-	}
+    @AssistedInject
+    public ChoiceAction(
+            @Assisted final IPicker selector,
+            @Assisted final List<IComponentsAction> alternatives) {
+        this.selector = selector;
+        this.alternatives = ImmutableSet.copyOf(alternatives);
+    }
 
-	@Override
-	public boolean isAlwaysSuitable() {
-		//TODO could in-principle work this out
-		return false;
-	}
+    @Override
+    public StateChangeSourceType getSourceType() {
+        return StateChangeSourceType.ACTION;
+    }
+
+    @Override
+    public boolean apply(final ISettableComponentsScope scope, final ILets lets)
+            throws NHMException {
+        return scope.apply(alternatives, lets, selector);
+    }
+
+    @Override
+    public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
+        for (final IComponentsAction a : alternatives) {
+            if (a.isSuitable(scope, lets)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isAlwaysSuitable() {
+        //TODO could in-principle work this out
+        return false;
+    }
 }

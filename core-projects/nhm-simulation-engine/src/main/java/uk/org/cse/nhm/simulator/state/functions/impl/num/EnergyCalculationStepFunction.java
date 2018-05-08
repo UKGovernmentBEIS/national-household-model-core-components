@@ -17,14 +17,15 @@ import java.util.Optional;
 import java.util.Set;
 
 public class EnergyCalculationStepFunction extends AbstractNamed implements IComponentsFunction<Double> {
+
     private final IDimension<IPowerTable> energy;
     private final EnergyCalculationStep step;
     private final Optional<Integer> month;
 
     @AssistedInject
     public EnergyCalculationStepFunction(final IDimension<IPowerTable> energy,
-                                         @Assisted final EnergyCalculationStep step,
-                                         @Assisted final Optional<Integer> month) {
+            @Assisted final EnergyCalculationStep step,
+            @Assisted final Optional<Integer> month) {
         this.energy = energy;
         this.step = step;
         this.month = month;

@@ -17,12 +17,14 @@ import uk.org.cse.nhm.language.definition.function.num.XNumberConstant;
  */
 @Doc("Installs a Warm Air heating system")
 @Unsuitability({
-        "fuel type must be mains gas, bottled LPG or LPG",
-        "a warm air system must already be installed and have an efficiency less than that being installed"
+    "fuel type must be mains gas, bottled LPG or LPG",
+    "a warm air system must already be installed and have an efficiency less than that being installed"
 })
 @Bind("measure.warm-air-system")
 public class XWarmAirMeasure extends XHeatingMeasure {
+
     public static final class P {
+
         public static final String EFFICIENCY = "efficiency";
         public static final String FUEL = "fuel";
     }

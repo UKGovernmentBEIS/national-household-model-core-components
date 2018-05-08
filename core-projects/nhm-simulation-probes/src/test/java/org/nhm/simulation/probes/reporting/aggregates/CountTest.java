@@ -16,20 +16,21 @@ import uk.org.cse.nhm.simulator.scope.IStateScope;
 import uk.org.cse.nhm.simulator.state.IDwelling;
 
 public class CountTest {
-	@Test
-	public void testCountCounts() {
-		final ILets lets = ILets.EMPTY;
-		final Random r = new Random();
-		final Count c = new Count();
-		for (int i = 0; i<10; i++) {
-			final int k = r.nextInt(100);
-			final Set<IDwelling> things = new HashSet<IDwelling>();
-			for (int j = 0; j<k; j++) {
-				final IDwelling mock = mock(IDwelling.class);
-				when(mock.getWeight()).thenReturn(1f);
-				things.add(mock);
-			}
-			Assert.assertEquals(k, c.evaluate((IStateScope) null, lets, things), 0);
-		}
-	}
+
+    @Test
+    public void testCountCounts() {
+        final ILets lets = ILets.EMPTY;
+        final Random r = new Random();
+        final Count c = new Count();
+        for (int i = 0; i < 10; i++) {
+            final int k = r.nextInt(100);
+            final Set<IDwelling> things = new HashSet<IDwelling>();
+            for (int j = 0; j < k; j++) {
+                final IDwelling mock = mock(IDwelling.class);
+                when(mock.getWeight()).thenReturn(1f);
+                things.add(mock);
+            }
+            Assert.assertEquals(k, c.evaluate((IStateScope) null, lets, things), 0);
+        }
+    }
 }

@@ -29,50 +29,51 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class TechnologyTypeFunction extends AbstractNamed implements IComponentsFunction<XTechnologyTypeValue> {
-	private final ILogEntryHandler log;
 
-	@Inject
-	protected TechnologyTypeFunction(final ILogEntryHandler log) {
-		this.log = log;
-	}
-	
-	@Override
-	public XTechnologyTypeValue compute(final IComponentsScope scope, final ILets lets) {
-		final Optional<IOperationalCost> currentThing = lets.get(ResetOpexAction.CURRENT_OPCOST, IOperationalCost.class);
-		
-		if (currentThing.isPresent()) {
-			final IOperationalCost op = currentThing.get();
-			if (op instanceof IInstantaneousCombiBoiler) {
-				return XTechnologyTypeValue.InstantCombi;
-			} else if (op instanceof ICombiBoiler) {
-				return XTechnologyTypeValue.StorageCombi;
-			} else if (op instanceof ICPSU) {
-				return XTechnologyTypeValue.CPSU;
-			} else if (op instanceof IBackBoiler) {
-				return XTechnologyTypeValue.BackBoiler;
-			} else if (op instanceof IBoiler) {
-				return XTechnologyTypeValue.StandardBoiler;
-			} else if (op instanceof ICommunityHeatSource) {
-				return XTechnologyTypeValue.DistrictHeat;
-			} else if (op instanceof ISolarWaterHeater) {
-				return XTechnologyTypeValue.SolarDHW;
-			} else if (op instanceof IStorageHeater) {
-				return XTechnologyTypeValue.StorageHeater;
-			}
-		} else {
-			log.acceptLogEntry(new WarningLogEntry("Invalid outside of action.reset-opex", ImmutableMap.of("element", this.getIdentifier().getName())));
-		}
-		return null;
-	}
+    private final ILogEntryHandler log;
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return Collections.emptySet();
-	}
+    @Inject
+    protected TechnologyTypeFunction(final ILogEntryHandler log) {
+        this.log = log;
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return Collections.emptySet();
-	}
+    @Override
+    public XTechnologyTypeValue compute(final IComponentsScope scope, final ILets lets) {
+        final Optional<IOperationalCost> currentThing = lets.get(ResetOpexAction.CURRENT_OPCOST, IOperationalCost.class);
+
+        if (currentThing.isPresent()) {
+            final IOperationalCost op = currentThing.get();
+            if (op instanceof IInstantaneousCombiBoiler) {
+                return XTechnologyTypeValue.InstantCombi;
+            } else if (op instanceof ICombiBoiler) {
+                return XTechnologyTypeValue.StorageCombi;
+            } else if (op instanceof ICPSU) {
+                return XTechnologyTypeValue.CPSU;
+            } else if (op instanceof IBackBoiler) {
+                return XTechnologyTypeValue.BackBoiler;
+            } else if (op instanceof IBoiler) {
+                return XTechnologyTypeValue.StandardBoiler;
+            } else if (op instanceof ICommunityHeatSource) {
+                return XTechnologyTypeValue.DistrictHeat;
+            } else if (op instanceof ISolarWaterHeater) {
+                return XTechnologyTypeValue.SolarDHW;
+            } else if (op instanceof IStorageHeater) {
+                return XTechnologyTypeValue.StorageHeater;
+            }
+        } else {
+            log.acceptLogEntry(new WarningLogEntry("Invalid outside of action.reset-opex", ImmutableMap.of("element", this.getIdentifier().getName())));
+        }
+        return null;
+    }
+
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return Collections.emptySet();
+    }
+
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return Collections.emptySet();
+    }
 
 }

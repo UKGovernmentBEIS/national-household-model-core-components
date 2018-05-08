@@ -20,91 +20,91 @@ import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class FloorInsulationMeasure extends InsulationMeasure {
-	final IDimension<StructureModel> structureDimension;
-	final Optional<IComponentsFunction<Number>> resistance;
-	final Optional<IComponentsFunction<Number>> uValue;
-	final double thickness;
-	final boolean isSolidFloor;
 
-	@AssistedInject
-	public FloorInsulationMeasure(final IDimension<StructureModel> structureDimension,
-								  @Assisted("capex") final IComponentsFunction<Number> capex,
-								  @Assisted("resistance") final Optional<IComponentsFunction<Number>>resistance,
-								  @Assisted("uvalue") final Optional<IComponentsFunction<Number>> uvalue,
-								  @Assisted final double thickness,
-								  @Assisted final boolean isSolidFloor) {
-		super(capex, TechnologyType.floorInsulation());
-		this.resistance = resistance;
-		this.uValue = uvalue;
-		this.thickness = thickness;
-		this.structureDimension = structureDimension;
-		this.isSolidFloor = isSolidFloor;
-	}
+    final IDimension<StructureModel> structureDimension;
+    final Optional<IComponentsFunction<Number>> resistance;
+    final Optional<IComponentsFunction<Number>> uValue;
+    final double thickness;
+    final boolean isSolidFloor;
 
-	@Override
-	public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
-		final StructureModel sm = scope.get(structureDimension);
+    @AssistedInject
+    public FloorInsulationMeasure(final IDimension<StructureModel> structureDimension,
+            @Assisted("capex") final IComponentsFunction<Number> capex,
+            @Assisted("resistance") final Optional<IComponentsFunction<Number>> resistance,
+            @Assisted("uvalue") final Optional<IComponentsFunction<Number>> uvalue,
+            @Assisted final double thickness,
+            @Assisted final boolean isSolidFloor) {
+        super(capex, TechnologyType.floorInsulation());
+        this.resistance = resistance;
+        this.uValue = uvalue;
+        this.thickness = thickness;
+        this.structureDimension = structureDimension;
+        this.isSolidFloor = isSolidFloor;
+    }
 
-		return sm.hasExternalFloor() &&
-				(sm.getGroundFloorConstructionType() == FloorConstructionType.Solid) == isSolidFloor;
-	}
+    @Override
+    public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
+        final StructureModel sm = scope.get(structureDimension);
 
-	@Override
-	public boolean isAlwaysSuitable() {
-		return false;
-	}
+        return sm.hasExternalFloor()
+                && (sm.getGroundFloorConstructionType() == FloorConstructionType.Solid) == isSolidFloor;
+    }
 
-	private void addCapitalCosts(final ISettableComponentsScope scope, final ILets lets) {
-		final AreaAccumulator acc = new AreaAccumulator(EnumSet.of(AreaType.BasementFloor, AreaType.GroundFloor, AreaType.ExposedUpperFloor));
-		scope.get(structureDimension).accept(acc);
+    @Override
+    public boolean isAlwaysSuitable() {
+        return false;
+    }
 
-		addCapitalCosts(scope, lets, acc.getTotalArea());
-	}
+    private void addCapitalCosts(final ISettableComponentsScope scope, final ILets lets) {
+        final AreaAccumulator acc = new AreaAccumulator(EnumSet.of(AreaType.BasementFloor, AreaType.GroundFloor, AreaType.ExposedUpperFloor));
+        scope.get(structureDimension).accept(acc);
 
+        addCapitalCosts(scope, lets, acc.getTotalArea());
+    }
 
-	@Override
-   	public boolean doApply(final ISettableComponentsScope scope, final ILets lets) {
+    @Override
+    public boolean doApply(final ISettableComponentsScope scope, final ILets lets) {
         if (this.uValue.isPresent()) {
             final double uvalue = this.uValue.get().compute(scope, lets).doubleValue();
             scope.modify(structureDimension,
                     new IBranch.IModifier<StructureModel>() {
-                        @Override
-                        public boolean modify(final StructureModel sm) {
-                            for (final Storey storey : sm.getStoreys()) {
-                                storey.setFloorUValue(uvalue);
-                            }
+                @Override
+                public boolean modify(final StructureModel sm) {
+                    for (final Storey storey : sm.getStoreys()) {
+                        storey.setFloorUValue(uvalue);
+                    }
 
-                            sm.setFloorInsulationThickness(thickness);
+                    sm.setFloorInsulationThickness(thickness);
 
-                            return true;
-                        }
-                    });
+                    return true;
+                }
+            });
             addCapitalCosts(scope, lets);
         } else if (this.resistance.isPresent()) {
             final double resistance = this.resistance.get().compute(scope, lets).doubleValue() * thickness;
             scope.modify(structureDimension,
                     new IBranch.IModifier<StructureModel>() {
-                        @Override
-                        public boolean modify(final StructureModel sm) {
-                            for (final Storey storey : sm.getStoreys()) {
-                                final double newUValue = 1 / (resistance +
-                                        (1 / storey.getFloorUValue()));
-                                storey.setFloorUValue(newUValue);
-                            }
+                @Override
+                public boolean modify(final StructureModel sm) {
+                    for (final Storey storey : sm.getStoreys()) {
+                        final double newUValue = 1 / (resistance
+                                + (1 / storey.getFloorUValue()));
+                        storey.setFloorUValue(newUValue);
+                    }
 
-                            sm.setFloorInsulationThickness(thickness);
+                    sm.setFloorInsulationThickness(thickness);
 
-                            return true;
-                        }
-                    });
+                    return true;
+                }
+            });
             addCapitalCosts(scope, lets);
         }
 
         return true;
-	}
+    }
 
-	@Override
-	public StateChangeSourceType getSourceType() {
-		return StateChangeSourceType.ACTION;
-	}
+    @Override
+    public StateChangeSourceType getSourceType() {
+        return StateChangeSourceType.ACTION;
+    }
 }

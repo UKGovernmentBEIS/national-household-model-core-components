@@ -23,44 +23,44 @@ import uk.org.cse.nhm.simulator.state.dimensions.time.ITimeDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class SimYearFunction extends AbstractNamed implements
-		IComponentsFunction<Number> {
+        IComponentsFunction<Number> {
 
-	private final ITimeDimension time;
-	private final Set<DateTime> changeDates;
-	private final Optional<XForesightLevel> foresight;
+    private final ITimeDimension time;
+    private final Set<DateTime> changeDates;
+    private final Optional<XForesightLevel> foresight;
 
-	@AssistedInject
-	public SimYearFunction(
-			final ITimeDimension time,
-			@Named(SimulatorConfigurationConstants.START_DATE) final DateTime start,
-			@Named(SimulatorConfigurationConstants.END_DATE) final DateTime end,
-			@Assisted final Optional<XForesightLevel> foresight) {
-		this.time = time;
-		this.foresight = foresight;
-		
-		DateTime current = new DateTime(start.getYear(), 1, 1, 0, 0);
-		final int endYear = end.getYear();
-		
-		final Builder<DateTime> builder = ImmutableSet.<DateTime>builder();
-		while (current.getYear() <= endYear) { 
-			builder.add(current);
-			current = current.plusYears(1);
-		}
-		changeDates = builder.build();
-	}
+    @AssistedInject
+    public SimYearFunction(
+            final ITimeDimension time,
+            @Named(SimulatorConfigurationConstants.START_DATE) final DateTime start,
+            @Named(SimulatorConfigurationConstants.END_DATE) final DateTime end,
+            @Assisted final Optional<XForesightLevel> foresight) {
+        this.time = time;
+        this.foresight = foresight;
 
-	@Override
-	public Number compute(final IComponentsScope scope, final ILets lets) {
-		return scope.get(time).get(foresight, lets).getYear();
-	}
+        DateTime current = new DateTime(start.getYear(), 1, 1, 0, 0);
+        final int endYear = end.getYear();
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return Collections.<IDimension<?>> singleton(time);
-	}
+        final Builder<DateTime> builder = ImmutableSet.<DateTime>builder();
+        while (current.getYear() <= endYear) {
+            builder.add(current);
+            current = current.plusYears(1);
+        }
+        changeDates = builder.build();
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return changeDates;
-	}
+    @Override
+    public Number compute(final IComponentsScope scope, final ILets lets) {
+        return scope.get(time).get(foresight, lets).getYear();
+    }
+
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return Collections.<IDimension<?>>singleton(time);
+    }
+
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return changeDates;
+    }
 }

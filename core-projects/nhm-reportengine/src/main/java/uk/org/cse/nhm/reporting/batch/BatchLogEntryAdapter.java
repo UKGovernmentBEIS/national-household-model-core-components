@@ -13,29 +13,30 @@ import uk.org.cse.nhm.logging.logentry.batch.BatchOutputEntry;
 import uk.org.cse.nhm.logging.logentry.errors.SystemErrorLogEntry;
 
 public class BatchLogEntryAdapter implements ILogEntryHandler {
-	private final ILogEntryHandler delegate;
-	private final UUID taskID;
-	
-	public BatchLogEntryAdapter(final ILogEntryHandler delegate, final UUID taskID) {
-		super();
-		this.delegate = delegate;
-		this.taskID = taskID;
-	}
 
-	@Override
-	public void close() throws IOException {
-		delegate.close();
-	}
+    private final ILogEntryHandler delegate;
+    private final UUID taskID;
 
-	@Override
-	public void acceptLogEntry(final ISimulationLogEntry entry) {
-		if (entry instanceof SimulationProgressLogEntry) {
-			delegate.acceptLogEntry(entry);
-		} else if (entry instanceof SystemErrorLogEntry) {
-			delegate.acceptLogEntry(entry);
-		} else {
-			final Optional<BatchOutputEntry> converted = BatchLogEntryConverter.convert(entry, taskID);
-			delegate.acceptLogEntry(converted.isPresent() ? converted.get() : entry);
-		}
-	}
+    public BatchLogEntryAdapter(final ILogEntryHandler delegate, final UUID taskID) {
+        super();
+        this.delegate = delegate;
+        this.taskID = taskID;
+    }
+
+    @Override
+    public void close() throws IOException {
+        delegate.close();
+    }
+
+    @Override
+    public void acceptLogEntry(final ISimulationLogEntry entry) {
+        if (entry instanceof SimulationProgressLogEntry) {
+            delegate.acceptLogEntry(entry);
+        } else if (entry instanceof SystemErrorLogEntry) {
+            delegate.acceptLogEntry(entry);
+        } else {
+            final Optional<BatchOutputEntry> converted = BatchLogEntryConverter.convert(entry, taskID);
+            delegate.acceptLogEntry(converted.isPresent() ? converted.get() : entry);
+        }
+    }
 }

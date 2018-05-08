@@ -18,16 +18,16 @@ import uk.org.cse.nhm.language.definition.function.num.XNumberConstant;
  * @author richardTiffin
  * @version $Id$
  */
-
 @Bind("measure.hot-water-tank-thermostat")
 @Doc("Installs hot water thermostat onto an existing hot-water cylinder")
 @Unsuitability({
-        "Dwelling does not have central hot water system with a hot water storage cylinder.",
-			"Dwelling has a central hot water system with hot water storage cylinder which already has a cylinder thermostat."
+    "Dwelling does not have central hot water system with a hot water storage cylinder.",
+    "Dwelling has a central hot water system with hot water storage cylinder which already has a cylinder thermostat."
 })
 public class XHotWaterTankThermostat extends XMeasure {
 
     public static final class P {
+
         public static final String capex = "capex";
     }
 

@@ -19,32 +19,33 @@ import uk.org.cse.nhm.language.validate.contents.Declaration;
 @Bind("def-test")
 @Category(CategoryType.DECLARATIONS)
 public class XTestDeclaration extends XBoolean implements IScenarioElement<XElement> {
-	public static final String VALUE = "value";
-	private XBoolean value;
-	
-	@Doc("The name of the function to declare")
-	@NotNull(message = "all declarations require a name, as their first unnamed argument")
-	@Identity
-	@BindPositionalArgument(0)
-	@Override
-	public String getName() {
-		return super.getName();
-	}
 
-	@Override
-	public void setName(final String name) {
-		super.setName(name);
-	}
+    public static final String VALUE = "value";
+    private XBoolean value;
 
-	@BindPositionalArgument(1)
-	@NotNull(message = "def-test requires a test as its second argument")
-	@Doc("The test itself")
-	@Prop(VALUE)
-	public XBoolean getValue() {
-		return value;
-	}
+    @Doc("The name of the function to declare")
+    @NotNull(message = "all declarations require a name, as their first unnamed argument")
+    @Identity
+    @BindPositionalArgument(0)
+    @Override
+    public String getName() {
+        return super.getName();
+    }
 
-	public void setValue(final XBoolean value) {
-		this.value = value;
-	}
+    @Override
+    public void setName(final String name) {
+        super.setName(name);
+    }
+
+    @BindPositionalArgument(1)
+    @NotNull(message = "def-test requires a test as its second argument")
+    @Doc("The test itself")
+    @Prop(VALUE)
+    public XBoolean getValue() {
+        return value;
+    }
+
+    public void setValue(final XBoolean value) {
+        this.value = value;
+    }
 }

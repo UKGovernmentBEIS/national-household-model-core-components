@@ -20,35 +20,37 @@ import uk.org.cse.nhm.simulator.state.functions.IAggregationFunction;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class IntegrationAdapter extends ReflectingAdapter {
-	final ITestingFactory factory;
-	@Inject
-	public IntegrationAdapter(Set<IConverter> delegates,final ITestingFactory factory, Set<IAdapterInterceptor> interceptors) {
-		super(delegates, interceptors);
-		this.factory = factory;
-	}
 
-	@Adapt(XMLMeasureProbe.class)
-	public IStateAction addProbe(final XMLMeasureProbe probe) {
-		return factory.createProbe(probe.getName());
-	}
-	
-	@Adapt(XAssertion.class)
-	public Initializable buildAssertion(
-			@Prop("name") final String name,
-			@Prop("group") final IDwellingGroup group,
-			@Prop("aggregation") final IAggregationFunction aggregation,
-			@Prop("type") final XAssertionType type,
-			@Prop("continuous") final boolean continuous,
-			@Prop("bound") final double bound
-			) {
-		return factory.createAssertion(name == null ? "unnamed" : name, type.ordinal()-1, bound, continuous, group, aggregation);
-	}
-	
-	@Adapt(XNumberDebugger.class)
-	public IComponentsFunction<Number> addDebugger(
-			@Prop("name") final String name,
-			@Prop("delegate") final IComponentsFunction<Number> delegate
-			) {
-		return factory.createFunctionAssertion(name, delegate);
-	}
+    final ITestingFactory factory;
+
+    @Inject
+    public IntegrationAdapter(Set<IConverter> delegates, final ITestingFactory factory, Set<IAdapterInterceptor> interceptors) {
+        super(delegates, interceptors);
+        this.factory = factory;
+    }
+
+    @Adapt(XMLMeasureProbe.class)
+    public IStateAction addProbe(final XMLMeasureProbe probe) {
+        return factory.createProbe(probe.getName());
+    }
+
+    @Adapt(XAssertion.class)
+    public Initializable buildAssertion(
+            @Prop("name") final String name,
+            @Prop("group") final IDwellingGroup group,
+            @Prop("aggregation") final IAggregationFunction aggregation,
+            @Prop("type") final XAssertionType type,
+            @Prop("continuous") final boolean continuous,
+            @Prop("bound") final double bound
+    ) {
+        return factory.createAssertion(name == null ? "unnamed" : name, type.ordinal() - 1, bound, continuous, group, aggregation);
+    }
+
+    @Adapt(XNumberDebugger.class)
+    public IComponentsFunction<Number> addDebugger(
+            @Prop("name") final String name,
+            @Prop("delegate") final IComponentsFunction<Number> delegate
+    ) {
+        return factory.createFunctionAssertion(name, delegate);
+    }
 }

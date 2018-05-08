@@ -30,12 +30,12 @@ import uk.org.cse.nhm.simulator.state.components.IFlags;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class RepeatHookAction
-    extends AbstractNamed
-    implements IHookRunnable,
-               IStateChangeSource {
+        extends AbstractNamed
+        implements IHookRunnable,
+        IStateChangeSource {
 
-	private static final Logger log = LoggerFactory.getLogger(RepeatHookAction.class);
-	
+    private static final Logger log = LoggerFactory.getLogger(RepeatHookAction.class);
+
     private final List<IHookRunnable> delegates;
     private final Set<String> keepGlobals;
     private final Set<String> keepRegisters;
@@ -44,39 +44,39 @@ public class RepeatHookAction
     private final IDimension<IFlags> flags;
     private final ISimulator simulator;
     private final IProfilingStack profiler;
-	
+
     @SuppressWarnings("incomplete-switch")
-	@AssistedInject
+    @AssistedInject
     public RepeatHookAction(final IDimension<IFlags> flags,
-                            final ISimulator simulator,
-                            final IProfilingStack profiler,
-                            @Assisted final List<IHookRunnable> delegates,
-                            @Assisted final IComponentsFunction<Boolean> termination,
-                            @Assisted final List<KeepValue> valuesToKeep) {
+            final ISimulator simulator,
+            final IProfilingStack profiler,
+            @Assisted final List<IHookRunnable> delegates,
+            @Assisted final IComponentsFunction<Boolean> termination,
+            @Assisted final List<KeepValue> valuesToKeep) {
         this.simulator = simulator;
-		this.profiler = profiler;
-        this.delegates   = ImmutableList.copyOf(delegates);
+        this.profiler = profiler;
+        this.delegates = ImmutableList.copyOf(delegates);
         this.termination = termination;
 
         {
             final ImmutableSet.Builder<String> keepGlobals = ImmutableSet.builder();
             final ImmutableSet.Builder<String> keepRegisters = ImmutableSet.builder();
-            
+
             for (final KeepValue kv : valuesToKeep) {
                 switch (kv.scope) {
-                case Simulation:
-                    keepGlobals.add(kv.name);
-                    break;
-                case House:
-                    keepRegisters.add(kv.name);
-                    break;
+                    case Simulation:
+                        keepGlobals.add(kv.name);
+                        break;
+                    case House:
+                        keepRegisters.add(kv.name);
+                        break;
                 }
             }
-                
-            this.keepGlobals   = keepGlobals.build();
+
+            this.keepGlobals = keepGlobals.build();
             this.keepRegisters = keepRegisters.build();
         }
-        
+
         this.rollback = !(this.keepGlobals.isEmpty() && this.keepRegisters.isEmpty());
 
         this.flags = flags;
@@ -84,30 +84,30 @@ public class RepeatHookAction
 
     @Override
     public void run(final IStateScope scope,
-                    final DateTime date,
-                    final Set<IStateChangeSource> causes,
-                    final ILets lets) {
+            final DateTime date,
+            final Set<IStateChangeSource> causes,
+            final ILets lets) {
         IStateScope branch = scope.branch(this);
 
         int iterations = 0;
         while (true) {
-        	iterations++;
-        	log.info("About to perform iteration {} of {}", iterations, this);
+            iterations++;
+            log.info("About to perform iteration {} of {}", iterations, this);
             // opportunity to break out of running just in case.
-            
+
             int delegateCounter = 0;
             for (final IHookRunnable delegate : delegates) {
-            	simulator.dieIfStopped();
+                simulator.dieIfStopped();
                 delegate.run(branch, date, causes, lets);
                 delegateCounter++;
                 log.info("In repeat {}, completed {} ({} / {})", this, delegate, delegateCounter, delegates.size());
             }
-            
+
             final IComponentsScope scopeAfterChanges = branch.getState().detachedScope(null);
             final boolean terminate = termination.compute(scopeAfterChanges, lets);
-            
+
             if (terminate) {
-            	log.info("Terminated {}", this);
+                log.info("Terminated {}", this);
                 break;
             } else if (rollback) {
                 // new branch to rollback into
@@ -116,53 +116,57 @@ public class RepeatHookAction
                 // which requires knowledge of the kinds of things that they are
 
                 if (!preserveValues(branch, newBranch)) {
-                	log.error("On iteration {} of {}, nothing changed between ticks", iterations, this);
-                	profiler.die("Preserved values did not change in iteration " + iterations, this, scopeAfterChanges);
-                	break;
+                    log.error("On iteration {} of {}, nothing changed between ticks", iterations, this);
+                    profiler.die("Preserved values did not change in iteration " + iterations, this, scopeAfterChanges);
+                    break;
                 } else {
-                	log.info("Termination condition for {} not met - rolling back", this);
+                    log.info("Termination condition for {} not met - rolling back", this);
                 }
-                
+
                 // finally replace the live branch with the new branch
                 branch = newBranch;
             } else {
                 // just tick along
-            	log.info("Termination condition for {} not met - continuing", this);
+                log.info("Termination condition for {} not met - continuing", this);
             }
         }
-        
+
         scope.merge(branch);
     }
 
     private boolean preserveValues(final IStateScope from, final IStateScope into) {
         for (final String s : keepGlobals) {
             log.info("{} preserved, old value {}, new value {}",
-                     s,
-                     into.getState().getGlobals().getVariable(s, Object.class),
-                     from.getState().getGlobals().getVariable(s, Object.class));
+                    s,
+                    into.getState().getGlobals().getVariable(s, Object.class),
+                    from.getState().getGlobals().getVariable(s, Object.class));
         }
-    	boolean changed = into.getState().getGlobals().copyValues(keepGlobals, from.getState().getGlobals());
+        boolean changed = into.getState().getGlobals().copyValues(keepGlobals, from.getState().getGlobals());
         if (!keepRegisters.isEmpty()) {
             if (preserveFlags(from.getState(), into.getState())) {
-            	changed = true;
+                changed = true;
             }
         }
         return changed;
     }
 
-    private boolean preserveFlags (final IBranch from, final IBranch to) {
+    private boolean preserveFlags(final IBranch from, final IBranch to) {
         boolean changed = false;
-    	for (final IDwelling d : Sets.intersection(to.getDwellings(), from.getDwellings())) {
-            if (from.getGeneration(flags, d) == to.getGeneration(flags, d)) continue;
-            
+        for (final IDwelling d : Sets.intersection(to.getDwellings(), from.getDwellings())) {
+            if (from.getGeneration(flags, d) == to.getGeneration(flags, d)) {
+                continue;
+            }
+
             final IFlags fromFlags = from.get(flags, d);
             final IFlags toFlags = to.get(flags, d);
             IFlags safeCopy = null;
             for (final String s : keepRegisters) {
                 final Optional<Double> fromRegister = fromFlags.getRegister(s);
-                final Optional<Double> toRegister   = toFlags.getRegister(s);
+                final Optional<Double> toRegister = toFlags.getRegister(s);
                 if (fromRegister.isPresent() && !toRegister.equals(fromRegister)) {
-                    if (safeCopy == null) safeCopy = toFlags.copy();
+                    if (safeCopy == null) {
+                        safeCopy = toFlags.copy();
+                    }
                     safeCopy.setRegister(s, fromRegister.get());
                 }
             }
@@ -171,15 +175,16 @@ public class RepeatHookAction
                 changed = true;
             }
         }
-    	return changed;
+        return changed;
     }
-    
+
     @Override
     public StateChangeSourceType getSourceType() {
         return StateChangeSourceType.TRIGGER;
     }
 
     public static class KeepValue {
+
         public final String name;
         public final XScope scope;
 
@@ -189,5 +194,3 @@ public class RepeatHookAction
         }
     }
 }
-
-

@@ -12,51 +12,53 @@ import com.google.common.collect.ImmutableList;
 
 /**
  * A log entry describing the installation of some technologies on an instance.
+ *
  * @author hinton
  *
  */
 @AutoProperty
 public class TechnologyInstallationLogEntry extends AbstractDatedLogEntry {
-	private final List<TechnologyInstallationRecord> records;
-	private final int dwellingID;
-	private final float weight;
-	
-	@JsonCreator
-	public TechnologyInstallationLogEntry(
-			@JsonProperty("date") final DateTime date, 
-			@JsonProperty("records") final List<TechnologyInstallationRecord> records,
-			@JsonProperty("weight") final float weight,
-			@JsonProperty("dwellingID") final int dwellingID) {
-		super(date);
-		this.weight = weight;
-		this.dwellingID = dwellingID;
-		this.records = ImmutableList.copyOf(records);
-	}
 
-	public List<TechnologyInstallationRecord> getRecords() {
-		return records;
-	}
+    private final List<TechnologyInstallationRecord> records;
+    private final int dwellingID;
+    private final float weight;
 
-	public int getDwellingID() {
-		return dwellingID;
-	}
-	
-	public float getWeight() {
-		return weight;
-	}
-	
-	@Override
-	public String toString() {
-		return Pojomatic.toString(this);
-	}
+    @JsonCreator
+    public TechnologyInstallationLogEntry(
+            @JsonProperty("date") final DateTime date,
+            @JsonProperty("records") final List<TechnologyInstallationRecord> records,
+            @JsonProperty("weight") final float weight,
+            @JsonProperty("dwellingID") final int dwellingID) {
+        super(date);
+        this.weight = weight;
+        this.dwellingID = dwellingID;
+        this.records = ImmutableList.copyOf(records);
+    }
 
-	@Override
-	public boolean equals(final Object obj) {
-		return Pojomatic.equals(this, obj);
-	}
+    public List<TechnologyInstallationRecord> getRecords() {
+        return records;
+    }
 
-	@Override
-	public int hashCode() {
-		return Pojomatic.hashCode(this);
-	}
+    public int getDwellingID() {
+        return dwellingID;
+    }
+
+    public float getWeight() {
+        return weight;
+    }
+
+    @Override
+    public String toString() {
+        return Pojomatic.toString(this);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        return Pojomatic.equals(this, obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return Pojomatic.hashCode(this);
+    }
 }

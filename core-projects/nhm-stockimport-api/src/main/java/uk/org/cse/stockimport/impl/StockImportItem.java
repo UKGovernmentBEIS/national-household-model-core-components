@@ -12,13 +12,14 @@ import uk.org.cse.stockimport.util.Path;
 
 /**
  * StockImportItem.
- * 
+ *
  * @author richardt
  * @version $Id: StockImportItem.java 94 2010-09-30 15:39:21Z richardt
  * @since 0.0.1-SNAPSHOT
  */
 @XmlRootElement(name = "importItem")
 public class StockImportItem implements IStockImportItem {
+
     private String fileName;
     private String className;
     private String shortFileName;
@@ -40,8 +41,8 @@ public class StockImportItem implements IStockImportItem {
     }
 
     /**
-     * @return
-     * @see uk.org.cse.stockimport.request.IStockImportItem#getFileName()
+     * @return @see
+     * uk.org.cse.stockimport.request.IStockImportItem#getFileName()
      */
     @Override
     @XmlElement
@@ -55,8 +56,8 @@ public class StockImportItem implements IStockImportItem {
     }
 
     /**
-     * @return
-     * @see uk.org.cse.stockimport.request.IStockImportItem#getClassName()
+     * @return @see
+     * uk.org.cse.stockimport.request.IStockImportItem#getClassName()
      */
     @Override
     @XmlElement
@@ -66,7 +67,7 @@ public class StockImportItem implements IStockImportItem {
 
     /**
      * Set the fileName.
-     * 
+     *
      * @param fileName the fileName
      * @since 1.0
      */
@@ -76,7 +77,7 @@ public class StockImportItem implements IStockImportItem {
 
     /**
      * Set the className.
-     * 
+     *
      * @param className the className
      * @since 1.0
      */

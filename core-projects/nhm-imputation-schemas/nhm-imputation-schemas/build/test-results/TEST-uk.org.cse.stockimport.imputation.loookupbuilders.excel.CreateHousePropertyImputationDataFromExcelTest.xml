@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuite name="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreateHousePropertyImputationDataFromExcelTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2016-05-03T08:17:29" hostname="rich-Latitude-E6320" time="0.029">
-  <properties/>
-  <testcase name="LivingAreaFractionReadCorrectlyFromExcelSheet" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreateHousePropertyImputationDataFromExcelTest" time="0.029"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
+    <properties/>
+    <testcase name="LivingAreaFractionReadCorrectlyFromExcelSheet" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreateHousePropertyImputationDataFromExcelTest" time="0.029"/>
+    <system-out><![CDATA[]]></system-out>
+    <system-err><![CDATA[]]></system-err>
 </testsuite>

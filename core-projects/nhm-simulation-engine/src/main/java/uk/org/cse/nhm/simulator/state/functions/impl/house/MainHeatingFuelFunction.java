@@ -7,14 +7,15 @@ import uk.org.cse.nhm.simulator.state.IComponents;
 import uk.org.cse.nhm.simulator.state.IDimension;
 
 public abstract class MainHeatingFuelFunction<T> extends TechnologyFunction<T> {
-	protected final ITechnologyOperations operations;
 
-	public MainHeatingFuelFunction(ITechnologyOperations operations, IDimension<ITechnologyModel> bad) {
-		super(bad);
-		this.operations = operations;
-	}
+    protected final ITechnologyOperations operations;
 
-	protected FuelType getMainHeatingFuel(final IComponents components) {
-		return operations.getMainHeatingFuel(components.get(bad));
-	}
+    public MainHeatingFuelFunction(ITechnologyOperations operations, IDimension<ITechnologyModel> bad) {
+        super(bad);
+        this.operations = operations;
+    }
+
+    protected FuelType getMainHeatingFuel(final IComponents components) {
+        return operations.getMainHeatingFuel(components.get(bad));
+    }
 }

@@ -15,56 +15,60 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
 
 /**
- * Implementation of an action which sets the living area fraction of a dwelling.
+ * Implementation of an action which sets the living area fraction of a
+ * dwelling.
+ *
  * @author hinton
  *
  */
 public class SetLivingAreaFractionAction extends AbstractNamed implements IComponentsAction, IModifier<StructureModel> {
-	private final double fraction;
-	private final IDimension<StructureModel> structure;
 
-	@AssistedInject
-	public SetLivingAreaFractionAction(
-			final IDimension<StructureModel> structure,
-			@Assisted final double fraction) {
-		this.fraction = fraction;
-		this.structure = structure;
-		if (fraction < 0 || fraction > 1) {
-			throw new IllegalArgumentException(
-					"Living area fraction should be between 0 and 1 inclusive, not "
-							+ fraction);
-		}
-	}
+    private final double fraction;
+    private final IDimension<StructureModel> structure;
 
-	@Override
-	public StateChangeSourceType getSourceType() {
-		return StateChangeSourceType.ACTION;
-	}
+    @AssistedInject
+    public SetLivingAreaFractionAction(
+            final IDimension<StructureModel> structure,
+            @Assisted final double fraction) {
+        this.fraction = fraction;
+        this.structure = structure;
+        if (fraction < 0 || fraction > 1) {
+            throw new IllegalArgumentException(
+                    "Living area fraction should be between 0 and 1 inclusive, not "
+                    + fraction);
+        }
+    }
 
-	@Override
-	public boolean apply(final ISettableComponentsScope scope, final ILets lets)
-			throws NHMException {
-		scope.modify(structure, this);
-		return true;
-	}
+    @Override
+    public StateChangeSourceType getSourceType() {
+        return StateChangeSourceType.ACTION;
+    }
 
-	@Override
-	public boolean modify(final StructureModel modifiable) {
-		modify(modifiable, fraction);
-		return true;
-	}
-	
-	private static StructureModel modify(final StructureModel copy, final double fraction) {
-		copy.setLivingAreaProportionOfFloorArea(fraction);
-		return copy;
-	}
+    @Override
+    public boolean apply(final ISettableComponentsScope scope, final ILets lets)
+            throws NHMException {
+        scope.modify(structure, this);
+        return true;
+    }
 
-	@Override
-	public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
-		return true;
-	}
-	@Override
-	public boolean isAlwaysSuitable() {
-		return true;
-	}
+    @Override
+    public boolean modify(final StructureModel modifiable) {
+        modify(modifiable, fraction);
+        return true;
+    }
+
+    private static StructureModel modify(final StructureModel copy, final double fraction) {
+        copy.setLivingAreaProportionOfFloorArea(fraction);
+        return copy;
+    }
+
+    @Override
+    public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
+        return true;
+    }
+
+    @Override
+    public boolean isAlwaysSuitable() {
+        return true;
+    }
 }

@@ -9,13 +9,14 @@ import uk.org.cse.nhm.simulator.scope.IComponentsScope;
 import uk.org.cse.nhm.simulator.state.IDimension;
 
 public class GetBuiltForm extends StructureFunction<BuiltFormType> {
-	@Inject
-	public GetBuiltForm(IDimension<StructureModel> structure) {
-		super(structure);
-	}
 
-	@Override
-	public BuiltFormType compute(IComponentsScope scope, ILets lets) {
-		return getStructure(scope).getBuiltFormType();
-	}
+    @Inject
+    public GetBuiltForm(IDimension<StructureModel> structure) {
+        super(structure);
+    }
+
+    @Override
+    public BuiltFormType compute(IComponentsScope scope, ILets lets) {
+        return getStructure(scope).getBuiltFormType();
+    }
 }

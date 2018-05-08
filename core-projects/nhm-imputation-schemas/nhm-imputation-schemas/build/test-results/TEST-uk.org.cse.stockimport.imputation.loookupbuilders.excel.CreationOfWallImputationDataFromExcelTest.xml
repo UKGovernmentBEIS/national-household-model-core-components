@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuite name="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" tests="19" skipped="0" failures="0" errors="0" timestamp="2016-05-03T08:17:29" hostname="rich-Latitude-E6320" time="0.45">
-  <properties/>
-  <testcase name="SolidBrickUValuesMustMatchThoseInExcelSheet" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.036"/>
-  <testcase name="KValueForAsBuiltWallsMustMatchThoseInExcelSheet" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.032"/>
-  <testcase name="WallThicknessMatchThoseInExcelShee" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.023"/>
-  <testcase name="TimberFrameUValuesMustMatchThoseInExcelSheet" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.022"/>
-  <testcase name="EnsureInfiltrationValuesAreaReadCorrectlyFromExcelSheet" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.023"/>
-  <testcase name="FilledCavityUValuesMustMatchThoseInExcelSheet" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.021"/>
-  <testcase name="InsulatedWallThicknessMatchThoseInExcelShee" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.025"/>
-  <testcase name="UnfilledCavityUValuesMustMatchThoseInExcelSheet" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.021"/>
-  <testcase name="EnsureWallThicknessTablesAreReadFromExcelSheet" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.024"/>
-  <testcase name="SandstoneUValuesMustMatchThoseInExcelShee" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.021"/>
-  <testcase name="GraniteUValuesMustMatchThoseInExcelShee" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.022"/>
-  <testcase name="CobUValuesMustMatchThoseInExcelSheet" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.022"/>
-  <testcase name="EnsureWallUValuesAreReadInCorrectly" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.025"/>
-  <testcase name="SystemBuildUValuesMustMatchThoseInExcelSheet" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.025"/>
-  <testcase name="KValuesForInsulatedSolidBrickWallsMustMatchThoseInExcelSheet" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.02"/>
-  <testcase name="EnsureWallKValueTablesAreReadFromExcelSheet" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.024"/>
-  <testcase name="EnsureWallPropertiesTableIsCreated" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.019"/>
-  <testcase name="MetalFrameUValuesMustMatchThoseInExcelSheet" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.019"/>
-  <testcase name="InsulatedBrickOrStoneUValuesMustMatchThoseInExcelShee" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.018"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[log4j:WARN No appenders could be found for logger (uk.org.cse.stockimport.imputation.walls.WallUValueImputer).
+    <properties/>
+    <testcase name="SolidBrickUValuesMustMatchThoseInExcelSheet" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.036"/>
+    <testcase name="KValueForAsBuiltWallsMustMatchThoseInExcelSheet" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.032"/>
+    <testcase name="WallThicknessMatchThoseInExcelShee" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.023"/>
+    <testcase name="TimberFrameUValuesMustMatchThoseInExcelSheet" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.022"/>
+    <testcase name="EnsureInfiltrationValuesAreaReadCorrectlyFromExcelSheet" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.023"/>
+    <testcase name="FilledCavityUValuesMustMatchThoseInExcelSheet" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.021"/>
+    <testcase name="InsulatedWallThicknessMatchThoseInExcelShee" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.025"/>
+    <testcase name="UnfilledCavityUValuesMustMatchThoseInExcelSheet" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.021"/>
+    <testcase name="EnsureWallThicknessTablesAreReadFromExcelSheet" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.024"/>
+    <testcase name="SandstoneUValuesMustMatchThoseInExcelShee" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.021"/>
+    <testcase name="GraniteUValuesMustMatchThoseInExcelShee" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.022"/>
+    <testcase name="CobUValuesMustMatchThoseInExcelSheet" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.022"/>
+    <testcase name="EnsureWallUValuesAreReadInCorrectly" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.025"/>
+    <testcase name="SystemBuildUValuesMustMatchThoseInExcelSheet" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.025"/>
+    <testcase name="KValuesForInsulatedSolidBrickWallsMustMatchThoseInExcelSheet" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.02"/>
+    <testcase name="EnsureWallKValueTablesAreReadFromExcelSheet" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.024"/>
+    <testcase name="EnsureWallPropertiesTableIsCreated" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.019"/>
+    <testcase name="MetalFrameUValuesMustMatchThoseInExcelSheet" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.019"/>
+    <testcase name="InsulatedBrickOrStoneUValuesMustMatchThoseInExcelShee" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfWallImputationDataFromExcelTest" time="0.018"/>
+    <system-out><![CDATA[]]></system-out>
+    <system-err><![CDATA[log4j:WARN No appenders could be found for logger (uk.org.cse.stockimport.imputation.walls.WallUValueImputer).
 log4j:WARN Please initialize the log4j system properly.
 log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
 ]]></system-err>

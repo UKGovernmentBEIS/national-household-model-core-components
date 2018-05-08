@@ -16,42 +16,43 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
 
 public class SetSiteExposureAction extends AbstractNamed implements IComponentsAction, IModifier<BasicCaseAttributes> {
-	private final IDimension<BasicCaseAttributes> basicDimension;
-	private final SiteExposureType siteExposure;
-	
-	@AssistedInject
-	public SetSiteExposureAction(
-			final IDimension<BasicCaseAttributes> basicDimension,
-			@Assisted("siteExposure") SiteExposureType siteExposure
-			) {
-		this.basicDimension = basicDimension;
-		this.siteExposure = siteExposure;
-	}
 
-	@Override
-	public StateChangeSourceType getSourceType() {
-		return StateChangeSourceType.ACTION;
-	}
+    private final IDimension<BasicCaseAttributes> basicDimension;
+    private final SiteExposureType siteExposure;
 
-	@Override
-	public boolean modify(BasicCaseAttributes modifiable) {
-		modifiable.setSiteExposure(siteExposure);
-		return true;
-	}
+    @AssistedInject
+    public SetSiteExposureAction(
+            final IDimension<BasicCaseAttributes> basicDimension,
+            @Assisted("siteExposure") SiteExposureType siteExposure
+    ) {
+        this.basicDimension = basicDimension;
+        this.siteExposure = siteExposure;
+    }
 
-	@Override
-	public boolean apply(ISettableComponentsScope scope, ILets lets) throws NHMException {
-		scope.modify(basicDimension, this);
-		return true;
-	}
+    @Override
+    public StateChangeSourceType getSourceType() {
+        return StateChangeSourceType.ACTION;
+    }
 
-	@Override
-	public boolean isSuitable(IComponentsScope scope, ILets lets) {
-		return true;
-	}
+    @Override
+    public boolean modify(BasicCaseAttributes modifiable) {
+        modifiable.setSiteExposure(siteExposure);
+        return true;
+    }
 
-	@Override
-	public boolean isAlwaysSuitable() {
-		return true;
-	}
+    @Override
+    public boolean apply(ISettableComponentsScope scope, ILets lets) throws NHMException {
+        scope.modify(basicDimension, this);
+        return true;
+    }
+
+    @Override
+    public boolean isSuitable(IComponentsScope scope, ILets lets) {
+        return true;
+    }
+
+    @Override
+    public boolean isAlwaysSuitable() {
+        return true;
+    }
 }

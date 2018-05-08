@@ -10,6 +10,7 @@ import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 
 @AutoProperty
 public class SpecificHeatLosses implements ISpecificHeatLosses {
+
     public final double fabricLoss;
     public final double interzoneHeatLoss;
     public final double floorArea;
@@ -22,13 +23,13 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
     private final double heatLossParameter;
 
     public SpecificHeatLosses(final double fabricLoss,
-                              final double interzoneHeatLoss,
-                              final double thermalMassParameter,
-                              final double floorArea,
-                              final double ventilationLoss,
-                              final double thermalBridgeEffect,
-                              final double airChangeRate,
-                              final double airChangeRateExcludingDeliberate) {
+            final double interzoneHeatLoss,
+            final double thermalMassParameter,
+            final double floorArea,
+            final double ventilationLoss,
+            final double thermalBridgeEffect,
+            final double airChangeRate,
+            final double airChangeRateExcludingDeliberate) {
         this.fabricLoss = fabricLoss;
         this.interzoneHeatLoss = interzoneHeatLoss;
         this.thermalMassParameter = thermalMassParameter;
@@ -52,7 +53,7 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
         DEPS: fabric-heat-loss,thermal-bridging-heat-loss
         ID: total-fabric-heat-loss
         CODSIEB
-        */
+         */
         double totalFabricHeatLoss = fabricLoss + thermalBridgeEffect;
         StepRecorder.recordStep(EnergyCalculationStep.FabricLossTotal, totalFabricHeatLoss);
 
@@ -68,7 +69,7 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
         GET: house.heat-loss
         ID: specific-heat-loss
         CODSIEB
-        */
+         */
         specificHeatLoss = totalFabricHeatLoss + ventilationLoss;
         StepRecorder.recordStep(EnergyCalculationStep.HeatTransferCoefficient, specificHeatLoss);
 
@@ -85,7 +86,7 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
         SET:
         ID: heat-loss-parameter
         CODSIEB
-        */
+         */
         heatLossParameter = getSpecificHeatLoss() / floorArea;
         StepRecorder.recordStep(EnergyCalculationStep.HeatLossParameter, heatLossParameter);
     }
@@ -127,7 +128,7 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
         SET:
         ID: thermal-mass-parameter
         CODSIEB
-        */
+         */
         return thermalMassParameter;
     }
 

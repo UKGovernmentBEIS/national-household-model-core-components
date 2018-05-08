@@ -23,6 +23,7 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 import uk.org.cse.nhm.utility.DeduplicatingMap;
 
 public class AssertHookAction extends AbstractNamed implements IHookRunnable {
+
     private final Optional<IDwellingSet> over;
     private final IComponentsFunction<Boolean> test;
     private final boolean isFatal;
@@ -31,10 +32,10 @@ public class AssertHookAction extends AbstractNamed implements IHookRunnable {
 
     @AssistedInject
     public AssertHookAction(final ILogEntryHandler log,
-                            @Assisted final Optional<IDwellingSet> over,
-                            @Assisted final IComponentsFunction<Boolean> test,
-                            @Assisted final boolean isFatal,
-                            @Assisted final List<IComponentsFunction<?>> debug) {
+            @Assisted final Optional<IDwellingSet> over,
+            @Assisted final IComponentsFunction<Boolean> test,
+            @Assisted final boolean isFatal,
+            @Assisted final List<IComponentsFunction<?>> debug) {
         this.over = over;
         this.test = test;
         this.isFatal = isFatal;
@@ -44,9 +45,9 @@ public class AssertHookAction extends AbstractNamed implements IHookRunnable {
 
     @Override
     public void run(final IStateScope scope_,
-                    final DateTime date,
-                    final Set<IStateChangeSource> causes,
-                    final ILets lets) {
+            final DateTime date,
+            final Set<IStateChangeSource> causes,
+            final ILets lets) {
         final IState state = scope_.getState();
         if (over.isPresent()) {
             final Set<IDwelling> dwellings = over.get().get(state, lets);
@@ -73,14 +74,14 @@ public class AssertHookAction extends AbstractNamed implements IHookRunnable {
                 for (final IComponentsFunction<?> f : debug) {
                     captured.put(String.valueOf(f), String.valueOf(f.compute(scope, lets)));
                 }
-                fail(captured.build());                
+                fail(captured.build());
             }
         }
     }
 
     private void fail(final Map<String, String> data) {
         final String message = String.format("Assertion failed: %s", this);
-            
+
         if (isFatal) {
             throw new RuntimeException(message + " " + String.valueOf(data));
         } else {

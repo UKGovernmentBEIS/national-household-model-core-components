@@ -13,25 +13,25 @@ import uk.org.cse.nhm.simulator.util.RandomSource;
 
 public class FallbackPicker extends LettingPicker {
 
-	private final List<IPicker> delegates;
+    private final List<IPicker> delegates;
 
-	@AssistedInject 
-	public FallbackPicker(
-			@Assisted final List<ISequenceSpecialAction> bindings,
-			@Assisted final List<IPicker> delegates) {
-		super(bindings);
-		this.delegates = delegates;
-	}
-	
-	@Override
-	protected PickOption doPick(final RandomSource random, final Set<PickOption> options) {
-		for (final IPicker d : delegates) {
-			final PickOption pick = d.pick(random, options);
-			if (pick != null) {
-				return pick;
-			}
-		}
-		
-		return null;
-	}
+    @AssistedInject
+    public FallbackPicker(
+            @Assisted final List<ISequenceSpecialAction> bindings,
+            @Assisted final List<IPicker> delegates) {
+        super(bindings);
+        this.delegates = delegates;
+    }
+
+    @Override
+    protected PickOption doPick(final RandomSource random, final Set<PickOption> options) {
+        for (final IPicker d : delegates) {
+            final PickOption pick = d.pick(random, options);
+            if (pick != null) {
+                return pick;
+            }
+        }
+
+        return null;
+    }
 }

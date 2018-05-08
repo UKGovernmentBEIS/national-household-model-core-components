@@ -20,8 +20,7 @@ public enum SAPWorksheetSection {
     Fuel_Costs_Community,
     SAP_Rating_Community,
     Emissions_Community,
-    Primary_Energy_Community
-    ;
+    Primary_Energy_Community;
 
     public SAPLocation cell(int cell) {
         return new SAPLocation(this, cell, null);

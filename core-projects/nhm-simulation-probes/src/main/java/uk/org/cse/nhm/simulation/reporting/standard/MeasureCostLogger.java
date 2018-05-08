@@ -39,205 +39,210 @@ import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
 
 public class MeasureCostLogger implements ISimulationStepListener, IStateListener {
 
-	private static final Set<StateChangeSourceType> irrelevantSourceTypes = EnumSet.of(
-			StateChangeSourceType.INTERNAL,
-			StateChangeSourceType.OBLIGATION,
-			StateChangeSourceType.TIME
-			);
+    private static final Set<StateChangeSourceType> irrelevantSourceTypes = EnumSet.of(
+            StateChangeSourceType.INTERNAL,
+            StateChangeSourceType.OBLIGATION,
+            StateChangeSourceType.TIME
+    );
 
-	private final ILogEntryHandler loggingService;
-	Map<Key, Costs> costsBySourceByTechByInstallationDate = new HashMap<>();
-	private boolean hasChanges = false;
+    private final ILogEntryHandler loggingService;
+    Map<Key, Costs> costsBySourceByTechByInstallationDate = new HashMap<>();
+    private boolean hasChanges = false;
 
-	@Inject
-	public MeasureCostLogger(
-			final ILogEntryHandler loggingService,
-			final ISimulator simulator,
-			final ICanonicalState state
-			) {
-				this.loggingService = loggingService;
-				simulator.addSimulationStepListener(this);
-				state.addStateListener(this);
+    @Inject
+    public MeasureCostLogger(
+            final ILogEntryHandler loggingService,
+            final ISimulator simulator,
+            final ICanonicalState state
+    ) {
+        this.loggingService = loggingService;
+        simulator.addSimulationStepListener(this);
+        state.addStateListener(this);
 
-				loggingService.acceptLogEntry(new ReportHeaderLogEntry(Type.MeasureCosts));
-	}
+        loggingService.acceptLogEntry(new ReportHeaderLogEntry(Type.MeasureCosts));
+    }
 
-	@Override
-	public void stateChanged(final ICanonicalState state, final IStateChangeNotification notification) {
-		if (irrelevantSourceTypes.contains(notification.getRootScope().getTag().getSourceType())) {
-			return;
-		}
+    @Override
+    public void stateChanged(final ICanonicalState state, final IStateChangeNotification notification) {
+        if (irrelevantSourceTypes.contains(notification.getRootScope().getTag().getSourceType())) {
+            return;
+        }
 
-		final DateTime installationDate = notification.getDate();
+        final DateTime installationDate = notification.getDate();
 
-		for (final IDwelling modifiedDwelling : notification.getAllChangedDwellings()) {
-			final Optional<IComponentsScope> componentsScope = notification.getRootScope().getComponentsScope(modifiedDwelling);
+        for (final IDwelling modifiedDwelling : notification.getAllChangedDwellings()) {
+            final Optional<IComponentsScope> componentsScope = notification.getRootScope().getComponentsScope(modifiedDwelling);
 
-			if (componentsScope.isPresent()) {
-				for (final ITechnologyInstallationDetails installDetails : componentsScope.get().getAllNotes(ITechnologyInstallationDetails.class)) {
-					final Key k = new Key(installationDate, installDetails.getInstalledTechnology(), installDetails.getInstallationSource());
+            if (componentsScope.isPresent()) {
+                for (final ITechnologyInstallationDetails installDetails : componentsScope.get().getAllNotes(ITechnologyInstallationDetails.class)) {
+                    final Key k = new Key(installationDate, installDetails.getInstalledTechnology(), installDetails.getInstallationSource());
 
-					if (!costsBySourceByTechByInstallationDate.containsKey(k)) {
-						costsBySourceByTechByInstallationDate.put(k, new Costs(installDetails.getUnits()));
-					}
+                    if (!costsBySourceByTechByInstallationDate.containsKey(k)) {
+                        costsBySourceByTechByInstallationDate.put(k, new Costs(installDetails.getUnits()));
+                    }
 
-					final Costs costs = costsBySourceByTechByInstallationDate.get(k);
+                    final Costs costs = costsBySourceByTechByInstallationDate.get(k);
 
-					if (costs.getUnits() != installDetails.getUnits()) {
-						throw new IncompatibleUnitsException(
-								"Incompatible Units provided for technology " + installDetails.getInstalledTechnology().toString() +
-								" from action " + installDetails.getInstallationSource().getIdentifier().getPath());
-					}
+                    if (costs.getUnits() != installDetails.getUnits()) {
+                        throw new IncompatibleUnitsException(
+                                "Incompatible Units provided for technology " + installDetails.getInstalledTechnology().toString()
+                                + " from action " + installDetails.getInstallationSource().getIdentifier().getPath());
+                    }
 
-					costs.update(
-							installDetails.getOperationalCost(),
-							installDetails.getInstallationCost(),
-							installDetails.getInstalledQuantity(),
-							modifiedDwelling.getWeight()
-						);
+                    costs.update(
+                            installDetails.getOperationalCost(),
+                            installDetails.getInstallationCost(),
+                            installDetails.getInstalledQuantity(),
+                            modifiedDwelling.getWeight()
+                    );
 
-					hasChanges = true;
-				}
-			}
-		}
-	}
+                    hasChanges = true;
+                }
+            }
+        }
+    }
 
-	@Override
-	public void simulationStepped(final DateTime dateOfStep, final DateTime nextDate, final boolean isFinalStep) throws NHMException {
-		if (hasChanges) {
-			for (final Entry<Key, Costs> entry : costsBySourceByTechByInstallationDate.entrySet()) {
-				final Key key = entry.getKey();
-				final Costs costs = entry.getValue();
+    @Override
+    public void simulationStepped(final DateTime dateOfStep, final DateTime nextDate, final boolean isFinalStep) throws NHMException {
+        if (hasChanges) {
+            for (final Entry<Key, Costs> entry : costsBySourceByTechByInstallationDate.entrySet()) {
+                final Key key = entry.getKey();
+                final Costs costs = entry.getValue();
 
-				loggingService.acceptLogEntry(
-					new MeasureCostLogEntry(
-						key.getTechnology().toString(),
-						key.getSourceAction().getIdentifier().getPath(),
-						costs.getOpex().freeze(),
-						costs.getCapex().freeze(),
-						costs.getSize().freeze(),
-						costs.getCount(),
-						key.getInstallationDate(),
-						costs.getUnits().toString())
-				);
-			}
+                loggingService.acceptLogEntry(
+                        new MeasureCostLogEntry(
+                                key.getTechnology().toString(),
+                                key.getSourceAction().getIdentifier().getPath(),
+                                costs.getOpex().freeze(),
+                                costs.getCapex().freeze(),
+                                costs.getSize().freeze(),
+                                costs.getCount(),
+                                key.getInstallationDate(),
+                                costs.getUnits().toString())
+                );
+            }
 
-			// Set everything up again.
-			costsBySourceByTechByInstallationDate = new HashMap<>();
-			hasChanges = false;
-		}
-	}
+            // Set everything up again.
+            costsBySourceByTechByInstallationDate = new HashMap<>();
+            hasChanges = false;
+        }
+    }
 
-	static class Costs {
-		private final StatsCalc opex = new StatsCalc();
-		private final StatsCalc capex = new StatsCalc();
-		private final StatsCalc size = new StatsCalc();
-		private final Units units;
-		private final IAccumulation count = new Accumulator.Count(false).start();
+    static class Costs {
 
-		public Costs(final Units units) {
-			this.units = units;
-		}
+        private final StatsCalc opex = new StatsCalc();
+        private final StatsCalc capex = new StatsCalc();
+        private final StatsCalc size = new StatsCalc();
+        private final Units units;
+        private final IAccumulation count = new Accumulator.Count(false).start();
 
-		public void update(final double operationalCost, final double installationCost, final double installedQuantity, final float weight) {
-			opex.update(weight, operationalCost);
-			capex.update(weight, installationCost);
-			size.update(weight, installedQuantity);
-			count.put(weight, true);
-		}
+        public Costs(final Units units) {
+            this.units = units;
+        }
 
-		public StatsCalc getOpex() {
-			return opex;
-		}
+        public void update(final double operationalCost, final double installationCost, final double installedQuantity, final float weight) {
+            opex.update(weight, operationalCost);
+            capex.update(weight, installationCost);
+            size.update(weight, installedQuantity);
+            count.put(weight, true);
+        }
 
-		public StatsCalc getCapex() {
-			return capex;
-		}
+        public StatsCalc getOpex() {
+            return opex;
+        }
 
-		public StatsCalc getSize() {
-			return size;
-		}
+        public StatsCalc getCapex() {
+            return capex;
+        }
 
-		public Units getUnits() {
-			return units;
-		}
+        public StatsCalc getSize() {
+            return size;
+        }
 
-		public double getCount() {
-			return count.get();
-		}
-	}
+        public Units getUnits() {
+            return units;
+        }
 
-	static class StatsCalc {
-			IAccumulation mean = new Accumulator.Mean(false).start();
-			IAccumulation var = new Accumulator.Variance(false).start();
-			IAccumulation max = new Accumulator.Max(false).start();
-			IAccumulation min = new Accumulator.Min(false).start();
-		    IAccumulation sum = new Accumulator.Sum(false).start();
+        public double getCount() {
+            return count.get();
+        }
+    }
 
-		    List<IAccumulation> all = ImmutableList.of(
-		    		mean,
-		    		var,
-		    		max,
-		    		min,
-		    		sum
-	    		);
+    static class StatsCalc {
 
-		public void update(final double weight, final double value) {
-			for (final IAccumulation acc : all) {
-				acc.put(weight, value);
-			}
-		}
+        IAccumulation mean = new Accumulator.Mean(false).start();
+        IAccumulation var = new Accumulator.Variance(false).start();
+        IAccumulation max = new Accumulator.Max(false).start();
+        IAccumulation min = new Accumulator.Min(false).start();
+        IAccumulation sum = new Accumulator.Sum(false).start();
 
-		public Stats freeze() {
-			return new MeasureCostLogEntry.Stats(
-					mean.get(),
-					var.get(),
-					max.get(),
-					min.get(),
-					sum.get()
-					);
-		}
-	}
+        List<IAccumulation> all = ImmutableList.of(
+                mean,
+                var,
+                max,
+                min,
+                sum
+        );
 
-	@AutoProperty
-	static class Key {
-		private final DateTime installationDate;
-		private final TechnologyType technology;
-		private final IComponentsAction sourceAction;
+        public void update(final double weight, final double value) {
+            for (final IAccumulation acc : all) {
+                acc.put(weight, value);
+            }
+        }
 
-		Key(final DateTime installationDate, final TechnologyType technology, final IComponentsAction sourceAction) {
-			this.installationDate = installationDate;
-			this.technology = technology;
-			this.sourceAction = sourceAction;
-		}
+        public Stats freeze() {
+            return new MeasureCostLogEntry.Stats(
+                    mean.get(),
+                    var.get(),
+                    max.get(),
+                    min.get(),
+                    sum.get()
+            );
+        }
+    }
 
-		@Override
-		public boolean equals(final Object obj) {
-			return Pojomatic.equals(this, obj);
-		}
+    @AutoProperty
+    static class Key {
 
-		@Override
-		public int hashCode() {
-			return Pojomatic.hashCode(this);
-		}
+        private final DateTime installationDate;
+        private final TechnologyType technology;
+        private final IComponentsAction sourceAction;
 
-		public DateTime getInstallationDate() {
-			return installationDate;
-		}
+        Key(final DateTime installationDate, final TechnologyType technology, final IComponentsAction sourceAction) {
+            this.installationDate = installationDate;
+            this.technology = technology;
+            this.sourceAction = sourceAction;
+        }
 
-		public TechnologyType getTechnology() {
-			return technology;
-		}
+        @Override
+        public boolean equals(final Object obj) {
+            return Pojomatic.equals(this, obj);
+        }
 
-		public IComponentsAction getSourceAction() {
-			return sourceAction;
-		}
-	}
+        @Override
+        public int hashCode() {
+            return Pojomatic.hashCode(this);
+        }
 
-	public static class IncompatibleUnitsException extends RuntimeException{
-		private static final long serialVersionUID = 1152241204917974047L;
-		public IncompatibleUnitsException(final String msg) {
-			super(msg);
-		}
-	};
+        public DateTime getInstallationDate() {
+            return installationDate;
+        }
+
+        public TechnologyType getTechnology() {
+            return technology;
+        }
+
+        public IComponentsAction getSourceAction() {
+            return sourceAction;
+        }
+    }
+
+    public static class IncompatibleUnitsException extends RuntimeException {
+
+        private static final long serialVersionUID = 1152241204917974047L;
+
+        public IncompatibleUnitsException(final String msg) {
+            super(msg);
+        }
+    };
 }

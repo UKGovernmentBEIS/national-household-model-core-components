@@ -6,10 +6,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Used to determine what order children are visited in cases where it is important
+ * Used to determine what order children are visited in cases where it is
+ * important
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface VisitOrder {
-	public int value();
+
+    public int value();
 }

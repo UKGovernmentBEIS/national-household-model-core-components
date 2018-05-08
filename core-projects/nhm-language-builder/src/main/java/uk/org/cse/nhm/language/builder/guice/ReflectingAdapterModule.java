@@ -9,19 +9,20 @@ import uk.org.cse.nhm.language.adapt.impl.ReflectingAdapterF;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class ReflectingAdapterModule<F> extends PrivateModule {
+
     private final Class<F> factoryClass;
-	private final Key key;
+    private final Key key;
 
     public ReflectingAdapterModule(final Class<F> factoryClass) {
         this.factoryClass = factoryClass;
-         key = Key.get(Types.newParameterizedType(ReflectingAdapterF.class,
-                                                           factoryClass));
+        key = Key.get(Types.newParameterizedType(ReflectingAdapterF.class,
+                factoryClass));
     }
 
-	@Override
+    @Override
     protected void configure() {
         bind((Key) Key.get(Types.newParameterizedType(Class.class, factoryClass)))
-            .toInstance(factoryClass);
+                .toInstance(factoryClass);
         bind(key);
 
         expose(key);

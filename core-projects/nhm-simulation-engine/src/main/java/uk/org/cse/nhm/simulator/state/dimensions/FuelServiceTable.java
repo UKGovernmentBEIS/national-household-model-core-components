@@ -9,15 +9,16 @@ import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 
 /**
- * Lots of parts of the model hold tables of number by fuel by
- * service.  This is a class which holds that kind of table, and tries
- * to be memory and time efficient about it. It is intended to be immutable.
+ * Lots of parts of the model hold tables of number by fuel by service. This is
+ * a class which holds that kind of table, and tries to be memory and time
+ * efficient about it. It is intended to be immutable.
  */
 public class FuelServiceTable {
+
     /**
-     * The main table; first dimension is on fueltype.ordinal, second
-     * is on servicetype.ordinal. If there is no usage by a certain
-     * fueltype, the row will be null, rather than all zeroes
+     * The main table; first dimension is on fueltype.ordinal, second is on
+     * servicetype.ordinal. If there is no usage by a certain fueltype, the row
+     * will be null, rather than all zeroes
      */
     private final float[][] byFuelByService;
 
@@ -33,28 +34,31 @@ public class FuelServiceTable {
     public static Builder builder() {
         return new Builder();
     }
-    
+
     public static class Builder {
+
         /**
          * To reduce memory use, we deduplicate these tables.
          */
-        private static final Interner<FuelServiceTable> cache =
-            Interners.newWeakInterner();
-        
+        private static final Interner<FuelServiceTable> cache
+                = Interners.newWeakInterner();
+
         private final float[][] byFuelByService;
-        
+
         protected Builder() {
             byFuelByService = new float[FuelType.values().length][];
         }
-        
+
         public void add(final FuelType ft, final ServiceType st, final double value) {
-            if (value == 0) return;
+            if (value == 0) {
+                return;
+            }
             if (byFuelByService[ft.ordinal()] == null) {
                 byFuelByService[ft.ordinal()] = new float[ServiceType.values().length];
             }
             byFuelByService[ft.ordinal()][st.ordinal()] += value;
         }
-        
+
         public FuelServiceTable build() {
             return cache.intern(new FuelServiceTable(byFuelByService));
         }
@@ -67,31 +71,38 @@ public class FuelServiceTable {
 
     @Override
     public boolean equals(final Object other) {
-        if (other == this) return true;
+        if (other == this) {
+            return true;
+        }
         if (other instanceof FuelServiceTable) {
             final float[][] otherValues = ((FuelServiceTable) other).byFuelByService;
-            for (int i = 0; i<FuelType.values().length; i++) {
-                if (!Arrays.equals(byFuelByService[i], otherValues[i])) return false;
+            for (int i = 0; i < FuelType.values().length; i++) {
+                if (!Arrays.equals(byFuelByService[i], otherValues[i])) {
+                    return false;
+                }
             }
             return true;
         }
         return false;
     }
-    
+
     private FuelServiceTable(final float[][] byFuelByService) {
         this.byFuelByService = byFuelByService;
 
         // precompute hash, as we will definitely want it.
         final int prime = 31;
         int result = 1;
-        for (int i = 0; i < this.byFuelByService.length; ++i)
+        for (int i = 0; i < this.byFuelByService.length; ++i) {
             result = prime * result + Arrays.hashCode(this.byFuelByService[i]);
+        }
 
         this.hash = result;
     }
 
     public float get(final FuelType ft) {
-        if (byFuelByService[ft.ordinal()] == null) return 0;
+        if (byFuelByService[ft.ordinal()] == null) {
+            return 0;
+        }
         if (byFuel == null) {
             byFuel = new float[FuelType.values().length];
             for (int fi = 0; fi < byFuelByService.length; fi++) {
@@ -108,9 +119,11 @@ public class FuelServiceTable {
     public float get(final ServiceType st) {
         if (byService == null) {
             byService = new float[ServiceType.values().length];
-            for (int fi = 0; fi<byFuelByService.length ; fi++) { // for each fuel
-                if (byFuelByService[fi] == null) continue;
-                for (int si = 0; si<byFuelByService[fi].length; si++) {
+            for (int fi = 0; fi < byFuelByService.length; fi++) { // for each fuel
+                if (byFuelByService[fi] == null) {
+                    continue;
+                }
+                for (int si = 0; si < byFuelByService[fi].length; si++) {
                     byService[si] += byFuelByService[fi][si];
                 }
             }
@@ -120,7 +133,9 @@ public class FuelServiceTable {
 
     public float get(final FuelType ft, final ServiceType st) {
         final float[] byFuel = byFuelByService[ft.ordinal()];
-        if (byFuel == null) return 0f;
+        if (byFuel == null) {
+            return 0f;
+        }
         return byFuel[st.ordinal()];
     }
 }

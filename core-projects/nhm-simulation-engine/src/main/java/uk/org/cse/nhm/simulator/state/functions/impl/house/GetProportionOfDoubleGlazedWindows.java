@@ -39,14 +39,15 @@ public class GetProportionOfDoubleGlazedWindows extends StructureFunction<Double
     }
 
     /**
-     * Each elevation should have just one window of a given type, meaning the proportion of windows of that type can be
-     * taken from the elevation.
+     * Each elevation should have just one window of a given type, meaning the
+     * proportion of windows of that type can be taken from the elevation.
      *
      * @param scope
      * @param lets
      * @return
-     * @see uk.org.cse.nhm.simulator.state.functions.IComponentsFunction#compute(uk.org.cse.nhm.simulator.scope.IComponentsScope,
-     *      uk.org.cse.nhm.simulator.let.ILets)
+     * @see
+     * uk.org.cse.nhm.simulator.state.functions.IComponentsFunction#compute(uk.org.cse.nhm.simulator.scope.IComponentsScope,
+     * uk.org.cse.nhm.simulator.let.ILets)
      */
     @Override
     public Double compute(IComponentsScope scope, ILets lets) {
@@ -76,7 +77,7 @@ public class GetProportionOfDoubleGlazedWindows extends StructureFunction<Double
             }
         }
 
-        return (doubleGlazedProportion > 0 ?
-                doubleGlazedProportion / ElevationType.values().length : doubleGlazedProportion);
+        return (doubleGlazedProportion > 0
+                ? doubleGlazedProportion / ElevationType.values().length : doubleGlazedProportion);
     }
 }

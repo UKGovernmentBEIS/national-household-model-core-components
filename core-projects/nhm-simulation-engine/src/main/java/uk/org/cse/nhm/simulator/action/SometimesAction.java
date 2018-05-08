@@ -13,39 +13,40 @@ import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class SometimesAction extends AbstractNamed implements IComponentsAction {
-	private final IComponentsFunction<Number> chance;
-	private final IComponentsAction delegate;
 
-	@AssistedInject
-	public SometimesAction(
-			@Assisted final IComponentsFunction<Number> chance,
-			@Assisted final IComponentsAction delegate) {
-		this.chance = chance;
-		this.delegate = delegate;
-	}
+    private final IComponentsFunction<Number> chance;
+    private final IComponentsAction delegate;
 
-	@Override
-	public StateChangeSourceType getSourceType() {
-		return delegate.getSourceType();
-	}
+    @AssistedInject
+    public SometimesAction(
+            @Assisted final IComponentsFunction<Number> chance,
+            @Assisted final IComponentsAction delegate) {
+        this.chance = chance;
+        this.delegate = delegate;
+    }
 
-	@Override
-	public boolean apply(final ISettableComponentsScope scope, final ILets lets)
-			throws NHMException {
-		if (scope.getState().getRandom().nextDouble() < chance.compute(scope, lets).doubleValue()) {
-			return scope.apply(delegate, lets);
-		} else {
-			return false;
-		}
-	}
+    @Override
+    public StateChangeSourceType getSourceType() {
+        return delegate.getSourceType();
+    }
 
-	@Override
-	public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
-		return delegate.isSuitable(scope, lets);
-	}
-	
-	@Override
-	public boolean isAlwaysSuitable() {
-		return false;
-	}
+    @Override
+    public boolean apply(final ISettableComponentsScope scope, final ILets lets)
+            throws NHMException {
+        if (scope.getState().getRandom().nextDouble() < chance.compute(scope, lets).doubleValue()) {
+            return scope.apply(delegate, lets);
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
+        return delegate.isSuitable(scope, lets);
+    }
+
+    @Override
+    public boolean isAlwaysSuitable() {
+        return false;
+    }
 }

@@ -16,57 +16,61 @@ import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 /**
- * Provides the base for specialisations of the action to set insulation (and any additional parameters depending on the type of insulation)
- * 
+ * Provides the base for specialisations of the action to set insulation (and
+ * any additional parameters depending on the type of insulation)
+ *
  * @since 4.2.0
  */
 public abstract class AbstractModifyInsulationMeasure extends AbstractMeasure {
-	final IDimension<StructureModel> structureDimension;
-	private final IComponentsFunction<? extends Number> insulationThickness;
-	
-	@Inject
-	public AbstractModifyInsulationMeasure(
-			final IDimension<StructureModel> structureDimension,
-			@Assisted("thickness") final IComponentsFunction<? extends Number> insulationThickness
-			) {
-		this.structureDimension = structureDimension;
-		this.insulationThickness = insulationThickness;
-	}
 
-	@Override
-	public boolean doApply(final ISettableComponentsScope scope, final ILets lets)
-			throws NHMException {
+    final IDimension<StructureModel> structureDimension;
+    private final IComponentsFunction<? extends Number> insulationThickness;
+
+    @Inject
+    public AbstractModifyInsulationMeasure(
+            final IDimension<StructureModel> structureDimension,
+            @Assisted("thickness") final IComponentsFunction<? extends Number> insulationThickness
+    ) {
+        this.structureDimension = structureDimension;
+        this.insulationThickness = insulationThickness;
+    }
+
+    @Override
+    public boolean doApply(final ISettableComponentsScope scope, final ILets lets)
+            throws NHMException {
         scope.modify(structureDimension, modifier(scope, lets));
         return true;
-	}
-	
-	protected abstract IModifier<StructureModel> modifier(final ISettableComponentsScope scope, final ILets lets);
+    }
 
-	/**
-	 * By default, everything is suitable for insulation thickness modifications
-	 * 
-	 * @see uk.org.cse.nhm.simulator.scope.IComponentsAction#isSuitable(uk.org.cse.nhm.simulator.scope.IComponentsScope, ILets)
-	 */
-	@Override
-	public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
-		return true;
-	}
-	
-	@Override
-	public boolean isAlwaysSuitable() {
-		return true;
-	}
+    protected abstract IModifier<StructureModel> modifier(final ISettableComponentsScope scope, final ILets lets);
 
-	@Override
-	public StateChangeSourceType getSourceType() {
-		return StateChangeSourceType.ACTION;
-	}
-	
-	protected double getInsulationThickness(final IComponentsScope scope, final ILets lets) {
-		return insulationThickness.compute(scope, lets).doubleValue();
-	}
+    /**
+     * By default, everything is suitable for insulation thickness modifications
+     *
+     * @see
+     * uk.org.cse.nhm.simulator.scope.IComponentsAction#isSuitable(uk.org.cse.nhm.simulator.scope.IComponentsScope,
+     * ILets)
+     */
+    @Override
+    public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
+        return true;
+    }
 
-/*	@Override
+    @Override
+    public boolean isAlwaysSuitable() {
+        return true;
+    }
+
+    @Override
+    public StateChangeSourceType getSourceType() {
+        return StateChangeSourceType.ACTION;
+    }
+
+    protected double getInsulationThickness(final IComponentsScope scope, final ILets lets) {
+        return insulationThickness.compute(scope, lets).doubleValue();
+    }
+
+    /*	@Override
 	public boolean modify(final StructureModel modifiable) {
 		// Could also pass in the r-value and/or the u-value for additional overrides
 		switch(insulationType) {
@@ -91,5 +95,5 @@ public abstract class AbstractModifyInsulationMeasure extends AbstractMeasure {
 			throw new UnsupportedOperationException(String.format("%s is not supported by %s", insulationType.toString(), this.getClass().toString()));
 		}
 	}
-*/
+     */
 }

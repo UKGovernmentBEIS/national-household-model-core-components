@@ -34,241 +34,239 @@ import uk.org.cse.nhm.hom.SurveyCase;
  *
  */
 public class AnnualizedEnergyCalculator {
-	@SuppressWarnings("unused")
-	private static final Logger log = LoggerFactory.getLogger(AnnualizedEnergyCalculator.class);
-	private static final int[] days = {
-		31,28,31, 30, 31, 30, 31, 31, 30, 31, 30, 31
-	};
 
-	private IEnergyCalculator calculator;
+    @SuppressWarnings("unused")
+    private static final Logger log = LoggerFactory.getLogger(AnnualizedEnergyCalculator.class);
+    private static final int[] days = {
+        31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
+    };
 
-	private RegionalMonthlyTable externalTemperature;
-	private RegionalMonthlyTable windSpeed;
-	private RegionalMonthlyTable horizontalSolarFlux;
+    private IEnergyCalculator calculator;
 
-	private boolean[] heatingMonths;
+    private RegionalMonthlyTable externalTemperature;
+    private RegionalMonthlyTable windSpeed;
+    private RegionalMonthlyTable horizontalSolarFlux;
 
-	private double interzoneTemperatureDifference;
+    private boolean[] heatingMonths;
 
-	private final IHeatingSchedule heatingOff = new DailyHeatingSchedule();
+    private double interzoneTemperatureDifference;
 
-	private IHeatingSchedule heatingSchedule;
+    private final IHeatingSchedule heatingOff = new DailyHeatingSchedule();
 
-	private double zoneOneDemandTemperature;
+    private IHeatingSchedule heatingSchedule;
 
+    private double zoneOneDemandTemperature;
 
+    public IEnergyCalculator getCalculator() {
+        return calculator;
+    }
 
-	public IEnergyCalculator getCalculator() {
-		return calculator;
-	}
+    public void setCalculator(final IEnergyCalculator calculator) {
+        this.calculator = calculator;
+    }
 
-	public void setCalculator(final IEnergyCalculator calculator) {
-		this.calculator = calculator;
-	}
+    public boolean[] getHeatingMonths() {
+        return heatingMonths;
+    }
 
-	public boolean[] getHeatingMonths() {
-		return heatingMonths;
-	}
+    public void setHeatingMonths(final boolean[] heatingMonths) {
+        this.heatingMonths = heatingMonths;
+    }
 
-	public void setHeatingMonths(final boolean[] heatingMonths) {
-		this.heatingMonths = heatingMonths;
-	}
+    public IHeatingSchedule getHeatingSchedule() {
+        return heatingSchedule;
+    }
 
-	public IHeatingSchedule getHeatingSchedule() {
-		return heatingSchedule;
-	}
+    public void setHeatingSchedule(final IHeatingSchedule heatingSchedule) {
+        this.heatingSchedule = heatingSchedule;
+    }
 
-	public void setHeatingSchedule(final IHeatingSchedule heatingSchedule) {
-		this.heatingSchedule = heatingSchedule;
-	}
+    public RegionalMonthlyTable getExternalTemperature() {
+        return externalTemperature;
+    }
 
-	public RegionalMonthlyTable getExternalTemperature() {
-		return externalTemperature;
-	}
+    public void setExternalTemperature(final RegionalMonthlyTable externalTemperature) {
+        this.externalTemperature = externalTemperature;
+    }
 
-	public void setExternalTemperature(final RegionalMonthlyTable externalTemperature) {
-		this.externalTemperature = externalTemperature;
-	}
+    public RegionalMonthlyTable getWindSpeed() {
+        return windSpeed;
+    }
 
-	public RegionalMonthlyTable getWindSpeed() {
-		return windSpeed;
-	}
+    public void setWindSpeed(final RegionalMonthlyTable windSpeed) {
+        this.windSpeed = windSpeed;
+    }
 
-	public void setWindSpeed(final RegionalMonthlyTable windSpeed) {
-		this.windSpeed = windSpeed;
-	}
+    public RegionalMonthlyTable getHorizontalSolarFlux() {
+        return horizontalSolarFlux;
+    }
 
-	public RegionalMonthlyTable getHorizontalSolarFlux() {
-		return horizontalSolarFlux;
-	}
+    public void setHorizontalSolarFlux(final RegionalMonthlyTable horizontalSolarFlux) {
+        this.horizontalSolarFlux = horizontalSolarFlux;
+    }
 
-	public void setHorizontalSolarFlux(final RegionalMonthlyTable horizontalSolarFlux) {
-		this.horizontalSolarFlux = horizontalSolarFlux;
-	}
+    public double getInterzoneTemperatureDifference() {
+        return interzoneTemperatureDifference;
+    }
 
-	public double getInterzoneTemperatureDifference() {
-		return interzoneTemperatureDifference;
-	}
+    public void setInterzoneTemperatureDifference(
+            final double interzoneTemperatureDifference) {
+        this.interzoneTemperatureDifference = interzoneTemperatureDifference;
+    }
 
-	public void setInterzoneTemperatureDifference(
-			final double interzoneTemperatureDifference) {
-		this.interzoneTemperatureDifference = interzoneTemperatureDifference;
-	}
+    public Result evaluate(final SurveyCase surveyCase) {
+        final Map<ServiceType, Map<EnergyType, Double>> fuelUse = createEmptyResult();
+        final RegionType region = surveyCase.getBasicAttributes().getRegionType();
+        double totalInternalTemperature = 0;
+        double totalUnadjTemperature = 0;
+        double totalHeatLoss = 0;
 
-	public Result evaluate(final SurveyCase surveyCase) {
-		final Map<ServiceType, Map<EnergyType, Double>> fuelUse = createEmptyResult();
-		final RegionType region = surveyCase.getBasicAttributes().getRegionType();
-		double totalInternalTemperature = 0;
-		double totalUnadjTemperature = 0;
-		double totalHeatLoss = 0;
+        double totalVentilationLoss = 0;
 
-		double totalVentilationLoss = 0;
+        double totalBridgingLoss = 0;
 
-		double totalBridgingLoss = 0;
+        double totalHeatDemand = 0;
+        double totalHotWaterDemand = 0;
 
-		double totalHeatDemand = 0;
-		double totalHotWaterDemand = 0;
+        Map<AreaType, Double> areas = null;
+        Map<AreaType, Double> heatLosses = null;
 
-		Map<AreaType, Double> areas = null;
-		Map<AreaType, Double> heatLosses = null;
+        final BredemExternalParameters parameters = new BredemExternalParameters(
+                EnergyCalculatorType.BREDEM2012,
+                ElectricityTariffType.ECONOMY_7,
+                zoneOneDemandTemperature,
+                Optional.<Double>absent(),
+                Optional.of(interzoneTemperatureDifference),
+                surveyCase.getPeople().getOccupancy()
+        );
 
-		final BredemExternalParameters parameters = new BredemExternalParameters(
-				EnergyCalculatorType.BREDEM2012,
-				ElectricityTariffType.ECONOMY_7,
-				zoneOneDemandTemperature,
-				Optional.<Double>absent(),
-				Optional.of(interzoneTemperatureDifference),
-				surveyCase.getPeople().getOccupancy()
-				);
+        surveyCase.getStructure().setZoneTwoHeatedProportion(1d);
 
-		surveyCase.getStructure().setZoneTwoHeatedProportion(1d);
+        final SeasonalParameters[] seasons = new SeasonalParameters[12];
 
+        // set monthly varying parameters
+        for (final MonthType m : MonthType.values()) {
+            seasons[m.ordinal()] = new BREDEMHeatingSeasonalParameters(m,
+                    new IWeather() {
 
-		final SeasonalParameters[] seasons = new SeasonalParameters[12];
+                @Override
+                public double getWindSpeed(MonthType month) {
+                    return windSpeed.get(region, month.ordinal());
+                }
 
-		// set monthly varying parameters
-		for (final MonthType m : MonthType.values()) {
-			seasons[m.ordinal()] = new BREDEMHeatingSeasonalParameters(m,
-					new IWeather() {
+                @Override
+                public double getHorizontalSolarFlux(MonthType month) {
+                    return horizontalSolarFlux.get(region, month.ordinal());
+                }
 
-						@Override
-						public double getWindSpeed(MonthType month) {
-							return windSpeed.get(region, month.ordinal());
-						}
+                @Override
+                public double getExternalTemperature(MonthType month) {
+                    return externalTemperature.get(region, month.ordinal());
+                }
+            },
+                    region.getLatitudeRadians(),
+                    heatingMonths[m.ordinal()] ? heatingSchedule : heatingOff);
+        }
 
-						@Override
-						public double getHorizontalSolarFlux(MonthType month) {
-							return horizontalSolarFlux.get(region, month.ordinal());
-						}
+        final IEnergyCalculationResult[] results = calculator.evaluate(
+                surveyCase,
+                parameters,
+                seasons,
+                EnumSet.noneOf(EnergyCalculationStep.class)
+        ).getResults();
 
-						@Override
-						public double getExternalTemperature(MonthType month) {
-							return externalTemperature.get(region, month.ordinal());
-						}
-					},
-					region.getLatitudeRadians(),
-					heatingMonths[m.ordinal()] ? heatingSchedule : heatingOff);
-		}
+        int month = 0;
+        for (final IEnergyCalculationResult result : results) {
+            final IEnergyState es = result.getEnergyState();
+            final double milliHoursInMonth = 24 * days[month] / 1000d;
 
+            for (final ServiceType st : ServiceType.values()) {
+                for (final EnergyType et : EnergyType.allFuels) {
+                    final double wattage = es.getTotalDemand(et, st);
+                    final double kWh = wattage * milliHoursInMonth;
+                    if (kWh > 0) {
+                        if (fuelUse.get(st) == null) {
+                            fuelUse.put(st, new HashMap<EnergyType, Double>());
+                        }
+                        final Double d = fuelUse.get(st).get(et);
+                        fuelUse.get(st).put(et, kWh + (d == null ? 0 : d));
+                    }
+                }
+            }
 
-		final IEnergyCalculationResult[] results = calculator.evaluate(
-				surveyCase,
-				parameters,
-				seasons,
-				EnumSet.noneOf(EnergyCalculationStep.class)
-		).getResults();
+            totalInternalTemperature += es.getTotalSupply(EnergyType.HackMEAN_INTERNAL_TEMPERATURE) * days[month];
+            totalUnadjTemperature += es.getTotalSupply(EnergyType.HackUNADJUSTED_TEMPERATURE) * days[month];
+            totalHeatLoss += result.getHeatLosses().getSpecificHeatLoss();
+            totalVentilationLoss += result.getHeatLosses().getVentilationLoss();
+            totalBridgingLoss += result.getHeatLosses().getThermalBridgeEffect();
 
-		int month = 0;
-		for (final IEnergyCalculationResult result : results) {
-			final IEnergyState es = result.getEnergyState();
-			final double milliHoursInMonth = 24 * days[month] / 1000d;
+            totalHeatDemand += (es.getTotalDemand(EnergyType.DemandsHEAT)
+                    - es.getTotalSupply(EnergyType.DemandsHEAT, ServiceType.INTERNALS))
+                    * milliHoursInMonth;
+            totalHotWaterDemand += (es.getTotalSupply(EnergyType.GainsHOT_WATER_SYSTEM_GAINS) + es.getTotalDemand(EnergyType.DemandsHOT_WATER))
+                    * milliHoursInMonth;
 
-			for (final ServiceType st : ServiceType.values()) {
-				for (final EnergyType et : EnergyType.allFuels) {
-					final double wattage = es.getTotalDemand(et, st);
-					final double kWh = wattage * milliHoursInMonth;
-					if (kWh > 0) {
-						if (fuelUse.get(st)==null)fuelUse.put(st, new HashMap<EnergyType, Double>());
-						final Double d = fuelUse.get(st).get(et);
-						fuelUse.get(st).put(et, kWh + (d == null ? 0 : d));
-					}
-				}
-			}
+            areas = result.getHeatLossAreas();
+            heatLosses = result.getHeatLossByArea();
+            month++;
+        }
 
-			totalInternalTemperature += es.getTotalSupply(EnergyType.HackMEAN_INTERNAL_TEMPERATURE) * days[month];
-			totalUnadjTemperature += es.getTotalSupply(EnergyType.HackUNADJUSTED_TEMPERATURE) * days[month];
-			totalHeatLoss += result.getHeatLosses().getSpecificHeatLoss();
-			totalVentilationLoss += result.getHeatLosses().getVentilationLoss();
-			totalBridgingLoss += result.getHeatLosses().getThermalBridgeEffect();
+        return new Result(fuelUse,
+                totalInternalTemperature / 360,
+                totalUnadjTemperature / 360,
+                totalHeatLoss / 12, totalVentilationLoss / 12, totalBridgingLoss / 12,
+                totalHeatDemand, totalHotWaterDemand,
+                areas, heatLosses);
+    }
 
-			totalHeatDemand += (es.getTotalDemand(EnergyType.DemandsHEAT)
-					-es.getTotalSupply(EnergyType.DemandsHEAT, ServiceType.INTERNALS))
+    public static class Result {
 
-					* milliHoursInMonth;
-			totalHotWaterDemand += (es.getTotalSupply(EnergyType.GainsHOT_WATER_SYSTEM_GAINS) + es.getTotalDemand(EnergyType.DemandsHOT_WATER))
-					* milliHoursInMonth;
+        public final Map<ServiceType, Map<EnergyType, Double>> energy;
+        public final double meanInternalTemperature;
+        public final double meanHeatLoss;
+        public final Map<AreaType, Double> areas;
+        public final Map<AreaType, Double> heatLosses;
+        public final double meanVentilationLoss;
+        public final double thermalBridgingLoss;
+        public final double totalHeatDemand;
+        public final double totalHotWaterDemand;
+        public final double unadjustedTemperature;
 
-			areas = result.getHeatLossAreas();
-			heatLosses = result.getHeatLossByArea();
-			month++;
-		}
+        protected Result(final Map<ServiceType, Map<EnergyType, Double>> energy, final double meanInternalTemperature,
+                final double unadjTemperature,
+                final double meanHeatLoss, final double meanVentilationLoss, final double tbLoss,
+                final double totalHeatDemand, final double totalHotWaterDemand,
+                final Map<AreaType, Double> areas, final Map<AreaType, Double> heatLosses) {
+            this.energy = energy;
+            this.meanInternalTemperature = meanInternalTemperature;
+            this.meanHeatLoss = meanHeatLoss;
+            this.areas = areas;
+            this.heatLosses = heatLosses;
+            this.meanVentilationLoss = meanVentilationLoss;
+            this.thermalBridgingLoss = tbLoss;
+            this.totalHeatDemand = totalHeatDemand;
+            this.totalHotWaterDemand = totalHotWaterDemand;
+            this.unadjustedTemperature = unadjTemperature;
+        }
+    }
 
-		return new Result(fuelUse,
-				totalInternalTemperature / 360,
-				totalUnadjTemperature / 360,
-				totalHeatLoss / 12, totalVentilationLoss /12,totalBridgingLoss /12,
-				totalHeatDemand, totalHotWaterDemand,
-
-				areas, heatLosses);
-	}
-
-	public static class Result {
-		public final Map<ServiceType, Map<EnergyType, Double>> energy;
-		public final double meanInternalTemperature;
-		public final double meanHeatLoss;
-		public final Map<AreaType, Double> areas;
-		public final Map<AreaType, Double> heatLosses;
-		public final double meanVentilationLoss;
-		public final double thermalBridgingLoss;
-		public final double totalHeatDemand;
-		public final double totalHotWaterDemand;
-		public final double unadjustedTemperature;
-
-		protected Result(final Map<ServiceType, Map<EnergyType, Double>> energy, final double meanInternalTemperature,
-				final double unadjTemperature,
-				final double meanHeatLoss, final double meanVentilationLoss, final double tbLoss,
-				final double totalHeatDemand, final double totalHotWaterDemand,
-				final Map<AreaType, Double> areas, final Map<AreaType, Double> heatLosses) {
-			this.energy = energy;
-			this.meanInternalTemperature = meanInternalTemperature;
-			this.meanHeatLoss = meanHeatLoss;
-			this.areas = areas;
-			this.heatLosses = heatLosses;
-			this.meanVentilationLoss = meanVentilationLoss;
-			this.thermalBridgingLoss = tbLoss;
-			this.totalHeatDemand = totalHeatDemand;
-			this.totalHotWaterDemand = totalHotWaterDemand;
-			this.unadjustedTemperature = unadjTemperature;
-		}
-	}
-
-	private Map<ServiceType, Map<EnergyType, Double>> createEmptyResult() {
-		final Map<ServiceType, Map<EnergyType, Double>> r = new EnumMap<ServiceType, Map<EnergyType,Double>>(ServiceType.class);
-		/*for (final ServiceType st : ServiceType.values()) {
+    private Map<ServiceType, Map<EnergyType, Double>> createEmptyResult() {
+        final Map<ServiceType, Map<EnergyType, Double>> r = new EnumMap<ServiceType, Map<EnergyType, Double>>(ServiceType.class);
+        /*for (final ServiceType st : ServiceType.values()) {
 			HashMap<EnergyType, Double> enumMap = new HashMap<EnergyType, Double>();
 			r.put(st, enumMap);
 			for (final EnergyType et : EnergyType.FuelallFuels()) {
 				enumMap.put(et, 0d);
 			}
 		}*/
-		return r;
-	}
+        return r;
+    }
 
-	public double getZoneOneDemandTemperature() {
-		return zoneOneDemandTemperature;
-	}
+    public double getZoneOneDemandTemperature() {
+        return zoneOneDemandTemperature;
+    }
 
-	public void setZoneOneDemandTemperature(final double zoneOneDemandTemperature) {
-		this.zoneOneDemandTemperature = zoneOneDemandTemperature;
-	}
+    public void setZoneOneDemandTemperature(final double zoneOneDemandTemperature) {
+        this.zoneOneDemandTemperature = zoneOneDemandTemperature;
+    }
 }

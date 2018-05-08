@@ -16,6 +16,7 @@ import uk.org.cse.stockimport.domain.services.WaterHeatingSystemType;
  */
 @AutoProperty
 public class WaterHeatingDTO extends AbsHeatingSystemDTO implements IWaterHeatingDTO {
+
     private Optional<FuelType> mainHeatingFuel = Optional.absent();
     private Optional<FlueType> flueType = Optional.absent();
     private boolean withCentralHeating = true;
@@ -35,148 +36,148 @@ public class WaterHeatingDTO extends AbsHeatingSystemDTO implements IWaterHeatin
     /**
      * @since 2.0
      */
-    public WaterHeatingDTO(){
-    	super();
+    public WaterHeatingDTO() {
+        super();
     }
-    
-	@Override
-	public Optional<FuelType> getMainHeatingFuel() {
-		return mainHeatingFuel;
-	}
 
-	@Override
-	public void setMainHeatingFuel(final Optional<FuelType> mainHeatingFuel) {
-		this.mainHeatingFuel = mainHeatingFuel;
-	}
+    @Override
+    public Optional<FuelType> getMainHeatingFuel() {
+        return mainHeatingFuel;
+    }
 
-	@Override
-	public Optional<FlueType> getFlueType() {
-		return flueType;
-	}
+    @Override
+    public void setMainHeatingFuel(final Optional<FuelType> mainHeatingFuel) {
+        this.mainHeatingFuel = mainHeatingFuel;
+    }
 
-	@Override
-	public void setFlueType(final Optional<FlueType> flueType) {
-		this.flueType = flueType;
-	}
+    @Override
+    public Optional<FlueType> getFlueType() {
+        return flueType;
+    }
 
-	@Override
-	public boolean isWithCentralHeating() {
-		return withCentralHeating;
-	}
+    @Override
+    public void setFlueType(final Optional<FlueType> flueType) {
+        this.flueType = flueType;
+    }
 
-	@Override
-	public void setWithCentralHeating(final boolean withCentralHeating) {
-		this.withCentralHeating = withCentralHeating;
-	}
+    @Override
+    public boolean isWithCentralHeating() {
+        return withCentralHeating;
+    }
 
-	@Override
-	public Optional<WaterHeatingSystemType> getWaterHeatingSystemType() {
-		return waterHeatingSystemType;
-	}
+    @Override
+    public void setWithCentralHeating(final boolean withCentralHeating) {
+        this.withCentralHeating = withCentralHeating;
+    }
 
-	@Override
-	public void setWaterHeatingSystemType(final Optional<WaterHeatingSystemType> waterHeatingSystemType) {
-		this.waterHeatingSystemType = waterHeatingSystemType;
-	}
+    @Override
+    public Optional<WaterHeatingSystemType> getWaterHeatingSystemType() {
+        return waterHeatingSystemType;
+    }
 
-	@Override
-	public Optional<Double> getCylinderVolume() {
-		return cylinderVolume;
-	}
+    @Override
+    public void setWaterHeatingSystemType(final Optional<WaterHeatingSystemType> waterHeatingSystemType) {
+        this.waterHeatingSystemType = waterHeatingSystemType;
+    }
 
-	@Override
-	public void setCylinderVolume(final Optional<Double> cylinderVolume) {
-		this.cylinderVolume = cylinderVolume;
-	}
+    @Override
+    public Optional<Double> getCylinderVolume() {
+        return cylinderVolume;
+    }
 
-	@Override
-	public Optional<Double> getCylinderInsulationThickness() {
-		return cylinderInsulationThickness;
-	}
+    @Override
+    public void setCylinderVolume(final Optional<Double> cylinderVolume) {
+        this.cylinderVolume = cylinderVolume;
+    }
 
-	@Override
-	public void setCylinderInsulationThickness(final Optional<Double> cylinderInsulationThickness) {
-		this.cylinderInsulationThickness = cylinderInsulationThickness;
-	}
+    @Override
+    public Optional<Double> getCylinderInsulationThickness() {
+        return cylinderInsulationThickness;
+    }
 
-	@Override
-	public Optional<Boolean> getCylinderThermostatPresent() {
-		return cylinderThermostatPresent;
-	}
+    @Override
+    public void setCylinderInsulationThickness(final Optional<Double> cylinderInsulationThickness) {
+        this.cylinderInsulationThickness = cylinderInsulationThickness;
+    }
 
-	@Override
-	public void setCylinderThermostatPresent(final Optional<Boolean> cylinderThermostatPresent) {
-		this.cylinderThermostatPresent = cylinderThermostatPresent;
-	}
+    @Override
+    public Optional<Boolean> getCylinderThermostatPresent() {
+        return cylinderThermostatPresent;
+    }
 
-	@Override
-	public Optional<Boolean> getCylinderFactoryInsulated() {
-		return cylinderFactoryInsulated;
-	}
+    @Override
+    public void setCylinderThermostatPresent(final Optional<Boolean> cylinderThermostatPresent) {
+        this.cylinderThermostatPresent = cylinderThermostatPresent;
+    }
 
-	@Override
-	public void setCylinderFactoryInsulated(final Optional<Boolean> cylinderFactoryInsulated) {
-		this.cylinderFactoryInsulated = cylinderFactoryInsulated;
-	}
+    @Override
+    public Optional<Boolean> getCylinderFactoryInsulated() {
+        return cylinderFactoryInsulated;
+    }
 
-	@Override
-	public Optional<ImmersionHeaterType> getImmersionHeaterType() {
-		return immersionHeaterType;
-	}
+    @Override
+    public void setCylinderFactoryInsulated(final Optional<Boolean> cylinderFactoryInsulated) {
+        this.cylinderFactoryInsulated = cylinderFactoryInsulated;
+    }
 
-	@Override
-	public void setImmersionHeaterType(final Optional<ImmersionHeaterType> immersionHeaterType) {
-		this.immersionHeaterType = immersionHeaterType;
-	}
+    @Override
+    public Optional<ImmersionHeaterType> getImmersionHeaterType() {
+        return immersionHeaterType;
+    }
 
-	@Override
-	public boolean isSolarHotWaterPresent() {
-		return solarHotWaterPresent;
-	}
+    @Override
+    public void setImmersionHeaterType(final Optional<ImmersionHeaterType> immersionHeaterType) {
+        this.immersionHeaterType = immersionHeaterType;
+    }
 
-	@Override
-	public void setSolarHotWaterPresent(final boolean solarHotWaterPresent) {
-		this.solarHotWaterPresent = solarHotWaterPresent;
-	}
+    @Override
+    public boolean isSolarHotWaterPresent() {
+        return solarHotWaterPresent;
+    }
 
-	@Override
-	public boolean isSolarStoreInCylinder() {
-		return solarStoreInCylinder;
-	}
+    @Override
+    public void setSolarHotWaterPresent(final boolean solarHotWaterPresent) {
+        this.solarHotWaterPresent = solarHotWaterPresent;
+    }
 
-	@Override
-	public void setSolarStoreInCylinder(final boolean solarStoreInCylinder) {
-		this.solarStoreInCylinder = solarStoreInCylinder;
-	}
+    @Override
+    public boolean isSolarStoreInCylinder() {
+        return solarStoreInCylinder;
+    }
 
-	@Override
-	public double getSolarStoreVolume() {
-		return solarStoreVolume;
-	}
+    @Override
+    public void setSolarStoreInCylinder(final boolean solarStoreInCylinder) {
+        this.solarStoreInCylinder = solarStoreInCylinder;
+    }
 
-	@Override
-	public void setSolarStoreVolume(final double solarStoreVolume) {
-		this.solarStoreVolume = solarStoreVolume;
-	}
+    @Override
+    public double getSolarStoreVolume() {
+        return solarStoreVolume;
+    }
 
-	@Override
-	public Optional<Integer> getInstallationYear() {
-		return installationYear;
-	}
+    @Override
+    public void setSolarStoreVolume(final double solarStoreVolume) {
+        this.solarStoreVolume = solarStoreVolume;
+    }
 
-	@Override
-	public void setInstallationYear(final Optional<Integer> installationYear) {
-		this.installationYear = installationYear;
-	}
+    @Override
+    public Optional<Integer> getInstallationYear() {
+        return installationYear;
+    }
 
-	@Override
-	public boolean equals(final Object obj) {
-		return Pojomatic.equals(this, obj);
-	}
+    @Override
+    public void setInstallationYear(final Optional<Integer> installationYear) {
+        this.installationYear = installationYear;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        return Pojomatic.equals(this, obj);
+    }
 
     /**
-     * @return
-     * @see uk.org.cse.stockimport.domain.services.IWaterHeatingDTO#getHasElectricShower()
+     * @return @see
+     * uk.org.cse.stockimport.domain.services.IWaterHeatingDTO#getHasElectricShower()
      */
     @Override
     public Optional<Boolean> getHasElectricShower() {
@@ -185,7 +186,8 @@ public class WaterHeatingDTO extends AbsHeatingSystemDTO implements IWaterHeatin
 
     /**
      * @param hasElectricShower
-     * @see uk.org.cse.stockimport.domain.services.IWaterHeatingDTO#setHasElectricShower(com.google.common.base.Optional)
+     * @see
+     * uk.org.cse.stockimport.domain.services.IWaterHeatingDTO#setHasElectricShower(com.google.common.base.Optional)
      */
     @Override
     public void setHasElectricShower(Optional<Boolean> hasElectricShower) {

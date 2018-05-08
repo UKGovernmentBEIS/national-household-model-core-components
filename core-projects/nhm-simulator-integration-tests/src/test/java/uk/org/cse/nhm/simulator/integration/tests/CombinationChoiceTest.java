@@ -16,6 +16,6 @@ public class CombinationChoiceTest extends SimulatorIntegrationTest {
     @Test
     public void testCompilation() throws Exception {
         final IntegrationTestOutput output = super.runSimulation(dataService,
-                loadScenario("combinationsChoice.s"), true, Collections.<Class<?>> emptySet());
+                loadScenario("combinationsChoice.s"), true, Collections.<Class<?>>emptySet());
     }
 }

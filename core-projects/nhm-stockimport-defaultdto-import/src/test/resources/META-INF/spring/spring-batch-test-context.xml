@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:batch="http://www.springframework.org/schema/batch"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-	xmlns:task="http://www.springframework.org/schema/task"
-	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:batch="http://www.springframework.org/schema/batch"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
 		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.1.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 		
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close">
-		<property name="driverClassName" value="org.hsqldb.jdbcDriver" />
-		<property name="url" value="jdbc:hsqldb:mem:." />
-		<property name="username" value="sa" />
-		<property name="password" value="" />
-	</bean>
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="org.hsqldb.jdbcDriver" />
+        <property name="url" value="jdbc:hsqldb:mem:." />
+        <property name="username" value="sa" />
+        <property name="password" value="" />
+    </bean>
 
-	<jdbc:initialize-database data-source="dataSource"
-		ignore-failures="ALL">
-		<jdbc:script location="classpath:/org/springframework/batch/core/schema-hsqldb.sql" />
-	</jdbc:initialize-database>
+    <jdbc:initialize-database data-source="dataSource"
+                              ignore-failures="ALL">
+        <jdbc:script location="classpath:/org/springframework/batch/core/schema-hsqldb.sql" />
+    </jdbc:initialize-database>
 
-	<import resource="classpath:META-INF/spring/cse-properties-from-serverenv-config.xml"/>
+    <import resource="classpath:META-INF/spring/cse-properties-from-serverenv-config.xml"/>
 
-	<batch:job-repository id="jobRepository" data-source="dataSource" transaction-manager="transactionManager"/>
-	<task:executor id="aSyncExecutor" pool-size="100"/>
+    <batch:job-repository id="jobRepository" data-source="dataSource" transaction-manager="transactionManager"/>
+    <task:executor id="aSyncExecutor" pool-size="100"/>
 	
-	<bean class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
-		<property name="jobRepository" ref="jobRepository"/>
-		<property name="taskExecutor" ref="aSyncExecutor"/>
-	</bean>
+    <bean class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+        <property name="jobRepository" ref="jobRepository"/>
+        <property name="taskExecutor" ref="aSyncExecutor"/>
+    </bean>
 	
-	<bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager">
-		<constructor-arg name="dataSource" ref="dataSource"/>
-	</bean>
+    <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager">
+        <constructor-arg name="dataSource" ref="dataSource"/>
+    </bean>
 	
-	<bean class="org.springframework.batch.core.launch.support.SimpleJobLauncher" id="jobLauncher">
-		<property name="jobRepository" ref="jobRepository"/>
-		<property name="taskExecutor" ref="aSyncExecutor"/>
-	</bean>
+    <bean class="org.springframework.batch.core.launch.support.SimpleJobLauncher" id="jobLauncher">
+        <property name="jobRepository" ref="jobRepository"/>
+        <property name="taskExecutor" ref="aSyncExecutor"/>
+    </bean>
 
-	<!-- Mock Data Service creation -->	
-	<bean class="uk.org.cse.stockimport.csvdefault.jobs.StubStockImportDataService" />
+    <!-- Mock Data Service creation -->	
+    <bean class="uk.org.cse.stockimport.csvdefault.jobs.StubStockImportDataService" />
 </beans>

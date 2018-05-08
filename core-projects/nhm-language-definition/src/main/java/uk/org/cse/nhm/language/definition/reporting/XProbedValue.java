@@ -6,5 +6,5 @@ import uk.org.cse.nhm.language.definition.function.XFunction;
 
 @Category(CategoryType.REPORTING)
 public abstract class XProbedValue extends XFunction {
-	
+
 }

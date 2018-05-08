@@ -22,41 +22,44 @@ import uk.org.cse.stockimport.repository.IHouseCaseSources;
  * @since 1.0
  */
 public class CookerBuildStep implements ISurveyCaseBuildStep {
-	private static final Logger log = org.slf4j.LoggerFactory.getLogger(CookerBuildStep.class);
-	/** @since 1.0 */
-	public static final String IDENTIFIER = CookerBuildStep.class.getCanonicalName();
-	
-	@Override
-	public String getIdentifier() {
-		return IDENTIFIER;
-	}
 
-	@Override
-	public Set<String> getDependencies() {
-		return ImmutableSet.<String>of(StructureInitializingBuildStep.IDENTIFIER);
-	}
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(CookerBuildStep.class);
+    /**
+     * @since 1.0
+     */
+    public static final String IDENTIFIER = CookerBuildStep.class.getCanonicalName();
 
-	@Override
-	public void build(final SurveyCase model, final IHouseCaseSources<IBasicDTO> dtoProvider) {
-		final Optional<ISpaceHeatingDTO> space = dtoProvider.getOne(ISpaceHeatingDTO.class);
-		final Optional<IWaterHeatingDTO> water = dtoProvider.getOne(IWaterHeatingDTO.class);
-		
-		final boolean hasGas = 
-				(space.isPresent() && space.get().getMainHeatingFuel() == FuelType.MAINS_GAS) ||
-				(water.isPresent() && water.get().getMainHeatingFuel().or(FuelType.BIOMASS_PELLETS) == FuelType.MAINS_GAS);
-		
-		final ICooker cooker; 
+    @Override
+    public String getIdentifier() {
+        return IDENTIFIER;
+    }
 
-		if (hasGas) {
-			log.debug("{} installing gas hob and electric oven", dtoProvider.getAacode());
-			cooker = CookerImpl.createMixed();
-			
-		} else {
-			log.debug("{} installing electric hob and electric oven", dtoProvider.getAacode());
-			cooker = CookerImpl.createElectric();
-		}
-		
-		model.getTechnologies().getCookers().add(cooker);
-	}
+    @Override
+    public Set<String> getDependencies() {
+        return ImmutableSet.<String>of(StructureInitializingBuildStep.IDENTIFIER);
+    }
+
+    @Override
+    public void build(final SurveyCase model, final IHouseCaseSources<IBasicDTO> dtoProvider) {
+        final Optional<ISpaceHeatingDTO> space = dtoProvider.getOne(ISpaceHeatingDTO.class);
+        final Optional<IWaterHeatingDTO> water = dtoProvider.getOne(IWaterHeatingDTO.class);
+
+        final boolean hasGas
+                = (space.isPresent() && space.get().getMainHeatingFuel() == FuelType.MAINS_GAS)
+                || (water.isPresent() && water.get().getMainHeatingFuel().or(FuelType.BIOMASS_PELLETS) == FuelType.MAINS_GAS);
+
+        final ICooker cooker;
+
+        if (hasGas) {
+            log.debug("{} installing gas hob and electric oven", dtoProvider.getAacode());
+            cooker = CookerImpl.createMixed();
+
+        } else {
+            log.debug("{} installing electric hob and electric oven", dtoProvider.getAacode());
+            cooker = CookerImpl.createElectric();
+        }
+
+        model.getTechnologies().getCookers().add(cooker);
+    }
 
 }

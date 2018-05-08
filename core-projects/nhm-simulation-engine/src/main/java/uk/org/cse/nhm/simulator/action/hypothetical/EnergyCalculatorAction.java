@@ -14,32 +14,33 @@ import uk.org.cse.nhm.simulator.state.dimensions.behaviour.IHeatingBehaviour;
 
 public class EnergyCalculatorAction extends HypotheticalAction {
 
-	private final IDimension<IHeatingBehaviour> heatingBehaviour;
-	private IModifier<IHeatingBehaviour> modifier;
+    private final IDimension<IHeatingBehaviour> heatingBehaviour;
+    private IModifier<IHeatingBehaviour> modifier;
 
-	@Inject
-	public EnergyCalculatorAction(
-			@Assisted final EnergyCalculatorType calculatorType,
-			final IDimension<IHeatingBehaviour> heatingBehaviour) {
-		this.heatingBehaviour = heatingBehaviour;
-		
-		modifier = new IModifier<IHeatingBehaviour>() {
+    @Inject
+    public EnergyCalculatorAction(
+            @Assisted final EnergyCalculatorType calculatorType,
+            final IDimension<IHeatingBehaviour> heatingBehaviour) {
+        this.heatingBehaviour = heatingBehaviour;
 
-			@Override
-			public boolean modify(IHeatingBehaviour modifiable) {
-				modifiable.setEnergyCalculatorType(calculatorType);
-				return true;
-			}};
-	}
+        modifier = new IModifier<IHeatingBehaviour>() {
 
-	@Override
-	public StateChangeSourceType getSourceType() {
-		return StateChangeSourceType.ACTION;
-	}
-	
-	@Override
-	protected boolean doApply(IHypotheticalComponentsScope scope, ILets lets) {
-		scope.modify(heatingBehaviour, modifier);
-		return true;
-	}
+            @Override
+            public boolean modify(IHeatingBehaviour modifiable) {
+                modifiable.setEnergyCalculatorType(calculatorType);
+                return true;
+            }
+        };
+    }
+
+    @Override
+    public StateChangeSourceType getSourceType() {
+        return StateChangeSourceType.ACTION;
+    }
+
+    @Override
+    protected boolean doApply(IHypotheticalComponentsScope scope, ILets lets) {
+        scope.modify(heatingBehaviour, modifier);
+        return true;
+    }
 }

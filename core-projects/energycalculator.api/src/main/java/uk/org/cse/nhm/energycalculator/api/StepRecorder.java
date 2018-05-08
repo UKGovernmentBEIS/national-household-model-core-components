@@ -4,20 +4,26 @@ import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 
 import java.util.*;
 
-public class StepRecorder{
+public class StepRecorder {
+
     private static ThreadLocal<Steps> currentSteps = new ThreadLocal<>();
 
     public static void recordStep(EnergyCalculationStep step, double value) {
         Steps s = currentSteps.get();
-        if (s == null) return;
+        if (s == null) {
+            return;
+        }
         s.recordStep(step, value);
     }
 
-    public static class Steps implements AutoCloseable, IEnergyCalculationSteps  {
+    public static class Steps implements AutoCloseable, IEnergyCalculationSteps {
+
         private final Set<EnergyCalculationStep> requiredSteps = EnumSet.noneOf(EnergyCalculationStep.class);
         private final Map<EnergyCalculationStep, List<Double>> values = new EnumMap<EnergyCalculationStep, List<Double>>(EnergyCalculationStep.class);
 
-        public Steps(Collection<EnergyCalculationStep> record) { requiredSteps.addAll(record); }
+        public Steps(Collection<EnergyCalculationStep> record) {
+            requiredSteps.addAll(record);
+        }
 
         @Override
         public void close() {
@@ -65,7 +71,7 @@ public class StepRecorder{
 
         @Override
         public double readStepMonthly(EnergyCalculationStep step, int month) {
-            if(!step.isMonthly()) {
+            if (!step.isMonthly()) {
                 throw new IllegalArgumentException("Asked for a monthly value for annual step " + step);
             }
             return step.convertMonthly(readStep(step), month);

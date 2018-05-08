@@ -19,309 +19,316 @@ import uk.org.cse.nhm.hom.emf.util.Efficiency;
 import uk.org.cse.nhm.hom.emf.util.ITechnologyOperations;
 
 public class TechnologyOperations implements ITechnologyOperations {
-	private static final Logger log = LoggerFactory.getLogger(TechnologyOperations.class);
 
-	@Override
-	public boolean setInstallationYears(final ITechnologyModel technologies, final int year) {
-		final TreeIterator<EObject> iterator = technologies.eAllContents();
-		boolean result = false;
-		while (iterator.hasNext()) {
-			final EObject thing = iterator.next();
-			if (thing instanceof IHasInstallationYear) {
-				final IHasInstallationYear iy = (IHasInstallationYear) thing;
-				if (!iy.isSetInstallationYear()) {
-					iy.setInstallationYear(year);
-					result = true;
-				}
-			}
-		}
-		return result;
-	}
+    private static final Logger log = LoggerFactory.getLogger(TechnologyOperations.class);
 
-	@Override
-	public boolean hasCommunitySpaceHeating(final ITechnologyModel technologies) {
-		return technologies.getCommunityHeatSource() != null &&
-				technologies.getCommunityHeatSource().getSpaceHeater() != null;
-	}
+    @Override
+    public boolean setInstallationYears(final ITechnologyModel technologies, final int year) {
+        final TreeIterator<EObject> iterator = technologies.eAllContents();
+        boolean result = false;
+        while (iterator.hasNext()) {
+            final EObject thing = iterator.next();
+            if (thing instanceof IHasInstallationYear) {
+                final IHasInstallationYear iy = (IHasInstallationYear) thing;
+                if (!iy.isSetInstallationYear()) {
+                    iy.setInstallationYear(year);
+                    result = true;
+                }
+            }
+        }
+        return result;
+    }
 
-	@Override
-	public boolean hasCommunityWaterHeating(final ITechnologyModel technologies) {
-		return technologies.getCommunityHeatSource() != null &&
-				technologies.getCommunityHeatSource().getWaterHeater() != null;
-	}
+    @Override
+    public boolean hasCommunitySpaceHeating(final ITechnologyModel technologies) {
+        return technologies.getCommunityHeatSource() != null
+                && technologies.getCommunityHeatSource().getSpaceHeater() != null;
+    }
 
-	@Override
-	public void removeHeatSource(final IHeatSource heatSource) {
-		if (heatSource == null) return;
+    @Override
+    public boolean hasCommunityWaterHeating(final ITechnologyModel technologies) {
+        return technologies.getCommunityHeatSource() != null
+                && technologies.getCommunityHeatSource().getWaterHeater() != null;
+    }
 
-		if (heatSource.getSpaceHeater() != null) {
-			heatSource.getSpaceHeater().setHeatSource(null);
-		}
+    @Override
+    public void removeHeatSource(final IHeatSource heatSource) {
+        if (heatSource == null) {
+            return;
+        }
 
-		if (heatSource.getWaterHeater() != null) {
-			if (heatSource.getWaterHeater().eContainer() != null)
-				heatSource.getWaterHeater().eContainer().eSet(heatSource.getWaterHeater().eContainingFeature(), null);
-		}
-	}
+        if (heatSource.getSpaceHeater() != null) {
+            heatSource.getSpaceHeater().setHeatSource(null);
+        }
 
-	@Override
-	public void installHeatSource(final ITechnologyModel technologies, final IHeatSource newHeatSource, final boolean forSpace, final boolean forWater, final EmitterType emitterType, final Set<HeatingSystemControlType> heatingControls, final double insulation, final double volume) {
-		if (newHeatSource instanceof ICommunityHeatSource) {
-			log.debug("replacing {} with {}", technologies.getCommunityHeatSource(), newHeatSource);
-			removeHeatSource(technologies.getCommunityHeatSource());
-			technologies.setCommunityHeatSource((ICommunityHeatSource) newHeatSource);
-		} else if (newHeatSource instanceof IIndividualHeatSource) {
-			log.debug("replacing {} with {}", technologies.getIndividualHeatSource(), newHeatSource);
-			removeHeatSource(technologies.getIndividualHeatSource());
-			technologies.setIndividualHeatSource((IIndividualHeatSource) newHeatSource);
-		} else {
-			throw new RuntimeException(newHeatSource + " is not a community heat source or an individual heat source!");
-		}
+        if (heatSource.getWaterHeater() != null) {
+            if (heatSource.getWaterHeater().eContainer() != null) {
+                heatSource.getWaterHeater().eContainer().eSet(heatSource.getWaterHeater().eContainingFeature(), null);
+            }
+        }
+    }
 
-		if (forSpace) {
-			final ICentralHeatingSystem system = getOrInstallCentralHeating(technologies);
-			system.setHeatSource(newHeatSource);
-			system.setEmitterType(emitterType);
-			addAllToEList(system.getControls(), heatingControls);
-		}
+    @Override
+    public void installHeatSource(final ITechnologyModel technologies, final IHeatSource newHeatSource, final boolean forSpace, final boolean forWater, final EmitterType emitterType, final Set<HeatingSystemControlType> heatingControls, final double insulation, final double volume) {
+        if (newHeatSource instanceof ICommunityHeatSource) {
+            log.debug("replacing {} with {}", technologies.getCommunityHeatSource(), newHeatSource);
+            removeHeatSource(technologies.getCommunityHeatSource());
+            technologies.setCommunityHeatSource((ICommunityHeatSource) newHeatSource);
+        } else if (newHeatSource instanceof IIndividualHeatSource) {
+            log.debug("replacing {} with {}", technologies.getIndividualHeatSource(), newHeatSource);
+            removeHeatSource(technologies.getIndividualHeatSource());
+            technologies.setIndividualHeatSource((IIndividualHeatSource) newHeatSource);
+        } else {
+            throw new RuntimeException(newHeatSource + " is not a community heat source or an individual heat source!");
+        }
 
-		if (forWater) {
-			final ICentralWaterSystem system = getOrInstallCentralHotWater(technologies);
-			final IMainWaterHeater mwh = ITechnologiesFactory.eINSTANCE.createMainWaterHeater();
-			mwh.setHeatSource(newHeatSource);
-			system.setPrimaryWaterHeater(mwh);
-			if (newHeatSource instanceof ICombiBoiler) {
-				removeWaterTank(system);
-			} else {
-				installWaterTank(system, true, insulation, volume);
-			}
-		}
+        if (forSpace) {
+            final ICentralHeatingSystem system = getOrInstallCentralHeating(technologies);
+            system.setHeatSource(newHeatSource);
+            system.setEmitterType(emitterType);
+            addAllToEList(system.getControls(), heatingControls);
+        }
 
-		ensureConsistency(technologies);
-	}
+        if (forWater) {
+            final ICentralWaterSystem system = getOrInstallCentralHotWater(technologies);
+            final IMainWaterHeater mwh = ITechnologiesFactory.eINSTANCE.createMainWaterHeater();
+            mwh.setHeatSource(newHeatSource);
+            system.setPrimaryWaterHeater(mwh);
+            if (newHeatSource instanceof ICombiBoiler) {
+                removeWaterTank(system);
+            } else {
+                installWaterTank(system, true, insulation, volume);
+            }
+        }
 
-	private void ensureConsistency(final ITechnologyModel technologies) {
-		if (technologies.getIndividualHeatSource() != null) {
-			if (heatSourceIsDisconnected(technologies.getIndividualHeatSource())) {
-				log.debug("removing unused individual heat source");
-				technologies.setIndividualHeatSource(null);
-			}
-		}
+        ensureConsistency(technologies);
+    }
 
-		if (technologies.getCommunityHeatSource() != null) {
-			if (heatSourceIsDisconnected(technologies.getCommunityHeatSource())) {
-				log.debug("removing unused community heat source");
-				technologies.setCommunityHeatSource(null);
-			}
-		}
+    private void ensureConsistency(final ITechnologyModel technologies) {
+        if (technologies.getIndividualHeatSource() != null) {
+            if (heatSourceIsDisconnected(technologies.getIndividualHeatSource())) {
+                log.debug("removing unused individual heat source");
+                technologies.setIndividualHeatSource(null);
+            }
+        }
 
-		if (technologies.getCentralWaterSystem() instanceof ICentralWaterSystem) {
-			final ICentralWaterSystem cws = technologies.getCentralWaterSystem();
-			removeDisconnectedCirculator(cws.getPrimaryWaterHeater());
-			removeDisconnectedCirculator(cws.getSecondaryWaterHeater());
-		}
+        if (technologies.getCommunityHeatSource() != null) {
+            if (heatSourceIsDisconnected(technologies.getCommunityHeatSource())) {
+                log.debug("removing unused community heat source");
+                technologies.setCommunityHeatSource(null);
+            }
+        }
 
-		installImmersionHeaterAsFallback(technologies);
-	}
+        if (technologies.getCentralWaterSystem() instanceof ICentralWaterSystem) {
+            final ICentralWaterSystem cws = technologies.getCentralWaterSystem();
+            removeDisconnectedCirculator(cws.getPrimaryWaterHeater());
+            removeDisconnectedCirculator(cws.getSecondaryWaterHeater());
+        }
 
-	private void removeDisconnectedCirculator(final ICentralWaterHeater primaryWaterHeater) {
-		if (primaryWaterHeater instanceof IWarmAirCirculator) {
-			if (((IWarmAirCirculator) primaryWaterHeater).getWarmAirSystem() == null) {
-				EcoreUtil.delete(primaryWaterHeater);
-			}
-		}
-	}
+        installImmersionHeaterAsFallback(technologies);
+    }
 
-	private void installImmersionHeaterAsFallback(final ITechnologyModel technologies) {
-		if (technologies.getCentralWaterSystem() instanceof ICentralWaterSystem) {
-			final ICentralWaterSystem cws = technologies.getCentralWaterSystem();
-			if (cws.getPrimaryWaterHeater() == null &&
-					cws.getSecondaryWaterHeater() == null &&
-						(cws.getStore() == null || cws.getStore().getImmersionHeater() == null)) {
-				final IImmersionHeater immersionHeater = ITechnologiesFactory.eINSTANCE.createImmersionHeater();
-				immersionHeater.setDualCoil(false);
+    private void removeDisconnectedCirculator(final ICentralWaterHeater primaryWaterHeater) {
+        if (primaryWaterHeater instanceof IWarmAirCirculator) {
+            if (((IWarmAirCirculator) primaryWaterHeater).getWarmAirSystem() == null) {
+                EcoreUtil.delete(primaryWaterHeater);
+            }
+        }
+    }
 
-				installWaterTank(cws, true, 50, 100);
-				cws.getStore().setImmersionHeater(immersionHeater);
-			}
-		}
-	}
+    private void installImmersionHeaterAsFallback(final ITechnologyModel technologies) {
+        if (technologies.getCentralWaterSystem() instanceof ICentralWaterSystem) {
+            final ICentralWaterSystem cws = technologies.getCentralWaterSystem();
+            if (cws.getPrimaryWaterHeater() == null
+                    && cws.getSecondaryWaterHeater() == null
+                    && (cws.getStore() == null || cws.getStore().getImmersionHeater() == null)) {
+                final IImmersionHeater immersionHeater = ITechnologiesFactory.eINSTANCE.createImmersionHeater();
+                immersionHeater.setDualCoil(false);
 
-	private boolean heatSourceIsDisconnected(final IHeatSource heatSource) {
-		return heatSource.getSpaceHeater() == null && heatSource.getWaterHeater() == null;
-	}
+                installWaterTank(cws, true, 50, 100);
+                cws.getStore().setImmersionHeater(immersionHeater);
+            }
+        }
+    }
 
-	private void removeWaterTank(final ICentralWaterSystem system) {
-		system.setStore(null);
-	}
+    private boolean heatSourceIsDisconnected(final IHeatSource heatSource) {
+        return heatSource.getSpaceHeater() == null && heatSource.getWaterHeater() == null;
+    }
 
-	private <T> void addAllToEList(final EList<T> eList, final Set<T> toAdd) {
-		final Set<T> existing = new HashSet<T>(eList);
-		toAdd.removeAll(existing);
-		eList.addAll(toAdd);
-	}
+    private void removeWaterTank(final ICentralWaterSystem system) {
+        system.setStore(null);
+    }
 
-	private ICentralWaterSystem getOrInstallCentralHotWater(final ITechnologyModel technologies) {
-		if (technologies.getCentralWaterSystem() != null) {
-			return technologies.getCentralWaterSystem();
-		}
-		final ICentralWaterSystem water = ITechnologiesFactory.eINSTANCE.createCentralWaterSystem();
+    private <T> void addAllToEList(final EList<T> eList, final Set<T> toAdd) {
+        final Set<T> existing = new HashSet<T>(eList);
+        toAdd.removeAll(existing);
+        eList.addAll(toAdd);
+    }
 
-		technologies.setCentralWaterSystem(water);
+    private ICentralWaterSystem getOrInstallCentralHotWater(final ITechnologyModel technologies) {
+        if (technologies.getCentralWaterSystem() != null) {
+            return technologies.getCentralWaterSystem();
+        }
+        final ICentralWaterSystem water = ITechnologiesFactory.eINSTANCE.createCentralWaterSystem();
 
-		water.setPrimaryPipeworkInsulated(true);
-		water.setSeparatelyTimeControlled(true);
+        technologies.setCentralWaterSystem(water);
 
-		return water;
-	}
+        water.setPrimaryPipeworkInsulated(true);
+        water.setSeparatelyTimeControlled(true);
 
-	@Override
-	public ICentralHeatingSystem getOrInstallCentralHeating(final ITechnologyModel technologies) {
-		if (technologies.getPrimarySpaceHeater() instanceof ICentralHeatingSystem) {
-			return (ICentralHeatingSystem) technologies.getPrimarySpaceHeater();
-		} else {
-			final ICentralHeatingSystem newCentralHeatingSystem = ITechnologiesFactory.eINSTANCE.createCentralHeatingSystem();
-			newCentralHeatingSystem.setEmitterType(EmitterType.RADIATORS);
+        return water;
+    }
 
-			doReplacePrimarySpaceHeater(technologies, newCentralHeatingSystem);
-			return newCentralHeatingSystem;
-		}
-	}
+    @Override
+    public ICentralHeatingSystem getOrInstallCentralHeating(final ITechnologyModel technologies) {
+        if (technologies.getPrimarySpaceHeater() instanceof ICentralHeatingSystem) {
+            return (ICentralHeatingSystem) technologies.getPrimarySpaceHeater();
+        } else {
+            final ICentralHeatingSystem newCentralHeatingSystem = ITechnologiesFactory.eINSTANCE.createCentralHeatingSystem();
+            newCentralHeatingSystem.setEmitterType(EmitterType.RADIATORS);
 
+            doReplacePrimarySpaceHeater(technologies, newCentralHeatingSystem);
+            return newCentralHeatingSystem;
+        }
+    }
 
-	@Override
-	public void replacePrimarySpaceHeater(final ITechnologyModel technologies, final IPrimarySpaceHeater newHeater) {
-		doReplacePrimarySpaceHeater(technologies, newHeater);
-		ensureConsistency(technologies);
-	}
+    @Override
+    public void replacePrimarySpaceHeater(final ITechnologyModel technologies, final IPrimarySpaceHeater newHeater) {
+        doReplacePrimarySpaceHeater(technologies, newHeater);
+        ensureConsistency(technologies);
+    }
 
-	public void doReplacePrimarySpaceHeater(final ITechnologyModel technologies, final IPrimarySpaceHeater newHeater) {
-		removePrimarySpaceHeater(technologies);
-		technologies.setPrimarySpaceHeater(newHeater);
-	}
+    public void doReplacePrimarySpaceHeater(final ITechnologyModel technologies, final IPrimarySpaceHeater newHeater) {
+        removePrimarySpaceHeater(technologies);
+        technologies.setPrimarySpaceHeater(newHeater);
+    }
 
-	@Override
-	public void removePrimarySpaceHeater(final ITechnologyModel technologies) {
-		if (technologies.getPrimarySpaceHeater() != null) {
-			EcoreUtil.delete(technologies.getPrimarySpaceHeater(), true);
-		}
-	}
+    @Override
+    public void removePrimarySpaceHeater(final ITechnologyModel technologies) {
+        if (technologies.getPrimarySpaceHeater() != null) {
+            EcoreUtil.delete(technologies.getPrimarySpaceHeater(), true);
+        }
+    }
 
-	@Override
-	public IWaterTank installWaterTank(final ICentralWaterSystem system, final boolean retainExisting, final double insulationThickness, final double cylinderVolume) {
-		if (retainExisting && system.getStore() != null) {
-			return system.getStore();
-		}
+    @Override
+    public IWaterTank installWaterTank(final ICentralWaterSystem system, final boolean retainExisting, final double insulationThickness, final double cylinderVolume) {
+        if (retainExisting && system.getStore() != null) {
+            return system.getStore();
+        }
 
-		final IWaterTank tank = ITechnologiesFactory.eINSTANCE.createWaterTank();
+        final IWaterTank tank = ITechnologiesFactory.eINSTANCE.createWaterTank();
 
-		tank.setThermostatFitted(true);
-		tank.setInsulation(insulationThickness);
-		tank.setFactoryInsulation(true);
-		tank.setVolume(cylinderVolume);
+        tank.setThermostatFitted(true);
+        tank.setInsulation(insulationThickness);
+        tank.setFactoryInsulation(true);
+        tank.setVolume(cylinderVolume);
 
-		system.setPrimaryPipeworkInsulated(true);
-		system.setStore(tank);
+        system.setPrimaryPipeworkInsulated(true);
+        system.setStore(tank);
 
-		return tank;
-	}
+        return tank;
+    }
 
-	@Override
-	public void installHeatSource(final ITechnologyModel technologies, final IHeatSource heatSource, final double cylinderInsulation,
-			final double cylinderVolume) {
-		installHeatSource(technologies, heatSource, false, true, null, null, cylinderInsulation, cylinderVolume);
-	}
-	@Override
-	public void installHeatSource(final ITechnologyModel technologies, final IHeatSource heatSource, final EmitterType emitterType,
-			final Set<HeatingSystemControlType> controls) {
-		installHeatSource(technologies, heatSource, true, false, emitterType, controls, 0, 0);
-	}
+    @Override
+    public void installHeatSource(final ITechnologyModel technologies, final IHeatSource heatSource, final double cylinderInsulation,
+            final double cylinderVolume) {
+        installHeatSource(technologies, heatSource, false, true, null, null, cylinderInsulation, cylinderVolume);
+    }
 
-	@Override
-	public Optional<IBoiler> getBoiler(final ITechnologyModel technologies) {
-		final IPrimarySpaceHeater primarySpaceHeater = technologies.getPrimarySpaceHeater();
-		if(primarySpaceHeater instanceof ICentralHeatingSystem) {
-			final IHeatSource heatSource = ((ICentralHeatingSystem) primarySpaceHeater).getHeatSource();
-			if(heatSource instanceof IBoiler) {
-				return Optional.of((IBoiler) heatSource);
-			}
-		}
-		return Optional.absent();
-	}
+    @Override
+    public void installHeatSource(final ITechnologyModel technologies, final IHeatSource heatSource, final EmitterType emitterType,
+            final Set<HeatingSystemControlType> controls) {
+        installHeatSource(technologies, heatSource, true, false, emitterType, controls, 0, 0);
+    }
 
-	@Override
-	public boolean changeHeatingEfficiency(final ITechnologyModel technologies, final double winterTarget, final double summerTarget, final boolean up, final boolean down) {
-		final IPrimarySpaceHeater primarySpaceHeater = technologies.getPrimarySpaceHeater();
-		if(primarySpaceHeater instanceof ICentralHeatingSystem) {
-			final IHeatSource heatSource = ((ICentralHeatingSystem) primarySpaceHeater).getHeatSource();
-			if (heatSource instanceof IBoiler) {
-				return changeBoilerEfficiency((IBoiler) heatSource, winterTarget, summerTarget, up, down);
-			} else if (heatSource instanceof IHeatPump) {
-				return changeHeatPumpPerformance((IHeatPump) heatSource, winterTarget, up, down);
-			}
-		} else if (primarySpaceHeater instanceof IWarmAirSystem) {
-			return changeWarmAirEfficiency((IWarmAirSystem) primarySpaceHeater, winterTarget, up, down);
-		}
-		return false;
-	}
+    @Override
+    public Optional<IBoiler> getBoiler(final ITechnologyModel technologies) {
+        final IPrimarySpaceHeater primarySpaceHeater = technologies.getPrimarySpaceHeater();
+        if (primarySpaceHeater instanceof ICentralHeatingSystem) {
+            final IHeatSource heatSource = ((ICentralHeatingSystem) primarySpaceHeater).getHeatSource();
+            if (heatSource instanceof IBoiler) {
+                return Optional.of((IBoiler) heatSource);
+            }
+        }
+        return Optional.absent();
+    }
 
-	private boolean changeWarmAirEfficiency(final IWarmAirSystem primarySpaceHeater,
-			final double target, final boolean up, final boolean down) {
-		if (up && primarySpaceHeater.getEfficiency().value < target || down
-				&& primarySpaceHeater.getEfficiency().value > target) {
-			primarySpaceHeater.setEfficiency(Efficiency.fromDouble(target));
-			return true;
-		}
-		return false;
-	}
+    @Override
+    public boolean changeHeatingEfficiency(final ITechnologyModel technologies, final double winterTarget, final double summerTarget, final boolean up, final boolean down) {
+        final IPrimarySpaceHeater primarySpaceHeater = technologies.getPrimarySpaceHeater();
+        if (primarySpaceHeater instanceof ICentralHeatingSystem) {
+            final IHeatSource heatSource = ((ICentralHeatingSystem) primarySpaceHeater).getHeatSource();
+            if (heatSource instanceof IBoiler) {
+                return changeBoilerEfficiency((IBoiler) heatSource, winterTarget, summerTarget, up, down);
+            } else if (heatSource instanceof IHeatPump) {
+                return changeHeatPumpPerformance((IHeatPump) heatSource, winterTarget, up, down);
+            }
+        } else if (primarySpaceHeater instanceof IWarmAirSystem) {
+            return changeWarmAirEfficiency((IWarmAirSystem) primarySpaceHeater, winterTarget, up, down);
+        }
+        return false;
+    }
 
-	private boolean changeHeatPumpPerformance(
-			final IHeatPump heatSource, final double target,
-			final boolean up, final boolean down) {
-		if (up && heatSource.getCoefficientOfPerformance().value < target || down && heatSource.getCoefficientOfPerformance().value > target) {
-			heatSource.setCoefficientOfPerformance(Efficiency.fromDouble(target));
-			return true;
-		}
-		return false;
-	}
+    private boolean changeWarmAirEfficiency(final IWarmAirSystem primarySpaceHeater,
+            final double target, final boolean up, final boolean down) {
+        if (up && primarySpaceHeater.getEfficiency().value < target || down
+                && primarySpaceHeater.getEfficiency().value > target) {
+            primarySpaceHeater.setEfficiency(Efficiency.fromDouble(target));
+            return true;
+        }
+        return false;
+    }
 
-	private boolean changeBoilerEfficiency(
-			final IBoiler heatSource, final double winterTarget, final double summerTarget,
-			final boolean up, final boolean down) {
-		boolean change = false;
+    private boolean changeHeatPumpPerformance(
+            final IHeatPump heatSource, final double target,
+            final boolean up, final boolean down) {
+        if (up && heatSource.getCoefficientOfPerformance().value < target || down && heatSource.getCoefficientOfPerformance().value > target) {
+            heatSource.setCoefficientOfPerformance(Efficiency.fromDouble(target));
+            return true;
+        }
+        return false;
+    }
 
-		if (up && heatSource.getSummerEfficiency().value < summerTarget || down && heatSource.getSummerEfficiency().value > summerTarget) {
-			heatSource.setSummerEfficiency(Efficiency.fromDouble(summerTarget));
-			change = true;
-		}
+    private boolean changeBoilerEfficiency(
+            final IBoiler heatSource, final double winterTarget, final double summerTarget,
+            final boolean up, final boolean down) {
+        boolean change = false;
 
-		if (up && heatSource.getWinterEfficiency().value < winterTarget || down && heatSource.getWinterEfficiency().value > winterTarget) {
-			heatSource.setWinterEfficiency(Efficiency.fromDouble(winterTarget));
-			change = true;
-		}
+        if (up && heatSource.getSummerEfficiency().value < summerTarget || down && heatSource.getSummerEfficiency().value > summerTarget) {
+            heatSource.setSummerEfficiency(Efficiency.fromDouble(summerTarget));
+            change = true;
+        }
 
-		return change;
-	}
+        if (up && heatSource.getWinterEfficiency().value < winterTarget || down && heatSource.getWinterEfficiency().value > winterTarget) {
+            heatSource.setWinterEfficiency(Efficiency.fromDouble(winterTarget));
+            change = true;
+        }
 
-	@Override
-	/**
-	 * @assumption Secondary heating fraction set based on SAP 2009 table 11: Fraction of heat supplied by secondary heating systems. If the primary heater is a storage heater without fans, the secondary heating fraction is 0.15. Otherwise it is 0.1.
-	 */
-	public double getSAPSecondaryHeatingProportion(final ITechnologyModel technologies) {
-		final IPrimarySpaceHeater primarySpaceHeater = technologies.getPrimarySpaceHeater();
-		if(primarySpaceHeater instanceof IStorageHeater && ((IStorageHeater) primarySpaceHeater).getType() == StorageHeaterType.OLD_LARGE_VOLUME) {
-			return 0.15;
-		} else {
-			return 0.1;
-		}
-	}
+        return change;
+    }
 
-	@Override
-	public FuelType getMainHeatingFuel(final ITechnologyModel technologies) {
-		FuelType result = technologies.getPrimaryHeatingFuel();
-		if (result == null) {
-			return FuelType.ELECTRICITY;
-		}
-		return result;
-	}
+    @Override
+    /**
+     * @assumption Secondary heating fraction set based on SAP 2009 table 11:
+     * Fraction of heat supplied by secondary heating systems. If the primary
+     * heater is a storage heater without fans, the secondary heating fraction
+     * is 0.15. Otherwise it is 0.1.
+     */
+    public double getSAPSecondaryHeatingProportion(final ITechnologyModel technologies) {
+        final IPrimarySpaceHeater primarySpaceHeater = technologies.getPrimarySpaceHeater();
+        if (primarySpaceHeater instanceof IStorageHeater && ((IStorageHeater) primarySpaceHeater).getType() == StorageHeaterType.OLD_LARGE_VOLUME) {
+            return 0.15;
+        } else {
+            return 0.1;
+        }
+    }
+
+    @Override
+    public FuelType getMainHeatingFuel(final ITechnologyModel technologies) {
+        FuelType result = technologies.getPrimaryHeatingFuel();
+        if (result == null) {
+            return FuelType.ELECTRICITY;
+        }
+        return result;
+    }
 }

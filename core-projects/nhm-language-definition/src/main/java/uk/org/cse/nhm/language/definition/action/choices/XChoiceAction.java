@@ -23,37 +23,40 @@ import uk.org.cse.nhm.language.visit.impl.VisitOrder;
 @Bind("choice")
 @Doc("An action which tries a number of alternative actions against a house, then users a select device to choose one of them.")
 public class XChoiceAction extends XActionWithDelegates implements IScopingElement {
-	public static final String CATEGORY = "Choices and packages";
 
-	public static final class P {
-		public static final String selector = "selector";
-		public static final String bindings = "bindings";
-	}
-	
-	private XChoiceSelector selector;
-	
-	private List<XBindingAction> bindings = new ArrayList<>();
-	
-	@VisitOrder(0)
-	@Prop(P.bindings)
-	@BindNamedArgument("do-first")
-	@Doc({"A list of variable modifications to be made before the choice. This is equivalent to writing (do .. bindings .. (choice ...))."})
-	public List<XBindingAction> getBindings() {
-		return bindings;
-	}
-	public void setBindings(final List<XBindingAction> bindings) {
-		this.bindings = bindings;
-	}
-	
-	@NotNull(message = "choice element must always contain a selector.")
-	@BindNamedArgument("select")
-	@Prop(P.selector)
-	@Doc("The rule for selecting the winning action from this choice.")
-	public XChoiceSelector getSelector() {
-		return selector;
-	}
-	
-	public void setSelector(final XChoiceSelector selector) {
-		this.selector = selector;
-	}
+    public static final String CATEGORY = "Choices and packages";
+
+    public static final class P {
+
+        public static final String selector = "selector";
+        public static final String bindings = "bindings";
+    }
+
+    private XChoiceSelector selector;
+
+    private List<XBindingAction> bindings = new ArrayList<>();
+
+    @VisitOrder(0)
+    @Prop(P.bindings)
+    @BindNamedArgument("do-first")
+    @Doc({"A list of variable modifications to be made before the choice. This is equivalent to writing (do .. bindings .. (choice ...))."})
+    public List<XBindingAction> getBindings() {
+        return bindings;
+    }
+
+    public void setBindings(final List<XBindingAction> bindings) {
+        this.bindings = bindings;
+    }
+
+    @NotNull(message = "choice element must always contain a selector.")
+    @BindNamedArgument("select")
+    @Prop(P.selector)
+    @Doc("The rule for selecting the winning action from this choice.")
+    public XChoiceSelector getSelector() {
+        return selector;
+    }
+
+    public void setSelector(final XChoiceSelector selector) {
+        this.selector = selector;
+    }
 }

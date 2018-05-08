@@ -5,101 +5,101 @@ import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 
 public interface Hhsrs_09Plus10Entry extends SurveyEntry {
-	@SavVariableMapping("NHSR_26")
-	public Integer getHHSRS_OverallNumberOfHazards_26HazardModel_();
 
-	@SavVariableMapping("NHSR_15")
-	public Integer getHHSRS_OverallNumberOfHazards_15HazardModel_();
+    @SavVariableMapping("NHSR_26")
+    public Integer getHHSRS_OverallNumberOfHazards_26HazardModel_();
 
-	@SavVariableMapping("HSRCST15")
-	public Double getHHSRS_CostToMakeSafe_15HazardModel_();
+    @SavVariableMapping("NHSR_15")
+    public Integer getHHSRS_OverallNumberOfHazards_15HazardModel_();
 
-	@SavVariableMapping("HSRCOST")
-	public Double getHHSRS_CostToMakeSafe_26HazardModel_();
+    @SavVariableMapping("HSRCST15")
+    public Double getHHSRS_CostToMakeSafe_15HazardModel_();
 
-	@SavVariableMapping("HSRDHYG")
-	public Enum31 getHealth_SafetyRating_DomesticHygiene();
+    @SavVariableMapping("HSRCOST")
+    public Double getHHSRS_CostToMakeSafe_26HazardModel_();
 
-	@SavVariableMapping("HSRHOTSF")
-	public Enum31 getHealth_SafetyRating_HotSurfaces();
+    @SavVariableMapping("HSRDHYG")
+    public Enum31 getHealth_SafetyRating_DomesticHygiene();
 
-	@SavVariableMapping("HSRPHYG")
-	public Enum31 getHealth_SafetyRating_Sanitation();
+    @SavVariableMapping("HSRHOTSF")
+    public Enum31 getHealth_SafetyRating_HotSurfaces();
 
-	@SavVariableMapping("HSRALL26")
-	public Enum31 getHHSRS_Overall_26HazardModel_();
+    @SavVariableMapping("HSRPHYG")
+    public Enum31 getHealth_SafetyRating_Sanitation();
 
-	@SavVariableMapping("HSRELEC")
-	public Enum31 getHealth_SafetyRating_ElectricalProblems();
+    @SavVariableMapping("HSRALL26")
+    public Enum31 getHHSRS_Overall_26HazardModel_();
 
-	@SavVariableMapping("HSRALL15")
-	public Enum31 getHHSRS_Overall_15HazardModel_();
+    @SavVariableMapping("HSRELEC")
+    public Enum31 getHealth_SafetyRating_ElectricalProblems();
 
-	@SavVariableMapping("HSRSTRUC")
-	public Enum31 getHealth_SafetyRating_StructuralCollapse();
+    @SavVariableMapping("HSRALL15")
+    public Enum31 getHHSRS_Overall_15HazardModel_();
 
-	@SavVariableMapping("HSRBTLEV")
-	public Enum31 getHealth_SafetyRating_FallsBetweenLevels();
+    @SavVariableMapping("HSRSTRUC")
+    public Enum31 getHealth_SafetyRating_StructuralCollapse();
 
-	@SavVariableMapping("HSREXHT")
-	public Enum31 getHealth_SafetyRating_ExcessHeat();
+    @SavVariableMapping("HSRBTLEV")
+    public Enum31 getHealth_SafetyRating_FallsBetweenLevels();
 
-	@SavVariableMapping("HSRUNGAS")
-	public Enum31 getHealth_SafetyRating_UncombustedFuelGas();
+    @SavVariableMapping("HSREXHT")
+    public Enum31 getHealth_SafetyRating_ExcessHeat();
 
-	@SavVariableMapping("HSRCLD09")
-	public Enum31 getHealth_SafetyRating_ColdHomes();
+    @SavVariableMapping("HSRUNGAS")
+    public Enum31 getHealth_SafetyRating_UncombustedFuelGas();
 
-	@SavVariableMapping("HSREXPLO")
-	public Enum31 getHealth_SafetyRating_Explosions();
+    @SavVariableMapping("HSRCLD09")
+    public Enum31 getHealth_SafetyRating_ColdHomes();
 
-	@SavVariableMapping("HSRFOOD")
-	public Enum31 getHealth_SafetyRating_FoodSafety();
+    @SavVariableMapping("HSREXPLO")
+    public Enum31 getHealth_SafetyRating_Explosions();
 
-	@SavVariableMapping("HSRERGO")
-	public Enum31 getHealth_SafetyRating_Ergonomics();
+    @SavVariableMapping("HSRFOOD")
+    public Enum31 getHealth_SafetyRating_FoodSafety();
 
-	@SavVariableMapping("HSRRADON")
-	public Enum31 getHealth_SafetyRating_Radon();
+    @SavVariableMapping("HSRERGO")
+    public Enum31 getHealth_SafetyRating_Ergonomics();
 
-	@SavVariableMapping("HSRSTAIR")
-	public Enum31 getHealth_SafetyRating_FallsOnStairs();
+    @SavVariableMapping("HSRRADON")
+    public Enum31 getHealth_SafetyRating_Radon();
 
-	@SavVariableMapping("HSRCO")
-	public Enum31 getHealth_SafetyRating_CarbonMonoxide();
+    @SavVariableMapping("HSRSTAIR")
+    public Enum31 getHealth_SafetyRating_FallsOnStairs();
 
-	@SavVariableMapping("HSRLIGHT")
-	public Enum31 getHealth_SafetyRating_Lighting();
+    @SavVariableMapping("HSRCO")
+    public Enum31 getHealth_SafetyRating_CarbonMonoxide();
 
-	@SavVariableMapping("HSRWATER")
-	public Enum31 getHealth_SafetyRating_WaterSupply();
+    @SavVariableMapping("HSRLIGHT")
+    public Enum31 getHealth_SafetyRating_Lighting();
 
-	@SavVariableMapping("HSRDAMP")
-	public Enum31 getHealthAndSafetyRating_DampAndMould();
+    @SavVariableMapping("HSRWATER")
+    public Enum31 getHealth_SafetyRating_WaterSupply();
 
-	@SavVariableMapping("HSRBATH")
-	public Enum31 getHealthAndSafetyRating_FallsAssociatedWithBaths();
+    @SavVariableMapping("HSRDAMP")
+    public Enum31 getHealthAndSafetyRating_DampAndMould();
 
-	@SavVariableMapping("HSRONLEV")
-	public Enum31 getHealth_SafetyRating_FallsOnTheLevel();
+    @SavVariableMapping("HSRBATH")
+    public Enum31 getHealthAndSafetyRating_FallsAssociatedWithBaths();
 
-	@SavVariableMapping("HSRENTRY")
-	public Enum31 getHealthAndSafetyRating_EntryByIntruders();
+    @SavVariableMapping("HSRONLEV")
+    public Enum31 getHealth_SafetyRating_FallsOnTheLevel();
 
-	@SavVariableMapping("HSRCOLL")
-	public Enum31 getHealthAndSafetyRating_CollisionAndEntrapment();
+    @SavVariableMapping("HSRENTRY")
+    public Enum31 getHealthAndSafetyRating_EntryByIntruders();
 
-	@SavVariableMapping("HSRCROWD")
-	public Enum31 getHealth_SafetyRating_Overcrowding();
+    @SavVariableMapping("HSRCOLL")
+    public Enum31 getHealthAndSafetyRating_CollisionAndEntrapment();
 
-	@SavVariableMapping("HSRLEAD")
-	public Enum31 getHealth_SafetyRating_Lead();
+    @SavVariableMapping("HSRCROWD")
+    public Enum31 getHealth_SafetyRating_Overcrowding();
 
-	@SavVariableMapping("HSRNOISE")
-	public Enum31 getHealthAndSafetyRating_Noise();
+    @SavVariableMapping("HSRLEAD")
+    public Enum31 getHealth_SafetyRating_Lead();
 
-	@SavVariableMapping("HSRFIRE")
-	public Enum31 getHealth_SafetyRating_Fire();
+    @SavVariableMapping("HSRNOISE")
+    public Enum31 getHealthAndSafetyRating_Noise();
+
+    @SavVariableMapping("HSRFIRE")
+    public Enum31 getHealth_SafetyRating_Fire();
 
 }
-

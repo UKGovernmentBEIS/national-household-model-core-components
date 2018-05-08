@@ -11,14 +11,15 @@ import uk.org.cse.nhm.simulator.state.IStateChangeNotification;
 import uk.org.cse.nhm.simulator.state.IStateListener;
 
 @SimulationScoped
-public class AllHousesDwellingGroup extends BaseDwellingGroup implements IStateListener {	
-	@Inject
-	public AllHousesDwellingGroup(final ICanonicalState state) {
-		state.addStateListener(this);
-	}
+public class AllHousesDwellingGroup extends BaseDwellingGroup implements IStateListener {
 
-	@Override
-	public void stateChanged(ICanonicalState state, IStateChangeNotification notification) {
-		update(notification, new LinkedHashSet<IDwelling>(notification.getCreatedDwellings()), new LinkedHashSet<IDwelling>(notification.getDestroyedDwellings()));
-	}
+    @Inject
+    public AllHousesDwellingGroup(final ICanonicalState state) {
+        state.addStateListener(this);
+    }
+
+    @Override
+    public void stateChanged(ICanonicalState state, IStateChangeNotification notification) {
+        update(notification, new LinkedHashSet<IDwelling>(notification.getCreatedDwellings()), new LinkedHashSet<IDwelling>(notification.getDestroyedDwellings()));
+    }
 }

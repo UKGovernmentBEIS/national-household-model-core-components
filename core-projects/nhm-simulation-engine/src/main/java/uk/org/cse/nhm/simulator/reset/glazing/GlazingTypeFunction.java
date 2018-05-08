@@ -10,18 +10,19 @@ import uk.org.cse.nhm.simulator.reset.AbstractScopedThingFunction;
 import uk.org.cse.nhm.simulator.state.IDimension;
 
 public class GlazingTypeFunction extends AbstractScopedThingFunction<GlazingType, Glazing> {
-	@AssistedInject
-	GlazingTypeFunction(final ILogEntryHandler log, final IDimension<StructureModel> structureDimension) {
-		super(ResetGlazingsAction.GLAZING_LET_KEY, Glazing.class, log, structureDimension);
-	}
 
-	@Override
-	protected GlazingType doFail() {
-		return null;
-	}
+    @AssistedInject
+    GlazingTypeFunction(final ILogEntryHandler log, final IDimension<StructureModel> structureDimension) {
+        super(ResetGlazingsAction.GLAZING_LET_KEY, Glazing.class, log, structureDimension);
+    }
 
-	@Override
-	protected GlazingType doCompute(final Glazing wall) {
-		return wall.getGlazingType();
-	}
+    @Override
+    protected GlazingType doFail() {
+        return null;
+    }
+
+    @Override
+    protected GlazingType doCompute(final Glazing wall) {
+        return wall.getGlazingType();
+    }
 }

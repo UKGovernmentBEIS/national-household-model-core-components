@@ -34,19 +34,23 @@ import uk.org.cse.nhm.simulator.transactions.Payment;
  * <li>Suitability is defined to be
  * <ol>
  * <li>There is no existing solar water heating system</li>
- * <li>There is an external heat loss roof whose orientation is between the minimum and maximum
- * values set on the measure, and whose area less the total area of PV solar systems is greater or
- * equal to the minimum roof area set</li>
+ * <li>There is an external heat loss roof whose orientation is between the
+ * minimum and maximum values set on the measure, and whose area less the total
+ * area of PV solar systems is greater or equal to the minimum roof area
+ * set</li>
  * </ol>
  * </li>
- * <li>When applied, a SolarSystem and SolarWaterHeatingSystem is created with the following presets:
+ * <li>When applied, a SolarSystem and SolarWaterHeatingSystem is created with
+ * the following presets:
  * <ol>
  * <li>The overshading is average/unknown</li>
  * <li>The collector tilt value is 30 degrees</li>
  * <li>The collector orientation is due south (180 degrees)</li>
- * <li>A fixed area is installed (installedArea), at a fixed cost (installationCost)</li>
+ * <li>A fixed area is installed (installedArea), at a fixed cost
+ * (installationCost)</li>
  * <li>A hot water cylinder is installed, with the given volume and insulation,
- * set to be in heated space, has prim. pipework insulation, has a thermostat, and factory insulation</li>
+ * set to be in heated space, has prim. pipework insulation, has a thermostat,
+ * and factory insulation</li>
  * </ol>
  * </li>
  * </ol>
@@ -55,41 +59,43 @@ import uk.org.cse.nhm.simulator.transactions.Payment;
  *
  */
 public class SolarHotWaterMeasure extends AbstractMeasure {
-	private static final Logger log = LoggerFactory.getLogger(SolarHotWaterMeasure.class);
-	private static final double DEFAULT_PITCH = 30d * Math.PI/180d;
-	private static final double DEFAULT_ORIENTATION = Math.PI/2;
 
-	private final IComponentsFunction<Number> lhlc;
+    private static final Logger log = LoggerFactory.getLogger(SolarHotWaterMeasure.class);
+    private static final double DEFAULT_PITCH = 30d * Math.PI / 180d;
+    private static final double DEFAULT_ORIENTATION = Math.PI / 2;
+
+    private final IComponentsFunction<Number> lhlc;
     private final IComponentsFunction<Number> zle;
     private final IComponentsFunction<Number> installedArea;
-	private final IComponentsFunction<Number> installationCost;
-	private final IComponentsFunction<Number> cylinderVolume;
-	private final IDimension<ITechnologyModel> technologies;
+    private final IComponentsFunction<Number> installationCost;
+    private final IComponentsFunction<Number> cylinderVolume;
+    private final IDimension<ITechnologyModel> technologies;
     private final IDimension<StructureModel> structure;
 
-	@Inject
-	public SolarHotWaterMeasure(
-			final IDimension<ITechnologyModel> technologies,
+    @Inject
+    public SolarHotWaterMeasure(
+            final IDimension<ITechnologyModel> technologies,
             final IDimension<StructureModel> structure,
-			@Assisted("area")   final IComponentsFunction<Number> installedArea,
-			@Assisted("cost")   final IComponentsFunction<Number> installationCost,
-			@Assisted("volume") final IComponentsFunction<Number> cylinderVolume,
-            @Assisted("lhlc")   final IComponentsFunction<Number> lhlc,
-            @Assisted("zle")    final IComponentsFunction<Number> zle
-			) {
-		this.installedArea = installedArea;
-		this.installationCost = installationCost;
-		this.cylinderVolume = cylinderVolume;
-		this.technologies = technologies;
+            @Assisted("area") final IComponentsFunction<Number> installedArea,
+            @Assisted("cost") final IComponentsFunction<Number> installationCost,
+            @Assisted("volume") final IComponentsFunction<Number> cylinderVolume,
+            @Assisted("lhlc") final IComponentsFunction<Number> lhlc,
+            @Assisted("zle") final IComponentsFunction<Number> zle
+    ) {
+        this.installedArea = installedArea;
+        this.installationCost = installationCost;
+        this.cylinderVolume = cylinderVolume;
+        this.technologies = technologies;
         this.structure = structure;
         this.lhlc = lhlc;
         this.zle = zle;
-	}
+    }
 
     static class Modifier implements IModifier<ITechnologyModel> {
+
         final double area, lhlc, zle, cylinderVolume;
 
-        public Modifier(final double area,final double lhlc,final double zle, final double cylinderVolume) {
+        public Modifier(final double area, final double lhlc, final double zle, final double cylinderVolume) {
             this.area = area;
             this.lhlc = lhlc;
             this.zle = zle;
@@ -115,11 +121,11 @@ public class SolarHotWaterMeasure extends AbstractMeasure {
         }
     }
 
-	@Override
-	public boolean doApply(final ISettableComponentsScope components, final ILets lets) throws NHMException {
-	    final ITechnologyModel technologyModel = components.get(technologies);
+    @Override
+    public boolean doApply(final ISettableComponentsScope components, final ILets lets) throws NHMException {
+        final ITechnologyModel technologyModel = components.get(technologies);
 
-		if (technologyModel.getCentralWaterSystem() != null) {
+        if (technologyModel.getCentralWaterSystem() != null) {
             final double area = this.installedArea.compute(components, lets).doubleValue();
             components.addNote(SizingResult.suitable(area, Units.SQUARE_METRES));
 
@@ -128,40 +134,40 @@ public class SolarHotWaterMeasure extends AbstractMeasure {
             final double lhlc = this.lhlc.compute(components, lets).doubleValue();
             final double zle = this.zle.compute(components, lets).doubleValue();
 
-			components.modify(technologies, new Modifier(area, lhlc, zle, tankVolume));
+            components.modify(technologies, new Modifier(area, lhlc, zle, tankVolume));
 
-			components.addNote(new TechnologyInstallationDetails(this, TechnologyType.solarHotWater(), area, Units.SQUARE_METRES, installationCost, 0));
-			components.addTransaction(Payment.capexToMarket(installationCost));
-			return true;
-		} else {
-			log.warn("No central hot water system in {} - not suitable for solar", components);
-		}
-		return false;
-	}
+            components.addNote(new TechnologyInstallationDetails(this, TechnologyType.solarHotWater(), area, Units.SQUARE_METRES, installationCost, 0));
+            components.addTransaction(Payment.capexToMarket(installationCost));
+            return true;
+        } else {
+            log.warn("No central hot water system in {} - not suitable for solar", components);
+        }
+        return false;
+    }
 
-	@Override
-	public boolean isAlwaysSuitable() {
-		return false;
-	}
+    @Override
+    public boolean isAlwaysSuitable() {
+        return false;
+    }
 
-	@Override
-	public boolean isSuitable(final IComponentsScope components, final ILets lets) {
-		final ITechnologyModel technologyModel = components.get(technologies);
-		final StructureModel structureModel = components.get(structure);
+    @Override
+    public boolean isSuitable(final IComponentsScope components, final ILets lets) {
+        final ITechnologyModel technologyModel = components.get(technologies);
+        final StructureModel structureModel = components.get(structure);
 
-		if (technologyModel.getCentralWaterSystem() != null
-            && technologyModel.getCentralWaterSystem().getSolarWaterHeater() == null
-            && structureModel.hasExternalRoof()) {
+        if (technologyModel.getCentralWaterSystem() != null
+                && technologyModel.getCentralWaterSystem().getSolarWaterHeater() == null
+                && structureModel.hasExternalRoof()) {
             final double roofArea = structureModel.getExternalRoofArea();
 
-			return roofArea >= installedArea.compute(components, lets).doubleValue();
-		} else {
-			return false;
-		}
-	}
+            return roofArea >= installedArea.compute(components, lets).doubleValue();
+        } else {
+            return false;
+        }
+    }
 
-	@Override
-	public StateChangeSourceType getSourceType() {
-		return StateChangeSourceType.ACTION;
-	}
+    @Override
+    public StateChangeSourceType getSourceType() {
+        return StateChangeSourceType.ACTION;
+    }
 }

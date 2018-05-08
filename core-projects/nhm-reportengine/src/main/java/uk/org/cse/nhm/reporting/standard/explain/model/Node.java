@@ -6,70 +6,70 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-
 @JsonSerialize
 public class Node {
-	private String name;
-	private List<Edge> parents = new ArrayList<Edge>();
-	protected List<Edge> children = new ArrayList<Edge>();
 
-	public Node(String name) {
-		this.name = name;
-	}
+    private String name;
+    private List<Edge> parents = new ArrayList<Edge>();
+    protected List<Edge> children = new ArrayList<Edge>();
 
-	@JsonProperty("name")
-	public String getName() {
-		return name;
-	}
+    public Node(String name) {
+        this.name = name;
+    }
 
-	@JsonProperty("totalSize")
-	public double getTotalSize() {
-		double accum = 0;
-		for (Edge parent : parents) {
-			accum += parent.getValue();
-		}
-		return accum;
-	}
+    @JsonProperty("name")
+    public String getName() {
+        return name;
+    }
 
-	List<Edge> getChildEdges() {
-		return children;
-	}
+    @JsonProperty("totalSize")
+    public double getTotalSize() {
+        double accum = 0;
+        for (Edge parent : parents) {
+            accum += parent.getValue();
+        }
+        return accum;
+    }
 
-	List<Edge> getParentEdges() {
-		return parents;
-	}
+    List<Edge> getChildEdges() {
+        return children;
+    }
 
-	public void addParentEdge(Edge parent) {
-		parents.add(parent);
-	}
+    List<Edge> getParentEdges() {
+        return parents;
+    }
 
-	public void addChildEdge(Edge child) {
-		if (calcRemainingSizeToAllocateToChildren() - child.getValue() < 0) {
-			throw new IllegalArgumentException(String.format("Adding edge of size %s to %s would make source node %s negative.", child.getValue(), child.getTarget().getName(),
-					getName()));
-		}
-		children.add(child);
-	}
+    public void addParentEdge(Edge parent) {
+        parents.add(parent);
+    }
 
-	public double calcRemainingSizeToAllocateToChildren() {
-		double accum = getTotalSize();
-		for (Edge child : children) {
-			accum -= child.getValue();
-		}
-		return accum;
-	}
+    public void addChildEdge(Edge child) {
+        if (calcRemainingSizeToAllocateToChildren() - child.getValue() < 0) {
+            throw new IllegalArgumentException(String.format("Adding edge of size %s to %s would make source node %s negative.", child.getValue(), child.getTarget().getName(),
+                    getName()));
+        }
+        children.add(child);
+    }
 
-	public double getRemainingSizeToAllocateToChildrenSpeculative(List<Edge> newPotentialChildren) {
-		double accum = calcRemainingSizeToAllocateToChildren();
-		for (Edge e : newPotentialChildren) {
-			if (e.getSource() == this) {
-				accum -= e.getValue();
-			}
-		}
-		return accum;
-	}
+    public double calcRemainingSizeToAllocateToChildren() {
+        double accum = getTotalSize();
+        for (Edge child : children) {
+            accum -= child.getValue();
+        }
+        return accum;
+    }
 
-	public boolean isUnconnected() {
-		return children.isEmpty() && parents.isEmpty();
-	}
+    public double getRemainingSizeToAllocateToChildrenSpeculative(List<Edge> newPotentialChildren) {
+        double accum = calcRemainingSizeToAllocateToChildren();
+        for (Edge e : newPotentialChildren) {
+            if (e.getSource() == this) {
+                accum -= e.getValue();
+            }
+        }
+        return accum;
+    }
+
+    public boolean isUnconnected() {
+        return children.isEmpty() && parents.isEmpty();
+    }
 }

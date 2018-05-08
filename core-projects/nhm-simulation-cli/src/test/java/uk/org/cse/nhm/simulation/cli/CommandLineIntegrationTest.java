@@ -26,7 +26,7 @@ public class CommandLineIntegrationTest {
         String scenarioName = fs.getPath("id/testScenario.s").toString();
         String reportDir = reportFileName;
 
-        SimulationCommandLineInterface.main(new String[] { stockSourceFile, scenarioDir, scenarioName, reportDir });
+        SimulationCommandLineInterface.main(new String[]{stockSourceFile, scenarioDir, scenarioName, reportDir});
         Assert.assertTrue("Report file not created", fs.getPath("src/test/resources/tmpReport.zip").toFile().exists());
     }
 
@@ -37,7 +37,7 @@ public class CommandLineIntegrationTest {
         String scenarioName = fs.getPath("id/scenarioWithTemplateInIt.s").toString();
         String reportDir = reportFileName;
 
-        SimulationCommandLineInterface.main(new String[] { stockSourceFile, scenarioDir, scenarioName, reportDir });
+        SimulationCommandLineInterface.main(new String[]{stockSourceFile, scenarioDir, scenarioName, reportDir});
         Assert.assertTrue("Report file not created", fs.getPath("src/test/resources/tmpReport.zip").toFile().exists());
     }
 

@@ -11,9 +11,9 @@ import com.google.common.collect.ImmutableMap;
 
 public class TechnologyDistributionLogTest {
 
-	@Test
-	public void test() throws JsonGenerationException, JsonMappingException, IOException {
-		final TechnologyDistributionLog logEntry = new TechnologyDistributionLog(new DateTime(), new ImmutableMap.Builder<String,Integer>().build());
-		LogEntryTestUtility.testLogDeSerialisation(logEntry, TechnologyDistributionLog.class);
-	}
+    @Test
+    public void test() throws JsonGenerationException, JsonMappingException, IOException {
+        final TechnologyDistributionLog logEntry = new TechnologyDistributionLog(new DateTime(), new ImmutableMap.Builder<String, Integer>().build());
+        LogEntryTestUtility.testLogDeSerialisation(logEntry, TechnologyDistributionLog.class);
+    }
 }

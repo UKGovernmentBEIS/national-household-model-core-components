@@ -16,41 +16,41 @@ import uk.org.cse.nhm.hom.emf.technologies.IWaterHeater;
  * @generated
  */
 public abstract class WaterHeaterImpl extends MinimalEObjectImpl implements IWaterHeater {
-	/**
-	 * A set of bit flags representing the values of boolean attributes and whether unsettable features have been set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	protected int flags = 0;
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected WaterHeaterImpl() {
-		super();
-	}
+    /**
+     * A set of bit flags representing the values of boolean attributes and
+     * whether unsettable features have been set.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     *
+     * @generated
+     * @ordered
+     */
+    protected int flags = 0;
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected EClass eStaticClass() {
-		return ITechnologiesPackage.Literals.WATER_HEATER;
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc --> @generated
+     */
+    protected WaterHeaterImpl() {
+        super();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isBroken() {
-		return false;
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc --> @generated
+     */
+    @Override
+    protected EClass eStaticClass() {
+        return ITechnologiesPackage.Literals.WATER_HEATER;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc --> @generated
+     */
+    public boolean isBroken() {
+        return false;
+    }
 
 } //WaterHeaterImpl

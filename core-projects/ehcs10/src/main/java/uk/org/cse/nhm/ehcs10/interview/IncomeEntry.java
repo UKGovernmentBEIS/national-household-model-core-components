@@ -7,677 +7,677 @@ import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 
 public interface IncomeEntry extends SurveyEntry {
-	@SavVariableMapping("BNSSPAM")
-	public Integer getSSPAmount();
 
-	@SavVariableMapping("GROHHCOR")
-	public Integer getHRP_OtherSourcesGrossAnnual_Core();
+    @SavVariableMapping("BNSSPAM")
+    public Integer getSSPAmount();
 
-	@SavVariableMapping("GRPPHCOR")
-	public Integer getHRP_PriPenGrossAnnual_Core();
+    @SavVariableMapping("GROHHCOR")
+    public Integer getHRP_OtherSourcesGrossAnnual_Core();
 
-	@SavVariableMapping("GROHPCOR")
-	public Integer getPart_OtherSourcesGrossAnnual_Core();
+    @SavVariableMapping("GRPPHCOR")
+    public Integer getHRP_PriPenGrossAnnual_Core();
 
-	@SavVariableMapping("GERNHCOR")
-	public Integer getHRP_SeGrossAnnualEarnings_Core();
+    @SavVariableMapping("GROHPCOR")
+    public Integer getPart_OtherSourcesGrossAnnual_Core();
 
-	@SavVariableMapping("GRNMPCOR")
-	public Integer getPart_EmplGrossAnnualEarnings_Core();
+    @SavVariableMapping("GERNHCOR")
+    public Integer getHRP_SeGrossAnnualEarnings_Core();
 
-	@SavVariableMapping("HHLDDV2")
-	public Integer getDVForWeeklyAmount();
+    @SavVariableMapping("GRNMPCOR")
+    public Integer getPart_EmplGrossAnnualEarnings_Core();
 
-	@SavVariableMapping("SOURCESH")
-	public Integer getHRP_NoOfIncomeSourcesAtSrcInc08();
+    @SavVariableMapping("HHLDDV2")
+    public Integer getDVForWeeklyAmount();
 
-	@SavVariableMapping("HHLDAMT2")
-	public Integer getTotalIncomeOfHouseholdBeforeDeductions();
+    @SavVariableMapping("SOURCESH")
+    public Integer getHRP_NoOfIncomeSourcesAtSrcInc08();
 
-	@SavVariableMapping("GERNPCOR")
-	public Integer getPart_SeGrossAnnualEarnings_Core();
+    @SavVariableMapping("HHLDAMT2")
+    public Integer getTotalIncomeOfHouseholdBeforeDeductions();
 
-	@SavVariableMapping("TELDVANP")
-	public Integer getPart_GrossIncome_Annualised();
+    @SavVariableMapping("GERNPCOR")
+    public Integer getPart_SeGrossAnnualEarnings_Core();
 
-	@SavVariableMapping("GRPPPCOR")
-	public Integer getPart_PriPenGrossAnnual_Core();
+    @SavVariableMapping("TELDVANP")
+    public Integer getPart_GrossIncome_Annualised();
 
-	@SavVariableMapping("GRNMHCOR")
-	public Integer getHRP_EmplGrossAnnualEarnings_Core();
+    @SavVariableMapping("GRPPPCOR")
+    public Integer getPart_PriPenGrossAnnual_Core();
 
-	@SavVariableMapping("SOURCESP")
-	public Integer getPart_NoOfIncomeSourcesAtSrcInc08();
+    @SavVariableMapping("GRNMHCOR")
+    public Integer getHRP_EmplGrossAnnualEarnings_Core();
 
-	@SavVariableMapping("GRENPHCO")
-	public Integer getHRP_OccPenGrossAnnual_Core();
+    @SavVariableMapping("SOURCESP")
+    public Integer getPart_NoOfIncomeSourcesAtSrcInc08();
 
-	@SavVariableMapping("TELDVANH")
-	public Integer getHRPGrossIncome_Annualised();
+    @SavVariableMapping("GRENPHCO")
+    public Integer getHRP_OccPenGrossAnnual_Core();
 
-	@SavVariableMapping("GRENPPCO")
-	public Integer getPart_OccPenGrossAnnual_Core();
+    @SavVariableMapping("TELDVANH")
+    public Integer getHRPGrossIncome_Annualised();
 
-	@SavVariableMapping("WTCSEGP")
-	public Double getWTC_CTCInclInPartnerSeGrossMainEarnings();
+    @SavVariableMapping("GRENPPCO")
+    public Integer getPart_OccPenGrossAnnual_Core();
 
-	@SavVariableMapping("V215_A")
-	public Double getWPPaidWithOtherBenefit();
+    @SavVariableMapping("WTCSEGP")
+    public Double getWTC_CTCInclInPartnerSeGrossMainEarnings();
 
-	@SavVariableMapping("BNINCPDK")
-	public Double getIBPaidWithOtherBen();
+    @SavVariableMapping("V215_A")
+    public Double getWPPaidWithOtherBenefit();
 
-	@SavVariableMapping("BNICADK2")
-	public Double getICAPaidWithOtherBen();
+    @SavVariableMapping("BNINCPDK")
+    public Double getIBPaidWithOtherBen();
 
-	@SavVariableMapping("BNINCPWK")
-	public Double getIBWklyAmount();
+    @SavVariableMapping("BNICADK2")
+    public Double getICAPaidWithOtherBen();
 
-	@SavVariableMapping("BNSDAWK")
-	public Double getSDAWklyAmt();
+    @SavVariableMapping("BNINCPWK")
+    public Double getIBWklyAmount();
 
-	@SavVariableMapping("BNCTCDK")
-	public Double getCTCPaidWithOtherBen();
+    @SavVariableMapping("BNSDAWK")
+    public Double getSDAWklyAmt();
 
-	@SavVariableMapping("BNSSPDK")
-	public Double getSSPPaidWithOtherBen();
+    @SavVariableMapping("BNCTCDK")
+    public Double getCTCPaidWithOtherBen();
 
-	@SavVariableMapping("BNODISAM")
-	public Double getOthDisAmount();
+    @SavVariableMapping("BNSSPDK")
+    public Double getSSPPaidWithOtherBen();
 
-	@SavVariableMapping("BNDCCAM")
-	public Double getDLACareAmount();
+    @SavVariableMapping("BNODISAM")
+    public Double getOthDisAmount();
 
-	@SavVariableMapping("BNIIDBAM")
-	public Double getIDBAmount();
+    @SavVariableMapping("BNDCCAM")
+    public Double getDLACareAmount();
 
-	@SavVariableMapping("WTCSE2")
-	public Double getWTC_CTCInclInHRP_PartSeNetEarnings();
+    @SavVariableMapping("BNIIDBAM")
+    public Double getIDBAmount();
 
-	@SavVariableMapping("BNINSPAM")
-	public Double getIncSupAmtLastTime();
+    @SavVariableMapping("WTCSE2")
+    public Double getWTC_CTCInclInHRP_PartSeNetEarnings();
 
-	@SavVariableMapping("BNWRDPAM")
-	public Double getWDPAmount();
+    @SavVariableMapping("BNINSPAM")
+    public Double getIncSupAmtLastTime();
 
-	@SavVariableMapping("BNDCCDK2")
-	public Double getDLACarePaidWithOtherBen();
+    @SavVariableMapping("BNWRDPAM")
+    public Double getWDPAmount();
 
-	@SavVariableMapping("BNDISPWK")
-	public Double getDisPremWklyAmt();
+    @SavVariableMapping("BNDCCDK2")
+    public Double getDLACarePaidWithOtherBen();
 
-	@SavVariableMapping("V214_A")
-	public Double getMAPaidWithOtherBen();
+    @SavVariableMapping("BNDISPWK")
+    public Double getDisPremWklyAmt();
 
-	@SavVariableMapping("ALLWPCP")
-	public Double getPartnerMaintenancePaymentPeriod();
+    @SavVariableMapping("V214_A")
+    public Double getMAPaidWithOtherBen();
 
-	@SavVariableMapping("BNESAAM")
-	public Double getESAAmount();
+    @SavVariableMapping("ALLWPCP")
+    public Double getPartnerMaintenancePaymentPeriod();
 
-	@SavVariableMapping("BNSDADK")
-	public Double getSDAPaidWithOtherBen();
+    @SavVariableMapping("BNESAAM")
+    public Double getESAAmount();
 
-	@SavVariableMapping("BNICAWK")
-	public Double getICAWklyAmt();
+    @SavVariableMapping("BNSDADK")
+    public Double getSDAPaidWithOtherBen();
 
-	@SavVariableMapping("BNESADK")
-	public Double getESAPaidWithOtherBen();
+    @SavVariableMapping("BNICAWK")
+    public Double getICAWklyAmt();
 
-	@SavVariableMapping("BNCTCWK")
-	public Double getCTCWklyAmount();
+    @SavVariableMapping("BNESADK")
+    public Double getESAPaidWithOtherBen();
 
-	@SavVariableMapping("WTCMJGH")
-	public Double getWTC_CTCIncInHRPEmplGrossMainEarnings();
+    @SavVariableMapping("BNCTCWK")
+    public Double getCTCWklyAmount();
 
-	@SavVariableMapping("BNWRDPWK")
-	public Double getWDPWklyAmt();
+    @SavVariableMapping("WTCMJGH")
+    public Double getWTC_CTCIncInHRPEmplGrossMainEarnings();
 
-	@SavVariableMapping("BNDCCDK")
-	public Double getDLACarePaidWithOtherBen_BNDCCDK();
+    @SavVariableMapping("BNWRDPWK")
+    public Double getWDPWklyAmt();
 
-	@SavVariableMapping("BNSTPNWK")
-	public Double getOAPWklyAmountt();
+    @SavVariableMapping("BNDCCDK")
+    public Double getDLACarePaidWithOtherBen_BNDCCDK();
 
-	@SavVariableMapping("V224_A")
-	public Double getOthDisPaidWithOtherBen();
+    @SavVariableMapping("BNSTPNWK")
+    public Double getOAPWklyAmountt();
 
-	@SavVariableMapping("BNPENCPM")
-	public Double getDoYouReceiveEitherADisablityOrCarersPremiumWithYourPensionCredit();
+    @SavVariableMapping("V224_A")
+    public Double getOthDisPaidWithOtherBen();
 
-	@SavVariableMapping("BNAAWK")
-	public Double getAAWklyAmt();
+    @SavVariableMapping("BNPENCPM")
+    public Double getDoYouReceiveEitherADisablityOrCarersPremiumWithYourPensionCredit();
 
-	@SavVariableMapping("ALLWAMTP")
-	public Double getPartnerMaintenancePaymentAmount();
+    @SavVariableMapping("BNAAWK")
+    public Double getAAWklyAmt();
 
-	@SavVariableMapping("BNSDAAM")
-	public Double getSDAAmount();
+    @SavVariableMapping("ALLWAMTP")
+    public Double getPartnerMaintenancePaymentAmount();
 
-	@SavVariableMapping("BNINCPAM")
-	public Double getIBAmount();
+    @SavVariableMapping("BNSDAAM")
+    public Double getSDAAmount();
 
-	@SavVariableMapping("BNNNE")
-	public Double getNoneOfTheseOtherBenefits();
+    @SavVariableMapping("BNINCPAM")
+    public Double getIBAmount();
 
-	@SavVariableMapping("V218_A")
-	public Double getIDBPaidWithOtherBen();
+    @SavVariableMapping("BNNNE")
+    public Double getNoneOfTheseOtherBenefits();
 
-	@SavVariableMapping("BNODISDK")
-	public Double getOthDisPaidWithOtherBen_BNODISDK();
+    @SavVariableMapping("V218_A")
+    public Double getIDBPaidWithOtherBen();
 
-	@SavVariableMapping("BNICADK")
-	public Double getICAPaidWithOtherBen_BNICADK();
+    @SavVariableMapping("BNODISDK")
+    public Double getOthDisPaidWithOtherBen_BNODISDK();
 
-	@SavVariableMapping("BNJSADK")
-	public Double getJSAPaidWithOtherBen();
+    @SavVariableMapping("BNICADK")
+    public Double getICAPaidWithOtherBen_BNICADK();
 
-	@SavVariableMapping("BNMATAWK")
-	public Double getMAWklyAmt();
+    @SavVariableMapping("BNJSADK")
+    public Double getJSAPaidWithOtherBen();
 
-	@SavVariableMapping("BNIIDBWK")
-	public Double getIDBWklyAmt();
+    @SavVariableMapping("BNMATAWK")
+    public Double getMAWklyAmt();
 
-	@SavVariableMapping("WTCMJNP")
-	public Double getWTC_CTCInclInPartnerEmplNetMainEarnings();
+    @SavVariableMapping("BNIIDBWK")
+    public Double getIDBWklyAmt();
 
-	@SavVariableMapping("V216_A")
-	public Double getWDPPaidWithOtherBen();
+    @SavVariableMapping("WTCMJNP")
+    public Double getWTC_CTCInclInPartnerEmplNetMainEarnings();
 
-	@SavVariableMapping("V207_A")
-	public Double getIBPaidWithOtherBen_V207_A();
+    @SavVariableMapping("V216_A")
+    public Double getWDPPaidWithOtherBen();
 
-	@SavVariableMapping("BNWDPNDK")
-	public Double getWPPaidWithOtherBenefit_BNWDPNDK();
+    @SavVariableMapping("V207_A")
+    public Double getIBPaidWithOtherBen_V207_A();
 
-	@SavVariableMapping("BNJSAAM")
-	public Double getJSAAmount();
+    @SavVariableMapping("BNWDPNDK")
+    public Double getWPPaidWithOtherBenefit_BNWDPNDK();
 
-	@SavVariableMapping("BNMATAAM")
-	public Double getMAAmount();
+    @SavVariableMapping("BNJSAAM")
+    public Double getJSAAmount();
 
-	@SavVariableMapping("BNWDPNAM")
-	public Double getWPAmount();
+    @SavVariableMapping("BNMATAAM")
+    public Double getMAAmount();
 
-	@SavVariableMapping("BNWDPNWK")
-	public Double getWPWklyAmt();
+    @SavVariableMapping("BNWDPNAM")
+    public Double getWPAmount();
 
-	@SavVariableMapping("BNODKNW")
-	public Double getOtherBenefits_Don_TKnow();
+    @SavVariableMapping("BNWDPNWK")
+    public Double getWPWklyAmt();
 
-	@SavVariableMapping("BNINSPWK")
-	public Double getIncSupWklyAmt();
+    @SavVariableMapping("BNODKNW")
+    public Double getOtherBenefits_Don_TKnow();
 
-	@SavVariableMapping("BNDCCWK")
-	public Double getDLACareWklyAmt();
+    @SavVariableMapping("BNINSPWK")
+    public Double getIncSupWklyAmt();
 
-	@SavVariableMapping("BNPENCDK")
-	public Double getPenCPaidWithOtherBen();
+    @SavVariableMapping("BNDCCWK")
+    public Double getDLACareWklyAmt();
 
-	@SavVariableMapping("BNAADK2")
-	public Double getAAPaidWithOtherBen();
+    @SavVariableMapping("BNPENCDK")
+    public Double getPenCPaidWithOtherBen();
 
-	@SavVariableMapping("BNJSADK2")
-	public Double getJSAPaidWithOtherBen_BNJSADK2();
+    @SavVariableMapping("BNAADK2")
+    public Double getAAPaidWithOtherBen();
 
-	@SavVariableMapping("BNDISPDK")
-	public Double getDisPremPaidWithOtherBen();
+    @SavVariableMapping("BNJSADK2")
+    public Double getJSAPaidWithOtherBen_BNJSADK2();
 
-	@SavVariableMapping("WTCSE1")
-	public Double getWTC_CTCInclInHRP_PartSeGrossEarnings();
+    @SavVariableMapping("BNDISPDK")
+    public Double getDisPremPaidWithOtherBen();
 
-	@SavVariableMapping("V206_A")
-	public Double getOAPPaidWithOtherBen();
+    @SavVariableMapping("WTCSE1")
+    public Double getWTC_CTCInclInHRP_PartSeGrossEarnings();
 
-	@SavVariableMapping("BNODISWK")
-	public Double getOthDisWklyAmt();
+    @SavVariableMapping("V206_A")
+    public Double getOAPPaidWithOtherBen();
 
-	@SavVariableMapping("BNDMCDK2")
-	public Double getDLAMobPaidWithOtherBen();
+    @SavVariableMapping("BNODISWK")
+    public Double getOthDisWklyAmt();
 
-	@SavVariableMapping("BNSSPDK2")
-	public Double getSSPPaidWithOtherBen_BNSSPDK2();
+    @SavVariableMapping("BNDMCDK2")
+    public Double getDLAMobPaidWithOtherBen();
 
-	@SavVariableMapping("BNPRIUM")
-	public Double getDisabilityPremWithIncSup_HB();
+    @SavVariableMapping("BNSSPDK2")
+    public Double getSSPPaidWithOtherBen_BNSSPDK2();
 
-	@SavVariableMapping("BNWTCDK2")
-	public Double getWTCPaidWithOtherBen();
+    @SavVariableMapping("BNPRIUM")
+    public Double getDisabilityPremWithIncSup_HB();
 
-	@SavVariableMapping("BNLIDBWK")
-	public Double getBNLIDBWK();
+    @SavVariableMapping("BNWTCDK2")
+    public Double getWTCPaidWithOtherBen();
 
-	@SavVariableMapping("BNDMCAM")
-	public Double getDLAMobAmount();
+    @SavVariableMapping("BNLIDBWK")
+    public Double getBNLIDBWK();
 
-	@SavVariableMapping("WTCSENP")
-	public Double getWTC_CTCInclInPartnrSeNetMainEarnings();
+    @SavVariableMapping("BNDMCAM")
+    public Double getDLAMobAmount();
 
-	@SavVariableMapping("BNIIDBDK")
-	public Double getIDBPaidWithOtherBen_BNIIDBDK();
+    @SavVariableMapping("WTCSENP")
+    public Double getWTC_CTCInclInPartnrSeNetMainEarnings();
 
-	@SavVariableMapping("BNDISPAM")
-	public Double getDisPremAmount();
+    @SavVariableMapping("BNIIDBDK")
+    public Double getIDBPaidWithOtherBen_BNIIDBDK();
 
-	@SavVariableMapping("BNSDADK2")
-	public Double getSDAPaidWithOtherBen_BNSDADK2();
+    @SavVariableMapping("BNDISPAM")
+    public Double getDisPremAmount();
 
-	@SavVariableMapping("V203_A")
-	public Double getPenCPaidWithOtherBen_V203_A();
+    @SavVariableMapping("BNSDADK2")
+    public Double getSDAPaidWithOtherBen_BNSDADK2();
 
-	@SavVariableMapping("BNSSPWK")
-	public Double getSSPWklyAmt();
+    @SavVariableMapping("V203_A")
+    public Double getPenCPaidWithOtherBen_V203_A();
 
-	@SavVariableMapping("BNMATADK")
-	public Double getMAPaidWithOtherBen_BNMATADK();
+    @SavVariableMapping("BNSSPWK")
+    public Double getSSPWklyAmt();
 
-	@SavVariableMapping("MISIAMT")
-	public Double getIncSup_MortInterestAmt();
+    @SavVariableMapping("BNMATADK")
+    public Double getMAPaidWithOtherBen_BNMATADK();
 
-	@SavVariableMapping("BNSTPNAM")
-	public Double getOldAgePensionAmount();
+    @SavVariableMapping("MISIAMT")
+    public Double getIncSup_MortInterestAmt();
 
-	@SavVariableMapping("BNWRDPDK")
-	public Double getWDPPaidWithOtherBen_BNWRDPDK();
+    @SavVariableMapping("BNSTPNAM")
+    public Double getOldAgePensionAmount();
 
-	@SavVariableMapping("BNDMCDK")
-	public Double getDLAMobPaidWithOtherBen_BNDMCDK();
+    @SavVariableMapping("BNWRDPDK")
+    public Double getWDPPaidWithOtherBen_BNWRDPDK();
 
-	@SavVariableMapping("BNPENCAM")
-	public Double getPenCAmount();
+    @SavVariableMapping("BNDMCDK")
+    public Double getDLAMobPaidWithOtherBen_BNDMCDK();
 
-	@SavVariableMapping("BNDMCWK")
-	public Double getDLAMobWklyAmt();
+    @SavVariableMapping("BNPENCAM")
+    public Double getPenCAmount();
 
-	@SavVariableMapping("SEPFILTP")
-	public Double getPartnerMakingRegularMaintenancePaymentsFromFormerMarriage_Partnership();
+    @SavVariableMapping("BNDMCWK")
+    public Double getDLAMobWklyAmt();
 
-	@SavVariableMapping("BNESAWK")
-	public Double getESAWklyAmount();
+    @SavVariableMapping("SEPFILTP")
+    public Double getPartnerMakingRegularMaintenancePaymentsFromFormerMarriage_Partnership();
 
-	@SavVariableMapping("BNPENCWK")
-	public Double getPenCWklyAmt();
+    @SavVariableMapping("BNESAWK")
+    public Double getESAWklyAmount();
 
-	@SavVariableMapping("WTCSENH")
-	public Double getWTC_CTCInclInHRPSeNetMainEarnings();
+    @SavVariableMapping("BNPENCWK")
+    public Double getPenCWklyAmt();
 
-	@SavVariableMapping("BNINSPPM")
-	public Double getDoYouReceiveEitherADisablityOrCarersPremiumWithYourIncomeSupport();
+    @SavVariableMapping("WTCSENH")
+    public Double getWTC_CTCInclInHRPSeNetMainEarnings();
 
-	@SavVariableMapping("BNDISPPD")
-	public Double getDisPremTimePeriod();
+    @SavVariableMapping("BNINSPPM")
+    public Double getDoYouReceiveEitherADisablityOrCarersPremiumWithYourIncomeSupport();
 
-	@SavVariableMapping("WTCMJ2")
-	public Double getWTC_CTCInclInHRP_PartEmplNetEarnings();
+    @SavVariableMapping("BNDISPPD")
+    public Double getDisPremTimePeriod();
 
-	@SavVariableMapping("BNINSPDK")
-	public Double getIncSupPaidWithOtherBen();
+    @SavVariableMapping("WTCMJ2")
+    public Double getWTC_CTCInclInHRP_PartEmplNetEarnings();
 
-	@SavVariableMapping("WTCMJGP")
-	public Double getWTC_CTCInclInPartnerEmplGrossMainEarnings();
+    @SavVariableMapping("BNINSPDK")
+    public Double getIncSupPaidWithOtherBen();
 
-	@SavVariableMapping("DPCHK")
-	public Double getAmtOfHB_IncSupInclDisabilityPrem();
+    @SavVariableMapping("WTCMJGP")
+    public Double getWTC_CTCInclInPartnerEmplGrossMainEarnings();
 
-	@SavVariableMapping("V201_A")
-	public Double getIncSupPaidWithOtherBen_V201_A();
+    @SavVariableMapping("DPCHK")
+    public Double getAmtOfHB_IncSupInclDisabilityPrem();
 
-	@SavVariableMapping("BNCTCDK2")
-	public Double getCTCPaidWithOtherBen_BNCTCDK2();
+    @SavVariableMapping("V201_A")
+    public Double getIncSupPaidWithOtherBen_V201_A();
 
-	@SavVariableMapping("BNAADK")
-	public Double getAAPaidWithOtherBen_BNAADK();
+    @SavVariableMapping("BNCTCDK2")
+    public Double getCTCPaidWithOtherBen_BNCTCDK2();
 
-	@SavVariableMapping("BNCTCAM")
-	public Double getCTCAmount();
+    @SavVariableMapping("BNAADK")
+    public Double getAAPaidWithOtherBen_BNAADK();
 
-	@SavVariableMapping("BNWTCDK")
-	public Double getWTCPaidWithOtherBen_BNWTCDK();
+    @SavVariableMapping("BNCTCAM")
+    public Double getCTCAmount();
 
-	@SavVariableMapping("GRERNGS2")
-	public Double getDidYouIncludeThisAmountInYourTotalIncomeEarlierOn_1StPersonInCouple();
+    @SavVariableMapping("BNWTCDK")
+    public Double getWTCPaidWithOtherBen_BNWTCDK();
 
-	@SavVariableMapping("BNESADK2")
-	public Double getESAPaidWithOtherBen_BNESADK2();
+    @SavVariableMapping("GRERNGS2")
+    public Double getDidYouIncludeThisAmountInYourTotalIncomeEarlierOn_1StPersonInCouple();
 
-	@SavVariableMapping("GRERNGS4")
-	public Double getDidYouIncludeThisAmountInYourTotalIncomeEarlierOn_2NdPersonInCouple();
+    @SavVariableMapping("BNESADK2")
+    public Double getESAPaidWithOtherBen_BNESADK2();
 
-	@SavVariableMapping("WTCSEGH")
-	public Double getWTC_CTCInclInHRPSeGrossMainEarnings();
+    @SavVariableMapping("GRERNGS4")
+    public Double getDidYouIncludeThisAmountInYourTotalIncomeEarlierOn_2NdPersonInCouple();
 
-	@SavVariableMapping("BNAAAM")
-	public Double getAAAmount();
+    @SavVariableMapping("WTCSEGH")
+    public Double getWTC_CTCInclInHRPSeGrossMainEarnings();
 
-	@SavVariableMapping("DVMISI")
-	public Double getIncSup_MortInterestMthlyAmt();
+    @SavVariableMapping("BNAAAM")
+    public Double getAAAmount();
 
-	@SavVariableMapping("BNICAAM")
-	public Double getICAAmount();
+    @SavVariableMapping("DVMISI")
+    public Double getIncSup_MortInterestMthlyAmt();
 
-	@SavVariableMapping("BNWTCWK")
-	public Double getWTCWklyAmount();
+    @SavVariableMapping("BNICAAM")
+    public Double getICAAmount();
 
-	@SavVariableMapping("BNJSAWK")
-	public Double getJSAWklyAmount();
+    @SavVariableMapping("BNWTCWK")
+    public Double getWTCWklyAmount();
 
-	@SavVariableMapping("BNSTPNDK")
-	public Double getOAPPaidWithOtherBen_BNSTPNDK();
+    @SavVariableMapping("BNJSAWK")
+    public Double getJSAWklyAmount();
 
-	@SavVariableMapping("BNWTCAM")
-	public Double getWTCAmount();
+    @SavVariableMapping("BNSTPNDK")
+    public Double getOAPPaidWithOtherBen_BNSTPNDK();
 
-	@SavVariableMapping("WTCMJNH")
-	public Double getWTC_CTCInclInHRPEmplNetMainEarnings();
+    @SavVariableMapping("BNWTCAM")
+    public Double getWTCAmount();
 
-	@SavVariableMapping("BNONONE")
-	public Double getNoneOfTheseOtherBenefits_BNONONE();
+    @SavVariableMapping("WTCMJNH")
+    public Double getWTC_CTCInclInHRPEmplNetMainEarnings();
 
-	@SavVariableMapping("ALLWAMTH")
-	public Double getHRPMaintenancePaymentAmount();
+    @SavVariableMapping("BNONONE")
+    public Double getNoneOfTheseOtherBenefits_BNONONE();
 
-	@SavVariableMapping("BNORF")
-	public Double getOtherBenefits_Refused();
+    @SavVariableMapping("ALLWAMTH")
+    public Double getHRPMaintenancePaymentAmount();
 
-	@SavVariableMapping("BNJSATYP")
-	public Double getIsYourJobSeekersAllowance();
+    @SavVariableMapping("BNORF")
+    public Double getOtherBenefits_Refused();
 
-	@SavVariableMapping("WTCMJ1")
-	public Double getWTC_CTCInclInHRP_PartEmplGrossEarnings();
+    @SavVariableMapping("BNJSATYP")
+    public Double getIsYourJobSeekersAllowance();
 
-	@SavVariableMapping("BNDCCPD")
-	public Enum501 getDLACareTimePeriod();
+    @SavVariableMapping("WTCMJ1")
+    public Double getWTC_CTCInclInHRP_PartEmplGrossEarnings();
 
-	@SavVariableMapping("NTERNPPH")
-	public Enum502 getHRP_PriPenNetAnnual();
+    @SavVariableMapping("BNDCCPD")
+    public Enum501 getDLACareTimePeriod();
 
-	@SavVariableMapping("BNPENCPD")
-	public Enum501 getPenCTimePeriod();
+    @SavVariableMapping("NTERNPPH")
+    public Enum502 getHRP_PriPenNetAnnual();
 
-	@SavVariableMapping("PENCONH")
-	public Enum69 getHRP_SuperannuationContribs();
+    @SavVariableMapping("BNPENCPD")
+    public Enum501 getPenCTimePeriod();
 
-	@SavVariableMapping("BNDMCPD")
-	public Enum501 getDLAMobTimePeriod();
+    @SavVariableMapping("PENCONH")
+    public Enum69 getHRP_SuperannuationContribs();
 
-	@SavVariableMapping("BNWTC")
-	public Enum69 getWorkingTaxCredit();
+    @SavVariableMapping("BNDMCPD")
+    public Enum501 getDLAMobTimePeriod();
 
-	@SavVariableMapping("NETERNH")
-	public Enum502 getHRP_SeNetAnnualEarnings();
+    @SavVariableMapping("BNWTC")
+    public Enum69 getWorkingTaxCredit();
 
-	@SavVariableMapping("RECPYHP")
-	public Enum69 getHRP_RegularPaytOfSeEarnings();
+    @SavVariableMapping("NETERNH")
+    public Enum502 getHRP_SeNetAnnualEarnings();
 
-	@SavVariableMapping("HHLDPER2")
-	public Enum509 getIsThatAWeekly_MonthlyOrAnnualAmount_();
+    @SavVariableMapping("RECPYHP")
+    public Enum69 getHRP_RegularPaytOfSeEarnings();
 
-	@SavVariableMapping("GROSSP")
-	public Enum69 getWhetherHRP_SPartnerPotentiallyAskedEarningsBlocks();
+    @SavVariableMapping("HHLDPER2")
+    public Enum509 getIsThatAWeekly_MonthlyOrAnnualAmount_();
 
-	@SavVariableMapping("ESATYPE")
-	public Enum511 getESAAllowanceType();
+    @SavVariableMapping("GROSSP")
+    public Enum69 getWhetherHRP_SPartnerPotentiallyAskedEarningsBlocks();
 
-	@SavVariableMapping("NTERNMP")
-	public Enum502 getPart_EmplNetAnnualEarnings();
+    @SavVariableMapping("ESATYPE")
+    public Enum511 getESAAllowanceType();
 
-	@SavVariableMapping("DLACCHK")
-	public Enum69 getDLACareComponentAtHigherRate();
+    @SavVariableMapping("NTERNMP")
+    public Enum502 getPart_EmplNetAnnualEarnings();
 
-	@SavVariableMapping("BNPENCRD")
-	public Enum69 getPensionCredit();
+    @SavVariableMapping("DLACCHK")
+    public Enum69 getDLACareComponentAtHigherRate();
 
-	@SavVariableMapping("NETLOSSH")
-	public Enum515 getHRPLossOfNetEarningsFromSelfEmployment();
+    @SavVariableMapping("BNPENCRD")
+    public Enum69 getPensionCredit();
 
-	@SavVariableMapping("BNJSA")
-	public Enum69 getJobseekersAllowance();
+    @SavVariableMapping("NETLOSSH")
+    public Enum515 getHRPLossOfNetEarningsFromSelfEmployment();
 
-	@SavVariableMapping("GRERNPPH")
-	public Enum502 getHRP_PriPenGrossAnnual();
+    @SavVariableMapping("BNJSA")
+    public Enum69 getJobseekersAllowance();
 
-	@SavVariableMapping("BNAAPD")
-	public Enum501 getAATimePeriod();
+    @SavVariableMapping("GRERNPPH")
+    public Enum502 getHRP_PriPenGrossAnnual();
 
-	@SavVariableMapping("AMTSVNG1")
-	public Enum69 getSavings_MoneyInvested();
+    @SavVariableMapping("BNAAPD")
+    public Enum501 getAATimePeriod();
 
-	@SavVariableMapping("MORGP1")
-	public Enum69 getMPPIReceipts();
+    @SavVariableMapping("AMTSVNG1")
+    public Enum69 getSavings_MoneyInvested();
 
-	@SavVariableMapping("BNICAPD")
-	public Enum501 getICATimePeriod();
+    @SavVariableMapping("MORGP1")
+    public Enum69 getMPPIReceipts();
 
-	@SavVariableMapping("BNRTWC")
-	public Enum69 getReturnToWorkCredit();
+    @SavVariableMapping("BNICAPD")
+    public Enum501 getICATimePeriod();
 
-	@SavVariableMapping("ISCHK")
-	public Enum69 getIncludeIncSup();
+    @SavVariableMapping("BNRTWC")
+    public Enum69 getReturnToWorkCredit();
 
-	@SavVariableMapping("BNSSP")
-	public Enum69 getStatutorySickPay();
+    @SavVariableMapping("ISCHK")
+    public Enum69 getIncludeIncSup();
 
-	@SavVariableMapping("BNODISPD")
-	public Enum501 getOthDisTimePeriod();
+    @SavVariableMapping("BNSSP")
+    public Enum69 getStatutorySickPay();
 
-	@SavVariableMapping("BNIWC")
-	public Enum69 getInWorkCredit();
+    @SavVariableMapping("BNODISPD")
+    public Enum501 getOthDisTimePeriod();
 
-	@SavVariableMapping("ESACHK")
-	public Enum69 getCurrentlyWithinThe13WeekESAAssessmentPhase();
+    @SavVariableMapping("BNIWC")
+    public Enum69 getInWorkCredit();
 
-	@SavVariableMapping("BNINCSUP")
-	public Enum69 getIncomeSupport();
+    @SavVariableMapping("ESACHK")
+    public Enum69 getCurrentlyWithinThe13WeekESAAssessmentPhase();
 
-	@SavVariableMapping("RECPYSP")
-	public Enum69 getPart_RegularPaytOfSeEarnings();
+    @SavVariableMapping("BNINCSUP")
+    public Enum69 getIncomeSupport();
 
-	@SavVariableMapping("NETLOSSP")
-	public Enum515 getPartnerLossOfNetEarningsFromSelfEmployment();
+    @SavVariableMapping("RECPYSP")
+    public Enum69 getPart_RegularPaytOfSeEarnings();
 
-	@SavVariableMapping("BNESA")
-	public Enum69 getEmploymentSupportAllowance();
+    @SavVariableMapping("NETLOSSP")
+    public Enum515 getPartnerLossOfNetEarningsFromSelfEmployment();
 
-	@SavVariableMapping("GRERNPPT")
-	public Enum502 getPart_OccPenGrossAnnual();
+    @SavVariableMapping("BNESA")
+    public Enum69 getEmploymentSupportAllowance();
 
-	@SavVariableMapping("GRERNOIH")
-	public Enum502 getHRP_OtherSourcesGrossAnnual();
+    @SavVariableMapping("GRERNPPT")
+    public Enum502 getPart_OccPenGrossAnnual();
 
-	@SavVariableMapping("GRERNOIP")
-	public Enum502 getPart_OtherSourcesGrossAnnual();
+    @SavVariableMapping("GRERNOIH")
+    public Enum502 getHRP_OtherSourcesGrossAnnual();
 
-	@SavVariableMapping("NTERNPH")
-	public Enum502 getHRP_OccPenNetAnnual();
+    @SavVariableMapping("GRERNOIP")
+    public Enum502 getPart_OtherSourcesGrossAnnual();
 
-	@SavVariableMapping("BNDLACC")
-	public Enum69 getDLA_CareComponent();
+    @SavVariableMapping("NTERNPH")
+    public Enum502 getHRP_OccPenNetAnnual();
 
-	@SavVariableMapping("GRERNGSH")
-	public Enum502 getHRP_GovtSchemes_LastTime();
+    @SavVariableMapping("BNDLACC")
+    public Enum69 getDLA_CareComponent();
 
-	@SavVariableMapping("BNSTPNCK")
-	public Enum69 getPenCAmtIncludesStatePen();
+    @SavVariableMapping("GRERNGSH")
+    public Enum502 getHRP_GovtSchemes_LastTime();
 
-	@SavVariableMapping("BNWTCPD")
-	public Enum501 getWTCTimePeriod();
+    @SavVariableMapping("BNSTPNCK")
+    public Enum69 getPenCAmtIncludesStatePen();
 
-	@SavVariableMapping("BNJSAPD")
-	public Enum501 getJSATimePeriod();
+    @SavVariableMapping("BNWTCPD")
+    public Enum501 getWTCTimePeriod();
 
-	@SavVariableMapping("BNWIDPEN")
-	public Enum69 getWidows_WidowersPen();
+    @SavVariableMapping("BNJSAPD")
+    public Enum501 getJSATimePeriod();
 
-	@SavVariableMapping("MISIPD")
-	public Enum501 getIncSup_MortInterestPeriod();
+    @SavVariableMapping("BNWIDPEN")
+    public Enum69 getWidows_WidowersPen();
 
-	@SavVariableMapping("BNWDPNPD")
-	public Enum501 getWPTimePeriod();
+    @SavVariableMapping("MISIPD")
+    public Enum501 getIncSup_MortInterestPeriod();
 
-	@SavVariableMapping("BNDLAMC")
-	public Enum69 getDLA_MobilityComponent();
+    @SavVariableMapping("BNWDPNPD")
+    public Enum501 getWPTimePeriod();
 
-	@SavVariableMapping("BNIIDB")
-	public Enum69 getIndustrialInjuriesDisablementBen();
+    @SavVariableMapping("BNDLAMC")
+    public Enum69 getDLA_MobilityComponent();
 
-	@SavVariableMapping("BNWRDPPD")
-	public Enum501 getWDPTimePeriod();
+    @SavVariableMapping("BNIIDB")
+    public Enum69 getIndustrialInjuriesDisablementBen();
 
-	@SavVariableMapping("BNCHILDB")
-	public Enum69 getChildBenefit();
+    @SavVariableMapping("BNWRDPPD")
+    public Enum501 getWDPTimePeriod();
 
-	@SavVariableMapping("BNPENCCK")
-	public Enum69 getStatePenAmtIncludesPenC();
+    @SavVariableMapping("BNCHILDB")
+    public Enum69 getChildBenefit();
 
-	@SavVariableMapping("ALLWPCH")
-	public Enum501 getHRPMaintenancePaymentPeriod();
+    @SavVariableMapping("BNPENCCK")
+    public Enum69 getStatePenAmtIncludesPenC();
 
-	@SavVariableMapping("INCGSP")
-	public Enum550 getPart_AskedEarningsFromGov_Schemes();
+    @SavVariableMapping("ALLWPCH")
+    public Enum501 getHRPMaintenancePaymentPeriod();
 
-	@SavVariableMapping("GRERNMP")
-	public Enum502 getPart_EmplGrossAnnualEarnings();
+    @SavVariableMapping("INCGSP")
+    public Enum550 getPart_AskedEarningsFromGov_Schemes();
 
-	@SavVariableMapping("BNSDA")
-	public Enum69 getSevereDisablementAllow();
+    @SavVariableMapping("GRERNMP")
+    public Enum502 getPart_EmplGrossAnnualEarnings();
 
-	@SavVariableMapping("GRERNPH")
-	public Enum502 getHRP_OccPenGrossAnnual();
+    @SavVariableMapping("BNSDA")
+    public Enum69 getSevereDisablementAllow();
 
-	@SavVariableMapping("MORGCOV")
-	public Enum554 getMortgageContributionUnderMortgagePaymentProtection();
+    @SavVariableMapping("GRERNPH")
+    public Enum502 getHRP_OccPenGrossAnnual();
 
-	@SavVariableMapping("BNNONE")
-	public Enum69 getNoneOfTheseStateBenefits();
+    @SavVariableMapping("MORGCOV")
+    public Enum554 getMortgageContributionUnderMortgagePaymentProtection();
 
-	@SavVariableMapping("GROSSH")
-	public Enum69 getWhetherHRPPotentiallyAskedEarningsBlocks();
+    @SavVariableMapping("BNNONE")
+    public Enum69 getNoneOfTheseStateBenefits();
 
-	@SavVariableMapping("ISMICOV")
-	public Enum557 getIncSup_Part_FullMortInterest();
+    @SavVariableMapping("GROSSH")
+    public Enum69 getWhetherHRPPotentiallyAskedEarningsBlocks();
 
-	@SavVariableMapping("GRSERNP")
-	public Enum502 getPart_SeGrossAnnualEarnings();
+    @SavVariableMapping("ISMICOV")
+    public Enum557 getIncSup_Part_FullMortInterest();
 
-	@SavVariableMapping("GRERNMH")
-	public Enum502 getHRP_EmplGrossAnnualEarnings();
+    @SavVariableMapping("GRSERNP")
+    public Enum502 getPart_SeGrossAnnualEarnings();
 
-	@SavVariableMapping("BNINCAP")
-	public Enum69 getIncapacityBenefit();
+    @SavVariableMapping("GRERNMH")
+    public Enum502 getHRP_EmplGrossAnnualEarnings();
 
-	@SavVariableMapping("GRSLOSSP")
-	public Enum515 getPartnerLossOfGrossEarningsFromSelfEmployment();
+    @SavVariableMapping("BNINCAP")
+    public Enum69 getIncapacityBenefit();
 
-	@SavVariableMapping("GRERNPPP")
-	public Enum502 getPart_PriPenGrossAnnual();
+    @SavVariableMapping("GRSLOSSP")
+    public Enum515 getPartnerLossOfGrossEarningsFromSelfEmployment();
 
-	@SavVariableMapping("BNNRF")
-	public Enum69 getStateBenefits_Refused();
+    @SavVariableMapping("GRERNPPP")
+    public Enum502 getPart_PriPenGrossAnnual();
 
-	@SavVariableMapping("BNSTATEP")
-	public Enum69 getNIRetirement_OldAgePension();
+    @SavVariableMapping("BNNRF")
+    public Enum69 getStateBenefits_Refused();
 
-	@SavVariableMapping("BNICA")
-	public Enum69 getCarersAllow_InvalidCareAllow_();
+    @SavVariableMapping("BNSTATEP")
+    public Enum69 getNIRetirement_OldAgePension();
 
-	@SavVariableMapping("BNCTC")
-	public Enum69 getChildTaxCredit();
+    @SavVariableMapping("BNICA")
+    public Enum69 getCarersAllow_InvalidCareAllow_();
 
-	@SavVariableMapping("QUARTER")
-	public Enum230 getFieldworkQuarter();
+    @SavVariableMapping("BNCTC")
+    public Enum69 getChildTaxCredit();
 
-	@SavVariableMapping("BNSDAPD")
-	public Enum501 getSDATimePeriod();
+    @SavVariableMapping("QUARTER")
+    public Enum230 getFieldworkQuarter();
 
-	@SavVariableMapping("BNIIDBPD")
-	public Enum501 getIDBTimePeriod();
+    @SavVariableMapping("BNSDAPD")
+    public Enum501 getSDATimePeriod();
 
-	@SavVariableMapping("BNESAPD")
-	public Enum501 getESATimePeriod();
+    @SavVariableMapping("BNIIDBPD")
+    public Enum501 getIDBTimePeriod();
 
-	@SavVariableMapping("GRSLOSSH")
-	public Enum515 getHRPLossOfGrossEarningsFromSelfEmployment();
+    @SavVariableMapping("BNESAPD")
+    public Enum501 getESATimePeriod();
 
-	@SavVariableMapping("BNDKNW")
-	public Enum69 getStateBenefits_Don_TKnow();
+    @SavVariableMapping("GRSLOSSH")
+    public Enum515 getHRPLossOfGrossEarningsFromSelfEmployment();
 
-	@SavVariableMapping("GRERNGSP")
-	public Enum502 getPart_GovtSchemes_LastTime();
+    @SavVariableMapping("BNDKNW")
+    public Enum69 getStateBenefits_Don_TKnow();
 
-	@SavVariableMapping("BNMATAPD")
-	public Enum501 getMATimePeriod();
+    @SavVariableMapping("GRERNGSP")
+    public Enum502 getPart_GovtSchemes_LastTime();
 
-	@SavVariableMapping("GOREHS")
-	public Enum30 getRegion_EHSOrder();
+    @SavVariableMapping("BNMATAPD")
+    public Enum501 getMATimePeriod();
 
-	@SavVariableMapping("NTERNPPT")
-	public Enum502 getPart_OccPenNetAnnual();
+    @SavVariableMapping("GOREHS")
+    public Enum30 getRegion_EHSOrder();
 
-	@SavVariableMapping("NTERNPPP")
-	public Enum502 getPart_PriPenNetAnnual();
+    @SavVariableMapping("NTERNPPT")
+    public Enum502 getPart_OccPenNetAnnual();
 
-	@SavVariableMapping("ESACHK2")
-	public Enum578 getESAGroup();
+    @SavVariableMapping("NTERNPPP")
+    public Enum502 getPart_PriPenNetAnnual();
 
-	@SavVariableMapping("INCGSH")
-	public Enum69 getHRP_AskedEarningsFromGov_Schemes();
+    @SavVariableMapping("ESACHK2")
+    public Enum578 getESAGroup();
 
-	@SavVariableMapping("NTERNMH")
-	public Enum502 getHRP_EmplNetAnnualEarnings();
+    @SavVariableMapping("INCGSH")
+    public Enum69 getHRP_AskedEarningsFromGov_Schemes();
 
-	@SavVariableMapping("BNWARDP")
-	public Enum69 getWarDisablementPen();
+    @SavVariableMapping("NTERNMH")
+    public Enum502 getHRP_EmplNetAnnualEarnings();
 
-	@SavVariableMapping("BNODIS")
-	public Enum69 getOtherDisabilityBenefit();
+    @SavVariableMapping("BNWARDP")
+    public Enum69 getWarDisablementPen();
 
-	@SavVariableMapping("BNCTCPD")
-	public Enum501 getCTCTimePeriod();
+    @SavVariableMapping("BNODIS")
+    public Enum69 getOtherDisabilityBenefit();
 
-	@SavVariableMapping("MORGPCOV")
-	public Enum557 getMPPIReceipts_All_PartOfMorg();
+    @SavVariableMapping("BNCTCPD")
+    public Enum501 getCTCTimePeriod();
 
-	@SavVariableMapping("V191_A")
-	public Enum585 getAmountOfSavings_MoneyInvested();
+    @SavVariableMapping("MORGPCOV")
+    public Enum557 getMPPIReceipts_All_PartOfMorg();
 
-	@SavVariableMapping("PENCONP")
-	public Enum550 getPart_SuperannuationContribs();
+    @SavVariableMapping("V191_A")
+    public Enum585 getAmountOfSavings_MoneyInvested();
 
-	@SavVariableMapping("BNSTPNPD")
-	public Enum501 getOAPTimePeriod();
+    @SavVariableMapping("PENCONP")
+    public Enum550 getPart_SuperannuationContribs();
 
-	@SavVariableMapping("NETERNP")
-	public Enum502 getPart_SeNetAnnualEarnings();
+    @SavVariableMapping("BNSTPNPD")
+    public Enum501 getOAPTimePeriod();
 
-	@SavVariableMapping("BNINCPPD")
-	public Enum501 getIBTimePeriod();
+    @SavVariableMapping("NETERNP")
+    public Enum502 getPart_SeNetAnnualEarnings();
 
-	@SavVariableMapping("HHLDBAN2")
-	public Enum590 getWhichBandRepresentsTheTotalIncomeOfHouseholdBeforeDeductions();
+    @SavVariableMapping("BNINCPPD")
+    public Enum501 getIBTimePeriod();
 
-	@SavVariableMapping("BNAA")
-	public Enum69 getAttendanceAllow();
+    @SavVariableMapping("HHLDBAN2")
+    public Enum590 getWhichBandRepresentsTheTotalIncomeOfHouseholdBeforeDeductions();
 
-	@SavVariableMapping("BNMATA")
-	public Enum69 getMatAllowance();
+    @SavVariableMapping("BNAA")
+    public Enum69 getAttendanceAllow();
 
-	@SavVariableMapping("CASECAT")
-	public Enum229 getStatusOfCase();
+    @SavVariableMapping("BNMATA")
+    public Enum69 getMatAllowance();
 
-	@SavVariableMapping("BNINSPPD")
-	public Enum501 getIncSupTimePeriod();
+    @SavVariableMapping("CASECAT")
+    public Enum229 getStatusOfCase();
 
-	@SavVariableMapping("GRSERNH")
-	public Enum502 getHRP_SeGrossAnnualEarnings();
+    @SavVariableMapping("BNINSPPD")
+    public Enum501 getIncSupTimePeriod();
 
-	@SavVariableMapping("BNSSPPD")
-	public Enum501 getSSPTimePeriod();
+    @SavVariableMapping("GRSERNH")
+    public Enum502 getHRP_SeGrossAnnualEarnings();
 
-	@SavVariableMapping("SEPFILTH")
-	public Enum69 getHRPMakingRegularMaintenancePaymentsFromFormerMarriage_Partnership();
+    @SavVariableMapping("BNSSPPD")
+    public Enum501 getSSPTimePeriod();
 
-	@SavVariableMapping("RECISMI")
-	public Enum69 getIncSup_MortInterestHelp();
+    @SavVariableMapping("SEPFILTH")
+    public Enum69 getHRPMakingRegularMaintenancePaymentsFromFormerMarriage_Partnership();
+
+    @SavVariableMapping("RECISMI")
+    public Enum69 getIncSup_MortInterestHelp();
 
 }
-

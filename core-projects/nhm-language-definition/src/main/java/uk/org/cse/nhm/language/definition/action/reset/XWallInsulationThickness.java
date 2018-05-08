@@ -18,28 +18,30 @@ import uk.org.cse.nhm.language.validate.contents.RequireParent;
 @RequireParent(XResetWalls.class)
 @Bind("wall.insulation-thickness")
 @Doc({
-	"When used in special wall actions, this will produce the total thickness of the specified types of insulation for the current wall."	
+    "When used in special wall actions, this will produce the total thickness of the specified types of insulation for the current wall."
 })
 @SeeAlso(XResetWalls.class)
 @Category(CategoryType.RESETACTIONS)
 public class XWallInsulationThickness extends XHouseNumber {
-	public static final class P {
-		public static final String types = "types";
-	}
-	private List<XWallInsulationType> types = new ArrayList<>();
 
-	public XWallInsulationThickness() {
-		
-	}
-	
-	@Prop(P.types)
-	@Doc("The types of insulation to consider when adding up the thickness.")
-	@BindRemainingArguments
-	public List<XWallInsulationType> getTypes() {
-		return types;
-	}
+    public static final class P {
 
-	public void setTypes(final List<XWallInsulationType> types) {
-		this.types = types;
-	}
+        public static final String types = "types";
+    }
+    private List<XWallInsulationType> types = new ArrayList<>();
+
+    public XWallInsulationThickness() {
+
+    }
+
+    @Prop(P.types)
+    @Doc("The types of insulation to consider when adding up the thickness.")
+    @BindRemainingArguments
+    public List<XWallInsulationType> getTypes() {
+        return types;
+    }
+
+    public void setTypes(final List<XWallInsulationType> types) {
+        this.types = types;
+    }
 }

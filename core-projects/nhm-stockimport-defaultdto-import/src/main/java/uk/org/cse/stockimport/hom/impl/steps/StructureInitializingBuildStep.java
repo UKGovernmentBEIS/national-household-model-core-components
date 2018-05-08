@@ -25,7 +25,8 @@ import uk.org.cse.stockimport.imputation.house.IHousePropertyImputer;
 import uk.org.cse.stockimport.repository.IHouseCaseSources;
 
 /**
- * Initializes the {@link StructureModel} and the {@link ITechnologyModel} in a {@link SurveyCase}.
+ * Initializes the {@link StructureModel} and the {@link ITechnologyModel} in a
+ * {@link SurveyCase}.
  *
  * Doesn't do any inference or anything like that.
  *
@@ -33,17 +34,21 @@ import uk.org.cse.stockimport.repository.IHouseCaseSources;
  * @since 1.0
  */
 public class StructureInitializingBuildStep implements ISurveyCaseBuildStep {
-	/** @since 1.0 */
+
+    /**
+     * @since 1.0
+     */
     public static final String IDENTIFIER = StructureInitializingBuildStep.class.getCanonicalName();
 
-	private static final Logger log = LoggerFactory.getLogger(StructureInitializingBuildStep.class);
+    private static final Logger log = LoggerFactory.getLogger(StructureInitializingBuildStep.class);
 
-	private static final double DEFAULT_DRAUGHT_STRIPPED_PROPORTION = 0;
+    private static final double DEFAULT_DRAUGHT_STRIPPED_PROPORTION = 0;
 
-	/**
-	 * The latest SAP age band in which you are assumed to have an unsealed floor, if you have a suspended timber floor.
-	 */
-	private final SAPAgeBandValue.Band lastAgeBandForUnsealed = SAPAgeBandValue.Band.E;
+    /**
+     * The latest SAP age band in which you are assumed to have an unsealed
+     * floor, if you have a suspended timber floor.
+     */
+    private final SAPAgeBandValue.Band lastAgeBandForUnsealed = SAPAgeBandValue.Band.E;
 
     private IHousePropertyImputer housePropertyImputer;
 
@@ -62,28 +67,28 @@ public class StructureInitializingBuildStep implements ISurveyCaseBuildStep {
         this.housePropertyImputer = housePropertyImputer;
     }
 
-	@Override
-	public String getIdentifier() {
-		return IDENTIFIER;
-	}
+    @Override
+    public String getIdentifier() {
+        return IDENTIFIER;
+    }
 
-	@Override
-	public Set<String> getDependencies() {
-		return Collections.emptySet();
-	}
+    @Override
+    public Set<String> getDependencies() {
+        return Collections.emptySet();
+    }
 
-	@Override
-	public void build(final SurveyCase model, final IHouseCaseSources<IBasicDTO> dtoProvider) {
+    @Override
+    public void build(final SurveyCase model, final IHouseCaseSources<IBasicDTO> dtoProvider) {
         final IHouseCaseDTO dto = dtoProvider.requireOne(HouseCaseDTO.class);
 
         final StructureModel structure = new StructureModel(dto.getBuiltFormType());
         structure.setGroundFloorConstructionType(
-        		convertGroundFloorType(
-        			dto.getFloorConstructionType(),
-        			dto.getBuildYear(),
-        			dto.getRegionType()
-        		)
-    		);
+                convertGroundFloorType(
+                        dto.getFloorConstructionType(),
+                        dto.getBuildYear(),
+                        dto.getRegionType()
+                )
+        );
         structure.setLivingAreaProportionOfFloorArea(getLivingAreaFaction(dto));
         structure.setHasDraughtLobby(dto.isHasDraftLoby());
 
@@ -104,21 +109,22 @@ public class StructureInitializingBuildStep implements ISurveyCaseBuildStep {
 
         final Optional<IVentilationDTO> ventilation = dtoProvider.getOne(IVentilationDTO.class);
         if (ventilation.isPresent()) {
-        	structure.setDraughtStrippedProportion(ventilation.get().getWindowsAndDoorsDraughtStrippedProportion());
+            structure.setDraughtStrippedProportion(ventilation.get().getWindowsAndDoorsDraughtStrippedProportion());
         } else {
-        	log.warn("{} Could not find ventilation DTO", dtoProvider.getAacode());
-        	structure.setDraughtStrippedProportion(DEFAULT_DRAUGHT_STRIPPED_PROPORTION);
+            log.warn("{} Could not find ventilation DTO", dtoProvider.getAacode());
+            structure.setDraughtStrippedProportion(DEFAULT_DRAUGHT_STRIPPED_PROPORTION);
         }
 
-		model.setStructure(structure);
+        model.setStructure(structure);
 
-		final ITechnologyModel tech = ITechnologiesFactory.eINSTANCE.createTechnologyModel();
-		model.setTechnologies(tech);
-	}
+        final ITechnologyModel tech = ITechnologiesFactory.eINSTANCE.createTechnologyModel();
+        model.setTechnologies(tech);
+    }
 
     /**
-     * 1. If living area faction returned from DTO is not null, returns this value otherwise, uses number of rooms and a
-     * lookup to get living area faction.
+     * 1. If living area faction returned from DTO is not null, returns this
+     * value otherwise, uses number of rooms and a lookup to get living area
+     * faction.
      *
      * @param dto
      * @return
@@ -133,24 +139,25 @@ public class StructureInitializingBuildStep implements ISurveyCaseBuildStep {
     }
 
     /**
-     * Categorizes SuspendedTimber floors as sealed or unsealed based on the SAP age band of the dwelling.
+     * Categorizes SuspendedTimber floors as sealed or unsealed based on the SAP
+     * age band of the dwelling.
      *
      * @param dtoFloorType
      * @param regionType
      */
     protected FloorConstructionType convertGroundFloorType(
-    		final DTOFloorConstructionType dtoFloorType,
-    		final int buildYear,
-    		final RegionType region
-		) {
-    	switch (dtoFloorType) {
-    	case Solid:
-    		return FloorConstructionType.Solid;
-    	case SuspendedTimber:
-    		final SAPAgeBandValue band = SAPAgeBandValue.fromYear(buildYear, region);
-        	return band.getName().after(lastAgeBandForUnsealed) ? FloorConstructionType.SuspendedTimberSealed : FloorConstructionType.SuspendedTimberUnsealed;
-    	default:
-    		throw new IllegalArgumentException("Unknown floor construction type " + dtoFloorType);
-    	}
+            final DTOFloorConstructionType dtoFloorType,
+            final int buildYear,
+            final RegionType region
+    ) {
+        switch (dtoFloorType) {
+            case Solid:
+                return FloorConstructionType.Solid;
+            case SuspendedTimber:
+                final SAPAgeBandValue band = SAPAgeBandValue.fromYear(buildYear, region);
+                return band.getName().after(lastAgeBandForUnsealed) ? FloorConstructionType.SuspendedTimberSealed : FloorConstructionType.SuspendedTimberUnsealed;
+            default:
+                throw new IllegalArgumentException("Unknown floor construction type " + dtoFloorType);
+        }
     }
 }

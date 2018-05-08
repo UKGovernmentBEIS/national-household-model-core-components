@@ -19,20 +19,25 @@ import uk.org.cse.nhm.language.definition.action.XMeasure;
 @Bind("measure.adjust-airchange-devices")
 @Unsuitability(alwaysSuitable = true)
 public class XAdjustNumberOfAirChangeDevices extends XMeasure {
+
     public static final class P {
+
         public static final String adjustment = "adjustment";
         public static final String airChangeDevice = "airChangeDevice";
     }
-    
+
     private XAirChangeDevice airChangeDevice;
-    
+
     @Doc("The type of device to adjust.")
     public enum XAirChangeDevice {
-        @Doc("Passive Vent") Vents,
-        @Doc("Mechanical Fans") Fans
+        @Doc("Passive Vent")
+        Vents,
+        @Doc("Mechanical Fans")
+        Fans
     }
-    
+
     private int adjustment;
+
     /**
      * Return the adjustment.
      *
@@ -45,11 +50,11 @@ public class XAdjustNumberOfAirChangeDevices extends XMeasure {
     public int getAdjustment() {
         return adjustment;
     }
-    
+
     /**
      * Set the adjustment.
      *
-     * @param adjustment the adjustment 
+     * @param adjustment the adjustment
      */
     public void setAdjustment(int adjustment) {
         this.adjustment = adjustment;
@@ -70,7 +75,7 @@ public class XAdjustNumberOfAirChangeDevices extends XMeasure {
     /**
      * Set the airChangeDevice.
      *
-     * @param airChangeDevice the airChangeDevice 
+     * @param airChangeDevice the airChangeDevice
      */
     public void setAirChangeDevice(XAirChangeDevice airChangeDevice) {
         this.airChangeDevice = airChangeDevice;

@@ -15,48 +15,51 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
 
 public class AddOrRemoveLoftAction extends AbstractNamed implements IComponentsAction {
-	private final IDimension<StructureModel> structure;
-	private final boolean add;
 
-	@AssistedInject
-	AddOrRemoveLoftAction(
-			final IDimension<StructureModel> structure, 
-			@Assisted final boolean add) {
-		this.structure = structure;
-		this.add = add;		
-	}
-	
-	@Override
-	public StateChangeSourceType getSourceType() {
-		return StateChangeSourceType.ACTION;
-	}
+    private final IDimension<StructureModel> structure;
+    private final boolean add;
 
-	@Override
-	public boolean apply(final ISettableComponentsScope scope, final ILets lets)
-			throws NHMException {
-		scope.modify(structure, new IModifier<StructureModel>() {
+    @AssistedInject
+    AddOrRemoveLoftAction(
+            final IDimension<StructureModel> structure,
+            @Assisted final boolean add) {
+        this.structure = structure;
+        this.add = add;
+    }
 
-			@Override
-			public boolean modify(final StructureModel modifiable) {
-				if (modifiable.getHasLoft() == add) return false;
-				if (!add) {
-					modifiable.setRoofInsulationThickness(0);
-				}
-				modifiable.setHasLoft(add);
-				return true;
-			}
-		
-		});
-		return true;
-	}
+    @Override
+    public StateChangeSourceType getSourceType() {
+        return StateChangeSourceType.ACTION;
+    }
 
-	@Override
-	public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
-		return true;
-	}
-	
-	@Override
-	public boolean isAlwaysSuitable() {
-		return true;
-	}
+    @Override
+    public boolean apply(final ISettableComponentsScope scope, final ILets lets)
+            throws NHMException {
+        scope.modify(structure, new IModifier<StructureModel>() {
+
+            @Override
+            public boolean modify(final StructureModel modifiable) {
+                if (modifiable.getHasLoft() == add) {
+                    return false;
+                }
+                if (!add) {
+                    modifiable.setRoofInsulationThickness(0);
+                }
+                modifiable.setHasLoft(add);
+                return true;
+            }
+
+        });
+        return true;
+    }
+
+    @Override
+    public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
+        return true;
+    }
+
+    @Override
+    public boolean isAlwaysSuitable() {
+        return true;
+    }
 }

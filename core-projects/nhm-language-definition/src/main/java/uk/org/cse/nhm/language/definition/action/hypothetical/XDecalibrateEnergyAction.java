@@ -9,8 +9,8 @@ import uk.org.cse.nhm.language.definition.SeeAlso;
 import uk.org.cse.nhm.language.definition.context.calibration.XCalibrationContext;
 
 @Doc({
-		"After applying this action within an under or a snapshot, the house's calibrated and uncalibrated energy use will be the same for all purposes.",
-		"Consequently, things like predicted fuel bills, carbon emissions, net present value, and anything else which depends on energy use will be uncalibrated."
+    "After applying this action within an under or a snapshot, the house's calibrated and uncalibrated energy use will be the same for all purposes.",
+    "Consequently, things like predicted fuel bills, carbon emissions, net present value, and anything else which depends on energy use will be uncalibrated."
 })
 @Bind("action.decalibrate-energy")
 @SeeAlso(XCalibrationContext.class)

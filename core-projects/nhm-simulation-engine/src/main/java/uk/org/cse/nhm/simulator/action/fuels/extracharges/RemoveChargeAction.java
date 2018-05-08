@@ -17,70 +17,72 @@ import uk.org.cse.nhm.simulator.state.dimensions.fuel.cost.IExtraCharge;
 import uk.org.cse.nhm.simulator.state.dimensions.fuel.cost.ITariffs;
 
 public class RemoveChargeAction extends AbstractNamed implements
-		IComponentsAction {
+        IComponentsAction {
 
-	private final IDimension<ITariffs> tariffsDimension;
-	private final Optional<IExtraCharge> extraCharge;
-	private IModifier<ITariffs> modifier;
+    private final IDimension<ITariffs> tariffsDimension;
+    private final Optional<IExtraCharge> extraCharge;
+    private IModifier<ITariffs> modifier;
 
-	@AssistedInject
-	public RemoveChargeAction(final IDimension<ITariffs> tariffsDimension, @Assisted final Optional<IExtraCharge> extraCharge) {
-		this.tariffsDimension = tariffsDimension;
-		this.extraCharge = extraCharge;
-		if (this.extraCharge.isPresent()) {
-			this.modifier = new RemoveExtraCharge(this.extraCharge.get());
-		} else {
-			this.modifier = new ClearExtraCharges();
-		}
-	}
-	
-	private static class RemoveExtraCharge implements IModifier<ITariffs> {
-		private final IExtraCharge charge;
+    @AssistedInject
+    public RemoveChargeAction(final IDimension<ITariffs> tariffsDimension, @Assisted final Optional<IExtraCharge> extraCharge) {
+        this.tariffsDimension = tariffsDimension;
+        this.extraCharge = extraCharge;
+        if (this.extraCharge.isPresent()) {
+            this.modifier = new RemoveExtraCharge(this.extraCharge.get());
+        } else {
+            this.modifier = new ClearExtraCharges();
+        }
+    }
 
-		public RemoveExtraCharge(final IExtraCharge charge) {
-			this.charge = charge;
-		}
+    private static class RemoveExtraCharge implements IModifier<ITariffs> {
 
-		@Override
-		public boolean modify(final ITariffs modifiable) {
-			return modifiable.removeExtraCharge(charge);
-		}
-	}
-	
-	private static class ClearExtraCharges implements IModifier<ITariffs> {
-		@Override
-		public boolean modify(final ITariffs modifiable) {
-			return modifiable.clearExtraCharges();
-		}
-	}
+        private final IExtraCharge charge;
 
-	@Override
-	public StateChangeSourceType getSourceType() {
-		return StateChangeSourceType.ACTION;
-	}
+        public RemoveExtraCharge(final IExtraCharge charge) {
+            this.charge = charge;
+        }
 
-	@Override
-	public boolean apply(final ISettableComponentsScope scope, final ILets lets)
-			throws NHMException {
-		if (isSuitable(scope, lets)) {
-			scope.modify(tariffsDimension, modifier);
-			return true;
-		} else {
-			return false;
-		}
-	}
+        @Override
+        public boolean modify(final ITariffs modifiable) {
+            return modifiable.removeExtraCharge(charge);
+        }
+    }
 
-	@Override
-	public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
-		if (extraCharge.isPresent()) {
-			return scope.get(tariffsDimension).hasExtraCharge(extraCharge.get());
-		} else {
-			return true;
-		}
-	}
+    private static class ClearExtraCharges implements IModifier<ITariffs> {
 
-	@Override
-	public boolean isAlwaysSuitable() {
-		return false;
-	}
+        @Override
+        public boolean modify(final ITariffs modifiable) {
+            return modifiable.clearExtraCharges();
+        }
+    }
+
+    @Override
+    public StateChangeSourceType getSourceType() {
+        return StateChangeSourceType.ACTION;
+    }
+
+    @Override
+    public boolean apply(final ISettableComponentsScope scope, final ILets lets)
+            throws NHMException {
+        if (isSuitable(scope, lets)) {
+            scope.modify(tariffsDimension, modifier);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
+        if (extraCharge.isPresent()) {
+            return scope.get(tariffsDimension).hasExtraCharge(extraCharge.get());
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public boolean isAlwaysSuitable() {
+        return false;
+    }
 }

@@ -18,27 +18,29 @@ import uk.org.cse.nhm.simulator.state.IState;
 import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
 
 /**
- * This is a class which adapts an {@link IDwellingAction} into an {@link IStateAction}, by invoking
- * the {@link IDwellingAction} on every {@link IDwellingAction} passed to the {@link #apply(IState, Set, ILets)} method
- * one after another.
- * 
+ * This is a class which adapts an {@link IDwellingAction} into an
+ * {@link IStateAction}, by invoking the {@link IDwellingAction} on every
+ * {@link IDwellingAction} passed to the {@link #apply(IState, Set, ILets)}
+ * method one after another.
+ *
  * @author hinton
  *
  */
 public class StateActionAdapter implements IStateAction {
-	@SuppressWarnings("unused")
-	private static final Logger log = LoggerFactory.getLogger(StateActionAdapter.class);
 
-	private final IComponentsAction delegate;
+    @SuppressWarnings("unused")
+    private static final Logger log = LoggerFactory.getLogger(StateActionAdapter.class);
 
-	public StateActionAdapter(final IComponentsAction delegate) {
-		this.delegate = delegate;
-	}
-	
-	@Override
-	public Set<IDwelling> apply(final IStateScope scope, final Set<IDwelling> dwellings, final ILets lets) throws NHMException {
-		return scope.apply(delegate, dwellings, lets);
-	}
+    private final IComponentsAction delegate;
+
+    public StateActionAdapter(final IComponentsAction delegate) {
+        this.delegate = delegate;
+    }
+
+    @Override
+    public Set<IDwelling> apply(final IStateScope scope, final Set<IDwelling> dwellings, final ILets lets) throws NHMException {
+        return scope.apply(delegate, dwellings, lets);
+    }
 
     @Override
     public Set<IDwelling> getSuitable(final IStateScope scope, final Set<IDwelling> dwellings, final ILets lets) {
@@ -50,23 +52,23 @@ public class StateActionAdapter implements IStateAction {
         }
         return suitables.build();
     }
-    
-	@Override
-	public StateChangeSourceType getSourceType() {
-		return delegate.getSourceType();
-	}
 
-	public IComponentsAction getDelegate() {
-		return delegate;
-	}
-	
-	@Override
-	public Name getIdentifier() {
-		return delegate.getIdentifier();
-	}
-	
-	@Override
-	public String toString() {
-		return delegate.toString();
-	}
+    @Override
+    public StateChangeSourceType getSourceType() {
+        return delegate.getSourceType();
+    }
+
+    public IComponentsAction getDelegate() {
+        return delegate;
+    }
+
+    @Override
+    public Name getIdentifier() {
+        return delegate.getIdentifier();
+    }
+
+    @Override
+    public String toString() {
+        return delegate.toString();
+    }
 }

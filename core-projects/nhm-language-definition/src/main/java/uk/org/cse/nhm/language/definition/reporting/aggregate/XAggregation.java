@@ -10,13 +10,14 @@ import uk.org.cse.nhm.language.definition.function.num.IHouseContext;
 
 @Category(CategoryType.AGGREGATE_VALUES)
 public abstract class XAggregation extends XElement implements IHouseContext {
-    @BindNamedArgument
-	@Doc("The name of this aggregation, which will be used as a column heading in the report.")
-	public String getName() {
-		return super.getName();
-	}
 
-	public void setName(String name) {
-		super.setName(name);
-	}
+    @BindNamedArgument
+    @Doc("The name of this aggregation, which will be used as a column heading in the report.")
+    public String getName() {
+        return super.getName();
+    }
+
+    public void setName(String name) {
+        super.setName(name);
+    }
 }

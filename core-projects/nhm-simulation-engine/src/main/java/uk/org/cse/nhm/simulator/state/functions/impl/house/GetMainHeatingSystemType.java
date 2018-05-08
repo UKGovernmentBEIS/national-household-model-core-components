@@ -35,11 +35,12 @@ public class GetMainHeatingSystemType extends TechnologyFunction<MainHeatingSyst
      * @param scope
      * @param lets
      * @return
-     * @see uk.org.cse.nhm.simulator.state.functions.IComponentsFunction#compute(uk.org.cse.nhm.simulator.scope.IComponentsScope,
-     *      uk.org.cse.nhm.simulator.let.ILets)
+     * @see
+     * uk.org.cse.nhm.simulator.state.functions.IComponentsFunction#compute(uk.org.cse.nhm.simulator.scope.IComponentsScope,
+     * uk.org.cse.nhm.simulator.let.ILets)
      */
     @SuppressWarnings("unchecked")
-	@Override
+    @Override
     public MainHeatingSystemType compute(IComponentsScope scope, ILets lets) {
         return getTypeOfMainHeatingSystem(super.getTechnologies(scope));
     }
@@ -60,7 +61,7 @@ public class GetMainHeatingSystemType extends TechnologyFunction<MainHeatingSyst
     protected final MainHeatingSystemType getTypeOfMainHeatingSystem(ITechnologyModel technologies) {
         IPrimarySpaceHeater primarySpaceHeater = technologies.getPrimarySpaceHeater();
         if (technologies.isUsingAssumedElectricSpaceHeater()) {
-        	return MainHeatingSystemType.AssumedElectricHeater;
+            return MainHeatingSystemType.AssumedElectricHeater;
         } else if (primarySpaceHeater instanceof ICentralHeatingSystem) {
             final IHeatSource heatSource = ((ICentralHeatingSystem) primarySpaceHeater).getHeatSource();
 

@@ -27,6 +27,7 @@ import uk.org.cse.nhm.simulator.state.functions.IAggregationFunction;
 import uk.org.cse.nhm.utility.DeduplicatingMap;
 
 public class AggregateReport extends AbstractNamed implements IGroups.IListener {
+
     private final List<IAggregationFunction> aggregations;
     private final IState state;
     private final ITimeDimension time;

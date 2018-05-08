@@ -23,62 +23,65 @@ import uk.org.cse.nhm.simulator.state.dimensions.time.ITimeDimension;
 import uk.org.cse.nhm.simulator.transactions.IPayment;
 
 public class PredictObligationsFunction extends ObligationForecastingFunction {
-	private final ITimeDimension time;
-	private final int years;
-	private final boolean includeScope;
-	private final boolean includeHistory;
-	private final IDimension<IObligationHistory> history;
 
-	@AssistedInject
-	public PredictObligationsFunction(
-			final Set<IDimension<?>> allDimensions,
-			final IDimension<IEnergyMeter> meterDimension,
-			final IDimension<IPowerTable> powerDimension,
-			final IDimension<IObligationHistory> history,
-			final ITimeDimension time,
-			@Assisted final int years,
-			@Assisted("includeScope") 	final boolean includeScope,
-			@Assisted("includeHistory") final boolean includeHistory,
-			@Assisted final Predicate<Collection<String>> requiredTags) {
-		super(allDimensions, meterDimension, powerDimension, requiredTags);
-		this.history = history;
-		this.time = time;
-		this.years = years;
-		this.includeScope = includeScope;
-		this.includeHistory = includeHistory;
-	}
+    private final ITimeDimension time;
+    private final int years;
+    private final boolean includeScope;
+    private final boolean includeHistory;
+    private final IDimension<IObligationHistory> history;
 
-	@Override
-	public Double compute(final IComponentsScope scope, final ILets lets) {
-		final DateTime now = scope.get(time).get(lets);
-		final DateTime then = now.plusYears(years);
-		
-		final Multimap<DateTime, IPayment> forecast = 
-				predictObligations(scope, collectObligations(scope), now, then);
-		
-		double accumulator = 0;
-		for (final IPayment payment : forecast.values()) {
+    @AssistedInject
+    public PredictObligationsFunction(
+            final Set<IDimension<?>> allDimensions,
+            final IDimension<IEnergyMeter> meterDimension,
+            final IDimension<IPowerTable> powerDimension,
+            final IDimension<IObligationHistory> history,
+            final ITimeDimension time,
+            @Assisted final int years,
+            @Assisted("includeScope") final boolean includeScope,
+            @Assisted("includeHistory") final boolean includeHistory,
+            @Assisted final Predicate<Collection<String>> requiredTags) {
+        super(allDimensions, meterDimension, powerDimension, requiredTags);
+        this.history = history;
+        this.time = time;
+        this.years = years;
+        this.includeScope = includeScope;
+        this.includeHistory = includeHistory;
+    }
+
+    @Override
+    public Double compute(final IComponentsScope scope, final ILets lets) {
+        final DateTime now = scope.get(time).get(lets);
+        final DateTime then = now.plusYears(years);
+
+        final Multimap<DateTime, IPayment> forecast
+                = predictObligations(scope, collectObligations(scope), now, then);
+
+        double accumulator = 0;
+        for (final IPayment payment : forecast.values()) {
             accumulator += payment.getAmount();
-		}
-		return accumulator;
-	}
+        }
+        return accumulator;
+    }
 
-	private Iterable<IObligation> collectObligations(final IComponentsScope scope) {
-		if (includeHistory && includeScope) {
-			return scope.get(history);
-		} else if (includeHistory) {
-			final Set<IObligation> scopeNotes = new HashSet<>(scope.getAllNotes(IObligation.class));
-			final HashSet<IObligation> matches = new HashSet<>();
-			for (final IObligation o : scope.get(history)) {
-				if (scopeNotes.contains(o)) continue;
-				matches.add(o);
-			}
-			return matches;
-		} else if (includeScope) {
-			return scope.getAllNotes(IObligation.class);
-		} else {
-			return Collections.emptySet();
-		}
-	}
+    private Iterable<IObligation> collectObligations(final IComponentsScope scope) {
+        if (includeHistory && includeScope) {
+            return scope.get(history);
+        } else if (includeHistory) {
+            final Set<IObligation> scopeNotes = new HashSet<>(scope.getAllNotes(IObligation.class));
+            final HashSet<IObligation> matches = new HashSet<>();
+            for (final IObligation o : scope.get(history)) {
+                if (scopeNotes.contains(o)) {
+                    continue;
+                }
+                matches.add(o);
+            }
+            return matches;
+        } else if (includeScope) {
+            return scope.getAllNotes(IObligation.class);
+        } else {
+            return Collections.emptySet();
+        }
+    }
 
 }

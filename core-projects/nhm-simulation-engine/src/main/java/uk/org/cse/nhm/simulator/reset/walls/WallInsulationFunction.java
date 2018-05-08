@@ -13,27 +13,28 @@ import uk.org.cse.nhm.simulator.reset.AbstractScopedThingFunction;
 import uk.org.cse.nhm.simulator.state.IDimension;
 
 public class WallInsulationFunction extends AbstractScopedThingFunction<Double, IWall> {
-	private final Set<WallInsulationType> types;
 
-	@AssistedInject
-	WallInsulationFunction(final ILogEntryHandler log,
-						   final IDimension<StructureModel> structureDimension,
-						   @Assisted final Set<WallInsulationType> types) {
-		super(ResetWallsAction.CURRENT_WALL_LET_IDENTITY, IWall.class, log, structureDimension);
-		this.types = types;
-	}
+    private final Set<WallInsulationType> types;
 
-	@Override
-	protected Double doFail() {
-		return 0d;
-	}
+    @AssistedInject
+    WallInsulationFunction(final ILogEntryHandler log,
+            final IDimension<StructureModel> structureDimension,
+            @Assisted final Set<WallInsulationType> types) {
+        super(ResetWallsAction.CURRENT_WALL_LET_IDENTITY, IWall.class, log, structureDimension);
+        this.types = types;
+    }
 
-	@Override
-	protected Double doCompute(final IWall wall) {
-		double acc = 0;
-		for (final WallInsulationType t : types) {
-			acc += wall.getWallInsulationThickness(t);
-		}
-		return acc;
-	}
+    @Override
+    protected Double doFail() {
+        return 0d;
+    }
+
+    @Override
+    protected Double doCompute(final IWall wall) {
+        double acc = 0;
+        for (final WallInsulationType t : types) {
+            acc += wall.getWallInsulationThickness(t);
+        }
+        return acc;
+    }
 }

@@ -9,8 +9,9 @@ import uk.org.cse.nhm.simulator.state.IDwelling;
 import uk.org.cse.nhm.simulator.state.IState;
 
 public class AllDwellings extends AbstractNamed implements IDwellingSet {
-	@Override
-	public Set<IDwelling> get(final IState state, ILets lets) {
+
+    @Override
+    public Set<IDwelling> get(final IState state, ILets lets) {
         return Collections.unmodifiableSet(state.getDwellings());
-	}
+    }
 }

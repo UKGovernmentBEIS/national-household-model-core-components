@@ -22,6 +22,7 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 import uk.org.cse.nhm.utility.DeduplicatingMap;
 
 public class NumberProbe extends AbstractNamed implements IComponentsFunction<Number> {
+
     private static final String UNDEFINED = "undefined";
     public static final String VALUE_KEY = "Value";
     public static final String BRANCH_KEY = "Branch";
@@ -37,7 +38,6 @@ public class NumberProbe extends AbstractNamed implements IComponentsFunction<Nu
     public NumberProbe(
             final ITimeDimension time,
             final IProbeCollector collector,
-
             @Assisted final IComponentsFunction<Number> delegate,
             @Assisted final List<IComponentsFunction<?>> probes) {
         this.time = time;
@@ -46,7 +46,7 @@ public class NumberProbe extends AbstractNamed implements IComponentsFunction<Nu
         this.delegate = delegate;
         this.probes = probes;
 
-        final Builder<IDimension<?>> builder = ImmutableSet.<IDimension<?>> builder();
+        final Builder<IDimension<?>> builder = ImmutableSet.<IDimension<?>>builder();
 
         builder.addAll(delegate.getDependencies());
 
@@ -65,12 +65,12 @@ public class NumberProbe extends AbstractNamed implements IComponentsFunction<Nu
 
         for (final IComponentsFunction<? extends Object> probe : probes) {
             if (probe instanceof IProbingFunction) {
-            	final Map<String, Object> compute = ((IProbingFunction) probe).compute(scope, lets);
-            	if (compute != null) {
-            		for (final Map.Entry<String, Object> e : compute.entrySet()) {
-            			captured.put(e.getKey(), undefined(e.getValue()));
-            		}
-            	}
+                final Map<String, Object> compute = ((IProbingFunction) probe).compute(scope, lets);
+                if (compute != null) {
+                    for (final Map.Entry<String, Object> e : compute.entrySet()) {
+                        captured.put(e.getKey(), undefined(e.getValue()));
+                    }
+                }
             } else {
                 try {
                     final Object value = probe.compute(scope, lets);
@@ -86,7 +86,7 @@ public class NumberProbe extends AbstractNamed implements IComponentsFunction<Nu
         captured.put(BRANCH_KEY, scope.getTag().getIdentifier().getPath());
 
         collector.collectProbe(getIdentifier().getName(),
-        		scope.get(time).get(lets),
+                scope.get(time).get(lets),
                 scope.getDwellingID(),
                 scope.getDwelling().getWeight(),
                 captured.build());
@@ -95,10 +95,10 @@ public class NumberProbe extends AbstractNamed implements IComponentsFunction<Nu
     }
 
     private Object undefined(final Object value) {
-		return value == null ? UNDEFINED : value;
-	}
+        return value == null ? UNDEFINED : value;
+    }
 
-	@Override
+    @Override
     public Set<IDimension<?>> getDependencies() {
         return dependencies;
     }

@@ -18,44 +18,46 @@ import uk.org.cse.nhm.simulator.state.IStateChangeSource;
 import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
 
 public class TimeScope extends ImmutableScope<IStateChangeSource> implements IStateScope {
-	protected TimeScope() {
-		super(TIME);
-		
-	}
 
-	private static final class Time implements IStateChangeSource {
-		@Override
-		public StateChangeSourceType getSourceType() {
-			return StateChangeSourceType.TIME;
-		}
+    protected TimeScope() {
+        super(TIME);
 
-		@Override
-		public Name getIdentifier() {
-			return Name.of("The passage of time");
-		}
-	}
-	
-	protected static final Time TIME = new Time();
+    }
 
-	@Override
-	public Set<IDwelling> apply(final IStateAction action, final Set<IDwelling> dwellings, final ILets lets) {
-		throw new UnsupportedOperationException("Cannot change time.");
-	}
+    private static final class Time implements IStateChangeSource {
 
-	@Override
-	public Set<IDwelling> apply(final IComponentsAction action, final Set<IDwelling> dwellings, final ILets lets) {
-		throw new UnsupportedOperationException("Cannot change time.");
-	}
-	
-	@Override
-	public IBranch getState() {
-		throw new UnsupportedOperationException("Time has no branches.");
-	}
-	
-	@Override
-	public Optional<IComponentsScope> getComponentsScope(final IDwelling dwelling) {
-		return Optional.absent();
-	}
+        @Override
+        public StateChangeSourceType getSourceType() {
+            return StateChangeSourceType.TIME;
+        }
+
+        @Override
+        public Name getIdentifier() {
+            return Name.of("The passage of time");
+        }
+    }
+
+    protected static final Time TIME = new Time();
+
+    @Override
+    public Set<IDwelling> apply(final IStateAction action, final Set<IDwelling> dwellings, final ILets lets) {
+        throw new UnsupportedOperationException("Cannot change time.");
+    }
+
+    @Override
+    public Set<IDwelling> apply(final IComponentsAction action, final Set<IDwelling> dwellings, final ILets lets) {
+        throw new UnsupportedOperationException("Cannot change time.");
+    }
+
+    @Override
+    public IBranch getState() {
+        throw new UnsupportedOperationException("Time has no branches.");
+    }
+
+    @Override
+    public Optional<IComponentsScope> getComponentsScope(final IDwelling dwelling) {
+        return Optional.absent();
+    }
 
     @Override
     public void merge(final IStateScope ss) {
@@ -66,10 +68,10 @@ public class TimeScope extends ImmutableScope<IStateChangeSource> implements ISt
     public IStateScope branch(final IStateChangeSource t) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public IHypotheticalComponentsScope createHypothesis(IDwelling dwelling) {
-    	throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 
     @Override

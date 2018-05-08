@@ -8,7 +8,8 @@ import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.simulator.state.dimensions.behaviour.IHeatingBehaviour;
 
 public interface IEnergyCalculatorBridge {
-	IPowerTable evaluate(IWeather weather,
-			StructureModel structure, ITechnologyModel technology,
-			BasicCaseAttributes attributes, People people, IHeatingBehaviour behaviour);
+
+    IPowerTable evaluate(IWeather weather,
+            StructureModel structure, ITechnologyModel technology,
+            BasicCaseAttributes attributes, People people, IHeatingBehaviour behaviour);
 }

@@ -12,9 +12,10 @@ import javax.validation.Payload;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidEnergyConstant {
-	String message() default "{uk.org.cse.nhm.language.validate.ValidEnergyConstant.nope}";
 
-	Class<?>[] groups() default { };
+    String message() default "{uk.org.cse.nhm.language.validate.ValidEnergyConstant.nope}";
 
-	Class<? extends Payload>[] payload() default {};
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
 }

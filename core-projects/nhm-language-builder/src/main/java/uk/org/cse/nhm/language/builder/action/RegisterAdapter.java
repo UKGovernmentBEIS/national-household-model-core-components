@@ -17,17 +17,19 @@ import uk.org.cse.nhm.simulator.factories.IActionFactory;
 import uk.org.cse.nhm.simulator.scope.IComponentsAction;
 
 public class RegisterAdapter extends ReflectingAdapter {
-	final IActionFactory measureFactory;
-	
-	@Inject
-	public RegisterAdapter(final Set<IConverter> delegates, final Set<IAdapterInterceptor> interceptors, final IActionFactory measureFactory) {
-		super(delegates, interceptors);
-		this.measureFactory = measureFactory;
-	}
-	
-	@Adapt(XFlagAction.class)
-	public IComponentsAction buildFlagAction2(
-			@Prop(XFlagAction.P.flags) final List<Glob> flags){
-		return new DoNothingAction(); /* We hijack AutoFlagInterceptor here. */ 
-	}
+
+    final IActionFactory measureFactory;
+
+    @Inject
+    public RegisterAdapter(final Set<IConverter> delegates, final Set<IAdapterInterceptor> interceptors, final IActionFactory measureFactory) {
+        super(delegates, interceptors);
+        this.measureFactory = measureFactory;
+    }
+
+    @Adapt(XFlagAction.class)
+    public IComponentsAction buildFlagAction2(
+            @Prop(XFlagAction.P.flags) final List<Glob> flags) {
+        return new DoNothingAction();
+        /* We hijack AutoFlagInterceptor here. */
+    }
 }

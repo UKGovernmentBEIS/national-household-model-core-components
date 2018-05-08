@@ -18,22 +18,23 @@ import uk.org.cse.nhm.energycalculator.constants.EnergyCalculatorConstants;
  *
  */
 public class MetabolicGainsSource implements IEnergyTransducer {
-	private final double METABOLIC_GAINS_PER_PERSON;
-	private final double REDUCED_METABOLIC_GAINS_PER_PERSON;
 
-	public MetabolicGainsSource(final IConstants constants) {
-		METABOLIC_GAINS_PER_PERSON = constants.get(EnergyCalculatorConstants.METABOLIC_GAINS_PER_PERSON);
-		REDUCED_METABOLIC_GAINS_PER_PERSON = constants.get(EnergyCalculatorConstants.REDUCED_METABOLIC_GAINS_PER_PERSON);
-	}
+    private final double METABOLIC_GAINS_PER_PERSON;
+    private final double REDUCED_METABOLIC_GAINS_PER_PERSON;
 
-	@Override
-	public ServiceType getServiceType() {
-		return ServiceType.METABOLIC_GAINS;
-	}
+    public MetabolicGainsSource(final IConstants constants) {
+        METABOLIC_GAINS_PER_PERSON = constants.get(EnergyCalculatorConstants.METABOLIC_GAINS_PER_PERSON);
+        REDUCED_METABOLIC_GAINS_PER_PERSON = constants.get(EnergyCalculatorConstants.REDUCED_METABOLIC_GAINS_PER_PERSON);
+    }
 
-	@Override
-	public void generate(final IEnergyCalculatorHouseCase house, final IInternalParameters parameters,final ISpecificHeatLosses losses, final IEnergyState state) {
-		/*
+    @Override
+    public ServiceType getServiceType() {
+        return ServiceType.METABOLIC_GAINS;
+    }
+
+    @Override
+    public void generate(final IEnergyCalculatorHouseCase house, final IInternalParameters parameters, final ISpecificHeatLosses losses, final IEnergyState state) {
+        /*
 		BEISDOC
 		NAME: Metabolic gains
 		DESCRIPTION: The total heat gain due to human metabolism
@@ -46,24 +47,24 @@ public class MetabolicGainsSource implements IEnergyTransducer {
 		DEPS: metabolic-gains-per-person,reduced-metabolic-gains-per-person,occupancy,reduced-internal-gains
 		ID: metabolic-gains
 		CODSIEB
-		*/
-		final double metabolicGains = parameters.getNumberOfOccupants() * (house.hasReducedInternalGains() ? REDUCED_METABOLIC_GAINS_PER_PERSON: METABOLIC_GAINS_PER_PERSON);
+         */
+        final double metabolicGains = parameters.getNumberOfOccupants() * (house.hasReducedInternalGains() ? REDUCED_METABOLIC_GAINS_PER_PERSON : METABOLIC_GAINS_PER_PERSON);
 
-		state.increaseSupply(EnergyType.GainsMETABOLIC_GAINS, metabolicGains);
-	}
+        state.increaseSupply(EnergyType.GainsMETABOLIC_GAINS, metabolicGains);
+    }
 
-	@Override
-	public int getPriority() {
-		return 0;
-	}
+    @Override
+    public int getPriority() {
+        return 0;
+    }
 
-	@Override
-	public String toString() {
-		return "Metabolism";
-	}
+    @Override
+    public String toString() {
+        return "Metabolism";
+    }
 
-	@Override
-	public TransducerPhaseType getPhase() {
-		return TransducerPhaseType.BeforeEverything;
-	}
+    @Override
+    public TransducerPhaseType getPhase() {
+        return TransducerPhaseType.BeforeEverything;
+    }
 }

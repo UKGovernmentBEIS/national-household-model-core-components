@@ -7,293 +7,293 @@ import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 
 public interface DwellingEntry extends SurveyEntry {
-	@SavVariableMapping("YRBULT3")
-	public Integer getExactYearBuilt();
 
-	@SavVariableMapping("OREPALND")
-	public Double getLender();
+    @SavVariableMapping("YRBULT3")
+    public Integer getExactYearBuilt();
 
-	@SavVariableMapping("WYNTFINC")
-	public Double getFinancial_EmploymentSituationChanged();
+    @SavVariableMapping("OREPALND")
+    public Double getLender();
 
-	@SavVariableMapping("OREPAORG")
-	public Double getIndependentAdviceOrganisation();
+    @SavVariableMapping("WYNTFINC")
+    public Double getFinancial_EmploymentSituationChanged();
 
-	@SavVariableMapping("OREPHPOS")
-	public Double getReceivedAPossessionOrder();
+    @SavVariableMapping("OREPAORG")
+    public Double getIndependentAdviceOrganisation();
 
-	@SavVariableMapping("WYNTPRPF")
-	public Double getDecidedPropertyPricesMightFallFurther();
+    @SavVariableMapping("OREPHPOS")
+    public Double getReceivedAPossessionOrder();
 
-	@SavVariableMapping("OREPAWEB")
-	public Double getGovernment_LAOrOtherWebsite();
+    @SavVariableMapping("WYNTPRPF")
+    public Double getDecidedPropertyPricesMightFallFurther();
 
-	@SavVariableMapping("WYNTDEPT")
-	public Double getDidn_TThinkDepositWasLargeEnough();
+    @SavVariableMapping("OREPAWEB")
+    public Double getGovernment_LAOrOtherWebsite();
 
-	@SavVariableMapping("OREPHAP")
-	public Double getPriorToGivingUpYourHomeDidAnyOfTheFollowingHappen();
+    @SavVariableMapping("WYNTDEPT")
+    public Double getDidn_TThinkDepositWasLargeEnough();
 
-	@SavVariableMapping("OREPAOTH")
-	public Double getOtherSource();
+    @SavVariableMapping("OREPHAP")
+    public Double getPriorToGivingUpYourHomeDidAnyOfTheFollowingHappen();
 
-	@SavVariableMapping("OREPHLND")
-	public Double getAdvisedByLenderToSellHome();
+    @SavVariableMapping("OREPAOTH")
+    public Double getOtherSource();
 
-	@SavVariableMapping("WYNTCOMP")
-	public Double getApplicationProcessTooComplicated();
+    @SavVariableMapping("OREPHLND")
+    public Double getAdvisedByLenderToSellHome();
 
-	@SavVariableMapping("WYNTCHMD")
-	public Double getChangedMindAboutBuying();
+    @SavVariableMapping("WYNTCOMP")
+    public Double getApplicationProcessTooComplicated();
 
-	@SavVariableMapping("OREPHCRT")
-	public Double getReceivedCourtSummons_HearingDate();
+    @SavVariableMapping("WYNTCHMD")
+    public Double getChangedMindAboutBuying();
 
-	@SavVariableMapping("WYNTCOST")
-	public Double getOverallCostOfMortgageTooHigh();
+    @SavVariableMapping("OREPHCRT")
+    public Double getReceivedCourtSummons_HearingDate();
 
-	@SavVariableMapping("OREPADV")
-	public Double getBeforeYouGaveUpYourHome_DidYouSeekAdviceFromAnyOfTheFollowing();
+    @SavVariableMapping("WYNTCOST")
+    public Double getOverallCostOfMortgageTooHigh();
 
-	@SavVariableMapping("APPACPT")
-	public Double getWasYourApplicationAccepted();
+    @SavVariableMapping("OREPADV")
+    public Double getBeforeYouGaveUpYourHome_DidYouSeekAdviceFromAnyOfTheFollowing();
 
-	@SavVariableMapping("OREPHORG")
-	public Double getAdvisedByOtherOrganisationToSellHome();
+    @SavVariableMapping("APPACPT")
+    public Double getWasYourApplicationAccepted();
 
-	@SavVariableMapping("MORTAPPL")
-	public Double getHaveYouConsideredApplyingForAMortgage_OrASecuredLoan_ToBuyAPropertyAsYourMainHomeInThePastYear();
+    @SavVariableMapping("OREPHORG")
+    public Double getAdvisedByOtherOrganisationToSellHome();
 
-	@SavVariableMapping("WYNTDSBL")
-	public Double getDiscouragedByBank_Lender();
+    @SavVariableMapping("MORTAPPL")
+    public Double getHaveYouConsideredApplyingForAMortgage_OrASecuredLoan_ToBuyAPropertyAsYourMainHomeInThePastYear();
 
-	@SavVariableMapping("WYNTAPPR")
-	public Double getDidn_TThinkApplicationWouldBeApproved();
+    @SavVariableMapping("WYNTDSBL")
+    public Double getDiscouragedByBank_Lender();
 
-	@SavVariableMapping("WYNTOTHR")
-	public Double getOtherReason();
+    @SavVariableMapping("WYNTAPPR")
+    public Double getDidn_TThinkApplicationWouldBeApproved();
 
-	@SavVariableMapping("OREPHHEA")
-	public Double getAttendedACourtHearing();
+    @SavVariableMapping("WYNTOTHR")
+    public Double getOtherReason();
 
-	@SavVariableMapping("OREPALA")
-	public Double getLocalAuthority();
+    @SavVariableMapping("OREPHHEA")
+    public Double getAttendedACourtHearing();
 
-	@SavVariableMapping("WYNTPERC")
-	public Double getPersonalCircumstancesChanges();
+    @SavVariableMapping("OREPALA")
+    public Double getLocalAuthority();
 
-	@SavVariableMapping("WYNTINTF")
-	public Double getDecidedInterestRatesMightFallFurther();
+    @SavVariableMapping("WYNTPERC")
+    public Double getPersonalCircumstancesChanges();
 
-	@SavVariableMapping("OREPHACT")
-	public Double getAdvisedLenderWasTakingLegal_CourtAction();
+    @SavVariableMapping("WYNTINTF")
+    public Double getDecidedInterestRatesMightFallFurther();
 
-	@SavVariableMapping("DIDAPPLY")
-	public Double getDidYouApply();
+    @SavVariableMapping("OREPHACT")
+    public Double getAdvisedLenderWasTakingLegal_CourtAction();
 
-	@SavVariableMapping("WHYMMRG")
-	public Enum69 getCouldNotAffordMortgagePayments();
+    @SavVariableMapping("DIDAPPLY")
+    public Double getDidYouApply();
 
-	@SavVariableMapping("HAS445")
-	public Enum69 getShelteredAccomodation();
+    @SavVariableMapping("WHYMMRG")
+    public Enum69 getCouldNotAffordMortgagePayments();
 
-	@SavVariableMapping("WHYMSCHL")
-	public Enum69 getSoChild_Ren_CouldAttendABetterSchool();
+    @SavVariableMapping("HAS445")
+    public Enum69 getShelteredAccomodation();
 
-	@SavVariableMapping("PREVACN")
-	public Enum318 getPreviousNonTemporaryAccommodation();
+    @SavVariableMapping("WHYMSCHL")
+    public Enum69 getSoChild_Ren_CouldAttendABetterSchool();
 
-	@SavVariableMapping("WHYMLGE")
-	public Enum69 getWantedLargerHouse_Flat();
+    @SavVariableMapping("PREVACN")
+    public Enum318 getPreviousNonTemporaryAccommodation();
 
-	@SavVariableMapping("OWNPR")
-	public Enum69 getWhetherOwnedAnyPreviousAccommodation();
+    @SavVariableMapping("WHYMLGE")
+    public Enum69 getWantedLargerHouse_Flat();
 
-	@SavVariableMapping("TENEMOVE")
-	public Enum69 getWantedToMove();
+    @SavVariableMapping("OWNPR")
+    public Enum69 getWhetherOwnedAnyPreviousAccommodation();
 
-	@SavVariableMapping("SRRECMMT")
-	public Enum69 getWouldn_TWantTheCommitment();
+    @SavVariableMapping("TENEMOVE")
+    public Enum69 getWantedToMove();
 
-	@SavVariableMapping("PREVAC")
-	public Enum318 getPreviousAccommodation();
+    @SavVariableMapping("SRRECMMT")
+    public Enum69 getWouldn_TWantTheCommitment();
 
-	@SavVariableMapping("WHYMPOOR")
-	public Enum69 getPreviousAccomInPoorCondition();
+    @SavVariableMapping("PREVAC")
+    public Enum318 getPreviousAccommodation();
 
-	@SavVariableMapping("SRREOTHR")
-	public Enum69 getOtherReasonForNotBuying();
+    @SavVariableMapping("WHYMPOOR")
+    public Enum69 getPreviousAccomInPoorCondition();
 
-	@SavVariableMapping("SRREFLEX")
-	public Enum69 getPreferFlexibilityOfRenting();
+    @SavVariableMapping("SRREOTHR")
+    public Enum69 getOtherReasonForNotBuying();
 
-	@SavVariableMapping("WHYMMAR")
-	public Enum69 getMarriage_BeganLivingTogether();
+    @SavVariableMapping("SRREFLEX")
+    public Enum69 getPreferFlexibilityOfRenting();
 
-	@SavVariableMapping("OMB10")
-	public Enum328 getYearHomeGivenUp();
+    @SavVariableMapping("WHYMMAR")
+    public Enum69 getMarriage_BeganLivingTogether();
 
-	@SavVariableMapping("SRTHIS")
-	public Enum69 getWhetherWillBuyThisHouseOrFlat_();
+    @SavVariableMapping("OMB10")
+    public Enum328 getYearHomeGivenUp();
 
-	@SavVariableMapping("MAINR1")
-	public Enum330 getMainReasonHRPMoved();
+    @SavVariableMapping("SRTHIS")
+    public Enum69 getWhetherWillBuyThisHouseOrFlat_();
 
-	@SavVariableMapping("PREVLET")
-	public Enum331 getTypeOfTenancy();
+    @SavVariableMapping("MAINR1")
+    public Enum330 getMainReasonHRPMoved();
 
-	@SavVariableMapping("WHYMNOT")
-	public Enum69 getAskedToLeaveByLandlord();
+    @SavVariableMapping("PREVLET")
+    public Enum331 getTypeOfTenancy();
 
-	@SavVariableMapping("WLIST")
-	public Enum69 getAnotherHhldMemberOnW_List();
+    @SavVariableMapping("WHYMNOT")
+    public Enum69 getAskedToLeaveByLandlord();
 
-	@SavVariableMapping("PREVR")
-	public Enum334 getWhoPreviousAccomRentedFrom();
+    @SavVariableMapping("WLIST")
+    public Enum69 getAnotherHhldMemberOnW_List();
 
-	@SavVariableMapping("SRREWHRE")
-	public Enum69 getLikeItWhereIAm();
+    @SavVariableMapping("PREVR")
+    public Enum334 getWhoPreviousAccomRentedFrom();
 
-	@SavVariableMapping("WHYEHB")
-	public Enum69 getDifficultiesWithPaymentOfHousingBenefit_LocalHousingAllowance();
+    @SavVariableMapping("SRREWHRE")
+    public Enum69 getLikeItWhereIAm();
 
-	@SavVariableMapping("SRREMNTE")
-	public Enum69 getRepairsAndMaintenanceTooCostly();
+    @SavVariableMapping("WHYEHB")
+    public Enum69 getDifficultiesWithPaymentOfHousingBenefit_LocalHousingAllowance();
 
-	@SavVariableMapping("YRBULT1")
-	public Enum338 getWhenPropertyBuilt();
+    @SavVariableMapping("SRREMNTE")
+    public Enum69 getRepairsAndMaintenanceTooCostly();
 
-	@SavVariableMapping("ACCOM")
-	public Enum339 getAccommodationType();
+    @SavVariableMapping("YRBULT1")
+    public Enum338 getWhenPropertyBuilt();
 
-	@SavVariableMapping("WHYESLUS")
-	public Enum69 getLandlordWantedToSell_UseProperty();
+    @SavVariableMapping("ACCOM")
+    public Enum339 getAccommodationType();
 
-	@SavVariableMapping("SRLONG")
-	public Enum341 getHowLongBeforeYouBuy_();
+    @SavVariableMapping("WHYESLUS")
+    public Enum69 getLandlordWantedToSell_UseProperty();
 
-	@SavVariableMapping("FLTTYP")
-	public Enum342 getFlatType();
+    @SavVariableMapping("SRLONG")
+    public Enum341 getHowLongBeforeYouBuy_();
 
-	@SavVariableMapping("WHYMJOB")
-	public Enum69 getJobRelatedReasons();
+    @SavVariableMapping("FLTTYP")
+    public Enum342 getFlatType();
 
-	@SavVariableMapping("TENEJOB")
-	public Enum69 getAccomTiedToJobAndJobEnded();
+    @SavVariableMapping("WHYMJOB")
+    public Enum69 getJobRelatedReasons();
 
-	@SavVariableMapping("WHYMSML")
-	public Enum69 getWantedSmallerHouse_Flat();
+    @SavVariableMapping("TENEJOB")
+    public Enum69 getAccomTiedToJobAndJobEnded();
 
-	@SavVariableMapping("WHYMCHP")
-	public Enum69 getWantedCheaperHouse_Flat();
+    @SavVariableMapping("WHYMSML")
+    public Enum69 getWantedSmallerHouse_Flat();
 
-	@SavVariableMapping("TENEASKE")
-	public Enum69 getAskedToLeaveByLandlord_Agent();
+    @SavVariableMapping("WHYMCHP")
+    public Enum69 getWantedCheaperHouse_Flat();
 
-	@SavVariableMapping("WHYECOMP")
-	public Enum69 getNeighboursComplainedToLandlord();
+    @SavVariableMapping("TENEASKE")
+    public Enum69 getAskedToLeaveByLandlord_Agent();
 
-	@SavVariableMapping("PREV1")
-	public Enum349 getWasPreviousAccomSold_();
+    @SavVariableMapping("WHYECOMP")
+    public Enum69 getNeighboursComplainedToLandlord();
 
-	@SavVariableMapping("OMB11")
-	public Enum350 getBestDescribesHowHomeWasGivenUp();
+    @SavVariableMapping("PREV1")
+    public Enum349 getWasPreviousAccomSold_();
 
-	@SavVariableMapping("PREV00")
-	public Enum351 getPreviousAccom_OwnedOrMortgage();
+    @SavVariableMapping("OMB11")
+    public Enum350 getBestDescribesHowHomeWasGivenUp();
 
-	@SavVariableMapping("OMB9")
-	public Enum69 getGivenUpHomeDueToDifficultiesPayingMortgage();
+    @SavVariableMapping("PREV00")
+    public Enum351 getPreviousAccom_OwnedOrMortgage();
 
-	@SavVariableMapping("WHYEDIS")
-	public Enum69 getLandlordDissatisfied();
+    @SavVariableMapping("OMB9")
+    public Enum69 getGivenUpHomeDueToDifficultiesPayingMortgage();
 
-	@SavVariableMapping("WHYEOTHR")
-	public Enum69 getSomeOtherReason();
+    @SavVariableMapping("WHYEDIS")
+    public Enum69 getLandlordDissatisfied();
 
-	@SavVariableMapping("WHYMOTHR")
-	public Enum69 getSomeOtherReason_WHYMOTHR();
+    @SavVariableMapping("WHYEOTHR")
+    public Enum69 getSomeOtherReason();
 
-	@SavVariableMapping("WHYMDIV")
-	public Enum69 getDivorce_Seperation();
+    @SavVariableMapping("WHYMOTHR")
+    public Enum69 getSomeOtherReason_WHYMOTHR();
 
-	@SavVariableMapping("PREVNEW")
-	public Enum357 getPreviousAccom_NewHhldrs();
+    @SavVariableMapping("WHYMDIV")
+    public Enum69 getDivorce_Seperation();
 
-	@SavVariableMapping("WHYERENT")
-	public Enum69 getNonPaymentOfRent();
+    @SavVariableMapping("PREVNEW")
+    public Enum357 getPreviousAccom_NewHhldrs();
 
-	@SavVariableMapping("WHYMAREA")
-	public Enum69 getToABetterNeighbourhood_Area();
+    @SavVariableMapping("WHYERENT")
+    public Enum69 getNonPaymentOfRent();
 
-	@SavVariableMapping("SRBUY")
-	public Enum360 getWillYouEventuallyBuyAHomeOrShareHomeInTheUK();
+    @SavVariableMapping("WHYMAREA")
+    public Enum69 getToABetterNeighbourhood_Area();
 
-	@SavVariableMapping("CASECAT")
-	public Enum229 getStatusOfCase();
+    @SavVariableMapping("SRBUY")
+    public Enum360 getWillYouEventuallyBuyAHomeOrShareHomeInTheUK();
 
-	@SavVariableMapping("WHYMLLOR")
-	public Enum69 getDidn_TGetOnWithLandlord();
+    @SavVariableMapping("CASECAT")
+    public Enum229 getStatusOfCase();
 
-	@SavVariableMapping("WHYMUSUI")
-	public Enum69 getPreviousAccomUnsuitable();
+    @SavVariableMapping("WHYMLLOR")
+    public Enum69 getDidn_TGetOnWithLandlord();
 
-	@SavVariableMapping("PLANTEN")
-	public Enum364 getLongTerm_HousingExpectedToLiveIn();
+    @SavVariableMapping("WHYMUSUI")
+    public Enum69 getPreviousAccomUnsuitable();
 
-	@SavVariableMapping("TEMPINS")
-	public Enum251 getIntroductionToAccommodationBeforeTemporaryAccommodation();
+    @SavVariableMapping("PLANTEN")
+    public Enum364 getLongTerm_HousingExpectedToLiveIn();
 
-	@SavVariableMapping("WHYMFMPS")
-	public Enum69 getOtherFamily_PersonalReasons();
+    @SavVariableMapping("TEMPINS")
+    public Enum251 getIntroductionToAccommodationBeforeTemporaryAccommodation();
 
-	@SavVariableMapping("WHYEPROB")
-	public Enum69 getProblemsWithProperty();
+    @SavVariableMapping("WHYMFMPS")
+    public Enum69 getOtherFamily_PersonalReasons();
 
-	@SavVariableMapping("OWNPRN")
-	public Enum368 getWhoOwnedPreviousAccomWith();
+    @SavVariableMapping("WHYEPROB")
+    public Enum69 getProblemsWithProperty();
 
-	@SavVariableMapping("GOREHS")
-	public Enum30 getRegion_EHSOrder();
+    @SavVariableMapping("OWNPRN")
+    public Enum368 getWhoOwnedPreviousAccomWith();
 
-	@SavVariableMapping("SRREDEBT")
-	public Enum69 getWouldn_TWantToBeInDebt();
+    @SavVariableMapping("GOREHS")
+    public Enum30 getRegion_EHSOrder();
 
-	@SavVariableMapping("SRREUNBL")
-	public Enum69 getUnlikelyToAffordIt();
+    @SavVariableMapping("SRREDEBT")
+    public Enum69 getWouldn_TWantToBeInDebt();
 
-	@SavVariableMapping("DWELLNEW")
-	public Enum69 getFirstResidents();
+    @SavVariableMapping("SRREUNBL")
+    public Enum69 getUnlikelyToAffordIt();
 
-	@SavVariableMapping("OMB9A")
-	public Enum373 getWhoGaveUpTheirHome();
+    @SavVariableMapping("DWELLNEW")
+    public Enum69 getFirstResidents();
 
-	@SavVariableMapping("HSETYPE")
-	public Enum374 getHouseType();
+    @SavVariableMapping("OMB9A")
+    public Enum373 getWhoGaveUpTheirHome();
 
-	@SavVariableMapping("QUARTER")
-	public Enum230 getFieldworkQuarter();
+    @SavVariableMapping("HSETYPE")
+    public Enum374 getHouseType();
 
-	@SavVariableMapping("ACCOTH")
-	public Enum376 getOtherAccommodationType();
+    @SavVariableMapping("QUARTER")
+    public Enum230 getFieldworkQuarter();
 
-	@SavVariableMapping("WHYMBUY")
-	public Enum69 getWantedToBuy();
+    @SavVariableMapping("ACCOTH")
+    public Enum376 getOtherAccommodationType();
 
-	@SavVariableMapping("SRRESCJB")
-	public Enum69 getDon_THaveASecureJob();
+    @SavVariableMapping("WHYMBUY")
+    public Enum69 getWantedToBuy();
 
-	@SavVariableMapping("TEMPAC")
-	public Enum69 getPreviousAccomTemporary_();
+    @SavVariableMapping("SRRESCJB")
+    public Enum69 getDon_THaveASecureJob();
 
-	@SavVariableMapping("WHYMOWN")
-	public Enum69 getWantedOwnHome_LiveIndependently();
+    @SavVariableMapping("TEMPAC")
+    public Enum69 getPreviousAccomTemporary_();
 
-	@SavVariableMapping("TENEMTAG")
-	public Enum69 getMutualAgreement();
+    @SavVariableMapping("WHYMOWN")
+    public Enum69 getWantedOwnHome_LiveIndependently();
 
-	@SavVariableMapping("SRREASM")
-	public Enum382 getMainReasonNotToBuyOrOwnAHome();
+    @SavVariableMapping("TENEMTAG")
+    public Enum69 getMutualAgreement();
+
+    @SavVariableMapping("SRREASM")
+    public Enum382 getMainReasonNotToBuyOrOwnAHome();
 
 }
-

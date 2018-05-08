@@ -7,23 +7,24 @@ import uk.org.cse.stockimport.domain.metadata.IStockImportSource;
 
 @XmlRootElement(name = "ehs")
 public class EHSStockImportSource implements IStockImportSource {
-	private String version;
-	private String name = "English Housing Survey";
 
-	public String getName() {
-		return name;
-	}
+    private String version;
+    private String name = "English Housing Survey";
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	@XmlAttribute
-	public String getVersion() {
-		return version;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setVersion(String version) {
-		this.version = version;
-	}
+    @XmlAttribute
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
 }

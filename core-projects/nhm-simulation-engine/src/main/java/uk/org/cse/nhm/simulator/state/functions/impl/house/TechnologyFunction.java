@@ -12,23 +12,24 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public abstract class TechnologyFunction<T> extends AbstractNamed implements IComponentsFunction<T> {
-	final IDimension<ITechnologyModel> bad;
 
-	public TechnologyFunction(IDimension<ITechnologyModel> bad) {
-		this.bad = bad;
-	}
+    final IDimension<ITechnologyModel> bad;
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return Collections.<IDimension<?>>singleton(bad);
-	}
+    public TechnologyFunction(IDimension<ITechnologyModel> bad) {
+        this.bad = bad;
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return Collections.emptySet();
-	}
-	
-	protected ITechnologyModel getTechnologies(final IComponents components) {
-		return components.get(bad);
-	}
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return Collections.<IDimension<?>>singleton(bad);
+    }
+
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return Collections.emptySet();
+    }
+
+    protected ITechnologyModel getTechnologies(final IComponents components) {
+        return components.get(bad);
+    }
 }

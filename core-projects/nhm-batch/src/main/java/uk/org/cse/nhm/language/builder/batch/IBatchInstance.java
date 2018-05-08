@@ -6,6 +6,6 @@ import com.larkery.jasb.sexp.ISExpression;
 
 public interface IBatchInstance extends ISExpression {
 
-	Map<String, String> getParameters();
-	
+    Map<String, String> getParameters();
+
 }

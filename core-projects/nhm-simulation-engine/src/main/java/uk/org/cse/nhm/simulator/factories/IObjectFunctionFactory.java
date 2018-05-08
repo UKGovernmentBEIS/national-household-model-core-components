@@ -52,276 +52,275 @@ import uk.org.cse.nhm.simulator.state.functions.impl.num.steppedcharge.SteppedPr
 import uk.org.cse.nhm.simulator.state.functions.impl.num.var.GetRegister;
 
 public interface IObjectFunctionFactory {
-	public ConditionComponentsFunction.NumberCondition createDoubleCondition(
-			final List<IComponentsFunction<Boolean>> tests,
-			final List<IComponentsFunction<Number>> values,
-			final IComponentsFunction<Number> defaultValue);
 
-	public ConditionComponentsFunction<IWeather> createWeatherCondition(
-			final List<IComponentsFunction<Boolean>> tests,
-			final List<IComponentsFunction<IWeather>> values,
-			final IComponentsFunction<IWeather> defaultValue);
+    public ConditionComponentsFunction.NumberCondition createDoubleCondition(
+            final List<IComponentsFunction<Boolean>> tests,
+            final List<IComponentsFunction<Number>> values,
+            final IComponentsFunction<Number> defaultValue);
 
-	public SteppedFunction createSteppedFunction(
-			final Direction direction,
-			final IComponentsFunction<Number> delegate,
-			final List<Double> steps);
+    public ConditionComponentsFunction<IWeather> createWeatherCondition(
+            final List<IComponentsFunction<Boolean>> tests,
+            final List<IComponentsFunction<IWeather>> values,
+            final IComponentsFunction<IWeather> defaultValue);
+
+    public SteppedFunction createSteppedFunction(
+            final Direction direction,
+            final IComponentsFunction<Number> delegate,
+            final List<Double> steps);
 
     public HeatLossFunction createHeatLossFunction(@Assisted XHeatLoss.XHeatLossType type);
 
-	public PeakHeatLoadFunction createPeakHeatLoadFunction(
-			@Assisted("internal") final double internalTemperature,
-			@Assisted("external") final double externalTemperature,
-			@Assisted("scale") final double scale
-			);
+    public PeakHeatLoadFunction createPeakHeatLoadFunction(
+            @Assisted("internal") final double internalTemperature,
+            @Assisted("external") final double externalTemperature,
+            @Assisted("scale") final double scale
+    );
 
-	public SizingResultFunction createSizingResultFunction(final Units units);
+    public SizingResultFunction createSizingResultFunction(final Units units);
 
-	public NetPresentValueFunction createNetPresentValue(
-			final double discount,
-			final int horizon,
+    public NetPresentValueFunction createNetPresentValue(
+            final double discount,
+            final int horizon,
             final boolean debug,
             final Predicate<Collection<String>> requiredTags);
 
-	public Polynomial createPolynomial(
-			final IComponentsFunction<? extends Number> x,
-			final List<PolynomialTerm> terms);
+    public Polynomial createPolynomial(
+            final IComponentsFunction<? extends Number> x,
+            final List<PolynomialTerm> terms);
 
-	public EnergyUseFunction createEnergyUseFunction(
-			final boolean isCalibrated,
-			final Optional<FuelType> ft,
-			final Optional<List<ServiceType>> st);
+    public EnergyUseFunction createEnergyUseFunction(
+            final boolean isCalibrated,
+            final Optional<FuelType> ft,
+            final Optional<List<ServiceType>> st);
 
-	public FuelCostFunction createFuelCostFunction(
-			final Optional<FuelType> ft,
-			final Set<ServiceType> excludedServices
-			);
+    public FuelCostFunction createFuelCostFunction(
+            final Optional<FuelType> ft,
+            final Set<ServiceType> excludedServices
+    );
 
-	public CarbonEmissionsFunction createCarbonEmissionsFunction(
-			final Optional<FuelType> ft,
-			final Optional<List<ServiceType>> st);
+    public CarbonEmissionsFunction createCarbonEmissionsFunction(
+            final Optional<FuelType> ft,
+            final Optional<List<ServiceType>> st);
 
-	@Adapt(XNetCost.class)
-	public CostResultFunction createCostResultFunction(
-			@Prop(XNetCost.P.taggedPredicate)  final Predicate<Collection<String>> tagged);
+    @Adapt(XNetCost.class)
+    public CostResultFunction createCostResultFunction(
+            @Prop(XNetCost.P.taggedPredicate) final Predicate<Collection<String>> tagged);
 
-	@Adapt(XLoftInsulationThickness.class)
-	public LoftInsulationThicknessFunction createLoftInsulationThicknessFunction();
+    @Adapt(XLoftInsulationThickness.class)
+    public LoftInsulationThicknessFunction createLoftInsulationThicknessFunction();
 
-	public AverageUValueFunction createAverageUValueFunction(final Set<AreaType> areas);
+    public AverageUValueFunction createAverageUValueFunction(final Set<AreaType> areas);
 
-	@Adapt(XSizingFunction.class)
-	public SizingFunction createSizingFunction(
-			@Prop(XSizingFunction.P.VALUE) final IComponentsFunction<Number> value,
-			@Prop(XSizingFunction.P.MINIMUM_SIZE) @Assisted("min") final double min,
-			@Prop(XSizingFunction.P.MAXIMUM_SIZE) @Assisted("max") final double max);
+    @Adapt(XSizingFunction.class)
+    public SizingFunction createSizingFunction(
+            @Prop(XSizingFunction.P.VALUE) final IComponentsFunction<Number> value,
+            @Prop(XSizingFunction.P.MINIMUM_SIZE) @Assisted("min") final double min,
+            @Prop(XSizingFunction.P.MAXIMUM_SIZE) @Assisted("max") final double max);
 
-	@Adapt(XAnnualMaintenance.class)
-	public AnnualMaintenanceFunction createAnnualMaintenanceFunction();
+    @Adapt(XAnnualMaintenance.class)
+    public AnnualMaintenanceFunction createAnnualMaintenanceFunction();
 
-	@Adapt(XHouseBalance.class)
-	public HouseBalanceFunction createHouseBalanceFunction();
+    @Adapt(XHouseBalance.class)
+    public HouseBalanceFunction createHouseBalanceFunction();
 
-	@Adapt(XLoanBalancePaid.class)
-	public LoanBalancePaidFunction createLoanBalancePaidFunction(
-			@Prop(XLoanBalance.P.creditor)
-			@Assisted("creditor") final String creditor,
-			@Prop(XLoanBalance.P.tagged)
-			@Assisted("tagged") final String tagged);
+    @Adapt(XLoanBalancePaid.class)
+    public LoanBalancePaidFunction createLoanBalancePaidFunction(
+            @Prop(XLoanBalance.P.creditor)
+            @Assisted("creditor") final String creditor,
+            @Prop(XLoanBalance.P.tagged)
+            @Assisted("tagged") final String tagged);
 
-	@Adapt(XLoanBalanceOutstanding.class)
-	public LoanBalanceOutstandingFunction createLoanBalanceOutstandingFunction(
-			@Prop(XLoanBalance.P.creditor)
-			@Assisted("creditor") final String creditor,
-			@Prop(XLoanBalance.P.tagged)
-			@Assisted("tagged") final String tagged);
+    @Adapt(XLoanBalanceOutstanding.class)
+    public LoanBalanceOutstandingFunction createLoanBalanceOutstandingFunction(
+            @Prop(XLoanBalance.P.creditor)
+            @Assisted("creditor") final String creditor,
+            @Prop(XLoanBalance.P.tagged)
+            @Assisted("tagged") final String tagged);
 
-	public MeterReadingFunction createHouseMeterReadingFunction(final FuelType fuel);
+    public MeterReadingFunction createHouseMeterReadingFunction(final FuelType fuel);
 
-	@Adapt(XSteppedPricing.class)
-	public SteppedPricingFunction createSteppedPricingFunction(
-			@Prop(XSteppedPricing.P.standingCharge)
-			@Assisted("standingCharge") final IComponentsFunction<Number> standingCharge,
-			@Prop(XSteppedPricing.P.alwaysApply)
-			@Assisted final boolean alwaysApply,
-			@Prop(XSteppedPricing.P.unitsFunction)
-			@Assisted("unitsFunction") final IComponentsFunction<Number> unitsFunction,
-			@Prop(XSteppedPricing.P.ranges)
-			@Assisted final List<Range> ranges);
+    @Adapt(XSteppedPricing.class)
+    public SteppedPricingFunction createSteppedPricingFunction(
+            @Prop(XSteppedPricing.P.standingCharge)
+            @Assisted("standingCharge") final IComponentsFunction<Number> standingCharge,
+            @Prop(XSteppedPricing.P.alwaysApply)
+            @Assisted final boolean alwaysApply,
+            @Prop(XSteppedPricing.P.unitsFunction)
+            @Assisted("unitsFunction") final IComponentsFunction<Number> unitsFunction,
+            @Prop(XSteppedPricing.P.ranges)
+            @Assisted final List<Range> ranges);
 
-	@Adapt(XRangeCharge.class)
-	public SteppedPricingFunction.Range buildRange(
-			@Prop(XRangeCharge.P.to) final double upperBound,
-			@Prop(XRangeCharge.P.unitPrice) final IComponentsFunction<Number> unitPrice);
+    @Adapt(XRangeCharge.class)
+    public SteppedPricingFunction.Range buildRange(
+            @Prop(XRangeCharge.P.to) final double upperBound,
+            @Prop(XRangeCharge.P.unitPrice) final IComponentsFunction<Number> unitPrice);
 
-	public TimeSeriesComponentsFunction<Number> createTimeSeriesFunction(
-			@Assisted Optional<XForesightLevel> foresight,
-			@Assisted("initial") final Number initial,
-			@Assisted("later") final Map<DateTime, Number> later);
+    public TimeSeriesComponentsFunction<Number> createTimeSeriesFunction(
+            @Assisted Optional<XForesightLevel> foresight,
+            @Assisted("initial") final Number initial,
+            @Assisted("later") final Map<DateTime, Number> later);
 
-	public RegisterGetFunction createRegisterGetFunction(
-			@Assisted final String name,
-			@Assisted final Double defaultVal);
+    public RegisterGetFunction createRegisterGetFunction(
+            @Assisted final String name,
+            @Assisted final Double defaultVal);
 
-	public PredictObligationsFunction createPredictObligations(
-			@Assisted final int years,
-			@Assisted("includeScope") 	final boolean includeScope,
-			@Assisted("includeHistory") final boolean includeHistory,
-			@Assisted final Predicate<Collection<String>> requiredTags
-			);
+    public PredictObligationsFunction createPredictObligations(
+            @Assisted final int years,
+            @Assisted("includeScope") final boolean includeScope,
+            @Assisted("includeHistory") final boolean includeHistory,
+            @Assisted final Predicate<Collection<String>> requiredTags
+    );
 
-	@Adapt(XSapScore.class)
-	public SapScoreFunction createSapScore(
-			@Prop(XSapScore.P.deflator)
-			@Assisted final double deflator);
+    @Adapt(XSapScore.class)
+    public SapScoreFunction createSapScore(
+            @Prop(XSapScore.P.deflator)
+            @Assisted final double deflator);
 
-	public InflatedFunction createInflatedFunction(
-			Optional<XForesightLevel> foresight, final Optional<DateTime> startDate, final double rate,
-			final IComponentsFunction<? extends Number> value);
+    public InflatedFunction createInflatedFunction(
+            Optional<XForesightLevel> foresight, final Optional<DateTime> startDate, final double rate,
+            final IComponentsFunction<? extends Number> value);
 
-	public SumOfTransactionsFunction createSumOfTransactions(
-			@Assisted final Optional<Glob> counterparty,
-			@Assisted final Predicate<Collection<String>> requiredTags);
+    public SumOfTransactionsFunction createSumOfTransactions(
+            @Assisted final Optional<Glob> counterparty,
+            @Assisted final Predicate<Collection<String>> requiredTags);
 
-	@Adapt(XLookupFunction.class)
-	public LookupFunction createLookupFunction(
-			@Prop(XLookupFunction.P.keys)
-			final List<IComponentsFunction<?>> keys,
-			@Prop(XLookupFunction.P.entries)
-			final List<LookupEntry> entries,
-			@Prop(XLookupFunction.P.defaultValue)
-			final IComponentsFunction<? extends Number> fallback,
-			@Prop(XLookupFunction.P.warnOnFallback)
-			final boolean warnOnError);
+    @Adapt(XLookupFunction.class)
+    public LookupFunction createLookupFunction(
+            @Prop(XLookupFunction.P.keys)
+            final List<IComponentsFunction<?>> keys,
+            @Prop(XLookupFunction.P.entries)
+            final List<LookupEntry> entries,
+            @Prop(XLookupFunction.P.defaultValue)
+            final IComponentsFunction<? extends Number> fallback,
+            @Prop(XLookupFunction.P.warnOnFallback)
+            final boolean warnOnError);
 
-	@Adapt(XHeatingEfficiency.class)
-	public HeatingEfficiencyFunction createHeatingEfficiency(
-			@Prop(XHeatingEfficiency.P.of) @Assisted final XHeatingSystem of,
-			@Prop(XHeatingEfficiency.P.measurement) @Assisted final XEfficiencyMeasurement measurement);
+    @Adapt(XHeatingEfficiency.class)
+    public HeatingEfficiencyFunction createHeatingEfficiency(
+            @Prop(XHeatingEfficiency.P.of) @Assisted final XHeatingSystem of,
+            @Prop(XHeatingEfficiency.P.measurement) @Assisted final XEfficiencyMeasurement measurement);
 
-	@Adapt(XSpaceHeatingResponsiveness.class)
-	public HeatingResponsivenessFunction createHeatingResponsiveness();
+    @Adapt(XSpaceHeatingResponsiveness.class)
+    public HeatingResponsivenessFunction createHeatingResponsiveness();
 
-	@Adapt(XGaussian.class)
-	public GaussianRandomFunction createGaussian(
-			@Prop(XGaussian.P.mean)
-			@Assisted("mean") final double mean,
-			@Prop(XGaussian.P.standardDeviation)
-			@Assisted("standardDeviation") final double standardDeviation);
+    @Adapt(XGaussian.class)
+    public GaussianRandomFunction createGaussian(
+            @Prop(XGaussian.P.mean)
+            @Assisted("mean") final double mean,
+            @Prop(XGaussian.P.standardDeviation)
+            @Assisted("standardDeviation") final double standardDeviation);
 
-	@Adapt(XUniform.class)
-	public UniformRandomFunction createUniform(
-			@Prop(XUniform.P.start)
-			@Assisted("start") final double start,
-			@Prop(XUniform.P.end)
-			@Assisted("end") final double end);
+    @Adapt(XUniform.class)
+    public UniformRandomFunction createUniform(
+            @Prop(XUniform.P.start)
+            @Assisted("start") final double start,
+            @Prop(XUniform.P.end)
+            @Assisted("end") final double end);
 
-	@Adapt(XTriangular.class)
-	public TriangularRandomFunction createTriangular(
-			@Prop(XTriangular.P.start)
-			@Assisted("start") final double start,
-			@Prop(XTriangular.P.peak)
-			@Assisted("peak") final double peak,
-			@Prop(XTriangular.P.end)
-			@Assisted("end") final double end);
+    @Adapt(XTriangular.class)
+    public TriangularRandomFunction createTriangular(
+            @Prop(XTriangular.P.start)
+            @Assisted("start") final double start,
+            @Prop(XTriangular.P.peak)
+            @Assisted("peak") final double peak,
+            @Prop(XTriangular.P.end)
+            @Assisted("end") final double end);
 
-	@Adapt(XFloorInsulationThickness.class)
-	public FloorInsulationThicknessFunction createFloorInsulationThickness();
+    @Adapt(XFloorInsulationThickness.class)
+    public FloorInsulationThicknessFunction createFloorInsulationThickness();
 
-	@Adapt(XInterpolate.class)
-	public InterpolateFunction createInterpolate(
-			@Prop(XInterpolate.P.x)
-			@Assisted final IComponentsFunction<? extends Number> x,
-			@Prop(XInterpolate.P.extrapolate)
+    @Adapt(XInterpolate.class)
+    public InterpolateFunction createInterpolate(
+            @Prop(XInterpolate.P.x)
+            @Assisted final IComponentsFunction<? extends Number> x,
+            @Prop(XInterpolate.P.extrapolate)
             @Assisted final boolean extrapolate,
             @Prop(XInterpolate.P.xCoordinates)
-			@Assisted("xs") final List<Double> xs,
-			@Prop(XInterpolate.P.yCoordinates)
-			@Assisted("ys") final List<Double> ys);
+            @Assisted("xs") final List<Double> xs,
+            @Prop(XInterpolate.P.yCoordinates)
+            @Assisted("ys") final List<Double> ys);
 
-	@Adapt(XGlobalAccountBalance.class)
-	public GlobalAccountBalanceFunction createGlobalAccountBalance(
-			@Prop(XGlobalAccountBalance.P.account)  final String account);
+    @Adapt(XGlobalAccountBalance.class)
+    public GlobalAccountBalanceFunction createGlobalAccountBalance(
+            @Prop(XGlobalAccountBalance.P.account) final String account);
 
-	@Adapt(XNumberOfChildren.class)
-	public CountChildren createCountChildren();
+    @Adapt(XNumberOfChildren.class)
+    public CountChildren createCountChildren();
 
-	@Adapt(XNumberOfAdults.class)
-	public CountAdults createCountAdults();
+    @Adapt(XNumberOfAdults.class)
+    public CountAdults createCountAdults();
 
-	public SequenceFunction createSequenceFunction(
-			final IComponentsFunction<Number> delegate,
-			final List<ISequenceSpecialAction> actions);
+    public SequenceFunction createSequenceFunction(
+            final IComponentsFunction<Number> delegate,
+            final List<ISequenceSpecialAction> actions);
 
-	public GetRegister createGetRegister(
-			final String name,
-			final Optional<Double> defaultValue);
+    public GetRegister createGetRegister(
+            final String name,
+            final Optional<Double> defaultValue);
 
-	@Adapt(XMainHeatingTemperature.class)
-	public MainHeatingTemperatureFunction createMainHeatingTemperature();
+    @Adapt(XMainHeatingTemperature.class)
+    public MainHeatingTemperatureFunction createMainHeatingTemperature();
 
-	@Adapt(XYear.class)
-	public SimYearFunction createSimYear(
-			@Prop("foresight") Optional<XForesightLevel> foresight);
+    @Adapt(XYear.class)
+    public SimYearFunction createSimYear(
+            @Prop("foresight") Optional<XForesightLevel> foresight);
 
-	@Adapt(XHouseWeight.class)
-	public HouseWeightFunction createHouseWeight();
+    @Adapt(XHouseWeight.class)
+    public HouseWeightFunction createHouseWeight();
 
-	@Adapt(XMeanInternalTemperature.class)
-	public MeanInternalTemperatureFunction createMeanInternalTemperature();
+    @Adapt(XMeanInternalTemperature.class)
+    public MeanInternalTemperatureFunction createMeanInternalTemperature();
 
-	@Adapt(XAirChangeRate.class)
-	public AirChangeRateFunction createAirChangeRate();
+    @Adapt(XAirChangeRate.class)
+    public AirChangeRateFunction createAirChangeRate();
 
-	@Adapt(XHeatingSystemOutput.class)
-	public HeatingSystemOutputFunction createHeatingSystemOutputFunction(
-			@Prop("of") final Optional<XHeatingSystem> system
-			);
-	
-	@Adapt(XHeatLoad.class)
+    @Adapt(XHeatingSystemOutput.class)
+    public HeatingSystemOutputFunction createHeatingSystemOutputFunction(
+            @Prop("of") final Optional<XHeatingSystem> system
+    );
+
+    @Adapt(XHeatLoad.class)
     public HeatLoadFunction createHeatLoadFunction(
-    		@Prop(XHeatLoad.P.weights)
-    		List<Double> weights,
-    		@Prop(XHeatLoad.P.space)
-    		@Assisted("space") boolean space,
-    		@Prop(XHeatLoad.P.water)
-    		@Assisted("water") boolean water);
+            @Prop(XHeatLoad.P.weights) List<Double> weights,
+            @Prop(XHeatLoad.P.space)
+            @Assisted("space") boolean space,
+            @Prop(XHeatLoad.P.water)
+            @Assisted("water") boolean water);
 
-	public PredictSum createPredictSum(
-			@Assisted("horizon") IComponentsFunction<Number> horizon,
-			@Assisted Set<XForesightLevel> foresight,
-			@Assisted("value") IComponentsFunction<Number> value);
+    public PredictSum createPredictSum(
+            @Assisted("horizon") IComponentsFunction<Number> horizon,
+            @Assisted Set<XForesightLevel> foresight,
+            @Assisted("value") IComponentsFunction<Number> value);
 
-	@Adapt(XExponentialDiscount.class)
-	public GeometricDiscount createGeometricDiscount(
-			@Prop(XExponentialDiscount.P.rate)
-			@Assisted("rate") IComponentsFunction<Number> rate,
-			@Prop(XExponentialDiscount.P.value)
-			@Assisted("value") IComponentsFunction<Number> value);
+    @Adapt(XExponentialDiscount.class)
+    public GeometricDiscount createGeometricDiscount(
+            @Prop(XExponentialDiscount.P.rate)
+            @Assisted("rate") IComponentsFunction<Number> rate,
+            @Prop(XExponentialDiscount.P.value)
+            @Assisted("value") IComponentsFunction<Number> value);
 
-	@Adapt(XHyperbolicDiscount.class)
-	public HyperbolicDiscount createHyperbolicDiscount(
-			@Prop(XHyperbolicDiscount.P.beta)
-			@Assisted("beta") IComponentsFunction<Number> beta,
-			@Prop(XHyperbolicDiscount.P.delta)
-			@Assisted("delta") IComponentsFunction<Number> delta,
-			@Prop(XHyperbolicDiscount.P.value)
-			@Assisted("value") IComponentsFunction<Number> value);
+    @Adapt(XHyperbolicDiscount.class)
+    public HyperbolicDiscount createHyperbolicDiscount(
+            @Prop(XHyperbolicDiscount.P.beta)
+            @Assisted("beta") IComponentsFunction<Number> beta,
+            @Prop(XHyperbolicDiscount.P.delta)
+            @Assisted("delta") IComponentsFunction<Number> delta,
+            @Prop(XHyperbolicDiscount.P.value)
+            @Assisted("value") IComponentsFunction<Number> value);
 
-	public AnnualCostFunction createAnnualCost(
-			@Assisted final boolean includeYearEnd,
-			@Assisted final Predicate<Collection<String>> tagTest
-			);
+    public AnnualCostFunction createAnnualCost(
+            @Assisted final boolean includeYearEnd,
+            @Assisted final Predicate<Collection<String>> tagTest
+    );
 
     @Adapt(XMatchingFlags.class)
     public GetFlags createGetFlags(
-        @Prop(XMatchingFlags.P.glob) final Glob glob);
-
+            @Prop(XMatchingFlags.P.glob) final Glob glob);
 
     @Adapt(XPrior.class)
     public PriorFunction createPrior(
-        @Prop(XPrior.P.DELEGATE) final IComponentsFunction<? extends Number> delegate
-        );
+            @Prop(XPrior.P.DELEGATE) final IComponentsFunction<? extends Number> delegate
+    );
 
     EnergyCalculationStepFunction createEnergyCalculatorStepFunction(EnergyCalculationStep step, java.util.Optional<Integer> month);
 }

@@ -12,15 +12,20 @@ import javax.validation.Payload;
 import uk.org.cse.nhm.language.definition.sequence.XScope;
 
 /**
- * A method with this attribute must contain a variable declaration with the correct scope.
+ * A method with this attribute must contain a variable declaration with the
+ * correct scope.
  */
 @Inherited
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {RequiresScopeValidator.class})
 public @interface RequireScope {
-	XScope[] value() default {};
-	String message() default "{javax.validation.constraints.NotNull.message}";
-	Class<?>[] groups() default { };
-	Class<? extends Payload>[] payload() default {};
+
+    XScope[] value() default {};
+
+    String message() default "{javax.validation.constraints.NotNull.message}";
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
 }

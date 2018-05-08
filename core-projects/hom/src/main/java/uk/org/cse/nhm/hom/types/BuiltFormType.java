@@ -17,7 +17,7 @@ public enum BuiltFormType {
     PurposeBuiltLowRiseFlat,
     PurposeBuiltHighRiseFlat;
 
-	public boolean isFlat() {
-		return this == ConvertedFlat || this == PurposeBuiltHighRiseFlat || this == PurposeBuiltLowRiseFlat;
-	}
+    public boolean isFlat() {
+        return this == ConvertedFlat || this == PurposeBuiltHighRiseFlat || this == PurposeBuiltLowRiseFlat;
+    }
 }

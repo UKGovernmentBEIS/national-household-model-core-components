@@ -15,29 +15,29 @@ import uk.org.cse.nhm.simulator.util.RandomSource;
 
 public class FilterPicker extends LettingPicker {
 
-	private final IComponentsFunction<Boolean> test;
-	private final IPicker delegate;
+    private final IComponentsFunction<Boolean> test;
+    private final IPicker delegate;
 
-	@AssistedInject
-	public FilterPicker(
-			@Assisted final IComponentsFunction<Boolean> test,
-			@Assisted final IPicker delegate, 
-			@Assisted final List<ISequenceSpecialAction> bindings) {
-		super(bindings);
-		this.test = test;
-		this.delegate = delegate;
-	}
+    @AssistedInject
+    public FilterPicker(
+            @Assisted final IComponentsFunction<Boolean> test,
+            @Assisted final IPicker delegate,
+            @Assisted final List<ISequenceSpecialAction> bindings) {
+        super(bindings);
+        this.test = test;
+        this.delegate = delegate;
+    }
 
-	@Override
-	protected PickOption doPick(final RandomSource random, final Set<PickOption> options) {
-		final ImmutableSet.Builder<PickOption> reducedOptions = ImmutableSet.builder();
-		
-		for (final PickOption option : options) {
-			if (test.compute(option.scope, option.lets)) {
-				reducedOptions.add(option);
-			}
-		}
-		
-		return delegate.pick(random, reducedOptions.build());
-	}
+    @Override
+    protected PickOption doPick(final RandomSource random, final Set<PickOption> options) {
+        final ImmutableSet.Builder<PickOption> reducedOptions = ImmutableSet.builder();
+
+        for (final PickOption option : options) {
+            if (test.compute(option.scope, option.lets)) {
+                reducedOptions.add(option);
+            }
+        }
+
+        return delegate.pick(random, reducedOptions.build());
+    }
 }

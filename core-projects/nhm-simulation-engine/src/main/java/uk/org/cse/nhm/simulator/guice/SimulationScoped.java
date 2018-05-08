@@ -8,10 +8,10 @@ import java.lang.annotation.Target;
 import com.google.inject.ScopeAnnotation;
 
 /**
- * This is a guice scoping annotation which is intended to indicate that particular
- * types or bindings are scoped per-simulation (i.e. they are singletons within
- * a simulation)
- * 
+ * This is a guice scoping annotation which is intended to indicate that
+ * particular types or bindings are scoped per-simulation (i.e. they are
+ * singletons within a simulation)
+ *
  * @author hinton
  *
  */

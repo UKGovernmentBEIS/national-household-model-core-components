@@ -6,7 +6,8 @@ import uk.org.cse.nhm.energycalculator.api.impl.InsolationPlaneUtil;
 import uk.org.cse.nhm.energycalculator.api.types.MonthType;
 
 public abstract class SeasonalParameters implements ISeasonalParameters {
-	/*
+
+    /*
 	BEISDOC
 	NAME: Declination
 	DESCRIPTION: The declination of the sun
@@ -19,47 +20,47 @@ public abstract class SeasonalParameters implements ISeasonalParameters {
 	CONVERSION: From degress to radians
 	ID: solar-declination
 	CODSIEB
-	*/
-	public static final double[] DECLINATION = {
-			-0.36128316, -0.22340214,
-				-0.03141593, 0.17104227, 0.3281219, 0.40317106, 0.3700098,
-				0.23911011, 0.05061455, -0.15184364, -0.32114058, -0.40142573
-		};
+     */
+    public static final double[] DECLINATION = {
+        -0.36128316, -0.22340214,
+        -0.03141593, 0.17104227, 0.3281219, 0.40317106, 0.3700098,
+        0.23911011, 0.05061455, -0.15184364, -0.32114058, -0.40142573
+    };
 
-	protected final MonthType month;
-	private final IWeather weather;
-	private final double latitude;
-	
-	public SeasonalParameters(MonthType month, IWeather weather, double latitude) {
-		super();
-		this.month = month;
-		this.weather = weather;
-		this.latitude = latitude;
-	}
+    protected final MonthType month;
+    private final IWeather weather;
+    private final double latitude;
 
-	@Override
-	public final int getMonthOfYear() {
-		return month.ordinal() + 1;
-	}
+    public SeasonalParameters(MonthType month, IWeather weather, double latitude) {
+        super();
+        this.month = month;
+        this.weather = weather;
+        this.latitude = latitude;
+    }
 
-	@Override
-	public final double getSolarDeclination() {
-		return DECLINATION[month.ordinal()];
-	}
+    @Override
+    public final int getMonthOfYear() {
+        return month.ordinal() + 1;
+    }
 
-	@Override
-	public double getExternalTemperature() {
-		return weather.getExternalTemperature(month);
-	}
+    @Override
+    public final double getSolarDeclination() {
+        return DECLINATION[month.ordinal()];
+    }
 
-	@Override
-	public double getSiteWindSpeed() {
-		return weather.getWindSpeed(month);
-	}
+    @Override
+    public double getExternalTemperature() {
+        return weather.getExternalTemperature(month);
+    }
 
-	@Override
-	public double getSolarFlux(double angleFromHorizontal, double angleFromNorth) {
-		/*
+    @Override
+    public double getSiteWindSpeed() {
+        return weather.getWindSpeed(month);
+    }
+
+    @Override
+    public double getSolarFlux(double angleFromHorizontal, double angleFromNorth) {
+        /*
 		BEISDOC
 		NAME: Effective solar flux
 		DESCRIPTION:
@@ -72,7 +73,7 @@ public abstract class SeasonalParameters implements ISeasonalParameters {
 		DEPS: insolation,solar-flux-adjustment
 		ID: effective-solar-flux
 		CODSIEB
-		*/
+         */
         return weather.getHorizontalSolarFlux(month) * InsolationPlaneUtil.getSolarFluxMultiplier(getSolarDeclination(), latitude, angleFromHorizontal, angleFromNorth);
-	}
+    }
 }

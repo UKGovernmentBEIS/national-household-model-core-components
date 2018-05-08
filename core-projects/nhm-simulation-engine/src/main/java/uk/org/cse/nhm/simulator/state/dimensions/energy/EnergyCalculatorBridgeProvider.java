@@ -18,65 +18,66 @@ import uk.org.cse.nhm.simulator.guice.EnergyCalculationRequestedSteps;
 import uk.org.cse.nhm.simulator.guice.StateModule;
 
 public class EnergyCalculatorBridgeProvider implements Provider<EnergyCalculatorBridge> {
-	private final LoadingCache<IConstants, EnergyCalculatorBridge> cache;
-	private final Provider<IConstants> constantsProvider;
 
-	@Inject
-	public EnergyCalculatorBridgeProvider(final Provider<IConstants> constantsProvider,
-                                          final EnergyCalculationRequestedSteps requestedSteps,
-                                          @Named(EnergyCalculatorBridge.CACHE_SIZE) final int cacheSize) {
-		this.constantsProvider = constantsProvider;
-		this.cache = CacheBuilder.newBuilder()
-			.softValues()
-			.recordStats()
-			.maximumSize(3)
-			.expireAfterAccess(2, TimeUnit.HOURS)
-			.build(new CacheLoader<IConstants, EnergyCalculatorBridge>() {
-					@Override
-					public EnergyCalculatorBridge load(final IConstants key) throws Exception {
-						return new EnergyCalculatorBridge(new EnergyCalculatorCalculator(key), requestedSteps, cacheSize);
-					}
-				   });
-	}
+    private final LoadingCache<IConstants, EnergyCalculatorBridge> cache;
+    private final Provider<IConstants> constantsProvider;
 
-	@Override
-	public EnergyCalculatorBridge get() {
-		try {
-			return getFromCache(constantsProvider.get());
-		} catch (final ExecutionException e) {
-			throw new RuntimeException(e.getMessage(), e);
-		}
-	}
+    @Inject
+    public EnergyCalculatorBridgeProvider(final Provider<IConstants> constantsProvider,
+            final EnergyCalculationRequestedSteps requestedSteps,
+            @Named(EnergyCalculatorBridge.CACHE_SIZE) final int cacheSize) {
+        this.constantsProvider = constantsProvider;
+        this.cache = CacheBuilder.newBuilder()
+                .softValues()
+                .recordStats()
+                .maximumSize(3)
+                .expireAfterAccess(2, TimeUnit.HOURS)
+                .build(new CacheLoader<IConstants, EnergyCalculatorBridge>() {
+                    @Override
+                    public EnergyCalculatorBridge load(final IConstants key) throws Exception {
+                        return new EnergyCalculatorBridge(new EnergyCalculatorCalculator(key), requestedSteps, cacheSize);
+                    }
+                });
+    }
 
-	public EnergyCalculatorBridge getFromCache(IConstants constants) throws ExecutionException {
-		return this.cache.get(constants);
-	}
+    @Override
+    public EnergyCalculatorBridge get() {
+        try {
+            return getFromCache(constantsProvider.get());
+        } catch (final ExecutionException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
 
-	/**
-	 * This is here solely to allow {@link StateModule} to offer other things
-	 * an energy calculator bridge which
-	 * a) comes from the same cache as above
-	 * b) definitely has defaultconstants
-	 *
-	 * Without this we cannot guarantee a) (although we could do b)
-	 *
-	 */
-	public static class WithDefaultConstants implements Provider<EnergyCalculatorBridge> {
-		private EnergyCalculatorBridgeProvider realProvider;
+    public EnergyCalculatorBridge getFromCache(IConstants constants) throws ExecutionException {
+        return this.cache.get(constants);
+    }
 
-		@Inject
-		public WithDefaultConstants(final EnergyCalculatorBridgeProvider realProvider) {
-			this.realProvider = realProvider;
-		}
+    /**
+     * This is here solely to allow {@link StateModule} to offer other things an
+     * energy calculator bridge which a) comes from the same cache as above b)
+     * definitely has defaultconstants
+     *
+     * Without this we cannot guarantee a) (although we could do b)
+     *
+     */
+    public static class WithDefaultConstants implements Provider<EnergyCalculatorBridge> {
 
-		@Override
-		public EnergyCalculatorBridge get() {
-			try {
-				return realProvider.getFromCache(DefaultConstants.INSTANCE);
-			} catch (ExecutionException e) {
-				throw new RuntimeException(e.getMessage(), e);
-			}
-		}
+        private EnergyCalculatorBridgeProvider realProvider;
 
-	}
+        @Inject
+        public WithDefaultConstants(final EnergyCalculatorBridgeProvider realProvider) {
+            this.realProvider = realProvider;
+        }
+
+        @Override
+        public EnergyCalculatorBridge get() {
+            try {
+                return realProvider.getFromCache(DefaultConstants.INSTANCE);
+            } catch (ExecutionException e) {
+                throw new RuntimeException(e.getMessage(), e);
+            }
+        }
+
+    }
 }

@@ -11,152 +11,152 @@ import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 
 public interface CommonEntry extends SurveyEntry {
-	@SavVariableMapping("FCPHSFIR")
-	public Enum1233 getHEALTHANDSAFETY_Fire();
 
-	@SavVariableMapping("FCPLFTEX")
-	public Enum10 getLIFTS_DoesAccessAreaExist_();
+    @SavVariableMapping("FCPHSFIR")
+    public Enum1233 getHEALTHANDSAFETY_Fire();
 
-	@SavVariableMapping("FCPINAPP")
-	public Enum1185 getCONTRIBUTIONTOPROBLEMS_InappropriateUse();
+    @SavVariableMapping("FCPLFTEX")
+    public Enum10 getLIFTS_DoesAccessAreaExist_();
 
-	@SavVariableMapping("FCPALMAC")
-	public Enum1236 getFIREPRECAUTIONS_AlarmSystem_Action_();
+    @SavVariableMapping("FCPINAPP")
+    public Enum1185 getCONTRIBUTIONTOPROBLEMS_InappropriateUse();
 
-	@SavVariableMapping("FCPWEART")
-	public Enum1185 getCONTRIBUTIONTOPROBLEMS_NormalWear_Tear();
+    @SavVariableMapping("FCPALMAC")
+    public Enum1236 getFIREPRECAUTIONS_AlarmSystem_Action_();
 
-	@SavVariableMapping("FCPSGNAC")
-	public Enum1185 getFIREPRECAUTIONS_SignPosting_Action_();
+    @SavVariableMapping("FCPWEART")
+    public Enum1185 getCONTRIBUTIONTOPROBLEMS_NormalWear_Tear();
 
-	@SavVariableMapping("FCPPROAC")
-	public Enum1236 getFIREPRECAUTIONS_ProtectionToStairsLobbies_Action_();
+    @SavVariableMapping("FCPSGNAC")
+    public Enum1185 getFIREPRECAUTIONS_SignPosting_Action_();
 
-	@SavVariableMapping("FCPALMPR")
-	public Enum10 getFIREPRECAUTIONS_AlarmSystem_Present_();
+    @SavVariableMapping("FCPPROAC")
+    public Enum1236 getFIREPRECAUTIONS_ProtectionToStairsLobbies_Action_();
 
-	@SavVariableMapping("FCPINADM")
-	public Enum1185 getCONTRIBUTIONTOPROBLEMS_InadequateMaintenance();
+    @SavVariableMapping("FCPALMPR")
+    public Enum10 getFIREPRECAUTIONS_AlarmSystem_Present_();
 
-	@SavVariableMapping("FCPEMLAC")
-	public Enum1236 getFIREPRECAUTIONS_EmergencyLighting_Action_();
+    @SavVariableMapping("FCPINADM")
+    public Enum1185 getCONTRIBUTIONTOPROBLEMS_InadequateMaintenance();
 
-	@SavVariableMapping("FCPLFTIN")
-	public Enum10 getLIFTS_InModule();
+    @SavVariableMapping("FCPEMLAC")
+    public Enum1236 getFIREPRECAUTIONS_EmergencyLighting_Action_();
 
-	@SavVariableMapping("FCPENTIN")
-	public Enum10 getSECURITY_DoorEntrySystemInModule();
+    @SavVariableMapping("FCPLFTIN")
+    public Enum10 getLIFTS_InModule();
 
-	@SavVariableMapping("FCPPROPR")
-	public Enum10 getFIREPRECAUTIONS_ProtectionToStairsLobbies_Present_();
+    @SavVariableMapping("FCPENTIN")
+    public Enum10 getSECURITY_DoorEntrySystemInModule();
 
-	@SavVariableMapping("FCPACCES")
-	public Enum1246 getSECURITY_TypeOfAccess();
+    @SavVariableMapping("FCPPROPR")
+    public Enum10 getFIREPRECAUTIONS_ProtectionToStairsLobbies_Present_();
 
-	@SavVariableMapping("FCPHSBTW")
-	public Enum1233 getHEALTHANDSAFETY_FallsBetweenLevels();
+    @SavVariableMapping("FCPACCES")
+    public Enum1246 getSECURITY_TypeOfAccess();
 
-	@SavVariableMapping("FCPEMLPR")
-	public Enum10 getFIREPRECAUTIONS_EmergencyLighting_Present_();
+    @SavVariableMapping("FCPHSBTW")
+    public Enum1233 getHEALTHANDSAFETY_FallsBetweenLevels();
 
-	@SavVariableMapping("FCPHSHOT")
-	public Enum1233 getHEALTHANDSAFETY_HotSurfaces();
+    @SavVariableMapping("FCPEMLPR")
+    public Enum10 getFIREPRECAUTIONS_EmergencyLighting_Present_();
 
-	@SavVariableMapping("FCPCONIN")
-	public Enum10 getSECURITY_ConciergeSystemInModule();
+    @SavVariableMapping("FCPHSHOT")
+    public Enum1233 getHEALTHANDSAFETY_HotSurfaces();
 
-	@SavVariableMapping("FCPLFTSZ")
-	public Enum1230 getLIFTS_SpaciousAverageTight();
+    @SavVariableMapping("FCPCONIN")
+    public Enum10 getSECURITY_ConciergeSystemInModule();
 
-	@SavVariableMapping("FCPCLOAC")
-	public Enum1236 getFIREPRECAUTIONS_SelfClosingFireDoors_Action_();
+    @SavVariableMapping("FCPLFTSZ")
+    public Enum1230 getLIFTS_SpaciousAverageTight();
 
-	@SavVariableMapping("FCPENTPR")
-	public Enum10 getSECURITY_DoorEntrySystemPresent();
+    @SavVariableMapping("FCPCLOAC")
+    public Enum1236 getFIREPRECAUTIONS_SelfClosingFireDoors_Action_();
 
-	@SavVariableMapping("FCPENTWK")
-	public Enum10 getSECURITY_DoorEntrySystemWorking();
+    @SavVariableMapping("FCPENTPR")
+    public Enum10 getSECURITY_DoorEntrySystemPresent();
 
-	@SavVariableMapping("FCPESCAP")
-	public Enum1255 getFIRESAFETY_EscapeRouteFromFlatSurveyedToFinalExitFromBuilding();
+    @SavVariableMapping("FCPENTWK")
+    public Enum10 getSECURITY_DoorEntrySystemWorking();
 
-	@SavVariableMapping("FCPDESIG")
-	public Enum1185 getCONTRIBUTIONTOPROBLEMS_PoorDesignSpecification();
+    @SavVariableMapping("FCPESCAP")
+    public Enum1255 getFIRESAFETY_EscapeRouteFromFlatSurveyedToFinalExitFromBuilding();
 
-	@SavVariableMapping("FCPHSCEN")
-	public Enum1233 getHEALTHANDSAFETY_CollisionAndEntrapment();
+    @SavVariableMapping("FCPDESIG")
+    public Enum1185 getCONTRIBUTIONTOPROBLEMS_PoorDesignSpecification();
 
-	@SavVariableMapping("FCPSGNPR")
-	public Enum10 getFIREPRECAUTIONS_SignPosting_Present_();
+    @SavVariableMapping("FCPHSCEN")
+    public Enum1233 getHEALTHANDSAFETY_CollisionAndEntrapment();
 
-	@SavVariableMapping("FCPHSENT")
-	public Enum1233 getHEALTHANDSAFETY_EntryByIntruders();
+    @SavVariableMapping("FCPSGNPR")
+    public Enum10 getFIREPRECAUTIONS_SignPosting_Present_();
 
-	@SavVariableMapping("FCPCONPR")
-	public Enum10 getSECURITY_ConciergeSystemPresent();
+    @SavVariableMapping("FCPHSENT")
+    public Enum1233 getHEALTHANDSAFETY_EntryByIntruders();
 
-	@SavVariableMapping("FCPHSLVL")
-	public Enum1233 getHEALTHANDSAFETY_FallsOnTheLevel();
+    @SavVariableMapping("FCPCONPR")
+    public Enum10 getSECURITY_ConciergeSystemPresent();
 
-	@SavVariableMapping("FCPHSNOI")
-	public Enum1233 getHEALTHANDSAFETY_Noise();
+    @SavVariableMapping("FCPHSLVL")
+    public Enum1233 getHEALTHANDSAFETY_FallsOnTheLevel();
 
-	@SavVariableMapping("FCPREFWK")
-	public Enum10 getREFUSECHUTES_Working();
+    @SavVariableMapping("FCPHSNOI")
+    public Enum1233 getHEALTHANDSAFETY_Noise();
 
-	@SavVariableMapping("FCPPRES")
-	public Enum10 getDoCommonPartsExist_();
+    @SavVariableMapping("FCPREFWK")
+    public Enum10 getREFUSECHUTES_Working();
 
-	@SavVariableMapping("FCPHSSTR")
-	public Enum1233 getHEALTHANDSAFETY_FallsOnStairs();
+    @SavVariableMapping("FCPPRES")
+    public Enum10 getDoCommonPartsExist_();
 
-	@SavVariableMapping("FCPLFTWU")
-	public Enum10 getLiftControlsAccessibleToWheelchairUser_();
+    @SavVariableMapping("FCPHSSTR")
+    public Enum1233 getHEALTHANDSAFETY_FallsOnStairs();
 
-	@SavVariableMapping("FCPGRAFF")
-	public Enum1185 getCONTRIBUTIONTOPROBLEMS_Graffiti();
+    @SavVariableMapping("FCPLFTWU")
+    public Enum10 getLiftControlsAccessibleToWheelchairUser_();
 
-	@SavVariableMapping("FCPEXTAC")
-	public Enum1236 getFIREPRECAUTIONS_FireExtinguishers_Action_();
+    @SavVariableMapping("FCPGRAFF")
+    public Enum1185 getCONTRIBUTIONTOPROBLEMS_Graffiti();
 
-	@SavVariableMapping("FCPSAFPR")
-	public Enum10 getFIREPRECAUTIONS_SafePractices_Present_();
+    @SavVariableMapping("FCPEXTAC")
+    public Enum1236 getFIREPRECAUTIONS_FireExtinguishers_Action_();
 
-	@SavVariableMapping("FCPCONWK")
-	public Enum10 getSECURITY_ConciergeSystemWorking();
+    @SavVariableMapping("FCPSAFPR")
+    public Enum10 getFIREPRECAUTIONS_SafePractices_Present_();
 
-	@SavVariableMapping("FCPALTPR")
-	public Enum10 getFIREPRECAUTIONS_AlternativeRoute_Present_();
+    @SavVariableMapping("FCPCONWK")
+    public Enum10 getSECURITY_ConciergeSystemWorking();
 
-	@SavVariableMapping("FCPHSDAM")
-	public Enum1233 getHEALTHANDSAFETY_DampAndMould();
+    @SavVariableMapping("FCPALTPR")
+    public Enum10 getFIREPRECAUTIONS_AlternativeRoute_Present_();
 
-	@SavVariableMapping("FCPLITTR")
-	public Enum1185 getCONTRIBUTIONTOPROBLEMS_LitterRubbish();
+    @SavVariableMapping("FCPHSDAM")
+    public Enum1233 getHEALTHANDSAFETY_DampAndMould();
 
-	@SavVariableMapping("FCPREFIN")
-	public Enum10 getREFUSECHUTES_InModule();
+    @SavVariableMapping("FCPLITTR")
+    public Enum1185 getCONTRIBUTIONTOPROBLEMS_LitterRubbish();
 
-	@SavVariableMapping("FCPVANDA")
-	public Enum1185 getCONTRIBUTIONTOPROBLEMS_Vandalism();
+    @SavVariableMapping("FCPREFIN")
+    public Enum10 getREFUSECHUTES_InModule();
 
-	@SavVariableMapping("FCPEXTPR")
-	public Enum10 getFIREPRECAUTIONS_FireExtinguishers_Present_();
+    @SavVariableMapping("FCPVANDA")
+    public Enum1185 getCONTRIBUTIONTOPROBLEMS_Vandalism();
 
-	@SavVariableMapping("FCPCLOPR")
-	public Enum10 getFIREPRECAUTIONS_SelfClosingFireDoors_Present_();
+    @SavVariableMapping("FCPEXTPR")
+    public Enum10 getFIREPRECAUTIONS_FireExtinguishers_Present_();
 
-	@SavVariableMapping("FCPLFTVP")
-	public Enum10 getLiftControlsAccessibleToAVisuallyImpairedPerson_();
+    @SavVariableMapping("FCPCLOPR")
+    public Enum10 getFIREPRECAUTIONS_SelfClosingFireDoors_Present_();
 
-	@SavVariableMapping("FCPREFEX")
-	public Enum10 getREFUSECHUTES_DoesAccessAreaExist_();
+    @SavVariableMapping("FCPLFTVP")
+    public Enum10 getLiftControlsAccessibleToAVisuallyImpairedPerson_();
 
-	@SavVariableMapping("FCPLFTWK")
-	public Enum10 getLIFTS_Working();
+    @SavVariableMapping("FCPREFEX")
+    public Enum10 getREFUSECHUTES_DoesAccessAreaExist_();
 
-	@SavVariableMapping("FCPREFSZ")
-	public Enum1230 getREFUSECHUTES_SpaciousAverageTight();
+    @SavVariableMapping("FCPLFTWK")
+    public Enum10 getLIFTS_Working();
+
+    @SavVariableMapping("FCPREFSZ")
+    public Enum1230 getREFUSECHUTES_SpaciousAverageTight();
 
 }
-

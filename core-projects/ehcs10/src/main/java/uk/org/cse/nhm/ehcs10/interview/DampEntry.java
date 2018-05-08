@@ -13,59 +13,59 @@ import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 
 public interface DampEntry extends SurveyEntry {
-	@SavVariableMapping("CASECAT")
-	public Enum229 getStatusOfCase();
 
-	@SavVariableMapping("DMPNOTAP")
-	public Enum69 getN_A_RoomDoesNotExist();
+    @SavVariableMapping("CASECAT")
+    public Enum229 getStatusOfCase();
 
-	@SavVariableMapping("MOULDFLR")
-	public Enum69 getRot_Mould_Floors_Carpets();
+    @SavVariableMapping("DMPNOTAP")
+    public Enum69 getN_A_RoomDoesNotExist();
 
-	@SavVariableMapping("CDWRSRM")
-	public Enum279 getWorstAffectedRoom();
+    @SavVariableMapping("MOULDFLR")
+    public Enum69 getRot_Mould_Floors_Carpets();
 
-	@SavVariableMapping("MOULDWAL")
-	public Enum69 getRot_Mould_Walls_Ceilings();
+    @SavVariableMapping("CDWRSRM")
+    public Enum279 getWorstAffectedRoom();
 
-	@SavVariableMapping("NODMPPRB")
-	public Enum69 getNoProblemsWithDamp();
+    @SavVariableMapping("MOULDWAL")
+    public Enum69 getRot_Mould_Walls_Ceilings();
 
-	@SavVariableMapping("CDPROB")
-	public Enum69 getProblems_Condens_Damp_Mould();
+    @SavVariableMapping("NODMPPRB")
+    public Enum69 getNoProblemsWithDamp();
 
-	@SavVariableMapping("CDWHEN")
-	public Enum283 getPeriodWhenProblemOccurs_();
+    @SavVariableMapping("CDPROB")
+    public Enum69 getProblems_Condens_Damp_Mould();
 
-	@SavVariableMapping("CDPHMLD")
-	public Enum284 getClosestPhoto_Mould_();
+    @SavVariableMapping("CDWHEN")
+    public Enum283 getPeriodWhenProblemOccurs_();
 
-	@SavVariableMapping("QUARTER")
-	public Enum230 getFieldworkQuarter();
+    @SavVariableMapping("CDPHMLD")
+    public Enum284 getClosestPhoto_Mould_();
 
-	@SavVariableMapping("STEAMWDW")
-	public Enum69 getSteamedUpWindows();
+    @SavVariableMapping("QUARTER")
+    public Enum230 getFieldworkQuarter();
 
-	@SavVariableMapping("OTDMPPRB")
-	public Enum69 getOtherDampProblems();
+    @SavVariableMapping("STEAMWDW")
+    public Enum69 getSteamedUpWindows();
 
-	@SavVariableMapping("MILDWWDW")
-	public Enum69 getMildew_Rot_Mould_WindowFrames();
+    @SavVariableMapping("OTDMPPRB")
+    public Enum69 getOtherDampProblems();
 
-	@SavVariableMapping("ROOM")
-	public Enum289 getRoomType();
+    @SavVariableMapping("MILDWWDW")
+    public Enum69 getMildew_Rot_Mould_WindowFrames();
 
-	@SavVariableMapping("CDPHDMP")
-	public Enum284 getClosestPhoto_Damp_();
+    @SavVariableMapping("ROOM")
+    public Enum289 getRoomType();
 
-	@SavVariableMapping("CDAFCT")
-	public Enum291 getEffectOfProblem_();
+    @SavVariableMapping("CDPHDMP")
+    public Enum284 getClosestPhoto_Damp_();
 
-	@SavVariableMapping("GOREHS")
-	public Enum30 getRegion_EHSOrder();
+    @SavVariableMapping("CDAFCT")
+    public Enum291 getEffectOfProblem_();
 
-	@SavVariableMapping("STEAMWAL")
-	public Enum69 getSteamedUp_WetWalls();
+    @SavVariableMapping("GOREHS")
+    public Enum30 getRegion_EHSOrder();
+
+    @SavVariableMapping("STEAMWAL")
+    public Enum69 getSteamedUp_WetWalls();
 
 }
-

@@ -19,35 +19,41 @@ import uk.org.cse.nhm.simulator.state.dimensions.energy.IPowerTable;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class HeatLossFunction extends AbstractNamed implements IComponentsFunction<Double> {
+
     private final IDimension<IPowerTable> energy;
     private final XHeatLossType type;
 
-	@Inject
+    @Inject
     public HeatLossFunction(
-			@Named("uncalibrated") final IDimension<IPowerTable> energy,
+            @Named("uncalibrated") final IDimension<IPowerTable> energy,
             @Assisted final XHeatLossType type) {
         this.energy = energy;
         this.type = type;
-	}
-	
-	@Override
+    }
+
+    @Override
     public Double compute(final IComponentsScope scope, final ILets lets) {
         switch (type) {
-        case Total:           return Double.valueOf(scope.get(energy).getSpecificHeatLoss());
-        case Fabric:          return Double.valueOf(scope.get(energy).getFabricHeatLoss());
-        case Ventilation:     return Double.valueOf(scope.get(energy).getVentilationHeatLoss());
-        case ThermalBridging: return Double.valueOf(scope.get(energy).getThermalBridgingHeatLoss());
-        default:         throw new IllegalArgumentException("Unknown type of heat loss: "+type);
+            case Total:
+                return Double.valueOf(scope.get(energy).getSpecificHeatLoss());
+            case Fabric:
+                return Double.valueOf(scope.get(energy).getFabricHeatLoss());
+            case Ventilation:
+                return Double.valueOf(scope.get(energy).getVentilationHeatLoss());
+            case ThermalBridging:
+                return Double.valueOf(scope.get(energy).getThermalBridgingHeatLoss());
+            default:
+                throw new IllegalArgumentException("Unknown type of heat loss: " + type);
         }
     }
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return Collections.<IDimension<?>>singleton(energy);
-	}
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return Collections.<IDimension<?>>singleton(energy);
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return Collections.emptySet();
-	}
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return Collections.emptySet();
+    }
 }

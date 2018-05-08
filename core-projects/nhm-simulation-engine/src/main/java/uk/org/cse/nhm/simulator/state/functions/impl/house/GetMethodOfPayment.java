@@ -18,28 +18,29 @@ import uk.org.cse.nhm.simulator.state.dimensions.fuel.cost.ITariffs;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class GetMethodOfPayment extends AbstractNamed implements IComponentsFunction<XMethodOfPayment> {
-	private final FuelType fuelType;
-	private final IDimension<ITariffs> tariffsDimension;
 
-	@AssistedInject
-	public GetMethodOfPayment(@Assisted final FuelType fuelType,final IDimension<ITariffs> tariffsDimension) {
-		this.fuelType = fuelType;
-		this.tariffsDimension = tariffsDimension;
-	}
+    private final FuelType fuelType;
+    private final IDimension<ITariffs> tariffsDimension;
 
-	@Override
-	public XMethodOfPayment compute(final IComponentsScope scope, final ILets lets) {
-		return scope.get(tariffsDimension).getTariff(fuelType).getMethodOfPayment();
-	}
+    @AssistedInject
+    public GetMethodOfPayment(@Assisted final FuelType fuelType, final IDimension<ITariffs> tariffsDimension) {
+        this.fuelType = fuelType;
+        this.tariffsDimension = tariffsDimension;
+    }
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return Collections.<IDimension<?>> singleton(tariffsDimension);
-	}
+    @Override
+    public XMethodOfPayment compute(final IComponentsScope scope, final ILets lets) {
+        return scope.get(tariffsDimension).getTariff(fuelType).getMethodOfPayment();
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return Collections.emptySet();
-	}
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return Collections.<IDimension<?>>singleton(tariffsDimension);
+    }
+
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return Collections.emptySet();
+    }
 
 }

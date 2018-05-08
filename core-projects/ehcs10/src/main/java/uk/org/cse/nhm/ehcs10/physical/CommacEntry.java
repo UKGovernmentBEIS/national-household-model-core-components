@@ -8,116 +8,116 @@ import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 
 public interface CommacEntry extends SurveyEntry {
-	@SavVariableMapping("FCPFLRRP")
-	public Integer getFloors_Treads_RepairSurface();
 
-	@SavVariableMapping("FCPFLRRN")
-	public Integer getFloors_Treads_RenewSurface();
+    @SavVariableMapping("FCPFLRRP")
+    public Integer getFloors_Treads_RepairSurface();
 
-	@SavVariableMapping("FCPCLNPA")
-	public Integer getCeilings_Soffits_RepaintSurface();
+    @SavVariableMapping("FCPFLRRN")
+    public Integer getFloors_Treads_RenewSurface();
 
-	@SavVariableMapping("FCPCLNMO")
-	public Integer getCeilings_Soffits_ModifyStructure();
+    @SavVariableMapping("FCPCLNPA")
+    public Integer getCeilings_Soffits_RepaintSurface();
 
-	@SavVariableMapping("FCPAXDRN")
-	public Integer getAccessDoors_Screens_Replace();
+    @SavVariableMapping("FCPCLNMO")
+    public Integer getCeilings_Soffits_ModifyStructure();
 
-	@SavVariableMapping("FCPAXWRP")
-	public Integer getAccesswayWindows_Repair();
+    @SavVariableMapping("FCPAXDRN")
+    public Integer getAccessDoors_Screens_Replace();
 
-	@SavVariableMapping("FCPWLSRP")
-	public Integer getWalls_RepairSurface();
+    @SavVariableMapping("FCPAXWRP")
+    public Integer getAccesswayWindows_Repair();
 
-	@SavVariableMapping("FCPWLSMO")
-	public Integer getWalls_ModifyStructure();
+    @SavVariableMapping("FCPWLSRP")
+    public Integer getWalls_RepairSurface();
 
-	@SavVariableMapping("FCPAXLSW")
-	public Integer getAccesswayLighting_ReplaceLightSwitches();
+    @SavVariableMapping("FCPWLSMO")
+    public Integer getWalls_ModifyStructure();
 
-	@SavVariableMapping("FCPBALRN")
-	public Integer getBalustrades_Replace();
+    @SavVariableMapping("FCPAXLSW")
+    public Integer getAccesswayLighting_ReplaceLightSwitches();
 
-	@SavVariableMapping("FCPAXDPA")
-	public Integer getAccessDoors_Screens_Repaint();
+    @SavVariableMapping("FCPBALRN")
+    public Integer getBalustrades_Replace();
 
-	@SavVariableMapping("FCPAXDRP")
-	public Integer getAccessDoors_Screens_Repair_Rehang();
+    @SavVariableMapping("FCPAXDPA")
+    public Integer getAccessDoors_Screens_Repaint();
 
-	@SavVariableMapping("FCPAXLFT")
-	public Integer getAccesswayLighting_ReplaceLightFittings();
+    @SavVariableMapping("FCPAXDRP")
+    public Integer getAccessDoors_Screens_Repair_Rehang();
 
-	@SavVariableMapping("FCPBALRP")
-	public Integer getBalustrades_Repair();
+    @SavVariableMapping("FCPAXLFT")
+    public Integer getAccesswayLighting_ReplaceLightFittings();
 
-	@SavVariableMapping("FCPWLSPA")
-	public Integer getWalls_RepaintSurface();
+    @SavVariableMapping("FCPBALRP")
+    public Integer getBalustrades_Repair();
 
-	@SavVariableMapping("FCPCLNRN")
-	public Integer getCeilings_Soffits_RenewSurface();
+    @SavVariableMapping("FCPWLSPA")
+    public Integer getWalls_RepaintSurface();
 
-	@SavVariableMapping("FCPFLRMO")
-	public Integer getFloors_Treads_ModifyStructure();
+    @SavVariableMapping("FCPCLNRN")
+    public Integer getCeilings_Soffits_RenewSurface();
 
-	@SavVariableMapping("FCPAXWPA")
-	public Integer getAccesswayWindows_Repaint();
+    @SavVariableMapping("FCPFLRMO")
+    public Integer getFloors_Treads_ModifyStructure();
 
-	@SavVariableMapping("FCPCLNRP")
-	public Integer getCeilings_Soffits_RepairSurface();
+    @SavVariableMapping("FCPAXWPA")
+    public Integer getAccesswayWindows_Repaint();
 
-	@SavVariableMapping("FCPAXWRN")
-	public Integer getAccesswayWindows_Replace();
+    @SavVariableMapping("FCPCLNRP")
+    public Integer getCeilings_Soffits_RepairSurface();
 
-	@SavVariableMapping("FCPWLSRN")
-	public Integer getWalls_RenewSurface();
+    @SavVariableMapping("FCPAXWRN")
+    public Integer getAccesswayWindows_Replace();
 
-	@SavVariableMapping("FCPPRES")
-	public Enum10 getDoCommonPartsExist_();
+    @SavVariableMapping("FCPWLSRN")
+    public Integer getWalls_RenewSurface();
 
-	@SavVariableMapping("FCPDFXVE")
-	public Enum10 getDefects_Ventilation();
+    @SavVariableMapping("FCPPRES")
+    public Enum10 getDoCommonPartsExist_();
 
-	@SavVariableMapping("FCPENCLO")
-	public Enum10 getEnclosed();
+    @SavVariableMapping("FCPDFXVE")
+    public Enum10 getDefects_Ventilation();
 
-	@SavVariableMapping("FCPWLSFL")
-	public Enum10 getWalls_Faults();
+    @SavVariableMapping("FCPENCLO")
+    public Enum10 getEnclosed();
 
-	@SavVariableMapping("FCPEXIST")
-	public Enum10 getDoesAccess_AreaExist_();
+    @SavVariableMapping("FCPWLSFL")
+    public Enum10 getWalls_Faults();
 
-	@SavVariableMapping("FCPBALFL")
-	public Enum10 getBalustrades_Faults();
+    @SavVariableMapping("FCPEXIST")
+    public Enum10 getDoesAccess_AreaExist_();
 
-	@SavVariableMapping("FCPFLRFL")
-	public Enum10 getFloors_Treads_Faults();
+    @SavVariableMapping("FCPBALFL")
+    public Enum10 getBalustrades_Faults();
 
-	@SavVariableMapping("FCPTYPES")
-	public Enum1224 getBalcony_Deck_Corridor_Lobby();
+    @SavVariableMapping("FCPFLRFL")
+    public Enum10 getFloors_Treads_Faults();
 
-	@SavVariableMapping("TYPE")
-	public Enum1225 getTypeOfAccessway();
+    @SavVariableMapping("FCPTYPES")
+    public Enum1224 getBalcony_Deck_Corridor_Lobby();
 
-	@SavVariableMapping("FCPCLNFL")
-	public Enum10 getCeilings_Soffits_Faults();
+    @SavVariableMapping("TYPE")
+    public Enum1225 getTypeOfAccessway();
 
-	@SavVariableMapping("FCPAXDFL")
-	public Enum10 getAccessDoors_Screens_Faults();
+    @SavVariableMapping("FCPCLNFL")
+    public Enum10 getCeilings_Soffits_Faults();
 
-	@SavVariableMapping("FCPDFXAL")
-	public Enum10 getDefects_ArtificialLighting();
+    @SavVariableMapping("FCPAXDFL")
+    public Enum10 getAccessDoors_Screens_Faults();
 
-	@SavVariableMapping("FCPINMOD")
-	public Enum10 getInModule();
+    @SavVariableMapping("FCPDFXAL")
+    public Enum10 getDefects_ArtificialLighting();
 
-	@SavVariableMapping("FCPSIZES")
-	public Enum1230 getSpacious_Average_Tight();
+    @SavVariableMapping("FCPINMOD")
+    public Enum10 getInModule();
 
-	@SavVariableMapping("FCPAXLFL")
-	public Enum10 getAccesswayLighting_Faults();
+    @SavVariableMapping("FCPSIZES")
+    public Enum1230 getSpacious_Average_Tight();
 
-	@SavVariableMapping("FCPAXWFL")
-	public Enum10 getAccesswayWindows_Faults();
+    @SavVariableMapping("FCPAXLFL")
+    public Enum10 getAccesswayLighting_Faults();
+
+    @SavVariableMapping("FCPAXWFL")
+    public Enum10 getAccesswayWindows_Faults();
 
 }
-

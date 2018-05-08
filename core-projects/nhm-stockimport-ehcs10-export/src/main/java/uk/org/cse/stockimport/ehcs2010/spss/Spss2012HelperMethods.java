@@ -17,7 +17,7 @@ import uk.org.cse.nhm.hom.components.fabric.types.ElevationType;
 
 /**
  * Spss2012HelperMethods.
- * 
+ *
  * @author richardt
  * @version $Id: Spss2012HelperMethods.java 94 2010-09-30 15:39:21Z richardt
  * @since 0.0.1-SNAPSHOT
@@ -30,7 +30,7 @@ public final class Spss2012HelperMethods {
 
     /**
      * Determines whether case is a house or other (flat).
-     * 
+     *
      * @param physicalProps
      * @return
      * @since 0.0.1-SNAPSHOT
@@ -49,10 +49,12 @@ public final class Spss2012HelperMethods {
     }
 
     /**
-     * Determines whether has room in roof, using {@link Physical_09Plus10Entry#getAtticPresentInDwelling()},
-     * DoesNotApply, No and NoAnswer are false otherwise true.
-     * 
-     * @param physicalProps {@link Physical_09Plus10Entry#getAtticPresentInDwelling()}
+     * Determines whether has room in roof, using
+     * {@link Physical_09Plus10Entry#getAtticPresentInDwelling()}, DoesNotApply,
+     * No and NoAnswer are false otherwise true.
+     *
+     * @param physicalProps
+     * {@link Physical_09Plus10Entry#getAtticPresentInDwelling()}
      * @return true if not DoesNotApply, No and NoAnswer
      * @since 0.0.1-SNAPSHOT
      */
@@ -68,9 +70,9 @@ public final class Spss2012HelperMethods {
     }
 
     /**
-     * Uses {@link Physical_09Plus10Entry#getBasementPresentInDwelling()}, returns true if values equals {@link Enum69#Yes} 
-     * otherwise returns false.
-     * 
+     * Uses {@link Physical_09Plus10Entry#getBasementPresentInDwelling()},
+     * returns true if values equals {@link Enum69#Yes} otherwise returns false.
+     *
      * @param physicalProps {@link Physical_09Plus10Entry} to get value from
      * @return boolean if property has a basement
      * @since 1.0.2
@@ -88,7 +90,9 @@ public final class Spss2012HelperMethods {
     }
 
     /**
-     * Builds a room type predicate, returns all rooms that have a value of room.
+     * Builds a room type predicate, returns all rooms that have a value of
+     * room.
+     *
      * @param room {@link Enum69} room type to filter
      * @return {@link Predicate}
      * @since 1.0.2
@@ -104,7 +108,7 @@ public final class Spss2012HelperMethods {
     /**
      * 1. If isHouse then returns
      * {@link Spss2012HelperMethods#getTenthsAttached(ElevationType, ElevateEntry, FlatdetsEntry, boolean)}.<br/><br/>
-     * 
+     *
      * @param elevation
      * @param elevateEntry
      * @param flatDetsEntry
@@ -131,33 +135,42 @@ public final class Spss2012HelperMethods {
     }
 
     /**
-     * In the shape file, there are tenths attached columns and face columns; when face = 10_10 attached, tenths attached is invalid, even though
-     * it really means ten. This method takes a tenths attached column, and a face column, and returns the most appropriate number of tenths attached
-     * for those values
-     * 
+     * In the shape file, there are tenths attached columns and face columns;
+     * when face = 10_10 attached, tenths attached is invalid, even though it
+     * really means ten. This method takes a tenths attached column, and a face
+     * column, and returns the most appropriate number of tenths attached for
+     * those values
+     *
      * @param tenthsAttachedVariable
      * @param faceVariable
      * @return a number from 0 to ten.
      */
     private static int getTenthsAttached(final Integer tenthsAttachedVariable, final Enum1303 faceVariable) {
-    	if (faceVariable == Enum1303._1010Attached) {
-    		return (int) TEN;
-    	} else {
-    		return nullToZero(tenthsAttachedVariable);
-    	}
+        if (faceVariable == Enum1303._1010Attached) {
+            return (int) TEN;
+        } else {
+            return nullToZero(tenthsAttachedVariable);
+        }
     }
-    
+
     private static int nullToZero(final Integer integer) {
-    	return integer == null ? 0 : integer.intValue();
+        return integer == null ? 0 : integer.intValue();
     }
-    
+
     /**
-     * <p>Returns tenths attached, depending on whether the dwelling is a house or flat will use: <pre>
-     * {@link ElevateEntry#getVIEWSFRONT_FrontFace(), back etc.. } for a house.</pre> <pre>
+     * <p>
+     * Returns tenths attached, depending on whether the dwelling is a house or
+     * flat will use:
+     * <pre>
+     * {@link ElevateEntry#getVIEWSFRONT_FrontFace(), back etc.. } for a house.</pre>
+     * <pre>
      * {@link FlatdetsEntry#getTENTHSOFWALLEXPOSEDFrontWall_ToOtherFlats, etc..} if a value exists or
-     * {@link FlatdetsEntry#getTENTHSOFWALLEXPOSEDFrontWall_ToInternalAccessways, etc..}</pre> </p> <p>Uses
-     * {@link Spss2012HelperMethods#getCorrectFieldValue(double)} to clean output value.</p>
-     * 
+     * {@link FlatdetsEntry#getTENTHSOFWALLEXPOSEDFrontWall_ToInternalAccessways, etc..}</pre>
+     * </p>
+     * <p>
+     * Uses {@link Spss2012HelperMethods#getCorrectFieldValue(double)} to clean
+     * output value.</p>
+     *
      * @param elevation
      * @param elevateEntry {@link ElevateEntry}
      * @param flatDetsEntry {@link FlatdetsEntry}
@@ -167,34 +180,40 @@ public final class Spss2012HelperMethods {
      */
     public static final double getTenthsAttached(final ElevationType elevation,
             final ElevateEntry elevateEntry, final FlatdetsEntry flatDetsEntry, boolean isHouse) {
-    	final Map<ElevationType, Integer> attachedElevation = new HashMap<ElevationType, Integer>();
-    	
-    	if (flatDetsEntry.getDIMENSIONSOfFlat_ExternalDimensionsSameAsModule() == Enum10.No) {
-    		attachedElevation.put(ElevationType.FRONT, nullToZero(flatDetsEntry.getTENTHSOFWALLEXPOSEDFrontWall_ToOtherFlats()));
-    		attachedElevation.put(ElevationType.BACK,  nullToZero(flatDetsEntry.getTENTHSOFWALLEXPOSEDBackWall_ToOtherFlats()));
-    		attachedElevation.put(ElevationType.LEFT,  nullToZero(flatDetsEntry.getTENTHSOFWALLEXPOSEDLeftWall_ToOtherFlats()));
-    		attachedElevation.put(ElevationType.RIGHT, nullToZero(flatDetsEntry.getTENTHSOFWALLEXPOSEDRightWall_ToOtherFlats()));
-    	} else {
-	        attachedElevation.put(ElevationType.FRONT, nullToZero(elevateEntry.getVIEWSFRONT_TenthsAttached()));
-	        attachedElevation.put(ElevationType.BACK, getTenthsAttached(elevateEntry.getVIEWSBACK_TenthsAttached(), elevateEntry.getVIEWSBACK_BackFace()));
-	        attachedElevation.put(ElevationType.LEFT, getTenthsAttached(elevateEntry.getVIEWSLEFT_TenthsAttached(), elevateEntry.getVIEWSLEFT_LeftFace()));
-	        attachedElevation.put(ElevationType.RIGHT, getTenthsAttached(elevateEntry.getVIEWSRIGHT_TenthsAttached(), elevateEntry.getVIEWSRIGHT_RightFace()));
-    	}
-    	
+        final Map<ElevationType, Integer> attachedElevation = new HashMap<ElevationType, Integer>();
+
+        if (flatDetsEntry.getDIMENSIONSOfFlat_ExternalDimensionsSameAsModule() == Enum10.No) {
+            attachedElevation.put(ElevationType.FRONT, nullToZero(flatDetsEntry.getTENTHSOFWALLEXPOSEDFrontWall_ToOtherFlats()));
+            attachedElevation.put(ElevationType.BACK, nullToZero(flatDetsEntry.getTENTHSOFWALLEXPOSEDBackWall_ToOtherFlats()));
+            attachedElevation.put(ElevationType.LEFT, nullToZero(flatDetsEntry.getTENTHSOFWALLEXPOSEDLeftWall_ToOtherFlats()));
+            attachedElevation.put(ElevationType.RIGHT, nullToZero(flatDetsEntry.getTENTHSOFWALLEXPOSEDRightWall_ToOtherFlats()));
+        } else {
+            attachedElevation.put(ElevationType.FRONT, nullToZero(elevateEntry.getVIEWSFRONT_TenthsAttached()));
+            attachedElevation.put(ElevationType.BACK, getTenthsAttached(elevateEntry.getVIEWSBACK_TenthsAttached(), elevateEntry.getVIEWSBACK_BackFace()));
+            attachedElevation.put(ElevationType.LEFT, getTenthsAttached(elevateEntry.getVIEWSLEFT_TenthsAttached(), elevateEntry.getVIEWSLEFT_LeftFace()));
+            attachedElevation.put(ElevationType.RIGHT, getTenthsAttached(elevateEntry.getVIEWSRIGHT_TenthsAttached(), elevateEntry.getVIEWSRIGHT_RightFace()));
+        }
+
         return getCorrectFieldValue(attachedElevation.get(elevation));
     }
 
     /**
-     * Returns the tenths open for the given elevation, mappings are: 
+     * Returns the tenths open for the given elevation, mappings are:
      * <p>
      * <ul>
-     * 	<li>Front Elevation = {@link ElevateEntry#getFRONTFACE_FenestrationWindow()}</li>
-     * 	<li>Back Elevation = {@link ElevateEntry#getBACKFACE_FenestrationWindow()}</li>
-     * 	<li>Left Elevation = {@link ElevateEntry#getLEFTFACE_FenestrationWindow()}</li>
-     * 	<li>Right Elevation = {@link ElevateEntry#getRIGHTFACE_FenestrationWindow()}</li>
+     * <li>Front Elevation =
+     * {@link ElevateEntry#getFRONTFACE_FenestrationWindow()}</li>
+     * <li>Back Elevation =
+     * {@link ElevateEntry#getBACKFACE_FenestrationWindow()}</li>
+     * <li>Left Elevation =
+     * {@link ElevateEntry#getLEFTFACE_FenestrationWindow()}</li>
+     * <li>Right Elevation =
+     * {@link ElevateEntry#getRIGHTFACE_FenestrationWindow()}</li>
      * </ul>
-     * 
-     * Finally calls {@link Spss2012HelperMethods#getCorrectFieldValue(double)} to ensure value is returned correctly.
+     *
+     * Finally calls {@link Spss2012HelperMethods#getCorrectFieldValue(double)}
+     * to ensure value is returned correctly.
+     *
      * @param elevation
      * @param elevateEntry
      * @return double value tenths glazed
@@ -238,8 +257,10 @@ public final class Spss2012HelperMethods {
     }
 
     /**
-     * <p>Used to check that 99 - Unknown or 88 - not applicable is set to 0.0.</p>.
-     * 
+     * <p>
+     * Used to check that 99 - Unknown or 88 - not applicable is set to
+     * 0.0.</p>.
+     *
      * @param value
      * @return
      * @since 0.0.1-SNAPSHOT

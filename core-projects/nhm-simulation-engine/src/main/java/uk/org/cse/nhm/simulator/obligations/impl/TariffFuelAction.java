@@ -14,45 +14,46 @@ import uk.org.cse.nhm.simulator.state.dimensions.fuel.cost.IExtraCharge;
 import uk.org.cse.nhm.simulator.state.dimensions.fuel.cost.ITariff;
 
 public class TariffFuelAction extends AbstractNamed implements IComponentsAction {
-	private final FuelType ft;
-	private final ITariff t;
-	private final List<IExtraCharge> extraCharges;
 
-	public TariffFuelAction(final FuelType ft, final ITariff t, final List<IExtraCharge> extraCharges) {
-		super(t.getIdentifierForFuel(ft));
-		this.extraCharges = extraCharges;
-		this.ft = ft;
-		this.t = t;
-	}
+    private final FuelType ft;
+    private final ITariff t;
+    private final List<IExtraCharge> extraCharges;
 
-	@Override
-	public StateChangeSourceType getSourceType() {
-		return StateChangeSourceType.INTERNAL;
-	}
-	
-	public FuelType getFuelType() {
-		return ft;
-	}
+    public TariffFuelAction(final FuelType ft, final ITariff t, final List<IExtraCharge> extraCharges) {
+        super(t.getIdentifierForFuel(ft));
+        this.extraCharges = extraCharges;
+        this.ft = ft;
+        this.t = t;
+    }
 
-	@Override
-	public boolean apply(final ISettableComponentsScope scope, final ILets lets)
-			throws NHMException {
-		t.apply(ft, scope);
-		
-		for (final IExtraCharge c : extraCharges) {
-			c.apply(scope, lets);
-		}
-		
-		return true;
-	}
+    @Override
+    public StateChangeSourceType getSourceType() {
+        return StateChangeSourceType.INTERNAL;
+    }
 
-	@Override
-	public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
-		return true;
-	}
-	
-	@Override
-	public boolean isAlwaysSuitable() {
-		return true;
-	}
+    public FuelType getFuelType() {
+        return ft;
+    }
+
+    @Override
+    public boolean apply(final ISettableComponentsScope scope, final ILets lets)
+            throws NHMException {
+        t.apply(ft, scope);
+
+        for (final IExtraCharge c : extraCharges) {
+            c.apply(scope, lets);
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
+        return true;
+    }
+
+    @Override
+    public boolean isAlwaysSuitable() {
+        return true;
+    }
 }

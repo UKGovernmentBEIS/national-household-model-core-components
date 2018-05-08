@@ -15,11 +15,13 @@ import uk.org.cse.nhm.hom.structure.IMutableWall;
 import uk.org.cse.nhm.hom.util.PhysicsUtil;
 
 /**
- * Utility class which wraps a {@link SegmentData} together with a height and a start point, to give an IMutableWall.
+ * Utility class which wraps a {@link SegmentData} together with a height and a
+ * start point, to give an IMutableWall.
  *
  * @author hinton
  */
 class SegmentWrapper implements IMutableWall {
+
     private static final Logger log = LoggerFactory.getLogger(SegmentWrapper.class);
     private final double fromX, fromY, height;
 
@@ -37,75 +39,79 @@ class SegmentWrapper implements IMutableWall {
     }
 
     @Override
-	public double getAirChangeRate() {
+    public double getAirChangeRate() {
         return endpoint.getAirChangeRate();
     }
 
     @Override
     public double getThicknessWithInsulation() {
-    	return endpoint.getBasicThickness() +
-    			internalOrExternalInsulationThickness();
+        return endpoint.getBasicThickness()
+                + internalOrExternalInsulationThickness();
     }
 
     private double internalOrExternalInsulationThickness() {
-		return endpoint.getWallInsulationThickness(WallInsulationType.Internal) +
-				endpoint.getWallInsulationThickness(WallInsulationType.External);
+        return endpoint.getWallInsulationThickness(WallInsulationType.Internal)
+                + endpoint.getWallInsulationThickness(WallInsulationType.External);
     }
 
     @Override
     public double getThicknessWithoutInsulation() {
-    	return endpoint.getBasicThickness();
+        return endpoint.getBasicThickness();
     }
 
     @Override
     public void setThicknessWithExistingInsulation(final double newThickness) {
-    	endpoint.setBasicThickness(
-    			Math.max(0,
-    					newThickness - internalOrExternalInsulationThickness()
-    					));
+        endpoint.setBasicThickness(
+                Math.max(0,
+                        newThickness - internalOrExternalInsulationThickness()
+                ));
     }
 
     @Override
-	public ElevationType getElevationType() {
-    	final double changeInX = endpoint.getX() - fromX;
-    	final double changeInY = endpoint.getY() - fromY;
+    public ElevationType getElevationType() {
+        final double changeInX = endpoint.getX() - fromX;
+        final double changeInY = endpoint.getY() - fromY;
 
-    	if (changeInX > 0) return ElevationType.LEFT;
-    	else if (changeInX < 0) return ElevationType.RIGHT;
-    	else if (changeInY > 0) return ElevationType.BACK;
-    	else return ElevationType.FRONT;
+        if (changeInX > 0) {
+            return ElevationType.LEFT;
+        } else if (changeInX < 0) {
+            return ElevationType.RIGHT;
+        } else if (changeInY > 0) {
+            return ElevationType.BACK;
+        } else {
+            return ElevationType.FRONT;
+        }
     }
 
     @Override
-	public boolean isPartyWall() {
+    public boolean isPartyWall() {
         return endpoint.isAttached();
     }
 
     @Override
-	public double getArea() {
+    public double getArea() {
         return height * getLength();
     }
 
     @Override
-	public double getUValue() {
+    public double getUValue() {
         return endpoint.getUValue();
     }
 
     @Override
-	public WallConstructionType getWallConstructionType() {
+    public WallConstructionType getWallConstructionType() {
         return endpoint.getWallConstructionType();
     }
 
     @Override
-	public void setWallConstructionType(final WallConstructionType type) {
+    public void setWallConstructionType(final WallConstructionType type) {
         endpoint.setWallConstructionType(type);
     }
 
     @Override
-	public void setUValue(final double u) {
+    public void setUValue(final double u) {
         endpoint.setUValue(u);
     }
-
 
     @Override
     public void split(final double proportion) {
@@ -114,7 +120,6 @@ class SegmentWrapper implements IMutableWall {
         // and then insert a new segment data into the storey in front of the endpoint
 
         // the order of these statements is important:
-
         // first we want to make a new segment data which is identical to our endpoint (so it has the right coordinates)
         final SegmentData insert = new SegmentData(endpoint);
 
@@ -125,11 +130,9 @@ class SegmentWrapper implements IMutableWall {
         insert.setX(x);
         insert.setY(y);
 
-
         // update our coordinates
 //        endpoint.setX(x);
 //        endpoint.setY(y);
-
         // finally put the new point in before our endpoint
         owner.insertSegment(endpoint, insert);
         this.endpoint = insert;
@@ -156,38 +159,38 @@ class SegmentWrapper implements IMutableWall {
         return endpoint.getWallInsulationTypes();
     }
 
-	@Override
-	public void setWallInsulationThicknessAndAddOrRemoveInsulation(final WallInsulationType type,
-			final double thickness) {
-		endpoint.setWallInsulationThickness(type, thickness);
-	}
+    @Override
+    public void setWallInsulationThicknessAndAddOrRemoveInsulation(final WallInsulationType type,
+            final double thickness) {
+        endpoint.setWallInsulationThickness(type, thickness);
+    }
 
-	@Override
-	public double getWallInsulationThickness(final WallInsulationType type) {
-		return endpoint.getWallInsulationThickness(type);
-	}
+    @Override
+    public double getWallInsulationThickness(final WallInsulationType type) {
+        return endpoint.getWallInsulationThickness(type);
+    }
 
-	@Override
-	public double getWallInsulationThickness(Set<WallInsulationType> types) {
-		double accum = 0;
+    @Override
+    public double getWallInsulationThickness(Set<WallInsulationType> types) {
+        double accum = 0;
 
-		for (WallInsulationType t : types) {
-			accum += getWallInsulationThickness(t);
-		}
+        for (WallInsulationType t : types) {
+            accum += getWallInsulationThickness(t);
+        }
 
-		return accum;
-	}
+        return accum;
+    }
 
-	@Override
-	public void addInsulation(final WallInsulationType type, final double thickness, final double rValue) {
-		endpoint.setWallInsulationThickness(type, thickness + endpoint.getWallInsulationThickness(type));
+    @Override
+    public void addInsulation(final WallInsulationType type, final double thickness, final double rValue) {
+        endpoint.setWallInsulationThickness(type, thickness + endpoint.getWallInsulationThickness(type));
 
-		endpoint.setUValue(PhysicsUtil.addRValueToUValue(endpoint.getUValue(), thickness * rValue));
-	}
+        endpoint.setUValue(PhysicsUtil.addRValueToUValue(endpoint.getUValue(), thickness * rValue));
+    }
 
-	@Override
-	public Optional<ThermalMassLevel> getThermalMassLevel() {
-		/*
+    @Override
+    public Optional<ThermalMassLevel> getThermalMassLevel() {
+        /*
 		BEISDOC
 		NAME: Wall Thermal Mass Category
 		DESCRIPTION: Lookup the thermal mass level of the wall based on its construction type and whether it has insulation.
@@ -199,34 +202,34 @@ class SegmentWrapper implements IMutableWall {
 		NOTES: Specified by BRE.
 		ID: wall-thermal-mass-category
 		CODSIEB
-		*/
+         */
 
-		switch (getWallConstructionType().getWallType()) {
-		case Internal:
-		case Party:
-			return Optional.absent();
+        switch (getWallConstructionType().getWallType()) {
+            case Internal:
+            case Party:
+                return Optional.absent();
 
-		case External:
-			switch(getWallConstructionType()) {
-			case SolidBrick:
-			case GraniteOrWhinstone:
-			case Sandstone:
-				return Optional.of(
-						(internalOrExternalInsulationThickness() > 0) ? ThermalMassLevel.LOW : ThermalMassLevel.HIGH);
+            case External:
+                switch (getWallConstructionType()) {
+                    case SolidBrick:
+                    case GraniteOrWhinstone:
+                    case Sandstone:
+                        return Optional.of(
+                                (internalOrExternalInsulationThickness() > 0) ? ThermalMassLevel.LOW : ThermalMassLevel.HIGH);
 
-			case TimberFrame:
-				return Optional.of(ThermalMassLevel.LOW);
+                    case TimberFrame:
+                        return Optional.of(ThermalMassLevel.LOW);
 
-			default:
-				return Optional.of(ThermalMassLevel.MEDIUM);
-			}
-		default:
-			throw new IllegalArgumentException("Unknown wall type " + getWallConstructionType().getWallType());
-		}
-	}
+                    default:
+                        return Optional.of(ThermalMassLevel.MEDIUM);
+                }
+            default:
+                throw new IllegalArgumentException("Unknown wall type " + getWallConstructionType().getWallType());
+        }
+    }
 
-	@Override
-	public boolean hasWallInsulation(WallInsulationType type) {
-		return endpoint.getWallInsulationTypes().contains(type);
-	}
+    @Override
+    public boolean hasWallInsulation(WallInsulationType type) {
+        return endpoint.getWallInsulationTypes().contains(type);
+    }
 }

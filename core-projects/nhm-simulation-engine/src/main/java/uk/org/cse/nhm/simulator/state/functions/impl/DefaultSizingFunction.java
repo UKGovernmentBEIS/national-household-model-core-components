@@ -15,28 +15,27 @@ import uk.org.cse.nhm.simulator.measure.sizing.ISizingFunction;
 import uk.org.cse.nhm.simulator.scope.IComponentsScope;
 
 public class DefaultSizingFunction implements ISizingFunction {
-	final ILogEntryHandler log;
-	final Name owner;
-	boolean warned;
-	
-	@AssistedInject
-	DefaultSizingFunction(final ILogEntryHandler log, @Assisted final Name owner) {
-		super();
-		this.log = log;
-		this.owner = owner;
-	}
 
+    final ILogEntryHandler log;
+    final Name owner;
+    boolean warned;
 
+    @AssistedInject
+    DefaultSizingFunction(final ILogEntryHandler log, @Assisted final Name owner) {
+        super();
+        this.log = log;
+        this.owner = owner;
+    }
 
-	@Override
-	public ISizingResult computeSize(final IComponentsScope scope, final ILets lets, final Units units) {
-		if (!warned) {
-			warned = true;
-			log.acceptLogEntry(
-					new WarningLogEntry("No sizing function was defined so using a size of zero and assuming suitability", ImmutableMap.of("measure", owner.getName()))
-					);
-		}
-		return SizingResult.suitable(0, Units.KILOWATTS);
-	}
+    @Override
+    public ISizingResult computeSize(final IComponentsScope scope, final ILets lets, final Units units) {
+        if (!warned) {
+            warned = true;
+            log.acceptLogEntry(
+                    new WarningLogEntry("No sizing function was defined so using a size of zero and assuming suitability", ImmutableMap.of("measure", owner.getName()))
+            );
+        }
+        return SizingResult.suitable(0, Units.KILOWATTS);
+    }
 
 }

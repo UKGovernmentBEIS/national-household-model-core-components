@@ -19,40 +19,41 @@ import uk.org.cse.nhm.simulator.state.IStateListener;
 
 /**
  * The gasman cometh to read your meter whenever your energy usage changes.
- * 
- * Because of the nature of the energy meter dimension, this is required to ensure that it
- * has the right value in it when time has passed
- * 
+ *
+ * Because of the nature of the energy meter dimension, this is required to
+ * ensure that it has the right value in it when time has passed
+ *
  * @author hinton
  *
  */
 public class Gasman implements ISimulationStepListener, IStateListener {
-	private static final Logger log = LoggerFactory.getLogger(Gasman.class);
-	private final LinkedHashSet<IDwelling> needMeterReadings = new LinkedHashSet<>();
-	private final IDimension<IEnergyMeter> meters;
-	private final ICanonicalState state;
 
-	@Inject
-	public Gasman(IDimension<IEnergyMeter> meters, final ICanonicalState state, final ISimulator simulator) {
-		this.meters = meters;
-		this.state = state;
-		state.addStateListener(this);
-		simulator.addSimulationStepListener(this);
-	}
-	
-	@Override
-	public void simulationStepped(DateTime dateOfStep, DateTime nextDate, boolean isFinalStep) throws NHMException {
-		log.debug("reading meters for {} dwellings", needMeterReadings.size());
-		for (final IDwelling d : needMeterReadings) {
-			state.get(meters, d);
-		}
-		needMeterReadings.clear();
-	}
+    private static final Logger log = LoggerFactory.getLogger(Gasman.class);
+    private final LinkedHashSet<IDwelling> needMeterReadings = new LinkedHashSet<>();
+    private final IDimension<IEnergyMeter> meters;
+    private final ICanonicalState state;
 
-	@Override
-	public void stateChanged(ICanonicalState state, IStateChangeNotification notification) {
-		needMeterReadings.addAll(notification.getCreatedDwellings());
-		needMeterReadings.addAll(notification.getChangedDwellings(meters));
-		needMeterReadings.removeAll(notification.getDestroyedDwellings());
-	}
+    @Inject
+    public Gasman(IDimension<IEnergyMeter> meters, final ICanonicalState state, final ISimulator simulator) {
+        this.meters = meters;
+        this.state = state;
+        state.addStateListener(this);
+        simulator.addSimulationStepListener(this);
+    }
+
+    @Override
+    public void simulationStepped(DateTime dateOfStep, DateTime nextDate, boolean isFinalStep) throws NHMException {
+        log.debug("reading meters for {} dwellings", needMeterReadings.size());
+        for (final IDwelling d : needMeterReadings) {
+            state.get(meters, d);
+        }
+        needMeterReadings.clear();
+    }
+
+    @Override
+    public void stateChanged(ICanonicalState state, IStateChangeNotification notification) {
+        needMeterReadings.addAll(notification.getCreatedDwellings());
+        needMeterReadings.addAll(notification.getChangedDwellings(meters));
+        needMeterReadings.removeAll(notification.getDestroyedDwellings());
+    }
 }

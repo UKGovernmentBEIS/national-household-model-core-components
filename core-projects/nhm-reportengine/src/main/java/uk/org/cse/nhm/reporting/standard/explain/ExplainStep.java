@@ -13,104 +13,105 @@ import uk.org.cse.nhm.reporting.standard.explain.model.Node;
  * a step will correspond to one vertical slice of the chart produced.
  */
 public class ExplainStep {
-	private SortedSet<ExplainLogEntry> entries;
-	private Map<String, Node> originNodes;
-	private List<Node> newNodes = new ArrayList<Node>();
-	private List<Edge> newEdges = new ArrayList<Edge>();
-	private Node fromOutside;
-	private Node toOutside;
 
-	public ExplainStep(SortedSet<ExplainLogEntry> entries, Map<String, Node> originNodes, Node fromOutside, Node toOutside) {
-		this.entries = entries;
-		this.fromOutside = fromOutside;
-		this.toOutside = toOutside;
-		this.originNodes = new HashMap<String, Node>(originNodes);
-		buildInFewestSteps();
-	}
+    private SortedSet<ExplainLogEntry> entries;
+    private Map<String, Node> originNodes;
+    private List<Node> newNodes = new ArrayList<Node>();
+    private List<Edge> newEdges = new ArrayList<Edge>();
+    private Node fromOutside;
+    private Node toOutside;
 
-	public List<Node> getNewNodes() {
-		return newNodes;
-	}
+    public ExplainStep(SortedSet<ExplainLogEntry> entries, Map<String, Node> originNodes, Node fromOutside, Node toOutside) {
+        this.entries = entries;
+        this.fromOutside = fromOutside;
+        this.toOutside = toOutside;
+        this.originNodes = new HashMap<String, Node>(originNodes);
+        buildInFewestSteps();
+    }
 
-	public List<Edge> getNewEdges() {
-		return newEdges;
-	}
+    public List<Node> getNewNodes() {
+        return newNodes;
+    }
 
-	public Map<String, Node> getNewOriginNodes() {
-		return originNodes;
-	}
-	
-	private void buildInFewestSteps() {
-		Deque<ExplainLogEntry> entriesToAdd = new LinkedList<ExplainLogEntry>();
-		entriesToAdd.addAll(entries);
+    public List<Edge> getNewEdges() {
+        return newEdges;
+    }
 
-		while (!entriesToAdd.isEmpty()) {
-			Map<String, Node> targets = new TreeMap<String, Node>();
-			Set<Node> changedSources = new HashSet<Node>();
-			boolean mergeFailed = false;
-			DateTime startDate = entriesToAdd.peek().getDate();
-			DateTime endDate = startDate;
+    public Map<String, Node> getNewOriginNodes() {
+        return originNodes;
+    }
 
-			while (!entriesToAdd.isEmpty() && !mergeFailed) {
-				ExplainLogEntry toMerge = entriesToAdd.pop();
-				if (toMerge.getDate().isAfter(endDate)) {
-					endDate = toMerge.getDate();
-				}
+    private void buildInFewestSteps() {
+        Deque<ExplainLogEntry> entriesToAdd = new LinkedList<ExplainLogEntry>();
+        entriesToAdd.addAll(entries);
 
-				ExplainMergeAttempt attempt = new ExplainMergeAttempt(fromOutside, toOutside, toMerge, originNodes, targets);
-				if (attempt.isSuccess()) {
-					changedSources.addAll(attempt.getChangedSources());
-					newEdges.addAll(attempt.getNewEdges());
-					targets.putAll(attempt.getNewTargets());
-					for (Edge e : attempt.getNewEdges()) {
-						e.connect();
-					}
-				} else {
-					mergeFailed = true;
-					entriesToAdd.push(toMerge);
-				}
-			}
+        while (!entriesToAdd.isEmpty()) {
+            Map<String, Node> targets = new TreeMap<String, Node>();
+            Set<Node> changedSources = new HashSet<Node>();
+            boolean mergeFailed = false;
+            DateTime startDate = entriesToAdd.peek().getDate();
+            DateTime endDate = startDate;
 
-			if (targets.isEmpty()) {
-				return;
-			}
+            while (!entriesToAdd.isEmpty() && !mergeFailed) {
+                ExplainLogEntry toMerge = entriesToAdd.pop();
+                if (toMerge.getDate().isAfter(endDate)) {
+                    endDate = toMerge.getDate();
+                }
 
-			for (Node source : changedSources) {
-				Node target;
-				String targetName = source.getName();
-				if (targets.containsKey(targetName)) {
-					target = targets.get(targetName);
-				} else {
-					target = new Node(targetName);
-					targets.put(targetName, target);
-				}
-				createLinkForUnchangedItems(newEdges, target, source, startDate, endDate);
-			}
+                ExplainMergeAttempt attempt = new ExplainMergeAttempt(fromOutside, toOutside, toMerge, originNodes, targets);
+                if (attempt.isSuccess()) {
+                    changedSources.addAll(attempt.getChangedSources());
+                    newEdges.addAll(attempt.getNewEdges());
+                    targets.putAll(attempt.getNewTargets());
+                    for (Edge e : attempt.getNewEdges()) {
+                        e.connect();
+                    }
+                } else {
+                    mergeFailed = true;
+                    entriesToAdd.push(toMerge);
+                }
+            }
 
-			for (Node target : targets.values()) {
-				if (originNodes.containsKey(target.getName())) {
-					Node source = originNodes.get(target.getName());
-					createLinkForUnchangedItems(newEdges, target, source, startDate, endDate);
-				}
-			}
+            if (targets.isEmpty()) {
+                return;
+            }
 
-			updateOriginNodesToPointToTargets(originNodes, targets.values());
+            for (Node source : changedSources) {
+                Node target;
+                String targetName = source.getName();
+                if (targets.containsKey(targetName)) {
+                    target = targets.get(targetName);
+                } else {
+                    target = new Node(targetName);
+                    targets.put(targetName, target);
+                }
+                createLinkForUnchangedItems(newEdges, target, source, startDate, endDate);
+            }
 
-			newNodes.addAll(targets.values());
-		}
-	}
+            for (Node target : targets.values()) {
+                if (originNodes.containsKey(target.getName())) {
+                    Node source = originNodes.get(target.getName());
+                    createLinkForUnchangedItems(newEdges, target, source, startDate, endDate);
+                }
+            }
 
-	private void createLinkForUnchangedItems(List<Edge> edges, Node target, Node source, DateTime startDate, DateTime endDate) {
-		if (source.calcRemainingSizeToAllocateToChildren() > 0) {
-			Edge e = new Edge(source, target, source.calcRemainingSizeToAllocateToChildren(), "unchanged", startDate, endDate);
-			e.connect();
-			edges.add(e);
-		}
-	}
+            updateOriginNodesToPointToTargets(originNodes, targets.values());
 
-	private void updateOriginNodesToPointToTargets(Map<String, Node> originNodes, Collection<Node> targetNodes) {
-		for (Node target : targetNodes) {
-			originNodes.put(target.getName(), target);
-		}
-	}
+            newNodes.addAll(targets.values());
+        }
+    }
+
+    private void createLinkForUnchangedItems(List<Edge> edges, Node target, Node source, DateTime startDate, DateTime endDate) {
+        if (source.calcRemainingSizeToAllocateToChildren() > 0) {
+            Edge e = new Edge(source, target, source.calcRemainingSizeToAllocateToChildren(), "unchanged", startDate, endDate);
+            e.connect();
+            edges.add(e);
+        }
+    }
+
+    private void updateOriginNodesToPointToTargets(Map<String, Node> originNodes, Collection<Node> targetNodes) {
+        for (Node target : targetNodes) {
+            originNodes.put(target.getName(), target);
+        }
+    }
 }

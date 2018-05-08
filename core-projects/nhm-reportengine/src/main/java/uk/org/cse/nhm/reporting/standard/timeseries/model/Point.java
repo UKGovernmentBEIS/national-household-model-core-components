@@ -9,46 +9,47 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @JsonSerialize
 public class Point implements Comparable<Point> {
-	private Double y;
-	@JsonIgnore
-	private DateTime date;
 
-	public Point(DateTime date, Double value) {
-		this.date = date;
-		this.y = value;
-	}
+    private Double y;
+    @JsonIgnore
+    private DateTime date;
 
-	public BigDecimal getX() {
-		return SecondsUtil.secondsSinceUnixEra(date);
-	}
+    public Point(DateTime date, Double value) {
+        this.date = date;
+        this.y = value;
+    }
 
-	public Double getY() {
-		return y;
-	}
-	
-	@JsonIgnore
-	public DateTime getDate() {
-		return date;
-	}
+    public BigDecimal getX() {
+        return SecondsUtil.secondsSinceUnixEra(date);
+    }
 
-	@Override
-	public int compareTo(Point o) {
-		if(!date.equals(o.date)) {
-			return date.compareTo(o.date);
-		} else {
-			return y.compareTo(getY());
-		}
-	}
+    public Double getY() {
+        return y;
+    }
 
-	public boolean isAtDate(DateTime d) {
-		return this.date.equals(d);
-	}
+    @JsonIgnore
+    public DateTime getDate() {
+        return date;
+    }
 
-	public boolean isAfterDate(DateTime d) {
-		return this.date.isAfter(d);
-	}
+    @Override
+    public int compareTo(Point o) {
+        if (!date.equals(o.date)) {
+            return date.compareTo(o.date);
+        } else {
+            return y.compareTo(getY());
+        }
+    }
 
-	public boolean isBeforeDate(DateTime d) {
-		return this.date.isBefore(d);
-	}
+    public boolean isAtDate(DateTime d) {
+        return this.date.equals(d);
+    }
+
+    public boolean isAfterDate(DateTime d) {
+        return this.date.isAfter(d);
+    }
+
+    public boolean isBeforeDate(DateTime d) {
+        return this.date.isBefore(d);
+    }
 }

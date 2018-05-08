@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collection;
 
-
 /**
  * IHomElementBuilder.
  *
@@ -13,14 +12,15 @@ import java.util.Collection;
  * @since 0.0.1-SNAPSHOT
  */
 public interface IHomElementBuilder<T> {
+
     /**
      * @since 1.0
      */
     String getBuiltClassName();
 
-	void writeChunk(OutputStream outputStream, Collection<T> elements, boolean includeHeaders) throws IOException;
-	
-	String getFileExtension();
+    void writeChunk(OutputStream outputStream, Collection<T> elements, boolean includeHeaders) throws IOException;
 
-	String getFileName();
+    String getFileExtension();
+
+    String getFileName();
 }

@@ -14,19 +14,22 @@ import uk.org.cse.nhm.language.definition.two.actions.XHookAction;
 
 @Category(CategoryType.SCHEDULING)
 public abstract class XHook extends XScenarioElement {
-	private List<XHookAction> actions = new ArrayList<>();
-	public static final class P {
-		public static final String actions = "actions";
-	}
-	
-        @Doc("A sequence of actions which will be performed in the order they are written here, on the given dates")
-	@Prop(P.actions)
-	@BindRemainingArguments
-	public List<XHookAction> getActions() {
-		return actions;
-	}
 
-	public void setActions(final List<XHookAction> actions) {
-		this.actions = actions;
-	}
+    private List<XHookAction> actions = new ArrayList<>();
+
+    public static final class P {
+
+        public static final String actions = "actions";
+    }
+
+    @Doc("A sequence of actions which will be performed in the order they are written here, on the given dates")
+    @Prop(P.actions)
+    @BindRemainingArguments
+    public List<XHookAction> getActions() {
+        return actions;
+    }
+
+    public void setActions(final List<XHookAction> actions) {
+        this.actions = actions;
+    }
 }

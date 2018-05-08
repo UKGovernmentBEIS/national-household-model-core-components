@@ -24,7 +24,9 @@ import uk.org.cse.nhm.reporting.IReportEngine;
 import uk.org.cse.nhm.reporting.standard.IReportingSession;
 
 public class StandaloneBatchReportEngine implements IReportEngine {
+
     class Session implements IReportingSession {
+
         private Map<String, String> inputs = new HashMap<>();
         private List<Map<String, Object>> outputs = new ArrayList<>();
         private List<String> errors = new ArrayList<>();
@@ -40,8 +42,8 @@ public class StandaloneBatchReportEngine implements IReportEngine {
             // make an objectmapper and write the json
             result = Files.createTempFile("batch-results-", ".json");
             try (final BufferedWriter bw = Files.newBufferedWriter(
-                     result,
-                     StandardCharsets.UTF_8)) {
+                    result,
+                    StandardCharsets.UTF_8)) {
                 mapper.writeValue(bw, output);
             }
         }
@@ -60,8 +62,8 @@ public class StandaloneBatchReportEngine implements IReportEngine {
                 final BatchInputEntry bie = (BatchInputEntry) entry;
                 inputs.putAll(bie.getColumns());
             } else {
-                final Optional<BatchOutputEntry> boe =
-                    BatchLogEntryConverter.convert(entry, null);
+                final Optional<BatchOutputEntry> boe
+                        = BatchLogEntryConverter.convert(entry, null);
                 if (boe.isPresent()) {
                     final Map<String, Object> row = new HashMap<>();
                     row.putAll(boe.get().getReducedRowKey());

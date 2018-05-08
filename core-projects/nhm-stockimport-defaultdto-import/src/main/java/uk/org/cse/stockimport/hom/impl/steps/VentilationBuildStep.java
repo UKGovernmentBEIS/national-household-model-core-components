@@ -16,34 +16,35 @@ import uk.org.cse.stockimport.hom.ISurveyCaseBuildStep;
 import uk.org.cse.stockimport.repository.IHouseCaseSources;
 
 public class VentilationBuildStep implements ISurveyCaseBuildStep {
-	protected static final Logger log = LoggerFactory.getLogger(VentilationBuildStep.class);
+
+    protected static final Logger log = LoggerFactory.getLogger(VentilationBuildStep.class);
     public static final String IDENTIFIER = VentilationBuildStep.class.getCanonicalName();
-    
-	@Override
-	public String getIdentifier() {
-		return IDENTIFIER;
-	}
-	
-	@Override
-	public Set<String> getDependencies() {
+
+    @Override
+    public String getIdentifier() {
+        return IDENTIFIER;
+    }
+
+    @Override
+    public Set<String> getDependencies() {
         return ImmutableSet.of(StructureInitializingBuildStep.IDENTIFIER);
-	}
-	
-	@Override
-	public void build(SurveyCase model, IHouseCaseSources<IBasicDTO> dtoProvider) {
-		final StructureModel structure = model.getStructure();
-		Optional<IVentilationDTO> ventilationDTO = dtoProvider.getOne(IVentilationDTO.class);
-		
-		if (ventilationDTO.isPresent()) {
-			structure.setIntermittentFans(
-					ventilationDTO.get().getIntermittentFans());
-			
-			structure.setPassiveVents(
-					ventilationDTO.get().getPassiveVents());
-			
-		} else {
-			structure.setIntermittentFans(0);
-			structure.setPassiveVents(0);
-		}
-	}
+    }
+
+    @Override
+    public void build(SurveyCase model, IHouseCaseSources<IBasicDTO> dtoProvider) {
+        final StructureModel structure = model.getStructure();
+        Optional<IVentilationDTO> ventilationDTO = dtoProvider.getOne(IVentilationDTO.class);
+
+        if (ventilationDTO.isPresent()) {
+            structure.setIntermittentFans(
+                    ventilationDTO.get().getIntermittentFans());
+
+            structure.setPassiveVents(
+                    ventilationDTO.get().getPassiveVents());
+
+        } else {
+            structure.setIntermittentFans(0);
+            structure.setPassiveVents(0);
+        }
+    }
 }

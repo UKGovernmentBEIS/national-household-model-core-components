@@ -12,7 +12,8 @@ import uk.org.cse.stockimport.ehcs2010.spss.AbstractAutoHomElementBuilder;
  * @since 0.0.1-SNAPSHOT
  */
 public class ElevationElementBuilder extends AbstractAutoHomElementBuilder<IElevationDTO> {
-	public ElevationElementBuilder() {
-		super(ElevationDTO.class);
-	}
+
+    public ElevationElementBuilder() {
+        super(ElevationDTO.class);
+    }
 }

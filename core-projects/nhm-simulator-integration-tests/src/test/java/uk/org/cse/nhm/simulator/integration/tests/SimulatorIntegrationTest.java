@@ -81,12 +81,14 @@ import uk.org.cse.nhm.simulator.state.components.IFlags;
 import uk.org.cse.nhm.stock.io.StandardJacksonModule;
 
 /**
- * A test which runs the full parse-build-sim cycle and checks the result works OK the scenario generated is quite a
- * simple one, which just installs cavity wall insulation at 5 houses per annum.
+ * A test which runs the full parse-build-sim cycle and checks the result works
+ * OK the scenario generated is quite a simple one, which just installs cavity
+ * wall insulation at 5 houses per annum.
  *
  * @author hinton
  */
 public class SimulatorIntegrationTest {
+
     protected static final Set<String> ADDITIONAL_PROPERTIES = ImmutableSet.of("FPFLGF", "EMPHRPX");
     protected static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SimulatorIntegrationTest.class);
 
@@ -115,7 +117,7 @@ public class SimulatorIntegrationTest {
             public OutputStream createReportFile(final String name,
                     final Optional<IReportDescriptor> descriptor) {
                 try {
-                	//TODO: Eh?
+                    //TODO: Eh?
                     return Files.newOutputStream(Paths.get("/home/hinton/scratch/stock.json"));
                 } catch (final IOException e) {
                     e.printStackTrace();
@@ -133,8 +135,8 @@ public class SimulatorIntegrationTest {
     }
 
     /**
-     * This is an evil static, which is here to avoid repeated reloads from {@link #realDataService}. See also the
-     * {@link #loadHouses()} method.
+     * This is an evil static, which is here to avoid repeated reloads from
+     * {@link #realDataService}. See also the {@link #loadHouses()} method.
      */
     static IStockService dataService;
 
@@ -188,15 +190,15 @@ public class SimulatorIntegrationTest {
 
             final Injector inj = Guice.createInjector(
                     new StandardJacksonModule()
-                    );
-            
-            Path toZip = Paths.get("src","test","resources", "stock.zip");
+            );
+
+            Path toZip = Paths.get("src", "test", "resources", "stock.zip");
             Assert.assertTrue(toZip.toFile().exists());
-            
+
             final ZipInputStream zip = new ZipInputStream(Files.newInputStream(
-            		toZip, 
-            		StandardOpenOption.READ));
-            
+                    toZip,
+                    StandardOpenOption.READ));
+
             ZipEntry entry;
             do {
                 entry = zip.getNextEntry();
@@ -204,8 +206,8 @@ public class SimulatorIntegrationTest {
             } while ((entry != null) && !entry.getName().equals("stock.json"));
 
             dataService = new CliStockService(inj.getInstance(ObjectMapper.class),
-                    Providers.<InputStream> of(zip)
-                    );
+                    Providers.<InputStream>of(zip)
+            );
         }
     }
 
@@ -233,37 +235,37 @@ public class SimulatorIntegrationTest {
                 XNumberDebugger.class);
 
         classpathSource = StandardSource.create(
-        		new IDataSource<URI>() {
-					@Override
-					public URI root() {
-						return null;
-					}
+                new IDataSource<URI>() {
+            @Override
+            public URI root() {
+                return null;
+            }
 
-					@Override
-					public URI resolve(Seq include, IErrorHandler errors) {
-						try {
-                          final URI uri = URI.create(Invocation.of(include, IErrorHandler.RAISE).arguments.get("href").toString());
-                          if (uri.isAbsolute()) {
-                              return uri;
-                          } else {
-                              final URI around = URI.create(include.getLocation().name);
-                              return around.resolve(uri);
-                          }
-                      } catch (final Exception e) {
-                          e.printStackTrace();
-                          throw new RuntimeException("Bad include " + include + " " + include.getLocation(), e);
-                      }
-					}
+            @Override
+            public URI resolve(Seq include, IErrorHandler errors) {
+                try {
+                    final URI uri = URI.create(Invocation.of(include, IErrorHandler.RAISE).arguments.get("href").toString());
+                    if (uri.isAbsolute()) {
+                        return uri;
+                    } else {
+                        final URI around = URI.create(include.getLocation().name);
+                        return around.resolve(uri);
+                    }
+                } catch (final Exception e) {
+                    e.printStackTrace();
+                    throw new RuntimeException("Bad include " + include + " " + include.getLocation(), e);
+                }
+            }
 
-					@Override
-					public Reader open(URI resolved) {
-						try {
-							return new InputStreamReader(resolved.toURL().openStream());
-						} catch (IOException e) {
-							throw new RuntimeException(e.getMessage(), e);
-						}
-					}
-				}, ExtraMacros.DEFAULT);
+            @Override
+            public Reader open(URI resolved) {
+                try {
+                    return new InputStreamReader(resolved.toURL().openStream());
+                } catch (IOException e) {
+                    throw new RuntimeException(e.getMessage(), e);
+                }
+            }
+        }, ExtraMacros.DEFAULT);
     }
 
     @After
@@ -279,6 +281,7 @@ public class SimulatorIntegrationTest {
     }
 
     abstract class CountingStateListener implements IStateListener {
+
         private int changes = 0;
 
         protected void incrementChanges() {
@@ -303,11 +306,11 @@ public class SimulatorIntegrationTest {
             public List<SurveyCase> getSurveyCases(final String importID, final Set<String> additionalProperties) {
                 final ArrayList<SurveyCase> filtered = new ArrayList<SurveyCase>(Collections2.filter(
                         allCases.getSurveyCases(importID, additionalProperties), new Predicate<SurveyCase>() {
-                            @Override
-                            public boolean apply(final SurveyCase c) {
-                                return aacodes.contains(c.getBasicAttributes().getAacode());
-                            }
-                        }));
+                    @Override
+                    public boolean apply(final SurveyCase c) {
+                        return aacodes.contains(c.getBasicAttributes().getAacode());
+                    }
+                }));
                 return filtered;
             }
 
@@ -430,36 +433,37 @@ public class SimulatorIntegrationTest {
     }
 
     static class LogKeeper implements ILogEntryHandler {
-    	private final Set<Class<?>> keep;
-    	private final ILogEntryHandler delegate;
-    	public List<ISimulationLogEntry> log;
-    	
-    	public LogKeeper(Set<Class<?>> keep, ILogEntryHandler delegate) {
-			super();
-			this.keep = keep;
-			this.delegate = delegate;
-		}
 
-		@Override
-		public void close() throws IOException {
-			delegate.close();
-		}
+        private final Set<Class<?>> keep;
+        private final ILogEntryHandler delegate;
+        public List<ISimulationLogEntry> log;
 
-		@Override
-		public void acceptLogEntry(ISimulationLogEntry entry) {
-			delegate.acceptLogEntry(entry);
-			if (log != null) {
-				for (final Class<?> c : keep) {
-					if (c.isInstance(entry)) {
-						log.add(entry);
-						return;
-					}
-				}
-			}
-		}
-    	
+        public LogKeeper(Set<Class<?>> keep, ILogEntryHandler delegate) {
+            super();
+            this.keep = keep;
+            this.delegate = delegate;
+        }
+
+        @Override
+        public void close() throws IOException {
+            delegate.close();
+        }
+
+        @Override
+        public void acceptLogEntry(ISimulationLogEntry entry) {
+            delegate.acceptLogEntry(entry);
+            if (log != null) {
+                for (final Class<?> c : keep) {
+                    if (c.isInstance(entry)) {
+                        log.add(entry);
+                        return;
+                    }
+                }
+            }
+        }
+
     }
-    
+
     protected IntegrationTestOutput prepareSimulation(final IStockService houseCases, final XScenario scenario,
             Set<Class<?>> keepLog, final IStateListener... listeners) throws NHMException, InterruptedException {
         if (loggingService == null) {
@@ -471,23 +475,25 @@ public class SimulatorIntegrationTest {
         }
 
         LogKeeper lk;
-        
+
         if (keepLog.size() > 0) {
-        	lk = new LogKeeper(keepLog, loggingService);
+            lk = new LogKeeper(keepLog, loggingService);
         } else {
-        	lk = null;
+            lk = null;
         }
-        
+
         closeLastSimulator();
         final ISimulator simulator = runner.build(scenario, "integration-test-0000", houseCases,
                 SimulatorRun.createStandardParameters(filterSurveyCases(
-                		lk == null ? loggingService : lk
-                		)));
+                        lk == null ? loggingService : lk
+                )));
 
         testExtension = runner.getFromInjector(IntegrationTestOutput.class);
 
-        if (lk != null) lk.log = testExtension.log;
-        
+        if (lk != null) {
+            lk.log = testExtension.log;
+        }
+
         for (final IStateListener listener : listeners) {
             testExtension.state.addStateListener(listener);
         }
@@ -526,7 +532,7 @@ public class SimulatorIntegrationTest {
             final boolean closeLog, Set<Class<?>> keepLog, final IStateListener... listeners) throws NHMException,
             InterruptedException {
         return runSimulation(houseCases, scenario, closeLog, keepLog,
-                Collections.<String, IFunctionAssertion> emptyMap(), listeners);
+                Collections.<String, IFunctionAssertion>emptyMap(), listeners);
     }
 
     protected IntegrationTestOutput runSimulation(final IStockService houseCases, final XScenario scenario,
@@ -555,7 +561,7 @@ public class SimulatorIntegrationTest {
     protected XScenario loadScenario(final String scenarioName) {
         final IResult<XScenario> parse = parser.parse(
                 classpathSource.get(getClasspathURI(scenarioName), IErrorHandler.RAISE)
-                );
+        );
 
         if (parse.hasErrors()) {
             log.warn("parse errors in {}", scenarioName);

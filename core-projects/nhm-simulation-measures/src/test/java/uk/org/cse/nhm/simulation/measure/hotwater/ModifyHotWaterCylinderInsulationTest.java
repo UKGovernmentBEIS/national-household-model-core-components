@@ -31,12 +31,18 @@ import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 @RunWith(MockitoJUnitRunner.class)
 public class ModifyHotWaterCylinderInsulationTest {
 
-    @Mock private IComponentsScope components;
-    @Mock private IDimension<ITechnologyModel> techDimension;
-    @Mock private IWetHeatingMeasureFactory wetHeatingFactory;
-    @Mock private IComponentsFunction<Number> wetHeatingCapex;
-    @Mock private ITechnologyModel techModel;
-    @Mock private ICentralWaterSystem centralWaterHeatingSystem;
+    @Mock
+    private IComponentsScope components;
+    @Mock
+    private IDimension<ITechnologyModel> techDimension;
+    @Mock
+    private IWetHeatingMeasureFactory wetHeatingFactory;
+    @Mock
+    private IComponentsFunction<Number> wetHeatingCapex;
+    @Mock
+    private ITechnologyModel techModel;
+    @Mock
+    private ICentralWaterSystem centralWaterHeatingSystem;
 
     private InstallHotWaterCylinderInsulation measure;
 

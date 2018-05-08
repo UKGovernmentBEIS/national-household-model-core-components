@@ -9,13 +9,13 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 
 public class GetNumberOfBedrooms extends StructureFunction<Integer> {
 
-	@Inject
-	protected GetNumberOfBedrooms(IDimension<StructureModel> structure) {
-		super(structure);
-	}
+    @Inject
+    protected GetNumberOfBedrooms(IDimension<StructureModel> structure) {
+        super(structure);
+    }
 
-	@Override
-	public Integer compute(IComponentsScope scope, ILets lets) {
-		return super.getStructure(scope).getNumberOfBedrooms();
-	}
+    @Override
+    public Integer compute(IComponentsScope scope, ILets lets) {
+        return super.getStructure(scope).getNumberOfBedrooms();
+    }
 }

@@ -15,29 +15,29 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class MatchOnGas extends AbstractNamed implements IComponentsFunction<Boolean> {
-	
-	private final IDimension<StructureModel> structDimension;
 
-	@AssistedInject
-	public MatchOnGas(
-			final IDimension<StructureModel> structDimension
-			) {
-		this.structDimension = structDimension;
-	}
+    private final IDimension<StructureModel> structDimension;
 
-	@Override
-	public Boolean compute(final IComponentsScope scope, final ILets lets) {
-		return scope.get(structDimension).isOnGasGrid();
-	}
+    @AssistedInject
+    public MatchOnGas(
+            final IDimension<StructureModel> structDimension
+    ) {
+        this.structDimension = structDimension;
+    }
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return ImmutableSet.<IDimension<?>>of(structDimension);
-	}
+    @Override
+    public Boolean compute(final IComponentsScope scope, final ILets lets) {
+        return scope.get(structDimension).isOnGasGrid();
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return ImmutableSet.of();
-	}
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return ImmutableSet.<IDimension<?>>of(structDimension);
+    }
+
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return ImmutableSet.of();
+    }
 
 }

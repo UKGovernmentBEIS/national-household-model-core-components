@@ -20,96 +20,99 @@ import uk.org.cse.nhm.language.definition.XElement;
 import uk.org.cse.nhm.language.definition.action.XForesightLevel;
 import uk.org.cse.nhm.language.validate.timeseries.UniqueDates;
 
-
 @Bind("function.time-series")
 @Doc(value = {
-		"Defines a number which changes as time progresses."
+    "Defines a number which changes as time progresses."
 })
 @UniqueDates
 @Category(CategoryType.ARITHMETIC)
 public class XTimeSeries extends XNumber {
-	public static final class P {
-		public static final String INITIAL = "initial";
-		public static final String ON = "on";
-	}
-	
-	private Double initial;
-	private List<XOn> on = new ArrayList<>();
 
-	@NotNull(message = "function.time-series must always contain an initial value.")
-	@Doc("The initial value of the time series function, before the time has progressed past any 'on' elements.")	
-	@Prop(P.INITIAL)
-	
-	@BindNamedArgument
-	public Double getInitial() {
-		return initial;
-	}
+    public static final class P {
 
-	public void setInitial(final Double initial) {
-		this.initial = initial;
-	}
+        public static final String INITIAL = "initial";
+        public static final String ON = "on";
+    }
 
-	@Doc("A value of the time series function. Each value comes into effect as soon as the simulation reaches the specified date, replacing whichever value was previously in effect.")
-	@Prop(P.ON)
-	@BindRemainingArguments
-	
-	public List<XOn> getOn() {
-		return on;
-	}
+    private Double initial;
+    private List<XOn> on = new ArrayList<>();
 
-	public void setOn(final List<XOn> on) {
-		this.on = on;
-	}
+    @NotNull(message = "function.time-series must always contain an initial value.")
+    @Doc("The initial value of the time series function, before the time has progressed past any 'on' elements.")
+    @Prop(P.INITIAL)
 
-	@Doc("Defines the value of a timeseries on a given date")
-	@Bind("on")
-	public static class XOn extends XElement {
-		public static final class P {
-			public static final String DATE = "date";
-			public static final String VALUE = "value";
-		}
-		
-		private DateTime date;
-		private double value;
+    @BindNamedArgument
+    public Double getInitial() {
+        return initial;
+    }
 
-		@NotNull(message = "on elements must always have a date.")
-		@Doc("The date from which this value will take effect.")
-		@Prop(P.DATE)
-		
-		@BindPositionalArgument(0)
-		public DateTime getDate() {
-			return date;
-		}
+    public void setInitial(final Double initial) {
+        this.initial = initial;
+    }
 
-		public void setDate(final DateTime date) {
-			this.date = date;
-		}
-		
-		@NotNull(message = "initial and on elements must always have a value.")
-		@Doc("The number to be used.")
-		@Prop(P.VALUE)
-		
-		@BindPositionalArgument(1)
-		public double getValue() {
-			return value;
-		}
+    @Doc("A value of the time series function. Each value comes into effect as soon as the simulation reaches the specified date, replacing whichever value was previously in effect.")
+    @Prop(P.ON)
+    @BindRemainingArguments
 
-		public void setValue(final double value) {
-			this.value = value;
-		}
-	}
-	
-	private XForesightLevel foresight = null;
+    public List<XOn> getOn() {
+        return on;
+    }
 
-	@BindNamedArgument
-	@Doc({"The foresight level required to predict the change to this time series in a prediction function like predict-sum.",
-		"If unset, this is determined from the foresight level where the function is being used; for example, within",
-		"the tariff definition this will have foresight level Tariffs."})
-	public XForesightLevel getForesight() {
-		return foresight;
-	}
+    public void setOn(final List<XOn> on) {
+        this.on = on;
+    }
 
-	public void setForesight(final XForesightLevel foresight) {
-		this.foresight = foresight;
-	}
+    @Doc("Defines the value of a timeseries on a given date")
+    @Bind("on")
+    public static class XOn extends XElement {
+
+        public static final class P {
+
+            public static final String DATE = "date";
+            public static final String VALUE = "value";
+        }
+
+        private DateTime date;
+        private double value;
+
+        @NotNull(message = "on elements must always have a date.")
+        @Doc("The date from which this value will take effect.")
+        @Prop(P.DATE)
+
+        @BindPositionalArgument(0)
+        public DateTime getDate() {
+            return date;
+        }
+
+        public void setDate(final DateTime date) {
+            this.date = date;
+        }
+
+        @NotNull(message = "initial and on elements must always have a value.")
+        @Doc("The number to be used.")
+        @Prop(P.VALUE)
+
+        @BindPositionalArgument(1)
+        public double getValue() {
+            return value;
+        }
+
+        public void setValue(final double value) {
+            this.value = value;
+        }
+    }
+
+    private XForesightLevel foresight = null;
+
+    @BindNamedArgument
+    @Doc({"The foresight level required to predict the change to this time series in a prediction function like predict-sum.",
+        "If unset, this is determined from the foresight level where the function is being used; for example, within",
+        "the tariff definition this will have foresight level Tariffs."})
+    public XForesightLevel getForesight() {
+        return foresight;
+    }
+
+    public void setForesight(final XForesightLevel foresight) {
+        this.foresight = foresight;
+    }
 }

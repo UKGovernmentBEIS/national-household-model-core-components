@@ -8,6 +8,6 @@ import uk.org.cse.nhm.language.definition.Doc;
 @Category(CategoryType.MEASURES)
 public enum XWallConstructionType {
 
-	GraniteOrWhinstone, Sandstone, SolidBrick, Cob, @Doc("This is specifically a masonry cavity; timber frame, system build and metal frame may also have a cavity.")
-	Cavity, TimberFrame, SystemBuild, MetalFrame;
+    GraniteOrWhinstone, Sandstone, SolidBrick, Cob, @Doc("This is specifically a masonry cavity; timber frame, system build and metal frame may also have a cavity.")
+    Cavity, TimberFrame, SystemBuild, MetalFrame;
 }

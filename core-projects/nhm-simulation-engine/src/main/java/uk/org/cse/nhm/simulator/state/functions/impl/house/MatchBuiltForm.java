@@ -12,16 +12,17 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class MatchBuiltForm extends StructureFunction<Boolean> implements IComponentsFunction<Boolean> {
-	private final BuiltFormType builtForm;
 
-	@Inject
-	public MatchBuiltForm(final IDimension<StructureModel> structure, @Assisted final BuiltFormType builtForm) {
-		super(structure);
-		this.builtForm = builtForm;
-	}
+    private final BuiltFormType builtForm;
 
-	@Override
-	public Boolean compute(final IComponentsScope scope, final ILets lets) {
-		return getStructure(scope).getBuiltFormType().equals(builtForm);
-	}
+    @Inject
+    public MatchBuiltForm(final IDimension<StructureModel> structure, @Assisted final BuiltFormType builtForm) {
+        super(structure);
+        this.builtForm = builtForm;
+    }
+
+    @Override
+    public Boolean compute(final IComponentsScope scope, final ILets lets) {
+        return getStructure(scope).getBuiltFormType().equals(builtForm);
+    }
 }

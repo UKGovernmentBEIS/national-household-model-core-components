@@ -15,25 +15,26 @@ import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class SetHookAction extends AbstractNamed implements IHookRunnable, IStateChangeSource {
-	private final String variable;
-	private final IComponentsFunction<Number> function;
 
-	@AssistedInject
-	public SetHookAction(
-			@Assisted final String variable,
-			@Assisted final IComponentsFunction<Number> function) {
-		this.variable = variable;
-		this.function = function;
-	}
+    private final String variable;
+    private final IComponentsFunction<Number> function;
 
-	@Override
-	public void run(final IStateScope state, final DateTime date, final Set<IStateChangeSource> causes, final ILets lets) {
+    @AssistedInject
+    public SetHookAction(
+            @Assisted final String variable,
+            @Assisted final IComponentsFunction<Number> function) {
+        this.variable = variable;
+        this.function = function;
+    }
+
+    @Override
+    public void run(final IStateScope state, final DateTime date, final Set<IStateChangeSource> causes, final ILets lets) {
         // TODO: is this a hack of the utmost badness?
-		state.getState().getGlobals().setVariable(variable, function.compute(state.getState().detachedScope(null), lets));
-	}
+        state.getState().getGlobals().setVariable(variable, function.compute(state.getState().detachedScope(null), lets));
+    }
 
-	@Override
-	public StateChangeSourceType getSourceType() {
-		return StateChangeSourceType.TRIGGER;
-	}
+    @Override
+    public StateChangeSourceType getSourceType() {
+        return StateChangeSourceType.TRIGGER;
+    }
 }

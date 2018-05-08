@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-	<context:component-scan base-package="uk.org.cse.nhm.simulation.simulator" />
+    <context:component-scan base-package="uk.org.cse.nhm.simulation.simulator" />
 	
-	<bean autowire-candidate="true" class="uk.org.cse.nhm.simulation.simulator.loader.impl.ScenarioLoader">
-		<constructor-arg>
-			<bean class="uk.org.cse.nhm.simulation.simulator.loader.impl.DataServiceFragmentLoader" />
-		</constructor-arg>
-	</bean>
+    <bean autowire-candidate="true" class="uk.org.cse.nhm.simulation.simulator.loader.impl.ScenarioLoader">
+        <constructor-arg>
+            <bean class="uk.org.cse.nhm.simulation.simulator.loader.impl.DataServiceFragmentLoader" />
+        </constructor-arg>
+    </bean>
 
-	<bean id="validator" autowire-candidate="true" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"> 
-		<property name="providerClass" value="org.apache.bval.jsr303.ApacheValidationProvider" />
-	</bean>
+    <bean id="validator" autowire-candidate="true" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"> 
+        <property name="providerClass" value="org.apache.bval.jsr303.ApacheValidationProvider" />
+    </bean>
 </beans>

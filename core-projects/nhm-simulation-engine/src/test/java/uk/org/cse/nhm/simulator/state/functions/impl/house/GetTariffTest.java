@@ -18,30 +18,30 @@ import uk.org.cse.nhm.simulator.state.dimensions.fuel.cost.ITariffs;
 
 public class GetTariffTest {
 
-	private IDimension<ITariffs> tariffsDimension;
-	private GetTariff getTariff;
-	private IComponentsScope scope;
-	private ITariffs tariffs;
+    private IDimension<ITariffs> tariffsDimension;
+    private GetTariff getTariff;
+    private IComponentsScope scope;
+    private ITariffs tariffs;
 
-	@SuppressWarnings("unchecked")
-	@Before
-	public void setup() {
-		tariffsDimension = mock(IDimension.class);
-		getTariff = new GetTariff(FuelType.OIL, tariffsDimension);
-		scope = mock(IComponentsScope.class);
-		tariffs = mock(ITariffs.class);
-		when(scope.get(tariffsDimension)).thenReturn(tariffs);
-	}
-	
-	@Test
-	public void checkDependencies() {
-		Assert.assertEquals("Depends on tariffs dimension.", Collections.singleton(tariffsDimension), getTariff.getDependencies());
-	}
-	
-	@Test
-	public void testGet() {
-		final ITariff toFind = mock(ITariff.class);
-		when(tariffs.getTariff(FuelType.OIL)).thenReturn(toFind);
-		Assert.assertSame("Should find the tariff from the scope by fuel.", toFind, getTariff.compute(scope, ILets.EMPTY));
-	}
+    @SuppressWarnings("unchecked")
+    @Before
+    public void setup() {
+        tariffsDimension = mock(IDimension.class);
+        getTariff = new GetTariff(FuelType.OIL, tariffsDimension);
+        scope = mock(IComponentsScope.class);
+        tariffs = mock(ITariffs.class);
+        when(scope.get(tariffsDimension)).thenReturn(tariffs);
+    }
+
+    @Test
+    public void checkDependencies() {
+        Assert.assertEquals("Depends on tariffs dimension.", Collections.singleton(tariffsDimension), getTariff.getDependencies());
+    }
+
+    @Test
+    public void testGet() {
+        final ITariff toFind = mock(ITariff.class);
+        when(tariffs.getTariff(FuelType.OIL)).thenReturn(toFind);
+        Assert.assertSame("Should find the tariff from the scope by fuel.", toFind, getTariff.compute(scope, ILets.EMPTY));
+    }
 }

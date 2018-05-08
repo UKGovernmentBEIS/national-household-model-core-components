@@ -10,104 +10,104 @@ import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 
 public interface RoomsEntry extends SurveyEntry {
-	@SavVariableMapping("NRMS3")
-	public Integer getNoOfKitchensLessThan6_5FtWide();
 
-	@SavVariableMapping("SHRMS2")
-	public Integer getNoOfLargeSharedKitchens();
+    @SavVariableMapping("NRMS3")
+    public Integer getNoOfKitchensLessThan6_5FtWide();
 
-	@SavVariableMapping("ACNUMBER")
-	public Integer getNoOfHhldsSharedWith();
+    @SavVariableMapping("SHRMS2")
+    public Integer getNoOfLargeSharedKitchens();
 
-	@SavVariableMapping("NRMS4")
-	public Integer getNoOfLivingRooms();
+    @SavVariableMapping("ACNUMBER")
+    public Integer getNoOfHhldsSharedWith();
 
-	@SavVariableMapping("NRMS2")
-	public Integer getNoOfKitchensGreaterThan6_5FtWide_();
+    @SavVariableMapping("NRMS4")
+    public Integer getNoOfLivingRooms();
 
-	@SavVariableMapping("NUMWC")
-	public Integer getNoOfInsideFlushToilets();
+    @SavVariableMapping("NRMS2")
+    public Integer getNoOfKitchensGreaterThan6_5FtWide_();
 
-	@SavVariableMapping("NRMS6")
-	public Integer getNoOfUtility_OtherRooms();
+    @SavVariableMapping("NUMWC")
+    public Integer getNoOfInsideFlushToilets();
 
-	@SavVariableMapping("HIDNUMP")
-	public Integer getNoInHiddenHhlds();
+    @SavVariableMapping("NRMS6")
+    public Integer getNoOfUtility_OtherRooms();
 
-	@SavVariableMapping("SHRMS3")
-	public Integer getNoOfSmallSharedKitchens();
+    @SavVariableMapping("HIDNUMP")
+    public Integer getNoInHiddenHhlds();
 
-	@SavVariableMapping("NRMS5")
-	public Integer getNoOfBathrooms();
+    @SavVariableMapping("SHRMS3")
+    public Integer getNoOfSmallSharedKitchens();
 
-	@SavVariableMapping("SHRMS5")
-	public Integer getNoOfSharedBathrooms();
+    @SavVariableMapping("NRMS5")
+    public Integer getNoOfBathrooms();
 
-	@SavVariableMapping("SHRMS6")
-	public Integer getNoOfSharedUtility_OtherRooms();
+    @SavVariableMapping("SHRMS5")
+    public Integer getNoOfSharedBathrooms();
 
-	@SavVariableMapping("SHRMS4")
-	public Integer getNoOfSharedLivingRooms();
+    @SavVariableMapping("SHRMS6")
+    public Integer getNoOfSharedUtility_OtherRooms();
 
-	@SavVariableMapping("DVHIDHH")
-	public Integer getDV_No_OfHiddenHhlds();
+    @SavVariableMapping("SHRMS4")
+    public Integer getNoOfSharedLivingRooms();
 
-	@SavVariableMapping("BEDSPACE")
-	public Integer getNoOfBedroomsInOtherAccom();
+    @SavVariableMapping("DVHIDHH")
+    public Integer getDV_No_OfHiddenHhlds();
 
-	@SavVariableMapping("HIDNUMH")
-	public Integer getNoOfHiddenHhlds_IfGreaterThan1Person_();
+    @SavVariableMapping("BEDSPACE")
+    public Integer getNoOfBedroomsInOtherAccom();
 
-	@SavVariableMapping("NRMSEHS")
-	public Integer getNoOfBedrooms();
+    @SavVariableMapping("HIDNUMH")
+    public Integer getNoOfHiddenHhlds_IfGreaterThan1Person_();
 
-	@SavVariableMapping("NRMS1")
-	public Double getNoOfBedrooms_NRMS1();
+    @SavVariableMapping("NRMSEHS")
+    public Integer getNoOfBedrooms();
 
-	@SavVariableMapping("SHSEPKIT")
-	public Enum69 getSharedSepKitchen();
+    @SavVariableMapping("NRMS1")
+    public Double getNoOfBedrooms_NRMS1();
 
-	@SavVariableMapping("ESBLET1")
-	public Enum69 getSubletPart_NotCurrentlyLet();
+    @SavVariableMapping("SHSEPKIT")
+    public Enum69 getSharedSepKitchen();
 
-	@SavVariableMapping("ACCOOK")
-	public Enum69 getKitchenFacilitiesInSoleRoom();
+    @SavVariableMapping("ESBLET1")
+    public Enum69 getSubletPart_NotCurrentlyLet();
 
-	@SavVariableMapping("DVSOLE")
-	public Enum69 getHhldHasSoleUseOfKeyAmentities();
+    @SavVariableMapping("ACCOOK")
+    public Enum69 getKitchenFacilitiesInSoleRoom();
 
-	@SavVariableMapping("QUARTER")
-	public Enum230 getFieldworkQuarter();
+    @SavVariableMapping("DVSOLE")
+    public Enum69 getHhldHasSoleUseOfKeyAmentities();
 
-	@SavVariableMapping("SHOTHR")
-	public Enum69 getSharedOtherRoomForCooking();
+    @SavVariableMapping("QUARTER")
+    public Enum230 getFieldworkQuarter();
 
-	@SavVariableMapping("SHARE2")
-	public Enum908 getShareFacilities();
+    @SavVariableMapping("SHOTHR")
+    public Enum69 getSharedOtherRoomForCooking();
 
-	@SavVariableMapping("NONPRM")
-	public Enum909 getSharesFacilitiesWithLandlord();
+    @SavVariableMapping("SHARE2")
+    public Enum908 getShareFacilities();
 
-	@SavVariableMapping("ACPAY")
-	public Enum69 getPaidRentByOtherHhld();
+    @SavVariableMapping("NONPRM")
+    public Enum909 getSharesFacilitiesWithLandlord();
 
-	@SavVariableMapping("HIDANY")
-	public Enum69 getAnyHiddenHhlds();
+    @SavVariableMapping("ACPAY")
+    public Enum69 getPaidRentByOtherHhld();
 
-	@SavVariableMapping("SHKITDIN")
-	public Enum69 getSharedKitchen_Diner();
+    @SavVariableMapping("HIDANY")
+    public Enum69 getAnyHiddenHhlds();
 
-	@SavVariableMapping("WCSHR")
-	public Enum69 getSharesToiletWithOtherHhld();
+    @SavVariableMapping("SHKITDIN")
+    public Enum69 getSharedKitchen_Diner();
 
-	@SavVariableMapping("GOREHS")
-	public Enum30 getRegion_EHSOrder();
+    @SavVariableMapping("WCSHR")
+    public Enum69 getSharesToiletWithOtherHhld();
 
-	@SavVariableMapping("SHCIRC")
-	public Enum69 getSharesHall_Landing_Staircase();
+    @SavVariableMapping("GOREHS")
+    public Enum30 getRegion_EHSOrder();
 
-	@SavVariableMapping("CASECAT")
-	public Enum229 getStatusOfCase();
+    @SavVariableMapping("SHCIRC")
+    public Enum69 getSharesHall_Landing_Staircase();
+
+    @SavVariableMapping("CASECAT")
+    public Enum229 getStatusOfCase();
 
 }
-

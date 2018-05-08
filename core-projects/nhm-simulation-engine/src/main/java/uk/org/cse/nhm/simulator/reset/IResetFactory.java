@@ -27,68 +27,73 @@ import uk.org.cse.nhm.simulator.reset.walls.WallUValueFunction;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 /**
- * Guice constructed automatic factory for creating things related to resetting bits of houses
- * to a controlled state, i.e. wall, door, glazing related functions and actions.
+ * Guice constructed automatic factory for creating things related to resetting
+ * bits of houses to a controlled state, i.e. wall, door, glazing related
+ * functions and actions.
  */
 public interface IResetFactory {
-	/* Functions pertinent to walls */
-	
-	public ResetWallsAction
-		createResetWallsAction(@Assisted("uvalues") final Optional<IComponentsFunction<Number>> uLookup,
-							   @Assisted("infiltration") final Optional<IComponentsFunction<Number>> infiltration,
-							   @Assisted("thickness") final Optional<IComponentsFunction<Number>> thickness);
 
-	public WallConstructionFunction createWallConstructionFunction();
-	public WallInfiltrationFunction createWallInfiltrationFunction();
-	public WallInsulationFunction createWallInsulationThicknessFunction(final Set<WallInsulationType> matching);
-	public WallUValueFunction createWallUValueFunction();
+    /* Functions pertinent to walls */
+    public ResetWallsAction
+            createResetWallsAction(@Assisted("uvalues") final Optional<IComponentsFunction<Number>> uLookup,
+                    @Assisted("infiltration") final Optional<IComponentsFunction<Number>> infiltration,
+                    @Assisted("thickness") final Optional<IComponentsFunction<Number>> thickness);
 
-	/* Functions pertinent to glazing */
-	
-	public ResetGlazingsAction
-		createResetGlazingsAction(@Assisted("frameFactor") final Optional<IComponentsFunction<Number>> frameFactor,
-								  @Assisted("gainsTransmittance") final Optional<IComponentsFunction<Number>> gains,
-								  @Assisted("lightTransmittance") final Optional<IComponentsFunction<Number>> light,
-								  @Assisted("uValue") final Optional<IComponentsFunction<Number>> uValue);
+    public WallConstructionFunction createWallConstructionFunction();
 
-	public GlazingFrameTypeFunction createGlazingFrameTypeFunction();
-	public GlazingInsulationTypeFunction createGlazingInsulationTypeFunction();
-	public GlazingTypeFunction createGlazingTypeFunction();
+    public WallInfiltrationFunction createWallInfiltrationFunction();
 
-	public ResetDoorsAction createResetDoorsAction(
-			@Assisted boolean rescale, 
-			@Assisted("area") Optional<IComponentsFunction<Number>> area,
-			@Assisted("uvalue") Optional<IComponentsFunction<Number>> uValue);
+    public WallInsulationFunction createWallInsulationThicknessFunction(final Set<WallInsulationType> matching);
 
-	public DoorTypeFunction createDoorTypeFunction();
+    public WallUValueFunction createWallUValueFunction();
 
-	public ResetFloorsAction createResetFloorsAction(
-			@Assisted("uValue") Optional<IComponentsFunction<Number>> uValue);
+    /* Functions pertinent to glazing */
+    public ResetGlazingsAction
+            createResetGlazingsAction(@Assisted("frameFactor") final Optional<IComponentsFunction<Number>> frameFactor,
+                    @Assisted("gainsTransmittance") final Optional<IComponentsFunction<Number>> gains,
+                    @Assisted("lightTransmittance") final Optional<IComponentsFunction<Number>> light,
+                    @Assisted("uValue") final Optional<IComponentsFunction<Number>> uValue);
 
-	public RdSapFloorUValueFunction createComputeFloorUValueFunction(
-			@Assisted("rsi") final double rsi, 
-			@Assisted("rse") final double rse, 
-			@Assisted("soilThermalConductivity") final double soilThermalConductivity,
-			@Assisted("deckThermalResistance") final double deckThermalResistance,
-			@Assisted("openingsPerMeterOfExposedPerimeter") final double openingsPerMeterOfExposedPerimeter,
-			@Assisted("heightAboveGroundLevel") final double heightAboveGroundLevel,
-			@Assisted("uValueOfWallsToUnderfloorSpace") final double uValueOfWallsToUnderfloorSpace,
-			@Assisted("averageWindSpeedAt10m") final double averageWindSpeedAt10m, 
-			@Assisted("windShieldingFactor") final double windShieldingFactor,
-			@Assisted("floorInsulationConductivity") final double floorInsulationConductivity
-			);
+    public GlazingFrameTypeFunction createGlazingFrameTypeFunction();
 
-	public FloorIsNotExposedFunction createFloorIsGroundFloorFunction();
+    public GlazingInsulationTypeFunction createGlazingInsulationTypeFunction();
 
-	public ResetRoofsAction createResetRoofsAction(			
-			@Assisted("uValue") final Optional<IComponentsFunction<Number>> uValue
-			);
-	
-	public ResetOpexAction createResetOpexAction(
-			final IComponentsFunction<? extends Number> value
-			);
-	
-	public TechnologyTypeFunction createTechTypeFunction();
-	
-	public TechnologyFuelFunction createTechFuelFunction();
+    public GlazingTypeFunction createGlazingTypeFunction();
+
+    public ResetDoorsAction createResetDoorsAction(
+            @Assisted boolean rescale,
+            @Assisted("area") Optional<IComponentsFunction<Number>> area,
+            @Assisted("uvalue") Optional<IComponentsFunction<Number>> uValue);
+
+    public DoorTypeFunction createDoorTypeFunction();
+
+    public ResetFloorsAction createResetFloorsAction(
+            @Assisted("uValue") Optional<IComponentsFunction<Number>> uValue);
+
+    public RdSapFloorUValueFunction createComputeFloorUValueFunction(
+            @Assisted("rsi") final double rsi,
+            @Assisted("rse") final double rse,
+            @Assisted("soilThermalConductivity") final double soilThermalConductivity,
+            @Assisted("deckThermalResistance") final double deckThermalResistance,
+            @Assisted("openingsPerMeterOfExposedPerimeter") final double openingsPerMeterOfExposedPerimeter,
+            @Assisted("heightAboveGroundLevel") final double heightAboveGroundLevel,
+            @Assisted("uValueOfWallsToUnderfloorSpace") final double uValueOfWallsToUnderfloorSpace,
+            @Assisted("averageWindSpeedAt10m") final double averageWindSpeedAt10m,
+            @Assisted("windShieldingFactor") final double windShieldingFactor,
+            @Assisted("floorInsulationConductivity") final double floorInsulationConductivity
+    );
+
+    public FloorIsNotExposedFunction createFloorIsGroundFloorFunction();
+
+    public ResetRoofsAction createResetRoofsAction(
+            @Assisted("uValue") final Optional<IComponentsFunction<Number>> uValue
+    );
+
+    public ResetOpexAction createResetOpexAction(
+            final IComponentsFunction<? extends Number> value
+    );
+
+    public TechnologyTypeFunction createTechTypeFunction();
+
+    public TechnologyFuelFunction createTechFuelFunction();
 }

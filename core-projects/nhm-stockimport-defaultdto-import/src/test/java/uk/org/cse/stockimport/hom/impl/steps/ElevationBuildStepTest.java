@@ -34,7 +34,7 @@ public class ElevationBuildStepTest {
 
     @Test
     public void testBuildGlazingCreatesCorrectProportionOfDoubleGlazedWindowsIf100PercentDoubleGlazed()
-        throws Exception {
+            throws Exception {
         final FrameType frameType = FrameType.Metal;
 
         final IElevationDTO elevationDTO = mock(IElevationDTO.class);
@@ -56,7 +56,7 @@ public class ElevationBuildStepTest {
 
     @Test
     public void testBuildGlazingCreatesCorrectProportionOfDoubleGlazedWindowsIf50PercentDoubleGlazed()
-        throws Exception {
+            throws Exception {
         final FrameType doubleFrameType = FrameType.Metal;
         final FrameType singleFrameType = FrameType.uPVC;
 
@@ -84,7 +84,7 @@ public class ElevationBuildStepTest {
 
     @Test
     public void testBuildGlazingCreatesCorrectProportionOfSingleGlazedWindowsIf100PercentSingleGlazed()
-        throws Exception {
+            throws Exception {
         final FrameType frameType = FrameType.Metal;
 
         final IElevationDTO elevationDTO = mock(IElevationDTO.class);

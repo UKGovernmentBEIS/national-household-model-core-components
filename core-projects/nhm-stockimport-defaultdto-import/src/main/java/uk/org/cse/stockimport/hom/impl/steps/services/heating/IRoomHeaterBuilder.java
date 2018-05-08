@@ -5,6 +5,7 @@ import uk.org.cse.stockimport.domain.services.ISpaceHeatingDTO;
 
 /**
  * IRoomHeaterBuilder.
+ *
  * @since 1.0
  */
 public interface IRoomHeaterBuilder {

@@ -41,7 +41,9 @@ public class StoreyBuildStep implements ISurveyCaseBuildStep {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(StoreyBuildStep.class);
 
-    /** @since 1.0*/
+    /**
+     * @since 1.0
+     */
     public static final String IDENTIFIER = StoreyBuildStep.class.getCanonicalName();
     private static final double TEN = 10.00;
 
@@ -52,21 +54,21 @@ public class StoreyBuildStep implements ISurveyCaseBuildStep {
     /**
      * @assumption All cavity wall insulation is 50mm thick
      */
-	private static final double DEFAULT_CAVITY_INSULATION_THICKNESS = 50;
-
-	 /**
-     * @assumption All external wall insulation is 50mm thick.
-     */
-	private static final double DEFAULT_EXTERNAL_INSULATION_THICKNESS = 50;
-
-	 /**
-     * @assumption All internal wall insulation is 50mm thick.
-     */
-	private static final double DEFAULT_INTERNAL_INSULATION_THICKNESS = 50;
+    private static final double DEFAULT_CAVITY_INSULATION_THICKNESS = 50;
 
     /**
-     * @return
-     * @see uk.org.cse.stockimport.hom.ISurveyCaseBuildStep#getIdentifier()
+     * @assumption All external wall insulation is 50mm thick.
+     */
+    private static final double DEFAULT_EXTERNAL_INSULATION_THICKNESS = 50;
+
+    /**
+     * @assumption All internal wall insulation is 50mm thick.
+     */
+    private static final double DEFAULT_INTERNAL_INSULATION_THICKNESS = 50;
+
+    /**
+     * @return @see
+     * uk.org.cse.stockimport.hom.ISurveyCaseBuildStep#getIdentifier()
      */
     @Override
     public String getIdentifier() {
@@ -74,8 +76,8 @@ public class StoreyBuildStep implements ISurveyCaseBuildStep {
     }
 
     /**
-     * @return
-     * @see uk.org.cse.stockimport.hom.ISurveyCaseBuildStep#getDependencies()
+     * @return @see
+     * uk.org.cse.stockimport.hom.ISurveyCaseBuildStep#getDependencies()
      */
     @Override
     public Set<String> getDependencies() {
@@ -85,12 +87,14 @@ public class StoreyBuildStep implements ISurveyCaseBuildStep {
     }
 
     /**
-     * 1. Assumes that {@link SurveyCase} is not null object, and has {@link BasicAttributes} set with an AACode
+     * 1. Assumes that {@link SurveyCase} is not null object, and has
+     * {@link BasicAttributes} set with an AACode
      *
      * @param model
      * @param dtoProvider
-     * @see uk.org.cse.stockimport.hom.ISurveyCaseBuildStep#build(uk.org.cse.nhm.hom.SurveyCase,
-     *      uk.org.cse.stockimport.repository.IHouseCaseSources)
+     * @see
+     * uk.org.cse.stockimport.hom.ISurveyCaseBuildStep#build(uk.org.cse.nhm.hom.SurveyCase,
+     * uk.org.cse.stockimport.repository.IHouseCaseSources)
      */
     @Override
     public void build(final SurveyCase model, final IHouseCaseSources<IBasicDTO> dtoProvider) {
@@ -111,7 +115,6 @@ public class StoreyBuildStep implements ISurveyCaseBuildStep {
             final double areaBefore = storey.getArea();
             buildAttachedWalls(storey.getWalls(), elevationDTOs);
 
-
             if (Precision.equals(areaBefore, storey.getArea(), 0.01) == false) {
                 throw new RuntimeException("area altered {aacode:" + dto.getAacode() + ",storey:"
                         + dto.getLocationType() + ",areaBefore:" + areaBefore + ",areaAfter:" + storey.getArea()
@@ -127,8 +130,9 @@ public class StoreyBuildStep implements ISurveyCaseBuildStep {
     }
 
     /**
-     * <p>Takes the elevation for each wall, finds the current construction type set for that elevation and sets the
-     * walls construction type to this.</p>
+     * <p>
+     * Takes the elevation for each wall, finds the current construction type
+     * set for that elevation and sets the walls construction type to this.</p>
      *
      * @param walls
      * @param elevationDTOs
@@ -142,20 +146,20 @@ public class StoreyBuildStep implements ISurveyCaseBuildStep {
         }
 
         for (final IMutableWall wall : walls) {
-        	final IElevationDTO elevationDTO = elevationDTOMap.get(wall.getElevationType());
-        	if (elevationDTO == null) {
-        		throw new IllegalArgumentException("No " + wall.getElevationType() + "(" + elevationDTOs + ")");
-        	}
-			wall.setWallConstructionType(elevationDTO.getExternalWallConstructionType().or(DEFAULT_PARTYWALL));
-			if (elevationDTO.getCavityInsulation().or(false)) {
-				tryInsulatingWall(wall, WallInsulationType.FilledCavity, DEFAULT_CAVITY_INSULATION_THICKNESS);
-			}
-			if (elevationDTO.getExternalInsulation().or(false)) {
-				tryInsulatingWall(wall, WallInsulationType.External, DEFAULT_EXTERNAL_INSULATION_THICKNESS);
-			}
-			if (elevationDTO.getInternalInsulation().or(false)) {
-				tryInsulatingWall(wall, WallInsulationType.Internal, DEFAULT_INTERNAL_INSULATION_THICKNESS);
-			}
+            final IElevationDTO elevationDTO = elevationDTOMap.get(wall.getElevationType());
+            if (elevationDTO == null) {
+                throw new IllegalArgumentException("No " + wall.getElevationType() + "(" + elevationDTOs + ")");
+            }
+            wall.setWallConstructionType(elevationDTO.getExternalWallConstructionType().or(DEFAULT_PARTYWALL));
+            if (elevationDTO.getCavityInsulation().or(false)) {
+                tryInsulatingWall(wall, WallInsulationType.FilledCavity, DEFAULT_CAVITY_INSULATION_THICKNESS);
+            }
+            if (elevationDTO.getExternalInsulation().or(false)) {
+                tryInsulatingWall(wall, WallInsulationType.External, DEFAULT_EXTERNAL_INSULATION_THICKNESS);
+            }
+            if (elevationDTO.getInternalInsulation().or(false)) {
+                tryInsulatingWall(wall, WallInsulationType.Internal, DEFAULT_INTERNAL_INSULATION_THICKNESS);
+            }
         }
 
         if (LOGGER.isDebugEnabled()) {
@@ -163,18 +167,19 @@ public class StoreyBuildStep implements ISurveyCaseBuildStep {
         }
     }
 
-	protected void tryInsulatingWall(final IMutableWall wall, final WallInsulationType type, final double insulationThickness) {
-		if (wall.getWallConstructionType().isAllowedInsulationType(type)) {
-			wall.setWallInsulationThicknessAndAddOrRemoveInsulation(type, insulationThickness);
-		} else {
-			LOGGER.warn("a {} wall has suggested insulation {}, which cannot go on that kind of wall",
-						wall.getWallConstructionType(), type);
-		}
-	}
+    protected void tryInsulatingWall(final IMutableWall wall, final WallInsulationType type, final double insulationThickness) {
+        if (wall.getWallConstructionType().isAllowedInsulationType(type)) {
+            wall.setWallInsulationThicknessAndAddOrRemoveInsulation(type, insulationThickness);
+        } else {
+            LOGGER.warn("a {} wall has suggested insulation {}, which cannot go on that kind of wall",
+                    wall.getWallConstructionType(), type);
+        }
+    }
 
-	/**
-     * <p>Adjust attached wall lengths, currently sets Party wall/attached construction type to
-     * {@link StoreyBuildStep#DEFAULT_PARTYWALL}.</p>
+    /**
+     * <p>
+     * Adjust attached wall lengths, currently sets Party wall/attached
+     * construction type to {@link StoreyBuildStep#DEFAULT_PARTYWALL}.</p>
      *
      * @param walls
      * @param elevationDTOs
@@ -191,44 +196,44 @@ public class StoreyBuildStep implements ISurveyCaseBuildStep {
         while (wallsItr.hasNext()) {
             wall = wallsItr.next();
 
-			final double partyWallProportion = elevationMap.get(wall.getElevationType());
-			if (partyWallProportion > 0) {
-	            if (wall.getWallConstructionType() == null) {
-	            	throw new IllegalArgumentException("Wall has no construction type when splitting into party walls" + wall);
-	            }
+            final double partyWallProportion = elevationMap.get(wall.getElevationType());
+            if (partyWallProportion > 0) {
+                if (wall.getWallConstructionType() == null) {
+                    throw new IllegalArgumentException("Wall has no construction type when splitting into party walls" + wall);
+                }
 
-				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug("buildAttachedWalls(): creating party wall for elevation:{}", wall.getElevationType());
-				}
-				if (partyWallProportion < TEN) {
-					wall.split(partyWallProportion / TEN);
-					wall.setWallConstructionType(
-							wall.getWallConstructionType().getPartyWallEquivalent());
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("buildAttachedWalls(): creating party wall for elevation:{}", wall.getElevationType());
+                }
+                if (partyWallProportion < TEN) {
+                    wall.split(partyWallProportion / TEN);
+                    wall.setWallConstructionType(
+                            wall.getWallConstructionType().getPartyWallEquivalent());
 
-					for (final WallInsulationType wit : WallInsulationType.values()) {
-						wall.setWallInsulationThicknessAndAddOrRemoveInsulation(wit, 0);
-					}
-					if (LOGGER.isDebugEnabled()) {
-						LOGGER.debug("buildAttachedWalls(): wall length:{},type:" + wall.getWallConstructionType(), wall.getLength());
-					}
-					wall = wallsItr.next(); // skip the next wall, because it's
-											// the unattached half of the one we
-											// just did.
-				} else {
-					wall.setWallConstructionType(wall.getWallConstructionType().getPartyWallEquivalent());
-					for (final WallInsulationType wit : WallInsulationType.values()) {
-						if (wall.getWallInsulationThickness(wit) > 0) {
-							LOGGER.warn("a party wall was specified with insulation type {}; this insulation will be ignored",
-										wit);
-						}
-						wall.setWallInsulationThicknessAndAddOrRemoveInsulation(wit, 0);
-					}
-					if (LOGGER.isDebugEnabled()) {
-						LOGGER.debug("buildAttachedWalls(): wall length:{},type:" + wall.getWallConstructionType().getPartyWallEquivalent(), wall.getLength());
-					}
-				}
-			}
-		}
+                    for (final WallInsulationType wit : WallInsulationType.values()) {
+                        wall.setWallInsulationThicknessAndAddOrRemoveInsulation(wit, 0);
+                    }
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug("buildAttachedWalls(): wall length:{},type:" + wall.getWallConstructionType(), wall.getLength());
+                    }
+                    wall = wallsItr.next(); // skip the next wall, because it's
+                    // the unattached half of the one we
+                    // just did.
+                } else {
+                    wall.setWallConstructionType(wall.getWallConstructionType().getPartyWallEquivalent());
+                    for (final WallInsulationType wit : WallInsulationType.values()) {
+                        if (wall.getWallInsulationThickness(wit) > 0) {
+                            LOGGER.warn("a party wall was specified with insulation type {}; this insulation will be ignored",
+                                    wit);
+                        }
+                        wall.setWallInsulationThicknessAndAddOrRemoveInsulation(wit, 0);
+                    }
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug("buildAttachedWalls(): wall length:{},type:" + wall.getWallConstructionType().getPartyWallEquivalent(), wall.getLength());
+                    }
+                }
+            }
+        }
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("buildAttachedWalls() completed");

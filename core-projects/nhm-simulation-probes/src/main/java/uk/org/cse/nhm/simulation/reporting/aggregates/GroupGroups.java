@@ -25,76 +25,77 @@ import uk.org.cse.nhm.simulator.state.IStateChangeNotification;
 import uk.org.cse.nhm.simulator.state.IStateListener;
 
 public class GroupGroups extends AbstractNamed implements IGroups, IDwellingGroupListener, IStateListener, ISimulationStepListener {
-	private final List<IDwellingGroup> groups;
-	private final List<IListener> listeners = new ArrayList<IGroups.IListener>();
-	
-	private final HashSet<IDwellingGroup> goodGroups = new HashSet<IDwellingGroup>();
-	private final HashSet<IDwellingGroup> badGroups = new HashSet<IDwellingGroup>();
-	
-	private Set<String> causes = new HashSet<String>();
-	
-	@Inject
-	public GroupGroups(
-			final ICanonicalState state,
-			final ISimulator simulator,
-			@Assisted final List<IDwellingGroup> groups) {
-		this.groups = groups;
-		
-		state.addStateListener(this);
-		simulator.addSimulationStepListener(this);
-		
-		for (final IDwellingGroup g : groups) {
-			g.addListener(this);
-		}
-		
-		goodGroups.addAll(groups);
-	}
 
-	@Override
-	public void addListener(IListener listener) {
-		listeners.add(listener);
-	}
+    private final List<IDwellingGroup> groups;
+    private final List<IListener> listeners = new ArrayList<IGroups.IListener>();
 
-	@Override
-	public void simulationStepped(final DateTime dateOfStep, final DateTime nextDate, final boolean isFinalStep) throws NHMException {
-		for (final IListener l : listeners) {
-			for (final IDwellingGroup g : badGroups) {
-				l.groupChanged(ImmutableMap.of("group", g.toString()), g.getContents(), causes, isFinalStep);
-			}
-		}
-		
-		badGroups.clear();
-		causes = new HashSet<String>();
-		goodGroups.addAll(groups);
-	}
+    private final HashSet<IDwellingGroup> goodGroups = new HashSet<IDwellingGroup>();
+    private final HashSet<IDwellingGroup> badGroups = new HashSet<IDwellingGroup>();
 
-	@Override
-	public void stateChanged(final ICanonicalState state,final IStateChangeNotification notification) {
-		boolean anyChanges = false;
-		for (final IDwellingGroup g : goodGroups) {
-			if (!Collections.disjoint(notification.getAllChangedDwellings(), g.getContents())) {
-				badGroups.add(g);
-				anyChanges = true;
-			}
-		}
-		
-		goodGroups.removeAll(badGroups);
-		
-		if(anyChanges) {
-			causes.add(notification.getRootScope().getTag().getIdentifier().getPath());
-		}
-	}
+    private Set<String> causes = new HashSet<String>();
 
-	@Override
-	public void dwellingGroupChanged(IStateChangeNotification cause, IDwellingGroup source, Set<IDwelling> added, Set<IDwelling> removed) {
-		badGroups.add(source);
-		goodGroups.remove(source);
-		causes.add(cause.getRootScope().getTag().getIdentifier().getPath());
-	}
-	
-	@Override
-	public void triggerManually() {
-		goodGroups.removeAll(groups);
-		badGroups.addAll(groups);
-	}
+    @Inject
+    public GroupGroups(
+            final ICanonicalState state,
+            final ISimulator simulator,
+            @Assisted final List<IDwellingGroup> groups) {
+        this.groups = groups;
+
+        state.addStateListener(this);
+        simulator.addSimulationStepListener(this);
+
+        for (final IDwellingGroup g : groups) {
+            g.addListener(this);
+        }
+
+        goodGroups.addAll(groups);
+    }
+
+    @Override
+    public void addListener(IListener listener) {
+        listeners.add(listener);
+    }
+
+    @Override
+    public void simulationStepped(final DateTime dateOfStep, final DateTime nextDate, final boolean isFinalStep) throws NHMException {
+        for (final IListener l : listeners) {
+            for (final IDwellingGroup g : badGroups) {
+                l.groupChanged(ImmutableMap.of("group", g.toString()), g.getContents(), causes, isFinalStep);
+            }
+        }
+
+        badGroups.clear();
+        causes = new HashSet<String>();
+        goodGroups.addAll(groups);
+    }
+
+    @Override
+    public void stateChanged(final ICanonicalState state, final IStateChangeNotification notification) {
+        boolean anyChanges = false;
+        for (final IDwellingGroup g : goodGroups) {
+            if (!Collections.disjoint(notification.getAllChangedDwellings(), g.getContents())) {
+                badGroups.add(g);
+                anyChanges = true;
+            }
+        }
+
+        goodGroups.removeAll(badGroups);
+
+        if (anyChanges) {
+            causes.add(notification.getRootScope().getTag().getIdentifier().getPath());
+        }
+    }
+
+    @Override
+    public void dwellingGroupChanged(IStateChangeNotification cause, IDwellingGroup source, Set<IDwelling> added, Set<IDwelling> removed) {
+        badGroups.add(source);
+        goodGroups.remove(source);
+        causes.add(cause.getRootScope().getTag().getIdentifier().getPath());
+    }
+
+    @Override
+    public void triggerManually() {
+        goodGroups.removeAll(groups);
+        badGroups.addAll(groups);
+    }
 }

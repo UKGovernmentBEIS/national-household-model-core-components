@@ -16,180 +16,186 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 @AutoProperty
 public class MeasureCostLogEntry extends AbstractDatedLogEntry {
-	private final String technology;
-	// Source (policy name)
-	private final String source;
-	private final Stats opex;
-	private final Stats capex;
-	private final Stats sizeInstalled;
-	private final double count;
-	private final String units;
 
-	@AutoProperty
-	public static class Stats {
-		/** The sample mean */
-		private final double mean;
+    private final String technology;
+    // Source (policy name)
+    private final String source;
+    private final Stats opex;
+    private final Stats capex;
+    private final Stats sizeInstalled;
+    private final double count;
+    private final String units;
 
-		/** The sample variance */
-		private final double variance;
+    @AutoProperty
+    public static class Stats {
 
-		/** The maximum value */
-		private final double max;
+        /**
+         * The sample mean
+         */
+        private final double mean;
 
-		/** The minimum value */
-		private final double min;
+        /**
+         * The sample variance
+         */
+        private final double variance;
 
-		/** The sum of the sample values */
-		private final double sum;
+        /**
+         * The maximum value
+         */
+        private final double max;
 
-		/**
-		 * Constructor
-		 *
-		 * @param mean
-		 *            the sample mean
-		 * @param variance
-		 *            the sample variance
-		 * @param n
-		 *            the number of observations in the sample
-		 * @param max
-		 *            the maximum value
-		 * @param min
-		 *            the minimum value
-		 * @param sum
-		 *            the sum of the values
-		 */
-		@JsonCreator
-		public Stats(@JsonProperty("mean") final double mean,
-				@JsonProperty("variance") final double variance,
-				@JsonProperty("max") final double max,
-				@JsonProperty("min") final double min, @JsonProperty("sum") final double sum) {
-			super();
-			this.mean = mean;
-			this.variance = variance;
-			this.max = max;
-			this.min = min;
-			this.sum = sum;
-		}
+        /**
+         * The minimum value
+         */
+        private final double min;
 
-		/**
-		 * @return Returns the max.
-		 */
-		public double getMax() {
-			return max;
-		}
+        /**
+         * The sum of the sample values
+         */
+        private final double sum;
 
-		/**
-		 * @return Returns the mean.
-		 */
-		public double getMean() {
-			return mean;
-		}
+        /**
+         * Constructor
+         *
+         * @param mean the sample mean
+         * @param variance the sample variance
+         * @param n the number of observations in the sample
+         * @param max the maximum value
+         * @param min the minimum value
+         * @param sum the sum of the values
+         */
+        @JsonCreator
+        public Stats(@JsonProperty("mean") final double mean,
+                @JsonProperty("variance") final double variance,
+                @JsonProperty("max") final double max,
+                @JsonProperty("min") final double min, @JsonProperty("sum") final double sum) {
+            super();
+            this.mean = mean;
+            this.variance = variance;
+            this.max = max;
+            this.min = min;
+            this.sum = sum;
+        }
 
-		/**
-		 * @return Returns the min.
-		 */
-		public double getMin() {
-			return min;
-		}
+        /**
+         * @return Returns the max.
+         */
+        public double getMax() {
+            return max;
+        }
 
-		/**
-		 * @return Returns the sum.
-		 */
-		public double getSum() {
-			return sum;
-		}
+        /**
+         * @return Returns the mean.
+         */
+        public double getMean() {
+            return mean;
+        }
 
-		/**
-		 * @return Returns the standard deviation
-		 */
-		@JsonIgnore
-		public double getStandardDeviation() {
-			return FastMath.sqrt(variance);
-		}
+        /**
+         * @return Returns the min.
+         */
+        public double getMin() {
+            return min;
+        }
 
-		/**
-		 * @return Returns the variance.
-		 */
-		public double getVariance() {
-			return variance;
-		}
+        /**
+         * @return Returns the sum.
+         */
+        public double getSum() {
+            return sum;
+        }
 
-		@Override
-		public String toString() {
-			return Pojomatic.toString(this);
-		}
+        /**
+         * @return Returns the standard deviation
+         */
+        @JsonIgnore
+        public double getStandardDeviation() {
+            return FastMath.sqrt(variance);
+        }
 
-		@Override
-		public boolean equals(final Object obj) {
-			return Pojomatic.equals(this, obj);
-		}
+        /**
+         * @return Returns the variance.
+         */
+        public double getVariance() {
+            return variance;
+        }
 
-		@Override
-		public int hashCode() {
-			return Pojomatic.hashCode(this);
-		}
-	}
+        @Override
+        public String toString() {
+            return Pojomatic.toString(this);
+        }
 
-	@JsonCreator
-	public MeasureCostLogEntry(
-			@JsonProperty("technology") final String technology,
-			@JsonProperty("source") final String source,
-			@JsonProperty("opex") final Stats opex,
-			@JsonProperty("capex") final Stats capex,
-			@JsonProperty("sizeInstalled") final Stats sizeInstalled,
-			@JsonProperty("count") final double count,
-			@JsonProperty("date") final DateTime date,
-			@JsonProperty("units") final String units) {
-		super(date);
-		this.technology = technology;
-		this.source = source;
-		this.opex = opex;
-		this.capex = capex;
-		this.sizeInstalled = sizeInstalled;
-		this.count = count;
-		this.units = units;
-	}
+        @Override
+        public boolean equals(final Object obj) {
+            return Pojomatic.equals(this, obj);
+        }
 
-	public String getTechnology() {
-		return technology;
-	}
+        @Override
+        public int hashCode() {
+            return Pojomatic.hashCode(this);
+        }
+    }
 
-	public String getSource() {
-		return source;
-	}
+    @JsonCreator
+    public MeasureCostLogEntry(
+            @JsonProperty("technology") final String technology,
+            @JsonProperty("source") final String source,
+            @JsonProperty("opex") final Stats opex,
+            @JsonProperty("capex") final Stats capex,
+            @JsonProperty("sizeInstalled") final Stats sizeInstalled,
+            @JsonProperty("count") final double count,
+            @JsonProperty("date") final DateTime date,
+            @JsonProperty("units") final String units) {
+        super(date);
+        this.technology = technology;
+        this.source = source;
+        this.opex = opex;
+        this.capex = capex;
+        this.sizeInstalled = sizeInstalled;
+        this.count = count;
+        this.units = units;
+    }
 
-	public String getUnits() {
-		return units;
-	}
+    public String getTechnology() {
+        return technology;
+    }
 
-	public double getCount() {
-		return count;
-	}
+    public String getSource() {
+        return source;
+    }
 
-	public Stats getOpex() {
-		return opex;
-	}
+    public String getUnits() {
+        return units;
+    }
 
-	public Stats getCapex() {
-		return capex;
-	}
+    public double getCount() {
+        return count;
+    }
 
-	public Stats getSizeInstalled() {
-		return sizeInstalled;
-	}
+    public Stats getOpex() {
+        return opex;
+    }
 
-	@Override
-	public String toString() {
-		return Pojomatic.toString(this);
-	}
+    public Stats getCapex() {
+        return capex;
+    }
 
-	@Override
-	public boolean equals(final Object obj) {
-		return Pojomatic.equals(this, obj);
-	}
+    public Stats getSizeInstalled() {
+        return sizeInstalled;
+    }
 
-	@Override
-	public int hashCode() {
-		return Pojomatic.hashCode(this);
-	}
+    @Override
+    public String toString() {
+        return Pojomatic.toString(this);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        return Pojomatic.equals(this, obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return Pojomatic.hashCode(this);
+    }
 }

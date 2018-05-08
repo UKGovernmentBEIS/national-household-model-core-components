@@ -26,71 +26,69 @@ import uk.org.cse.nhm.simulator.transactions.DwellingTransactionHistory;
 
 public class HypotheticalBranchStateTest {
 
-	private IDimension<IObligationHistory> obligationDimension;
-	private IDimension<DwellingTransactionHistory> transactionDimension;
-	private ITimeDimension timeDimension;
-	private ScopeFactory scopeFactory;
+    private IDimension<IObligationHistory> obligationDimension;
+    private IDimension<DwellingTransactionHistory> transactionDimension;
+    private ITimeDimension timeDimension;
+    private ScopeFactory scopeFactory;
 
-	private IDwelling dwelling;
-	private Object thing;
-	private IInternalDimension<Object> dimension;
+    private IDwelling dwelling;
+    private Object thing;
+    private IInternalDimension<Object> dimension;
 
-	private CanonicalState canonicalState;
+    private CanonicalState canonicalState;
 
-	private HypotheticalBranchState hypothesisBranch;
+    private HypotheticalBranchState hypothesisBranch;
 
-	private IModifier<Object> modifier;
+    private IModifier<Object> modifier;
 
-	@SuppressWarnings("unchecked")
-	@Before
-	public void setup() {
-		obligationDimension = mock(IDimension.class);
-		transactionDimension = mock(IDimension.class);
-		timeDimension = mock(ITimeDimension.class);
+    @SuppressWarnings("unchecked")
+    @Before
+    public void setup() {
+        obligationDimension = mock(IDimension.class);
+        transactionDimension = mock(IDimension.class);
+        timeDimension = mock(ITimeDimension.class);
 
-		scopeFactory = new ScopeFactory(obligationDimension, transactionDimension, timeDimension);
+        scopeFactory = new ScopeFactory(obligationDimension, transactionDimension, timeDimension);
 
-		dwelling = mock(IDwelling.class);
-		thing = mock(Object.class);
-		dimension = mock(IInternalDimension.class);
+        dwelling = mock(IDwelling.class);
+        thing = mock(Object.class);
+        dimension = mock(IInternalDimension.class);
 
-		when(dimension.copy(dwelling)).thenReturn(thing);
-		when(dimension.set(dwelling, thing)).thenReturn(true);
-		when(dimension.branch(
-				(IBranch)any(),
-				anyInt()
-			)
-		).thenReturn(dimension);
+        when(dimension.copy(dwelling)).thenReturn(thing);
+        when(dimension.set(dwelling, thing)).thenReturn(true);
+        when(dimension.branch(
+                (IBranch) any(),
+                anyInt()
+        )
+        ).thenReturn(dimension);
 
-		canonicalState = new CanonicalState(new DimensionCounter(), scopeFactory, 0, 0);
-		canonicalState.setDimensions(ImmutableSet.<IInternalDimension<?>>of(dimension));
-		canonicalState.dimensionCounter.next();
+        canonicalState = new CanonicalState(new DimensionCounter(), scopeFactory, 0, 0);
+        canonicalState.setDimensions(ImmutableSet.<IInternalDimension<?>>of(dimension));
+        canonicalState.dimensionCounter.next();
 
-		hypothesisBranch = new HypotheticalBranchState(canonicalState);
+        hypothesisBranch = new HypotheticalBranchState(canonicalState);
 
+        modifier = mock(IModifier.class);
+        when(modifier.modify(any())).thenReturn(true);
+    }
 
-
-		modifier = mock(IModifier.class);
-		when(modifier.modify(any())).thenReturn(true);
-	}
-
-	@Test
-	/*
+    @Test
+    /*
 	 * Example of how to trigger:
 		(under
            (counterfactual.carbon)
            (do
                (measure.storage-heater))
            evaluate: 1)
-	 */
-	public void replaceThenBranchThenMerge() {
-		hypothesisBranch.replaceDimension(dimension, dimension);
-		final IHypotheticalBranch childHypothesis = hypothesisBranch.hypotheticalBranch();
+     */
+    public void replaceThenBranchThenMerge() {
+        hypothesisBranch.replaceDimension(dimension, dimension);
+        final IHypotheticalBranch childHypothesis = hypothesisBranch.hypotheticalBranch();
 
-		childHypothesis.modify(dimension, dwelling, modifier);
+        childHypothesis.modify(dimension, dwelling, modifier);
 
-		hypothesisBranch.merge(childHypothesis);
+        hypothesisBranch.merge(childHypothesis);
 
-		verify(dimension, never()).merge(eq(dwelling), eq(dimension));
-	}
+        verify(dimension, never()).merge(eq(dwelling), eq(dimension));
+    }
 }

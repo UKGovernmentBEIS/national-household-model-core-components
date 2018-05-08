@@ -8,8 +8,9 @@ import uk.org.cse.nhm.language.two.build.IBuilder;
 
 @Bind("scenario-start")
 public class XSimStartDate extends XDate {
-	@Override
-	public DateTime asDate(IBuilder builder) {
-		return builder.getStartDate();
-	}
+
+    @Override
+    public DateTime asDate(IBuilder builder) {
+        return builder.getStartDate();
+    }
 }

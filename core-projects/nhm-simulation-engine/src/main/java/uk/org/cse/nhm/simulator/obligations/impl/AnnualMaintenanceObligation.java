@@ -20,30 +20,31 @@ import uk.org.cse.nhm.simulator.transactions.ITransaction;
 import uk.org.cse.nhm.simulator.transactions.Payment;
 
 public class AnnualMaintenanceObligation extends AnnualObligation {
+
     private static final Set<String> TAGS = ImmutableSet.of(ITransaction.Tags.OPEX);
-	final IDimension<ITechnologyModel> technologies;
+    final IDimension<ITechnologyModel> technologies;
 
-	@Inject
-	protected AnnualMaintenanceObligation(
-			final ITimeDimension time,
-			final IDimension<ITechnologyModel> technologies,
-			final ICanonicalState state, 
-			final ISimulator simulator) {
-		super(time, state, simulator, 1);
-		this.technologies = technologies;
-		setIdentifier(Name.of("Annual Maintenance"));
-	}
+    @Inject
+    protected AnnualMaintenanceObligation(
+            final ITimeDimension time,
+            final IDimension<ITechnologyModel> technologies,
+            final ICanonicalState state,
+            final ISimulator simulator) {
+        super(time, state, simulator, 1);
+        this.technologies = technologies;
+        setIdentifier(Name.of("Annual Maintenance"));
+    }
 
-	protected Set<IPayment> doGeneratePayments(IComponentsScope state, ILets lets) {
+    protected Set<IPayment> doGeneratePayments(IComponentsScope state, ILets lets) {
         final double opex = state.get(technologies).getTotalOperationalCost();
         if (opex == 0) {
             return Collections.<IPayment>emptySet();
         } else {
             return Collections.<IPayment>singleton(
-                Payment.of(
-                    ITransaction.Counterparties.MAINTENANCE,
-                    opex,
-                    TAGS));
+                    Payment.of(
+                            ITransaction.Counterparties.MAINTENANCE,
+                            opex,
+                            TAGS));
         }
-	}
+    }
 }

@@ -4,8 +4,12 @@ import java.nio.file.Path;
 import java.util.Set;
 
 public interface IKeyValue {
-	public Set<String> getKeys();
-	public String get(final String key);
-	public Path file();
-	public int line();
+
+    public Set<String> getKeys();
+
+    public String get(final String key);
+
+    public Path file();
+
+    public int line();
 }

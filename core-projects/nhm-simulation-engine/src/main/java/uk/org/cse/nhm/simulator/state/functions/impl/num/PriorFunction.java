@@ -15,13 +15,14 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class PriorFunction extends AbstractNamed implements IComponentsFunction<Double> {
+
     private final IComponentsFunction<? extends Number> delegate;
     private final IProfilingStack profiler;
 
     @AssistedInject
     public PriorFunction(
-        final IProfilingStack profiler,
-        @Assisted final IComponentsFunction<? extends Number> delegate) {
+            final IProfilingStack profiler,
+            @Assisted final IComponentsFunction<? extends Number> delegate) {
         this.delegate = delegate;
         this.profiler = profiler;
     }

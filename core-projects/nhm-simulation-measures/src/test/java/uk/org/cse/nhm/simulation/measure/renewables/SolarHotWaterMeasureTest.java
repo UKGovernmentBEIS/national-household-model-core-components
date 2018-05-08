@@ -1,10 +1,9 @@
 package uk.org.cse.nhm.simulation.measure.renewables;
 
-
 public class SolarHotWaterMeasureTest {
 
-	// ToDo: once we have roof area, make work again
-	/*
+    // ToDo: once we have roof area, make work again
+    /*
 	 * private SolarHotWaterMeasure measure; private final float minArea = 10f;
 	 * private final float minOrientation = 170f; private final float
 	 * maxOrientation = 190f; private final float systemArea = 8f; private final
@@ -200,5 +199,5 @@ public class SolarHotWaterMeasureTest {
 	 * Assert.assertEquals("Cylinder insulation = factory",
 	 * CylinderInsulationType.Factory, whs.getCylinder().getInsulationType()); }
 	 * }
-	 */
+     */
 }

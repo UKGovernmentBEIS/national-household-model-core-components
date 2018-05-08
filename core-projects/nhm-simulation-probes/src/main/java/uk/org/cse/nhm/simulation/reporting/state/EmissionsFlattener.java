@@ -17,27 +17,27 @@ import uk.org.cse.nhm.simulator.state.dimensions.fuel.cost.IEmissions;
 
 public class EmissionsFlattener implements IComponentFlattener {
 
-	private IDimension<IEmissions> emissionsDimension;
+    private IDimension<IEmissions> emissionsDimension;
 
-	@Inject
-	public EmissionsFlattener(final IDimension<IEmissions> emissionsDimension) {
-		this.emissionsDimension = emissionsDimension;
-	}
+    @Inject
+    public EmissionsFlattener(final IDimension<IEmissions> emissionsDimension) {
+        this.emissionsDimension = emissionsDimension;
+    }
 
-	@Override
-	public Object flatten(IState state, final IDwelling dwelling) {
-		final IEmissions emissionsValue = state.get(emissionsDimension, dwelling);
-		final AbstractFuelServiceLogComponent.MapBuilder b = AbstractFuelServiceLogComponent.MapBuilder.builder();
-		for (final ServiceType es : ServiceType.values()) {
-			for (final FuelType ft : FuelType.values()) {
-				b.put(ft, es, emissionsValue.getAnnualEmissions(ft, es));
-			}
-		}
-		return new EmissionsLogComponent(b.build());
-	}
+    @Override
+    public Object flatten(IState state, final IDwelling dwelling) {
+        final IEmissions emissionsValue = state.get(emissionsDimension, dwelling);
+        final AbstractFuelServiceLogComponent.MapBuilder b = AbstractFuelServiceLogComponent.MapBuilder.builder();
+        for (final ServiceType es : ServiceType.values()) {
+            for (final FuelType ft : FuelType.values()) {
+                b.put(ft, es, emissionsValue.getAnnualEmissions(ft, es));
+            }
+        }
+        return new EmissionsLogComponent(b.build());
+    }
 
-	@Override
-	public Set<IDimension<?>> getComponents() {
-		return ImmutableSet.<IDimension<?>>of(emissionsDimension);
-	}
+    @Override
+    public Set<IDimension<?>> getComponents() {
+        return ImmutableSet.<IDimension<?>>of(emissionsDimension);
+    }
 }

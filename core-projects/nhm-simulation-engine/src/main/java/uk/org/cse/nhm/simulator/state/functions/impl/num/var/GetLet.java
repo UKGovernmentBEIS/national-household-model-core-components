@@ -15,40 +15,42 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 /**
- * Gets a yielded or let variable out of the scope using {@link IComponentsScope#getYieldedNumber(String)}
+ * Gets a yielded or let variable out of the scope using
+ * {@link IComponentsScope#getYieldedNumber(String)}
  */
 public class GetLet extends AbstractNamed implements IComponentsFunction<Number> {
+
     private final IProfilingStack profiler;
-	private final String var;
-	private final Optional<Double> defaultValue;
+    private final String var;
+    private final Optional<Double> defaultValue;
 
-	public GetLet(final IProfilingStack profiler, final String var, final Optional<Double> defaultValue) {
+    public GetLet(final IProfilingStack profiler, final String var, final Optional<Double> defaultValue) {
         this.profiler = profiler;
-		this.var = var;
-		this.defaultValue = defaultValue;
-	}
+        this.var = var;
+        this.defaultValue = defaultValue;
+    }
 
-	@Override
-	public Number compute(final IComponentsScope scope, final ILets lets) {
-		// this defines the shadowing order for variables
-		final Optional<Number> result = 
-			lets.get(var, Number.class)
-				.or(defaultValue);
-		
-		if(result.isPresent()) {
-			return result.get();
-		} else {
-			throw profiler.die("Undefined value " +this, this, scope);
-		}
-	}
+    @Override
+    public Number compute(final IComponentsScope scope, final ILets lets) {
+        // this defines the shadowing order for variables
+        final Optional<Number> result
+                = lets.get(var, Number.class)
+                        .or(defaultValue);
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return Collections.<IDimension<?>>emptySet();
-	}
+        if (result.isPresent()) {
+            return result.get();
+        } else {
+            throw profiler.die("Undefined value " + this, this, scope);
+        }
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		throw new UnsupportedOperationException("get should not be used within a time-sensitive location like weather or carbon");
-	}
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return Collections.<IDimension<?>>emptySet();
+    }
+
+    @Override
+    public Set<DateTime> getChangeDates() {
+        throw new UnsupportedOperationException("get should not be used within a time-sensitive location like weather or carbon");
+    }
 }

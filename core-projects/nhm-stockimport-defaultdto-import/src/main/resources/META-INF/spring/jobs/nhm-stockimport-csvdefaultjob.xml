@@ -1,569 +1,569 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:batch="http://www.springframework.org/schema/batch"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:batch="http://www.springframework.org/schema/batch"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
 		http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
 
-	<description>CSV Default Object import job</description>
-	<bean class="org.springframework.core.io.FileSystemResourceLoader" id="defaultResourceLoader"/>
+    <description>CSV Default Object import job</description>
+    <bean class="org.springframework.core.io.FileSystemResourceLoader" id="defaultResourceLoader"/>
  
-	<batch:job id="importElevationJob">
-		<batch:step id="createElevation">
-			<batch:tasklet>
-				<batch:chunk commit-interval="${import.default.csv.chunksize}">
-					<batch:reader>
-						<bean class="uk.org.cse.stockimport.NHMFlatFileItemReader" scope="step">
-							<property name="linesToSkip" value="1"/>
-							<property name="resource" value="#{jobParameters['input.file.name']}" />
-							<property name="lineMapper">
-								<bean
-									class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
-									<property name="lineTokenizer">
-										<bean
-											class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
-											<property name="names">
-												<list>
-													<value>aacode</value>
-													<value>elevationType</value>
-													<value>tenthsAttached</value>
-													<value>tenthsOpening</value>
-													<value>tenthsPartyWall</value>
-													<value>externalWallConstructionType</value>
-													<value>cavityWallInsulation</value>
-													<value>internalInsulation</value>
-													<value>externalWallInsulation</value>
-													<value>percentageDoubleGlazed</value>
-													<value>doubleGlazedWindowFrame</value>
-													<value>singleGlazedWindowFrame</value>
-													<value>doorFrame:Wood,doorType:Solid</value>
-													<value>doorFrame:Wood,doorType:Glazed</value>
-													<value>doorFrame:Metal,doorType:Solid</value>
-													<value>doorFrame:Metal,doorType:Glazed</value>
-													<value>doorFrame:uPVC,doorType:Solid</value>
-													<value>doorFrame:uPVC,doorType:Glazed</value>
-												</list>
-											</property>
-										</bean>
-									</property>
-									<property name="fieldSetMapper">
-										<bean class="uk.org.cse.stockimport.csvdefault.mappers.ElevationMapper" />
-									</property>
-								</bean>
-							</property>
-						</bean>
-					</batch:reader>
-					<batch:writer>
-						<ref bean="csvDefaultMongoWriter" />
-					</batch:writer>
-				</batch:chunk>
-			</batch:tasklet>
-		</batch:step>
-	</batch:job>
+    <batch:job id="importElevationJob">
+        <batch:step id="createElevation">
+            <batch:tasklet>
+                <batch:chunk commit-interval="${import.default.csv.chunksize}">
+                    <batch:reader>
+                        <bean class="uk.org.cse.stockimport.NHMFlatFileItemReader" scope="step">
+                            <property name="linesToSkip" value="1"/>
+                            <property name="resource" value="#{jobParameters['input.file.name']}" />
+                            <property name="lineMapper">
+                                <bean
+                                    class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+                                    <property name="lineTokenizer">
+                                        <bean
+                                            class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+                                            <property name="names">
+                                                <list>
+                                                    <value>aacode</value>
+                                                    <value>elevationType</value>
+                                                    <value>tenthsAttached</value>
+                                                    <value>tenthsOpening</value>
+                                                    <value>tenthsPartyWall</value>
+                                                    <value>externalWallConstructionType</value>
+                                                    <value>cavityWallInsulation</value>
+                                                    <value>internalInsulation</value>
+                                                    <value>externalWallInsulation</value>
+                                                    <value>percentageDoubleGlazed</value>
+                                                    <value>doubleGlazedWindowFrame</value>
+                                                    <value>singleGlazedWindowFrame</value>
+                                                    <value>doorFrame:Wood,doorType:Solid</value>
+                                                    <value>doorFrame:Wood,doorType:Glazed</value>
+                                                    <value>doorFrame:Metal,doorType:Solid</value>
+                                                    <value>doorFrame:Metal,doorType:Glazed</value>
+                                                    <value>doorFrame:uPVC,doorType:Solid</value>
+                                                    <value>doorFrame:uPVC,doorType:Glazed</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </property>
+                                    <property name="fieldSetMapper">
+                                        <bean class="uk.org.cse.stockimport.csvdefault.mappers.ElevationMapper" />
+                                    </property>
+                                </bean>
+                            </property>
+                        </bean>
+                    </batch:reader>
+                    <batch:writer>
+                        <ref bean="csvDefaultMongoWriter" />
+                    </batch:writer>
+                </batch:chunk>
+            </batch:tasklet>
+        </batch:step>
+    </batch:job>
 	
-	<batch:job id="importStoreyJob">
-		<batch:step id="createStorey">
-			<batch:tasklet>
-				<batch:chunk commit-interval="${import.default.csv.chunksize}">
-					<batch:reader>
-						<bean class="uk.org.cse.stockimport.NHMFlatFileItemReader" scope="step">
-							<property name="linesToSkip" value="1"/>
-							<property name="resource" value="#{jobParameters['input.file.name']}" />
-							<property name="lineMapper">
-								<bean
-									class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
-									<property name="lineTokenizer">
-										<bean
-											class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
-											<property name="names">
-												<list>
-													<value>aacode</value>
-													<value>length</value>
-													<value>width</value>
-													<value>area</value>
-													<value>ceilingHeight</value>
-													<value>storyHeight</value>
-													<value>type</value>
-													<value>polygonXPoints</value>
-													<value>polygonYPoints</value>
-													<value>polyPoints</value>
-												</list>
-											</property>
-										</bean>
-									</property>
-									<property name="fieldSetMapper">
-										<bean class="uk.org.cse.stockimport.csvdefault.mappers.StoreyMapper" />
-									</property>
-								</bean>
-							</property>
-						</bean>
-					</batch:reader>
-					<batch:writer>
-						<ref bean="csvDefaultMongoWriter" />
-					</batch:writer>
-				</batch:chunk>
-			</batch:tasklet>
-		</batch:step>
-	</batch:job>
+    <batch:job id="importStoreyJob">
+        <batch:step id="createStorey">
+            <batch:tasklet>
+                <batch:chunk commit-interval="${import.default.csv.chunksize}">
+                    <batch:reader>
+                        <bean class="uk.org.cse.stockimport.NHMFlatFileItemReader" scope="step">
+                            <property name="linesToSkip" value="1"/>
+                            <property name="resource" value="#{jobParameters['input.file.name']}" />
+                            <property name="lineMapper">
+                                <bean
+                                    class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+                                    <property name="lineTokenizer">
+                                        <bean
+                                            class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+                                            <property name="names">
+                                                <list>
+                                                    <value>aacode</value>
+                                                    <value>length</value>
+                                                    <value>width</value>
+                                                    <value>area</value>
+                                                    <value>ceilingHeight</value>
+                                                    <value>storyHeight</value>
+                                                    <value>type</value>
+                                                    <value>polygonXPoints</value>
+                                                    <value>polygonYPoints</value>
+                                                    <value>polyPoints</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </property>
+                                    <property name="fieldSetMapper">
+                                        <bean class="uk.org.cse.stockimport.csvdefault.mappers.StoreyMapper" />
+                                    </property>
+                                </bean>
+                            </property>
+                        </bean>
+                    </batch:reader>
+                    <batch:writer>
+                        <ref bean="csvDefaultMongoWriter" />
+                    </batch:writer>
+                </batch:chunk>
+            </batch:tasklet>
+        </batch:step>
+    </batch:job>
 
-	<batch:job id="importRoofJob">
-		<batch:step id="createRoof">
-			<batch:tasklet>
-				<batch:chunk commit-interval="${import.default.csv.chunksize}">
-					<batch:reader>
-						<bean class="uk.org.cse.stockimport.NHMFlatFileItemReader" scope="step">
-							<property name="linesToSkip" value="1"/>
-							<property name="resource" value="#{jobParameters['input.file.name']}" />
-							<property name="lineMapper">
-								<bean
-									class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
-									<property name="lineTokenizer">
-										<bean
-											class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
-											<property name="names">
-												<list>
-													<value>aacode</value>
-													<value>insulationThickness</value>
-													<value>contructionType</value>
-													<value>coveringType</value>
-													<value>structureType</value>											
-												</list>
-											</property>
-										</bean>
-									</property>
-									<property name="fieldSetMapper">
-										<bean class="uk.org.cse.stockimport.csvdefault.mappers.RoofMapper" />
-									</property>
-								</bean>
-							</property>
-						</bean>
-					</batch:reader>
-					<batch:writer>
-						<ref bean="csvDefaultMongoWriter" />
-					</batch:writer>
-				</batch:chunk>
-			</batch:tasklet>
-		</batch:step>
-	</batch:job>
+    <batch:job id="importRoofJob">
+        <batch:step id="createRoof">
+            <batch:tasklet>
+                <batch:chunk commit-interval="${import.default.csv.chunksize}">
+                    <batch:reader>
+                        <bean class="uk.org.cse.stockimport.NHMFlatFileItemReader" scope="step">
+                            <property name="linesToSkip" value="1"/>
+                            <property name="resource" value="#{jobParameters['input.file.name']}" />
+                            <property name="lineMapper">
+                                <bean
+                                    class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+                                    <property name="lineTokenizer">
+                                        <bean
+                                            class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+                                            <property name="names">
+                                                <list>
+                                                    <value>aacode</value>
+                                                    <value>insulationThickness</value>
+                                                    <value>contructionType</value>
+                                                    <value>coveringType</value>
+                                                    <value>structureType</value>											
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </property>
+                                    <property name="fieldSetMapper">
+                                        <bean class="uk.org.cse.stockimport.csvdefault.mappers.RoofMapper" />
+                                    </property>
+                                </bean>
+                            </property>
+                        </bean>
+                    </batch:reader>
+                    <batch:writer>
+                        <ref bean="csvDefaultMongoWriter" />
+                    </batch:writer>
+                </batch:chunk>
+            </batch:tasklet>
+        </batch:step>
+    </batch:job>
 	
-	<batch:job id="importHouseCaseJob">
-		<batch:step id="createHouseCase">
-			<batch:tasklet>
-				<batch:chunk commit-interval="${import.default.csv.chunksize}">
-					<batch:reader>
-						<bean class="uk.org.cse.stockimport.NHMFlatFileItemReader" scope="step">
-							<property name="linesToSkip" value="1"/>
-							<property name="resource" value="#{jobParameters['input.file.name']}" />
-							<property name="lineMapper">
-								<bean
-									class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
-									<property name="lineTokenizer">
-										<bean
-											class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
-											<property name="names">
-												<list>
-													<value>aacode</value>
-													<value>hasLoft</value>
-													<value>householdCaseWeight</value>
-													<value>dwellingCaseWeight</value>
-													<value>regionType</value>
-													<value>tenureType</value>
-													<value>builtFormType</value>
-													<value>adults</value>
-													<value>children</value>
-													<value>buildYear</value>
-													<value>livingAreaFaction</value>
-													<value>numOfHabitalRooms</value>
-													<value>numOfBedrooms</value>
-													<value>grndFloorType</value>
-													<value>hasDraftLobby</value>
-													<value>hasAccessToOutsideSpace</value>
-													<value>frontPlotDepth</value>
-													<value>frontPlotWidth</value>
-													<value>backPlotDepth</value>
-													<value>backPlotWidth</value>
-													<value>morphologyType</value>
-													<value>onGasGrid</value>
-													<value>partlyOwnsRoof</value>
-												</list>
-											</property>
-										</bean>
-									</property>
-									<property name="fieldSetMapper">
-										<bean class="uk.org.cse.stockimport.csvdefault.mappers.HouseCaseMapper" />
-									</property>
-								</bean>
-							</property>
-						</bean>
-					</batch:reader>
-					<batch:writer>
-						<ref bean="csvDefaultMongoWriter" />
-					</batch:writer>
-				</batch:chunk>
-			</batch:tasklet>
-		</batch:step>
-	</batch:job>
+    <batch:job id="importHouseCaseJob">
+        <batch:step id="createHouseCase">
+            <batch:tasklet>
+                <batch:chunk commit-interval="${import.default.csv.chunksize}">
+                    <batch:reader>
+                        <bean class="uk.org.cse.stockimport.NHMFlatFileItemReader" scope="step">
+                            <property name="linesToSkip" value="1"/>
+                            <property name="resource" value="#{jobParameters['input.file.name']}" />
+                            <property name="lineMapper">
+                                <bean
+                                    class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+                                    <property name="lineTokenizer">
+                                        <bean
+                                            class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+                                            <property name="names">
+                                                <list>
+                                                    <value>aacode</value>
+                                                    <value>hasLoft</value>
+                                                    <value>householdCaseWeight</value>
+                                                    <value>dwellingCaseWeight</value>
+                                                    <value>regionType</value>
+                                                    <value>tenureType</value>
+                                                    <value>builtFormType</value>
+                                                    <value>adults</value>
+                                                    <value>children</value>
+                                                    <value>buildYear</value>
+                                                    <value>livingAreaFaction</value>
+                                                    <value>numOfHabitalRooms</value>
+                                                    <value>numOfBedrooms</value>
+                                                    <value>grndFloorType</value>
+                                                    <value>hasDraftLobby</value>
+                                                    <value>hasAccessToOutsideSpace</value>
+                                                    <value>frontPlotDepth</value>
+                                                    <value>frontPlotWidth</value>
+                                                    <value>backPlotDepth</value>
+                                                    <value>backPlotWidth</value>
+                                                    <value>morphologyType</value>
+                                                    <value>onGasGrid</value>
+                                                    <value>partlyOwnsRoof</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </property>
+                                    <property name="fieldSetMapper">
+                                        <bean class="uk.org.cse.stockimport.csvdefault.mappers.HouseCaseMapper" />
+                                    </property>
+                                </bean>
+                            </property>
+                        </bean>
+                    </batch:reader>
+                    <batch:writer>
+                        <ref bean="csvDefaultMongoWriter" />
+                    </batch:writer>
+                </batch:chunk>
+            </batch:tasklet>
+        </batch:step>
+    </batch:job>
 	
-	<batch:job id="importLowEnergyLightingJob">
-		<batch:step id="createLighting">
-			<batch:tasklet>
-				<batch:chunk commit-interval="${import.default.csv.chunksize}">
-					<batch:reader>
-						<bean class="uk.org.cse.stockimport.NHMFlatFileItemReader" scope="step">
-							<property name="linesToSkip" value="1"/>
-							<property name="resource" value="#{jobParameters['input.file.name']}" />
-							<property name="lineMapper">
-								<bean
-									class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
-									<property name="lineTokenizer">
-										<bean
-											class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
-											<property name="names">
-												<list>
-													<value>aacode</value>
-													<value>fraction</value>						
-												</list>
-											</property>
-										</bean>
-									</property>
-									<property name="fieldSetMapper">
-										<bean class="uk.org.cse.stockimport.csvdefault.mappers.LowEnergyLightingMapper" />
-									</property>
-								</bean>
-							</property>
-						</bean>
-					</batch:reader>
-					<batch:writer>
-						<ref bean="csvDefaultMongoWriter" />
-					</batch:writer>
-				</batch:chunk>
-			</batch:tasklet>
-		</batch:step>
-	</batch:job>
+    <batch:job id="importLowEnergyLightingJob">
+        <batch:step id="createLighting">
+            <batch:tasklet>
+                <batch:chunk commit-interval="${import.default.csv.chunksize}">
+                    <batch:reader>
+                        <bean class="uk.org.cse.stockimport.NHMFlatFileItemReader" scope="step">
+                            <property name="linesToSkip" value="1"/>
+                            <property name="resource" value="#{jobParameters['input.file.name']}" />
+                            <property name="lineMapper">
+                                <bean
+                                    class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+                                    <property name="lineTokenizer">
+                                        <bean
+                                            class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+                                            <property name="names">
+                                                <list>
+                                                    <value>aacode</value>
+                                                    <value>fraction</value>						
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </property>
+                                    <property name="fieldSetMapper">
+                                        <bean class="uk.org.cse.stockimport.csvdefault.mappers.LowEnergyLightingMapper" />
+                                    </property>
+                                </bean>
+                            </property>
+                        </bean>
+                    </batch:reader>
+                    <batch:writer>
+                        <ref bean="csvDefaultMongoWriter" />
+                    </batch:writer>
+                </batch:chunk>
+            </batch:tasklet>
+        </batch:step>
+    </batch:job>
 	
-	<batch:job id="occupantDetailsJob">
-		<batch:step id="occpuantDetails">
-			<batch:tasklet>
-				<batch:chunk commit-interval="${import.default.csv.chunksize}">
-					<batch:reader>
-						<bean class="uk.org.cse.stockimport.NHMFlatFileItemReader" scope="step">
-							<property name="linesToSkip" value="1"/>
-							<property name="resource" value="#{jobParameters['input.file.name']}" />
-							<property name="lineMapper">
-								<bean
-									class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
-									<property name="lineTokenizer">
-										<bean
-											class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
-											<property name="names">
-												<list>
-													<value>aacode</value>
-													<value>chiefIncomeEarnersAge</value>
-													<value>dateMovedIn</value>
-													<value>hasDisabledOrSickOccupant</value>
-													<value>hasOccupantOnBenefits</value>
-													<value>houseHoldIncomeBeforeTax</value>
-													<value>workingHours</value>		
-												</list>
-											</property>
-										</bean>
-									</property>
-									<property name="fieldSetMapper">
-										<bean class="uk.org.cse.stockimport.csvdefault.mappers.OccupantDetailsMapper" />
-									</property>
-								</bean>
-							</property>
-						</bean>
-					</batch:reader>
-					<batch:writer>
-						<ref bean="csvDefaultMongoWriter" />
-					</batch:writer>
-				</batch:chunk>
-			</batch:tasklet>
-		</batch:step>
-	</batch:job>
+    <batch:job id="occupantDetailsJob">
+        <batch:step id="occpuantDetails">
+            <batch:tasklet>
+                <batch:chunk commit-interval="${import.default.csv.chunksize}">
+                    <batch:reader>
+                        <bean class="uk.org.cse.stockimport.NHMFlatFileItemReader" scope="step">
+                            <property name="linesToSkip" value="1"/>
+                            <property name="resource" value="#{jobParameters['input.file.name']}" />
+                            <property name="lineMapper">
+                                <bean
+                                    class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+                                    <property name="lineTokenizer">
+                                        <bean
+                                            class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+                                            <property name="names">
+                                                <list>
+                                                    <value>aacode</value>
+                                                    <value>chiefIncomeEarnersAge</value>
+                                                    <value>dateMovedIn</value>
+                                                    <value>hasDisabledOrSickOccupant</value>
+                                                    <value>hasOccupantOnBenefits</value>
+                                                    <value>houseHoldIncomeBeforeTax</value>
+                                                    <value>workingHours</value>		
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </property>
+                                    <property name="fieldSetMapper">
+                                        <bean class="uk.org.cse.stockimport.csvdefault.mappers.OccupantDetailsMapper" />
+                                    </property>
+                                </bean>
+                            </property>
+                        </bean>
+                    </batch:reader>
+                    <batch:writer>
+                        <ref bean="csvDefaultMongoWriter" />
+                    </batch:writer>
+                </batch:chunk>
+            </batch:tasklet>
+        </batch:step>
+    </batch:job>
 	
-	<batch:job id="ventilationImportJob">
-		<batch:step id="createVentilation">
-			<batch:tasklet>
-				<batch:chunk commit-interval="${import.default.csv.chunksize}">
-					<batch:reader>
-						<bean class="uk.org.cse.stockimport.NHMFlatFileItemReader" scope="step">
-							<property name="linesToSkip" value="1"/>
-							<property name="resource" value="#{jobParameters['input.file.name']}" />
-							<property name="lineMapper">
-								<bean
-									class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
-									<property name="lineTokenizer">
-										<bean
-											class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
-											<property name="names">
-												<list>
-													<value>aacode</value>
-													<value>ChimneysMainHeating</value>
-													<value>ChimneysOther</value>
-													<value>ChimneysSecondaryHeating</value>
-													<value>IntermittentFans</value>
-													<value>PassiveVents</value>
-													<value>VentilationSystem</value>
-													<value>WindowsAndDoorsDraughtStrippedProportion</value>
-												</list>
-											</property>
-										</bean>
-									</property>
-									<property name="fieldSetMapper">
-										<bean class="uk.org.cse.stockimport.csvdefault.mappers.VentilationMapper" />
-									</property>
-								</bean>
-							</property>
-						</bean>
-					</batch:reader>
-					<batch:writer>
-						<ref bean="csvDefaultMongoWriter" />
-					</batch:writer>
-				</batch:chunk>
-			</batch:tasklet>
-		</batch:step>
-	</batch:job>
+    <batch:job id="ventilationImportJob">
+        <batch:step id="createVentilation">
+            <batch:tasklet>
+                <batch:chunk commit-interval="${import.default.csv.chunksize}">
+                    <batch:reader>
+                        <bean class="uk.org.cse.stockimport.NHMFlatFileItemReader" scope="step">
+                            <property name="linesToSkip" value="1"/>
+                            <property name="resource" value="#{jobParameters['input.file.name']}" />
+                            <property name="lineMapper">
+                                <bean
+                                    class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+                                    <property name="lineTokenizer">
+                                        <bean
+                                            class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+                                            <property name="names">
+                                                <list>
+                                                    <value>aacode</value>
+                                                    <value>ChimneysMainHeating</value>
+                                                    <value>ChimneysOther</value>
+                                                    <value>ChimneysSecondaryHeating</value>
+                                                    <value>IntermittentFans</value>
+                                                    <value>PassiveVents</value>
+                                                    <value>VentilationSystem</value>
+                                                    <value>WindowsAndDoorsDraughtStrippedProportion</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </property>
+                                    <property name="fieldSetMapper">
+                                        <bean class="uk.org.cse.stockimport.csvdefault.mappers.VentilationMapper" />
+                                    </property>
+                                </bean>
+                            </property>
+                        </bean>
+                    </batch:reader>
+                    <batch:writer>
+                        <ref bean="csvDefaultMongoWriter" />
+                    </batch:writer>
+                </batch:chunk>
+            </batch:tasklet>
+        </batch:step>
+    </batch:job>
 	
-	<batch:job id="waterHeatingImportJob">
-		<batch:step id="waterHeatingInstall">
-			<batch:tasklet>
-				<batch:chunk commit-interval="${import.default.csv.chunksize}">
-					<batch:reader>
-						<bean class="uk.org.cse.stockimport.NHMFlatFileItemReader" scope="step">
-							<property name="linesToSkip" value="1"/>
-							<property name="resource" value="#{jobParameters['input.file.name']}" />
-							<property name="lineMapper">
-								<bean
-									class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
-									<property name="lineTokenizer">
-										<bean
-											class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
-											<property name="names">
-												<list>
-													<value>aacode</value>
-													<value>BasicEfficiency</value>
-													<value>CHPFraction</value>
-													<value>CylinderInsulationThickness</value>
-													<value>CylinderVolume</value>
-													<value>ElectricTariff</value>
-													<value>FlueType</value>
-													<value>ImmersionHeaterType</value>
-													<value>InstallationYear</value>
-													<value>MainHeatingFuel</value>
-													<value>SolarStoreVolume</value>
-													<value>SummerEfficiency</value>
-													<value>WaterHeatingSystemType</value>
-													<value>WinterEfficiency</value>
-													<value>CommunityChargingUsageBased</value>
-													<value>CylinderFactoryInsulated</value>
-													<value>CylinderThermostatPresent</value>
-													<value>SolarHotWaterPresent</value>
-													<value>SolarStoreInCylinder</value>
-													<value>WithCentralHeating</value>													
-												</list>
-											</property>
-										</bean>
-									</property>
-									<property name="fieldSetMapper">
-										<bean class="uk.org.cse.stockimport.csvdefault.mappers.WaterHeatingMapper" />
-									</property>
-								</bean>
-							</property>
-						</bean>
-					</batch:reader>
-					<batch:writer>
-						<ref bean="csvDefaultMongoWriter" />
-					</batch:writer>
-				</batch:chunk>
-			</batch:tasklet>
-		</batch:step>
-	</batch:job>
+    <batch:job id="waterHeatingImportJob">
+        <batch:step id="waterHeatingInstall">
+            <batch:tasklet>
+                <batch:chunk commit-interval="${import.default.csv.chunksize}">
+                    <batch:reader>
+                        <bean class="uk.org.cse.stockimport.NHMFlatFileItemReader" scope="step">
+                            <property name="linesToSkip" value="1"/>
+                            <property name="resource" value="#{jobParameters['input.file.name']}" />
+                            <property name="lineMapper">
+                                <bean
+                                    class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+                                    <property name="lineTokenizer">
+                                        <bean
+                                            class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+                                            <property name="names">
+                                                <list>
+                                                    <value>aacode</value>
+                                                    <value>BasicEfficiency</value>
+                                                    <value>CHPFraction</value>
+                                                    <value>CylinderInsulationThickness</value>
+                                                    <value>CylinderVolume</value>
+                                                    <value>ElectricTariff</value>
+                                                    <value>FlueType</value>
+                                                    <value>ImmersionHeaterType</value>
+                                                    <value>InstallationYear</value>
+                                                    <value>MainHeatingFuel</value>
+                                                    <value>SolarStoreVolume</value>
+                                                    <value>SummerEfficiency</value>
+                                                    <value>WaterHeatingSystemType</value>
+                                                    <value>WinterEfficiency</value>
+                                                    <value>CommunityChargingUsageBased</value>
+                                                    <value>CylinderFactoryInsulated</value>
+                                                    <value>CylinderThermostatPresent</value>
+                                                    <value>SolarHotWaterPresent</value>
+                                                    <value>SolarStoreInCylinder</value>
+                                                    <value>WithCentralHeating</value>													
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </property>
+                                    <property name="fieldSetMapper">
+                                        <bean class="uk.org.cse.stockimport.csvdefault.mappers.WaterHeatingMapper" />
+                                    </property>
+                                </bean>
+                            </property>
+                        </bean>
+                    </batch:reader>
+                    <batch:writer>
+                        <ref bean="csvDefaultMongoWriter" />
+                    </batch:writer>
+                </batch:chunk>
+            </batch:tasklet>
+        </batch:step>
+    </batch:job>
 	
-	<batch:job id="spaceHeatingImportJob">
-		<batch:step id="spaceHeatingInstall">
-			<batch:tasklet>
-				<batch:chunk commit-interval="${import.default.csv.chunksize}">
-					<batch:reader>
-						<bean class="uk.org.cse.stockimport.NHMFlatFileItemReader" scope="step">
-							<property name="linesToSkip" value="1"/>
-							<property name="resource" value="#{jobParameters['input.file.name']}" />
-							<property name="lineMapper">
-								<bean
-									class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
-									<property name="lineTokenizer">
-										<bean
-											class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
-											<property name="names">
-												<list>
-													<value>aacode</value>
-													<value>spaceHeatingSystemType</value>
-													<value>heatingSystemControlTypes</value>
-													<value>mainHeatingFuel</value>
-													<value>flueType</value>
-													<value>ElectricTariff</value>
-													<value>BasicEfficiency</value>
-													<value>SummerEfficiency</value>
-													<value>WinterEfficiency</value>
-													<value>storageHeaterType</value>
-													<value>storageHeaterControlType</value>
-													<value>CommunityChargingUsageBased</value>
-													<value>CHPFraction</value>
-													<value>secondaryHeatingSystemType</value>
-													<value>storageCombiCylinderVolume</value>
-													<value>storageCombiSolarVolume</value>
-													<value>storageCombiCylinderInsulationThickness</value>
-													<value>isStorageCombiCylinderThemostatPresent</value>
-													<value>isStorageCombiCylinderFactoryInsulated</value>
-													<value>isCondensing</value>
-													<value>installationYear</value>
-												</list>
-											</property>
-										</bean>
-									</property>
-									<property name="fieldSetMapper">
-										<bean class="uk.org.cse.stockimport.csvdefault.mappers.SpaceHeatingMapper" />
-									</property>
-								</bean>
-							</property>
-						</bean>
-					</batch:reader>
-					<batch:writer>
-						<ref bean="csvDefaultMongoWriter" />
-					</batch:writer>
-				</batch:chunk>
-			</batch:tasklet>
-		</batch:step>
-	</batch:job>
+    <batch:job id="spaceHeatingImportJob">
+        <batch:step id="spaceHeatingInstall">
+            <batch:tasklet>
+                <batch:chunk commit-interval="${import.default.csv.chunksize}">
+                    <batch:reader>
+                        <bean class="uk.org.cse.stockimport.NHMFlatFileItemReader" scope="step">
+                            <property name="linesToSkip" value="1"/>
+                            <property name="resource" value="#{jobParameters['input.file.name']}" />
+                            <property name="lineMapper">
+                                <bean
+                                    class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+                                    <property name="lineTokenizer">
+                                        <bean
+                                            class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+                                            <property name="names">
+                                                <list>
+                                                    <value>aacode</value>
+                                                    <value>spaceHeatingSystemType</value>
+                                                    <value>heatingSystemControlTypes</value>
+                                                    <value>mainHeatingFuel</value>
+                                                    <value>flueType</value>
+                                                    <value>ElectricTariff</value>
+                                                    <value>BasicEfficiency</value>
+                                                    <value>SummerEfficiency</value>
+                                                    <value>WinterEfficiency</value>
+                                                    <value>storageHeaterType</value>
+                                                    <value>storageHeaterControlType</value>
+                                                    <value>CommunityChargingUsageBased</value>
+                                                    <value>CHPFraction</value>
+                                                    <value>secondaryHeatingSystemType</value>
+                                                    <value>storageCombiCylinderVolume</value>
+                                                    <value>storageCombiSolarVolume</value>
+                                                    <value>storageCombiCylinderInsulationThickness</value>
+                                                    <value>isStorageCombiCylinderThemostatPresent</value>
+                                                    <value>isStorageCombiCylinderFactoryInsulated</value>
+                                                    <value>isCondensing</value>
+                                                    <value>installationYear</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </property>
+                                    <property name="fieldSetMapper">
+                                        <bean class="uk.org.cse.stockimport.csvdefault.mappers.SpaceHeatingMapper" />
+                                    </property>
+                                </bean>
+                            </property>
+                        </bean>
+                    </batch:reader>
+                    <batch:writer>
+                        <ref bean="csvDefaultMongoWriter" />
+                    </batch:writer>
+                </batch:chunk>
+            </batch:tasklet>
+        </batch:step>
+    </batch:job>
 	
-	<bean class="uk.org.cse.stockimport.csvdefault.headers.HeaderReadingLineCallbackHandler" scope="step" id="headerSource">
-		<property name="lineTokenizer">
-			<bean class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer" />
-		</property>
-	</bean>
+    <bean class="uk.org.cse.stockimport.csvdefault.headers.HeaderReadingLineCallbackHandler" scope="step" id="headerSource">
+        <property name="lineTokenizer">
+            <bean class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer" />
+        </property>
+    </bean>
 	
-	<batch:job id="housePropertiesImportJob">
-		<batch:step id="housePropertyRead">
-			<batch:tasklet>
-				<batch:chunk commit-interval="${import.default.csv.chunksize}">
-					<batch:reader>
-						<bean class="uk.org.cse.stockimport.NHMFlatFileItemReader" scope="step">
-							<property name="linesToSkip" value="1"/>
-							<property name="resource" value="#{jobParameters['input.file.name']}" />
-							<property name="skippedLinesCallback">
-								<ref bean="headerSource" />
-							</property>
-							<property name="lineMapper">
-								<bean
-									class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
-									<property name="lineTokenizer">
-										<bean
-											class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
-										</bean>
-									</property>
-									<property name="fieldSetMapper">
-										<bean class="uk.org.cse.stockimport.csvdefault.mappers.AdditionalHouseCasePropertyMapper">
-											<property name="headerSource">
-												<ref bean="headerSource" />
-											</property>
-										</bean>
-									</property>
-								</bean>
-							</property>
-						</bean>
-					</batch:reader>
-					<batch:writer>
-						<ref bean="csvDefaultMongoWriter" />
-					</batch:writer>
-				</batch:chunk>
-			</batch:tasklet>
-		</batch:step>
-	</batch:job>
+    <batch:job id="housePropertiesImportJob">
+        <batch:step id="housePropertyRead">
+            <batch:tasklet>
+                <batch:chunk commit-interval="${import.default.csv.chunksize}">
+                    <batch:reader>
+                        <bean class="uk.org.cse.stockimport.NHMFlatFileItemReader" scope="step">
+                            <property name="linesToSkip" value="1"/>
+                            <property name="resource" value="#{jobParameters['input.file.name']}" />
+                            <property name="skippedLinesCallback">
+                                <ref bean="headerSource" />
+                            </property>
+                            <property name="lineMapper">
+                                <bean
+                                    class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+                                    <property name="lineTokenizer">
+                                        <bean
+                                            class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+                                        </bean>
+                                    </property>
+                                    <property name="fieldSetMapper">
+                                        <bean class="uk.org.cse.stockimport.csvdefault.mappers.AdditionalHouseCasePropertyMapper">
+                                            <property name="headerSource">
+                                                <ref bean="headerSource" />
+                                            </property>
+                                        </bean>
+                                    </property>
+                                </bean>
+                            </property>
+                        </bean>
+                    </batch:reader>
+                    <batch:writer>
+                        <ref bean="csvDefaultMongoWriter" />
+                    </batch:writer>
+                </batch:chunk>
+            </batch:tasklet>
+        </batch:step>
+    </batch:job>
 	
-	<batch:job id="metaDataJob">
-		<batch:step id="metaDataRead">
-			<batch:tasklet>
-				<batch:chunk commit-interval="${import.default.csv.chunksize}">
-					<batch:reader>
-						<bean class="uk.org.cse.stockimport.NHMFlatFileItemReader" scope="step">
-							<property name="linesToSkip" value="1"/>
-							<property name="resource" value="#{jobParameters['input.file.name']}" />
-							<property name="lineMapper">
-								<bean
-									class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
-									<property name="lineTokenizer">
-										<bean
-											class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
-											<property name="names">
-												<list>
-													<value>Date</value>
-													<value>DescriptionByUser</value>
-													<value>SourceName</value>
-													<value>SourceVersion</value>
-													<value>StockImporterVersion</value>
-													<value>UserName</value>
-												</list>
-											</property>
-										</bean>
-									</property>
-									<property name="fieldSetMapper">
-										<bean class="uk.org.cse.stockimport.csvdefault.mappers.MetaDataMapper"/>
-									</property>
-								</bean>
-							</property>
-						</bean>
-					</batch:reader>
-					<batch:writer>
-						<ref bean="csvDefaultMongoWriter" />
-					</batch:writer>
-				</batch:chunk>
-			</batch:tasklet>
-		</batch:step>
-	</batch:job>
+    <batch:job id="metaDataJob">
+        <batch:step id="metaDataRead">
+            <batch:tasklet>
+                <batch:chunk commit-interval="${import.default.csv.chunksize}">
+                    <batch:reader>
+                        <bean class="uk.org.cse.stockimport.NHMFlatFileItemReader" scope="step">
+                            <property name="linesToSkip" value="1"/>
+                            <property name="resource" value="#{jobParameters['input.file.name']}" />
+                            <property name="lineMapper">
+                                <bean
+                                    class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+                                    <property name="lineTokenizer">
+                                        <bean
+                                            class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+                                            <property name="names">
+                                                <list>
+                                                    <value>Date</value>
+                                                    <value>DescriptionByUser</value>
+                                                    <value>SourceName</value>
+                                                    <value>SourceVersion</value>
+                                                    <value>StockImporterVersion</value>
+                                                    <value>UserName</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </property>
+                                    <property name="fieldSetMapper">
+                                        <bean class="uk.org.cse.stockimport.csvdefault.mappers.MetaDataMapper"/>
+                                    </property>
+                                </bean>
+                            </property>
+                        </bean>
+                    </batch:reader>
+                    <batch:writer>
+                        <ref bean="csvDefaultMongoWriter" />
+                    </batch:writer>
+                </batch:chunk>
+            </batch:tasklet>
+        </batch:step>
+    </batch:job>
 	
-		<batch:job id="importLogJob">
-		<batch:step id="importLogRead">
-			<batch:tasklet>
-				<batch:chunk commit-interval="${import.default.csv.chunksize}">
-					<batch:reader>
-						<bean class="uk.org.cse.stockimport.NHMFlatFileItemReader" scope="step">
-							<property name="linesToSkip" value="1"/>
-							<property name="resource" value="#{jobParameters['input.file.name']}" />
-							<property name="lineMapper">
-								<bean
-									class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
-									<property name="lineTokenizer">
-										<bean
-											class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
-											<property name="names">
-												<list>
-													<value>Aacode</value>
-													<value>Messages</value>
-												</list>
-											</property>
-										</bean>
-									</property>
-									<property name="fieldSetMapper">
-										<bean class="uk.org.cse.stockimport.csvdefault.mappers.ImportLogMapper"/>
-									</property>
-								</bean>
-							</property>
-						</bean>
-					</batch:reader>
-					<batch:writer>
-						<ref bean="csvDefaultMongoWriter" />
-					</batch:writer>
-				</batch:chunk>
-			</batch:tasklet>
-		</batch:step>
-	</batch:job>
+    <batch:job id="importLogJob">
+        <batch:step id="importLogRead">
+            <batch:tasklet>
+                <batch:chunk commit-interval="${import.default.csv.chunksize}">
+                    <batch:reader>
+                        <bean class="uk.org.cse.stockimport.NHMFlatFileItemReader" scope="step">
+                            <property name="linesToSkip" value="1"/>
+                            <property name="resource" value="#{jobParameters['input.file.name']}" />
+                            <property name="lineMapper">
+                                <bean
+                                    class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+                                    <property name="lineTokenizer">
+                                        <bean
+                                            class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+                                            <property name="names">
+                                                <list>
+                                                    <value>Aacode</value>
+                                                    <value>Messages</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </property>
+                                    <property name="fieldSetMapper">
+                                        <bean class="uk.org.cse.stockimport.csvdefault.mappers.ImportLogMapper"/>
+                                    </property>
+                                </bean>
+                            </property>
+                        </bean>
+                    </batch:reader>
+                    <batch:writer>
+                        <ref bean="csvDefaultMongoWriter" />
+                    </batch:writer>
+                </batch:chunk>
+            </batch:tasklet>
+        </batch:step>
+    </batch:job>
 		
-	<bean class="uk.org.cse.stockimport.csvdefault.MongoItemWriter" id="csvDefaultMongoWriter"
-		scope="step">
-		<constructor-arg name="executionId"
-			value="#{jobParameters['input.executionid']}" />
-		<constructor-arg name="className"
-			value="#{jobParameters['input.class.name']}" />
-	</bean>
+    <bean class="uk.org.cse.stockimport.csvdefault.MongoItemWriter" id="csvDefaultMongoWriter"
+          scope="step">
+        <constructor-arg name="executionId"
+                         value="#{jobParameters['input.executionid']}" />
+        <constructor-arg name="className"
+                         value="#{jobParameters['input.class.name']}" />
+    </bean>
 </beans>

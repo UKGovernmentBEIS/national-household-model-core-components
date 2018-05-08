@@ -28,24 +28,37 @@ import uk.org.cse.stockimport.repository.IHouseCaseSources;
  * @since 0.0.1-SNAPSHOT
  */
 public class LightingBuildStep implements ISurveyCaseBuildStep {
+
     protected static final Logger log = LoggerFactory.getLogger(LightingBuildStep.class);
-    /** @since 1.0 */
+    /**
+     * @since 1.0
+     */
     public static final String IDENTIFIER = LightingBuildStep.class.getCanonicalName();
 
-    /** Name given to installed efficient lights
-     *  @since 1.0*/
+    /**
+     * Name given to installed efficient lights
+     *
+     * @since 1.0
+     */
     public static final String EFFICIENT_LIGHT = "efficient";
-    /** Name given to installed incandescent lights
-     *  @since 1.0*/
+    /**
+     * Name given to installed incandescent lights
+     *
+     * @since 1.0
+     */
     public static final String STDLIGHT_LIGHT = "incandescent";
-    /** @since 1.0*/
+    /**
+     * @since 1.0
+     */
     public static final double ONE = 1.00;
-    /** @since 1.0*/
+    /**
+     * @since 1.0
+     */
     public static final double ZERO = 0.00;
 
     /**
-     * @return
-     * @see uk.org.cse.stockimport.hom.ISurveyCaseBuildStep#getIdentifier()
+     * @return @see
+     * uk.org.cse.stockimport.hom.ISurveyCaseBuildStep#getIdentifier()
      */
     @Override
     public String getIdentifier() {
@@ -53,8 +66,8 @@ public class LightingBuildStep implements ISurveyCaseBuildStep {
     }
 
     /**
-     * @return
-     * @see uk.org.cse.stockimport.hom.ISurveyCaseBuildStep#getDependencies()
+     * @return @see
+     * uk.org.cse.stockimport.hom.ISurveyCaseBuildStep#getDependencies()
      */
     @Override
     public Set<String> getDependencies() {
@@ -65,8 +78,9 @@ public class LightingBuildStep implements ISurveyCaseBuildStep {
     /**
      * @param model
      * @param dtoProvider
-     * @see uk.org.cse.stockimport.hom.ISurveyCaseBuildStep#build(uk.org.cse.nhm.hom.SurveyCase,
-     *      uk.org.cse.stockimport.repository.IHouseCaseSources)
+     * @see
+     * uk.org.cse.stockimport.hom.ISurveyCaseBuildStep#build(uk.org.cse.nhm.hom.SurveyCase,
+     * uk.org.cse.stockimport.repository.IHouseCaseSources)
      */
     @Override
     public void build(SurveyCase model, IHouseCaseSources<IBasicDTO> dtoProvider) {
@@ -75,9 +89,9 @@ public class LightingBuildStep implements ISurveyCaseBuildStep {
 
         double lowEnergyLightsFraction;
         if (lightingDTO.isPresent()) {
-        	lowEnergyLightsFraction = lightingDTO.get().getLowEnergyLightsFraction();
+            lowEnergyLightsFraction = lightingDTO.get().getLowEnergyLightsFraction();
         } else {
-        	lowEnergyLightsFraction = ZERO;
+            lowEnergyLightsFraction = ZERO;
         }
 
         /*
@@ -95,7 +109,7 @@ public class LightingBuildStep implements ISurveyCaseBuildStep {
 		STOCK: lighting.csv (fraction)
 		ID: lighting-energy-demand
 		CODSIEB
-		*/
+         */
         if (lowEnergyLightsFraction > ZERO) {
             ILight light = ITechnologiesFactory.eINSTANCE.createLight();
             light.setType(LightType.CFL);

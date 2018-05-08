@@ -5,7 +5,10 @@ import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
 public @interface DTO {
-	String value();
-	String[] description() default {};
-	boolean required() default false;
+
+    String value();
+
+    String[] description() default {};
+
+    boolean required() default false;
 }

@@ -13,24 +13,25 @@ import uk.org.cse.nhm.language.definition.function.num.IHouseContext;
 import uk.org.cse.nhm.language.validate.contents.RequireParent;
 
 @Doc({"When used within reset.opex, produces the type of technology being ",
-	"considered."})
+    "considered."})
 @Bind("technology.type")
 @SeeAlso(XResetOpex.class)
 @RequireParent({XResetOpex.class, IHouseContext.class})
 @ReturnsEnum(XTechnologyTypeValue.class)
 @Category(CategoryType.RESETACTIONS)
 public class XTechnologyType extends XFunction {
-	public enum XTechnologyTypeValue {
-		StandardBoiler,
-		InstantCombi,
-		StorageCombi,
-		CPSU,
-		GSHP,
-		ASHP,
-		StorageHeater,
-		RoomHeater,
-		BackBoiler,
-		SolarDHW,
-		DistrictHeat
-	}
+
+    public enum XTechnologyTypeValue {
+        StandardBoiler,
+        InstantCombi,
+        StorageCombi,
+        CPSU,
+        GSHP,
+        ASHP,
+        StorageHeater,
+        RoomHeater,
+        BackBoiler,
+        SolarDHW,
+        DistrictHeat
+    }
 }

@@ -27,8 +27,9 @@ public class MatchHasHotWaterCylinder extends TechnologyFunction<Boolean> {
      * @param scope
      * @param lets
      * @return
-     * @see uk.org.cse.nhm.simulator.state.functions.IComponentsFunction#compute(uk.org.cse.nhm.simulator.scope.IComponentsScope,
-     *      uk.org.cse.nhm.simulator.let.ILets)
+     * @see
+     * uk.org.cse.nhm.simulator.state.functions.IComponentsFunction#compute(uk.org.cse.nhm.simulator.scope.IComponentsScope,
+     * uk.org.cse.nhm.simulator.let.ILets)
      */
     @Override
     public Boolean compute(IComponentsScope scope, ILets lets) {

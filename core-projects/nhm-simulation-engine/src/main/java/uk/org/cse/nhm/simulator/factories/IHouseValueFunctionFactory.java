@@ -27,150 +27,144 @@ import uk.org.cse.nhm.simulator.state.functions.impl.health.SITRebateFunction;
 import uk.org.cse.nhm.simulator.state.functions.impl.house.*;
 
 public interface IHouseValueFunctionFactory {
-	public GetTariff getGetTariff(final FuelType fuelType);
-	public GetMethodOfPayment createMethodOfPayment(final FuelType fuelType);
+
+    public GetTariff getGetTariff(final FuelType fuelType);
+
+    public GetMethodOfPayment createMethodOfPayment(final FuelType fuelType);
 
     @Adapt(XSITFunction.class)
     public SITFunction getSitFunction();
 
-	@Adapt(XBuildYear.class)
-	public GetBuildYear getGetBuildYear();
+    @Adapt(XBuildYear.class)
+    public GetBuildYear getGetBuildYear();
 
-	@Adapt(XBuildYear2.class)
-	public GetBuildYear getGetBuildYear2();
+    @Adapt(XBuildYear2.class)
+    public GetBuildYear getGetBuildYear2();
 
-	@Adapt(XBuiltForm.class)
-	public GetBuiltForm getGetBuiltForm();
+    @Adapt(XBuiltForm.class)
+    public GetBuiltForm getGetBuiltForm();
 
-	@Adapt(XMainHeatingFuel2.class)
-	public GetMainHeatingFuel getGetMainHeatingFuel(@Prop("of") Optional<XHeatingSystem> system);
+    @Adapt(XMainHeatingFuel2.class)
+    public GetMainHeatingFuel getGetMainHeatingFuel(@Prop("of") Optional<XHeatingSystem> system);
 
-	@Adapt(XMainHeatingFuel.class)
-	public OldGetMainHeatingFuel getOldGetMainHeatingFuel();
+    @Adapt(XMainHeatingFuel.class)
+    public OldGetMainHeatingFuel getOldGetMainHeatingFuel();
 
-	@Adapt(XMorphology.class)
-	public GetMorphology getGetMorphology();
+    @Adapt(XMorphology.class)
+    public GetMorphology getGetMorphology();
 
-	@Adapt(XRegion.class)
-	public GetRegion getGetRegion();
+    @Adapt(XRegion.class)
+    public GetRegion getGetRegion();
 
-	@Adapt(XTenure.class)
-	public GetTenure getGetTenure();
+    @Adapt(XTenure.class)
+    public GetTenure getGetTenure();
 
-	@Adapt(XPredominantWallType.class)
-	public GetPredominantWallType getGetPredominantWallType();
+    @Adapt(XPredominantWallType.class)
+    public GetPredominantWallType getGetPredominantWallType();
 
-	@Adapt(XSAPAgeBand.class)
-	public GetSAPAgeBand getAgeBandFunction(@Prop(XSAPAgeBand.P.year) int year);
+    @Adapt(XSAPAgeBand.class)
+    public GetSAPAgeBand getAgeBandFunction(@Prop(XSAPAgeBand.P.year) int year);
 
-	@Adapt(XFloorConstructionType.class)
-	public GetFloorConstructionType getFloorConstructionType();
+    @Adapt(XFloorConstructionType.class)
+    public GetFloorConstructionType getFloorConstructionType();
 
-	@Adapt(XRoofConstructionType.class)
-	public GetRoofConstructionType getRoofConstructionType();
+    @Adapt(XRoofConstructionType.class)
+    public GetRoofConstructionType getRoofConstructionType();
 
-	@Adapt(XNumberOfOccupants.class)
-	public GetNumberOfOccupants getNumberOfOccupants();
+    @Adapt(XNumberOfOccupants.class)
+    public GetNumberOfOccupants getNumberOfOccupants();
 
-	@Adapt(XHouseholdIncome.class)
-	public GetHouseholdIncome getHouseholdIncome();
+    @Adapt(XHouseholdIncome.class)
+    public GetHouseholdIncome getHouseholdIncome();
 
-	@Adapt(XNumberOfBedrooms.class)
-	public GetNumberOfBedrooms getNumberOfBedrooms();
+    @Adapt(XNumberOfBedrooms.class)
+    public GetNumberOfBedrooms getNumberOfBedrooms();
 
-	@Adapt(XTotalFloorArea.class)
-	public GetTotalFloorArea getTotalFloorArea();
+    @Adapt(XTotalFloorArea.class)
+    public GetTotalFloorArea getTotalFloorArea();
 
-	@Adapt(XNumberOfAirChangeDevices.class)
+    @Adapt(XNumberOfAirChangeDevices.class)
     public GetNumberOfAirChangeDevices getNumberOfAirChangeDevices(
-            @Assisted  @Prop(P.airChangeDevice) XAdjustNumberOfAirChangeDevices.XAirChangeDevice device);
+            @Assisted @Prop(P.airChangeDevice) XAdjustNumberOfAirChangeDevices.XAirChangeDevice device);
 
-	@Adapt(XVolume.class)
+    @Adapt(XVolume.class)
     public GetVolume getGetVolume();
 
-	@Adapt(XAgeOfHeatingSystem.class)
-	public GetAgeOfHeatingSystem getAgeOfHeatingSystem();
+    @Adapt(XAgeOfHeatingSystem.class)
+    public GetAgeOfHeatingSystem getAgeOfHeatingSystem();
 
-	@Adapt(XSurveyCode.class)
-	public SurveyCodeFunction createSurveyCode();
+    @Adapt(XSurveyCode.class)
+    public SurveyCodeFunction createSurveyCode();
 
-	@Adapt(XMainHeatingSystemType.class)
-	public GetMainHeatingSystemType getMainHeatingSystemType();
+    @Adapt(XMainHeatingSystemType.class)
+    public GetMainHeatingSystemType getMainHeatingSystemType();
 
-	@Adapt(XGetProportionOfDoubleGlazedWindows.class)
+    @Adapt(XGetProportionOfDoubleGlazedWindows.class)
     public GetProportionOfDoubleGlazedWindows getProportionOfDoubleGlazedWindows();
 
-	public GetInsolation getGetInsolation(@Assisted("orientation") final double orientation,
-                                          @Assisted("inclination") final double inclination);
+    public GetInsolation getGetInsolation(@Assisted("orientation") final double orientation,
+            @Assisted("inclination") final double inclination);
 
-	@Adapt(XRoofArea.class)
-	public RoofAreaFunction createRoofAreaFunction(
-			@Prop(XRoofArea.P.pitchCorrection)
-			@Assisted boolean pitchCorrection);
+    @Adapt(XRoofArea.class)
+    public RoofAreaFunction createRoofAreaFunction(
+            @Prop(XRoofArea.P.pitchCorrection)
+            @Assisted boolean pitchCorrection);
 
-	@Adapt(XSurfaceArea.class)
-	public GetSurfaceArea getGetSurfaceArea();
+    @Adapt(XSurfaceArea.class)
+    public GetSurfaceArea getGetSurfaceArea();
 
-	@Adapt(XPermeabilityFunction.class)
-	public PermeabilityFunction getPermeabilityFunction(
-			@Prop(XPermeabilityFunction.P.includeDeliberate)
-			@Assisted final Boolean includeDeliberate);
+    @Adapt(XPermeabilityFunction.class)
+    public PermeabilityFunction getPermeabilityFunction(
+            @Prop(XPermeabilityFunction.P.includeDeliberate)
+            @Assisted final Boolean includeDeliberate);
 
     @Adapt(XHealthImpactFunction.class)
-	public HealthImpactFunction createHealthImpactFunction(
-        @Prop(XHealthImpactFunction.P.fromTemperature)
-        @Assisted("t1") 	 final IComponentsFunction<Number> e1,
-        @Prop(XHealthImpactFunction.P.toTemperature)
-        @Assisted("t2") 	 final IComponentsFunction<Number> e2,
-
-        @Prop(XHealthImpactFunction.P.fromH)
-        @Assisted("h1") 	 final IComponentsFunction<Number> h1,
-        @Prop(XHealthImpactFunction.P.toH)
-        @Assisted("h2") 	 final IComponentsFunction<Number> h2,
-
-        @Prop(XHealthImpactFunction.P.fromPermeability)
-        @Assisted("p1") 	 final IComponentsFunction<Number> p1,
-        @Prop(XHealthImpactFunction.P.toPermeability)
-        @Assisted("p2") 	 final IComponentsFunction<Number> p2,
-
-        @Prop(XHealthImpactFunction.P.fromG)
-        @Assisted("g1") 	 final IComponentsFunction<Number> g1,
-        @Prop(XHealthImpactFunction.P.toG)
-        @Assisted("g2") 	 final IComponentsFunction<Number> g2,
-
-        @Prop(XHealthImpactFunction.P.toYear)
-        @Assisted("horizon") final IComponentsFunction<Number> horizon,
-        @Prop(XHealthImpactFunction.P.fromYear)
-        @Assisted("offset")  final IComponentsFunction<Number> offset,
-
-        @Prop(XHealthImpactFunction.P.hadTrickleVents)
-        @Assisted("had-vents")   final IComponentsFunction<Boolean> hadVents,
-        @Prop(XHealthImpactFunction.P.hadExtractFans)
-        @Assisted("had-fans")   final IComponentsFunction<Boolean> hadFans,
-
-        @Prop(XHealthImpactFunction.P.hasTrickleVents)
-        @Assisted("has-vents")   final IComponentsFunction<Boolean> vents,
-        @Prop(XHealthImpactFunction.P.hasExtractFans)
-        @Assisted("has-fans")   final IComponentsFunction<Boolean> fans,
-
-        @Prop(XHealthImpactFunction.P.diseases)
-        @Assisted			 final List<XDisease> diseases,
-        @Prop(XHealthImpactFunction.P.impact)
-        @Assisted			 final XImpact impact
-        );
+    public HealthImpactFunction createHealthImpactFunction(
+            @Prop(XHealthImpactFunction.P.fromTemperature)
+            @Assisted("t1") final IComponentsFunction<Number> e1,
+            @Prop(XHealthImpactFunction.P.toTemperature)
+            @Assisted("t2") final IComponentsFunction<Number> e2,
+            @Prop(XHealthImpactFunction.P.fromH)
+            @Assisted("h1") final IComponentsFunction<Number> h1,
+            @Prop(XHealthImpactFunction.P.toH)
+            @Assisted("h2") final IComponentsFunction<Number> h2,
+            @Prop(XHealthImpactFunction.P.fromPermeability)
+            @Assisted("p1") final IComponentsFunction<Number> p1,
+            @Prop(XHealthImpactFunction.P.toPermeability)
+            @Assisted("p2") final IComponentsFunction<Number> p2,
+            @Prop(XHealthImpactFunction.P.fromG)
+            @Assisted("g1") final IComponentsFunction<Number> g1,
+            @Prop(XHealthImpactFunction.P.toG)
+            @Assisted("g2") final IComponentsFunction<Number> g2,
+            @Prop(XHealthImpactFunction.P.toYear)
+            @Assisted("horizon") final IComponentsFunction<Number> horizon,
+            @Prop(XHealthImpactFunction.P.fromYear)
+            @Assisted("offset") final IComponentsFunction<Number> offset,
+            @Prop(XHealthImpactFunction.P.hadTrickleVents)
+            @Assisted("had-vents") final IComponentsFunction<Boolean> hadVents,
+            @Prop(XHealthImpactFunction.P.hadExtractFans)
+            @Assisted("had-fans") final IComponentsFunction<Boolean> hadFans,
+            @Prop(XHealthImpactFunction.P.hasTrickleVents)
+            @Assisted("has-vents") final IComponentsFunction<Boolean> vents,
+            @Prop(XHealthImpactFunction.P.hasExtractFans)
+            @Assisted("has-fans") final IComponentsFunction<Boolean> fans,
+            @Prop(XHealthImpactFunction.P.diseases)
+            @Assisted final List<XDisease> diseases,
+            @Prop(XHealthImpactFunction.P.impact)
+            @Assisted final XImpact impact
+    );
 
     @Adapt(XSITRebateFunction.class)
     public SITRebateFunction createRebate(
-        @Prop(XSITRebateFunction.P.temperature)
-        @Assisted("temperature")
-        final IComponentsFunction<Number> temperature,
-        @Prop(XSITRebateFunction.P.rebate)
-        @Assisted("rebate")
-        final IComponentsFunction<Number> rebate
-        );
-    
+            @Prop(XSITRebateFunction.P.temperature)
+            @Assisted("temperature")
+            final IComponentsFunction<Number> temperature,
+            @Prop(XSITRebateFunction.P.rebate)
+            @Assisted("rebate")
+            final IComponentsFunction<Number> rebate
+    );
 
-	public GetHouseLightingProportion getGetHouseLightingProportion(
-			@Assisted List<LightType> lightTypes);
+    public GetHouseLightingProportion getGetHouseLightingProportion(
+            @Assisted List<LightType> lightTypes);
 
 }

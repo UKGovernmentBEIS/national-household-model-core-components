@@ -16,42 +16,43 @@ import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 
 public class PumpTest {
-	@Test
-	public void testPumpWithNoGains() {
-		final Pump p = new Pump("Test Pump", ServiceType.COOKING, 100, 0, null);
 
-		final IInternalParameters parameters = mock(IInternalParameters.class);
-		final IEnergyState state = mock(IEnergyState.class);
+    @Test
+    public void testPumpWithNoGains() {
+        final Pump p = new Pump("Test Pump", ServiceType.COOKING, 100, 0, null);
 
-		when(parameters.getConstants()).thenReturn(DefaultConstants.INSTANCE);
-		when(parameters.getTarrifType()).thenReturn(ElectricityTariffType.FLAT_RATE);
+        final IInternalParameters parameters = mock(IInternalParameters.class);
+        final IEnergyState state = mock(IEnergyState.class);
 
-		p.generate(null, parameters, null, state);
+        when(parameters.getConstants()).thenReturn(DefaultConstants.INSTANCE);
+        when(parameters.getTarrifType()).thenReturn(ElectricityTariffType.FLAT_RATE);
 
-		verify(state).increaseElectricityDemand(1, 100);
+        p.generate(null, parameters, null, state);
 
-		verifyNoMoreInteractions(state);
+        verify(state).increaseElectricityDemand(1, 100);
 
-		Assert.assertEquals(ServiceType.COOKING, p.getServiceType());
-	}
+        verifyNoMoreInteractions(state);
 
-	@Test
-	public void testPumpWithGains() {
-		final Pump p = new Pump("Test Pump", ServiceType.COOKING, 100, 100, null);
+        Assert.assertEquals(ServiceType.COOKING, p.getServiceType());
+    }
 
-		final IInternalParameters parameters = mock(IInternalParameters.class);
-		final IEnergyState state = mock(IEnergyState.class);
+    @Test
+    public void testPumpWithGains() {
+        final Pump p = new Pump("Test Pump", ServiceType.COOKING, 100, 100, null);
 
-		when(parameters.getConstants()).thenReturn(DefaultConstants.INSTANCE);
-		when(parameters.getTarrifType()).thenReturn(ElectricityTariffType.FLAT_RATE);
+        final IInternalParameters parameters = mock(IInternalParameters.class);
+        final IEnergyState state = mock(IEnergyState.class);
 
-		p.generate(null, parameters, null, state);
+        when(parameters.getConstants()).thenReturn(DefaultConstants.INSTANCE);
+        when(parameters.getTarrifType()).thenReturn(ElectricityTariffType.FLAT_RATE);
 
-		verify(state).increaseElectricityDemand(1, 100);
-		verify(state).increaseSupply(EnergyType.GainsPUMP_AND_FAN_GAINS, 100d);
+        p.generate(null, parameters, null, state);
 
-		verifyNoMoreInteractions(state);
+        verify(state).increaseElectricityDemand(1, 100);
+        verify(state).increaseSupply(EnergyType.GainsPUMP_AND_FAN_GAINS, 100d);
 
-		Assert.assertEquals(ServiceType.COOKING, p.getServiceType());
-	}
+        verifyNoMoreInteractions(state);
+
+        Assert.assertEquals(ServiceType.COOKING, p.getServiceType());
+    }
 }

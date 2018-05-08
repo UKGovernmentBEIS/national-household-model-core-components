@@ -11,14 +11,14 @@ import com.google.common.collect.ImmutableList;
 
 public class TechnologyInstallationLogEntryTest {
 
-	@Test
-	public void test() throws JsonGenerationException, JsonMappingException, IOException {
-		final TechnologyInstallationLogEntry logEntry = 
-				new TechnologyInstallationLogEntry(new DateTime(),
-				ImmutableList.of(new TechnologyInstallationRecord("hello", "world", 9, "things", 12)),
-				4f,
-				9);
-		LogEntryTestUtility.testLogDeSerialisation(logEntry, TechnologyInstallationLogEntry.class);
-	}
+    @Test
+    public void test() throws JsonGenerationException, JsonMappingException, IOException {
+        final TechnologyInstallationLogEntry logEntry
+                = new TechnologyInstallationLogEntry(new DateTime(),
+                        ImmutableList.of(new TechnologyInstallationRecord("hello", "world", 9, "things", 12)),
+                        4f,
+                        9);
+        LogEntryTestUtility.testLogDeSerialisation(logEntry, TechnologyInstallationLogEntry.class);
+    }
 
 }

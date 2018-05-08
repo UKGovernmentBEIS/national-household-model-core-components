@@ -13,13 +13,14 @@ import uk.org.cse.nhm.simulator.state.IState;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class FilterDwellings extends AbstractNamed implements IDwellingSet {
+
     private final IComponentsFunction<Boolean> filter;
     private final IDwellingSet source;
-    
+
     @AssistedInject
     public FilterDwellings(
-                           @Assisted final IComponentsFunction<Boolean> filter,
-                           @Assisted final IDwellingSet source) {
+            @Assisted final IComponentsFunction<Boolean> filter,
+            @Assisted final IDwellingSet source) {
         super();
         this.filter = filter;
         this.source = source;
@@ -28,7 +29,7 @@ public class FilterDwellings extends AbstractNamed implements IDwellingSet {
     @Override
     public Set<IDwelling> get(final IState state, ILets lets) {
         final Set<IDwelling> ds = source.get(state, lets);
-        
+
         final Set<IDwelling> result = new LinkedHashSet<IDwelling>(ds.size() / 2);
         for (final IDwelling d : ds) {
             if (filter.compute(state.detachedScope(d), ILets.EMPTY)) {

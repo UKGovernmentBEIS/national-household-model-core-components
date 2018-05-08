@@ -12,16 +12,19 @@ import javax.validation.Payload;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 /**
- * Applied to types, this indicates that types may never be present in a batch scenario.
+ * Applied to types, this indicates that types may never be present in a batch
+ * scenario.
+ *
  * @author hinton
  *
  */
 public @interface BatchForbidden {
-	String message() default "{uk.org.cse.nhm.language.validate.BatchForbidden.nope}";
 
-	Class<?>[] groups() default { };
+    String message() default "{uk.org.cse.nhm.language.validate.BatchForbidden.nope}";
 
-	Class<? extends Payload>[] payload() default {};
-	
-	String element() default "this element";
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
+
+    String element() default "this element";
 }

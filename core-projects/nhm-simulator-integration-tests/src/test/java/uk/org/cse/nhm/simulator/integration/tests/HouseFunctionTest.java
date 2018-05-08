@@ -26,53 +26,46 @@ import uk.org.cse.nhm.simulator.state.components.IFlags;
 import uk.org.cse.nhm.types.MainHeatingSystemType;
 
 public class HouseFunctionTest extends SimulatorIntegrationTest {
-	@Test
-	public void obligationAndAnnualCostWork() throws Exception {
-		 super.runSimulation(dataService, loadScenario("predict/predict-an-obligation.nhm"), true, Collections.<Class<?>>emptySet());
-	}
-	
-	@Test
-	public void predictionFunctionWorks() throws Exception {
-		 final IntegrationTestOutput output = super.runSimulation(dataService,
-	                loadScenario("predict/predict-variant-time.nhm"), true, Collections.<Class<?>>emptySet());
-		 
-		 // so the expected outcome here is:
-		 // all these assertions are checked in the scenario as well.
-		 
-		 for (final IDwelling dwelling : output.state.getDwellings()) {
-			 final IFlags flags = output.state.get(output.flags, dwelling);
-			 
-			// with total foresight:
-			 
-			 // 1 * 1 + 1 * 2    for tariff
-			 // 1 * 3 + 2 * 3	 for carbon
-			 
-			 // = 1 + 2 + 3 + 6 = 12
-			 
-			 final double billAll = flags.getRegister("bill-all").get();
-			 Assert.assertEquals(12d, billAll, 0.1);
-			 
-			 // with no foresight:
-			 // 1 * 1 + 1 * 1
-			 // 1 * 3 + 1 * 3
-			 
-			 // = 8
-			 
-			 final double billNone = flags.getRegister("bill-none").get();
-			 Assert.assertEquals(8d, billNone, 0.1);
-			 
-			 // with tariff foresight:
-			 
-			 final double billTariff = flags.getRegister("bill-tariffs").get();
-			 Assert.assertEquals(9d, billTariff, 0.1);
-			 
-			 // with carbon foresight : 1 + 1 + 3 + 6
-			 
-			 final double billCarbon = flags.getRegister("bill-carbon").get();
-			 Assert.assertEquals(11d, billCarbon, 0.1);
-		 }
-	}
-	
+
+    @Test
+    public void obligationAndAnnualCostWork() throws Exception {
+        super.runSimulation(dataService, loadScenario("predict/predict-an-obligation.nhm"), true, Collections.<Class<?>>emptySet());
+    }
+
+    @Test
+    public void predictionFunctionWorks() throws Exception {
+        final IntegrationTestOutput output = super.runSimulation(dataService,
+                loadScenario("predict/predict-variant-time.nhm"), true, Collections.<Class<?>>emptySet());
+
+        // so the expected outcome here is:
+        // all these assertions are checked in the scenario as well.
+        for (final IDwelling dwelling : output.state.getDwellings()) {
+            final IFlags flags = output.state.get(output.flags, dwelling);
+
+            // with total foresight:
+            // 1 * 1 + 1 * 2    for tariff
+            // 1 * 3 + 2 * 3	 for carbon
+            // = 1 + 2 + 3 + 6 = 12
+            final double billAll = flags.getRegister("bill-all").get();
+            Assert.assertEquals(12d, billAll, 0.1);
+
+            // with no foresight:
+            // 1 * 1 + 1 * 1
+            // 1 * 3 + 1 * 3
+            // = 8
+            final double billNone = flags.getRegister("bill-none").get();
+            Assert.assertEquals(8d, billNone, 0.1);
+
+            // with tariff foresight:
+            final double billTariff = flags.getRegister("bill-tariffs").get();
+            Assert.assertEquals(9d, billTariff, 0.1);
+
+            // with carbon foresight : 1 + 1 + 3 + 6
+            final double billCarbon = flags.getRegister("bill-carbon").get();
+            Assert.assertEquals(11d, billCarbon, 0.1);
+        }
+    }
+
     @Test
     public void wallPredicates() throws Exception {
         super.runSimulation(dataService, loadScenario("insulation/wall-predicates.s"), true, Collections.<Class<?>>emptySet());
@@ -94,7 +87,6 @@ public class HouseFunctionTest extends SimulatorIntegrationTest {
             // [true London 1 2 ]
             // [false London 3 4 ]
             // [* * 5 6 ]
-
             final double expectedValue;
 
             if (region == RegionType.London) {
@@ -217,9 +209,9 @@ public class HouseFunctionTest extends SimulatorIntegrationTest {
             final ITechnologyModel techModel = output2.state.get(output2.technology, dwelling);
             final IPrimarySpaceHeater primarySpaceHeater = techModel.getPrimarySpaceHeater();
             final IRoomHeater secondarySpaceHeater = techModel.getSecondarySpaceHeater();
-            final boolean dependsOnSecondary =
-                    ((primarySpaceHeater == null) || primarySpaceHeater.isBroken())
-                            && (secondarySpaceHeater != null);
+            final boolean dependsOnSecondary
+                    = ((primarySpaceHeater == null) || primarySpaceHeater.isBroken())
+                    && (secondarySpaceHeater != null);
             final IFlags iFlags = output2.state.get(output2.flags, dwelling);
             final boolean testFlag = iFlags.testFlag("secondary-dependent");
             Assert.assertEquals("secondary-dependent flag should be set to same value as dependsOnSecondary",
@@ -235,7 +227,7 @@ public class HouseFunctionTest extends SimulatorIntegrationTest {
 
     /**
      * Test based on there being only one housecase with 13 occupants, H0913215
-     * 
+     *
      * @throws NHMException
      * @throws InterruptedException
      */
@@ -259,8 +251,9 @@ public class HouseFunctionTest extends SimulatorIntegrationTest {
     }
 
     /**
-     * Test based on their only being one house casewith an income of 300, I0592310.
-     * 
+     * Test based on their only being one house casewith an income of 300,
+     * I0592310.
+     *
      * @throws NHMException
      * @throws InterruptedException
      */
@@ -285,8 +278,9 @@ public class HouseFunctionTest extends SimulatorIntegrationTest {
     }
 
     /**
-     * Test based on their only being one house case with an income of 300, I1182405.
-     * 
+     * Test based on their only being one house case with an income of 300,
+     * I1182405.
+     *
      * @throws NHMException
      * @throws InterruptedException
      */
@@ -299,8 +293,9 @@ public class HouseFunctionTest extends SimulatorIntegrationTest {
     }
 
     /**
-     * Test based on their only being one house case with an income of 300, I1182405.
-     * 
+     * Test based on their only being one house case with an income of 300,
+     * I1182405.
+     *
      * @throws NHMException
      * @throws InterruptedException
      */
@@ -313,9 +308,9 @@ public class HouseFunctionTest extends SimulatorIntegrationTest {
     }
 
     /**
-     * Test based on their only being two house case with a space heating installation date of 1840 H1472309 and
-     * WH1472309.
-     * 
+     * Test based on their only being two house case with a space heating
+     * installation date of 1840 H1472309 and WH1472309.
+     *
      * @throws NHMException
      * @throws InterruptedException
      */

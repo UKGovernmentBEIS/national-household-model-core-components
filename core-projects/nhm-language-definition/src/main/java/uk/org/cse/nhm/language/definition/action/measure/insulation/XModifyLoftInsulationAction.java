@@ -9,19 +9,20 @@ import uk.org.cse.nhm.language.definition.action.Unsuitability;
 import uk.org.cse.nhm.language.definition.function.num.XNumber;
 
 @Bind("action.set-loft-insulation")
-@Doc({	"An action which directly changes the properties of all loft insulation of a house to a specific value."})
+@Doc({"An action which directly changes the properties of all loft insulation of a house to a specific value."})
 @Unsuitability("Only houses which have a loft are suitable.")
 public class XModifyLoftInsulationAction extends XModifyInsulationAction {
-	private XNumber uValue;
 
-	@BindNamedArgument("u-value")
-	@Prop(P.uvalue)
-	@Doc("Optional. New u-value for the exposed ceilings.")
-	public XNumber getuValue() {
-		return uValue;
-	}
+    private XNumber uValue;
 
-	public void setuValue(final XNumber uValue) {
-		this.uValue = uValue;
-	}
+    @BindNamedArgument("u-value")
+    @Prop(P.uvalue)
+    @Doc("Optional. New u-value for the exposed ceilings.")
+    public XNumber getuValue() {
+        return uValue;
+    }
+
+    public void setuValue(final XNumber uValue) {
+        this.uValue = uValue;
+    }
 }

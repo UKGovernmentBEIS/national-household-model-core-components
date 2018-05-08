@@ -4,12 +4,13 @@ import java.util.Set;
 
 /**
  * Represents the graph relating a bunch of scenarios
- * 
+ *
  * @author hinton
  *
  */
 public interface IScenarioTree extends IScenarioMetadata {
-	public Set<IScenarioTree> getChildren();
 
-	String getMessage();
+    public Set<IScenarioTree> getChildren();
+
+    String getMessage();
 }

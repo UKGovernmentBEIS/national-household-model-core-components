@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuite name="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfDoorImputationDataFromExcelTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2016-05-03T08:17:27" hostname="rich-Latitude-E6320" time="0.826">
-  <properties/>
-  <testcase name="DoorUValuesByAgeBandShouldMAtchThoseInExcelSheet" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfDoorImputationDataFromExcelTest" time="0.657"/>
-  <testcase name="EnsureDoorPropertyImputerIsCreated" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfDoorImputationDataFromExcelTest" time="0.09"/>
-  <testcase name="DoorAreaShouldMatchThoseInExcelSheet" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfDoorImputationDataFromExcelTest" time="0.079"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
+    <properties/>
+    <testcase name="DoorUValuesByAgeBandShouldMAtchThoseInExcelSheet" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfDoorImputationDataFromExcelTest" time="0.657"/>
+    <testcase name="EnsureDoorPropertyImputerIsCreated" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfDoorImputationDataFromExcelTest" time="0.09"/>
+    <testcase name="DoorAreaShouldMatchThoseInExcelSheet" classname="uk.org.cse.stockimport.imputation.loookupbuilders.excel.CreationOfDoorImputationDataFromExcelTest" time="0.079"/>
+    <system-out><![CDATA[]]></system-out>
+    <system-err><![CDATA[]]></system-err>
 </testsuite>

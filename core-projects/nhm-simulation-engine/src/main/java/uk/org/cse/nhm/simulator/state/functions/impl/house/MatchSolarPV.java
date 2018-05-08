@@ -15,25 +15,26 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class MatchSolarPV extends AbstractNamed implements IComponentsFunction<Boolean> {
-	private final IDimension<ITechnologyModel> techDimension;
 
-	@Inject
-	public MatchSolarPV(final IDimension<ITechnologyModel> techDimension) {
-		this.techDimension = techDimension;
+    private final IDimension<ITechnologyModel> techDimension;
+
+    @Inject
+    public MatchSolarPV(final IDimension<ITechnologyModel> techDimension) {
+        this.techDimension = techDimension;
     }
 
-	@Override
-	public Boolean compute(final IComponentsScope scope, final ILets lets) {
-		return scope.get(techDimension).getSolarPhotovoltaic() != null;
-	}
+    @Override
+    public Boolean compute(final IComponentsScope scope, final ILets lets) {
+        return scope.get(techDimension).getSolarPhotovoltaic() != null;
+    }
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return Collections.<IDimension<?>> singleton(techDimension);
-	}
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return Collections.<IDimension<?>>singleton(techDimension);
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return Collections.emptySet();
-	}
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return Collections.emptySet();
+    }
 }

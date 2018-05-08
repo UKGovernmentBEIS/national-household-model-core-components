@@ -28,8 +28,9 @@ public class MatchHasInsulateHotWaterCylinder extends MatchHasHotWaterCylinder {
      * @param scope
      * @param lets
      * @return
-     * @see uk.org.cse.nhm.simulator.state.functions.impl.house.MatchHasHotWaterCylinder#compute(uk.org.cse.nhm.simulator.scope.IComponentsScope,
-     *      uk.org.cse.nhm.simulator.let.ILets)
+     * @see
+     * uk.org.cse.nhm.simulator.state.functions.impl.house.MatchHasHotWaterCylinder#compute(uk.org.cse.nhm.simulator.scope.IComponentsScope,
+     * uk.org.cse.nhm.simulator.let.ILets)
      */
     @Override
     public Boolean compute(IComponentsScope scope, ILets lets) {
@@ -37,8 +38,10 @@ public class MatchHasInsulateHotWaterCylinder extends MatchHasHotWaterCylinder {
     }
 
     /**
-     * Uses {@link MatchHasHotWaterCylinder#hasHotWaterCylinder(ITechnologyModel)} to determine if cylinder is present
-     * then checks insulation amount to determine if it is greater than zero
+     * Uses
+     * {@link MatchHasHotWaterCylinder#hasHotWaterCylinder(ITechnologyModel)} to
+     * determine if cylinder is present then checks insulation amount to
+     * determine if it is greater than zero
      *
      * @param tech
      * @return {@link Boolean#TRUE} {@link IWaterTank#getInsulation()} > 0

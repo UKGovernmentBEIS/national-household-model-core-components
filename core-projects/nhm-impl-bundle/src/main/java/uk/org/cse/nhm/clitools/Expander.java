@@ -9,7 +9,9 @@ import com.larkery.jasb.sexp.BetterPrinter;
 import uk.org.cse.nhm.ipc.api.tasks.IScenarioSnapshot;
 
 public class Expander {
+
     public static final String USAGE = "<scenario>\n\tProduces the fully template-expanded form of the scenario, which is what the model really runs.";
+
     public static void main(String[] args) {
         Validator.disableLogging();
 
@@ -18,8 +20,8 @@ public class Expander {
         }
 
         final Path file = Paths.get(args[0]);
-    	final Path base = args.length  == 2 ? Paths.get(args[1]).toAbsolutePath() :
-    		file.toAbsolutePath().getParent();
+        final Path base = args.length == 2 ? Paths.get(args[1]).toAbsolutePath()
+                : file.toAbsolutePath().getParent();
 
         if (!Files.exists(file)) {
             throw new IllegalArgumentException(file + " not found");
@@ -37,4 +39,3 @@ public class Expander {
         System.out.println(BetterPrinter.print(snapshot, 1));
     }
 }
-

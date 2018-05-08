@@ -9,9 +9,9 @@ import uk.org.cse.nhm.language.definition.two.selectors.XSampledSet;
 
 @Category(CategoryType.OBSOLETE)
 @Obsolete(
-	reason = XDateHook.SCHEDULING_OBSOLESCENCE,
-	inFavourOf = {XDateHook.class, XSampledSet.class}
-		)
+        reason = XDateHook.SCHEDULING_OBSOLESCENCE,
+        inFavourOf = {XDateHook.class, XSampledSet.class}
+)
 public abstract class XSampler extends XElement {
 
 }

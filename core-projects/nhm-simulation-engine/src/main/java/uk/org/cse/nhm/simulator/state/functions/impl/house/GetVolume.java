@@ -9,13 +9,13 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 
 public class GetVolume extends StructureFunction<Double> {
 
-	@Inject
-	public GetVolume(IDimension<StructureModel> structure) {
-		super(structure);
-	}
-	
-	@Override
-	public Double compute(IComponentsScope scope, ILets lets) {
+    @Inject
+    public GetVolume(IDimension<StructureModel> structure) {
+        super(structure);
+    }
+
+    @Override
+    public Double compute(IComponentsScope scope, ILets lets) {
         return getStructure(scope).getVolume();
-	}	
+    }
 }

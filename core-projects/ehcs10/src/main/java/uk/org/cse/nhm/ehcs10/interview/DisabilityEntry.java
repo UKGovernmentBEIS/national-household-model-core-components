@@ -11,74 +11,74 @@ import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 
 public interface DisabilityEntry extends SurveyEntry {
-	@SavVariableMapping("HRP")
-	public Integer getPersonNumberOfHRP();
 
-	@SavVariableMapping("PERSNO")
-	public Integer getPersonIdentifier();
+    @SavVariableMapping("HRP")
+    public Integer getPersonNumberOfHRP();
 
-	@SavVariableMapping("QHEALTH1")
-	public Enum294 getGeneralHealth();
+    @SavVariableMapping("PERSNO")
+    public Integer getPersonIdentifier();
 
-	@SavVariableMapping("DSDKNW")
-	public Enum69 getDon_TKnow();
+    @SavVariableMapping("QHEALTH1")
+    public Enum294 getGeneralHealth();
 
-	@SavVariableMapping("WHFREQ")
-	public Enum296 getFrequency_Wheelchair();
+    @SavVariableMapping("DSDKNW")
+    public Enum69 getDon_TKnow();
 
-	@SavVariableMapping("CASECAT")
-	public Enum229 getStatusOfCase();
+    @SavVariableMapping("WHFREQ")
+    public Enum296 getFrequency_Wheelchair();
 
-	@SavVariableMapping("DSBREATH")
-	public Enum69 getBreathing();
+    @SavVariableMapping("CASECAT")
+    public Enum229 getStatusOfCase();
 
-	@SavVariableMapping("DSMENTAL")
-	public Enum69 getMentalHealth();
+    @SavVariableMapping("DSBREATH")
+    public Enum69 getBreathing();
 
-	@SavVariableMapping("DSVISION")
-	public Enum69 getVision();
+    @SavVariableMapping("DSMENTAL")
+    public Enum69 getMentalHealth();
 
-	@SavVariableMapping("WHCHAIR")
-	public Enum69 getUsesWheelchair();
+    @SavVariableMapping("DSVISION")
+    public Enum69 getVision();
 
-	@SavVariableMapping("DSOTHER")
-	public Enum69 getOther();
+    @SavVariableMapping("WHCHAIR")
+    public Enum69 getUsesWheelchair();
 
-	@SavVariableMapping("DSLRNDF")
-	public Enum69 getLearningDifficulty();
+    @SavVariableMapping("DSOTHER")
+    public Enum69 getOther();
 
-	@SavVariableMapping("CIGNOW")
-	public Enum69 getSmokeCigarettesNow();
+    @SavVariableMapping("DSLRNDF")
+    public Enum69 getLearningDifficulty();
 
-	@SavVariableMapping("LSILL")
-	public Enum69 getLong_StndgIllness_Disab_Infirmity();
+    @SavVariableMapping("CIGNOW")
+    public Enum69 getSmokeCigarettesNow();
 
-	@SavVariableMapping("DSHEART")
-	public Enum69 getHeartDisease();
+    @SavVariableMapping("LSILL")
+    public Enum69 getLong_StndgIllness_Disab_Infirmity();
 
-	@SavVariableMapping("DSHEARIN")
-	public Enum69 getHearing();
+    @SavVariableMapping("DSHEART")
+    public Enum69 getHeartDisease();
 
-	@SavVariableMapping("GOREHS")
-	public Enum30 getRegion_EHSOrder();
+    @SavVariableMapping("DSHEARIN")
+    public Enum69 getHearing();
 
-	@SavVariableMapping("ILLLIM")
-	public Enum69 getWhetherLimitsActivities();
+    @SavVariableMapping("GOREHS")
+    public Enum30 getRegion_EHSOrder();
 
-	@SavVariableMapping("DSREG")
-	public Enum69 getRegisteredDisabled();
+    @SavVariableMapping("ILLLIM")
+    public Enum69 getWhetherLimitsActivities();
 
-	@SavVariableMapping("DSMOBLTY")
-	public Enum69 getMobility();
+    @SavVariableMapping("DSREG")
+    public Enum69 getRegisteredDisabled();
 
-	@SavVariableMapping("SMOKEVER")
-	public Enum69 getEverSmoked();
+    @SavVariableMapping("DSMOBLTY")
+    public Enum69 getMobility();
 
-	@SavVariableMapping("QUARTER")
-	public Enum230 getFieldworkQuarter();
+    @SavVariableMapping("SMOKEVER")
+    public Enum69 getEverSmoked();
 
-	@SavVariableMapping("WHINSIDE")
-	public Enum314 getWheelchairUseInHome();
+    @SavVariableMapping("QUARTER")
+    public Enum230 getFieldworkQuarter();
+
+    @SavVariableMapping("WHINSIDE")
+    public Enum314 getWheelchairUseInHome();
 
 }
-

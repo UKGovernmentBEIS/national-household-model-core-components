@@ -14,10 +14,10 @@ import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 
 public class NationalEnergyLogEntryTest {
 
-	@Test
-	public void test() throws JsonGenerationException, JsonMappingException, IOException {
-		final NationalEnergyLogEntry logEntry = new NationalEnergyLogEntry(new DateTime(), new DateTime(), ImmutableMap.of(ServiceType.APPLIANCES, 1234d),  ImmutableMap.of(FuelType.MAINS_GAS, 100d));
-		LogEntryTestUtility.testLogDeSerialisation(logEntry, NationalEnergyLogEntry.class);
-	}
+    @Test
+    public void test() throws JsonGenerationException, JsonMappingException, IOException {
+        final NationalEnergyLogEntry logEntry = new NationalEnergyLogEntry(new DateTime(), new DateTime(), ImmutableMap.of(ServiceType.APPLIANCES, 1234d), ImmutableMap.of(FuelType.MAINS_GAS, 100d));
+        LogEntryTestUtility.testLogDeSerialisation(logEntry, NationalEnergyLogEntry.class);
+    }
 
 }

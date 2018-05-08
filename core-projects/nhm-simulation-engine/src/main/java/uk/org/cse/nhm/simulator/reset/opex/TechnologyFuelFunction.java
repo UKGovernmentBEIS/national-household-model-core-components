@@ -22,39 +22,40 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class TechnologyFuelFunction extends AbstractNamed implements IComponentsFunction<FuelType> {
-	private final ILogEntryHandler log;
 
-	@Inject
-	protected TechnologyFuelFunction(final ILogEntryHandler log) {
-		this.log = log;
-	}
-	
-	@Override
-	public FuelType compute(final IComponentsScope scope, final ILets lets) {
-		final Optional<IOperationalCost> currentThing = lets.get(ResetOpexAction.CURRENT_OPCOST, IOperationalCost.class);
-		
-		if (currentThing.isPresent()) {
-			final IOperationalCost op = currentThing.get();
-			if (op instanceof IFuelAndFlue) {
-				return ((IFuelAndFlue) op).getFuel();
-			} else {
-				return null;
-			}
-		} else {
-			log.acceptLogEntry(new WarningLogEntry("Used element outside of action.reset-opex", 
-					ImmutableMap.of("element", this.getIdentifier().getName())));
-			return null;
-		}
-	}
+    private final ILogEntryHandler log;
 
-	@Override
-	public Set<IDimension<?>> getDependencies() {
-		return Collections.emptySet();
-	}
+    @Inject
+    protected TechnologyFuelFunction(final ILogEntryHandler log) {
+        this.log = log;
+    }
 
-	@Override
-	public Set<DateTime> getChangeDates() {
-		return Collections.emptySet();
-	}
+    @Override
+    public FuelType compute(final IComponentsScope scope, final ILets lets) {
+        final Optional<IOperationalCost> currentThing = lets.get(ResetOpexAction.CURRENT_OPCOST, IOperationalCost.class);
+
+        if (currentThing.isPresent()) {
+            final IOperationalCost op = currentThing.get();
+            if (op instanceof IFuelAndFlue) {
+                return ((IFuelAndFlue) op).getFuel();
+            } else {
+                return null;
+            }
+        } else {
+            log.acceptLogEntry(new WarningLogEntry("Used element outside of action.reset-opex",
+                    ImmutableMap.of("element", this.getIdentifier().getName())));
+            return null;
+        }
+    }
+
+    @Override
+    public Set<IDimension<?>> getDependencies() {
+        return Collections.emptySet();
+    }
+
+    @Override
+    public Set<DateTime> getChangeDates() {
+        return Collections.emptySet();
+    }
 
 }

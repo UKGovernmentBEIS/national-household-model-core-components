@@ -8,59 +8,59 @@ import uk.org.cse.nhm.spss.wrap.SavVariableMapping;
 import uk.org.cse.stockimport.spss.SurveyEntry;
 
 public interface HqEntry extends SurveyEntry {
-	@SavVariableMapping("FHQWAPAY")
-	public Enum1533 getWASTEWATERDISPOSALWhoDoYouPayForWasteWaterDisposal_();
 
-	@SavVariableMapping("FHQWPUFL")
-	public Enum10 getDoYouHaveAPushButtonOperatedFlush_();
+    @SavVariableMapping("FHQWAPAY")
+    public Enum1533 getWASTEWATERDISPOSALWhoDoYouPayForWasteWaterDisposal_();
 
-	@SavVariableMapping("FHQFLDPR")
-	public Enum1282 getWASTEWATERDISPOSALHadProblemWithFloodedDrains();
+    @SavVariableMapping("FHQWPUFL")
+    public Enum10 getDoYouHaveAPushButtonOperatedFlush_();
 
-	@SavVariableMapping("FHQFLDCA")
-	public Enum10 getWASTEWATERDISPOSALIsProblemLocatedInCommonAreas();
+    @SavVariableMapping("FHQFLDPR")
+    public Enum1282 getWASTEWATERDISPOSALHadProblemWithFloodedDrains();
 
-	@SavVariableMapping("FHQWASTE")
-	public Enum1282 getWASTEWATERDISPOSALDirectlyConnectedToMainsDrainageOperatedByWaterSewageCompany();
+    @SavVariableMapping("FHQFLDCA")
+    public Enum10 getWASTEWATERDISPOSALIsProblemLocatedInCommonAreas();
 
-	@SavVariableMapping("FCHALT")
-	public Enum10 getSURVEYORCHECK_DateOfImprovements();
+    @SavVariableMapping("FHQWASTE")
+    public Enum1282 getWASTEWATERDISPOSALDirectlyConnectedToMainsDrainageOperatedByWaterSewageCompany();
 
-	@SavVariableMapping("FHQWLEAK")
-	public Enum1282 getIfYes_DoesItEverLeakIntoTheToiletBowl_();
+    @SavVariableMapping("FCHALT")
+    public Enum10 getSURVEYORCHECK_DateOfImprovements();
 
-	@SavVariableMapping("FHQGARAG")
-	public Enum1282 getGaragePrivateParkingSpace_Access();
+    @SavVariableMapping("FHQWLEAK")
+    public Enum1282 getIfYes_DoesItEverLeakIntoTheToiletBowl_();
 
-	@SavVariableMapping("FHQFLDCP")
-	public Enum1541 getWASTEWATERDISPOSALCurrentProblem();
+    @SavVariableMapping("FHQGARAG")
+    public Enum1282 getGaragePrivateParkingSpace_Access();
 
-	@SavVariableMapping("FHQFLDGD")
-	public Enum10 getWASTEWATERDISPOSALIsProblemLocatedInTheGarden();
+    @SavVariableMapping("FHQFLDCP")
+    public Enum1541 getWASTEWATERDISPOSALCurrentProblem();
 
-	@SavVariableMapping("FHQWAMET")
-	public Enum1282 getDoYouHaveAWaterMeter_();
+    @SavVariableMapping("FHQFLDGD")
+    public Enum10 getWASTEWATERDISPOSALIsProblemLocatedInTheGarden();
 
-	@SavVariableMapping("FHQWMCH")
-	public Enum1282 getIfYes_AreYouChargedForTheAmountYouUse_();
+    @SavVariableMapping("FHQWAMET")
+    public Enum1282 getDoYouHaveAWaterMeter_();
 
-	@SavVariableMapping("FHQFLDHO")
-	public Enum10 getWASTEWATERDISPOSALIsProblemLocatedInTheHome();
+    @SavVariableMapping("FHQWMCH")
+    public Enum1282 getIfYes_AreYouChargedForTheAmountYouUse_();
 
-	@SavVariableMapping("FCHTEN")
-	public Enum10 getSURVEYORCHECK_Tenure_Age_LengthOfResidence();
+    @SavVariableMapping("FHQFLDHO")
+    public Enum10 getWASTEWATERDISPOSALIsProblemLocatedInTheHome();
 
-	@SavVariableMapping("FHQASKED")
-	public Enum10 getHouseholdInterviewQuestionsAsked_();
+    @SavVariableMapping("FCHTEN")
+    public Enum10 getSURVEYORCHECK_Tenure_Age_LengthOfResidence();
 
-	@SavVariableMapping("FCHBOH")
-	public Enum10 getSURVEYORCHECK_AgeOfBoiler();
+    @SavVariableMapping("FHQASKED")
+    public Enum10 getHouseholdInterviewQuestionsAsked_();
 
-	@SavVariableMapping("FCHREE")
-	public Enum10 getSURVEYORCHECK_DateOfRefurbishment();
+    @SavVariableMapping("FCHBOH")
+    public Enum10 getSURVEYORCHECK_AgeOfBoiler();
 
-	@SavVariableMapping("FHQCAVIT")
-	public Enum1282 getCavityWallInsulation();
+    @SavVariableMapping("FCHREE")
+    public Enum10 getSURVEYORCHECK_DateOfRefurbishment();
+
+    @SavVariableMapping("FHQCAVIT")
+    public Enum1282 getCavityWallInsulation();
 
 }
-

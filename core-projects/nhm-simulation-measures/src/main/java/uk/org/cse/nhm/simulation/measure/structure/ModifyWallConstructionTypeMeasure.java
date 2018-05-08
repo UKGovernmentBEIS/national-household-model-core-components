@@ -17,74 +17,77 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.StateChangeSourceType;
 
 public class ModifyWallConstructionTypeMeasure extends AbstractMeasure
-		implements IModifier<StructureModel> {
-	private final IDimension<StructureModel> structureDimension;
-	private final WallConstructionType wallType;
+        implements IModifier<StructureModel> {
 
-	@AssistedInject
-	public ModifyWallConstructionTypeMeasure(
-			final IDimension<StructureModel> structureDimension,
-			@Assisted final WallConstructionType wallType) {
-		this.structureDimension = structureDimension;
-		this.wallType = wallType;
-	}
+    private final IDimension<StructureModel> structureDimension;
+    private final WallConstructionType wallType;
 
-	@Override
-	public boolean doApply(final ISettableComponentsScope components, final ILets lets)
-			throws NHMException {
+    @AssistedInject
+    public ModifyWallConstructionTypeMeasure(
+            final IDimension<StructureModel> structureDimension,
+            @Assisted final WallConstructionType wallType) {
+        this.structureDimension = structureDimension;
+        this.wallType = wallType;
+    }
+
+    @Override
+    public boolean doApply(final ISettableComponentsScope components, final ILets lets)
+            throws NHMException {
 
         components.modify(structureDimension, this);
         return true;
     }
 
-	@Override
-	public boolean isAlwaysSuitable() {
-		return false;
-	}
-	
-	/**
-	 * Only houses with external walls qualify for this measure.
-	 * 
-	 * @see uk.org.cse.nhm.simulator.scope.IComponentsAction#isSuitable(uk.org.cse.nhm.simulator.scope.IComponentsScope, ILets)
-	 */
-	@Override
-	public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
-		final StructureModel structure = scope.get(structureDimension);
-		for (final IStorey story : structure.getStoreys()) {
-			for (final IMutableWall wall : story.getWalls()) {
-				if(WallConstructionType.getExternalWallTypes().contains(wall.getWallConstructionType())) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
+    @Override
+    public boolean isAlwaysSuitable() {
+        return false;
+    }
 
-	@Override
-	public StateChangeSourceType getSourceType() {
-		return StateChangeSourceType.ACTION;
-	}
+    /**
+     * Only houses with external walls qualify for this measure.
+     *
+     * @see
+     * uk.org.cse.nhm.simulator.scope.IComponentsAction#isSuitable(uk.org.cse.nhm.simulator.scope.IComponentsScope,
+     * ILets)
+     */
+    @Override
+    public boolean isSuitable(final IComponentsScope scope, final ILets lets) {
+        final StructureModel structure = scope.get(structureDimension);
+        for (final IStorey story : structure.getStoreys()) {
+            for (final IMutableWall wall : story.getWalls()) {
+                if (WallConstructionType.getExternalWallTypes().contains(wall.getWallConstructionType())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
-	@Override
-	public boolean modify(final StructureModel modifiable) {
-		for (final IStorey story : modifiable.getStoreys()) {
-			for (final IMutableWall wall : story.getWalls()) {
-				if(WallConstructionType.getExternalWallTypes().contains(wall.getWallConstructionType())) {
-					wall.setWallConstructionType(wallType);
-				}
-			}
-		}
-		return true;
-	}
+    @Override
+    public StateChangeSourceType getSourceType() {
+        return StateChangeSourceType.ACTION;
+    }
 
-	/**
-	 * Returns the wall type for test purposes.
-	 * 
-	 * @since 4.2.0
-	 * @return
-	 */
-	protected WallConstructionType getWallConstructionType() {
-		return wallType;
-	}
+    @Override
+    public boolean modify(final StructureModel modifiable) {
+        for (final IStorey story : modifiable.getStoreys()) {
+            for (final IMutableWall wall : story.getWalls()) {
+                if (WallConstructionType.getExternalWallTypes().contains(wall.getWallConstructionType())) {
+                    wall.setWallConstructionType(wallType);
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Returns the wall type for test purposes.
+     *
+     * @since 4.2.0
+     * @return
+     */
+    protected WallConstructionType getWallConstructionType() {
+        return wallType;
+    }
 
 }

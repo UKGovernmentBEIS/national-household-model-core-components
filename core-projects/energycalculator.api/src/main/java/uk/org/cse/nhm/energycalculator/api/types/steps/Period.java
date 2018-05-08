@@ -15,10 +15,14 @@ public enum Period {
         }
 
         @Override
-        public boolean isMonthly() { return true; }
+        public boolean isMonthly() {
+            return true;
+        }
 
         @Override
-        public String toString() { return "Monthly, or averaged over all the months in the year."; }
+        public String toString() {
+            return "Monthly, or averaged over all the months in the year.";
+        }
     },
     MonthlySum {
         @Override
@@ -32,9 +36,13 @@ public enum Period {
         }
 
         @Override
-        public boolean isMonthly() { return true; }
+        public boolean isMonthly() {
+            return true;
+        }
 
-        public String toString() { return "Monthly, or summed over all the months in the year."; }
+        public String toString() {
+            return "Monthly, or summed over all the months in the year.";
+        }
     },
     Annual {
         @Override
@@ -48,9 +56,13 @@ public enum Period {
         }
 
         @Override
-        public boolean isMonthly() { return false; }
+        public boolean isMonthly() {
+            return false;
+        }
 
-        public String toString() { return "Annual."; }
+        public String toString() {
+            return "Annual.";
+        }
     };
 
     public static double getMonthImpl(List<Double> data, int month) {
@@ -70,6 +82,8 @@ public enum Period {
     abstract public String toString();
 
     abstract public double getMonth(List<Double> data, int month);
+
     abstract public double getAnnual(List<Double> data);
+
     abstract public boolean isMonthly();
 }

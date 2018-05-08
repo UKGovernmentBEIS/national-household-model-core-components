@@ -21,69 +21,71 @@ import uk.org.cse.nhm.reporting.standard.IReporterFactory.IReportDescriptor.Type
 import uk.org.cse.nhm.reporting.standard.IReporterFactory.IReporter;
 
 public class StockInputReporter implements IReporter {
-	private final IOutputStreamFactory factory;
-	private final ObjectMapper mapper;
-	
-	private Writer writer;
-	
-	public static class Factory implements IReporterFactory {
-		private ObjectMapper mapper;
 
-		@Inject
-		public Factory(final ObjectMapper mapper) {
-			this.mapper = mapper;
-		}
+    private final IOutputStreamFactory factory;
+    private final ObjectMapper mapper;
 
-		@Override
-		public IReporter startReporting(IOutputStreamFactory factory) {
-			return new StockInputReporter(factory, mapper);
-		}
-	}
-	
-	public StockInputReporter(IOutputStreamFactory factory, final ObjectMapper mapper) {
-		this.factory = factory;
-		this.mapper = mapper;
-	}
+    private Writer writer;
 
-	@Override
-	public void close() throws IOException {
-		if (writer != null) {
-			try {
-				writer.close();
-			} finally {
-				writer = null;
-			}
-		}
-	}
+    public static class Factory implements IReporterFactory {
 
-	@Override
-	public Set<Class<? extends ISimulationLogEntry>> getEntryClasses() {
-		return ImmutableSet.<Class<? extends ISimulationLogEntry>>of(SurveyCaseLogEntry.class);
-	}
+        private ObjectMapper mapper;
 
-	@Override
-	public void handle(ISimulationLogEntry entry) {
-		if (entry instanceof SurveyCaseLogEntry) {
-			try {
-				final Writer out = getWriter();
-				final SurveyCase surveyCase = ((SurveyCaseLogEntry)entry).getSurveyCase();
-				out.write(mapper.writeValueAsString(surveyCase));
-				out.write('\n');
-			} catch (final IOException e) {
-				throw new RuntimeException("Exception creating stock report output", e);
-			}
-		}
-	}
+        @Inject
+        public Factory(final ObjectMapper mapper) {
+            this.mapper = mapper;
+        }
 
-	private Writer getWriter() {
-		if (writer == null) {
-			writer = new BufferedWriter(new OutputStreamWriter(
-					factory.createReportFile("stock/stock.json", 
-							Optional.<IReportDescriptor>of(
-									GenericDescriptor.of(Type.Input)
-									))));
-		}
-		return writer;
-	}
+        @Override
+        public IReporter startReporting(IOutputStreamFactory factory) {
+            return new StockInputReporter(factory, mapper);
+        }
+    }
+
+    public StockInputReporter(IOutputStreamFactory factory, final ObjectMapper mapper) {
+        this.factory = factory;
+        this.mapper = mapper;
+    }
+
+    @Override
+    public void close() throws IOException {
+        if (writer != null) {
+            try {
+                writer.close();
+            } finally {
+                writer = null;
+            }
+        }
+    }
+
+    @Override
+    public Set<Class<? extends ISimulationLogEntry>> getEntryClasses() {
+        return ImmutableSet.<Class<? extends ISimulationLogEntry>>of(SurveyCaseLogEntry.class);
+    }
+
+    @Override
+    public void handle(ISimulationLogEntry entry) {
+        if (entry instanceof SurveyCaseLogEntry) {
+            try {
+                final Writer out = getWriter();
+                final SurveyCase surveyCase = ((SurveyCaseLogEntry) entry).getSurveyCase();
+                out.write(mapper.writeValueAsString(surveyCase));
+                out.write('\n');
+            } catch (final IOException e) {
+                throw new RuntimeException("Exception creating stock report output", e);
+            }
+        }
+    }
+
+    private Writer getWriter() {
+        if (writer == null) {
+            writer = new BufferedWriter(new OutputStreamWriter(
+                    factory.createReportFile("stock/stock.json",
+                            Optional.<IReportDescriptor>of(
+                                    GenericDescriptor.of(Type.Input)
+                            ))));
+        }
+        return writer;
+    }
 
 }

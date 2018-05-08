@@ -6,14 +6,15 @@ import com.larkery.jasb.sexp.Node;
 
 @Bind("get")
 public class GetNode extends Arithmetic {
-	public Node node;
 
-	@BindPositionalArgument(0)
-	public Node getNode() {
-		return node;
-	}
+    public Node node;
 
-	public void setNode(final Node node) {
-		this.node = node;
-	}
+    @BindPositionalArgument(0)
+    public Node getNode() {
+        return node;
+    }
+
+    public void setNode(final Node node) {
+        this.node = node;
+    }
 }

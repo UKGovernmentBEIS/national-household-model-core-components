@@ -35,8 +35,9 @@ public abstract class HotWaterCylinderMeasurer extends AbstractMeasure {
      * @param lets
      * @return
      * @throws NHMException
-     * @see uk.org.cse.nhm.simulator.scope.IComponentsAction#apply(uk.org.cse.nhm.simulator.scope.ISettableComponentsScope,
-     *      uk.org.cse.nhm.simulator.let.ILets)
+     * @see
+     * uk.org.cse.nhm.simulator.scope.IComponentsAction#apply(uk.org.cse.nhm.simulator.scope.ISettableComponentsScope,
+     * uk.org.cse.nhm.simulator.let.ILets)
      */
     @Override
     public boolean doApply(ISettableComponentsScope components, ILets lets) throws NHMException {
@@ -67,8 +68,8 @@ public abstract class HotWaterCylinderMeasurer extends AbstractMeasure {
     }
 
     /**
-     * @return
-     * @see uk.org.cse.nhm.simulator.scope.IComponentsAction#isAlwaysSuitable()
+     * @return @see
+     * uk.org.cse.nhm.simulator.scope.IComponentsAction#isAlwaysSuitable()
      */
     @Override
     public boolean isAlwaysSuitable() {
@@ -76,8 +77,8 @@ public abstract class HotWaterCylinderMeasurer extends AbstractMeasure {
     }
 
     /**
-     * @return
-     * @see uk.org.cse.nhm.simulator.state.IStateChangeSource#getSourceType()
+     * @return @see
+     * uk.org.cse.nhm.simulator.state.IStateChangeSource#getSourceType()
      */
     @Override
     public StateChangeSourceType getSourceType() {

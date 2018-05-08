@@ -9,13 +9,13 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 
 public class GetSurfaceArea extends StructureFunction<Double> {
 
-	@Inject
-	public GetSurfaceArea(final IDimension<StructureModel> structure) {
-		super(structure);
-	}
+    @Inject
+    public GetSurfaceArea(final IDimension<StructureModel> structure) {
+        super(structure);
+    }
 
-	@Override
-	public Double compute(final IComponentsScope scope, final ILets lets) {
+    @Override
+    public Double compute(final IComponentsScope scope, final ILets lets) {
         return getStructure(scope).getEnvelopeArea();
-	}
+    }
 }

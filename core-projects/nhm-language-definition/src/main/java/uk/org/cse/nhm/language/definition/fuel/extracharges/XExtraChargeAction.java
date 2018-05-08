@@ -15,27 +15,29 @@ import uk.org.cse.nhm.language.definition.action.XFlaggedDwellingAction;
 
 @Bind("action.extra-fuel-charge")
 @Doc({
-	"Adds an extra fuel charge (or subsidy, if negative) to a dwelling's fuel bill."
+    "Adds an extra fuel charge (or subsidy, if negative) to a dwelling's fuel bill."
 })
 @Unsuitability("The dwelling in question already pays this extra charge.")
 @SeeAlso(XRemoveChargeAction.class)
 @Category(CategoryType.TARIFFS)
 public class XExtraChargeAction extends XFlaggedDwellingAction {
-	public static class P {
-		public static final String charge = "charge";
-	}
-	
-	private XExtraCharge charge;
-	
-	@Prop(P.charge)
-	@Doc("The charge which will be added to the dwelling's fuel bill.")
-	@BindPositionalArgument(0)
-	@NotNull(message = "action.extra-fuel-charge must specify a charge.")
-	public XExtraCharge getCharge() {
-		return charge;
-	}
-	
-	public void setCharge(final XExtraCharge charge) {
-		this.charge = charge;
-	}
+
+    public static class P {
+
+        public static final String charge = "charge";
+    }
+
+    private XExtraCharge charge;
+
+    @Prop(P.charge)
+    @Doc("The charge which will be added to the dwelling's fuel bill.")
+    @BindPositionalArgument(0)
+    @NotNull(message = "action.extra-fuel-charge must specify a charge.")
+    public XExtraCharge getCharge() {
+        return charge;
+    }
+
+    public void setCharge(final XExtraCharge charge) {
+        this.charge = charge;
+    }
 }

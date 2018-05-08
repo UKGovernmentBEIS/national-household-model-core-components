@@ -17,14 +17,15 @@ import uk.org.cse.nhm.simulator.state.IDimension;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 public class SITRebateFunction extends AbstractNamed implements IComponentsFunction<Number> {
+
     final IComponentsFunction<Number> temperature;
     final IComponentsFunction<Number> rebate;
     final IHealthModule healthModule;
 
     @Inject
     public SITRebateFunction(@Assisted("temperature") final IComponentsFunction<Number> temperature,
-                             @Assisted("rebate")      final IComponentsFunction<Number> rebate,
-                             final IHealthModule healthModule) {
+            @Assisted("rebate") final IComponentsFunction<Number> rebate,
+            final IHealthModule healthModule) {
         super();
         this.temperature = temperature;
         this.rebate = rebate;
@@ -41,9 +42,8 @@ public class SITRebateFunction extends AbstractNamed implements IComponentsFunct
         // then given T we can go to cost, then we can go to cost + rebate, and then we can get T
         // this is not exactly right, but it should do the trick.
         // It is best to put this in the health module as it's part of that really
-
-        final double deltaTemperature =
-            healthModule.getRebateDeltaTemperature(baseTemperature, rebateAmount);
+        final double deltaTemperature
+                = healthModule.getRebateDeltaTemperature(baseTemperature, rebateAmount);
 
         return baseTemperature + deltaTemperature;
     }

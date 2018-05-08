@@ -23,249 +23,252 @@ import uk.org.cse.nhm.hom.emf.technologies.impl.WaterTankImpl;
 import uk.org.cse.nhm.hom.emf.util.ITechnologyOperations;
 
 public class TechnologyOperationsTest {
-	private static final double ERROR_DELTA = 0.01;
-	private ITechnologyOperations operations;
 
-	private static class IndividualSource extends HeatSourceImpl implements IIndividualHeatSource {
-		@Override
-		public double getResponsiveness(
-				final IConstants parameters,
-				final EList<HeatingSystemControlType> controls,
-				final EmitterType emitterType) {
-			return super.getSAPTable4dResponsiveness(parameters, controls, emitterType);
-		}
+    private static final double ERROR_DELTA = 0.01;
+    private ITechnologyOperations operations;
 
-		@Override
-		public Zone2ControlParameter getZoneTwoControlParameter(final IInternalParameters parameters,
-				final EList<HeatingSystemControlType> controls, final EmitterType emitterType) {
-			return Zone2ControlParameter.Two;
-		}
+    private static class IndividualSource extends HeatSourceImpl implements IIndividualHeatSource {
 
-		@Override
-		public boolean isCommunityHeating() {
-			return false;
-		}
-	}
+        @Override
+        public double getResponsiveness(
+                final IConstants parameters,
+                final EList<HeatingSystemControlType> controls,
+                final EmitterType emitterType) {
+            return super.getSAPTable4dResponsiveness(parameters, controls, emitterType);
+        }
 
-	@Before
-	public void setup() {
-		this.operations = new TechnologyOperations();
-	}
+        @Override
+        public Zone2ControlParameter getZoneTwoControlParameter(final IInternalParameters parameters,
+                final EList<HeatingSystemControlType> controls, final EmitterType emitterType) {
+            return Zone2ControlParameter.Two;
+        }
 
-	@Test
-	public void testHasCommunitySpaceHeating() {
-		final ITechnologiesFactory factory = ITechnologiesFactory.eINSTANCE;
-		final ITechnologyModel technologies = new TechnologyModelImpl() {
-			{
-				final ICommunityHeatSource communityHeat = factory.createCommunityHeatSource();
-				setCommunityHeatSource(communityHeat);
-				setPrimarySpaceHeater(new CentralHeatingSystemImpl() {
-					{
-						setHeatSource(communityHeat);
-					}
-				});
-			}
-		};
+        @Override
+        public boolean isCommunityHeating() {
+            return false;
+        }
+    }
 
-		Assert.assertTrue("Should detect when community space heating is the main heating system", operations.hasCommunitySpaceHeating(technologies));
-	}
+    @Before
+    public void setup() {
+        this.operations = new TechnologyOperations();
+    }
 
-	@Test
-	public void testHasCommunitySpaceHeatingReturnsFalseWhenNotPresent() {
-		final ITechnologyModel technologies = new TechnologyModelImpl() {
-		};
+    @Test
+    public void testHasCommunitySpaceHeating() {
+        final ITechnologiesFactory factory = ITechnologiesFactory.eINSTANCE;
+        final ITechnologyModel technologies = new TechnologyModelImpl() {
+            {
+                final ICommunityHeatSource communityHeat = factory.createCommunityHeatSource();
+                setCommunityHeatSource(communityHeat);
+                setPrimarySpaceHeater(new CentralHeatingSystemImpl() {
+                    {
+                        setHeatSource(communityHeat);
+                    }
+                });
+            }
+        };
 
-		Assert.assertFalse("Should detect when no community space heating is present", operations.hasCommunitySpaceHeating(technologies));
-	}
+        Assert.assertTrue("Should detect when community space heating is the main heating system", operations.hasCommunitySpaceHeating(technologies));
+    }
 
-	@Test
-	public void testHasCommunityWaterHeating() {
-		final ITechnologiesFactory factory = ITechnologiesFactory.eINSTANCE;
-		final ITechnologyModel technologies = new TechnologyModelImpl() {
-			{
-				final ICommunityHeatSource communityHeat = factory.createCommunityHeatSource();
-				setCommunityHeatSource(communityHeat);
+    @Test
+    public void testHasCommunitySpaceHeatingReturnsFalseWhenNotPresent() {
+        final ITechnologyModel technologies = new TechnologyModelImpl() {
+        };
 
-				setCentralWaterSystem(new CentralWaterSystemImpl() {
-					{
-						setPrimaryWaterHeater(new MainWaterHeaterImpl() {
-							{
-								setHeatSource(communityHeat);
-							}
-						});
-					}
-				});
-			}
-		};
+        Assert.assertFalse("Should detect when no community space heating is present", operations.hasCommunitySpaceHeating(technologies));
+    }
 
-		Assert.assertTrue("Should detect when community water heating is the main hot water system", operations.hasCommunityWaterHeating(technologies));
-	}
+    @Test
+    public void testHasCommunityWaterHeating() {
+        final ITechnologiesFactory factory = ITechnologiesFactory.eINSTANCE;
+        final ITechnologyModel technologies = new TechnologyModelImpl() {
+            {
+                final ICommunityHeatSource communityHeat = factory.createCommunityHeatSource();
+                setCommunityHeatSource(communityHeat);
 
-	@Test
-	public void testHasCommunityWaterHeatingReturnsFalseWhenNotPresent() {
-		final ITechnologyModel technologies = new TechnologyModelImpl() {
-		};
+                setCentralWaterSystem(new CentralWaterSystemImpl() {
+                    {
+                        setPrimaryWaterHeater(new MainWaterHeaterImpl() {
+                            {
+                                setHeatSource(communityHeat);
+                            }
+                        });
+                    }
+                });
+            }
+        };
 
-		Assert.assertFalse("Should detect when no community water heating is present", operations.hasCommunityWaterHeating(technologies));
-	}
+        Assert.assertTrue("Should detect when community water heating is the main hot water system", operations.hasCommunityWaterHeating(technologies));
+    }
 
-	@Test
-	public void testReplaceMainHeatSourceForCentralHeatingAndCentralWaterAddsAHeatSource() {
-		final ITechnologyModel technologies = new TechnologyModelImpl() {
-		};
+    @Test
+    public void testHasCommunityWaterHeatingReturnsFalseWhenNotPresent() {
+        final ITechnologyModel technologies = new TechnologyModelImpl() {
+        };
 
-		final IHeatSource heatSource = new BoilerImpl() {};
+        Assert.assertFalse("Should detect when no community water heating is present", operations.hasCommunityWaterHeating(technologies));
+    }
 
-		operations.installHeatSource(technologies, heatSource, true, true, EmitterType.RADIATORS, Collections.<HeatingSystemControlType> emptySet(), 0.0f, 0.0f);
+    @Test
+    public void testReplaceMainHeatSourceForCentralHeatingAndCentralWaterAddsAHeatSource() {
+        final ITechnologyModel technologies = new TechnologyModelImpl() {
+        };
 
-		Assert.assertEquals(heatSource, technologies.getIndividualHeatSource());
-	}
+        final IHeatSource heatSource = new BoilerImpl() {
+        };
 
-	@Test
-	public void testReplaceMainHeatSourceForCentralHeatingAndCentralWaterReplacesExistingHeatSource() {
-		final ITechnologyModel technologies = new TechnologyModelImpl() {
-			{
-				setIndividualHeatSource(new BoilerImpl() {
-				});
-			}
-		};
+        operations.installHeatSource(technologies, heatSource, true, true, EmitterType.RADIATORS, Collections.<HeatingSystemControlType>emptySet(), 0.0f, 0.0f);
 
-		final IHeatSource heatSource = new BoilerImpl() {
-		};
+        Assert.assertEquals(heatSource, technologies.getIndividualHeatSource());
+    }
 
-		operations.installHeatSource(technologies, heatSource, true, true, EmitterType.RADIATORS, Collections.<HeatingSystemControlType> emptySet(), 0.0f, 0.0f);
+    @Test
+    public void testReplaceMainHeatSourceForCentralHeatingAndCentralWaterReplacesExistingHeatSource() {
+        final ITechnologyModel technologies = new TechnologyModelImpl() {
+            {
+                setIndividualHeatSource(new BoilerImpl() {
+                });
+            }
+        };
 
-		Assert.assertEquals(heatSource, technologies.getIndividualHeatSource());
-	}
+        final IHeatSource heatSource = new BoilerImpl() {
+        };
 
-	@Test
-	public void testReplaceCentralHeatingHeatSourceShouldAddNewCentralHeatingIfNoSpaceHeatingPresent() {
-		final ITechnologyModel technologies = new TechnologyModelImpl() {
-		};
-		final IHeatSource newHeatSource = new IndividualSource() {
-		};
+        operations.installHeatSource(technologies, heatSource, true, true, EmitterType.RADIATORS, Collections.<HeatingSystemControlType>emptySet(), 0.0f, 0.0f);
 
-		operations.installHeatSource(technologies, newHeatSource, EmitterType.RADIATORS, Collections.<HeatingSystemControlType> emptySet());
+        Assert.assertEquals(heatSource, technologies.getIndividualHeatSource());
+    }
 
-		Assert.assertTrue(technologies.getPrimarySpaceHeater() instanceof ICentralHeatingSystem);
-		Assert.assertSame(newHeatSource, ((ICentralHeatingSystem) technologies.getPrimarySpaceHeater()).getHeatSource());
-		Assert.assertNull(technologies.getSecondarySpaceHeater());
-	}
+    @Test
+    public void testReplaceCentralHeatingHeatSourceShouldAddNewCentralHeatingIfNoSpaceHeatingPresent() {
+        final ITechnologyModel technologies = new TechnologyModelImpl() {
+        };
+        final IHeatSource newHeatSource = new IndividualSource() {
+        };
 
-	@Test
-	public void testReplaceCentralHeatingHeatSourceShouldReplaceOldNonCentralSpaceHeating() {
-		final ITechnologyModel technologies = new TechnologyModelImpl() {
-			{
-				setPrimarySpaceHeater(new StorageHeaterImpl() {
-				});
-			}
-		};
+        operations.installHeatSource(technologies, newHeatSource, EmitterType.RADIATORS, Collections.<HeatingSystemControlType>emptySet());
 
-		operations.installHeatSource(technologies, new IndividualSource(), EmitterType.RADIATORS, Collections.<HeatingSystemControlType> emptySet());
+        Assert.assertTrue(technologies.getPrimarySpaceHeater() instanceof ICentralHeatingSystem);
+        Assert.assertSame(newHeatSource, ((ICentralHeatingSystem) technologies.getPrimarySpaceHeater()).getHeatSource());
+        Assert.assertNull(technologies.getSecondarySpaceHeater());
+    }
 
-		Assert.assertTrue(technologies.getPrimarySpaceHeater() instanceof ICentralHeatingSystem);
-		Assert.assertNull(technologies.getSecondarySpaceHeater());
-	}
+    @Test
+    public void testReplaceCentralHeatingHeatSourceShouldReplaceOldNonCentralSpaceHeating() {
+        final ITechnologyModel technologies = new TechnologyModelImpl() {
+            {
+                setPrimarySpaceHeater(new StorageHeaterImpl() {
+                });
+            }
+        };
 
-	@Test
-	public void testReplaceCentralHeatingHeatSourceShouldReuseOldCentralHeating() {
+        operations.installHeatSource(technologies, new IndividualSource(), EmitterType.RADIATORS, Collections.<HeatingSystemControlType>emptySet());
 
-		final ICentralHeatingSystem existingCentralHeating = new CentralHeatingSystemImpl() {
-			{
-				setHeatSource(new IndividualSource());
-			}
-		};
+        Assert.assertTrue(technologies.getPrimarySpaceHeater() instanceof ICentralHeatingSystem);
+        Assert.assertNull(technologies.getSecondarySpaceHeater());
+    }
 
-		final IHeatSource newHeatSource = new IndividualSource();
+    @Test
+    public void testReplaceCentralHeatingHeatSourceShouldReuseOldCentralHeating() {
 
-		final ITechnologyModel technologies = new TechnologyModelImpl() {
-			{
-				setPrimarySpaceHeater(existingCentralHeating);
-			}
-		};
+        final ICentralHeatingSystem existingCentralHeating = new CentralHeatingSystemImpl() {
+            {
+                setHeatSource(new IndividualSource());
+            }
+        };
 
-		operations.installHeatSource(technologies, newHeatSource, EmitterType.RADIATORS, Collections.<HeatingSystemControlType> emptySet());
+        final IHeatSource newHeatSource = new IndividualSource();
 
-		Assert.assertSame(existingCentralHeating, technologies.getPrimarySpaceHeater());
-		Assert.assertSame(newHeatSource, ((ICentralHeatingSystem) technologies.getPrimarySpaceHeater()).getHeatSource());
-		Assert.assertNull(technologies.getSecondarySpaceHeater());
-	}
+        final ITechnologyModel technologies = new TechnologyModelImpl() {
+            {
+                setPrimarySpaceHeater(existingCentralHeating);
+            }
+        };
 
-	@Test
-	public void testReplaceCentralHeatingHeatSourceShouldKeepOldSecondarySystems() {
+        operations.installHeatSource(technologies, newHeatSource, EmitterType.RADIATORS, Collections.<HeatingSystemControlType>emptySet());
 
-		final IRoomHeater existingSecondaryHeating = new RoomHeaterImpl() {
-		};
+        Assert.assertSame(existingCentralHeating, technologies.getPrimarySpaceHeater());
+        Assert.assertSame(newHeatSource, ((ICentralHeatingSystem) technologies.getPrimarySpaceHeater()).getHeatSource());
+        Assert.assertNull(technologies.getSecondarySpaceHeater());
+    }
 
-		final ITechnologyModel technologies = new TechnologyModelImpl() {
-			{
-				setPrimarySpaceHeater(new StorageHeaterImpl() {
-				});
-				setSecondarySpaceHeater(existingSecondaryHeating);
-			}
-		};
+    @Test
+    public void testReplaceCentralHeatingHeatSourceShouldKeepOldSecondarySystems() {
 
-		final IHeatSource newHeatSource = new IndividualSource();
+        final IRoomHeater existingSecondaryHeating = new RoomHeaterImpl() {
+        };
 
-		operations.installHeatSource(technologies, newHeatSource, EmitterType.RADIATORS, Collections.<HeatingSystemControlType> emptySet());
+        final ITechnologyModel technologies = new TechnologyModelImpl() {
+            {
+                setPrimarySpaceHeater(new StorageHeaterImpl() {
+                });
+                setSecondarySpaceHeater(existingSecondaryHeating);
+            }
+        };
 
-		Assert.assertNotNull(technologies.getPrimarySpaceHeater());
-		Assert.assertSame(existingSecondaryHeating, technologies.getSecondarySpaceHeater());
-		Assert.assertSame(newHeatSource, ((ICentralHeatingSystem) technologies.getPrimarySpaceHeater()).getHeatSource());
-	}
+        final IHeatSource newHeatSource = new IndividualSource();
 
-	@Test
-	public void testInstallHotWaterCylinderShouldInstallStandardModernTank() {
-		final ICentralWaterSystem water = new CentralWaterSystemImpl() {
-		};
-		operations.installWaterTank(water, false, 0,0);
+        operations.installHeatSource(technologies, newHeatSource, EmitterType.RADIATORS, Collections.<HeatingSystemControlType>emptySet());
 
-		Assert.assertTrue(water.isPrimaryPipeworkInsulated());
+        Assert.assertNotNull(technologies.getPrimarySpaceHeater());
+        Assert.assertSame(existingSecondaryHeating, technologies.getSecondarySpaceHeater());
+        Assert.assertSame(newHeatSource, ((ICentralHeatingSystem) technologies.getPrimarySpaceHeater()).getHeatSource());
+    }
 
-		final IWaterTank tank = water.getStore();
-		Assert.assertTrue(tank instanceof IWaterTank);
-		final IWaterTank standardTank = tank;
+    @Test
+    public void testInstallHotWaterCylinderShouldInstallStandardModernTank() {
+        final ICentralWaterSystem water = new CentralWaterSystemImpl() {
+        };
+        operations.installWaterTank(water, false, 0, 0);
 
-		Assert.assertTrue(standardTank.isThermostatFitted());
-		Assert.assertTrue(standardTank.isFactoryInsulation());
-		Assert.assertEquals(0f, standardTank.getVolume(), ERROR_DELTA);
-		Assert.assertEquals(0f, standardTank.getInsulation(), ERROR_DELTA);
-	}
+        Assert.assertTrue(water.isPrimaryPipeworkInsulated());
 
-	@Test
-	public void testInstallHotWaterCylinderShouldReplaceExistingTank() {
-		final IWaterTank tank = new WaterTankImpl() {
-		};
+        final IWaterTank tank = water.getStore();
+        Assert.assertTrue(tank instanceof IWaterTank);
+        final IWaterTank standardTank = tank;
 
-		final ICentralWaterSystem water = new CentralWaterSystemImpl() {
-			{
-				setStore(tank);
-			}
-		};
-		operations.installWaterTank(water,false, 0f, 0f);
-		Assert.assertNotSame(tank, water.getStore());
-	}
+        Assert.assertTrue(standardTank.isThermostatFitted());
+        Assert.assertTrue(standardTank.isFactoryInsulation());
+        Assert.assertEquals(0f, standardTank.getVolume(), ERROR_DELTA);
+        Assert.assertEquals(0f, standardTank.getInsulation(), ERROR_DELTA);
+    }
 
-	@Test
-	public void testInstallHotWaterCylinderShouldObeyRetainExisting() {
-		final IWaterTank tank = new WaterTankImpl() {
-		};
+    @Test
+    public void testInstallHotWaterCylinderShouldReplaceExistingTank() {
+        final IWaterTank tank = new WaterTankImpl() {
+        };
 
-		final ICentralWaterSystem water = new CentralWaterSystemImpl() {
-			{
-				setStore(tank);
-			}
-		};
+        final ICentralWaterSystem water = new CentralWaterSystemImpl() {
+            {
+                setStore(tank);
+            }
+        };
+        operations.installWaterTank(water, false, 0f, 0f);
+        Assert.assertNotSame(tank, water.getStore());
+    }
 
-		operations.installWaterTank(water,true, 0f, 0f);
-		Assert.assertSame(tank,  water.getStore());
-	}
+    @Test
+    public void testInstallHotWaterCylinderShouldObeyRetainExisting() {
+        final IWaterTank tank = new WaterTankImpl() {
+        };
 
-	@Test
-	public void testInstallHotWaterCylinderShouldIgnoreRetainExistingIfNoExistingCylinder() {
-		final ICentralWaterSystem water = new CentralWaterSystemImpl() {
-		};
-		operations.installWaterTank(water,true, 0f, 0f);
-		Assert.assertNotNull(water.getStore());
-	}
+        final ICentralWaterSystem water = new CentralWaterSystemImpl() {
+            {
+                setStore(tank);
+            }
+        };
+
+        operations.installWaterTank(water, true, 0f, 0f);
+        Assert.assertSame(tank, water.getStore());
+    }
+
+    @Test
+    public void testInstallHotWaterCylinderShouldIgnoreRetainExistingIfNoExistingCylinder() {
+        final ICentralWaterSystem water = new CentralWaterSystemImpl() {
+        };
+        operations.installWaterTank(water, true, 0f, 0f);
+        Assert.assertNotNull(water.getStore());
+    }
 }

@@ -6,6 +6,7 @@ import uk.org.cse.nhm.simulator.measure.Units;
 import uk.org.cse.nhm.simulator.scope.IComponentsScope;
 
 public interface ISizingFunction {
-	public ISizingResult computeSize(final IComponentsScope scope, 
-									 ILets lets, final Units units);
+
+    public ISizingResult computeSize(final IComponentsScope scope,
+            ILets lets, final Units units);
 }

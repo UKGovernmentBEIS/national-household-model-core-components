@@ -1,9 +1,12 @@
 package uk.org.cse.nhm.energycalculator.api.types.steps;
 
 public class SAPLocation {
+
     public static final SAPLocation None = new SAPLocation(null, 0, ' ') {
         @Override
-        public boolean exists() { return false; }
+        public boolean exists() {
+            return false;
+        }
 
         @Override
         public String toString() {
@@ -21,8 +24,9 @@ public class SAPLocation {
         this.subcell = subcell;
     }
 
-    public boolean exists() { return true; }
-
+    public boolean exists() {
+        return true;
+    }
 
     @Override
     public String toString() {
@@ -33,4 +37,3 @@ public class SAPLocation {
         );
     }
 }
-

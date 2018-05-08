@@ -14,30 +14,35 @@ import uk.org.cse.nhm.logging.logentry.IEnergyReport;
 
 /**
  * A pojo for storing energy/fuel/service
+ *
  * @author hinton
  *
  */
 @AutoProperty
 public class EnergyLogComponent extends AbstractFuelServiceLogComponent implements IEnergyReport {
-	@JsonCreator
-	public EnergyLogComponent(@JsonProperty("values") Map<FuelType, Map<ServiceType, Double>> values) {
-		super(values);
-	}
-	
-	@JsonIgnore
-	public double getEnergyUsage() {
-		return getTotalValue();
-	}
-	@JsonIgnore
-	public double getEnergyUsedByService(final ServiceType service) {
-		return getValue(service);
-	}
-	@JsonIgnore
-	public double getEnergyUsage(final ServiceType service, final FuelType fuel) {
-		return getValue(service, fuel);
-	}
-	@JsonIgnore
-	public double getEnergyUsedByFuel(final FuelType fuel) {
-		return getValue(fuel);
-	}
+
+    @JsonCreator
+    public EnergyLogComponent(@JsonProperty("values") Map<FuelType, Map<ServiceType, Double>> values) {
+        super(values);
+    }
+
+    @JsonIgnore
+    public double getEnergyUsage() {
+        return getTotalValue();
+    }
+
+    @JsonIgnore
+    public double getEnergyUsedByService(final ServiceType service) {
+        return getValue(service);
+    }
+
+    @JsonIgnore
+    public double getEnergyUsage(final ServiceType service, final FuelType fuel) {
+        return getValue(service, fuel);
+    }
+
+    @JsonIgnore
+    public double getEnergyUsedByFuel(final FuelType fuel) {
+        return getValue(fuel);
+    }
 }

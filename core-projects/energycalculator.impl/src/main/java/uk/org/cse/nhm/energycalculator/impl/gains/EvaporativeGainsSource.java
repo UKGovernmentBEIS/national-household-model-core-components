@@ -14,20 +14,21 @@ import uk.org.cse.nhm.energycalculator.constants.EnergyCalculatorConstants;
  *
  */
 public class EvaporativeGainsSource implements IEnergyTransducer {
-	private final double EVAPORATION_GAINS_PER_PERSON;
 
-	public EvaporativeGainsSource(final IConstants constants) {
-		EVAPORATION_GAINS_PER_PERSON = constants.get(EnergyCalculatorConstants.EVAPORATION_GAINS_PER_PERSON);
-	}
+    private final double EVAPORATION_GAINS_PER_PERSON;
 
-	@Override
-	public ServiceType getServiceType() {
-		return ServiceType.INTERNALS;
-	}
+    public EvaporativeGainsSource(final IConstants constants) {
+        EVAPORATION_GAINS_PER_PERSON = constants.get(EnergyCalculatorConstants.EVAPORATION_GAINS_PER_PERSON);
+    }
 
-	@Override
-	public void generate(final IEnergyCalculatorHouseCase house, final IInternalParameters parameters,final ISpecificHeatLosses losses, final IEnergyState state) {
-		/*
+    @Override
+    public ServiceType getServiceType() {
+        return ServiceType.INTERNALS;
+    }
+
+    @Override
+    public void generate(final IEnergyCalculatorHouseCase house, final IInternalParameters parameters, final ISpecificHeatLosses losses, final IEnergyState state) {
+        /*
 		BEISDOC
 		NAME: Evaporation loss
 		DESCRIPTION: The total energy lost to evaporation.
@@ -40,26 +41,26 @@ public class EvaporativeGainsSource implements IEnergyTransducer {
 		DEPS: evaporation-loss-per-person,occupancy
 		ID: evaporation-loss
 		CODSIEB
-		*/
-		final double evaporationGains = EVAPORATION_GAINS_PER_PERSON * parameters.getNumberOfOccupants();
+         */
+        final double evaporationGains = EVAPORATION_GAINS_PER_PERSON * parameters.getNumberOfOccupants();
 
-		StepRecorder.recordStep(EnergyCalculationStep.Gains_Evaporation, -evaporationGains);
+        StepRecorder.recordStep(EnergyCalculationStep.Gains_Evaporation, -evaporationGains);
 
-		state.increaseDemand(EnergyType.GainsUSEFUL_GAINS, evaporationGains);
-	}
+        state.increaseDemand(EnergyType.GainsUSEFUL_GAINS, evaporationGains);
+    }
 
-	@Override
-	public int getPriority() {
-		return 0;
-	}
+    @Override
+    public int getPriority() {
+        return 0;
+    }
 
-	@Override
-	public String toString() {
-		return "Evaporation";
-	}
+    @Override
+    public String toString() {
+        return "Evaporation";
+    }
 
-	@Override
-	public TransducerPhaseType getPhase() {
-		return TransducerPhaseType.Gains;
-	}
+    @Override
+    public TransducerPhaseType getPhase() {
+        return TransducerPhaseType.Gains;
+    }
 }

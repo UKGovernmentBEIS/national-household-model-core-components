@@ -9,6 +9,7 @@ import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.ReturnsEnum;
 import uk.org.cse.nhm.language.definition.function.XCategoryFunction;
 import uk.org.cse.nhm.language.validate.contents.RequireParent;
+
 @RequireParent(XResetGlazing.class)
 @Bind("glazing.insulation-type")
 @Doc("The insulation type of the current glazing")

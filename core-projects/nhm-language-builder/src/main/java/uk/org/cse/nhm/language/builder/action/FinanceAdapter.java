@@ -37,110 +37,111 @@ import uk.org.cse.nhm.simulator.state.functions.impl.num.CostResultFunction;
 import uk.org.cse.nhm.simulator.transactions.ITransaction;
 
 public class FinanceAdapter extends ReflectingAdapter {
-	final IFinanceFactory factory;
-    private final IDefaultFunctionFactory functions;
-    
-	@Inject
-	public FinanceAdapter(final Set<IConverter> delegates,
-                          final IFinanceFactory factory,
-                          final IDefaultFunctionFactory functions,
-                          final Set<IAdapterInterceptor> interceptors) {
-		super(delegates, interceptors);
-		this.factory = factory;
-        this.functions = functions;
-	}
 
-	@Adapt(XLoanAction.class)
-	public IComponentsAction buildFixedRateLoan(final Name name,
-			@FromScope(TopLevelAdapter.POLICY_NAME) final Optional<String> policyName,
-			@Prop(XLoanAction.P.principal) final IComponentsFunction<Number> principal, 
-			@Prop(XFinanceAction.P.ACTION) final IComponentsAction delegate,
-			@Prop(XLoanAction.P.term) final IComponentsFunction<Number> term, 
-			@Prop(XLoanAction.P.rate) final IComponentsFunction<Number> rate, 
-			@Prop(XLoanAction.P.tilt) final IComponentsFunction<Number> tilt, 
-			@Prop(XFinanceAction.P.COUNTERPARTY) final Optional<String> payee, 
-			@Prop(XFinanceAction.P.TAGS) final List<Tag> tags) {
-		return factory.createFixedInterestLoanAction(
+    final IFinanceFactory factory;
+    private final IDefaultFunctionFactory functions;
+
+    @Inject
+    public FinanceAdapter(final Set<IConverter> delegates,
+            final IFinanceFactory factory,
+            final IDefaultFunctionFactory functions,
+            final Set<IAdapterInterceptor> interceptors) {
+        super(delegates, interceptors);
+        this.factory = factory;
+        this.functions = functions;
+    }
+
+    @Adapt(XLoanAction.class)
+    public IComponentsAction buildFixedRateLoan(final Name name,
+            @FromScope(TopLevelAdapter.POLICY_NAME) final Optional<String> policyName,
+            @Prop(XLoanAction.P.principal) final IComponentsFunction<Number> principal,
+            @Prop(XFinanceAction.P.ACTION) final IComponentsAction delegate,
+            @Prop(XLoanAction.P.term) final IComponentsFunction<Number> term,
+            @Prop(XLoanAction.P.rate) final IComponentsFunction<Number> rate,
+            @Prop(XLoanAction.P.tilt) final IComponentsFunction<Number> tilt,
+            @Prop(XFinanceAction.P.COUNTERPARTY) final Optional<String> payee,
+            @Prop(XFinanceAction.P.TAGS) final List<Tag> tags) {
+        return factory.createFixedInterestLoanAction(
                 functions.createWarningFunction(name, "loan principal", principal, 0d, 1000000d, true, false),
-				delegate,
-				functions.createWarningFunction(name, "loan term", term, 1d, 25d, true, false), 
-				functions.createWarningFunction(name, "loan rate", rate, 0.005d, 100d, true, false), 
-				functions.createWarningFunction(name, "loan tilt", tilt, 0d, 10d, true, false), 
-				payee.or(policyName.or("unknown")), 
-				Tag.asSet(tags));
-	}
-	
-	 @Adapt(XAdditionalCost.class) 
-	 public IComponentsAction buildMeasureAdditionalCost(
-		 @FromScope(TopLevelAdapter.POLICY_NAME) final Optional<String> policyName,
-	     @Prop(XFinanceAction.P.TAGS) final List<Tag> tags, 
-	     @Prop(XFinanceAction.P.ACTION) final IComponentsAction action,
-	     @Prop(XFinanceAction.P.COUNTERPARTY) final Optional<String> counterparty,
-	     @Prop(XAdditionalCost.P.COST) final IComponentsFunction<Number> cost
-	     ) { 
-	   return factory.createCost(
-			   Tag.asSet(tags), 
-			   action, 
-			   counterparty.or(policyName.or("unknown")), 
-			   cost); 
-	 }
-	 
-	 @Adapt(XSubsidy.class)
-	 public IComponentsAction buildSubsidy(
-		 @FromScope(TopLevelAdapter.POLICY_NAME) final Optional<String> policyName,
-		 @Prop(XFinanceAction.P.TAGS) final List<Tag> tags, 
-	     @Prop(XFinanceAction.P.ACTION) final IComponentsAction action,
-	     @Prop(XFinanceAction.P.COUNTERPARTY) final Optional<String> counterparty,
-	     @Prop(XSubsidy.P.SUBSIDY) final IComponentsFunction<Number> subsidy
-	     ) {
-		 return factory.createSubsidy(
-				 Tag.asSet(tags), 
-				 action, 
-				 counterparty.or(policyName.or("unknown")), 
-				 subsidy);
-	 }
-	 
-	 @Adapt(XFullSubsidy.class)
-	 public IComponentsAction buildFullSubsidy(
-		 @FromScope(TopLevelAdapter.POLICY_NAME) final Optional<String> policyName,
-		 @Prop(XFinanceAction.P.TAGS) final List<Tag> tags, 
-	     @Prop(XFinanceAction.P.ACTION) final IComponentsAction action,
-	     @Prop(XFinanceAction.P.COUNTERPARTY) final Optional<String> counterparty
-	     ) {
-		 return factory.createSubsidy(
-				 Tag.asSet(tags), 
-				 action, 
-				 counterparty.or(policyName.or("unknown")), 
-				 new CostResultFunction(
-						 Glob.requireAndForbid(
-								 ImmutableList.of(
-										 Glob.of(ITransaction.Tags.CAPEX)
-										 )
-								 )));
-	 }
-	 
-	 @Adapt(XObligationAction.class)
-	 public IComponentsAction buildWithObligation(
-		 @FromScope(TopLevelAdapter.POLICY_NAME) final Optional<String> policyName,
-		 @Prop(XFinanceAction.P.TAGS) final List<Tag> tags, 
-	     @Prop(XFinanceAction.P.ACTION) final IComponentsAction action,
-	     @Prop(XFinanceAction.P.COUNTERPARTY) final Optional<String> counterparty,
-		 @Prop(XObligationAction.P.amount) final IComponentsFunction<Number> amount,
-		 @Prop(XObligationAction.P.schedule) final IPaymentSchedule.IFactory scheduleFactory) {
-		 return factory.createObligation(
-		 	Tag.asSet(tags),
-		 	action,
-		 	counterparty.or(policyName.or("unknown")),
-		 	amount,
-		 	scheduleFactory);
-	 }
-	 
-	 @Adapt(XPeriodicPayment.class)
-	 public IPaymentSchedule.IFactory buildPeriodicPayment(
-		 @Prop(XPeriodicPayment.P.interval) final Period interval,
-		 @Prop(XPeriodicPayment.P.lifetime) final Optional<Period> lifetime,
-		 @Prop(XPeriodicPayment.P.whileCondition) final Optional<IComponentsFunction<Boolean>> whileCondition
-			 ) {
-		 return new PeriodicPaymentFactory(interval, lifetime, whileCondition);
-	 }
+                delegate,
+                functions.createWarningFunction(name, "loan term", term, 1d, 25d, true, false),
+                functions.createWarningFunction(name, "loan rate", rate, 0.005d, 100d, true, false),
+                functions.createWarningFunction(name, "loan tilt", tilt, 0d, 10d, true, false),
+                payee.or(policyName.or("unknown")),
+                Tag.asSet(tags));
+    }
+
+    @Adapt(XAdditionalCost.class)
+    public IComponentsAction buildMeasureAdditionalCost(
+            @FromScope(TopLevelAdapter.POLICY_NAME) final Optional<String> policyName,
+            @Prop(XFinanceAction.P.TAGS) final List<Tag> tags,
+            @Prop(XFinanceAction.P.ACTION) final IComponentsAction action,
+            @Prop(XFinanceAction.P.COUNTERPARTY) final Optional<String> counterparty,
+            @Prop(XAdditionalCost.P.COST) final IComponentsFunction<Number> cost
+    ) {
+        return factory.createCost(
+                Tag.asSet(tags),
+                action,
+                counterparty.or(policyName.or("unknown")),
+                cost);
+    }
+
+    @Adapt(XSubsidy.class)
+    public IComponentsAction buildSubsidy(
+            @FromScope(TopLevelAdapter.POLICY_NAME) final Optional<String> policyName,
+            @Prop(XFinanceAction.P.TAGS) final List<Tag> tags,
+            @Prop(XFinanceAction.P.ACTION) final IComponentsAction action,
+            @Prop(XFinanceAction.P.COUNTERPARTY) final Optional<String> counterparty,
+            @Prop(XSubsidy.P.SUBSIDY) final IComponentsFunction<Number> subsidy
+    ) {
+        return factory.createSubsidy(
+                Tag.asSet(tags),
+                action,
+                counterparty.or(policyName.or("unknown")),
+                subsidy);
+    }
+
+    @Adapt(XFullSubsidy.class)
+    public IComponentsAction buildFullSubsidy(
+            @FromScope(TopLevelAdapter.POLICY_NAME) final Optional<String> policyName,
+            @Prop(XFinanceAction.P.TAGS) final List<Tag> tags,
+            @Prop(XFinanceAction.P.ACTION) final IComponentsAction action,
+            @Prop(XFinanceAction.P.COUNTERPARTY) final Optional<String> counterparty
+    ) {
+        return factory.createSubsidy(
+                Tag.asSet(tags),
+                action,
+                counterparty.or(policyName.or("unknown")),
+                new CostResultFunction(
+                        Glob.requireAndForbid(
+                                ImmutableList.of(
+                                        Glob.of(ITransaction.Tags.CAPEX)
+                                )
+                        )));
+    }
+
+    @Adapt(XObligationAction.class)
+    public IComponentsAction buildWithObligation(
+            @FromScope(TopLevelAdapter.POLICY_NAME) final Optional<String> policyName,
+            @Prop(XFinanceAction.P.TAGS) final List<Tag> tags,
+            @Prop(XFinanceAction.P.ACTION) final IComponentsAction action,
+            @Prop(XFinanceAction.P.COUNTERPARTY) final Optional<String> counterparty,
+            @Prop(XObligationAction.P.amount) final IComponentsFunction<Number> amount,
+            @Prop(XObligationAction.P.schedule) final IPaymentSchedule.IFactory scheduleFactory) {
+        return factory.createObligation(
+                Tag.asSet(tags),
+                action,
+                counterparty.or(policyName.or("unknown")),
+                amount,
+                scheduleFactory);
+    }
+
+    @Adapt(XPeriodicPayment.class)
+    public IPaymentSchedule.IFactory buildPeriodicPayment(
+            @Prop(XPeriodicPayment.P.interval) final Period interval,
+            @Prop(XPeriodicPayment.P.lifetime) final Optional<Period> lifetime,
+            @Prop(XPeriodicPayment.P.whileCondition) final Optional<IComponentsFunction<Boolean>> whileCondition
+    ) {
+        return new PeriodicPaymentFactory(interval, lifetime, whileCondition);
+    }
 }

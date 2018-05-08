@@ -9,7 +9,6 @@ import uk.org.cse.nhm.language.definition.SeeAlso;
 import uk.org.cse.nhm.language.definition.function.XCategoryFunction;
 import uk.org.cse.nhm.language.definition.function.bool.house.XBuiltFormIs;
 
-
 @Doc("The actual built form of a house.")
 @Bind("house.built-form")
 @SeeAlso(XBuiltFormIs.class)

@@ -20,15 +20,16 @@ import uk.org.cse.stockimport.repository.IHouseCaseSources;
 import uk.org.cse.stockimport.repository.IHouseCaseSourcesRepositoryFactory;
 
 public class SpssPersonReader extends AbsSpssReader<IPersonDTO> {
+
     public SpssPersonReader(String executionId, IHouseCaseSourcesRepositoryFactory mongoProviderFactory) {
         super(executionId, mongoProviderFactory);
     }
 
     protected Set<Class<?>> getSurveyEntryClasses() {
         return ImmutableSet.<Class<?>>of(PeopleEntry.class, PeopleEntryImpl.class,
-                                         DisabilityEntry.class, DisabilityEntryImpl.class);
+                DisabilityEntry.class, DisabilityEntryImpl.class);
     }
-    
+
     protected Class<?> readClass() {
         return PersonDTO.class;
     }
@@ -37,7 +38,7 @@ public class SpssPersonReader extends AbsSpssReader<IPersonDTO> {
         final List<IPersonDTO> output = new ArrayList<>();
         final List<DisabilityEntry> disabilities = provider.getAll(DisabilityEntry.class);
 
-        for (final PeopleEntry entry: provider.getAll(PeopleEntry.class)) {
+        for (final PeopleEntry entry : provider.getAll(PeopleEntry.class)) {
             final Integer age = entry.getAge();
             final Enum71 sex = entry.getSex();
             // to get the smoking information, we need to get a
@@ -50,16 +51,16 @@ public class SpssPersonReader extends AbsSpssReader<IPersonDTO> {
                 person.setAacode(provider.getAacode());
                 person.setAge(age);
                 switch (sex) {
-                case Female:
-                    person.setSex(SexType.FEMALE);
-                    break;
-                case Male:
-                    person.setSex(SexType.MALE);
-                    break;
-                case DoesNotApply:
-                case NoAnswer:
-                    person.setSex(SexType.UNKNOWN);
-                    break;
+                    case Female:
+                        person.setSex(SexType.FEMALE);
+                        break;
+                    case Male:
+                        person.setSex(SexType.MALE);
+                        break;
+                    case DoesNotApply:
+                    case NoAnswer:
+                        person.setSex(SexType.UNKNOWN);
+                        break;
                 }
 
                 for (final DisabilityEntry de : disabilities) {
@@ -75,9 +76,7 @@ public class SpssPersonReader extends AbsSpssReader<IPersonDTO> {
                 output.add(person);
             }
         }
-        
+
         return output;
     }
 }
-
-

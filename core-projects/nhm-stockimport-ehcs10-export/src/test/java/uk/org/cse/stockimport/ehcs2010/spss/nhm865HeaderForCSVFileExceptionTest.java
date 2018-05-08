@@ -13,46 +13,47 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class nhm865HeaderForCSVFileExceptionTest {
-	
-	@Mock OutputStream outputStream;
 
-	@Test
-	public void IfDTOListHasNoElementsThenHeaderShouldNotBeCreated() throws Exception {
-		TestHomElementBuilder builder = new TestHomElementBuilder();
-		List<Object> elements = new ArrayList<>();
-		
-		try{
-			builder.writeChunk(outputStream, elements, true);
-		} catch (Exception e){
-			fail("Should not have failed building header");
-		}
-	}
-	
-	class TestHomElementBuilder extends AbstractCSVHomElementBuilder<Object>{
+    @Mock
+    OutputStream outputStream;
 
-		@Override
-		public String getFileName() {
-			// TODO Auto-generated method stub
-			return null;
-		}
+    @Test
+    public void IfDTOListHasNoElementsThenHeaderShouldNotBeCreated() throws Exception {
+        TestHomElementBuilder builder = new TestHomElementBuilder();
+        List<Object> elements = new ArrayList<>();
 
-		@Override
-		public String[] buildHeader(Object exampleElement) {
-			// TODO Auto-generated method stub
-			return null;
-		}
+        try {
+            builder.writeChunk(outputStream, elements, true);
+        } catch (Exception e) {
+            fail("Should not have failed building header");
+        }
+    }
 
-		@Override
-		public String[] buildRow(Object element) {
-			// TODO Auto-generated method stub
-			return null;
-		}
+    class TestHomElementBuilder extends AbstractCSVHomElementBuilder<Object> {
 
-		@Override
-		public String getBuiltClassName() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-		
-	}
+        @Override
+        public String getFileName() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String[] buildHeader(Object exampleElement) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String[] buildRow(Object element) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getBuiltClassName() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+    }
 }

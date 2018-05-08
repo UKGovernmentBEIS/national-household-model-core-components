@@ -6,5 +6,5 @@ package uk.org.cse.nhm.ipc.api.tasks.stock;
  * @since 3.7.0
  */
 public interface IStockImportRunner {
-	
+
 }
