@@ -24,6 +24,7 @@ import uk.org.cse.nhm.energycalculator.api.impl.WeeklyHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.MonthType;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.impl.BREDEMHeatingSeasonalParameters;
 import uk.org.cse.nhm.energycalculator.impl.EnergyCalculatorCalculator;
 import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
@@ -32,6 +33,8 @@ import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
 import uk.org.cse.nhm.hom.emf.technologies.boilers.IBoilersPackage;
 import uk.org.cse.nhm.hom.util.EObjectSerializer;
+
+import java.util.EnumSet;
 
 /**
  * A simple main methody thing which lets you run the energy calculator on raw JSON input
@@ -52,17 +55,17 @@ public class RunEnergyCalculator {
         // only running one month because we don't care
         final ISeasonalParameters climate = new BREDEMHeatingSeasonalParameters(MonthType.January,
         		new IWeather() {
-					
+
 					@Override
 					public double getWindSpeed(MonthType month) {
 						return 4;
 					}
-					
+
 					@Override
 					public double getHorizontalSolarFlux(MonthType month) {
 						return 25;
 					}
-					
+
 					@Override
 					public double getExternalTemperature(MonthType month) {
 						return 5;
@@ -81,7 +84,12 @@ public class RunEnergyCalculator {
             		in.getPeople().getNumberOfPeople()
         		);
 
-            final IEnergyCalculationResult x = calc.evaluate(in, parameters, new ISeasonalParameters[] {climate})[0];
+            final IEnergyCalculationResult x = calc.evaluate(
+                    in,
+                    parameters,
+                    new ISeasonalParameters[] {climate},
+                    EnumSet.noneOf(EnergyCalculationStep.class)
+            ).getResults()[0];
 
             for (final EnergyType et : EnergyType.values()) {
             	System.out.println(String.format("%s\t%s\t%s", et, x.getEnergyState().getTotalDemand(et),
@@ -125,5 +133,3 @@ public class RunEnergyCalculator {
         return module;
     }
 }
-
-

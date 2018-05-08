@@ -10,11 +10,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.org.cse.nhm.energycalculator.api.IConstants;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
-import uk.org.cse.nhm.energycalculator.api.IEnergyState;
-import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
+import uk.org.cse.nhm.energycalculator.api.*;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
@@ -485,7 +482,8 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 	@Override
 	public void accept(final IConstants constants, final IEnergyCalculatorParameters parameters, final IEnergyCalculatorVisitor visitor, final AtomicInteger heatingSystemCounter, final IHeatProportions heatProportions) {
 		if (!isPumpPhotovolatic() && getSystem() != null) {
-			visitor.visitEnergyTransducer(new Pump("Solar Pump", ServiceType.WATER_HEATING, constants.get(SolarConstants.CIRCULATION_PUMP_WATTAGE), 0));
+			visitor.visitEnergyTransducer(new Pump("Solar Pump", ServiceType.WATER_HEATING, constants.get(SolarConstants.CIRCULATION_PUMP_WATTAGE), 0,
+					EnergyCalculationStep.PumpsFansAndKeepHot_SolarWaterHeatingPump));
 		}
 	}
 
@@ -954,6 +952,7 @@ public class SolarWaterHeaterImpl extends CentralWaterHeaterImpl implements ISol
 
 		state.increaseDemand(EnergyType.FuelPHOTONS, solarRadiation * area * overshadingFactor);
 		state.increaseSupply(EnergyType.DemandsHOT_WATER, demandSatisfied);
+        StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_Solar, demandSatisfied);
 
 		return demandSatisfied;
 	}

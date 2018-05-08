@@ -1,6 +1,5 @@
 package uk.org.cse.nhm.energycalculator.mode;
 
-import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Set;
@@ -9,9 +8,20 @@ import uk.org.cse.nhm.energycalculator.api.IHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.IWeather;
 import uk.org.cse.nhm.energycalculator.api.impl.DailyHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.impl.Weather;
-import uk.org.cse.nhm.energycalculator.api.types.*;
+import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.FrameType;
+import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
+import uk.org.cse.nhm.energycalculator.api.types.LightType;
+import uk.org.cse.nhm.energycalculator.api.types.MonthType;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
+import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.RoofType;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
+import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
+import uk.org.cse.nhm.energycalculator.api.types.WindowGlazingAirGap;
+import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
+import uk.org.cse.nhm.energycalculator.api.types.Zone2ControlParameter;
 
 public class EnergyCalculatorType {
 	public enum ECUvalues {
@@ -67,14 +77,14 @@ public class EnergyCalculatorType {
 			}
 		}
 
-		public double getFloor(double uValue, FloorType type, boolean isGroundFloor, double area,
+		public double getFloor(double uValue, boolean isPartyFloor, boolean isGroundFloor, double area,
 				double exposedPerimeter, double wallThickness, FloorConstructionType groundFloorConstructionType,
 				double insulationThickness, Band ageBand, Country country) {
 			switch (this) {
 			case SCENARIO:
 				return uValue;
 			case SAP2012:
-				return SAPTables.Floors.get(type, isGroundFloor, area, exposedPerimeter, wallThickness,
+				return SAPTables.Floors.get(isPartyFloor, isGroundFloor, area, exposedPerimeter, wallThickness,
 						groundFloorConstructionType, insulationThickness, ageBand, country);
 			default:throw new RuntimeException(this + " has no defined floor u-values");
 			}

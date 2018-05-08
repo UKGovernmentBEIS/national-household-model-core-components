@@ -187,9 +187,9 @@ public interface IWaterTank extends EObject {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @model required="true" parametersDataType="uk.org.cse.nhm.hom.emf.technologies.IInternalParameters" parametersRequired="true"
+	 * @model required="true" parametersDataType="uk.org.cse.nhm.hom.emf.technologies.IInternalParameters" parametersRequired="true" temperatureFactorRequired="true"
 	 * @generated
 	 */
-	double getStandingLosses(IInternalParameters parameters);
+	double getStandingLosses(IInternalParameters parameters, double temperatureFactor);
 
 } // IWaterTank

@@ -106,7 +106,7 @@ public class InternalWallBuildStep implements ISurveyCaseBuildStep {
 		}
 
 		@Override
-		public void visitDoor(final double area, final double uValue) {
+		public void visitDoor(final DoorType doorType, final double area, final double uValue) {
 			externalArea += area;
 		}
 
@@ -132,7 +132,7 @@ public class InternalWallBuildStep implements ISurveyCaseBuildStep {
 		}
 
 		@Override
-		public void visitFloor(final FloorType type, final boolean isGroundFloor, final double area, final double uValue, final double exposedPerimeter, final double wallThickness) {
+		public void visitFloor(final AreaType type, final double area, final double uValue, final double exposedPerimeter, final double wallThickness) {
 			// Noop
 		}
 

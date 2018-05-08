@@ -23,7 +23,7 @@ public class CreationOfWindowImputationDataFromExcelTest extends AbsImputationFr
 
 	final ImputationSchema imputationSchema = new ImputationSchema("123123");
 	final WindowPropertyTablesBuilder builder = new WindowPropertyTablesBuilder();
-	
+
 	@Before
 	public void initialiseTests() throws Exception {
 		imputationSchema.setWindowPropertyTables(builder.buildTables(getExcelWorkBook()));
@@ -33,31 +33,31 @@ public class CreationOfWindowImputationDataFromExcelTest extends AbsImputationFr
 	public void EnsureAWindowsPropertiesTableIsCreated() throws Exception {
 		assertThat("property table", imputationSchema.getWindowPropertyTables(), is(notNullValue()));
 	}
-	
+
 	@Test
 	public void FrameFactorsAreReadFromExcelAndStoredInTable() throws Exception {
 		IWindowFrameFactor frameFactors = imputationSchema.getWindowPropertyTables().getFrameFactors();
 		assertThat("Framefactors table", frameFactors, is(notNullValue()));
 		assertThat(frameFactors.getFrameFactor(FrameType.Wood), equalTo(2.0d));
 	}
-	
+
 	@Test
 	public void UValuesAreReadFromExcelAndStoredInTable() throws Exception {
 		WindowUValues uValues = imputationSchema.getWindowPropertyTables().getUValues();
 		assertThat("uvalues table", uValues, is(notNullValue()));
-		
+
 		Assert.assertEquals(4.0, uValues.getUValue(FrameType.Wood, GlazingType.Single, null, WindowGlazingAirGap.gapOf6mm), 0.05);
 		Assert.assertEquals(2.2, uValues.getUValue(FrameType.Wood, GlazingType.Secondary, null, WindowGlazingAirGap.gapOf6mm), 0.05);
 		Assert.assertEquals(3.2, uValues.getUValue(FrameType.Metal, GlazingType.Double, WindowInsulationType.Air, WindowGlazingAirGap.gapOf6mm), 0.05);
 		Assert.assertEquals(2.2, uValues.getUValue(FrameType.Wood, GlazingType.Triple, WindowInsulationType.Air, WindowGlazingAirGap.gapOf6mm), 0.05);
 	}
-	
+
 	@Test
 	public void TransmittenceFactorsAreReadFromExcelAndStoredInTable() throws Exception {
 		ITransmittanceFactors transmittenceFactors = imputationSchema.getWindowPropertyTables().getTransmittanceFactors();
 		assertThat("transmittenceFactors table", transmittenceFactors, is(notNullValue()));
 	}
-	
+
 	@Test
 	public void testLightTransmittance() {
 		final ITransmittanceFactors factors = imputationSchema.getWindowPropertyTables().getTransmittanceFactors();
@@ -70,7 +70,7 @@ public class CreationOfWindowImputationDataFromExcelTest extends AbsImputationFr
 		Assert.assertEquals(0.7, factors.getLightTransmittance(GlazingType.Triple, WindowInsulationType.LowEHardCoat), 0.01);
 		Assert.assertEquals(0.7, factors.getLightTransmittance(GlazingType.Triple, WindowInsulationType.LowESoftCoat), 0.01);
 	}
-	
+
 	@Test
 	public void testGainsTransmittance() {
 		final ITransmittanceFactors factors = imputationSchema.getWindowPropertyTables().getTransmittanceFactors();

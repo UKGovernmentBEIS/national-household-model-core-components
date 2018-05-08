@@ -3,15 +3,12 @@ package uk.org.cse.nhm.hom.emf.technologies.impl.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.org.cse.nhm.energycalculator.api.IConstants;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorHouseCase;
-import uk.org.cse.nhm.energycalculator.api.IEnergyState;
-import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
-import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
+import uk.org.cse.nhm.energycalculator.api.*;
 import uk.org.cse.nhm.energycalculator.api.impl.EnergyTransducer;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.TransducerPhaseType;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.hom.constants.HeatingSystemConstants;
 import uk.org.cse.nhm.hom.constants.SplitRateConstants;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
@@ -52,6 +49,8 @@ public class PointOfUseWaterHeaterTransducer extends EnergyTransducer {
 		state.increaseSupply(EnergyType.GainsHOT_WATER_USAGE_GAINS, toSatisfy); // this gets multiplied down in the gains transducer
 		final IConstants constants = parameters.getConstants();
 
+        StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_StorageVolume, 0);
+
 		/*
 		BEISDOC
 		NAME: Point-of-use Distribution Losses
@@ -59,9 +58,9 @@ public class PointOfUseWaterHeaterTransducer extends EnergyTransducer {
 		TYPE: formula
 		UNIT: W
 		SAP: (46)
-                SAP_COMPLIANT: Yes
+            SAP_COMPLIANT: Yes
 		BREDEM: 2.2A
-                BREDEM_COMPLIANT: Yes
+            BREDEM_COMPLIANT: Yes
 		DEPS: distribution-loss-factor,usage-adjusted-water-volume,is-main-weater-heating
 		ID: point-of-use-distribution-loss
 		CODSIEB
@@ -70,6 +69,9 @@ public class PointOfUseWaterHeaterTransducer extends EnergyTransducer {
 				multipoint ? constants.get(HeatingSystemConstants.CENTRAL_HEATING_DISTRIBUTION_LOSSES) : 0.0;
 
 		final double distributionLosses = toSatisfy * distributionLossFactor;
+
+		StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_DistributionLoss, distributionLosses);
+        StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_PrimaryCircuitLoss_Monthly, 0);
 
 		final double requiredEnergy = toSatisfy + distributionLosses;
 
@@ -92,8 +94,11 @@ public class PointOfUseWaterHeaterTransducer extends EnergyTransducer {
 		if (fuelType == FuelType.ELECTRICITY) {
 			state.increaseElectricityDemand(constants.get(SplitRateConstants.DEFAULT_FRACTIONS, parameters.getTarrifType()),
 					requiredEnergy);
+
+			StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_Efficiency, 1);
 		} else {
 			state.increaseDemand(fuelType.getEnergyType(), requiredEnergy/efficiency);
+			StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_Efficiency, efficiency);
 		}
 	}
 

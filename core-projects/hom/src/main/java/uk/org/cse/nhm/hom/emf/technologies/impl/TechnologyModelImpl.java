@@ -25,6 +25,8 @@ import com.google.common.collect.ImmutableMap;
 import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
+import uk.org.cse.nhm.energycalculator.api.StepRecorder;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.impl.demands.HotWaterDemand09;
 import uk.org.cse.nhm.hom.ICopyable;
 import uk.org.cse.nhm.hom.IHeatProportions;
@@ -704,7 +706,7 @@ public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnolo
 			operationalCostCache = accumulator;
 			eAdapters().add(cacheEraser);
 		}
-				
+
 		return operationalCostCache;
 	}
 
@@ -1121,21 +1123,25 @@ public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnolo
 		ID: space-heating-fraction
 		CODSIEB
 		*/
+		final double secondaryHeatFraction;
+
 		if (primaryHeaterExists) {
 			if (includeSecondaryHeater) {
 				ISpaceHeater secondaryHeater = secondaryHeaterExists ? getSecondarySpaceHeater() : assumedElectricSpaceHeater;
 
 				// primary and secondary heaters exist: lookup in table 11
-				double secondaryHeatFraction = SAPTable11(getPrimarySpaceHeater());
+				secondaryHeatFraction = SAPTable11(getPrimarySpaceHeater());
 				spaceHeatProportionsBuilder.put(getPrimarySpaceHeater(), 1 - secondaryHeatFraction);
 				spaceHeatProportionsBuilder.put(secondaryHeater, secondaryHeatFraction);
 
 			} else {
+				secondaryHeatFraction = 0d;
 				// primary heater exists, missing secondary heater: 100% primary heater
 				spaceHeatProportionsBuilder.put(getPrimarySpaceHeater(), 1.0);
 			}
 		} else {
 			if (secondaryHeaterExists) {
+				secondaryHeatFraction = 0.1;
 				// missing primary heater, secondary heater exists: assume 90% electric, 10% secondary heater
 				// (looked up in table 11 as 'Other Electric Systems')
 				spaceHeatProportionsBuilder.put(assumedElectricSpaceHeater, 0.9);
@@ -1143,9 +1149,15 @@ public class TechnologyModelImpl extends MinimalEObjectImpl implements ITechnolo
 
 			} else {
 				// no heaters: assume 100% electric
+				secondaryHeatFraction = 0d;
 				spaceHeatProportionsBuilder.put(assumedElectricSpaceHeater, 1.0);
 			}
 		}
+
+		final double mainHeatFraction = 1 - secondaryHeatFraction;
+		StepRecorder.recordStep(EnergyCalculationStep.SpaceHeating_Fraction_Secondary, secondaryHeatFraction);
+		StepRecorder.recordStep(EnergyCalculationStep.SpaceHeating_Fraction_Main, mainHeatFraction);
+		StepRecorder.recordStep(EnergyCalculationStep.SpaceHeating_Fraction_Main_System1, mainHeatFraction);
 
 		/*
 		BEISDOC

@@ -11,21 +11,12 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.org.cse.nhm.energycalculator.api.IConstants;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorHouseCase;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
-import uk.org.cse.nhm.energycalculator.api.IEnergyState;
-import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
-import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
-import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
+import uk.org.cse.nhm.energycalculator.api.*;
 import uk.org.cse.nhm.energycalculator.api.impl.ElectricHeatTransducer;
 import uk.org.cse.nhm.energycalculator.api.impl.EnergyTransducer;
 import uk.org.cse.nhm.energycalculator.api.impl.HeatTransducer;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
-import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
-import uk.org.cse.nhm.energycalculator.api.types.TransducerPhaseType;
-import uk.org.cse.nhm.energycalculator.api.types.Zone2ControlParameter;
+import uk.org.cse.nhm.energycalculator.api.types.*;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.hom.IHeatProportions;
 import uk.org.cse.nhm.hom.constants.PumpAndFanConstants;
 import uk.org.cse.nhm.hom.constants.SplitRateConstants;
@@ -602,6 +593,7 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 					final double highRateFraction = getHighRateFraction(parameters, losses, state, qWater, qHeat);
 
 					state.increaseElectricityDemand(highRateFraction, qWater);
+                    StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_Efficiency, 1);
 					log.debug("Transduced {} of electricity at high rate {} for water",qWater, highRateFraction);
 					return qWater;
 				}
@@ -619,6 +611,7 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 						final IEnergyState state, final double qWater, final double qHeat) {
 
 					final double efficiency = getWaterHeatingEfficiency(parameters.getConstants(), qWater, qHeat);
+					StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_Efficiency, efficiency);
 
 					state.increaseDemand(getFuel().getEnergyType(), qWater / efficiency);
 
@@ -729,12 +722,16 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 									1 : constants.get(PumpAndFanConstants.NO_ROOM_THERMOSTAT_MULTIPLIER))
 							,
 							(isPumpInHeatedSpace() ?
-							constants.get(PumpAndFanConstants.OIL_FUEL_PUMP_GAINS) : 0)));
+							constants.get(PumpAndFanConstants.OIL_FUEL_PUMP_GAINS) : 0),
+							EnergyCalculationStep.PumpsFansAndKeepHot_OilBoilerPump
+					)
+			);
 
 		} else if (getFuel().isGas() && getFlueType() == FlueType.FAN_ASSISTED_BALANCED_FLUE) {
 			visitor.visitEnergyTransducer(
 					new Pump("Gas Flue", ServiceType.PRIMARY_SPACE_HEATING,
-							constants.get(PumpAndFanConstants.GAS_BOILER_FLUE_FAN_WATTAGE), 0));
+							constants.get(PumpAndFanConstants.GAS_BOILER_FLUE_FAN_WATTAGE), 0,
+							EnergyCalculationStep.PumpsFansAndKeepHot_BoilerFlueFan));
 		}
 	}
 
@@ -893,6 +890,12 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 		ID: boiler-fuel-energy-demand
 		CODSIEB
 		*/
+        final double efficiency = getSpaceHeatingEfficiency(constants, isSystemHeatingUnderfloor(), 0, 0);
+
+        StepRecorder.recordStep(
+                EnergyCalculationStep.SpaceHeating_Efficiency_Main_System1,
+                getFuel() == FuelType.ELECTRICITY ? 1 : efficiency);
+
 		if (isIntermediatePowerRequired()) {
 			visitor.visitEnergyTransducer(new HeatTransducer(parameters.getInternalEnergyType(this),
 					1, proportion, true, priority, ServiceType.PRIMARY_SPACE_HEATING));
@@ -912,9 +915,10 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 					}
 				});
 			} else {
+
 				visitor.visitEnergyTransducer(
 						new HeatTransducer(getFuel().getEnergyType(),
-						 getSpaceHeatingEfficiency(constants, isSystemHeatingUnderfloor(), 0, 0),
+						 efficiency,
 						 proportion,
 						 true,
 						 priority,
@@ -1029,6 +1033,7 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 		CODSIEB
 		*/
 		final double additionalUsageLosses = getAdditionalUsageLosses(parameters, state);
+		StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_CombiLoss_Monthly, additionalUsageLosses);
 
 		final double powerOutOfBoiler =  demandThisBoilerWillSatisfy + primaryLosses + additionalUsageLosses;
 
@@ -1044,9 +1049,12 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
 			state.increaseDemand(parameters.getInternalEnergyType(BoilerImpl.this), powerOutOfBoiler);
 		} else {
 			if (getFuel() == FuelType.ELECTRICITY) {
+			    StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_Efficiency, 1);
 				state.increaseElectricityDemand(getHighRateFraction(parameters, null, state, 0, 0), powerOutOfBoiler);
 			} else {
-				state.increaseDemand(getFuel().getEnergyType(), powerOutOfBoiler / getWinterEfficiency().value);
+			    final double efficiency = getWinterEfficiency().value;
+                StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_Efficiency, efficiency);
+				state.increaseDemand(getFuel().getEnergyType(), powerOutOfBoiler / efficiency);
 			}
 		}
 

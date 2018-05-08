@@ -38,7 +38,7 @@ public class XSapScore extends XHouseNumber implements ICalibratedEnergyFunction
 
 
 	@BindNamedArgument
-	@Doc("The energy cost deflator; this is defined in SAP 2009 version 9.90 (March 2010) Table 12, but could change in future SAP versions.")
+	@Doc("The energy cost deflator; this is defined in SAP 2012 version 9.92 (October 2013) Table 12, but could change in future SAP versions.")
 	@Prop(P.deflator)
 	public double getDeflator() {
 		return deflator;
@@ -47,4 +47,6 @@ public class XSapScore extends XHouseNumber implements ICalibratedEnergyFunction
 	public void setDeflator(final double deflator) {
 		this.deflator = deflator;
 	}
+
+
 }

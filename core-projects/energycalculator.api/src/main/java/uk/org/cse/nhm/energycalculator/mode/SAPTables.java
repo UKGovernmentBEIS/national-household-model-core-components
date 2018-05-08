@@ -1,17 +1,10 @@
 package uk.org.cse.nhm.energycalculator.mode;
 
-import static uk.org.cse.nhm.energycalculator.api.types.RegionType.Country.England;
-import static uk.org.cse.nhm.energycalculator.api.types.RegionType.Country.NorthernIreland;
-import static uk.org.cse.nhm.energycalculator.api.types.RegionType.Country.Scotland;
-import static uk.org.cse.nhm.energycalculator.api.types.RegionType.Country.Wales;
-import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.Cavity;
-import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.Cob;
-import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.GraniteOrWhinstone;
-import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.MetalFrame;
-import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.Sandstone;
-import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.SolidBrick;
-import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.SystemBuild;
-import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.TimberFrame;
+import uk.org.cse.nhm.energycalculator.api.types.*;
+import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
+
+import static uk.org.cse.nhm.energycalculator.api.types.WallConstructionType.*;
+import static uk.org.cse.nhm.energycalculator.api.types.RegionType.Country.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -363,7 +356,7 @@ public class SAPTables {
 
 		static final double steelOrTimberFrameInfiltration = 0.25;
 		static final double otherWallInfiltration = 0.35;
-		
+
 		public static double infiltration(final WallConstructionType wallType) {
 			if (wallType == WallConstructionType.TimberFrame || wallType == WallConstructionType.MetalFrame) {
 				return steelOrTimberFrameInfiltration;
@@ -429,7 +422,7 @@ public class SAPTables {
 		public static double uValue(final FrameType frameType, final GlazingType glazingType, final WindowInsulationType insulationType, final WindowGlazingAirGap airGap) {
 			return _check(windowUValues.getUValue(frameType, glazingType, insulationType, airGap));
 		}
-		
+
 		public static double frameFactor(final FrameType frameType) {
 			switch(frameType) {
 			case Metal:
@@ -441,7 +434,7 @@ public class SAPTables {
 				throw new IllegalArgumentException("Unknown frame type while computing frame factor " + frameType);
 			}
 		}
-		
+
 
 		public static double visibleLightTransmittivity(final GlazingType glazingType) {
 			/*
@@ -551,8 +544,8 @@ public class SAPTables {
 		private static final GroundFloorUValues groundFloor = new GroundFloorUValues();
 
 		public static double get(
-			final FloorType type,
-			final boolean isGroundFloor,
+			final boolean isParty,
+			final boolean isBasementOrGroundFloor,
 			final double floorArea,
 			final double exposedPerimeter,
 			final double wallThickness,
@@ -561,10 +554,10 @@ public class SAPTables {
 			final Band ageBand,
 			final Country country
 				) {
-			if (type == FloorType.Party) {
+			if (isParty) {
 				return 0d;
 
-			} else if (isGroundFloor) {
+			} else if (isBasementOrGroundFloor) {
 				return _check(groundFloor.getU(wallThickness, floorArea, exposedPerimeter, groundFloorConstructionType, insulationThickness));
 
 			} else {
@@ -665,7 +658,7 @@ public class SAPTables {
 			throw new RuntimeException("Roof u-value lookup failed with insulation thickness " + insulationThickness + " and roof type " + constructionType);
 		}
 	}
-    
+
     public static final class HeatingSchedule {
     	public static final IHeatingSchedule sevenAndEight = DailyHeatingSchedule.fromHours(7, 9, 16, 23);
     	public static final IHeatingSchedule zeroAndEight = DailyHeatingSchedule.fromHours(7, 23);
@@ -674,7 +667,7 @@ public class SAPTables {
     	public static final IHeatingSchedule weekdaySevenAndEightWeekendZeroAndEight = new WeeklyHeatingSchedule(
     			sevenAndEight, zeroAndEight);
 		public static final Map<Zone2ControlParameter, IHeatingSchedule> zoneTwo = new EnumMap<>(Zone2ControlParameter.class);
-    	 
+
 		static {
 			zoneTwo.put(Zone2ControlParameter.One, weekdaySevenAndEightWeekendZeroAndEight);
 			zoneTwo.put(Zone2ControlParameter.Two, weekdaySevenAndEightWeekendZeroAndEight);

@@ -5,17 +5,21 @@ import org.pojomatic.annotations.AutoProperty;
 import org.pojomatic.annotations.Property;
 
 import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
+import uk.org.cse.nhm.energycalculator.api.StepRecorder;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 
 @AutoProperty
 public class SpecificHeatLosses implements ISpecificHeatLosses {
     public final double fabricLoss;
-	public final double interzoneHeatLoss;
-	public final double floorArea;
+    public final double interzoneHeatLoss;
+    public final double floorArea;
     public final double thermalMassParameter;
-	public final double ventilationLoss;
-	public final double thermalBridgeEffect;
+    public final double ventilationLoss;
+    public final double thermalBridgeEffect;
     public final double airChangeRate;
-    public final double airChangeExcludingDeliberate;
+    private final double airChangeRateExcludingDeliberate;
+    private final double specificHeatLoss;
+    private final double heatLossParameter;
 
     public SpecificHeatLosses(final double fabricLoss,
                               final double interzoneHeatLoss,
@@ -23,20 +27,20 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
                               final double floorArea,
                               final double ventilationLoss,
                               final double thermalBridgeEffect,
-                              final double airChangeRate, 
-                              final double airChangeExcludingDeliberate) {
+                              final double airChangeRate,
+                              final double airChangeRateExcludingDeliberate) {
         this.fabricLoss = fabricLoss;
-		this.interzoneHeatLoss = interzoneHeatLoss;
+        this.interzoneHeatLoss = interzoneHeatLoss;
         this.thermalMassParameter = thermalMassParameter;
         this.floorArea = floorArea;
-		this.ventilationLoss = ventilationLoss;
+        this.ventilationLoss = ventilationLoss;
         this.thermalBridgeEffect = thermalBridgeEffect;
         this.airChangeRate = airChangeRate;
-        this.airChangeExcludingDeliberate = airChangeExcludingDeliberate;
-	}
+        this.airChangeRateExcludingDeliberate = airChangeRateExcludingDeliberate;
 
-	@Override
-    public double getSpecificHeatLoss() {
+        StepRecorder.recordStep(EnergyCalculationStep.ThermalBridges, thermalBridgeEffect);
+        StepRecorder.recordStep(EnergyCalculationStep.VentilationHeatLoss, ventilationLoss);
+
         /*
         BEISDOC
         NAME: Total fabric heat loss
@@ -44,13 +48,13 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
         TYPE: formula
         UNIT: W/℃
         SAP: (37)
-        SAP_COMPLIANT: Yes
         BREDEM: 3H
-        BREDEM_COMPLIANT: Yes
         DEPS: fabric-heat-loss,thermal-bridging-heat-loss
         ID: total-fabric-heat-loss
         CODSIEB
         */
+        double totalFabricHeatLoss = fabricLoss + thermalBridgeEffect;
+        StepRecorder.recordStep(EnergyCalculationStep.FabricLossTotal, totalFabricHeatLoss);
 
         /*
         BEISDOC
@@ -59,26 +63,15 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
         TYPE: Formula
         UNIT: W/℃
         SAP: (39)
-        SAP_COMPLIANT: Yes
         BREDEM: 3H
-        BREDEM_COMPLIANT: Yes
         DEPS: ventilation-heat-loss,total-fabric-heat-loss
         GET: house.heat-loss
         ID: specific-heat-loss
         CODSIEB
         */
+        specificHeatLoss = totalFabricHeatLoss + ventilationLoss;
+        StepRecorder.recordStep(EnergyCalculationStep.HeatTransferCoefficient, specificHeatLoss);
 
-        return fabricLoss + ventilationLoss + thermalBridgeEffect;
-	}
-
-	@Override
-	public double getInterzoneHeatLoss() {
-		return interzoneHeatLoss;
-	}
-
-	@Override
-	@Property
-    public double getHeatLossParameter() {
         /*
         BEISDOC
         NAME: Heat loss parameter
@@ -86,16 +79,31 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
         TYPE: formula
         UNIT: W/m^2/℃
         SAP: (40)
-        SAP_COMPLIANT: Yes
         BREDEM: 3I
-        BREDEM_COMPLIANT: Yes
         DEPS: specific-heat-loss,dwelling-floor-area
         GET:
         SET:
         ID: heat-loss-parameter
         CODSIEB
         */
-        return getSpecificHeatLoss() / floorArea;
+        heatLossParameter = getSpecificHeatLoss() / floorArea;
+        StepRecorder.recordStep(EnergyCalculationStep.HeatLossParameter, heatLossParameter);
+    }
+
+    @Override
+    public double getSpecificHeatLoss() {
+        return specificHeatLoss;
+    }
+
+    @Override
+    public double getInterzoneHeatLoss() {
+        return interzoneHeatLoss;
+    }
+
+    @Override
+    @Property
+    public double getHeatLossParameter() {
+        return heatLossParameter;
     }
 
     @Override
@@ -103,8 +111,8 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
         return fabricLoss;
     }
 
-	@Override
-	@Property
+    @Override
+    @Property
     public double getThermalMassParameter() {
         /*
         BEISDOC
@@ -113,9 +121,7 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
         TYPE: formula
         UNIT: kJ/℃/m^2
         SAP: (35), Table 1f
-        SAP_COMPLIANT: Yes
         BREDEM: 4A
-        BREDEM_COMPLIANT: Yes
         DEPS: thermal-mass,dwelling-floor-area
         GET:
         SET:
@@ -123,30 +129,30 @@ public class SpecificHeatLosses implements ISpecificHeatLosses {
         CODSIEB
         */
         return thermalMassParameter;
-	}
+    }
 
-	@Override
-	public String toString() {
-		return Pojomatic.toString(this);
-	}
+    @Override
+    public String toString() {
+        return Pojomatic.toString(this);
+    }
 
-	@Override
-	public double getVentilationLoss() {
-		return ventilationLoss;
-	}
+    @Override
+    public double getVentilationLoss() {
+        return ventilationLoss;
+    }
 
-	@Override
-	public double getThermalBridgeEffect() {
-		return thermalBridgeEffect;
-	}
+    @Override
+    public double getThermalBridgeEffect() {
+        return thermalBridgeEffect;
+    }
 
     @Override
     public double getAirChangeRate() {
         return this.airChangeRate;
     }
 
-	@Override
-	public double getAirChangeExcludingDeliberate() {
-		return this.airChangeExcludingDeliberate;
-	}
+    @Override
+    public double getAirChangeExcludingDeliberate() {
+        return airChangeRateExcludingDeliberate;
+    }
 }

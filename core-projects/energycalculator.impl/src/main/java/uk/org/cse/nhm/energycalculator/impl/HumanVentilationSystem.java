@@ -2,6 +2,8 @@ package uk.org.cse.nhm.energycalculator.impl;
 
 import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IVentilationSystem;
+import uk.org.cse.nhm.energycalculator.api.StepRecorder;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 
 /**
  * This is a special {@link IVentilationSystem} which implements BREDEM 7.2.3, Occupant Ventilation.
@@ -32,10 +34,13 @@ public class HumanVentilationSystem implements IVentilationSystem {
 		ID: natural-infiltration
 		CODSIEB
 		*/
+		final double result;
 		if (houseAirChangeRate < 1.0) {
-			return houseAirChangeRate + (0.5 - houseAirChangeRate  + 0.5 * houseAirChangeRate * houseAirChangeRate);
+			result = 0.5 + (0.5 * houseAirChangeRate * houseAirChangeRate);
 		} else {
-			return houseAirChangeRate;
+			result = houseAirChangeRate;
 		}
+		StepRecorder.recordStep(EnergyCalculationStep.Ventilation_NaturalOrPositiveFromLoft, result);
+		return result;
 	}
 }

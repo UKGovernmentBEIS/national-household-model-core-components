@@ -1,12 +1,10 @@
 package uk.org.cse.nhm.energycalculator.api.impl;
 
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorHouseCase;
-import uk.org.cse.nhm.energycalculator.api.IEnergyState;
-import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
-import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
+import uk.org.cse.nhm.energycalculator.api.*;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.TransducerPhaseType;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 
 public class HybridHeatpumpTransducer extends EnergyTransducer {
 	final EnergyType primaryEnergyType;
@@ -64,8 +62,9 @@ public class HybridHeatpumpTransducer extends EnergyTransducer {
 		final double proportionGeneratedByHeatPump = monthlyProportion[parameters.getClimate().getMonthOfYear()-1];
 		
 		final double energyUsedByHeatPump = (gen * proportionGeneratedByHeatPump) / heatpumpEfficiency;
-		final double energyUsedBySecondary = (gen * (1 - proportionGeneratedByHeatPump)) / secondaryEfficiency;
-		
+		final double proportionGeneratedBySecondary = 1 - proportionGeneratedByHeatPump;
+		final double energyUsedBySecondary = (gen * proportionGeneratedBySecondary) / secondaryEfficiency;
+
 		if (primaryEnergyType == null) {
 			state.increaseElectricityDemand(highRateFraction, energyUsedByHeatPump);
 		} else {

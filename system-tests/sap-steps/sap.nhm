@@ -1,0 +1,44 @@
+;; Example of how to use this module to put a scenario temporarily into SAP mode
+(scenario
+    start-date: 2013
+    end-date: 2013
+    stock-id: dummy6.jgz
+    energy-calculator: SAP2012
+
+    (~init-modules)
+
+    (sap-tariffs/define)
+
+    (def-report sap
+                (column name: score value: (sap/score))
+                (column name: energy value: (sap/under-sap evaluate: (house.energy-use)))
+                (column name: emissions value: (sap/under-sap evaluate: (house.emissions)))
+                (column name: fuel-cost value: (sap/under-sap evaluate: (house.fuel-cost))))
+
+    (on.construction
+        (apply
+            to: (affected-houses)
+
+            (measure.storage-heater
+                report: sap
+                capex: 0
+                opex: 0
+                size: (size 1)))))
+
+(include-modules sap-tariffs.nhm)
+
+(~module sap
+         (template init[])
+
+         (template under-sap [@evaluate]
+                   ;; Run a function under SAP conditions.
+                   (under
+                       (counterfactual.energy-calculator SAP2012)
+                       (counterfactual.carbon)
+                       (action.set-tariffs sap-tariffs/basic-2012)
+                       evaluate: @evaluate))
+
+         (template score []
+                   ;; Calculate the SAP score.
+                   (/under-sap
+                       evaluate: (house.fuel-cost-index))))

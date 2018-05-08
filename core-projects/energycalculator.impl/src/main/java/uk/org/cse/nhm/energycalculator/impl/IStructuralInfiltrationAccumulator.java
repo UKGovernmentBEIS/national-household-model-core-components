@@ -5,39 +5,48 @@ import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 
 public interface IStructuralInfiltrationAccumulator {
 
-	public abstract double getAirChangeRate(IEnergyCalculatorHouseCase house, IEnergyCalculatorParameters parameters);
-	
-	public abstract double getDeliberateAirChanges(final double houseVolume);
+    /**
+     * @return the air change rate, having previously called calculateAirChangeRate
+     */
+    public abstract double getAirChangeRate();
 
-	/**
-	 * In this implementation, to match the SAP worksheet, the wall infiltration is taken to the maximum
-	 * infiltration from amongst the maximally sized walls.
-	 */
-	public abstract void addWallInfiltration(double wallArea, double airChangeRate);
+    public abstract double getDeliberateAirChanges(final double houseVolume);
 
-	/**
-	 * Ventilation infiltration rates are just added up
-	 */
-	public abstract void addVentInfiltration(int vents);
-	
-	/**
-	 * Infiltration caused by a single open flue.
-	 */
-	public abstract void addFlueInfiltration();
-	
-	/**
-	 * Infiltration caused by a single chimney;
-	 */
-	public abstract void addChimneyInfiltration();
+    /**
+     * Once all the infiltration source have been added, call this.
+     * @param house
+     * @param parameters
+     */
+    public void calculateAirChangeRate(IEnergyCalculatorHouseCase house, IEnergyCalculatorParameters parameters);
 
-	/**
-	 * Floor infiltration rates are just added up
-	 */
-	public abstract void addFloorInfiltration(double airChangeRate);
+    /**
+     * In this implementation, to match the SAP worksheet, the wall infiltration is taken to the maximum
+     * infiltration from amongst the maximally sized walls.
+     */
+    public abstract void addWallInfiltration(double wallArea, double airChangeRate);
 
-	/**
-	 * Fan infiltration rates are summed as well
-	 */
-	public abstract void addFanInfiltration(int fans);
+    /**
+     * Ventilation infiltration rates are just added up
+     */
+    public abstract void addVentInfiltration(int vents);
 
+    /**
+     * Infiltration caused by a single open flue.
+     */
+    public abstract void addFlueInfiltration();
+
+    /**
+     * Infiltration caused by a single chimney;
+     */
+    public abstract void addChimneyInfiltration();
+
+    /**
+     * Floor infiltration rates are just added up
+     */
+    public abstract void addFloorInfiltration(double airChangeRate);
+
+    /**
+     * Fan infiltration rates are summed as well
+     */
+    public abstract void addFanInfiltration(int fans);
 }

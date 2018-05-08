@@ -328,11 +328,10 @@ public class StorageCombiBoilerImpl extends CombiBoilerImpl implements IStorageC
 			return 0;
 		}
 
-		final double standingLosses = getStore().getStandingLosses(parameters);
-
-		final double temperatureFactor = getStorageTemperatureFactor(parameters, getStore(), isStoreInPrimaryCircuit());
-
-		return standingLosses * temperatureFactor;
+		return getStore().getStandingLosses(
+				parameters,
+                getStorageTemperatureFactor(parameters, getStore(), isStoreInPrimaryCircuit())
+		);
 	}
 
 	@Override

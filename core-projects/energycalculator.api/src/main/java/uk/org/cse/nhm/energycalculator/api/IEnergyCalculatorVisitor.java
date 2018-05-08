@@ -138,6 +138,7 @@ public interface IEnergyCalculatorVisitor {
 	 * (If the door is glazed, also see visitTransparentElement, which adds the natural lighting and solar gains.)
 	 */
 	public void visitDoor(
+			final DoorType doorType,
 			final double area,
 			final double uValue
 		);
@@ -190,8 +191,7 @@ public interface IEnergyCalculatorVisitor {
 	 * setFloorType must have been called first.
 	 */
 	public void visitFloor(
-			final FloorType type,
-			final boolean isGroundFloor,
+			final AreaType type,
 			final double area,
 			final double uValue,
 			final double exposedPerimeter,
@@ -200,11 +200,11 @@ public interface IEnergyCalculatorVisitor {
 
     /**
      * TODO.
-     * 
+     *
      * @param name
      * @param proportion
      * @param lightType
-     * @param splitRate 
+     * @param splitRate
      */
     void visitLight(String name, double proportion, LightType lightType, double[] splitRate);
 }

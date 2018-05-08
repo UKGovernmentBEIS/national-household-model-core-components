@@ -2,7 +2,6 @@
  */
 package uk.org.cse.nhm.hom.emf.technologies.impl;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
@@ -13,20 +12,13 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.org.cse.nhm.energycalculator.api.IConstants;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorHouseCase;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
-import uk.org.cse.nhm.energycalculator.api.IEnergyState;
-import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
-import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
+import uk.org.cse.nhm.energycalculator.api.*;
 import uk.org.cse.nhm.energycalculator.api.impl.EnergyTransducer;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
-import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
-import uk.org.cse.nhm.energycalculator.api.types.TransducerPhaseType;
-import uk.org.cse.nhm.energycalculator.api.types.Zone2ControlParameter;
+import uk.org.cse.nhm.energycalculator.api.types.*;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
 import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType.ECHeating;
+
 import uk.org.cse.nhm.hom.constants.CommunityHeatingConstants;
 import uk.org.cse.nhm.hom.emf.technologies.EmitterType;
 import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
@@ -227,13 +219,14 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 		return (getFuel() == null ? "null" : getFuel().getName()) + " DH " + (heatEfficiency.value * 100) + "%";
 	}
 
-	protected void satisfySpaceDemand(final IConstants constants, final IEnergyState state, final double amount,
-			final boolean systemIsThermostaticallyControlled, final Collection<HeatingSystemControlType> controls, final EnergyCalculatorType calculatorType) {
+	protected void satisfySpaceDemand(final IConstants constants, final IEnergyState state, final double amount, final double controlFactor) {
 		state.increaseSupply(EnergyType.DemandsHEAT, amount);
 
 		/**
 		 * This is the factor taken from SAP 2012 Table 4c (3)
-		 */
+         Glenn commented this out TODO check why
+
+
 		final double controlFactor;
 
 		if (calculatorType.heating == ECHeating.BREDEM2012) {
@@ -265,7 +258,9 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 			}
 		}
 
+        */
 		/**
+
 		 * The distribution loss factor, from SAP table 12c. We don't have any
 		 * of the information required to get this number!
 		 */
@@ -291,15 +286,31 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 		consumeSystemFuel(constants, state, communityHeatDemand);
 	}
 
-	protected void satisfyHotWaterDemand(final IConstants constants, final IEnergyState state, final double hw, final double gains, final EnergyCalculatorType calculatorType) {
+	private double getWaterHeatingControlFactor(IConstants constants, EnergyCalculatorType calculatorType) {
+        /**
+         * Control factor from SAP 2012 table 4c(3), worksheet cell 305a
+         */
+        if (calculatorType == EnergyCalculatorType.SAP2012) {
+            if (isChargingUsageBased()) {
+                return constants.get(CommunityHeatingConstants.LOW_WATER_USAGE_MULTIPLIER);
+            } else {
+                return constants.get(CommunityHeatingConstants.HIGH_WATER_USAGE_MULTIPLIER);
+            }
+        } else {
+            // Hot water usage adjustments only apply to the SAP calculator.
+            return 1;
+        }
+    }
+
+	protected void satisfyHotWaterDemand(final IConstants constants, final IEnergyState state, final double hw, final double gains, final double controlFactor) {
 		state.increaseSupply(EnergyType.DemandsHOT_WATER, hw);
 		state.increaseSupply(EnergyType.GainsHOT_WATER_SYSTEM_GAINS, gains);
 
 		final double amount = hw + gains;
 
 		/**
-		 * Control factor from SAP 2012 table 4c(3)
-		 */
+		 * Control factor from SAP 2012 table 4c(3), removed by glenn??
+		 *
 		final double controlFactor;
 
 		if (calculatorType.heating != ECHeating.BREDEM2012) {
@@ -312,6 +323,7 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 			// Hot water usage adjustments only apply to the SAP calculator.
 			controlFactor = 1;
 		}
+        */
 
 		final double distributionLossFactor = constants.get(CommunityHeatingConstants.DEFAULT_DISTRIBUTION_LOSS_FACTOR);
 
@@ -352,8 +364,17 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 
 	@Override
 	public void acceptFromHeating(final IConstants constants, final IEnergyCalculatorParameters parameters, final IEnergyCalculatorVisitor visitor, final double proportion, final int priority) {
-		final boolean isThermostaticallyControlled = getSpaceHeater().isThermostaticallyControlled();
-		final EList<HeatingSystemControlType> controls = getSpaceHeater().getControls();
+
+        StepRecorder.recordStep(EnergyCalculationStep.Community_DistributionLossFactor, constants.get(CommunityHeatingConstants.DEFAULT_DISTRIBUTION_LOSS_FACTOR));
+
+        final double spaceHeatingControlFactor = getSpaceHeatingControlFactor(
+                constants,
+                parameters.getCalculatorType(),
+                getSpaceHeater().isThermostaticallyControlled(),
+                getSpaceHeater().getControls()
+        );
+
+        StepRecorder.recordStep(EnergyCalculationStep.Community_ChargingFactor_SpaceHeating, spaceHeatingControlFactor);
 
 		visitor.visitEnergyTransducer(new EnergyTransducer(ServiceType.PRIMARY_SPACE_HEATING, priority) {
 
@@ -361,7 +382,7 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 			public void generate(final IEnergyCalculatorHouseCase house, final IInternalParameters parameters, final ISpecificHeatLosses losses, final IEnergyState state) {
 				final double gen = state.getBoundedTotalHeatDemand(proportion);
 
-				satisfySpaceDemand(parameters.getConstants(), state, gen, isThermostaticallyControlled, controls, parameters.getCalculatorType());
+				satisfySpaceDemand(parameters.getConstants(), state, gen, spaceHeatingControlFactor);
 			}
 
 			@Override
@@ -374,7 +395,52 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 				return TransducerPhaseType.Heat;
 			}
 		});
+
+		// Heat demand is always converted 1-for-1 into community heat
+		StepRecorder.recordStep(EnergyCalculationStep.SpaceHeating_Efficiency_Main_System1, 1);
 	}
+
+	private double getSpaceHeatingControlFactor(
+	        final IConstants constants,
+            final EnergyCalculatorType calculatorType,
+            final boolean systemIsThermostaticallyControlled,
+            final EList<HeatingSystemControlType> controls
+                                                ) {
+        /**
+         * This is the factor taken from SAP 2012 Table 4c (3)
+         */
+        final double controlFactor;
+
+        if (calculatorType != EnergyCalculatorType.SAP2012) {
+            controlFactor = 1;
+        }
+        else if (isChargingUsageBased()) {
+            // it seems like the discriminating factor here is whether there are
+            // TRVs in the space heater.
+            if (controls.contains(HeatingSystemControlType.THERMOSTATIC_RADIATOR_VALVE)) {
+                // 2310, 2306
+                controlFactor = constants.get(CommunityHeatingConstants.LOW_SPACE_USAGE_MULTIPLIER);
+                log.debug("Control factor for usage-based thermostatic systems : {}", controlFactor);
+            } else {
+                // 2308, 2309
+                controlFactor = constants.get(CommunityHeatingConstants.MEDIUM_SPACE_USAGE_MULTIPLER);
+                log.debug("Control factor usage based non-thermostatic systems : {}", controlFactor);
+            }
+        } else {
+            if (systemIsThermostaticallyControlled) {
+                // Codes from table in this branch:
+                // 2303, 2304, 2307, 2305
+                controlFactor = constants.get(CommunityHeatingConstants.MEDIUM_SPACE_USAGE_MULTIPLER);
+                log.debug("Control factor for thermostatically controlled flate rate : {}", controlFactor);
+            } else {
+                // codes in this branch
+                // 2301, 2302
+                controlFactor = constants.get(CommunityHeatingConstants.HIGH_SPACE_USAGE_MULTIPLER);
+                log.debug("Control factor for non-thermostatically controlled flat rate : {}", controlFactor);
+            }
+        }
+        return controlFactor;
+    }
 
 	@Override
 	public double getDemandTemperatureAdjustment(final IInternalParameters parameters, final EList<HeatingSystemControlType> controlTypes) {
@@ -401,14 +467,21 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 
 		log.debug("{} pp losses, {} demand satisied", primaryPipeworkLosses, demandSatisfied);
 
-		satisfyHotWaterDemand(constants, state, demandSatisfied, primaryPipeworkLosses, parameters.getCalculatorType());
+		// Heating demand is converted 1-for-1 into CommunityHeat
+		StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_Efficiency, 1);
+
+		final double controlFactor = getWaterHeatingControlFactor(constants, parameters.getCalculatorType());
+        StepRecorder.recordStep(EnergyCalculationStep.Community_ChargingFactor_WaterHeating, controlFactor);
+
+		satisfyHotWaterDemand(constants, state, demandSatisfied, primaryPipeworkLosses, controlFactor);
 
 		return demandSatisfied;
 	}
 
 	@Override
 	public void generateHotWaterSystemGains(final IInternalParameters parameters, final IEnergyState state, final IWaterTank store, final boolean storeIsPrimary, final double systemLosses) {
-		satisfyHotWaterDemand(parameters.getConstants(), state, 0, systemLosses, parameters.getCalculatorType());
+		satisfyHotWaterDemand(parameters.getConstants(), state, 0, systemLosses,
+                getWaterHeatingControlFactor(parameters.getConstants(), parameters.getCalculatorType()));
 	}
 
 	static IWaterTank SPURIOUS_TANK;
@@ -438,7 +511,10 @@ public class CommunityHeatSourceImpl extends HeatSourceImpl implements ICommunit
 		if (getWaterHeater() != null) {
 			if (getWaterHeater().getSystem() != null) {
 				if (getWaterHeater().getSystem().getStore() == null) {
-					return getSpuriousTank().getStandingLosses(parameters) * getStorageTemperatureFactor(parameters, getSpuriousTank(), false);
+					final IWaterTank tank = getSpuriousTank();
+					return tank.getStandingLosses(
+					        parameters,
+                            getStorageTemperatureFactor(parameters, tank, false));
 				}
 			}
 		}

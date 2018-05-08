@@ -86,6 +86,7 @@ maven () {
     RES=$?
     if [ $RES -ne 0 ]; then
         red "ERROR: mvn $@ => $RES"
+        exit 1
     fi
 }
 
@@ -96,6 +97,7 @@ gradle () {
     RES=$?
     if [ $RES -ne 0 ]; then
         red "ERROR: gradle $@ => $RES"
+        exit 1
     fi
 }
 
@@ -139,11 +141,10 @@ if [ ${steps["docs"]} == 1 ]; then
     popd
 else
     green "Skip documentation"
-
 fi
 
 green "Copy jars to p2 inputs directory"
-find binaries -iname \*.jar -exec cp '{}' p2/inputs/plugins/ ';'
+find binaries -iname \*.jar -exec cp '-p' '{}' p2/inputs/plugins/ ';'
 
 if [ ${steps["tests"]} == 1 ]; then
     green "Running system tests"
@@ -153,6 +154,7 @@ if [ ${steps["tests"]} == 1 ]; then
 fi
 
 if [ ${steps["ide"]} == 1 ]; then
+    green "Create P2 repo and serve contents on port 8000"
     pushd p2
     mvn tycho-p2-extras:publish-features-and-bundles
     cd target/repository
@@ -219,5 +221,7 @@ if [ ! -z "$ERRORS" ]; then
         red "   $e\n"
     done
 else
-    green "IDE built into nhm-ide/nhm-ide/cse.nhm.ide.build/target/products/"
+    if [ ${steps["ide"]} == 1 ]; then
+        green "IDE built into nhm-ide/cse.nhm.ide.build/target/products/"
+    fi
 fi

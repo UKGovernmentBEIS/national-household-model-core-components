@@ -13,19 +13,13 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 
-import uk.org.cse.nhm.energycalculator.api.IConstants;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorHouseCase;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
-import uk.org.cse.nhm.energycalculator.api.IEnergyState;
-import uk.org.cse.nhm.energycalculator.api.IHeatingSystem;
-import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
-import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
+import uk.org.cse.nhm.energycalculator.api.*;
 import uk.org.cse.nhm.energycalculator.api.impl.ElectricHeatTransducer;
 import uk.org.cse.nhm.energycalculator.api.impl.HeatTransducer;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.Zone2ControlParameter;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
 import uk.org.cse.nhm.hom.IHeatProportions;
 import uk.org.cse.nhm.hom.constants.SplitRateConstants;
@@ -318,6 +312,13 @@ public class WarmAirSystemImpl extends SpaceHeaterImpl implements IWarmAirSystem
 		}
 
 		visitor.visitEnergyTransducer(new WarmAirFans());
+
+		if (effectiveProportion > 0) {
+            StepRecorder.recordStep(
+                    EnergyCalculationStep.SpaceHeating_Efficiency_Main_System1,
+                    getFuelType() == FuelType.ELECTRICITY ? 1 : getEfficiency().value
+                );
+        }
 	}
 
 	/**

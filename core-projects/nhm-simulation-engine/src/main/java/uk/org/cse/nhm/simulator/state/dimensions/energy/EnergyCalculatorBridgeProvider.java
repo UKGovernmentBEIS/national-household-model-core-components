@@ -14,6 +14,7 @@ import com.google.common.cache.LoadingCache;
 import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.impl.DefaultConstants;
 import uk.org.cse.nhm.energycalculator.impl.EnergyCalculatorCalculator;
+import uk.org.cse.nhm.simulator.guice.EnergyCalculationRequestedSteps;
 import uk.org.cse.nhm.simulator.guice.StateModule;
 
 public class EnergyCalculatorBridgeProvider implements Provider<EnergyCalculatorBridge> {
@@ -21,8 +22,9 @@ public class EnergyCalculatorBridgeProvider implements Provider<EnergyCalculator
 	private final Provider<IConstants> constantsProvider;
 
 	@Inject
-	public EnergyCalculatorBridgeProvider(final Provider<IConstants> constantsProvider, 
-			@Named(EnergyCalculatorBridge.CACHE_SIZE) final int cacheSize) {
+	public EnergyCalculatorBridgeProvider(final Provider<IConstants> constantsProvider,
+                                          final EnergyCalculationRequestedSteps requestedSteps,
+                                          @Named(EnergyCalculatorBridge.CACHE_SIZE) final int cacheSize) {
 		this.constantsProvider = constantsProvider;
 		this.cache = CacheBuilder.newBuilder()
 			.softValues()
@@ -32,7 +34,7 @@ public class EnergyCalculatorBridgeProvider implements Provider<EnergyCalculator
 			.build(new CacheLoader<IConstants, EnergyCalculatorBridge>() {
 					@Override
 					public EnergyCalculatorBridge load(final IConstants key) throws Exception {
-						return new EnergyCalculatorBridge(new EnergyCalculatorCalculator(key), cacheSize);
+						return new EnergyCalculatorBridge(new EnergyCalculatorCalculator(key), requestedSteps, cacheSize);
 					}
 				   });
 	}
@@ -49,13 +51,13 @@ public class EnergyCalculatorBridgeProvider implements Provider<EnergyCalculator
 	public EnergyCalculatorBridge getFromCache(IConstants constants) throws ExecutionException {
 		return this.cache.get(constants);
 	}
-	
+
 	/**
 	 * This is here solely to allow {@link StateModule} to offer other things
 	 * an energy calculator bridge which
 	 * a) comes from the same cache as above
 	 * b) definitely has defaultconstants
-	 * 
+	 *
 	 * Without this we cannot guarantee a) (although we could do b)
 	 *
 	 */
@@ -66,7 +68,7 @@ public class EnergyCalculatorBridgeProvider implements Provider<EnergyCalculator
 		public WithDefaultConstants(final EnergyCalculatorBridgeProvider realProvider) {
 			this.realProvider = realProvider;
 		}
-		
+
 		@Override
 		public EnergyCalculatorBridge get() {
 			try {
@@ -75,6 +77,6 @@ public class EnergyCalculatorBridgeProvider implements Provider<EnergyCalculator
 				throw new RuntimeException(e.getMessage(), e);
 			}
 		}
-		
+
 	}
 }

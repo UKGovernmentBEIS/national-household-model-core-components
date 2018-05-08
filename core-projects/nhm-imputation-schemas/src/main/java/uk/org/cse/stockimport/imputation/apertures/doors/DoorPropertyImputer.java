@@ -7,9 +7,9 @@ import com.google.common.base.Optional;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 
+import uk.org.cse.nhm.energycalculator.api.types.DoorType;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
-import uk.org.cse.nhm.hom.components.fabric.types.DoorType;
 
 /**
  * @since 1.0
@@ -17,9 +17,9 @@ import uk.org.cse.nhm.hom.components.fabric.types.DoorType;
 public class DoorPropertyImputer implements IDoorPropertyImputer {
 	private final Table<DoorType, SAPAgeBandValue.Band, Double> doorUValues = HashBasedTable.create();
 	private final Map<DoorType,Double> doorAreasByType;
-	
+
 	/**
-	 * Constructs object using RdSAP defaults, {@link DoorPropertyImputer#defaultDoorArea} 
+	 * Constructs object using RdSAP defaults, {@link DoorPropertyImputer#defaultDoorArea}
 	 * {@link DoorPropertyImputer#sapBandAtoJUValue} and {@link DoorPropertyImputer#sapBandKUValue}
 	 * @param useRdSapDefaults
 	 * @since 3.0
@@ -27,7 +27,7 @@ public class DoorPropertyImputer implements IDoorPropertyImputer {
 	public DoorPropertyImputer(){
 		doorAreasByType = new TreeMap<>();
 	}
-	
+
 	@Override
 	public double getArea(final DoorType doorType) {
 		return Optional.fromNullable(doorAreasByType.get(doorType)).or(0d);
@@ -42,7 +42,7 @@ public class DoorPropertyImputer implements IDoorPropertyImputer {
 			return value;
 		}
 	}
-	
+
 	/**
 	 * @param doorType
 	 * @param ageBandValue
@@ -51,7 +51,7 @@ public class DoorPropertyImputer implements IDoorPropertyImputer {
 	public void addDoorUValue(final DoorType doorType, final Band ageBandValue, final double uValue){
 		doorUValues.put(doorType, ageBandValue, uValue);
 	}
-	
+
 	/**
 	 * @param doorType
 	 * @param areaInM2

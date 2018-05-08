@@ -3,14 +3,9 @@ package uk.org.cse.nhm.hom.emf.technologies.impl.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.org.cse.nhm.energycalculator.api.IConstants;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorHouseCase;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
-import uk.org.cse.nhm.energycalculator.api.IEnergyState;
-import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
-import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
-import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
+import uk.org.cse.nhm.energycalculator.api.*;
 import uk.org.cse.nhm.energycalculator.api.impl.EnergyTransducer;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.TransducerPhaseType;
@@ -153,7 +148,7 @@ public class CentralHotWaterTransducer extends EnergyTransducer {
 								system.isStoreInPrimaryCircuit(), system.isSeparatelyTimeControlled());
 			}
 
-			tankLosses = system.getStore().getStandingLosses(parameters) * tankTemperatureFactor;
+			tankLosses = system.getStore().getStandingLosses(parameters, tankTemperatureFactor);
 		}
 
 		/**
@@ -226,12 +221,17 @@ public class CentralHotWaterTransducer extends EnergyTransducer {
 
 			log.debug("secondary generated {}", amountsGenerated[1]);
 		} else if (immersionHeater != null) {
+			pipeworkLosses = 0;
 			amountsGenerated[2] =
 					immersionHeater.generateHotWaterAndPrimaryGains(parameters, state, systemStore,
 								systemStoreInPrimaryCircuit, 0, distributionLossFactor, 1);
 
 			log.debug("immersion generated {}", amountsGenerated[2]);
+		} else {
+			pipeworkLosses = 0;
 		}
+
+		StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_PrimaryCircuitLoss_Monthly, pipeworkLosses);
 
 		nonSolarGeneration = amountsGenerated[0] + amountsGenerated[1] + amountsGenerated[2];
 
@@ -263,6 +263,7 @@ public class CentralHotWaterTransducer extends EnergyTransducer {
 		 * The amount of distribution losses that were incurred whilst satisfying demand
 		 */
 		final double distributionLosses = demandSatisfied * distributionLossFactor;
+		StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_DistributionLoss, distributionLosses);
 
 		log.debug("Distribution losses: {}, tank losses: {}", distributionLosses, tankLosses);
 
@@ -295,9 +296,9 @@ public class CentralHotWaterTransducer extends EnergyTransducer {
 						TYPE: formula
 						UNIT: W
 						SAP: (62)
-                                                SAP_COMPLIANT: Yes
+						SAP_COMPLIANT: Yes
 						BREDEM: 2.5A
-                                                BREDEM_COMPLIANT: Yes
+						BREDEM_COMPLIANT: Yes
 						DEPS: central-hot-water-distribution-losses,water-storage-loss
 						NOTES: Combi losses and pipework losses are not included here. They are added on inside the various kinds of heat source.
 						ID: total-central-hot-water-losses
@@ -339,8 +340,9 @@ public class CentralHotWaterTransducer extends EnergyTransducer {
 	 *
 	 * @param parameters
 	 * @param primaryPipeworkIsInsulated
-	 * @param tankPresentAndThermostatic
-	 * @param primaryCorrectionFactor
+	 * @param isCommunityHeating
+	 * @param store
+     * @param solarCorrectionFactor
 	 * @return
 	 */
 	protected final double getPrimaryPipeworkLosses(
@@ -423,6 +425,7 @@ public class CentralHotWaterTransducer extends EnergyTransducer {
                 BREDEM_COMPLIANT: Yes
 		DEPS: month-of-year,hours-per-day-primary-hot-lookup
 		NOTES: We assume that water heating is not separately timed by default.
+		NOTES:
 		ID: hours-per-day-primary-hot
 		CODSIEB
 		*/

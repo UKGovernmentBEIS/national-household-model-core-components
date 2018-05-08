@@ -11,7 +11,7 @@
       - docbook: this contains the handwritten bits of docbook; it depends on the xml outputs of the stock and language, and runs the various main classes and so on to create the final docbook XML. the result is a jar full of that XML
       - pdf, webhelp and eclipse: these run docbkx to produce the three outputs that we are interested in. They each use maven-dependency-plugin to decompress the docbook XML that the docbook module's JAR contains (so they depend on it). In addition, webhelp depends on pdf, as it decompresses the PDF out of the pdf module's jar and sticks it into the final WAR.
   -->
-  <properties>
+   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <nhm.version>7.2.0-SNAPSHOT</nhm.version>
     <nhmversion>${nhm.version}</nhmversion>

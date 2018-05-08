@@ -20,7 +20,7 @@ Triple glazed (Low-E, hard-coat)	0.64	0.7
 Triple glazed (Low-E, soft-coat)	0.57	0.7
 
 	 */
-	
+
 	@Test
 	public void testLightTransmittance() {
 		final ITransmittanceFactors factors = new TransmittanceFactors();
@@ -33,7 +33,7 @@ Triple glazed (Low-E, soft-coat)	0.57	0.7
 		Assert.assertEquals(0.7, factors.getLightTransmittance(GlazingType.Triple, WindowInsulationType.LowEHardCoat), 0.01);
 		Assert.assertEquals(0.7, factors.getLightTransmittance(GlazingType.Triple, WindowInsulationType.LowESoftCoat), 0.01);
 	}
-	
+
 	@Test
 	public void testGainsTransmittance() {
 		final ITransmittanceFactors factors = new TransmittanceFactors();

@@ -3,12 +3,8 @@ package uk.org.cse.nhm.energycalculator.impl.demands;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.org.cse.nhm.energycalculator.api.IConstants;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorHouseCase;
-import uk.org.cse.nhm.energycalculator.api.IEnergyState;
-import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
-import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
-import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
+import uk.org.cse.nhm.energycalculator.api.*;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.TransducerPhaseType;
@@ -80,6 +76,7 @@ public class HotWaterDemand09 implements IEnergyTransducer {
 	  CODSIEB
 	*/
 	final double usageAdjustedVolume = getHotWaterVolume(house, parameters) * USAGE_FACTOR;
+	StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_Usage_MonthAdjusted, usageAdjustedVolume);
 
 	/*
 	  BEISDOC
@@ -92,10 +89,12 @@ public class HotWaterDemand09 implements IEnergyTransducer {
 	  BREDEM: 2.1H, 2.1I,2.2A
           BREDEM_COMPLIANT: Yes
 	  DEPS: usage-adjusted-water-volume,monthly-water-temperature-factor,energy-per-hot-water
+	  NOTES: SAP includes distribution losses in the amount demanded. We exclude that here and add it on later.
 	  ID: water-heating-power
 	  CODSIEB
 	*/
 	final double power = usageAdjustedVolume * RISE_TEMPERATURE * FACTOR;
+	StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_EnergyContent, power);
 
 	log.debug("Hot water demand: {} W, {} l", power, usageAdjustedVolume);
 
@@ -109,6 +108,7 @@ public class HotWaterDemand09 implements IEnergyTransducer {
      * @return The volume of hot water demanded by the dwelling.
      */
     protected double getHotWaterVolume(final IEnergyCalculatorHouseCase house, final IInternalParameters parameters) {
+        final double result;
 	switch (parameters.getCalculatorType().hotWater) {
 	case SAP2012:
 	    /*
@@ -119,27 +119,28 @@ public class HotWaterDemand09 implements IEnergyTransducer {
 	      UNIT: litres
 	      SAP: (43)
               SAP_COMPLIANT: No, see note
-	      DEPS: base-hot-water-demand,person-hot-water-demand,occupancy
               BREDEM_COMPLIANT: N/A - not used
-	      NOTES: We omit the 5% reduction in hot water usage for dwellings with hot water targets. We have no information about this.
-	      ID: sap-water-volume
-	      CODSIEB
-	    */
-            return CONSTANT + (PERSON * parameters.getNumberOfOccupants());
-	case BREDEM2012:
-	    /*
-	      BEISDOC
-	      NAME: BREDEM Water Volume
-	      DESCRIPTION: The volume of hot water required by the house according to BREDEM.
-	      TYPE: formula
-	      UNIT: litres
+              DEPS: base-hot-water-demand,person-hot-water-demand,occupancy
+              NOTES: We omit the 5% reduction in hot water usage for dwellings with hot water targets. We have no information about this.
+              ID: sap-water-volume
+              CODSIEB
+            */
+            result = CONSTANT + (PERSON * parameters.getNumberOfOccupants());
+            break;
+	    case BREDEM2012:
+            /*
+              BEISDOC
+              NAME: BREDEM Water Volume
+              DESCRIPTION: The volume of hot water required by the house according to BREDEM.
+              TYPE: formula
+              UNIT: litres
               SAP_COMPLIANT: N/A - not used
-	      BREDEM: 2.1A-2.2F
+              BREDEM: 2.1A-2.2F
               BREDEM_COMPLIANT: Yes
-	      DEPS:
-	      ID: bredem-water-volume
-	      CODSIEB
-	    */
+              DEPS:
+              ID: bredem-water-volume
+              CODSIEB
+            */
 
             final double showerVolume;
             final double numBaths;
@@ -162,12 +163,14 @@ public class HotWaterDemand09 implements IEnergyTransducer {
             final double otherVolume = BREDEM_OTHER_BASE +
                 (BREDEM_OTHER_OCCUPANCY_FACTOR * parameters.getNumberOfOccupants());
 
-	    return showerVolume + bathVolume + otherVolume;
+	    result = showerVolume + bathVolume + otherVolume;
+	    break;
 
-	default:
-	    throw new UnsupportedOperationException("Unknown energy calculator type when calculating hot water volume " + parameters.getCalculatorType());
-	}
-
+        default:
+            throw new UnsupportedOperationException("Unknown energy calculator type when calculating hot water volume " + parameters.getCalculatorType());
+        }
+        StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_Usage_Initial, result);
+	    return result;
     }
 
     @Override

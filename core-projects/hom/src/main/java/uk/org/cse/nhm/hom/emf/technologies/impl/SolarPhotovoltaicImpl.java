@@ -9,19 +9,13 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
-import uk.org.cse.nhm.energycalculator.api.IConstants;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorHouseCase;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
-import uk.org.cse.nhm.energycalculator.api.IEnergyState;
-import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
-import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
-import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
-import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
-import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
-import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
-import uk.org.cse.nhm.energycalculator.api.types.TransducerPhaseType;
+
+import uk.org.cse.nhm.energycalculator.api.*;
+import uk.org.cse.nhm.energycalculator.api.types.*;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
+
 import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType.ECGeneration;
+
 import uk.org.cse.nhm.hom.IHeatProportions;
 import uk.org.cse.nhm.hom.constants.SolarConstants;
 import uk.org.cse.nhm.hom.constants.SplitRateConstants;
@@ -237,6 +231,8 @@ public class SolarPhotovoltaicImpl extends MinimalEObjectImpl implements ISolarP
 				 */
 				final double generation = solarGenerationFactor * getPeakPower() * incidentRaditionPerUnitArea
 						* overshadingFactor;
+
+				StepRecorder.recordStep(EnergyCalculationStep.Generation_PhotoVoltaic, generation);
 
 				final double usefulElectricity = useElectricityInDwelling(
 						state,

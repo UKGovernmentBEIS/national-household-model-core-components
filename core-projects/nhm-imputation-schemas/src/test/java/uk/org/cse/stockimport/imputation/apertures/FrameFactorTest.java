@@ -11,7 +11,7 @@ public class FrameFactorTest {
 	@Test
 	public void testFrameFactors() {
 		final IWindowFrameFactor factors = new FrameFactors();
-		
+
 		Assert.assertEquals(0.7, factors.getFrameFactor(FrameType.Wood), 0.01);
 		Assert.assertEquals(0.8, factors.getFrameFactor(FrameType.Metal), 0.01);
 		Assert.assertEquals(0.7, factors.getFrameFactor(FrameType.uPVC), 0.01);

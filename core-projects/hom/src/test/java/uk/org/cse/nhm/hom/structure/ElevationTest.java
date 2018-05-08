@@ -13,7 +13,7 @@ import uk.org.cse.nhm.energycalculator.api.types.GlazingType;
 import uk.org.cse.nhm.energycalculator.api.types.OvershadingType;
 import uk.org.cse.nhm.energycalculator.api.types.WindowGlazingAirGap;
 import uk.org.cse.nhm.energycalculator.api.types.WindowInsulationType;
-import uk.org.cse.nhm.hom.components.fabric.types.DoorType;
+import uk.org.cse.nhm.energycalculator.api.types.DoorType;
 import uk.org.cse.nhm.hom.structure.impl.Elevation;
 import uk.org.cse.nhm.hom.structure.impl.Elevation.IDoorVisitor;
 
@@ -87,7 +87,7 @@ public class ElevationTest {
 		Assert.assertEquals(0d, doorVisitor.offerPotentialDoorArea(100), 0d);
 
 		doorVisitor.visitDoors(visitor);
-		verify(visitor).visitDoor(10d, 5d);
+		verify(visitor).visitDoor(DoorType.Glazed, 10d, 5d);
 		verify(visitor).visitTransparentElement(
 				eq(GlazingType.Double),
 				eq(WindowInsulationType.Air),

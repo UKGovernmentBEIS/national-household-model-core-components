@@ -14,7 +14,18 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 
-import uk.org.cse.nhm.energycalculator.api.*;
+import uk.org.cse.nhm.energycalculator.api.IConstants;
+import uk.org.cse.nhm.energycalculator.api.IEnergyCalculationResult;
+import uk.org.cse.nhm.energycalculator.api.IEnergyCalculationResultWithSteps;
+import uk.org.cse.nhm.energycalculator.api.IEnergyCalculationSteps;
+import uk.org.cse.nhm.energycalculator.api.IEnergyCalculator;
+import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorHouseCase;
+import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
+import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
+import uk.org.cse.nhm.energycalculator.api.IEnergyState;
+import uk.org.cse.nhm.energycalculator.api.ISeasonalParameters;
+import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
+import uk.org.cse.nhm.energycalculator.api.IWeather;
 import uk.org.cse.nhm.energycalculator.api.impl.BredemExternalParameters;
 import uk.org.cse.nhm.energycalculator.api.impl.DailyHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.impl.SAPExternalParameters;
@@ -25,6 +36,7 @@ import uk.org.cse.nhm.energycalculator.api.types.MonthType;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.impl.BREDEMHeatingSeasonalParameters;
 import uk.org.cse.nhm.energycalculator.impl.SAPHeatingSeasonalParameters;
 import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
@@ -34,6 +46,7 @@ import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
 import uk.org.cse.nhm.hom.emf.util.EObjectWrapper;
 import uk.org.cse.nhm.hom.people.People;
 import uk.org.cse.nhm.hom.structure.StructureModel;
+import uk.org.cse.nhm.simulator.guice.EnergyCalculationRequestedSteps;
 import uk.org.cse.nhm.simulator.state.dimensions.FuelServiceTable;
 import uk.org.cse.nhm.simulator.state.dimensions.behaviour.IHeatingBehaviour;
 
@@ -67,8 +80,14 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
         private final float hotWaterDemand;
         private final float primaryHeatDemand;
         private final float secondaryHeatDemand;
+        private final IEnergyCalculationSteps intermediateSteps;
 
-        Result(final IEnergyCalculationResult[] months) {
+        Result(final IEnergyCalculationResultWithSteps resultWithSteps) {
+            this(resultWithSteps.getResults(), resultWithSteps.getSteps());
+        }
+
+        Result(final IEnergyCalculationResult[] months, IEnergyCalculationSteps intermediateSteps) {
+            this.intermediateSteps = intermediateSteps;
             float specificHeatLoss = 0;
             float fabricHeatLoss = 0;
             float ventilationHeatLoss = 0;
@@ -130,7 +149,7 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 
                 airChangeRate += result.getHeatLosses().getAirChangeRate() * m.getStandardDays();
                 airChangeRateWithoutDeliberate += result.getHeatLosses().getAirChangeExcludingDeliberate() * m.getStandardDays();
-                
+
                 final float convert = m.getStandardDays() * WATT_DAYS_TO_KWH;
                 heatLoad[m.ordinal()][0] = (float) (convert * result.getEnergyState().getTotalDemand(EnergyType.DemandsHEAT));
                 heatLoad[m.ordinal()][1] = (float) (convert * result.getEnergyState().getTotalDemand(EnergyType.DemandsHOT_WATER));
@@ -231,7 +250,17 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 		public float getAirChangeRateWithoutDeliberate() {
 			return airChangeRateWithoutDeliberate;
 		}
-	}
+
+        @Override
+        public double readStepAnnual(EnergyCalculationStep step) {
+            return intermediateSteps.readStepAnnual(step);
+        }
+
+        @Override
+        public double readStepMonthly(EnergyCalculationStep step, int month) {
+            return intermediateSteps.readStepMonthly(step, month);
+        }
+    }
 
 	@AutoProperty
 	private static class Wrapper implements IEnergyCalculatorHouseCase {
@@ -453,7 +482,7 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 	}
 
 	@Inject
-	public EnergyCalculatorBridge(final IEnergyCalculator calculator, @Named(CACHE_SIZE) final int cacheSize) {
+	public EnergyCalculatorBridge(final IEnergyCalculator calculator, final EnergyCalculationRequestedSteps requestedSteps, @Named(CACHE_SIZE) final int cacheSize) {
 		this.cache = CacheBuilder.newBuilder().
 				softValues().
 				recordStats().
@@ -463,13 +492,13 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 						@Override
 						public Result load(final Wrapper key) throws Exception {
 							final EnergyCalculatorType mode = key.heatingBehaviour.getEnergyCalculatorType();
-							
+
 							final IEnergyCalculatorParameters parameters = createParameters(key.heatingBehaviour, key.structure.getFloorArea(), key.people);
 							final ISeasonalParameters[] climate = new ISeasonalParameters[MonthType.values().length];
-							
+
 							final IWeather weather = mode.weather.getWeather(key.weather);
 							final double latitude = mode.weather.getLatitude(key.getLatitudeRadians());
-							
+
 							switch (mode.heatingSchedule) {
 							case SAP2012:
 								for (final MonthType m : MonthType.values()) {
@@ -491,9 +520,9 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 							default:
 								throw new IllegalArgumentException("Unknown energy calculator type for heating schedule");
 							}
-							
 
-                            return new Result(calculator.evaluate(key, parameters, climate));
+
+                            return new Result(calculator.evaluate(key, parameters, climate, requestedSteps.getRequestedSteps()));
 						}
 
 						private IEnergyCalculatorParameters createParameters(final IHeatingBehaviour heatingBehaviour, final double floorArea, final double occupancy) {

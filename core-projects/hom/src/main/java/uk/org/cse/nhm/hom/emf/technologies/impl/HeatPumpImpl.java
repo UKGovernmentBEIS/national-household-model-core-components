@@ -12,16 +12,11 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
-import uk.org.cse.nhm.energycalculator.api.IConstants;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorHouseCase;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
-import uk.org.cse.nhm.energycalculator.api.IEnergyState;
-import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
-import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
+import uk.org.cse.nhm.energycalculator.api.*;
 import uk.org.cse.nhm.energycalculator.api.impl.ElectricHeatTransducer;
 import uk.org.cse.nhm.energycalculator.api.impl.HeatTransducer;
 import uk.org.cse.nhm.energycalculator.api.impl.HybridHeatpumpTransducer;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.Zone2ControlParameter;
@@ -327,7 +322,8 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 
 		if (getFuel().isGas() && getFlueType() == FlueType.FAN_ASSISTED_BALANCED_FLUE) {
 			visitor.visitEnergyTransducer(new Pump("Heat Pump Flue", ServiceType.PRIMARY_SPACE_HEATING, constants.get(
-					PumpAndFanConstants.GAS_HEAT_PUMP_FLUE_FAN_WATTAGE), 0));
+					PumpAndFanConstants.GAS_HEAT_PUMP_FLUE_FAN_WATTAGE), 0,
+					EnergyCalculationStep.PumpsFansAndKeepHot_BoilerFlueFan));
 		}
 	}
 
@@ -482,6 +478,15 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 			highRateFraction = constants.get(SplitRateConstants.GROUND_SOURCE_SPACE_HEAT, parameters.getTarrifType());
 		}
 
+        /**
+         * TODO: account for hybrid heat pumps when recording efficiency
+         * I haven't done these since the splits are defined per-month
+         * The effective efficiency should be 1 / ((split / heatPumpEfficiency) + ((1 - split) / hybridEfficiency))
+         */
+        if (proportion > 0) {
+            StepRecorder.recordStep(EnergyCalculationStep.SpaceHeating_Efficiency_Main_System1, spaceHeatingEfficiency);
+        }
+
 		final IHybridHeater hybrid = getHybrid();
 		if (hybrid == null) {
 			if (getFuel() == FuelType.ELECTRICITY) {
@@ -551,6 +556,8 @@ public class HeatPumpImpl extends HeatSourceImpl implements IHeatPump {
 			adjustedEfficiency = hybrid.getEfficiency().value;
 			fuel = hybrid.getFuel();
 		}
+
+		StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_Efficiency, adjustedEfficiency);;
 
 		final double hotWaterToGenerate = state.getBoundedTotalDemand(EnergyType.DemandsHOT_WATER, proportion);
 

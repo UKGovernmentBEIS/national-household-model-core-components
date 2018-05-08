@@ -219,7 +219,8 @@ public class StoreyBuildStepTest extends Mockito {
             if (wall.getWallConstructionType() != null &&
                     wall.getWallConstructionType().getWallType() == WallType.Party) {
                 Assert.assertEquals("Incorrect party wall length", 3.15d * FloorPoylgonBuilder.SCALING_FACTOR,
-                        wall.getLength());
+                        wall.getLength(),
+                        0);
                 numPartyWalls++;
             }
         }

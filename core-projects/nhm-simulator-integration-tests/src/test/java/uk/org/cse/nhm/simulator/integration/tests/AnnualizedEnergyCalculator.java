@@ -1,6 +1,7 @@
 package uk.org.cse.nhm.simulator.integration.tests;
 
 import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +23,7 @@ import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.MonthType;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.impl.BREDEMHeatingSeasonalParameters;
 import uk.org.cse.nhm.energycalculator.impl.SeasonalParameters;
 import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
@@ -148,17 +150,17 @@ public class AnnualizedEnergyCalculator {
 		for (final MonthType m : MonthType.values()) {
 			seasons[m.ordinal()] = new BREDEMHeatingSeasonalParameters(m,
 					new IWeather() {
-						
+
 						@Override
 						public double getWindSpeed(MonthType month) {
 							return windSpeed.get(region, month.ordinal());
 						}
-						
+
 						@Override
 						public double getHorizontalSolarFlux(MonthType month) {
 							return horizontalSolarFlux.get(region, month.ordinal());
 						}
-						
+
 						@Override
 						public double getExternalTemperature(MonthType month) {
 							return externalTemperature.get(region, month.ordinal());
@@ -169,7 +171,13 @@ public class AnnualizedEnergyCalculator {
 		}
 
 
-		final IEnergyCalculationResult[] results = calculator.evaluate(surveyCase, parameters, seasons);
+		final IEnergyCalculationResult[] results = calculator.evaluate(
+				surveyCase,
+				parameters,
+				seasons,
+				EnumSet.noneOf(EnergyCalculationStep.class)
+		).getResults();
+
 		int month = 0;
 		for (final IEnergyCalculationResult result : results) {
 			final IEnergyState es = result.getEnergyState();

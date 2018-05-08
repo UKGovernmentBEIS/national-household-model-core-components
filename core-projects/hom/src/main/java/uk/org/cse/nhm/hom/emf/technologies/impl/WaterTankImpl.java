@@ -11,6 +11,8 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
+import uk.org.cse.nhm.energycalculator.api.StepRecorder;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.hom.constants.CylinderConstants;
 import uk.org.cse.nhm.hom.emf.technologies.IImmersionHeater;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
@@ -357,7 +359,7 @@ public class WaterTankImpl extends MinimalEObjectImpl implements IWaterTank {
 	 * @generated Not generated any more!
 	 */
 	@Override
-	public double getStandingLosses(final IInternalParameters parameters) {
+	public double getStandingLosses(final IInternalParameters parameters, final double temperatureFactor) {
 		/*
 		BEISDOC
 		NAME: Tank Storage Losses
@@ -378,13 +380,28 @@ public class WaterTankImpl extends MinimalEObjectImpl implements IWaterTank {
 
 		final double lossFactor = getCylinderLossFactor(constants);
 		final double volumeFactor = getVolumeFactor(constants);
-		final double standardLoss = lossFactor * volumeFactor * getVolume();
+
+		StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_StorageVolume, getVolume());
+		StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_StorageLossFactor, lossFactor);
+		StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_StorageVolumeFactor, volumeFactor);
+        StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_StorageTemperatureFactor, temperatureFactor);
+
+        final double standardLoss = lossFactor * volumeFactor * temperatureFactor * getVolume();
+
+		StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_StorageLosses_Daily_Calculated, standardLoss);
+		StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_StorageLosses_Daily, standardLoss);
+		StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_StorageLosses_Monthly, standardLoss);
+
+		final double lossesExcludingSolarVolume;
 
 		if (getSolarStorageVolume() > 0) {
-			return standardLoss * ((getVolume() - getSolarStorageVolume()) / getVolume());
+            lossesExcludingSolarVolume = standardLoss * ((getVolume() - getSolarStorageVolume()) / getVolume());
 		} else {
-			return standardLoss;
+            lossesExcludingSolarVolume = standardLoss;
 		}
+
+        StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_StorageLosses_Monthly_ExcludeSolar, lossesExcludingSolarVolume);
+		return lossesExcludingSolarVolume;
 	}
 
 	/**

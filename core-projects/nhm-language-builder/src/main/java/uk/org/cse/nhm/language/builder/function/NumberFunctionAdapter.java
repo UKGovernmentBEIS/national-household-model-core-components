@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableMap;
 import uk.org.cse.commons.Glob;
 import uk.org.cse.commons.names.Name;
 import uk.org.cse.nhm.energycalculator.api.types.AreaType;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.language.adapt.IAdapterInterceptor;
@@ -31,6 +32,7 @@ import uk.org.cse.nhm.language.adapt.impl.ReflectingAdapter;
 import uk.org.cse.nhm.language.builder.context.CalibrationAdapter;
 import uk.org.cse.nhm.language.builder.context.FuelPropertyAdapter;
 import uk.org.cse.nhm.language.definition.action.XForesightLevel;
+import uk.org.cse.nhm.language.definition.enums.XEnergyCalculationStep;
 import uk.org.cse.nhm.language.definition.enums.XFuelType;
 import uk.org.cse.nhm.language.definition.enums.XServiceType;
 import uk.org.cse.nhm.language.definition.fuel.XSimpleTariff.XSimpleTariffFuel;
@@ -52,6 +54,7 @@ import uk.org.cse.nhm.language.definition.sequence.XSnapshotDeclaration;
 import uk.org.cse.nhm.simulator.IProfilingStack;
 import uk.org.cse.nhm.simulator.SimulatorConfigurationConstants;
 import uk.org.cse.nhm.simulator.factories.IObjectFunctionFactory;
+import uk.org.cse.nhm.simulator.guice.EnergyCalculationRequestedSteps;
 import uk.org.cse.nhm.simulator.main.Initializable;
 import uk.org.cse.nhm.simulator.measure.Units;
 import uk.org.cse.nhm.simulator.scope.IComponentsAction;
@@ -69,24 +72,32 @@ import uk.org.cse.nhm.simulator.transactions.ITransaction;
 
 /**
  * Adapter for builder which handles things in uk.org.cse.nhm.language.definition.function.num
- * 
+ *
  * @author hinton
  *
  */
 public class NumberFunctionAdapter extends ReflectingAdapter {
 	final IObjectFunctionFactory factory;
-    final Provider<IProfilingStack> profiler;
-    
+	private final Provider<EnergyCalculationRequestedSteps> requestedSteps;
+	final Provider<IProfilingStack> profiler;
+
 	@SuppressWarnings("unused")
 	private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(NumberFunctionAdapter.class);
-	
+
 	@Inject
-	public NumberFunctionAdapter(final Provider<IProfilingStack> profiler, final Set<IConverter> delegates, final IObjectFunctionFactory factory, final Set<IAdapterInterceptor> interceptors) {
+	public NumberFunctionAdapter(
+			final Provider<IProfilingStack> profiler,
+			final Set<IConverter> delegates,
+			final IObjectFunctionFactory factory,
+			final Set<IAdapterInterceptor> interceptors,
+			final Provider<EnergyCalculationRequestedSteps> requestedSteps
+			) {
 		super(delegates, interceptors);
         this.profiler = profiler;
 		this.factory = factory;
+		this.requestedSteps = requestedSteps;
 	}
-	
+
 	@Adapt(XInflatedFunction.class)
 	public IComponentsFunction<? extends Number> buildInflatedFunction(
 			@Prop("foresight") final Optional<XForesightLevel> foresight,
@@ -99,17 +110,17 @@ public class NumberFunctionAdapter extends ReflectingAdapter {
 			) {
 		return factory.createInflatedFunction(foresight, startDate, 1 + rate, value);
 	}
-	
+
 	@Adapt(XHeatCapacity.class)
 	public IComponentsFunction<? extends Number> buildHeatCapacity() {
 		return factory.createSizingResultFunction(Units.KILOWATTS);
 	}
-	
+
 	@Adapt(XInsulationArea.class)
 	public IComponentsFunction<? extends Number> buildInsulationArea() {
 		return factory.createSizingResultFunction(Units.SQUARE_METRES);
 	}
-	
+
 	@Adapt(XNetPresentValue.class)
 	public IComponentsFunction<? extends Number> buildNetPresentValue(
 			@Prop(XNetPresentValue.P.DISCOUNT) final double discount,
@@ -120,7 +131,7 @@ public class NumberFunctionAdapter extends ReflectingAdapter {
                                              false,
                                              Glob.requireAndForbid(tags));
 	}
-	
+
 	@Adapt(XNumberConstant.class)
 	public IComponentsFunction<? extends Number> buildNumberConstant(
 			final Name name,
@@ -128,7 +139,7 @@ public class NumberFunctionAdapter extends ReflectingAdapter {
 			) {
 		return ConstantComponentsFunction.<Number>of(name, value);
 	}
-	
+
 	@Adapt(XPeakHeatDemand.class)
 	public IComponentsFunction<? extends Number> buildPeakHeatDemand(
 			@Prop(XPeakHeatDemand.P.internalTemperature) final double internal,
@@ -136,14 +147,14 @@ public class NumberFunctionAdapter extends ReflectingAdapter {
 			) {
 		return factory.createPeakHeatLoadFunction(internal, external, 1000);
 	}
-	
+
 	@Adapt(XHeatLoss.class)
     public IComponentsFunction<? extends Number> buildHeatLoss(
         @Prop(XHeatLoss.P.TYPE) final XHeatLoss.XHeatLossType type
         ) {
         return factory.createHeatLossFunction(type);
     }
-	
+
 	@Adapt(XStepwiseFunction.class)
 	public IComponentsFunction<Number> buildStepwiseFunction(
 			@Prop(XStepwiseFunction.P.mode) final XRoundingType direction,
@@ -160,7 +171,7 @@ public class NumberFunctionAdapter extends ReflectingAdapter {
 			return factory.createSteppedFunction(Direction.NEAREST, delegate, steps);
 		}
 	}
-	
+
 	@Adapt(XQuadratic.class)
 	public IComponentsFunction<? extends Number> buildQuadratic(
 			final Name name,
@@ -169,53 +180,53 @@ public class NumberFunctionAdapter extends ReflectingAdapter {
 			@Prop(XQuadratic.P.b) final double b,
 			@Prop(XQuadratic.P.c) final double c) {
 		final List<PolynomialTerm> terms = new ArrayList<PolynomialTerm>();
-		
+
 		if (a != 0) {
 			terms.add(new PolynomialTerm(2, ConstantComponentsFunction.<Double>of(name, a)));
 		}
-		
+
 		if (b != 0) {
 			terms.add(new PolynomialTerm(1, ConstantComponentsFunction.<Double>of(name, b)));
 		}
-		
+
 		if (c != 0) {
 			terms.add(new PolynomialTerm(0, ConstantComponentsFunction.<Double>of(name, c)));
 		}
-		
+
 		return buildPolynomial(x, terms);
 	}
-			
+
 	public IComponentsFunction<? extends Number> buildPolynomial(
-			final IComponentsFunction<? extends Number> value, 
+			final IComponentsFunction<? extends Number> value,
 			final List<PolynomialTerm> terms
 			) {
 		return factory.createPolynomial(value, terms);
 	}
-	
+
 	public PolynomialTerm buildTerm(
 			final int degree,
 			final IComponentsFunction<Number> coefficient
 			) {
 		return new PolynomialTerm(degree, coefficient);
 	}
-	
+
 	@Adapt(XNumberCase.class)
 	public IComponentsFunction<Number> buildNumberCase(
 			@Prop(XNumberCase.P.cases) final List<NumberCaseWhen> cases,
 			@Prop(XNumberCase.P.otherwise) final IComponentsFunction<Number> defaultValue
 			) {
-		
+
 		final List<IComponentsFunction<Boolean>> tests = new ArrayList<IComponentsFunction<Boolean>>();
 		final List<IComponentsFunction<Number>> values = new ArrayList<IComponentsFunction<Number>>();
-		
+
 		for (final NumberCaseWhen c : cases) {
 			tests.add(c.test);
 			values.add(c.value);
 		}
-		
+
 		return factory.createDoubleCondition(tests, values, defaultValue);
 	}
-	
+
 	@Adapt(XNumberCaseWhen.class)
 	public NumberCaseWhen buildNumberCaseWhen(
 			@Prop(XNumberCaseWhen.P.test) final IComponentsFunction<Boolean> test,
@@ -223,7 +234,7 @@ public class NumberFunctionAdapter extends ReflectingAdapter {
 			) {
 		return new NumberCaseWhen(test, value);
 	}
-	
+
 	public static class NumberCaseWhen {
 		public final IComponentsFunction<Boolean> test;
 		public final IComponentsFunction<Number> value;
@@ -233,7 +244,7 @@ public class NumberFunctionAdapter extends ReflectingAdapter {
 			this.value = value;
 		}
 	}
-	
+
 	@Adapt(XTimeSeries.class)
 	public IComponentsFunction<Number> buildTimeSeries(
 			@Prop("foresight") final Optional<XForesightLevel> foresight,
@@ -245,14 +256,14 @@ public class NumberFunctionAdapter extends ReflectingAdapter {
 		}
 		return factory.createTimeSeriesFunction(foresight, initial, laterMap.build());
 	}
-	
+
 	@Adapt(XTimeSeries.XOn.class)
 	public TimeSeriesStep buildStep(
 			@Prop(XTimeSeries.XOn.P.DATE) final DateTime date,
 			@Prop(XTimeSeries.XOn.P.VALUE) final double value) {
 		return new TimeSeriesStep(date, value);
 	}
-	
+
 	static class TimeSeriesStep {
 		private final DateTime when;
 		private final double value;
@@ -262,7 +273,7 @@ public class NumberFunctionAdapter extends ReflectingAdapter {
 			this.value = value;
 		}
 	}
-	
+
 	private static Optional<FuelType> maybeFuel(final Optional<XFuelType> fuelType) {
 		if (fuelType.isPresent()) {
 			return Optional.of(MapEnum.fuel(fuelType.get()));
@@ -270,7 +281,7 @@ public class NumberFunctionAdapter extends ReflectingAdapter {
 			return Optional.absent();
 		}
 	}
-	
+
 	private static Optional<List<ServiceType>> maybeService(final Optional<XServiceType> serviceType) {
 		if (serviceType.isPresent()) {
 			return Optional.of(serviceType.get().getInternal());
@@ -278,22 +289,22 @@ public class NumberFunctionAdapter extends ReflectingAdapter {
 			return Optional.absent();
 		}
 	}
-	
+
 	@Adapt(XEnergyUse.class)
 	public IComponentsFunction<? extends Number> buildEnergyUse(
 			@FromScope(CalibrationAdapter.INSIDE_CALIBRATION) final Optional<Boolean> forceUnCalibrated,
-			@Prop(XEnergyUse.P.calibrated) final boolean calibrated, 
+			@Prop(XEnergyUse.P.calibrated) final boolean calibrated,
 			@Prop(XEnergyUse.P.byFuel) final Optional<XFuelType> fuelType,
 			@Prop(XEnergyUse.P.byService) final Optional<XServiceType> serviceType) {
 		return factory.createEnergyUseFunction(
-				(!forceUnCalibrated.or(false)) && calibrated, 
-				maybeFuel(fuelType), 
+				(!forceUnCalibrated.or(false)) && calibrated,
+				maybeFuel(fuelType),
 				maybeService(serviceType));
 	}
 
 	@Adapt(XFuelCost.class)
 	public IComponentsFunction<? extends Number> buildFuelCost(
-			@Prop(XFuelCost.P.byFuel) final Optional<XFuelType> fuelType, 
+			@Prop(XFuelCost.P.byFuel) final Optional<XFuelType> fuelType,
 			@Prop(XFuelCost.P.excludeServices) final List<XServiceType> excludingServices) {
 		final EnumSet<ServiceType> internal = EnumSet.noneOf(ServiceType.class);
 		for (final XServiceType st : excludingServices) {
@@ -301,27 +312,39 @@ public class NumberFunctionAdapter extends ReflectingAdapter {
 		}
 		return factory.createFuelCostFunction(maybeFuel(fuelType), internal);
 	}
-	
+
+	@Adapt(XEnergyCalculationStepFunction.class)
+    public IComponentsFunction<? extends Number> buildEnergyCalculationStep(
+            @Prop(XEnergyCalculationStepFunction.P.step) final XEnergyCalculationStep step,
+            @Prop(XEnergyCalculationStepFunction.P.month) final Integer month
+    ) {
+	    final EnergyCalculationStep realStep = MapEnum.energyCalculationStep(step);
+
+	    requestedSteps.get().request(realStep);
+
+        return factory.createEnergyCalculatorStepFunction(realStep, java.util.Optional.ofNullable(month));
+    }
+
 	@Adapt(XSumTransactions.class)
 	public IComponentsFunction<? extends Number> buildSumOfTransactions(
 		@Prop(XSumTransactions.P.counterparty) final Optional<Glob> counterparty,
 		@Prop(XSumTransactions.P.tags) final List<Glob> tags
 			) {
 		return factory.createSumOfTransactions(
-				counterparty, 
+				counterparty,
 				Glob.requireAndForbid(tags));
 	}
-	
+
 	@Adapt(XCarbonEmissions.class)
 	public IComponentsFunction<? extends Number> buildCarbonEmissions(
 			@Prop(XEnergyUse.P.byFuel) final Optional<XFuelType> fuelType,
 			@Prop(XEnergyUse.P.byService) final Optional<XServiceType> serviceType) {
 		return factory.createCarbonEmissionsFunction(maybeFuel(fuelType), maybeService(serviceType));
 	}
-	
-	@Adapt(XCapex.class) 
+
+	@Adapt(XCapex.class)
 	public IComponentsFunction<? extends Number> buildCapexCost(
-			) { 
+			) {
 	  return factory.createCostResultFunction(
 			  Glob.requireAndForbid(
 					  ImmutableList.of(
@@ -329,24 +352,24 @@ public class NumberFunctionAdapter extends ReflectingAdapter {
 							  )
 					  ));
 	}
-	
-	@Adapt(XCapitalCost.class) 
-	public IComponentsFunction<? extends Number> buildCapitalCost() { 
+
+	@Adapt(XCapitalCost.class)
+	public IComponentsFunction<? extends Number> buildCapitalCost() {
 		return factory.createCostResultFunction(
 				  Glob.requireAndForbid(
 						  ImmutableList.of(
 								  Glob.of(ITransaction.Tags.CAPEX)
 								  )
-						  ));  
+						  ));
 	}
-	
-	@Adapt(XSumOfCosts.class) 
+
+	@Adapt(XSumOfCosts.class)
 	public IComponentsFunction<? extends Number> buildNamedCost(
 			@Prop(XSumOfCosts.P.tagged) final List<Glob> tagged
-			) { 
+			) {
 	  return factory.createCostResultFunction(Glob.requireAndForbid(tagged));
-	} 
-	
+	}
+
 	@Adapt(XAverageUValue.class)
 	public IComponentsFunction<? extends Number> buildAverageUValue(
 			@Prop(XAverageUValue.P.of) final XSurfaceType surface
@@ -354,14 +377,18 @@ public class NumberFunctionAdapter extends ReflectingAdapter {
 		switch (surface) {
 		case AllSurfaces:
 			return factory.createAverageUValueFunction(
-				EnumSet.of(AreaType.Door, AreaType.ExternalCeiling, 
-						AreaType.ExternalFloor, AreaType.ExternalWall, AreaType.Glazing));
+				EnumSet.of(
+						AreaType.DoorSolid, AreaType.DoorGlazed,
+						AreaType.ExternalCeiling,
+						AreaType.ExposedUpperFloor, AreaType.BasementFloor, AreaType.GroundFloor,
+						AreaType.ExternalWall,
+						AreaType.GlazingMetal, AreaType.GlazingUPVC, AreaType.GlazingWood));
 		case Doors:
 			return factory.createAverageUValueFunction(
-					EnumSet.of(AreaType.Door));
+					EnumSet.of(AreaType.DoorGlazed, AreaType.DoorSolid));
 		case Floors:
 			return factory.createAverageUValueFunction(
-					EnumSet.of(AreaType.ExternalFloor));
+					EnumSet.of(AreaType.ExposedUpperFloor, AreaType.BasementFloor, AreaType.GroundFloor));
 		case Roofs:
 			return factory.createAverageUValueFunction(
 					EnumSet.of(AreaType.ExternalCeiling));
@@ -370,12 +397,12 @@ public class NumberFunctionAdapter extends ReflectingAdapter {
 					EnumSet.of(AreaType.ExternalWall));
 		case Windows:
 			return factory.createAverageUValueFunction(
-					EnumSet.of(AreaType.Glazing));
+					EnumSet.of(AreaType.GlazingMetal, AreaType.GlazingUPVC, AreaType.GlazingWood));
 		default:
 			throw new IllegalArgumentException("Cannot build average u value function for " + surface);
 		}
 	}
-	
+
 	@Adapt(XHouseMeterReading.class)
 	public IComponentsFunction<? extends Number> buildMeterReadingFunction(
 			@FromScope(FuelPropertyAdapter.TARIFF_FUEL_TYPE) final Optional<XFuelType> outerFuel,
@@ -383,13 +410,13 @@ public class NumberFunctionAdapter extends ReflectingAdapter {
 			) {
 		return factory.createHouseMeterReadingFunction(MapEnum.fuel(fuel.or(outerFuel).get()));
 	}
-	
+
 	@Adapt(XDifference.class)
 	public IComponentsFunction<? extends Number> buildDifference(
 			@Prop(XBasicNumberFunction.P.children) final List<IComponentsFunction<? extends Number>> children) {
 		return Maths.difference(children);
 	}
-	
+
 	@Adapt(XMaximum.class)
 	public IComponentsFunction<? extends Number> buildMaximum(
 			@Prop(XBasicNumberFunction.P.children) final List<IComponentsFunction<? extends Number>> children) {
@@ -410,13 +437,13 @@ public class NumberFunctionAdapter extends ReflectingAdapter {
 			@Prop(XBasicNumberFunction.P.children) final List<IComponentsFunction<? extends Number>> children) {
 		return Maths.ratio(children);
 	}
-	
+
 	@Adapt(XSum.class)
 	public IComponentsFunction<? extends Number> buildSum(
 			@Prop(XBasicNumberFunction.P.children) final List<IComponentsFunction<? extends Number>> children) {
 		return Maths.sum(children);
 	}
-	
+
 	@Adapt(XGet.class)
 	public IComponentsFunction<Number> buildGet(
 			@Prop(XGet.P.var) final XNumberDeclaration var) {
@@ -430,23 +457,23 @@ public class NumberFunctionAdapter extends ReflectingAdapter {
 		}
 		throw new IllegalArgumentException("Unknown kind of scope " + var.getOn());
 	}
-	
+
 	// equivalent
 	@Adapt(XNumberDeclaration.class)
 	public IComponentsFunction<Number> buildGetFromNumber(final XNumberDeclaration decl) {
 		return buildGet(decl);
 	}
-	
+
 	@Adapt(XUnderFunction.class)
 	public IComponentsFunction<Number> buildUnderFunction(
 			@Prop(XUnderFunction.P.DELEGATE) final IComponentsFunction<Number> delegate,
 			@Prop(XUnderFunction.P.SNAPSHOT) final Optional<XSnapshotDeclaration> snapshotName,
 			@Prop(XUnderFunction.P.HYPOTHESES) final List<IComponentsAction> hypotheses) {
-		return new UnderFunction(delegate, 
+		return new UnderFunction(delegate,
 				snapshotName.isPresent() ? Optional.of(snapshotName.get().getName()) : Optional.<String>absent()
 				, hypotheses);
 	}
-	
+
 	@Adapt(XSnapshotDelta.class)
 	public IComponentsFunction<? extends Number> buildSnapshotDelta(
 			@Prop(XSnapshotDelta.P.DELEGATE) final IComponentsFunction<? extends Number> delegate,
@@ -454,13 +481,13 @@ public class NumberFunctionAdapter extends ReflectingAdapter {
 			@Prop(XSnapshotDelta.P.AFTER) final XSnapshotDeclaration after) {
 		return new SnapshotDeltaFunction(delegate, before.getName(), after.getName());
 	}
-	
+
 	/**
 	 * When adapting a simple tariff fuel, we can just compose the function
 	 * directly out of existing parts; consequently this actually builds
-	 * 
+	 *
 	 * sum(constant(standingRate), product(unitRate, meter(fuel)))
-	 * 
+	 *
 	 * @param fuel
 	 * @param standingCharge
 	 * @param unitRate
@@ -473,13 +500,13 @@ public class NumberFunctionAdapter extends ReflectingAdapter {
 			@Prop(XSimpleTariffFuel.P.standingCharge) final double standingCharge,
 			@Prop(XSimpleTariffFuel.P.unitRate) final double unitRate
 			) {
-		IComponentsFunction<? extends Number> result = 
+		IComponentsFunction<? extends Number> result =
 				buildProduct(
 						ImmutableList.of(
 								buildNumberConstant(name, unitRate),
 								buildMeterReadingFunction(Optional.of(fuel), Optional.of(fuel))
 								));
-		
+
 		if (standingCharge != 0) {
 			result = buildSum(
 					ImmutableList.of(
@@ -487,10 +514,10 @@ public class NumberFunctionAdapter extends ReflectingAdapter {
 							buildNumberConstant(name, standingCharge)
 							));
 		}
-		
+
 		return result;
 	}
-	
+
 	@Adapt(XPredictObligations.class)
 	public IComponentsFunction<? extends Number> buildPredictObligations(
 			@Prop(XPredictObligations.P.years) final int years,
@@ -498,12 +525,12 @@ public class NumberFunctionAdapter extends ReflectingAdapter {
 			@Prop(XPredictObligations.P.tags) final List<Glob> tags
 			) {
 		return factory.createPredictObligations(
-				years, 
-				source != XObligationSource.Existing, 
-				source != XObligationSource.NewlyAdded, 
+				years,
+				source != XObligationSource.Existing,
+				source != XObligationSource.NewlyAdded,
 				Glob.requireAndForbid(tags));
 	}
-	
+
 	@Adapt(XPower.class)
 	public IComponentsFunction<? extends Number> buildPow(
 			@Prop(XBasicNumberFunction.P.children) final List<IComponentsFunction<? extends Number>> children) {
@@ -514,48 +541,48 @@ public class NumberFunctionAdapter extends ReflectingAdapter {
 	public IComponentsFunction<? extends Number> buildLog(@Prop(XLog.P.base) final double base, @Prop(XLog.P.delegate) final IComponentsFunction<? extends Number> delegate) {
 		return Maths.log(delegate, base);
 	}
-	
+
 	@Adapt(XExp.class)
 	public IComponentsFunction<? extends Number> buildExp(
 		@Prop(XExp.P.delegate) final IComponentsFunction<? extends Number> delegate) {
-		return Maths.exp(delegate);	
+		return Maths.exp(delegate);
 	}
-	
+
 	@Adapt(XNumberSequence.XGreater.class)
 	public IComponentsFunction<Boolean> buildGreater(
 			@Prop(XNumberSequence.VALUES) final List<IComponentsFunction<? extends Number>> values
 			) {
 		return Maths.greater(values);
 	}
-	
+
 	@Adapt(XNumberSequence.XGreaterEq.class)
 	public IComponentsFunction<Boolean> buildGreaterEq(
 			@Prop(XNumberSequence.VALUES) final List<IComponentsFunction<? extends Number>> values
 			) {
 		return Maths.greaterEq(values);
 	}
-	
+
 	@Adapt(XNumberSequence.XLess.class)
 	public IComponentsFunction<Boolean> buildLess(
 			@Prop(XNumberSequence.VALUES) final List<IComponentsFunction<? extends Number>> values
 			) {
 		return Maths.less(values);
 	}
-	
+
 	@Adapt(XNumberSequence.XLessEq.class)
 	public IComponentsFunction<Boolean> buildLessEq(
 			@Prop(XNumberSequence.VALUES) final List<IComponentsFunction<? extends Number>> values
 			) {
 		return Maths.lessEq(values);
 	}
-	
+
 	@Adapt(XNumberSequence.XEqualNumbers.class)
 	public IComponentsFunction<Boolean> buildAllEquals(
 			@Prop(XNumberSequence.VALUES) final List<IComponentsFunction<? extends Number>> values
 			) {
 		return Maths.eq(values);
 	}
-	
+
 	@Adapt(XLookupFunction.XLookupEntry.class)
 	public LookupEntry buildLookupEntry(
 			@Prop(XLookupEntry.P.coordinates) final List<LookupRule> rules,
@@ -563,14 +590,14 @@ public class NumberFunctionAdapter extends ReflectingAdapter {
 			) {
 		return new LookupEntry(rules, value);
 	}
-	
+
 	@Adapt(XSimQuantum.class)
 	public IComponentsFunction<Number> buildSimQuantum(
 		final Name name,
 		@FromScope(SimulatorConfigurationConstants.GRANULARITY) final int quantum) {
 		return ConstantComponentsFunction.<Number>of(name, quantum);
 	}
-	
+
 	@Adapt(XFunctionDeclaration.class)
 	public Initializable ignoreFunctionDeclaration() {
 		return Initializable.NOP;
@@ -582,7 +609,7 @@ public class NumberFunctionAdapter extends ReflectingAdapter {
 			) {
 		return fn;
 	}
-	
+
 	@Adapt(XFutureValue.class)
 	public IComponentsFunction<Number> buildPredictSum(
 			@Prop(XFutureValue.P.horizon) final IComponentsFunction<Number> horizon,
@@ -592,29 +619,29 @@ public class NumberFunctionAdapter extends ReflectingAdapter {
 		e.addAll(foresight);
 		return factory.createPredictSum(horizon, e, value);
 	}
-	
+
 	@Adapt(XAnnualCost.class)
 	public IComponentsFunction<Number> buildAnnualCost(
 			final XAnnualCost element
 			) {
-		
+
 		// has a list of lists of globs
 		// if any list of globs works, the tag is in
 		// a list of globs works for a list of tags
 		// if each positive glob matches a tag and no negative glob matches a tag.
         // this is total overkill, since globs also have disjunction in them.
         // would be better with just a list of tags
-		
+
 		final ArrayList<Predicate<Collection<String>>> tests = new ArrayList<>();
 		for (final List<Glob> condition : element.getMatch()) {
 			final Predicate<Collection<String>> test = Glob.requireAndForbid(condition);
 			tests.add(test);
 		}
         final Predicate<Collection<String>> or = tests.isEmpty() ? Predicates.<Collection<String>>alwaysTrue() : Predicates.or(tests);
-		
+
 		return factory.createAnnualCost(element.isContainsEnd(), or);
 	}
-	
+
 
 	@Adapt(XRound.class)
 	public IComponentsFunction<Number> buildRound(

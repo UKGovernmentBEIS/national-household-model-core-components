@@ -295,6 +295,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="WaterTank">
     <eOperations name="getStandingLosses" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
       <eParameters name="parameters" lowerBound="1" eType="#//IInternalParameters"/>
+      <eParameters name="temperatureFactor" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="insulation" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>

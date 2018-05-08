@@ -15,7 +15,9 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.google.common.base.Optional;
 
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
+import uk.org.cse.nhm.energycalculator.api.StepRecorder;
 import uk.org.cse.nhm.energycalculator.api.ThermalMassLevel;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.api.types.FloorConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.RoofConstructionType;
 import uk.org.cse.nhm.energycalculator.api.types.WallConstructionType;
@@ -351,8 +353,16 @@ public class StructureModel implements ICopyable<StructureModel> {
 			 */
 			double areaAbove = 0;
 
+			double areaThirdFloorAndAbove = 0;
+
 			for (int i = 0; i<storeyCount; i++) {
 				final Storey here = storeys.get(i);
+
+				if (here.getFloorLocationType().getLevel() >= FloorLocationType.HIGHER_FLOOR.getLevel()) {
+				    areaThirdFloorAndAbove += here.getArea();
+                } else {
+				    StepRecorder.recordStep(getFloorAreaStep(here.getFloorLocationType()), here.getArea());
+                }
 
 				if (builtFormType.isFlat()) {
 					// Flats are different. Only the top and bottom floors count,
@@ -384,6 +394,8 @@ public class StructureModel implements ICopyable<StructureModel> {
 					areaHere = areaAbove;
 				}
 			}
+
+            StepRecorder.recordStep(EnergyCalculationStep.FloorArea_Third_and_Above, areaThirdFloorAndAbove);
 		}
 
 		for (final IDoorVisitor v : doors.values()) {
@@ -393,6 +405,23 @@ public class StructureModel implements ICopyable<StructureModel> {
 			v.visitDoors(visitor);
 		}
 	}
+
+    private EnergyCalculationStep getFloorAreaStep(FloorLocationType floorLocationType) {
+        switch(floorLocationType) {
+            case BASEMENT:
+                return EnergyCalculationStep.FloorArea_Basement;
+            case GROUND:
+                return EnergyCalculationStep.FloorArea_Ground;
+            case FIRST_FLOOR:
+                return EnergyCalculationStep.FloorArea_First;
+            case SECOND_FLOOR:
+                return EnergyCalculationStep.FloorArea_Second;
+            default:
+                throw new UnsupportedOperationException("Error trying to record floor area energy calculation step: floor " +
+                        floorLocationType +
+                        " is not in the normal list of floors, and should be accumulated into the third floor value.");
+        }
+    }
 
 	public double getEnvelopeArea() {
 		double roofArea = 0;

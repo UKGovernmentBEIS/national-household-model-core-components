@@ -6,6 +6,7 @@ import java.util.Random;
 import org.junit.Assert;
 import org.junit.Test;
 
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.simulator.state.dimensions.energy.IPowerTable;
@@ -13,11 +14,11 @@ import uk.org.cse.nhm.simulator.state.dimensions.fuel.ICarbonFactors;
 
 public class EmissionsTest {
 	private final Random random = new Random();
-	
+
 	private class Fac implements ICarbonFactors {
-		
+
 		private final double[] factors = new double[FuelType.values().length];
-		
+
 		public Fac() {
 			for (int i = 0; i<factors.length; i++) {
 				// the Emissions class under test makes optimisations if values are zero
@@ -27,18 +28,18 @@ public class EmissionsTest {
 				}
 			}
 		}
-		
+
 		@Override
 		public double getCarbonFactor(final FuelType ft) {
 			return factors[ft.ordinal()];
 		}
-		
+
 	}
-	
+
 	private class Pow implements IPowerTable {
-		
+
 		private final float[][] en = new float[ServiceType.values().length][FuelType.values().length];
-		
+
 		public Pow() {
 			for (final float[] vals : en) {
 				if (random.nextBoolean()) {
@@ -50,7 +51,7 @@ public class EmissionsTest {
 				}
 			}
 		}
-		
+
 		@Override
 		public float getFuelUseByEnergyService(final ServiceType es, final FuelType ft) {
 			return en[es.ordinal()][ft.ordinal()];
@@ -95,7 +96,7 @@ public class EmissionsTest {
 			}
 			return acc;
 		}
-		
+
 		@Override
 		public float getMeanInternalTemperature() {
 			return 0;
@@ -129,8 +130,14 @@ public class EmissionsTest {
 		public float getAirChangeRateWithoutDeliberate() {
 			return 0;
 		}
+
+		@Override
+		public double readStepMonthly(EnergyCalculationStep step, int month) { return 0; }
+
+		@Override
+		public double readStepAnnual(EnergyCalculationStep step) { return 0; }
 	}
-	
+
 	@Test
 	public void testEmissionsComputesProduct() {
 		for (int i = 0; i<1000; i++) {

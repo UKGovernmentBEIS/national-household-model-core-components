@@ -8,13 +8,10 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
-import uk.org.cse.nhm.energycalculator.api.IConstants;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
-import uk.org.cse.nhm.energycalculator.api.IHeatingSystem;
-import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
+import uk.org.cse.nhm.energycalculator.api.*;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
 import uk.org.cse.nhm.energycalculator.api.types.Zone2ControlParameter;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
 import uk.org.cse.nhm.hom.IHeatProportions;
 import uk.org.cse.nhm.hom.constants.adjustments.TemperatureAdjustments;
@@ -342,6 +339,8 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 		// a plain old heating system with a given responsiveness (depending on their controls)
 		// with a split-rate pricing of 0.2. Hurrah.
 
+        double proportion = heatProportions.spaceHeatingProportion(this);
+
 		/*
 		BEISDOC
 		NAME: Storage Heater Fuel Energy Demand
@@ -359,9 +358,13 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
 		*/
 		visitor.visitHeatingSystem(this, heatProportions.spaceHeatingProportion(this));
 		visitor.visitEnergyTransducer(
-				new StorageHeatingTransducer(heatProportions.spaceHeatingProportion(this),
+				new StorageHeatingTransducer(proportion,
 				heatingSystemCounter.getAndIncrement(),
 				getType() == StorageHeaterType.INTEGRATED_DIRECT_ACTING));
+
+		if (proportion > 0) {
+            StepRecorder.recordStep(EnergyCalculationStep.SpaceHeating_Efficiency_Main_System1, 1);
+        }
 	}
 
 	/**

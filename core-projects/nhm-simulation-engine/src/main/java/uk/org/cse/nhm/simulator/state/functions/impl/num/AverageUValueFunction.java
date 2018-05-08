@@ -133,8 +133,8 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 		}
 
 		@Override
-		public void visitDoor(final double area, final double uValue) {
-			if (includedAreas.contains(AreaType.Door)) {
+		public void visitDoor(final DoorType doorType, final double area, final double uValue) {
+			if (includedAreas.contains(doorType.getAreaType())) {
 				totalA += area;
 
 				final double overrideU = calculatorType.uvalues.getOutsideDoor(uValue, ageBand, country);
@@ -170,7 +170,7 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 		public void visitWindow(final double area, final double uValue, final FrameType frameType, final GlazingType glazingType,
 				final WindowInsulationType insulationType, final WindowGlazingAirGap airGap) {
 
-			if (includedAreas.contains(AreaType.Glazing)) {
+			if (includedAreas.contains(frameType.getAreaType())) {
 				totalA += area;
 
 				final double overrideU = calculatorType.uvalues.getWindow(uValue, frameType, glazingType, insulationType, airGap);
@@ -186,13 +186,23 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
 		}
 
 		@Override
-		public void visitFloor(final FloorType type, final boolean isGroundFloor, final double area, final double uValue,
+		public void visitFloor(final AreaType type, final double area, final double uValue,
 				final double exposedPerimeter, final double wallThickness) {
 
-			if (includedAreas.contains(type.getAreaType())) {
+			if (includedAreas.contains(type)) {
 				totalA += area;
-
-				final double overrideU = calculatorType.uvalues.getFloor(uValue, type, isGroundFloor, area, exposedPerimeter, wallThickness, groundFloorConstructionType, insulationThickness, ageBand, country);
+				
+				final double overrideU = calculatorType.uvalues.
+						getFloor(uValue, 
+								type == AreaType.PartyFloor,
+							    type == AreaType.BasementFloor || type == AreaType.GroundFloor, 
+							    area,
+							    exposedPerimeter,
+							    wallThickness,
+							    groundFloorConstructionType,
+							    insulationThickness,
+							    ageBand,
+							    country);
 
 				totalU += overrideU * area;
 

@@ -26,21 +26,21 @@ public class SurveyCaseBuilderTest {
 			final ISurveyCaseBuildStep step1 = mock(ISurveyCaseBuildStep.class);
 			final ISurveyCaseBuildStep step2 = mock(ISurveyCaseBuildStep.class);
 			final ISurveyCaseBuildStep step3 = mock(ISurveyCaseBuildStep.class);
-			
+
 			when(step1.getIdentifier()).thenReturn("A");
 			when(step2.getIdentifier()).thenReturn("B");
 			when(step3.getIdentifier()).thenReturn("C");
 			when(step1.getDependencies()).thenReturn(Collections.<String>emptySet());
 			when(step2.getDependencies()).thenReturn(ImmutableSet.of("A"));
 			when(step3.getDependencies()).thenReturn(ImmutableSet.of("B", "A"));
-			
+
 			final List<ISurveyCaseBuildStep> steps = new ArrayList<ISurveyCaseBuildStep>();
 			steps.add(step1);
 			steps.add(step2);
 			steps.add(step3);
-		
+
 			Collections.shuffle(steps);
-			
+
 			final SurveyCaseBuilder builder = new SurveyCaseBuilder();
 			for (final ISurveyCaseBuildStep step : steps) {
 				builder.addStep(step);
@@ -48,9 +48,9 @@ public class SurveyCaseBuilderTest {
 			builder.initialize();
 			final IHouseCaseSources provider = mock(IHouseCaseSources.class);
 			final SurveyCase build = builder.build(provider);
-			
+
 			final InOrder inOrder = Mockito.inOrder(step1, step2, step3);
-			
+
 			Assert.assertNotNull(build);
 			inOrder.verify(step1).build(build, provider);
 			inOrder.verify(step2).build(build, provider);

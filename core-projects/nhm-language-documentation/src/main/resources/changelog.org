@@ -41,7 +41,15 @@ If you want to cross-reference to a language element, you need to use the unique
   #+CAPTION: Scatterplot of error in energy use (in SAP mode) due to latitude error, for EHS 2012 stock.
   [[./figures/score-bug/energy-all-xy.png]]
 
+- A mis-reading of SAP table 5a caused the gains from central heating circulating pumps to be included when central heating is connected to a community heating system. However, table 5a states that they should be excluded in this case (although the electricity demand should not).
+
+  This error has been corrected. It caused buildings with community heat connected to central heating to experience at most 87kWh/year more internal gains than they ought to have done, which will have reduced space heat demand by (at most) the same amount.
+
+  The error affected 465 cases in the combined 2014 stock, for which the maximum change in annual energy use in SAP 2012 mode was 59kWh/year. Most (22933) cases were unaffected.
+
 **** New Features
+***** Addition of energy calculator intermediate outputs
+Added =ref.house.energy-calculation-step=, a number function which allow you to look at intermediate steps in the energy calculation.
 ***** Addition of SAP2012 Physical Mode
 A new energy calculator mode, ~SAP2012_PHYSICAL~ has been added.
 This is a slightly constrained version of ~BREDEM2012~, which does not require specification of u-values or other physical parameters, but does allow changes outside the scope of ~SAP2012~.
@@ -81,9 +89,10 @@ It is documented in more detail below in the section on energy calculator modes.
 - In an associated change, the command =ref.house.main-heating-system-type= now outputs ~AssumedElectricHeater~ when primary space heating is handled by plug-in electric heaters.
 - Energy calculator modes have been documented in more detail - see the next section of the manual if you are interested.
 - There is now a checkbox in the application's editor preferences to disable auto-indentation, in case you don't want it.
+- Added extra =record-changes= property on =ref.def-report=. If you set it to "false", then you won't get the "After" columns in the report.
 *** Version 7.1.0
 **** Bugs Fixed
-- Suitabilily for =ref.measure.solar-photovoltaic= is checked correctly.
+- Suitability for =ref.measure.solar-photovoltaic= is checked correctly.
   The implementation of measure suitability has been enhanced so this kind of error cannot be reintroduced for any other measure.
 - =ref.measure.warm-air-system= no longer ignores fuel argument.
 - =ref.measure.hot-water-tank-thermostat= checks for presence of water tank before installation.
@@ -110,7 +119,6 @@ Calculation now defines heatloss as specific heat loss + ventilation heat loss r
 Added in the ability to specify an air-gap for the measure.
 Look-up tables for U-Values now take into account air-gap when returning u-values for glazings.
 If no u-value is supplied then u-value will be take from SAP tables.
- 
 **** New Features
 ***** Added new function =ref.house.has-solar-thermal=
 Returns true of the central hot water heating system includes a solar thermal component

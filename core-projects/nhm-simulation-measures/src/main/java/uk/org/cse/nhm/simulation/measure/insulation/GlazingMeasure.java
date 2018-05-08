@@ -35,7 +35,7 @@ import uk.org.cse.nhm.simulator.transactions.Payment;
 /**
  * A measure for installing double & triple glazing onto a proportion of the
  * windows in a house.
- * 
+ *
  * @author tomw
  * @since 4.2.0
  */
@@ -70,8 +70,8 @@ public class GlazingMeasure extends AbstractMeasure implements
 		this.glazing.setGainsTransmissionFactor(gainsTransmittance);
 		this.glazing.setInsulationType(insulationType);
 		this.glazing.setWindowGlazingAirGap(airGap);
-		
-		//BREDEMVisitor expects a u-value to be present and so we must try and set-one 
+
+		//BREDEMVisitor expects a u-value to be present and so we must try and set-one
 		if(uValue == 0 && frameType != null && insulationType != null && airGap != null) {
 			this.glazing.setUValue(SAPTables.Windows.uValue(frameType, glazingType, insulationType, airGap));
 		}
@@ -80,11 +80,11 @@ public class GlazingMeasure extends AbstractMeasure implements
 	/**
 	 * Modifies the given household structure to add the glazing to every elevation
 	 * of the given structure.
-	 * 
+	 *
 	 * @see uk.org.cse.nhm.simulator.state.IBranch.IModifier#modify(java.lang.Object)
 	 * @Assumption Here we assume that all windows are suitable for glazing.
 	 * @Assumption Here we assume that all houses have at least one elevation, but the method will return false if not.
-	 * @return successfullyModified true if the given structure model had glazings set for at least one 
+	 * @return successfullyModified true if the given structure model had glazings set for at least one
 	 * 				elevation, false otherwise (i.e. there are no elevations )
 	 */
 	@Override
@@ -95,12 +95,12 @@ public class GlazingMeasure extends AbstractMeasure implements
 			final Elevation elevation = e.getValue();
 
 			elevation.setGlazings(ImmutableList.<Glazing>of(this.glazing.copy()));
-	
+
 			modified = true;
 		}
-		
+
 		if(modified) {
-			final AreaAccumulator a = new  AreaAccumulator(EnumSet.of(AreaType.Glazing));
+			final AreaAccumulator a = new  AreaAccumulator(EnumSet.of(AreaType.GlazingMetal, AreaType.GlazingUPVC, AreaType.GlazingWood));
 			modifiable.accept(a);
 			quantityInstalled = a.getTotalArea();
 		}
@@ -115,23 +115,23 @@ public class GlazingMeasure extends AbstractMeasure implements
         components.modify(structureDimension, this);
         addCapitalCosts(components, lets, this.quantityInstalled);
 
-        return true;		
+        return true;
 	}
 
 	/**
 	 * Returns true if the given household components are suitable for this
 	 * measure, false otherwsie
-	 * 
+	 *
 	 * @see uk.org.cse.nhm.simulator.scope.IComponentsAction#isSuitable(uk.org.cse.nhm.simulator.scope.IComponentsScope, ILets)
 	 * @Assumption We assume that all households have at least one glazable opening
 	 */
 	@Override
 	public boolean isSuitable(final IComponentsScope components, final ILets lets) {
 		// TODO: Does it have something to glaze e.g. windows?
-		
+
 		return true;
 	}
-	
+
 	@Override
 	public boolean isAlwaysSuitable() {
 		return true;
@@ -139,7 +139,7 @@ public class GlazingMeasure extends AbstractMeasure implements
 
 	/**
 	 * Adds to the capex for this measure. Assumes no opex cost.
-	 * 
+	 *
 	 * @since 4.2.0
 	 * @param components
 	 * @param lets TODO
@@ -165,7 +165,7 @@ public class GlazingMeasure extends AbstractMeasure implements
 
 	/**
 	 * Returns the glazing associated with this measure for testing purposes.
-	 * 
+	 *
 	 * @since 4.2.0
 	 * @return
 	 */

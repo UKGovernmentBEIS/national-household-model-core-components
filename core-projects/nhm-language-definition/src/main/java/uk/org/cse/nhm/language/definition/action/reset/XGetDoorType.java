@@ -2,7 +2,7 @@ package uk.org.cse.nhm.language.definition.action.reset;
 
 import com.larkery.jasb.bind.Bind;
 
-import uk.org.cse.nhm.hom.components.fabric.types.DoorType;
+import uk.org.cse.nhm.energycalculator.api.types.DoorType;
 import uk.org.cse.nhm.language.definition.Category;
 import uk.org.cse.nhm.language.definition.Category.CategoryType;
 import uk.org.cse.nhm.language.definition.Doc;

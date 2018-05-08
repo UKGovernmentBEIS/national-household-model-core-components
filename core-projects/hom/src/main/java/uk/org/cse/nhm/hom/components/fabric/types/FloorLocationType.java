@@ -1,5 +1,7 @@
 package uk.org.cse.nhm.hom.components.fabric.types;
 
+import uk.org.cse.nhm.energycalculator.api.types.AreaType;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -67,4 +69,15 @@ public enum FloorLocationType {
 	public boolean isInContactWithGround() {
 		return this == BASEMENT || this == GROUND;
 	}
+
+    public AreaType getExternalAreaType() {
+        switch(this) {
+            case BASEMENT:
+                return AreaType.BasementFloor;
+            case GROUND:
+                return AreaType.GroundFloor;
+            default:
+                return AreaType.ExposedUpperFloor;
+        }
+    }
 }

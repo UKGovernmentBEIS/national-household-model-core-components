@@ -102,8 +102,8 @@ public class AreaAccumulator implements IEnergyCalculatorVisitor {
 	}
 
 	@Override
-	public void visitDoor(final double area, final double uValue) {
-		if (this.areaTypes.contains(AreaType.Door)) {
+	public void visitDoor(final DoorType doorType, final double area, final double uValue) {
+		if (this.areaTypes.contains(doorType.getAreaType())) {
 			this.totalArea += area;
 		}
 	}
@@ -123,7 +123,7 @@ public class AreaAccumulator implements IEnergyCalculatorVisitor {
 	@Override
 	public void visitWindow(final double area, final double uValue, final FrameType frameType, final GlazingType glazingType,
 			final WindowInsulationType insulationType, final WindowGlazingAirGap airGap) {
-		if (this.areaTypes.contains(AreaType.Glazing)) {
+		if (this.areaTypes.contains(frameType.getAreaType())) {
 			this.totalArea += area;
 		}
 	}
@@ -134,8 +134,8 @@ public class AreaAccumulator implements IEnergyCalculatorVisitor {
 	}
 
 	@Override
-	public void visitFloor(final FloorType type, final boolean isGroundFloor, final double area, final double uValue, final double exposedPerimeter, final double wallThickness) {
-		if (this.areaTypes.contains(type.getAreaType())) {
+	public void visitFloor(final AreaType type, final double area, final double uValue, final double exposedPerimeter, final double wallThickness) {
+		if (this.areaTypes.contains(type)) {
 			this.totalArea += area;
 		}
 	}

@@ -88,7 +88,9 @@ public class DraughtProofingMeasure extends AbstractMeasure implements IModifier
 	}
 
 	private double getAreaOfOpenings(final StructureModel modifiable) {
-		final AreaAccumulator a = new AreaAccumulator(EnumSet.of(AreaType.Door, AreaType.Glazing));
+		final AreaAccumulator a = new AreaAccumulator(EnumSet.of(
+				AreaType.DoorGlazed, AreaType.DoorSolid,
+				AreaType.GlazingWood, AreaType.GlazingMetal, AreaType.GlazingUPVC));
 		modifiable.accept(a);
 		return a.getTotalArea();
 	}

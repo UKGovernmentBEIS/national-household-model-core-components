@@ -12,7 +12,9 @@ import org.slf4j.LoggerFactory;
 
 import uk.org.cse.nhm.energycalculator.api.IEnergyState;
 import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
+import uk.org.cse.nhm.energycalculator.api.StepRecorder;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
 import uk.org.cse.nhm.hom.emf.technologies.IWarmAirCirculator;
@@ -234,10 +236,14 @@ public class WarmAirCirculatorImpl extends CentralWaterHeaterImpl implements IWa
 		
 		state.increaseSupply(EnergyType.DemandsHOT_WATER, demandToSatisfy);
 		state.increaseSupply(EnergyType.GainsHOT_WATER_SYSTEM_GAINS, primaryLosses);
+
+		final double efficiency = getWarmAirSystem().getEfficiency().value;
 		
 		state.increaseDemand(getWarmAirSystem().getFuelType().getEnergyType(), 
 				(demandToSatisfy + primaryLosses)
-				/ getWarmAirSystem().getEfficiency().value);
+				/ efficiency);
+
+		StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_Efficiency, efficiency);
 		
 		return demandToSatisfy;
 	}

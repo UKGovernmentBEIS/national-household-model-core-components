@@ -123,6 +123,29 @@
                 </mediaobject>
               </figure>
             </listitem>
+            <listitem>
+              <para>
+                A mis-reading of SAP table 5a caused the gains from
+                central heating circulating pumps to be included when
+                central heating is connected to a community heating
+                system. However, table 5a states that they should be
+                excluded in this case (although the electricity demand
+                should not).
+              </para>
+              <para>
+                This error has been corrected. It caused buildings with
+                community heat connected to central heating to
+                experience at most 87kWh/year more internal gains than
+                they ought to have done, which will have reduced space
+                heat demand by (at most) the same amount.
+              </para>
+              <para>
+                The error affected 465 cases in the combined 2014 stock,
+                for which the maximum change in annual energy use in SAP
+                2012 mode was 59kWh/year. Most (22933) cases were
+                unaffected.
+              </para>
+            </listitem>
           </itemizedlist>
         </listitem>
         <listitem>
@@ -130,6 +153,17 @@
             New Features
           </para>
           <orderedlist>
+            <listitem>
+              <para>
+                Addition of energy calculator intermediate outputs
+              </para>
+              <para>
+                Added
+                <xref linkend="ref.house.energy-calculation-step"/>, a
+                number function which allow you to look at intermediate
+                steps in the energy calculation.
+              </para>
+            </listitem>
             <listitem>
               <para>
                 Addition of SAP2012 Physical Mode
@@ -306,6 +340,14 @@
                 don't want it.
               </para>
             </listitem>
+            <listitem>
+              <para>
+                Added extra <literal>record-changes</literal> property
+                on <xref linkend="ref.def-report"/>. If you set it to
+                &quot;false&quot;, then you won't get the
+                &quot;After&quot; columns in the report.
+              </para>
+            </listitem>
           </itemizedlist>
         </listitem>
       </orderedlist>
@@ -320,7 +362,7 @@
           <itemizedlist spacing="compact">
             <listitem>
               <para>
-                Suitabilily for
+                Suitability for
                 <xref linkend="ref.measure.solar-photovoltaic"/> is
                 checked correctly. The implementation of measure
                 suitability has been enhanced so this kind of error

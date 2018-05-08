@@ -83,10 +83,12 @@ final class Visitor implements IEnergyCalculatorVisitor {
 
 	private FloorConstructionType groundFloorConstructionType;
 	private Double floorInsulationThickness;
-	
+
 	private final EnergyCalculatorType mode;
 	private final Country country;
 	private final Band band;
+
+	private ThermalMassLevel bestThermalMassLevel;
 
 	public static Visitor create(final IConstants constants, final IEnergyCalculatorParameters parameters, final int buildYear, final Country country, final List<IEnergyTransducer> defaultTransducers) {
 		return new Visitor(constants, parameters, defaultTransducers, country, SAPAgeBandValue.fromYear(buildYear, country).getName());
@@ -177,7 +179,7 @@ final class Visitor implements IEnergyCalculatorVisitor {
 	}
 
 	@Override
-	public void visitDoor(final double area, final double uValue) {
+	public void visitDoor(final DoorType doorType, final double area, final double uValue) {
 		log.debug("VISIT Door, {}, {}", area, uValue);
 
 		/*
@@ -199,7 +201,7 @@ final class Visitor implements IEnergyCalculatorVisitor {
 		NOTES: Some doors may be omitted if the total area of doors is greater than the area allowed by the openingProportion.
 		CODSIEB
 		*/
-		visitArea(AreaType.Door, area, mode.uvalues.getOutsideDoor(uValue, band, country));
+		visitArea(doorType.getAreaType(), area, mode.uvalues.getOutsideDoor(uValue, band, country));
 	}
 
 	@Override
@@ -252,7 +254,6 @@ final class Visitor implements IEnergyCalculatorVisitor {
 			final WindowGlazingAirGap airGap
 			) {
 		log.debug("VISIT Window, {}, {}, {}, {}, {}", area, uValue, frameType, glazingType, insulationType);
-
 		/*
 		BEISDOC
 		NAME: Window Heat Loss
@@ -272,7 +273,7 @@ final class Visitor implements IEnergyCalculatorVisitor {
 		CODSIEB
 		*/
 		visitArea(
-				AreaType.Glazing,
+				frameType.getAreaType(),
 				area,
 				mode.uvalues.getWindow(uValue, frameType, glazingType, insulationType, airGap)
 			);
@@ -285,7 +286,7 @@ final class Visitor implements IEnergyCalculatorVisitor {
 	}
 
 	@Override
-	public void visitFloor(final FloorType type, final boolean isGroundFloor, final double area, final double uValue, final double exposedPerimeter, final double wallThickness) {
+	public void visitFloor(final AreaType type, final double area, final double uValue, final double exposedPerimeter, final double wallThickness) {
 		log.debug("VISIT {}, {}, {}, {}, {}", type, area, uValue, groundFloorConstructionType, floorInsulationThickness);
 
 		/*
@@ -307,14 +308,25 @@ final class Visitor implements IEnergyCalculatorVisitor {
 		CODSIEB
 		*/
 
-		if (isGroundFloor && (groundFloorConstructionType == null || floorInsulationThickness == null)) {
-			throw new RuntimeException("setGroundFloorType must be called before calling visitFloor with isGroundFloor = true");
+		final boolean isGroundFloorOrBasement = type == AreaType.BasementFloor || type == AreaType.GroundFloor;
+
+		if (isGroundFloorOrBasement && (groundFloorConstructionType == null || floorInsulationThickness == null)) {
+			throw new RuntimeException("setGroundFloorType must be called before calling visitFloor with a ground or basement floor");
 		}
 
 		visitArea(
-				type.getAreaType(),
+				type,
 				area,
-				mode.uvalues.getFloor(uValue, type, isGroundFloor, area, exposedPerimeter, wallThickness, groundFloorConstructionType, floorInsulationThickness, band, country));
+				mode.uvalues.getFloor(uValue, 
+						type == AreaType.PartyFloor,
+					    type == AreaType.BasementFloor || type == AreaType.GroundFloor, 
+					    area,
+					    exposedPerimeter,
+					    wallThickness,
+					    groundFloorConstructionType,
+					    floorInsulationThickness,
+					    band,
+					    country));
 	}
 
 	public void visitArea(final AreaType type, final double area, final double uValue) {
@@ -407,7 +419,7 @@ final class Visitor implements IEnergyCalculatorVisitor {
 		CODSIEB
 		*/
 		final double frameFactor = mode.uvalues.getFrameFactor(_frameFactor, frameType);
-		
+
 		final double usefulArea = frameFactor * area;
 
 		/*
@@ -424,7 +436,7 @@ final class Visitor implements IEnergyCalculatorVisitor {
 		ID: visible-light-effective-transmission-area
 		CODSIEB
 		*/
-		final double totalVisibleLightTransmittivity = 
+		final double totalVisibleLightTransmittivity =
 				mode.uvalues.getVisibleLightTransmissivity(_visibleLightTransmittivity, glazingType) * usefulArea;
 
 		/*
@@ -461,7 +473,7 @@ final class Visitor implements IEnergyCalculatorVisitor {
 	}
 
     public double getBestThermalMassParameter() {
-		/*
+    	/*
 		BEISDOC
 		NAME: Thermal Mass
 		DESCRIPTION: Choose the thermal mass parameter based on which level has the largest wall area.
@@ -475,16 +487,19 @@ final class Visitor implements IEnergyCalculatorVisitor {
 		ID: thermal-mass
 		CODSIEB
 		*/
-		double highestArea = 0;
-		ThermalMassLevel level = ThermalMassLevel.MEDIUM;
-		for (int i = 0; i < thermalMassAreas.length; i++) {
-			if (thermalMassAreas[i] > highestArea) {
-				highestArea = thermalMassAreas[i];
-				level = ThermalMassLevel.values()[i];
+    	if (bestThermalMassLevel == null) {
+			double highestArea = 0;
+			ThermalMassLevel level = ThermalMassLevel.MEDIUM;
+			for (int i = 0; i < thermalMassAreas.length; i++) {
+				if (thermalMassAreas[i] > highestArea) {
+					highestArea = thermalMassAreas[i];
+					level = ThermalMassLevel.values()[i];
+				}
 			}
+			bestThermalMassLevel = level;
 		}
 
-		return level.getThermalMassParameter();
+		return bestThermalMassLevel.getThermalMassParameter();
 	}
 
 	@Override
@@ -492,11 +507,11 @@ final class Visitor implements IEnergyCalculatorVisitor {
 		return this.getClass().getSimpleName() + " [totalSpecificHeatLoss=" + totalFabricHeatLoss + ", totalExternalArea=" + totalExternalArea + ", totalThermalMass="
 				+ getBestThermalMassParameter() + "]";
 	}
-	
+
 	@Override
 	public void visitLight(String name, double proportion, LightType lightType, double[] splitRate) {
-		transducers.add(new SimpleLightingTransducer(lightType.name(), proportion, 
+		transducers.add(new SimpleLightingTransducer(lightType.name(), proportion,
 				mode.lighting.getMultiplier(lightType), splitRate));
 	}
-}
 
+}

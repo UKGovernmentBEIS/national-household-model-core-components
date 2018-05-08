@@ -9,10 +9,10 @@ stdenv.mkDerivation rec {
   name = "nhm-build-env";
   env = buildEnv {name = name; paths = buildInputs;};
   buildInputs = [
-    git xmlstarlet jdk maven gradle
+    git xmlstarlet jdk maven gradle webfs
     (rWrapper.override {
       packages = with rPackages;
-      [ dplyr jsonlite stringr data_table plyr ggplot2 ];
+      [ dplyr jsonlite stringr data_table plyr ggplot2 tidyr ];
     })
   ];
 }

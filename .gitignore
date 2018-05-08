@@ -27,6 +27,11 @@ org.eclipse.packagedrone.server-0.12.2/configuration/*.log
 **/.settings
 **/.classpath
 
+# Intellij files
+/core-projects/.idea
+/core-projects/core-projects.iml
+**/out
+
 ## Stock documentation generated files
 core-projects/nhm-stock-documentation/src/main/resources/stockref.xml
 core-projects/nhm-stock-documentation/src/main/resources/variableref.xml
@@ -57,8 +62,8 @@ core-projects/GTAGS
 binaries
 nhm-ide/result
 
-#p2/inputs/plugins/*nhm-language-documentation*
-#p2/inputs/plugins/*nhm-stock-documentation*
-#p2/inputs/plugins/*docbook*
-#p2/inputs/plugins/*manual*
-#p2/inputs/plugins/*-????????.??????-*
+# p2/inputs/plugins/*nhm-language-documentation*
+# p2/inputs/plugins/*nhm-stock-documentation*
+# p2/inputs/plugins/*docbook*
+# p2/inputs/plugins/*manual*
+# p2/inputs/plugins/*-????????.??????-*

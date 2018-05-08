@@ -1,11 +1,7 @@
 package uk.org.cse.nhm.energycalculator.impl.gains;
 
-import uk.org.cse.nhm.energycalculator.api.IConstants;
-import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorHouseCase;
-import uk.org.cse.nhm.energycalculator.api.IEnergyState;
-import uk.org.cse.nhm.energycalculator.api.IEnergyTransducer;
-import uk.org.cse.nhm.energycalculator.api.IInternalParameters;
-import uk.org.cse.nhm.energycalculator.api.ISpecificHeatLosses;
+import uk.org.cse.nhm.energycalculator.api.*;
+import uk.org.cse.nhm.energycalculator.api.types.steps.EnergyCalculationStep;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.TransducerPhaseType;
@@ -32,6 +28,7 @@ public class GainsTransducer implements IEnergyTransducer {
 			final IInternalParameters parameters, final ISpecificHeatLosses losses,
 			final IEnergyState state) {
 		final double metabolicGains = state.getTotalSupply(EnergyType.GainsMETABOLIC_GAINS);
+
 		final double lightingGains = state.getTotalSupply(EnergyType.GainsLIGHTING_GAINS);
 		final double applianceGains = state.getTotalSupply(EnergyType.GainsAPPLIANCE_GAINS);
 		final double cookingGains = state.getTotalSupply(EnergyType.GainsCOOKING_GAINS);
@@ -63,30 +60,10 @@ public class GainsTransducer implements IEnergyTransducer {
 		state.increaseDemand(EnergyType.GainsPUMP_AND_FAN_GAINS, pumpGains);
 		state.increaseDemand(EnergyType.GainsHOT_WATER_USAGE_GAINS, hotWaterGains);
 		state.increaseDemand(EnergyType.GainsHOT_WATER_SYSTEM_GAINS, hotWaterGains2);
-		state.increaseDemand(EnergyType.GainsSOLAR_GAINS, solarGains);
 
-		/*
-		BEISDOC
-		NAME: Useful Gains
-		DESCRIPTION: Adds up all the gains we found, multiplying them by utilisation factors as necessary.
-		TYPE: formula
-		UNIT: W
-		SAP: (73, 84)
-                SAP_COMPLIANT: Yes
-		BREDEM: 6J, 6K
-                BREDEM_COMPLIANT: Yes
-		DEPS: monthly-solar-gains,metabolic-gains,lighting-gains-utilisation,lighting-energy-demand,appliance-adjusted-demand,cooking-gains,pump-and-fan-gains,hot-water-usage-gains,hot-water-system-gains
-		ID: useful-gains
-		CODSIEB
-		*/
-		final double usefulGains =
-				solarGains +
-				metabolicGains +
-				LIGHTING_GAIN_USEFULNESS * lightingGains +
-				applianceGains +
-				cookingGains +
-				pumpGains +
 
+		final double usefulLightingGains = LIGHTING_GAIN_USEFULNESS * lightingGains;
+		final double usefulHotWaterGains =
 				/*
 				BEISDOC
 				NAME: Hot Water Usage Gains
@@ -103,7 +80,6 @@ public class GainsTransducer implements IEnergyTransducer {
 				CODSIEB
 				*/
 				HOT_WATER_USE_USEFULNESS * hotWaterGains +
-
 				/*
 				BEISDOC
 				NAME: Hot Water System Gains
@@ -119,6 +95,38 @@ public class GainsTransducer implements IEnergyTransducer {
 				CODSIEB
 				*/
 				HOT_WATER_PIPEWORK_USEFULNESS * hotWaterGains2;
+
+		StepRecorder.recordStep(EnergyCalculationStep.Gains_HotWater_Monthly, usefulHotWaterGains);
+		StepRecorder.recordStep(EnergyCalculationStep.Gains_Metabolic, metabolicGains);
+		StepRecorder.recordStep(EnergyCalculationStep.Gains_Lighting, usefulLightingGains);
+		StepRecorder.recordStep(EnergyCalculationStep.Gains_Appliances, applianceGains);
+		StepRecorder.recordStep(EnergyCalculationStep.Gains_Cooking, cookingGains);
+		StepRecorder.recordStep(EnergyCalculationStep.Gains_PumpsAndFans, pumpGains);
+		StepRecorder.recordStep(EnergyCalculationStep.Gains_HotWater, usefulHotWaterGains);
+
+		final double usefulInternalGains = metabolicGains +
+				usefulLightingGains +
+				applianceGains +
+				cookingGains +
+				pumpGains +
+				usefulHotWaterGains;
+
+		state.increaseDemand(EnergyType.GainsSOLAR_GAINS, solarGains);
+		StepRecorder.recordStep(EnergyCalculationStep.Gains_Solar, solarGains);
+
+		/*
+		BEISDOC
+		NAME: Useful Gains
+		DESCRIPTION: Adds up all the gains we found, multiplying them by utilisation factors as necessary.
+		TYPE: formula
+		UNIT: W
+		SAP: (73, 84)
+		BREDEM: 6J, 6K
+		DEPS: monthly-solar-gains,metabolic-gains,lighting-gains-utilisation,lighting-energy-demand,appliance-adjusted-demand,cooking-gains,pump-and-fan-gains,hot-water-usage-gains,hot-water-system-gains
+		ID: useful-gains
+		CODSIEB
+		*/
+		final double usefulGains = solarGains + usefulInternalGains;
 
 		state.increaseSupply(EnergyType.GainsUSEFUL_GAINS, usefulGains);
 	}

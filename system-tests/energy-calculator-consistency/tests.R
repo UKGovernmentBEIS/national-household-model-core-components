@@ -7,6 +7,10 @@ comparison <- load.probe("energy") %>%
            bredem2012 = bredem2012..Before.,
            sap2012 = sap2012..Before.) %>%
     distinct %>%
+    {
+        write.table(., "new-values.tab", sep="\t", row.names = FALSE, col.names = TRUE)
+        .
+    } %>%
     full_join(expectation, by="survey.code") %>%
     mutate(delta.bredem = bredem2012.x - bredem2012.y,
            delta.sap = sap2012.x - sap2012.y) %>%
