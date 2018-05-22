@@ -250,7 +250,7 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
 
         @Override
         public float getAirChangeRateWithoutDeliberate() {
-            return airChangeRateWithoutDeliberate;
+            return airChangeRateWithoutDeliberate / 365f;
         }
 
         @Override
