@@ -143,6 +143,9 @@ else
     green "Skip documentation"
 fi
 
+green "Clean P2 inputs to make sure IDE is up-to-date"
+git clean -f p2/inputs
+
 green "Copy jars to p2 inputs directory"
 find binaries -iname \*.jar -exec cp '-p' '{}' p2/inputs/plugins/ ';'
 
