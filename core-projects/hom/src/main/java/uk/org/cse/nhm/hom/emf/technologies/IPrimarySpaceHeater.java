@@ -2,6 +2,8 @@
  */
 package uk.org.cse.nhm.hom.emf.technologies;
 
+import java.util.List;
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Primary Space Heater</b></em>'.
@@ -14,6 +16,6 @@ package uk.org.cse.nhm.hom.emf.technologies;
  * @generated
  */
 public interface IPrimarySpaceHeater extends ISpaceHeater {
-
     FuelType getFuel();
+    public List<HeatingSystemControlType> getControls();
 } // IPrimarySpaceHeater

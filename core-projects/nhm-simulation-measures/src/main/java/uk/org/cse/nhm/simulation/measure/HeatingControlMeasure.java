@@ -6,6 +6,7 @@ import com.google.inject.assistedinject.AssistedInject;
 import uk.org.cse.nhm.NHMException;
 import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
 import uk.org.cse.nhm.hom.emf.technologies.ICentralHeatingSystem;
+import uk.org.cse.nhm.hom.emf.technologies.IHeatSource;
 import uk.org.cse.nhm.hom.emf.technologies.IPrimarySpaceHeater;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
 import uk.org.cse.nhm.hom.emf.technologies.IWarmAirSystem;
@@ -45,6 +46,13 @@ public class HeatingControlMeasure extends AbstractMeasure {
                 return false;
         }
     }
+
+    private static boolean isCommunityHeatingControl(final HeatingSystemControlType controlType) {
+        return isCentralHeatingControl(controlType) &&
+            controlType != HeatingSystemControlType.TIME_TEMPERATURE_ZONE_CONTROL &&
+            controlType != HeatingSystemControlType.DELAYED_START_THERMOSTAT;
+    }
+
 
     private static boolean isRoomHeaterControl(final HeatingSystemControlType controlType) {
         return controlType == HeatingSystemControlType.APPLIANCE_THERMOSTAT;
@@ -123,7 +131,12 @@ public class HeatingControlMeasure extends AbstractMeasure {
 
         final IPrimarySpaceHeater primary = tech.getPrimarySpaceHeater();
         if (isCentralHeatingControl && primary instanceof ICentralHeatingSystem) {
-            return ((ICentralHeatingSystem) primary).getControls().contains(controlType) == false;
+            final ICentralHeatingSystem central = (ICentralHeatingSystem) primary;
+            final IHeatSource source = central.getHeatSource();
+            if (source.isCommunityHeating()) {
+                if (!isCommunityHeatingControl(controlType)) return false;
+            }
+            return central.getControls().contains(controlType) == false;
         } else if (isWarmAirControl && primary instanceof IWarmAirSystem) {
             return ((IWarmAirSystem) primary).getControls().contains(controlType) == false;
         } else if (isRoomHeaterControl) {

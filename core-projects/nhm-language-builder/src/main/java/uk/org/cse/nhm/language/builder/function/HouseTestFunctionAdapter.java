@@ -144,8 +144,7 @@ public class HouseTestFunctionAdapter extends ReflectingAdapter {
     }
 
     @Adapt(XHasHeatingControl.class)
-    public IComponentsFunction<Boolean> buildMatchHasHeatingControl(
-            @Prop(XHasHeatingControl.P.type) final XHasHeatingControl.XHeatingControlType type) {
+    public IComponentsFunction<Boolean> buildMatchHasHeatingControl(@Prop(XHasHeatingControl.P.type) final XHeatingControlType type) {
 
         HeatingSystemControlType internalType;
         switch (type) {
