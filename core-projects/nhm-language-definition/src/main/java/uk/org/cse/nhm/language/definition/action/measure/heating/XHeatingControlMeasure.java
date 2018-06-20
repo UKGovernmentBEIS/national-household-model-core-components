@@ -28,12 +28,24 @@ public class XHeatingControlMeasure extends XMeasure {
     }
 
     @Doc({
-        "A type of heating system control; the presence or absence of heating controls",
-        "affects a range of values within the SAP calculation, mostly around the mean",
-        "temperature in the house."
+            "A type of heating system control; the presence or absence of heating controls",
+            "affects a range of values within the SAP calculation, mostly around the mean",
+            "temperature in the house.",
+            "",
+                "Each control is suitable for different types of heating system.",
+                "A house can have both a primary and secondary heating system,",
+                "and will be suitable for some control if either system is suitable for that control."
+
     })
     public enum XHeatingControlType {
-        @Doc("Suitable for wet central heating, warm air systems, and room heaters (including secondary heaters)")
+        @Doc({"Suitable for wet central heating, warm air systems, and room heaters (including secondary heaters)",
+                    "",
+                    "Because this is suitable for secondary heaters, it could be suitable for a house with any main",
+                    "heating system so long as that house has a secondary heater without a thermostat.",
+                    "",
+                    "For example, a house with a storage heater would be suitable for an appliance thermostat",
+                    "if it had a secondary room heater which didn't have an existing thermostat already."
+                    })
         ApplianceThermostat,
         @Doc("Suitable for wet central heating and warm air systems")
         RoomThermostat,
