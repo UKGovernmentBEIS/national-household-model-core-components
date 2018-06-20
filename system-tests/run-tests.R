@@ -60,9 +60,23 @@ run.scenario <- function(scenario) {
                                         msg = ""))
 
         println("[INFO] OK, output %s", result$file)
+
+        ## check for run errors
+        contents <- tryCatch(unzip(result$file, list=TRUE)$Name,
+           error = function(e) character(0))
+        
         ## look for verifier script and run it
-        test.script <- paste(dirname(scenario), "tests.R", sep = "/")
-        if (file.exists(test.script)) {
+        test.script <- paste(dirname(scenario), sub("\\.nhm$", ".R", basename(scenario)), sep="/")
+
+        if ("errors.txt" %in% contents) {
+            error <- readLines(unz(result$file, "errors.txt"))[[1]]
+            run.results <<- bind_rows(run.results,
+                     data.frame(scenario = scenario,
+                                status = "Scenario error",
+                                msg = error))
+
+            println("[FAIL] errors.txt in %s: %s", result$file, error)
+        } else if (file.exists(test.script)) {
             println("[INFO] Test script %s", test.script)
             failed <- run.test.script(test.script)
             if (length(failed) > 0) {
@@ -88,7 +102,7 @@ println("[INFO] Model version: %s", version)
 
 args <- commandArgs(trailingOnly = TRUE)
 if (length(args) == 0) {
-    scenarios <- list.files(recursive = TRUE, pattern = "main\\.nhm")
+    scenarios <- list.files(recursive = TRUE, pattern = ".+\\.nhm$")
 } else {
     scenarios <- args
 }

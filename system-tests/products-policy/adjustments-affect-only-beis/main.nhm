@@ -10,23 +10,36 @@
   (scenario-start)
   (assert
    over: (all-houses)
+   capture: [
+      (use-with-zero-terms BEIS Appliances)
+      (use-with-zero-terms BEIS Cooking)
+      (use-with-zero-terms BREDEM2012 Appliances)
+      (use-with-zero-terms BREDEM2012 Cooking)
+      (use-with-zero-terms SAP2012 Appliances)
+      (use-with-zero-terms SAP2012 Cooking)
+      (use-with-zero-terms SAP2012_PHYSICAL Appliances)
+      (use-with-zero-terms SAP2012_PHYSICAL Cooking)
+      house.survey-code
+      house.number-of-occupants
+   ]
    (all
-    (= 0 (use-with-zero-terms BEIS Appliances))
-    (= 0 (use-with-zero-terms BEIS Cooking))
+    (= -1 (use-with-zero-terms BEIS Appliances))
+    (= -1 (use-with-zero-terms BEIS Cooking))
 
-    (< 0 (use-with-zero-terms BREDEM2012 Appliances))
-    (< 0 (use-with-zero-terms BREDEM2012 Cooking))
+    (<= 0 (use-with-zero-terms BREDEM2012 Appliances))
+    (<= 0 (use-with-zero-terms BREDEM2012 Cooking))
 
-    (< 0 (use-with-zero-terms SAP2012 Appliances))
-    (< 0 (use-with-zero-terms SAP2012 Cooking))
+    (<= 0 (use-with-zero-terms SAP2012 Appliances))
+    (<= 0 (use-with-zero-terms SAP2012 Cooking))
 
-    (< 0 (use-with-zero-terms SAP2012_PHYSICAL Appliances))
-    (< 0 (use-with-zero-terms SAP2012_PHYSICAL Cooking))
+    (<= 0 (use-with-zero-terms SAP2012_PHYSICAL Appliances))
+    (<= 0 (use-with-zero-terms SAP2012_PHYSICAL Cooking))
 
     ))))
 
 (template
  use-with-zero-terms [@1:calc @2:service]
- (under (measure.set-adjustment-terms constant-term:0 linear-factor:0 adjustment-type:@service)
+ (under name: (~join @calc - @service)
+        (measure.set-adjustment-terms constant-term:-1 linear-factor:0 adjustment-type:@service)
         (counterfactual.energy-calculator @calc)
         evaluate: (house.energy-use by-service: @service)))

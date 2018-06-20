@@ -1,0 +1,40 @@
+(scenario
+    start-date: 2018
+    end-date: 2018
+    stock-id: ../../2014.stock
+    
+    ;; verify that house.has-heating-control matches up with measure.heating-control
+    
+    (template verify-heating-control [@1:type]
+              (assert
+                  over: (all-houses)
+                  name: "After installing a heating control, it should be marked as installed."
+                  (= 0
+                     (under (action.case 
+                                (when (house.has-heating-control type:@type)
+                                      (house.flag had-control))) 
+                            (measure.heating-control type: @type update-flags:got-control)
+                            evaluate: 
+                            (function.case
+                                default:1 ;; this is the failure condition
+                                (when 
+                                    ;; we are OK if we either
+                                    ;; didn't get the control ('cause we couldn't)
+                                    ;; or we did get the control and now we have the control
+                                    (any (house.flags-match !got-control)
+                                         (all (house.flags-match got-control !had-control)
+                                              (house.has-heating-control type: @type)))
+                                    
+                                    0))))))
+    
+    (on.dates
+        (scenario-start)
+        (verify-heating-control ApplianceThermostat)
+        (verify-heating-control RoomThermostat)
+        (verify-heating-control ThermostaticRadiatorValve)
+        (verify-heating-control TimeTemperatureZoneControl)
+        (verify-heating-control DelayedStartThermostat)
+        (verify-heating-control Programmer)
+        (verify-heating-control Programmer)
+        )
+    )
