@@ -4,6 +4,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.config.CellConfigAttributes;
+import org.eclipse.nebula.widgets.nattable.sort.SortConfigAttributes;
 import org.eclipse.nebula.widgets.nattable.config.ConfigRegistry;
 import org.eclipse.nebula.widgets.nattable.config.DefaultNatTableStyleConfiguration;
 import org.eclipse.nebula.widgets.nattable.data.IColumnPropertyAccessor;
@@ -15,7 +16,8 @@ import org.eclipse.nebula.widgets.nattable.data.convert.DefaultDoubleDisplayConv
 import org.eclipse.nebula.widgets.nattable.data.convert.DefaultIntegerDisplayConverter;
 import org.eclipse.nebula.widgets.nattable.data.convert.IDisplayConverter;
 import org.eclipse.nebula.widgets.nattable.extension.glazedlists.GlazedListsSortModel;
-import org.eclipse.nebula.widgets.nattable.extension.glazedlists.filterrow.ComboBoxFilterRowHeaderComposite;
+import org.eclipse.nebula.widgets.nattable.extension.glazedlists.filterrow.DefaultGlazedListsFilterStrategy;
+import org.eclipse.nebula.widgets.nattable.filterrow.FilterRowHeaderComposite;
 import org.eclipse.nebula.widgets.nattable.grid.data.DefaultColumnHeaderDataProvider;
 import org.eclipse.nebula.widgets.nattable.grid.data.DefaultCornerDataProvider;
 import org.eclipse.nebula.widgets.nattable.grid.data.DefaultRowHeaderDataProvider;
@@ -44,7 +46,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 
 /*
- * TODO Group, filter and sort 
+ * TODO Group, filter and sort
  * depend on types rather.
  * in particular filtering ranges would be nice
  * https://eclipse.googlesource.com/nattable/org.eclipse.nebula.widgets.nattable/+/8769620d582ee020008032e45e259a87287828af/org.eclipse.nebula.widgets.nattable.examples/src/org/eclipse/nebula/widgets/nattable/examples/_700_Integration/_706_SortableGroupByWithFilterExample.java
@@ -84,16 +86,16 @@ public class TabFileEditor extends EditorPart {
 
 	private void display(final TypedCSVFile data) {
 		if (tableControl == null) return;
-		
+
         final ConfigRegistry configRegistry = new ConfigRegistry();
-        final IColumnPropertyAccessor<Object[]> columnPropertyAccessor = 
+        final IColumnPropertyAccessor<Object[]> columnPropertyAccessor =
         		new ArrayColumnPropertyAccessor(data.header);
-        
-        final BodyLayerStack<Object[]> bodyLayerStack = 
-        		new BodyLayerStack<>(data.rows, 
+
+        final BodyLayerStack<Object[]> bodyLayerStack =
+        		new BodyLayerStack<>(data.rows,
         				columnPropertyAccessor);
         bodyLayerStack.getBodyDataLayer().setConfigLabelAccumulator(new ColumnLabelAccumulator());
-        
+
         for (int i = 0; i<data.types.length; i++) {
         	IDisplayConverter converter = null;
 
@@ -120,7 +122,7 @@ public class TabFileEditor extends EditorPart {
 				break;
 			default:
 				break;
-        		
+
         	}
         	if (converter != null)
         		configRegistry.registerConfigAttribute(
@@ -128,11 +130,19 @@ public class TabFileEditor extends EditorPart {
         			converter,
         			DisplayMode.NORMAL,
         			ColumnLabelAccumulator.COLUMN_LABEL_PREFIX + i);
+
+		configRegistry.registerConfigAttribute(
+		     SortConfigAttributes.SORT_COMPARATOR,
+		     data.types[i],
+		     DisplayMode.NORMAL,
+		     ColumnLabelAccumulator.COLUMN_LABEL_PREFIX + i
+		     );
         }
         final IDataProvider columnHeaderDataProvider =
                 new DefaultColumnHeaderDataProvider(data.header);
         final DataLayer columnHeaderDataLayer =
                 new DefaultColumnHeaderDataLayer(columnHeaderDataProvider);
+
         columnHeaderDataLayer.setConfigLabelAccumulator(new ColumnLabelAccumulator());
         final ILayer columnHeaderLayer =
         		new SortHeaderLayer<Object[]> (
@@ -141,27 +151,28 @@ public class TabFileEditor extends EditorPart {
                         bodyLayerStack,
                         bodyLayerStack.getSelectionLayer()),
                 new GlazedListsSortModel<Object[]>(
-                		bodyLayerStack.getSortedList(), 
-                		columnPropertyAccessor, 
+                		bodyLayerStack.getSortedList(),
+                		columnPropertyAccessor,
                 		configRegistry,
                 		columnHeaderDataLayer)
                 );
 
-        final ComboBoxFilterRowHeaderComposite<Object[]> filterRowHeaderLayer =
-                new ComboBoxFilterRowHeaderComposite<Object[]>(
-                        bodyLayerStack.getFilterList(),
-                        bodyLayerStack.getGlazedListsEventLayer(),
-                        bodyLayerStack.getSortedList(),
-                        columnPropertyAccessor,
-                        columnHeaderLayer,
-                        columnHeaderDataProvider,
-                        configRegistry);
-        
+
+        final FilterRowHeaderComposite<Object[]> filterRowHeaderLayer =
+                new FilterRowHeaderComposite<Object[]>(
+		     new DefaultGlazedListsFilterStrategy<>(
+			  bodyLayerStack.getFilterList(),
+			  columnPropertyAccessor,
+			  configRegistry),
+		     columnHeaderLayer,
+		     columnHeaderDataProvider,
+		     configRegistry);
+
 		final IDataProvider rowHeaderDataProvider = new DefaultRowHeaderDataProvider(bodyLayerStack.getBodyDataProvider());
 		final DataLayer rowHeaderDataLayer = new DefaultRowHeaderDataLayer(rowHeaderDataProvider);
 		final ILayer rowHeaderLayer = new RowHeaderLayer(rowHeaderDataLayer, bodyLayerStack,
 				bodyLayerStack.getSelectionLayer());
-                
+
 
         // build the corner layer
         final IDataProvider cornerDataProvider =
@@ -184,9 +195,9 @@ public class TabFileEditor extends EditorPart {
                         rowHeaderLayer,
                         cornerLayer);
 
-       
+
         gridLayer.setConfigLabelAccumulator(new ColumnLabelAccumulator());
-        
+
         tableControl.setLayer(gridLayer);
         tableControl.setConfigRegistry(configRegistry);
         tableControl.addConfiguration(new DefaultNatTableStyleConfiguration());
@@ -199,7 +210,7 @@ public class TabFileEditor extends EditorPart {
                         .withStateManagerMenuItemProvider();
             }
         });
-        
+
 		tableControl.configure();
 		tableControl.setTheme(new ModernNatTableThemeConfiguration());
 	}
@@ -223,12 +234,12 @@ public class TabFileEditor extends EditorPart {
 		this.tableControl = new NatTable(parent, false);
 
 		display(data);
-		
+
 		tableControl.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		tableControl.setForeground(parent.getDisplay().getSystemColor(SWT.COLOR_BLACK));
-		
+
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(this.tableControl);
-		
+
 	}
 
 	@Override
