@@ -10,7 +10,7 @@ import com.google.common.collect.ImmutableList;
 import uk.ac.ucl.hideem.IExposure.OverheatingAgeBands;
 import uk.ac.ucl.hideem.Person.Sex;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType;
-import uk.org.cse.nhm.hom.types.BuiltFormType;
+import uk.org.cse.nhm.energycalculator.api.types.BuiltFormType;
 
 public class HealthModuleTest {
     //Sensitivity of exposures to retrofits and built forms

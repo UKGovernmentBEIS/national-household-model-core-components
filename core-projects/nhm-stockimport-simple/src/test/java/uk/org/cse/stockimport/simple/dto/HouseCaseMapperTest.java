@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import uk.org.cse.nhm.energycalculator.api.types.RegionType;
-import uk.org.cse.nhm.hom.types.BuiltFormType;
+import uk.org.cse.nhm.energycalculator.api.types.BuiltFormType;
 import uk.org.cse.nhm.hom.types.MorphologyType;
 import uk.org.cse.nhm.hom.types.TenureType;
 import uk.org.cse.nhm.stockimport.simple.dto.MappableDTOReader;

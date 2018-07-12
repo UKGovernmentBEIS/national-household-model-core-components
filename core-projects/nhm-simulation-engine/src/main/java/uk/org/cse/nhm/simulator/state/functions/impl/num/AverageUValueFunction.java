@@ -21,6 +21,7 @@ import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
 import uk.org.cse.nhm.energycalculator.api.types.SAPAgeBandValue.Band;
 import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
 import uk.org.cse.nhm.hom.BasicCaseAttributes;
+import uk.org.cse.nhm.energycalculator.api.types.BuiltFormType;
 import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.simulator.AbstractNamed;
 import uk.org.cse.nhm.simulator.let.ILets;
@@ -56,17 +57,23 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
         private final EnergyCalculatorType calculatorType;
         private final Country country;
         private final Band ageBand;
+        private final BuiltFormType builtForm;
 
         private RoofConstructionType roofConstructionType;
         private Double roofInsulationThickness;
         private FloorConstructionType groundFloorConstructionType;
         private double insulationThickness;
 
-        public Visitor(final Set<AreaType> includedAreas, final EnergyCalculatorType calculatorType, final Country country, final Band ageBand) {
+        public Visitor(final Set<AreaType> includedAreas,
+                       final EnergyCalculatorType calculatorType,
+                       final Country country,
+                       final Band ageBand,
+                       final BuiltFormType builtForm) {
             this.includedAreas = includedAreas;
             this.calculatorType = calculatorType;
             this.country = country;
             this.ageBand = ageBand;
+            this.builtForm = builtForm;
         }
 
         @Override
@@ -137,7 +144,7 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
             if (includedAreas.contains(constructionType.getWallType().getAreaType())) {
                 totalA += area;
 
-                final double overrideU = calculatorType.uvalues.getWall(uValue, country, constructionType, externalOrExternalInsulationThickness, hasCavityInsulation, ageBand, thickness);
+                final double overrideU = calculatorType.uvalues.getWall(uValue, builtForm, country, constructionType, externalOrExternalInsulationThickness, hasCavityInsulation, ageBand, thickness);
 
                 totalU += overrideU * area;
             }
@@ -242,7 +249,8 @@ public class AverageUValueFunction extends AbstractNamed implements IComponentsF
                 includedAreas,
                 scope.get(heavingBehaviour).getEnergyCalculatorType(),
                 basicAttributes.getRegionType().getCountry(),
-                SAPAgeBandValue.fromYear(basicAttributes.getBuildYear(), basicAttributes.getRegionType()).getName()
+                SAPAgeBandValue.fromYear(basicAttributes.getBuildYear(), basicAttributes.getRegionType()).getName(),
+                structure.getBuiltFormType()
         );
         structure.accept(v);
         return v.getAverageUValue();

@@ -1,4 +1,4 @@
-package uk.org.cse.nhm.hom.types;
+package uk.org.cse.nhm.energycalculator.api.types;
 
 /**
  * BuiltFormType.

@@ -20,7 +20,7 @@ import uk.org.cse.nhm.hom.BasicCaseAttributes;
 import uk.org.cse.nhm.hom.people.People;
 import uk.org.cse.nhm.hom.people.People.Occupant;
 import uk.org.cse.nhm.hom.structure.StructureModel;
-import uk.org.cse.nhm.hom.types.BuiltFormType;
+import uk.org.cse.nhm.energycalculator.api.types.BuiltFormType;
 import uk.org.cse.nhm.hom.types.SexType;
 import uk.org.cse.nhm.language.definition.function.health.XHealthImpactFunction.XDisease;
 import uk.org.cse.nhm.language.definition.function.health.XHealthImpactFunction.XImpact;

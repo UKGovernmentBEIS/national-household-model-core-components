@@ -17,7 +17,7 @@ import com.google.common.base.Optional;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.hom.SurveyCase;
 import uk.org.cse.nhm.hom.structure.StructureModel;
-import uk.org.cse.nhm.hom.types.BuiltFormType;
+import uk.org.cse.nhm.energycalculator.api.types.BuiltFormType;
 import uk.org.cse.stockimport.domain.IBasicDTO;
 import uk.org.cse.stockimport.domain.IVentilationDTO;
 import uk.org.cse.stockimport.domain.impl.HouseCaseDTO;

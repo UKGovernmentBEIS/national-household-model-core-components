@@ -702,7 +702,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
             final ISeasonalParameters[] climate,
             final Set<EnergyCalculationStep> requestedSteps) {
         try (final StepRecorder.Steps steps = StepRecorder.record(requestedSteps)) {
-            final Visitor v = Visitor.create(constants, eparameters, houseCase.getBuildYear(), houseCase.getCountry(), defaultTransducers);
+            final Visitor v = Visitor.create(constants, eparameters, houseCase.getBuildYear(), houseCase.getCountry(), houseCase.getBuiltFormType(), defaultTransducers);
 
             houseCase.accept(constants, eparameters, v);
             v.infiltration.calculateAirChangeRate(houseCase, eparameters);

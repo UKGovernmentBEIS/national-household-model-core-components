@@ -5,7 +5,7 @@ import java.util.List;
 import com.google.common.base.Supplier;
 
 import uk.org.cse.nhm.energycalculator.api.types.RegionType;
-import uk.org.cse.nhm.hom.types.BuiltFormType;
+import uk.org.cse.nhm.energycalculator.api.types.BuiltFormType;
 
 public interface IHealthModule {
 

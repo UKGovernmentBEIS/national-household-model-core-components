@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import uk.org.cse.nhm.energycalculator.api.types.RegionType;
-import uk.org.cse.nhm.hom.types.BuiltFormType;
+import uk.org.cse.nhm.energycalculator.api.types.BuiltFormType;
 import uk.org.cse.nhm.simulator.integration.tests.guice.IntegrationTestOutput;
 import uk.org.cse.nhm.simulator.state.IDwelling;
 

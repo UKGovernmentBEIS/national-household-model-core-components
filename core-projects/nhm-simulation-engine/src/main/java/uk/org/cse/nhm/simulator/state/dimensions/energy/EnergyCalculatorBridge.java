@@ -33,6 +33,7 @@ import uk.org.cse.nhm.energycalculator.api.impl.SAPOccupancy;
 import uk.org.cse.nhm.energycalculator.api.types.ElectricityTariffType;
 import uk.org.cse.nhm.energycalculator.api.types.EnergyType;
 import uk.org.cse.nhm.energycalculator.api.types.MonthType;
+import uk.org.cse.nhm.energycalculator.api.types.BuiltFormType;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType.Country;
 import uk.org.cse.nhm.energycalculator.api.types.ServiceType;
 import uk.org.cse.nhm.energycalculator.api.types.SiteExposureType;
@@ -335,6 +336,11 @@ public class EnergyCalculatorBridge implements IEnergyCalculatorBridge {
         @Override
         public int getNumberOfStoreys() {
             return structure.getNumberOfStoreys();
+        }
+
+        @Override
+        public BuiltFormType getBuiltFormType() {
+            return structure.getBuiltFormType();
         }
 
         @Override

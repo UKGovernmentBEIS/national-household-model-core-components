@@ -11,7 +11,7 @@ import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
 import uk.org.cse.nhm.hom.emf.technologies.impl.TechnologyModelImpl;
 import uk.org.cse.nhm.hom.emf.util.impl.TechnologyOperations;
 import uk.org.cse.nhm.hom.structure.StructureModel;
-import uk.org.cse.nhm.hom.types.BuiltFormType;
+import uk.org.cse.nhm.energycalculator.api.types.BuiltFormType;
 import uk.org.cse.nhm.simulation.measure.heatpumps.AbstractHeatPumpMeasure.Hybrid;
 import uk.org.cse.nhm.simulation.measure.util.Util;
 import uk.org.cse.nhm.simulation.measure.util.Util.MockDimensions;

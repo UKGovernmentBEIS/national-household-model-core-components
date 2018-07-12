@@ -23,6 +23,17 @@ If you want to cross-reference to a language element, you need to use the unique
 ** Released versions
 *** Version 7.2.0
 **** Bugs Fixed
+- In SAP mode, the model now uses SAP table S8B for party-wall u-values instead of SAP table 3.6.
+  It also takes S8B to indicate that party walls for flats have a u-value of zero in all cases.
+  Both these decisions follow direction from the BRE.
+
+  The effect of this is as follows:
+
+  - Masonry cavity party walls in flats now have a u-value of zero.
+    Previously, insulated cavity party walls would have a u-value of 0.5.
+  - Insulated masonry cavity party walls in non-flats now have a u-value of 0.2.
+    Previously, they would have had a u-value of zero.
+
 - A small bug which caused an error during validation of scenarios with an invalid stock file name has been removed.
   This should make the desktop application a little bit better behaved.
 
@@ -748,7 +759,7 @@ This tells emacs to run pandoc on save. This comment needs to be near the end of
 
 The command which gets run is this:
 
-(shell-command "pandoc -f org -t docbook changelog.org --chapters | sed 's! id=\"\"!!g' | sed 's!<chapter>!<chapter xmlns=\"http://docbook.org/ns/docbook\">!g' | sed 's!<literal>\\(ref\\..\\+\\)</literal>!<xref linkend=\"\\1\"/>!g'")
+(shell-command "pandoc -f org -t docbook changelog.org --top-level-division=chapter | sed 's! id=\"\"!!g' | sed 's!<chapter>!<chapter xmlns=\"http://docbook.org/ns/docbook\">!g' | sed 's!<literal>\\(ref\\..\\+\\)</literal>!<xref linkend=\"\\1\"/>!g'")
 
 It has some escapes in it because it is a lisp string getting passed to the shell.
 
@@ -773,6 +784,6 @@ In the local variables line below we have eval:, which is a special local variab
 The lisp we are running adds the lisp above onto the after-save-hook, which is a list of functions to call after saving.
 
 Local Variables:
-eval: (add-hook 'after-save-hook (lambda () (shell-command "pandoc -f org -t docbook changelog.org --chapters | sed 's! id=\"\"!!g' | sed 's!<chapter.*>!<chapter xmlns=\"http://docbook.org/ns/docbook\">!g' | sed 's!<literal>\\(ref\\..\\+\\)</literal>!<xref linkend=\"\\1\"/>!g' > changelog.xml")) nil t)
+eval: (add-hook 'after-save-hook (lambda () (shell-command "pandoc -f org -t docbook changelog.org --top-level-division=chapter | sed 's! id=\"\"!!g' | sed 's!<chapter.*>!<chapter xmlns=\"http://docbook.org/ns/docbook\">!g' | sed 's!<literal>\\(ref\\..\\+\\)</literal>!<xref linkend=\"\\1\"/>!g' > changelog.xml")) nil t)
 End:
 #+END_COMMENT

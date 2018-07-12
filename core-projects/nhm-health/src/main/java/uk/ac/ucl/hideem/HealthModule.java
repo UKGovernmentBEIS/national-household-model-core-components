@@ -23,7 +23,7 @@ import uk.ac.ucl.hideem.IExposure.ExposureBuiltForm;
 import uk.ac.ucl.hideem.IExposure.OccupancyType;
 import uk.ac.ucl.hideem.IExposure.OverheatingAgeBands;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType;
-import uk.org.cse.nhm.hom.types.BuiltFormType;
+import uk.org.cse.nhm.energycalculator.api.types.BuiltFormType;
 
 public class HealthModule implements IHealthModule {
 

@@ -7,6 +7,8 @@ import java.util.Map;
 
 import com.google.common.base.Optional;
 
+import uk.org.cse.nhm.energycalculator.api.types.BuiltFormType;
+
 import uk.org.cse.nhm.energycalculator.api.IConstants;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorParameters;
 import uk.org.cse.nhm.energycalculator.api.IEnergyCalculatorVisitor;
@@ -98,15 +100,21 @@ final class Visitor implements IEnergyCalculatorVisitor {
 
     private final EnergyCalculatorType mode;
     private final Country country;
+    private final BuiltFormType builtForm;
     private final Band band;
 
     private ThermalMassLevel bestThermalMassLevel;
 
-    public static Visitor create(final IConstants constants, final IEnergyCalculatorParameters parameters, final int buildYear, final Country country, final List<IEnergyTransducer> defaultTransducers) {
-        return new Visitor(constants, parameters, defaultTransducers, country, SAPAgeBandValue.fromYear(buildYear, country).getName());
+    public static Visitor create(final IConstants constants, final IEnergyCalculatorParameters parameters, final int buildYear, final Country country, final BuiltFormType builtForm, final List<IEnergyTransducer> defaultTransducers) {
+        return new Visitor(constants, parameters, defaultTransducers, country, SAPAgeBandValue.fromYear(buildYear, country).getName(), builtForm);
     }
 
-    protected Visitor(final IConstants constants, final IEnergyCalculatorParameters parameters, final List<IEnergyTransducer> defaultTransducers, final Country country, final Band band) {
+    protected Visitor(final IConstants constants,
+                      final IEnergyCalculatorParameters parameters,
+                      final List<IEnergyTransducer> defaultTransducers,
+                      final Country country,
+                      final Band band,
+                      final BuiltFormType builtForm) {
         this.country = country;
         this.band = band;
         this.solarGains = new SolarGainsSource(constants, EnergyType.GainsSOLAR_GAINS);
@@ -116,6 +124,7 @@ final class Visitor implements IEnergyCalculatorVisitor {
         this.transducers.addAll(defaultTransducers);
         this.infiltration = new StructuralInfiltrationAccumulator(constants);
         this.mode = parameters.getCalculatorType();
+        this.builtForm = builtForm;
         transducers.add(solarGains);
         transducers.add(glrAdjuster);
         transducers.add(lightingDemand);
@@ -186,7 +195,7 @@ final class Visitor implements IEnergyCalculatorVisitor {
         visitArea(
                 areaType,
                 area,
-                mode.uvalues.getWall(uValue, country, constructionType, externalOrExternalInsulationThickness, hasCavityInsulation, band, thickness));
+                mode.uvalues.getWall(uValue, builtForm, country, constructionType, externalOrExternalInsulationThickness, hasCavityInsulation, band, thickness));
     }
 
     @Override

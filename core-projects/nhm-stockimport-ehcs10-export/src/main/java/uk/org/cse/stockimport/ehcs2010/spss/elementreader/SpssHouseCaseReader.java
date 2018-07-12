@@ -48,7 +48,7 @@ import uk.org.cse.nhm.ehcs10.physical.types.Enum1757;
 import uk.org.cse.nhm.ehcs10.physical.types.Enum1758;
 import uk.org.cse.nhm.energycalculator.api.types.RegionType;
 import uk.org.cse.nhm.hom.components.fabric.types.FloorLocationType;
-import uk.org.cse.nhm.hom.types.BuiltFormType;
+import uk.org.cse.nhm.energycalculator.api.types.BuiltFormType;
 import uk.org.cse.nhm.hom.types.MorphologyType;
 import uk.org.cse.nhm.hom.types.TenureType;
 import uk.org.cse.stockimport.domain.IHouseCaseDTO;

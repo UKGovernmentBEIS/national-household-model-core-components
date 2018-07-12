@@ -28,7 +28,7 @@ import uk.org.cse.nhm.hom.people.People;
 import uk.org.cse.nhm.hom.structure.IWall;
 import uk.org.cse.nhm.hom.structure.StructureModel;
 import uk.org.cse.nhm.hom.structure.impl.Storey;
-import uk.org.cse.nhm.hom.types.BuiltFormType;
+import uk.org.cse.nhm.energycalculator.api.types.BuiltFormType;
 import uk.org.cse.nhm.hom.types.MorphologyType;
 import uk.org.cse.nhm.hom.types.TenureType;
 import uk.org.cse.nhm.types.MainHeatingSystemType;
@@ -137,7 +137,7 @@ public class BasicAttributesLogEntry extends AbstractLogEntry {
             setAnnualFullIncome(finance.getHouseHoldIncomeBeforeTax() == null ? 0 : finance.getHouseHoldIncomeBeforeTax());
             setYearMovedIn(people.getDateMovedIn() == null ? 0 : people.getDateMovedIn().getYear());
             setChiefEarnersAge(finance.getAgeOfChiefIncomeEarner() == null ? 0 : finance.getAgeOfChiefIncomeEarner());
-            setWorkingStatus(additionalProperties.get("EMPHRPX")); // ehs/derived/interview/EMPHRPX 
+            setWorkingStatus(additionalProperties.get("EMPHRPX")); // ehs/derived/interview/EMPHRPX
             setNormalWorkingHours(people.getNormalWorkingHours());
             setUnderOccupied(additionalProperties.get("UNOC")); // ehs/fuel_poverty/fuel_poverty_dataset/UNOC
             setLongTermSickOrDisabled(people.hasDisabledOrSickOccupant() == null ? false : people.hasDisabledOrSickOccupant());

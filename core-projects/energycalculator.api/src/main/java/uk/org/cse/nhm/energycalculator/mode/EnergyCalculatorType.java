@@ -4,6 +4,8 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.Set;
 
+import uk.org.cse.nhm.energycalculator.api.types.BuiltFormType;
+
 import uk.org.cse.nhm.energycalculator.api.IHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.IWeather;
 import uk.org.cse.nhm.energycalculator.api.impl.DailyHeatingSchedule;
@@ -28,14 +30,14 @@ public class EnergyCalculatorType {
     public enum ECUvalues {
         SAP2012, SCENARIO;
 
-        public double getWall(double scenario, Country country, WallConstructionType constructionType,
+        public double getWall(double scenario, BuiltFormType form, Country country, WallConstructionType constructionType,
                 double externalOrInternalInsulationThickness, boolean hasCavityInsulation, Band band,
                 double thickness) {
             switch (this) {
                 case SCENARIO:
                     return scenario;
                 case SAP2012:
-                    return SAPTables.Walls.uValue(country, constructionType, externalOrInternalInsulationThickness,
+                    return SAPTables.Walls.uValue(form, country, constructionType, externalOrInternalInsulationThickness,
                             hasCavityInsulation, band, thickness);
                 default:
                     throw new RuntimeException(this + " has no defined wall u-values");
@@ -263,7 +265,7 @@ public class EnergyCalculatorType {
 		ID: incandescent-energy-consumption
 		CODSIEB
          */
-        public static final double INCANDESCENT_EFFICIENCY = 6.8139; // watts		
+        public static final double INCANDESCENT_EFFICIENCY = 6.8139; // watts
 
         public double getMultiplier(LightType lightType) {
             return factor[lightType.ordinal()];

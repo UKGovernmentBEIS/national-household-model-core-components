@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import uk.org.cse.nhm.hom.components.fabric.types.FloorLocationType;
 import uk.org.cse.nhm.hom.structure.impl.Storey;
-import uk.org.cse.nhm.hom.types.BuiltFormType;
+import uk.org.cse.nhm.energycalculator.api.types.BuiltFormType;
 
 public class StructureModelTest {
 

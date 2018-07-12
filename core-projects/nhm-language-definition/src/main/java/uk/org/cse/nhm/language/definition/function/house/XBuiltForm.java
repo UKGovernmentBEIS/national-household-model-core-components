@@ -2,7 +2,7 @@ package uk.org.cse.nhm.language.definition.function.house;
 
 import com.larkery.jasb.bind.Bind;
 
-import uk.org.cse.nhm.hom.types.BuiltFormType;
+import uk.org.cse.nhm.energycalculator.api.types.BuiltFormType;
 import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.ReturnsEnum;
 import uk.org.cse.nhm.language.definition.SeeAlso;

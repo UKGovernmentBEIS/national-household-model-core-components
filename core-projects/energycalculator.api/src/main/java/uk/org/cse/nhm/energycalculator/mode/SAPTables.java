@@ -16,6 +16,8 @@ import java.util.Set;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 
+import uk.org.cse.nhm.energycalculator.api.types.BuiltFormType;
+
 import uk.org.cse.nhm.energycalculator.api.IHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.impl.DailyHeatingSchedule;
 import uk.org.cse.nhm.energycalculator.api.impl.WeeklyHeatingSchedule;
@@ -310,13 +312,16 @@ public class SAPTables {
         }
 
         /**
-         * SAP 2012 Table S8B, Table 3.6
+         * SAP 2012 Table S8B
          *
          * This is using a u-value to simulate air movement inside a cavity.
          */
-        private static double getPartyWallUValue(final WallConstructionType constructionType, final boolean hasCavityInsulation) {
-            switch (constructionType) {
-                // Solid masonry / timber frame / system built
+        private static double getPartyWallUValue(final BuiltFormType builtForm, final WallConstructionType constructionType, final boolean hasCavityInsulation) {
+            if (builtForm.isFlat()) {
+                return 0;
+            } else {
+                switch (constructionType) {
+                    // Solid masonry / timber frame / system built
                 case Party_Solid:
                 case Party_Cob:
                 case Party_TimberFrame:
@@ -324,12 +329,13 @@ public class SAPTables {
                 case Party_MetalFrame:
                     return 0.0;
 
-                // Cavity Masonry unfilled/filled
+                    // Cavity Masonry unfilled/filled
                 case Party_Cavity:
-                    return hasCavityInsulation ? 0.0 : 0.5;
+                    return hasCavityInsulation ? 0.2 : 0.5;
 
                 default:
                     throw new IllegalArgumentException("Unknown part wall construction type " + constructionType);
+                }
             }
         }
 
@@ -349,7 +355,13 @@ public class SAPTables {
             throw new UnsupportedOperationException("The external wall u-value lookup does not support this combination, and needs to be extended " + country + " " + constructionType + " " + externalOrInternalInsulationThickness + " " + hasCavityInsulation + " " + ageBand);
         }
 
-        public static double uValue(final Country country, final WallConstructionType constructionType, final double externalOrInternalInsulationThickness, final boolean hasCavityInsulation, final SAPAgeBandValue.Band band, final double thickness) {
+        public static double uValue(final BuiltFormType form,
+                                    final Country country,
+                                    final WallConstructionType constructionType,
+                                    final double externalOrInternalInsulationThickness,
+                                    final boolean hasCavityInsulation,
+                                    final SAPAgeBandValue.Band band,
+                                    final double thickness) {
             switch (constructionType.getWallType()) {
                 case External:
                     return _check(applyStoneThicknessAdjustment(
@@ -362,7 +374,7 @@ public class SAPTables {
                 case Internal:
                     return 0;
                 case Party:
-                    return getPartyWallUValue(constructionType, hasCavityInsulation);
+                    return getPartyWallUValue(form, constructionType, hasCavityInsulation);
                 default:
                     throw new IllegalArgumentException("Unknown wall type when looking up u-value " + constructionType.getWallType());
             }

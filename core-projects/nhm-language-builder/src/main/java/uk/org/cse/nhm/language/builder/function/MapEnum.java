@@ -32,7 +32,7 @@ import uk.org.cse.nhm.hom.constants.adjustments.EfficiencyAdjustments;
 import uk.org.cse.nhm.hom.constants.adjustments.ResponsivenessAdjustments;
 import uk.org.cse.nhm.hom.constants.adjustments.TemperatureAdjustments;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
-import uk.org.cse.nhm.hom.types.BuiltFormType;
+import uk.org.cse.nhm.energycalculator.api.types.BuiltFormType;
 import uk.org.cse.nhm.hom.types.MorphologyType;
 import uk.org.cse.nhm.hom.types.TenureType;
 import uk.org.cse.nhm.language.definition.action.XHeatingTemperaturesAction.XMonth;

@@ -27,7 +27,7 @@ import uk.org.cse.nhm.hom.components.fabric.types.FloorLocationType;
 import uk.org.cse.nhm.hom.structure.impl.Elevation;
 import uk.org.cse.nhm.hom.structure.impl.Elevation.IDoorVisitor;
 import uk.org.cse.nhm.hom.structure.impl.Storey;
-import uk.org.cse.nhm.hom.types.BuiltFormType;
+import uk.org.cse.nhm.energycalculator.api.types.BuiltFormType;
 
 /**
  * Describes the structural form of a house case. It is composed of two main
