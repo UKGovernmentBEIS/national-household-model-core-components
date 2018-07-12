@@ -473,6 +473,8 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
     protected double getSeasonalEfficiency(final double qWater, final double qSpace) {
         if (0 == (qSpace + qWater)) {
             return 1;
+        } else if (getWinterEfficiency().value == getSummerEfficiency().value) {
+            return getWinterEfficiency().value;
         } else {
             return (qSpace + qWater) / (qSpace / getWinterEfficiency().value + qWater / getSummerEfficiency().value);
         }
@@ -1110,7 +1112,7 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
                 StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_Efficiency, 1);
                 state.increaseElectricityDemand(getHighRateFraction(parameters, null, state, 0, 0), powerOutOfBoiler);
             } else {
-                final double efficiency = getWinterEfficiency().value;
+                final double efficiency = getWaterHeatingEfficiency(parameters.getConstants(), 1, 1);
                 StepRecorder.recordStep(EnergyCalculationStep.WaterHeating_Efficiency, efficiency);
                 state.increaseDemand(getFuel().getEnergyType(), powerOutOfBoiler / efficiency);
             }
@@ -1145,7 +1147,8 @@ public class BoilerImpl extends HeatSourceImpl implements IBoiler {
             if (getFuel() == FuelType.ELECTRICITY) {
                 state.increaseElectricityDemand(getHighRateFraction(parameters, null, state, 0, 0), systemLosses);
             } else {
-                state.increaseDemand(getFuel().getEnergyType(), systemLosses / getWinterEfficiency().value);
+                final double efficiency = getWaterHeatingEfficiency(parameters.getConstants(), 1, 1);
+                state.increaseDemand(getFuel().getEnergyType(), systemLosses / efficiency);
             }
         }
 
