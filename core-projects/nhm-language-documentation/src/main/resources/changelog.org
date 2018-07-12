@@ -23,6 +23,13 @@ If you want to cross-reference to a language element, you need to use the unique
 ** Released versions
 *** Version 7.2.0
 **** Bugs Fixed
+- The hot water heating efficiency penalty associated with lack of a boiler interlock was not being applied in for cases where the summer and winter efficiency for the boiler are equal.
+  
+  This has a small impact on energy use (mean average of a 1.7% increase) in a small number of affected cases (about 350 cases in the 2014 stock):
+
+  #+CAPTION: Weighted histogram of percentage change in SAP2012 total energy use due to correct application of boiler interlock penalty in all cases.
+  [[./figures/interlock-sap.png]]
+
 - In SAP mode, the model now uses SAP table S8B for party-wall u-values instead of SAP table 3.6.
   It also takes S8B to indicate that party walls for flats have a u-value of zero in all cases.
   Both these decisions follow direction from the BRE.
@@ -33,6 +40,12 @@ If you want to cross-reference to a language element, you need to use the unique
     Previously, insulated cavity party walls would have a u-value of 0.5.
   - Insulated masonry cavity party walls in non-flats now have a u-value of 0.2.
     Previously, they would have had a u-value of zero.
+
+  This has a significant impact on energy use for affected dwellings. 
+  There are around 5000 affected cases in the 2014 stock:
+
+  #+CAPTION: Weighted histogram of percentage change in SAP2012 total energy use due to use of table S8B. Cases with no error are omitted; this is a subset of the total 2014 stock population.
+  [[./figures/party-sap.png]]
 
 - A small bug which caused an error during validation of scenarios with an invalid stock file name has been removed.
   This should make the desktop application a little bit better behaved.

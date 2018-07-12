@@ -51,6 +51,33 @@
           <itemizedlist>
             <listitem>
               <para>
+                The hot water heating efficiency penalty associated with
+                lack of a boiler interlock was not being applied in for
+                cases where the summer and winter efficiency for the
+                boiler are equal.
+              </para>
+              <para>
+                This has a small impact on energy use (mean average of a
+                1.7% increase) in a small number of affected cases
+                (about 350 cases in the 2014 stock):
+              </para>
+              <figure>
+                <title>Weighted histogram of percentage change in
+                SAP2012 total energy use due to correct application of
+                boiler interlock penalty in all cases.</title>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="./figures/interlock-sap.png" />
+                  </imageobject>
+                  <textobject><phrase>Weighted histogram of percentage
+                  change in SAP2012 total energy use due to correct
+                  application of boiler interlock penalty in all
+                  cases.</phrase></textobject>
+                </mediaobject>
+              </figure>
+            </listitem>
+            <listitem>
+              <para>
                 In SAP mode, the model now uses SAP table S8B for
                 party-wall u-values instead of SAP table 3.6. It also
                 takes S8B to indicate that party walls for flats have a
@@ -76,6 +103,27 @@
                   </para>
                 </listitem>
               </itemizedlist>
+              <para>
+                This has a significant impact on energy use for affected
+                dwellings. There are around 5000 affected cases in the
+                2014 stock:
+              </para>
+              <figure>
+                <title>Weighted histogram of percentage change in
+                SAP2012 total energy use due to use of table S8B. Cases
+                with no error are omitted; this is a subset of the total
+                2014 stock population.</title>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="./figures/party-sap.png" />
+                  </imageobject>
+                  <textobject><phrase>Weighted histogram of percentage
+                  change in SAP2012 total energy use due to use of table
+                  S8B. Cases with no error are omitted; this is a subset
+                  of the total 2014 stock
+                  population.</phrase></textobject>
+                </mediaobject>
+              </figure>
             </listitem>
             <listitem>
               <para>
