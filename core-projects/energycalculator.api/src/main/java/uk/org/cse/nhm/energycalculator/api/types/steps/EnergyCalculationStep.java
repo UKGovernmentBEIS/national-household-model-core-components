@@ -26,69 +26,69 @@ public enum EnergyCalculationStep {
      */
     FloorArea_Basement(MetreSquared, Annual,
             SAPWorksheetSection.Dimensions.subCell(1, 'a'),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                       // See A1, A2 & AL
             new DefaultValue(0)),
     FloorArea_Ground(MetreSquared, Annual,
             SAPWorksheetSection.Dimensions.subCell(1, 'b'),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                       // See A1, A2 & AL
             new DefaultValue(0)),
     FloorArea_First(MetreSquared, Annual,
             SAPWorksheetSection.Dimensions.subCell(1, 'c'),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                       // See A1, A2 & AL
             new DefaultValue(0)),
     FloorArea_Second(MetreSquared, Annual,
             SAPWorksheetSection.Dimensions.subCell(1, 'd'),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                       // See A1, A2 & AL
             new DefaultValue(0)),
     // BRE lump all of the upper floors together so that they can fit into a spreadsheet with a fixed number of columns.
     FloorArea_Third_and_Above(MetreSquared, Annual,
-            SAPWorksheetSection.Dimensions.subCell(1, 'e'),
+            SAPWorksheetSection.Dimensions.subCell(1, 'e'),     // See A1, A2 & AL
             BREDEMLocation.NotDetermined,
             new DefaultValue(0)),
     // v2a to 2n (storey heights) and v3a to 3n (storey volumes) omitted, because they weren't present in BRE's sample spreadsheet.
 
     TotalFloorArea(MetreSquared, Annual,
             SAPWorksheetSection.Dimensions.cell(4),
-            BREDEMSection.LightsAppliancesAndCooking.var("TFA"),
+            BREDEMSection.LightsAppliancesAndCooking.var("TFA"),// Also: BREDEMSection.ThermalMassParameter.var("TFA"), BREDEMSection.MeanInternalTemperature.var("TFA")
             DefaultValue.None),
     DwellingVolume(MetreCubed, Annual,
             SAPWorksheetSection.Dimensions.cell(5),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                       // BREDEMSection.LightsAppliancesAndCooking.var( "VT" ), BREDEMSection.HeatLoss.var( "VT" ), BREDEMSection.Gains_InternalAndTotal.var( "VT" )
             DefaultValue.None),
     /**
      * Ventilation
      */
     ChimneyVentilation(MetreCubed_per_Hour, Annual,
-            SAPWorksheetSection.Ventilation.subCell(6, 'a'),
-            BREDEMLocation.NotDetermined,
+            SAPWorksheetSection.Ventilation.subCell(6, 'a'),    // p179
+            BREDEMLocation.NotDetermined,                       // See: BREDEMSection.HeatLoss.var( "FDV" ) & Table 20
             DefaultValue.None),
     OpenFluesVentilation(MetreCubed_per_Hour, Annual,
             SAPWorksheetSection.Ventilation.subCell(6, 'b'),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                       // See: BREDEMSection.HeatLoss.var( "FDV" ) & Table 20
             DefaultValue.None),
     IntermittentFansVentilation(MetreCubed_per_Hour, Annual,
             SAPWorksheetSection.Ventilation.subCell(7, 'a'),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                       // See: BREDEMSection.HeatLoss.var( "FDV" ) & Table 20
             DefaultValue.None),
     PassiveVentsVentilation(MetreCubed_per_Hour, Annual,
             SAPWorksheetSection.Ventilation.subCell(7, 'b'),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                       // See: BREDEMSection.HeatLoss.var( "FDV" ) & Table 20
             DefaultValue.None),
     FluelessGasFiresVentilation(MetreCubed_per_Hour, Annual,
             SAPWorksheetSection.Ventilation.subCell(7, 'c'),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                       // See: BREDEMSection.HeatLoss.var( "FDV" ) & Table 20
             DefaultValue.None),
     AirChanges_ChimneysFluesFansAndPSVs(AirChange_per_Hour, Annual,
             SAPWorksheetSection.Ventilation.cell(8),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                       // * BREDEMSection.HeatLoss.step( 'C', "LDV" )
             DefaultValue.None),
     Storeys(Count, Annual,
-            SAPWorksheetSection.Ventilation.cell(9),
-            BREDEMLocation.NotDetermined,
+            SAPWorksheetSection.Ventilation.cell(9),            // p179
+            BREDEMLocation.NotDetermined,                       // No var, used adhoc to switch between eqns, note after table 19 etc
             DefaultValue.None),
     InfiltrationAdditionalStackEffect(AirChange_per_Hour, Annual,
-            SAPWorksheetSection.Ventilation.cell(10),
-            BREDEMLocation.NotDetermined,
+            SAPWorksheetSection.Ventilation.cell(10),           // p179 --- just based on num. of floors
+            BREDEMLocation.NotDetermined,                       // See table 19 & InfiltrationStructural below: included in sum for step D
             DefaultValue.None),
     InfiltrationStructural(AirChange_per_Hour, Annual,
             SAPWorksheetSection.Ventilation.cell(11),
@@ -111,85 +111,85 @@ public enum EnergyCalculationStep {
             BREDEMLocation.NotDetermined,
             DefaultValue.None),
     InfiltrationRate_Initial(AirChange_per_Hour, Annual,
-            SAPWorksheetSection.Ventilation.cell(16),
-            BREDEMLocation.NotDetermined,
+            SAPWorksheetSection.Ventilation.cell(16),           // sum of 8,10,11,12,13,15
+            BREDEMLocation.NotDetermined,                       // n/a (Is D if no Q50)
             DefaultValue.None),
     AirPermabilityValue(null, Annual,
             SAPWorksheetSection.Ventilation.cell(17),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                       // n/a (Is Q50 in D - test result)
             DefaultValue.None,
             SkipReason.AirPressureTests_Unsupported),
     InfiltrationRateMaybePressureTest(AirChange_per_Hour, Annual,
-            SAPWorksheetSection.Ventilation.cell(18),
-            BREDEMLocation.NotDetermined,
+            SAPWorksheetSection.Ventilation.cell(18),           // 
+            BREDEMLocation.NotDetermined,                       // This is: Lfab + LDV ... Almost Step 'D'
             DefaultValue.None),
     SidesSheltered(Count, MonthlyMean, // Should be Annual
             SAPWorksheetSection.Ventilation.cell(19),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                       // SAP 20 * 19 = BREDEM ShD (Heatloss)
             DefaultValue.None),
     ShelterFactor(Dimensionless, MonthlyMean, // Should be Annual
-            SAPWorksheetSection.Ventilation.cell(20),
-            BREDEMLocation.NotDetermined,
+            SAPWorksheetSection.Ventilation.cell(20),           
+            BREDEMLocation.NotDetermined,                       // SAP 20 * 19 = BREDEM ShD (Heatloss)
             DefaultValue.None),
     InfiltrationRate_IncludingShelter(AirChange_per_Hour, MonthlyMean, // Should be Annual
             SAPWorksheetSection.Ventilation.cell(21),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                       // n/a
             DefaultValue.None),
     AverageWindSpeed(Metre_per_Second, MonthlyMean,
             SAPWorksheetSection.Ventilation.cell(22),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                       // BREDEMSection.HeatLoss.var( "Vreg" )
             DefaultValue.None),
     WindFactor(Dimensionless, MonthlyMean,
-            SAPWorksheetSection.Ventilation.cell(23),
+            SAPWorksheetSection.Ventilation.cell(23),           // 22a?? = (22)/4
             BREDEMLocation.NotDetermined,
             DefaultValue.None),
     InfiltrationRate_IncludingShelterAndWind(AirChange_per_Hour, MonthlyMean,
-            SAPWorksheetSection.Ventilation.cell(24),
-            BREDEMLocation.NotDetermined,
+            SAPWorksheetSection.Ventilation.cell(24),           // 22b??
+            BREDEMLocation.NotDetermined,                       // Step 'E' without ShE multiplier (below)
             DefaultValue.None),
     SiteExposureFactor(Dimensionless, MonthlyMean, // Should be annual
             SAPLocation.None,
-            BREDEMSection.HeatLoss.var("ShE"),
+            BREDEMSection.HeatLoss.var("ShE"),                  // *
             DefaultValue.None),
     InfiltrationRate_IncludingShelterAndWindAndSiteExposure(AirChange_per_Hour, MonthlyMean,
             SAPLocation.None,
-            BREDEMSection.HeatLoss.step('E', "Lsub,m"),
+            BREDEMSection.HeatLoss.step('E', "Lsub,m"),         // *
             DefaultValue.None),
     // Unimplemented technologies
     AirChanges_MechanicalVentilation(null, MonthlyMean,
             SAPWorksheetSection.Ventilation.subCell(23, 'a'),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                       // n/a
             DefaultValue.None,
             SkipReason.Unsupported_Technology),
     AirChanges_ExhaustAirHeatPump(null, MonthlyMean,
             SAPWorksheetSection.Ventilation.subCell(23, 'b'),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                               // n/a
             DefaultValue.None, SkipReason.Unsupported_Technology),
     AirChanges_BalancedWithHeatRecovery(null, MonthlyMean,
             SAPWorksheetSection.Ventilation.subCell(23, 'c'),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                               // n/a
             DefaultValue.None, SkipReason.Unsupported_Technology),
     // The only type of ventilation we use is natural
     Ventilation_BalancedMechanicalWithHeatRecovery(null, MonthlyMean,
             SAPWorksheetSection.Ventilation.subCell(24, 'a'),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                               // not used - not "natural"
             DefaultValue.None, SkipReason.Unsupported_Technology),
     Ventilation_BalancedMechanicalWithoutHeatRecovery(null, MonthlyMean,
             SAPWorksheetSection.Ventilation.subCell(24, 'b'),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                               // not used - not "natural"
             DefaultValue.None, SkipReason.Unsupported_Technology),
     Ventilation_WholeHouseExtractOrPositiveFromOutside(null, MonthlyMean,
             SAPWorksheetSection.Ventilation.subCell(24, 'c'),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                               // not used - not "natural"
             DefaultValue.None, SkipReason.Unsupported_Technology),
     Ventilation_NaturalOrPositiveFromLoft(AirChange_per_Hour, MonthlyMean,
-            SAPWorksheetSection.Ventilation.subCell(24, 'd'),
-            BREDEMLocation.NotDetermined,
+            SAPWorksheetSection.Ventilation.subCell(24, 'd'),           // First of - HeatLoss step 'F' options - see SAP (25) below
+            BREDEMLocation.NotDetermined,                               
             DefaultValue.None),
     // We ignore the note about Appendix Q here
     AirChanges_Effective(AirChange_per_Hour, MonthlyMean,
             SAPWorksheetSection.Ventilation.cell(25),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                               // * BREDEMSection.HeatLoss.step( 'F', "Lv" )
             DefaultValue.None),
     /**
      * Heat losses and heat loss parameter
@@ -240,19 +240,19 @@ public enum EnergyCalculationStep {
     // Basement walls are treated as External walls in the NHM
     HeatLossCoefficient_BasementWall(Watt_per_Kelvin, Annual,
             SAPWorksheetSection.HeatLosses_and_Heat_Loss_Parameter.cell(29),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                                   //  
             new NotSupportedValuePlaceholder(0)),
     HeatLossCoefficient_ExternalWall(Watt_per_Kelvin, Annual,
             SAPWorksheetSection.HeatLosses_and_Heat_Loss_Parameter.subCell(29, 'a'),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                                   //  
             DefaultValue.None),
     HeatLossCoefficient_Roof(Watt_per_Kelvin, Annual,
             SAPWorksheetSection.HeatLosses_and_Heat_Loss_Parameter.cell(30),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                                   //  
             DefaultValue.None),
     AreaExternal(MetreSquared, Annual,
             SAPWorksheetSection.HeatLosses_and_Heat_Loss_Parameter.cell(31),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                                   // BREDEMSection.HeatLoss.var( "Aext" )
             DefaultValue.None),
     // For internal and part fabric elements, this is the net area (m^2) column
     AreaPartyWall(MetreSquared, Annual,
@@ -275,7 +275,7 @@ public enum EnergyCalculationStep {
             new NotSupportedValuePlaceholder(0)),
     FabricHeatLoss(Watt_per_Kelvin, Annual,
             SAPWorksheetSection.HeatLosses_and_Heat_Loss_Parameter.cell(33),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // (1st part of HeatLoss step B)
             DefaultValue.None),
     HeatCapacity(null, Annual,
             SAPWorksheetSection.HeatLosses_and_Heat_Loss_Parameter.cell(34),
@@ -289,23 +289,23 @@ public enum EnergyCalculationStep {
     // Uses simple calculation
     ThermalBridges(Watt_per_Kelvin, MonthlyMean, // Should be Annual
             SAPWorksheetSection.HeatLosses_and_Heat_Loss_Parameter.cell(36),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // * Almost BREDEMSection.HeatLoss.step( 'A', "HTB" ) -- re different "y" values for after 2002
             DefaultValue.None),
     FabricLossTotal(Watt_per_Kelvin, MonthlyMean, // Should be Annual
             SAPWorksheetSection.HeatLosses_and_Heat_Loss_Parameter.cell(37),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // * BREDEMSection.HeatLoss.step( 'B', "HF" )
             DefaultValue.None),
     VentilationHeatLoss(Watt_per_Kelvin, MonthlyMean,
             SAPWorksheetSection.HeatLosses_and_Heat_Loss_Parameter.cell(38),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // * BREDEMSection.HeatLoss.step( 'G', "Hv" )
             DefaultValue.None),
     HeatTransferCoefficient(Watt_per_Kelvin, MonthlyMean,
             SAPWorksheetSection.HeatLosses_and_Heat_Loss_Parameter.cell(39),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // * BREDEMSection.HeatLoss.step( 'H', "Hm" )
             DefaultValue.None),
     HeatLossParameter(Watt_per_MetreSquared_Kelvin, MonthlyMean,
             SAPWorksheetSection.HeatLosses_and_Heat_Loss_Parameter.cell(40),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // * BREDEMSection.HeatLoss.step( 'I', "HLP" )
             DefaultValue.None),
     DaysInMonth(Day_per_Month, MonthlySum,
             SAPWorksheetSection.HeatLosses_and_Heat_Loss_Parameter.cell(41),
@@ -316,30 +316,30 @@ public enum EnergyCalculationStep {
      */
     Occupancy(Count, Annual,
             SAPWorksheetSection.Water_Heating.cell(42),
-            BREDEMSection.LightsAppliancesAndCooking.step('a', "N"),
+            BREDEMSection.LightsAppliancesAndCooking.step('a', "N"),                // BREDEMSection.LightsAppliancesAndCooking.step('A', "N"), BREDEMSection.WaterVolumeAndEnergyContent.var( "N" )
             DefaultValue.None),
     // In SAP, this is annual.
     WaterHeating_Usage_Initial(Litre_per_Day, MonthlyMean,
             SAPWorksheetSection.Water_Heating.cell(43),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // BREDEMSection.WaterVolumeAndEnergyContent.step( 'F', "Vd,ave" )                     
             DefaultValue.None),
     // WEIRD: This is summed over the year,
     WaterHeating_Usage_MonthAdjusted(Litre_per_Day, MonthlySum,
             SAPWorksheetSection.Water_Heating.cell(44),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // BREDEMSection.WaterVolumeAndEnergyContent.step( 'G', "Vd,m" )                     
             DefaultValue.None),
     WaterHeating_EnergyContent(Kilo_Watt_Hour_per_Month, MonthlySum,
-            SAPWorksheetSection.Water_Heating.cell(45),
-            BREDEMLocation.NotDetermined,
+            SAPWorksheetSection.Water_Heating.cell(45),                     
+            BREDEMLocation.NotDetermined,                                           // BREDEMSection.WaterVolumeAndEnergyContent/WaterHeatingLosses.step( 'H', "QHW,m" )                     
             DefaultValue.None),
     WaterHeating_DistributionLoss(Kilo_Watt_Hour_per_Month, MonthlySum,
-            SAPWorksheetSection.Water_Heating.cell(46),
-            BREDEMLocation.NotDetermined,
+            SAPWorksheetSection.Water_Heating.cell(46),                             
+            BREDEMLocation.NotDetermined,                                           // BREDEMSection.WaterHeatingLosses.step( 'A', "QD,m" )
             DefaultValue.None),
     // In SAP, this is annual
     WaterHeating_StorageVolume(MetreCubed, MonthlyMean,
             SAPWorksheetSection.Water_Heating.cell(47),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // BREDEMSection.WaterHeatingLosses.var( "Vc" )                                         
             DefaultValue.None),
     // 48,49 and 50 ignored as we don't know manufacturer's declared loss factor
 
@@ -347,14 +347,14 @@ public enum EnergyCalculationStep {
     WaterHeating_StorageLossFactor(Kilo_Watt_Hour_per_Litre_per_Day, MonthlyMean,
             SAPWorksheetSection.Water_Heating.cell(51),
             BREDEMLocation.NotDetermined,
-            new DefaultValue(Double.NaN)),
+            new DefaultValue(Double.NaN)),                                          // BREDEMSection.WaterHeatingLosses.var( "L" )    
     WaterHeating_StorageVolumeFactor(Dimensionless, MonthlyMean,
             SAPWorksheetSection.Water_Heating.cell(52),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // BREDEMSection.WaterHeatingLosses.var( "VF" )    
             new DefaultValue(Double.NaN)),
     WaterHeating_StorageTemperatureFactor(Dimensionless, MonthlyMean,
             SAPWorksheetSection.Water_Heating.cell(53),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // BREDEMSection.WaterHeatingLosses.var( "STF" )    
             new DefaultValue(Double.NaN)),
     WaterHeating_StorageLosses_Daily_Calculated(Kilo_Watt_Hour_per_Day, MonthlyMean,
             SAPWorksheetSection.Water_Heating.cell(54),
@@ -363,12 +363,12 @@ public enum EnergyCalculationStep {
     // This step is a choice between 50 (not implemented in the NHM) or 54.
     WaterHeating_StorageLosses_Daily(Kilo_Watt_Hour_per_Day, MonthlyMean,
             SAPWorksheetSection.Water_Heating.cell(55),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // BREDEMSection.WaterHeatingLosses.step( 'B', "Qst,d" )    
             new DefaultValue(0)),
     // This is step 54 converted into months.
     WaterHeating_StorageLosses_Monthly(Kilo_Watt_Hour_per_Month, MonthlyMean,
-            SAPWorksheetSection.Water_Heating.cell(56),
-            BREDEMLocation.NotDetermined,
+            SAPWorksheetSection.Water_Heating.cell(56),     
+            BREDEMLocation.NotDetermined,                                           // BREDEMSection.WaterHeatingLosses.step( 'C', "Qst,m" ) 
             new DefaultValue(0)),
     WaterHeating_StorageLosses_Monthly_ExcludeSolar(Kilo_Watt_Hour_per_Month, MonthlyMean,
             SAPWorksheetSection.Water_Heating.cell(57),
@@ -378,25 +378,25 @@ public enum EnergyCalculationStep {
 
     WaterHeating_PrimaryCircuitLoss_Monthly(Kilo_Watt_Hour_per_Month, MonthlyMean,
             SAPWorksheetSection.Water_Heating.cell(59),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // BREDEMSection.WaterHeatingLosses.step( 'D', "Qp,m" )   
             DefaultValue.None),
     // There's no step 60 in the SAP worksheet
 
     WaterHeating_CombiLoss_Monthly(Kilo_Watt_Hour_per_Month, MonthlyMean,
             SAPWorksheetSection.Water_Heating.cell(61),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // BREDEMSection.WaterHeatingLosses.step( 'E', "Qcom,m" ), WaterHeatingEnergyRequirement.var( "Qcom,m" )
             new DefaultValue(0)),
     WaterHeating_TotalHeat_Monthly_BeforeSolar(Kilo_Watt_Hour_per_Month, MonthlyMean,
             SAPWorksheetSection.Water_Heating.cell(62),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // n/a - intermediate value
             DefaultValue.None),
     WaterHeating_Solar(Kilo_Watt_Hour_per_Month, MonthlyMean,
-            SAPWorksheetSection.Water_Heating.cell(63),
-            BREDEMLocation.NotDetermined,
+            SAPWorksheetSection.Water_Heating.cell(63),                             
+            BREDEMLocation.NotDetermined,                                           // BREDEMSection.WaterHeatingEnergyRequirement.var( "Qsol" )
             new DefaultValue(0)),
     WaterHeating_TotalHeat_Monthly(Kilo_Watt_Hour_per_Month, MonthlySum,
             SAPWorksheetSection.Water_Heating.cell(64),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // BREDEMSection.WaterHeatingEnergyRequirement.step( 'A', "QW,m" )
             DefaultValue.None,
             SkipReason.WaterHeating_TotalHeat_ExcludeSolar_Not_Recorded),
     /**
@@ -404,41 +404,41 @@ public enum EnergyCalculationStep {
      */
     Gains_HotWater_Monthly(Kilo_Watt_Hour_per_Month, MonthlyMean,
             SAPWorksheetSection.Water_Heating.cell(65),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // i/p into Gains_InternalAndTotal step 'I'
             DefaultValue.None),
     Gains_Metabolic(Watt, MonthlyMean,
             SAPWorksheetSection.Gains_Internal.cell(66),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // BREDEMSection.Gains_InternalAndTotal.step( 'A', "Gm" )   
             DefaultValue.None),
     Gains_Lighting(Watt, MonthlyMean,
             SAPWorksheetSection.Gains_Internal.cell(67),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // BREDEMSection.Gains_InternalAndTotal.step( 'B', "GL,m" )   
             DefaultValue.None),
     Gains_Appliances(Watt, MonthlyMean,
             SAPWorksheetSection.Gains_Internal.cell(68),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // BREDEMSection.Gains_InternalAndTotal.step( 'C', "GA,m" )   
             DefaultValue.None),
     Gains_Cooking(Watt, MonthlyMean,
             SAPWorksheetSection.Gains_Internal.cell(69),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // Different calc in BREDEM, would be Gains_InternalAndTotal / D
             DefaultValue.None),
     Gains_PumpsAndFans(Watt, MonthlyMean,
             SAPWorksheetSection.Gains_Internal.cell(70),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // BREDEMSection.Gains_InternalAndTotal.step( 'G', "Gp&f,m" )   
             DefaultValue.None),
     // These are actually losses.
     Gains_Evaporation(Watt, MonthlyMean,
             SAPWorksheetSection.Gains_Internal.cell(71),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // BREDEMSection.Gains_InternalAndTotal.step( 'F', "Gevap" )   
             DefaultValue.None),
     // This is the same as the other hot water gains in the NHM. In SAP, this represents a conversion.
     Gains_HotWater(Watt, MonthlyMean,
             SAPWorksheetSection.Gains_Internal.cell(72),
             BREDEMLocation.NotDetermined,
-            DefaultValue.None),
+            DefaultValue.None),                                                     // BREDEMSection.Gains_InternalAndTotal.step( 'I', "Gw,m" )
     Gains_Internal(Watt, MonthlyMean,
             SAPWorksheetSection.Gains_Internal.cell(73),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // +GR,m & using alt. GC,m = BREDEMSection.Gains_InternalAndTotal.step( 'J', "Gint,m" )
             DefaultValue.None),
     /**
      * Solar Gains (watts)
@@ -448,57 +448,57 @@ public enum EnergyCalculationStep {
     // We don't support roof windows in the NHM
     Gains_Solar_Roof(Watt, MonthlyMean,
             SAPWorksheetSection.Gains_Solar.cell(82),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // n/a - not supported
             new NotSupportedValuePlaceholder(0)),
     Gains_Solar(Watt, MonthlyMean,
             SAPWorksheetSection.Gains_Solar.cell(83),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // BREDEMSection.Gains_InternalAndTotal.var( "Gs,m" )
             DefaultValue.None),
     Gains(Watt, MonthlyMean,
             SAPWorksheetSection.Gains_Solar.cell(84),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // BREDEMSection.Gains_InternalAndTotal.step( 'K', "Gm" )
             DefaultValue.None),
     /**
-     * Mean Internal Temperature
+     * Mean Internal Temperature (similar to BREDEM sect. 7)
      */
     DemandTemperature_LivingArea(Centigrade, Annual,
             SAPWorksheetSection.Mean_Internal_Temperature.cell(85),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // BREDEMSection.MeanInternalTemperature.var( "Td1" )
             DefaultValue.None),
     GainsUtilisation_LivingArea(DimensionlessProportion, MonthlyMean,
             SAPWorksheetSection.Mean_Internal_Temperature.cell(86),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // BREDEMSection.MeanInternalTemperature.step( 'J', "n1,m" )
             DefaultValue.None),
     MeanInternalTemperature_LivingArea(Centigrade, MonthlyMean,
             SAPWorksheetSection.Mean_Internal_Temperature.cell(87),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // BREDEMSection.MeanInternalTemperature.step( 'P', "T1,m" )
             DefaultValue.None),
     DemandTemperature_RestOfDwelling(Centigrade, MonthlyMean,
             SAPWorksheetSection.Mean_Internal_Temperature.cell(88),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // Almost BREDEMSection.MeanInternalTemperature.step( 'E', "Td2,m" ) but not calculated for SAP
             DefaultValue.None),
     GainsUtilisation_RestOfDwelling(DimensionlessProportion, MonthlyMean,
             SAPWorksheetSection.Mean_Internal_Temperature.cell(89),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // BREDEMSection.MeanInternalTemperature.step( 'J', "n2,m" )
             DefaultValue.None),
     MeanInternalTemperature_RestOfDwelling(Centigrade, MonthlyMean,
             SAPWorksheetSection.Mean_Internal_Temperature.cell(90),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // BREDEMSection.MeanInternalTemperature.step( 'X', "T2,m" )
             DefaultValue.None),
     LivingAreaFraction(DimensionlessProportion, Annual,
             SAPWorksheetSection.Mean_Internal_Temperature.cell(91),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // n/a to BREDEM: uses separate area values instead
             DefaultValue.None),
     MeanInternalTemperature_Unadjusted(Centigrade, MonthlyMean,
             SAPWorksheetSection.Mean_Internal_Temperature.cell(92),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                          // Sort of BREDEMSection.MeanInternalTemperature.step( 'Y', "Tm" ) -- doesn't use actual floor areas of zone1/2
             DefaultValue.None),
     MeanInternalTemperature(Centigrade, MonthlyMean,
             SAPWorksheetSection.Mean_Internal_Temperature.cell(93),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                          // n/a to BREDEM                    
             DefaultValue.None),
     /**
-     * Space Heating
+     * Space Heating (similar to BREDEM sect. 8)                                        ********* upto here *********
      */
     GainsUtilisation(DimensionlessProportion, MonthlyMean,
             SAPWorksheetSection.Space_Heating.cell(94),
@@ -518,7 +518,7 @@ public enum EnergyCalculationStep {
             DefaultValue.None),
     SpaceHeating(Kilo_Watt_Hour_per_Month, MonthlySum,
             SAPWorksheetSection.Space_Heating.cell(98),
-            BREDEMLocation.NotDetermined,
+            BREDEMLocation.NotDetermined,                                           // ?? BREDEMSection.SpaceHeating.step( 'I', "Qheat,m" )
             DefaultValue.None),
     // Feeds into step 109, which we aren't doing.
     SpaceHeating_PerFloorArea(Kilo_Watt_Hour_per_MetreSquared_per_Month, MonthlySum,
