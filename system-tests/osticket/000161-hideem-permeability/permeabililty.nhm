@@ -1,0 +1,33 @@
+(scenario
+    start-date: 2018
+    end-date: 2018
+    stock-id: ../../2014.stock
+    
+    (def-report permeability-report
+                (column name:permeability-with-deliberate
+                        value: (house.permeability include-deliberate-ventilation: true)
+                        summary: [min max mean]
+                        )
+                (column name:permeability-without-deliberate
+                        value: (house.permeability include-deliberate-ventilation: false)
+                        summary: [min max mean]
+                        )
+                )
+    
+    (on.dates (scenario-start)
+              (assert
+                  name: "Permeability should be in a sensible range"
+                  over: (all-houses)
+                  capture: [(house.survey-code) (house.permeability include-deliberate-ventilation: false)
+                            (house.permeability include-deliberate-ventilation: true)]
+                  
+                  (all (< 0 (house.permeability include-deliberate-ventilation: false) 40)
+                       (< 0 (house.permeability include-deliberate-ventilation: true) 40)
+                       (<= 0
+                           (- (house.permeability include-deliberate-ventilation: true)
+                              (house.permeability include-deliberate-ventilation: false))
+                           10)))
+              (apply
+                  (send-to-report permeability-report))
+              )
+    )

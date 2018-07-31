@@ -2,6 +2,8 @@
  */
 package uk.org.cse.nhm.hom.emf.technologies.impl;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -16,6 +18,7 @@ import uk.org.cse.nhm.energycalculator.mode.EnergyCalculatorType;
 import uk.org.cse.nhm.hom.IHeatProportions;
 import uk.org.cse.nhm.hom.constants.adjustments.TemperatureAdjustments;
 import uk.org.cse.nhm.hom.emf.technologies.FuelType;
+import uk.org.cse.nhm.hom.emf.technologies.HeatingSystemControlType;
 import uk.org.cse.nhm.hom.emf.technologies.IOperationalCost;
 import uk.org.cse.nhm.hom.emf.technologies.IStorageHeater;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesPackage;
@@ -640,5 +643,10 @@ public class StorageHeaterImpl extends SpaceHeaterImpl implements IStorageHeater
     @Override
     public FuelType getFuel() {
         return FuelType.ELECTRICITY;
+    }
+
+    @Override
+    public List<HeatingSystemControlType> getControls() {
+        return Collections.emptyList();
     }
 } //StorageHeaterImpl

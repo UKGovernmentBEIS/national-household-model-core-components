@@ -5,19 +5,20 @@ import com.larkery.jasb.bind.BindNamedArgument;
 
 import uk.org.cse.nhm.language.adapt.impl.Prop;
 import uk.org.cse.nhm.language.definition.Doc;
+import uk.org.cse.nhm.language.definition.SeeAlso;
 import uk.org.cse.nhm.language.definition.action.Unsuitability;
 import uk.org.cse.nhm.language.definition.action.XMeasure;
+import uk.org.cse.nhm.language.definition.function.bool.house.XHasHeatingControl;
 import uk.org.cse.nhm.language.definition.function.num.XNumber;
 import uk.org.cse.nhm.language.definition.function.num.XNumberConstant;
 
 @Bind("measure.heating-control")
 @Doc("Installs a new heating control into a house")
 @Unsuitability({
-    "That type of heating control is already installed.",
-    "The primary space heater is a room heater, and the type of control is any control other than an appliance thermostat.",
-    "The primary space heater is a storage heater (for storage heater controls, see measure.storage-heater).",
-    "The dwelling has no primary space heater."
+	"None of the house's heating systems (primary or secondary) (a) do not have the type of control AND (b) are suitable for the type of control.",
+	"Details of control suitability for different systems are given in the documentation for control types."
 })
+@SeeAlso(XHasHeatingControl.class)
 public class XHeatingControlMeasure extends XMeasure {
 
     public static final class P {
@@ -27,22 +28,34 @@ public class XHeatingControlMeasure extends XMeasure {
     }
 
     @Doc({
-        "A type of heating system control; the presence or absence of heating controls",
-        "affects a range of values within the SAP calculation, mostly around the mean",
-        "temperature in the house."
+            "A type of heating system control; the presence or absence of heating controls",
+            "affects a range of values within the SAP calculation, mostly around the mean",
+            "temperature in the house.",
+            "",
+                "Each control is suitable for different types of heating system.",
+                "A house can have both a primary and secondary heating system,",
+                "and will be suitable for some control if either system is suitable for that control."
+
     })
     public enum XHeatingControlType {
-        @Doc("Suitable for wet central heating, warm air systems, and room heaters")
+        @Doc({"Suitable for wet central heating, warm air systems, and room heaters (including secondary heaters)",
+                    "",
+                    "Because this is suitable for secondary heaters, it could be suitable for a house with any main",
+                    "heating system so long as that house has a secondary heater without a thermostat.",
+                    "",
+                    "For example, a house with a storage heater would be suitable for an appliance thermostat",
+                    "if it had a secondary room heater which didn't have an existing thermostat already."
+                    })
         ApplianceThermostat,
         @Doc("Suitable for wet central heating and warm air systems")
         RoomThermostat,
         @Doc("Suitable for wet central heating and warm air systems")
         ThermostaticRadiatorValve,
-        @Doc("Suitable for wet central heating and warm air systems")
+        @Doc("Suitable for wet central heating and warm air systems (unless connected to a community heat source)")
         TimeTemperatureZoneControl,
-        @Doc("Suitable for wet central heating")
+        @Doc("Suitable for wet central heating and warm air systems (unless connected to a community heat source)")
         DelayedStartThermostat,
-        @Doc("Suitable for wet central heating")
+        @Doc("Suitable for wet central heating and warm air systems")
         Programmer,
         @Doc("Suitable for wet central heating")
         BypassValve

@@ -20,6 +20,7 @@ import uk.org.cse.nhm.language.definition.enums.XTenureType;
 import uk.org.cse.nhm.language.definition.enums.XWallConstructionTypeRule;
 import uk.org.cse.nhm.language.definition.enums.XWallInsulationRule;
 import uk.org.cse.nhm.language.definition.function.bool.house.*;
+import uk.org.cse.nhm.language.definition.action.measure.heating.XHeatingControlMeasure;
 import uk.org.cse.nhm.simulator.factories.IBooleanFunctionFactory;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
@@ -144,8 +145,7 @@ public class HouseTestFunctionAdapter extends ReflectingAdapter {
     }
 
     @Adapt(XHasHeatingControl.class)
-    public IComponentsFunction<Boolean> buildMatchHasHeatingControl(
-            @Prop(XHasHeatingControl.P.type) final XHasHeatingControl.XHeatingControlType type) {
+    public IComponentsFunction<Boolean> buildMatchHasHeatingControl(@Prop(XHasHeatingControl.P.type) final XHeatingControlMeasure.XHeatingControlType type) {
 
         HeatingSystemControlType internalType;
         switch (type) {

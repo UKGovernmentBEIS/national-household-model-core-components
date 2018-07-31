@@ -109,6 +109,16 @@ It is documented in more detail below in the section on energy calculator modes.
 - Documentation for room heater unsuitability =ref.measure.room-heater=
 - Improved suitability information for hot water tank thermostat measure =ref.measure.hot-water-tank-thermostat=
 - Improved suitability information for =ref.measure.warm-air-system=
+*** Version 7.0.6
+This is a point release to fix a couple of omissions in 7.0.5.
+**** Bugs fixed
+- The suitability constraints for =ref.measure.heating-control= have been amended:
+  - Warm air systems are now suitable for having a programmer added.
+  - Community heating systems are not suitable for time-temperature-zone controls or delayed start thermostats.
+  The documentation for heating controls suitability has also been improved.
+- The =ref.house.has-heating-control= command now tests for appliance thermostat on both primary and secondary heating, rather than just primary heating.
+- The value for =ref.house.permeability= was being output incorrectly (it was 365 times too big). The error was in the production of annual outputs from monthly values within the energy calculation.
+
 *** Version 7.0.5
 **** Improvements
 ***** Change to calculation of =ref.house.permeability=
