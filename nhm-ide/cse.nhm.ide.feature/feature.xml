@@ -42,7 +42,6 @@
       <import plugin="org.eclipse.equinox.preferences" match="greaterOrEqual"/>
       <import plugin="org.eclipse.osgi" match="greaterOrEqual"/>
       <import plugin="org.eclipse.equinox.registry" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.update.configurator" match="compatible"/>
       <import plugin="org.eclipse.equinox.registry" match="equivalent"/>
       <import plugin="org.eclipse.core.runtime" match="compatible"/>
       <import plugin="org.eclipse.equinox.preferences" match="compatible"/>
@@ -144,133 +143,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.core.filesystem.aix.ppc"
-         os="aix"
-         arch="ppc"
-         download-size="9"
-         install-size="17"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.core.filesystem.aix.ppc64"
-         os="aix"
-         arch="ppc64"
-         download-size="9"
-         install-size="18"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.core.filesystem.hpux.ia64"
-         os="hpux"
-         arch="ia64"
-         download-size="20"
-         install-size="102"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.core.filesystem.java7"
-         download-size="14"
-         install-size="23"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.core.filesystem.linux.ppc"
-         os="linux"
-         arch="ppc"
-         download-size="22"
-         install-size="52"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.core.filesystem.linux.ppc64"
-         os="linux"
-         arch="ppc64"
-         download-size="10"
-         install-size="21"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.core.filesystem.linux.ppc64le"
-         os="linux"
-         arch="ppc64le"
-         download-size="10"
-         install-size="20"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.core.filesystem.linux.x86"
-         os="linux"
-         arch="x86"
-         download-size="10"
-         install-size="17"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.core.filesystem.linux.x86_64"
-         os="linux"
-         arch="x86_64"
-         download-size="10"
-         install-size="19"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.core.filesystem.macosx"
-         os="macosx"
-         download-size="13"
-         install-size="64"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.core.filesystem.solaris.sparc"
-         os="solaris"
-         arch="sparc"
-         download-size="9"
-         install-size="16"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.core.filesystem.win32.x86"
-         os="win32"
-         arch="x86"
-         download-size="26"
-         install-size="54"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.core.filesystem.win32.x86_64"
-         os="win32"
-         arch="x86_64"
-         download-size="31"
-         install-size="64"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.core.net"
          download-size="68"
          install-size="131"
@@ -343,20 +215,6 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>
-
-   <plugin
-         id="org.eclipse.core.runtime.compatibility"
-         download-size="91"
-         install-size="201"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.core.runtime.compatibility.registry"
-         download-size="18"
-         install-size="24"
-         version="0.0.0"
-         fragment="true"/>
 
    <plugin
          id="org.eclipse.core.variables"
