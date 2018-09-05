@@ -797,6 +797,6 @@ In the local variables line below we have eval:, which is a special local variab
 The lisp we are running adds the lisp above onto the after-save-hook, which is a list of functions to call after saving.
 
 Local Variables:
-eval: (add-hook 'after-save-hook (lambda () (shell-command "pandoc -f org -t docbook changelog.org --top-level-division=chapter | sed 's! id=\"\"!!g' | sed 's!<chapter.*>!<chapter xmlns=\"http://docbook.org/ns/docbook\">!g' | sed 's!<literal>\\(ref\\..\\+\\)</literal>!<xref linkend=\"\\1\"/>!g' > changelog.xml")) nil t)
+eval: (add-hook 'after-save-hook (lambda () (shell-command "pandoc -f org -t docbook changelog.org --top-level-division=chapter | sed 's! id=\"\"!!g' | sed 's!<chapter.*>!<chapter xmlns=\"http://docbook.org/ns/docbook\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">!g' | sed 's!<literal>\\(ref\\..\\+\\)</literal>!<xref linkend=\"\\1\"/>!g' > changelog.xml")) nil t)
 End:
 #+END_COMMENT

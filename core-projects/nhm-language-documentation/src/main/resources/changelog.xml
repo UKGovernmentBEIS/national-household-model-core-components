@@ -1,4 +1,4 @@
-<chapter xmlns="http://docbook.org/ns/docbook">
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
   <title>Scenario Language Changelog</title>
   <section xml:id="reading-the-changelog">
     <title>Reading the Changelog</title>
