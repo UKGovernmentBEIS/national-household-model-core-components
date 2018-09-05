@@ -18,6 +18,7 @@ declare -A doc
 
 steps["clean"]=1
 steps["api"]=0
+steps["core"]=1
 steps["docs"]=1
 steps["tests"]=1
 steps["ide"]=1
@@ -27,6 +28,7 @@ steps["release"]=0
 doc["clean"]="clean before build"
 doc["api"]="attempt to publish the API bundle"
 doc["docs"]="build the manual (slow!)"
+doc["core"]="build the core projects (the model itself)"
 doc["tests"]="run the whole system tests"
 doc["ide"]="build the IDE"
 doc["package"]="get the IDE and CLI tools and put them in a zip file"
@@ -124,7 +126,11 @@ else
     green "Skip API"
 fi
 
-gradle :nhm-impl-bundle:publish
+if [ ${steps["core"]} == 1 ]; then
+    gradle :nhm-impl-bundle:publish
+else
+    green "Skip core"
+fi
 
 popd
 
