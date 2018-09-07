@@ -1,4 +1,4 @@
-<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
+<chapter xmlns="http://docbook.org/ns/docbook">
   <title>Scenario Language Changelog</title>
   <section xml:id="reading-the-changelog">
     <title>Reading the Changelog</title>
@@ -124,14 +124,6 @@
                   population.</phrase></textobject>
                 </mediaobject>
               </figure>
-            </listitem>
-            <listitem>
-              <para>
-                A small bug which caused an error during validation of
-                scenarios with an invalid stock file name has been
-                removed. This should make the desktop application a
-                little bit better behaved.
-              </para>
             </listitem>
             <listitem>
               <para>
@@ -555,6 +547,37 @@
               </itemizedlist>
             </listitem>
           </orderedlist>
+        </listitem>
+      </orderedlist>
+    </section>
+    <section xml:id="version-7.0.7">
+      <title>Version 7.0.7</title>
+      <para>
+        This is a point release to improve the application's behaviour
+        on HiDPI screens
+      </para>
+      <orderedlist>
+        <listitem>
+          <para>
+            Bugs Fixed
+          </para>
+          <itemizedlist spacing="compact">
+            <listitem>
+              <para>
+                A small bug which caused an error during validation of
+                scenarios with an invalid stock file name has been
+                removed. This should make the desktop application a
+                little bit better behaved.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                The underlying Eclipse framework in the application has
+                been updated to a version with better support for modern
+                screens.
+              </para>
+            </listitem>
+          </itemizedlist>
         </listitem>
       </orderedlist>
     </section>

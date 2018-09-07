@@ -30,10 +30,8 @@
   -->
    <requires>
      <import plugin="uk.org.cse.nhm.manual" version="0.0.0" match="greaterOrEqual"/>
-
      <import plugin="uk.org.cse.nhm.bundle.impl" version="7.2.0" match="equivalent"/>
-     <import plugin="uk.org.cse.nhm.bundle.impl" version="7.1.0" match="equivalent"/>
-     <import plugin="uk.org.cse.nhm.bundle.impl" version="7.0.5.Rv-7_0_5" match="perfect"/>
+     <import plugin="uk.org.cse.nhm.bundle.impl" version="7.0.7.Rv-7_0_7" match="perfect"/>
      <import plugin="uk.org.cse.nhm.bundle.impl" version="6.5.5.Rv-6_5_5_dirty" match="perfect"/>
      <import plugin="uk.org.cse.nhm.bundle.impl" version="6.5.2" match="equivalent"/>
      <import plugin="uk.org.cse.nhm.bundle.impl" version="6.5.1" match="equivalent"/>

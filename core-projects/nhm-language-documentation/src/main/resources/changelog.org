@@ -47,9 +47,6 @@ If you want to cross-reference to a language element, you need to use the unique
   #+CAPTION: Weighted histogram of percentage change in SAP2012 total energy use due to use of table S8B. Cases with no error are omitted; this is a subset of the total 2014 stock population.
   [[./figures/party-sap.png]]
 
-- A small bug which caused an error during validation of scenarios with an invalid stock file name has been removed.
-  This should make the desktop application a little bit better behaved.
-
 - A typo in the representative UK latitude (35.5 degrees, as opposed to 53.5) caused reduced solar gains and less useful daylight for lighting.
   The representative latitude is only used in SAP mode, so there is no effect on BREDEM mode calculations.
 
@@ -133,6 +130,12 @@ It is documented in more detail below in the section on energy calculator modes.
 - Documentation for room heater unsuitability =ref.measure.room-heater=
 - Improved suitability information for hot water tank thermostat measure =ref.measure.hot-water-tank-thermostat=
 - Improved suitability information for =ref.measure.warm-air-system=
+*** Version 7.0.7
+This is a point release to improve the application's behaviour on HiDPI screens
+**** Bugs Fixed
+- A small bug which caused an error during validation of scenarios with an invalid stock file name has been removed.
+  This should make the desktop application a little bit better behaved.
+- The underlying Eclipse framework in the application has been updated to a version with better support for modern screens.
 *** Version 7.0.6
 This is a point release to fix a couple of omissions in 7.0.5.
 **** Bugs fixed
