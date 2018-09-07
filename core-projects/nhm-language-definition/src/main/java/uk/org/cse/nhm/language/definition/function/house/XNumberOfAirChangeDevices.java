@@ -43,4 +43,9 @@ public class XNumberOfAirChangeDevices extends XHouseNumber {
         this.airChangeDevice = airChangeDevice;
     }
 
+    public static XNumberOfAirChangeDevices create(final XAdjustNumberOfAirChangeDevices.XAirChangeDevice device) {
+        final XNumberOfAirChangeDevices out = new XNumberOfAirChangeDevices();
+        out.setAirChangeDevice(device);
+        return out;
+    }
 }

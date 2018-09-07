@@ -16,7 +16,10 @@ import uk.org.cse.nhm.language.definition.Doc;
 import uk.org.cse.nhm.language.definition.SeeAlso;
 import uk.org.cse.nhm.language.definition.function.bool.XAny;
 import uk.org.cse.nhm.language.definition.function.bool.XBoolean;
+import uk.org.cse.nhm.language.definition.function.bool.XNumberSequence;
+import uk.org.cse.nhm.language.definition.function.house.XNumberOfAirChangeDevices;
 import uk.org.cse.nhm.language.definition.function.house.XGetProportionOfDoubleGlazedWindows;
+import uk.org.cse.nhm.language.definition.action.measure.adjust.XAdjustNumberOfAirChangeDevices.XAirChangeDevice;
 import uk.org.cse.nhm.language.definition.function.num.XHeatLoss;
 import uk.org.cse.nhm.language.definition.function.num.XHouseNumber;
 import uk.org.cse.nhm.language.definition.function.num.XNumber;
@@ -86,16 +89,57 @@ public class XHealthImpactFunction extends XHouseNumber {
     private XImpact impact = XImpact.Cost;
     private List<XDisease> diseases = new ArrayList<XDisease>(Arrays.asList(XDisease.values()));
 
-    private XNumber fromTemperature;
-    private XNumber toTemperature = XPrior.valueOf(new XSITFunction());
+    private XNumber fromTemperature = XPrior.valueOf(new XSITFunction());;
+    private XNumber toTemperature = new XSITFunction();
 
-    private XNumber fromPermeability;
-    private XNumber toPermeability = XPrior.valueOf(new XPermeabilityFunction());
+    private XNumber fromPermeability = XPrior.valueOf(new XPermeabilityFunction());;
+    private XNumber toPermeability = new XPermeabilityFunction();
 
     private XNumber fromYear = XNumberConstant.create(0);
     private XNumber toYear = XNumberConstant.create(10);
 
-    private XBoolean hadTrickleVents = new XAny();
+    private XBoolean hadTrickleVents =
+        XNumberSequence.XGreater.of(
+            XPrior.valueOf(
+                XNumberOfAirChangeDevices.create(
+                    XAirChangeDevice.Vents
+                    )
+                ),
+            XNumberConstant.create(0)
+            );
+
+    private XBoolean hasTrickleVents =
+        XNumberSequence.XGreater.of(
+            XNumberOfAirChangeDevices.create(
+                XAirChangeDevice.Vents
+                ),
+            XNumberConstant.create(0)
+            );
+
+    private XBoolean hadExtractFans =
+        XNumberSequence.XGreater.of(
+            XPrior.valueOf(
+                XNumberOfAirChangeDevices.create(
+                    XAirChangeDevice.Fans
+                    )
+                ),
+            XNumberConstant.create(0)
+            );
+
+    private XBoolean hasExtractFans =
+        XNumberSequence.XGreater.of(
+            XNumberOfAirChangeDevices.create(
+                XAirChangeDevice.Fans
+                ),
+            XNumberConstant.create(0)
+            );
+
+    private XNumber fromHeatLoss = XPrior.valueOf(new XHeatLoss());
+    private XNumber toHeatLoss = new XHeatLoss();
+
+    private XNumber fromDoubleGlazing = XPrior.valueOf(new XGetProportionOfDoubleGlazedWindows());
+    private XNumber toDoubleGlazing = new XGetProportionOfDoubleGlazedWindows();
+
 
     @Prop(P.hadTrickleVents)
     @Doc("A function to test whether the house had trickle vents")
@@ -110,17 +154,6 @@ public class XHealthImpactFunction extends XHouseNumber {
     public XBoolean getHadExtractFans() {
         return hadExtractFans;
     }
-
-    private XBoolean hadExtractFans = new XAny();
-
-    private XBoolean hasTrickleVents = new XAny();
-    private XBoolean hasExtractFans = new XAny();
-
-    private XNumber fromHeatLoss = XPrior.valueOf(new XHeatLoss());
-    private XNumber toHeatLoss = new XHeatLoss();
-
-    private XNumber fromDoubleGlazing = XPrior.valueOf(new XGetProportionOfDoubleGlazedWindows());
-    private XNumber toDoubleGlazing = new XGetProportionOfDoubleGlazedWindows();
 
     @Prop(P.fromG)
     @BindNamedArgument("double-glazed-before")

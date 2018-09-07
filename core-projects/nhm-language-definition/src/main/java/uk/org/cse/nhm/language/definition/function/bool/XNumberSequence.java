@@ -27,7 +27,13 @@ public abstract class XNumberSequence extends XBoolean {
     @Bind(">")
     @Doc("True if for the VALUES given, the first value exceeds the second, the second value exceeds the third, and so on.")
     public static class XGreater extends XNumberSequence {
-
+        public static XGreater of(final XNumber... values) {
+            final XGreater result = new XGreater();
+            for (final XNumber value : values) {
+                result.getValues().add(value);
+            }
+            return result;
+        }
     }
 
     @Bind(">=")

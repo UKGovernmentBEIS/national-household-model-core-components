@@ -51,6 +51,55 @@
           <itemizedlist>
             <listitem>
               <para>
+                The default inputs used for the
+                <xref linkend="ref.health-impact-of"/> command were not
+                sensible, and no defaults were supplied for some values.
+              </para>
+              <itemizedlist spacing="compact">
+                <listitem>
+                  <para>
+                    The default for <literal>temperature-after</literal>
+                    is now <literal>house.sit</literal> rather than
+                    <literal>(original house.sit)</literal>.
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    The default for
+                    <literal>temperature-before</literal> is now
+                    <literal>(original house.sit)</literal>; before
+                    there was no default
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    The default for
+                    <literal>permeability-after</literal> is now
+                    <literal>house.permeabililty</literal> instead of
+                    <literal>(original house.permeability)</literal>.
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    The default for
+                    <literal>permeability-before</literal> is now
+                    <literal>(original house.permeability)</literal>;
+                    before there was no default
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    The default before and after for whether the house
+                    have trickle vents or fans is now taken from the
+                    <xref linkend="ref.original"/> and current value of
+                    <xref linkend="ref.house.number-air-change-devices"/>
+                    appropriately.
+                  </para>
+                </listitem>
+              </itemizedlist>
+            </listitem>
+            <listitem>
+              <para>
                 The hot water heating efficiency penalty associated with
                 lack of a boiler interlock was not being applied in for
                 cases where the summer and winter efficiency for the

@@ -23,6 +23,13 @@ If you want to cross-reference to a language element, you need to use the unique
 ** Released versions
 *** Version 7.2.0
 **** Bugs Fixed
+- The default inputs used for the =ref.health-impact-of= command were not sensible, and no defaults were supplied for some values.
+  - The default for =temperature-after= is now =house.sit= rather than =(original house.sit)=.
+  - The default for =temperature-before= is now =(original house.sit)=; before there was no default
+  - The default for =permeability-after= is now =house.permeabililty= instead of =(original house.permeability)=.
+  - The default for =permeability-before= is now =(original house.permeability)=; before there was no default
+  - The default before and after for whether the house have trickle vents or fans is now taken from the =ref.original= and current value of  =ref.house.number-air-change-devices= appropriately.
+
 - The hot water heating efficiency penalty associated with lack of a boiler interlock was not being applied in for cases where the summer and winter efficiency for the boiler are equal.
   
   This has a small impact on energy use (mean average of a 1.7% increase) in a small number of affected cases (about 350 cases in the 2014 stock):
