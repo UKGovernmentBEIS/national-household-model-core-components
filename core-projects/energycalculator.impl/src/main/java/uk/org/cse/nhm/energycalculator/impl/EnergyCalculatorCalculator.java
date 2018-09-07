@@ -702,10 +702,12 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
             final ISeasonalParameters[] climate,
             final Set<EnergyCalculationStep> requestedSteps) {
         try (final StepRecorder.Steps steps = StepRecorder.record(requestedSteps)) {
+            // First, survey the house for values which don't change with the month
             final Visitor v = Visitor.create(constants, eparameters, houseCase.getBuildYear(), houseCase.getCountry(), houseCase.getBuiltFormType(), defaultTransducers);
 
             houseCase.accept(constants, eparameters, v);
             v.infiltration.calculateAirChangeRate(houseCase, eparameters);
+
             log.debug("visitor: {}", v);
 
             StepRecorder.recordStep(TotalFloorArea, houseCase.getFloorArea());
@@ -752,7 +754,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
 
             final IEnergyCalculationResult[] results = new IEnergyCalculationResult[climate.length];
             int i = 0;
-            for (final ISeasonalParameters c : climate) {
+            for (final ISeasonalParameters c : climate) { // for each month
                 final IInternalParameters iparameters = new InternalParameters(eparameters, constants, c);
                 results[i++] = evaluate(houseCase, iparameters, v);
             }
@@ -771,6 +773,9 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         }
     }
 
+    /*
+    * Run the energy calculation for a single month
+    */
     private IEnergyCalculationResult evaluate(final IEnergyCalculatorHouseCase houseCase, final IInternalParameters parameters,
             final Visitor v) {
         final SpecificHeatLosses heatLosses = calculateSpecificHeatLosses(
@@ -825,6 +830,8 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
             log.debug("Fully unresponsive background temperature: {}", unresponsiveBackgroundTemperature);
         }
 
+        // find background temperature using responsiveness to interpolate between
+        // unresponsive (worst-case) bg temp and fully-responsive (best-case)
         final double[] backgroundTemperature = getBackgroundTemperatureFromHeatingSystems(v.heatingSystems,
                 v.proportions, heatLosses, adjustedParameters, state, responsiveBackgroundTemperature,
                 unresponsiveBackgroundTemperature);
@@ -833,7 +840,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
             log.debug("Average background temperature for all systems = {}", backgroundTemperature);
         }
 
-        // find mean temperature from profile
+        // find mean temperature from profile, using the demand and background temps
         final double[] meanTemperature = new double[ZoneType.values().length];
 
         meanTemperature[ZoneType.ZONE1.ordinal()] = adjustedParameters.getClimate()
@@ -851,6 +858,7 @@ public class EnergyCalculatorCalculator implements IEnergyCalculator {
         StepRecorder.recordStep(MeanInternalTemperature_LivingArea, meanTemperature[ZoneType.ZONE1.ordinal()]);
         StepRecorder.recordStep(MeanInternalTemperature_RestOfDwelling, meanTemperature[ZoneType.ZONE2.ordinal()]);
 
+        // find overall mean temp by weighting according to size of zone 1 and zone 2
         double areaWeightedMeanTemperature = getAreaWeightedMeanTemperature(houseCase, meanTemperature);
         StepRecorder.recordStep(MeanInternalTemperature_Unadjusted, areaWeightedMeanTemperature);
         state.increaseSupply(EnergyType.HackUNADJUSTED_TEMPERATURE, areaWeightedMeanTemperature);
