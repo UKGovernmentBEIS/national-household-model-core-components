@@ -177,6 +177,15 @@ if [ ${steps["ide"]} == 1 ]; then
     git submodule init
     git submodule update
 
+    CV="$(git describe --tags) $(date +%F)"
+    green "Update titlebar to contain build version $CV"
+    
+    xmlstarlet edit \
+               --inplace \
+               --update "/plugin/extension[@point='org.eclipse.core.runtime.products']/product[@application='org.eclipse.ui.ide.workbench']/@name" \
+               --value "NHM IDE [$CV]" \
+               cse.nhm.ide.product/plugin.xml
+    
     maven clean package
 
     green "product is in nhm-ide/cse.nhm.ide.build/target/products/*.zip"
