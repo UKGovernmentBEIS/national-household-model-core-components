@@ -43,10 +43,9 @@ group = 'uk.org.cse.nhm'
 // of the embedded deps.
 configurations {
     embed
-
-    compile {
-        extendsFrom embed
-    }
+// this embed.exclude would work, except we want stuff embedded
+// as well as got from elsewhere, which is highly annoying.
+//    embed.exclude group:"com.google.guava", module:"guava"
 }
 
 // access the list of embedded dependencies, with @s on their paths
@@ -60,6 +59,7 @@ dependencies {
     compile 'org.osgi:org.osgi.compendium:5.0.0'
     compile "org.eclipse.equinox:org.eclipse.equinox.common:3.6.0"
     compile project(':nhm-bundle-api')
+    compile nhm
     embed nhm
 }
 
@@ -81,7 +81,7 @@ bundle {
      'Bundle-Name': 'NHM Model Implementation',
      'Bundle-SymbolicName': 'uk.org.cse.nhm.bundle.impl',
      'Bundle-Activator': 'uk.org.cse.nhm.clitools.bundle.Activator',
-     'Require-Bundle': 'com.google.guava,org.apache.xerces',
+     'Require-Bundle': 'com.google.guava;bundle-version="[15.0.0,16.0.0)",org.apache.xerces',
      'Bundle-ActivationPolicy': 'lazy',
      'Service-Component': 'OSGi-INF/service.xml',
      'Private-Package': '!org.osgi.*,!uk.org.cse.nhm.bundle.api.*,!org.eclipse.core.*,!org.eclipse.equinox.*,*;-split-package:=merge-last',
