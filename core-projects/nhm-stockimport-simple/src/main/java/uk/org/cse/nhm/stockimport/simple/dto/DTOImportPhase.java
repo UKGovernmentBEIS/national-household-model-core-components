@@ -119,7 +119,7 @@ public class DTOImportPhase {
                             bad++;
                         }
                         if (bad > MAX_BAD_CASES) {
-                            errors.update("Over " + MAX_BAD_CASES + " cases have errors; terminating early.");
+                            errors.update("Over " + MAX_BAD_CASES + " cases have errors; terminating early. Later cases in the stock will not have been imported - fix the errors above and try again.");
                             break;
                         }
                     }
