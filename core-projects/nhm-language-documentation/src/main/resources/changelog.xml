@@ -1,4 +1,4 @@
-<chapter xmlns="http://docbook.org/ns/docbook">
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
   <title>Scenario Language Changelog</title>
   <section xml:id="reading-the-changelog">
     <title>Reading the Changelog</title>
@@ -183,15 +183,15 @@
                 on BREDEM mode calculations.
               </para>
               <figure>
-                <title>Weighted scatterplot of error in SAP score due to
-                latitude error, for EHS 2012 stock. Cases with no error
-                are omitted to make the graph readable, and are visible
-                in the histogram below.</title>
+                <title>Weighted scatter plot of error in SAP score due
+                to latitude error, for EHS 2012 stock. Cases with no
+                error are omitted to make the graph readable, and are
+                visible in the histogram below.</title>
                 <mediaobject>
                   <imageobject>
                     <imagedata fileref="./figures/score-bug/score-xy.png" />
                   </imageobject>
-                  <textobject><phrase>Weighted scatterplot of error in
+                  <textobject><phrase>Weighted scatter plot of error in
                   SAP score due to latitude error, for EHS 2012 stock.
                   Cases with no error are omitted to make the graph
                   readable, and are visible in the histogram
@@ -364,7 +364,7 @@
                 change to the lighting mix in a house, and
                 <xref linkend="ref.house.lighting-proportion"/> allows
                 you to query what proportion of the lights in a house
-                are of a pariticular type.
+                are of a particular type.
               </para>
               <para>
                 These changes have broken backwards-compatibility for
@@ -508,8 +508,8 @@
               <para>
                 Fixed a problem with transferring money between a
                 dwelling and a global account where it would multiply
-                the amount byt the scenario quantum instead of the
-                weight of the particular dwelling. This affects
+                the amount by the scenario quantum instead of the weight
+                of the particular dwelling. This affects
                 <xref linkend="ref.report.global-transactions"/> and
                 <xref linkend="ref.account.balance"/>
               </para>
@@ -603,7 +603,7 @@
       <title>Version 7.0.7</title>
       <para>
         This is a point release to improve the application's behaviour
-        on HiDPI screens
+        on Hi-DPI screens
       </para>
       <orderedlist>
         <listitem>
@@ -702,7 +702,7 @@
               </para>
               <para>
                 The function can now specify whether to include or
-                exclude deliberate ventilation from the airChange rate
+                exclude deliberate ventilation from the air change rate
                 calculation.
               </para>
             </listitem>
@@ -712,9 +712,9 @@
                 <xref linkend="ref.house.sit"/>
               </para>
               <para>
-                Calculation now defines heatloss as specific heat loss +
-                ventilation heat loss rather than just specific heatloss
-                as before.
+                Calculation now defines heat loss as specific heat loss
+                + ventilation heat loss rather than just specific heat
+                loss as before.
               </para>
             </listitem>
             <listitem>
@@ -725,7 +725,7 @@
               <para>
                 Added in the ability to specify an air-gap for the
                 measure. Look-up tables for U-Values now take into
-                account air-gap when returning u-values for glazings. If
+                account air-gap when returning u-values for glazing. If
                 no u-value is supplied then u-value will be take from
                 SAP tables.
               </para>
@@ -751,8 +751,8 @@
         </listitem>
       </orderedlist>
     </section>
-    <section xml:id="verison-7.0.3">
-      <title>Verison 7.0.3</title>
+    <section xml:id="version-7.0.3">
+      <title>Version 7.0.3</title>
       <orderedlist>
         <listitem>
           <para>
@@ -836,7 +836,7 @@
                 the ~combinations macro within templates combinations
                 choice has been added to avoid the need to macro expand
                 the scenario before validation. This expansion now
-                happens when executing the simulaiton see
+                happens when executing the simulation - see
                 <xref linkend="ref.combination.choice"/>.
               </para>
             </listitem>
@@ -854,11 +854,10 @@
                 and cooking the
                 <xref linkend="ref.measure.set-adjustment-terms"/>
                 function allows you to apply a linear correction factor
-                to the energy use of appliances or overaching energy use
-                coooking with reference to SAP2012 L10.
+                to the energy use of appliances or cookers.
               </para>
               <para>
-                For modelling the altertion of lighting elements within
+                For modelling the alteration of lighting elements within
                 a house <xref linkend="ref.measure.lighting"/> has been
                 added to alter the types of light within a house and
                 <xref linkend="ref.house.lighting-proportion"/> has
@@ -927,7 +926,7 @@
           </para>
           <para>
             This property has different behaviour to before. It now
-            explcitly sets which months the heating will be on for. It
+            explicitly sets which months the heating will be on for. It
             has no effect in SAP2012 mode.
           </para>
         </listitem>
