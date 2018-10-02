@@ -6,7 +6,8 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: cse.nhm.ide.runner.ui.RunnerUIPlugin
 Bundle-Vendor: CSE
 Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ com.google.guava;bundle-version="[15.0.0,16.0.0)"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Import-Package: com.eclipsesource.json;version="0.9.4",

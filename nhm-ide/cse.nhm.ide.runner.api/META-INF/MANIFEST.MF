@@ -5,6 +5,7 @@ Bundle-SymbolicName: cse.nhm.ide.runner.api;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: CSE
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Require-Bundle: com.google.guava;bundle-version="[15.0.0,16.0.0)"
 Import-Package: com.google.common.base;version="15.0.0",
  com.google.common.collect;version="15.0.0",
  com.google.common.hash;version="15.0.0",

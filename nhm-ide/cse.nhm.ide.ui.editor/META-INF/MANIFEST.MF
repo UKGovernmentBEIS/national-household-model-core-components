@@ -8,7 +8,8 @@ Bundle-Vendor: CSE
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.ui.workbench,
- org.eclipse.jface.text
+ org.eclipse.jface.text,
+ com.google.guava;bundle-version="[15.0.0,16.0.0)"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Import-Package: com.google.common.base;version="15.0.0",
