@@ -4,7 +4,7 @@
   <parent>
     <groupId>uk.org.cse.nhm.manual</groupId>
     <artifactId>parent</artifactId>
-    <version>7.2.0-SNAPSHOT</version>
+    <version>7.2.0</version>
     <relativePath>..</relativePath>
   </parent>
   
