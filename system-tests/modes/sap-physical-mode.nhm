@@ -1,0 +1,23 @@
+(template expect-reduction [@1:name @2:of @3:due-to]
+   (assert name:@name
+           over: (house.is-suitable-for @due-to)
+           capture: [ house.survey-code
+                      (under name:with-insulation @due-to evaluate:house.energy-use)
+                      (house.energy-use name:without-insulation) ]
+           (< (under @due-to evaluate:house.energy-use)
+              (* (- 1 @of) (house.energy-use))
+              ))
+)
+
+(scenario
+   start-date:2018
+   end-date:2018
+   energy-calculator:sap2012_uvalues
+   stock-id: ../2014.stock
+
+   (on.dates scenario-start
+      (apply
+         (expect-reduction big-cwi 10% (measure.wall-insulation type:cavity thickness:200))
+         (expect-reduction big-eswi 10% (measure.wall-insulation type:external thickness:200))
+         (expect-reduction big-iswi 10% (measure.wall-insulation type:internal thickness:200))
+         )))

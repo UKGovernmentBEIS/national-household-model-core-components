@@ -365,19 +365,20 @@ public class EnergyCalculatorType {
                     ECOccupancy.SAP2012,
                     ECCalibration.DISABLED,
                     ECGeneration.SAP2012);
+    
     public static final EnergyCalculatorType SAP2012_UVALUES
-            = new EnergyCalculatorType(
-                    ECLighting.SAP2012,
-                    ECWeather.SCENARIO,
-                    ECHeatingSchedule.SCENARIO,
-                    ECUvalues.SCENARIO,
-                    ECAppliances.BREDEM2012,
-                    ECCookers.BREDEM2012,
-                    ECHotWater.BREDEM2012,
-                    ECHeating.BREDEM2012,
-                    ECOccupancy.SCENARIO,
-                    ECCalibration.SCENARIO,
-                    ECGeneration.SCENARIO);
+	    	= new EnergyCalculatorType(
+	            ECLighting.SAP2012,
+	            ECWeather.SCENARIO,
+	            ECHeatingSchedule.SCENARIO,
+	            ECUvalues.SAP2012,
+	            ECAppliances.BREDEM2012,
+	            ECCookers.BREDEM2012,
+	            ECHotWater.BREDEM2012,
+	            ECHeating.BREDEM2012,
+	            ECOccupancy.SCENARIO,
+	            ECCalibration.SCENARIO,
+	            ECGeneration.SCENARIO);
 
     public static final EnergyCalculatorType BEIS
             = new EnergyCalculatorType(

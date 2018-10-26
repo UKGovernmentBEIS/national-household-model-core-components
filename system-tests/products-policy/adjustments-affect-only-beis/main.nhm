@@ -23,8 +23,10 @@
       house.number-of-occupants
    ]
    (all
-    (= -1 (use-with-zero-terms BEIS Appliances))
-    (= -1 (use-with-zero-terms BEIS Cooking))
+    (any (= -1 (use-with-zero-terms BEIS Appliances))
+         (= 0 (use-with-zero-terms BEIS Appliances)))
+    (any (= -1 (use-with-zero-terms BEIS Cooking))
+         (= 0 (use-with-zero-terms BEIS Cooking)))
 
     (<= 0 (use-with-zero-terms BREDEM2012 Appliances))
     (<= 0 (use-with-zero-terms BREDEM2012 Cooking))
