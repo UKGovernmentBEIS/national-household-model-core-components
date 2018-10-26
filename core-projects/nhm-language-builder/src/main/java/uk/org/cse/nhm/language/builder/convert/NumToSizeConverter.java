@@ -12,16 +12,15 @@ import uk.org.cse.nhm.language.adapt.IAdaptingScope;
 import uk.org.cse.nhm.language.adapt.IConverter;
 import uk.org.cse.nhm.language.definition.two.selectors.ISetOfHouses;
 import uk.org.cse.nhm.simulator.factories.IHookFactory;
-import uk.org.cse.nhm.simulator.hooks.FilterDwellings;
+import uk.org.cse.nhm.simulator.measure.sizing.impl.SizingFunction;
 import uk.org.cse.nhm.simulator.state.functions.IComponentsFunction;
 
 /**
- * Converts boolean test commands into filter sets, so you can write apply to:
- * house.region-is rather than (filter house.region-is)
+ * Converts number functions into (size ...) so you can write less size
  */
-public class TestToSetConverter implements IConverter {
+public class NumToSizeConverter implements IConverter {
 
-    protected static boolean isBooleanComponentsFunction(final Class<?> clazz) {
+    protected static boolean isNumberComponentsFunction(final Class<?> clazz) {
         if (clazz == null) {
             return false;
         }
@@ -41,7 +40,7 @@ public class TestToSetConverter implements IConverter {
                         && ps != null && ps.length == 1) {
                     final Type p0 = ps[0];
                     if (p0 instanceof Class<?>
-                            && Boolean.class.isAssignableFrom((Class<?>) p0)) {
+                            && Number.class.isAssignableFrom((Class<?>) p0)) {
                         return true;
                     }
                 }
@@ -53,18 +52,18 @@ public class TestToSetConverter implements IConverter {
     private final IHookFactory factory;
 
     @Inject
-    public TestToSetConverter(IHookFactory factory) {
+    public NumToSizeConverter(IHookFactory factory) {
         this.factory = factory;
     }
 
     @Override
     public boolean adapts(Object from) {
-        return isBooleanComponentsFunction(from.getClass());
+        return isNumberComponentsFunction(from.getClass());
     }
 
     @Override
     public Class<?> getAdaptableSupertype(Class<?> clazz) {
-        if (isBooleanComponentsFunction(clazz)) {
+        if (isNumberComponentsFunction(clazz)) {
             return IComponentsFunction.class;
         } else {
             return null;
@@ -73,22 +72,21 @@ public class TestToSetConverter implements IConverter {
 
     @Override
     public boolean adapts(Object from, Class<?> to) {
-        return adaptsType(from.getClass(), to) && isBooleanComponentsFunction(from.getClass());
+        return adaptsType(from.getClass(), to) && isNumberComponentsFunction(from.getClass());
     }
 
     @Override
     public boolean adaptsType(Class<?> from, Class<?> to) {
         return (IComponentsFunction.class.isAssignableFrom(from))
-                && to.isAssignableFrom(FilterDwellings.class);
+                && to.isAssignableFrom(SizingFunction.class);
     }
 
     @Override
     public <T> T adapt(Object from, Class<T> to, IAdaptingScope scope) {
         if (adapts(from, to)) {
-            return to.cast(
-                    factory.createFilterDwellings(
-                            (IComponentsFunction<Boolean>) from,
-                            factory.createAllDwellings()));
+            return to.cast(new SizingFunction( 
+            		(IComponentsFunction<Number>) from, 
+            		0, Double.MAX_VALUE));
         } else {
             return null;
         }

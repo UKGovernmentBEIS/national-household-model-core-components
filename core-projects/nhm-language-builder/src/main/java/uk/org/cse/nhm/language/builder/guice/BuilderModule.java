@@ -37,6 +37,7 @@ import uk.org.cse.nhm.language.builder.context.FuelPropertyAdapter;
 import uk.org.cse.nhm.language.builder.context.ParametersAdapter;
 import uk.org.cse.nhm.language.builder.context.WeatherAdapter;
 import uk.org.cse.nhm.language.builder.convert.ActionConverter;
+import uk.org.cse.nhm.language.builder.convert.NumToSizeConverter;
 import uk.org.cse.nhm.language.builder.convert.TestToSetConverter;
 import uk.org.cse.nhm.language.builder.exposure.ExposureAdapter;
 import uk.org.cse.nhm.language.builder.function.HouseTestFunctionAdapter;
@@ -134,6 +135,7 @@ public class BuilderModule extends AbstractModule {
 
         converters.addBinding().to(ActionConverter.class);
         converters.addBinding().to(TestToSetConverter.class);
+        converters.addBinding().to(NumToSizeConverter.class);
 
         install(new SimulationEngineModule());
 

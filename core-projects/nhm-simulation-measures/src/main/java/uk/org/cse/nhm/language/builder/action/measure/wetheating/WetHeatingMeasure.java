@@ -50,7 +50,6 @@ public class WetHeatingMeasure extends AbstractMeasure {
         scope.addNote(new TechnologyInstallationDetails(this, TechnologyType.wetCentralHeating(), 0, Units.KILOWATTS, capex, 0));
 
         scope.addTransaction(Payment.capexToMarket(capex));
-
         return true;
     }
 
@@ -67,7 +66,17 @@ public class WetHeatingMeasure extends AbstractMeasure {
         } else {
             final boolean result = measure.apply(scopeOfHeatingMeasure, lets);
             if (result && isInstalled(scopeOfHeatingMeasure)) {
-                return scopeOfHeatingMeasure.apply(this, lets);
+            	// NOTE: this is unusual
+            	// we would normally apply a measure by saying
+            	// scope.apply(measure, lets)
+            	// but since a change in 580cee6 this class inherits from AbstractMeasure.
+            	// AbstractMeasure will not apply if isSuitable is false, and the point here
+            	// is that we used to be suitable (no wet central heating), then we installed the measure
+            	// which installed wet central heating as a side-effect
+            	// that means that this measure isn't suitable any more!
+            	// so instead we just call doApply.
+            	doApply(scopeOfHeatingMeasure, lets);
+            	return true;
             } else {
                 return result;
             }
@@ -81,7 +90,7 @@ public class WetHeatingMeasure extends AbstractMeasure {
 
     @Override
     public boolean isAlwaysSuitable() {
-        return false;
+        return true;
     }
 
     public boolean isInstalled(final IComponentsScope scope) {

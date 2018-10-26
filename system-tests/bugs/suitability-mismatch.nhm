@@ -1,0 +1,24 @@
+(template check-a-measure [@1:name @2:measure]
+          (apply
+           (do update-flags: is-suitable
+             (fail-unless (house.is-suitable-for @measure)))
+           (do update-flags: got-measure @measure))
+
+          (assert over:all-houses
+                  capture: [house.survey-code house.flags]
+                  name: @name
+                  (any (house.flags-match is-suitable got-measure)
+                       (house.flags-match !is-suitable !got-measure))))
+
+(scenario
+ start-date: 2018
+ end-date:   2018
+ stock-id:   ../2014.stock
+
+ (on.dates
+  scenario-start
+
+  (check-a-measure combi-boiler measure.combi-boiler)
+  (check-a-measure std-boiler measure.standard-boiler)
+  (check-a-measure pv (measure.solar-photovoltaic size:1 capex:1))
+  ))
