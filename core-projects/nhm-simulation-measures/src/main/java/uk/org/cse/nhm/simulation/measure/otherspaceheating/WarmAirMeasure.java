@@ -8,6 +8,9 @@ import uk.org.cse.nhm.hom.emf.technologies.FuelType;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologiesFactory;
 import uk.org.cse.nhm.hom.emf.technologies.ITechnologyModel;
 import uk.org.cse.nhm.hom.emf.technologies.IWarmAirSystem;
+import uk.org.cse.nhm.hom.emf.technologies.IWarmAirCirculator;
+import uk.org.cse.nhm.hom.emf.technologies.ICentralWaterSystem;
+import uk.org.cse.nhm.hom.emf.technologies.IPrimarySpaceHeater;
 import uk.org.cse.nhm.hom.emf.util.Efficiency;
 import uk.org.cse.nhm.hom.emf.util.ITechnologyOperations;
 import uk.org.cse.nhm.simulation.measure.AbstractMeasure;
@@ -79,12 +82,27 @@ public class WarmAirMeasure extends AbstractMeasure {
         public boolean modify(ITechnologyModel modifiable) {
             final ITechnologiesFactory factory = ITechnologiesFactory.eINSTANCE;
 
+            final IPrimarySpaceHeater existing = modifiable.getPrimarySpaceHeater();
+            final boolean hadCirculator =
+                (existing instanceof IWarmAirSystem) &&
+                ((IWarmAirSystem) existing).getCirculator() != null &&
+                ((IWarmAirSystem) existing).getCirculator().getSystem() != null
+                ;
+
             IWarmAirSystem warmAirSystem = factory.createWarmAirSystem();
-            warmAirSystem.setCirculator(factory.createWarmAirCirculator());
             warmAirSystem.setFuelType(fuelType);
             warmAirSystem.setEfficiency(Efficiency.fromDouble(efficiency));
 
             operations.replacePrimarySpaceHeater(modifiable, warmAirSystem);
+
+            if (hadCirculator) {
+                final ICentralWaterSystem system = modifiable.getCentralWaterSystem();
+                if (system != null) {
+                    final IWarmAirCirculator circulator = factory.createWarmAirCirculator();
+                    warmAirSystem.setCirculator(circulator);
+                    system.setPrimaryWaterHeater(circulator);
+                }
+            }
 
             return true;
         }

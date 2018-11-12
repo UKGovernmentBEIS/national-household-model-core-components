@@ -1,3 +1,4 @@
+#+OPTIONS: ^:{}
 #+STARTUP: content
 #+BEGIN_COMMENT
 This is the language changelog written up as an org-mode document, so that it is not frustrating to edit. However, we must also produce a docbook version, for the rest of the toolchain to consume.
@@ -21,6 +22,7 @@ If you want to cross-reference to a language element, you need to use the unique
    - *Bugs removed* will list any known errors that were found to affect the previous version which have been corrected in this version
 
 ** Released versions
+
 *** Version 7.2.1
 **** Bugs Fixed
 - When using =ref.measure.warm-air-system= to replace a warm air system, the model did not preserve a connection to the central hot water system if there was one.
