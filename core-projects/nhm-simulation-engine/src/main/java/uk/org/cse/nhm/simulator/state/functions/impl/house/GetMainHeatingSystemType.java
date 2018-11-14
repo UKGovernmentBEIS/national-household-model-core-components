@@ -60,11 +60,8 @@ public class GetMainHeatingSystemType extends TechnologyFunction<MainHeatingSyst
 
     protected final MainHeatingSystemType getTypeOfMainHeatingSystem(ITechnologyModel technologies) {
         IPrimarySpaceHeater primarySpaceHeater = technologies.getPrimarySpaceHeater();
-        if (technologies.isUsingAssumedElectricSpaceHeater()) {
-            return MainHeatingSystemType.AssumedElectricHeater;
-        } else if (primarySpaceHeater instanceof ICentralHeatingSystem) {
+        if (primarySpaceHeater instanceof ICentralHeatingSystem) {
             final IHeatSource heatSource = ((ICentralHeatingSystem) primarySpaceHeater).getHeatSource();
-
             if ((heatSource instanceof ICombiBoiler) && isCondensing(technologies)) {
                 return MainHeatingSystemType.CondensingCombiBoiler;
             } else if (isCondensing(technologies)) {
@@ -86,6 +83,8 @@ public class GetMainHeatingSystemType extends TechnologyFunction<MainHeatingSyst
             return MainHeatingSystemType.StorageHeater;
         } else if (primarySpaceHeater instanceof IWarmAirSystem) {
             return MainHeatingSystemType.WarmAirSystem;
+        } else if (technologies.isUsingAssumedElectricSpaceHeater()){
+            return MainHeatingSystemType.AssumedElectricHeater;
         } else {
             return MainHeatingSystemType.RoomHeater;
         }

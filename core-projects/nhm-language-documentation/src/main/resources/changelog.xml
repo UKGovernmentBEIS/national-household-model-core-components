@@ -41,6 +41,64 @@
   </section>
   <section xml:id="released-versions">
     <title>Released versions</title>
+    <section xml:id="version-7.2.1">
+      <title>Version 7.2.1</title>
+      <orderedlist>
+        <listitem>
+          <para>
+            Bugs Fixed
+          </para>
+          <itemizedlist>
+            <listitem>
+              <para>
+                When using
+                <xref linkend="ref.measure.warm-air-system"/> to
+                replace a warm air system, the model did not preserve a
+                connection to the central hot water system if there was
+                one. This had the effect that using
+                <xref linkend="ref.measure.warm-air-system"/> would
+                also switch to an immersion heater, if the warm air
+                system previously installed was providing hot water.
+              </para>
+              <para>
+                This behaviour has been changed so that if you replace a
+                warm air system that provides hot water, the new warm
+                air system also provides hot water.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                The <literal>SAP2012_PHYSICAL</literal> calculator now
+                works; in 7.2.0 its configuration in the scenario
+                language was accidentally connected to
+                <literal>BREDEM2012</literal>, so it was functionally
+                the same as <literal>BREDEM2012</literal>.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                An earlier fix (in 7.1.0) for PV suitability had an
+                accidental knock-on of making new boilers &amp; other
+                heat sources unsuitable in dwellings that did not
+                already have central hot water. This mistake has been
+                corrected.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                The change in 7.2.0 to output
+                <literal>AssumedElectricHeater</literal> for main
+                heating system in buildings that ended up using the
+                assumed electric heater incorrectly reported
+                <literal>AssumedElectricHeater</literal> if
+                <emphasis>any</emphasis> heat was provided this way,
+                rather than main heating. This has been fixed.
+              </para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </orderedlist>
+    </section>
     <section xml:id="version-7.2.0">
       <title>Version 7.2.0</title>
       <orderedlist>
