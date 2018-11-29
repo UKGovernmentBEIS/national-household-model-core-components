@@ -95,6 +95,16 @@
                 rather than main heating. This has been fixed.
               </para>
             </listitem>
+            <listitem>
+              <para>
+                The choice of party wall u-value has been further
+                refined to always come from the bottom two rows of RdSAP
+                table S8B. These values mean that, in SAP mode, cavity
+                party walls for flats always have a u-value of 0 and
+                cavity party walls for non-flats always have a u-value
+                of 0.25.
+              </para>
+            </listitem>
           </itemizedlist>
         </listitem>
       </orderedlist>
@@ -198,8 +208,10 @@
                 <listitem>
                   <para>
                     Masonry cavity party walls in flats now have a
-                    u-value of zero. Previously, insulated cavity party
-                    walls would have a u-value of 0.5.
+                    u-value of zero no matter what. Previously, if they
+                    were uninsulated they would have a u-value of 0.5.
+                    If they were insulated they would have a u-value of
+                    0.
                   </para>
                 </listitem>
                 <listitem>

@@ -312,13 +312,13 @@ public class SAPTables {
         }
 
         /**
-         * SAP 2012 Table S8B
+         * SAP 2012 Table S8B, restricted to "unknown" cavity insulation
          *
          * This is using a u-value to simulate air movement inside a cavity.
          */
-        private static double getPartyWallUValue(final BuiltFormType builtForm, final WallConstructionType constructionType, final boolean hasCavityInsulation) {
+        private static double getPartyWallUValue(final BuiltFormType builtForm, final WallConstructionType constructionType) {
             if (builtForm.isFlat()) {
-                return 0;
+                return 0; // S8B Unable to determine, flat or maisonette
             } else {
                 switch (constructionType) {
                     // Solid masonry / timber frame / system built
@@ -331,7 +331,7 @@ public class SAPTables {
 
                     // Cavity Masonry unfilled/filled
                 case Party_Cavity:
-                    return hasCavityInsulation ? 0.2 : 0.5;
+                    return 0.25; // S8B, Unable to determine, house or bungalow
 
                 default:
                     throw new IllegalArgumentException("Unknown part wall construction type " + constructionType);
@@ -374,7 +374,7 @@ public class SAPTables {
                 case Internal:
                     return 0;
                 case Party:
-                    return getPartyWallUValue(form, constructionType, hasCavityInsulation);
+                    return getPartyWallUValue(form, constructionType);
                 default:
                     throw new IllegalArgumentException("Unknown wall type when looking up u-value " + constructionType.getWallType());
             }

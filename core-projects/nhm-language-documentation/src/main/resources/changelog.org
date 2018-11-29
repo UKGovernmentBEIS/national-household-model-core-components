@@ -32,6 +32,8 @@ If you want to cross-reference to a language element, you need to use the unique
 - The ~SAP2012_PHYSICAL~ calculator now works; in 7.2.0 its configuration in the scenario language was accidentally connected to ~BREDEM2012~, so it was functionally the same as ~BREDEM2012~.
 - An earlier fix (in 7.1.0) for PV suitability had an accidental knock-on of making new boilers & other heat sources unsuitable in dwellings that did not already have central hot water. This mistake has been corrected.
 - The change in 7.2.0 to output ~AssumedElectricHeater~ for main heating system in buildings that ended up using the assumed electric heater incorrectly reported ~AssumedElectricHeater~ if /any/ heat was provided this way, rather than main heating. This has been fixed.
+- The choice of party wall u-value has been further refined to always come from the bottom two rows of RdSAP table S8B.
+  These values mean that, in SAP mode, cavity party walls for flats always have a u-value of 0 and cavity party walls for non-flats always have a u-value of 0.25.
 *** Version 7.2.0
 **** Bugs Fixed
 - The default inputs used for the =ref.health-impact-of= command were not sensible, and no defaults were supplied for some values.
@@ -54,8 +56,9 @@ If you want to cross-reference to a language element, you need to use the unique
 
   The effect of this is as follows:
 
-  - Masonry cavity party walls in flats now have a u-value of zero.
-    Previously, insulated cavity party walls would have a u-value of 0.5.
+  - Masonry cavity party walls in flats now have a u-value of zero no matter what.
+    Previously, if they were uninsulated they would have a u-value of 0.5.
+    If they were insulated they would have a u-value of 0.
   - Insulated masonry cavity party walls in non-flats now have a u-value of 0.2.
     Previously, they would have had a u-value of zero.
 
