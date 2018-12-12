@@ -2,7 +2,7 @@
 <?eclipse version="3.4"?>
 <plugin>
   <extension id="nhmide" name="NHM Product" point="org.eclipse.core.runtime.products">
-    <product application="org.eclipse.ui.ide.workbench" name="NHM IDE [ide-707c-1-g1c7394a8a 2018-10-02]">
+    <product application="org.eclipse.ui.ide.workbench" name="NHM IDE [v-7.2.1-alpha-7-ga73c3a5d5 2018-12-12]">
       <property name="appName" value="NHM IDE">
          </property>
       <property name="aboutImage" value="icons/icon-128x128.gif">
