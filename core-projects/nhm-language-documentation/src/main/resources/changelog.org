@@ -23,6 +23,10 @@ If you want to cross-reference to a language element, you need to use the unique
 
 ** Released versions
 
+*** Version 7.2.2
+**** Improvements
+- The desktop application's handling of files has been made more robust to filesystem changes that happen outside the application.
+- The model's validation of files which contain more than one model command at the top level has been relaxed to generate a warning rather than an error.
 *** Version 7.2.1
 **** Bugs Fixed
 - When using =ref.measure.warm-air-system= to replace a warm air system, the model did not preserve a connection to the central hot water system if there was one.

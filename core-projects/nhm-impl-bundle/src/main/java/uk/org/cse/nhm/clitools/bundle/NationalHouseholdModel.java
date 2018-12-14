@@ -37,6 +37,7 @@ import com.larkery.jasb.sexp.Atom;
 import com.larkery.jasb.sexp.ISExpression;
 import com.larkery.jasb.sexp.Node;
 import com.larkery.jasb.sexp.Seq;
+import com.larkery.jasb.sexp.Comment;
 import com.larkery.jasb.sexp.SimplePrinter;
 import com.larkery.jasb.sexp.errors.BasicError;
 import com.larkery.jasb.sexp.errors.IErrorHandler.IError;
@@ -199,6 +200,8 @@ public class NationalHouseholdModel implements INationalHouseholdModel {
         boolean runnable = false;
         Optional<XElement> rootElement = Optional.absent();
 
+        final Set<String> runnableCommands = ImmutableSet.of("scenario", "batch");
+
         try {
             stopIfAnyFatal(snap.snapshot.getProblems());
 
@@ -212,13 +215,20 @@ public class NationalHouseholdModel implements INationalHouseholdModel {
             // find top Seq
             Seq top = null;
             for (final Node n : expansion.nodes()) {
-                if (n instanceof Seq) {
-                    if (top == null) {
-                        top = (Seq) n;
-                    } else {
-                        problems.add(FSUtil.translateE(fs, input, BasicError.at(n, "This file contains more than one top-level element"), ProblemLevel.SyntacticError));
-                        throw new Stop();
+                if (n instanceof Seq && top == null) {
+                    final Seq maybeTop = (Seq) n;
+                    final Optional<Atom> headAtom = maybeTop.firstAtom();
+                    if (headAtom.isPresent()) {
+                        if (runnableCommands.contains(headAtom.get().getValue())) {
+                            top = maybeTop;
+                            continue;
+                        }
                     }
+                }
+
+                if (!(n instanceof Comment)) {
+                    problems.add(FSUtil.translateE(fs, input, BasicError.at(n, "This command will be ignored, as it is not a scenario or batch, or is after the first scenario or batch"),
+                                                   ProblemLevel.SemanticWarning));
                 }
             }
 
@@ -226,10 +236,10 @@ public class NationalHouseholdModel implements INationalHouseholdModel {
                     = top == null ? "no"
                             : top.firstAtom().or((Atom) Atom.create("no")).getValue();
 
-            if (!ImmutableSet.of("scenario", "batch").contains(head)) {
+            if (!runnableCommands.contains(head)) {
                 problems.add(new ValidationProblem<P>(
                         input,
-                        "This file does not contain a scenario element",
+                        "This file does not contain a scenario or batch element and so is not runnable",
                         ProblemLevel.SyntacticError
                 ));
                 throw new Stop();
@@ -246,13 +256,20 @@ public class NationalHouseholdModel implements INationalHouseholdModel {
                         final XScenario scenario = (XScenario) parseResult.getOutput().get();
                         if (scenario.getStockID() != null) {
                             for (final String s : scenario.getStockID()) {
-                                final P p = fs.resolve(String.valueOf(input), s);
-                                final Path p2 = fs.filesystemPath(p);
-                                if (p2 == null || !Files.exists(p2)) {
+                                try {
+                                    final P p = fs.resolve(String.valueOf(input), s);
+                                    final Path p2 = fs.filesystemPath(p);
+                                    if (p2 == null || !Files.exists(p2)) {
+                                        problems.add(FSUtil.translateE(fs, input,
+                                                                       BasicError.at(scenario.getSourceNode(),
+                                                                                     "The stock " + s + " cannot be located"),
+                                                                       ProblemLevel.SemanticError));
+                                    }
+                                } catch (Exception ex) {
                                     problems.add(FSUtil.translateE(fs, input,
-                                            BasicError.at(scenario.getSourceNode(),
-                                                    "The stock " + s + " cannot be located"),
-                                            ProblemLevel.SemanticError));
+                                                                   BasicError.at(scenario.getSourceNode(),
+                                                                                 "The stock " + s + " cannot be located: " + ex.getMessage()),
+                                                                   ProblemLevel.SemanticError));
                                 }
                             }
 

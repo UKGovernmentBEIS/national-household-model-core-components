@@ -41,6 +41,32 @@
   </section>
   <section xml:id="released-versions">
     <title>Released versions</title>
+    <section xml:id="version-7.2.2">
+      <title>Version 7.2.2</title>
+      <orderedlist>
+        <listitem>
+          <para>
+            Improvements
+          </para>
+          <itemizedlist spacing="compact">
+            <listitem>
+              <para>
+                The desktop application's handling of files has been
+                made more robust to filesystem changes that happen
+                outside the application.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                The model's validation of files which contain more than
+                one model command at the top level has been relaxed to
+                generate a warning rather than an error.
+              </para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </orderedlist>
+    </section>
     <section xml:id="version-7.2.1">
       <title>Version 7.2.1</title>
       <orderedlist>
