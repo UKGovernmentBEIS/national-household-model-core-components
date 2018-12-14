@@ -48,12 +48,8 @@ public class WorkspaceFS implements IFS<IPath> {
 	public Reader open(final IPath eclipsePath) throws IOException {
 		final IFile file = workspaceRoot.getFile(eclipsePath);
         try {
-            final IProject project = file.getProject();
-            if (project != null && !project.isOpen()) {
-                project.open(null);
-            }
             final StringWriter sw = new StringWriter();
-            try (final InputStream is = file.getContents(false);
+            try (final InputStream is = file.getContents(true);
                  final BufferedReader br = new BufferedReader(
                      new InputStreamReader(is, file.getCharset()))) {
                 String s;

@@ -29,8 +29,8 @@
       level.
   -->
   <requires>
-    <import plugin="uk.org.cse.nhm.manual" version="7.2.1" match="equivalent"/>
-    <import plugin="uk.org.cse.nhm.bundle.impl" version="7.2.1" match="equivalent"/>
+    <import plugin="uk.org.cse.nhm.manual" version="7.2.2" match="equivalent"/>
+    <import plugin="uk.org.cse.nhm.bundle.impl" version="7.2.2" match="equivalent"/>
     <import plugin="uk.org.cse.nhm.bundle.impl" version="7.0.7.Rv-7_0_7" match="perfect"/>
     <import plugin="uk.org.cse.nhm.bundle.impl" version="7.0.6.Rv-7_0_6" match="perfect"/>
     <import plugin="uk.org.cse.nhm.bundle.impl" version="6.5.5.Rv-6_5_5_dirty" match="perfect"/>
