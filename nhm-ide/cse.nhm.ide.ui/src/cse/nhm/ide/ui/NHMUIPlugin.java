@@ -74,10 +74,16 @@ public class NHMUIPlugin extends AbstractUIPlugin {
 		final IStatus s = new Status(Status.ERROR, PLUGIN_ID, string, e);
 		StatusManager.getManager().handle(s, StatusManager.LOG | StatusManager.SHOW);
 	}
-	
+
+    public static void logExceptionQuietly(final String string, final Exception e) {
+		final IStatus s = new Status(Status.ERROR, PLUGIN_ID, string, e);
+		StatusManager.getManager().handle(s, StatusManager.LOG);
+	}
+
+
 	public static void logInformation(final String string, final Object... os) {
 		final IStatus s = new Status(Status.INFO, PLUGIN_ID, String.format(string, os));
 		StatusManager.getManager().handle(s, StatusManager.LOG);
 	}
-	
+
 }

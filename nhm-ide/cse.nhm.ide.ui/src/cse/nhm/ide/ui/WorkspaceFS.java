@@ -11,6 +11,7 @@ import java.nio.file.Path;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -38,9 +39,9 @@ public class WorkspaceFS implements IFS<IPath> {
 
 	@Override
 	public Path filesystemPath(final IPath res) {
-		final IPath path = workspaceRoot.getFile(res).getLocation();
-		return path == null ? null :
-			path.toFile().toPath();
+        final IPath path = workspaceRoot.getFile(res).getLocation();
+        return path == null ? null :
+            path.toFile().toPath();
 	}
 
 	@Override
@@ -51,7 +52,6 @@ public class WorkspaceFS implements IFS<IPath> {
             if (project != null && !project.isOpen()) {
                 project.open(null);
             }
-            file.refreshLocal(IResource.DEPTH_ZERO, null);
             final StringWriter sw = new StringWriter();
             try (final InputStream is = file.getContents(false);
                  final BufferedReader br = new BufferedReader(
@@ -64,7 +64,8 @@ public class WorkspaceFS implements IFS<IPath> {
             }
             return new StringReader(sw.toString());
         } catch (final CoreException e) {
-            throw new IOException("Unable to include " + eclipsePath + "("e.getMessage()+")", e);
+            throw new IOException("Unable to include " + eclipsePath +
+                                  "(" + e.getMessage() + ")", e);
         }
 	}
 

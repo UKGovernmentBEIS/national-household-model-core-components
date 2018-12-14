@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -54,13 +55,13 @@ public class NHMBuilder extends IncrementalProjectBuilder {
 	public static final String MARKER_PREVIOUS_MARKER = MARKER_TYPE + ".previous";
 	public static final String MARKER_NEXT_MARKER = MARKER_TYPE + ".next";
 	protected static final int K_MAX_PROBLEMS = 2000;
-	
+
 	private final Multimap<IPath, IPath> dependencies = HashMultimap.create();
 	private final Multimap<IPath, IPath> dependents = HashMultimap.create();
-	
+
 	private IMarker addMarker(final IFile file, final String message, int lineNumber, final int offset, final int severity) {
 		try {
-			
+
 			final IMarker marker = file.createMarker(MARKER_TYPE);
 			marker.setAttribute(IMarker.MESSAGE, message);
 			marker.setAttribute(IMarker.SEVERITY, severity);
@@ -76,7 +77,7 @@ public class NHMBuilder extends IncrementalProjectBuilder {
 		}
 		return null;
 	}
-	
+
 	private static boolean isScenarioResource(final IResource resource) {
 		return resource.getName().endsWith(".nhm") && resource instanceof IFile;
 	}
@@ -88,10 +89,10 @@ public class NHMBuilder extends IncrementalProjectBuilder {
 		final IResourceDelta delta = getDelta(getProject());
 		final NHMNature nature = ((NHMNature) getProject().getNature(NHMNature.NATURE_ID));
 		final INationalHouseholdModel nhmVersion = nature.getModel();
-		
+
 		this.dependents.clear();
 		Multimaps.invertFrom(this.dependencies, this.dependents);
-		
+
 		if (kind == FULL_BUILD || delta == null) {
 			NHMUIPlugin.logInformation("FULL_BUILD for %s", getProject().getName());
 			getProject().accept(new IResourceVisitor() {
@@ -103,7 +104,7 @@ public class NHMBuilder extends IncrementalProjectBuilder {
 			});
 		} else {
 			NHMUIPlugin.logInformation("DELTA_BUILD for %s", getProject().getName());
-			
+
 			delta.accept(new IResourceDeltaVisitor() {
 				@Override
 				public boolean visit(final IResourceDelta delta)
@@ -117,14 +118,14 @@ public class NHMBuilder extends IncrementalProjectBuilder {
 						switch (delta.getKind()) {
 						case IResourceDelta.CHANGED:
 						case IResourceDelta.ADDED:
-							NHMUIPlugin.logInformation("Resource changed in %s : %s", 
+							NHMUIPlugin.logInformation("Resource changed in %s : %s",
 									getProject().getName(),
 									delta.getResource().getName());
 							resourcesToProcess.add(delta.getResource());
 							break;
 						case IResourceDelta.REMOVED:
 							resourceRemoved(delta.getResource());
-							NHMUIPlugin.logInformation("Resource removed from %s : %s", 
+							NHMUIPlugin.logInformation("Resource removed from %s : %s",
 									getProject().getName(),
 									delta.getResource().getName());
 							break;
@@ -133,24 +134,24 @@ public class NHMBuilder extends IncrementalProjectBuilder {
 					return true;
 				}
 			});
-			
+
 		}
-		
-		NHMUIPlugin.logInformation("Resources to process for %s: %s", 
+
+		NHMUIPlugin.logInformation("Resources to process for %s: %s",
 				getProject().getName(),
 				resourcesToProcess);
-		
+
 		// we have a set of all the resources that may have been affected or
 		// need processing. this needs updating to compute the closure of
 		// resources that include any of these resources up and have a scenario
 		// in them.
-		
+
 		monitor.beginTask("Validating " + getProject(), resourcesToProcess.size());
-		
-		final Multimap<IResource, IValidationProblem<IPath>> problemsForFiles = LinkedListMultimap.create(); 
-		
+
+		final Multimap<IResource, IValidationProblem<IPath>> problemsForFiles = LinkedListMultimap.create();
+
 		final ExecutorService executor = Executors.newSingleThreadExecutor();
-		
+
 		for (final IResource resource : resourcesToProcess) {
 			monitor.subTask("Validate " + resource.getName());
 			final Future<Collection<IValidationProblem<IPath>>> future = executor.submit(new Callable<Collection<IValidationProblem<IPath>>>() {
@@ -176,60 +177,53 @@ public class NHMBuilder extends IncrementalProjectBuilder {
 							String.format("During validation of %s in %s, an exception occurred. This probably should not happen.\n" +
 					"The scenario is likely to be invalid, but unfortunately there is no more detail available here, because the code which determines validity has itself broken in some way.",
 									getProject().getName(),
-									resource.getName()), 
+									resource.getName()),
 							ee);
 					done = true;
 				} catch (final TimeoutException e) {
 					monitor.subTask("Validate " + resource.getName() + " (" + counter +"s)...");
-					NHMUIPlugin.logInformation("Validation of %s in %s has taken %d seconds so far...", 
+					NHMUIPlugin.logInformation("Validation of %s in %s has taken %d seconds so far...",
 							getProject().getName(),
 							resource.getName(),
 							counter);
 				}
-				
+
 				if (isInterrupted()) {
 					break;
 				}
 			}
 		}
-		
+
 		executor.shutdownNow();
 		if (isInterrupted()) {
 			NHMUIPlugin.logInformation(
-					"Stopped validating %s early due to user cancel - the problem markers will be out of date.", 
+					"Stopped validating %s early due to user cancel - the problem markers will be out of date.",
 					getProject().getName());
 			return null;
 		}
-		
-		NHMUIPlugin.logInformation("Dependency graph for %s: %s",
-				getProject().getName(),
-				this.dependents);
-		
+
 		this.dependents.clear();
 		Multimaps.invertFrom(this.dependencies, this.dependents);
-		
+
 		nature.setDependencies(this.dependencies);
-		
+
 		final IWorkspaceRunnable r = new IWorkspaceRunnable() {
 			@Override
 			public void run(final IProgressMonitor monitor) throws CoreException {
 				// update all markers in one go. this should lock?
-				NHMUIPlugin.logInformation("About to update markers for %d resources in %s", 
-						resourcesToProcess.size(),
-						getProject().getName());
 				monitor.beginTask("Updating markers", resourcesToProcess.size());
-				
+
 				final int nProblems = problemsForFiles.values().size();
 				final int problemsPerFile;
-				
+
 				if (nProblems > K_MAX_PROBLEMS) {
-					NHMUIPlugin.logInformation("There are %d problems, which exceeds the max. marker count of %d. Some problems will be omitted.", 
+					NHMUIPlugin.logInformation("There are %d problems, which exceeds the max. marker count of %d. Some problems will be omitted.",
 							nProblems, K_MAX_PROBLEMS);
 					problemsPerFile = 1 + K_MAX_PROBLEMS / problemsForFiles.keySet().size();
 				} else {
 					problemsPerFile = Integer.MAX_VALUE;
 				}
-				
+
 				outer:
 				for (final IResource resource : resourcesToProcess) {
 					if (resource instanceof IFile) {
@@ -238,9 +232,9 @@ public class NHMBuilder extends IncrementalProjectBuilder {
 						try {
 							file.deleteMarkers(MARKER_TYPE, false, IResource.DEPTH_ZERO);
 							int problemCounter = 0;
-							
+
 							if (problemsForThisFile.size() > problemsPerFile) {
-								addMarker(file, "There are too many validation errors in the workspace to display all of them. Some errors have been omitted.", 
+								addMarker(file, "There are too many validation errors in the workspace to display all of them. Some errors have been omitted.",
 										1, 1, IMarker.SEVERITY_WARNING);
 								// if we are limiting the display of errors, we need to do the fatal errors
 								// first so that we don't display a million warnings and nothing else.
@@ -278,18 +272,18 @@ public class NHMBuilder extends IncrementalProjectBuilder {
 				}
 			}
 		};
-		
+
 		ResourcesPlugin.getWorkspace().run(r, getProject(), IWorkspace.AVOID_UPDATE, monitor);
-		
+
 		return null;
 	}
 
 	/**
 	 * Create the problem markers related to a problem. A problem can put markers in several files, if it is induced from a template.
-	 * 
+	 *
 	 * @param file
 	 * @param p
-	 * @param 
+	 * @param
 	 * @throws CoreException
 	 */
 	private void addMarkersForProblem(final IFile file, final IValidationProblem<IPath> p)
@@ -297,10 +291,10 @@ public class NHMBuilder extends IncrementalProjectBuilder {
 		IMarker sourceMarker = null;
 		final Map<String, Object> additionalLocations = new HashMap<String, Object>();
 		int i = 0;
-		
+
 		IMarker previousMarker = null;
 		String previousHere = null;
-		
+
 		for (final ILocation<IPath> loc : p.locations()) {
 			final Optional<IFile> psFile = fileForPath(loc.path());
 			final String here = String.valueOf(loc.path() + "/" + loc.type() + "/" + loc.line());
@@ -314,16 +308,16 @@ public class NHMBuilder extends IncrementalProjectBuilder {
 				additionalLocations.put(MARKER_ADDITIONAL_LINE_PREFIX + "." + i, here);
 				i++;
 			} else {
-				
+
 			}
 
 			if (thisMarker != null) {
 				if (previousMarker != null) {
 					thisMarker.setAttribute(
-							MARKER_PREVIOUS_MARKER, 
+							MARKER_PREVIOUS_MARKER,
 							previousHere);
 					previousMarker.setAttribute(
-							MARKER_NEXT_MARKER, 
+							MARKER_NEXT_MARKER,
 							here);
 				}
 				previousMarker = thisMarker;
@@ -344,7 +338,7 @@ public class NHMBuilder extends IncrementalProjectBuilder {
 				return Optional.of((IFile) res);
 			}
 			return Optional.absent();
-			
+
 		} catch (final Exception ex) {
 		}
 		return Optional.absent();
@@ -359,13 +353,11 @@ public class NHMBuilder extends IncrementalProjectBuilder {
 		if (resource instanceof IFile) {
 			final IFile file = (IFile) resource;
 			final IPath path = file.getFullPath();
-			
-			NHMUIPlugin.logInformation("About to validate %s", path);
-			
+
 			this.dependencies.removeAll(path);
 			try {
 				final IValidationResult<IPath> validate = nhm.validate(WorkspaceFS.INSTANCE, path);
-								
+
 				boolean showErrors = validate.isScenario();
 
 				if (!showErrors) {
@@ -376,16 +368,9 @@ public class NHMBuilder extends IncrementalProjectBuilder {
 						}
 					}
 				}
-				
+
 				final Set<IPath> inputs = validate.includes().getInputs(path, true);
 				this.dependencies.putAll(path, inputs);
-				
-				NHMUIPlugin.logInformation("Validation completed for %s\n is scenario: %s\n inputs:%s \n %s", 
-						path, 
-						showErrors,
-						inputs,
-						Joiner.on("\n - ")
-							  .join(validate.problems()));
 
 				if (showErrors) {
 					nature.updateDefinitions(resource, validate.definitions());
@@ -398,8 +383,40 @@ public class NHMBuilder extends IncrementalProjectBuilder {
 					return validate.problems();
 				}
 			} catch (final RuntimeException re) {
-				NHMUIPlugin.logException("Whilst validating " + path, re);
-				throw re;
+				NHMUIPlugin.logExceptionQuietly("Within-validation error " + path, re);
+                final IValidationProblem<IPath> problem =
+                    new IValidationProblem<IPath>(){
+                        @Override
+                        public String message() {
+                            return "An un-recoverable error occurred whilst validating this file: " +
+                            re.getMessage() +" - debugging information should be in the error log view.";
+                        }
+
+                        @Override
+                        public ProblemLevel level() {
+                            return ProblemLevel.SyntacticError;
+                        }
+
+                        @Override
+                        public List<ILocation<IPath>> locations() {
+                            return Collections.singletonList(sourceLocation());
+                        }
+
+                        @Override
+                        public ILocation<IPath> sourceLocation() {
+                            return new ILocation<IPath>() {
+                                public IPath path() {return path;}
+                                public int line() {return 1;}
+                                public int column() {return 0;}
+                                public int offset() {return 0;}
+                                public int length() {return 1;}
+                                public LocationType type() {
+                                    return LocationType.Source;
+                                }
+                            };
+                        }
+                    };
+				return Collections.singletonList(problem);
 			}
 		}
 		return Collections.emptySet();
