@@ -219,6 +219,7 @@ public class RemoteRunner extends ScenarioRunner {
             final Iterable<String> snapshots,
             final boolean isBatch,
             final IProgressMonitor monitor) {
+        HttpURLConnection c = null;
         try {
             uploadStocks(stockHashes, stockFiles, monitor);
 
@@ -230,7 +231,7 @@ public class RemoteRunner extends ScenarioRunner {
                 }
                 stocks = o.toString();
             }
-            final HttpURLConnection c = con(SLASH.join(JOBS, hash) + "/");
+            c = con(SLASH.join(JOBS, hash) + "/");
             c.setRequestMethod("POST");
             c.setDoOutput(true);
             int part = 1;
@@ -244,6 +245,7 @@ public class RemoteRunner extends ScenarioRunner {
                     h.addField(PART + (part++), s);
                 }
             }
+
             final Date now = new Date();
             return new RemoteRun(this, hash, version, name, user, isBatch ? (part-1) : 0, now, now, State.QUEUED, 0d);
         } catch (final ConnectException ce) {
@@ -255,8 +257,30 @@ public class RemoteRunner extends ScenarioRunner {
                     "This computer could not find the network address for " + baseAddress +
                     ". This computer may have network problems, or be connected to the wrong network, or the server address may be incorrect.", uhe);
         } catch (final IOException e) {
-            // die
-            throw new RuntimeException("An unexpected error occurred when communicating with "+ baseAddress + ": " + e.getMessage(), e);
+
+            if (c != null) {
+                int responseCode = -1;
+                String shortMessage = "(no message)";
+                String longMessage = "(no message)";
+
+                try {
+                    responseCode = c.getResponseCode();
+                    shortMessage = c.getResponseMessage();
+                    final InputStream errorStream = c.getErrorStream();
+
+                    if (errorStream != null) {
+                        java.util.Scanner s = new java.util.Scanner(errorStream).useDelimiter("\\A");
+                        longMessage = s.hasNext() ? s.next() : "";
+                    }
+                } catch (final IOException e2) { }
+
+                throw new RuntimeException(
+                    String.format("While communicating with %s there was an error.\nThe HTTP error code is %d\nThe short message is %s\nOther error output is:\n%s",
+                                  baseAddress, responseCode, shortMessage, longMessage), e);
+            } else {
+                throw new RuntimeException("An unexpected error occurred when communicating with "+ baseAddress + ": " + e.getMessage(), e);
+            }
+
         }
     }
 
