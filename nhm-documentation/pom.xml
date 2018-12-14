@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>uk.org.cse.nhm.manual</groupId>
   <artifactId>parent</artifactId>
-  <version>7.2.1</version>
+  <version>7.2.2-SNAPSHOT</version>
   <packaging>pom</packaging>
   <!--
       This maven project and its submodules make the documentation.
