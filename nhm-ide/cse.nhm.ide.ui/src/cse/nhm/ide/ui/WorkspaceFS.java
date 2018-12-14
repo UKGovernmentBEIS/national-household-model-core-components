@@ -11,6 +11,7 @@ import java.nio.file.Path;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -22,14 +23,14 @@ import uk.org.cse.nhm.bundle.api.IFS;
  * The paths used are always relative to workspace root
  */
 public class WorkspaceFS implements IFS<IPath> {
-	final IContainer workspaceRoot = 
+	final IContainer workspaceRoot =
 			ResourcesPlugin.getWorkspace().getRoot();
-	
-	public static final IFS<IPath> INSTANCE = 
+
+	public static final IFS<IPath> INSTANCE =
 			new WorkspaceFS();
-	
+
 	private WorkspaceFS() {}
-	
+
 	@Override
 	public IPath deserialize(final String path_) {
 		return org.eclipse.core.runtime.Path.fromPortableString(path_);
@@ -45,25 +46,26 @@ public class WorkspaceFS implements IFS<IPath> {
 	@Override
 	public Reader open(final IPath eclipsePath) throws IOException {
 		final IFile file = workspaceRoot.getFile(eclipsePath);
-		if (file.exists()) {
-			try {
-				final StringWriter sw = new StringWriter();
-				try (final InputStream is = file.getContents(false);
-						final BufferedReader br = new BufferedReader(
-							new InputStreamReader(is, file.getCharset()))) {
-					String s;
-					while ((s = br.readLine()) != null) {
-						sw.append(s);
-						sw.append('\n');
-					}
-				}
-				return new StringReader(sw.toString());
-			} catch (final CoreException e) {
-				throw new IOException(e.getMessage(), e);
-			}
-		} else {
-			throw new IOException("No such file: " + eclipsePath);
-		}
+        try {
+            final IProject project = file.getProject();
+            if (project != null && !project.isOpen()) {
+                project.open(null);
+            }
+            file.refreshLocal(IResource.DEPTH_ZERO, null);
+            final StringWriter sw = new StringWriter();
+            try (final InputStream is = file.getContents(false);
+                 final BufferedReader br = new BufferedReader(
+                     new InputStreamReader(is, file.getCharset()))) {
+                String s;
+                while ((s = br.readLine()) != null) {
+                    sw.append(s);
+                    sw.append('\n');
+                }
+            }
+            return new StringReader(sw.toString());
+        } catch (final CoreException e) {
+            throw new IOException("Unable to include " + eclipsePath + "("e.getMessage()+")", e);
+        }
 	}
 
 	@Override
