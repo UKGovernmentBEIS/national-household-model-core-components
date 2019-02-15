@@ -1,9 +1,7 @@
 # Synopsis
 The repository holds the repositories required to build the core components for the National Household Model (NHM), the components include projects to define the properties and actions a Survey Case has within the model, projects to compile and execute scenarios as a simulation, projects that define the actions and measures than can can be applied within a simulation and code to import a housing stock to run simulations on.
 
-Full documentation on what the NHM is and how it can be used can be found here: [Documentation Repository](https://github.com/cse-bristol/national-household-model-documentation/releases/tag/Current).
-
-If you would like to run a compiled version of the National Household Model, the latest application can be found here [Standalone releases](https://github.com/cse-bristol/national-household-model-standalone/releases/tag/Current)
+If you would like to run a compiled version of the National Household Model, releases of the application can be found  [here](https://github.com/UKGovernmentBEIS/national-household-model-core-components/releases) or by clicking on 'Releases' above.
 
 The project has been written using Java 1.7, will shortly be java 1.8.
 
